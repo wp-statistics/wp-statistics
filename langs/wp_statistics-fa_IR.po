@@ -2,547 +2,518 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-19 13:03+0330\n"
+"POT-Creation-Date: 2011-09-25 19:58+0330\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
+"Last-Translator: Mostafa <mst404@gmail.com>\n"
 "Language-Team:  <mat404@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: F:\\Program Files\\Apserv\\AppServ\\www\\wordpress\\wp-content\\plugins\\wp-statistics\n"
+"X-Poedit-Basepath: F:\\Program Files\\wamp\\www\\wordpress\\wp-content\\plugins\\wp-statistics\n"
 "X-Poedit-Language: Persian\n"
 "X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
-"X-Poedit-SearchPath-0: F:\\Program Files\\Apserv\\AppServ\\www\\wordpress\\wp-content\\plugins\\wp-statistics\n"
+"X-Poedit-SearchPath-0: F:\\Program Files\\wamp\\www\\wordpress\\wp-content\\plugins\\wp-statistics\n"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/actions.php:7
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/actions.php:9
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/actions.php:7
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/actions.php:9
 msgid "Sorry! this feature is for Premium version"
 msgstr "متاسفم! این امکان برای نسخه‌ی ویژه است."
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/actions.php:11
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/actions.php:11
 msgid "Please Enter value!"
 msgstr "لطفا مقداری را وارد کنید!"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/report_problem.php:17
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/report_problem.php:17
 msgid "Thanks for your report!"
 msgstr "با تشکر از گزارش شما!"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/report_problem.php:19
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/report_problem.php:19
 msgid "Error! Please Enter all field"
 msgstr "خطا! لطفا همه فیلدها را پرکنید"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:194
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:209
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:224
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:239
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:254
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:269
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:194
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:209
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:224
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:239
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:254
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:269
 msgid "(Disable)"
 msgstr "(غیرفعال)"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:376
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:376
 msgid "Statistics"
 msgstr "آماره"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:377
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:637
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:377
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:637
 msgid "Stats weblog"
 msgstr "آمار سایت"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:378
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:585
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:673
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:709
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:378
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:585
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:673
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:709
 msgid "User Online"
 msgstr "کاربران حاضر"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:384
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:635
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:671
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:384
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:635
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:671
 msgid "You do not have sufficient permissions to access this page."
 msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:453
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:453
 msgid "Configuration"
 msgstr "پیکربندی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:458
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:458
 msgid "Enable Statistics"
 msgstr "آمارگیر فعال شود"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:462
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:480
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:462
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:480
 msgid "Yes"
 msgstr "بله"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:466
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:466
 msgid "Statistics are disabled."
 msgstr "آمارگیر فعال است."
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:468
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:468
 msgid "Statistics are disabled!"
 msgstr "آمارگیر غیرفعال است!"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:473
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:473
 msgid "General configuration"
 msgstr "پیکربندی عمومی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:476
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:476
 msgid "Show decimals number"
 msgstr "نمایش اعداد به‌صورت اعشاری"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:482
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:482
 msgid "Show number stats with decimal. For examle: 3,500"
 msgstr "نمایش اعداد آمارگیر به‌صورت اعشاری. برای مثال: 3،500"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:486
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:486
 msgid "Online user check time"
 msgstr "زمان بررسی کاربران آنلاین"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:488
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:529
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:488
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:529
 msgid "Each"
 msgstr "هر"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:490
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:490
 msgid "Compute min"
 msgstr "دقیقه محاسبه کن"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:492
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:492
 msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
 msgstr "زمان برای بررسی دقیق کاربران حاضر در سایت. پیش‌فرض 5 دقیقه است"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:496
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:496
 msgid "Increase value of the total hits"
 msgstr "افزایش مقدار به بازدید‌های کل"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:509
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:509
 msgid "Done"
 msgstr "انجام"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:502
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:502
 msgid "Your total visit sum with this value"
 msgstr "کل بازدیدها با این مقدار جمع می‌شود"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:506
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:506
 msgid "Reduction value of the total hits"
 msgstr "کاهش مقدار از بازدید‌های کل"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:512
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:512
 msgid "Your total visit minus with this value"
 msgstr "کل بازدیدها از این مقدار کم می‌شود"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:516
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:516
 msgid "Number item for show Statistics"
 msgstr "تعداد آیتم برای نمایش آمار"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:519
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:519
 msgid "Default 5"
 msgstr "پیش‌فرض 5 است"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:521
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:521
 msgid "Number for submit item in Database and show that"
 msgstr "تعداد برای ثبت آیتم‌های آمار در پایگاه‌داده و نمایش آن"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:524
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:524
 msgid "Live Statistics configuration"
 msgstr "پیکربندی بازدید لحظه‌ای"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:527
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:527
 msgid "Database check time"
 msgstr "زمان بررسی پایگاه‌داده"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:531
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:531
 msgid "Minute updates"
 msgstr "دقیقه به‌روز کن"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:534
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:534
 msgid "Recommended"
 msgstr "پیشنهاد میشود"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
 msgid "Due to pressure on the server, Be set up on time. Default 1 min."
 msgstr "به‌دلیل فشار برروی سرور، پیشنهاد می‌شود برروی زمان بالا تعیین شود. پیش‌فرض 1 دقیقه است."
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
 msgid "Pagerank configuration"
 msgstr "تنظیمات رتبه‌بندی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:542
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:542
 msgid "Your url for Google pagerank check"
 msgstr "آدرس شما برای بررسی رتبه‌بندی گوگل"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:547
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:557
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:547
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:557
 msgid "If this input is empty, The website url uses"
 msgstr "اگراین قسمت خالی باشد، از آدرس اصلی سایت استفاده می‌کند"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:552
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:552
 msgid "Your url for Alexa pagerank check"
 msgstr "آدرس شما برای بررسی رتبه‌بندی الکسا"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:563
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:563
 msgid "About plugin"
 msgstr "درباره‌ی افزونه"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:564
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:564
 msgid "Plugin Version"
 msgstr "نسخه افزونه"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:564
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:564
 msgid "Free!"
 msgstr "رایگان!"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:565
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:565
 msgid "Get Premium version"
 msgstr "دریافت نسخه‌ی ویژه"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
 msgid "This plugin created by"
-msgstr "این افزونه توسط"
+msgstr "این افزونه ساخته شده است توسط"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
 msgid "from"
 msgstr "از گروه"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
-msgid "and"
-msgstr "و"
-
-#: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
-msgid "group"
-msgstr "ساخته شده‌است"
-
-#: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:571
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:571
 msgid "for translate language files. please send files for"
 msgstr "لطفا فایل‌های ترجمه را به ایمیل روبرو ارسال کنید"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:573
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:573
 msgid "Show Functions"
 msgstr "نمایش تابع‌ها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:574
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:574
 msgid "Report Problem"
 msgstr "گزارش مشکل"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:586
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:714
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:586
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:714
 msgid "Today Visit"
 msgstr "بازدید امروز"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:587
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:587
 msgid "Yesterday visit"
 msgstr "بازدید دیروز"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:588
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:588
 msgid "Week Visit"
 msgstr "بازدید هفته"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:589
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:589
 msgid "Month Visit"
 msgstr "بازدید ماه"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:590
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:590
 msgid "Years Visit"
 msgstr "بازدید سال"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:724
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:724
 msgid "Total Visit"
 msgstr "کل بازدیدها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:592
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:592
 msgid "Search Engine reffered"
 msgstr "ورودی موتورهای جستجوگر"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:729
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:729
 msgid "Total Posts"
 msgstr "کل نوشته‌ها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:594
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:594
 msgid "Total Pages"
 msgstr "کل برگه‌ها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:595
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:734
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:595
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:734
 msgid "Total Comments"
 msgstr "کل دیدگاه‌ها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:596
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:596
 msgid "Total Spams"
 msgstr "کل جفنگ‌ها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:597
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:597
 msgid "Total Users"
 msgstr "کل کاربرها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:598
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:739
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:598
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:739
 msgid "Last Post Date"
 msgstr "تاریخ به‌روزشدن سایت"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:599
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:599
 msgid "Average Posts"
 msgstr "میانگین نوشته‌ها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:600
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:600
 msgid "Average Comments"
 msgstr "میانگین دیدگاه‌ها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:601
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:601
 msgid "Average Users"
 msgstr "میانگین کاربرها"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:602
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:602
 msgid "Total Feedburner Subscribe"
 msgstr "تعداد مشترک‌های فیدبرنر"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:603
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:603
 msgid "Google Pagerank"
 msgstr "رتبه گوگل"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:604
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:604
 msgid "Alexa Pagerank"
 msgstr "رتبه الکسا"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:605
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:605
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
 msgid "Hide"
 msgstr "مخفی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:609
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:609
 msgid "Your Name"
 msgstr "نام شما"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:611
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:611
 msgid "Description Problem"
 msgstr "توضیحات مشکل"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:614
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:614
 msgid "Send Problem"
 msgstr "ارسال گزارش"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
 msgid "Update"
 msgstr "به‌روز رسانی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:648
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:648
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
 msgid "No"
 msgstr "شماره"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:649
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:649
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
 msgid "IP"
 msgstr "آی‌پی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:650
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:650
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
 msgid "Time"
 msgstr "زمان"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:651
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:651
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
 msgid "Referred"
 msgstr "هدایت شده"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:652
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:688
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:652
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:688
 msgid "Agent"
 msgstr "مشخصات مرورگر"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:719
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:719
 msgid "Yesterday Visit"
 msgstr "بازدید دیروز"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:759
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:759
 msgid "Name"
 msgstr "نام"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:764
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:764
 msgid "Type date for last update"
 msgstr "نوع تقویم برای آخرین به‌روزرسانی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:766
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:766
 msgid "English"
 msgstr "میلادی"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:769
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:769
 msgid "Persian"
 msgstr "شمسی (فارسی)"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:779
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:781
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:798
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:800
 msgid "WP-Statistics"
 msgstr "آمارگیر"
 
 #: F:\Program
-#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:780
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:799
 msgid "Show site stats in sidebar"
 msgstr "نمایش آمار سایت در ابزارک"
 
+#~ msgid "and"
+#~ msgstr "و"
+#~ msgid "group"
+#~ msgstr "ساخته شده‌است"
 #~ msgid "User Online Live"
 #~ msgstr "کاربران آنلاین زنده"
-
 #~ msgid "Total Visit Live"
 #~ msgstr "کل بازدیدها زنده"
-
 #~ msgid "Added"
 #~ msgstr "مقدار"
-
 #~ msgid "value"
 #~ msgstr "افزوده شد"
-
 #~ msgid "Was"
 #~ msgstr "مقدار"
-
 #~ msgid "low value"
 #~ msgstr "کم شد"
-
 #~ msgid "d"
 #~ msgstr "ططظط"
-
 #~ msgid ""
 #~ "This plugin created by <a href=\"http://profile.wordpress.org/mostafa."
 #~ "s1990\">Mostafa Soufi</a> from <a href=\"http://wpbazar.com\">WPBazar</a> "
 #~ "and <a href=\"http://wp-persian.com\">WP-Persian</a> group.\n"
 #~ "\t\t\tfor translate language files. please send files for mst404@gmail.com"
 #~ msgstr "یبیبیب"
-
 #~ msgid "Your Report"
 #~ msgstr "گزارش شما"
-
 #~ msgid "About Author"
 #~ msgstr "درباره‌ی نویسنده"
-
 #~ msgid "Hide Functions"
 #~ msgstr "مخفی‌کردن تابع‌ها"
-
 #~ msgid "Title Widget"
 #~ msgstr "عنوان ابزارک"
-
 #~ msgid "Show items"
 #~ msgstr "نمایش عناوین"
-
 #~ msgid "Total Blog Hits: "
 #~ msgstr "Total Blog Hits: "
-
 #~ msgid "Summary statistics of blog"
 #~ msgstr "Summary statistics of blog"
-
 #~ msgid "Be set up on time"
 #~ msgstr "برروی زمان بالا محاسبه شود"
-
 #~ msgid "Updates to"
 #~ msgstr "دقیقه"
-
 #~ msgid "Live Statistics"
 #~ msgstr "بازدید لحظه‌ای"
-
 #~ msgid "Visitor"
 #~ msgstr "بازدیدکننده"
-
 #~ msgid "Ban IP"
 #~ msgstr "محروم کردن آی‌پی"
-
 #~ msgid "Add"
 #~ msgstr "افزودن"
-
 #~ msgid "Stats"
 #~ msgstr "آمار"
-
 #~ msgid "Enable"
 #~ msgstr "آمارگیر فعال شود"
-
 #~ msgid "Latest posts in wpdelicious"
 #~ msgstr "آخرین ارسالی های وردپرس"
-
 #~ msgid "Latest Delicious"
 #~ msgstr "آخرین ارسالی ها"
+

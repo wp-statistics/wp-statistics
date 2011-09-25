@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.0
+Version: 2.1
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -567,7 +567,7 @@ License: GPL2
 		</tr>
 
 		<td colspan="3">
-			<?php _e('This plugin created by', 'wp_statistics'); ?> <a href="http://profile.wordpress.org/mostafa.s1990">Mostafa Soufi</a> <?php _e('from', 'wp_statistics'); ?> <a href="http://wpbazar.com">WPBazar</a> <?php _e('and', 'wp_statistics'); ?> <a href="http://wp-persian.com">WP-Persian</a> <?php _e('group', 'wp_statistics'); ?>.
+			<?php _e('This plugin created by', 'wp_statistics'); ?> <a href="http://profile.wordpress.org/mostafa.s1990">Mostafa Soufi</a> <?php _e('from', 'wp_statistics'); ?> <a href="http://wpbazar.com">WPBazar</a>.
 			<?php _e('for translate language files. please send files for', 'wp_statistics'); ?> <code>mst404@gmail.com</code>
 			<p style="padding-top: 5px;">
 				<span class="button" id="show_function"><?php _e('Show Functions', 'wp_statistics'); ?></span>
