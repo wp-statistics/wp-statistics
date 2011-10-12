@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.1.1
+Version: 2.1.2
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -566,55 +566,59 @@ License: GPL2
 			</th>
 		</tr>
 
-		<td colspan="3">
-			<?php _e('This plugin created by', 'wp_statistics'); ?> <a href="http://profile.wordpress.org/mostafa.s1990">Mostafa Soufi</a> <?php _e('from', 'wp_statistics'); ?> <a href="http://wpbazar.com">WPBazar</a>.
+		<tr>
+		<th colspan="3">
+			<?php _e('This plugin created by', 'wp_statistics'); ?> <a href="http://profile.wordpress.org/mostafa.s1990">Mostafa Soufi</a> <?php _e('from', 'wp_statistics'); ?> <a href="http://wpbazar.com">WPBazar</a> <?php _e('group', 'wp_statistics'); ?>.
 			<?php _e('for translate language files. please send files for', 'wp_statistics'); ?> <code>mst404@gmail.com</code>
-			<p style="padding-top: 5px;">
-				<span class="button" id="show_function"><?php _e('Show Functions', 'wp_statistics'); ?></span>
-				<span class="button" id="report_problem"><?php _e('Report Problem', 'wp_statistics'); ?></span>
-			</p>
+				<p style="padding-top: 5px;">
+					<span class="button" id="show_function"><?php _e('Show Functions', 'wp_statistics'); ?></span>
+					<span class="button" id="report_problem"><?php _e('Report Problem', 'wp_statistics'); ?></span>
+				</p>
 
-		<style>
-			a{text-decoration: none}
-			ul#show_function code{border-radius:5px; padding: 5px; display: none;}
-			ul#show_function{list-style-type: decimal; margin: 20px; display:none;}
-			ul#show_function li{line-height: 25px;}
-			div#report_problem{display: none;}
-		</style>
-		<ul id="show_function">
-			<li><?php _e('User Online', 'wp_statistics'); ?>			<code>wp_statistics_useronline();</code>
-			<li><?php _e('Today Visit', 'wp_statistics'); ?>			<code>wp_statistics_today();</code>
-			<li><?php _e('Yesterday visit', 'wp_statistics'); ?>		<code>wp_statistics_yesterday();</code>
-			<li><?php _e('Week Visit', 'wp_statistics'); ?>				<code>wp_statistics_week();</code>
-			<li><?php _e('Month Visit', 'wp_statistics'); ?>			<code>wp_statistics_month();</code>
-			<li><?php _e('Years Visit', 'wp_statistics'); ?>			<code>wp_statistics_year();</code>
-			<li><?php _e('Total Visit', 'wp_statistics'); ?>			<code>wp_statistics_total();</code>
-			<li><?php _e('Search Engine reffered', 'wp_statistics'); ?>	<code>wp_statistics_searchengine();</code>
-			<li><?php _e('Total Posts', 'wp_statistics'); ?>			<code>wp_statistics_countposts();</code>
-			<li><?php _e('Total Pages', 'wp_statistics'); ?>			<code>wp_statistics_countpages();</code>
-			<li><?php _e('Total Comments', 'wp_statistics'); ?>			<code>wp_statistics_countcomment();</code>
-			<li><?php _e('Total Spams', 'wp_statistics'); ?>			<code>wp_statistics_countspam();</code>
-			<li><?php _e('Total Users', 'wp_statistics'); ?>			<code>wp_statistics_countusers();</code>
-			<li><?php _e('Last Post Date', 'wp_statistics'); ?>			<code>wp_statistics_lastpostdate();</code>
-			<li><?php _e('Average Posts', 'wp_statistics'); ?>			<code>wp_statistics_average_post();</code>
-			<li><?php _e('Average Comments', 'wp_statistics'); ?>		<code>wp_statistics_average_comment();</code>
-			<li><?php _e('Average Users', 'wp_statistics'); ?>			<code>wp_statistics_average_registeruser();</code>
-			<li><?php _e('Total Feedburner Subscribe', 'wp_statistics'); ?> <code>wp_statistics_countsubscrib();</code>
-			<li><?php _e('Google Pagerank', 'wp_statistics'); ?>		<code>wp_statistics_google_page_rank();</code>
-			<li><?php _e('Alexa Pagerank', 'wp_statistics'); ?>			<code>wp_statistics_alexaRank();</code>
-			<br /><span class="button" id="hide_function"><?php _e('Hide', 'wp_statistics'); ?></span>
-		</ul>
+			<style>
+				a{text-decoration: none}
+				ul#show_function code{border-radius:5px; padding: 5px; display: none;}
+				ul#show_function{list-style-type: decimal; margin: 20px; display:none;}
+				ul#show_function li{line-height: 25px;}
+				div#report_problem{display: none;}
+			</style>
+			<ul id="show_function">
+				<li><?php _e('User Online', 'wp_statistics'); ?>			<code>wp_statistics_useronline();</code>
+				<li><?php _e('Today Visit', 'wp_statistics'); ?>			<code>wp_statistics_today();</code>
+				<li><?php _e('Yesterday visit', 'wp_statistics'); ?>		<code>wp_statistics_yesterday();</code>
+				<li><?php _e('Week Visit', 'wp_statistics'); ?>				<code>wp_statistics_week();</code>
+				<li><?php _e('Month Visit', 'wp_statistics'); ?>			<code>wp_statistics_month();</code>
+				<li><?php _e('Years Visit', 'wp_statistics'); ?>			<code>wp_statistics_year();</code>
+				<li><?php _e('Total Visit', 'wp_statistics'); ?>			<code>wp_statistics_total();</code>
+				<li><?php _e('Search Engine reffered', 'wp_statistics'); ?>	<code>wp_statistics_searchengine();</code>
+				<li><?php _e('User Online Live', 'wp_statistics'); ?>		<code>wp_statistics_useronline_live();</code>
+				<li><?php _e('Total Visit Live', 'wp_statistics'); ?>		<code>wp_statistics_total_live();</code>
+				<li><?php _e('Total Posts', 'wp_statistics'); ?>			<code>wp_statistics_countposts();</code>
+				<li><?php _e('Total Pages', 'wp_statistics'); ?>			<code>wp_statistics_countpages();</code>
+				<li><?php _e('Total Comments', 'wp_statistics'); ?>			<code>wp_statistics_countcomment();</code>
+				<li><?php _e('Total Spams', 'wp_statistics'); ?>			<code>wp_statistics_countspam();</code>
+				<li><?php _e('Total Users', 'wp_statistics'); ?>			<code>wp_statistics_countusers();</code>
+				<li><?php _e('Last Post Date', 'wp_statistics'); ?>			<code>wp_statistics_lastpostdate();</code>
+				<li><?php _e('Average Posts', 'wp_statistics'); ?>			<code>wp_statistics_average_post();</code>
+				<li><?php _e('Average Comments', 'wp_statistics'); ?>		<code>wp_statistics_average_comment();</code>
+				<li><?php _e('Average Users', 'wp_statistics'); ?>			<code>wp_statistics_average_registeruser();</code>
+				<li><?php _e('Total Feedburner Subscribe', 'wp_statistics'); ?> <code>wp_statistics_countsubscrib();</code>
+				<li><?php _e('Google Pagerank', 'wp_statistics'); ?>		<code>wp_statistics_google_page_rank();</code>
+				<li><?php _e('Alexa Pagerank', 'wp_statistics'); ?>			<code>wp_statistics_alexaRank();</code>			
+				<br /><span class="button" id="hide_function"><?php _e('Hide', 'wp_statistics'); ?></span>
+			</ul>
 		
-		<div id="report_problem">
-				<p><?php _e('Your Name', 'wp_statistics'); ?>:<br /><input type="text" name="your_name" id="your_name"/></p>
+			<div id="report_problem">
+					<p><?php _e('Your Name', 'wp_statistics'); ?>:<br /><input type="text" name="your_name" id="your_name"/></p>
 
-				<p><?php _e('Description Problem', 'wp_statistics'); ?>:<br /><textarea name="your_report" id="your_report"/></textarea></p>
-				<div id="result_problem"></div>
-			<br />
-			<span class="button" id="send_report"><?php _e('Send Problem', 'wp_statistics'); ?></span>
-			<span class="button" id="hide_report"><?php _e('Hide', 'wp_statistics'); ?></span>
-		</div>
+					<p><?php _e('Description Problem', 'wp_statistics'); ?>:<br /><textarea name="your_report" id="your_report"/></textarea></p>
+					<div id="result_problem"></div>
+				<br />
+				<span class="button" id="send_report"><?php _e('Send Problem', 'wp_statistics'); ?></span>
+				<span class="button" id="hide_report"><?php _e('Hide', 'wp_statistics'); ?></span>
+			</div>
 		</th>
+		</tr>
 
 		<tr>
 			<td>
