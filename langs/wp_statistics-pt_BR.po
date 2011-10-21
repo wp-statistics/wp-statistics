@@ -1,0 +1,464 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Statistics v2.1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2011-10-05 17:23+0000\n"
+"Last-Translator: admin <icq8179956@hotmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: actions.php:7
+#: actions.php:9
+#@ wp_statistics
+msgid "Sorry! this feature is for Premium version"
+msgstr "Lamento, mas essa opção é somente para versão Premium (Paga)"
+
+#: actions.php:11
+#@ wp_statistics
+msgid "Please Enter value!"
+msgstr "Favor informe valor!"
+
+#: report_problem.php:17
+#@ wp_statistics
+msgid "Thanks for your report!"
+msgstr "Obrigado pelo seu comunicado!"
+
+#: report_problem.php:19
+#@ wp_statistics
+msgid "Error! Please Enter all field"
+msgstr "Erro! Favor entre todos os campos"
+
+#: wp-statistics.php:194
+#: wp-statistics.php:209
+#: wp-statistics.php:224
+#: wp-statistics.php:239
+#: wp-statistics.php:254
+#: wp-statistics.php:269
+#@ wp_statistics
+msgid "(Disable)"
+msgstr "(Desativar)"
+
+#: wp-statistics.php:376
+#@ wp_statistics
+msgid "Statistics"
+msgstr "Estatísticas"
+
+#: wp-statistics.php:377
+#: wp-statistics.php:637
+#@ wp_statistics
+msgid "Stats weblog"
+msgstr "Estatísticas do Blog"
+
+#: wp-statistics.php:378
+#: wp-statistics.php:585
+#: wp-statistics.php:673
+#: wp-statistics.php:709
+#@ wp_statistics
+msgid "User Online"
+msgstr "Usuários Online"
+
+#: wp-statistics.php:384
+#: wp-statistics.php:635
+#: wp-statistics.php:671
+#@ wp_statistics
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Você não tem permissão para acessar essa página."
+
+#: wp-statistics.php:453
+#@ wp_statistics
+msgid "Configuration"
+msgstr "Configuração"
+
+#: wp-statistics.php:458
+#@ wp_statistics
+msgid "Enable Statistics"
+msgstr "Ativar Estatísticas"
+
+#: wp-statistics.php:462
+#: wp-statistics.php:480
+#@ wp_statistics
+msgid "Yes"
+msgstr "Sim"
+
+#: wp-statistics.php:466
+#@ wp_statistics
+msgid "Statistics are disabled."
+msgstr "Estatísticas está desativada."
+
+#: wp-statistics.php:468
+#@ wp_statistics
+msgid "Statistics are disabled!"
+msgstr "Estatísticas estão desativadas!"
+
+#: wp-statistics.php:473
+#@ wp_statistics
+msgid "General configuration"
+msgstr "Configurações Gerais"
+
+#: wp-statistics.php:476
+#@ wp_statistics
+msgid "Show decimals number"
+msgstr "Exibir números decimais"
+
+#: wp-statistics.php:482
+#@ wp_statistics
+msgid "Show number stats with decimal. For examle: 3,500"
+msgstr "Exibir estatísticas com números decimais. Exemplo: 3,500"
+
+#: wp-statistics.php:486
+#@ wp_statistics
+msgid "Online user check time"
+msgstr "Tempo de checagem de usuários online"
+
+#: wp-statistics.php:488
+#: wp-statistics.php:529
+#@ wp_statistics
+msgid "Each"
+msgstr "Cada"
+
+#: wp-statistics.php:490
+#@ wp_statistics
+msgid "Compute min"
+msgstr "Computados em min"
+
+#: wp-statistics.php:492
+#@ wp_statistics
+msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
+msgstr "Tempo para a verificação exata do usuário on-line no site. Padrão: 5 Minutos"
+
+#: wp-statistics.php:496
+#@ wp_statistics
+msgid "Increase value of the total hits"
+msgstr "Aumentar o valor dos hits total"
+
+#: wp-statistics.php:499
+#: wp-statistics.php:509
+#@ wp_statistics
+msgid "Done"
+msgstr "Feito"
+
+#: wp-statistics.php:502
+#@ wp_statistics
+msgid "Your total visit sum with this value"
+msgstr "Soma total de sua visita com este valor"
+
+#: wp-statistics.php:506
+#@ wp_statistics
+msgid "Reduction value of the total hits"
+msgstr "Valor da redução dos hits total"
+
+#: wp-statistics.php:512
+#@ wp_statistics
+msgid "Your total visit minus with this value"
+msgstr "Total de visitas menos este valor"
+
+#: wp-statistics.php:516
+#@ wp_statistics
+msgid "Number item for show Statistics"
+msgstr "Número de ítens para serem mostrados nas estatísticas"
+
+#: wp-statistics.php:519
+#@ wp_statistics
+msgid "Default 5"
+msgstr "Padrão é 5"
+
+#: wp-statistics.php:521
+#@ wp_statistics
+msgid "Number for submit item in Database and show that"
+msgstr "Número para apresentar item no banco de dados e mostrar que"
+
+#: wp-statistics.php:524
+#@ wp_statistics
+msgid "Live Statistics configuration"
+msgstr "Configuração das Estatísticas (Real)"
+
+#: wp-statistics.php:527
+#@ wp_statistics
+msgid "Database check time"
+msgstr "Tempo de checagam no banco de dados"
+
+#: wp-statistics.php:531
+#@ wp_statistics
+msgid "Minute updates"
+msgstr "Minuto(s) para atualizar"
+
+#: wp-statistics.php:534
+#@ wp_statistics
+msgid "Recommended"
+msgstr "Recomendado"
+
+#: wp-statistics.php:535
+#@ wp_statistics
+msgid "Due to pressure on the server, Be set up on time. Default 1 min."
+msgstr "Devido à pressão sobre o servidor, ser configurado em tempo. Padrão 1 minuto."
+
+#: wp-statistics.php:539
+#@ wp_statistics
+msgid "Pagerank configuration"
+msgstr "Configuração do Pagerank"
+
+#: wp-statistics.php:542
+#@ wp_statistics
+msgid "Your url for Google pagerank check"
+msgstr "Sua url para verificação no Google pagerank"
+
+#: wp-statistics.php:547
+#: wp-statistics.php:557
+#@ wp_statistics
+msgid "If this input is empty, The website url uses"
+msgstr "Se esta entrada estiver vazio, será usada a URL do website"
+
+#: wp-statistics.php:552
+#@ wp_statistics
+msgid "Your url for Alexa pagerank check"
+msgstr "Sua url para verificação no Alexa pagerank"
+
+#: wp-statistics.php:563
+#@ wp_statistics
+msgid "About plugin"
+msgstr "Sobre o plugin"
+
+#: wp-statistics.php:564
+#@ wp_statistics
+msgid "Plugin Version"
+msgstr "Versão Plugin"
+
+#: wp-statistics.php:564
+#@ wp_statistics
+msgid "Free!"
+msgstr "Gratuito!"
+
+#: wp-statistics.php:565
+#@ wp_statistics
+msgid "Get Premium version"
+msgstr "Obter versão Premium (Paga)"
+
+#: wp-statistics.php:570
+#@ wp_statistics
+msgid "This plugin created by"
+msgstr "Este plugin foi criado por"
+
+#: wp-statistics.php:570
+#@ wp_statistics
+msgid "from"
+msgstr "de"
+
+#: wp-statistics.php:571
+#@ wp_statistics
+msgid "for translate language files. please send files for"
+msgstr "para arquivos de idioma traduzido. envie arquivos para"
+
+#: wp-statistics.php:573
+#@ wp_statistics
+msgid "Show Functions"
+msgstr "Mostrar Funções"
+
+#: wp-statistics.php:574
+#@ wp_statistics
+msgid "Report Problem"
+msgstr "Reportar Problema"
+
+#: wp-statistics.php:586
+#: wp-statistics.php:714
+#@ wp_statistics
+msgid "Today Visit"
+msgstr "Visita(s) hoje"
+
+#: wp-statistics.php:587
+#@ wp_statistics
+msgid "Yesterday visit"
+msgstr "Visita(s) ontem"
+
+#: wp-statistics.php:588
+#@ wp_statistics
+msgid "Week Visit"
+msgstr "Visita(s) da semana"
+
+#: wp-statistics.php:589
+#@ wp_statistics
+msgid "Month Visit"
+msgstr "Visita(s) no mês"
+
+#: wp-statistics.php:590
+#@ wp_statistics
+msgid "Years Visit"
+msgstr "Visitas em ano"
+
+#: wp-statistics.php:591
+#: wp-statistics.php:724
+#@ wp_statistics
+msgid "Total Visit"
+msgstr "Total de visitas"
+
+#: wp-statistics.php:592
+#@ wp_statistics
+msgid "Search Engine reffered"
+msgstr "Search Engine que se refere"
+
+#: wp-statistics.php:593
+#: wp-statistics.php:729
+#@ wp_statistics
+msgid "Total Posts"
+msgstr "Total de Mensagens"
+
+#: wp-statistics.php:594
+#@ wp_statistics
+msgid "Total Pages"
+msgstr "Total de Páginas"
+
+#: wp-statistics.php:595
+#: wp-statistics.php:734
+#@ wp_statistics
+msgid "Total Comments"
+msgstr "Total de Comentários"
+
+#: wp-statistics.php:596
+#@ wp_statistics
+msgid "Total Spams"
+msgstr "Total de Spams"
+
+#: wp-statistics.php:597
+#@ wp_statistics
+msgid "Total Users"
+msgstr "Total de usuários"
+
+#: wp-statistics.php:598
+#: wp-statistics.php:739
+#@ wp_statistics
+msgid "Last Post Date"
+msgstr "Data da Última Postagem"
+
+#: wp-statistics.php:599
+#@ wp_statistics
+msgid "Average Posts"
+msgstr "Média de Posts"
+
+#: wp-statistics.php:600
+#@ wp_statistics
+msgid "Average Comments"
+msgstr "Média de comentários"
+
+#: wp-statistics.php:601
+#@ wp_statistics
+msgid "Average Users"
+msgstr "Usuários média"
+
+#: wp-statistics.php:602
+#@ wp_statistics
+msgid "Total Feedburner Subscribe"
+msgstr "Total de assinantes Feedburner"
+
+#: wp-statistics.php:603
+#@ wp_statistics
+msgid "Google Pagerank"
+msgstr "Google Pagerank"
+
+#: wp-statistics.php:604
+#@ wp_statistics
+msgid "Alexa Pagerank"
+msgstr "Alexa Pagerank"
+
+#: wp-statistics.php:605
+#: wp-statistics.php:615
+#@ wp_statistics
+msgid "Hide"
+msgstr "Ocultar"
+
+#: wp-statistics.php:609
+#@ wp_statistics
+msgid "Your Name"
+msgstr "Seu Nome"
+
+#: wp-statistics.php:611
+#@ wp_statistics
+msgid "Description Problem"
+msgstr "Descrição do problema"
+
+#: wp-statistics.php:614
+#@ wp_statistics
+msgid "Send Problem"
+msgstr "Enviar Problema"
+
+#: wp-statistics.php:624
+#@ wp_statistics
+msgid "Update"
+msgstr "Atualizar"
+
+#: wp-statistics.php:648
+#: wp-statistics.php:684
+#@ wp_statistics
+msgid "No"
+msgstr "Não"
+
+#: wp-statistics.php:649
+#: wp-statistics.php:685
+#@ wp_statistics
+msgid "IP"
+msgstr "IP"
+
+#: wp-statistics.php:650
+#: wp-statistics.php:686
+#@ wp_statistics
+msgid "Time"
+msgstr "Hora"
+
+#: wp-statistics.php:651
+#: wp-statistics.php:687
+#@ wp_statistics
+msgid "Referred"
+msgstr "Referido"
+
+#: wp-statistics.php:652
+#: wp-statistics.php:688
+#@ wp_statistics
+msgid "Agent"
+msgstr "Agente"
+
+#: wp-statistics.php:719
+#@ wp_statistics
+msgid "Yesterday Visit"
+msgstr "Visitas ontem"
+
+#: wp-statistics.php:759
+#@ wp_statistics
+msgid "Name"
+msgstr "Nome"
+
+#: wp-statistics.php:764
+#@ wp_statistics
+msgid "Type date for last update"
+msgstr "Data para a última atualização"
+
+#: wp-statistics.php:766
+#@ wp_statistics
+msgid "English"
+msgstr "Inglês"
+
+#: wp-statistics.php:769
+#@ wp_statistics
+msgid "Persian"
+msgstr "Persian"
+
+#: wp-statistics.php:798
+#: wp-statistics.php:800
+#@ wp_statistics
+msgid "WP-Statistics"
+msgstr "WP-Estatísticas"
+
+#: wp-statistics.php:799
+#@ wp_statistics
+msgid "Show site stats in sidebar"
+msgstr "Mostram estatísticas do site na barra lateral"
+
