@@ -4,7 +4,7 @@ Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 
 Summary statistics of blog.
 
@@ -44,6 +44,7 @@ Language Support:
 * English
 * Persian
 * Portuguese [Thanks](http://www.musicalmente.info/)
+* Romanian [Thanks Luke Tyler](http://www.nobelcom.com/)
 
 Send email for Translation files: mst404[a]gmail[dot].com
 for translate, please open langs/default.po by Poedit and translate strings.
@@ -111,6 +112,9 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-1.png) in WP-Statistics Setting Page
 
 == Upgrade Notice ==
+= 2.1.4 =
+* Added Romanian language.
+
 = 2.1.3 =
 * Active plugin in setting page was solved.
 
@@ -148,6 +152,9 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.1.4 =
+* Added Romanian language.
+
 = 2.1.3 =
 * Active plugin in setting page was solved.
 
