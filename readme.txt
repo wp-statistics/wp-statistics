@@ -4,7 +4,7 @@ Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 
 Summary statistics of blog.
 
@@ -45,6 +45,7 @@ Language Support:
 * Persian
 * Portuguese [Thanks](http://www.musicalmente.info/)
 * Romanian [Thanks Luke Tyler](http://www.nobelcom.com/)
+* French Thanks Anice Gnampa
 
 Send email for Translation files: mst404[a]gmail[dot].com
 for translate, please open langs/default.po by Poedit and translate strings.
@@ -79,7 +80,7 @@ for translate, please open langs/default.po by Poedit and translate strings.
 * Average Users `<?php wp_statistics_average_registeruser(); ?>`
 * Total Feedburner Subscribe `<?php wp_statistics_yesterday('febnurner address'); ?>`
 * Google Pagerank `<?php wp_statistics_google_page_rank(); ?>`
-* Alexa Pagerank `<?php wp_statistics_alexaRank(); ?>`
+* Alexa Pagerank `<?php echo wp_statistics_alexaRank(); ?>`
 
 or using this Shortcode in Posts pages or Widget:
 
@@ -112,6 +113,10 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-1.png) in WP-Statistics Setting Page
 
 == Upgrade Notice ==
+= 2.1.5 =
+* Added French language.
+* Rounds a float Averages.
+
 = 2.1.4 =
 * Added Romanian language.
 
@@ -152,6 +157,10 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.1.5 =
+* Added French language.
+* Rounds a float Averages.
+
 = 2.1.4 =
 * Added Romanian language.
 

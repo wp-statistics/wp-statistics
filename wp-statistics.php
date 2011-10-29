@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.1.4
+Version: 2.1.5
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -326,7 +326,7 @@ License: GPL2
 		$get_total_post = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post'");
 		
 		$days_spend = intval((time() - strtotime($get_first_post) ) / (60*60*24));
-		echo $get_total_post / $days_spend;
+		echo round($get_total_post / $days_spend, 2);
 	}
 
 	function wp_statistics_average_comment() {
@@ -335,7 +335,7 @@ License: GPL2
 		$get_total_comment = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
 
 		$days_spend = intval((time() - strtotime($get_first_comment) ) / (60*60*24));
-		echo $get_total_comment / $days_spend;
+		echo round($get_total_comment / $days_spend, 2);
 	}
 
 	function wp_statistics_average_registeruser() {
@@ -344,7 +344,7 @@ License: GPL2
 		$get_total_user = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->users");
 
 		$days_spend = intval((time() - strtotime($get_first_user) ) / (60*60*24));
-		echo $get_total_user / $days_spend;
+		echo round($get_total_user / $days_spend, 2);
 	}
 
 	// Show Count Feedburner Subscribe by Affiliate Marketer
@@ -604,7 +604,7 @@ License: GPL2
 				<li><?php _e('Average Users', 'wp_statistics'); ?>			<code>wp_statistics_average_registeruser();</code>
 				<li><?php _e('Total Feedburner Subscribe', 'wp_statistics'); ?> <code>wp_statistics_countsubscrib();</code>
 				<li><?php _e('Google Pagerank', 'wp_statistics'); ?>		<code>wp_statistics_google_page_rank();</code>
-				<li><?php _e('Alexa Pagerank', 'wp_statistics'); ?>			<code>wp_statistics_alexaRank();</code>			
+				<li><?php _e('Alexa Pagerank', 'wp_statistics'); ?>			<code>echo wp_statistics_alexaRank();</code>			
 				<br /><span class="button" id="hide_function"><?php _e('Hide', 'wp_statistics'); ?></span>
 			</ul>
 		
