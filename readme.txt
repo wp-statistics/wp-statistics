@@ -4,7 +4,7 @@ Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 
 Summary statistics of blog.
 
@@ -46,6 +46,7 @@ Language Support:
 * Portuguese [Thanks](http://www.musicalmente.info/)
 * Romanian [Thanks Luke Tyler](http://www.nobelcom.com/)
 * French Thanks Anice Gnampa
+* Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
 
 Send email for Translation files: mst404[a]gmail[dot].com
 for translate, please open langs/default.po by Poedit and translate strings.
@@ -113,6 +114,9 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-1.png) in WP-Statistics Setting Page
 
 == Upgrade Notice ==
+= 2.1.6 =
+* Added Russian language.
+
 = 2.1.5 =
 * Added French language.
 * Rounds a float Averages.
@@ -157,6 +161,9 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.1.6 =
+* Added Russian language.
+
 = 2.1.5 =
 * Added French language.
 * Rounds a float Averages.
