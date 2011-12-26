@@ -1076,7 +1076,7 @@ function wp_statistics_show_widget() {
 			<label for="ser_widget"><?php _e('Search Engine reffered', 'wp_statistics'); ?></label></li>
 
 			<p id="ser_option" style="<?php if(!get_option('ser_widget')) { echo "display: none;"; } ?>">
-				<?php _e('Type date for last update', 'wp_statistics'); ?>:<br />
+				<?php _e('Select type of search engine', 'wp_statistics'); ?>:<br />
 				<input type="radio" id="select_google" name="select_se" value="google" <?php checked('google', get_option('select_se')); ?>/>
 				<label for="select_google"><?php _e('Google', 'wp_statistics'); ?></label>
 
