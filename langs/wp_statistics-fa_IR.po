@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-26 22:50+0330\n"
+"POT-Creation-Date: 2011-12-26 23:42+0330\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mostafa <mst404@gmail.com>\n"
 "Language-Team:  <mat404@gmail.com>\n"
@@ -525,9 +525,8 @@ msgstr "آیتم‌ها"
 
 #: F:\Program
 #: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1079
-#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1121
-msgid "Type date for last update"
-msgstr "نوع تقویم برای آخرین به‌روزرسانی"
+msgid "Select type of search engine"
+msgstr "انتخاب نوع موتورجستجو"
 
 #: F:\Program
 #: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1081
@@ -548,6 +547,11 @@ msgstr "بینگ"
 #: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1090
 msgid "All"
 msgstr "همه"
+
+#: F:\Program
+#: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1121
+msgid "Type date for last update"
+msgstr "نوع تقویم برای آخرین به‌روزرسانی"
 
 #: F:\Program
 #: Files\wamp\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1123
