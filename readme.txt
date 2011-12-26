@@ -3,8 +3,8 @@ Contributors: mostafa.s1990
 Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 2.1.6
+Tested up to: 3.3
+Stable tag: 2.2.0
 
 Summary statistics of blog.
 
@@ -56,30 +56,30 @@ for translate, please open langs/default.po by Poedit and translate strings.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. To display stats, using this functions:
 
-* User Online: `<?php wp_statistics_useronline(); ?>`
-* Today Visit: `<?php wp_statistics_today(); ?>`
-* Yesterday Visit: `<?php wp_statistics_yesterday(); ?>`
-* Week Visit `<?php wp_statistics_week(); ?>`
-* Month Visit `<?php wp_statistics_month(); ?>`
-* Years Visit `<?php wp_statistics_year(); ?>`
-* Total Visit `<?php wp_statistics_total(); ?>`
-* All Search Engine reffered `<?php wp_statistics_searchengine(); ?>`
-* Google Search Engine reffered `<?php wp_statistics_searchengine('google'); ?>`
-* Yahoo Search Engine reffered `<?php wp_statistics_searchengine('yahoo'); ?>`
-* Bing Search Engine reffered `<?php wp_statistics_searchengine('bing'); ?>`
-* User Online Live (Premium Version) `<?php wp_statistics_useronline_live(); ?>`
-* Total Visit Live (Premium Version) `<?php wp_statistics_total_live(); ?>`
-* Total Posts `<?php wp_statistics_countposts(); ?>`
-* Total Pages `<?php wp_statistics_countpages(); ?>`
-* Total Comments `<?php wp_statistics_countcomment(); ?>`
-* Total Spams `<?php wp_statistics_countspam(); ?>`
-* Total Users `<?php wp_statistics_countusers(); ?>`
-* Last Post Date `<?php wp_statistics_lastpostdate(); ?>`
-* Last Post Date (Persian) `<?php wp_statistics_lastpostdate('farsi'); ?>`
-* Average Posts `<?php wp_statistics_average_post(); ?>`
-* Average Comments `<?php wp_statistics_average_comment(); ?>`
-* Average Users `<?php wp_statistics_average_registeruser(); ?>`
-* Total Feedburner Subscribe `<?php wp_statistics_yesterday('febnurner address'); ?>`
+* User Online: `<?php echo wp_statistics_useronline(); ?>`
+* Today Visit: `<?php echo wp_statistics_today(); ?>`
+* Yesterday Visit: `<?php echo wp_statistics_yesterday(); ?>`
+* Week Visit `<?php echo wp_statistics_week(); ?>`
+* Month Visit `<?php echo wp_statistics_month(); ?>`
+* Years Visit `<?php echo wp_statistics_year(); ?>`
+* Total Visit `<?php echo wp_statistics_total(); ?>`
+* All Search Engine reffered `<?php echo wp_statistics_searchengine(); ?>`
+* Google Search Engine reffered `<?php echo wp_statistics_searchengine('google'); ?>`
+* Yahoo Search Engine reffered `<?php echo wp_statistics_searchengine('yahoo'); ?>`
+* Bing Search Engine reffered `<?php echo wp_statistics_searchengine('bing'); ?>`
+* User Online Live (Premium Version) `<?php echo wp_statistics_useronline_live(); ?>`
+* Total Visit Live (Premium Version) `<?php echo wp_statistics_total_live(); ?>`
+* Total Posts `<?php echo wp_statistics_countposts(); ?>`
+* Total Pages `<?php echo wp_statistics_countpages(); ?>`
+* Total Comments `<?php echo wp_statistics_countcomment(); ?>`
+* Total Spams `<?php echo wp_statistics_countspam(); ?>`
+* Total Users `<?php echo wp_statistics_countusers(); ?>`
+* Last Post Date `<?php echo wp_statistics_lastpostdate(); ?>`
+* Last Post Date (Persian) `<?php echo wp_statistics_lastpostdate('farsi'); ?>`
+* Average Posts `<?php echo wp_statistics_average_post(); ?>`
+* Average Comments `<?php echo wp_statistics_average_comment(); ?>`
+* Average Users `<?php echo wp_statistics_average_registeruser(); ?>`
+* Total Feedburner Subscribe `<?php wp_statistics_countsubscrib('feedburneraddress'); ?>`
 * Google Pagerank `<?php wp_statistics_google_page_rank(); ?>`
 * Alexa Pagerank `<?php echo wp_statistics_alexaRank(); ?>`
 
@@ -112,8 +112,18 @@ a plugin for displaying Summary statistics of blog.
 
 == Screenshots ==
 1. Screen shot (screenshot-1.png) in WP-Statistics Setting Page
+1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
 
 == Upgrade Notice ==
+= 2.2.0=
+* Added statistics to admin bar wordpress 3.3.
+* Added Uninstall for remove data and table from database.
+* Added all statistics item in widget and Their choice.
+* Optimize show function code in setting page.
+* Calling jQuery in wordpress admin for plugin.
+* Remove the word "disabled" in the statistics When the plugin was disabled.
+* Solving scroll problem in statistics page.
+
 = 2.1.6 =
 * Added Russian language.
 
@@ -161,6 +171,15 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.2.0=
+* Added statistics to admin bar wordpress 3.3.
+* Added Uninstall for remove data and table from database.
+* Added all statistics item in widget and Their choice.
+* Optimize show function code in setting page.
+* Calling jQuery in wordpress admin for plugin.
+* Remove the word "disabled" in the statistics When the plugin was disabled.
+* Solving scroll problem in statistics page.
+
 = 2.1.6 =
 * Added Russian language.
 
