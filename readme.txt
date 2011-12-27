@@ -115,7 +115,7 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
 
 == Upgrade Notice ==
-= 2.2.0=
+= 2.2.0 =
 * Added statistics to admin bar wordpress 3.3.
 * Added Uninstall for remove data and table from database.
 * Added all statistics item in widget and Their choice.
@@ -171,7 +171,7 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
-= 2.2.0=
+= 2.2.0 =
 * Added statistics to admin bar wordpress 3.3.
 * Added Uninstall for remove data and table from database.
 * Added all statistics item in widget and Their choice.
