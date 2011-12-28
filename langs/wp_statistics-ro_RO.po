@@ -1,0 +1,385 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-statistics\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-14 11:20+0330\n"
+"PO-Revision-Date: 2011-10-21 11:33+0200\n"
+"Last-Translator: Luke <lktyler9@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
+"X-Poedit-Language: English\n"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/actions.php:11
+msgid "Please Enter value!"
+msgstr "Va rugam introduceti o valoare!"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/report_problem.php:19
+msgid "Error! Please Enter all field"
+msgstr "Eroare! Va rugam completati toate campurile"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:453
+msgid "Configuration"
+msgstr "Configurare"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:458
+msgid "Enable Statistics"
+msgstr "Activeaza statistici"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:462
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:480
+msgid "Yes"
+msgstr "Da"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:466
+msgid "Statistics are enabled."
+msgstr "Statisicile sunt activate"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:468
+msgid "Statistics are disabled!"
+msgstr "Statisicile sunt dezactivate"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:473
+msgid "General configuration"
+msgstr "Configurare generala"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:476
+msgid "Show decimals number"
+msgstr "Arata decimalele"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:482
+msgid "Show number stats with decimal. For examle: 3,500"
+msgstr "Arata statistici cu decimale. De exemplu: 3.500"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:486
+msgid "Online user check time"
+msgstr "Verifica ora utilizatorilor online"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:488
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:529
+msgid "Each"
+msgstr "Fiecare"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:490
+msgid "Compute min"
+msgstr "Minut de calculat"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:492
+msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
+msgstr "Timpul pentru a verifica utilizatorii online de pe site. Prestabilit: 5 minute"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:496
+msgid "Increase value of the total hits"
+msgstr "Mareste valoarea vizitelor totale"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:509
+msgid "Done"
+msgstr "Gata"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:502
+msgid "Your total visit sum with this value"
+msgstr "Suma vizitelor totale cu aceasta valoare"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:506
+msgid "Reduction value of the total hits"
+msgstr "Reducerea valorii a vizitelor totale"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:512
+msgid "Your total visit minus with this value"
+msgstr "Vizitele totale minus aceasta valoare"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:516
+msgid "Number item for show Statistics"
+msgstr "Item pentru aratarea statisticilor"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:519
+msgid "Default 5"
+msgstr "Prestabilit 5"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:521
+msgid "Number for submit item in Database and show that"
+msgstr "Numarul pentru submiterea item-ului in baza de date si arata ca"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:524
+msgid "Live Statistics configuration"
+msgstr "Configurarea statisticilor live"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:527
+msgid "Database check time"
+msgstr "Verifica ora bazei de date"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:531
+msgid "Minute updates"
+msgstr "Update-uri la minut"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:534
+msgid "Recommended"
+msgstr "Recomandat"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
+msgid "Due to pressure on the server, Be set up on time. Default 1 min."
+msgstr "Datorita incarcarii pe server, setati timpul. Prestabilit 1 min."
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
+msgid "Pagerank configuration"
+msgstr "Configurare pagerank"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:542
+msgid "Your url for Google pagerank check"
+msgstr "URL-ul dvs. pentru verificare pagerank-ului"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:547
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:557
+msgid "If this input is empty, The website url uses"
+msgstr "Daca spatiul este gol, URL-ul site-ului foloseste"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:552
+msgid "Your url for Alexa pagerank check"
+msgstr "URL-ul dvs. pentru verificare Alexa rank"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:563
+msgid "About plugin"
+msgstr "Despre plugin"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:564
+msgid "Plugin Version"
+msgstr "Versiune plugin"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:564
+msgid "Free!"
+msgstr "Gratuit!"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:565
+msgid "Get Premium version"
+msgstr "Ia versiunea premium"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:571
+msgid "This plugin created by"
+msgstr "Pluginul a fost create de"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:571
+msgid "from"
+msgstr "de la"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:571
+msgid "group"
+msgstr "grup"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:572
+msgid "for translate language files. please send files for"
+msgstr "pentru traducere, va rugam trimiteti fisierele pentru"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:574
+msgid "Show Functions"
+msgstr "Arata functii"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:575
+msgid "Report Problem"
+msgstr "Raporteaza problema"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:586
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:677
+msgid "User Online"
+msgstr "Useri online"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:587
+msgid "Today Visit"
+msgstr "Vizite azi"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:588
+msgid "Yesterday visit"
+msgstr "Vizite ieri"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:589
+msgid "Week Visit"
+msgstr "Vizite pe saptamana"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:590
+msgid "Month Visit"
+msgstr "Vizite pe luna"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
+msgid "Years Visit"
+msgstr "Vizite pe an"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:592
+msgid "Total Visit"
+msgstr "Vizite pe an"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
+msgid "Search Engine reffered"
+msgstr "Vizite din motoarele de cautare"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:594
+msgid "User Online Live"
+msgstr "Useri online"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:595
+msgid "Total Visit Live"
+msgstr "Vizite live totale"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:596
+msgid "Total Posts"
+msgstr "Postari totale"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:597
+msgid "Total Pages"
+msgstr "Pagini totale"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:598
+msgid "Total Comments"
+msgstr "Comentarii totale"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:599
+msgid "Total Spams"
+msgstr "Spam total"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:600
+msgid "Total Users"
+msgstr "Useri totali"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:601
+msgid "Last Post Date"
+msgstr "Data ultimei postari"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:602
+msgid "Average Posts"
+msgstr "Postari in medie"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:603
+msgid "Average Comments"
+msgstr "Comentarii in medie"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:604
+msgid "Average Users"
+msgstr "Useri in medie"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:605
+msgid "Total Feedburner Subscribe"
+msgstr "Abonati totali din Feedburner"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:606
+msgid "Google Pagerank"
+msgstr "Pagerank Google"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:607
+msgid "Alexa Pagerank"
+msgstr "Rank Alexa"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:608
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:618
+msgid "Hide"
+msgstr "Ascunde"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:612
+msgid "Your Name"
+msgstr "Numele tau"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:614
+msgid "Description Problem"
+msgstr "Descrierea problemei"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:617
+msgid "Send Problem"
+msgstr "Trimite problema"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:628
+msgid "Update"
+msgstr "Actualizare"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:641
+msgid "Stats weblog"
+msgstr "Blog statistici"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:763
+msgid "Name"
+msgstr "Nume"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:768
+msgid "Type date for last update"
+msgstr "Introduceti data pentru ultimul update"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
+msgid "English"
+msgstr "Engleza"
+
+#: F:\Program
+#: Files\Apserv\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:773
+msgid "Persian"
+msgstr "Persana"
+
