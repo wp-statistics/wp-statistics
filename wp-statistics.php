@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.2.0
+Version: 2.2.1
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -12,7 +12,7 @@ License: GPL2
 	load_plugin_textdomain('wp_statistics','wp-content/plugins/wp-statistics/langs');
 
 	add_action('admin_bar_menu', 'wp_statistics_menubar', 20);
-	add_action('admin_enqueue_scripts', 'wp_statistics_js');
+	add_action('admin_enqueue_scripts', 'wp_statistics_js', 2000);
 	add_action('admin_menu', 'wp_statistics_menu');
 	add_action("plugins_loaded", "wp_statistics_widget");
 
@@ -34,10 +34,12 @@ License: GPL2
 	$get_useragent	=	$_SERVER['HTTP_USER_AGENT'];
 	$get_userip		=	$_SERVER['REMOTE_ADDR'];
 
-	function wp_statistics_js() {
-		wp_deregister_script('jquery');
-		wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js');
-		wp_enqueue_script('jquery');
+	function wp_statistics_js($hook) {
+		if(in_array($hook, array('widgets.php'))){
+			wp_deregister_script('jquery');
+			wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js');
+			wp_enqueue_script('jquery');
+		}
 	}
 
 	function wp_statistics_menubar() {
@@ -423,6 +425,7 @@ License: GPL2
 			register_setting('wp_statistics_options', 'pagerank_alexa_url');
 		}} ?>
 
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("span#increase_total_visit").click(function(){
