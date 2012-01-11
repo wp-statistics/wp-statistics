@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-statistics\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-01-09 16:18+0330\n"
+"PO-Revision-Date: 2012-01-09 16:18+0330\n"
+"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/actions.php:11
+msgid "Please Enter value!"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/report_problem.php:19
+msgid "Error! Please Enter all field"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:483
+msgid "Are you sure?"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:494
+msgid "Configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
+msgid "Enable Statistics"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:503
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:521
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:531
+msgid "Yes"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:507
+msgid "Statistics are enabled."
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:509
+msgid "Statistics are disabled!"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:514
+msgid "General configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:517
+msgid "Show decimals number"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:523
+msgid "Show number stats with decimal. For examle: 3,500"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:527
+msgid "Show stats in menu bar"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:533
+msgid "Show stats in admin menu bar"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:537
+msgid "Online user check time"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:580
+msgid "Each"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:541
+msgid "Compute min"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:543
+msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:547
+msgid "Increase value of the total hits"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:550
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:560
+msgid "Done"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:553
+msgid "Your total visit sum with this value"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:557
+msgid "Reduction value of the total hits"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:563
+msgid "Your total visit minus with this value"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:567
+msgid "Number item for show Statistics"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
+msgid "Default 5"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:572
+msgid "Number for submit item in Database and show that"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:575
+msgid "Live Statistics configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:578
+msgid "Database check time"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:582
+msgid "Minute updates"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:585
+msgid "Recommended"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:586
+msgid "Due to pressure on the server, Be set up on time. Default 1 min."
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:590
+msgid "Pagerank configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
+msgid "Your url for Google pagerank check"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:598
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:608
+msgid "If this input is empty, The website url uses"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:603
+msgid "Your url for Alexa pagerank check"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:614
+msgid "About plugin"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
+msgid "Plugin Version"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
+msgid "Free!"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:617
+msgid "Get Premium version"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+msgid "This plugin created by"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+msgid "from"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+msgid "group"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:626
+msgid "Plugin translators"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:631
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:633
+msgid "Language"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:631
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:633
+msgid "by"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:635
+msgid "for translate language files. please send files for"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:638
+msgid "Show Functions"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:639
+msgid "Report Problem"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:652
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:668
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:859
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1071
+msgid "User Online"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:656
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1074
+msgid "Today Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:660
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1077
+msgid "Yesterday visit"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:664
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1080
+msgid "Week Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:672
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1083
+msgid "Month Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1086
+msgid "Years Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:680
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1089
+msgid "Total Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1092
+msgid "Search Engine reffered"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:688
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1110
+msgid "Total Posts"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:692
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1113
+msgid "Total Pages"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:696
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1116
+msgid "Total Comments"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:700
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1119
+msgid "Total Spams"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:704
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1122
+msgid "Total Users"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:708
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1134
+msgid "Last Post Date"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:712
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1125
+msgid "Average Posts"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:716
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1128
+msgid "Average Comments"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:720
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1131
+msgid "Average Users"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:724
+msgid "Total Feedburner Subscribe"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:728
+msgid "Google Pagerank"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:732
+msgid "Alexa Pagerank"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:736
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:746
+msgid "Hide"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:740
+msgid "Your Name"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:742
+msgid "Description Problem"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:745
+msgid "Send Problem"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:753
+msgid "Unistall plugin"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:759
+msgid "Delete all data, including tables and plugin options"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:760
+msgid "Uninstall"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
+msgid "Update"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:803
+msgid "Stats weblog"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1064
+msgid "Name"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1068
+msgid "Items"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1095
+msgid "Select type of search engine"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1097
+msgid "Google"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1100
+msgid "Yahoo!"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1103
+msgid "Bing"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1106
+msgid "All"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1137
+msgid "Type date for last update"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1139
+msgid "English"
+msgstr ""
+
+#: F:\Program
+#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1142
+msgid "Persian"
+msgstr ""
+
