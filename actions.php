@@ -1,5 +1,5 @@
 ﻿<?php
-	require('../../../wp-blog-header.php');
+	require('../../../wp-load.php');
 	$increase_value = $_REQUEST['increase_value'];
 	$reduction_value = $_REQUEST['reduction_value'];
 

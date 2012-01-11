@@ -1,5 +1,5 @@
 <?php
-	require('../../../wp-blog-header.php');
+	require('../../../wp-load.php');
 	global $user_email;
 	if($_REQUEST['y_name'] && $_REQUEST['d_report']) {
 		$name		=	$_REQUEST['y_name'];

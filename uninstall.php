@@ -1,5 +1,5 @@
 <?php
-	require('../../../wp-blog-header.php');
+	require('../../../wp-load.php');
 	global $wpdb, $table_prefix;
 
 	// Database

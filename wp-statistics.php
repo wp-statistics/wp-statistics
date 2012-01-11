@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.2.1
+Version: 2.2.2
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -425,7 +425,7 @@ License: GPL2
 			register_setting('wp_statistics_options', 'pagerank_alexa_url');
 		}} ?>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("span#increase_total_visit").click(function(){
@@ -453,23 +453,23 @@ License: GPL2
 			});
 
 			$("span#show_function").click(function(){
-				$("div#report_problem").hide(1000);
-				$("ul#show_function").show(1000, function(){
-					$("code").delay(1000).fadeIn(1000);
+				$("div#report_problem").slideUp(1000);
+				$("ul#functions_list").slideDown(1000, function(){
+					$("ul#functions_list code").fadeIn(1000);
 				});
 			});
 			
 			$("span#hide_function").click(function(){
-				$("ul#show_function").hide(1000);
+				$("ul#functions_list").slideUp(1000);
 			});	
 
 			$("span#hide_report").click(function(){
-				$("div#report_problem").hide(1000);
+				$("div#report_problem").slideUp(1000);
 			});
 
 			$("span#report_problem").click(function(){
-				$("ul#show_function").hide(1000);
-				$("div#report_problem").show(1000);
+				$("ul#functions_list").slideUp(1000);
+				$("div#report_problem").slideDown(1000);
 			});
 
 			$("span#send_report").click(function(){
@@ -610,17 +610,31 @@ License: GPL2
 		</tr>
 
 		<tr>
-			<th>
+			<th colspan="2">
 				<h3><?php _e('About plugin', 'wp_statistics'); ?></h4>
 				<?php _e('Plugin Version', 'wp_statistics'); ?>: <?php _e('Free!', 'wp_statistics'); ?>
-				<a href="http://www.wpbazar.com/products/wp-statistics-premium"><span style="font-size:10px; color:#009900;"><?php _e('Get Premium version', 'wp_statistics'); ?></span></a>
+				<a href="http://www.wpbazar.com/products/wp-statistics-premium">
+					<span style="font-size:10px; color:#009900;"><?php _e('Get Premium version', 'wp_statistics'); ?></span>
+				</a>
 			</th>
 		</tr>
 
 		<tr>
 		<th colspan="3">
 			<?php _e('This plugin created by', 'wp_statistics'); ?> <a href="http://profile.wordpress.org/mostafa.s1990">Mostafa Soufi</a> <?php _e('from', 'wp_statistics'); ?> <a href="http://wpbazar.com">WPBazar</a> <?php _e('group', 'wp_statistics'); ?>.
+
+			<h3><?php _e('Plugin translators', 'wp_statistics'); ?></h3>
+			<ul>
+			
+			<ul>
+				<li><?php _e('Language', 'wp_statistics'); ?> Portuguese <?php _e('by', 'wp_statistics'); ?><a a href="http://www.musicalmente.info/"> musicalmente</a></li>
+				<li><?php _e('Language', 'wp_statistics'); ?> Romanian <?php _e('by', 'wp_statistics'); ?> <a href="http://www.nobelcom.com/">Luke Tyler</a></li>
+				<li><?php _e('Language', 'wp_statistics'); ?> French <?php _e('by', 'wp_statistics'); ?> <a href="mailto:gnanice@gmail.com">Anice Gnampa</a></li>
+				<li><?php _e('Language', 'wp_statistics'); ?> Russian <?php _e('by', 'wp_statistics'); ?> <a href="http://www.iflexion.com/">Igor Dubilej</a></li>
+				<li><?php _e('Language', 'wp_statistics'); ?> Spanish <?php _e('by', 'wp_statistics'); ?> <a href="mailto:joanfusan@gmail.com">jose</a></li>
+			</ul>
 			<?php _e('for translate language files. please send files for', 'wp_statistics'); ?> <code>mst404@gmail.com</code>
+
 				<p style="padding-top: 5px;">
 					<span class="button" id="show_function"><?php _e('Show Functions', 'wp_statistics'); ?></span>
 					<span class="button" id="report_problem"><?php _e('Report Problem', 'wp_statistics'); ?></span>
@@ -628,12 +642,12 @@ License: GPL2
 
 			<style>
 				a{text-decoration: none}
-				ul#show_function code{border-radius:5px; padding:5px; display:none; width:400px; text-align:left; float:left; direction:ltr;}
-				ul#show_function{list-style-type: decimal; margin: 20px; display:none;}
-				ul#show_function li{line-height: 25px; width: 200px;}
+				ul#functions_list code{border-radius:5px; padding:5px; display:none; width:400px; text-align:left; float:left; direction:ltr;}
+				ul#functions_list{list-style-type: decimal; margin: 20px; display:none;}
+				ul#functions_list li{line-height: 25px; width: 200px;}
 				div#report_problem{display: none;}
 			</style>
-			<ul id="show_function">
+			<ul id="functions_list">
 				<table>
 					<tr>
 						<td><?php _e('User Online', 'wp_statistics'); ?></td>
@@ -719,7 +733,7 @@ License: GPL2
 						<td><?php _e('Alexa Pagerank', 'wp_statistics'); ?></td>
 						<td><code><?php highlight_string('<?php echo wp_statistics_alexaRank(); ?>'); ?></code></td>
 					</tr>
-				</table>			
+				</table>	
 				<br /><span class="button" id="hide_function"><?php _e('Hide', 'wp_statistics'); ?></span>
 			</ul>
 		
@@ -908,7 +922,7 @@ function wp_statistics_show_widget() {
 
 		if(get_option('mvisit_widget')){
 			echo "<li>";
-				echo __('Yesterday Visit', 'wp_statistics'). ": ";
+				echo __('Month Visit', 'wp_statistics'). ": ";
 				echo wp_statistics_month();
 			echo "</li>";
 		}
