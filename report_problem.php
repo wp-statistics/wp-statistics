@@ -1,7 +1,8 @@
 <?php
 	require('../../../wp-load.php');
 	global $user_email;
-	if($_REQUEST['y_name'] && $_REQUEST['d_report']) {
+	if($_REQUEST['y_name'] && $_REQUEST['d_report'])
+	{
 		$name		=	$_REQUEST['y_name'];
 		$email		=	$user_email;
 		$url		=	get_bloginfo('url');
