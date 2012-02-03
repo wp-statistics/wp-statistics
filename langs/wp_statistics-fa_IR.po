@@ -1,0 +1,707 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-statistics\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-03 17:54+0330\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
+"Language-Team:  <mat404@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Language: Persian\n"
+"X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:7
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:9
+msgid "Sorry! this feature is for Premium version"
+msgstr "متاسفم! این امکان برای نسخه‌ی ویژه است."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:11
+msgid "Please Enter value!"
+msgstr "لطفا مقداری را وارد کنید!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:17
+msgid "Thanks for your report!"
+msgstr "با تشکر از گزارش شما!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:19
+msgid "Error! Please Enter all field"
+msgstr "خطا! لطفا همه فیلدها را پرکنید"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:42
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:45
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:48
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:51
+msgid "deleted!"
+msgstr "پاک‌شد!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:55
+msgid "All plugin data is deleted"
+msgstr "تمامی اطلاعات افزونه پاک شد"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:56
+msgid "Disable plugin"
+msgstr "افزونه را غیرفعال کنید."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:58
+msgid "plugin options have been deleted"
+msgstr "گزینه‌های افزونه قبلا پاک شده‌اند"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:59
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:465
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:713
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:729
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:921
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:961
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1155
+msgid "User Online"
+msgstr "کاربران حاضر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:64
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:717
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:969
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1158
+msgid "Today Visit"
+msgstr "بازدید امروز"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:69
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:721
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1161
+msgid "Yesterday visit"
+msgstr "بازدید دیروز"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:74
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:741
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1009
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1173
+msgid "Total Visit"
+msgstr "کل بازدیدها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:79
+msgid "Plugin home page"
+msgstr "خانه‌ی افزونه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:228
+#, php-format
+msgid "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> and enable statistics"
+msgstr "افزونه آمارگیر غیرفعال است! برای فعال کردن آن به <a href=\"%s\">صفحه تنظیمات</a> آمارگیر مراجعه کنید"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:463
+msgid "Statistics"
+msgstr "آماره"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:464
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:864
+msgid "Stats weblog"
+msgstr "آمار سایت"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:473
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:842
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:899
+msgid "You do not have sufficient permissions to access this page."
+msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:543
+msgid "Are you sure?"
+msgstr "آیا مطمئن هستید؟"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:554
+msgid "Configuration"
+msgstr "پیکربندی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:559
+msgid "Enable Statistics"
+msgstr "آمارگیر فعال شود"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:563
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:581
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
+msgid "Yes"
+msgstr "بله"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:567
+msgid "Statistics are enabled."
+msgstr "آمارگیر فعال است."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:569
+msgid "Statistics are disabled!"
+msgstr "آمارگیر غیرفعال است!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:574
+msgid "General configuration"
+msgstr "پیکربندی عمومی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:577
+msgid "Show decimals number"
+msgstr "نمایش اعداد به‌صورت اعشاری"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:583
+msgid "Show number stats with decimal. For examle: 3,500"
+msgstr "نمایش اعداد آمارگیر به‌صورت اعشاری. برای مثال: 3،500"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:587
+msgid "Show stats in menu bar"
+msgstr "نمایش آمار در منوبار"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
+msgid "Show stats in admin menu bar"
+msgstr "نمایش آمار در منوبار مدیریت"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:597
+msgid "Online user check time"
+msgstr "زمان بررسی کاربران آنلاین"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:599
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:640
+msgid "Each"
+msgstr "هر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:601
+msgid "Compute min"
+msgstr "دقیقه محاسبه کن"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:603
+msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
+msgstr "زمان برای بررسی دقیق کاربران حاضر در سایت. پیش‌فرض 5 دقیقه است"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:607
+msgid "Increase value of the total hits"
+msgstr "افزایش مقدار به بازدید‌های کل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:610
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:620
+msgid "Done"
+msgstr "انجام"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:613
+msgid "Your total visit sum with this value"
+msgstr "کل بازدیدها با این مقدار جمع می‌شود"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:617
+msgid "Reduction value of the total hits"
+msgstr "کاهش مقدار از بازدید‌های کل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:623
+msgid "Your total visit minus with this value"
+msgstr "کل بازدیدها از این مقدار کم می‌شود"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:627
+msgid "Number item for show Statistics"
+msgstr "تعداد آیتم برای نمایش آمار"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
+msgid "Default 5"
+msgstr "پیش‌فرض 5 است"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
+msgid "Number for submit item in Database and show that"
+msgstr "تعداد برای ثبت آیتم‌های آمار در پایگاه‌داده و نمایش آن"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:635
+msgid "Live Statistics configuration"
+msgstr "پیکربندی بازدید لحظه‌ای"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:638
+msgid "Database check time"
+msgstr "زمان بررسی پایگاه‌داده"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:642
+msgid "Minute updates"
+msgstr "دقیقه به‌روز کن"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:645
+msgid "Recommended"
+msgstr "پیشنهاد میشود"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:646
+msgid "Due to pressure on the server, Be set up on time. Default 1 min."
+msgstr "به‌دلیل فشار برروی سرور، پیشنهاد می‌شود برروی زمان بالا تعیین شود. پیش‌فرض 1 دقیقه است."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:650
+msgid "Pagerank configuration"
+msgstr "تنظیمات رتبه‌بندی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:653
+msgid "Your url for Google pagerank check"
+msgstr "آدرس شما برای بررسی رتبه‌بندی گوگل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:658
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:668
+msgid "If this input is empty, The website url uses"
+msgstr "اگراین قسمت خالی باشد، از آدرس اصلی سایت استفاده می‌کند"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:663
+msgid "Your url for Alexa pagerank check"
+msgstr "آدرس شما برای بررسی رتبه‌بندی الکسا"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:674
+msgid "About plugin"
+msgstr "درباره‌ی افزونه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:675
+msgid "Plugin Version"
+msgstr "نسخه افزونه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:675
+msgid "Free!"
+msgstr "رایگان!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:677
+msgid "Get Premium version"
+msgstr "دریافت نسخه‌ی ویژه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
+msgid "This plugin created by"
+msgstr "این افزونه توسط"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
+msgid "from"
+msgstr "از گروه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
+msgid "group"
+msgstr "ساخته شده‌است"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
+msgid "Plugin translators"
+msgstr "مترجم‌های افزونه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:690
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:691
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:692
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:693
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:694
+msgid "Language"
+msgstr "زبان"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:690
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:691
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:692
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:693
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:694
+msgid "by"
+msgstr "توسط"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:696
+msgid "for translate language files. please send files for"
+msgstr "لطفا فایل‌های ترجمه را به ایمیل روبرو ارسال کنید"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:699
+msgid "Show Functions"
+msgstr "نمایش تابع‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:700
+msgid "Report Problem"
+msgstr "گزارش مشکل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:725
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:985
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1164
+msgid "Week Visit"
+msgstr "بازدید هفته"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:733
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:993
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1167
+msgid "Month Visit"
+msgstr "بازدید ماه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:737
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1001
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1170
+msgid "Years Visit"
+msgstr "بازدید سال"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:745
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1017
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1176
+msgid "Search Engine reffered"
+msgstr "ورودی موتورهای جستجوگر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:749
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1033
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1194
+msgid "Total Posts"
+msgstr "کل نوشته‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:753
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1041
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1197
+msgid "Total Pages"
+msgstr "کل برگه‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:757
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1049
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1200
+msgid "Total Comments"
+msgstr "کل دیدگاه‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:761
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1057
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1203
+msgid "Total Spams"
+msgstr "کل جفنگ‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:765
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1065
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1206
+msgid "Total Users"
+msgstr "کل کاربرها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:769
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1097
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1218
+msgid "Last Post Date"
+msgstr "تاریخ به‌روزشدن سایت"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:773
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1073
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1209
+msgid "Average Posts"
+msgstr "میانگین نوشته‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:777
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1081
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1212
+msgid "Average Comments"
+msgstr "میانگین دیدگاه‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:781
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1089
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1215
+msgid "Average Users"
+msgstr "میانگین کاربرها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:785
+msgid "Total Feedburner Subscribe"
+msgstr "تعداد مشترک‌های فیدبرنر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:789
+msgid "Google Pagerank"
+msgstr "رتبه گوگل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:793
+msgid "Alexa Pagerank"
+msgstr "رتبه الکسا"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:797
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:807
+msgid "Hide"
+msgstr "مخفی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:801
+msgid "Your Name"
+msgstr "نام شما"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:803
+msgid "Description Problem"
+msgstr "توضیحات مشکل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:806
+msgid "Send Problem"
+msgstr "ارسال گزارش"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:814
+msgid "Unistall plugin"
+msgstr "پاک‌سازی پلاگین"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:820
+msgid "Delete all data, including tables and plugin options"
+msgstr "پاک‌کردن تمامی اطلاعات از قبیل جدول افزونه در پایگاه‌داده و گزینه‌های افزونه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:821
+msgid "Uninstall"
+msgstr "پاک‌کردن"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:831
+msgid "Update"
+msgstr "به‌روز رسانی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:875
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:932
+msgid "No"
+msgstr "شماره"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:876
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:933
+msgid "IP"
+msgstr "آی‌پی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:877
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:934
+msgid "Time"
+msgstr "زمان"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:878
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:935
+msgid "Referred"
+msgstr "هدایت شده"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:879
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:936
+msgid "Agent"
+msgstr "مشخصات مرورگر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:977
+msgid "Yesterday Visit"
+msgstr "بازدید دیروز"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1148
+msgid "Name"
+msgstr "نام"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1152
+msgid "Items"
+msgstr "آیتم‌ها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1179
+msgid "Select type of search engine"
+msgstr "انتخاب نوع موتورجستجو"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1181
+msgid "Google"
+msgstr "گوگل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1184
+msgid "Yahoo!"
+msgstr "یاهو!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1187
+msgid "Bing"
+msgstr "بینگ"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1190
+msgid "All"
+msgstr "همه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1221
+msgid "Type date for last update"
+msgstr "نوع تقویم برای آخرین به‌روزرسانی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1223
+msgid "English"
+msgstr "میلادی"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1226
+msgid "Persian"
+msgstr "شمسی (فارسی)"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1257
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1259
+msgid "WP-Statistics"
+msgstr "آمارگیر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1258
+msgid "Show site stats in sidebar"
+msgstr "نمایش آمار سایت در ابزارک"
+
+#~ msgid "Thanks"
+#~ msgstr "تشکر از"
+
+#~ msgid "User Online Live"
+#~ msgstr "کاربران آنلاین زنده"
+
+#~ msgid "Total Visit Live"
+#~ msgstr "کل بازدیدها زنده"
+
+#~ msgid "(Disable)"
+#~ msgstr "(غیرفعال)"
+
+#~ msgid "useronline"
+#~ msgstr "کاربران حاضر"
+
+#~ msgid "Deactive plugin"
+#~ msgstr "غیرفعال‌سازی افزونه"
+
+#~ msgid "Plugin URI"
+#~ msgstr "آدرس افزونه"
+
+#~ msgid "Stats blog"
+#~ msgstr "آمار وبلاگ"
+
+#~ msgid "Stats"
+#~ msgstr "آمار"
+
+#~ msgid "mm"
+#~ msgstr "آمار بازدید"
+
+#~ msgid "and"
+#~ msgstr "و"
+
+#~ msgid "Added"
+#~ msgstr "مقدار"
+
+#~ msgid "value"
+#~ msgstr "افزوده شد"
+
+#~ msgid "Was"
+#~ msgstr "مقدار"
+
+#~ msgid "low value"
+#~ msgstr "کم شد"
+
+#~ msgid "d"
+#~ msgstr "ططظط"
+
+#~ msgid ""
+#~ "This plugin created by <a href=\"http://profile.wordpress.org/mostafa."
+#~ "s1990\">Mostafa Soufi</a> from <a href=\"http://wpbazar.com\">WPBazar</a> "
+#~ "and <a href=\"http://wp-persian.com\">WP-Persian</a> group.\n"
+#~ "\t\t\tfor translate language files. please send files for mst404@gmail.com"
+#~ msgstr "یبیبیب"
+
+#~ msgid "Your Report"
+#~ msgstr "گزارش شما"
+
+#~ msgid "About Author"
+#~ msgstr "درباره‌ی نویسنده"
+
+#~ msgid "Hide Functions"
+#~ msgstr "مخفی‌کردن تابع‌ها"
+
+#~ msgid "Title Widget"
+#~ msgstr "عنوان ابزارک"
+
+#~ msgid "Show items"
+#~ msgstr "نمایش عناوین"
+
+#~ msgid "Total Blog Hits: "
+#~ msgstr "Total Blog Hits: "
+
+#~ msgid "Summary statistics of blog"
+#~ msgstr "Summary statistics of blog"
+
+#~ msgid "Be set up on time"
+#~ msgstr "برروی زمان بالا محاسبه شود"
+
+#~ msgid "Updates to"
+#~ msgstr "دقیقه"
+
+#~ msgid "Live Statistics"
+#~ msgstr "بازدید لحظه‌ای"
+
+#~ msgid "Visitor"
+#~ msgstr "بازدیدکننده"
+
+#~ msgid "Ban IP"
+#~ msgstr "محروم کردن آی‌پی"
+
+#~ msgid "Add"
+#~ msgstr "افزودن"
+
+#~ msgid "Enable"
+#~ msgstr "آمارگیر فعال شود"
+
+#~ msgid "Latest posts in wpdelicious"
+#~ msgstr "آخرین ارسالی های وردپرس"
+
+#~ msgid "Latest Delicious"
+#~ msgstr "آخرین ارسالی ها"
