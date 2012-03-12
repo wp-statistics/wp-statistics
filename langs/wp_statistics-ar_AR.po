@@ -1,477 +1,483 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-statistics\n"
+"Project-Id-Version: WP-Statistics in Arabic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-09 16:18+0330\n"
-"PO-Revision-Date: 2012-01-09 16:18+0330\n"
-"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2012-02-03 19:10+0330\n"
+"PO-Revision-Date: 2012-02-04 16:15+0300\n"
+"Last-Translator: Hammad Alshammari <falcon@mail.net.sa>\n"
+"Language-Team: Hammad Alshammari <falcon@mail.net.sa>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
-"X-Poedit-Language: English\n"
+"X-Poedit-Language: Arabic\n"
 "X-Poedit-Basepath: .\n"
+"X-Poedit-Country: SAUDI ARABIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/actions.php:11
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:12
 msgid "Please Enter value!"
-msgstr "ÇáÑÌÇÁ ÃÏÎá ŞíãÉ!"
+msgstr "Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø£Ø¯Ø®Ù„ Ù‚ÙŠÙ…Ø©!"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/report_problem.php:19
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:20
 msgid "Error! Please Enter all field"
-msgstr "ÎØÃ! ÇáÑÌÇÁ ÅÏÎÇá ÌãíÚ ÇáÍŞæá"
+msgstr "Ø®Ø·Ø£! Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ù‚ÙˆÙ„"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:483
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
 msgid "Are you sure?"
-msgstr "åá ÃäÊ ãÊÃßÏ¿"
+msgstr "Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ØŸ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:494
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:546
 msgid "Configuration"
-msgstr "ÇáÊßæíä"
+msgstr "Ø§Ù„ØªÙƒÙˆÙŠÙ†"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:551
 msgid "Enable Statistics"
-msgstr "Êãßíä ÇáÇÍÕÇÆíÇÊ"
+msgstr "ØªÙ…ÙƒÙŠÙ† Ø§Ù„Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:503
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:521
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:531
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:555
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:573
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:583
 msgid "Yes"
-msgstr "äÚã"
+msgstr "Ù†Ø¹Ù…"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:507
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:559
 msgid "Statistics are enabled."
-msgstr "Êã Êãßíä ÇáÅÍÕÇÆíÇÊ."
+msgstr "ØªÙ… ØªÙ…ÙƒÙŠÙ† Ø§Ù„Ø¥Ø­ØµØ§Ø¦ÙŠØ§Øª."
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:509
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:561
 msgid "Statistics are disabled!"
-msgstr "ÇáÅÍÕÇÆíÇÊ ãÚØáÉ!"
+msgstr "Ø§Ù„Ø¥Ø­ØµØ§Ø¦ÙŠØ§Øª Ù…Ø¹Ø·Ù„Ø©!"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:514
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:566
 msgid "General configuration"
-msgstr "ÇáÊßæíä ÇáÚÇã"
+msgstr "Ø§Ù„ØªÙƒÙˆÙŠÙ† Ø§Ù„Ø¹Ø§Ù…"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:517
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:569
 msgid "Show decimals number"
-msgstr "ÚÑÖ ÚÏÏ ÚÔÑì"
+msgstr "Ø¹Ø±Ø¶ Ø¹Ø¯Ø¯ Ø¹Ø´Ø±Ù‰"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:523
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:575
 msgid "Show number stats with decimal. For examle: 3,500"
-msgstr "ÅÙåÇÑ ÇÑŞÇã ÇáÇÍÕÇÆíÇÊ ÈÇáÔßá ÇáÚÔÑí. ãËÇá: 3,500"
+msgstr "Ø¥Ø¸Ù‡Ø§Ø± Ø§Ø±Ù‚Ø§Ù… Ø§Ù„Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª Ø¨Ø§Ù„Ø´ÙƒÙ„ Ø§Ù„Ø¹Ø´Ø±ÙŠ. Ù…Ø«Ø§Ù„: 3,500"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:527
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:579
 msgid "Show stats in menu bar"
-msgstr "ÅÙåÇÑ ÇáÇÍÕÇÆíÇÊ İí ÔÑíØ ÇáŞæÇÆã"
+msgstr "Ø¥Ø¸Ù‡Ø§Ø± Ø§Ù„Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª ÙÙŠ Ø´Ø±ÙŠØ· Ø§Ù„Ù‚ÙˆØ§Ø¦Ù…"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:533
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:585
 msgid "Show stats in admin menu bar"
-msgstr "ÇÙåÇÑ ÇáÇÍÕÇÆíÇÊ İí ÔÑíØ ÇáŞæÇÆã ÇáÅÏÇÑí"
+msgstr "Ø§Ø¸Ù‡Ø§Ø± Ø§Ù„Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª ÙÙŠ Ø´Ø±ÙŠØ· Ø§Ù„Ù‚ÙˆØ§Ø¦Ù… Ø§Ù„Ø¥Ø¯Ø§Ø±ÙŠ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:537
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:589
 msgid "Online user check time"
-msgstr "æŞÊ İÍÕ ÇáãÊæÇÌÏíä ÇáÂä"
+msgstr "ÙˆÙ‚Øª ÙØ­Øµ Ø§Ù„Ù…ØªÙˆØ§Ø¬Ø¯ÙŠÙ† Ø§Ù„Ø¢Ù†"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:580
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
 msgid "Each"
-msgstr "ßá"
+msgstr "ÙƒÙ„"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:541
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
 msgid "Compute min"
-msgstr "ÇáÍÓÇÈ ÈÇáÏŞíŞÉ"
+msgstr "Ø§Ù„Ø­Ø³Ø§Ø¨ Ø¨Ø§Ù„Ø¯Ù‚ÙŠÙ‚Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:543
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:595
 msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
-msgstr "ÇáæŞÊ ÇáãÓÊÎÏã áİÍÕ ÇáãÊæÇÌÏíä ÇáÂä İí ÇáãæŞÚ. ÇáÇİÊÑÇÖí: 5 ÏŞÇÆŞ"
+msgstr "Ø§Ù„ÙˆÙ‚Øª Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… Ù„ÙØ­Øµ Ø§Ù„Ù…ØªÙˆØ§Ø¬Ø¯ÙŠÙ† Ø§Ù„Ø¢Ù† ÙÙŠ Ø§Ù„Ù…ÙˆÙ‚Ø¹. Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠ: 5 Ø¯Ù‚Ø§Ø¦Ù‚"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:547
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:599
 msgid "Increase value of the total hits"
-msgstr "ÒíÇÏÉ ŞíãÉ ßá ÇáÒíÇÑÇÊ"
+msgstr "Ø²ÙŠØ§Ø¯Ø© Ù‚ÙŠÙ…Ø© ÙƒÙ„ Ø§Ù„Ø²ÙŠØ§Ø±Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:550
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:560
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:602
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:612
 msgid "Done"
-msgstr "Êã"
+msgstr "ØªÙ…"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:553
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:605
 msgid "Your total visit sum with this value"
-msgstr "ÖÚ ÇáŞíãÉ åäÇ áÒíÇÏÉ ÇáãÌãæÚ Çáßáí ááÒíÇÑÇÊ"
+msgstr "Ø¶Ø¹ Ø§Ù„Ù‚ÙŠÙ…Ø© Ù‡Ù†Ø§ Ù„Ø²ÙŠØ§Ø¯Ø© Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹ Ø§Ù„ÙƒÙ„ÙŠ Ù„Ù„Ø²ÙŠØ§Ø±Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:557
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:609
 msgid "Reduction value of the total hits"
-msgstr "ÊÎİíÖ ŞíãÉ ßá ÇáÒíÇÑÇÊ"
+msgstr "ØªØ®ÙÙŠØ¶ Ù‚ÙŠÙ…Ø© ÙƒÙ„ Ø§Ù„Ø²ÙŠØ§Ø±Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:563
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
 msgid "Your total visit minus with this value"
-msgstr "ÖÚ ÇáŞíãÉ åäÇ áÊŞáíÕ ÇáãÌãæÚ Çáßáí ãä ÇáÒíÇÑÇÊ"
+msgstr "Ø¶Ø¹ Ø§Ù„Ù‚ÙŠÙ…Ø© Ù‡Ù†Ø§ Ù„ØªÙ‚Ù„ÙŠØµ Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹ Ø§Ù„ÙƒÙ„ÙŠ Ù…Ù† Ø§Ù„Ø²ÙŠØ§Ø±Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:567
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:619
 msgid "Number item for show Statistics"
-msgstr "ÚÏÏ ÇáÈäÏæ ÇáÙÇåÑÉ İí ÇáÇÍÕÇÆíÇÊ"
+msgstr "Ø¹Ø¯Ø¯ Ø§Ù„Ø¨Ù†Ø¯Ùˆ Ø§Ù„Ø¸Ø§Ù‡Ø±Ø© ÙÙŠ Ø§Ù„Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:570
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:622
 msgid "Default 5"
-msgstr "ÇáÇİÊÑÇÖí 5"
+msgstr "Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠ 5"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:572
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
 msgid "Number for submit item in Database and show that"
-msgstr "ÖÚ ÚÏÏ ÇáÈäæÏ ÇáãÑÇÏ ÙåæÑåÇ İí ÇáÇÍÕÇÆíÇÊ"
+msgstr "Ø¶Ø¹ Ø¹Ø¯Ø¯ Ø§Ù„Ø¨Ù†ÙˆØ¯ Ø§Ù„Ù…Ø±Ø§Ø¯ Ø¸Ù‡ÙˆØ±Ù‡Ø§ ÙÙŠ Ø§Ù„Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:575
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:627
 msgid "Live Statistics configuration"
-msgstr "ÅÚÏÇÏÇÊ ÇáÇÍÕÇÆíÇÊ ÇáãÈÇÔÑÉ"
+msgstr "Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª Ø§Ù„Ù…Ø¨Ø§Ø´Ø±Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:578
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
 msgid "Database check time"
-msgstr "æŞÊ İÍÕ ŞÇÚÏÉ ÇáÈíÇäÇÊ"
+msgstr "ÙˆÙ‚Øª ÙØ­Øµ Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:582
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:634
 msgid "Minute updates"
-msgstr "ÇáÊÍÏíË ÈÇáÏŞíŞÉ"
+msgstr "Ø§Ù„ØªØ­Ø¯ÙŠØ« Ø¨Ø§Ù„Ø¯Ù‚ÙŠÙ‚Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:585
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:637
 msgid "Recommended"
-msgstr "ãæÕì Èå"
+msgstr "Ù…ÙˆØµÙ‰ Ø¨Ù‡"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:586
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:638
 msgid "Due to pressure on the server, Be set up on time. Default 1 min."
-msgstr "áãÇ íÓÈÈå ãä ÇáÖÛØ Úáì ÇáÎÇÏã, äæÕí ÈæÖÚ ÇáŞíãÉ ÇáÇİÊÑÇÖíÉ æåí: 1 ÏŞíŞÉ."
+msgstr "Ù„Ù…Ø§ ÙŠØ³Ø¨Ø¨Ù‡ Ù…Ù† Ø§Ù„Ø¶ØºØ· Ø¹Ù„Ù‰ Ø§Ù„Ø®Ø§Ø¯Ù…, Ù†ÙˆØµÙŠ Ø¨ÙˆØ¶Ø¹ Ø§Ù„Ù‚ÙŠÙ…Ø© Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠØ© ÙˆÙ‡ÙŠ: 1 Ø¯Ù‚ÙŠÙ‚Ø©."
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:590
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:642
 msgid "Pagerank configuration"
-msgstr "ÇÚÏÇÏÇÊ ÇáÈíÌ ÑÇäß"
+msgstr "Ø§Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø¨ÙŠØ¬ Ø±Ø§Ù†Ùƒ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:645
 msgid "Your url for Google pagerank check"
-msgstr "ÑÇÈØ ÇáİÍÕ ÇáÎÇÕ Èß áÌæÌá ÈíÌ ÑÇäß"
+msgstr "Ø±Ø§Ø¨Ø· Ø§Ù„ÙØ­Øµ Ø§Ù„Ø®Ø§Øµ Ø¨Ùƒ Ù„Ø¬ÙˆØ¬Ù„ Ø¨ÙŠØ¬ Ø±Ø§Ù†Ùƒ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:598
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:608
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:650
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:660
 msgid "If this input is empty, The website url uses"
-msgstr "ÇĞÇ ßÇä åĞå ÇáŞíãÉ İÇÑÛÉ, ÓíÊã ÇÓÊÎÏÇã ÑÇÈØ ÇáãæŞÚ"
+msgstr "Ø§Ø°Ø§ ÙƒØ§Ù† Ù‡Ø°Ù‡ Ø§Ù„Ù‚ÙŠÙ…Ø© ÙØ§Ø±ØºØ©, Ø³ÙŠØªÙ… Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø±Ø§Ø¨Ø· Ø§Ù„Ù…ÙˆÙ‚Ø¹"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:603
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:655
 msgid "Your url for Alexa pagerank check"
-msgstr "ÑÇÈØ ÇáİÍÕ ÇáÎÇÕ Èß áÜ Alexa ÈíÌ ÑÇäß"
+msgstr "Ø±Ø§Ø¨Ø· Ø§Ù„ÙØ­Øµ Ø§Ù„Ø®Ø§Øµ Ø¨Ùƒ Ù„Ù€ Alexa Ø¨ÙŠØ¬ Ø±Ø§Ù†Ùƒ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:614
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:666
 msgid "About plugin"
-msgstr "Íæá ÇáÈÑäÇãÌ ÇáãÓÇÚÏ"
+msgstr "Ø­ÙˆÙ„ Ø§Ù„Ø¨Ø±Ù†Ø§Ù…Ø¬ Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:667
 msgid "Plugin Version"
-msgstr "ÑŞã ÇáäÓÎÉ"
+msgstr "Ø±Ù‚Ù… Ø§Ù„Ù†Ø³Ø®Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:667
 msgid "Free!"
-msgstr "ãÌÇäí!"
+msgstr "Ù…Ø¬Ø§Ù†ÙŠ!"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:617
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:669
 msgid "Get Premium version"
-msgstr "ÇáÍÕæá Úáì ÇáäÓÎÉ ÇáãØæÑÉ"
+msgstr "Ø£Ø­ØµÙ„ Ø¹Ù„Ù‰ Ø§Ù„Ù†Ø³Ø®Ø© Ø§Ù„Ù…Ø¯ÙÙˆØ¹Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
 msgid "This plugin created by"
-msgstr "åĞå ÇáÅÖÇİÉ Êã ÅäÔÇÄåÇ ÈæÇÓØÉ"
+msgstr "Ù‡Ø°Ù‡ Ø§Ù„Ø¥Ø¶Ø§ÙØ© ØªÙ… Ø¥Ù†Ø´Ø§Ø¤Ù‡Ø§ Ø¨ÙˆØ§Ø³Ø·Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
 msgid "from"
-msgstr "ãä"
+msgstr "Ù…Ù†"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
 msgid "group"
-msgstr "ãÌãæÚÉ"
+msgstr "Ù…Ø¬Ù…ÙˆØ¹Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:626
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:678
 msgid "Plugin translators"
-msgstr "ãÊÑÌãíä ÇáÅÖÇİÉ"
+msgstr "Ù…ØªØ±Ø¬Ù…ÙŠÙ† Ø§Ù„Ø¥Ø¶Ø§ÙØ©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:631
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:633
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:682
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:683
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
 msgid "Language"
-msgstr "áÛÉ"
+msgstr "Ù„ØºØ©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:631
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:633
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:682
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:683
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
 msgid "by"
-msgstr "ÈæÇÓØÉ"
+msgstr "Ø¨ÙˆØ§Ø³Ø·Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:635
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:689
 msgid "for translate language files. please send files for"
-msgstr "áãáİÇÊ ÊÑÌãÉ ÇááÛÉ: ÇáÑÌÇÁ ÇÑÓÇá ÇáãáİÇÊ áÜ"
+msgstr "Ù„Ù…Ù„ÙØ§Øª ØªØ±Ø¬Ù…Ø© Ø§Ù„Ù„ØºØ©: Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø§Ø±Ø³Ø§Ù„ Ø§Ù„Ù…Ù„ÙØ§Øª Ù„Ù€"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:638
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:692
 msgid "Show Functions"
-msgstr "ÚÑÖ æÙÇÆİ"
+msgstr "Ø¹Ø±Ø¶ ÙˆØ¸Ø§Ø¦Ù"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:639
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:693
 msgid "Report Problem"
-msgstr "ÊŞÑíÑ ãÔßáÉ"
+msgstr "ØªÙ‚Ø±ÙŠØ± Ù…Ø´ÙƒÙ„Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:652
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:668
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:859
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1071
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:706
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:722
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:914
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1139
 msgid "User Online"
-msgstr "ÇáãÊæÇÌÏíä ÇáÂä"
+msgstr "Ø§Ù„Ù…ØªÙˆØ§Ø¬Ø¯ÙŠÙ† Ø§Ù„Ø¢Ù†"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:656
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1074
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:710
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1142
 msgid "Today Visit"
-msgstr "ÒíÇÑÇÊ Çáíæã"
+msgstr "Ø²ÙŠØ§Ø±Ø§Øª Ø§Ù„ÙŠÙˆÙ…"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:660
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1077
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:714
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1145
 msgid "Yesterday visit"
-msgstr "ÒíÇÑÇÊ ÇáÃãÓ"
+msgstr "Ø²ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø£Ù…Ø³"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:664
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1080
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:718
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1148
 msgid "Week Visit"
-msgstr "ÒíÇÑÇÊ ÇáÃÓÈæÚ"
+msgstr "Ø²ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:672
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1083
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:726
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1151
 msgid "Month Visit"
-msgstr "ÒíÇÑÇÊ ÇáÔåÑ"
+msgstr "Ø²ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø´Ù‡Ø±"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1086
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:730
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1154
 msgid "Years Visit"
-msgstr "ÒíÇÑÇÊ ÇáÓäÉ"
+msgstr "Ø²ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø³Ù†Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:680
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1089
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:734
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1157
 msgid "Total Visit"
-msgstr "ãÌãæÚ ÇáÒíÇÑÇÊ"
+msgstr "Ù…Ø¬Ù…ÙˆØ¹ Ø§Ù„Ø²ÙŠØ§Ø±Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1092
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:738
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1160
 msgid "Search Engine reffered"
-msgstr "ãÍÑßÇÊ ÇáÈÍË"
+msgstr "Ù…Ø­Ø±ÙƒØ§Øª Ø§Ù„Ø¨Ø­Ø«"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:688
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1110
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:742
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1178
 msgid "Total Posts"
-msgstr "ÅÌãÇáí ÇáãÔÇÑßÇÊ"
+msgstr "Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„Ù…Ø´Ø§Ø±ÙƒØ§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:692
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1113
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:746
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1181
 msgid "Total Pages"
-msgstr "ÅÌãÇáí ÇáÕİÍÇÊ"
+msgstr "Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„ØµÙØ­Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:696
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1116
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:750
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1184
 msgid "Total Comments"
-msgstr "ÅÌãÇáí ÇáÊÚáíŞÇÊ"
+msgstr "Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„ØªØ¹Ù„ÙŠÙ‚Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:700
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1119
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:754
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1187
 msgid "Total Spams"
-msgstr "ÅÌãÇáí ÇáÓÈÇã"
+msgstr "Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„Ø³Ø¨Ø§Ù…"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:704
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1122
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:758
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1190
 msgid "Total Users"
-msgstr "ÚÏÏ ÇáÇÚÖÇÁ"
+msgstr "Ø¹Ø¯Ø¯ Ø§Ù„Ø§Ø¹Ø¶Ø§Ø¡"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:708
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1134
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:762
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1202
 msgid "Last Post Date"
-msgstr "ÊÇÑíÎ ÂÎÑ ãÔÇÑßÉ"
+msgstr "ØªØ§Ø±ÙŠØ® Ø¢Ø®Ø± Ù…Ø´Ø§Ø±ÙƒØ©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:712
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1125
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:766
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1193
 msgid "Average Posts"
-msgstr "ãÊæÓØ ÇáãÔÇÑßÇÊ"
+msgstr "Ù…ØªÙˆØ³Ø· Ø§Ù„Ù…Ø´Ø§Ø±ÙƒØ§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:716
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1128
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1196
 msgid "Average Comments"
-msgstr "ãÊæÓØ ÇáÊÚáíŞÇÊ"
+msgstr "Ù…ØªÙˆØ³Ø· Ø§Ù„ØªØ¹Ù„ÙŠÙ‚Ø§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:720
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1131
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:774
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1199
 msgid "Average Users"
-msgstr "ãÊæÓØ ÇáÇÚÖÇÁ"
+msgstr "Ù…ØªÙˆØ³Ø· Ø§Ù„Ø§Ø¹Ø¶Ø§Ø¡"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:724
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:778
 msgid "Total Feedburner Subscribe"
-msgstr "ãÔÊÑßí ÇáÎáÇÕÇÊ"
+msgstr "Ù…Ø´ØªØ±ÙƒÙŠ Ø§Ù„Ø®Ù„Ø§ØµØ§Øª"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:728
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:782
 msgid "Google Pagerank"
-msgstr "ÌæÌá ÈíÌ ÑÇäß"
+msgstr "Ø¬ÙˆØ¬Ù„ Ø¨ÙŠØ¬ Ø±Ø§Ù†Ùƒ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:732
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:786
 msgid "Alexa Pagerank"
-msgstr ÇáíßÓÇ ÈíÌ ÑÇäß""
+msgstr "Ø§Ù„ÙŠÙƒØ³Ø§ Ø¨ÙŠØ¬ Ø±Ø§Ù†Ùƒ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:736
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:746
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:790
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:800
 msgid "Hide"
-msgstr "ÅÎİÇÁ"
+msgstr "Ø¥Ø®ÙØ§Ø¡"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:740
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:794
 msgid "Your Name"
-msgstr "ÇÓãß"
+msgstr "Ø§Ø³Ù…Ùƒ"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:742
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:796
 msgid "Description Problem"
-msgstr "æÕİ ÇáãÔßáÉ"
+msgstr "ÙˆØµÙ Ø§Ù„Ù…Ø´ÙƒÙ„Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:745
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:799
 msgid "Send Problem"
-msgstr "ÇÑÓÇá ãÔßáÉ"
+msgstr "Ø§Ø±Ø³Ø§Ù„ Ù…Ø´ÙƒÙ„Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:753
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:807
 msgid "Unistall plugin"
-msgstr "ÍĞİ ÇáÅÖÇİÉ"
+msgstr "Ø­Ø°Ù Ø§Ù„Ø¥Ø¶Ø§ÙØ©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:759
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:813
 msgid "Delete all data, including tables and plugin options"
-msgstr "ÍĞİ ÌãíÚ ÇáÈíÇäÇÊ ¡ ÈãÇ İí Ğáß ÇáÌÏÇæá æÎíÇÑÇÊ ÇáÈÑäÇãÌ ÇáãÓÇÚÏ"
+msgstr "Ø­Ø°Ù Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ØŒ Ø¨Ù…Ø§ ÙÙŠ Ø°Ù„Ùƒ Ø§Ù„Ø¬Ø¯Ø§ÙˆÙ„ ÙˆØ®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø¨Ø±Ù†Ø§Ù…Ø¬ Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:760
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:814
 msgid "Uninstall"
-msgstr "ÅáÛÇÁ ÇáÊäÕíÈ"
+msgstr "Ø¥Ù„ØºØ§Ø¡ Ø§Ù„ØªÙ†ØµÙŠØ¨"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:824
 msgid "Update"
-msgstr "ÊÍÏíË"
+msgstr "ØªØ­Ø¯ÙŠØ«"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:803
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:857
 msgid "Stats weblog"
-msgstr "ÇÍÕÇÆíÇÊ ÇáãÏæäÉ"
+msgstr "Ø§Ø­ØµØ§Ø¦ÙŠØ§Øª Ø§Ù„Ù…Ø¯ÙˆÙ†Ø©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1064
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1132
 msgid "Name"
-msgstr "ÇáÇÓã"
+msgstr "Ø§Ù„Ø§Ø³Ù…"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1068
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1136
 msgid "Items"
-msgstr "ÇáÈäæÏ"
+msgstr "Ø§Ù„Ø¨Ù†ÙˆØ¯"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1095
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1163
 msgid "Select type of search engine"
-msgstr "ÍÏÏ äæÚ ãä ãÍÑß ÇáÈÍË"
+msgstr "Ø­Ø¯Ø¯ Ù†ÙˆØ¹ Ù…Ù† Ù…Ø­Ø±Ùƒ Ø§Ù„Ø¨Ø­Ø«"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1097
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1165
 msgid "Google"
 msgstr "Google"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1100
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1168
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1103
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1171
 msgid "Bing"
 msgstr "Bing"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1106
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1174
 msgid "All"
-msgstr "ÇáÌãíÚ"
+msgstr "Ø§Ù„Ø¬Ù…ÙŠØ¹"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1137
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1205
 msgid "Type date for last update"
-msgstr "ÇßÊÈ ÊÇÑíÎ ÂÎÑ ÊÍÏíË"
+msgstr "Ø§ÙƒØªØ¨ ØªØ§Ø±ÙŠØ® Ø¢Ø®Ø± ØªØ­Ø¯ÙŠØ«"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1139
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1207
 msgid "English"
-msgstr "ÇáÇäÌáíÒíÉ"
+msgstr "Ø§Ù„Ø§Ù†Ø¬Ù„ÙŠØ²ÙŠØ©"
 
 #: F:\Program
-#: Files\AppServ\www\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1142
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1210
 msgid "Persian"
-msgstr "ÇáİÇÑÓíÉ"
+msgstr "Ø§Ù„ÙØ§Ø±Ø³ÙŠØ©"
 

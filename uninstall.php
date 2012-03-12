@@ -12,10 +12,12 @@
 	$get_do[1] = delete_option('enable_stats');
 	$get_do[2] = delete_option('enable_decimals');
 	$get_do[3] = delete_option('enable_wps_adminbar');
-	$get_do[4] = delete_option('time_useronline');
-	$get_do[5] = delete_option('items_statistics');
-	$get_do[6] = delete_option('pagerank_google_url');
-	$get_do[7] = delete_option('pagerank_alexa_url');
+	$get_do[4] = delete_option('time_useronline_s');
+	$get_do[5] = delete_option('database_checktime');
+	$get_do[6] = delete_option('items_statistics');
+	$get_do[7] = delete_option('pagerank_google_url');
+	$get_do[8] = delete_option('pagerank_alexa_url');
+	$get_do[9] = delete_option('coefficient_visitor');
 
 	// Options (widget page)
 	$get_dw[2] = delete_option('useronline_widget');

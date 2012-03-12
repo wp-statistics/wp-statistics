@@ -4,7 +4,7 @@ Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 
 Summary statistics of blog.
 
@@ -21,8 +21,11 @@ Features:
 * Years Visit
 * Total Visit
 * Search Engine reffered (Google, Yahoo, Bing)
-* User Online Live [Premium Version](http://www.wpbazar.com/products/wp-statistics-premium)
-* Total Visit Live [Premium Version](http://www.wpbazar.com/products/wp-statistics-premium)
+* User Online Live
+* Total Visit Live
+* Increased to visit.
+* Reduced to visit.
+* Coefficient statistics for each user.
 * Total Posts
 * Total Pages
 * Total Comments
@@ -49,6 +52,9 @@ Language Support:
 * Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
 * Spanish Thanks Jose
 * Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
+* Turkish [Thanks aidinMC](http://www.artadl.ir/)
+* Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/)
+* German [Thanks Andreas Martin](http://www.andreasmartin.com/)
 
 Send email for Translation files: mst404[a]gmail[dot].com
 for translate, please open langs/default.po by Poedit and translate strings.
@@ -117,6 +123,22 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
 
 == Upgrade Notice ==
+= 2.2.4 =
+* Added Turkish language.
+* Added Italian language.
+* Added German language.
+* Arabic language was solved.
+* Romanian language was solved.
+* The words in setting page were complete. (Thanks Will Abbott) default.po file is Updated.
+* The change of time from minutes to seconds to check users online.
+* Ignoring search engine crawler.
+* Added features premium version to free version.
+* Added user online live.
+* Added total visit live.
+* Added Increased to visit.
+* Added Reduced to visit.
+* Added Coefficient statistics for each user.
+
 = 2.2.3 =
 * Optimized Counting.
 * Added Arabic language.
@@ -187,6 +209,22 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.2.4 =
+* Added Turkish language.
+* Added Italian language.
+* Added German language.
+* Arabic language was solved.
+* Romanian language was solved.
+* The words in setting page were complete. (Thanks Will Abbott) default.po file is Updated.
+* The change of time from minutes to seconds to check users online.
+* Ignoring search engine crawler.
+* Added features premium version to free version.
+* Added user online live.
+* Added total visit live.
+* Added Increased to visit.
+* Added Reduced to visit.
+* Added Coefficient statistics for each user.
+
 = 2.2.3 =
 * Optimized Counting.
 * Added Arabic language.

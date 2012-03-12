@@ -2,21 +2,56 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-03 19:10+0330\n"
-"PO-Revision-Date: 2012-02-03 19:10+0330\n"
+"POT-Creation-Date: 2012-03-12 00:44+0330\n"
+"PO-Revision-Date: 2012-03-12 00:44+0330\n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content\\plugins\\wp-statistics\n"
+"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content\\plugins\\wp-statistics\n"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:11
+msgid "Added"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:11
+msgid "value"
+msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:12
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:19
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:79
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:825
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1095
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1248
+msgid "Total Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:18
+msgid "Was"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:18
+msgid "low value"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:22
 msgid "Please Enter value!"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:18
+msgid "Thanks for your report!"
 msgstr ""
 
 #: F:\Program
@@ -25,457 +60,596 @@ msgid "Error! Please Enter all field"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
-msgid "Are you sure?"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:44
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:47
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:50
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:53
+msgid "deleted!"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:546
-msgid "Configuration"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:57
+msgid "All plugin data is deleted"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:551
-msgid "Enable Statistics"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:58
+msgid "Disable plugin"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:555
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:573
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:583
-msgid "Yes"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:60
+msgid "plugin options have been deleted"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:559
-msgid "Statistics are enabled."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:561
-msgid "Statistics are disabled!"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:566
-msgid "General configuration"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:569
-msgid "Show decimals number"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:575
-msgid "Show number stats with decimal. For examle: 3,500"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:579
-msgid "Show stats in menu bar"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:585
-msgid "Show stats in admin menu bar"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:589
-msgid "Online user check time"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
-msgid "Each"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
-msgid "Compute min"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:595
-msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:599
-msgid "Increase value of the total hits"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:602
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:612
-msgid "Done"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:605
-msgid "Your total visit sum with this value"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:609
-msgid "Reduction value of the total hits"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
-msgid "Your total visit minus with this value"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:619
-msgid "Number item for show Statistics"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:622
-msgid "Default 5"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
-msgid "Number for submit item in Database and show that"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:627
-msgid "Live Statistics configuration"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
-msgid "Database check time"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:634
-msgid "Minute updates"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:637
-msgid "Recommended"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:638
-msgid "Due to pressure on the server, Be set up on time. Default 1 min."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:642
-msgid "Pagerank configuration"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:645
-msgid "Your url for Google pagerank check"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:650
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:660
-msgid "If this input is empty, The website url uses"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:655
-msgid "Your url for Alexa pagerank check"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:666
-msgid "About plugin"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:667
-msgid "Plugin Version"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:667
-msgid "Free!"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:669
-msgid "Get Premium version"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
-msgid "This plugin created by"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
-msgid "from"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
-msgid "group"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:678
-msgid "Plugin translators"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:682
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:683
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
-msgid "Language"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:682
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:683
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
-msgid "by"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:689
-msgid "for translate language files. please send files for"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:692
-msgid "Show Functions"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:693
-msgid "Report Problem"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:706
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:722
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:914
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1139
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:64
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:797
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:813
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1005
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1047
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1230
 msgid "User Online"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:710
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1142
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:69
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:801
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1055
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1233
 msgid "Today Visit"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:714
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1145
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:74
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:805
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1236
 msgid "Yesterday visit"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:718
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1148
-msgid "Week Visit"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:84
+msgid "Plugin home page"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:726
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1151
-msgid "Month Visit"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:253
+#, php-format
+msgid "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> and enable statistics"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:730
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1154
-msgid "Years Visit"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:518
+msgid "Settings"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:734
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1157
-msgid "Total Visit"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:519
+msgid "Stats Log"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:738
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1160
-msgid "Search Engine reffered"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:520
+msgid "Users Online"
 msgstr ""
 
 #: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:528
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:926
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:983
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:609
+msgid "Are you sure?"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:621
+msgid "Configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:626
+msgid "Enable Statistics"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:648
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:658
+msgid "Yes"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:634
+msgid "Statistics are enabled."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:636
+msgid "Statistics are disabled!"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:641
+msgid "General configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:644
+msgid "Show decimals number"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:650
+msgid "Show number stats with decimal. For examle: 3,500"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:654
+msgid "Show stats in menu bar"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:660
+msgid "Show stats in admin menu bar"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:664
+msgid "Check for online users every"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:667
+msgid "Second"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:669
+msgid "Time for the check accurate online user in the site. Default: 60 Second"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:673
+msgid "Increase value of the total hits by"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
+msgid "Done"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:679
+msgid "Your total visit sum with this value"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:683
+msgid "Reduce value of the total hits by"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:689
+msgid "Your total visit minus with this value"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:693
+msgid "Number item for show Statistics"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:696
+msgid "Default 5"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:698
+msgid "Number for submit item in Database and show that"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:702
+msgid "Coefficient per visitor"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:705
+msgid "Default 1"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:707
+msgid "For each visitor to account for several hits."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:710
+msgid "Live Statistics configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:713
+msgid "Refresh Stats every"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:716
+msgid "Second(s)"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:719
+msgid "Recommended"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:720
+msgid "To reduce pressure on the server, this defaults to 10 sec"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:724
+msgid "Pagerank configuration"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:727
+msgid "Your url for Google pagerank check"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:732
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:742
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1178
-msgid "Total Posts"
+msgid "If empty. you website url is used"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:746
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1181
-msgid "Total Pages"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:737
+msgid "Your url for Alexa pagerank check"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:750
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1184
-msgid "Total Comments"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:748
+msgid "About plugin"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:754
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1187
-msgid "Total Spams"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:749
+msgid "Plugin Version"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:749
+msgid "Free!"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:751
+msgid "Get Premium version"
 msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:758
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1190
+msgid "This plugin created by"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:758
+msgid "from"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:758
+msgid "group"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:760
+msgid "Plugin translators"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:764
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:765
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:766
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:767
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:768
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:769
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
+msgid "Language"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:764
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:765
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:766
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:767
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:768
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:769
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
+msgid "by"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:772
+msgid "for translate language files. please send files for"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:775
+msgid "Show Functions"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:776
+msgid "Report Problem"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:789
+msgid "User Online Live"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:793
+msgid "Total Visit Live"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:809
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1071
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1239
+msgid "Week Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:817
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1079
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1242
+msgid "Month Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:821
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1087
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1245
+msgid "Years Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:829
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1103
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1251
+msgid "Search Engine reffered"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:833
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1119
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1269
+msgid "Total Posts"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:837
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1127
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1272
+msgid "Total Pages"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:841
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1135
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1275
+msgid "Total Comments"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:845
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1143
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1278
+msgid "Total Spams"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:849
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1151
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1281
 msgid "Total Users"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:762
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1202
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:853
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1183
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1293
 msgid "Last Post Date"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:766
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1193
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:857
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1159
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1284
 msgid "Average Posts"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1196
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:861
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1167
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1287
 msgid "Average Comments"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:774
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1199
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:865
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1175
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1290
 msgid "Average Users"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:778
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:869
 msgid "Total Feedburner Subscribe"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:782
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:873
 msgid "Google Pagerank"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:786
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:877
 msgid "Alexa Pagerank"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:790
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:800
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:881
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:891
 msgid "Hide"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:794
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:885
 msgid "Your Name"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:796
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:887
 msgid "Description Problem"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:799
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:890
 msgid "Send Problem"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:807
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:898
 msgid "Unistall plugin"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:813
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:904
 msgid "Delete all data, including tables and plugin options"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:814
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:905
 msgid "Uninstall"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:824
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:915
 msgid "Update"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:857
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:948
 msgid "Stats weblog"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1132
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:959
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1016
+msgid "No"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:960
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1017
+msgid "IP"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:961
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1018
+msgid "Time"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:962
+msgid "Referred"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:963
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1020
+msgid "Agent"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1019
+msgid "Referrer"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1063
+msgid "Yesterday Visit"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1223
 msgid "Name"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1136
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1227
 msgid "Items"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1163
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1254
 msgid "Select type of search engine"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1165
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1256
 msgid "Google"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1168
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1259
 msgid "Yahoo!"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1171
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1262
 msgid "Bing"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1174
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1265
 msgid "All"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1205
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1296
 msgid "Type date for last update"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1207
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1298
 msgid "English"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1210
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1301
 msgid "Persian"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1332
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1334
+msgid "WP-Statistics"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1333
+msgid "Show site stats in sidebar"
 msgstr ""
 

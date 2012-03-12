@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.2.3
+Version: 2.2.4
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -32,6 +32,20 @@ License: GPL2
 	$get_referred	=	$_SERVER['HTTP_REFERER'];
 	$get_useragent	=	$_SERVER['HTTP_USER_AGENT'];
 	$get_userip		=	$_SERVER['REMOTE_ADDR'];
+
+	/* Live Statistics Varieble */
+	$database_checktime = get_option('database_checktime');
+	if(!$database_checktime)
+	{
+		$database_checktime = "10";
+	}
+
+	/* Coefficient Visitor */
+	$get_coefficient = get_option('coefficient_visitor');
+	if(!$get_coefficient)
+	{
+		$get_coefficient = "1";
+	}
 
 	function wp_statistics_menubar()
 	{
@@ -82,6 +96,8 @@ License: GPL2
 	{
 		global $wp_statistics_db_version, $table_prefix;
 		$table_visit	= $table_prefix."statistics_visits";
+		$table_visitors	= $table_prefix."statistics_visitors";
+		$table_profile	= $table_prefix."statistics_profile";
 		$table_dates	= $table_prefix."statistics_date";
 		$table_users	= $table_prefix."statistics_useronline";
 		$table_referred	= $table_prefix."statistics_reffered";
@@ -119,15 +135,13 @@ License: GPL2
 				time DATETIME,
 				agent char(255))");
 
-		if($create_visit_table) {
-			$primary_visit_value = ("INSERT INTO ".$table_visit."
-							(today, yesterday, week, month, year, total, google, yahoo, bing) VALUES
-							(0, 0, 0, 0, 0, 0, 0, 0, 0)");
+		$primary_visit_value = ("INSERT INTO ".$table_visit."
+						(today, yesterday, week, month, year, total, google, yahoo, bing) VALUES
+						(0, 0, 0, 0, 0, 0, 0, 0, 0)");
 
-			$primary_date_value = ("INSERT INTO ".$table_dates."
-							(last_counter, last_week, last_month, last_year, timestamp, last_visit) VALUES
-							('00-00-00', '".$get_week."', '".$get_month."', '".$get_year."', '".$time_1."', '".$get_date."')");
-		}					
+		$primary_date_value = ("INSERT INTO ".$table_dates."
+						(last_counter, last_week, last_month, last_year, timestamp, last_visit) VALUES
+						('00-00-00', '".$get_week."', '".$get_month."', '".$get_year."', '".$time_1."', '".$get_date."')");				
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
@@ -142,42 +156,57 @@ License: GPL2
 		add_option('wp_statistics_db_version', 'wp_statistics_db_version');
 	}
 
+	function wp_check_spider()
+	{
+		$spiders = array("Teoma", "alexa", "froogle", "Gigabot", "inktomi",
+		"looksmart", "URL_Spider_SQL", "Firefly", "NationalDirectory",
+		"Ask Jeeves", "TECNOSEEK", "InfoSeek", "WebFindBot", "girafabot",
+		"crawler", "www.galaxy.com", "Googlebot", "googlebot", "Scooter", "Slurp",
+		"msnbot", "appie", "FAST", "WebBug", "Spade", "ZyBorg", "rabaz",
+		"Baiduspider", "Feedfetcher-Google", "TechnoratiSnoop", "Rankivabot",
+		"Mediapartners-Google", "Sogou web spider", "WebAlta Crawler","TweetmemeBot",
+		"Butterfly","Twitturls","Me.dium","Twiceler");
+
+		foreach($spiders as $spider)
+		{
+			if(strpos($_SERVER['HTTP_USER_AGENT'], $spider) !== false)
+			return true;
+		}
+		return false;
+	}
+
 	function wp_statistics()
 	{
-		global $wpdb, $table_prefix, $get_date, $get_now, $get_week, $get_month, $get_year, $get_referred, $get_userip, $get_useragent;
+		global $wpdb, $table_prefix, $get_date, $get_now, $get_week, $get_month, $get_year, $get_referred, $get_userip, $get_useragent, $get_coefficient;
 
 		$get_dates_row = $wpdb->get_row("SELECT * FROM {$table_prefix}statistics_date");
 
-		if( ($get_dates_row->last_visit) != $get_date && !is_admin())
+		if( ($get_dates_row->last_visit) != $get_date && !is_admin() && !wp_check_spider())
 		{
-			if( ($get_dates_row->last_counter) == $get_now )
-			{
-				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET today = today+1, total = total+1");
+			if( ($get_dates_row->last_counter) == $get_now ) {
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET today = today+'".$get_coefficient."', total = total+'".$get_coefficient."'");
 				$wpdb->query("UPDATE {$table_prefix}statistics_date SET last_visit = '".$get_date."'");
 			} else {
-				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yesterday = today, total = total+1");
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yesterday = today, total = total+'".$get_coefficient."'");
 				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET today = 0");
 				$wpdb->query("UPDATE {$table_prefix}statistics_date SET last_counter = '".$get_now."', last_visit = '".$get_date."'");
 			}
-			if( ($get_dates_row->last_week) == $get_week )
-			{
-				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET week = week+1");
+			if( ($get_dates_row->last_week) == $get_week ) {
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET week = week+'".$get_coefficient."'");
 				$wpdb->query("UPDATE {$table_prefix}statistics_date SET last_week = '".$get_week."'");
 			} else {
 				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET week = 0");
 				$wpdb->query("UPDATE {$table_prefix}statistics_date SET last_week = '".$get_week."'");
 			}
-			if( ($get_dates_row->last_month) == $get_month )
-			{
-				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET month = month+1");
+			if( ($get_dates_row->last_month) == $get_month ) {
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET month = month+'".$get_coefficient."'");
 				$wpdb->query("UPDATE {$table_prefix}statistics_date SET last_month = '".$get_month."'");
 			} else {
 				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET month = 0");
 				$wpdb->query("UPDATE {$table_prefix}statistics_date SET last_month = '".$get_month."'");
 			}
-			if( ($get_dates_row->last_year) == $get_year )
-			{
-				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET year = year+1");
+			if( ($get_dates_row->last_year) == $get_year ) {
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET year = year+'".$get_coefficient."'");
 				$wpdb->query("UPDATE {$table_prefix}statistics_date SET last_year = '".$get_year."'");
 			} else {
 				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET year = 0");
@@ -185,15 +214,20 @@ License: GPL2
 			}
 		}
 
-		if(strstr($get_referred, 'google.com'))
+		if( ($get_dates_row->last_counter) == $get_now )
 		{
-			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET google = google+1");
-		} else if(strstr($get_referred, 'yahoo.com'))
-		{
-			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yahoo = yahoo+1");
-		} else if(strstr($get_referred, 'bing.com'))
-		{
-			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET bing = bing+1");
+			if(strstr($get_referred, 'google.com'))
+			{
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET google = google+1");
+			} else if(strstr($get_referred, 'yahoo.com')) {
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yahoo = yahoo+1");
+			} else if(strstr($get_referred, 'bing.com')) {
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET bing = bing+1");
+			}
+		} else {
+			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET google = 0");
+			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yahoo = 0");
+			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET bing = 0");
 		}
 
 		$get_items_statistics = get_option('items_statistics');
@@ -221,7 +255,7 @@ License: GPL2
 
 	if(get_option('enable_stats'))
 	{
-		add_action('init', 'wp_statistics');
+		add_action('wp_head', 'wp_statistics');
 	} else {
 		add_action('admin_notices', 'wp_statistics_not_enable');
 	}
@@ -232,13 +266,12 @@ License: GPL2
 		global $wpdb, $table_prefix, $get_date, $get_referred, $get_useragent, $get_userip;
 		$timestamp = date("U");
 
-		$get_time_useronline = get_option('time_useronline');
+		$get_time_useronline_s = get_option('time_useronline_s');
 
-		if(!$get_time_useronline)
+		if(!$get_time_useronline_s)
 		{
-			$get_time_useronline = '1'; // Default value for check accurate user online
+			$get_time_useronline_s = '60'; // Default value for check accurate user online
 		}
-		$get_time_useronline = $get_time_useronline * 30; // Per seconds.
 
 		$get_ip = $wpdb->get_var("SELECT * FROM {$table_prefix}statistics_useronline WHERE ip = '".$get_userip."'");
 		if($get_ip)
@@ -248,7 +281,7 @@ License: GPL2
 			$wpdb->query("INSERT INTO {$table_prefix}statistics_useronline(ip, timestamp, time, referred, agent) VALUES ('".$get_userip."', '".$timestamp."', '".$get_date."', '".$get_referred."', '".$get_useragent."')");
 		}
 
-		$time = $timestamp - $get_time_useronline;
+		$time = $timestamp - $get_time_useronline_s;
 		$wpdb->get_var("DELETE FROM {$table_prefix}statistics_useronline WHERE timestamp < '".$time."'");
 		
 		$get_users = $wpdb->get_var("SELECT COUNT(ip) FROM {$table_prefix}statistics_useronline");
@@ -347,6 +380,36 @@ License: GPL2
 			return $total_referred->google + $total_referred->yahoo + $total_referred->bing;
 		}
 	}
+
+	function wp_statistics_useronline_live(){ global $database_checktime; ?>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("span#show_useronline_live").load("<?php echo plugin_dir_url( __FILE__ );?>/wp-statistics-useronline-live.php");
+				setInterval(function(){
+					$("span#show_useronline_live").fadeOut(100);
+					$("span#show_useronline_live").load("<?php echo plugin_dir_url( __FILE__ );?>/wp-statistics-useronline-live.php");
+					$("span#show_useronline_live").fadeIn(100);
+				}, <?php echo $database_checktime ?>000);
+			});
+		</script>
+		<span id="show_useronline_live"></span>
+	<?php }
+
+	function wp_statistics_total_live(){ global $database_checktime; ?>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("span#show_totalvisit_live").load("<?php echo plugin_dir_url( __FILE__ );?>/wp-statistics-totalvisit-live.php");
+				setInterval(function(){
+					$("span#show_totalvisit_live").fadeOut(100);
+					$("span#show_totalvisit_live").load("<?php echo plugin_dir_url( __FILE__ );?>/wp-statistics-totalvisit-live.php");
+					$("span#show_totalvisit_live").fadeIn(100);
+				}, <?php echo $database_checktime ?>000);
+			});
+		</script>
+		<span id="show_totalvisit_live"></span>
+	<?php }
 
 	function wp_statistics_countposts($type=publish)
 	{
@@ -452,9 +515,9 @@ License: GPL2
 	{
 		if (function_exists('add_options_page'))
 		{
-			add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), 'manage_options', 'wp-statistics', 'wp_statistics_config_permission', plugin_dir_url( __FILE__ ).'/images/icon.png');
-			add_submenu_page( 'wp-statistics', __('Stats weblog', 'wp_statistics'), __('Stats weblog', 'wp_statistics'), 'manage_options', 'wp-statistics/stats', 'wp_statistics_stats_permission');
-			add_submenu_page( 'wp-statistics', __('User Online', 'wp_statistics'), __('User Online', 'wp_statistics'), 'manage_options', 'wp-statistics/online', 'wp_statistics_online_permission');
+			add_menu_page(__('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), 'manage_options', 'wp-statistics', 'wp_statistics_config_permission', plugin_dir_url( __FILE__ ).'/images/icon.png');
+			add_submenu_page( 'wp-statistics', __('Stats Log', 'wp_statistics'), __('Stats Log', 'wp_statistics'), 'manage_options', 'wp-statistics/stats', 'wp_statistics_stats_permission');
+			add_submenu_page( 'wp-statistics', __('Users Online', 'wp_statistics'), __('Users Online', 'wp_statistics'), 'manage_options', 'wp-statistics/online', 'wp_statistics_online_permission');
 		}
 	}
 
@@ -470,8 +533,10 @@ License: GPL2
 				register_setting('wp_statistics_options', 'enable_stats');
 				register_setting('wp_statistics_options', 'enable_decimals');
 				register_setting('wp_statistics_options', 'enable_wps_adminbar');
-				register_setting('wp_statistics_options', 'time_useronline');
+				register_setting('wp_statistics_options', 'time_useronline_s');
 				register_setting('wp_statistics_options', 'items_statistics');
+				register_setting('wp_statistics_options', 'coefficient_visitor');
+				register_setting('wp_statistics_options', 'database_checktime');
 				register_setting('wp_statistics_options', 'pagerank_google_url');
 				register_setting('wp_statistics_options', 'pagerank_alexa_url');
 			}
@@ -480,7 +545,8 @@ License: GPL2
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("span#increase_total_visit").click(function(){
+			$("span#increase_total_visit").click(function()
+			{
 				var total_increase_value = $("input#increase_total_visit").val();
 				$("input#increase_total_visit").attr("disabled", "disabled");
 				$("span#increase_total_visit").attr("disabled", "disabled");
@@ -492,7 +558,8 @@ License: GPL2
 				});
 			});
 
-			$("span#reduction_total_visit").click(function(){
+			$("span#reduction_total_visit").click(function()
+			{
 				var total_reduction_value = $("input#reduction_total_visit").val();
 				$("input#reduction_total_visit").attr("disabled", "disabled");
 				$("span#reduction_total_visit").attr("disabled", "disabled");
@@ -504,37 +571,45 @@ License: GPL2
 				});
 			});
 
-			$("span#show_function").click(function(){
+			$("span#show_function").click(function()
+			{
 				$("div#report_problem").slideUp(1000);
-				$("ul#functions_list").slideDown(1000, function(){
+				$("ul#functions_list").slideDown(1000, function()
+				{
 					$("ul#functions_list code").fadeIn(1000);
 				});
 			});
 			
-			$("span#hide_function").click(function(){
+			$("span#hide_function").click(function()
+			{
 				$("ul#functions_list").slideUp(1000);
 			});	
 
-			$("span#hide_report").click(function(){
+			$("span#hide_report").click(function()
+			{
 				$("div#report_problem").slideUp(1000);
 			});
 
-			$("span#report_problem").click(function(){
+			$("span#report_problem").click(function()
+			{
 				$("ul#functions_list").slideUp(1000);
 				$("div#report_problem").slideDown(1000);
 			});
 
-			$("span#send_report").click(function(){
+			$("span#send_report").click(function()
+			{
 				var your_name = $("input#your_name").val();
 				var your_report = $("textarea#your_report").val();
 				$("div#result_problem").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
 				$("div#result_problem").load("<?php echo plugin_dir_url( __FILE__ );?>/report_problem.php", {y_name:your_name, d_report:your_report});
 			});
 
-			$("span#uninstall").click(function(){
+			$("span#uninstall").click(function()
+			{
 				var uninstall = confirm("<?php _e('Are you sure?', 'wp_statistics'); ?>");
 
-				if(uninstall) {
+				if(uninstall)
+				{
 					$("div#result_uninstall").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
 					$("div#result_uninstall").load('<?php echo plugin_dir_url(__FILE__); ?>/uninstall.php');
 				}
@@ -586,17 +661,16 @@ License: GPL2
 		</tr>
 
 		<tr>
-			<td><?php _e('Online user check time', 'wp_statistics'); ?>:</td>
+			<td><?php _e('Check for online users every', 'wp_statistics'); ?>:</td>
 			<td>
-				<span style="font-size:10px;"><?php _e('Each', 'wp_statistics'); ?></span>
-				<input type="text" name="time_useronline" style="direction:ltr; width:60px" maxlength="3" value="<?php echo get_option('time_useronline'); ?>"/>
-				<span style="font-size:10px;"><?php _e('Compute min', 'wp_statistics'); ?></span>
+				<input type="text" name="time_useronline_s" style="direction:ltr; width:60px" maxlength="3" value="<?php echo get_option('time_useronline_s'); ?>"/>
+				<span style="font-size:10px;"><?php _e('Second', 'wp_statistics'); ?></span>
 			</td>
-			<td><span style="font-size:11px;">(<?php _e('Time for the check accurate online user in the site. Default: 5 Minutes', 'wp_statistics'); ?>)</span></td>
+			<td><span style="font-size:11px;">(<?php _e('Time for the check accurate online user in the site. Default: 60 Second', 'wp_statistics'); ?>)</span></td>
 		</tr>
 
 		<tr>
-			<td><?php _e('Increase value of the total hits', 'wp_statistics'); ?>:</td>
+			<td><?php _e('Increase value of the total hits by', 'wp_statistics'); ?>:</td>
 			<td>
 				<input type="text" name="increase_total_visit" id="increase_total_visit" style="direction:ltr; width:100px" maxlength="10"/>
 				<span class="button" id="increase_total_visit" style="width:50px;"><?php _e('Done', 'wp_statistics'); ?></span>
@@ -606,7 +680,7 @@ License: GPL2
 		</tr>
 
 		<tr>
-			<td><?php _e('Reduction value of the total hits', 'wp_statistics'); ?>:</td>
+			<td><?php _e('Reduce value of the total hits by', 'wp_statistics'); ?>:</td>
 			<td>
 				<input type="text" name="reduction_total_visit" id="reduction_total_visit" style="direction:ltr; width:100px" maxlength="10"/>
 				<span class="button" id="reduction_total_visit" style="width:50px;"><?php _e('Done', 'wp_statistics'); ?></span>
@@ -624,18 +698,26 @@ License: GPL2
 			<td><span style="font-size:11px;">(<?php _e('Number for submit item in Database and show that', 'wp_statistics'); ?>)</span></td>
 		</tr>
 
+		<tr>
+			<td><?php _e('Coefficient per visitor', 'wp_statistics'); ?>:</td>
+			<td>
+				<input type="text" name="coefficient_visitor" style="direction:ltr; width:70px" maxlength="3" value="<?php echo get_option('coefficient_visitor'); ?>"/>
+				<span style="font-size:10px;"><?php _e('Default 1', 'wp_statistics'); ?></span>
+			</td>
+			<td><span style="font-size:11px;">(<?php _e('For each visitor to account for several hits.', 'wp_statistics'); ?>)</span></td>
+		</tr>
+
 		<tr><th><h3><?php _e('Live Statistics configuration', 'wp_statistics'); ?></h4></th></tr>
 
 		<tr>
-			<td><?php _e('Database check time', 'wp_statistics'); ?>:</td>
+			<td><?php _e('Refresh Stats every', 'wp_statistics'); ?>:</td>
 			<td>
-				<span style="font-size:10px;"><?php _e('Each', 'wp_statistics'); ?></span>
-				<input type="text" style="direction:ltr; width:60px" maxlength="3" disabled="disable"/>
-				<span style="font-size:10px;"><?php _e('Minute updates', 'wp_statistics'); ?></span>
+				<input type="text" name="database_checktime" style="direction:ltr; width:60px" maxlength="3" value="<?php echo get_option('database_checktime'); ?>"/>
+				<span style="font-size:10px;"><?php _e('Second(s)', 'wp_statistics'); ?></span>
 			</td>
 			<td>
 				<span style="font-size:11px; color:#FF0000;"><?php _e('Recommended', 'wp_statistics'); ?></span>
-				<span style="font-size:11px;">(<?php _e('Due to pressure on the server, Be set up on time. Default 1 min.', 'wp_statistics'); ?>)</span>
+				<span style="font-size:11px;">(<?php _e('To reduce pressure on the server, this defaults to 10 sec', 'wp_statistics'); ?>.)</span>
 			</td>
 		</tr>
 
@@ -647,7 +729,7 @@ License: GPL2
 				<input type="text" name="pagerank_google_url" style="direction:ltr; width:200px" value="<?php echo get_option('pagerank_google_url'); ?>"/>
 			</td>
 			<td>
-				<span style="font-size:11px;">(<?php _e('If this input is empty, The website url uses', 'wp_statistics'); ?>)</span>
+				<span style="font-size:11px;">(<?php _e('If empty. you website url is used', 'wp_statistics'); ?>)</span>
 			</td>
 		</tr>
 
@@ -657,18 +739,8 @@ License: GPL2
 				<input type="text" name="pagerank_alexa_url" style="direction:ltr; width:200px" value="<?php echo get_option('pagerank_alexa_url'); ?>"/>
 			</td>
 			<td>
-				<span style="font-size:11px;">(<?php _e('If this input is empty, The website url uses', 'wp_statistics'); ?>)</span>
+				<span style="font-size:11px;">(<?php _e('If empty. you website url is used', 'wp_statistics'); ?>)</span>
 			</td>
-		</tr>
-
-		<tr>
-			<th colspan="2">
-				<h3><?php _e('About plugin', 'wp_statistics'); ?></h4>
-				<?php _e('Plugin Version', 'wp_statistics'); ?>: <?php _e('Free!', 'wp_statistics'); ?>
-				<a href="http://www.wpbazar.com/products/wp-statistics-premium">
-					<span style="font-size:10px; color:#009900;"><?php _e('Get Premium version', 'wp_statistics'); ?></span>
-				</a>
-			</th>
 		</tr>
 
 		<tr>
@@ -685,6 +757,7 @@ License: GPL2
 				<li><?php _e('Language', 'wp_statistics'); ?> Russian <?php _e('by', 'wp_statistics'); ?> <a href="http://www.iflexion.com/">Igor Dubilej</a></li>
 				<li><?php _e('Language', 'wp_statistics'); ?> Spanish <?php _e('by', 'wp_statistics'); ?> <a href="mailto:joanfusan@gmail.com">jose</a></li>
 				<li><?php _e('Language', 'wp_statistics'); ?> Arabic <?php _e('by', 'wp_statistics'); ?> <a href="http://www.facebook.com/aboHatim">Hammad Shammari</a></li>
+				<li><?php _e('Language', 'wp_statistics'); ?> German <?php _e('by', 'wp_statistics'); ?> <a href="http://www.andreasmartin.com/">Andreas Martin</a></li>
 			</ul>
 			<?php _e('for translate language files. please send files for', 'wp_statistics'); ?> <code>mst404@gmail.com</code>
 
@@ -702,6 +775,14 @@ License: GPL2
 			</style>
 			<ul id="functions_list">
 				<table>
+					<tr>
+						<td><?php _e('User Online Live', 'wp_statistics'); ?></td>
+						<td><code><?php highlight_string('<?php echo wp_statistics_useronline_live(); ?>'); ?></code></td>
+					</tr>
+					<tr>
+						<td><?php _e('Total Visit Live', 'wp_statistics'); ?></td>
+						<td><code><?php highlight_string('<?php echo wp_statistics_total_live(); ?>'); ?></code></td>
+					</tr>
 					<tr>
 						<td><?php _e('User Online', 'wp_statistics'); ?></td>
 						<td><code><?php highlight_string('<?php echo wp_statistics_useronline(); ?>'); ?></code></td>
@@ -820,7 +901,7 @@ License: GPL2
 			<td>
 				<p class="submit">
 				<input type="hidden" name="action" value="update" />
-				<input type="hidden" name="page_options" value="enable_stats,enable_decimals,enable_wps_adminbar,time_useronline,items_statistics,pagerank_google_url,pagerank_alexa_url" />
+				<input type="hidden" name="page_options" value="enable_stats,enable_decimals,enable_wps_adminbar,time_useronline_s,items_statistics,coefficient_visitor,database_checktime,pagerank_google_url,pagerank_alexa_url" />
 				<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp_statistics'); ?>" />
 				</p>
 			</td>
@@ -838,7 +919,7 @@ License: GPL2
 			font-size: 12px;
 			line-height: 20px;
 			margin-bottom: 9px;
-			max-width: 500px;
+			max-width: 440px;
 			overflow: hidden;
 			padding: 8px 10px;
 			white-space: nowrap;
@@ -895,7 +976,7 @@ License: GPL2
 			font-size: 12px;
 			line-height: 20px;
 			margin-bottom: 9px;
-			max-width: 500px;
+			max-width: 440px;
 			overflow: hidden;
 			padding: 8px 10px;
 			white-space: nowrap;
@@ -925,7 +1006,7 @@ License: GPL2
 					echo "<td width='5'>".__('No', 'wp_statistics')."</td>";
 					echo "<td>".__('IP', 'wp_statistics')."</td>";
 					echo "<td>".__('Time', 'wp_statistics')."</td>";
-					echo "<td>".__('Referred', 'wp_statistics')."</td>";
+					echo "<td>".__('Referrer', 'wp_statistics')."</td>";
 					echo "<td>".__('Agent', 'wp_statistics')."</td>";
 				echo "</tr>";
 
