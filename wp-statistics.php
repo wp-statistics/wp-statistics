@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.2.4
+Version: 2.2.5
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -214,8 +214,24 @@ License: GPL2
 			}
 		}
 
-		if( ($get_dates_row->last_counter) == $get_now )
+		if(get_option('daily_referer'))
 		{
+			if( ($get_dates_row->last_counter) == $get_now )
+			{
+				if(strstr($get_referred, 'google.com'))
+				{
+					$wpdb->query("UPDATE {$table_prefix}statistics_visits SET google = google+1");
+				} else if(strstr($get_referred, 'yahoo.com')) {
+					$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yahoo = yahoo+1");
+				} else if(strstr($get_referred, 'bing.com')) {
+					$wpdb->query("UPDATE {$table_prefix}statistics_visits SET bing = bing+1");
+				}
+			} else {
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET google = 0");
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yahoo = 0");
+				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET bing = 0");
+			}
+		} else {
 			if(strstr($get_referred, 'google.com'))
 			{
 				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET google = google+1");
@@ -224,10 +240,6 @@ License: GPL2
 			} else if(strstr($get_referred, 'bing.com')) {
 				$wpdb->query("UPDATE {$table_prefix}statistics_visits SET bing = bing+1");
 			}
-		} else {
-			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET google = 0");
-			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET yahoo = 0");
-			$wpdb->query("UPDATE {$table_prefix}statistics_visits SET bing = 0");
 		}
 
 		$get_items_statistics = get_option('items_statistics');
@@ -516,6 +528,7 @@ License: GPL2
 		if (function_exists('add_options_page'))
 		{
 			add_menu_page(__('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), 'manage_options', 'wp-statistics', 'wp_statistics_config_permission', plugin_dir_url( __FILE__ ).'/images/icon.png');
+			add_submenu_page( 'wp-statistics', __('Stats Log', 'wp_statistics'), __('Stats Log', 'wp_statistics'), 'manage_options', 'wp-statistics/stats', 'wp_statistics_config_permission');
 			add_submenu_page( 'wp-statistics', __('Stats Log', 'wp_statistics'), __('Stats Log', 'wp_statistics'), 'manage_options', 'wp-statistics/stats', 'wp_statistics_stats_permission');
 			add_submenu_page( 'wp-statistics', __('Users Online', 'wp_statistics'), __('Users Online', 'wp_statistics'), 'manage_options', 'wp-statistics/online', 'wp_statistics_online_permission');
 		}
@@ -542,76 +555,75 @@ License: GPL2
 			}
 		}?>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
-			$("span#increase_total_visit").click(function()
+		jQuery(document).ready(function(){
+			jQuery("span#increase_total_visit").click(function()
 			{
-				var total_increase_value = $("input#increase_total_visit").val();
-				$("input#increase_total_visit").attr("disabled", "disabled");
-				$("span#increase_total_visit").attr("disabled", "disabled");
-				$("div#result_increase_total_visit").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
-				$.post("<?php echo plugin_dir_url( __FILE__ );?>/actions.php",{increase_value:total_increase_value},function(result){
-				$("div#result_increase_total_visit").html(result);
-				$("input#increase_total_visit").removeAttr("disabled");
-				$("span#increase_total_visit").removeAttr("disabled");
+				var total_increase_value = jQuery("input#increase_total_visit").val();
+				jQuery("input#increase_total_visit").attr("disabled", "disabled");
+				jQuery("span#increase_total_visit").attr("disabled", "disabled");
+				jQuery("div#result_increase_total_visit").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
+				jQuery.post("<?php echo plugin_dir_url( __FILE__ );?>/actions.php",{increase_value:total_increase_value},function(result){
+				jQuery("div#result_increase_total_visit").html(result);
+				jQuery("input#increase_total_visit").removeAttr("disabled");
+				jQuery("span#increase_total_visit").removeAttr("disabled");
 				});
 			});
 
-			$("span#reduction_total_visit").click(function()
+			jQuery("span#reduction_total_visit").click(function()
 			{
-				var total_reduction_value = $("input#reduction_total_visit").val();
-				$("input#reduction_total_visit").attr("disabled", "disabled");
-				$("span#reduction_total_visit").attr("disabled", "disabled");
-				$("div#result_reduction_total_visit").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
-				$.post("<?php echo plugin_dir_url( __FILE__ );?>/actions.php",{reduction_value:total_reduction_value},function(result){
-				$("div#result_reduction_total_visit").html(result);
-				$("input#reduction_total_visit").removeAttr("disabled");
-				$("span#reduction_total_visit").removeAttr("disabled");
+				var total_reduction_value = jQuery("input#reduction_total_visit").val();
+				jQuery("input#reduction_total_visit").attr("disabled", "disabled");
+				jQuery("span#reduction_total_visit").attr("disabled", "disabled");
+				jQuery("div#result_reduction_total_visit").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
+				jQuery.post("<?php echo plugin_dir_url( __FILE__ );?>/actions.php",{reduction_value:total_reduction_value},function(result){
+				jQuery("div#result_reduction_total_visit").html(result);
+				jQuery("input#reduction_total_visit").removeAttr("disabled");
+				jQuery("span#reduction_total_visit").removeAttr("disabled");
 				});
 			});
 
-			$("span#show_function").click(function()
+			jQuery("span#show_function").click(function()
 			{
-				$("div#report_problem").slideUp(1000);
-				$("ul#functions_list").slideDown(1000, function()
+				jQuery("div#report_problem").slideUp(1000);
+				jQuery("ul#functions_list").slideDown(1000, function()
 				{
-					$("ul#functions_list code").fadeIn(1000);
+					jQuery("ul#functions_list code").fadeIn(1000);
 				});
 			});
 			
-			$("span#hide_function").click(function()
+			jQuery("span#hide_function").click(function()
 			{
-				$("ul#functions_list").slideUp(1000);
+				jQuery("ul#functions_list").slideUp(1000);
 			});	
 
-			$("span#hide_report").click(function()
+			jQuery("span#hide_report").click(function()
 			{
-				$("div#report_problem").slideUp(1000);
+				jQuery("div#report_problem").slideUp(1000);
 			});
 
-			$("span#report_problem").click(function()
+			jQuery("span#report_problem").click(function()
 			{
-				$("ul#functions_list").slideUp(1000);
-				$("div#report_problem").slideDown(1000);
+				jQuery("ul#functions_list").slideUp(1000);
+				jQuery("div#report_problem").slideDown(1000);
 			});
 
-			$("span#send_report").click(function()
+			jQuery("span#send_report").click(function()
 			{
-				var your_name = $("input#your_name").val();
-				var your_report = $("textarea#your_report").val();
-				$("div#result_problem").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
-				$("div#result_problem").load("<?php echo plugin_dir_url( __FILE__ );?>/report_problem.php", {y_name:your_name, d_report:your_report});
+				var your_name = jQuery("input#your_name").val();
+				var your_report = jQuery("textarea#your_report").val();
+				jQuery("div#result_problem").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
+				jQuery("div#result_problem").load("<?php echo plugin_dir_url( __FILE__ );?>/report_problem.php", {y_name:your_name, d_report:your_report});
 			});
 
-			$("span#uninstall").click(function()
+			jQuery("span#uninstall").click(function()
 			{
 				var uninstall = confirm("<?php _e('Are you sure?', 'wp_statistics'); ?>");
 
 				if(uninstall)
 				{
-					$("div#result_uninstall").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
-					$("div#result_uninstall").load('<?php echo plugin_dir_url(__FILE__); ?>/uninstall.php');
+					jQuery("div#result_uninstall").html("<img src='<?php echo plugin_dir_url( __FILE__ ); ?>images/loading.gif'/>");
+					jQuery("div#result_uninstall").load('<?php echo plugin_dir_url(__FILE__); ?>/uninstall.php');
 				}
 			});
 		});
@@ -661,6 +673,15 @@ License: GPL2
 		</tr>
 
 		<tr>
+			<td><?php _e('Daily referer of search engines', 'wp_statistics'); ?>:</td>	
+			<td>
+				<input type="checkbox" name="daily_referer" id="daily_referer" <?php echo get_option('daily_referer') == true ? "checked='checked'" : '';?>/>
+				<label for="daily_referer"><?php _e('Yes', 'wp_statistics'); ?></label>
+			</td>
+			<td><span style="font-size:11px;">(<?php _e('Can be calculated daily or total search engines', 'wp_statistics'); ?>)</span></td>
+		</tr>
+
+		<tr>
 			<td><?php _e('Check for online users every', 'wp_statistics'); ?>:</td>
 			<td>
 				<input type="text" name="time_useronline_s" style="direction:ltr; width:60px" maxlength="3" value="<?php echo get_option('time_useronline_s'); ?>"/>
@@ -707,6 +728,14 @@ License: GPL2
 			<td><span style="font-size:11px;">(<?php _e('For each visitor to account for several hits.', 'wp_statistics'); ?>)</span></td>
 		</tr>
 
+		<tr>
+			<td><?php _e('The CSS Class for the containing widget', 'wp_statistics'); ?>:</td>	
+			<td>
+				<input type="text" name="widget_css_class" style="direction:ltr; width:200px" value="<?php echo get_option('widget_css_class'); ?>"/>
+			</td>
+			<td><span style="font-size:11px;">(<?php _e('If empty. class="widget" will be used', 'wp_statistics'); ?>)</span></td>
+		</tr>
+
 		<tr><th><h3><?php _e('Live Statistics configuration', 'wp_statistics'); ?></h4></th></tr>
 
 		<tr>
@@ -740,6 +769,16 @@ License: GPL2
 			</td>
 			<td>
 				<span style="font-size:11px;">(<?php _e('If empty. you website url is used', 'wp_statistics'); ?>)</span>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<p class="submit">
+				<input type="hidden" name="action" value="update" />
+				<input type="hidden" name="page_options" value="enable_stats,enable_decimals,enable_wps_adminbar,daily_referer,time_useronline_s,items_statistics,coefficient_visitor,database_checktime,widget_css_class,pagerank_google_url,pagerank_alexa_url" />
+				<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp_statistics'); ?>" />
+				</p>
 			</td>
 		</tr>
 
@@ -896,16 +935,6 @@ License: GPL2
 				<div id="result_uninstall"></div>
 			</th>
 		</tr>
-
-		<tr>
-			<td>
-				<p class="submit">
-				<input type="hidden" name="action" value="update" />
-				<input type="hidden" name="page_options" value="enable_stats,enable_decimals,enable_wps_adminbar,time_useronline_s,items_statistics,coefficient_visitor,database_checktime,pagerank_google_url,pagerank_alexa_url" />
-				<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp_statistics'); ?>" />
-				</p>
-			</td>
-		</tr>
 	</form>	
 	</table>
 	</div>
@@ -1028,7 +1057,15 @@ License: GPL2
 function wp_statistics_show_widget($args)
 {
 	extract($args);
-	echo "<li class='widget'>";
+	$container_css_class = get_option('widget_css_class');
+	if($container_css_class)
+	{
+		echo "<div class='$container_css_class'>";
+	}
+	else
+	{
+		echo "<div class='widget'>";
+	}
 	echo $before_title . get_option('name_widget') . $after_title;
 		echo "<ul>";
 		if(get_option('useronline_widget'))
