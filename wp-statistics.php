@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.2.5
+Version: 2.2.6
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -527,8 +527,8 @@ License: GPL2
 	{
 		if (function_exists('add_options_page'))
 		{
-			add_menu_page(__('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), 'manage_options', 'wp-statistics', 'wp_statistics_config_permission', plugin_dir_url( __FILE__ ).'/images/icon.png');
-			add_submenu_page( 'wp-statistics', __('Stats Log', 'wp_statistics'), __('Stats Log', 'wp_statistics'), 'manage_options', 'wp-statistics/stats', 'wp_statistics_config_permission');
+			add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), 'manage_options', 'wp-statistics', 'wp_statistics_config_permission', plugin_dir_url( __FILE__ ).'/images/icon.png');
+			add_submenu_page( 'wp-statistics', __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), 'manage_options', 'wp-statistics', 'wp_statistics_config_permission');
 			add_submenu_page( 'wp-statistics', __('Stats Log', 'wp_statistics'), __('Stats Log', 'wp_statistics'), 'manage_options', 'wp-statistics/stats', 'wp_statistics_stats_permission');
 			add_submenu_page( 'wp-statistics', __('Users Online', 'wp_statistics'), __('Users Online', 'wp_statistics'), 'manage_options', 'wp-statistics/online', 'wp_statistics_online_permission');
 		}

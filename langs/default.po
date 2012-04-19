@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-18 23:20+0330\n"
-"PO-Revision-Date: 2012-04-18 23:20+0330\n"
+"POT-Creation-Date: 2012-04-20 00:00+0330\n"
+"PO-Revision-Date: 2012-04-20 00:00+0330\n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -127,11 +127,15 @@ msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:530
-msgid "Settings"
+msgid "Statistics"
 msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:531
+msgid "Settings"
+msgstr ""
+
+#: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:532
 msgid "Stats Log"
 msgstr ""
