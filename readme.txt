@@ -4,7 +4,7 @@ Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 2.2.6
+Stable tag: 2.2.7
 
 Summary statistics of blog.
 
@@ -123,6 +123,12 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
 
 == Upgrade Notice ==
+= 2.2.7 =
+* Fix problem in widget class.
+* Redundancy in Arabic translation.
+* Fix problem in [countposts] shortcode.
+* Optimized Style Reports.
+
 = 2.2.6 =
 * Fix a small problem.
 
@@ -219,6 +225,12 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.2.7 =
+* Fix problem in widget class.
+* Redundancy in Arabic translation.
+* Fix problem in [countposts] shortcode.
+* Optimized Style Reports.
+
 = 2.2.6 =
 * Fix a small problem.
 

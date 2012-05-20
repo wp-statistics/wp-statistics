@@ -1,483 +1,670 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Statistics in Arabic\n"
+"Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-03 19:10+0330\n"
-"PO-Revision-Date: 2012-02-04 16:15+0300\n"
-"Last-Translator: Hammad Alshammari <falcon@mail.net.sa>\n"
-"Language-Team: Hammad Alshammari <falcon@mail.net.sa>\n"
+"POT-Creation-Date: 2012-04-20 00:00+0330\n"
+"PO-Revision-Date: 2012-03-07 00:12+0330\n"
+"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
+"Language-Team: ABU HATIM <al3zz.com@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
 "X-Poedit-Language: Arabic\n"
-"X-Poedit-Basepath: .\n"
+"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content\\plugins\\wp-statistics\n"
 "X-Poedit-Country: SAUDI ARABIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content\\plugins\\wp-statistics\n"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:12
-msgid "Please Enter value!"
-msgstr "الرجاء أدخل قيمة!"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:14
+msgid "Added"
+msgstr "أضيفت"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:20
-msgid "Error! Please Enter all field"
-msgstr "خطأ! الرجاء إدخال جميع الحقول"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:14
+msgid "value"
+msgstr "قيمة"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
-msgid "Are you sure?"
-msgstr "هل أنت متأكد؟"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:546
-msgid "Configuration"
-msgstr "التكوين"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:551
-msgid "Enable Statistics"
-msgstr "تمكين الاحصائيات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:555
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:573
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:583
-msgid "Yes"
-msgstr "نعم"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:559
-msgid "Statistics are enabled."
-msgstr "تم تمكين الإحصائيات."
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:561
-msgid "Statistics are disabled!"
-msgstr "الإحصائيات معطلة!"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:566
-msgid "General configuration"
-msgstr "التكوين العام"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:569
-msgid "Show decimals number"
-msgstr "عرض عدد عشرى"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:575
-msgid "Show number stats with decimal. For examle: 3,500"
-msgstr "إظهار ارقام الاحصائيات بالشكل العشري. مثال: 3,500"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:579
-msgid "Show stats in menu bar"
-msgstr "إظهار الاحصائيات في شريط القوائم"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:585
-msgid "Show stats in admin menu bar"
-msgstr "اظهار الاحصائيات في شريط القوائم الإداري"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:589
-msgid "Online user check time"
-msgstr "وقت فحص المتواجدين الآن"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:632
-msgid "Each"
-msgstr "كل"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
-msgid "Compute min"
-msgstr "الحساب بالدقيقة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:595
-msgid "Time for the check accurate online user in the site. Default: 5 Minutes"
-msgstr "الوقت المستخدم لفحص المتواجدين الآن في الموقع. الافتراضي: 5 دقائق"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:599
-msgid "Increase value of the total hits"
-msgstr "زيادة قيمة كل الزيارات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:602
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:612
-msgid "Done"
-msgstr "تم"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:605
-msgid "Your total visit sum with this value"
-msgstr "ضع القيمة هنا لزيادة المجموع الكلي للزيارات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:609
-msgid "Reduction value of the total hits"
-msgstr "تخفيض قيمة كل الزيارات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:615
-msgid "Your total visit minus with this value"
-msgstr "ضع القيمة هنا لتقليص المجموع الكلي من الزيارات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:619
-msgid "Number item for show Statistics"
-msgstr "عدد البندو الظاهرة في الاحصائيات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:622
-msgid "Default 5"
-msgstr "الافتراضي 5"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
-msgid "Number for submit item in Database and show that"
-msgstr "ضع عدد البنود المراد ظهورها في الاحصائيات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:627
-msgid "Live Statistics configuration"
-msgstr "إعدادات الاحصائيات المباشرة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
-msgid "Database check time"
-msgstr "وقت فحص قاعدة البيانات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:634
-msgid "Minute updates"
-msgstr "التحديث بالدقيقة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:637
-msgid "Recommended"
-msgstr "موصى به"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:638
-msgid "Due to pressure on the server, Be set up on time. Default 1 min."
-msgstr "لما يسببه من الضغط على الخادم, نوصي بوضع القيمة الافتراضية وهي: 1 دقيقة."
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:642
-msgid "Pagerank configuration"
-msgstr "اعدادات البيج رانك"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:645
-msgid "Your url for Google pagerank check"
-msgstr "رابط الفحص الخاص بك لجوجل بيج رانك"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:650
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:660
-msgid "If this input is empty, The website url uses"
-msgstr "اذا كان هذه القيمة فارغة, سيتم استخدام رابط الموقع"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:655
-msgid "Your url for Alexa pagerank check"
-msgstr "رابط الفحص الخاص بك لـ Alexa بيج رانك"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:666
-msgid "About plugin"
-msgstr "حول البرنامج المساعد"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:667
-msgid "Plugin Version"
-msgstr "رقم النسخة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:667
-msgid "Free!"
-msgstr "مجاني!"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:669
-msgid "Get Premium version"
-msgstr "أحصل على النسخة المدفوعة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
-msgid "This plugin created by"
-msgstr "هذه الإضافة تم إنشاؤها بواسطة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
-msgid "from"
-msgstr "من"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
-msgid "group"
-msgstr "مجموعة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:678
-msgid "Plugin translators"
-msgstr "مترجمين الإضافة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:682
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:683
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
-msgid "Language"
-msgstr "لغة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:682
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:683
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:684
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:686
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:687
-msgid "by"
-msgstr "بواسطة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:689
-msgid "for translate language files. please send files for"
-msgstr "لملفات ترجمة اللغة: الرجاء ارسال الملفات لـ"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:692
-msgid "Show Functions"
-msgstr "عرض وظائف"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:693
-msgid "Report Problem"
-msgstr "تقرير مشكلة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:706
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:722
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:914
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1139
-msgid "User Online"
-msgstr "المتواجدين الآن"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:710
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1142
-msgid "Today Visit"
-msgstr "زيارات اليوم"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:714
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1145
-msgid "Yesterday visit"
-msgstr "زيارات الأمس"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:718
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1148
-msgid "Week Visit"
-msgstr "زيارات الأسبوع"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:726
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1151
-msgid "Month Visit"
-msgstr "زيارات الشهر"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:730
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1154
-msgid "Years Visit"
-msgstr "زيارات السنة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:734
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1157
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:15
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:22
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:79
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:854
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1122
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1275
 msgid "Total Visit"
 msgstr "مجموع الزيارات"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:738
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1160
-msgid "Search Engine reffered"
-msgstr "محركات البحث"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:21
+msgid "Was"
+msgstr "وكان"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:21
+msgid "low value"
+msgstr "تخفيض القيمة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:25
+msgid "Please Enter value!"
+msgstr "الرجاء أدخل قيمة!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:28
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:25
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:65
+msgid "Access is Denied!"
+msgstr "تم رفض الوصول!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:20
+msgid "Thanks for your report!"
+msgstr "شكرا على التقرير الخاص بك!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report_problem.php:22
+msgid "Error! Please Enter all field"
+msgstr "خطأ! الرجاء إدخال جميع الحقول"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:46
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:49
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:52
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:55
+msgid "deleted!"
+msgstr "حذفت"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:59
+msgid "All plugin data is deleted"
+msgstr "تم حذف جميع بيانات الإضافة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:60
+msgid "Disable plugin"
+msgstr "تعطيل الإضافة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:62
+msgid "plugin options have been deleted"
+msgstr "تم حذف خيارات الإضافة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:64
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:826
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:842
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1024
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1074
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1257
+msgid "User Online"
+msgstr "المتواجدين الآن"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:69
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:830
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1082
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1260
+msgid "Today Visit"
+msgstr "زيارات اليوم"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:74
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:834
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1263
+msgid "Yesterday visit"
+msgstr "زيارات الأمس"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:84
+msgid "Plugin home page"
+msgstr "موقع الإضافة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:265
+#, php-format
+msgid "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> and enable statistics"
+msgstr "إضافة WP-Statistics غير مفعلة! الرجاء الذهاب الى <a href=\"%s\">صفحة الإعدادات</a> وقم بتفعيلها"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:530
+msgid "Statistics"
+msgstr "الإحصائيات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:531
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:532
+msgid "Stats Log"
+msgstr "دخول الإحصائيات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:533
+msgid "Users Online"
+msgstr "الإعضاء المتواجدين"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:541
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:945
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1002
+msgid "You do not have sufficient permissions to access this page."
+msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:621
+msgid "Are you sure?"
+msgstr "هل أنت متأكد؟"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:633
+msgid "Configuration"
+msgstr "التكوين"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:638
+msgid "Enable Statistics"
+msgstr "تمكين الاحصائيات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:642
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:660
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:670
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:679
+msgid "Yes"
+msgstr "نعم"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:646
+msgid "Statistics are enabled."
+msgstr "تم تمكين الإحصائيات."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:648
+msgid "Statistics are disabled!"
+msgstr "الإحصائيات معطلة!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:653
+msgid "General configuration"
+msgstr "التكوين العام"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:656
+msgid "Show decimals number"
+msgstr "عرض عدد عشرى"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:662
+msgid "Show number stats with decimal. For examle: 3,500"
+msgstr "إظهار ارقام الاحصائيات بالشكل العشري. مثال: 3,500"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:666
+msgid "Show stats in menu bar"
+msgstr "إظهار الاحصائيات في شريط القوائم"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:672
+msgid "Show stats in admin menu bar"
+msgstr "اظهار الاحصائيات في شريط القوائم الإداري"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:676
+msgid "Daily referer of search engines"
+msgstr "المرجعية يوميا من محركات البحث"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:681
+msgid "Can be calculated daily or total search engines"
+msgstr "يمكنك حساب محركات البحث بشكل يومي أو كلي"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:685
+msgid "Check for online users every"
+msgstr "تحقق من المتصلين في الموقع في كل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:688
+msgid "Second"
+msgstr "ثانية"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:690
+msgid "Time for the check accurate online user in the site. Default: 60 Second"
+msgstr "وقت التحقق من المستخدمين المتصلين في الموقع. الإفتراضي: 60 ثانية"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:694
+msgid "Increase value of the total hits by"
+msgstr "زيادة قيمة إجمالي الزيارات من قبل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:697
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:707
+msgid "Done"
+msgstr "تم"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:700
+msgid "Your total visit sum with this value"
+msgstr "ضع القيمة هنا لزيادة المجموع الكلي للزيارات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:704
+msgid "Reduce value of the total hits by"
+msgstr "خفض قيمة إجمالي الزيارات من قبل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:710
+msgid "Your total visit minus with this value"
+msgstr "ضع القيمة هنا لتقليص المجموع الكلي من الزيارات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:714
+msgid "Number item for show Statistics"
+msgstr "عدد البنود الظاهرة في الاحصائيات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:717
+msgid "Default 5"
+msgstr "الإفتراضي 5"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:719
+msgid "Number for submit item in Database and show that"
+msgstr "ضع عدد البنود المراد ظهورها في الاحصائيات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:723
+msgid "Coefficient per visitor"
+msgstr "مسمى لكل زائر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:726
+msgid "Default 1"
+msgstr "الإفتراضي 1"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:728
+msgid "For each visitor to account for several hits."
+msgstr "حساب توجيه النقرات لكل زائر."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:732
+msgid "The CSS Class for the containing widget"
+msgstr "الـ CSS ـكلاس تحتوي على قطعة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:736
+msgid "If empty. class=\"widget\" will be used"
+msgstr "اذا كانت فارغة class=\"القطعة\" سوف تستخدم"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:739
+msgid "Live Statistics configuration"
+msgstr "إعدادات الاحصائيات المباشرة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:742
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1178
-msgid "Total Posts"
-msgstr "إجمالي المشاركات"
+msgid "Refresh Stats every"
+msgstr "تحديث الإحصائيات كل"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:746
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1181
-msgid "Total Pages"
-msgstr "إجمالي الصفحات"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:745
+msgid "Second(s)"
+msgstr "(ثانية) ثواني"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:750
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1184
-msgid "Total Comments"
-msgstr "إجمالي التعليقات"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:748
+msgid "Recommended"
+msgstr "موصى به"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:754
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1187
-msgid "Total Spams"
-msgstr "إجمالي السبام"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:749
+msgid "To reduce pressure on the server, this defaults to 10 sec"
+msgstr "لتخفيف الضغط على الخادم، ضع القيمة الإفتراضية 10 ثواني"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:758
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1190
-msgid "Total Users"
-msgstr "عدد الاعضاء"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:753
+msgid "Pagerank configuration"
+msgstr "إعدادات البيج رانك"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:762
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1202
-msgid "Last Post Date"
-msgstr "تاريخ آخر مشاركة"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:756
+msgid "Your url for Google pagerank check"
+msgstr "رابط الفحص الخاص بك لجوجل بيج رانك"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:761
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:771
+msgid "If empty. you website url is used"
+msgstr "اذا كانت فارغة. سيتم أستخدام رابط موقعك"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:766
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1193
-msgid "Average Posts"
-msgstr "متوسط المشاركات"
+msgid "Your url for Alexa pagerank check"
+msgstr "رابط الفحص الخاص بك لـ Alexa بيج رانك"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:770
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1196
-msgid "Average Comments"
-msgstr "متوسط التعليقات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:774
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1199
-msgid "Average Users"
-msgstr "متوسط الاعضاء"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:778
-msgid "Total Feedburner Subscribe"
-msgstr "مشتركي الخلاصات"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:782
-msgid "Google Pagerank"
-msgstr "جوجل بيج رانك"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:786
-msgid "Alexa Pagerank"
-msgstr "اليكسا بيج رانك"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:790
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:800
-msgid "Hide"
-msgstr "إخفاء"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:794
-msgid "Your Name"
-msgstr "اسمك"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:796
-msgid "Description Problem"
-msgstr "وصف المشكلة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:799
-msgid "Send Problem"
-msgstr "ارسال مشكلة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:807
-msgid "Unistall plugin"
-msgstr "حذف الإضافة"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:813
-msgid "Delete all data, including tables and plugin options"
-msgstr "حذف جميع البيانات ، بما في ذلك الجداول وخيارات البرنامج المساعد"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:814
-msgid "Uninstall"
-msgstr "إلغاء التنصيب"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:824
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:780
 msgid "Update"
 msgstr "تحديث"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:857
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:787
+msgid "This plugin created by"
+msgstr "هذه الإضافة تم إنشاؤها بواسطة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:787
+msgid "from"
+msgstr "من"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:787
+msgid "group"
+msgstr "مجموعة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:789
+msgid "Plugin translators"
+msgstr "مترجمين الإضافة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:793
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:794
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:795
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:796
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:797
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:798
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:799
+msgid "Language"
+msgstr "لغة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:793
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:794
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:795
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:796
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:797
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:798
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:799
+msgid "by"
+msgstr "بواسطة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:801
+msgid "for translate language files. please send files for"
+msgstr "لملفات ترجمة اللغة: الرجاء ارسال الملفات لـ"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:804
+msgid "Show Functions"
+msgstr "عرض وظائف"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:805
+msgid "Report Problem"
+msgstr "تقرير مشكلة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:818
+msgid "User Online Live"
+msgstr "المتواجدين الآن"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:822
+msgid "Total Visit Live"
+msgstr "مجموع الزوار الآن"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:838
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1098
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1266
+msgid "Week Visit"
+msgstr "زيارات الأسبوع"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:846
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1106
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1269
+msgid "Month Visit"
+msgstr "زيارات الشهر"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:850
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1114
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1272
+msgid "Years Visit"
+msgstr "زيارات السنة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:858
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1130
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1278
+msgid "Search Engine reffered"
+msgstr "محركات البحث"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:862
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1146
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1296
+msgid "Total Posts"
+msgstr "إجمالي المشاركات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:866
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1154
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1299
+msgid "Total Pages"
+msgstr "إجمالي الصفحات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:870
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1162
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1302
+msgid "Total Comments"
+msgstr "إجمالي التعليقات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:874
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1170
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1305
+msgid "Total Spams"
+msgstr "إجمالي السبام"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:878
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1178
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1308
+msgid "Total Users"
+msgstr "عدد الاعضاء"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:882
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1210
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1320
+msgid "Last Post Date"
+msgstr "تاريخ آخر مشاركة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:886
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1186
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1311
+msgid "Average Posts"
+msgstr "متوسط المشاركات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:890
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1194
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1314
+msgid "Average Comments"
+msgstr "متوسط التعليقات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:894
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1202
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1317
+msgid "Average Users"
+msgstr "متوسط الاعضاء"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:898
+msgid "Total Feedburner Subscribe"
+msgstr "مشتركي الخلاصات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:902
+msgid "Google Pagerank"
+msgstr "جوجل بيج رانك"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:906
+msgid "Alexa Pagerank"
+msgstr "اليكسا بيج رانك"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:910
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:920
+msgid "Hide"
+msgstr "إخفاء"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:914
+msgid "Your Name"
+msgstr "اسمك"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:916
+msgid "Description Problem"
+msgstr "وصف المشكلة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:919
+msgid "Send Problem"
+msgstr "ارسال مشكلة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:927
+msgid "Unistall plugin"
+msgstr "حذف الإضافة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:933
+msgid "Delete all data, including tables and plugin options"
+msgstr "حذف جميع البيانات ، بما في ذلك الجداول وخيارات البرنامج المساعد"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:934
+msgid "Uninstall"
+msgstr "إلغاء التنصيب"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:967
 msgid "Stats weblog"
 msgstr "احصائيات المدونة"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1132
-msgid "Name"
-msgstr "الاسم"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:978
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1035
+msgid "No"
+msgstr "لا"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1136
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:979
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1036
+msgid "IP"
+msgstr "IP"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:980
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1037
+msgid "Time"
+msgstr "الوقت"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:981
+msgid "Referred"
+msgstr "مشاره"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:982
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1039
+msgid "Agent"
+msgstr "وكيل"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1038
+msgid "Referrer"
+msgstr "المرجع"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1090
+msgid "Yesterday Visit"
+msgstr "زيارات الأمس"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1250
+msgid "Name"
+msgstr "الأسم"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1254
 msgid "Items"
 msgstr "البنود"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1163
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1281
 msgid "Select type of search engine"
 msgstr "حدد نوع من محرك البحث"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1165
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1283
 msgid "Google"
 msgstr "Google"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1168
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1286
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1171
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1289
 msgid "Bing"
 msgstr "Bing"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1174
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1292
 msgid "All"
-msgstr "الجميع"
+msgstr "الكل"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1205
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1323
 msgid "Type date for last update"
 msgstr "اكتب تاريخ آخر تحديث"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1207
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1325
 msgid "English"
 msgstr "الانجليزية"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1210
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1328
 msgid "Persian"
 msgstr "الفارسية"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1359
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1361
+msgid "WP-Statistics"
+msgstr "الإحصائيات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1360
+msgid "Show site stats in sidebar"
+msgstr "إظهار إحصائيات الموقع في الشريط الجانبي"
 
