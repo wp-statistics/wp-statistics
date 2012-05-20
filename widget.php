@@ -161,7 +161,6 @@ function wp_statistics_show_widget($args)
 			echo "</li>";
 		}
 		echo "</ul>";
-	echo "</div>";
 	echo $after_widget;
 }
 
