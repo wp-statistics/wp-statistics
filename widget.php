@@ -1,75 +1,66 @@
 <?php
-function wp_statistics_widget()
-{
+function wp_statistics_widget() {
 	wp_register_sidebar_widget('wp_statistics_widget', __('WP-Statistics', 'wp_statistics'), 'wp_statistics_show_widget', array(
 		'description'	=>	__('Show site stats in sidebar', 'wp_statistics')));
 	wp_register_widget_control('wp_statistics_widget', __('WP-Statistics', 'wp_statistics'), 'wp_statistics_control_widget');
 }
+add_action("plugins_loaded", "wp_statistics_widget");
 
-function wp_statistics_show_widget($args)
-{
+function wp_statistics_show_widget($args) {
 	extract($args);
 	echo $before_widget;
 	echo $before_title . get_option('name_widget') . $after_title ;
 		echo "<ul>";
-		if(get_option('useronline_widget'))
-		{
+		if(get_option('useronline_widget')) {
 			echo "<li>";
 				echo __('User Online', 'wp_statistics'). ": ";
 				echo wp_statistics_useronline();
 			echo "</li>";
 		}
 		
-		if(get_option('tvisit_widget'))
-		{
+		if(get_option('tvisit_widget')) {
 			echo "<li>";
 				echo __('Today Visit', 'wp_statistics'). ": ";
 				echo wp_statistics_today();
 			echo "</li>";
 		}
 
-		if(get_option('yvisit_widget'))
-		{
+		if(get_option('yvisit_widget')) {
 			echo "<li>";
 				echo __('Yesterday Visit', 'wp_statistics'). ": ";
 				echo wp_statistics_yesterday();
 			echo "</li>";
 		}
 
-		if(get_option('wvisit_widget'))
-		{
+		if(get_option('wvisit_widget')) {
 			echo "<li>";
 				echo __('Week Visit', 'wp_statistics'). ": ";
 				echo wp_statistics_week();
 			echo "</li>";
 		}
 
-		if(get_option('mvisit_widget'))
-		{
+		if(get_option('mvisit_widget')) {
 			echo "<li>";
 				echo __('Month Visit', 'wp_statistics'). ": ";
 				echo wp_statistics_month();
 			echo "</li>";
 		}
 
-		if(get_option('ysvisit_widget'))
-		{
+		if(get_option('ysvisit_widget')) {
 			echo "<li>";
 				echo __('Years Visit', 'wp_statistics'). ": ";
 				echo wp_statistics_year();
 			echo "</li>";
 		}
 
-		if(get_option('ttvisit_widget'))
-		{
+		if(get_option('ttvisit_widget')) {
 			echo "<li>";
 				echo __('Total Visit', 'wp_statistics'). ": ";
 				echo wp_statistics_total();
 			echo "</li>";
 		}
 
-		if(get_option('ser_widget'))
-		{
+		if(get_option('ser_widget')) {
 			echo "<li>";
 				echo __('Search Engine reffered', 'wp_statistics'). ": ";
 				if(get_option('select_se') == "google"){
@@ -84,76 +75,66 @@ function wp_statistics_show_widget($args)
 			echo "</li>";
 		}
 		
-		if(get_option('tp_widget'))
-		{
+		if(get_option('tp_widget')) {
 			echo "<li>";
 				echo __('Total Posts', 'wp_statistics'). ": ";
 				echo wp_statistics_countposts();
 			echo "</li>";
 		}
 
-		if(get_option('tpg_widget'))
-		{
+		if(get_option('tpg_widget')) {
 			echo "<li>";
 				echo __('Total Pages', 'wp_statistics'). ": ";
 				echo wp_statistics_countpages();
 			echo "</li>";
 		}
 
-		if(get_option('tc_widget'))
-		{
+		if(get_option('tc_widget')) {
 			echo "<li>";
 				echo __('Total Comments', 'wp_statistics'). ": ";
 				echo wp_statistics_countcomment();
 			echo "</li>";
 		}
 
-		if(get_option('ts_widget'))
-		{
+		if(get_option('ts_widget')) {
 			echo "<li>";
 				echo __('Total Spams', 'wp_statistics'). ": ";
 				echo wp_statistics_countspam();
 			echo "</li>";
 		}
 
-		if(get_option('tu_widget'))
-		{
+		if(get_option('tu_widget')) {
 			echo "<li>";
 				echo __('Total Users', 'wp_statistics'). ": ";
 				echo wp_statistics_countusers();
 			echo "</li>";
 		}
 
-		if(get_option('ap_widget'))
-		{
+		if(get_option('ap_widget')) {
 			echo "<li>";
 				echo __('Average Posts', 'wp_statistics'). ": ";
 				echo wp_statistics_average_post();
 			echo "</li>";
 		}
 
-		if(get_option('ac_widget'))
-		{
+		if(get_option('ac_widget')) {
 			echo "<li>";
 				echo __('Average Comments', 'wp_statistics'). ": ";
 				echo wp_statistics_average_comment();
 			echo "</li>";
 		}
 
-		if(get_option('au_widget'))
-		{
+		if(get_option('au_widget')) {
 			echo "<li>";
 				echo __('Average Users', 'wp_statistics'). ": ";
 				echo wp_statistics_average_registeruser();
 			echo "</li>";
 		}
 
-		if(get_option('lpd_widget'))
-		{
+		if(get_option('lpd_widget')) {
 			echo "<li>";
 				echo __('Last Post Date', 'wp_statistics'). ": ";
-				if(get_option('select_lps') == "farsi")
-				{
+				if(get_option('select_lps') == "farsi") {
 					echo wp_statistics_lastpostdate("farsi");
 				} else {
 					echo wp_statistics_lastpostdate();
@@ -164,10 +145,8 @@ function wp_statistics_show_widget($args)
 	echo $after_widget;
 }
 
-	function wp_statistics_control_widget()
-	{
-		if ($_POST['wp_statistics_control_widget_submit'])
-		{
+	function wp_statistics_control_widget() {
+		if ($_POST['wp_statistics_control_widget_submit']) {
 			update_option('name_widget', $_POST['name_widget']);
 			update_option('useronline_widget', $_POST['useronline_widget']);
 			update_option('tvisit_widget', $_POST['tvisit_widget']);

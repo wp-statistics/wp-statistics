@@ -3,8 +3,8 @@ Contributors: mostafa.s1990
 Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.3
-Stable tag: 2.2.7
+Tested up to: 3.4
+Stable tag: 2.2.8
 
 Summary statistics of blog.
 
@@ -55,6 +55,7 @@ Language Support:
 * Turkish [Thanks aidinMC](http://www.artadl.ir/)
 * Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/)
 * German [Thanks Andreas Martin](http://www.andreasmartin.com/)
+* Russian [Thanks Oleg](http://www.bestplugins.ru/)
 
 Send email for Translation files: mst404[a]gmail[dot].com
 for translate, please open langs/default.po by Poedit and translate strings.
@@ -123,6 +124,12 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
 
 == Upgrade Notice ==
+= 2.2.8 =
+* Added Russian language.
+* Fix problem in count views.
+* Added more filter for check spider.
+* Optimize plugin.
+
 = 2.2.7 =
 * Fix problem in widget class.
 * Redundancy in Arabic translation.
@@ -225,6 +232,12 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.2.8 =
+* Added Russian language.
+* Fix problem in count views.
+* Added more filter for check spider.
+* Optimize plugin.
+
 = 2.2.7 =
 * Fix problem in widget class.
 * Redundancy in Arabic translation.

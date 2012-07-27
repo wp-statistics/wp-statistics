@@ -1,7 +1,6 @@
 ﻿<?php
 	require('../../../wp-load.php');
-	if(is_super_admin())
-	{
+	if(is_super_admin()) {
 		global $wpdb, $table_prefix;
 
 		$increase_value = $_REQUEST['increase_value'];
