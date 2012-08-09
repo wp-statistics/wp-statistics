@@ -223,6 +223,7 @@
 					<li><?php _e('Language', 'wp_statistics'); ?> Arabic <?php _e('by', 'wp_statistics'); ?> <a href="http://www.facebook.com/aboHatim">Hammad Shammari</a></li>
 					<li><?php _e('Language', 'wp_statistics'); ?> German <?php _e('by', 'wp_statistics'); ?> <a href="http://www.andreasmartin.com/">Andreas Martin</a></li>
 					<li><?php _e('Language', 'wp_statistics'); ?> Russian <?php _e('by', 'wp_statistics'); ?> <a href="http://www.bestplugins.ru/">Oleg Martin</a></li>
+					<li><?php _e('Language', 'wp_statistics'); ?> Bengali <?php _e('by', 'wp_statistics'); ?> <a href="http://www.shamokaldarpon.com/">Mehdi Akram</a></li>
 				</ul>
 				<?php _e('for translate language files. please send files for', 'wp_statistics'); ?> <code>mst404@gmail.com</code>
 
