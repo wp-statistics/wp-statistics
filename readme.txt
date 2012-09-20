@@ -3,8 +3,8 @@ Contributors: mostafa.s1990
 Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 2.2.9
+Tested up to: 3.4.2
+Stable tag: 2.3.0
 
 Summary statistics of blog.
 
@@ -57,6 +57,7 @@ Language Support:
 * German [Thanks Andreas Martin](http://www.andreasmartin.com/)
 * Russian [Thanks Oleg](http://www.bestplugins.ru/)
 * Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
+* Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info)
 
 Send email for Translation files: mst404[a]gmail[dot].com
 for translate, please open langs/default.po by Poedit and translate strings.
@@ -125,6 +126,9 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
 
 == Upgrade Notice ==
+= 2.3.0 =
+* Added Serbian language.
+
 = 2.2.9 =
 * Added Bengali language.
 
@@ -236,6 +240,9 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.3.0 =
+* Added Serbian language
+
 = 2.2.9 =
 * Added Bengali language.
 

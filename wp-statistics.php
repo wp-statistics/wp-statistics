@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.2.9
+Version: 2.3.0
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
