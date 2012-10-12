@@ -248,6 +248,8 @@ a plugin for displaying Summary statistics of blog.
 == Changelog ==
 = 2.3.1 =
 * Added Tomasz Stulka language.
+* Added Support forum link in menu.
+* Fix problem error in delete plugin.
 
 = 2.3.0 =
 * Added Serbian language
