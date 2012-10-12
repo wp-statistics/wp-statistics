@@ -120,7 +120,7 @@
 					<input type="text" name="time_useronline_s" style="direction:ltr; width:60px" maxlength="3" value="<?php echo get_option('time_useronline_s'); ?>"/>
 					<span style="font-size:10px;"><?php _e('Second', 'wp_statistics'); ?></span>
 				</td>
-				<td><span style="font-size:11px;">(<?php echo sprintf(__('Time for the check accurate online user in the site. Default: %s Second', 'wp_statistics'), 10); ?>)</span></td>
+				<td><span style="font-size:11px;">(<?php echo sprintf(__('Time for the check accurate online user in the site. Default: %s Second', 'wp_statistics'), 5); ?>)</span></td>
 			</tr>
 
 			<tr>
@@ -225,6 +225,7 @@
 					<li><?php _e('Language', 'wp_statistics'); ?> Russian <?php _e('by', 'wp_statistics'); ?> <a href="http://www.bestplugins.ru/">Oleg Martin</a></li>
 					<li><?php _e('Language', 'wp_statistics'); ?> Bengali <?php _e('by', 'wp_statistics'); ?> <a href="http://www.shamokaldarpon.com/">Mehdi Akram</a></li>
 					<li><?php _e('Language', 'wp_statistics'); ?> Serbian <?php _e('by', 'wp_statistics'); ?> <a href="http://www.georgijevic.info">Radovan   Georgijevic</a></li>
+					<li><?php _e('Language', 'wp_statistics'); ?> Polish <?php _e('by', 'wp_statistics'); ?> Tomasz Stulka</li>
 				</ul>
 				<?php _e('for translate language files. please send files for', 'wp_statistics'); ?> <code>mst404@gmail.com</code>
 

@@ -1,5 +1,6 @@
 <?php
-	require('../../../wp-load.php');
+	include_once('../../../wp-load.php');
+
 	if(is_super_admin()) {
 		global $wpdb, $table_prefix;
 

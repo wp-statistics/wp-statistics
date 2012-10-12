@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-28 03:00+0330\n"
+"POT-Creation-Date: 2012-10-12 13:34+0330\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mostafa Soufo <mst404@gmail.com>\n"
 "Language-Team:  <mat404@gmail.com>\n"
@@ -31,7 +31,7 @@ msgstr "افزوده شد"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:58
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:198
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:71
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:276
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:279
 msgid "Total Visit"
 msgstr "کل بازدیدها"
 
@@ -52,23 +52,28 @@ msgstr "لطفا مقداری را وارد کنید!"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:27
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:27
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:28
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/uninstall.php:64
 msgid "Access is Denied!"
 msgstr "دسترسی غیرمجاز!"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:19
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:10
+msgid "Report a problem for WP Statistics"
+msgstr "گزارش مشکل برای افزونه WP Statistics"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:20
 msgid "Thanks for your report!"
 msgstr "با تشکر از گزارش شما!"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:21
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:22
 msgid "An error has occurred!"
 msgstr "خطایی رخ داده است!"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:24
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:25
 msgid "Error! Please Enter all field"
 msgstr "خطا! لطفا همه فیلدها را پرکنید"
 
@@ -110,7 +115,7 @@ msgstr "نمایش آمار سایت در ابزارک"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:16
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:180
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:56
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:252
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:255
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:2
 msgid "User Online"
 msgstr "کاربران حاضر"
@@ -119,7 +124,7 @@ msgstr "کاربران حاضر"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:23
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:183
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:61
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:256
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:259
 msgid "Today Visit"
 msgstr "بازدید امروز"
 
@@ -131,91 +136,91 @@ msgstr "بازدید دیروز"
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:37
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:189
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:264
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:267
 msgid "Week Visit"
 msgstr "بازدید هفته"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:44
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:192
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:268
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:271
 msgid "Month Visit"
 msgstr "بازدید ماه"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:51
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:195
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:272
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:275
 msgid "Years Visit"
 msgstr "بازدید سال"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:65
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:201
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:280
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:283
 msgid "Search Engine reffered"
 msgstr "ورودی موتورهای جستجوگر"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:80
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:219
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:284
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:287
 msgid "Total Posts"
 msgstr "کل نوشته‌ها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:87
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:222
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:288
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:291
 msgid "Total Pages"
 msgstr "کل برگه‌ها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:94
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:225
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:292
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:295
 msgid "Total Comments"
 msgstr "کل دیدگاه‌ها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:101
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:228
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:296
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:299
 msgid "Total Spams"
 msgstr "کل جفنگ‌ها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:108
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:231
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:300
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:303
 msgid "Total Users"
 msgstr "کل کاربرها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:115
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:234
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:308
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:311
 msgid "Average Posts"
 msgstr "میانگین نوشته‌ها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:122
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:237
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:312
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:315
 msgid "Average Comments"
 msgstr "میانگین دیدگاه‌ها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:129
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:240
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:316
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:319
 msgid "Average Users"
 msgstr "میانگین کاربرها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:136
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:243
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:304
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:307
 msgid "Last Post Date"
 msgstr "تاریخ به‌روزشدن سایت"
 
@@ -232,7 +237,7 @@ msgstr "آیتم‌ها"
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:186
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:66
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:260
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:263
 msgid "Yesterday visit"
 msgstr "بازدید دیروز"
 
@@ -282,35 +287,45 @@ msgid "Plugin home page"
 msgstr "خانه‌ی افزونه"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:252
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:82
+msgid "Forums plugins"
+msgstr "انجمن پشتیبانی افزونه"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:83
+msgid "http://wordpress.org/extend/plugins/wp-statistics/"
+msgstr "http://forum.wp-parsi.com/forum/13-%D8%A7%D9%81%D8%B2%D9%88%D9%86%D9%87-%D9%87%D8%A7/"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:256
 #, php-format
 msgid "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> and enable statistics"
 msgstr "افزونه آمارگیر غیرفعال است! برای فعال کردن آن به <a href=\"%s\">صفحه تنظیمات</a> آمارگیر مراجعه کنید"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:490
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:494
 msgid "Statistics"
 msgstr "آمار بازدید"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:491
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:495
 msgid "Settings"
 msgstr "تنظیمات"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:492
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:496
 msgid "Stats Log"
 msgstr "گزارش آمارها"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:493
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:497
 msgid "Users Online"
 msgstr "کاربران حاضر"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:500
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:510
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:518
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:504
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:514
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:522
 msgid "You do not have sufficient permissions to access this page."
 msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
 
@@ -525,6 +540,9 @@ msgstr "مترجم‌های افزونه"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:223
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:224
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:225
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:226
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:227
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:228
 msgid "Language"
 msgstr "زبان"
 
@@ -537,82 +555,85 @@ msgstr "زبان"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:223
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:224
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:225
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:226
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:227
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:228
 msgid "by"
 msgstr "توسط"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:227
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:230
 msgid "for translate language files. please send files for"
 msgstr "لطفا فایل‌های ترجمه را به ایمیل روبرو ارسال کنید"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:230
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:233
 msgid "Show Functions"
 msgstr "نمایش تابع‌ها"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:231
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:234
 msgid "Report Problem"
 msgstr "گزارش مشکل"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:244
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:247
 msgid "User Online Live"
 msgstr "کاربران آنلاین زنده"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:248
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:251
 msgid "Total Visit Live"
 msgstr "کل بازدیدها زنده"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:320
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:323
 msgid "Total Feedburner Subscribe"
 msgstr "تعداد مشترک‌های فیدبرنر"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:324
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:327
 msgid "Google Pagerank"
 msgstr "رتبه گوگل"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:328
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:331
 msgid "Alexa Pagerank"
 msgstr "رتبه الکسا"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:332
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:342
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:335
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:345
 msgid "Hide"
 msgstr "مخفی"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:336
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:339
 msgid "Your Name"
 msgstr "نام شما"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:338
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:341
 msgid "Description Problem"
 msgstr "توضیحات مشکل"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:341
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:344
 msgid "Send Problem"
 msgstr "ارسال گزارش"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:349
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:352
 msgid "Unistall plugin"
 msgstr "پاک‌سازی پلاگین"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:355
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:358
 msgid "Delete all data, including tables and plugin options"
 msgstr "پاک‌کردن تمامی اطلاعات از قبیل جدول افزونه در پایگاه‌داده و گزینه‌های افزونه"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:356
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:359
 msgid "Uninstall"
 msgstr "پاک‌کردن"
 
@@ -685,13 +706,6 @@ msgstr "چیزی یافت نشد!"
 #, fuzzy
 #~ msgid "Statisticsd"
 #~ msgstr "آماره"
-
-#, fuzzy
-#~ msgid "WP Statistics"
-#~ msgstr "آمارگیر"
-
-#~ msgid "About plugin"
-#~ msgstr "درباره‌ی افزونه"
 
 #~ msgid "Plugin Version"
 #~ msgstr "نسخه افزونه"

@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.3.0
+Version: 2.3.1
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -76,6 +76,12 @@ License: GPL2
 				'title'		=> __('Plugin home page', 'wp_statistics'),
 				'href'		=> 'http://wordpress.org/extend/plugins/wp-statistics/'
 			));
+
+			$wp_admin_bar->add_menu( array(
+				'parent'	=> 'wp-statistic_menu',
+				'title'		=> __('Forums plugins', 'wp_statistics'),
+				'href'		=> __('http://wordpress.org/extend/plugins/wp-statistics/', 'wp_statistics')
+			));
 		}
 	}
 	add_action('admin_bar_menu', 'wp_statistics_menubar', 20);
@@ -89,8 +95,6 @@ License: GPL2
 		global $wp_statistics_db_version, $table_prefix;
 
 		$table_visit	= $table_prefix."statistics_visits";
-		$table_visitors	= $table_prefix."statistics_visitors";
-		$table_profile	= $table_prefix."statistics_profile";
 		$table_dates	= $table_prefix."statistics_date";
 		$table_users	= $table_prefix."statistics_useronline";
 		$table_referred	= $table_prefix."statistics_reffered";
@@ -258,7 +262,6 @@ License: GPL2
 		add_action('admin_notices', 'wp_statistics_not_enable');
 	}
 
-	/* Start: functions for user in theme */
 	function wp_statistics_useronline() {
 		global $wpdb, $table_prefix, $get_date, $get_referred, $get_useragent, $get_userip;
 		$timestamp = date("U");
@@ -266,7 +269,7 @@ License: GPL2
 		$get_time_useronline_s = get_option('time_useronline_s');
 
 		if(!$get_time_useronline_s) {
-			$get_time_useronline_s = '10'; // Default value for check accurate user online
+			$get_time_useronline_s = '5'; // Default value for check accurate user online
 		}
 
 		$get_ip = $wpdb->get_var("SELECT * FROM {$table_prefix}statistics_useronline WHERE ip = '".$get_userip."'");
