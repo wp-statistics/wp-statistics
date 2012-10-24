@@ -1,0 +1,583 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-statistics\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-20 12:30+0330\n"
+"PO-Revision-Date: 2012-10-20 12:38+0330\n"
+"Last-Translator: Mostafa Soufo <mst404@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/actions.php:24
+msgid "Please Enter value!"
+msgstr "lütfen bir deger yaziniz!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:20
+msgid "Thanks for your report!"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:22
+msgid "An error has occurred!"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/report-problem.php:25
+msgid "Error! Please Enter all field"
+msgstr "Hata! Lütfen tüm alanları doldurun"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:173
+msgid "Name"
+msgstr "Ad"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:177
+msgid "Items"
+msgstr "Öğeler"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:180
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:256
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:2
+msgid "User Online"
+msgstr "Çevrimiçi ziyaretçi"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:183
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:260
+msgid "Today Visit"
+msgstr "Toplam"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:186
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:264
+msgid "Yesterday visit"
+msgstr "Dün"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:189
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:268
+msgid "Week Visit"
+msgstr "Bu hafta"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:192
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:272
+msgid "Month Visit"
+msgstr "Bu ay"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:195
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:276
+msgid "Years Visit"
+msgstr "Bu yıl"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:198
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:280
+msgid "Total Visit"
+msgstr "Toplam ziyaretçi"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:201
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:284
+msgid "Search Engine reffered"
+msgstr "Arama sonucu"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:204
+msgid "Select type of search engine"
+msgstr "Arama motoru türü seçin"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:206
+msgid "Google"
+msgstr "Google"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:209
+msgid "Yahoo!"
+msgstr "Yahoo!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:212
+msgid "Bing"
+msgstr "Bing"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:215
+msgid "All"
+msgstr "hepsi"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:219
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:288
+msgid "Total Posts"
+msgstr "Toplam içerik"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:222
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:292
+msgid "Total Pages"
+msgstr "Toplam sayfa"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:225
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:296
+msgid "Total Comments"
+msgstr "Toplam yorum"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:228
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:300
+msgid "Total Spams"
+msgstr "Toplam spam"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:231
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:304
+msgid "Total Users"
+msgstr "Toplam üye"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:234
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:312
+msgid "Average Posts"
+msgstr "Ortalama içerik"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:237
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:316
+msgid "Average Comments"
+msgstr "Ortalama yorum"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:240
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:320
+msgid "Average Users"
+msgstr "Ortalama üye"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:243
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:308
+msgid "Last Post Date"
+msgstr "Son güncelleme"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:246
+msgid "Type date for last update"
+msgstr "Son güncelleme tarihini yazıniz"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:248
+msgid "English"
+msgstr "English"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:251
+msgid "Persian"
+msgstr "English"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:55
+msgid "Are you sure?"
+msgstr "emin misiniz?"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:66
+msgid "Configuration"
+msgstr "konfigürasyon"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:71
+msgid "Enable Statistics"
+msgstr "İstatistik aktive olsun"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:75
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:93
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:103
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:112
+msgid "Yes"
+msgstr "Evet"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:79
+msgid "Statistics are enabled."
+msgstr "İstatistik aktiftir."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:81
+msgid "Statistics are disabled!"
+msgstr "İstatistik aktif değildir!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:86
+msgid "General configuration"
+msgstr "Genel konfigürasyon"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:89
+msgid "Show decimals number"
+msgstr "Ondalık sayılar olarak gösterilsin"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:95
+msgid "Show number stats with decimal. For examle: 3,500"
+msgstr "İstatistik Ondalık sayılar olarak gösterilsin. 3.500 Gibi"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:99
+msgid "Show stats in menu bar"
+msgstr "istatistikleri Menü barda göster"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:105
+msgid "Show stats in admin menu bar"
+msgstr "istatistikleri Admin Menü barinda göster"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:109
+#, fuzzy
+msgid "Daily referer of search engines"
+msgstr "Arama motoru türü seçin"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:114
+msgid "Can be calculated daily or total search engines"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:118
+msgid "Check for online users every"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:121
+msgid "Second"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:127
+#, fuzzy
+msgid "Increase value of the total hits by"
+msgstr "Toplam hite miktarını artırın"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:130
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:140
+msgid "Done"
+msgstr "yapılmış"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:133
+msgid "Your total visit sum with this value"
+msgstr "toplam hit bu miktarla toplanacak"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:137
+#, fuzzy
+msgid "Reduce value of the total hits by"
+msgstr "toplam hiten azalt"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:143
+msgid "Your total visit minus with this value"
+msgstr "toplam hit bu miktardan eksilecek"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:147
+msgid "Number item for show Statistics"
+msgstr "Istatistiklerini görüntülemek için öğe sayısı"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:150
+msgid "Default 5"
+msgstr "Varsayılan 5"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:152
+msgid "Number for submit item in Database and show that"
+msgstr "öğe göndermek sayısı database icin"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:156
+msgid "Coefficient per visitor"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:159
+#, fuzzy
+msgid "Default 1"
+msgstr "Varsayılan 5"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:161
+msgid "For each visitor to account for several hits."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:164
+msgid "Live Statistics configuration"
+msgstr "Canlı İstatistik konfigürasyonu"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:167
+msgid "Refresh Stats every"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:170
+msgid "Second(s)"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:173
+msgid "Recommended"
+msgstr "tavsiye ediliyor"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:174
+#, fuzzy
+msgid "To reduce pressure on the server, this defaults to 10 sec"
+msgstr "Sunucu üzerinde baskı nedeniyle yuksek zaman önerilmektedir.Varsayılan olarak 1 dakikadır."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:178
+msgid "Pagerank configuration"
+msgstr "PageRank konfigürasyon"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:181
+msgid "Your url for Google pagerank check"
+msgstr "Google sıralaması için Adresiniz"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:186
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:196
+#, fuzzy
+msgid "If empty. you website url is used"
+msgstr "Bu alan boş ise, sitenin adresini kullanır"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:191
+msgid "Your url for Alexa pagerank check"
+msgstr "Alexa Rating Adresiniz"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:205
+msgid "Update"
+msgstr "Güncelleme"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:214
+msgid "Plugin translators"
+msgstr "plugin tercümanlari"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:218
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:219
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:220
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:221
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:222
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:223
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:224
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:225
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:226
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:227
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:228
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:229
+msgid "Language"
+msgstr "Dil"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:218
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:219
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:220
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:221
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:222
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:223
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:224
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:225
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:226
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:227
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:228
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:229
+msgid "by"
+msgstr "tarafından"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:231
+msgid "for translate language files. please send files for"
+msgstr "lutfen çevrilmiş dosyalari karşidaki e-postaya Gönderin"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:234
+msgid "Show Functions"
+msgstr "Fonksiyonlari göster"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:235
+msgid "Report Problem"
+msgstr "Problem bildir"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:248
+msgid "User Online Live"
+msgstr "Çevrimiçi üye"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:252
+msgid "Total Visit Live"
+msgstr "Çevrimiçi ziyaretçi"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:324
+msgid "Total Feedburner Subscribe"
+msgstr "Toplam kayıt"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:328
+msgid "Google Pagerank"
+msgstr "Google Pagerank"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:332
+msgid "Alexa Pagerank"
+msgstr "Alexa Pagerank"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:336
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:346
+msgid "Hide"
+msgstr "gizli"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:340
+msgid "Your Name"
+msgstr "isminiz"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:342
+msgid "Description Problem"
+msgstr "sorun"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:345
+msgid "Send Problem"
+msgstr "Problemi gonder"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:353
+msgid "Unistall plugin"
+msgstr "plugini kaldir"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:359
+msgid "Delete all data, including tables and plugin options"
+msgstr "pluginin tum opsiyonlarin database den Temizle"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/setting.php:360
+msgid "Uninstall"
+msgstr "Kaldir"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:2
+msgid "Stats weblog"
+msgstr "site İstatistikleri"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:7
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:44
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:7
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:46
+msgid "No"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:8
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:45
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:8
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:47
+msgid "IP"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:9
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:46
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:9
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:48
+msgid "Time"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:10
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:47
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:10
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:49
+msgid "Referred"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:11
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:48
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:11
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:50
+msgid "Agent"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/stats.php:36
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/setting/useronline.php:38
+msgid "Not Found!"
+msgstr ""
+
+#~ msgid "Online user check time"
+#~ msgstr "Online kisileri Inceleme zamani"
+
+#~ msgid "Each"
+#~ msgstr "her"
+
+#~ msgid "Compute min"
+#~ msgstr "dakika hesapla"
+
+#~ msgid ""
+#~ "Time for the check accurate online user in the site. Default: 5 Minutes"
+#~ msgstr "Online kisileri Inceleme zamani.Varsayılan 5 dakikadır"
+
+#~ msgid "Database check time"
+#~ msgstr "zamanda , database kontrol edilsin"
+
+#~ msgid "Minute updates"
+#~ msgstr "dakikada güncelleme"
+
+#~ msgid "About plugin"
+#~ msgstr "plugin  hakkında"
+
+#~ msgid "Plugin Version"
+#~ msgstr "Plugin Versionu"
+
+#~ msgid "Free!"
+#~ msgstr "Bedava!"
+
+#~ msgid "Get Premium version"
+#~ msgstr "Professional Edition alın"
+
+#~ msgid "This plugin created by"
+#~ msgstr "plugini yazan"
+
+#~ msgid "from"
+#~ msgstr "itibaren"
+
+#~ msgid "group"
+#~ msgstr "grup"
