@@ -59,6 +59,7 @@ Language Support:
 * Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
 * Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info/)
 * Polish Thanks Tomasz Stulka
+* Indonesian [Thanks Agit Amrullah](http://www.facebook.com/agitowblinkerz/)
 
 Send email for Translation files: mst404[a]gmail[dot].com
 for translate, please open langs/default.po by Poedit and translate strings.
@@ -127,8 +128,12 @@ a plugin for displaying Summary statistics of blog.
 1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
 
 == Upgrade Notice ==
+= 2.3.2 =
+* Added Indonesia language.
+* Turkish language file corrected by MBOZ.
+
 = 2.3.1 =
-* Added Tomasz Stulka language.
+* Added Polish language.
 * Added Support forum link in menu.
 * Fix problem error in delete plugin.
 
@@ -246,8 +251,12 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.3.2 =
+* Added Indonesia language.
+* Turkish language file corrected by MBOZ.
+
 = 2.3.1 =
-* Added Tomasz Stulka language.
+* Added Polish language.
 * Added Support forum link in menu.
 * Fix problem error in delete plugin.
 

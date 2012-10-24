@@ -226,6 +226,7 @@
 					<li><?php _e('Language', 'wp_statistics'); ?> Bengali <?php _e('by', 'wp_statistics'); ?> <a href="http://www.shamokaldarpon.com/">Mehdi Akram</a></li>
 					<li><?php _e('Language', 'wp_statistics'); ?> Serbian <?php _e('by', 'wp_statistics'); ?> <a href="http://www.georgijevic.info">Radovan   Georgijevic</a></li>
 					<li><?php _e('Language', 'wp_statistics'); ?> Polish <?php _e('by', 'wp_statistics'); ?> Tomasz Stulka</li>
+					<li><?php _e('Language', 'wp_statistics'); ?> Indonesia <?php _e('by', 'wp_statistics'); ?> Agit Amrullah</li>
 				</ul>
 				<?php _e('for translate language files. please send files for', 'wp_statistics'); ?> <code>mst404@gmail.com</code>
 
