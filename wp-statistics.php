@@ -3,7 +3,7 @@
 Plugin Name: WP-Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 2.3.2
+Version: 2.3.3
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -24,10 +24,17 @@ License: GPL2
 	$get_month	=	date('m');
 	$get_year	=	date('Y');
 
-	/* Server Varieble */
-	$get_referred	=	$_SERVER['HTTP_REFERER'];
-	$get_useragent	=	$_SERVER['HTTP_USER_AGENT'];
-	$get_userip		=	$_SERVER['REMOTE_ADDR'];
+	/**
+	 * Server Varieble
+	 *
+	 * Added by m.emami, emamirazavi@gmail.com for security reasons:
+	 * robots can set this variables by their own values!
+	 * you should scape them to prevent MySQL hijacking.
+	 * See http://stackoverflow.com/questions/3177515/how-to-save-php-http-user-agent-to-mysql-field/
+	 */
+	$get_referred	=	$wpdb->escape($_SERVER['HTTP_REFERER']);
+	$get_useragent	=	$wpdb->escape($_SERVER['HTTP_USER_AGENT']);
+	$get_userip		=	$wpdb->escape($_SERVER['REMOTE_ADDR']);
 
 	/* Live Statistics Varieble */
 	$database_checktime = get_option('database_checktime');

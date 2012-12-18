@@ -4,7 +4,7 @@ Donate link: http://iran98.org/
 Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 
 Summary statistics of blog.
 
@@ -52,7 +52,7 @@ Language Support:
 * Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
 * Spanish Thanks Jose
 * Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
-* Turkish [Thanks aidinMC](http://www.artadl.ir/)
+* Turkish [Thanks aidinMC](http://www.artadl.ir/) & [Manset27.com](http://www.manset27.com/)
 * Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/)
 * German [Thanks Andreas Martin](http://www.andreasmartin.com/)
 * Russian [Thanks Oleg](http://www.bestplugins.ru/)
@@ -124,10 +124,15 @@ or using this Shortcode in Posts pages or Widget:
 a plugin for displaying Summary statistics of blog.
 
 == Screenshots ==
-1. Screen shot (screenshot-1.png) in WP-Statistics Setting Page
-1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page
+1. Screen shot (screenshot-1.png) in WP-Statistics Setting Page.
+1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page.
 
 == Upgrade Notice ==
+= 2.3.3 =
+* Serbian language was solved.
+* Server variables were optimized by m.emami.
+* Turkish translation was complete.
+
 = 2.3.2 =
 * Added Indonesia language.
 * Turkish language file corrected by MBOZ.
@@ -251,6 +256,10 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 2.3.3 =
+* Serbian language was solved.
+* Server variables were optimized by m.emami.
+
 = 2.3.2 =
 * Added Indonesia language.
 * Turkish language file corrected by MBOZ.
