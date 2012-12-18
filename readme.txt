@@ -259,6 +259,7 @@ a plugin for displaying Summary statistics of blog.
 = 2.3.3 =
 * Serbian language was solved.
 * Server variables were optimized by m.emami.
+* Turkish translation was complete.
 
 = 2.3.2 =
 * Added Indonesia language.
