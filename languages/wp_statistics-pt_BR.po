@@ -1,0 +1,583 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Statistics v2.1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-28 19:11+0330\n"
+"PO-Revision-Date: 2013-01-28 19:11+0330\n"
+"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ wp_statistics
+#: schedule.php:32 includes/setting/settings.php:103
+#, fuzzy
+msgid "Statistical reporting"
+msgstr "Configuração das Estatísticas (Real)"
+
+# @ wp_statistics
+#: widget.php:4 widget.php:6 wp-statistics.php:58
+msgid "Statistics"
+msgstr "Estatísticas"
+
+# @ wp_statistics
+#: widget.php:5
+msgid "Show site stats in sidebar"
+msgstr "Mostram estatísticas do site na barra lateral"
+
+# @ wp_statistics
+#: widget.php:19 wp-statistics.php:80 includes/log/log.php:14
+#: includes/setting/settings.php:14 includes/setting/settings.php:159
+#: includes/setting/widget.php:9
+msgid "User Online"
+msgstr "Usuários Online"
+
+# @ wp_statistics
+#: widget.php:26 includes/setting/settings.php:161
+#: includes/setting/widget.php:12
+msgid "Today Visit"
+msgstr "Visita(s) hoje"
+
+# @ wp_statistics
+#: widget.php:33 includes/setting/settings.php:160
+#: includes/setting/widget.php:15
+#, fuzzy
+msgid "Today Visitor"
+msgstr "Visita(s) hoje"
+
+# @ wp_statistics
+#: widget.php:40 includes/setting/settings.php:163
+msgid "Yesterday Visit"
+msgstr "Visitas ontem"
+
+# @ wp_statistics
+#: widget.php:47 includes/setting/settings.php:162
+#: includes/setting/widget.php:21
+#, fuzzy
+msgid "Yesterday Visitor"
+msgstr "Visitas ontem"
+
+# @ wp_statistics
+#: widget.php:54 includes/setting/widget.php:24
+msgid "Week Visit"
+msgstr "Visita(s) da semana"
+
+# @ wp_statistics
+#: widget.php:61 includes/setting/widget.php:27
+msgid "Month Visit"
+msgstr "Visita(s) no mês"
+
+# @ wp_statistics
+#: widget.php:68 includes/setting/widget.php:30
+msgid "Years Visit"
+msgstr "Visitas em ano"
+
+# @ wp_statistics
+#: widget.php:75 includes/setting/settings.php:165
+#: includes/setting/widget.php:33
+msgid "Total Visit"
+msgstr "Total de visitas"
+
+# @ wp_statistics
+#: widget.php:82 includes/setting/settings.php:164
+#: includes/setting/widget.php:36
+#, fuzzy
+msgid "Total Visitor"
+msgstr "Total de visitas"
+
+# @ wp_statistics
+#: widget.php:90 includes/setting/widget.php:39
+msgid "Search Engine reffered"
+msgstr "Search Engine que se refere"
+
+# @ wp_statistics
+#: widget.php:105 includes/setting/widget.php:57
+msgid "Total Posts"
+msgstr "Total de Mensagens"
+
+# @ wp_statistics
+#: widget.php:112 includes/setting/widget.php:60
+msgid "Total Pages"
+msgstr "Total de Páginas"
+
+# @ wp_statistics
+#: widget.php:119 includes/setting/widget.php:63
+msgid "Total Comments"
+msgstr "Total de Comentários"
+
+# @ wp_statistics
+#: widget.php:126 includes/setting/widget.php:66
+msgid "Total Spams"
+msgstr "Total de Spams"
+
+# @ wp_statistics
+#: widget.php:133 includes/setting/widget.php:69
+msgid "Total Users"
+msgstr "Total de usuários"
+
+# @ wp_statistics
+#: widget.php:140 includes/setting/widget.php:72
+msgid "Average Posts"
+msgstr "Média de Posts"
+
+# @ wp_statistics
+#: widget.php:147 includes/setting/widget.php:75
+msgid "Average Comments"
+msgstr "Média de comentários"
+
+# @ wp_statistics
+#: widget.php:154 includes/setting/widget.php:78
+msgid "Average Users"
+msgstr "Usuários média"
+
+# @ wp_statistics
+#: widget.php:161 includes/setting/widget.php:81
+msgid "Last Post Date"
+msgstr "Data da Última Postagem"
+
+#: wp-statistics.php:60 wp-statistics.php:105
+msgid "View Stats"
+msgstr ""
+
+#: wp-statistics.php:61
+msgid "Settings"
+msgstr ""
+
+# @ wp_statistics
+#: wp-statistics.php:85
+#, fuzzy
+msgid "Today visitor"
+msgstr "Visita(s) hoje"
+
+# @ wp_statistics
+#: wp-statistics.php:90
+#, fuzzy
+msgid "Today visit"
+msgstr "Visita(s) hoje"
+
+# @ wp_statistics
+#: wp-statistics.php:95
+#, fuzzy
+msgid "Yesterday visitor"
+msgstr "Visita(s) ontem"
+
+# @ wp_statistics
+#: wp-statistics.php:100 includes/setting/widget.php:18
+msgid "Yesterday visit"
+msgstr "Visita(s) ontem"
+
+# @ wp_statistics
+#: wp-statistics.php:134 wp-statistics.php:151
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Você não tem permissão para acessar essa página."
+
+#: includes/log/log.php:8 includes/log/log.php:69 includes/log/log.php:165
+#: includes/log/log.php:209 includes/log/log.php:244 includes/log/log.php:334
+#: includes/log/log.php:374
+msgid "Click to toggle"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:9
+#, fuzzy
+msgid "Summary Statistics"
+msgstr "Estatísticas"
+
+#: includes/log/log.php:20 includes/log/log.php:305
+msgid "Visitor"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:21 includes/log/log.php:315
+#, fuzzy
+msgid "Visit"
+msgstr "Visita(s) da semana"
+
+# @ wp_statistics
+#: includes/log/log.php:25
+#, fuzzy
+msgid "Today"
+msgstr "Visita(s) hoje"
+
+# @ wp_statistics
+#: includes/log/log.php:31
+#, fuzzy
+msgid "Yesterday"
+msgstr "Visita(s) ontem"
+
+#: includes/log/log.php:37
+msgid "Week"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:43
+#, fuzzy
+msgid "Month"
+msgstr "Visita(s) no mês"
+
+#: includes/log/log.php:49
+msgid "Year"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:55
+#, fuzzy
+msgid "Total"
+msgstr "Total de visitas"
+
+#: includes/log/log.php:62
+#, php-format
+msgid ""
+"Today date: <code dir=\"ltr\">%s</code>, Time: <code dir=\"ltr\">%s</code>"
+msgstr ""
+
+#: includes/log/log.php:64
+msgid "(Adjustment)"
+msgstr ""
+
+#: includes/log/log.php:70
+msgid "Browsers"
+msgstr ""
+
+#: includes/log/log.php:101
+msgid "Graph of Browsers"
+msgstr ""
+
+#: includes/log/log.php:143
+msgid "Browser share"
+msgstr ""
+
+#: includes/log/log.php:145
+msgid "Firefox"
+msgstr ""
+
+#: includes/log/log.php:146
+msgid "IE"
+msgstr ""
+
+#: includes/log/log.php:147
+msgid "Ipad"
+msgstr ""
+
+#: includes/log/log.php:148
+msgid "Android"
+msgstr ""
+
+#: includes/log/log.php:149
+msgid "Chrome"
+msgstr ""
+
+#: includes/log/log.php:150
+msgid "Safari"
+msgstr ""
+
+#: includes/log/log.php:151
+msgid "Other"
+msgstr ""
+
+#: includes/log/log.php:166
+msgid "Top referring sites"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:171 includes/log/log.php:342 includes/log/log.php:386
+#, fuzzy
+msgid "Reference"
+msgstr "Referido"
+
+#: includes/log/log.php:172
+msgid "Address"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:210
+msgid "About plugin"
+msgstr "Sobre o plugin"
+
+# @ wp_statistics
+#: includes/log/log.php:213
+#, fuzzy, php-format
+msgid "Plugin version: %s"
+msgstr "Versão Plugin"
+
+#: includes/log/log.php:214
+msgid "Translation plugin languages"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:215
+#, fuzzy
+msgid "Support plugin"
+msgstr "Sobre o plugin"
+
+#: includes/log/log.php:216
+msgid "Weblog"
+msgstr ""
+
+#: includes/log/log.php:221
+msgid ""
+"Please donate to the plugin. With the help of plug-ins you can quickly "
+"spread."
+msgstr ""
+
+#: includes/log/log.php:224
+msgid "Donate"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:245
+#, fuzzy
+msgid "Statistical Chart"
+msgstr "Estatísticas"
+
+#: includes/log/log.php:260
+msgid "Chart hit in the last 20 days"
+msgstr ""
+
+#: includes/log/log.php:279
+msgid "Number of visits and visitors"
+msgstr ""
+
+#: includes/log/log.php:335
+msgid "Latest search words"
+msgstr ""
+
+#: includes/log/log.php:339
+msgid "Word"
+msgstr ""
+
+#: includes/log/log.php:340 includes/log/log.php:384
+msgid "Date"
+msgstr ""
+
+#: includes/log/log.php:341
+msgid "Site"
+msgstr ""
+
+#: includes/log/log.php:354 includes/setting/widget.php:44
+msgid "Google"
+msgstr ""
+
+#: includes/log/log.php:356 includes/setting/widget.php:47
+msgid "Yahoo!"
+msgstr ""
+
+#: includes/log/log.php:358 includes/setting/widget.php:50
+msgid "Bing"
+msgstr ""
+
+#: includes/log/log.php:363 includes/log/log.php:400 includes/log/log.php:408
+#: includes/log/log.php:420
+msgid "Unknown"
+msgstr ""
+
+# @ wp_statistics
+#: includes/log/log.php:375
+#, fuzzy
+msgid "Recent Visitors"
+msgstr "Visita(s) da semana"
+
+# @ wp_statistics
+#: includes/log/log.php:379
+msgid "IP"
+msgstr "IP"
+
+#: includes/log/log.php:381
+msgid "Country"
+msgstr ""
+
+#: includes/log/log.php:382
+msgid "Province"
+msgstr ""
+
+#: includes/log/log.php:385
+msgid "Browser"
+msgstr ""
+
+#: includes/setting/settings.php:9
+msgid "General Settings"
+msgstr ""
+
+#: includes/setting/settings.php:19 includes/setting/settings.php:31
+#: includes/setting/settings.php:43 includes/setting/settings.php:92
+#: includes/setting/settings.php:108
+msgid "Active"
+msgstr ""
+
+#: includes/setting/settings.php:20 includes/setting/settings.php:32
+#: includes/setting/settings.php:44 includes/setting/settings.php:109
+msgid "Enable or disable this feature"
+msgstr ""
+
+# @ wp_statistics
+#: includes/setting/settings.php:26
+#, fuzzy
+msgid "Visits"
+msgstr "Visita(s) da semana"
+
+#: includes/setting/settings.php:38
+msgid "Visitors"
+msgstr ""
+
+#: includes/setting/settings.php:50
+msgid "Check for online users every"
+msgstr ""
+
+#: includes/setting/settings.php:55
+msgid "Secound"
+msgstr ""
+
+# @ wp_statistics
+#: includes/setting/settings.php:56
+#, fuzzy, php-format
+msgid "Time for the check accurate online user in the site. Now: %s Second"
+msgstr ""
+"Tempo para a verificação exata do usuário on-line no site. Padrão: 5 Minutos"
+
+# @ wp_statistics
+#: includes/setting/settings.php:62
+#, fuzzy
+msgid "Show stats in menu bar"
+msgstr "Mostram estatísticas do site na barra lateral"
+
+# @ wp_statistics
+#: includes/setting/settings.php:67
+msgid "No"
+msgstr "Não"
+
+# @ wp_statistics
+#: includes/setting/settings.php:68
+msgid "Yes"
+msgstr "Sim"
+
+# @ wp_statistics
+#: includes/setting/settings.php:70
+#, fuzzy
+msgid "Show stats in admin menu bar"
+msgstr "Mostram estatísticas do site na barra lateral"
+
+#: includes/setting/settings.php:76
+msgid "Coefficient per visitor"
+msgstr ""
+
+#: includes/setting/settings.php:81
+#, php-format
+msgid "For each visit to account for several hits. Currently %s."
+msgstr ""
+
+#: includes/setting/settings.php:87
+msgid "Display IP Information On-screen statistics"
+msgstr ""
+
+#: includes/setting/settings.php:93
+msgid "Showing the flag country and Visitor province name (May be a bit slow)"
+msgstr ""
+
+#: includes/setting/settings.php:98
+msgid "Statistical reporting settings"
+msgstr ""
+
+# @ wp_statistics
+#: includes/setting/settings.php:116
+#, fuzzy
+msgid "Time send"
+msgstr "Hora"
+
+# @ wp_statistics
+#: includes/setting/settings.php:121 includes/setting/settings.php:137
+#, fuzzy
+msgid "Please select."
+msgstr "Favor informe valor!"
+
+#: includes/setting/settings.php:122
+msgid "Hourly"
+msgstr ""
+
+#: includes/setting/settings.php:123
+msgid "Twice daily"
+msgstr ""
+
+#: includes/setting/settings.php:124
+msgid "daily"
+msgstr ""
+
+#: includes/setting/settings.php:126
+msgid "Select when receiving statistics report."
+msgstr ""
+
+#: includes/setting/settings.php:132
+msgid "Send Statistical reporting to"
+msgstr ""
+
+#: includes/setting/settings.php:138
+msgid "Email"
+msgstr ""
+
+#: includes/setting/settings.php:139
+msgid "SMS"
+msgstr ""
+
+#: includes/setting/settings.php:141
+msgid "Type Select Get Status Report."
+msgstr ""
+
+#: includes/setting/settings.php:144
+#, php-format
+msgid ""
+"Note: To send SMS text messages please install the <a href=\"%s\" target="
+"\"_blank\">Wordpress SMS</a> plugin."
+msgstr ""
+
+#: includes/setting/settings.php:151
+msgid "Send Content Report"
+msgstr ""
+
+#: includes/setting/settings.php:156
+msgid "Enter the contents of the reports received."
+msgstr ""
+
+#: includes/setting/settings.php:158
+msgid "Input data:"
+msgstr ""
+
+# @ wp_statistics
+#: includes/setting/widget.php:2
+msgid "Name"
+msgstr "Nome"
+
+#: includes/setting/widget.php:6
+msgid "Items"
+msgstr ""
+
+#: includes/setting/widget.php:42
+msgid "Select type of search engine"
+msgstr ""
+
+#: includes/setting/widget.php:53
+msgid "All"
+msgstr ""
+
+# @ wp_statistics
+#: includes/setting/widget.php:84
+msgid "Type date for last update"
+msgstr "Data para a última atualização"
+
+# @ wp_statistics
+#: includes/setting/widget.php:86
+msgid "English"
+msgstr "Inglês"
+
+# @ wp_statistics
+#: includes/setting/widget.php:89
+msgid "Persian"
+msgstr "Persian"
