@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 3.0
+Version: 3.0.1
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -132,6 +132,16 @@ License: GPL2
 	
 		if (!current_user_can('manage_options')) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
+		}
+		
+		global $wpdb, $table_prefix;
+		
+		$result[] = $wpdb->query("SELECT * FROM {$table_prefix}statistics_useronline");
+		$result[] = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visit");
+		$result[] = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor");
+		
+		if( !$result[0] || !$result[1] || !$result[2] ) {
+			wp_die(__('Table plugin does not exist! Please disable and re-enable the plugin.', 'wp_statistics'));
 		}
 		
 		wp_enqueue_script('dashboard');

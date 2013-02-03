@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-28 19:18+0330\n"
-"PO-Revision-Date: 2013-01-28 19:18+0330\n"
+"POT-Creation-Date: 2013-02-03 19:30+0330\n"
+"PO-Revision-Date: 2013-02-03 19:30+0330\n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -198,18 +198,23 @@ msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:151
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:161
 msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:144
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
 msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:209
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:244
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:334
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:374
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:207
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:242
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:332
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:372
 msgid "Click to toggle"
 msgstr ""
 
@@ -220,13 +225,13 @@ msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:305
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:303
 msgid "Visitor"
 msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:315
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:313
 msgid "Visit"
 msgstr ""
 
@@ -329,8 +334,7 @@ msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:386
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
 msgid "Reference"
 msgstr ""
 
@@ -340,127 +344,132 @@ msgid "Address"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:210
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:208
 msgid "About plugin"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:211
 #, php-format
 msgid "Plugin version: %s"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:212
 msgid "Translation plugin languages"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
 msgid "Support plugin"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:216
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
 msgid "Weblog"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:219
 msgid ""
 "Please donate to the plugin. With the help of plug-ins you can quickly "
 "spread."
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:224
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:222
 msgid "Donate"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:245
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:243
 msgid "Statistical Chart"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:260
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:258
 msgid "Chart hit in the last 20 days"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:279
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:277
 msgid "Number of visits and visitors"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:335
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:333
 msgid "Latest search words"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:337
 msgid "Word"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:338
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
 msgid "Date"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
 msgid "Site"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
+msgid "Referrer"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:352
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
 msgid "Google"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
 msgid "Yahoo!"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:358
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
 msgid "Bing"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:363
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:400
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:408
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:420
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:361
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:398
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:406
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:418
 msgid "Unknown"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:375
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:373
 msgid "Recent Visitors"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:377
 msgid "IP"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
 msgid "Country"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:380
 msgid "Province"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:385
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:383
 msgid "Browser"
 msgstr ""
 

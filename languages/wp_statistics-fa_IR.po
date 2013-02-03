@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 00:33+0330\n"
+"POT-Creation-Date: 2013-02-03 19:30+0330\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team:  <mat404@gmail.com>\n"
@@ -198,18 +198,23 @@ msgstr "بازدید دیروز"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:151
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:161
 msgid "You do not have sufficient permissions to access this page."
 msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:144
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
+msgstr "جدول های پلاگین وجود ندارد! لطفا پلاگین را غیر فعال و مجدد فعال کنید."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:209
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:244
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:334
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:374
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:207
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:242
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:332
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:372
 msgid "Click to toggle"
 msgstr "برای باز و بستن کلیک کنید"
 
@@ -220,13 +225,13 @@ msgstr "خلاصه آمار"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:305
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:303
 msgid "Visitor"
 msgstr "بازدیدکننده"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:315
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:313
 msgid "Visit"
 msgstr "بازدید"
 
@@ -329,7 +334,7 @@ msgstr "بهترین سایت های ارجاع دهنده"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:386
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
 msgid "Reference"
 msgstr "ارجاع"
 
@@ -339,33 +344,33 @@ msgid "Address"
 msgstr "آدرس"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:210
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:208
 msgid "About plugin"
 msgstr "درباره افزونه آماره"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:211
 #, php-format
 msgid "Plugin version: %s"
 msgstr "نگارش افزونه: %s"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:212
 msgid "Translation plugin languages"
 msgstr "ترجمه زبان‌های افزونه"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
 msgid "Support plugin"
 msgstr "پشتیبانی افزونه"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:216
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
 msgid "Weblog"
 msgstr "وبلاگ"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:219
 msgid ""
 "Please donate to the plugin. With the help of plug-ins you can quickly "
 "spread."
@@ -374,99 +379,99 @@ msgstr ""
 "گسترش یابد."
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:224
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:222
 msgid "Donate"
 msgstr "حمایت"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:245
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:243
 msgid "Statistical Chart"
 msgstr "نمودارهای آماری"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:260
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:258
 msgid "Chart hit in the last 20 days"
 msgstr "نمودار آمار در 20 روز گذشته"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:279
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:277
 msgid "Number of visits and visitors"
 msgstr "تعداد بازدید و بازدید کننده"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:335
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:333
 msgid "Latest search words"
 msgstr "آخرین کلمات جستجو شده"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:337
 msgid "Word"
 msgstr "کلمه"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:338
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
 msgid "Date"
 msgstr "تاریخ"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
 msgid "Site"
 msgstr "سایت"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
 msgid "Referrer"
 msgstr "ارجاع"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:352
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
 msgid "Google"
 msgstr "گوگل"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
 msgid "Yahoo!"
 msgstr "یاهو!"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:358
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
 msgid "Bing"
 msgstr "بینگ"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:363
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:400
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:408
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:420
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:361
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:398
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:406
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:418
 msgid "Unknown"
 msgstr "نا معلوم"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:375
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:373
 msgid "Recent Visitors"
 msgstr "آخرین بازدیدکنندگان"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:377
 msgid "IP"
 msgstr "آی‌پی"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
 msgid "Country"
 msgstr "کشور"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:380
 msgid "Province"
 msgstr "استان"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:385
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:383
 msgid "Browser"
 msgstr "مرورگر"
 

@@ -173,8 +173,6 @@
 								</tr>
 								
 								<?php
-									global $wpdb, $table_prefix;
-									
 									$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor`");
 									
 									$urls = array();
