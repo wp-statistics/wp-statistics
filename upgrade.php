@@ -17,7 +17,7 @@
 			update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 			update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
 			
-			do_action('wp_statistics_install')
+			do_action('wp_statistics_install');
 		}
 	}
 ?>
