@@ -1,0 +1,95 @@
+
+#right-log {
+    width: 31%;
+}
+#left-log {
+    margin: 0 0 0 1%;
+    width: 68%;
+}
+#right-log a, #left-log a {
+    text-decoration: none;
+}
+#summary-stats {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px none;
+    margin: 0 0 10px;
+}
+#summary-stats tr:first-child th {
+    border-top: 0 none;
+}
+#summary-stats span {
+    color: #21759B !important;
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    font-size: 21px;
+}
+#user_online {
+    text-align: center;
+}
+#user_online span {
+    font-size: 50px;
+}
+#last-visitor tr {
+    text-align: center;
+}
+#last-visitor tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+#last-search tr {
+    text-align: center;
+}
+#last-search tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+#last-referrer tr {
+    text-align: left;
+}
+#last-referrer tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+.th-center {
+    text-align: center !important;
+}
+.td-align {
+    text-align: left;
+}
+#time_zone a {
+    font-size: 11px;
+    text-decoration: none;
+}
+#visits-log {
+    height: 330px;
+    width: 100%;
+}
+#browsers-log {
+    height: 330px;
+    margin: 0 auto;
+    width: 100%;
+}
+#about-links {
+    margin: 0 0 10px;
+}
+#about-links p {
+    display: inline;
+    margin: 0 2px;
+}
+#about-links a {
+}
+#donate-button {
+    bottom: 18px;
+    float: right;
+    height: 15px;
+    position: relative;
+}
+.ads{
+
+}
+.ads img {
+    height: 90px;
+    width: 120px;
+}

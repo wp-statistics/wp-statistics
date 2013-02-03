@@ -1,31 +1,30 @@
 === WP-Statistics ===
 Contributors: mostafa.s1990
-Donate link: http://iran98.org/
-Tags: statistics, stats, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
+Donate link: http://iran98.org/donate/
+Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 2.3.3
+Tested up to: 3.6
+Stable tag: 3.0
 
-Summary statistics of blog.
+Complete statistics for your blog.
 
 == Description ==
-a plugin for displaying Summary statistics of blog.
+A perfect plugin for your blog visitors statistics.
+With this plugin, you can get hit full blog. Visitors and visits your blog from today to 1 year before you can get!
+Many features have been added to the new version of the plugin and the previous problems have been resolved.
+Statistics report on the screen can also view statistics with graphs.
 
 Features:
 
 * User Online
-* Today Visit
-* Yesterday visit
-* Week Visit
-* Month Visit
-* Years Visit
-* Total Visit
+* Today visit/visitors
+* Yesterday visit/visitors
+* Week Visit/visitors
+* Month Visit/visitors
+* Years Visit/visitors
+* Total Visit/visitors
 * Search Engine reffered (Google, Yahoo, Bing)
-* User Online Live
-* Total Visit Live
-* Increased to visit.
-* Reduced to visit.
-* Coefficient statistics for each user.
+* Coefficient statistics for each user
 * Total Posts
 * Total Pages
 * Total Comments
@@ -35,12 +34,13 @@ Features:
 * Average Posts
 * Average Comments
 * Average Users
-* Total Feedburner Subscribe
-* Google Pagerank
-* Alexa Pagerank
-* Use optimize from Database
-* Show Useronline and last visitor in setting page (ip, time, agent, reffered)
-* Supported wordpress shortcode for view function in post/page or widget(text)
+* Visitor Browser View as chart
+* View search words
+* View Recent Visitors (Country and provincial visitor)
+* Send scheduling statistics by email/SMS 
+* Support functions and Widgets
+* The object-oriented programming
+* Standard functions for development
 
 Language Support:
 
@@ -61,73 +61,76 @@ Language Support:
 * Polish Thanks Tomasz Stulka
 * Indonesian [Thanks Agit Amrullah](http://www.facebook.com/agitowblinkerz/)
 
-Send email for Translation files: mst404[a]gmail[dot].com
-for translate, please open langs/default.po by Poedit and translate strings.
+[Percentage languages ​​translation](http://teamwork.wp-parsi.com/projects/wp-statistics/)
+To complete the language deficits of [this section](http://teamwork.wp-parsi.com/projects/wp-statistics/) apply.
+Support Forum in [WordPress support forum Persian](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
+[Donate to this plugin](http://iran98.org/donate/)
 
 == Installation ==
-1. Upload `wp-statistics` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Set Date and Time in Wordpress.
+4. Go to the plugin settings and plugins enabled.
 3. To display stats, using this functions:
 
-* User Online: `<?php echo wp_statistics_useronline(); ?>`
-* Today Visit: `<?php echo wp_statistics_today(); ?>`
-* Yesterday Visit: `<?php echo wp_statistics_yesterday(); ?>`
-* Week Visit `<?php echo wp_statistics_week(); ?>`
-* Month Visit `<?php echo wp_statistics_month(); ?>`
-* Years Visit `<?php echo wp_statistics_year(); ?>`
-* Total Visit `<?php echo wp_statistics_total(); ?>`
+* User online: `<?php echo wp_statistics_useronline(); ?>`
+* Today visitor: `<?php echo wp_statistics_visitor('today'); ?>`
+* Today visit: `<?php echo wp_statistics_visit('today'); ?>`
+* Yesterday visitor: `<?php echo wp_statistics_visitor('yesterday'); ?>`
+* Yesterday visit: `<?php echo wp_statistics_visit('yesterday'); ?>`
+* Week visitor: `<?php echo wp_statistics_visitor('week'); ?>`
+* Week visit: `<?php echo wp_statistics_visit('week'); ?>`
+* Month visitor: `<?php echo wp_statistics_visitor('month'); ?>`
+* Mount visit: `<?php echo wp_statistics_visit('month'); ?>`
+* Years visitor: `<?php echo wp_statistics_visitor('year'); ?>`
+* Years visit: `<?php echo wp_statistics_visit('year'); ?>`
+* Total visitor: `<?php echo wp_statistics_visitor('total'); ?>`
+* Total visit: `<?php echo wp_statistics_visit('total'); ?>`
+* Number of visitors of 40 days to today: `<?php echo wp_statistics_visitor(45); ?>`
+* Number of visits of 40 days to today: `<?php echo wp_statistics_visit(45); ?>`
+* Number of visitors 45 days ago: `<?php echo wp_statistics_visitor(45, true); ?>`
+* Number of visits 45 days ago: `<?php echo wp_statistics_visit(45, true); ?>`
 * All Search Engine reffered `<?php echo wp_statistics_searchengine(); ?>`
 * Google Search Engine reffered `<?php echo wp_statistics_searchengine('google'); ?>`
 * Yahoo Search Engine reffered `<?php echo wp_statistics_searchengine('yahoo'); ?>`
 * Bing Search Engine reffered `<?php echo wp_statistics_searchengine('bing'); ?>`
-* User Online Live (Premium Version) `<?php echo wp_statistics_useronline_live(); ?>`
-* Total Visit Live (Premium Version) `<?php echo wp_statistics_total_live(); ?>`
-* Total Posts `<?php echo wp_statistics_countposts(); ?>`
-* Total Pages `<?php echo wp_statistics_countpages(); ?>`
-* Total Comments `<?php echo wp_statistics_countcomment(); ?>`
-* Total Spams `<?php echo wp_statistics_countspam(); ?>`
-* Total Users `<?php echo wp_statistics_countusers(); ?>`
-* Last Post Date `<?php echo wp_statistics_lastpostdate(); ?>`
-* Last Post Date (Persian) `<?php echo wp_statistics_lastpostdate('farsi'); ?>`
-* Average Posts `<?php echo wp_statistics_average_post(); ?>`
-* Average Comments `<?php echo wp_statistics_average_comment(); ?>`
-* Average Users `<?php echo wp_statistics_average_registeruser(); ?>`
-* Total Feedburner Subscribe `<?php wp_statistics_countsubscrib('feedburneraddress'); ?>`
-* Google Pagerank `<?php wp_statistics_google_page_rank(); ?>`
-* Alexa Pagerank `<?php echo wp_statistics_alexaRank(); ?>`
-
-or using this Shortcode in Posts pages or Widget:
-
-* User Online: `[useronline]useronline[/useronline]`
-* Today Visit: `[today]today[/today]`
-* Yesterday Visit: `[yesterday]yesterday[/yesterday]`
-* Week Visit `[week]week[/week]`
-* Month Visit `[month]month[/month]`
-* Years Visit `[year]year[/year]`
-* Total Visit `[total]total[/total]`
-* All Search Engine reffered `[searchengine]searchengine[/searchengine]`
-* User Online Live (Premium Version) `[useronlinelive]useronlinelive[/useronlinelive]`
-* Total Visit Live (Premium Version) `[totallive]totallive[/totallive]`
-* Total Posts `[countposts]countposts[/countposts]`
-* Total Pages `[countpages]countpages[/countpages]`
-* Total Comments `[countcomments]countcomments[/countcomments]`
-* Total Spams `[countspams]countspams[/countspams]`
-* Total Users `[countusers]countusers[/countusers]`
-* Last Post Date `[lastpostdate]lastpostdate[/lastpostdate]`
-* Average Posts `[averagepost]averagepost[/averagepost]`
-* Average Comments `[averagecomment]averagecomment[/averagecomment]`
-* Average Users `[averageusers]averageusers[/averageusers]`
-* Google Pagerank `[googlepagerank]googlepagerank[/googlepagerank]`
-* Alexa Pagerank `[alexaRank]alexaRank[/alexaRank]`
+* Total posts `<?php echo wp_statistics_countposts(); ?>`
+* Total pages `<?php echo wp_statistics_countpages(); ?>`
+* Total comments `<?php echo wp_statistics_countcomment(); ?>`
+* Total spams `<?php echo wp_statistics_countspam(); ?>`
+* Total users `<?php echo wp_statistics_countusers(); ?>`
+* Last post date `<?php echo wp_statistics_lastpostdate(); ?>`
+* Last post date (Persian) `<?php echo wp_statistics_lastpostdate('farsi'); ?>`
+* Average posts `<?php echo wp_statistics_average_post(); ?>`
+* Average comments `<?php echo wp_statistics_average_comment(); ?>`
+* Average users `<?php echo wp_statistics_average_registeruser(); ?>`
 
 == Frequently Asked Questions ==
-a plugin for displaying Summary statistics of blog.
+= How to update to version 3.0? =
+Get Plugin updates via Automatic only.
+
+= If the plug does not work? =
+Disable / Enable the plugin.
 
 == Screenshots ==
-1. Screen shot (screenshot-1.png) in WP-Statistics Setting Page.
-1. Screen shot (screenshot-2.png) in WP-Statistics Widget Page.
+1. Screen shot (screenshot-1.png) in View stats page.
+1. Screen shot (screenshot-2.png) in Settings page.
+1. Screen shot (screenshot-3.png) in Widget page.
 
 == Upgrade Notice ==
+= 3.0 =
+* Bug Fix: problem in calculating Statistics.
+* Enhancement: Optimize and speed up the process.
+* Enhancement: Overall reconstruction and coding plug with a new structure.
+* Enhancement: The use of object-oriented programming.
+* Added: statistics screen to complete.
+* Added: Chart Show.
+* Added: Graph of Browsers.
+* Added: Latest search words.
+* Added: Specification (Country and county) Visitors.
+* Added: Top referring sites.
+* Added: Send stats to Email/[SMS](http://wordpress.org/extend/plugins/wp-sms/)
+
 = 2.3.3 =
 * Serbian language was solved.
 * Server variables were optimized by m.emami.
@@ -256,6 +259,19 @@ a plugin for displaying Summary statistics of blog.
 * Start plugin
 
 == Changelog ==
+= 3.0 =
+* Bug Fix: problem in calculating Statistics.
+* Enhancement: Optimize and speed up the process.
+* Enhancement: Overall reconstruction and coding plug with a new structure.
+* Enhancement: The use of object-oriented programming.
+* Added: statistics screen to complete.
+* Added: Chart Show.
+* Added: Graph of Browsers.
+* Added: Latest search words.
+* Added: Specification (Country and county) Visitors.
+* Added: Top referring sites.
+* Added: Send stats to Email/[SMS](http://wordpress.org/extend/plugins/wp-sms/)
+
 = 2.3.3 =
 * Serbian language was solved.
 * Server variables were optimized by m.emami.
