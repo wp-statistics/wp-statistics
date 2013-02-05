@@ -1,5 +1,5 @@
 <?php
-	class Useronline extends Statistics {
+	class Useronline extends WP_Statistics {
 		
 		private $timestamp;
 		

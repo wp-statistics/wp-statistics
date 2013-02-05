@@ -10,7 +10,7 @@
 	
 		global $wpdb, $table_prefix;
 		
-		$s = new Statistics();
+		$s = new WP_Statistics();
 		
 		if( $daily == true ) {
 		
@@ -62,7 +62,7 @@
 	
 		global $wpdb, $table_prefix;
 		
-		$s = new Statistics();
+		$s = new WP_Statistics();
 		
 		if( $daily == true ) {
 		
@@ -119,7 +119,7 @@
 	
 		global $wpdb, $table_prefix;
 		
-		$s = new Statistics();
+		$s = new WP_Statistics();
 		
 		if( $search_engine == 'google' ) {
 		

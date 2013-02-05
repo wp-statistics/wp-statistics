@@ -40,8 +40,8 @@
 			
 			add_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
 			
-			$h = new Hits();
-			$h->Primary_Values();
+			$s = new WP_Statistics();
+			$s->Primary_Values();
 		}
 	}
 ?>

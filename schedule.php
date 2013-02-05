@@ -1,12 +1,12 @@
 <?php
-	if ( !wp_next_scheduled('report_hook') && get_option('stats_report') ) {
+	if ( !wp_next_scheduled('report_hook') && get_option('wps_stats_report') ) {
 	
-		wp_schedule_event(time(), get_option('time_report'), 'report_hook');
+		wp_schedule_event(time(), get_option('wps_time_report'), 'report_hook');
 	}
 	
 	function wp_statistics_send_report() {
 	
-		$string = get_option('content_report');
+		$string = get_option('wps_content_report');
 		
 		$template_vars = array(
 			'user_online'		=>	wp_statistics_useronline(),
@@ -20,7 +20,7 @@
 
 		$final_text_report = preg_replace('/%(.*?)%/ime', "\$template_vars['$1']", $string);
 		
-		if( get_option('send_report') == 'mail' ) {
+		if( get_option('wps_send_report') == 'mail' ) {
 		
 			$blogname = get_bloginfo('name');
 			$blogemail = get_bloginfo('admin_email');
@@ -31,7 +31,7 @@
 			
 			wp_mail( get_bloginfo('admin_email'), __('Statistical reporting', 'wp_statistics'), $final_text_report, $headers );
 			
-		} else if( get_option('send_report') == 'sms' ) {
+		} else if( get_option('wps_send_report') == 'sms' ) {
 		
 			global $obj;
 

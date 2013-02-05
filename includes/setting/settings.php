@@ -15,7 +15,7 @@
 					</th>
 					
 					<th>
-						<input id="useronline" type="checkbox" value="1" name="useronline" <?php echo get_option('useronline')==true? "checked='checked'":'';?>>
+						<input id="useronline" type="checkbox" value="1" name="wps_useronline" <?php echo get_option('wps_useronline')==true? "checked='checked'":'';?>>
 						<label for="useronline"><?php _e('Active', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
 					</th>
@@ -27,7 +27,7 @@
 					</th>
 					
 					<th>
-						<input id="visits" type="checkbox" value="1" name="visits" <?php echo get_option('visits')==true? "checked='checked'":'';?>>
+						<input id="visits" type="checkbox" value="1" name="wps_visits" <?php echo get_option('wps_visits')==true? "checked='checked'":'';?>>
 						<label for="visits"><?php _e('Active', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
 					</th>
@@ -39,7 +39,7 @@
 					</th>
 					
 					<th>
-						<input id="visitors" type="checkbox" value="1" name="visitors" <?php echo get_option('visitors')==true? "checked='checked'":'';?>>
+						<input id="visitors" type="checkbox" value="1" name="wps_visitors" <?php echo get_option('wps_visitors')==true? "checked='checked'":'';?>>
 						<label for="visitors"><?php _e('Active', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
 					</th>
@@ -51,7 +51,7 @@
 					</th>
 					
 					<th>
-						<input type="text" class="small-text code" id="check_online" name="check_online" value="<?php echo get_option('check_online'); ?>"/>
+						<input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo get_option('wps_check_online'); ?>"/>
 						<?php _e('Secound', 'wp_statistics'); ?>
 						<p class="description"><?php echo sprintf(__('Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics'), $o->second); ?></p>
 					</th>
@@ -63,9 +63,9 @@
 					</th>
 					
 					<th>
-						<select name="menu_bar" id="menu-bar">
-							<option value="0" <?php selected(get_option('menu_bar'), '0'); ?>><?php _e('No', 'wp_statistics'); ?></option>
-							<option value="1" <?php selected(get_option('menu_bar'), '1'); ?>><?php _e('Yes', 'wp_statistics'); ?></option>
+						<select name="wps_menu_bar" id="menu-bar">
+							<option value="0" <?php selected(get_option('wps_menu_bar'), '0'); ?>><?php _e('No', 'wp_statistics'); ?></option>
+							<option value="1" <?php selected(get_option('wps_menu_bar'), '1'); ?>><?php _e('Yes', 'wp_statistics'); ?></option>
 						</select>
 						<p class="description"><?php _e('Show stats in admin menu bar', 'wp_statistics'); ?></p>
 					</th>
@@ -77,7 +77,7 @@
 					</th>
 					
 					<th>
-						<input type="text" class="small-text code" id="coefficient" name="coefficient" value="<?php echo get_option('coefficient'); ?>"/>
+						<input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo get_option('wps_coefficient'); ?>"/>
 						<p class="description"><?php echo sprintf(__('For each visit to account for several hits. Currently %s.', 'wp_statistics'), $h->coefficient); ?></p>
 					</th>
 				</tr>
@@ -88,7 +88,7 @@
 					</th>
 					
 					<th>
-						<input id="ip-information" type="checkbox" value="1" name="ip_information" <?php echo get_option('ip_information')==true? "checked='checked'":'';?>>
+						<input id="ip-information" type="checkbox" value="1" name="wps_ip_information" <?php echo get_option('wps_ip_information')==true? "checked='checked'":'';?>>
 						<label for="ip-information"><?php _e('Active', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Showing the flag country and Visitor province name (May be a bit slow)', 'wp_statistics'); ?></p>
 					</th>
@@ -104,24 +104,24 @@
 					</th>
 					
 					<th>
-						<input id="stats-report" type="checkbox" value="1" name="stats_report" <?php echo get_option('stats_report')==true? "checked='checked'":'';?>>
+						<input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php echo get_option('wps_stats_report')==true? "checked='checked'":'';?>>
 						<label for="stats-report"><?php _e('Active', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
 					</th>
 				</tr>
 				
-				<?php if( get_option('stats_report') ) { ?>
+				<?php if( get_option('wps_stats_report') ) { ?>
 				<tr valign="top">
 					<th scope="row">
 						<label for="time-report"><?php _e('Time send', 'wp_statistics'); ?>:</label>
 					</th>
 					
 					<th>
-						<select name="time_report" id="time-report">
-							<option value="0" <?php selected(get_option('time_report'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
-							<option value="hourly" <?php selected(get_option('time_report'), 'hourly'); ?>><?php _e('Hourly', 'wp_statistics'); ?></option>
-							<option value="twicedaily" <?php selected(get_option('time_report'), 'twicedaily'); ?>><?php _e('Twice daily', 'wp_statistics'); ?></option>
-							<option value="daily" <?php selected(get_option('time_report'), 'daily'); ?>><?php _e('daily', 'wp_statistics'); ?></option>
+						<select name="wps_time_report" id="time-report">
+							<option value="0" <?php selected(get_option('wps_time_report'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
+							<option value="hourly" <?php selected(get_option('wps_time_report'), 'hourly'); ?>><?php _e('Hourly', 'wp_statistics'); ?></option>
+							<option value="twicedaily" <?php selected(get_option('wps_time_report'), 'twicedaily'); ?>><?php _e('Twice daily', 'wp_statistics'); ?></option>
+							<option value="daily" <?php selected(get_option('wps_time_report'), 'daily'); ?>><?php _e('daily', 'wp_statistics'); ?></option>
 						</select>
 						<p class="description"><?php _e('Select when receiving statistics report.', 'wp_statistics'); ?></p>
 					</th>
@@ -133,14 +133,14 @@
 					</th>
 					
 					<th>
-						<select name="send_report" id="send-report">
-							<option value="0" <?php selected(get_option('send_report'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
-							<option value="mail" <?php selected(get_option('send_report'), 'mail'); ?>><?php _e('Email', 'wp_statistics'); ?></option>
-							<option value="sms" <?php selected(get_option('send_report'), 'sms'); ?>><?php _e('SMS', 'wp_statistics'); ?></option>
+						<select name="wps_send_report" id="send-report">
+							<option value="0" <?php selected(get_option('wps_send_report'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
+							<option value="mail" <?php selected(get_option('wps_send_report'), 'mail'); ?>><?php _e('Email', 'wp_statistics'); ?></option>
+							<option value="sms" <?php selected(get_option('wps_send_report'), 'sms'); ?>><?php _e('SMS', 'wp_statistics'); ?></option>
 						</select>
 						<p class="description"><?php _e('Type Select Get Status Report.', 'wp_statistics'); ?></p>
 						
-						<?php if( get_option('send_report') == 'sms' && !class_exists(get_option('wp_webservice')) ) { ?>
+						<?php if( get_option('wps_send_report') == 'sms' && !class_exists(get_option('wp_webservice')) ) { ?>
 							<p class="description note"><?php echo sprintf(__('Note: To send SMS text messages please install the <a href="%s" target="_blank">Wordpress SMS</a> plugin.', 'wp_statistics'), 'http://wordpress.org/extend/plugins/wp-sms/'); ?></p>
 						<?php } ?>
 					</th>
@@ -152,7 +152,7 @@
 					</th>
 					
 					<th>
-						<?php wp_editor( get_option('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'content_report', 'textarea_rows' => 5) ); ?>
+						<?php wp_editor( get_option('wps_content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'content_report', 'textarea_rows' => 5) ); ?>
 						<p class="description"><?php _e('Enter the contents of the reports received.', 'wp_statistics'); ?></p>
 						<p class="description data">
 							<?php _e('Input data:', 'wp_statistics'); ?>

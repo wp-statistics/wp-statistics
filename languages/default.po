@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-03 19:30+0330\n"
-"PO-Revision-Date: 2013-02-03 19:30+0330\n"
+"POT-Creation-Date: 2013-02-05 21:18+0330\n"
+"PO-Revision-Date: 2013-02-05 21:18+0330\n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:4
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:6
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:58
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:67
 msgid "Statistics"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgstr ""
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:19
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:80
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:89
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:14
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:159
@@ -165,45 +165,53 @@ msgid "Last Post Date"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:60
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:105
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:39
+#, php-format
+msgid ""
+"Facilities Wordpress Statistics not enabled! Please go to <a href=\"%s"
+"\">setting page</a> and enable statistics"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:69
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:114
 msgid "View Stats"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:61
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:70
 msgid "Settings"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:94
 msgid "Today visitor"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:90
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:99
 msgid "Today visit"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:95
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:104
 msgid "Yesterday visitor"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:109
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
 msgid "Yesterday visit"
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:161
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:143
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:170
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:144
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:153
 msgid "Table plugin does not exist! Please disable and re-enable the plugin."
 msgstr ""
 

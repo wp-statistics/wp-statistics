@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 3.0.1
+Version: 3.0.2
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -26,7 +26,7 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/includes/class/useronline.class.php';
 	include_once dirname( __FILE__ ) . '/includes/class/hits.class.php';
 	
-	$s = new Statistics();
+	$s = new WP_Statistics();
 	$o = new Useronline();
 	$h = new Hits();
 	
@@ -34,21 +34,30 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/widget.php';
 	include_once dirname( __FILE__ ) . '/schedule.php';
 	
-	if( get_option('coefficient') ) {
-		$h->coefficient = get_option('coefficient');
+	function wp_statistics_not_enable() {
+		$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
+		echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+	}
+
+	if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') ) {
+		add_action('admin_notices', 'wp_statistics_not_enable');
 	}
 	
-	if( get_option('useronline') && !is_admin() )
+	if( get_option('wps_coefficient') ) {
+		$h->coefficient = get_option('wps_coefficient');
+	}
+	
+	if( get_option('wps_useronline') && !is_admin() )
 		$o->Check_online();
 
-	if( get_option('visits') && !is_admin() )
+	if( get_option('wps_visits') && !is_admin() )
 		$h->Visits();
 
-	if( get_option('visitors') && !is_admin() )
+	if( get_option('wps_visitors') && !is_admin() )
 		$h->Visitors();
 
-	if( get_option('check_online') ) {
-		$o->second = get_option('check_online');
+	if( get_option('wps_check_online') ) {
+		$o->second = get_option('wps_check_online');
 	}
 	
 	function wp_statistics_menu() {
@@ -114,17 +123,17 @@ License: GPL2
 	
 	function wp_statistics_register() {
 	
-		register_setting('wps_settings', 'useronline');
-		register_setting('wps_settings', 'visits');
-		register_setting('wps_settings', 'visitors');
-		register_setting('wps_settings', 'check_online');
-		register_setting('wps_settings', 'menu_bar');
-		register_setting('wps_settings', 'coefficient');
-		register_setting('wps_settings', 'ip_information');
-		register_setting('wps_settings', 'stats_report');
-		register_setting('wps_settings', 'time_report');
-		register_setting('wps_settings', 'send_report');
-		register_setting('wps_settings', 'content_report');
+		register_setting('wps_settings', 'wps_useronline');
+		register_setting('wps_settings', 'wps_visits');
+		register_setting('wps_settings', 'wps_visitors');
+		register_setting('wps_settings', 'wps_check_online');
+		register_setting('wps_settings', 'wps_menu_bar');
+		register_setting('wps_settings', 'wps_coefficient');
+		register_setting('wps_settings', 'wps_ip_information');
+		register_setting('wps_settings', 'wps_stats_report');
+		register_setting('wps_settings', 'wps_time_report');
+		register_setting('wps_settings', 'wps_send_report');
+		register_setting('wps_settings', 'wps_content_report');
 	}
 	add_action('admin_init', 'wp_statistics_register');
 	

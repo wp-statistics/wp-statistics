@@ -1,5 +1,5 @@
 <?php
-	class Statistics {
+	class WP_Statistics {
 		
 		protected $db;
 		protected $tb_prefix;
@@ -17,6 +17,54 @@
 			
 			$this->db = $wpdb;
 			$this->tb_prefix = $table_prefix;
+		}
+		
+		public function Primary_Values() {
+		
+			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline");
+			
+			if( !$this->result ) {
+				
+				$this->db->insert(
+					$this->tb_prefix . "statistics_useronline",
+					array(
+						'ip'		=>	$this->get_IP(),
+						'timestamp'	=>	$this->timestamp,
+						'date'		=>	$this->Current_Date(),
+						'referred'	=>	$this->get_Referred(),
+						'agent'		=>	$this->get_UserAgent(),
+					)
+				);
+			}
+			
+			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_visit");
+			
+			if( !$this->result ) {
+			
+				$this->db->insert(
+					$this->tb_prefix . "statistics_visit",
+					array(
+						'last_visit'	=>	$this->Current_Date(),
+						'last_counter'	=>	$this->Current_date('Y-m-d'),
+						'visit'			=>	1
+					)
+				);
+			}
+			
+			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_visitor");
+			
+			if( !$this->result ) {
+			
+				$this->db->insert(
+					$this->tb_prefix . "statistics_visitor",
+					array(
+						'last_counter'	=>	$this->Current_date('Y-m-d'),
+						'referred'		=>	$this->get_Referred(),
+						'agent'			=>	$this->get_UserAgent(),
+						'ip'			=>	$this->get_IP()
+					)
+				);
+			}
 		}
 		
 		public function get_IP() {
@@ -55,6 +103,8 @@
 					$agent = 'Android';
 				} elseif ( stripos($agent, 'Chrome') ) {
 					$agent = 'Chrome';
+				} elseif ( stripos($agent, 'Opera') ) {
+					$agent = 'Opera';
 				} elseif ( stripos($agent, 'Safari') ) {
 					$agent = 'Safari';
 				} else {

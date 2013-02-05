@@ -375,7 +375,7 @@
 						<table width="100%" class="widefat table-stats" id="last-visitor">
 							<tr>
 								<td width="30%"><?php _e('IP', 'wp_statistics'); ?></td>
-								<?php if( get_option('ip_information') ) { ?>
+								<?php if( get_option('wps_ip_information') ) { ?>
 								<td width="30%"><?php _e('Country', 'wp_statistics'); ?></td>
 								<td width="20%"><?php _e('Province', 'wp_statistics'); ?></td>
 								<?php } ?>
@@ -393,7 +393,7 @@
 									echo "<tr>";
 									echo "<td>$items->ip</td>";
 									
-									if( get_option('ip_information') ) {
+									if( get_option('wps_ip_information') ) {
 										if( $s->IP_Location($items->ip)->country_code == 'XX' ) {
 											echo "<td><img src='".plugins_url('wp-statistics/images/unknown.png')."' title='".__('Unknown', 'wp_statistics')."'/></td>";
 										} else {
@@ -401,7 +401,7 @@
 										}
 									}
 									
-									if( get_option('ip_information') ) {
+									if( get_option('wps_ip_information') ) {
 										if( $s->IP_Location($items->ip)->city == '(Unknown City?)' || $s->IP_Location($items->ip)->city == '(Unknown city)' ) {
 											echo "<td>" . __('Unknown', 'wp_statistics') . "</td>";
 										} else {
