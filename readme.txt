@@ -67,7 +67,7 @@ To complete the language deficits of [this section](http://teamwork.wp-parsi.com
 Support Forum in [WordPress support forum Persian](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 [Donate to this plugin](http://iran98.org/donate/)
 
-[Plugin Facebook page](https://www.facebook.com/groups/118164032576/)
+[Plugin Facebook page](https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream)
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
