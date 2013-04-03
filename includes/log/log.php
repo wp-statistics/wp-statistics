@@ -216,9 +216,10 @@
 					<h3 class="hndle"><span><?php _e('About plugin', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 						<div id="about-links">
-							<p><?php echo sprintf(__('Plugin version: %s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></p>|
-							<p><a href="http://teamwork.wp-parsi.com/projects/wp-statistics/" target="_blank"><?php _e('Translation plugin languages', 'wp_statistics'); ?></a></p>|
-							<p><a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank"><?php _e('Support plugin', 'wp_statistics'); ?></a></p>|
+							<p><?php echo sprintf(__('Plugin version: %s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></p> |
+							<p><a href="http://teamwork.wp-parsi.com/projects/wp-statistics/" target="_blank"><?php _e('Translations', 'wp_statistics'); ?></a></p> |
+							<p><a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank"><?php _e('Support plugin', 'wp_statistics'); ?></a></p> |
+							<p><a href="https://www.facebook.com/groups/118164032576/" target="_blank"><?php _e('Facebook', 'wp_statistics'); ?></a></p> |
 							<p><a href="http://iran98.org/" target="_blank"><?php _e('Weblog', 'wp_statistics'); ?></a></p>
 						</div>
 						
