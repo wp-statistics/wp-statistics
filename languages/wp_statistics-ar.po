@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-28 18:59+0330\n"
-"PO-Revision-Date: 2013-01-28 18:59+0330\n"
-"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
+"POT-Creation-Date: 2013-02-05 21:18+0330\n"
+"PO-Revision-Date: 2013-02-09 19:29+0300\n"
+"Last-Translator: ABU HATIM (@Hammadsaud) <al3zz@hotmail.com>\n"
 "Language-Team: ABU HATIM <al3zz.com@gmail.com>\n"
 "Language: ar_SA\n"
 "MIME-Version: 1.0\n"
@@ -14,21 +14,20 @@ msgstr ""
 "X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content"
 "\\plugins\\wp-statistics\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-"
 "content\\plugins\\wp-statistics\n"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/schedule.php:32
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:103
-#, fuzzy
 msgid "Statistical reporting"
-msgstr "إعدادات الاحصائيات المباشرة"
+msgstr "تقارير الإحصائيات"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:4
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:6
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:58
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:67
 msgid "Statistics"
 msgstr "الإحصائيات"
 
@@ -39,7 +38,7 @@ msgstr "إظهار إحصائيات الموقع في الشريط الجانب�
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:19
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:80
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:89
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:14
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:159
@@ -58,9 +57,8 @@ msgstr "زيارات اليوم"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:33
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:160
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:15
-#, fuzzy
 msgid "Today Visitor"
-msgstr "زيارات اليوم"
+msgstr "زوار اليوم"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:40
@@ -72,9 +70,8 @@ msgstr "زيارات الأمس"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:47
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:162
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:21
-#, fuzzy
 msgid "Yesterday Visitor"
-msgstr "زيارات الأمس"
+msgstr "زوار الأمس"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:54
@@ -105,9 +102,8 @@ msgstr "مجموع الزيارات"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:82
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:164
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:36
-#, fuzzy
 msgid "Total Visitor"
-msgstr "مجموع الزيارات"
+msgstr "مجموع الزوار"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:90
@@ -170,109 +166,117 @@ msgid "Last Post Date"
 msgstr "تاريخ آخر مشاركة"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:60
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:105
-msgid "View Stats"
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:39
+#, php-format
+msgid ""
+"Facilities Wordpress Statistics not enabled! Please go to <a href=\"%s"
+"\">setting page</a> and enable statistics"
 msgstr ""
+"إضافة Wordpress Statistics غير مفعلة! الرجاء الذهاب الى <a href=\"%s\">صفحة "
+"الإعدادات</a> وقم بتفعيلها"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:61
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:69
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:114
+msgid "View Stats"
+msgstr "عرض الإحصائيات"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:70
 msgid "Settings"
 msgstr "الإعدادات"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:94
 msgid "Today visitor"
-msgstr "زيارات اليوم"
+msgstr "زوار اليوم"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:90
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:99
 msgid "Today visit"
 msgstr "زيارات اليوم"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:95
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:104
 msgid "Yesterday visitor"
 msgstr "زيارات الأمس"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:109
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
 msgid "Yesterday visit"
 msgstr "زيارات الأمس"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:151
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:143
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:170
 msgid "You do not have sufficient permissions to access this page."
 msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة."
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:153
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
+msgstr ""
+"هناك جدول مفقود في البرنامج المساعد! الرجاء تعطيل البرنامج المساعد ومن ثم "
+"تفعيلة مرة أخرى."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:209
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:244
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:334
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:374
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:207
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:242
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:332
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:372
 msgid "Click to toggle"
-msgstr ""
+msgstr "انقر للتبديل"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:9
-#, fuzzy
 msgid "Summary Statistics"
-msgstr "الإحصائيات"
+msgstr "ملخص الاحصائيات"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:305
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:303
 msgid "Visitor"
-msgstr ""
+msgstr "زائر"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:315
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:313
 msgid "Visit"
-msgstr "زيارات الأسبوع"
+msgstr "زيارة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:25
-#, fuzzy
 msgid "Today"
-msgstr "زيارات اليوم"
+msgstr "اليوم"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:31
-#, fuzzy
 msgid "Yesterday"
-msgstr "زيارات الأمس"
+msgstr "الأمس"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:37
 msgid "Week"
-msgstr ""
+msgstr "أسبوع"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:43
-#, fuzzy
 msgid "Month"
-msgstr "زيارات الشهر"
+msgstr "الشهر"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:49
 msgid "Year"
-msgstr ""
+msgstr "سنة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:55
-#, fuzzy
 msgid "Total"
-msgstr "مجموع الزيارات"
+msgstr "المجموع"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:62
@@ -280,213 +284,215 @@ msgstr "مجموع الزيارات"
 msgid ""
 "Today date: <code dir=\"ltr\">%s</code>, Time: <code dir=\"ltr\">%s</code>"
 msgstr ""
+"تاريخ اليوم: <code dir=\"rtl\">%s</code>, الوقت: <code dir=\"rtl\">%s</code>"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:64
 msgid "(Adjustment)"
-msgstr ""
+msgstr "(التوافق)"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:70
 msgid "Browsers"
-msgstr ""
+msgstr "المتصفحات"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:101
 msgid "Graph of Browsers"
-msgstr ""
+msgstr "الرسم البياني من المتصفحات"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:143
 msgid "Browser share"
-msgstr ""
+msgstr "مشاركة بالمتصفح"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:145
 msgid "Firefox"
-msgstr ""
+msgstr " فَيَرفُكس"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:146
 msgid "IE"
-msgstr ""
+msgstr "اكسبلورر"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:147
 msgid "Ipad"
-msgstr ""
+msgstr "آيباد"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:148
 msgid "Android"
-msgstr ""
+msgstr "آندرويد"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:149
 msgid "Chrome"
-msgstr ""
+msgstr "كروم"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:150
 msgid "Safari"
-msgstr ""
+msgstr "سفاري"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:151
 msgid "Other"
-msgstr ""
+msgstr "أخرى"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:166
 msgid "Top referring sites"
-msgstr ""
+msgstr "أعلى المواقع زيارة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:386
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
 msgid "Reference"
-msgstr "مشاره"
+msgstr "المرجع"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:172
 msgid "Address"
-msgstr ""
+msgstr "العنوان"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:210
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:208
 msgid "About plugin"
-msgstr "تعطيل الإضافة"
+msgstr "عن الإضافة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:211
+#, php-format
+msgid "Plugin version: %s"
+msgstr "إصدار الإضافة: %s"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:212
+msgid "Translation plugin languages"
+msgstr "لغات البرنامج"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
-#, fuzzy, php-format
-msgid "Plugin version: %s"
-msgstr "مترجمين الإضافة"
+msgid "Support plugin"
+msgstr "دعم البرنامج المساعد"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
-msgid "Translation plugin languages"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
-msgid "Support plugin"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:216
 msgid "Weblog"
-msgstr ""
+msgstr "مدونتنا"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:219
 msgid ""
 "Please donate to the plugin. With the help of plug-ins you can quickly "
 "spread."
 msgstr ""
+"يرجى التبرع لهذا البرنامج المساعد. وذلك لمساعدتنا في إضافة المكونات الاضافية "
+"في أسرع وقت."
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:224
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:222
 msgid "Donate"
-msgstr ""
+msgstr "تبرع"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:245
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:243
 msgid "Statistical Chart"
-msgstr "الإحصائيات"
+msgstr "إحصائية الرسم البياني"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:260
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:258
 msgid "Chart hit in the last 20 days"
-msgstr ""
+msgstr "المخطط البياني في الأيام الـ 20 الماضية"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:279
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:277
 msgid "Number of visits and visitors"
-msgstr ""
+msgstr "عدد الزيارات والزوار"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:335
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:333
 msgid "Latest search words"
-msgstr ""
+msgstr "آخر كلمات البحث"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:337
+msgid "Word"
+msgstr "كلمة"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:338
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
+msgid "Date"
+msgstr "التاريخ"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
-msgid "Word"
-msgstr ""
+msgid "Site"
+msgstr "الموقع"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
-msgid "Date"
-msgstr ""
+msgid "Referrer"
+msgstr "المرجع"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
-msgid "Site"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:352
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
 msgid "Google"
 msgstr "Google"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:358
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
 msgid "Bing"
 msgstr "Bing"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:363
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:400
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:408
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:420
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:361
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:398
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:406
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:418
 msgid "Unknown"
-msgstr ""
+msgstr "غير معروف"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:375
-#, fuzzy
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:373
 msgid "Recent Visitors"
-msgstr "زيارات الأسبوع"
+msgstr "الزيارات الأخيرة"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:377
 msgid "IP"
 msgstr "IP"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
 msgid "Country"
-msgstr ""
+msgstr "الدولة"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:380
 msgid "Province"
-msgstr ""
+msgstr "الولاية"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:385
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:383
 msgid "Browser"
-msgstr ""
+msgstr "المتصفح"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:9
-#, fuzzy
 msgid "General Settings"
-msgstr "الإعدادات"
+msgstr "إعدادات عامة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:19
@@ -495,7 +501,7 @@ msgstr "الإعدادات"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:92
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:108
 msgid "Active"
-msgstr ""
+msgstr "نشط"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:20
@@ -503,18 +509,17 @@ msgstr ""
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:44
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:109
 msgid "Enable or disable this feature"
-msgstr ""
+msgstr "تمكين أو تعطيل هذه الميزة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:26
-#, fuzzy
 msgid "Visits"
-msgstr "زيارات الأسبوع"
+msgstr "مرة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:38
 msgid "Visitors"
-msgstr ""
+msgstr "الزوار"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:50
@@ -523,15 +528,14 @@ msgstr "تحقق من المتصلين في الموقع في كل"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:55
-#, fuzzy
 msgid "Secound"
 msgstr "ثانية"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:56
-#, fuzzy, php-format
+#, php-format
 msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "وقت التحقق من المستخدمين المتصلين في الموقع. الإفتراضي: 60 ثانية"
+msgstr "وقت التحقق من المستخدمين المتصلين في الموقع. الآن: %s ثانية"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:62
@@ -556,81 +560,79 @@ msgstr "اظهار الاحصائيات في شريط القوائم الإدا�
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:76
 msgid "Coefficient per visitor"
-msgstr "مسمى لكل زائر"
+msgstr "درجة لكل زائر"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:81
-#, fuzzy, php-format
+#, php-format
 msgid "For each visit to account for several hits. Currently %s."
-msgstr "حساب توجيه النقرات لكل زائر."
+msgstr "حساب توجيه النقرات لكل زائر. حالياً %s."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:87
 msgid "Display IP Information On-screen statistics"
-msgstr ""
+msgstr "عرض معلومات IP على شاشة الاحصائيات"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:93
 msgid "Showing the flag country and Visitor province name (May be a bit slow)"
-msgstr ""
+msgstr "عرض علم الدولة و محافظات الزوار (قد يكون بطئ بعض الشي)"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:98
 msgid "Statistical reporting settings"
-msgstr ""
+msgstr "إعدادات تقارير الإحصائيات"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:116
-#, fuzzy
 msgid "Time send"
-msgstr "الوقت"
+msgstr "وقت الارسال"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:121
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:137
-#, fuzzy
 msgid "Please select."
-msgstr "الرجاء أدخل قيمة!"
+msgstr "الرجاء اختيار."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:122
 msgid "Hourly"
-msgstr ""
+msgstr "كل ساعة"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:123
 msgid "Twice daily"
-msgstr ""
+msgstr "مرتين يوميا"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:124
 msgid "daily"
-msgstr ""
+msgstr "يوميا"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:126
 msgid "Select when receiving statistics report."
-msgstr ""
+msgstr "حدد عند استلام إحصاءات التقرير."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:132
 msgid "Send Statistical reporting to"
-msgstr ""
+msgstr "إرسال تقارير الإحصائيات إلى"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:138
 msgid "Email"
-msgstr ""
+msgstr "البريد الإلكتروني"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:139
 msgid "SMS"
-msgstr ""
+msgstr "رسائل نصية"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:141
 msgid "Type Select Get Status Report."
-msgstr ""
+msgstr "حدد نوع الحصول على التقرير."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:144
@@ -639,21 +641,23 @@ msgid ""
 "Note: To send SMS text messages please install the <a href=\"%s\" target="
 "\"_blank\">Wordpress SMS</a> plugin."
 msgstr ""
+"ملاحظة: لإرسال الرسائل النصية SMS الرجاء تثبيت البرنامج المساعد <a href=\"%s"
+"\" target=\"_blank\">Wordpress SMS</a>."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:151
 msgid "Send Content Report"
-msgstr ""
+msgstr "أرسل المحتوى"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:156
 msgid "Enter the contents of the reports received."
-msgstr ""
+msgstr "أدخل محتويات التقارير الواردة."
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:158
 msgid "Input data:"
-msgstr ""
+msgstr "إدخال البيانات:"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:2
@@ -722,13 +726,6 @@ msgstr "الفارسية"
 
 #~ msgid "Plugin home page"
 #~ msgstr "موقع الإضافة"
-
-#~ msgid ""
-#~ "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> "
-#~ "and enable statistics"
-#~ msgstr ""
-#~ "إضافة WP-Statistics غير مفعلة! الرجاء الذهاب الى <a href=\"%s\">صفحة "
-#~ "الإعدادات</a> وقم بتفعيلها"
 
 #~ msgid "Stats Log"
 #~ msgstr "دخول الإحصائيات"
@@ -891,9 +888,6 @@ msgstr "الفارسية"
 
 #~ msgid "Agent"
 #~ msgstr "وكيل"
-
-#~ msgid "Referrer"
-#~ msgstr "المرجع"
 
 #~ msgid "WP-Statistics"
 #~ msgstr "الإحصائيات"

@@ -6,7 +6,10 @@
     margin: 0 0 0 1%;
     width: 68%;
 }
-#right-log a, #left-log a {
+#last-log{
+	width: 100%;
+}
+#right-log a, #left-log a, #last-log a{
     text-decoration: none;
 }
 #summary-stats {
@@ -57,6 +60,47 @@
 }
 .td-align {
     text-align: left;
+}
+.td-url {
+    color: #009936 !important;
+    direction: ltr;
+    font-size: 10px !important;
+    text-align: left;
+    white-space: nowrap;
+}
+.log-latest {
+}
+.log-item {
+    border-bottom: 1px solid #D3CDCD;
+    border-top: 1px solid #FFFFFF;
+    height: 40px;
+    padding: 3px 7px;
+}
+.log-item:hover {
+    background: none repeat scroll 0 0 #EEEEEE;
+}
+.log-referred {
+    float: left;
+    width: 80%;
+}
+.log-ip {
+    direction: ltr;
+    float: right;
+    font-size: 10px;
+    margin-bottom: 5px;
+    width: 20%;
+}
+.log-tools {
+    float: left;
+    margin: 0 2px;
+}
+.log-url {
+    direction: ltr;
+    float: left;
+    font-size: 10px;
+    width: 90%;
+}
+.log-url img {
 }
 #time_zone a {
     font-size: 11px;

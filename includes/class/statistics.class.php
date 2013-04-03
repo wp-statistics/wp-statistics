@@ -11,9 +11,7 @@
 		
 		public function __construct() {
 		
-			global $wpdb;
-			
-			global $table_prefix;
+			global $wpdb, $table_prefix;
 			
 			$this->db = $wpdb;
 			$this->tb_prefix = $table_prefix;
@@ -174,7 +172,7 @@
 		
 		public function IP_Location($ip) {
 			
-			$this->result = file_get_contents("http://api.hostip.info/get_json.php?ip={$ip}&position=true");
+			$this->result = file_get_contents("http://freegeoip.net/json/{$ip}");
 			
 			$this->result = json_decode($this->result);
 			

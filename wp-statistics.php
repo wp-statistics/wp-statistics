@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 3.0.2
+Version: 3.1.0
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -13,7 +13,8 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '3.0');
+	define('WP_STATISTICS_VERSION', '3.1.0');
+	update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 	
 	load_plugin_textdomain('wp_statistics','wp-content/plugins/wp-statistics/languages');
 	
@@ -117,7 +118,7 @@ License: GPL2
 		}
 	}
 	
-	if( get_option('menu_bar') ) {
+	if( get_option('wps_menu_bar') ) {
 		add_action('admin_bar_menu', 'wp_statistics_menubar', 20);
 	}
 	
@@ -154,14 +155,49 @@ License: GPL2
 		}
 		
 		wp_enqueue_script('dashboard');
-		wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
-		
-		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/log.css', true, '1.0');
+		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/log.css', true, '1.1');
+		wp_enqueue_style('pagination-css', plugin_dir_url(__FILE__) . 'styles/pagination.css', true, '1.0');
 		
 		if( is_rtl() )
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'styles/rtl.css', true, '1.0');
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'styles/rtl.css', true, '1.1');
+			
+		include_once dirname( __FILE__ ) . '/includes/class/pagination.class.php';
 		
-		include_once dirname( __FILE__ ) . '/includes/log/log.php';
+		$result['google'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%'");
+		$result['yahoo'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%yahoo.com%'");
+		$result['bing'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%bing.com%'");
+		
+		if( $_GET['type'] == 'last-all-search' ) {
+		
+			$result['all'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'");
+		
+			$referred = $_GET['referred'];
+			if( $referred ) {
+				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%{$referred}%'");
+			} else {
+				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'");
+			}
+		
+			include_once dirname( __FILE__ ) . '/includes/log/last-search.php';
+			
+		} else if( $_GET['type'] == 'last-all-visitor' ) {
+		
+			$agent = $_GET['agent'];
+			if( $agent ) {
+				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `agent` LIKE '%{$agent}%'");
+			} else {
+				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
+			}
+			
+			include_once dirname( __FILE__ ) . '/includes/log/last-visitor.php';
+			
+		} else {
+		
+			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
+			
+			include_once dirname( __FILE__ ) . '/includes/log/log.php';
+		}
+		
 	}
 	
 	function wp_statistics_settings() {

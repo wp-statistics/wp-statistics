@@ -1,3 +1,11 @@
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.show-map').click(function(){
+			alert('<?php _e('To be added soon', 'wp_statistics'); ?>');
+		});
+	});
+</script>
+
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php echo get_admin_page_title(); ?></h2>
@@ -225,9 +233,9 @@
 						<div class="clear"></div>
 						
 						<div class="ads">
-							<a href="http://ads.iran98.org/view/link/11" target="_blank" alt="ads-link" title="محل نمایش تبلیغات - افزونه آماره وردپرس"><img src="http://ads.iran98.org/view/banner/11" alt="ads-img" title="محل نمایش تبلیغات - افزونه آماره وردپرس"/></a>
-							<a href="http://ads.iran98.org/view/link/12" target="_blank" alt="ads-link" title="محل نمایش تبلیغات 2 - افزونه آماره وردپرس"><img src="http://ads.iran98.org/view/banner/12" alt="ads-img" title="محل نمایش تبلیغات 2 - افزونه آماره وردپرس"/></a>
-							<a href="http://ads.iran98.org/view/link/13" target="_blank" alt="ads-link" title="محل نمایش تبلیغات 3 - افزونه آماره وردپرس"><img src="http://ads.iran98.org/view/banner/13" alt="ads-img" title="محل نمایش تبلیغات 3 - افزونه آماره وردپرس"/></a>
+							<a href="http://ads.iran98.org/view/link/11" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/11"/></a>
+							<a href="http://ads.iran98.org/view/link/12" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/12"/></a>
+							<a href="http://ads.iran98.org/view/link/13" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/13"/></a>
 						</div>
 					</div>
 				</div>
@@ -330,100 +338,70 @@
 
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Latest search words', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle">
+						<span><?php _e('Latest search words', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=last-all-search"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+					</h3>
 					<div class="inside">
-						<table width="100%" class="widefat table-stats" id="last-search">
-							<tr>
-								<td width="80%"><?php _e('Word', 'wp_statistics'); ?></td>
-								<td width="10%"><?php _e('Date', 'wp_statistics'); ?></td>
-								<td width="5%"><?php _e('Site', 'wp_statistics'); ?></td>
-								<td width="5%"><?php _e('Referrer', 'wp_statistics'); ?></td>
-							</tr>
 							
 							<?php
-								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%' ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 15");
+								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%' ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
+								
+								echo "<div class='log-latest'>";
 								
 								foreach($result as $items) {
 								
-									echo "<tr>";
-									echo "<td class='td-align'>".$s->Search_Engine_QueryString($items->referred)."</td>";
-									echo "<td>$items->last_counter</td>";
-									if( $s->Check_Search_Engines('google.com', $items->referred) ) {
-										echo "<td><img src='".plugins_url('wp-statistics/images/google.com.png')."' title='".__('Google', 'wp_statistics')."'/></td>";
-									} else if( $s->Check_Search_Engines('yahoo.com', $items->referred) ) {
-										echo "<td><img src='".plugins_url('wp-statistics/images/yahoo.com.png')."' title='".__('Yahoo!', 'wp_statistics')."'/></td>";
-									} else if( $s->Check_Search_Engines('bing.com', $items->referred) ) {
-										echo "<td><img src='".plugins_url('wp-statistics/images/bing.com.png')."' title='".__('Bing', 'wp_statistics')."'/></td>";
-									}
-									if($items->referred){
-										echo "<td><a href='$items->referred'><img src='".plugins_url('wp-statistics/images/link.png')."' title='".$items->referred."'/></a></td>";
-									} else {
-										echo "<td><img src='".plugins_url('wp-statistics/images/unknown.png')."' title='".__('Unknown', 'wp_statistics')."'/></td>";
-									}
-									echo "</tr>";
-									echo "</tr>";
+									echo "<div class='log-item'>";
+										echo "<div class='log-referred'>{$s->Search_Engine_QueryString($items->referred)}</div>";
+										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
+										echo "<div class='clear'></div>";
+										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
+										
+										if( $s->Check_Search_Engines('google.com', $items->referred) ) {
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=google.com'><img src='".plugins_url('wp-statistics/images/google.com.png')."' class='log-tools' title='".__('Google', 'wp_statistics')."'/></a>";
+										} else if( $s->Check_Search_Engines('yahoo.com', $items->referred) ) {
+											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=yahoo.com'><img src='".plugins_url('wp-statistics/images/yahoo.com.png')."' class='log-tools' title='".__('Yahoo!', 'wp_statistics')."'/></a>";
+										} else if( $s->Check_Search_Engines('bing.com', $items->referred) ) {
+											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=bing.com'><img src='".plugins_url('wp-statistics/images/bing.com.png')."' class='log-tools' title='".__('Bing', 'wp_statistics')."'/></a>";
+										}
+										
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
+										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
+									echo "</div>";
+									
 								}
+								
+								echo "</div>";
 							?>
-						</table>
 					</div>
 				</div>
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Recent Visitors', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle">
+						<span><?php _e('Recent Visitors', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=last-all-visitor"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+					</h3>
 					<div class="inside">
-						<table width="100%" class="widefat table-stats" id="last-visitor">
-							<tr>
-								<td width="30%"><?php _e('IP', 'wp_statistics'); ?></td>
-								<?php if( get_option('wps_ip_information') ) { ?>
-								<td width="30%"><?php _e('Country', 'wp_statistics'); ?></td>
-								<td width="20%"><?php _e('Province', 'wp_statistics'); ?></td>
-								<?php } ?>
-								<td width="10%"><?php _e('Date', 'wp_statistics'); ?></td>
-								<td width="5%"><?php _e('Browser', 'wp_statistics'); ?></td>
-								<td width="5%"><?php _e('Reference', 'wp_statistics'); ?></td>
-							</tr>
 							
 							<?php
-								global $ipLite;
+								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
 								
-								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 15");
+								echo "<div class='log-latest'>";
 								
 								foreach($result as $items) {
-									echo "<tr>";
-									echo "<td>$items->ip</td>";
-									
-									if( get_option('wps_ip_information') ) {
-										if( $s->IP_Location($items->ip)->country_code == 'XX' ) {
-											echo "<td><img src='".plugins_url('wp-statistics/images/unknown.png')."' title='".__('Unknown', 'wp_statistics')."'/></td>";
-										} else {
-											echo "<td><img src='".plugins_url('wp-statistics/images/flags/').$s->IP_Location($items->ip)->country_code.".png' title='".$s->IP_Location($items->ip)->country_name."'/></td>";
-										}
-									}
-									
-									if( get_option('wps_ip_information') ) {
-										if( $s->IP_Location($items->ip)->city == '(Unknown City?)' || $s->IP_Location($items->ip)->city == '(Unknown city)' ) {
-											echo "<td>" . __('Unknown', 'wp_statistics') . "</td>";
-										} else {
-											echo "<td>{$s->IP_Location($items->ip)->city}</td>";
-										}
-									}
-									
-									echo "<td>$items->last_counter</td>";
-									echo "<td><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' title='".$items->agent."'/></td>";
-									
-									if($items->referred){
-										echo "<td><a href='$items->referred'><img src='".plugins_url('wp-statistics/images/link.png')."' title='".$items->referred."'/></a></td>";
-									} else {
-										echo "<td><img src='".plugins_url('wp-statistics/images/unknown.png')."' title='".__('Unknown', 'wp_statistics')."'/></td>";
-									}
-									
-									echo "</tr>";
+								
+									echo "<div class='log-item'>";
+										echo "<div class='log-referred'><a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
+										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
+										echo "<div class='clear'></div>";
+										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
+										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
+									echo "</div>";
 									
 								}
+								
+								echo "</div>";
 							?>
-							
-						</table>
 					</div>
 				</div>
 			</div>

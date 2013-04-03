@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 3.0.2
+Stable tag: 3.1.0
 
 Complete statistics for your blog.
 
@@ -114,11 +114,23 @@ Get Plugin updates via Automatic only.
 Disable / Enable the plugin.
 
 == Screenshots ==
-1. Screen shot (screenshot-1.png) in View stats page.
-1. Screen shot (screenshot-2.png) in Settings page.
-1. Screen shot (screenshot-3.png) in Widget page.
+1. Screen shot (screenshot-1.png) in view stats page.
+1. Screen shot (screenshot-2.png) in view latest search words.
+1. Screen shot (screenshot-3.png) in view recent visitors page.
+1. Screen shot (screenshot-4.png) in settings page.
+1. Screen shot (screenshot-5.png) in widget page.
 
 == Upgrade Notice ==
+= 3.1.0 =
+* Bug Fix: Statistics Menu bar.
+* Bug Fix: Referral link of the last visitors.
+* Added: Latest all search words with full details.
+* Added: Recent all visitors with full details.
+* Enhancement: Optimized View Statistics.
+* Language: updated.
+* Language: Arabic was updated.
+* Remove: IP Information in setting page.
+
 = 3.0.2 =
 * Added: Hungarian language.
 * Added: Insert value in useronline table by Primary_Values function.
@@ -271,6 +283,16 @@ Disable / Enable the plugin.
 * Start plugin
 
 == Changelog ==
+= 3.1.0 =
+* Bug Fix: Statistics Menu bar.
+* Bug Fix: Referral link of the last visitors.
+* Added: Latest all search words with full details.
+* Added: Recent all visitors with full details.
+* Enhancement: Optimized View Statistics.
+* Language: updated.
+* Language: Arabic was updated.
+* Remove: IP Information in setting page.
+
 = 3.0.2 =
 * Added: Hungarian language.
 * Added: Insert value in useronline table by Primary_Values function.

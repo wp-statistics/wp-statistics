@@ -83,18 +83,6 @@
 				</tr>
 				
 				<tr valign="top">
-					<th scope="row">
-						<label for="ip-information"><?php _e('Display IP Information On-screen statistics', 'wp_statistics'); ?>:</label>
-					</th>
-					
-					<th>
-						<input id="ip-information" type="checkbox" value="1" name="wps_ip_information" <?php echo get_option('wps_ip_information')==true? "checked='checked'":'';?>>
-						<label for="ip-information"><?php _e('Active', 'wp_statistics'); ?></label>
-						<p class="description"><?php _e('Showing the flag country and Visitor province name (May be a bit slow)', 'wp_statistics'); ?></p>
-					</th>
-				</tr>
-				
-				<tr valign="top">
 					<th scope="row" colspan="2"><h3><?php _e('Statistical reporting settings', 'wp_statistics'); ?></h3></th>
 				</tr>
 				
