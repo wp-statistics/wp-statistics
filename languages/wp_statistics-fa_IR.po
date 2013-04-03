@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 16:31+0330\n"
+"POT-Creation-Date: 2013-04-03 16:56+0330\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team:  <mat404@gmail.com>\n"
@@ -227,7 +227,7 @@ msgstr "به زودی اضافه می شود"
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:11
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:23
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:343
 msgid "Latest search words"
 msgstr "آخرین کلمات جستجو شده"
 
@@ -241,7 +241,7 @@ msgstr "همه"
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:14
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:59
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:360
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:361
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
 msgid "Google"
 msgstr "گوگل"
@@ -249,7 +249,7 @@ msgstr "گوگل"
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:15
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:61
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:362
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:363
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
 msgid "Yahoo!"
 msgstr "یاهو!"
@@ -257,7 +257,7 @@ msgstr "یاهو!"
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:16
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:63
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:364
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:365
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
 msgid "Bing"
 msgstr "بینگ"
@@ -269,17 +269,17 @@ msgstr "بینگ"
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:77
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:173
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:250
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:251
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:380
 msgid "Click to toggle"
 msgstr "برای باز و بستن کلیک کنید"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:56
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:61
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:357
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:396
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:358
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:397
 msgid "Map"
 msgstr "نقشه"
 
@@ -298,7 +298,7 @@ msgstr "از"
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:11
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:28
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
 msgid "Recent Visitors"
 msgstr "آخرین بازدیدکنندگان"
 
@@ -356,13 +356,13 @@ msgstr "خلاصه آمار"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:28
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:311
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:312
 msgid "Visitor"
 msgstr "بازدیدکننده"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:29
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:321
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:322
 msgid "Visit"
 msgstr "بازدید"
 
@@ -451,8 +451,8 @@ msgstr "نگارش افزونه: %s"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:220
-msgid "Translation plugin languages"
-msgstr "ترجمه زبان‌های افزونه"
+msgid "Translations"
+msgstr "ترجمه‌ها"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
@@ -461,11 +461,16 @@ msgstr "پشتیبانی افزونه"
 
 #: F:\Program
 #: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:222
+msgid "Facebook"
+msgstr "فیس‌بوک"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:223
 msgid "Weblog"
 msgstr "وبلاگ"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:227
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:228
 msgid ""
 "Please donate to the plugin. With the help of plug-ins you can quickly "
 "spread."
@@ -474,28 +479,28 @@ msgstr ""
 "گسترش یابد."
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:230
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:231
 msgid "Donate"
 msgstr "حمایت"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:251
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:252
 msgid "Statistical Chart"
 msgstr "نمودارهای آماری"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:266
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:267
 msgid "Chart hit in the last 20 days"
 msgstr "نمودار آمار در 20 روز گذشته"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:285
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:286
 msgid "Number of visits and visitors"
 msgstr "تعداد بازدید و بازدید کننده"
 
 #: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:343
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
 msgid "(See more)"
 msgstr "(مشاهده بیشتر)"
 
