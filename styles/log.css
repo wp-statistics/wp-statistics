@@ -6,10 +6,10 @@
     margin: 0 0 0 1%;
     width: 68%;
 }
-#last-log{
-	width: 100%;
+#last-log {
+    width: 100%;
 }
-#right-log a, #left-log a, #last-log a{
+#right-log a, #left-log a, #last-log a {
     text-decoration: none;
 }
 #summary-stats {
@@ -73,7 +73,7 @@
 .log-item {
     border-bottom: 1px solid #D3CDCD;
     border-top: 1px solid #FFFFFF;
-    height: 40px;
+    height: 46px;
     padding: 3px 7px;
 }
 .log-item:hover {
@@ -81,13 +81,16 @@
 }
 .log-referred {
     float: left;
-    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 79%;
 }
 .log-ip {
     direction: ltr;
     float: right;
     font-size: 10px;
     margin-bottom: 5px;
+    white-space: pre;
     width: 20%;
 }
 .log-tools {
@@ -98,6 +101,8 @@
     direction: ltr;
     float: left;
     font-size: 10px;
+    overflow: hidden;
+    white-space: nowrap;
     width: 90%;
 }
 .log-url img {
@@ -130,8 +135,7 @@
     height: 15px;
     position: relative;
 }
-.ads{
-
+.ads {
 }
 .ads img {
     height: 90px;

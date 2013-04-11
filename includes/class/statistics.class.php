@@ -115,7 +115,7 @@
 		
 		public function get_Referred() {
 		
-			return $this->db->escape($_SERVER['HTTP_REFERER']);
+			return $this->db->escape(strip_tags($_SERVER['HTTP_REFERER']));
 		}
 		
 		public function Check_Spiders() {
@@ -167,15 +167,6 @@
 
 			preg_match('/(' . implode('|', array_keys($search_engines)) . ')\./', $parts['host'], $matches);
 
-			return isset($matches[1]) && isset($query[$search_engines[$matches[1]]]) ? $query[$search_engines[$matches[1]]] : '';
-		}
-		
-		public function IP_Location($ip) {
-			
-			$this->result = file_get_contents("http://freegeoip.net/json/{$ip}");
-			
-			$this->result = json_decode($this->result);
-			
-			return $this->result;
+			return isset($matches[1]) && isset($query[$search_engines[$matches[1]]]) ? strip_tags($query[$search_engines[$matches[1]]]) : '';
 		}
 	}

@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 
 Complete statistics for your blog.
 
@@ -123,12 +123,17 @@ Disable / Enable the plugin.
 1. Screen shot (screenshot-5.png) in widget page.
 
 == Upgrade Notice ==
+= 3.1.1 =
+* Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
+* Optimized: Statistics screen in resolution 1024x768.
+* Language: Persian was updated.
+
 = 3.1.0 =
 * Bug Fix: Statistics Menu bar.
 * Bug Fix: Referral link of the last visitors.
 * Added: Latest all search words with full details.
 * Added: Recent all visitors with full details.
-* Enhancement: Optimized View Statistics.
+* Optimized: View statistics.
 * Language: updated.
 * Language: Arabic was updated.
 * Remove: IP Information in setting page.
@@ -146,9 +151,9 @@ Disable / Enable the plugin.
 
 = 3.0 =
 * Bug Fix: problem in calculating Statistics.
-* Enhancement: Optimize and speed up the process.
-* Enhancement: Overall reconstruction and coding plug with a new structure.
-* Enhancement: The use of object-oriented programming.
+* Optimized: and speed up the process.
+* Optimized: Overall reconstruction and coding plug with a new structure.
+* Optimized: The use of object-oriented programming.
 * Added: statistics screen to complete.
 * Added: Chart Show.
 * Added: Graph of Browsers.
@@ -285,12 +290,17 @@ Disable / Enable the plugin.
 * Start plugin
 
 == Changelog ==
+= 3.1.1 =
+* Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
+* Optimized: Statistics screen in resolution 1024x768.
+* Language: Persian was updated.
+
 = 3.1.0 =
 * Bug Fix: Statistics Menu bar.
 * Bug Fix: Referral link of the last visitors.
 * Added: Latest all search words with full details.
 * Added: Recent all visitors with full details.
-* Enhancement: Optimized View Statistics.
+* Optimized: View statistics.
 * Language: updated.
 * Language: Arabic was updated.
 * Remove: IP Information in setting page.
@@ -308,9 +318,9 @@ Disable / Enable the plugin.
 
 = 3.0 =
 * Bug Fix: problem in calculating Statistics.
-* Enhancement: Optimize and speed up the process.
-* Enhancement: Overall reconstruction and coding plug with a new structure.
-* Enhancement: The use of object-oriented programming.
+* Optimized: and speed up the process.
+* Optimized: Overall reconstruction and coding plug with a new structure.
+* Optimized: The use of object-oriented programming.
 * Added: statistics screen to complete.
 * Added: Chart Show.
 * Added: Graph of Browsers.
@@ -334,7 +344,7 @@ Disable / Enable the plugin.
 * Fix problem error in delete plugin.
 
 = 2.3.0 =
-* Added Serbian language
+* Added Serbian language.
 
 = 2.2.9 =
 * Added Bengali language.
