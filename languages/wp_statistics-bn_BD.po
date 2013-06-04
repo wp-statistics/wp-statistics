@@ -1,0 +1,892 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-statistics\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-28 19:03+0330\n"
+"PO-Revision-Date: 2013-01-28 19:03+0330\n"
+"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
+"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content"
+"\\plugins\\wp-statistics\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-"
+"content\\plugins\\wp-statistics\n"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/schedule.php:32
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:103
+#, fuzzy
+msgid "Statistical reporting"
+msgstr "সরাসরি পরিসংখ্যান কনফিগার"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:4
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:6
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:58
+msgid "Statistics"
+msgstr "পরিসংখ্যান"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:5
+msgid "Show site stats in sidebar"
+msgstr "স্টাটস সাইডবারে দেখাও"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:19
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:80
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:14
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:159
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:9
+msgid "User Online"
+msgstr "এখন দেখছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:26
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:161
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:12
+msgid "Today Visit"
+msgstr "আজ দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:33
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:160
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:15
+#, fuzzy
+msgid "Today Visitor"
+msgstr "আজ দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:40
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:163
+msgid "Yesterday Visit"
+msgstr "গতকাল দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:47
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:162
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:21
+#, fuzzy
+msgid "Yesterday Visitor"
+msgstr "গতকাল দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:54
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:24
+msgid "Week Visit"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:61
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:27
+msgid "Month Visit"
+msgstr "এ মাসে দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:68
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:30
+msgid "Years Visit"
+msgstr "এ বছরে দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:75
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:165
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:33
+msgid "Total Visit"
+msgstr "মোট দেখা হয়েছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:82
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:164
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:36
+#, fuzzy
+msgid "Total Visitor"
+msgstr "মোট দেখা হয়েছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:90
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:39
+msgid "Search Engine reffered"
+msgstr "সার্চ ইঞ্জিন রেফার করেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:105
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:57
+msgid "Total Posts"
+msgstr "মোট পোষ্ট"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:112
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:60
+msgid "Total Pages"
+msgstr "মোট পাতা"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:119
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:63
+msgid "Total Comments"
+msgstr "মোট মন্তব্য"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:126
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:66
+msgid "Total Spams"
+msgstr "মোট স্প্যাম"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:133
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:69
+msgid "Total Users"
+msgstr "মোট ব্যবহারকারী"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:140
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:72
+msgid "Average Posts"
+msgstr "গড় পোষ্ট"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:147
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:75
+msgid "Average Comments"
+msgstr "গড় মন্তব্য"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:154
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:78
+msgid "Average Users"
+msgstr "গড় ব্যবহারকারী"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:161
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:81
+msgid "Last Post Date"
+msgstr "শেষ পোষ্টের তারিখ"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:60
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:105
+msgid "View Stats"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:61
+msgid "Settings"
+msgstr "সেটিসং"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
+#, fuzzy
+msgid "Today visitor"
+msgstr "আজ দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:90
+#, fuzzy
+msgid "Today visit"
+msgstr "আজ দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:95
+#, fuzzy
+msgid "Yesterday visitor"
+msgstr "গতকাল দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
+msgid "Yesterday visit"
+msgstr "গতকাল দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:151
+msgid "You do not have sufficient permissions to access this page."
+msgstr "আপনার এই পেজ দেখার মত পর্যাপ্ত অনুমতি নেই।"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:209
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:244
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:334
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:374
+msgid "Click to toggle"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:9
+#, fuzzy
+msgid "Summary Statistics"
+msgstr "পরিসংখ্যান"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:305
+msgid "Visitor"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:315
+#, fuzzy
+msgid "Visit"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:25
+#, fuzzy
+msgid "Today"
+msgstr "আজ দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:31
+#, fuzzy
+msgid "Yesterday"
+msgstr "গতকাল দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:37
+msgid "Week"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:43
+#, fuzzy
+msgid "Month"
+msgstr "এ মাসে দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:49
+msgid "Year"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:55
+#, fuzzy
+msgid "Total"
+msgstr "মোট দেখা হয়েছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:62
+#, php-format
+msgid ""
+"Today date: <code dir=\"ltr\">%s</code>, Time: <code dir=\"ltr\">%s</code>"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:64
+msgid "(Adjustment)"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:70
+msgid "Browsers"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:101
+msgid "Graph of Browsers"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:143
+msgid "Browser share"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:145
+msgid "Firefox"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:146
+msgid "IE"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:147
+msgid "Ipad"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:148
+msgid "Android"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:149
+msgid "Chrome"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:150
+msgid "Safari"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:151
+msgid "Other"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:166
+msgid "Top referring sites"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:386
+#, fuzzy
+msgid "Reference"
+msgstr "রেফার করেছে যে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:172
+msgid "Address"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:210
+#, fuzzy
+msgid "About plugin"
+msgstr "প্লাগইন নিস্ক্রিয়"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
+#, fuzzy, php-format
+msgid "Plugin version: %s"
+msgstr "প্লাগইন ভাষান্তর"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
+msgid "Translation plugin languages"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
+msgid "Support plugin"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:216
+msgid "Weblog"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
+msgid ""
+"Please donate to the plugin. With the help of plug-ins you can quickly "
+"spread."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:224
+msgid "Donate"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:245
+#, fuzzy
+msgid "Statistical Chart"
+msgstr "পরিসংখ্যান"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:260
+msgid "Chart hit in the last 20 days"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:279
+msgid "Number of visits and visitors"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:335
+msgid "Latest search words"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
+msgid "Word"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
+msgid "Date"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
+msgid "Site"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
+msgid "Google"
+msgstr "গুগল"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
+msgid "Yahoo!"
+msgstr "ইয়াহু!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:358
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
+msgid "Bing"
+msgstr "বিং"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:363
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:400
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:408
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:420
+msgid "Unknown"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:375
+#, fuzzy
+msgid "Recent Visitors"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
+msgid "IP"
+msgstr "আইপি"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
+msgid "Country"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
+msgid "Province"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:385
+msgid "Browser"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:9
+#, fuzzy
+msgid "General Settings"
+msgstr "সেটিসং"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:19
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:31
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:43
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:92
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:108
+msgid "Active"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:20
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:32
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:44
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:109
+msgid "Enable or disable this feature"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:26
+#, fuzzy
+msgid "Visits"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:38
+msgid "Visitors"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:50
+msgid "Check for online users every"
+msgstr "অনলাইনের ব্যবহারকারী চেক করবে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:55
+#, fuzzy
+msgid "Secound"
+msgstr "সেকেন্ড"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:56
+#, fuzzy, php-format
+msgid "Time for the check accurate online user in the site. Now: %s Second"
+msgstr "এই সাইটের সঠিক অনলাইন দর্শক চেক করার জন্য । ডিফল্ট: ৬০ সেকেন্ড"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:62
+msgid "Show stats in menu bar"
+msgstr "স্টাটস মেনুবারে দেখাও"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:67
+msgid "No"
+msgstr "না"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:68
+msgid "Yes"
+msgstr "হ্যা"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:70
+msgid "Show stats in admin menu bar"
+msgstr "স্টাটস অ্যাডমিনের মেনুবারে দেখাও"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:76
+msgid "Coefficient per visitor"
+msgstr "দর্শকের সুদক্ষতা"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:81
+#, fuzzy, php-format
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "দর্শনাথীর প্রতি হিট গননা করা হবে"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:87
+msgid "Display IP Information On-screen statistics"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:93
+msgid "Showing the flag country and Visitor province name (May be a bit slow)"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:98
+msgid "Statistical reporting settings"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:116
+#, fuzzy
+msgid "Time send"
+msgstr "সময়"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:121
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:137
+#, fuzzy
+msgid "Please select."
+msgstr "মান দিন‍!"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:122
+msgid "Hourly"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:123
+msgid "Twice daily"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:124
+msgid "daily"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:126
+msgid "Select when receiving statistics report."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:132
+msgid "Send Statistical reporting to"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:138
+msgid "Email"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:139
+msgid "SMS"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:141
+msgid "Type Select Get Status Report."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:144
+#, php-format
+msgid ""
+"Note: To send SMS text messages please install the <a href=\"%s\" target="
+"\"_blank\">Wordpress SMS</a> plugin."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:151
+msgid "Send Content Report"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:156
+msgid "Enter the contents of the reports received."
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:158
+msgid "Input data:"
+msgstr ""
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:2
+msgid "Name"
+msgstr "নাম"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:6
+msgid "Items"
+msgstr "আইটেম"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:42
+msgid "Select type of search engine"
+msgstr "সার্চ ইঞ্জিন নির্বাচন করুন"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:53
+msgid "All"
+msgstr "সকল"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:84
+msgid "Type date for last update"
+msgstr "সর্বশেষ হালনাগাদের তারিখ দিন"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:86
+msgid "English"
+msgstr "ইংরেজী"
+
+#: F:\Program
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:89
+msgid "Persian"
+msgstr "পারসি"
+
+#~ msgid "Added"
+#~ msgstr "যুক্ত হয়েছে"
+
+#~ msgid "value"
+#~ msgstr "মান"
+
+#~ msgid "Was"
+#~ msgstr "হয়েছিলো"
+
+#~ msgid "low value"
+#~ msgstr "কম মান"
+
+#~ msgid "Access is Denied!"
+#~ msgstr "প্রবেশ নিষেধ!"
+
+#~ msgid "Thanks for your report!"
+#~ msgstr "আপনার রিপোর্টের জন্য ধন্যবাদ!"
+
+#~ msgid "Error! Please Enter all field"
+#~ msgstr "ত্রুটি! দয়া করে সকল ফিল্ডে তথ্য দিন"
+
+#~ msgid "deleted!"
+#~ msgstr "মুছে ফেলেছে!"
+
+#~ msgid "All plugin data is deleted"
+#~ msgstr "প্লাগইনের সকল তথ্য মুছে ফেলা হয়েছে"
+
+#~ msgid "plugin options have been deleted"
+#~ msgstr "প্লাগইন অপশন মুছে ফেলা হয়েছে"
+
+#~ msgid "WP-Statistics"
+#~ msgstr "ওয়ার্ডপ্রেস-পরিসংখ্যান"
+
+#~ msgid "Plugin home page"
+#~ msgstr "প্লাগইন নীড়পাতা"
+
+#~ msgid ""
+#~ "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> "
+#~ "and enable statistics"
+#~ msgstr ""
+#~ "ওয়ার্ডপ্রেস-পরিসংখ্যান সক্রিয় নয়! <a href=\"%s\">পেজে সেটিং</a> এ গিয়ে "
+#~ "পরিসংখ্যান সক্রিয় করুন"
+
+#~ msgid "Stats Log"
+#~ msgstr "স্টাটস লগ"
+
+#~ msgid "Users Online"
+#~ msgstr "ব্যবহারকারী অনলাইনে"
+
+#~ msgid "Are you sure?"
+#~ msgstr "আপনি কি নিশ্চিত?"
+
+#~ msgid "Configuration"
+#~ msgstr "কনফিগার"
+
+#~ msgid "Enable Statistics"
+#~ msgstr "পরিসংখ্যান সক্রিয়"
+
+#~ msgid "Statistics are enabled."
+#~ msgstr "পরিসংখ্যান সক্রিয় হয়েছে"
+
+#~ msgid "Statistics are disabled!"
+#~ msgstr "পরিসংখ্যান নিক্রিয় হয়েছে!"
+
+#~ msgid "General configuration"
+#~ msgstr "সাধারণ কনফিগার"
+
+#~ msgid "Show decimals number"
+#~ msgstr "ডেসিমেল নম্বর দেখাও"
+
+#~ msgid "Show number stats with decimal. For examle: 3,500"
+#~ msgstr "নম্বরগুলো ভগ্নাংশসহ দেখাও। উদাহারন: ৩,৫০০"
+
+#~ msgid "Daily referer of search engines"
+#~ msgstr "প্রতিদিনের সার্চইঞ্জিনের রেফার"
+
+#~ msgid "Can be calculated daily or total search engines"
+#~ msgstr "প্রতিদিনের বা মোট সার্চ ইঞ্জিন ধরে হিসাব করুন"
+
+#~ msgid "Increase value of the total hits by"
+#~ msgstr "মোট হিট থেকে মান বাড়িয়ে দিন"
+
+#~ msgid "Done"
+#~ msgstr "সম্পন্ন হয়েছে"
+
+#~ msgid "Your total visit sum with this value"
+#~ msgstr "আপনার মোট দেখার সাথে এই মান যোগ করুন"
+
+#~ msgid "Reduce value of the total hits by"
+#~ msgstr "মোট হিট থেকে মান কমিয়ে দিন"
+
+#~ msgid "Your total visit minus with this value"
+#~ msgstr "আপনার মোট দেখার সাথে এই মান বিয়োগ করুন"
+
+#~ msgid "Number item for show Statistics"
+#~ msgstr "পরিসংখ্যানে কত আইটেম দেখাবে"
+
+#~ msgid "Default 5"
+#~ msgstr "ডিফল্ট ৫"
+
+#~ msgid "Number for submit item in Database and show that"
+#~ msgstr "ডাটাবেজে কত আইটেম সাবমিট করা হয়েছে তা দেখাও"
+
+#~ msgid "Default 1"
+#~ msgstr "ডিফল্ট ১"
+
+#~ msgid "Refresh Stats every"
+#~ msgstr "স্টাটস রিফ্রেস হবে প্রতি"
+
+#~ msgid "Second(s)"
+#~ msgstr "সেকেন্ড"
+
+#~ msgid "Recommended"
+#~ msgstr "সুপারিশকৃত"
+
+#~ msgid "To reduce pressure on the server, this defaults to 10 sec"
+#~ msgstr "সার্ভারে চাপ কমানোর জন্য ডিফল্ট হচ্ছে ১০ সেকেন্ড"
+
+#~ msgid "Pagerank configuration"
+#~ msgstr "পেজর‍্যংক কনফিগার"
+
+#~ msgid "Your url for Google pagerank check"
+#~ msgstr "গুগল পেজর‍্যাংকে আপনার ইউআরএল"
+
+#~ msgid "If empty. you website url is used"
+#~ msgstr "যদি শুন্য হয়। আপনার ওয়েবসাইট ব্যবহৃত হচ্ছে"
+
+#~ msgid "Your url for Alexa pagerank check"
+#~ msgstr "অ্যারেক্সা পেজর‍্যাংকে আপনার ইউআরএল"
+
+#~ msgid "Update"
+#~ msgstr "হালনাগাত"
+
+#~ msgid "This plugin created by"
+#~ msgstr "প্লাগইনটি তৈরী করেছেন"
+
+#~ msgid "from"
+#~ msgstr "হতে"
+
+#~ msgid "group"
+#~ msgstr "গ্রুপ"
+
+#~ msgid "Language"
+#~ msgstr "ভাষা"
+
+#~ msgid "by"
+#~ msgstr "করেছে"
+
+#~ msgid "for translate language files. please send files for"
+#~ msgstr "ভাষাস্তরের ফাইল। দয়া করে ফাইলটি সেন্ট করুন"
+
+#~ msgid "Show Functions"
+#~ msgstr "কর্য দেখাও"
+
+#~ msgid "Report Problem"
+#~ msgstr "রিপোর্ট সমস্যা"
+
+#~ msgid "User Online Live"
+#~ msgstr "এখন ব্যবহারকারী আছে"
+
+#~ msgid "Total Visit Live"
+#~ msgstr "এখন মোট দেখছে"
+
+#~ msgid "Total Feedburner Subscribe"
+#~ msgstr "মোট ফিডবার্নার গ্রাহক"
+
+#~ msgid "Google Pagerank"
+#~ msgstr "গুগল পেজর‍্যাংক"
+
+#~ msgid "Alexa Pagerank"
+#~ msgstr "এ্যালেক্সা পেজর‍্যাংক"
+
+#~ msgid "Hide"
+#~ msgstr "লুকানো"
+
+#~ msgid "Your Name"
+#~ msgstr "আপনার নাম"
+
+#~ msgid "Description Problem"
+#~ msgstr "বর্ণনা সমস্যা"
+
+#~ msgid "Send Problem"
+#~ msgstr "সমস্যা পাঠান"
+
+#~ msgid "Unistall plugin"
+#~ msgstr "প্লাগইন আনইনষ্টল"
+
+#~ msgid "Delete all data, including tables and plugin options"
+#~ msgstr "সমস্যা তথ্য মুছে ফেলুন, টেবিল এবং প্লাগইন অপমন সগ"
+
+#~ msgid "Uninstall"
+#~ msgstr "আনইনস্টল"
+
+#~ msgid "Stats weblog"
+#~ msgstr "স্টাটস ওয়েবলগ"
+
+#~ msgid "Agent"
+#~ msgstr "এজেন্ট"
+
+#~ msgid "Referrer"
+#~ msgstr "রেফারার"
