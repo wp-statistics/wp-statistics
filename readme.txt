@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 
 Complete statistics for your blog.
 
@@ -119,10 +119,22 @@ Disable / Enable the plugin.
 1. Screen shot (screenshot-1.png) in view stats page.
 1. Screen shot (screenshot-2.png) in view latest search words.
 1. Screen shot (screenshot-3.png) in view recent visitors page.
-1. Screen shot (screenshot-4.png) in settings page.
-1. Screen shot (screenshot-5.png) in widget page.
+1. Screen shot (screenshot-4.png) in view top referrer site page.
+1. Screen shot (screenshot-5.png) in settings page.
+1. Screen shot (screenshot-6.png) in widget page.
 
 == Upgrade Notice ==
+= 3.1.2 =
+* Added: Top referring sites with full details.
+* Resolved: Loads the plugin's translated strings problem.
+* Resolved: View the main site in top referring sites.
+* Resolved: Empty referrer.
+* Resolved: Empty search words.
+* Update: Highcharts js 2.3.5 to v3.0.1.
+* Language: Arabic was updated.
+* Language: Hungarian was updated.
+* Language: updated.
+
 = 3.1.1 =
 * Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
 * Optimized: Statistics screen in resolution 1024x768.
@@ -290,6 +302,22 @@ Disable / Enable the plugin.
 * Start plugin
 
 == Changelog ==
+= 3.1.2 =
+* Added: Top referring sites with full details.
+* Resolved: Loads the plugin's translated strings problem.
+* Resolved: View the main site in top referring sites.
+* Resolved: Empty referrer.
+* Resolved: Empty search words.
+* Update: Highcharts js 2.3.5 to v3.0.1.
+* Language: Arabic was updated.
+* Language: Hungarian was updated.
+* Language: updated.
+
+= 3.1.2 =
+* Language: Arabic was updated.
+* Resolved: Loads the plugin's translated strings problem.
+* Language: Hungarian was updated.
+
 = 3.1.1 =
 * Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
 * Optimized: Statistics screen in resolution 1024x768.

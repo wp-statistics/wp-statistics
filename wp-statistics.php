@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 3.1.1
+Version: 3.1.2
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -13,10 +13,10 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '3.1.0');
+	define('WP_STATISTICS_VERSION', '3.1.2');
 	update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 	
-	load_plugin_textdomain('wp_statistics','wp-content/plugins/wp-statistics/languages');
+	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	
 	include_once dirname( __FILE__ ) . '/upgrade.php';
 	include_once dirname( __FILE__ ) . '/install.php';
@@ -190,6 +190,17 @@ License: GPL2
 			}
 			
 			include_once dirname( __FILE__ ) . '/includes/log/last-visitor.php';
+			
+		} else if( $_GET['type'] == 'top-referring-site' ) {
+		
+			$referr = $_GET['referr'];
+			if( $referr ) {
+				$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%{$referr}%'");
+			} else {
+				$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
+			}
+			
+			include_once dirname( __FILE__ ) . '/includes/log/top-referring.php';
 			
 		} else {
 		

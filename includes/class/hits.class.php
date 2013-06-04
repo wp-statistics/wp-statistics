@@ -10,7 +10,7 @@
 			
 			$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visit ORDER BY `{$this->tb_prefix}statistics_visit`.`ID` DESC");
 			
-			if( substr($this->result->last_visit, 0, -1) != substr($this->Current_Date('Y-m-d H:i:s'), 0, -1) && !$this->Check_Spiders() ) {
+			if( substr($this->result->last_visit, 0, -2) != substr($this->Current_Date('Y-m-d H:i:s'), 0, -2) && !$this->Check_Spiders() ) {
 			
 				if( $this->result->last_counter != $this->Current_Date('Y-m-d') ) {
 				
@@ -48,7 +48,7 @@
 					$this->tb_prefix . "statistics_visitor",
 					array(
 						'last_counter'	=>	$this->Current_date('Y-m-d'),
-						'referred'		=>	$this->get_Referred(),
+						'referred'		=>	$this->get_Referred(true),
 						'agent'			=>	$this->get_UserAgent(),
 						'ip'			=>	$this->get_IP()
 					)

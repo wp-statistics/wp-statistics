@@ -125,6 +125,7 @@
 }
 #about-links p {
     display: inline;
+    font-size: 11px;
     margin: 0 2px;
 }
 #about-links a {

@@ -113,9 +113,17 @@
 			return $agent;
 		}
 		
-		public function get_Referred() {
+		public function get_Referred($default_referr = false) {
 		
-			return $this->db->escape(strip_tags($_SERVER['HTTP_REFERER']));
+			if( $default_referr ) {
+				if( !$this->db->escape(strip_tags($_SERVER['HTTP_REFERER'])) ) {
+					return get_bloginfo('url');
+				} else {
+					return $this->db->escape(strip_tags($_SERVER['HTTP_REFERER']));
+				}
+			} else {
+				return $this->db->escape(strip_tags($_SERVER['HTTP_REFERER']));
+			}
 		}
 		
 		public function Check_Spiders() {
@@ -124,7 +132,7 @@
 
 			foreach($spiders as $spider) {
 				if(strpos($this->get_UserAgent(), $spider) == true)
-				return true;
+					return true;
 			}
 			
 			return false;

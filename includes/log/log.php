@@ -123,7 +123,9 @@
 									},
 									<?php } ?>
 									tooltip: {
-										pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+										formatter: function () {
+											return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
+									   },
 										percentageDecimals: 1,
 										style: {
 											fontSize: '12px',
@@ -171,7 +173,9 @@
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Top referring sites', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle">
+						<span><?php _e('Top referring sites', 'wp_statistics'); ?></span> <a href="?page=wp-statistics/wp-statistics.php&type=top-referring-site"><?php _e('(See more)', 'wp_statistics'); ?></a>
+					</h3>
 					<div class="inside">
 						<div class="inside">
 							<table width="100%" class="widefat table-stats" id="last-referrer">
@@ -181,14 +185,14 @@
 								</tr>
 								
 								<?php
-									$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor`");
+									$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 									
 									$urls = array();
 									foreach( $result as $items ) {
 									
 										$url = parse_url($items->referred);
 										
-										if( empty($url['host']) )
+										if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
 											continue;
 											
 										$urls[] = $url['host'];
@@ -218,7 +222,7 @@
 						<div id="about-links">
 							<p><?php echo sprintf(__('Plugin version: %s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></p> |
 							<p><a href="http://teamwork.wp-parsi.com/projects/wp-statistics/" target="_blank"><?php _e('Translations', 'wp_statistics'); ?></a></p> |
-							<p><a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank"><?php _e('Support plugin', 'wp_statistics'); ?></a></p> |
+							<p><a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank"><?php _e('Support', 'wp_statistics'); ?></a> / <a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank"><?php _e('Farsi', 'wp_statistics'); ?></a></p> |
 							<p><a href="https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream" target="_blank"><?php _e('Facebook', 'wp_statistics'); ?></a></p> |
 							<p><a href="http://iran98.org/" target="_blank"><?php _e('Weblog', 'wp_statistics'); ?></a></p>
 						</div>
@@ -351,6 +355,8 @@
 								
 								foreach($result as $items) {
 								
+									if( !$s->Search_Engine_QueryString($items->referred) ) continue;
+									
 									echo "<div class='log-item'>";
 										echo "<div class='log-referred'>".substr($s->Search_Engine_QueryString($items->referred), 0, 80)."</div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";

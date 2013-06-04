@@ -49,6 +49,8 @@
 								
 								foreach($result as $items) {
 								
+									if( !$s->Search_Engine_QueryString($items->referred) ) continue;
+									
 									echo "<div class='log-item'>";
 										echo "<div class='log-referred'>".substr($s->Search_Engine_QueryString($items->referred), 0, 100)."</div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
