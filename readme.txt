@@ -313,11 +313,6 @@ Disable / Enable the plugin.
 * Language: Hungarian was updated.
 * Language: updated.
 
-= 3.1.2 =
-* Language: Arabic was updated.
-* Resolved: Loads the plugin's translated strings problem.
-* Language: Hungarian was updated.
-
 = 3.1.1 =
 * Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
 * Optimized: Statistics screen in resolution 1024x768.
