@@ -25,11 +25,12 @@
     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
     font-size: 21px;
 }
-#user_online {
+#th-colspan {
     text-align: center;
 }
-#user_online span {
-    font-size: 50px;
+#th-colspan span {
+    color: #459605 !important;
+    font-size: 30px;
 }
 #last-visitor tr {
     text-align: center;
@@ -112,7 +113,7 @@
     text-decoration: none;
 }
 #visits-log {
-    height: 330px;
+    height: 290px;
     width: 100%;
 }
 #browsers-log {

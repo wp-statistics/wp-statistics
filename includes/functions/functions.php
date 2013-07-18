@@ -115,28 +115,56 @@
 		return $result;
 	}
 	
-	function wp_statistics_searchengine($search_engine = 'all') {
+	function wp_statistics_searchengine($search_engine = 'all', $time = 'total') {
 	
 		global $wpdb, $table_prefix;
 		
 		$s = new WP_Statistics();
 		
 		if( $search_engine == 'google' ) {
-		
-			$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' AND `last_counter` = '{$s->Current_Date('Y-m-d')}'");
-			
+			$search_engine = "`referred` LIKE '%google.com%'";
 		} else if( $search_engine == 'yahoo' ) {
-		
-			$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%yahoo.com%' AND `last_counter` = '{$s->Current_Date('Y-m-d')}'");
-			
+			$search_engine = "`referred` LIKE '%yahoo.com%'";
 		} else if( $search_engine == 'bing' ) {
-		
-			$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%bing.com%' AND `last_counter` = '{$s->Current_Date('Y-m-d')}'");
-			
+			$search_engine = "`referred` LIKE '%bing.com%'";
 		} else {
+			$search_engine = "`referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'";
+		}
 		
-			$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}' AND `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'");
-			
+		switch($time) {
+			case 'today':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}' AND {$search_engine}");
+				break;
+				
+			case 'yesterday':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}' AND {$search_engine}");
+				
+				break;
+				
+			case 'week':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -7)}' AND {$search_engine}");
+				
+				break;
+				
+			case 'month':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -30)}' AND {$search_engine}");
+				
+				break;
+				
+			case 'year':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -360)}' AND {$search_engine}");
+				
+				break;
+				
+			case 'total':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_engine}");
+				
+				break;
+				
+			default:
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', $time)}' AND {$search_engine}");
+				
+				break;
 		}
 		
 		return $result;

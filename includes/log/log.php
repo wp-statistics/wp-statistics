@@ -20,7 +20,7 @@
 							<tbody>
 								<tr>
 									<th><?php _e('User Online', 'wp_statistics'); ?>:</th>
-									<th colspan="2" id="user_online"><span><?php echo wp_statistics_useronline(); ?></span></th>
+									<th colspan="2" id="th-colspan"><span><?php echo wp_statistics_useronline(); ?></span></th>
 								</tr>
 								
 								<tr>
@@ -63,6 +63,39 @@
 									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php echo wp_statistics_visitor('total'); ?></span></th>
 									<th class="th-center"><span><?php echo wp_statistics_visit('total'); ?></span></th>
+								</tr>
+								
+								<tr>
+									<th colspan="3"><?php _e('Search Engine reffered', 'wp_statistics'); ?>:</th>
+								</tr>
+								
+								<tr>
+									<th width="60%"></th>
+									<th class="th-center"><?php _e('Today', 'wp_statistics'); ?></th>
+									<th class="th-center"><?php _e('Yesterday', 'wp_statistics'); ?></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('Google', 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php echo wp_statistics_searchengine('google', 'today'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_searchengine('google', 'yesterday'); ?></span></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('Yahoo!', 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php echo wp_statistics_searchengine('yahoo', 'today'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_searchengine('yahoo', 'yesterday'); ?></span></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('Bing', 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php echo wp_statistics_searchengine('bing', 'today'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_searchengine('bing', 'yesterday'); ?></span></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
+									<th colspan="2" id="th-colspan"><span><?php echo wp_statistics_searchengine('all'); ?></span></th>
 								</tr>
 							</tbody>
 						</table>
@@ -261,14 +294,15 @@
 							visit_chart = new Highcharts.Chart({
 								chart: {
 									renderTo: 'visits-log',
-									type: 'spline',
-									backgroundColor: '#F8F8F8'
+									type: '<?php echo get_option('wps_chart_type'); ?>',
+									backgroundColor: '#F8F8F8',
+									height: '300'
 								},
 								credits: {
 									enabled: false
 								},
 								title: {
-									text: '<?php _e('Chart hit in the last 20 days', 'wp_statistics'); ?>',
+									text: '<?php _e('Hits chart in the last 20 days', 'wp_statistics'); ?>',
 									style: {
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
@@ -337,6 +371,107 @@
 						</script>
 						
 						<div id="visits-log"></div>
+						
+					</div>
+				</div>
+				
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
+					<h3 class="hndle"><span><?php _e('Statistical Chart', 'wp_statistics'); ?></span></h3>
+					<div class="inside">
+						<script type="text/javascript">
+						var visit_chart;
+						jQuery(document).ready(function() {
+							visit_chart = new Highcharts.Chart({
+								chart: {
+									renderTo: 'search-engine-log',
+									type: '<?php echo get_option('wps_chart_type'); ?>',
+									backgroundColor: '#F8F8F8',
+									height: '300'
+								},
+								credits: {
+									enabled: false
+								},
+								title: {
+									text: '<?php _e('Referrer search engine chart in the last 20 days', 'wp_statistics'); ?>',
+									style: {
+										fontSize: '12px',
+										fontFamily: 'Tahoma',
+										fontWeight: 'bold'
+									}
+								},
+								xAxis: {
+									type: 'datetime',
+									categories: [
+									<?php
+										for( $i=20; $i>=0; $i--) {
+											echo '"'.$s->Current_Date('m/d', '-'.$i).'"';
+											echo ", ";
+										}
+									?>]
+								},
+								yAxis: {
+									title: {
+										text: '<?php _e('Number of referrer', 'wp_statistics'); ?>',
+										style: {
+											fontSize: '12px',
+											fontFamily: 'Tahoma'
+										}
+									}
+								},
+								<?php if( is_rtl() ) { ?>
+								legend: {
+									rtl: true,
+									itemStyle: {
+											fontSize: '11px',
+											fontFamily: 'Tahoma'
+										}
+								},
+								<?php } ?>
+								tooltip: {
+									crosshairs: true,
+									shared: true,
+									style: {
+										fontSize: '12px',
+										fontFamily: 'Tahoma'
+									},
+									useHTML: true
+								},
+								series: [{
+									name: '<?php _e('Google', 'wp_statistics'); ?>',
+									data: [
+									<?php
+										for( $i=20; $i>=0; $i--) {
+											echo wp_statistics_searchengine('google', '-'.$i);
+											echo ", ";
+										}
+									?>]
+								},
+								{
+									name: '<?php _e('Yahoo!', 'wp_statistics'); ?>',
+									data: [
+									<?php
+										for( $i=20; $i>=0; $i--) {
+											echo wp_statistics_searchengine('yahoo', '-'.$i);
+											echo ", ";
+										}
+									?>]
+								},
+								{
+									name: '<?php _e('Bing', 'wp_statistics'); ?>',
+									data: [
+									<?php
+										for( $i=20; $i>=0; $i--) {
+											echo wp_statistics_searchengine('bing', '-'.$i);
+											echo ", ";
+										}
+									?>]
+								}]
+							});
+						});
+						</script>
+						
+						<div id="search-engine-log"></div>
 						
 					</div>
 				</div>

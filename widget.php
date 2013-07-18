@@ -95,7 +95,7 @@
 					} else if(get_option('select_se') == "bing"){
 						echo wp_statistics_searchengine("bing");
 					} else {
-						echo wp_statistics_searchengine();
+						echo wp_statistics_searchengine('all');
 					}
 				echo "</li>";
 			}

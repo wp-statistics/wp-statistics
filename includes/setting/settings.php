@@ -83,6 +83,30 @@
 				</tr>
 				
 				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Chart Settings', 'wp_statistics'); ?></h3></th>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row">
+						<label for="chart-type"><?php _e('Chart type', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<th>
+						<select name="wps_chart_type" id="chart-type">
+							<option value="0" <?php selected(get_option('wps_chart_type'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
+							<option value="line" <?php selected(get_option('wps_chart_type'), 'line'); ?>><?php _e('Line', 'wp_statistics'); ?></option>
+							<option value="spline" <?php selected(get_option('wps_chart_type'), 'spline'); ?>><?php _e('Spline', 'wp_statistics'); ?></option>
+							<option value="area" <?php selected(get_option('wps_chart_type'), 'area'); ?>><?php _e('Area', 'wp_statistics'); ?></option>
+							<option value="areaspline" <?php selected(get_option('wps_chart_type'), 'areaspline'); ?>><?php _e('Area Spline', 'wp_statistics'); ?></option>
+							<option value="column" <?php selected(get_option('wps_chart_type'), 'column'); ?>><?php _e('Column', 'wp_statistics'); ?></option>
+							<option value="bar" <?php selected(get_option('wps_chart_type'), 'bar'); ?>><?php _e('Bar', 'wp_statistics'); ?></option>
+							<option value="scatter" <?php selected(get_option('wps_chart_type'), 'scatter'); ?>><?php _e('Scatter', 'wp_statistics'); ?></option>
+						</select>
+						<p class="description"><?php _e('Chart type in view stats.', 'wp_statistics'); ?></p>
+					</th>
+				</tr>
+				
+				<tr valign="top">
 					<th scope="row" colspan="2"><h3><?php _e('Statistical reporting settings', 'wp_statistics'); ?></h3></th>
 				</tr>
 				

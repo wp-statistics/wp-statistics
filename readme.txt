@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 
 Complete statistics for your blog.
 
@@ -62,6 +62,7 @@ Language Support:
 * Indonesian [Thanks Agit Amrullah](http://www.facebook.com/agitowblinkerz/)
 * Hungarian [Thanks ZSIMI](http://www.zsimi.hu/)
 * Chinese (Taiwan) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
+* Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
 
 [Percentage languages ​​translation](http://teamwork.wp-parsi.com/projects/wp-statistics/)
 To complete the language deficits of [this section](http://teamwork.wp-parsi.com/projects/wp-statistics/) apply.
@@ -90,14 +91,18 @@ Support Forum in [WordPress support forum Persian](http://forum.wp-parsi.com/for
 * Years visit: `<?php echo wp_statistics_visit('year'); ?>`
 * Total visitor: `<?php echo wp_statistics_visitor('total'); ?>`
 * Total visit: `<?php echo wp_statistics_visit('total'); ?>`
-* Number of visitors of 40 days to today: `<?php echo wp_statistics_visitor(45); ?>`
-* Number of visits of 40 days to today: `<?php echo wp_statistics_visit(45); ?>`
-* Number of visitors 45 days ago: `<?php echo wp_statistics_visitor(45, true); ?>`
-* Number of visits 45 days ago: `<?php echo wp_statistics_visit(45, true); ?>`
+* Number of visitors of 40 days to today: `<?php echo wp_statistics_visitor('-45'); ?>`
+* Number of visits of 40 days to today: `<?php echo wp_statistics_visit('-45'); ?>`
+* Number of visitors 45 days ago: `<?php echo wp_statistics_visitor('-45', true); ?>`
+* Number of visits 45 days ago: `<?php echo wp_statistics_visit('-45', true); ?>`
 * All Search Engine reffered `<?php echo wp_statistics_searchengine(); ?>`
 * Google Search Engine reffered `<?php echo wp_statistics_searchengine('google'); ?>`
 * Yahoo Search Engine reffered `<?php echo wp_statistics_searchengine('yahoo'); ?>`
 * Bing Search Engine reffered `<?php echo wp_statistics_searchengine('bing'); ?>`
+* Google Search Engine reffered in today  `<?php echo wp_statistics_searchengine('google', 'today'); ?>`
+* Google Search Engine reffered in yesterday  `<?php echo wp_statistics_searchengine('google', 'yesterday'); ?>`
+* Google Search Engine reffered in 5 days ago `<?php echo wp_statistics_searchengine('google', '-5'); ?>`
+* Total All Search Enginee reffered `<?php echo wp_statistics_searchengine('all', 'total'); ?>`
 * Total posts `<?php echo wp_statistics_countposts(); ?>`
 * Total pages `<?php echo wp_statistics_countpages(); ?>`
 * Total comments `<?php echo wp_statistics_countcomment(); ?>`
@@ -125,6 +130,15 @@ Disable / Enable the plugin.
 1. Screen shot (screenshot-6.png) in widget page.
 
 == Upgrade Notice ==
+= 3.1.4 =
+* Added: Chart Type in the settings plugin.
+* Added: Search Engine referrer chart in the view stats page.
+* Added: Search Engine stats in Summary Statistics.
+* Optimized: 'wp_statistics_searchengine()' and add second parameter in the function.
+* Language: Chinese (China) was added.
+* Language: Russian was updated.
+* Language: updated.
+
 = 3.1.3 =
 * Optimized: View statistics.
 * Added: Chinese (Taiwan) language.
@@ -307,6 +321,15 @@ Disable / Enable the plugin.
 * Start plugin
 
 == Changelog ==
+= 3.1.4 =
+* Added: Chart Type in the settings plugin.
+* Added: Search Engine referrer chart in the view stats page.
+* Added: Search Engine stats in Summary Statistics.
+* Optimized: 'wp_statistics_searchengine()' and add second parameter in the function.
+* Language: Chinese (China) was added.
+* Language: Russian was updated.
+* Language: updated.
+
 = 3.1.3 =
 * Optimized: View statistics.
 * Added: Chinese (Taiwan) language.
