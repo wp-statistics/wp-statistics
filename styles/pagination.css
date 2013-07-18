@@ -1,0 +1,52 @@
+
+.pagination-log {
+    border-top: 1px solid #F2F2F2;
+    direction: ltr;
+    padding: 14px 0 0;
+    text-align: center;
+}
+.pageOn {
+    background: none repeat scroll 0 0 #4DCDFF;
+    border: 1px solid #60A8FF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 0 #C8E8FF inset;
+    color: #FFF4F4;
+    margin: 2px;
+    padding: 5px 10px;
+}
+.pageOff {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #DADADA;
+    border-radius: 4px 4px 4px 4px;
+    color: #AAAAAA;
+    margin: 2px;
+    padding: 5px 2px;
+    text-shadow: 1px 1px #FFFFFF;
+}
+.pageOff:hover {
+    background: none repeat scroll 0 0 #EDE9E9;
+    cursor: pointer;
+}
+.pageOff a {
+    box-shadow: 0 1px 0 #FFFFFF inset;
+    color: #AAAAAA;
+    padding: 5px 8px;
+}
+.paginationSelect {
+    background: none repeat scroll 0 0 #EEEEEE;
+}
+.paginationErrors {
+    background: none repeat scroll 0 0 #FFDD99;
+    border: 2px dashed #DD9900;
+    clear: both;
+    color: #AA4400;
+    margin: 40px auto;
+    padding: 10px;
+    text-align: left;
+    width: 70%;
+}
+#result-log {
+    color: #148E00;
+    direction: rtl;
+    font-weight: bold;
+}
