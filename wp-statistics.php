@@ -13,7 +13,7 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '3.1.5');
+	define('WP_STATISTICS_VERSION', '3.2');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
 	update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
