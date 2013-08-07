@@ -1,0 +1,145 @@
+
+#right-log {
+    width: 31%;
+}
+#left-log {
+    margin: 0 0 0 1%;
+    width: 68%;
+}
+#last-log {
+    width: 100%;
+}
+#right-log a, #left-log a, #last-log a {
+    text-decoration: none;
+}
+#summary-stats {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px none;
+    margin: 0 0 10px;
+}
+#summary-stats tr:first-child th {
+    border-top: 0 none;
+}
+#summary-stats span {
+    color: #21759B !important;
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    font-size: 21px;
+}
+#th-colspan {
+    text-align: center;
+}
+#th-colspan span {
+    color: #459605 !important;
+    font-size: 30px;
+}
+#last-visitor tr {
+    text-align: center;
+}
+#last-visitor tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+#last-search tr {
+    text-align: center;
+}
+#last-search tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+#last-referrer tr {
+    text-align: left;
+}
+#last-referrer tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+.th-center {
+    text-align: center !important;
+}
+.td-align {
+    text-align: left;
+}
+.td-url {
+    color: #009936 !important;
+    direction: ltr;
+    font-size: 10px !important;
+    text-align: left;
+    white-space: nowrap;
+}
+.log-latest {
+}
+.log-item {
+    border-bottom: 1px solid #D3CDCD;
+    border-top: 1px solid #FFFFFF;
+    height: 46px;
+    padding: 3px 7px;
+}
+.log-item:hover {
+    background: none repeat scroll 0 0 #EEEEEE;
+}
+.log-referred {
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 79%;
+}
+.log-ip {
+    direction: ltr;
+    float: right;
+    font-size: 10px;
+    margin-bottom: 5px;
+    white-space: pre;
+    width: 20%;
+}
+.log-tools {
+    float: left;
+    margin: 0 2px;
+}
+.log-url {
+    direction: ltr;
+    float: left;
+    font-size: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 90%;
+}
+.log-url img {
+}
+#time_zone a {
+    font-size: 11px;
+    text-decoration: none;
+}
+#visits-log {
+    height: 290px;
+    width: 100%;
+}
+#browsers-log {
+    height: 330px;
+    margin: 0 auto;
+    width: 100%;
+}
+#about-links {
+    margin: 0 0 10px;
+}
+#about-links p {
+    display: inline;
+    font-size: 11px;
+    margin: 0 2px;
+}
+#about-links a {
+}
+#donate-button {
+    bottom: 18px;
+    float: right;
+    height: 15px;
+    position: relative;
+}
+.ads {
+}
+.ads img {
+    height: 90px;
+    width: 120px;
+}
