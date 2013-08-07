@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 3.1.4
+Stable tag: 3.2
 
 Complete statistics for your blog.
 
@@ -126,10 +126,19 @@ Disable / Enable the plugin.
 1. Screen shot (screenshot-2.png) in view latest search words.
 1. Screen shot (screenshot-3.png) in view recent visitors page.
 1. Screen shot (screenshot-4.png) in view top referrer site page.
-1. Screen shot (screenshot-5.png) in settings page.
-1. Screen shot (screenshot-6.png) in widget page.
+1. Screen shot (screenshot-5.png) in optimization page.
+1. Screen shot (screenshot-6.png) in settings page.
+1. Screen shot (screenshot-7.png) in widget page.
 
 == Upgrade Notice ==
+= 3.2 =
+* Added: Optimization plugin page.
+* Added: Export data to excel, xml, csv and tsv files.
+* Added: Delete table data.
+* Added: Show memory usage in optimization page.
+* Language: Polish (pl_PL) was updated.
+* Language: updated.
+
 = 3.1.4 =
 * Added: Chart Type in the settings plugin.
 * Added: Search Engine referrer chart in the view stats page.
@@ -321,6 +330,14 @@ Disable / Enable the plugin.
 * Start plugin
 
 == Changelog ==
+= 3.2 =
+* Added: Optimization plugin page.
+* Added: Export data to excel, xml, csv and tsv files.
+* Added: Delete table data.
+* Added: Show memory usage in optimization page.
+* Language: Polish (pl_PL) was updated.
+* Language: updated.
+
 = 3.1.4 =
 * Added: Chart Type in the settings plugin.
 * Added: Search Engine referrer chart in the view stats page.

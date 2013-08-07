@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 3.1.4
+Version: 3.2
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -13,7 +13,9 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '3.1.4');
+	define('WP_STATISTICS_VERSION', '3.1.5');
+	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
+	
 	update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
@@ -68,6 +70,7 @@ License: GPL2
 			add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log', plugin_dir_url( __FILE__ ).'/images/icon.png');
 			
 			add_submenu_page(__FILE__, __('View Stats', 'wp_statistics'), __('View Stats', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log');
+			add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), 'manage_options', 'wp-statistics/optimization', 'wp_statistics_optimization');
 			add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), 'manage_options', 'wp-statistics/settings', 'wp_statistics_settings');
 		}
 	}
@@ -209,6 +212,22 @@ License: GPL2
 			
 			include_once dirname( __FILE__ ) . '/includes/log/log.php';
 		}
+		
+	}
+	
+	function wp_statistics_optimization() {
+	
+		if (!current_user_can('manage_options')) {
+			wp_die(__('You do not have sufficient permissions to access this page.'));
+		}
+		
+		global $wpdb, $table_prefix;
+		
+		$result['useronline'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_useronline`");
+		$result['visit'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visit`");
+		$result['visitor'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
+		
+		include_once dirname( __FILE__ ) . '/includes/optimization/optimization.php';
 		
 	}
 	

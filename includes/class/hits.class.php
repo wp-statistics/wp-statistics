@@ -1,5 +1,7 @@
 <?php
 	class Hits extends WP_Statistics {
+	
+		public $result = null;
 		
 		public function __construct() {
 		

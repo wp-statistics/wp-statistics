@@ -5,6 +5,8 @@
 		
 		public $second;
 		
+		public $result = null;
+		
 		public function __construct($second = 30) {
 		
 			parent::__construct();

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-16 17:20+0330\n"
+"POT-Creation-Date: 2013-08-07 16:27+0330\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team:  <mat404@gmail.com>\n"
@@ -26,7 +26,7 @@ msgstr "گزارش آماری"
 #: F:\Program
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:4
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:6
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:68
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:70
 msgid "Statistics"
 msgstr "آماره"
 
@@ -37,7 +37,7 @@ msgstr "نمایش آمار سایت در ابزارک"
 
 #: F:\Program
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:19
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:90
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:93
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:22
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:171
@@ -166,7 +166,7 @@ msgid "Last Post Date"
 msgstr "تاریخ به‌روزشدن سایت"
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:40
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:42
 #, php-format
 msgid ""
 "Facilities Wordpress Statistics not enabled! Please go to <a href=\"%s"
@@ -176,45 +176,51 @@ msgstr ""
 "تنظیمات</a> آمارگیر مراجعه کنید."
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:70
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:115
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:72
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:118
 msgid "View Stats"
 msgstr "نمایش آمار"
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:71
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:73
+msgid "Optimization"
+msgstr "بهینه سازی"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:74
 msgid "Settings"
 msgstr "تنظیمات"
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:95
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:98
 msgid "Today visitor"
 msgstr "بازدید کننده امروز"
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:103
 msgid "Today visit"
 msgstr "بازدید امروز"
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:105
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:108
 msgid "Yesterday visitor"
 msgstr "بازدید کننده دیروز"
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:110
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:113
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
 msgid "Yesterday visit"
 msgstr "بازدید دیروز"
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:145
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:218
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:148
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:221
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:237
 msgid "You do not have sufficient permissions to access this page."
 msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
 
 #: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:155
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:158
 msgid "Table plugin does not exist! Please disable and re-enable the plugin."
 msgstr "جدول های پلاگین وجود ندارد! لطفا پلاگین را غیر فعال و مجدد فعال کنید."
 
@@ -547,6 +553,137 @@ msgid "Referring sites from"
 msgstr "سایت های ارجاع دهنده از"
 
 #: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:5
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/export.php:5
+msgid "Access denied!"
+msgstr "دسترسی غیرمجاز!"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:15
+#, php-format
+msgid "<code>%s</code> table data deleted successfully."
+msgstr "داده‌های جدول <code>%s</code> با موفقیت حذف شد."
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:23
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/export.php:47
+msgid "Please select the desired items."
+msgstr "لطفا موارد مورد نظر را انتخاب کنید."
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:10
+msgid "Are you sure?"
+msgstr "آیا مطمئن هستید؟"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:37
+msgid "Resources"
+msgstr "منابع"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:42
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:47
+msgid "Memory usage in PHP"
+msgstr "حافظه استفاده شده در پی‌اچ‌پی"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:46
+msgid "Byte"
+msgstr "بایت"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:53
+#, php-format
+msgid "Number of rows in the <code>%sstatistics_useronline</code> table"
+msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_useronline</code>"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:57
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:68
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:79
+msgid "Row"
+msgstr "ردیف"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:58
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:69
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:80
+msgid "Number of rows"
+msgstr "تعداد ردیف‌های موجود"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:64
+#, php-format
+msgid "Number of rows in the <code>%sstatistics_visit</code> table"
+msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_visit</code>"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:75
+#, php-format
+msgid "Number of rows in the <code>%sstatistics_visitor</code> table"
+msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_visitor</code>"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:85
+msgid "Export"
+msgstr "برون‌بری"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:90
+msgid "Export from"
+msgstr "برون‌بری از"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:95
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:111
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:133
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:96
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:133
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:149
+msgid "Please select."
+msgstr "لطفا انتخاب کنید."
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:100
+msgid "Select the table for the output file."
+msgstr "جدول مورد نظر برای تهیه فایل خروجی را انتخاب کنید."
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:106
+msgid "Export To"
+msgstr "برون‌بری به"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:117
+msgid "Select the output file type."
+msgstr "نوع فایل خروجی را انتخاب کنید."
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:118
+msgid "Start Now!"
+msgstr "شروع کن!"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:123
+msgid "Empty"
+msgstr "خالی کردن"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:128
+msgid "Empty Table"
+msgstr "خالی کردن جدول"
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:138
+msgid "All data table will be lost."
+msgstr "تمامی دادههای جدول از بین خواهد رفت."
+
+#: F:\Program
+#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/optimization.php:139
+msgid "Clear now!"
+msgstr "پاک کن!"
+
+#: F:\Program
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:9
 msgid "General Settings"
 msgstr "تنظیمات عمومی"
@@ -633,13 +770,6 @@ msgstr "تنظیمات نمودار"
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:91
 msgid "Chart type"
 msgstr "نوع نمودار"
-
-#: F:\Program
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:96
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:133
-#: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:149
-msgid "Please select."
-msgstr "لطفا انتخاب کنید."
 
 #: F:\Program
 #: Files\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:97
@@ -786,6 +916,15 @@ msgstr "میلادی"
 msgid "Persian"
 msgstr "شمسی (فارسی)"
 
+#~ msgid "Empty Now!"
+#~ msgstr "پاک کن!"
+
+#~ msgid "Export Settings"
+#~ msgstr "تنظیمات برون‌بری"
+
+#~ msgid "Backup Settings"
+#~ msgstr "تنظیمات نسخه پشتیبان"
+
 #, fuzzy
 #~ msgid "Search engine"
 #~ msgstr "ورودی موتور جستجو"
@@ -902,9 +1041,6 @@ msgstr "شمسی (فارسی)"
 #~ msgid "low value"
 #~ msgstr "کم شد"
 
-#~ msgid "Access is Denied!"
-#~ msgstr "دسترسی غیرمجاز!"
-
 #~ msgid "Report a problem for WP Statistics"
 #~ msgstr "گزارش مشکل برای افزونه WP Statistics"
 
@@ -937,9 +1073,6 @@ msgstr "شمسی (فارسی)"
 
 #~ msgid "Users Online"
 #~ msgstr "کاربران حاضر"
-
-#~ msgid "Are you sure?"
-#~ msgstr "آیا مطمئن هستید؟"
 
 #~ msgid "Configuration"
 #~ msgstr "پیکربندی"
