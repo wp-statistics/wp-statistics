@@ -1,0 +1,672 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-statistics\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-03 19:30+0330\n"
+"PO-Revision-Date: 2013-02-04 11:57+0100\n"
+"Last-Translator: ZSIMI <forditasok@zsimi.hu>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
+"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content\\plugins\\wp-statistics\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Language: hu_HU\n"
+"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content\\plugins\\wp-statistics\n"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/schedule.php:32
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:103
+msgid "Statistical reporting"
+msgstr "Statisztikai adatszolgáltatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:4
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:6
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:58
+msgid "Statistics"
+msgstr "Statisztikák"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:5
+msgid "Show site stats in sidebar"
+msgstr "Webhelystatisztikák megjelenítése az oldalsávon"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:19
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:80
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:14
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:159
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:9
+msgid "User Online"
+msgstr "Jelenlévő felhasználó"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:26
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:161
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:12
+msgid "Today Visit"
+msgstr "Mai látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:33
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:160
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:15
+msgid "Today Visitor"
+msgstr "Mai Látogató"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:40
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:163
+msgid "Yesterday Visit"
+msgstr "Tegnapi látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:47
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:162
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:21
+msgid "Yesterday Visitor"
+msgstr "Tegnapi Látogató"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:54
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:24
+msgid "Week Visit"
+msgstr "Heti látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:61
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:27
+msgid "Month Visit"
+msgstr "Havi látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:68
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:30
+msgid "Years Visit"
+msgstr "Évi látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:75
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:165
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:33
+msgid "Total Visit"
+msgstr "Összes látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:82
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:164
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:36
+msgid "Total Visitor"
+msgstr "Összes Látogató"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:90
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:39
+msgid "Search Engine reffered"
+msgstr "Kereső motor megadása\n"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:105
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:57
+msgid "Total Posts"
+msgstr "Összes bejegyzés"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:112
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:60
+msgid "Total Pages"
+msgstr "Összes oldal"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:119
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:63
+msgid "Total Comments"
+msgstr "Összes hozzászólás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:126
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:66
+msgid "Total Spams"
+msgstr "Összes spam"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:133
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:69
+msgid "Total Users"
+msgstr "Összes felhasználó"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:140
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:72
+msgid "Average Posts"
+msgstr "Átlagos bejegyzés"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:147
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:75
+msgid "Average Comments"
+msgstr "Átlagos hozzászólás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:154
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:78
+msgid "Average Users"
+msgstr "Átlagos felhasználó"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:161
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:81
+msgid "Last Post Date"
+msgstr "Utolsó bejegyzés dátuma"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:60
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:105
+msgid "View Stats"
+msgstr "Statisztikák megtekintése"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:61
+msgid "Settings"
+msgstr "Beállítások"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
+msgid "Today visitor"
+msgstr "Mai Látogató"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:90
+msgid "Today visit"
+msgstr "Mai látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:95
+msgid "Yesterday visitor"
+msgstr "Tegnapi Látogató"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
+msgid "Yesterday visit"
+msgstr "Tegnapi látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:161
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Nincs megfelelő jogosultság az oldal megtekintéséhez."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:144
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
+msgstr "A bővítmény táblázata nem létezik! Kérjük, kikapcsolni, és újra indítani a bővítményt."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:207
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:242
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:332
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:372
+msgid "Click to toggle"
+msgstr "Bővebben kikapcsolás/bekapcsolás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:9
+msgid "Summary Statistics"
+msgstr "Statisztikák összegzése"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:303
+msgid "Visitor"
+msgstr "Látogató"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:313
+msgid "Visit"
+msgstr "Látogatás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:25
+msgid "Today"
+msgstr "Ma"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:31
+msgid "Yesterday"
+msgstr "Tegnap"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:37
+msgid "Week"
+msgstr "Hét"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:43
+msgid "Month"
+msgstr "Hónap"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:49
+msgid "Year"
+msgstr "Év"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:55
+msgid "Total"
+msgstr "Összes"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:62
+#, php-format
+msgid "Today date: <code dir=\"ltr\">%s</code>, Time: <code dir=\"ltr\">%s</code>"
+msgstr "Mai dátum: <code dir=\"ltr\">%s</code>, Idő: <code dir=\"ltr\">%s</code>"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:64
+msgid "(Adjustment)"
+msgstr "(beállítás)"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:70
+msgid "Browsers"
+msgstr "Böngészők"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:101
+msgid "Graph of Browsers"
+msgstr "Böngészők diagramja"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:143
+msgid "Browser share"
+msgstr "Böngésző megosztás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:145
+msgid "Firefox"
+msgstr "Firefox"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:146
+msgid "IE"
+msgstr "IE"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:147
+msgid "Ipad"
+msgstr "Ipad"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:148
+msgid "Android"
+msgstr "Android"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:149
+msgid "Chrome"
+msgstr "Chrome"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:150
+msgid "Safari"
+msgstr "Safari"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:151
+msgid "Other"
+msgstr "Egyéb"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:166
+msgid "Top referring sites"
+msgstr "Legkeresettebb oldalak"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
+msgid "Reference"
+msgstr "Referencia"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:172
+msgid "Address"
+msgstr "Cím"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:208
+msgid "About plugin"
+msgstr "A bővítmény névjegye"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:211
+#, php-format
+msgid "Plugin version: %s"
+msgstr "Bővítmény verziója: %s"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:212
+msgid "Translation plugin languages"
+msgstr "Bővítmény fordítási nyelvei"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
+msgid "Support plugin"
+msgstr "Bővítmény támogatása"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
+msgid "Weblog"
+msgstr "Weboldal"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:219
+msgid "Please donate to the plugin. With the help of plug-ins you can quickly spread."
+msgstr "Kérjük a bővítmény adományozását. Az ön és a plug-inek segítségével gyorsan elterjedt."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:222
+msgid "Donate"
+msgstr "Adományozás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:243
+msgid "Statistical Chart"
+msgstr "Statisztikai ábra"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:258
+msgid "Chart hit in the last 20 days"
+msgstr "Az elmúlt 20 nap találatainak ábrázolása"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:277
+msgid "Number of visits and visitors"
+msgstr "Látogatások és a látogatók száma"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:333
+msgid "Latest search words"
+msgstr "Legutóbbi keresőszavak"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:337
+msgid "Word"
+msgstr "Szó"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:338
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
+msgid "Date"
+msgstr "Dátum"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
+msgid "Site"
+msgstr "Oldal"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
+msgid "Referrer"
+msgstr "Ajánló"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:352
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
+msgid "Google"
+msgstr "Google"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
+msgid "Yahoo!"
+msgstr "Yahoo!"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
+msgid "Bing"
+msgstr ""
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:361
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:398
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:406
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:418
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:373
+msgid "Recent Visitors"
+msgstr "Előző Látogató"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:377
+msgid "IP"
+msgstr "IP"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
+msgid "Country"
+msgstr "Ország"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:380
+msgid "Province"
+msgstr "Tartomány"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:383
+msgid "Browser"
+msgstr "Böngésző"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:9
+msgid "General Settings"
+msgstr "Általános beállítások"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:19
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:31
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:43
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:92
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:108
+msgid "Active"
+msgstr "Aktiválás"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:20
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:32
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:44
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:109
+msgid "Enable or disable this feature"
+msgstr "Engedélyezi vagy letiltja ezt a funkciót"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:26
+msgid "Visits"
+msgstr "Látogatások"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:38
+msgid "Visitors"
+msgstr "Látogatók"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:50
+msgid "Check for online users every"
+msgstr "Minden jelenlegi felhasználó ellenőrzése"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:55
+msgid "Secound"
+msgstr "Másodpercenként"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:56
+#, php-format
+msgid "Time for the check accurate online user in the site. Now: %s Second"
+msgstr "Itt az ideje a pontos jelenlévő felhasználók ellenőrzésére az oldalon. Most: %s másodperc"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:62
+msgid "Show stats in menu bar"
+msgstr "Statisztikák megjelenítése a menüsorban"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:67
+msgid "No"
+msgstr "Nem"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:68
+msgid "Yes"
+msgstr "Igen"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:70
+msgid "Show stats in admin menu bar"
+msgstr "Statisztikák megjelenítése az admin menüben"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:76
+msgid "Coefficient per visitor"
+msgstr "Látogatókénti egységesítés"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:81
+#, php-format
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "Egy azonosított felhasználó minden egyes találatának egységesítése. Jelenleg %s."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:87
+msgid "Display IP Information On-screen statistics"
+msgstr "IP információ a képernyőn megjelenő statisztikák megjelenítése"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:93
+msgid "Showing the flag country and Visitor province name (May be a bit slow)"
+msgstr "A látogató országa szerinti zászló és tartomány nevének megjelenítése (Ez kissé lassíthatja az oldal letöltését)"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:98
+msgid "Statistical reporting settings"
+msgstr "Statisztikai adatszolgáltatási beállítások"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:116
+msgid "Time send"
+msgstr "Küldési idő periódusa"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:121
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:137
+msgid "Please select."
+msgstr "Kérem választani."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:122
+msgid "Hourly"
+msgstr "Óránkénti"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:123
+msgid "Twice daily"
+msgstr "Naponta kétszer"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:124
+msgid "daily"
+msgstr "napi"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:126
+msgid "Select when receiving statistics report."
+msgstr "Válassza fogadásakor a statisztikai jelentést."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:132
+msgid "Send Statistical reporting to"
+msgstr "Statisztikai jelentés küldése"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:138
+msgid "Email"
+msgstr "Email"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:139
+msgid "SMS"
+msgstr "SMS"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:141
+msgid "Type Select Get Status Report."
+msgstr "Állapot jelentés küldésének periodusának kiválasztása."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:144
+#, php-format
+msgid "Note: To send SMS text messages please install the <a href=\"%s\" target=\"_blank\">Wordpress SMS</a> plugin."
+msgstr "Megjegyzés: Az SMS-üzenetek küldéséhez, kérjük telepíteni a<a href=\"%s\" target=\"_blank\">Wordpress SMS</a> bővítményt."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:151
+msgid "Send Content Report"
+msgstr "Tartalom Jelentés küldése"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:156
+msgid "Enter the contents of the reports received."
+msgstr "A beérkezett bejelentések tartalmának megadása."
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:158
+msgid "Input data:"
+msgstr "Bemeneti adatok:"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:2
+msgid "Name"
+msgstr "Név"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:6
+msgid "Items"
+msgstr "Tételek"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:42
+msgid "Select type of search engine"
+msgstr "Kereső motor típusának kiválasztása"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:53
+msgid "All"
+msgstr "Mind"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:84
+msgid "Type date for last update"
+msgstr "Az utolsó frissítés időpontjának frissítése"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:86
+msgid "English"
+msgstr "Angol"
+
+#: F:0
+#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:89
+msgid "Persian"
+msgstr "Perzsa"
+
