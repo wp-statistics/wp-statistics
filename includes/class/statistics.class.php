@@ -6,6 +6,7 @@
 		
 		private $ip;
 		private $result;
+		private $agent;
 		
 		public $coefficient = 1;
 		
@@ -15,6 +16,7 @@
 			
 			$this->db = $wpdb;
 			$this->tb_prefix = $table_prefix;
+			$this->agent = $this->get_UserAgent();
 		}
 		
 		public function Primary_Values() {
@@ -22,15 +24,17 @@
 			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline");
 			
 			if( !$this->result ) {
-				
+			
 				$this->db->insert(
 					$this->tb_prefix . "statistics_useronline",
 					array(
 						'ip'		=>	$this->get_IP(),
-						'timestamp'	=>	$this->timestamp,
+						'timestamp'	=>	date('U'),
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
-						'agent'		=>	$this->get_UserAgent(),
+						'agent'		=>	$this->agent['browser'],
+						'platform'	=>	$this->agent['platform'],
+						'version'	=> 	$this->agent['version']
 					)
 				);
 			}
@@ -58,8 +62,11 @@
 					array(
 						'last_counter'	=>	$this->Current_date('Y-m-d'),
 						'referred'		=>	$this->get_Referred(),
-						'agent'			=>	$this->get_UserAgent(),
-						'ip'			=>	$this->get_IP()
+						'agent'			=>	$this->agent['browser'],
+						'platform'		=>	$this->agent['platform'],
+						'version'		=> 	$this->agent['version'],
+						'ip'			=>	$this->get_IP(),
+						'location'		=>	'000'
 					)
 				);
 			}
@@ -86,29 +93,11 @@
 		
 		public function get_UserAgent() {
 		
-			static $agent = null;
+			$agent = parse_user_agent();
 
-			if ( empty($agent) ) {
-				$agent = $_SERVER['HTTP_USER_AGENT'];
-
-				if ( stripos($agent, 'Firefox') ) {
-					$agent = 'Firefox';
-				} elseif ( stripos($agent, 'MSIE') ) {
-					$agent = 'IE';
-				} elseif ( stripos($agent, 'iPad') ) {
-					$agent = 'Ipad';
-				} elseif ( stripos($agent, 'Android') ) {
-					$agent = 'Android';
-				} elseif ( stripos($agent, 'Chrome') ) {
-					$agent = 'Chrome';
-				} elseif ( stripos($agent, 'Opera') ) {
-					$agent = 'Opera';
-				} elseif ( stripos($agent, 'Safari') ) {
-					$agent = 'Safari';
-				} else {
-					$agent = 'unknown';
-				}
-			}
+			if( $agent['browser'] == null ) { $agent['browser'] = "Unknown"; }
+			if( $agent['platform'] == null ) { $agent['platform'] = "Unknown"; }
+			if( $agent['version'] == null ) { $agent['version'] = "Unknown"; }
 			
 			return $agent;
 		}
@@ -128,10 +117,10 @@
 		
 		public function Check_Spiders() {
 		
-			$spiders = array("Teoma", "alexa", "froogle", "Gigabot", "inktomi", "looksmart", "URL_Spider_SQL", "Firefly", "NationalDirectory", "Ask Jeeves", "TECNOSEEK", "InfoSeek", "WebFindBot", "girafabot", "crawler", "www.galaxy.com", "Googlebot", "googlebot", "Scooter", "Slurp", "msnbot", "appie", "FAST", "WebBug", "Spade", "ZyBorg", "rabaz", "Baiduspider", "Feedfetcher-Google", "TechnoratiSnoop", "Rankivabot", "Mediapartners-Google", "Sogou web spider", "WebAlta Crawler","TweetmemeBot", "Butterfly","Twitturls","Me.dium","Twiceler", "Yammybot", "Openbot", "Yahoo", "ia_archiver", "Lycos", "AltaVista", "Googlebot-Mobile", "Rambler", "AbachoBOT", "accoona", "AcoiRobot", "ASPSeek", "CrocCrawler", "Dumbot", "FAST-WebCrawler", "GeonaBot", "MSRBOT", "IDBot", "eStyle", "Scrubby");
-
+			$spiders = array("AbachoBOT","accoona","AcoiRobot","AhrefsBot","alexa","AltaVista","appie","Ask Jeeves","ASPSeek","Baiduspider","bingbot","Butterfly","clam antivirus","crawler","CrocCrawler","Dumbot","eStyle","ezooms.bot","FAST","FAST-WebCrawler","Feedfetcher-Google","Firefly","froogle","GeonaBot","Gigabot","girafabot","Googlebot","ia_archiver","IDBot","InfoSeek","inktomi","linkdexbot","looksmart","Lycos","Mail.RU_Bot","Me.dium","Mediapartners-Google","MJ12bot","msnbot","MSRBOT","NationalDirectory","nutch","Openbot","proximic","rabaz","Rambler","Rankivabot","Scooter","Scrubby","Slurp","SocialSearch","Sogou web spider","Spade","TechnoratiSnoop","TECNOSEEK","Teoma","TweetmemeBot","Twiceler","Twitturls","URL_Spider_SQL","WebAlta Crawler","WebBug","WebFindBot","www.galaxy.com","yandex","Yahoo","Yammybot","ZyBorg");
+			
 			foreach($spiders as $spider) {
-				if(strpos($this->get_UserAgent(), $spider) == true)
+				if(stripos($_SERVER['HTTP_USER_AGENT'], $spider) !== FALSE)
 					return true;
 			}
 			

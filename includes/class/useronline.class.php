@@ -39,6 +39,8 @@
 			
 			if(!$this->Is_user()) {
 			
+				$agent = $this->get_UserAgent();
+
 				$this->db->insert(
 					$this->tb_prefix . "statistics_useronline",
 					array(
@@ -46,7 +48,9 @@
 						'timestamp'	=>	$this->timestamp,
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
-						'agent'		=>	$this->get_UserAgent(),
+						'agent'		=>	$agent['browser'],
+						'platform'	=>	$agent['platform'],
+						'version'	=> 	$agent['version'],
 					)
 				);
 			}
@@ -57,13 +61,17 @@
 		
 			if($this->result) {
 			
+				$agent = $this->get_UserAgent();
+			
 				$this->db->update(
 					$this->tb_prefix . "statistics_useronline",
 					array(
 						'timestamp'	=>	$this->timestamp,
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
-						'agent'		=>	$this->get_UserAgent(),
+						'agent'		=>	$agent['browser'],
+						'platform'	=>  	$agent['platform'],
+						'version'	=> 	$agent['version'],
 					),
 					array(
 						'ip'		=>	$this->get_IP()

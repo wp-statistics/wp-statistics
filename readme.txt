@@ -3,16 +3,22 @@ Contributors: mostafa.s1990
 Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 3.2
+Tested up to: 3.7.1
+Stable tag: 4.0
+License: GPL2
 
 Complete statistics for your blog.
 
 == Description ==
-A perfect plugin for your blog visitors statistics.
-With this plugin, you can get hit full blog. Visitors and visits your blog from today to 1 year before you can get!
-Many features have been added to the new version of the plugin and the previous problems have been resolved.
-Statistics report on the screen can also view statistics with graphs.
+A perfect plugin for your blog visitor statistics.
+
+Track Visitor and visit statistics to your blog for today and keep up to a year of history!
+
+On screen statistics report a graphs are easily viewed through the admin interface.
+
+Lots of new features and bugfixes, please see the change log for a complete description of what's changed.
+
+This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
 Features:
 
@@ -41,6 +47,7 @@ Features:
 * Support functions and Widgets
 * The object-oriented programming
 * Standard functions for development
+* GeoIP location by Country [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
 Language Support:
 
@@ -74,9 +81,11 @@ Support Forum in [WordPress support forum Persian](http://forum.wp-parsi.com/for
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Set Date and Time in Wordpress.
-4. Go to the plugin settings and plugins enabled.
-3. To display stats, using this functions:
+3. Make sure the Date and Time is set correctly in Wordpress.
+4. Go to the plugin settings page and configure as required (note this will also download the GeoIP database for the fist time).
+
+== Function Reference ==
+To display stats in your own pages you can use the following functions:
 
 * User online: `<?php echo wp_statistics_useronline(); ?>`
 * Today visitor: `<?php echo wp_statistics_visitor('today'); ?>`
@@ -121,215 +130,56 @@ Get Plugin updates via Automatic only.
 = If the plug does not work? =
 Disable / Enable the plugin.
 
+= All visitors are being set to unknown for their location? =
+Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.  
+
+Also, if your running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will come up as unknown always.
+
+= I was using V3.2 and now that I've upgraded my visitors and visits have gone way down? =
+The webcrawler detection code has be fixed and will now exclude them from your stats, don't worry, it now refelcts a more acurate view of actual visitors to your site.
+
 == Screenshots ==
-1. Screen shot (screenshot-1.png) in view stats page.
-1. Screen shot (screenshot-2.png) in view latest search words.
-1. Screen shot (screenshot-3.png) in view recent visitors page.
-1. Screen shot (screenshot-4.png) in view top referrer site page.
-1. Screen shot (screenshot-5.png) in optimization page.
-1. Screen shot (screenshot-6.png) in settings page.
-1. Screen shot (screenshot-7.png) in widget page.
+1. View stats page.
+2. View latest search words.
+3. View recent visitors page.
+4. View top referrer site page.
+5. Optimization page.
+6. Settings page.
+7. Widget page.
+8. View Top Browsers page.
+9. View latest Hits Statistics page
+10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 3.2 =
-* Added: Optimization plugin page.
-* Added: Export data to excel, xml, csv and tsv files.
-* Added: Delete table data.
-* Added: Show memory usage in optimization page.
-* Language: Polish (pl_PL) was updated.
-* Language: updated.
-
-= 3.1.4 =
-* Added: Chart Type in the settings plugin.
-* Added: Search Engine referrer chart in the view stats page.
-* Added: Search Engine stats in Summary Statistics.
-* Optimized: 'wp_statistics_searchengine()' and add second parameter in the function.
-* Language: Chinese (China) was added.
-* Language: Russian was updated.
-* Language: updated.
-
-= 3.1.3 =
-* Optimized: View statistics.
-* Added: Chinese (Taiwan) language.
-
-= 3.1.2 =
-* Added: Top referring sites with full details.
-* Resolved: Loads the plugin's translated strings problem.
-* Resolved: View the main site in top referring sites.
-* Resolved: Empty referrer.
-* Resolved: Empty search words.
-* Update: Highcharts js 2.3.5 to v3.0.1.
-* Language: Arabic was updated.
-* Language: Hungarian was updated.
-* Language: updated.
-
-= 3.1.1 =
-* Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
-* Optimized: Statistics screen in resolution 1024x768.
-* Language: Persian was updated.
-
-= 3.1.0 =
-* Bug Fix: Statistics Menu bar.
-* Bug Fix: Referral link of the last visitors.
-* Added: Latest all search words with full details.
-* Added: Recent all visitors with full details.
-* Optimized: View statistics.
-* Language: updated.
-* Language: Arabic was updated.
-* Remove: IP Information in setting page.
-
-= 3.0.2 =
-* Added: Hungarian language.
-* Added: Insert value in useronline table by Primary_Values function.
-* Added: Opera browser in get_UserAgent function.
-* Added: prefix wps_ in options.
-* Added: Notices to enable or disable the plugin.
-* Changed: Statistics class to WP_Statistics because Resemblance name.
-
-= 3.0.1 =
-* Bug Fix: Table plugin problem.
-
-= 3.0 =
-* Bug Fix: problem in calculating Statistics.
-* Optimized: and speed up the process.
-* Optimized: Overall reconstruction and coding plug with a new structure.
-* Optimized: The use of object-oriented programming.
-* Added: statistics screen to complete.
-* Added: Chart Show.
-* Added: Graph of Browsers.
-* Added: Latest search words.
-* Added: Specification (Country and county) Visitors.
-* Added: Top referring sites.
-* Added: Send stats to Email/[SMS](http://wordpress.org/extend/plugins/wp-sms/)
-
-= 2.3.3 =
-* Serbian language was solved.
-* Server variables were optimized by m.emami.
-* Turkish translation was complete.
-
-= 2.3.2 =
-* Added Indonesia language.
-* Turkish language file corrected by MBOZ.
-
-= 2.3.1 =
-* Added Polish language.
-* Added Support forum link in menu.
-* Fix problem error in delete plugin.
-
-= 2.3.0 =
-* Added Serbian language.
-
-= 2.2.9 =
-* Added Bengali language.
-
-= 2.2.8 =
-* Added Russian language.
-* Fix problem in count views.
-* Added more filter for check spider.
-* Optimize plugin.
-
-= 2.2.7 =
-* Fix problem in widget class.
-* Redundancy in Arabic translation.
-* Fix problem in [countposts] shortcode.
-* Optimized Style Reports.
-
-= 2.2.6 =
-* Fix a small problem.
-
-= 2.2.5 =
-* The security problem was solved. Please be sure to update!
-* Redundancy in French translation.
-* Add CSS Class for the containing widget. (Thanks Luai Mohammed).
-* Add daily or total search engines in setting page.
-* Using wordpress jQuery in setting page.
-
-= 2.2.4 =
-* Added Turkish language.
-* Added Italian language.
-* Added German language.
-* Arabic language was solved.
-* Romanian language was solved.
-* The words in setting page were complete. (Thanks Will Abbott) default.po file is Updated.
-* The change of time from minutes to seconds to check users online.
-* Ignoring search engine crawler.
-* Added features premium version to free version.
-* Added user online live.
-* Added total visit live.
-* Added Increased to visit.
-* Added Reduced to visit.
-* Added Coefficient statistics for each user.
-
-= 2.2.3 =
-* Optimized Counting.
-* Added Arabic language.
-* Draging problem was solved in Widgets
-* css problem was solved in sidebar
-
-= 2.2.2 =
-* Solving show functions in setting page.
-* Solving month visit in widget.
-* Added Spanish language.
-
-= 2.2.1 =
-* Solving drap uploader problem in media-new.php.
-
-= 2.2.0 =
-* Added statistics to admin bar wordpress 3.3.
-* Added Uninstall for remove data and table from database.
-* Added all statistics item in widget and Their choice.
-* Optimize show function code in setting page.
-* Calling jQuery in wordpress admin for plugin.
-* Remove the word "disabled" in the statistics When the plugin was disabled.
-* Solving scroll problem in statistics page.
-
-= 2.1.6 =
-* Added Russian language.
-
-= 2.1.5 =
-* Added French language.
-* Rounds a float Averages.
-
-= 2.1.4 =
-* Added Romanian language.
-
-= 2.1.3 =
-* Active plugin in setting page was solved.
-
-= 2.1.2 =
-* Added default language file.
-* Added Portuguese language.
-
-= 2.1.1 =
-* Complete files
-
-= 2.1 =
-* Edit string
-
-= 2.0 =
-* Support from Database
-* Added Setting Page
-* Added decimals number
-* Added Online user check time
-* Added Database check time
-* Added User Online
-* Added Today Visit
-* Added Yesterday Visit
-* Added Week Visit
-* Added Month Visit
-* Added Years Visit
-* Added Search Engine reffered
-* Added Average Posts
-* Added Average Comments
-* Added Average Users
-* Added Google Pagerank
-* Added Alexa Pagerank
-* Added wordpress shortcode
-
-= 1.0 =
-* Start plugin
+= 4.0 =
+* BACKUP YOUR DATABASE BEFORE INSTALLING!
+* IF YOU ARE NOT RUNNING V3.2 ALL OF YOUR DATA WILL BE LOST IF YOU UPGRADE TO V3.5!
+* GeoIP is enabled by default but you must download the GeoIP database before any Countries will be detected correctly.  Go to the settings page and it will download automatically, if it does not or it fails, simply go to the bottom of the page and re-download it.
+* The new browser detection code uses "MSIE" instead of "IE", your database will be updated automatically during install to reflect this.
+* As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser catagory and the number of hits your site gets.
 
 == Changelog ==
+= 4.0 =
+* Added: GeoIP location support for visitors country.
+* Added: Download option in settings for GeoIP database.
+* Added: Populate location entries with unknown or missing location information to the optimization page.
+* Added: Detect self referrals and disregard them like webcrawlers.
+* Added: "All Browsers" and "Top Countries" pages.
+* Added: "more" page to hit statistics chart, support for charts from 10 days to 1 year.
+* Added: "more" page to search engine statistics chart, support for charts from 10 days to 1 year.
+* Added: Option to store complete user agent string for debugging purposes.
+* Added: Option to delete specific browser or platform types from the database in the optimization page.
+* Updated: Browser detection now supports more browsers and includes platform and version information.
+* Updated: List of webcrawlers to catch more bots.
+* Updated: Statistics reporting options in settings no longer needs a page reload to hide/show the settings.
+* Updated: Summary Statistcs now uses the WordPress set format for the time and date.
+* Fixed: Webcrawler detection now works and is case insensitive.
+* Fixed: Install code now correctly sets defaults.
+* Fixed: Upgrade code now works correctly.  If you are running V3.2, your old data will be preserved, older versions will delete the tables and recreate them.
+* Fixed: Ajax submissions on the optmiziation page (like the empty table function) should work in IE and other browsers that are sensitive to cross site attacks.
+* Fixed: Replaced call to the dashboard code (to support the postbox widgets on the log screen) with the proper call to the postbox code as WordPress 3.8 beta 1 did not work with the old code.
+* Updated:  Highcharts JS 3.0.1 to JS 3.0.7 version.
+
 = 3.2 =
 * Added: Optimization plugin page.
 * Added: Export data to excel, xml, csv and tsv files.

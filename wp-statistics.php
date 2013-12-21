@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 3.2
+Version: 4.0
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -13,21 +13,27 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '3.2');
+	define('WP_STATISTICS_VERSION', '4.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
-	
-	update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	
-	include_once dirname( __FILE__ ) . '/upgrade.php';
 	include_once dirname( __FILE__ ) . '/install.php';
 	
 	register_activation_hook(__FILE__, 'wp_statistics_install');
 	
+	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
+	
 	include_once dirname( __FILE__ ) . '/includes/class/statistics.class.php';
 	include_once dirname( __FILE__ ) . '/includes/class/useronline.class.php';
-	include_once dirname( __FILE__ ) . '/includes/class/hits.class.php';
+
+	include_once dirname( __FILE__ ) . '/upgrade.php';
+	
+	if( get_option('wps_geoip') && version_compare(phpversion(), '5.3.0', '>') ) {
+		include_once dirname( __FILE__ ) . '/includes/class/hits.geoip.class.php';
+	} else {
+		include_once dirname( __FILE__ ) . '/includes/class/hits.class.php';
+	}
 	
 	$s = new WP_Statistics();
 	$o = new Useronline();
@@ -133,12 +139,14 @@ License: GPL2
 		register_setting('wps_settings', 'wps_check_online');
 		register_setting('wps_settings', 'wps_menu_bar');
 		register_setting('wps_settings', 'wps_coefficient');
-		register_setting('wps_settings', 'wps_ip_information');
 		register_setting('wps_settings', 'wps_chart_type');
 		register_setting('wps_settings', 'wps_stats_report');
 		register_setting('wps_settings', 'wps_time_report');
 		register_setting('wps_settings', 'wps_send_report');
 		register_setting('wps_settings', 'wps_content_report');
+		register_setting('wps_settings', 'wps_geoip');
+		register_setting('wps_settings', 'wps_update_geoip');
+		register_setting('wps_settings', 'wps_store_ua');
 	}
 	add_action('admin_init', 'wp_statistics_register');
 	
@@ -150,15 +158,14 @@ License: GPL2
 		
 		global $wpdb, $table_prefix;
 		
-		$result[] = $wpdb->query("SELECT * FROM {$table_prefix}statistics_useronline");
-		$result[] = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visit");
-		$result[] = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor");
+		$result['useronline'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_useronline`");
+		$result['visit'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visit`");
+		$result['visitor'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visitor`");
 		
-		if( !$result[0] || !$result[1] || !$result[2] ) {
-			wp_die(__('Table plugin does not exist! Please disable and re-enable the plugin.', 'wp_statistics'));
-		}
+		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' )
+			wp_die('<div class="error"><p>'.__('Table plugin does not exist! Please disable and re-enable the plugin.', 'wp_statistics').'</p></div>');
 		
-		wp_enqueue_script('dashboard');
+		wp_enqueue_script('postbox');
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/log.css', true, '1.1');
 		wp_enqueue_style('pagination-css', plugin_dir_url(__FILE__) . 'styles/pagination.css', true, '1.0');
 		
@@ -206,6 +213,28 @@ License: GPL2
 			
 			include_once dirname( __FILE__ ) . '/includes/log/top-referring.php';
 			
+		} else if( $_GET['type'] == 'all-browsers' ) {
+
+			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
+			
+			include_once dirname( __FILE__ ) . '/includes/log/all-browsers.php';
+			
+		} else if( $_GET['type'] == 'top-countries' ) {
+
+			include_once dirname( __FILE__ ) . '/includes/log/top-countries.php';
+			
+		} else if( $_GET['type'] == 'hit-statistics' ) {
+
+			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
+			
+			include_once dirname( __FILE__ ) . '/includes/log/hit-statistics.php';
+			
+		} else if( $_GET['type'] == 'search-statistics' ) {
+
+			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
+			
+			include_once dirname( __FILE__ ) . '/includes/log/search-statistics.php';
+			
 		} else {
 		
 			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
@@ -227,8 +256,11 @@ License: GPL2
 		$result['visit'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visit`");
 		$result['visitor'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
 		
-		include_once dirname( __FILE__ ) . '/includes/optimization/optimization.php';
-		
+		if( version_compare(phpversion(), '5.3.0', '>') ) {
+			include_once dirname( __FILE__ ) . '/includes/optimization/optimization-geoip.php';
+		} else {
+			include_once dirname( __FILE__ ) . '/includes/optimization/optimization.php';
+		}
 	}
 	
 	function wp_statistics_settings() {
@@ -240,6 +272,49 @@ License: GPL2
 		global $o, $h;
 		
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/style.css', true, '1.0');
+		
+		if( get_option('wps_update_geoip') == true ) {
+		
+			$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
+
+			$DBFile = plugin_dir_path( __FILE__ ) . 'GeoIP2-db/GeoLite2-Country.mmdb';
+
+			// Download
+			$TempFile = download_url( $download_url );
+			if (is_wp_error( $TempFile ) ) {
+				print "<div class='updated settings-error'><p><strong>Error downloading GeoIP database from: " . $download_url . "</strong></p></div>\n";
+				return;
+			}
+
+			// Ungzip File
+			$ZipHandle = gzopen( $TempFile, 'rb' );
+			$DBfh = fopen( $DBFile, 'wb' );
+
+			if( ! $ZipHandle ) {
+				print "<div class='updated settings-error'><p><strong>Error could not open downloaded GeoIP database for reading: " . $TempFile . "</strong></p></div>\n";
+				unlink( $TempFile );
+				return;
+			}
+
+			if( !$DBfh ) {
+				print "<div class='updated settings-error'><p><strong>Error could not open destination GeoIP database for writing: " . $DBFile . "</strong></p></div>\n";
+				unlink( $TempFile );
+				return;
+			}
+
+			while( ( $data = gzread( $ZipHandle, 4096 ) ) != false ) {
+				fwrite( $DBfh, $data );
+			}
+
+			gzclose( $ZipHandle );
+			fclose( $DBfh );
+
+			unlink( $TempFile );
+
+			print "<div class='updated settings-error'><p><strong>GeoIP Database updated successfully!</strong></p></div>\n";
+			
+			update_option('wps_update_geoip', false);
+		}
 		
 		include_once dirname( __FILE__ ) . '/includes/setting/settings.php';
 		

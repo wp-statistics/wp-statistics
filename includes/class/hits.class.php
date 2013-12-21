@@ -10,51 +10,72 @@
 		
 		public function Visits() {
 			
-			$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visit ORDER BY `{$this->tb_prefix}statistics_visit`.`ID` DESC");
+			global $wp_version;
 			
-			if( substr($this->result->last_visit, 0, -1) != substr($this->Current_Date('Y-m-d H:i:s'), 0, -1) && !$this->Check_Spiders() ) {
-			
-				if( $this->result->last_counter != $this->Current_Date('Y-m-d') ) {
+			// If we're a webcrawler or referral from ourselves, don't record the visit.
+			if( !$this->Check_Spiders() && !( $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url("/") || $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url() )  ) {
+
+				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visit ORDER BY `{$this->tb_prefix}statistics_visit`.`ID` DESC");
 				
-					$this->db->insert(
-						$this->tb_prefix . "statistics_visit",
-						array(
-							'last_visit'	=>	$this->Current_Date(),
-							'last_counter'	=>	$this->Current_date('Y-m-d'),
-							'visit'			=>	$this->coefficient
-						)
-					);
-				} else {
+				if( substr($this->result->last_visit, 0, -1) != substr($this->Current_Date('Y-m-d H:i:s'), 0, -1) ) {
 				
-					$this->db->update(
-						$this->tb_prefix . "statistics_visit",
-						array(
-							'last_visit'	=>	$this->Current_Date(),
-							'visit'			=>	$this->result->visit + $this->coefficient
-						),
-						array(
-							'last_counter'	=>	$this->result->last_counter
-						)
-					);
+					if( $this->result->last_counter != $this->Current_Date('Y-m-d') ) {
+					
+						$this->db->insert(
+							$this->tb_prefix . "statistics_visit",
+							array(
+								'last_visit'	=>	$this->Current_Date(),
+								'last_counter'	=>	$this->Current_date('Y-m-d'),
+								'visit'			=>	$this->coefficient
+							)
+						);
+					} else {
+					
+						$this->db->update(
+							$this->tb_prefix . "statistics_visit",
+							array(
+								'last_visit'	=>	$this->Current_Date(),
+								'visit'			=>	$this->result->visit + $this->coefficient
+							),
+							array(
+								'last_counter'	=>	$this->result->last_counter
+							)
+						);
+					}
 				}
 			}
 		}
 		
 		public function Visitors() {
 		
-			$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->get_IP()}'");
+			global $wp_version;
 			
-			if( !$this->result ) {
+			// If we're a webcrawler or referral from ourselves, don't record the visitor.
+			if( !$this->Check_Spiders() && !( $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url("/") || $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url() )  ) {
 			
-				$this->db->insert(
-					$this->tb_prefix . "statistics_visitor",
-					array(
-						'last_counter'	=>	$this->Current_date('Y-m-d'),
-						'referred'		=>	$this->get_Referred(true),
-						'agent'			=>	$this->get_UserAgent(),
-						'ip'			=>	$this->get_IP()
-					)
-				);
+				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->get_IP()}'");
+				
+				if( !$this->result ) {
+
+					$agent = $this->get_UserAgent();
+					$ip = $this->get_IP();
+									
+					if( get_option('wps_store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
+									
+					$this->db->insert(
+						$this->tb_prefix . "statistics_visitor",
+						array(
+							'last_counter'	=>	$this->Current_date('Y-m-d'),
+							'referred'		=>	$this->get_Referred(true),
+							'agent'			=>	$agent['browser'],
+							'platform'		=>	$agent['platform'],
+							'version'		=> 	$agent['version'],
+							'ip'			=>	$ip,
+							'location'		=> 	'000',
+							'UAString'		=>	$ua
+						)
+					);
+				}
 			}
 		}
 	}

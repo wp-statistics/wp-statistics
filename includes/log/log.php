@@ -3,9 +3,11 @@
 		jQuery('.show-map').click(function(){
 			alert('<?php _e('To be added soon', 'wp_statistics'); ?>');
 		});
+
+	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
-
+<?php include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php echo get_admin_page_title(); ?></h2>
@@ -100,7 +102,7 @@
 							</tbody>
 						</table>
 						
-						<strong><?php global $s; echo sprintf(__('Today date: <code dir="ltr">%s</code>, Time: <code dir="ltr">%s</code>', 'wp_statistics'), $s->Current_Date('Y-m-d'), $s->Current_Date('H-i')); ?></strong>
+						<strong><?php global $s; echo sprintf(__('Today date: <code dir="ltr">%s</code>, Time: <code dir="ltr">%s</code>', 'wp_statistics'), $s->Current_Date(get_option('date_format')), $s->Current_Date(get_option('time_format'))); ?></strong>
 						
 						<span id="time_zone"><a href="<?php echo admin_url('options-general.php'); ?>"><?php _e('(Adjustment)', 'wp_statistics'); ?></a></span>
 					</div>
@@ -108,7 +110,7 @@
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=all-browsers"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						jQuery(function () {
@@ -133,7 +135,7 @@
 										plotBackgroundColor: null,
 										plotBorderWidth: null,
 										plotShadow: false,
-										backgroundColor: '#F8F8F8',
+										backgroundColor: '#FFFFFF',
 									},
 									credits: {
 										enabled: false
@@ -185,13 +187,15 @@
 										type: 'pie',
 										name: '<?php _e('Browser share', 'wp_statistics'); ?>',
 										data: [
-											['<?php _e('Firefox', 'wp_statistics'); ?>', <?php echo wp_statistics_useragent('Firefox'); ?>],
-											['<?php _e('IE', 'wp_statistics'); ?>', <?php echo wp_statistics_useragent('IE'); ?>],
-											['<?php _e('Ipad', 'wp_statistics'); ?>', <?php echo wp_statistics_useragent('Ipad'); ?>],
-											['<?php _e('Android', 'wp_statistics'); ?>', <?php echo wp_statistics_useragent('Android'); ?>],
-											['<?php _e('Chrome', 'wp_statistics'); ?>', <?php echo wp_statistics_useragent('Chrome'); ?>],
-											['<?php _e('Safari', 'wp_statistics'); ?>', <?php echo wp_statistics_useragent('Safari'); ?>],
-											['<?php _e('Other', 'wp_statistics'); ?>', <?php echo wp_statistics_useragent('unknown'); ?>]
+											<?php 
+											$Browsers = wp_statistics_ua_list();
+											
+											foreach( $Browsers as $Browser )
+												{
+												$count = wp_statistics_useragent( $Browser );
+												echo "											['" . __( $Browser, 'wp_statistics' ) . " (" . $count . ")', " . $count . "],\r\n";
+												}
+											?>
 										]
 									}]
 								});
@@ -247,6 +251,50 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
+					<h3 class="hndle">
+						<span><?php _e('Top 10 Countries', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=top-countries"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+					</h3>
+					<div class="inside">
+						<div class="inside">
+							<table width="100%" class="widefat table-stats" id="last-referrer">
+								<tr>
+									<td width="10%" style='text-align: left'><?php _e('Rank', 'wp_statistics'); ?></td>
+									<td width="10%" style='text-align: left'><?php _e('Flag', 'wp_statistics'); ?></td>
+									<td width="40%" style='text-align: left'><?php _e('Country', 'wp_statistics'); ?></td>
+									<td width="40%" style='text-align: left'><?php _e('Visitor Count', 'wp_statistics'); ?></td>
+								</tr>
+								
+								<?php
+									$result = $wpdb->get_results("SELECT DISTINCT `location` FROM `{$table_prefix}statistics_visitor`");
+									
+									foreach( $result as $item )
+										{
+										$Countries[$item->location] = $wpdb->get_var("SELECT count(location) FROM `{$table_prefix}statistics_visitor` WHERE location='" . $item->location . "'" );
+										}
+										
+									arsort($Countries);
+									$i = 0;
+									
+									foreach( $Countries as $item => $value) {
+										$i++;
+										
+										echo "<tr>";
+										echo "<td style='text-align: left'>$i</td>";
+										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/images/flags/' . $item . '.png')."' title='".__($ISOCountryCode[$item], 'wp_statistics')."'/></td>";
+										echo "<td style='text-align: left'>{$ISOCountryCode[$item]}</td>";
+										echo "<td style='text-align: left'>{$value}</td>";
+										echo "</tr>";
+										
+										if( $i == 10 ) { break; }
+									}
+								?>
+							</table>
+						</div>
+					</div>
+				</div>
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -262,18 +310,27 @@
 						
 						<hr />
 						
-						<p><?php _e('Please donate to the plugin. With the help of plug-ins you can quickly spread.', 'wp_statistics'); ?></p>
+						<p><?php _e('Please donate to WP Statistics. With your help WP Statistics will rule the world!', 'wp_statistics'); ?></p>
 						
 						<div id="donate-button">
 							<a href="http://iran98.org/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/images/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
 						</div>
 						
 						<div class="clear"></div>
-						
+<?php
+/*						
 						<div class="ads">
 							<a href="http://ads.iran98.org/view/link/11" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/11"/></a>
 							<a href="http://ads.iran98.org/view/link/12" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/12"/></a>
 							<a href="http://ads.iran98.org/view/link/13" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/13"/></a>
+						</div>
+						
+						<div class="clear"></div>
+*/
+?>
+						<div>
+						<br>
+						This product includes GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 						</div>
 					</div>
 				</div>
@@ -286,7 +343,7 @@
 			<div class="meta-box-sortables">
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Statistical Chart', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=hit-statistics"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -295,7 +352,7 @@
 								chart: {
 									renderTo: 'visits-log',
 									type: '<?php echo get_option('wps_chart_type'); ?>',
-									backgroundColor: '#F8F8F8',
+									backgroundColor: '#FFFFFF',
 									height: '300'
 								},
 								credits: {
@@ -311,15 +368,19 @@
 								},
 								xAxis: {
 									type: 'datetime',
+									labels: {
+										rotation: -45
+										},
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$s->Current_Date('m/d', '-'.$i).'"';
+											echo '"'.$s->Current_Date('M d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]
 								},
 								yAxis: {
+									min: 0,
 									title: {
 										text: '<?php _e('Number of visits and visitors', 'wp_statistics'); ?>',
 										style: {
@@ -377,7 +438,7 @@
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Statistical Chart', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Search Engine Referrers Statistical Chart', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=search-statistics"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -386,7 +447,7 @@
 								chart: {
 									renderTo: 'search-engine-log',
 									type: '<?php echo get_option('wps_chart_type'); ?>',
-									backgroundColor: '#F8F8F8',
+									backgroundColor: '#FFFFFF',
 									height: '300'
 								},
 								credits: {
@@ -402,15 +463,19 @@
 								},
 								xAxis: {
 									type: 'datetime',
+									labels: {
+										rotation: -45,
+										},
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$s->Current_Date('m/d', '-'.$i).'"';
+											echo '"'.$s->Current_Date('M d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]
 								},
 								yAxis: {
+									min: 0,
 									title: {
 										text: '<?php _e('Number of referrer', 'wp_statistics'); ?>',
 										style: {
@@ -469,6 +534,7 @@
 								}]
 							});
 						});
+						
 						</script>
 						
 						<div id="search-engine-log"></div>
@@ -536,7 +602,18 @@
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
 										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
+										echo "<img src='".plugins_url('wp-statistics/images/flags/' . $items->location . '.png')."' title='".__($ISOCountryCode[$items->location], 'wp_statistics')."' class='log-tools'/>";
+										
+										if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ) 
+											{
+											$AgentImage = $items->agent . ".png";
+											}
+										else
+											{
+											$AgentImage = "unknown.png";
+											}
+										
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$AgentImage."' class='log-tools' title='{$items->agent}'/></a>";
 										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 80)."[...]</a></div>";
 									echo "</div>";
 									

@@ -106,15 +106,75 @@
 		return $result;
 	}
 	
+	function wp_statistics_ua_list() {
+	
+		global $wpdb, $table_prefix;
+		
+		$result = $wpdb->get_results("SELECT DISTINCT agent FROM {$table_prefix}statistics_visitor", ARRAY_N);
+				
+		foreach( $result as $out )
+			{
+			$Browsers[] = $out[0];
+			}
+				
+		return $Browsers;
+	}
+	
 	function wp_statistics_useragent($agent) {
 	
 		global $wpdb, $table_prefix;
 		
-		$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `agent` = '{$agent}'");
+		$result = $wpdb->get_var("SELECT COUNT(agent) FROM {$table_prefix}statistics_visitor WHERE `agent` = '$agent'");
+		
+		return $result;
+	}
+
+	function wp_statistics_platform_list() {
+	
+		global $wpdb, $table_prefix;
+		
+		$result = $wpdb->get_results("SELECT DISTINCT platform FROM {$table_prefix}statistics_visitor", ARRAY_N);
+				
+		foreach( $result as $out )
+			{
+			$Platforms[] = $out[0];
+			}
+				
+		return $Platforms;
+	}
+
+	function wp_statistics_platform($platform) {
+	
+		global $wpdb, $table_prefix;
+		
+		$result = $wpdb->get_var("SELECT COUNT(platform) FROM {$table_prefix}statistics_visitor WHERE `platform` = '$platform'");
 		
 		return $result;
 	}
 	
+	function wp_statistics_agent_version_list($agent) {
+	
+		global $wpdb, $table_prefix;
+		
+		$result = $wpdb->get_results("SELECT DISTINCT version FROM {$table_prefix}statistics_visitor WHERE agent = '$agent'", ARRAY_N);
+				
+		foreach( $result as $out )
+			{
+			$Versions[] = $out[0];
+			}
+				
+		return $Versions;
+	}
+
+	function wp_statistics_agent_version($agent, $version) {
+	
+		global $wpdb, $table_prefix;
+		
+		$result = $wpdb->get_var("SELECT COUNT(version) FROM {$table_prefix}statistics_visitor WHERE agent = '$agent' AND version = '$version'");
+		
+		return $result;
+	}
+
 	function wp_statistics_searchengine($search_engine = 'all', $time = 'total') {
 	
 		global $wpdb, $table_prefix;

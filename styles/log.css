@@ -13,7 +13,7 @@
     text-decoration: none;
 }
 #summary-stats {
-    background: none repeat scroll 0 0 transparent;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: 1px none;
     margin: 0 0 10px;
 }
@@ -113,14 +113,29 @@
     text-decoration: none;
 }
 #visits-log {
+    direction: ltr;
     height: 290px;
     width: 100%;
 }
+#search-engine-log {
+    direction: ltr;
+}
 #browsers-log {
+    direction: ltr;
     height: 330px;
     margin: 0 auto;
     width: 100%;
 }
+#platform-log{
+    direction: ltr;
+}
+#visits-stats{
+	direction: ltr;
+}
+#search-stats{
+	direction: ltr;
+}
+
 #about-links {
     margin: 0 0 10px;
 }
@@ -132,7 +147,7 @@
 #about-links a {
 }
 #donate-button {
-    bottom: 18px;
+    bottom: 0;
     float: right;
     height: 15px;
     position: relative;

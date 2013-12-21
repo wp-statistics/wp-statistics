@@ -3,6 +3,8 @@
 		jQuery('.show-map').click(function(){
 			alert('<?php _e('To be added soon', 'wp_statistics'); ?>');
 		});
+
+	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
 
