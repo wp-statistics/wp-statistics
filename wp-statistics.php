@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Summary statistics of blog.
-Version: 4.0
+Version: 4.1
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 License: GPL2
@@ -13,7 +13,7 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.0');
+	define('WP_STATISTICS_VERSION', '4.1');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
@@ -283,37 +283,37 @@ License: GPL2
 			$TempFile = download_url( $download_url );
 			if (is_wp_error( $TempFile ) ) {
 				print "<div class='updated settings-error'><p><strong>Error downloading GeoIP database from: " . $download_url . "</strong></p></div>\n";
-				return;
 			}
+			else {
+				// Ungzip File
+				$ZipHandle = gzopen( $TempFile, 'rb' );
+				$DBfh = fopen( $DBFile, 'wb' );
 
-			// Ungzip File
-			$ZipHandle = gzopen( $TempFile, 'rb' );
-			$DBfh = fopen( $DBFile, 'wb' );
+				if( ! $ZipHandle ) {
+					print "<div class='updated settings-error'><p><strong>Error could not open downloaded GeoIP database for reading: " . $TempFile . "</strong></p></div>\n";
+					unlink( $TempFile );
+				}
+				else {
+					if( !$DBfh ) {
+						print "<div class='updated settings-error'><p><strong>Error could not open destination GeoIP database for writing: " . $DBFile . "</strong></p></div>\n";
+						unlink( $TempFile );
+					}
+					else {
+						while( ( $data = gzread( $ZipHandle, 4096 ) ) != false ) {
+							fwrite( $DBfh, $data );
+						}
 
-			if( ! $ZipHandle ) {
-				print "<div class='updated settings-error'><p><strong>Error could not open downloaded GeoIP database for reading: " . $TempFile . "</strong></p></div>\n";
-				unlink( $TempFile );
-				return;
+						gzclose( $ZipHandle );
+						fclose( $DBfh );
+
+						unlink( $TempFile );
+
+						print "<div class='updated settings-error'><p><strong>GeoIP Database updated successfully!</strong></p></div>\n";
+						
+						update_option('wps_update_geoip', false);
+					}
+				}
 			}
-
-			if( !$DBfh ) {
-				print "<div class='updated settings-error'><p><strong>Error could not open destination GeoIP database for writing: " . $DBFile . "</strong></p></div>\n";
-				unlink( $TempFile );
-				return;
-			}
-
-			while( ( $data = gzread( $ZipHandle, 4096 ) ) != false ) {
-				fwrite( $DBfh, $data );
-			}
-
-			gzclose( $ZipHandle );
-			fclose( $DBfh );
-
-			unlink( $TempFile );
-
-			print "<div class='updated settings-error'><p><strong>GeoIP Database updated successfully!</strong></p></div>\n";
-			
-			update_option('wps_update_geoip', false);
 		}
 		
 		include_once dirname( __FILE__ ) . '/includes/setting/settings.php';
