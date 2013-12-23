@@ -162,6 +162,7 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 = 4.1 =
 * Language: Arabic (ar) was updated
 * Fixed: small bug in moved the GeoIP database.
+* Updated: update to the spiders list.
 
 = 4.0 =
 * Added: GeoIP location support for visitors country.
