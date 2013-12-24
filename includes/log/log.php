@@ -102,7 +102,7 @@
 							</tbody>
 						</table>
 						
-						<strong><?php global $s; echo sprintf(__('Today date: <code dir="ltr">%s</code>, Time: <code dir="ltr">%s</code>', 'wp_statistics'), $s->Current_Date(get_option('date_format')), $s->Current_Date(get_option('time_format'))); ?></strong>
+						<strong><?php $wpstats = new WP_Statistics(); echo sprintf(__('Today date: <code dir="ltr">%s</code>, Time: <code dir="ltr">%s</code>', 'wp_statistics'), $wpstats->Current_Date(get_option('date_format')), $wpstats->Current_Date(get_option('time_format'))); ?></strong>
 						
 						<span id="time_zone"><a href="<?php echo admin_url('options-general.php'); ?>"><?php _e('(Adjustment)', 'wp_statistics'); ?></a></span>
 					</div>
@@ -374,7 +374,7 @@
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$s->Current_Date('M d', '-'.$i).'"';
+											echo '"'.$wpstats->Current_Date('M d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]
@@ -469,7 +469,7 @@
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$s->Current_Date('M d', '-'.$i).'"';
+											echo '"'.$wpstats->Current_Date('M d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]
@@ -556,19 +556,19 @@
 								
 								foreach($result as $items) {
 								
-									if( !$s->Search_Engine_QueryString($items->referred) ) continue;
+									if( !$wpstats->Search_Engine_QueryString($items->referred) ) continue;
 									
 									echo "<div class='log-item'>";
-										echo "<div class='log-referred'>".substr($s->Search_Engine_QueryString($items->referred), 0, 80)."</div>";
+										echo "<div class='log-referred'>".substr($wpstats->Search_Engine_QueryString($items->referred), 0, 80)."</div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
 										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
 										
-										if( $s->Check_Search_Engines('google.com', $items->referred) ) {
+										if( $wpstats->Check_Search_Engines('google.com', $items->referred) ) {
 										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=google.com'><img src='".plugins_url('wp-statistics/images/google.com.png')."' class='log-tools' title='".__('Google', 'wp_statistics')."'/></a>";
-										} else if( $s->Check_Search_Engines('yahoo.com', $items->referred) ) {
+										} else if( $wpstats->Check_Search_Engines('yahoo.com', $items->referred) ) {
 											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=yahoo.com'><img src='".plugins_url('wp-statistics/images/yahoo.com.png')."' class='log-tools' title='".__('Yahoo!', 'wp_statistics')."'/></a>";
-										} else if( $s->Check_Search_Engines('bing.com', $items->referred) ) {
+										} else if( $wpstats->Check_Search_Engines('bing.com', $items->referred) ) {
 											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=bing.com'><img src='".plugins_url('wp-statistics/images/bing.com.png')."' class='log-tools' title='".__('Bing', 'wp_statistics')."'/></a>";
 										}
 										

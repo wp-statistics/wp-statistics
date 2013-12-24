@@ -14,6 +14,10 @@
 			$this->timestamp = date('U');
 			
 			$this->second = $second;
+			
+			if( get_option('wps_check_online') ) {
+				$this->second = get_option('wps_check_online');
+				}
 		}
 		
 		public function Is_user() {

@@ -35,10 +35,6 @@ License: GPL2
 		include_once dirname( __FILE__ ) . '/includes/class/hits.class.php';
 	}
 	
-	$s = new WP_Statistics();
-	$o = new Useronline();
-	$h = new Hits();
-	
 	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
 	include_once dirname( __FILE__ ) . '/widget.php';
 	include_once dirname( __FILE__ ) . '/schedule.php';
@@ -51,22 +47,27 @@ License: GPL2
 	if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') ) {
 		add_action('admin_notices', 'wp_statistics_not_enable');
 	}
+
+	// We can wait untill the very end of the page to process the statistics, that way the page loads and displays
+	// quickly.
+	add_action('shutdown', 'wp_statistics_shutdown_action');
 	
-	if( get_option('wps_coefficient') ) {
-		$h->coefficient = get_option('wps_coefficient');
-	}
+	function wp_statistics_shutdown_action() {
+		$o = new Useronline();
+		$h = new Hits();
 	
-	if( get_option('wps_useronline') && !is_admin() )
-		$o->Check_online();
+		if( get_option('wps_useronline') && !is_admin() )
+			$o->Check_online();
 
-	if( get_option('wps_visits') && !is_admin() )
-		$h->Visits();
+		if( get_option('wps_visits') && !is_admin() )
+			$h->Visits();
 
-	if( get_option('wps_visitors') && !is_admin() )
-		$h->Visitors();
+		if( get_option('wps_visitors') && !is_admin() )
+			$h->Visitors();
 
-	if( get_option('wps_check_online') ) {
-		$o->second = get_option('wps_check_online');
+		if( get_option('wps_check_online') ) {
+			$o->second = get_option('wps_check_online');
+		}
 	}
 	
 	function wp_statistics_menu() {
@@ -268,8 +269,6 @@ License: GPL2
 		if (!current_user_can('manage_options')) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
-		
-		global $o, $h;
 		
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/style.css', true, '1.0');
 		

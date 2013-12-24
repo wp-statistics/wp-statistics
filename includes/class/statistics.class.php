@@ -17,6 +17,10 @@
 			$this->db = $wpdb;
 			$this->tb_prefix = $table_prefix;
 			$this->agent = $this->get_UserAgent();
+			if( get_option('wps_coefficient') ) {
+				$this->coefficient = get_option('wps_coefficient');
+			}
+
 		}
 		
 		public function Primary_Values() {

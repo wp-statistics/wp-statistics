@@ -36,8 +36,6 @@
 					<h3 class="hndle"><span><?php _e('Recent Visitors', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 							<?php
-								global $s;
-								
 								// Instantiate pagination object with appropriate arguments
 								$pagesPerSection = 10;
 								$options = array(25, "All");

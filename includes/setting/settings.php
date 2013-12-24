@@ -70,7 +70,7 @@
 					
 					<td>
 						<input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo get_option('wps_check_online'); ?>"/>
-						<?php _e('Secound', 'wp_statistics'); ?>
+						<?php _e('Second', 'wp_statistics'); ?>
 						<p class="description"><?php echo sprintf(__('Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics'), $o->second); ?></p>
 					</td>
 				</tr>

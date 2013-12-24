@@ -29,8 +29,6 @@
 					<?php } ?>
 					<div class="inside">
 							<?php
-								global $s;
-								
 								// Instantiate pagination object with appropriate arguments
 								$pagesPerSection = 10;
 								$options = array(25, "All");
