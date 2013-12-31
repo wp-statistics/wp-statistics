@@ -170,7 +170,7 @@
 						</select>
 						<p class="description"><?php _e('Type Select Get Status Report.', 'wp_statistics'); ?></p>
 						
-						<?php if( get_option('wps_send_report') == 'sms' && !class_exists(get_option('wp_webservice')) ) { ?>
+						<?php if( get_option('wps_send_report') == 'sms' && !is_plugin_active('wp-sms/wp-sms.php') ) { ?>
 							<p class="description note"><?php echo sprintf(__('Note: To send SMS text messages please install the <a href="%s" target="_blank">Wordpress SMS</a> plugin.', 'wp_statistics'), 'http://wordpress.org/extend/plugins/wp-sms/'); ?></p>
 						<?php } ?>
 					</td>

@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.7.1
-Stable tag: 4.1
+Stable tag: 4.2
 License: GPL2
 
 Complete statistics for your blog.
@@ -159,6 +159,13 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser catagory and the number of hits your site gets.
 
 == Changelog ==
+= 4.2 =
+* Added: Statistical menus.
+* Fixed: Small bug in the geoip version.
+* Language: Serbian (sr_RS) was updated.
+* Language: German (de_DE) was updated.
+* Language: French (fr_FR) was updated.
+
 = 4.1 =
 * Language: Arabic (ar) was updated
 * Fixed: small bug in moved the GeoIP database.

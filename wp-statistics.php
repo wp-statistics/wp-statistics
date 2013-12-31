@@ -2,10 +2,12 @@
 /*
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
-Description: Summary statistics of blog.
-Version: 4.1
+Description: Complete statistics for your blog.
+Version: 4.2
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
+Text Domain: wp_statistics
+Domain Path: /languages/
 License: GPL2
 */
 
@@ -13,10 +15,12 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.1');
+	define('WP_STATISTICS_VERSION', '4.2');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+	__('Wordpress Statistics', 'wp_statistics');
+	__('Complete statistics for your blog.', 'wp_statistics');
 	
 	include_once dirname( __FILE__ ) . '/install.php';
 	
@@ -74,9 +78,17 @@ License: GPL2
 	
 		if (function_exists('add_options_page')) {
 		
-			add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log', plugin_dir_url( __FILE__ ).'/images/icon.png');
+			add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log_overview', plugin_dir_url( __FILE__ ).'/images/icon.png');
 			
-			add_submenu_page(__FILE__, __('View Stats', 'wp_statistics'), __('View Stats', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log');
+			add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log_overview');
+			add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), 'manage_options', 'wps_browsers_menu', 'wp_statistics_log_browsers');
+			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), 'manage_options', 'wps_countries_menu', 'wp_statistics_log_countries');
+			add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), 'manage_options', 'wps_hits_menu', 'wp_statistics_log_hits');
+			add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), 'manage_options', 'wps_referers_menu', 'wp_statistics_log_referers');
+			add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), 'manage_options', 'wps_searches_menu', 'wp_statistics_log_searches');
+			add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), 'manage_options', 'wps_words_menu', 'wp_statistics_log_words');
+			add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), 'manage_options', 'wps_visitors_menu', 'wp_statistics_log_visitors');
+			add_submenu_page(__FILE__, '', '', 'manage_options', 'wps_break_menu', 'wp_statistics_log_overview');
 			add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), 'manage_options', 'wp-statistics/optimization', 'wp_statistics_optimization');
 			add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), 'manage_options', 'wp-statistics/settings', 'wp_statistics_settings');
 		}
@@ -151,8 +163,51 @@ License: GPL2
 	}
 	add_action('admin_init', 'wp_statistics_register');
 	
-	function wp_statistics_log() {
+	function wp_statistics_log_overview() {
 	
+		wp_statistics_log();
+	}
+	
+	function wp_statistics_log_browsers() {
+	
+		wp_statistics_log('all-browsers');
+	}
+	
+	function wp_statistics_log_hits() {
+	
+		wp_statistics_log('hit-statistics');
+	}
+	
+	function wp_statistics_log_searches() {
+	
+		wp_statistics_log('search-statistics');
+	}
+	
+	function wp_statistics_log_visitors() {
+	
+		wp_statistics_log('last-all-visitor');
+	}
+	
+	function wp_statistics_log_countries() {
+	
+		wp_statistics_log('top-countries');
+	}
+	
+	function wp_statistics_log_referers() {
+	
+		wp_statistics_log('top-referring-site');
+	}
+	
+	function wp_statistics_log_words() {
+	
+		wp_statistics_log('last-all-search');
+	}
+	
+	function wp_statistics_log( $log_type = "" ) {
+	
+		if( $log_type == "" ) 
+			$log_type = $_GET['type'];
+
 		if (!current_user_can('manage_options')) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
@@ -179,7 +234,7 @@ License: GPL2
 		$result['yahoo'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%yahoo.com%'");
 		$result['bing'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%bing.com%'");
 		
-		if( $_GET['type'] == 'last-all-search' ) {
+		if( $log_type == 'last-all-search' ) {
 		
 			$result['all'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'");
 		
@@ -192,7 +247,7 @@ License: GPL2
 		
 			include_once dirname( __FILE__ ) . '/includes/log/last-search.php';
 			
-		} else if( $_GET['type'] == 'last-all-visitor' ) {
+		} else if( $log_type == 'last-all-visitor' ) {
 		
 			$agent = $_GET['agent'];
 			if( $agent ) {
@@ -203,7 +258,7 @@ License: GPL2
 			
 			include_once dirname( __FILE__ ) . '/includes/log/last-visitor.php';
 			
-		} else if( $_GET['type'] == 'top-referring-site' ) {
+		} else if( $log_type == 'top-referring-site' ) {
 		
 			$referr = $_GET['referr'];
 			if( $referr ) {
@@ -214,23 +269,23 @@ License: GPL2
 			
 			include_once dirname( __FILE__ ) . '/includes/log/top-referring.php';
 			
-		} else if( $_GET['type'] == 'all-browsers' ) {
+		} else if( $log_type == 'all-browsers' ) {
 
 			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
 			
 			include_once dirname( __FILE__ ) . '/includes/log/all-browsers.php';
 			
-		} else if( $_GET['type'] == 'top-countries' ) {
+		} else if( $log_type == 'top-countries' ) {
 
 			include_once dirname( __FILE__ ) . '/includes/log/top-countries.php';
 			
-		} else if( $_GET['type'] == 'hit-statistics' ) {
+		} else if( $log_type == 'hit-statistics' ) {
 
 			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
 			
 			include_once dirname( __FILE__ ) . '/includes/log/hit-statistics.php';
 			
-		} else if( $_GET['type'] == 'search-statistics' ) {
+		} else if( $log_type == 'search-statistics' ) {
 
 			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
 			

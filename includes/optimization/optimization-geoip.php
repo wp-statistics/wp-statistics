@@ -84,8 +84,8 @@
 <?php
 	require_once( plugin_dir_path( __FILE__ ) . '../../vendor/autoload.php' );
 	use GeoIp2\Database\Reader;
-	
-	if( $_GET['populate-submit'] ) {
+
+	if( $_GET['populate'] == 1 ) {
 		global $wpdb;
 
 		$result = $wpdb->get_results("SELECT id,ip FROM `{$table_prefix}statistics_visitor` WHERE location = '' or location = '000' or location IS NULL");
@@ -288,7 +288,7 @@
 				</th>
 				
 				<td>
-					<input id="populate-submit" class="button button-primary" type="button" value="<?php _e('Populate now!', 'wp_statistics'); ?>" name="populate-submit" onclick="location.href=document.URL+'&Populate=1'">
+					<input id="populate-submit" class="button button-primary" type="button" value="<?php _e('Populate now!', 'wp_statistics'); ?>" name="populate-submit" onclick="location.href=document.URL+'&populate=1'">
 					<p class="description"><?php _e('Populate any missing location fields, this may take a while.', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
