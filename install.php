@@ -66,6 +66,9 @@
 			if( get_option('wps_content_report') === FALSE ) { update_option('wps_content_report',''); }
 			if( get_option('wps_update_geoip') === FALSE ) { update_option('wps_update_geoip',TRUE); }
 			if( get_option('wps_store_ua') === FALSE ) { update_option('wps_store_ua',FALSE); }
+			if( get_option('wps_robotlist') === FALSE ) { update_option('wps_robotlist',"A6-Indexer\nAbachoBOT\naccoona\nAcoiRobot\nAddThis.com\nADmantX\nAhrefsBot\nalexa\nAltaVista\nappie\nAsk Jeeves\nASPSeek\nBaiduspider\nBenjojo\nbingbot\nButterfly\nccbot\nclamantivirus\ncrawler\nCrocCrawler\nDumbot\neStyle\nezooms.bot\nfacebookexternalhit\nFAST\nFeedfetcher-Google\nFirfly\nfroogle\nGeonaBot\nGigabot\ngirafabot\nGooglebot\nia_archiver\nIDBot\nInfoSeek\ninktomi\nlinkdexbot\nlooksmart\nLycos\nMail.RU_Bot\nMe.dium\nMediapartners-Google\nMJ12bot\nmsnbot\nMRBOT\nNationalDirectory\nnutch\nOpenbot\nproximic\nrabaz\nRambler\nRankivabot\nScooter\nScrubby\nSeznamBot\nSlurp\nSocialSearch\nSogou web spider\nSpade\nTechnoratiSnoop\nTECNOSEEK\nTeoma\nTweetmemeBot\nTwiceler\nTwitturls\nURL_Spider_SQL\nWebAlta Crawler\nWebBug\nWebFindBot\nWeSEE:Search\nwww.galaxy.com\nyandex\nYahoo\nYammybot\nZyBorg"); }
+			if( get_option('wps_exclude_administrator') === FALSE ) { update_option('wps_exclude_administrator',TRUE); }
+			
 		
 			$s = new WP_Statistics();
 			$s->Primary_Values();

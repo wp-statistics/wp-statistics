@@ -119,18 +119,6 @@
 			}
 		}
 		
-		public function Check_Spiders() {
-		
-			$spiders = array("A6-Indexer","AbachoBOT","accoona","AcoiRobot","AddThis.com","ADmantX","AhrefsBot","alexa","AltaVista","appie","Ask Jeeves","ASPSeek","Baiduspider","Benjojo","bingbot","Butterfly","ccbot","clam antivirus","crawler","CrocCrawler","Dumbot","eStyle","ezooms.bot","facebookexternalhit","FAST","Feedfetcher-Google","Firefly","froogle","GeonaBot","Gigabot","girafabot","Googlebot","ia_archiver","IDBot","InfoSeek","inktomi","linkdexbot","looksmart","Lycos","Mail.RU_Bot","Me.dium","Mediapartners-Google","MJ12bot","msnbot","MSRBOT","NationalDirectory","nutch","Openbot","proximic","rabaz","Rambler","Rankivabot","Scooter","Scrubby","SeznamBot","Slurp","SocialSearch","Sogou web spider","Spade","TechnoratiSnoop","TECNOSEEK","Teoma","TweetmemeBot","Twiceler","Twitturls","URL_Spider_SQL","WebAlta Crawler","WebBug","WebFindBot","WeSEE:Search","www.galaxy.com","yandex","Yahoo","Yammybot","ZyBorg");
-			
-			foreach($spiders as $spider) {
-				if(stripos($_SERVER['HTTP_USER_AGENT'], $spider) !== FALSE)
-					return true;
-			}
-			
-			return false;
-		}
-		
 		public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null) {
 		
 			if( $strtotime ) {

@@ -101,9 +101,63 @@
 				</tr>
 				
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('Chart Settings', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><h3><?php _e('Exclude User Roles', 'wp_statistics'); ?></h3></th>
+				</tr>
+				<?php
+					global $wp_roles;
+					
+					$role_list = $wp_roles->get_names();
+					
+					foreach( $role_list as $role ) {
+						$option_name = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
+				?>
+				
+				<tr valign="top">
+					<th scope="row"><label for="<?php echo $option_name;?>"><?php _e($role, 'wp_statistics'); ?>:</label></th>
+					<td>
+						<input id="<?php echo $option_name;?>" type="checkbox" value="1" name="<?php echo $option_name;?>" <?php echo get_option($option_name)==true? "checked='checked'":'';?>><label for="<?php echo $option_name;?>"><?php _e('Exclude', 'wp_statistics'); ?></label>
+						<p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp_statistics'), $role); ?></p>
+					</td>
+				</tr>
+				<?php } ?>
+				
+				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('IP/Robot Exclusions', 'wp_statistics'); ?></h3></th>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row"><?php _e('Robot List', 'wp_statistics'); ?>:</th>
+					<td>
+						<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php 
+							$robotlist = get_option('wps_robotlist'); 
+							$robotarray = array('A6-Indexer','AbachoBOT','accoona','AcoiRobot','AddThis.com','ADmantX','AhrefsBot','alexa','AltaVista','appie','Ask Jeeves','ASPSeek','Baiduspider','Benjojo','bingbot','Butterfly','ccbot','clamantivirus','crawler','CrocCrawler','Dumbot','eStyle','ezooms.bot','facebookexternalhit','FAST','Feedfetcher-Google','Firfly','froogle','GeonaBot','Gigabot','girafabot','Googlebot','ia_archiver','IDBot','InfoSeek','inktomi','linkdexbot','looksmart','Lycos','Mail.RU_Bot','Me.dium','Mediapartners-Google','MJ12bot','msnbot','MRBOT','NationalDirectory','nutch','Openbot','proximic','rabaz','Rambler','Rankivabot','Scooter','Scrubby','SeznamBot','Slurp','SocialSearch','Sogou web spider','Spade','TechnoratiSnoop','TECNOSEEK','Teoma','TweetmemeBot','Twiceler','Twitturls','URL_Spider_SQL','WebAlta Crawler','WebBug','WebFindBot','WeSEE:Search','www.galaxy.com','yandex','Yahoo','Yammybot','ZyBorg');
+							
+							if( $robotlist == "" )
+								{
+								$robotlist = implode("\n", $robotarray);
+								}
+							update_option( 'wps_robotlist', $robotlist );
+							echo $robotlist;
+							?></textarea>
+						<p class="description"><?php echo __('A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored.', 'wp_statistics'); ?></p>
+						<a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo implode('\n', $robotarray);?>';" class="button"><?php _e('Reset to Default', 'wp_statistics');?></a>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><?php _e('Excluded IP Address List', 'wp_statistics'); ?>:</th>
+					<td>
+						<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo get_option('wps_exclude_ip');?></textarea>
+						<p class="description"><?php echo __('A list of IP addresses and (optional) subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, do not add any subnet value.', 'wp_statistics'); ?></p>
+						<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n10.0.0.0/8' ); }" class="button"><?php _e('Add 10.0.0.0', 'wp_statistics');?></a>
+						<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n172.16.0.0/12' ); }" class="button"><?php _e('Add 172.16.0.0', 'wp_statistics');?></a>
+						<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n192.168.0.0/16' ); }" class="button"><?php _e('Add 192.168.0.0', 'wp_statistics');?></a>
+					</td>
 				</tr>
 				
+				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Charts', 'wp_statistics'); ?></h3></th>
+				</tr>
+
 				<tr valign="top">
 					<th scope="row">
 						<label for="chart-type"><?php _e('Chart type', 'wp_statistics'); ?>:</label>
@@ -218,7 +272,8 @@
 					<td>
 						<input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo get_option('wps_geoip')==true? "checked='checked'":'';?>>
 						<label for="geoip-enable"><?php _e('Active', 'wp_statistics'); ?></label>
-						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
+						<p class="description"><?php _e('For get more information and location (country) from visitor, enable this feature.', 'wp_statistics'); ?></p>
+						<p class="description"><?php _e('(NOTE: Requires PHP version is 5.3.0 and higher.)', 'wp_statistics'); ?></p>
 					</td>
 				</tr>
 

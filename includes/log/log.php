@@ -251,7 +251,8 @@
 						</div>
 					</div>
 				</div>
-
+				
+				<?php if( get_option('wps_geoip') ) { ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
@@ -295,6 +296,7 @@
 						</div>
 					</div>
 				</div>
+				<?php } ?>
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>

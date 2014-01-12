@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Complete statistics for your blog.
-Version: 4.2
+Version: 4.3
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 Text Domain: wp_statistics
@@ -16,7 +16,6 @@ License: GPL2
 	}
 	
 	define('WP_STATISTICS_VERSION', '4.2');
-	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	__('Wordpress Statistics', 'wp_statistics');
@@ -60,13 +59,13 @@ License: GPL2
 		$o = new Useronline();
 		$h = new Hits();
 	
-		if( get_option('wps_useronline') && !is_admin() )
+		if( get_option('wps_useronline') )
 			$o->Check_online();
 
-		if( get_option('wps_visits') && !is_admin() )
+		if( get_option('wps_visits') )
 			$h->Visits();
 
-		if( get_option('wps_visitors') && !is_admin() )
+		if( get_option('wps_visitors') )
 			$h->Visitors();
 
 		if( get_option('wps_check_online') ) {
@@ -82,7 +81,9 @@ License: GPL2
 			
 			add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log_overview');
 			add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), 'manage_options', 'wps_browsers_menu', 'wp_statistics_log_browsers');
-			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), 'manage_options', 'wps_countries_menu', 'wp_statistics_log_countries');
+			if( get_option('wps_geoip') ) {
+				add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), 'manage_options', 'wps_countries_menu', 'wp_statistics_log_countries');
+			}
 			add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), 'manage_options', 'wps_hits_menu', 'wp_statistics_log_hits');
 			add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), 'manage_options', 'wps_referers_menu', 'wp_statistics_log_referers');
 			add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), 'manage_options', 'wps_searches_menu', 'wp_statistics_log_searches');
@@ -146,6 +147,8 @@ License: GPL2
 	
 	function wp_statistics_register() {
 	
+		GLOBAL $wp_roles;
+		
 		register_setting('wps_settings', 'wps_useronline');
 		register_setting('wps_settings', 'wps_visits');
 		register_setting('wps_settings', 'wps_visitors');
@@ -160,6 +163,17 @@ License: GPL2
 		register_setting('wps_settings', 'wps_geoip');
 		register_setting('wps_settings', 'wps_update_geoip');
 		register_setting('wps_settings', 'wps_store_ua');
+		register_setting('wps_settings', 'wps_robotlist');
+		register_setting('wps_settings', 'wps_exclude_ip');
+		
+		$role_list = $wp_roles->get_names();
+		
+		foreach( $role_list as $role ) {
+			$option_name = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
+
+			register_setting('wps_settings', $option_name );
+		}
+
 	}
 	add_action('admin_init', 'wp_statistics_register');
 	
@@ -336,7 +350,7 @@ License: GPL2
 			// Download
 			$TempFile = download_url( $download_url );
 			if (is_wp_error( $TempFile ) ) {
-				print "<div class='updated settings-error'><p><strong>Error downloading GeoIP database from: " . $download_url . "</strong></p></div>\n";
+				echo "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading GeoIP database from: %s', 'wp_statistics'), $download_url) . "</strong></p></div>";
 			}
 			else {
 				// Ungzip File
@@ -344,12 +358,13 @@ License: GPL2
 				$DBfh = fopen( $DBFile, 'wb' );
 
 				if( ! $ZipHandle ) {
-					print "<div class='updated settings-error'><p><strong>Error could not open downloaded GeoIP database for reading: " . $TempFile . "</strong></p></div>\n";
+					echo "<div class='updated settings-error'><p><strong>" . sprintf(__('Error could not open downloaded GeoIP database for reading: %s', 'wp_statistics'), $TempFile) . "</strong></p></div>";
+					
 					unlink( $TempFile );
 				}
 				else {
 					if( !$DBfh ) {
-						print "<div class='updated settings-error'><p><strong>Error could not open destination GeoIP database for writing: " . $DBFile . "</strong></p></div>\n";
+						echo "<div class='updated settings-error'><p><strong>" . sprintf(__('Error could not open destination GeoIP database for writing %s', 'wp_statistics'), $DBFile) . "</strong></p></div>";
 						unlink( $TempFile );
 					}
 					else {
@@ -361,8 +376,8 @@ License: GPL2
 						fclose( $DBfh );
 
 						unlink( $TempFile );
-
-						print "<div class='updated settings-error'><p><strong>GeoIP Database updated successfully!</strong></p></div>\n";
+						
+						echo "<div class='updated settings-error'><p><strong>" . __('GeoIP Database updated successfully!', 'wp_statistics') . "</strong></p></div>";
 						
 						update_option('wps_update_geoip', false);
 					}

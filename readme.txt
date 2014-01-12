@@ -3,8 +3,8 @@ Contributors: mostafa.s1990
 Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.7.1
-Stable tag: 4.2
+Tested up to: 3.8
+Stable tag: 4.3
 License: GPL2
 
 Complete statistics for your blog.
@@ -136,7 +136,7 @@ Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.
 Also, if your running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will come up as unknown always.
 
 = I was using V3.2 and now that I've upgraded my visitors and visits have gone way down? =
-The webcrawler detection code has be fixed and will now exclude them from your stats, don't worry, it now refelcts a more acurate view of actual visitors to your site.
+The webcrawler detection code has be fixed and will now exclude them from your stats, don't worry, it now reflects a more accurate view of actual visitors to your site.
 
 == Screenshots ==
 1. View stats page.
@@ -153,12 +153,19 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 == Upgrade Notice ==
 = 4.0 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
-* IF YOU ARE NOT RUNNING V3.2 ALL OF YOUR DATA WILL BE LOST IF YOU UPGRADE TO V3.5!
+* IF YOU ARE NOT RUNNING V3.2 ALL OF YOUR DATA WILL BE LOST IF YOU UPGRADE TO V4.0 or above!
 * GeoIP is enabled by default but you must download the GeoIP database before any Countries will be detected correctly.  Go to the settings page and it will download automatically, if it does not or it fails, simply go to the bottom of the page and re-download it.
 * The new browser detection code uses "MSIE" instead of "IE", your database will be updated automatically during install to reflect this.
-* As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser catagory and the number of hits your site gets.
+* As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 4.3 =
+* Added: Definable robots list to exclude based upon the user agent string from the client.
+* Added: IP address and subnet exclusion support.
+* Added: Client IP and user agent information to the optimization page.
+* Added: Support to exclude users from data collection based on their WordPress role.
+* Fixed: A bug when the GeoIP code was disabled with optimization page.
+
 = 4.2 =
 * Added: Statistical menus.
 * Fixed: Small bug in the geoip version.

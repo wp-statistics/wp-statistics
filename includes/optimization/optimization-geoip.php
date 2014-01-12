@@ -106,7 +106,7 @@
 			$wpdb->update( $table_prefix . "statistics_visitor", array( 'location' => $location ), array( 'id' => $item->id) );
 		}
 		
-		print "<div class='updated settings-error'><p><strong>Updated " . $count . " records!</strong></p></div>\n";
+		echo "<div class='updated settings-error'><p><strong>" . sprintf(__('%s New records is updated.', 'wp_statistics'), $count) . "</strong></p></div>";
 	}
 ?>
 <div class="wrap">
@@ -164,6 +164,32 @@
 				</td>
 			</tr>
 			
+			<tr valign="top">
+				<th scope="row" colspan="2"><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></th>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('Client IP', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php $wpstats = new WP_Statistics(); echo $wpstats->get_IP(); ?></strong>
+					<p class="description"><?php _e('The client IP address.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('User Agent', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo $_SERVER['HTTP_USER_AGENT']; ?></strong>
+					<p class="description"><?php _e('The client user agent string.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
 			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Export', 'wp_statistics'); ?></h3></th>
 			</tr>
@@ -284,12 +310,12 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<label for="populate-submit"><?php _e('Populate Location', 'wp_statistics'); ?>:</label>
+					<label for="populate-submit"><?php _e('Countries', 'wp_statistics'); ?>:</label>
 				</th>
 				
 				<td>
-					<input id="populate-submit" class="button button-primary" type="button" value="<?php _e('Populate now!', 'wp_statistics'); ?>" name="populate-submit" onclick="location.href=document.URL+'&populate=1'">
-					<p class="description"><?php _e('Populate any missing location fields, this may take a while.', 'wp_statistics'); ?></p>
+					<input id="populate-submit" class="button button-primary" type="button" value="<?php _e('Upgrade Now!', 'wp_statistics'); ?>" name="populate-submit" onclick="location.href=document.URL+'&populate=1'">
+					<p class="description"><?php _e('Get updates for the location and the countries, this may take a while', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
 		</tbody>

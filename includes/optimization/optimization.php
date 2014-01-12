@@ -137,6 +137,32 @@
 			</tr>
 			
 			<tr valign="top">
+				<th scope="row" colspan="2"><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></th>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('Client IP', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php $wpstats = new WP_Statistics(); echo $wpstats->get_IP(); ?></strong>
+					<p class="description"><?php _e('The client IP address.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('User Agent', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo $_SERVER['HTTP_USER_AGENT']; ?></strong>
+					<p class="description"><?php _e('The client user agent string.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Export', 'wp_statistics'); ?></h3></th>
 			</tr>
 			
@@ -191,7 +217,7 @@
 						<option value="visitor"><?php echo $table_prefix . 'statistics_visitor'; ?></option>
 					</select>
 					<p class="description"><?php _e('All data table will be lost.', 'wp_statistics'); ?></p>
-					<input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Clear now!', 'wp_statistics'); ?>" name="empty-table-submit" Onclick="return false;">
+					<input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Clear now!', 'wp_statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
 					
 					<span id="empty-result"></span>
 				</td>
