@@ -165,6 +165,43 @@
 			</tr>
 			
 			<tr valign="top">
+				<th scope="row" colspan="2"><h3><?php _e('Version Info', 'wp_statistics'); ?></h3></th>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('WP Statistics Version', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo WP_STATISTICS_VERSION; ?></strong>
+					<p class="description"><?php _e('The WP Statistics version you are running.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('PHP Version', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo phpversion(); ?></strong>
+					<p class="description"><?php _e('The PHP version you are running.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('jQuery Version', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><script type="text/javascript">document.write(jQuery().jquery);</script></strong>
+					<p class="description"><?php _e('The jQuery version you are running.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></th>
 			</tr>
 			

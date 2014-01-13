@@ -7,12 +7,15 @@
 	
 		public $result = null;
 		private $exclusion_match = FALSE;
+		private $ip;
 		
 		public function __construct() {
 
 			global $wp_version;
 
 			parent::__construct();
+			
+			$this->ip = $this->get_IP();
 			
 			// The follow exclusion checks are done during the class construction so we don't have to execute them twice if we're tracking visits and visitors.
 			//
@@ -30,7 +33,7 @@
 			foreach($robots as $robot) {
 				$robot = trim($robot);
 				
-				// If the match case is less than 5 characters long, it might match too much so don't execute it.
+				// If the match case is less than 4 characters long, it might match too much so don't execute it.
 				if(strlen($robot) > 3) { 
 					if(stripos($_SERVER['HTTP_USER_AGENT'], $robot) !== FALSE) {
 						$this->exclusion_match = TRUE;
@@ -77,7 +80,6 @@
 						}
 					}
 				}
-				
 			}
 		}
 
@@ -138,7 +140,7 @@
 		
 			// If we're a webcrawler or referral from ourselves or an excluded address don't record the visit.
 			if( !$this->exclusion_match ) {
-			
+
 				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}'");
 				
 				if( !$this->result ) {
@@ -148,7 +150,7 @@
 					try 
 						{
 						$reader = new Reader( plugin_dir_path( __FILE__ ) . '../../GeoIP2-db/GeoLite2-Country.mmdb' );
-						$record = $reader->country( $ip );
+						$record = $reader->country( $this->ip );
 						$location = $record->country->isoCode;
 						}
 					catch( Exception $e )
@@ -156,14 +158,16 @@
 						$location = "000";
 						}
 					
+					$agent = $this->get_UserAgent();
+
 					$this->db->insert(
 						$this->tb_prefix . "statistics_visitor",
 						array(
 							'last_counter'	=>	$this->Current_date('Y-m-d'),
 							'referred'		=>	$this->get_Referred(true),
-							'agent'			=>	$this->agent['browser'],
-							'platform'		=>	$this->agent['platform'],
-							'version'		=> 	$this->agent['version'],
+							'agent'			=>	$agent['browser'],
+							'platform'		=>	$agent['platform'],
+							'version'		=> 	$agent['version'],
 							'ip'			=>	$this->ip,
 							'location'		=>	$location,
 							'UAString'		=>	$ua
