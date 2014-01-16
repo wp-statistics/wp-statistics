@@ -110,7 +110,7 @@
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=all-browsers"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?> <a href="?page=wps_browsers_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						jQuery(function () {
@@ -211,7 +211,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Top referring sites', 'wp_statistics'); ?></span> <a href="?page=wp-statistics/wp-statistics.php&type=top-referring-site"><?php _e('(See more)', 'wp_statistics'); ?></a>
+						<span><?php _e('Top referring sites', 'wp_statistics'); ?></span> <a href="?page=wps_referers_menu"><?php _e('(See more)', 'wp_statistics'); ?></a>
 					</h3>
 					<div class="inside">
 						<div class="inside">
@@ -256,7 +256,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Top 10 Countries', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=top-countries"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Top 10 Countries', 'wp_statistics'); ?> <a href="?page=wps_countries_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
 						<div class="inside">
@@ -345,7 +345,7 @@
 			<div class="meta-box-sortables">
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=hit-statistics"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_hits_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -440,7 +440,7 @@
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Search Engine Referrers Statistical Chart', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=search-statistics"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Search Engine Referrers Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -547,7 +547,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Latest search words', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=last-all-search"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Latest search words', 'wp_statistics'); ?> <a href="?page=wps_words_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
 							
@@ -588,7 +588,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Recent Visitors', 'wp_statistics'); ?> <a href="?page=wp-statistics/wp-statistics.php&type=last-all-visitor"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Recent Visitors', 'wp_statistics'); ?> <a href="?page=wps_visitors_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
 							

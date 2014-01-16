@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Complete statistics for your blog.
-Version: 4.3.1
+Version: 4.4
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 Text Domain: wp_statistics
@@ -15,7 +15,7 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.3.1');
+	define('WP_STATISTICS_VERSION', '4.4');
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	__('Wordpress Statistics', 'wp_statistics');
@@ -51,7 +51,7 @@ License: GPL2
 		add_action('admin_notices', 'wp_statistics_not_enable');
 	}
 
-	// We can wait untill the very end of the page to process the statistics, that way the page loads and displays
+	// We can wait until the very end of the page to process the statistics, that way the page loads and displays
 	// quickly.
 	add_action('shutdown', 'wp_statistics_shutdown_action');
 	
@@ -68,31 +68,57 @@ License: GPL2
 		if( get_option('wps_visitors') )
 			$h->Visitors();
 
-		if( get_option('wps_check_online') ) {
+		if( get_option('wps_check_online') )
 			$o->second = get_option('wps_check_online');
+		
+		// Check to see if the GeoIP database needs to be downloaded and do so if required.
+		if( get_option('wps_update_geoip') )
+			wp_statistics_download_geoip();
+	}
+	
+	function wp_statistics_validate_capability( $capability ) {
+	
+		global $wp_roles;
+
+		$role_list = $wp_roles->get_names();
+
+		foreach( $wp_roles->roles as $role ) {
+		
+			$cap_list = $role['capabilities'];
+			
+			foreach( $cap_list as $key => $cap ) {
+				if( substr($key,0,6) != 'level_' ) {
+					$all_caps[$key] = 1;
+				}
+			}
 		}
+
+		if( $all_caps[$capability] == 1 ) { return $capability; }
+		
+		return 'manage_options';
+	
 	}
 	
 	function wp_statistics_menu() {
 	
-		if (function_exists('add_options_page')) {
+		$read_cap = wp_statistics_validate_capability( get_option('wps_read_capability', 'manage_options') );
+		$manage_cap = wp_statistics_validate_capability( get_option('wps_manage_capability', 'manage_options') );
 		
-			add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log_overview', plugin_dir_url( __FILE__ ).'/images/icon.png');
-			
-			add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), 'manage_options', __FILE__, 'wp_statistics_log_overview');
-			add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), 'manage_options', 'wps_browsers_menu', 'wp_statistics_log_browsers');
-			if( get_option('wps_geoip') ) {
-				add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), 'manage_options', 'wps_countries_menu', 'wp_statistics_log_countries');
-			}
-			add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), 'manage_options', 'wps_hits_menu', 'wp_statistics_log_hits');
-			add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), 'manage_options', 'wps_referers_menu', 'wp_statistics_log_referers');
-			add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), 'manage_options', 'wps_searches_menu', 'wp_statistics_log_searches');
-			add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), 'manage_options', 'wps_words_menu', 'wp_statistics_log_words');
-			add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), 'manage_options', 'wps_visitors_menu', 'wp_statistics_log_visitors');
-			add_submenu_page(__FILE__, '', '', 'manage_options', 'wps_break_menu', 'wp_statistics_log_overview');
-			add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), 'manage_options', 'wp-statistics/optimization', 'wp_statistics_optimization');
-			add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), 'manage_options', 'wp-statistics/settings', 'wp_statistics_settings');
+		add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview', plugin_dir_url( __FILE__ ).'/images/icon.png');
+		
+		add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview');
+		add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, 'wps_browsers_menu', 'wp_statistics_log_browsers');
+		if( get_option('wps_geoip') ) {
+			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log_countries');
 		}
+		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log_hits');
+		add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), $read_cap, 'wps_referers_menu', 'wp_statistics_log_referers');
+		add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log_searches');
+		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log_words');
+		add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, 'wps_visitors_menu', 'wp_statistics_log_visitors');
+		add_submenu_page(__FILE__, '', '', $manage_cap, 'wps_break_menu', 'wp_statistics_log_overview');
+		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
+		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $manage_cap, 'wp-statistics/settings', 'wp_statistics_settings');
 	}
 	add_action('admin_menu', 'wp_statistics_menu');
 	
@@ -165,6 +191,10 @@ License: GPL2
 		register_setting('wps_settings', 'wps_store_ua');
 		register_setting('wps_settings', 'wps_robotlist');
 		register_setting('wps_settings', 'wps_exclude_ip');
+		register_setting('wps_settings', 'wps_read_capability');
+		register_setting('wps_settings', 'wps_manage_capability');
+		register_setting('wps_settings', 'wps_schedule_geoip');
+		register_setting('wps_settings', 'wps_auto_pop');
 		
 		$role_list = $wp_roles->get_names();
 		
@@ -221,8 +251,8 @@ License: GPL2
 	
 		if( $log_type == "" ) 
 			$log_type = $_GET['type'];
-
-		if (!current_user_can('manage_options')) {
+			
+		if (!current_user_can(wp_statistics_validate_capability(get_option('wps_read_capability', 'manage_option')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
@@ -316,7 +346,7 @@ License: GPL2
 	
 	function wp_statistics_optimization() {
 	
-		if (!current_user_can('manage_options')) {
+		if (!current_user_can(wp_statistics_validate_capability(get_option('wps_manage_capability', 'manage_options')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
@@ -332,57 +362,71 @@ License: GPL2
 			include_once dirname( __FILE__ ) . '/includes/optimization/optimization.php';
 		}
 	}
+
+	function wp_statistics_download_geoip() {
+
+		$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
+
+		$DBFile = plugin_dir_path( __FILE__ ) . 'GeoIP2-db/GeoLite2-Country.mmdb';
+
+		// Download
+		$TempFile = download_url( $download_url );
+		if (is_wp_error( $TempFile ) ) {
+			$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading GeoIP database from: %s', 'wp_statistics'), $download_url) . "</strong></p></div>";
+		}
+		else {
+			// Ungzip File
+			$ZipHandle = gzopen( $TempFile, 'rb' );
+			$DBfh = fopen( $DBFile, 'wb' );
+
+			if( ! $ZipHandle ) {
+				$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error could not open downloaded GeoIP database for reading: %s', 'wp_statistics'), $TempFile) . "</strong></p></div>";
+				
+				unlink( $TempFile );
+			}
+			else {
+				if( !$DBfh ) {
+					$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error could not open destination GeoIP database for writing %s', 'wp_statistics'), $DBFile) . "</strong></p></div>";
+					unlink( $TempFile );
+				}
+				else {
+					while( ( $data = gzread( $ZipHandle, 4096 ) ) != false ) {
+						fwrite( $DBfh, $data );
+					}
+
+					gzclose( $ZipHandle );
+					fclose( $DBfh );
+
+					unlink( $TempFile );
+					
+					$result = "<div class='updated settings-error'><p><strong>" . __('GeoIP Database updated successfully!', 'wp_statistics') . "</strong></p></div>";
+					
+					update_option('wps_last_geoip_dl', time());
+					update_option('wps_update_geoip', false);
+
+					if( get_option('wps_geoip') && version_compare(phpversion(), '5.3.0', '>') && get_option('wps_auto_pop')) {
+						include_once dirname( __FILE__ ) . '/includes/functions/geoip-populate.php';
+						$result .= wp_statistics_populate_geoip_info();
+					}
+				}
+			}
+		}
+		
+		return $result;
+	}
 	
 	function wp_statistics_settings() {
-	
-		if (!current_user_can('manage_options')) {
+
+		if (!current_user_can(wp_statistics_validate_capability(get_option('wps_manage_capability', 'manage_options')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/style.css', true, '1.0');
 		
+		// We could let the download happen at the end of the page, but this way we get to give some
+		// feedback to the users about the result.
 		if( get_option('wps_update_geoip') == true ) {
-		
-			$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
-
-			$DBFile = plugin_dir_path( __FILE__ ) . 'GeoIP2-db/GeoLite2-Country.mmdb';
-
-			// Download
-			$TempFile = download_url( $download_url );
-			if (is_wp_error( $TempFile ) ) {
-				echo "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading GeoIP database from: %s', 'wp_statistics'), $download_url) . "</strong></p></div>";
-			}
-			else {
-				// Ungzip File
-				$ZipHandle = gzopen( $TempFile, 'rb' );
-				$DBfh = fopen( $DBFile, 'wb' );
-
-				if( ! $ZipHandle ) {
-					echo "<div class='updated settings-error'><p><strong>" . sprintf(__('Error could not open downloaded GeoIP database for reading: %s', 'wp_statistics'), $TempFile) . "</strong></p></div>";
-					
-					unlink( $TempFile );
-				}
-				else {
-					if( !$DBfh ) {
-						echo "<div class='updated settings-error'><p><strong>" . sprintf(__('Error could not open destination GeoIP database for writing %s', 'wp_statistics'), $DBFile) . "</strong></p></div>";
-						unlink( $TempFile );
-					}
-					else {
-						while( ( $data = gzread( $ZipHandle, 4096 ) ) != false ) {
-							fwrite( $DBfh, $data );
-						}
-
-						gzclose( $ZipHandle );
-						fclose( $DBfh );
-
-						unlink( $TempFile );
-						
-						echo "<div class='updated settings-error'><p><strong>" . __('GeoIP Database updated successfully!', 'wp_statistics') . "</strong></p></div>";
-						
-						update_option('wps_update_geoip', false);
-					}
-				}
-			}
+			echo wp_statistics_download_geoip();
 		}
 		
 		include_once dirname( __FILE__ ) . '/includes/setting/settings.php';

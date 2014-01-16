@@ -260,20 +260,20 @@
 	</div>
 </div>
 
-<?php function BrowserVersionStats($Browser) { ?>
+<?php function BrowserVersionStats($Browser) { $Browser_tag = strtolower(str_replace(' ', '_', $Browser)); ?>
 	<div class="postbox">
 		<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 		<h3 class="hndle"><span><?php echo sprintf(__('%s Version', 'wp_statistics'), $Browser); ?></span></h3>
 		<div class="inside">
 			<script type="text/javascript">
 			jQuery(function () {
-				var <?php echo $Browser;?>_chart;
+				var <?php echo $Browser_tag;?>_chart;
 				jQuery(document).ready(function() {
 					
 					// Build the chart
-					<?php echo $Browser;?>_chart = new Highcharts.Chart({
+					<?php echo $Browser_tag;?>_chart = new Highcharts.Chart({
 						chart: {
-							renderTo: 'version-<?php echo $Browser;?>-log',
+							renderTo: 'version-<?php echo $Browser_tag;?>-log',
 							plotBackgroundColor: null,
 							plotBorderWidth: null,
 							plotShadow: false,
@@ -346,7 +346,7 @@
 				
 			});
 			</script>
-			<div class="ltr" id="version-<?php echo $Browser;?>-log"></div>
+			<div class="ltr" id="version-<?php echo $Browser_tag;?>-log"></div>
 		</div>
 	</div>
 <?php } ?>

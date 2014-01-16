@@ -53,13 +53,13 @@
 			update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 			update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
 			
-			$robotlist = get_option('wps_robotlist'); 
+			$wps_robotlist = get_option('wps_robotlist'); 
 
-			if(trim($robotlist) == "") {
-				$robotlist = "A6-Indexer\nAbachoBOT\naccoona\nAcoiRobot\nAddThis.com\nADmantX\nAhrefsBot\nalexa\nAltaVista\nappie\nAsk Jeeves\nASPSeek\nBaiduspider\nBenjojo\nbingbot\nButterfly\nccbot\nclamantivirus\ncrawler\nCrocCrawler\nDumbot\neStyle\nezooms.bot\nfacebookexternalhit\nFAST\nFeedfetcher-Google\nFirfly\nfroogle\nGeonaBot\nGigabot\ngirafabot\nGooglebot\nia_archiver\nIDBot\nInfoSeek\ninktomi\nlinkdexbot\nlooksmart\nLycos\nMail.RU_Bot\nMe.dium\nMediapartners-Google\nMJ12bot\nmsnbot\nMRBOT\nNationalDirectory\nnutch\nOpenbot\nproximic\nrabaz\nRambler\nRankivabot\nScooter\nScrubby\nSeznamBot\nSlurp\nSocialSearch\nSogou web spider\nSpade\nTechnoratiSnoop\nTECNOSEEK\nTeoma\nTweetmemeBot\nTwiceler\nTwitturls\nURL_Spider_SQL\nWebAlta Crawler\nWebBug\nWebFindBot\nWeSEE:Search\nwww.galaxy.com\nyandex\nYahoo\nYammybot\nZyBorg";
+			if(trim($wps_robotlist) == "") {
+				include_once('robotslist.php');
 			}
 
-			update_option('wps_robotlist', $robotlist);
+			update_option('wps_robotlist', $wps_robotlist);
 
 			// WP Statistics V4.2 and below automatically exclude the administrator for statistics collection
 			// newer versions allow the option to be set for any role in WordPress, however we should mimic

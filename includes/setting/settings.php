@@ -96,18 +96,71 @@
 					
 					<td>
 						<input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo get_option('wps_coefficient'); ?>"/>
-						<p class="description"><?php echo sprintf(__('For each visit to account for several hits. Currently %s.', 'wp_statistics'), $h->coefficient); ?></p>
+						<p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp_statistics'), $role); ?></p>
 					</td>
 				</tr>
 				
 				<tr valign="top">
+					<th scope="row" colspan="2">
+						<h3><?php _e('Admin Levels', 'wp_statistics'); ?></h3>
+						<p class="description"><?php echo sprintf(__('See the  %sWordPress Roles and Capabilities page%s for details on capability levels.', 'wp_statistics'), '<a target=_blank href="http://codex.wordpress.org/Roles_and_Capabilities">', '</a>'); ?></p>
+						<p class="description"><?php echo __('Hint: manage_network = Super Admin, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp_statistics'); ?></p>
+						<p class="description"><?php echo __('Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.', 'wp_statistics'); ?></p>
+						<p class="description"><?php echo sprintf(__('If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory.', 'wp_statistics'), '<a href="http://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>Capability Manager Enhanced</a>'); ?></p>
+					</th>
+				</tr>
+
+				<?php
+					global $wp_roles;
+
+					$role_list = $wp_roles->get_names();
+	
+					foreach( $wp_roles->roles as $role ) {
+					
+						$cap_list = $role['capabilities'];
+						
+						foreach( $cap_list as $key => $cap ) {
+							if( substr($key,0,6) != 'level_' ) {
+								$all_caps[$key] = 1;
+							}
+						}
+					}
+					
+					ksort( $all_caps );
+					
+					$read_cap = get_option('wps_read_capability','manage_options');
+					
+					foreach( $all_caps as $key => $cap ) {
+						if( $key == $read_cap ) { $selected = " SELECTED"; } else { $selected = ""; }
+						$option_list .= "<option value='{$key}'{$selected}>{$key}</option>";
+					}
+				?>
+				<tr valign="top">
+					<th scope="row"><label for="wps_read_capability"><?php _e('Required user level to view WP Statistics', 'wp_statistics')?>:</label></th>
+					<td>
+						<select id="wps_read_capability" name="wps_read_capability"><?php echo $option_list;?></select>
+					</td>
+				</tr>
+
+				<?php
+					$manage_cap = get_option('wps_manage_capability','manage_options');
+					
+					foreach( $all_caps as $key => $cap ) {
+						if( $key == $manage_cap ) { $selected = " SELECTED"; } else { $selected = ""; }
+						$option_list .= "<option value='{$key}'{$selected}>{$key}</option>";
+					}
+				?>
+				<tr valign="top">
+					<th scope="row"><label for="wps_manage_capability"><?php _e('Required user level to manage WP Statistics', 'wp_statistics')?>:</label></th>
+					<td>
+						<select id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list;?></select>
+					</td>
+				</tr>
+
+				<tr valign="top">
 					<th scope="row" colspan="2"><h3><?php _e('Exclude User Roles', 'wp_statistics'); ?></h3></th>
 				</tr>
 				<?php
-					global $wp_roles;
-					
-					$role_list = $wp_roles->get_names();
-					
 					foreach( $role_list as $role ) {
 						$option_name = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
 				?>
@@ -128,19 +181,21 @@
 				<tr valign="top">
 					<th scope="row"><?php _e('Robot List', 'wp_statistics'); ?>:</th>
 					<td>
-						<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php 
+						<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist">
+						<?php 
 							$robotlist = get_option('wps_robotlist'); 
-							$robotarray = array('A6-Indexer','AbachoBOT','accoona','AcoiRobot','AddThis.com','ADmantX','AhrefsBot','alexa','AltaVista','appie','Ask Jeeves','ASPSeek','Baiduspider','Benjojo','bingbot','Butterfly','ccbot','clamantivirus','crawler','CrocCrawler','Dumbot','eStyle','ezooms.bot','facebookexternalhit','FAST','Feedfetcher-Google','Firfly','froogle','GeonaBot','Gigabot','girafabot','Googlebot','ia_archiver','IDBot','InfoSeek','inktomi','linkdexbot','looksmart','Lycos','Mail.RU_Bot','Me.dium','Mediapartners-Google','MJ12bot','msnbot','MRBOT','NationalDirectory','nutch','Openbot','proximic','rabaz','Rambler','Rankivabot','Scooter','Scrubby','SeznamBot','Slurp','SocialSearch','Sogou web spider','Spade','TechnoratiSnoop','TECNOSEEK','Teoma','TweetmemeBot','Twiceler','Twitturls','URL_Spider_SQL','WebAlta Crawler','WebBug','WebFindBot','WeSEE:Search','www.galaxy.com','yandex','Yahoo','Yammybot','ZyBorg');
-							
-							if( $robotlist == "" )
-								{
-								$robotlist = implode("\n", $robotarray);
-								}
-							update_option( 'wps_robotlist', $robotlist );
+
+							include_once dirname( __FILE__ ) . '/../../robotslist.php';						
+							if( $robotlist == "" ) { 
+								$robotlist = $wps_robotlist; 
+								update_option( 'wps_robotlist', $robotlist );
+							}
+
 							echo $robotlist;
-							?></textarea>
+						?>
+						</textarea>
 						<p class="description"><?php echo __('A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored.', 'wp_statistics'); ?></p>
-						<a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo implode('\n', $robotarray);?>';" class="button"><?php _e('Reset to Default', 'wp_statistics');?></a>
+						<a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo implode('\n', $wps_robotarray);?>';" class="button"><?php _e('Reset to Default', 'wp_statistics');?></a>
 					</td>
 				</tr>
 				<tr valign="top">
@@ -256,12 +311,8 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row" colspan=2>
-					IP location services provided by GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+					<th scope="row" colspan="2">IP location services provided by GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 					</th>
-
-					<td>
-					</td>
 				</tr>
 				
 				<tr valign="top">
@@ -286,6 +337,31 @@
 						<input id="geoip-update" type="checkbox" name="wps_update_geoip" <?php echo get_option('wps_update_geoip')==true? "checked='checked'":'';?>>
 						<label for="geoip-update"><?php _e('Download GeoIP Database', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Save changes on this page to download the update.', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<label for="geoip-schedule"><?php _e('Schedule monthly update of GeoIP DB', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="geoip-schedule" type="checkbox" name="wps_schedule_geoip" <?php echo get_option('wps_schedule_geoip')==true? "checked='checked'":'';?>>
+						<label for="geoip-schedule"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month.', 'wp_statistics'); ?></p>
+						<p class="description"><?php _e('This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place).', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<label for="geoip-schedule"><?php _e('Populate missing GeoIP after update of GeoIP DB', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo get_option('wps_auto_pop')==true? "checked='checked'":'';?>>
+						<label for="geoip-auto-pop"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Update any missing GeoIP data after downloading a new database.', 'wp_statistics'); ?></p>
 					</td>
 				</tr>
 
