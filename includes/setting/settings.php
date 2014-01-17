@@ -181,8 +181,7 @@
 				<tr valign="top">
 					<th scope="row"><?php _e('Robot List', 'wp_statistics'); ?>:</th>
 					<td>
-						<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist">
-						<?php 
+						<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php 
 							$robotlist = get_option('wps_robotlist'); 
 
 							include_once dirname( __FILE__ ) . '/../../robotslist.php';						
@@ -191,9 +190,7 @@
 								update_option( 'wps_robotlist', $robotlist );
 							}
 
-							echo $robotlist;
-						?>
-						</textarea>
+							echo $robotlist;?></textarea>
 						<p class="description"><?php echo __('A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored.', 'wp_statistics'); ?></p>
 						<a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo implode('\n', $wps_robotarray);?>';" class="button"><?php _e('Reset to Default', 'wp_statistics');?></a>
 					</td>
