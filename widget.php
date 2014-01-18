@@ -88,15 +88,7 @@
 			
 				echo "<li>";
 					echo __('Search Engine reffered', 'wp_statistics'). ": ";
-					if(get_option('select_se') == "google"){
-						echo wp_statistics_searchengine("google");
-					} else if(get_option('select_se') == "yahoo"){
-						echo wp_statistics_searchengine("yahoo");
-					} else if(get_option('select_se') == "bing"){
-						echo wp_statistics_searchengine("bing");
-					} else {
-						echo wp_statistics_searchengine('all');
-					}
+					echo wp_statistics_searchengine(get_option('select_se'));
 				echo "</li>";
 			}
 			
@@ -197,6 +189,6 @@
 				update_option('select_lps', $_POST['select_lps']);
 			}
 			
-			include_once dirname( __FILE__ ) . '/includes/setting/widget.php';
+			include dirname( __FILE__ ) . '/includes/setting/widget.php';
 		}
 ?>

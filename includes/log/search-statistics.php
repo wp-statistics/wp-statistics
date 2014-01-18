@@ -89,36 +89,22 @@
 									},
 									useHTML: true
 								},
-								series: [{
-									name: '<?php _e('Google', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo wp_statistics_searchengine('google', '-'.$i);
-											echo ", ";
-										}
-									?>]
-								},
-								{
-									name: '<?php _e('Yahoo!', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo wp_statistics_searchengine('yahoo', '-'.$i);
-											echo ", ";
-										}
-									?>]
-								},
-								{
-									name: '<?php _e('Bing', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo wp_statistics_searchengine('bing', '-'.$i);
-											echo ", ";
-										}
-									?>]
-								}]
+								series: [
+<?php
+								foreach( $search_engines as $se ) {
+									echo "								{\n";
+									echo "									name: '" . __($se['name'], 'wp_statistics') . "',\n";
+									echo "									data: [";
+
+									for( $i=$daysToDisplay; $i>=0; $i--) {
+										echo wp_statistics_searchengine($se['tag'], '-'.$i) . ", ";
+									}
+									
+									echo "]\n";
+									echo "								},\n";
+								}
+?>
+								]
 							});
 						});
 						</script>

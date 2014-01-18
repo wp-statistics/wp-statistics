@@ -3,16 +3,19 @@
 		jQuery('[id^="wps_stats_report_option"]').fadeToggle();	
 	}
 </script>
-
+<a name="top"></a>
 <div class="wrap">
     <?php screen_icon('options-general'); ?>
     <h2><?php echo get_admin_page_title(); ?></h2>
+	<br>
+	<a href="#generalsettings"><?php _e('General Settings', 'wp_statistics'); ?></a> | <a href="#adminlevels"><?php _e('Admin Levels', 'wp_statistics'); ?><a/> | <a href="#excludeuserroles"><?php _e('Exclude User Roles', 'wp_statistics'); ?><a/> | <a href="#iprobotexclusions"><?php _e('IP/Robot Exclusions', 'wp_statistics'); ?><a/> | <a href="#charts"><?php _e('Charts', 'wp_statistics'); ?><a/> | <a href="#statisticalreportingsettings"><?php _e('Statistical reporting settings', 'wp_statistics'); ?><a/> | <a href="#geoip"><?php _e('GeoIP', 'wp_statistics'); ?></a>
+	
 	<form method="post" action="options.php">
 		<table class="form-table">
 			<tbody>
 				<?php settings_fields('wps_settings'); ?>
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('General Settings', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><a href="#top" name="generalsettings" style='text-decoration: none;'><h3><?php _e('General Settings', 'wp_statistics'); ?></h3></a></th>
 				</tr>
 				
 				<tr valign="top">
@@ -102,7 +105,7 @@
 				
 				<tr valign="top">
 					<th scope="row" colspan="2">
-						<h3><?php _e('Admin Levels', 'wp_statistics'); ?></h3>
+						<a name="adminlevels" href="#top" style='text-decoration: none;'><h3><?php _e('Admin Levels', 'wp_statistics'); ?></h3></a>
 						<p class="description"><?php echo sprintf(__('See the  %sWordPress Roles and Capabilities page%s for details on capability levels.', 'wp_statistics'), '<a target=_blank href="http://codex.wordpress.org/Roles_and_Capabilities">', '</a>'); ?></p>
 						<p class="description"><?php echo __('Hint: manage_network = Super Admin, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp_statistics'); ?></p>
 						<p class="description"><?php echo __('Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.', 'wp_statistics'); ?></p>
@@ -158,7 +161,7 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('Exclude User Roles', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><a name="excludeuserroles" href="#top" style='text-decoration: none;'><h3><?php _e('Exclude User Roles', 'wp_statistics'); ?></h3></a></th>
 				</tr>
 				<?php
 					foreach( $role_list as $role ) {
@@ -175,7 +178,7 @@
 				<?php } ?>
 				
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('IP/Robot Exclusions', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><a name="iprobotexclusions" href="#top" style='text-decoration: none;'><h3><?php _e('IP/Robot Exclusions', 'wp_statistics'); ?></h3></a></th>
 				</tr>
 
 				<tr valign="top">
@@ -207,7 +210,7 @@
 				</tr>
 				
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('Charts', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><a name="charts" href="#top" style='text-decoration: none;'><h3><?php _e('Charts', 'wp_statistics'); ?></h3></a></th>
 				</tr>
 
 				<tr valign="top">
@@ -231,7 +234,7 @@
 				</tr>
 				
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('Statistical reporting settings', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><a name="statisticalreportingsettings" href="#top" style='text-decoration: none;'><h3><?php _e('Statistical reporting settings', 'wp_statistics'); ?></h3></a></th>
 				</tr>
 				
 				<tr valign="top">
@@ -304,14 +307,15 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('GeoIP settings', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><a name="geoip" href="#top" style='text-decoration: none;'><h3><?php _e('GeoIP settings', 'wp_statistics'); ?></h3></a></th>
 				</tr>
 
 				<tr valign="top">
 					<th scope="row" colspan="2">IP location services provided by GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 					</th>
 				</tr>
-				
+
+<?php 		if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {?>
 				<tr valign="top">
 					<th scope="row">
 						<label for="geoip-enable"><?php _e('GeoIP collection', 'wp_statistics'); ?>:</label>
@@ -321,7 +325,6 @@
 						<input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo get_option('wps_geoip')==true? "checked='checked'":'';?>>
 						<label for="geoip-enable"><?php _e('Active', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('For get more information and location (country) from visitor, enable this feature.', 'wp_statistics'); ?></p>
-						<p class="description"><?php _e('(NOTE: Requires PHP version is 5.3.0 and higher.)', 'wp_statistics'); ?></p>
 					</td>
 				</tr>
 
@@ -345,6 +348,27 @@
 					<td>
 						<input id="geoip-schedule" type="checkbox" name="wps_schedule_geoip" <?php echo get_option('wps_schedule_geoip')==true? "checked='checked'":'';?>>
 						<label for="geoip-schedule"><?php _e('Active', 'wp_statistics'); ?></label>
+<?php 
+	if( get_option('wps_schedule_geoip') ) {
+		echo '						<p class="description">' . __('Next update will be') .': <code>';
+		$last_update = get_option('wps_last_geoip_dl');
+		$this_month = strtotime('First Tuesday of this month');
+
+		if( $last_update > $this_month ) { $next_update = strtotime('First Tuesday of next month') + (86400 * 2);}
+		else { $next_update = $this_month + (86400 * 2); }
+
+		$next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
+
+		if( $next_schedule ) {
+			echo date( get_option('date_format'), $next_update ) . ' @ ' . date( get_option('time_format'), $next_schedule );
+		}
+		else {
+			echo date( get_option('date_format'), $next_update ) . ' @ ' . date( get_option('time_format'), time() );
+		}
+
+		echo '</code></p>';
+	}
+?>
 						<p class="description"><?php _e('Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month.', 'wp_statistics'); ?></p>
 						<p class="description"><?php _e('This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place).', 'wp_statistics'); ?></p>
 					</td>
@@ -361,7 +385,16 @@
 						<p class="description"><?php _e('Update any missing GeoIP data after downloading a new database.', 'wp_statistics'); ?></p>
 					</td>
 				</tr>
-
+<?php 	}
+		else {
+?>
+				<tr valign="top">
+					<th scope="row" colspan="2">
+						<?php printf( __('GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  ', 'wp_statistics'), '<code>' . WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION . '</code>' ); echo '<code>' . phpversion() . '</code>.'; ?>
+					</th>
+				</tr>
+<?php	} ?>
+		
 			</tbody>
 		</table>	
 		<?php submit_button(); ?>

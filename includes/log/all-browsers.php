@@ -260,7 +260,7 @@
 	</div>
 </div>
 
-<?php function BrowserVersionStats($Browser) { $Browser_tag = strtolower(str_replace(' ', '_', $Browser)); ?>
+<?php function BrowserVersionStats($Browser) { $Browser_tag = strtolower(preg_replace('/[^a-zA-Z]/', '', $Browser)); ?>
 	<div class="postbox">
 		<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 		<h3 class="hndle"><span><?php echo sprintf(__('%s Version', 'wp_statistics'), $Browser); ?></span></h3>

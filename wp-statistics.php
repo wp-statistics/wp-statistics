@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Complete statistics for your blog.
-Version: 4.4
+Version: 4.5
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 Text Domain: wp_statistics
@@ -15,7 +15,8 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.4');
+	define('WP_STATISTICS_VERSION', '4.5');
+	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0' );
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	__('Wordpress Statistics', 'wp_statistics');
@@ -32,7 +33,7 @@ License: GPL2
 
 	include_once dirname( __FILE__ ) . '/upgrade.php';
 	
-	if( get_option('wps_geoip') && version_compare(phpversion(), '5.3.0', '>') ) {
+	if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
 		include_once dirname( __FILE__ ) . '/includes/class/hits.geoip.class.php';
 	} else {
 		include_once dirname( __FILE__ ) . '/includes/class/hits.class.php';
@@ -273,20 +274,22 @@ License: GPL2
 			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'styles/rtl.css', true, '1.1');
 			
 		include_once dirname( __FILE__ ) . '/includes/class/pagination.class.php';
+
+		$search_engines = wp_statistics_searchengine_list();
 		
-		$result['google'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%'");
-		$result['yahoo'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%yahoo.com%'");
-		$result['bing'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%bing.com%'");
+		$search_result['All'] = wp_statistics_searchengine('all','total');
+
+		foreach( $search_engines as $key => $se ) {
+			$search_result[$key] = wp_statistics_searchengine($key,'total');
+		}
 		
 		if( $log_type == 'last-all-search' ) {
 		
-			$result['all'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'");
-		
 			$referred = $_GET['referred'];
 			if( $referred ) {
-				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%{$referred}%'");
+				$total = $search_result[$referred];
 			} else {
-				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'");
+				$total = $search_result['All'];
 			}
 		
 			include_once dirname( __FILE__ ) . '/includes/log/last-search.php';
@@ -356,7 +359,7 @@ License: GPL2
 		$result['visit'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visit`");
 		$result['visitor'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
 		
-		if( version_compare(phpversion(), '5.3.0', '>') ) {
+		if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
 			include_once dirname( __FILE__ ) . '/includes/optimization/optimization-geoip.php';
 		} else {
 			include_once dirname( __FILE__ ) . '/includes/optimization/optimization.php';
@@ -404,7 +407,7 @@ License: GPL2
 					update_option('wps_last_geoip_dl', time());
 					update_option('wps_update_geoip', false);
 
-					if( get_option('wps_geoip') && version_compare(phpversion(), '5.3.0', '>') && get_option('wps_auto_pop')) {
+					if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && get_option('wps_auto_pop')) {
 						include_once dirname( __FILE__ ) . '/includes/functions/geoip-populate.php';
 						$result .= wp_statistics_populate_geoip_info();
 					}

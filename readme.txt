@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 4.4
+Stable tag: 4.5
 License: GPL2
 
 Complete statistics for your blog.
@@ -151,6 +151,9 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 4.5 =
+* As of V4.3, the robots list is now stored in the database and is user configurable.  Because of this updates to the default robots list will not automatically be added during upgrades.  You can either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
+
 = 4.0 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
 * IF YOU ARE NOT RUNNING V3.2 ALL OF YOUR DATA WILL BE LOST IF YOU UPGRADE TO V4.0 or above!
@@ -159,6 +162,16 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 4.5 =
+* Added: Support for more search engines: DuckDuckGo, Baidu and Yandex.
+* Added: Support for Google local sites like google.ca, google.fr, etc.
+* Added: Anchor links in the optimization and settings page to the main sections.
+* Added: Icon for Opera Next.
+* Updated: Added new bot match strings: 'archive.org_bot', 'meanpathbot', 'moreover', 'spbot'.
+* Updated: Replaced bot match string 'ezooms.bot' with 'ezooms'.
+* Updated: Overview summary statistics layout.
+* Fixed: Bug in widget code that didn't allow you to edit the settings after adding the widget to your site.
+
 = 4.4 =
 * Added: option to set the required capability level to view statistics in the admin interface.
 * Added: option to set the required capability level to manage statistics in the admin interface.

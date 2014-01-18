@@ -135,6 +135,34 @@
 			}
 		}
 		
+		public function Search_Engine_Info($url = false) {
+
+			if(!$url) {
+				$url = isset($_SERVER['HTTP_REFERER']) ? $this->get_Referred() : false;
+			}
+			
+			if($url == false) {
+				return false;
+			}
+
+			$parts = parse_url($url);
+
+			$search_engines = wp_statistics_searchengine_list();
+
+			foreach( $search_engines as $key => $value ) {
+				$search_regex = wp_statistics_searchengine_regex($key);
+
+				preg_match( '/' . $search_regex . '/', $parts['host'], $matches);
+				
+				if( isset($matches[1]) )
+					{
+					return $value;
+					}
+			}
+
+			return array('name' => 'Unknown', 'tag' => '', 'sqlpattern' => '', 'regexpattern' => '', 'querykey' => 'q', 'image' => 'unknown.png' );
+		}
+		
 		public function Search_Engine_QueryString($url = false) {
 		
 			if(!$url) {
@@ -148,14 +176,22 @@
 			$parts = parse_url($url);
 			parse_str($parts['query'], $query);
 
-			$search_engines = array(
-				'bing'		=>	'q',
-				'google'	=>	'q',
-				'yahoo'		=>	'p'
-			);
+			$search_engines = wp_statistics_searchengine_list();
 
-			preg_match('/(' . implode('|', array_keys($search_engines)) . ')\./', $parts['host'], $matches);
+			foreach( $search_engines as $key => $value ) {
+				$search_regex = wp_statistics_searchengine_regex($key);
 
-			return isset($matches[1]) && isset($query[$search_engines[$matches[1]]]) ? strip_tags($query[$search_engines[$matches[1]]]) : '';
+				preg_match( '/' . $search_regex . '/', $parts['host'], $matches);
+				
+				if( isset($matches[1]) )
+					{
+					$words = strip_tags($query[$search_engines[$key]['querykey']]);
+				
+					if( $words == '' ) { $words = 'No search query found!'; }
+					return $words;
+					}
+			}
+
+			return '';
 		}
 	}

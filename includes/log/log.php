@@ -68,7 +68,11 @@
 								</tr>
 								
 								<tr>
-									<th colspan="3"><?php _e('Search Engine reffered', 'wp_statistics'); ?>:</th>
+									<th colspan="3"><br><hr></th>
+								</tr>
+
+								<tr>
+									<th colspan="3" style="text-align: center;"><?php _e('Search Engine Referrals', 'wp_statistics'); ?></th>
 								</tr>
 								
 								<tr>
@@ -77,34 +81,47 @@
 									<th class="th-center"><?php _e('Yesterday', 'wp_statistics'); ?></th>
 								</tr>
 								
+								<?php
+								$se_today_total = 0;
+								$se_yesterday_total = 0;
+								foreach( $search_engines as $se ) {
+								?>
 								<tr>
-									<th><?php _e('Google', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_searchengine('google', 'today'); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_searchengine('google', 'yesterday'); ?></span></th>
+									<th><img src='<?php echo plugins_url('wp-statistics/images/' . $se['image'] );?>'> <?php _e($se['name'], 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'today'); $se_today_total += $se_temp; echo $se_temp;?></span></th>
+									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'yesterday'); $se_yesterday_total += $se_temp; echo $se_temp;?></span></th>
 								</tr>
 								
+								<?php
+								}
+								?>
 								<tr>
-									<th><?php _e('Yahoo!', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_searchengine('yahoo', 'today'); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_searchengine('yahoo', 'yesterday'); ?></span></th>
+									<th><?php _e('Daily Total', 'wp_statistics'); ?>:</th>
+									<td id="th-colspan" class="th-center"><span><?php echo $se_today_total; ?></span></td>
+									<td id="th-colspan" class="th-center"><span><?php echo $se_yesterday_total; ?></span></td>
 								</tr>
-								
-								<tr>
-									<th><?php _e('Bing', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_searchengine('bing', 'today'); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_searchengine('bing', 'yesterday'); ?></span></th>
-								</tr>
-								
+
 								<tr>
 									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
 									<th colspan="2" id="th-colspan"><span><?php echo wp_statistics_searchengine('all'); ?></span></th>
 								</tr>
+								<tr>
+									<th colspan="3"><br><hr></th>
+								</tr>
+
+								<tr>
+									<th colspan="3" style="text-align: center;"><?php _e('Current Time and Date', 'wp_statistics'); ?> <span id="time_zone"><a href="<?php echo admin_url('options-general.php'); ?>"><?php _e('(Adjustment)', 'wp_statistics'); ?></a></span></th>
+								</tr>
+
+								<tr>
+									<th colspan="3"><?php $wpstats = new WP_Statistics(); echo sprintf(__('Date: <code dir="ltr">%s</code></code>', 'wp_statistics'), $wpstats->Current_Date(get_option('date_format'))); ?></th>
+								</tr>
+
+								<tr>
+									<th colspan="3"><?php echo sprintf(__('Time: <code dir="ltr">%s</code>', 'wp_statistics'), $wpstats->Current_Date(get_option('time_format'))); ?></th>
+								</tr>
 							</tbody>
 						</table>
-						
-						<strong><?php $wpstats = new WP_Statistics(); echo sprintf(__('Today date: <code dir="ltr">%s</code>, Time: <code dir="ltr">%s</code>', 'wp_statistics'), $wpstats->Current_Date(get_option('date_format')), $wpstats->Current_Date(get_option('time_format'))); ?></strong>
-						
-						<span id="time_zone"><a href="<?php echo admin_url('options-general.php'); ?>"><?php _e('(Adjustment)', 'wp_statistics'); ?></a></span>
 					</div>
 				</div>
 				
@@ -504,36 +521,22 @@
 									},
 									useHTML: true
 								},
-								series: [{
-									name: '<?php _e('Google', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=20; $i>=0; $i--) {
-											echo wp_statistics_searchengine('google', '-'.$i);
-											echo ", ";
-										}
-									?>]
-								},
-								{
-									name: '<?php _e('Yahoo!', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=20; $i>=0; $i--) {
-											echo wp_statistics_searchengine('yahoo', '-'.$i);
-											echo ", ";
-										}
-									?>]
-								},
-								{
-									name: '<?php _e('Bing', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=20; $i>=0; $i--) {
-											echo wp_statistics_searchengine('bing', '-'.$i);
-											echo ", ";
-										}
-									?>]
-								}]
+								series: [
+<?php
+								foreach( $search_engines as $se ) {
+									echo "								{\n";
+									echo "									name: '" . __($se['name'], 'wp_statistics') . "',\n";
+									echo "									data: [";
+
+									for( $i=20; $i>=0; $i--) {
+										echo wp_statistics_searchengine($se['tag'], '-'.$i) . ", ";
+									}
+									
+									echo "]\n";
+									echo "								},\n";
+								}
+?>
+								]
 							});
 						});
 						
@@ -552,7 +555,10 @@
 					<div class="inside">
 							
 							<?php
-								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%' ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
+								// Retrieve MySQL data
+								$search_query = wp_statistics_Searchengine_query('all');
+
+								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
 								
 								echo "<div class='log-latest'>";
 								
@@ -561,23 +567,17 @@
 									if( !$wpstats->Search_Engine_QueryString($items->referred) ) continue;
 									
 									echo "<div class='log-item'>";
-										echo "<div class='log-referred'>".substr($wpstats->Search_Engine_QueryString($items->referred), 0, 80)."</div>";
+										echo "<div class='log-referred'>".substr($wpstats->Search_Engine_QueryString($items->referred), 0, 100)."</div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
 										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
 										
-										if( $wpstats->Check_Search_Engines('google.com', $items->referred) ) {
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=google.com'><img src='".plugins_url('wp-statistics/images/google.com.png')."' class='log-tools' title='".__('Google', 'wp_statistics')."'/></a>";
-										} else if( $wpstats->Check_Search_Engines('yahoo.com', $items->referred) ) {
-											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=yahoo.com'><img src='".plugins_url('wp-statistics/images/yahoo.com.png')."' class='log-tools' title='".__('Yahoo!', 'wp_statistics')."'/></a>";
-										} else if( $wpstats->Check_Search_Engines('bing.com', $items->referred) ) {
-											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred=bing.com'><img src='".plugins_url('wp-statistics/images/bing.com.png')."' class='log-tools' title='".__('Bing', 'wp_statistics')."'/></a>";
-										}
+										$this_search_engine = $wpstats->Search_Engine_Info($items->referred);
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
 										
 										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
-										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 80)."[...]</a></div>";
+										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
 									echo "</div>";
-									
 								}
 								
 								echo "</div>";

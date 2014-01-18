@@ -91,15 +91,19 @@
 		echo wp_statistics_populate_geoip_info();
 	}
 ?>
+<a name="top"></a>
 <div class="wrap">
     <?php screen_icon('options-general'); ?>
     <h2><?php echo get_admin_page_title(); ?></h2>
+	<br>
+	<a href="#resources"><?php _e('Resources', 'wp_statistics'); ?></a> | <a href="#versioninfo"><?php _e('Version Info', 'wp_statistics'); ?></a> | <a href="#clientinfo"><?php _e('Client Info', 'wp_statistics'); ?></a> | <a href="#export"><?php _e('Export', 'wp_statistics'); ?></a> | <a href="#empty"><?php _e('Empty', 'wp_statistics'); ?></a> | <a href="#deleteuseragenttypes"><?php _e('Delete User Agent Types', 'wp_statistics'); ?></a> | <a href="#geoipoptions"><?php _e('GeoIP Options', 'wp_statistics'); ?></a>
+	
 	<form method="post" action="<?php echo plugins_url('export.php', __FILE__); ?>">
 	<table class="form-table">
 		<tbody>
 			<?php settings_fields('wps_settings'); ?>
 			<tr valign="top">
-				<th scope="row" colspan="2"><h3><?php _e('Resources', 'wp_statistics'); ?></h3></th>
+				<th scope="row" colspan="2"><a name="resources" href="#top" style='text-decoration: none;'><h3><?php _e('Resources', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">
@@ -147,7 +151,7 @@
 			</tr>
 			
 			<tr valign="top">
-				<th scope="row" colspan="2"><h3><?php _e('Version Info', 'wp_statistics'); ?></h3></th>
+				<th scope="row" colspan="2"><a name="versioninfo" href="#top" style='text-decoration: none;'><h3><?php _e('Version Info', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">
@@ -184,7 +188,7 @@
 			</tr>
 
 			<tr valign="top">
-				<th scope="row" colspan="2"><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></th>
+				<th scope="row" colspan="2"><a name="clientinfo" href="#top" style='text-decoration: none;'><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">
@@ -210,7 +214,7 @@
 			</tr>
 
 			<tr valign="top">
-				<th scope="row" colspan="2"><h3><?php _e('Export', 'wp_statistics'); ?></h3></th>
+				<th scope="row" colspan="2"><a name="export" href="#top" style='text-decoration: none;'><h3><?php _e('Export', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">
@@ -248,7 +252,7 @@
 			</tr>
 			
 			<tr valign="top">
-				<th scope="row" colspan="2"><h3><?php _e('Empty', 'wp_statistics'); ?></h3></th>
+				<th scope="row" colspan="2"><a name="empty" href="#top" style='text-decoration: none;'><h3><?php _e('Empty', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">
@@ -271,7 +275,7 @@
 			</tr>
 
 			<tr valign="top">
-				<th scope="row" colspan="2"><h3><?php _e('Delete User Agent Types', 'wp_statistics'); ?></h3></th>
+				<th scope="row" colspan="2"><a name="deleteuseragenttypes" href="#top" style='text-decoration: none;'><h3><?php _e('Delete User Agent Types', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">
@@ -324,7 +328,7 @@
 
 
 			<tr valign="top">
-				<th scope="row" colspan="2"><h3><?php _e('GeoIP Options', 'wp_statistics'); ?></h3></th>
+				<th scope="row" colspan="2"><a name="geoipoptions" href="#top" style='text-decoration: none;'><h3><?php _e('GeoIP Options', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">

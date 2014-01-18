@@ -40,15 +40,17 @@
 
 	<p id="ser_option" style="<?php if(!get_option('ser_widget')) { echo "display: none;"; } ?>">
 		<?php _e('Select type of search engine', 'wp_statistics'); ?>:<br />
-		<input type="radio" id="select_google" name="select_se" value="google" <?php checked('google', get_option('select_se')); ?>/>
-		<label for="select_google"><?php _e('Google', 'wp_statistics'); ?></label>
-
-		<input type="radio" id="select_yahoo" name="select_se" value="yahoo" <?php checked('yahoo', get_option('select_se')); ?>/>
-		<label for="select_yahoo"><?php _e('Yahoo!', 'wp_statistics'); ?></label>
-
-		<input type="radio" id="select_bing" name="select_se" value="bing" <?php checked('bing', get_option('select_se')); ?>/>
-		<label for="select_bing"><?php _e('Bing', 'wp_statistics'); ?></label>
-
+<?php
+		$search_engines = wp_statistics_searchengine_list();
+		
+		foreach( $search_engines as $se ) {
+			echo '		<input type="radio" id="select_' .$se['tag'] . '" name="select_se" value="' . $se['tag'] . '" ';
+			checked($se['tag'], get_option('select_se'));
+			echo "/>\n";
+			echo '		<label for="' . $se['name'] . '">' . __($se['name'], 'wp_statistics') . "</label>\n";
+			echo "\n";
+		}
+?>
 		<input type="radio" id="select_all" name="select_se" value="all" <?php checked('all', get_option('select_se')); ?>/>
 		<label for="select_all"><?php _e('All', 'wp_statistics'); ?></label>
 	</p>

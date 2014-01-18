@@ -175,54 +175,137 @@
 		return $result;
 	}
 
+	function wp_statistics_searchengine_list() {
+		// This function returns an array or array's which define what search engines we should look for.
+		// Each sub array is made up of the following items:
+		//		name 		 = The proper name of the search engine
+		//		tag 		 = a short one word, all lower case, representation of the search engine
+		//		sqlpattern   = either a single SQL style search pattern OR an array or search patterns to match the hostname in a URL against
+		//		regexpattern = either a single regex style search pattern OR an array or search patterns to match the hostname in a URL against
+		//		querykey 	 = the URL key that contains the search string for the search engine
+		//		image		 = the name of the image file to associate with this search engine (just the filename, no path info)
+		//
+		return array( 
+						'baidu' => array( 'name' => 'Baidu', 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
+						'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' =>'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
+						'duckduckgo' => array( 'name' => 'DuckDuckGo', 'tag' => 'duckduckgo', 'sqlpattern' => array('%duckduckgo.com%', '%ddg.gg%'), 'regexpattern' => array('duckduckgo\.com','ddg\.gg'), 'querykey' => 'q', 'image' => 'duckduckgo.png' ),
+						'google' => array( 'name' => 'Google', 'tag' => 'google', 'sqlpattern' => '%google.%', 'regexpattern' => 'google\.', 'querykey' => 'q', 'image' => 'google.png' ),
+						'yahoo' => array( 'name' => 'Yahoo!', 'tag' => 'yahoo', 'sqlpattern' => '%yahoo.com%', 'regexpattern' => 'yahoo\.com', 'querykey' => 'p', 'image' => 'yahoo.png' ),
+						'yandex' => array( 'name' => 'Yandex', 'tag' => 'yandex', 'sqlpattern' => '%yandex.ru%', 'regexpattern' => 'yandex\.ru', 'querykey' => 'text', 'image' => 'yandex.png' )
+					);
+	}
+
+	function wp_statistics_searchengine_query($search_engine = 'all') {
+		$searchengine_list = wp_statistics_searchengine_list();
+		
+		if( strtolower($search_engine) == 'all' ) {
+			foreach( $searchengine_list as $se ) {
+				if( is_array( $se['sqlpattern'] ) ) {
+					foreach( $se['sqlpattern'] as $subse ) {
+						$search_query .= "`referred` LIKE '{$subse}' OR ";
+					}
+				}
+				else {
+					$search_query .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
+				}
+			}
+			
+			// Trim off the last ' OR ' for the loop above.
+			$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+		}
+		else {
+			if( is_array( $searchengine_list[$search_engine]['sqlpattern'] ) ) {
+				foreach( $searchengine_list[$search_engine]['sqlpattern'] as $se ) {
+					$search_query .= "`referred` LIKE '{$se}' OR ";
+				}
+
+				// Trim off the last ' OR ' for the loop above.
+				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+			}
+			else {
+				$search_query .= "`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}'";
+			}
+		}
+		
+		return $search_query;
+	}
+
+	function wp_statistics_searchengine_regex($search_engine = 'all') {
+		$searchengine_list = wp_statistics_searchengine_list();
+		
+		if( strtolower($search_engine) == 'all' ) {
+			foreach( $searchengine_list as $se ) {
+				if( is_array( $se['regexpattern'] ) ) {
+					foreach( $se['regexpattern'] as $subse ) {
+						$search_query .= "{$subse}|";
+					}
+				}
+				else {
+					$search_query .= "{$se['regexpattern']}|";
+				}
+			}
+			
+			// Trim off the last '|' for the loop above.
+			$search_query = substr( $search_query, 0, strlen( $search_query ) - 1 );
+		}
+		else {
+			if( is_array( $searchengine_list[$search_engine]['regexpattern'] ) ) {
+				foreach( $searchengine_list[$search_engine]['regexpattern'] as $se ) {
+					$search_query .= "{$se}|";
+				}
+
+				// Trim off the last '|' for the loop above.
+				$search_query = substr( $search_query, 0, strlen( $search_query ) - 1 );
+			}
+			else {
+				$search_query .= $searchengine_list[$search_engine]['regexpattern'];
+			}
+		}
+		
+		// Add the brackets and return
+		return "({$search_query})";
+	}
+	
 	function wp_statistics_searchengine($search_engine = 'all', $time = 'total') {
 	
 		global $wpdb, $table_prefix;
 		
 		$s = new WP_Statistics();
-		
-		if( $search_engine == 'google' ) {
-			$search_engine = "`referred` LIKE '%google.com%'";
-		} else if( $search_engine == 'yahoo' ) {
-			$search_engine = "`referred` LIKE '%yahoo.com%'";
-		} else if( $search_engine == 'bing' ) {
-			$search_engine = "`referred` LIKE '%bing.com%'";
-		} else {
-			$search_engine = "`referred` LIKE '%google.com%' OR `referred` LIKE '%yahoo.com%' OR `referred` LIKE '%bing.com%'";
-		}
-		
+
+		$search_query = wp_statistics_Searchengine_query($search_engine);
+
 		switch($time) {
 			case 'today':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}' AND {$search_engine}");
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}' AND {$search_query}");
 				break;
 				
 			case 'yesterday':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}' AND {$search_engine}");
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}' AND {$search_query}");
 				
 				break;
 				
 			case 'week':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -7)}' AND {$search_engine}");
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -7)}' AND {$search_query}");
 				
 				break;
 				
 			case 'month':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -30)}' AND {$search_engine}");
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -30)}' AND {$search_query}");
 				
 				break;
 				
 			case 'year':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -360)}' AND {$search_engine}");
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -360)}' AND {$search_query}");
 				
 				break;
 				
 			case 'total':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_engine}");
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query}");
 				
 				break;
 				
 			default:
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', $time)}' AND {$search_engine}");
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', $time)}' AND {$search_query}");
 				
 				break;
 		}
