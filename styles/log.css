@@ -126,16 +126,15 @@
     margin: 0 auto;
     width: 100%;
 }
-#platform-log{
+#platform-log {
     direction: ltr;
 }
-#visits-stats{
-	direction: ltr;
+#visits-stats {
+    direction: ltr;
 }
-#search-stats{
-	direction: ltr;
+#search-stats {
+    direction: ltr;
 }
-
 #about-links {
     margin: 0 0 10px;
 }
@@ -147,14 +146,14 @@
 #about-links a {
 }
 #donate-button {
-    bottom: 0;
+    float: left;
+    padding: 7px 0 0;
+    text-align: center;
+    width: 100%;
+}
+.left-div {
+    float: left;
+}
+.right-div {
     float: right;
-    height: 15px;
-    position: relative;
-}
-.ads {
-}
-.ads img {
-    height: 90px;
-    width: 120px;
 }

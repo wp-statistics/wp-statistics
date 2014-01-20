@@ -12,9 +12,9 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top referring sites', 'wp_statistics'); ?></h2>
 	<ul class="subsubsub">
-		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=top-referring-site"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php if($referr) { ?>
-			| <li><a class="current" href="?page=wp-statistics/wp-statistics.php&type=top-referring-site&referr=<?php echo $referr; ?>"> <?php echo $referr; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+			| <li><a class="current" href="?page=wps_referers_menu&referr=<?php echo $referr; ?>"> <?php echo $referr; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } ?>
 	</ul>
 	<div class="postbox-container" id="last-log">
@@ -55,7 +55,7 @@
 											echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 											echo "<div class='clear'></div>";
 											echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
-											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
+											echo "<a href='?page=wps_referers_menu&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
 											echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
 										echo "</div>";
 									
@@ -84,7 +84,7 @@
 										$i++;
 										
 										echo "<div class='log-item'>";
-											echo "<div class='log-referred'>{$i} - <a href='?page=wp-statistics/wp-statistics.php&type=top-referring-site&referr={$items}'>{$items}</a></div>";
+											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></div>";
 											echo "<div class='log-ip'>".__('Reference', 'wp_statistics').": {$value}</div>";
 											echo "<div class='clear'></div>";
 											echo "<div class='log-url'><a href='http://{$items}/'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items}'/> http://{$items}/</a></div>";

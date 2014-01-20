@@ -8,15 +8,15 @@
 	<h2><?php _e('Search Engine Referrers Statistics', 'wp_statistics'); ?></h2>
 
 	<ul class="subsubsub">
-		<?php if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } else { $daysToDisplay = 20; }?>
-		<li class="all"><a <?php if($daysToDisplay == 10) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=10"><?php _e('10 Days', 'wp_statistics'); ?></a></li>
-		| <li class="all"><a <?php if($daysToDisplay == 20) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=20"><?php _e('20 Days', 'wp_statistics'); ?></a></li>
-		| <li class="all"><a <?php if($daysToDisplay == 30) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=30"><?php _e('30 Days', 'wp_statistics'); ?></a></li>
-		| <li class="all"><a <?php if($daysToDisplay == 60) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=60"><?php _e('2 Months', 'wp_statistics'); ?></a></li>
-		| <li class="all"><a <?php if($daysToDisplay == 90) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=90"><?php _e('3 Months', 'wp_statistics'); ?></a></li>
-		| <li class="all"><a <?php if($daysToDisplay == 180) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=180"><?php _e('6 Months', 'wp_statistics'); ?></a></li>
-		| <li class="all"><a <?php if($daysToDisplay == 270) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=270"><?php _e('9 Months', 'wp_statistics'); ?></a></li>
-		| <li class="all"><a <?php if($daysToDisplay == 365) { echo 'class="current"'; } ?>href="?page=wp-statistics/wp-statistics.php&type=search-statistics&hitdays=365"><?php _e('1 Year', 'wp_statistics'); ?></a></li>
+		<?php $daysToDisplay = 20; if( array_key_exists('hitdays',$_GET)) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } } ?>
+		<li class="all"><a <?php if($daysToDisplay == 10) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=10"><?php _e('10 Days', 'wp_statistics'); ?></a></li>
+		| <li class="all"><a <?php if($daysToDisplay == 20) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=20"><?php _e('20 Days', 'wp_statistics'); ?></a></li>
+		| <li class="all"><a <?php if($daysToDisplay == 30) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=30"><?php _e('30 Days', 'wp_statistics'); ?></a></li>
+		| <li class="all"><a <?php if($daysToDisplay == 60) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=60"><?php _e('2 Months', 'wp_statistics'); ?></a></li>
+		| <li class="all"><a <?php if($daysToDisplay == 90) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=90"><?php _e('3 Months', 'wp_statistics'); ?></a></li>
+		| <li class="all"><a <?php if($daysToDisplay == 180) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=180"><?php _e('6 Months', 'wp_statistics'); ?></a></li>
+		| <li class="all"><a <?php if($daysToDisplay == 270) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=270"><?php _e('9 Months', 'wp_statistics'); ?></a></li>
+		| <li class="all"><a <?php if($daysToDisplay == 365) { echo 'class="current"'; } ?>href="?page=wps_searches_menu&hitdays=365"><?php _e('1 Year', 'wp_statistics'); ?></a></li>
 	</ul>
 
 	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">

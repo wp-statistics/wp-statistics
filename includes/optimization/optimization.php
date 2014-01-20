@@ -1,5 +1,31 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
+		jQuery("#purge-data-submit").click(function(){
+		
+			var action = jQuery('#purge-data').val();
+			
+			if(action == 0)
+				return false;
+				
+			var agree = confirm('<?php _e('Are you sure?', 'wp_statistics'); ?>');
+
+			if(!agree)
+				return false;
+				
+			var data = new Array();
+			data['purge-days'] = action;
+			
+			
+			jQuery("#purge-data-submit").attr("disabled", "disabled");
+			jQuery("#purge-data-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/images/loading.gif'/>");
+			
+			jQuery.post("<?php echo parse_url(plugins_url('purge-data.php', __FILE__), PHP_URL_PATH ); ?>", {purge_days:data['purge-days']})
+				.done(function(result){
+				jQuery("#purge-data-result").html(result);
+				jQuery("#purge-data-submit").removeAttr("disabled");
+			});
+		});
+
 		jQuery("#empty-table-submit").click(function(){
 		
 			var action = jQuery('#empty-table').val();
@@ -89,7 +115,7 @@
     <?php screen_icon('options-general'); ?>
     <h2><?php echo get_admin_page_title(); ?></h2>
 	<br>
-	<a href="#resources"><?php _e('Resources', 'wp_statistics'); ?></a> | <a href="#versioninfo"><?php _e('Version Info', 'wp_statistics'); ?></a> | <a href="#clientinfo"><?php _e('Client Info', 'wp_statistics'); ?></a> | <a href="#export"><?php _e('Export', 'wp_statistics'); ?></a> | <a href="#empty"><?php _e('Empty', 'wp_statistics'); ?></a> | <a href="#deleteuseragenttypes"><?php _e('Delete User Agent Types', 'wp_statistics'); ?></a>
+	<a href="#resources"><?php _e('Resources', 'wp_statistics'); ?></a> | <a href="#versioninfo"><?php _e('Version Info', 'wp_statistics'); ?></a> | <a href="#clientinfo"><?php _e('Client Info', 'wp_statistics'); ?></a> | <a href="#export"><?php _e('Export', 'wp_statistics'); ?></a> | <a href="#empty"><?php _e('Data', 'wp_statistics'); ?></a> | <a href="#deleteuseragenttypes"><?php _e('Delete User Agent Types', 'wp_statistics'); ?></a>
 	
 	<form method="post" action="<?php echo plugins_url('export.php', __FILE__); ?>">
 	<table class="form-table">
@@ -245,7 +271,7 @@
 			</tr>
 			
 			<tr valign="top">
-				<th scope="row" colspan="2"><a name="empty" href="#top" style='text-decoration: none;'><h3><?php _e('Empty', 'wp_statistics'); ?></h3></a></th>
+				<th scope="row" colspan="2"><a name="empty" href="#top" style='text-decoration: none;'><h3><?php _e('Data', 'wp_statistics'); ?></h3></a></th>
 			</tr>
 			
 			<tr valign="top">
@@ -259,11 +285,27 @@
 						<option value="useronline"><?php echo $table_prefix . 'statistics_useronline'; ?></option>
 						<option value="visit"><?php echo $table_prefix . 'statistics_visit'; ?></option>
 						<option value="visitor"><?php echo $table_prefix . 'statistics_visitor'; ?></option>
+						<option value="all"><?php echo __('All','wp_statistics'); ?></option>
 					</select>
 					<p class="description"><?php _e('All data table will be lost.', 'wp_statistics'); ?></p>
 					<input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Clear now!', 'wp_statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
 					
 					<span id="empty-result"></span>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="purge-data">e:</label>
+				</th>
+
+				<td>
+					<input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
+					<label for="purge-data"><?php _e('days', 'wp_statistics'); ?></label>
+					<p class="description"><?php _e('Deleted user statistics data older than the selected number of days.  Minimum value is 30 days.', 'wp_statistics'); ?></p>
+					<input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp_statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
+
+					<span id="purge-data-result"></span>
 				</td>
 			</tr>
 

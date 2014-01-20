@@ -1,15 +1,14 @@
 #left-log {
     margin: 0 1% 0 0;
 }
-.td-align{
-	text-align: right;
+.td-align {
+    text-align: right;
 }
-#donate-button{
-	float: left;
+#donate-button {
 }
-.log-referred{
-	float: right;
+.log-referred {
+    float: right;
 }
-.log-ip{
-	float: left;
+.log-ip {
+    float: left;
 }

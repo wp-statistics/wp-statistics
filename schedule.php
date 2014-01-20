@@ -24,6 +24,18 @@
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook'); 
 	}
 
+	// Add the GeoIP update schedule if it doesn't exist and it should be.
+	if( !wp_next_scheduled('wp_statistics_dbmaint_hook') && get_option('wps_schedule_dbmaint') ) {
+	
+		wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_hook'); 
+	}
+
+	// Remove the GeoIP update schedule if it does exist and it should shouldn't.
+	if( wp_next_scheduled('wp_statistics_dbmaint_hook') && (!get_option('wps_schedule_dbmaint') ) ) {
+	
+		wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook'); 
+	}
+
 	function wp_statistics_geoip_event() {
 	
 		// Maxmind updates the geoip database on the first Tuesday of the month, to make sure we don't update before they post
@@ -45,6 +57,27 @@
 		}
 	}
 	add_action('wp_statistics_geoip_hook', 'wp_statistics_geoip_event');
+
+
+	function wp_statistics_dbmaint_event() {
+
+		global $wpdb;
+		
+		$purge_days = intval( get_option('wps_schedule_dbmaint_days', FALSE) );
+		
+		if(  $purge_days > 30 ) {
+		
+			$table_name = $wpdb->prefix . 'statistics_visit';
+			$date_string = date( 'Y-m-d', strtotime( '-' . $purge_days . ' days')); 
+	 
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
+			
+			$table_name = $wpdb->prefix . 'statistics_visitor';
+
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
+		}
+	}
+	add_action('wp_statistics_dbmaint_hook', 'wp_statistics_dbmaint_event');
 
 	
 	function wp_statistics_send_report() {

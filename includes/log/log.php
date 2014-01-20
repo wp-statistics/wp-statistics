@@ -332,24 +332,24 @@
 						<p><?php _e('Please donate to WP Statistics. With your help WP Statistics will rule the world!', 'wp_statistics'); ?></p>
 						
 						<div id="donate-button">
-							<a href="http://iran98.org/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/images/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
+							<div class="left-div">
+								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+									<input type="hidden" name="cmd" value="_s-xclick">
+									<input type="hidden" name="hosted_button_id" value="Z959U3RPCC9WG">
+									<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+									<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+								</form>
+							</div>
+							
+							<div class="right-div">
+								<a href="http://iran98.org/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/images/donate/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/><br /><img src="<?php echo plugins_url('wp-statistics/images/donate/tdCflg.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
+							</div>
 						</div>
 						
 						<div class="clear"></div>
-<?php
-/*						
-						<div class="ads">
-							<a href="http://ads.iran98.org/view/link/11" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/11"/></a>
-							<a href="http://ads.iran98.org/view/link/12" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/12"/></a>
-							<a href="http://ads.iran98.org/view/link/13" target="_blank" alt="ads-link"><img src="http://ads.iran98.org/view/banner/13"/></a>
-						</div>
 						
-						<div class="clear"></div>
-*/
-?>
 						<div>
-						<br>
-						This product includes GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+							<br/>This product includes GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 						</div>
 					</div>
 				</div>

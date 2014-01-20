@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 4.5
+Stable tag: 4.6
 License: GPL2
 
 Complete statistics for your blog.
@@ -162,6 +162,17 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 4.6 =
+* Added: In the optimization page you can now empty all tables at once.
+* Added: In the optimization page you can now purge statistics over a given number of days old.
+* Added: Daily scheduled job to purge statistics over a given number of days old.
+* Fixed: Bug in the robots code that on new installs failed to populate the defaults in the database.
+* Fixed: All known warning messages when running in WordPress debug mode.
+* Fixed: Incorrect description of co-efficient value in the setting page.
+* Fixed: Top level links on the various stats pages now update highlight the current page in the admin menu instead of the overview page. 
+* Fixed: Install code now only executes on a true new installation instead of on each activation.
+* Fixed: Bug in hits code when GeoIP was disabled, IP address would not be recorded.
+
 = 4.5 =
 * Added: Support for more search engines: DuckDuckGo, Baidu and Yandex.
 * Added: Support for Google local sites like google.ca, google.fr, etc.

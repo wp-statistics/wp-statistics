@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Complete statistics for your blog.
-Version: 4.5
+Version: 4.6
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 Text Domain: wp_statistics
@@ -15,24 +15,36 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.5');
+	define('WP_STATISTICS_VERSION', '4.6');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0' );
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	__('Wordpress Statistics', 'wp_statistics');
 	__('Complete statistics for your blog.', 'wp_statistics');
+
+	// Check to see if we're installed and are the current version.
+	$WPS_Installed = get_option('wp_statistics_plugin_version');
+	if( $WPS_Installed != WP_STATISTICS_VERSION ) {	
 	
-	include_once dirname( __FILE__ ) . '/install.php';
-	
-	register_activation_hook(__FILE__, 'wp_statistics_install');
+		if( $WPS_Installed == false ) {
+			// If this is a new installed (aka wp_statistics_plugin_version doesn't exists, register the activation hook
+			// We don't need to execute this on every activation as the user may have deactivated us at some point and is
+			// just re-activating us.
+			include_once dirname( __FILE__ ) . '/install.php';
+		
+			register_activation_hook(__FILE__, 'wp_statistics_install');
+		}
+		else {
+			// If it's an upgrade (aka wp_statistics_plugin_version exists and is some number other than what we're running.
+			include_once dirname( __FILE__ ) . '/upgrade.php';
+		}
+	}
 	
 	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
 	
 	include_once dirname( __FILE__ ) . '/includes/class/statistics.class.php';
 	include_once dirname( __FILE__ ) . '/includes/class/useronline.class.php';
 
-	include_once dirname( __FILE__ ) . '/upgrade.php';
-	
 	if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
 		include_once dirname( __FILE__ ) . '/includes/class/hits.geoip.class.php';
 	} else {
@@ -196,6 +208,8 @@ License: GPL2
 		register_setting('wps_settings', 'wps_manage_capability');
 		register_setting('wps_settings', 'wps_schedule_geoip');
 		register_setting('wps_settings', 'wps_auto_pop');
+		register_setting('wps_settings', 'wps_schedule_dbmaint');
+		register_setting('wps_settings', 'wps_schedule_dbmaint_days');
 		
 		$role_list = $wp_roles->get_names();
 		
@@ -250,7 +264,7 @@ License: GPL2
 	
 	function wp_statistics_log( $log_type = "" ) {
 	
-		if( $log_type == "" ) 
+		if( $log_type == "" && array_key_exists('type', $_GET)) 
 			$log_type = $_GET['type'];
 			
 		if (!current_user_can(wp_statistics_validate_capability(get_option('wps_read_capability', 'manage_option')))) {
@@ -285,18 +299,26 @@ License: GPL2
 		
 		if( $log_type == 'last-all-search' ) {
 		
-			$referred = $_GET['referred'];
-			if( $referred ) {
-				$total = $search_result[$referred];
-			} else {
-				$total = $search_result['All'];
+			if( array_key_exists('referred',$_GET) ) {
+				$referred = $_GET['referred'];
 			}
+			else {
+				$referred = 'All';
+			}
+			
+			$total = $search_result[$referred];
 		
 			include_once dirname( __FILE__ ) . '/includes/log/last-search.php';
 			
 		} else if( $log_type == 'last-all-visitor' ) {
 		
-			$agent = $_GET['agent'];
+			if( array_key_exists('agent',$_GET) ) {
+				$agent = $_GET['agent'];
+			}
+			else {
+				$agent = false;
+			}
+				
 			if( $agent ) {
 				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `agent` LIKE '%{$agent}%'");
 			} else {
@@ -307,9 +329,15 @@ License: GPL2
 			
 		} else if( $log_type == 'top-referring-site' ) {
 		
-			$referr = $_GET['referr'];
+			if( array_key_exists('referr',$_GET) ) {
+				$referr = esc_sql( $_GET['referr'] );
+			}
+			else {
+				$referr = '';
+			}
+			
 			if( $referr ) {
-				$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%{$referr}%'");
+				$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%" . esc_sql($referr) . "%'");
 			} else {
 				$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 			}

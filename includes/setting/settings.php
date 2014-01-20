@@ -2,13 +2,25 @@
 	function ToggleStatOptions() {
 		jQuery('[id^="wps_stats_report_option"]').fadeToggle();	
 	}
+	
+	function DBMaintWarning() {
+		var checkbox = jQuery('#wps_schedule_dbmaint');
+		
+		if( checkbox.attr('checked') == 'checked' )
+			{
+			if(!confirm('<?php _e('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp_statistics'); ?>'))
+				checkbox.attr('checked', false);
+			}
+		
+
+	}
 </script>
 <a name="top"></a>
 <div class="wrap">
     <?php screen_icon('options-general'); ?>
     <h2><?php echo get_admin_page_title(); ?></h2>
 	<br>
-	<a href="#generalsettings"><?php _e('General Settings', 'wp_statistics'); ?></a> | <a href="#adminlevels"><?php _e('Admin Levels', 'wp_statistics'); ?><a/> | <a href="#excludeuserroles"><?php _e('Exclude User Roles', 'wp_statistics'); ?><a/> | <a href="#iprobotexclusions"><?php _e('IP/Robot Exclusions', 'wp_statistics'); ?><a/> | <a href="#charts"><?php _e('Charts', 'wp_statistics'); ?><a/> | <a href="#statisticalreportingsettings"><?php _e('Statistical reporting settings', 'wp_statistics'); ?><a/> | <a href="#geoip"><?php _e('GeoIP', 'wp_statistics'); ?></a>
+	<a href="#generalsettings"><?php _e('General Settings', 'wp_statistics'); ?></a> | <a href="#adminlevels"><?php _e('Admin Levels', 'wp_statistics'); ?><a/> | <a href="#excludeuserroles"><?php _e('Exclude User Roles', 'wp_statistics'); ?><a/> | <a href="#iprobotexclusions"><?php _e('IP/Robot Exclusions', 'wp_statistics'); ?><a/> | <a href="#charts"><?php _e('Charts', 'wp_statistics'); ?><a/> | <a href="#statisticalreportingsettings"><?php _e('Statistical reporting settings', 'wp_statistics'); ?><a/> | <a href="#geoip"><?php _e('GeoIP', 'wp_statistics'); ?></a> | <a href="#databasemaintenance"><?php _e('Database Maintenance', 'wp_statistics'); ?></a>
 	
 	<form method="post" action="options.php">
 		<table class="form-table">
@@ -74,7 +86,7 @@
 					<td>
 						<input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo get_option('wps_check_online'); ?>"/>
 						<?php _e('Second', 'wp_statistics'); ?>
-						<p class="description"><?php echo sprintf(__('Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics'), $o->second); ?></p>
+						<p class="description"><?php echo sprintf(__('Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics'), get_option('wps_check_online')); ?></p>
 					</td>
 				</tr>
 				
@@ -99,7 +111,7 @@
 					
 					<td>
 						<input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo get_option('wps_coefficient'); ?>"/>
-						<p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp_statistics'), $role); ?></p>
+						<p class="description"><?php echo sprintf(__('For each visit to account for several hits. Currently %s.', 'wp_statistics'), get_option('wps_coefficient')); ?></p>
 					</td>
 				</tr>
 				
@@ -132,6 +144,7 @@
 					ksort( $all_caps );
 					
 					$read_cap = get_option('wps_read_capability','manage_options');
+					$option_list = '';
 					
 					foreach( $all_caps as $key => $cap ) {
 						if( $key == $read_cap ) { $selected = " SELECTED"; } else { $selected = ""; }
@@ -394,7 +407,35 @@
 					</th>
 				</tr>
 <?php	} ?>
+
+				<tr valign="top">
+					<th scope="row" colspan="2"><a name="databasemaintenance" href="#top" style='text-decoration: none;'><h3><?php _e('Database Maintenance', 'wp_statistics'); ?></h3></a></th>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<label for="wps_schedule_dbmaint"><?php _e('Run a daily WP Cron job to prune the databases', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo get_option('wps_schedule_dbmaint')==true? "checked='checked'":'';?> onclick='DBMaintWarning();'>
+						<label for="wps_schedule_dbmaint"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('A WP Cron job will be run daily to prune any data older than a set number of days.', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
 		
+				<tr valign="top">
+					<th scope="row">
+						<label for="check_online"><?php _e('Prune data older than', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo get_option('wps_schedule_dbmaint_days', 365); ?>"/>
+						<?php _e('Days', 'wp_statistics'); ?>
+						<p class="description"><?php echo __('The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance.', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
 			</tbody>
 		</table>	
 		<?php submit_button(); ?>

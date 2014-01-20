@@ -109,13 +109,13 @@
 		public function get_Referred($default_referr = false) {
 		
 			if( $default_referr ) {
-				if( !$this->db->escape(strip_tags($_SERVER['HTTP_REFERER'])) ) {
+				if( esc_sql(strip_tags($_SERVER['HTTP_REFERER'])) ) {
 					return get_bloginfo('url');
 				} else {
-					return $this->db->escape(strip_tags($_SERVER['HTTP_REFERER']));
+					return esc_sql(strip_tags($_SERVER['HTTP_REFERER']));
 				}
 			} else {
-				return $this->db->escape(strip_tags($_SERVER['HTTP_REFERER']));
+				return esc_sql(strip_tags($_SERVER['HTTP_REFERER']));
 			}
 		}
 		
@@ -174,7 +174,8 @@
 			}
 
 			$parts = parse_url($url);
-			parse_str($parts['query'], $query);
+			
+			if( array_key_exists('query',$parts) ) { parse_str($parts['query'], $query); } else { $query = array(); }
 
 			$search_engines = wp_statistics_searchengine_list();
 
@@ -185,7 +186,12 @@
 				
 				if( isset($matches[1]) )
 					{
-					$words = strip_tags($query[$search_engines[$key]['querykey']]);
+					if( array_key_exists($search_engines[$key]['querykey'], $query) ) {
+						$words = strip_tags($query[$search_engines[$key]['querykey']]);
+					}
+					else {
+						$words = '';
+					}
 				
 					if( $words == '' ) { $words = 'No search query found!'; }
 					return $words;

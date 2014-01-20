@@ -3,6 +3,7 @@
 	
 		public $result = null;
 		private $exclusion_match = FALSE;
+		private $ip;
 		
 		public function __construct() {
 

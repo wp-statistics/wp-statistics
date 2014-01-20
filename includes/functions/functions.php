@@ -54,8 +54,12 @@
 					break;
 			}
 		}
-		
-		return $result[0];
+
+		if( array_key_exists(0,$result) ) {
+			return $result[0];
+		} else {
+			return 0;
+		}
 	}
 	
 	function wp_statistics_visitor($time, $daily = null) {
@@ -197,6 +201,7 @@
 
 	function wp_statistics_searchengine_query($search_engine = 'all') {
 		$searchengine_list = wp_statistics_searchengine_list();
+		$search_query = '';
 		
 		if( strtolower($search_engine) == 'all' ) {
 			foreach( $searchengine_list as $se ) {
@@ -232,6 +237,7 @@
 
 	function wp_statistics_searchengine_regex($search_engine = 'all') {
 		$searchengine_list = wp_statistics_searchengine_list();
+		$search_query = '';
 		
 		if( strtolower($search_engine) == 'all' ) {
 			foreach( $searchengine_list as $se ) {
