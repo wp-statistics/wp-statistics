@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 4.6
+Stable tag: 4.6.1
 License: GPL2
 
 Complete statistics for your blog.
@@ -136,7 +136,7 @@ Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.
 Also, if your running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will come up as unknown always.
 
 = I was using V3.2 and now that I've upgraded my visitors and visits have gone way down? =
-The webcrawler detection code has be fixed and will now exclude them from your stats, don't worry, it now reflects a more accurate view of actual visitors to your site.
+The webcrawler detection code has be Fixes and will now exclude them from your stats, don't worry, it now reflects a more accurate view of actual visitors to your site.
 
 == Screenshots ==
 1. View stats page.
@@ -162,16 +162,19 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 4.6.1 =
+* Fixes: a Small bug in to get rid of one of the reported warnings from debug mode.
+
 = 4.6 =
 * Added: In the optimization page you can now empty all tables at once.
 * Added: In the optimization page you can now purge statistics over a given number of days old.
 * Added: Daily scheduled job to purge statistics over a given number of days old.
-* Fixed: Bug in the robots code that on new installs failed to populate the defaults in the database.
-* Fixed: All known warning messages when running in WordPress debug mode.
-* Fixed: Incorrect description of co-efficient value in the setting page.
-* Fixed: Top level links on the various stats pages now update highlight the current page in the admin menu instead of the overview page. 
-* Fixed: Install code now only executes on a true new installation instead of on each activation.
-* Fixed: Bug in hits code when GeoIP was disabled, IP address would not be recorded.
+* Fixes: Bug in the robots code that on new installs failed to populate the defaults in the database.
+* Fixes: All known warning messages when running in WordPress debug mode.
+* Fixes: Incorrect description of co-efficient value in the setting page.
+* Fixes: Top level links on the various stats pages now update highlight the current page in the admin menu instead of the overview page. 
+* Fixes: Install code now only executes on a true new installation instead of on each activation.
+* Fixes: Bug in hits code when GeoIP was disabled, IP address would not be recorded.
 
 = 4.5 =
 * Added: Support for more search engines: DuckDuckGo, Baidu and Yandex.
@@ -181,18 +184,18 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 * Updated: Added new bot match strings: 'archive.org_bot', 'meanpathbot', 'moreover', 'spbot'.
 * Updated: Replaced bot match string 'ezooms.bot' with 'ezooms'.
 * Updated: Overview summary statistics layout.
-* Fixed: Bug in widget code that didn't allow you to edit the settings after adding the widget to your site.
+* Fixes: Bug in widget code that didn't allow you to edit the settings after adding the widget to your site.
 
 = 4.4 =
 * Added: option to set the required capability level to view statistics in the admin interface.
 * Added: option to set the required capability level to manage statistics in the admin interface.
-* Fixed: 'See More' links on the overview page now update highlight the current page in the admin menu instead of the overview page. 
+* Fixes: 'See More' links on the overview page now update highlight the current page in the admin menu instead of the overview page. 
 * Added: Schedule downloads of the GeoIP database.
 * Added: Auto populate missing GeoIP information after a download of the GeoIP database.
-* Fixed: Unschedule of report event if reporting is disabled.
+* Fixes: Unschedule of report event if reporting is disabled.
 
 = 4.3.1 =
-* Fixed: Critical bug that caused only a single visitor to be recorded.
+* Fixes: Critical bug that caused only a single visitor to be recorded.
 * Added: Version information to the optimization page.
 [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
@@ -201,18 +204,18 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 * Added: IP address and subnet exclusion support.
 * Added: Client IP and user agent information to the optimization page.
 * Added: Support to exclude users from data collection based on their WordPress role.
-* Fixed: A bug when the GeoIP code was disabled with optimization page.
+* Fixes: A bug when the GeoIP code was disabled with optimization page.
 
 = 4.2 =
 * Added: Statistical menus.
-* Fixed: Small bug in the geoip version.
+* Fixes: Small bug in the geoip version.
 * Language: Serbian (sr_RS) was updated.
 * Language: German (de_DE) was updated.
 * Language: French (fr_FR) was updated.
 
 = 4.1 =
 * Language: Arabic (ar) was updated
-* Fixed: small bug in moved the GeoIP database.
+* Fixes: small bug in moved the GeoIP database.
 * Updated: update to the spiders list.
 
 = 4.0 =
@@ -229,11 +232,11 @@ The webcrawler detection code has be fixed and will now exclude them from your s
 * Updated: List of webcrawlers to catch more bots.
 * Updated: Statistics reporting options in settings no longer needs a page reload to hide/show the settings.
 * Updated: Summary Statistcs now uses the WordPress set format for the time and date.
-* Fixed: Webcrawler detection now works and is case insensitive.
-* Fixed: Install code now correctly sets defaults.
-* Fixed: Upgrade code now works correctly.  If you are running V3.2, your old data will be preserved, older versions will delete the tables and recreate them.
-* Fixed: Ajax submissions on the optmiziation page (like the empty table function) should work in IE and other browsers that are sensitive to cross site attacks.
-* Fixed: Replaced call to the dashboard code (to support the postbox widgets on the log screen) with the proper call to the postbox code as WordPress 3.8 beta 1 did not work with the old code.
+* Fixes: Webcrawler detection now works and is case insensitive.
+* Fixes: Install code now correctly sets defaults.
+* Fixes: Upgrade code now works correctly.  If you are running V3.2, your old data will be preserved, older versions will delete the tables and recreate them.
+* Fixes: Ajax submissions on the optmiziation page (like the empty table function) should work in IE and other browsers that are sensitive to cross site attacks.
+* Fixes: Replaced call to the dashboard code (to support the postbox widgets on the log screen) with the proper call to the postbox code as WordPress 3.8 beta 1 did not work with the old code.
 * Updated:  Highcharts JS 3.0.1 to JS 3.0.7 version.
 
 = 3.2 =

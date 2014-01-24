@@ -20,7 +20,7 @@
 			if( get_option('wps_coefficient') ) {
 				$this->coefficient = get_option('wps_coefficient');
 			}
-
+			
 		}
 		
 		public function Primary_Values() {
@@ -98,7 +98,7 @@
 		public function get_UserAgent() {
 		
 			$agent = parse_user_agent();
-
+			
 			if( $agent['browser'] == null ) { $agent['browser'] = "Unknown"; }
 			if( $agent['platform'] == null ) { $agent['platform'] = "Unknown"; }
 			if( $agent['version'] == null ) { $agent['version'] = "Unknown"; }
@@ -109,7 +109,7 @@
 		public function get_Referred($default_referr = false) {
 		
 			if( $default_referr ) {
-				if( esc_sql(strip_tags($_SERVER['HTTP_REFERER'])) ) {
+				if( !esc_sql(strip_tags($_SERVER['HTTP_REFERER'])) ) {
 					return get_bloginfo('url');
 				} else {
 					return esc_sql(strip_tags($_SERVER['HTTP_REFERER']));
@@ -136,7 +136,7 @@
 		}
 		
 		public function Search_Engine_Info($url = false) {
-
+		
 			if(!$url) {
 				$url = isset($_SERVER['HTTP_REFERER']) ? $this->get_Referred() : false;
 			}
@@ -144,14 +144,14 @@
 			if($url == false) {
 				return false;
 			}
-
+			
 			$parts = parse_url($url);
-
+			
 			$search_engines = wp_statistics_searchengine_list();
-
+			
 			foreach( $search_engines as $key => $value ) {
 				$search_regex = wp_statistics_searchengine_regex($key);
-
+				
 				preg_match( '/' . $search_regex . '/', $parts['host'], $matches);
 				
 				if( isset($matches[1]) )
@@ -159,7 +159,7 @@
 					return $value;
 					}
 			}
-
+			
 			return array('name' => 'Unknown', 'tag' => '', 'sqlpattern' => '', 'regexpattern' => '', 'querykey' => 'q', 'image' => 'unknown.png' );
 		}
 		
@@ -172,16 +172,16 @@
 			if($url == false) {
 				return false;
 			}
-
+			
 			$parts = parse_url($url);
 			
 			if( array_key_exists('query',$parts) ) { parse_str($parts['query'], $query); } else { $query = array(); }
-
+			
 			$search_engines = wp_statistics_searchengine_list();
-
+			
 			foreach( $search_engines as $key => $value ) {
 				$search_regex = wp_statistics_searchengine_regex($key);
-
+				
 				preg_match( '/' . $search_regex . '/', $parts['host'], $matches);
 				
 				if( isset($matches[1]) )
@@ -197,7 +197,7 @@
 					return $words;
 					}
 			}
-
+			
 			return '';
 		}
 	}
