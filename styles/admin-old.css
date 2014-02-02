@@ -1,0 +1,9 @@
+
+#adminmenu #toplevel_page_wp-statistics-wp-statistics div.wp-menu-image {
+    background: url("../images/icon.png") no-repeat scroll center center rgba(0, 0, 0, 0) !important;
+}
+
+
+#adminmenu #toplevel_page_wp-statistics-wp-statistics div.wp-menu-image:before {
+    content: "";
+}
