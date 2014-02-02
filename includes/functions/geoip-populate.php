@@ -4,6 +4,8 @@
 
 	function wp_statistics_populate_geoip_info() {
 		global $wpdb;
+		
+		$table_prefix = $wpdb->prefix;
 
 		$result = $wpdb->get_results("SELECT id,ip FROM `{$table_prefix}statistics_visitor` WHERE location = '' or location = '000' or location IS NULL");
 

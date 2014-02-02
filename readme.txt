@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 4.6.1
+Stable tag: 4.7
 License: GPL2
 
 Complete statistics for your blog.
@@ -162,6 +162,17 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 4.7 =
+* Added: Responsive Stats page for smaller-screen devices.
+* Added: Dashicons icon for plugin page.
+* Added: Tabs option in setting page.
+* Added: Tabs category in optimization page.
+* Fixes: More debug warnings.
+* Fixes: GeoIP populate code now functions again.
+* Updated: Some optimization of the statistics code.
+* Updated: Search Words now reports results only for referrers with actual search queries.
+* Updated: Highcharts JS v3.0.7 to JS v3.0.9.
+
 = 4.6.1 =
 * Fixes: a Small bug in to get rid of one of the reported warnings from debug mode.
 
@@ -237,7 +248,7 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * Fixes: Upgrade code now works correctly.  If you are running V3.2, your old data will be preserved, older versions will delete the tables and recreate them.
 * Fixes: Ajax submissions on the optmiziation page (like the empty table function) should work in IE and other browsers that are sensitive to cross site attacks.
 * Fixes: Replaced call to the dashboard code (to support the postbox widgets on the log screen) with the proper call to the postbox code as WordPress 3.8 beta 1 did not work with the old code.
-* Updated:  Highcharts JS 3.0.1 to JS 3.0.7 version.
+* Updated: Highcharts JS 3.0.1 to JS 3.0.7 version.
 
 = 3.2 =
 * Added: Optimization plugin page.

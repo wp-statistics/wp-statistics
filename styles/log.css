@@ -1,4 +1,3 @@
-
 #right-log {
     width: 31%;
 }
@@ -6,6 +5,36 @@
     margin: 0 0 0 1%;
     width: 68%;
 }
+@media screen and (max-width: 960px) {
+	#right-log {
+	    width: 35%;
+	}
+	#left-log {
+	    margin: 0 0 0 1%;
+	    width: 63%;
+	}
+}
+
+@media screen and (max-width: 758px) {
+	#right-log {
+	    width: 100%;
+	}
+	#left-log {
+	    margin: 0 0 0 1%;
+	    width: 100%;
+	}
+}
+
+@media screen and (max-width: 524px) {
+	#right-log {
+	    width: 100%;
+	}
+	#left-log {
+	    margin: 0 0 0 1%;
+	    width: 100%;
+	}
+}
+
 #last-log {
     width: 100%;
 }

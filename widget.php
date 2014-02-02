@@ -189,6 +189,6 @@
 				update_option('select_lps', $_POST['select_lps']);
 			}
 			
-			include dirname( __FILE__ ) . '/includes/setting/widget.php';
+			include dirname( __FILE__ ) . '/includes/settings/widget.php';
 		}
 ?>

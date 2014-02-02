@@ -3,6 +3,15 @@
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
+<?php
+	$search_engines = wp_statistics_searchengine_list();
+	
+	$search_result['All'] = wp_statistics_searchengine('all','total');
+
+	foreach( $search_engines as $key => $se ) {
+		$search_result[$key] = wp_statistics_searchengine($key,'total');
+	}
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Search Engine Referrers Statistics', 'wp_statistics'); ?></h2>

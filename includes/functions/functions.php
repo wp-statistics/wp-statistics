@@ -26,51 +26,54 @@
 		
 			switch($time) {
 				case 'today':
-					$result = $wpdb->get_col("SELECT `visit` FROM {$table_prefix}statistics_visit WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'yesterday':
-					$result = $wpdb->get_col("SELECT `visit` FROM {$table_prefix}statistics_visit WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}'");
 					break;
 					
 				case 'week':
-					$result[0] = array_sum( $wpdb->get_col("SELECT `visit` FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -7)}' AND '{$s->Current_Date('Y-m-d')}'") );
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -7)}' AND '{$s->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'month':
-					$result[0] = array_sum( $wpdb->get_col("SELECT `visit` FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -30)}' AND '{$s->Current_Date('Y-m-d')}'") );
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -30)}' AND '{$s->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'year':
-					$result[0] = array_sum( $wpdb->get_col("SELECT `visit` FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -360)}' AND '{$s->Current_Date('Y-m-d')}'") );
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -360)}' AND '{$s->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'total':
-					$result = $wpdb->get_col("SELECT SUM(visit) FROM {$table_prefix}statistics_visit");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit");
 					break;
 					
 				default:
-					$result[0] = array_sum( $wpdb->get_col("SELECT `visit` FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', $time)}' AND '{$s->Current_Date('Y-m-d')}'") );
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', $time)}' AND '{$s->Current_Date('Y-m-d')}'");
 					break;
 			}
 		}
 
-		if( array_key_exists(0,$result) ) {
-			return $result[0];
-		} else {
-			return 0;
-		}
+		if( $result == null ) { $result = 0; }
+		
+		return $result;
 	}
 	
-	function wp_statistics_visitor($time, $daily = null) {
+	function wp_statistics_visitor($time, $daily = null, $countonly = false) {
 	
 		global $wpdb, $table_prefix;
 		
 		$s = new WP_Statistics();
 		
+		$select = '*';
+		$sqlstatement = '';
+		
+		if( $countonly == true ) { $select = 'count(last_counter)'; }
+		
 		if( $daily == true ) {
 		
-			$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$s->Current_Date('Y-m-d', $time)}'");
+			$result = $wpdb->query( "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$s->Current_Date('Y-m-d', $time)}'");
 			
 			return $result;
 				
@@ -78,34 +81,37 @@
 		
 			switch($time) {
 				case 'today':
-					$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}'");
+					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'yesterday':
-					$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}'");
+					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}'";
 					break;
 					
 				case 'week':
-					$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -7)}' AND '{$s->Current_Date('Y-m-d')}'");
+					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -7)}' AND '{$s->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'month':
-					$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -30)}' AND '{$s->Current_Date('Y-m-d')}'");
+					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -30)}' AND '{$s->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'year':
-					$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -360)}' AND '{$s->Current_Date('Y-m-d')}'");
+					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', -365)}' AND '{$s->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'total':
-					$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor");
+					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor";
 					break;
 					
 				default:
-					$result = $wpdb->query("SELECT * FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', $time)}' AND '{$s->Current_Date('Y-m-d')}'");
+					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$s->Current_Date('Y-m-d', $time)}' AND '{$s->Current_Date('Y-m-d')}'";
 					break;
 			}
 		}
+		
+		if( $countonly == true ) { $result = $wpdb->get_var( $sqlstatement ); }
+		else { $result = $wpdb->query( $sqlstatement ); }
 		
 		return $result;
 	}
@@ -189,17 +195,50 @@
 		//		querykey 	 = the URL key that contains the search string for the search engine
 		//		image		 = the name of the image file to associate with this search engine (just the filename, no path info)
 		//
-		return array( 
-						'baidu' => array( 'name' => 'Baidu', 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
-						'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' =>'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
-						'duckduckgo' => array( 'name' => 'DuckDuckGo', 'tag' => 'duckduckgo', 'sqlpattern' => array('%duckduckgo.com%', '%ddg.gg%'), 'regexpattern' => array('duckduckgo\.com','ddg\.gg'), 'querykey' => 'q', 'image' => 'duckduckgo.png' ),
-						'google' => array( 'name' => 'Google', 'tag' => 'google', 'sqlpattern' => '%google.%', 'regexpattern' => 'google\.', 'querykey' => 'q', 'image' => 'google.png' ),
-						'yahoo' => array( 'name' => 'Yahoo!', 'tag' => 'yahoo', 'sqlpattern' => '%yahoo.com%', 'regexpattern' => 'yahoo\.com', 'querykey' => 'p', 'image' => 'yahoo.png' ),
-						'yandex' => array( 'name' => 'Yandex', 'tag' => 'yandex', 'sqlpattern' => '%yandex.ru%', 'regexpattern' => 'yandex\.ru', 'querykey' => 'text', 'image' => 'yandex.png' )
-					);
+		return array (
+			'baidu' => array( 'name' => 'Baidu', 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
+			'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' =>'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
+			'duckduckgo' => array( 'name' => 'DuckDuckGo', 'tag' => 'duckduckgo', 'sqlpattern' => array('%duckduckgo.com%', '%ddg.gg%'), 'regexpattern' => array('duckduckgo\.com','ddg\.gg'), 'querykey' => 'q', 'image' => 'duckduckgo.png' ),
+			'google' => array( 'name' => 'Google', 'tag' => 'google', 'sqlpattern' => '%google.%', 'regexpattern' => 'google\.', 'querykey' => 'q', 'image' => 'google.png' ),
+			'yahoo' => array( 'name' => 'Yahoo!', 'tag' => 'yahoo', 'sqlpattern' => '%yahoo.com%', 'regexpattern' => 'yahoo\.com', 'querykey' => 'p', 'image' => 'yahoo.png' ),
+			'yandex' => array( 'name' => 'Yandex', 'tag' => 'yandex', 'sqlpattern' => '%yandex.ru%', 'regexpattern' => 'yandex\.ru', 'querykey' => 'text', 'image' => 'yandex.png' )
+		);
+	}
+	
+	function wp_statistics_searchword_query ($search_engine = 'all') {
+		$searchengine_list = wp_statistics_searchengine_list();
+		$search_query = '';
+		
+		if( strtolower($search_engine) == 'all' ) {
+			foreach( $searchengine_list as $se ) {
+				if( is_array( $se['sqlpattern'] ) ) {
+					foreach( $se['sqlpattern'] as $subse ) {
+						$search_query .= "(`referred` LIKE '{$subse}{$se['querykey']}=%' AND `referred` NOT LIKE '{$subse}{$se['querykey']}=&%' AND `referred` NOT LIKE '{$subse}{$se['querykey']}=') OR ";
+					}
+				} else {
+					$search_query .= "(`referred` LIKE '{$se['sqlpattern']}{$se['querykey']}=%' AND `referred` NOT LIKE '{$se['sqlpattern']}{$se['querykey']}=&%' AND `referred` NOT LIKE '{$se['sqlpattern']}{$se['querykey']}=')  OR ";
+				}
+			}
+			
+			// Trim off the last ' OR ' for the loop above.
+			$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+		} else {
+			if( is_array( $searchengine_list[$search_engine]['sqlpattern'] ) ) {
+				foreach( $searchengine_list[$search_engine]['sqlpattern'] as $se ) {
+					$search_query .= "(`referred` LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=%' AND `referred` NOT LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=&%' AND `referred` NOT LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=') OR ";
+				}
+
+				// Trim off the last ' OR ' for the loop above.
+				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+			} else {
+				$search_query .= "(`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=%' AND `referred` NOT LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=&%' AND `referred` NOT LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=')";
+			}
+		}
+		
+		return $search_query;
 	}
 
-	function wp_statistics_searchengine_query($search_engine = 'all') {
+	function wp_statistics_searchengine_query ($search_engine = 'all') {
 		$searchengine_list = wp_statistics_searchengine_list();
 		$search_query = '';
 		
@@ -209,16 +248,14 @@
 					foreach( $se['sqlpattern'] as $subse ) {
 						$search_query .= "`referred` LIKE '{$subse}' OR ";
 					}
-				}
-				else {
+				} else {
 					$search_query .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
 				}
 			}
 			
 			// Trim off the last ' OR ' for the loop above.
 			$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
-		}
-		else {
+		} else {
 			if( is_array( $searchengine_list[$search_engine]['sqlpattern'] ) ) {
 				foreach( $searchengine_list[$search_engine]['sqlpattern'] as $se ) {
 					$search_query .= "`referred` LIKE '{$se}' OR ";
@@ -235,7 +272,7 @@
 		return $search_query;
 	}
 
-	function wp_statistics_searchengine_regex($search_engine = 'all') {
+	function wp_statistics_searchengine_regex ($search_engine = 'all') {
 		$searchengine_list = wp_statistics_searchengine_list();
 		$search_query = '';
 		
@@ -245,16 +282,14 @@
 					foreach( $se['regexpattern'] as $subse ) {
 						$search_query .= "{$subse}|";
 					}
-				}
-				else {
+				} else {
 					$search_query .= "{$se['regexpattern']}|";
 				}
 			}
 			
 			// Trim off the last '|' for the loop above.
 			$search_query = substr( $search_query, 0, strlen( $search_query ) - 1 );
-		}
-		else {
+		} else {
 			if( is_array( $searchengine_list[$search_engine]['regexpattern'] ) ) {
 				foreach( $searchengine_list[$search_engine]['regexpattern'] as $se ) {
 					$search_query .= "{$se}|";
@@ -262,8 +297,7 @@
 
 				// Trim off the last '|' for the loop above.
 				$search_query = substr( $search_query, 0, strlen( $search_query ) - 1 );
-			}
-			else {
+			} else {
 				$search_query .= $searchengine_list[$search_engine]['regexpattern'];
 			}
 		}
@@ -279,6 +313,53 @@
 		$s = new WP_Statistics();
 
 		$search_query = wp_statistics_Searchengine_query($search_engine);
+
+		switch($time) {
+			case 'today':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d')}' AND {$search_query}");
+				break;
+				
+			case 'yesterday':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -1)}' AND {$search_query}");
+				
+				break;
+				
+			case 'week':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -7)}' AND {$search_query}");
+				
+				break;
+				
+			case 'month':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -30)}' AND {$search_query}");
+				
+				break;
+				
+			case 'year':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', -360)}' AND {$search_query}");
+				
+				break;
+				
+			case 'total':
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query}");
+				
+				break;
+				
+			default:
+				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$s->Current_Date('Y-m-d', $time)}' AND {$search_query}");
+				
+				break;
+		}
+		
+		return $result;
+	}
+	
+	function wp_statistics_searchword($search_engine = 'all', $time = 'total') {
+	
+		global $wpdb, $table_prefix;
+		
+		$s = new WP_Statistics();
+
+		$search_query = wp_statistics_searchword_query($search_engine);
 
 		switch($time) {
 			case 'today':

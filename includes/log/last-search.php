@@ -7,7 +7,29 @@
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
+<?php
+	$search_engines = wp_statistics_searchengine_list();
+	
+	$search_result['All'] = wp_statistics_searchword('all','total');
 
+	foreach( $search_engines as $key => $se ) {
+		$search_result[$key] = wp_statistics_searchword($key,'total');
+	}
+	
+	if( array_key_exists('referred',$_GET) ) {
+		if( $_GET['referred'] != '' ) {
+			$referred = $_GET['referred'];
+		}
+		else {
+			$referred = 'All';
+		}
+	}
+	else {
+		$referred = 'All';
+	}
+	
+	$total = $search_result[$referred];
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Latest search words', 'wp_statistics'); ?></h2>
@@ -63,12 +85,12 @@
 									$end = $Pagination->getEntryEnd();
 
 									// Retrieve MySQL data
-									if( $referred && $referred != "") {
-										$search_query = wp_statistics_Searchengine_query($referred);
+									if( $referred && $referred != '') {
+										$search_query = wp_statistics_searchword_query($referred);
 									} else {
-										$search_query = wp_statistics_Searchengine_query('all');
+										$search_query = wp_statistics_searchword_query('all');
 									}
-
+									
 									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
 									
 									foreach($result as $items) {

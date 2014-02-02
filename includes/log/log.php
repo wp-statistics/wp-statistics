@@ -7,7 +7,19 @@
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
-<?php include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); ?>
+<?php 
+	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
+
+	$search_engines = wp_statistics_searchengine_list();
+	
+	$search_result['All'] = wp_statistics_searchengine('all','total');
+
+	foreach( $search_engines as $key => $se ) {
+		$search_result[$key] = wp_statistics_searchengine($key,'total');
+	}
+
+	wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . '../../js/highcharts.js', true, '2.3.5');
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php echo get_admin_page_title(); ?></h2>
@@ -33,37 +45,37 @@
 								
 								<tr>
 									<th><?php _e('Today', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('today'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_visitor('today',null,true); ?></span></th>
 									<th class="th-center"><span><?php echo wp_statistics_visit('today'); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Yesterday', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('yesterday'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_visitor('yesterday',null,true); ?></span></th>
 									<th class="th-center"><span><?php echo wp_statistics_visit('yesterday'); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Week', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('week'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_visitor('week',null,true); ?></span></th>
 									<th class="th-center"><span><?php echo wp_statistics_visit('week'); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Month', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('month'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_visitor('month',null,true); ?></span></th>
 									<th class="th-center"><span><?php echo wp_statistics_visit('month'); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Year', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('year'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_visitor('year',null,true); ?></span></th>
 									<th class="th-center"><span><?php echo wp_statistics_visit('year'); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('total'); ?></span></th>
+									<th class="th-center"><span><?php echo wp_statistics_visitor('total',null,true); ?></span></th>
 									<th class="th-center"><span><?php echo wp_statistics_visit('total'); ?></span></th>
 								</tr>
 								
@@ -556,7 +568,7 @@
 							
 							<?php
 								// Retrieve MySQL data
-								$search_query = wp_statistics_Searchengine_query('all');
+								$search_query = wp_statistics_searchword_query('all');
 
 								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
 								

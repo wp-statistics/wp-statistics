@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Complete statistics for your blog.
-Version: 4.6.1
+Version: 4.7
 Author: Mostafa Soufi
 Author URI: http://iran98.org/
 Text Domain: wp_statistics
@@ -15,8 +15,9 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.6.1');
-	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0' );
+	define('WP_STATISTICS_VERSION', '4.7');
+	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
+	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	__('Wordpress Statistics', 'wp_statistics');
@@ -42,13 +43,13 @@ License: GPL2
 	
 	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
 	
-	include_once dirname( __FILE__ ) . '/includes/class/statistics.class.php';
-	include_once dirname( __FILE__ ) . '/includes/class/useronline.class.php';
+	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
+	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 
 	if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
-		include_once dirname( __FILE__ ) . '/includes/class/hits.geoip.class.php';
+		include_once dirname( __FILE__ ) . '/includes/classes/hits.geoip.class.php';
 	} else {
-		include_once dirname( __FILE__ ) . '/includes/class/hits.class.php';
+		include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
 	}
 	
 	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
@@ -102,7 +103,7 @@ License: GPL2
 			
 			foreach( $cap_list as $key => $cap ) {
 				if( substr($key,0,6) != 'level_' ) {
-					$all_caps[$key] = 1;
+					if( array_key_exists( $capability, $all_caps ) ) { return $capability; }
 				}
 			}
 		}
@@ -118,7 +119,7 @@ License: GPL2
 		$read_cap = wp_statistics_validate_capability( get_option('wps_read_capability', 'manage_options') );
 		$manage_cap = wp_statistics_validate_capability( get_option('wps_manage_capability', 'manage_options') );
 		
-		add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview', plugin_dir_url( __FILE__ ).'/images/icon.png');
+		add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview');
 		
 		add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview');
 		add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, 'wps_browsers_menu', 'wp_statistics_log_browsers');
@@ -136,45 +137,65 @@ License: GPL2
 	}
 	add_action('admin_menu', 'wp_statistics_menu');
 	
+	function wp_statistics_icon() {
+	
+		global $wp_version;
+		
+		if( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
+			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'styles/admin.css', true, '1.0');
+		} else {
+			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'styles/admin-old.css', true, '1.0');
+		}
+	}
+	add_action('admin_head', 'wp_statistics_icon');
+	
 	function wp_statistics_menubar() {
 	
-		global $wp_admin_bar;
+		global $wp_admin_bar, $wp_version;
 		
 		if ( is_super_admin() || is_admin_bar_showing() ) {
 		
-			$wp_admin_bar->add_menu( array(
-				'id'		=>	'wp-statistic_menu',
-				'title'		=>	'<img src="'.plugin_dir_url(__FILE__).'/images/icon.png"/>',
-				'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
-			));
+			if( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
+				$wp_admin_bar->add_menu( array(
+					'id'		=>	'wp-statistic-menu',
+					'title'		=>	'<span class="ab-icon"></span>',
+					'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
+				));
+			} else {
+				$wp_admin_bar->add_menu( array(
+					'id'		=>	'wp-statistic-menu',
+					'title'		=>	'<img src="'.plugin_dir_url(__FILE__).'/images/icon.png"/>',
+					'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
+				));
+			}
 			
 			$wp_admin_bar->add_menu( array(
-				'parent'	=>	'wp-statistic_menu',
+				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('User Online', 'wp_statistics') . ": " . wp_statistics_useronline()
 			));
 			
 			$wp_admin_bar->add_menu( array(
-				'parent'	=>	'wp-statistic_menu',
+				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Today visitor', 'wp_statistics') . ": " . wp_statistics_visitor('today')
 			));
 			
 			$wp_admin_bar->add_menu( array(
-				'parent'	=>	'wp-statistic_menu',
+				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Today visit', 'wp_statistics') . ": " . wp_statistics_visit('today')
 			));
 			
 			$wp_admin_bar->add_menu( array(
-				'parent'	=>	'wp-statistic_menu',
+				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Yesterday visitor', 'wp_statistics') . ": " . wp_statistics_visitor('yesterday')
 			));
 			
 			$wp_admin_bar->add_menu( array(
-				'parent'	=>	'wp-statistic_menu',
+				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Yesterday visit', 'wp_statistics') . ": " . wp_statistics_visit('yesterday')
 			));
 			
 			$wp_admin_bar->add_menu( array(
-				'parent'	=>	'wp-statistic_menu',
+				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('View Stats', 'wp_statistics'),
 				'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
 			));
@@ -187,30 +208,30 @@ License: GPL2
 	
 	function wp_statistics_register() {
 	
-		GLOBAL $wp_roles;
+		global $wp_roles;
 		
-		register_setting('wps_settings', 'wps_useronline');
-		register_setting('wps_settings', 'wps_visits');
-		register_setting('wps_settings', 'wps_visitors');
-		register_setting('wps_settings', 'wps_check_online');
-		register_setting('wps_settings', 'wps_menu_bar');
-		register_setting('wps_settings', 'wps_coefficient');
-		register_setting('wps_settings', 'wps_chart_type');
-		register_setting('wps_settings', 'wps_stats_report');
-		register_setting('wps_settings', 'wps_time_report');
-		register_setting('wps_settings', 'wps_send_report');
-		register_setting('wps_settings', 'wps_content_report');
-		register_setting('wps_settings', 'wps_geoip');
-		register_setting('wps_settings', 'wps_update_geoip');
-		register_setting('wps_settings', 'wps_store_ua');
+		//register_setting('wps_settings', 'wps_useronline');
+		//register_setting('wps_settings', 'wps_visits');
+		//register_setting('wps_settings', 'wps_visitors');
+		//register_setting('wps_settings', 'wps_check_online');
+		//register_setting('wps_settings', 'wps_menu_bar');
+		//register_setting('wps_settings', 'wps_coefficient');
+		//register_setting('wps_settings', 'wps_chart_type');
+		//register_setting('wps_settings', 'wps_stats_report');
+		//register_setting('wps_settings', 'wps_time_report');
+		//register_setting('wps_settings', 'wps_send_report');
+		//register_setting('wps_settings', 'wps_content_report');
+		//register_setting('wps_settings', 'wps_geoip');
+		//register_setting('wps_settings', 'wps_update_geoip');
+		//register_setting('wps_settings', 'wps_store_ua');
 		register_setting('wps_settings', 'wps_robotlist');
 		register_setting('wps_settings', 'wps_exclude_ip');
 		register_setting('wps_settings', 'wps_read_capability');
 		register_setting('wps_settings', 'wps_manage_capability');
-		register_setting('wps_settings', 'wps_schedule_geoip');
-		register_setting('wps_settings', 'wps_auto_pop');
-		register_setting('wps_settings', 'wps_schedule_dbmaint');
-		register_setting('wps_settings', 'wps_schedule_dbmaint_days');
+		//register_setting('wps_settings', 'wps_schedule_geoip');
+		//register_setting('wps_settings', 'wps_auto_pop');
+		//register_setting('wps_settings', 'wps_schedule_dbmaint');
+		//register_setting('wps_settings', 'wps_schedule_dbmaint_days');
 		
 		$role_list = $wp_roles->get_names();
 		
@@ -287,68 +308,25 @@ License: GPL2
 		
 		if( is_rtl() )
 			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'styles/rtl.css', true, '1.1');
+
+		wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
 			
-		include_once dirname( __FILE__ ) . '/includes/class/pagination.class.php';
+		include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 
-		$search_engines = wp_statistics_searchengine_list();
-		
-		$search_result['All'] = wp_statistics_searchengine('all','total');
-
-		foreach( $search_engines as $key => $se ) {
-			$search_result[$key] = wp_statistics_searchengine($key,'total');
-		}
-		
 		if( $log_type == 'last-all-search' ) {
-		
-			if( array_key_exists('referred',$_GET) ) {
-				$referred = $_GET['referred'];
-			}
-			else {
-				$referred = 'All';
-			}
-			
-			$total = $search_result[$referred];
 		
 			include_once dirname( __FILE__ ) . '/includes/log/last-search.php';
 			
 		} else if( $log_type == 'last-all-visitor' ) {
 		
-			if( array_key_exists('agent',$_GET) ) {
-				$agent = $_GET['agent'];
-			}
-			else {
-				$agent = false;
-			}
-				
-			if( $agent ) {
-				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `agent` LIKE '%{$agent}%'");
-			} else {
-				$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
-			}
-			
 			include_once dirname( __FILE__ ) . '/includes/log/last-visitor.php';
 			
 		} else if( $log_type == 'top-referring-site' ) {
 		
-			if( array_key_exists('referr',$_GET) ) {
-				$referr = esc_sql( $_GET['referr'] );
-			}
-			else {
-				$referr = '';
-			}
-			
-			if( $referr ) {
-				$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%" . esc_sql($referr) . "%'");
-			} else {
-				$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
-			}
-			
 			include_once dirname( __FILE__ ) . '/includes/log/top-referring.php';
 			
 		} else if( $log_type == 'all-browsers' ) {
 
-			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
-			
 			include_once dirname( __FILE__ ) . '/includes/log/all-browsers.php';
 			
 		} else if( $log_type == 'top-countries' ) {
@@ -357,23 +335,16 @@ License: GPL2
 			
 		} else if( $log_type == 'hit-statistics' ) {
 
-			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
-			
 			include_once dirname( __FILE__ ) . '/includes/log/hit-statistics.php';
 			
 		} else if( $log_type == 'search-statistics' ) {
 
-			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
-			
 			include_once dirname( __FILE__ ) . '/includes/log/search-statistics.php';
 			
 		} else {
 		
-			wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
-			
 			include_once dirname( __FILE__ ) . '/includes/log/log.php';
 		}
-		
 	}
 	
 	function wp_statistics_optimization() {
@@ -388,10 +359,22 @@ License: GPL2
 		$result['visit'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visit`");
 		$result['visitor'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
 		
-		if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
-			include_once dirname( __FILE__ ) . '/includes/optimization/optimization-geoip.php';
-		} else {
-			include_once dirname( __FILE__ ) . '/includes/optimization/optimization.php';
+		switch($_GET['tab']) {
+			case 'export':
+				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization-export.php";
+			break;
+			
+			case 'purging':
+				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization-purging.php";
+			break;
+			
+			case 'updates':
+				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization-updates.php";
+			break;
+			
+			default:
+				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization.php";
+			break;
 		}
 	}
 
@@ -461,6 +444,21 @@ License: GPL2
 			echo wp_statistics_download_geoip();
 		}
 		
-		include_once dirname( __FILE__ ) . '/includes/setting/settings.php';
-		
+		switch($_GET['tab']) {
+			case 'access-level':
+				include_once dirname( __FILE__ ) . "/includes/settings/wps-access-level.php";
+			break;
+			
+			case 'geoip':
+				include_once dirname( __FILE__ ) . "/includes/settings/wps-geoip.php";
+			break;
+			
+			case 'maintenance':
+				include_once dirname( __FILE__ ) . "/includes/settings/wps-maintenance.php";
+			break;
+			
+			default:
+				include_once dirname( __FILE__ ) . "/includes/settings/wps-settings.php";
+			break;
+		}
 	}

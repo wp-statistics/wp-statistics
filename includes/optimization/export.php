@@ -9,7 +9,7 @@
 	
 	if($table && $type) {
 	
-		require('../class/php-export-data.class.php');
+		require('../classes/php-export-data.class.php');
 		
 		$s = new WP_Statistics();
 		

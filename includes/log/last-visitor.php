@@ -7,7 +7,28 @@
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
+<?php
+	$search_engines = wp_statistics_searchengine_list();
+	
+	$search_result['All'] = wp_statistics_searchengine('all','total');
 
+	foreach( $search_engines as $key => $se ) {
+		$search_result[$key] = wp_statistics_searchengine($key,'total');
+	}
+
+	if( array_key_exists('agent',$_GET) ) {
+		$agent = $_GET['agent'];
+	}
+	else {
+		$agent = false;
+	}
+		
+	if( $agent ) {
+		$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `agent` LIKE '%{$agent}%'");
+	} else {
+		$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
+	}
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Recent Visitors', 'wp_statistics'); ?></h2>

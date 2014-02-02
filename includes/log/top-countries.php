@@ -3,7 +3,17 @@
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
-<?php include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); ?>
+<?php 
+	$search_engines = wp_statistics_searchengine_list();
+	
+	$search_result['All'] = wp_statistics_searchengine('all','total');
+
+	foreach( $search_engines as $key => $se ) {
+		$search_result[$key] = wp_statistics_searchengine($key,'total');
+	}
+
+	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Countries', 'wp_statistics'); ?></h2>

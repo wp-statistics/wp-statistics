@@ -7,7 +7,28 @@
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
+<?php
+	$search_engines = wp_statistics_searchengine_list();
+	
+	$search_result['All'] = wp_statistics_searchengine('all','total');
 
+	foreach( $search_engines as $key => $se ) {
+		$search_result[$key] = wp_statistics_searchengine($key,'total');
+	}
+
+	if( array_key_exists('referr',$_GET) ) {
+		$referr = esc_sql( $_GET['referr'] );
+	}
+	else {
+		$referr = '';
+	}
+	
+	if( $referr ) {
+		$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%" . esc_sql($referr) . "%'");
+	} else {
+		$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
+	}
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top referring sites', 'wp_statistics'); ?></h2>

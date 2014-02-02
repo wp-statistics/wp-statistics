@@ -3,6 +3,15 @@
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
+<?php
+	$search_engines = wp_statistics_searchengine_list();
+	
+	$search_result['All'] = wp_statistics_searchengine('all','total');
+
+	foreach( $search_engines as $key => $se ) {
+		$search_result[$key] = wp_statistics_searchengine($key,'total');
+	}
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Browser Statistics', 'wp_statistics'); ?></h2>
@@ -187,11 +196,10 @@
 											<?php 
 											$Platforms = wp_statistics_platform_list();
 
-											foreach( $Platforms as $Platform )
-												{
+											foreach( $Platforms as $Platform ) {
 												$count = wp_statistics_platform( $Platform );
-												echo "											['" . __( $Platform, 'wp_statistics' ) . " (" . $count . ")', " . $count . "],\r\n";
-												}
+												echo "['" . __( $Platform, 'wp_statistics' ) . " (" . $count . ")', " . $count . "],\r\n";
+											}
 											?>
 										]
 									}]
@@ -208,7 +216,7 @@
 	</div>
 	
 	<div style="width: 100%; clear: both;">
-	<hr>
+		<hr />
 	</div>
 	
 	<div class="postbox-container" style="width: 30%; float: left; margin-right: 20px;">
