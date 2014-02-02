@@ -172,6 +172,7 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * Updated: Some optimization of the statistics code.
 * Updated: Search Words now reports results only for referrers with actual search queries.
 * Updated: Highcharts JS v3.0.7 to JS v3.0.9.
+* Updated: Brazil (pt_BR) language.
 
 = 4.6.1 =
 * Fixes: a Small bug in to get rid of one of the reported warnings from debug mode.
