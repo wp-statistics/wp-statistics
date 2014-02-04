@@ -65,7 +65,7 @@ Language Support:
 * Russian [Thanks Oleg](http://www.bestplugins.ru/)
 * Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
 * Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info/)
-* Polish Thanks Tomasz Stulka
+* Polish Thanks Radosław Rak and Tomasz Stulka.
 * Indonesian [Thanks Agit Amrullah](http://www.facebook.com/agitowblinkerz/)
 * Hungarian [Thanks ZSIMI](http://www.zsimi.hu/)
 * Chinese (Taiwan) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
