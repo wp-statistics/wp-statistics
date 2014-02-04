@@ -3,9 +3,9 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
 Description: Complete statistics for your blog.
-Version: 4.7
+Version: 4.8
 Author: Mostafa Soufi
-Author URI: http://iran98.org/
+Author URI: http://mostafa-soufi.ir/
 Text Domain: wp_statistics
 Domain Path: /languages/
 License: GPL2
@@ -15,7 +15,7 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.7');
+	define('WP_STATISTICS_VERSION', '4.8');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
@@ -127,6 +127,7 @@ License: GPL2
 			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log_countries');
 		}
 		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log_hits');
+		add_submenu_page(__FILE__, __('Exclusions', 'wp_statistics'), __('Exclusions', 'wp_statistics'), $read_cap, 'wps_exclusions_menu', 'wp_statistics_log_exclusions');
 		add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), $read_cap, 'wps_referers_menu', 'wp_statistics_log_referers');
 		add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log_searches');
 		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log_words');
@@ -142,9 +143,9 @@ License: GPL2
 		global $wp_version;
 		
 		if( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
-			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'styles/admin.css', true, '1.0');
+			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin.css', true, '1.0');
 		} else {
-			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'styles/admin-old.css', true, '1.0');
+			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin-old.css', true, '1.0');
 		}
 	}
 	add_action('admin_head', 'wp_statistics_icon');
@@ -164,7 +165,7 @@ License: GPL2
 			} else {
 				$wp_admin_bar->add_menu( array(
 					'id'		=>	'wp-statistic-menu',
-					'title'		=>	'<img src="'.plugin_dir_url(__FILE__).'/images/icon.png"/>',
+					'title'		=>	'<img src="'.plugin_dir_url(__FILE__).'/assets/images/icon.png"/>',
 					'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
 				));
 			}
@@ -206,44 +207,6 @@ License: GPL2
 		add_action('admin_bar_menu', 'wp_statistics_menubar', 20);
 	}
 	
-	function wp_statistics_register() {
-	
-		global $wp_roles;
-		
-		//register_setting('wps_settings', 'wps_useronline');
-		//register_setting('wps_settings', 'wps_visits');
-		//register_setting('wps_settings', 'wps_visitors');
-		//register_setting('wps_settings', 'wps_check_online');
-		//register_setting('wps_settings', 'wps_menu_bar');
-		//register_setting('wps_settings', 'wps_coefficient');
-		//register_setting('wps_settings', 'wps_chart_type');
-		//register_setting('wps_settings', 'wps_stats_report');
-		//register_setting('wps_settings', 'wps_time_report');
-		//register_setting('wps_settings', 'wps_send_report');
-		//register_setting('wps_settings', 'wps_content_report');
-		//register_setting('wps_settings', 'wps_geoip');
-		//register_setting('wps_settings', 'wps_update_geoip');
-		//register_setting('wps_settings', 'wps_store_ua');
-		register_setting('wps_settings', 'wps_robotlist');
-		register_setting('wps_settings', 'wps_exclude_ip');
-		register_setting('wps_settings', 'wps_read_capability');
-		register_setting('wps_settings', 'wps_manage_capability');
-		//register_setting('wps_settings', 'wps_schedule_geoip');
-		//register_setting('wps_settings', 'wps_auto_pop');
-		//register_setting('wps_settings', 'wps_schedule_dbmaint');
-		//register_setting('wps_settings', 'wps_schedule_dbmaint_days');
-		
-		$role_list = $wp_roles->get_names();
-		
-		foreach( $role_list as $role ) {
-			$option_name = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
-
-			register_setting('wps_settings', $option_name );
-		}
-
-	}
-	add_action('admin_init', 'wp_statistics_register');
-	
 	function wp_statistics_log_overview() {
 	
 		wp_statistics_log();
@@ -284,6 +247,12 @@ License: GPL2
 		wp_statistics_log('last-all-search');
 	}
 	
+	function wp_statistics_log_exclusions() {
+	
+		wp_statistics_log('exclusions');
+	}
+	
+	
 	function wp_statistics_log( $log_type = "" ) {
 	
 		if( $log_type == "" && array_key_exists('type', $_GET)) 
@@ -295,6 +264,8 @@ License: GPL2
 		
 		global $wpdb, $table_prefix;
 		
+		$wpstats = new WP_Statistics();
+		
 		$result['useronline'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_useronline`");
 		$result['visit'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visit`");
 		$result['visitor'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visitor`");
@@ -303,13 +274,13 @@ License: GPL2
 			wp_die('<div class="error"><p>'.__('Table plugin does not exist! Please disable and re-enable the plugin.', 'wp_statistics').'</p></div>');
 		
 		wp_enqueue_script('postbox');
-		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/log.css', true, '1.1');
-		wp_enqueue_style('pagination-css', plugin_dir_url(__FILE__) . 'styles/pagination.css', true, '1.0');
+		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
+		wp_enqueue_style('pagination-css', plugin_dir_url(__FILE__) . 'assets/css/pagination.css', true, '1.0');
 		
 		if( is_rtl() )
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'styles/rtl.css', true, '1.1');
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
 
-		wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'js/highcharts.js', true, '2.3.5');
+		wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . 'assets/js/highcharts.js', true, '3.0.9');
 			
 		include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 
@@ -340,6 +311,10 @@ License: GPL2
 		} else if( $log_type == 'search-statistics' ) {
 
 			include_once dirname( __FILE__ ) . '/includes/log/search-statistics.php';
+			
+		} else if( $log_type == 'exclusions' ) {
+
+			include_once dirname( __FILE__ ) . '/includes/log/exclusions.php';
 			
 		} else {
 		
@@ -436,7 +411,7 @@ License: GPL2
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
-		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'styles/style.css', true, '1.0');
+		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', true, '1.0');
 		
 		// We could let the download happen at the end of the page, but this way we get to give some
 		// feedback to the users about the result.

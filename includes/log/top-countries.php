@@ -47,7 +47,7 @@
 										
 										echo "<tr>";
 										echo "<td style='text-align: center;'>$i</td>";
-										echo "<td style='text-align: center;'><img src='".plugins_url('wp-statistics/images/flags/' . $item . '.png')."' title='".__($ISOCountryCode[$item], 'wp_statistics')."'/></td>";
+										echo "<td style='text-align: center;'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='".__($ISOCountryCode[$item], 'wp_statistics')."'/></td>";
 										echo "<td style='text-align: left; direction: ltr;'>{$ISOCountryCode[$item]}</td>";
 										echo "<td style='text-align: center;'>{$value}</td>";
 										echo "</tr>";

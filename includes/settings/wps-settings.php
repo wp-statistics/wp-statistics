@@ -214,13 +214,12 @@
 					</td>
 				</tr>
 			</tbody>
-		</table>	
+		</table>
 		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="page_options" value="wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report" />
 			<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp-sms'); ?>" />
 		</p>
-		
 	</form>
 </div>

@@ -161,6 +161,9 @@
 #visits-stats {
     direction: ltr;
 }
+#exclusion-stats{
+    direction: ltr;
+}
 #search-stats {
     direction: ltr;
 }

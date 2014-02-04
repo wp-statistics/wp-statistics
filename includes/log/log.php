@@ -9,16 +9,16 @@
 </script>
 <?php 
 	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
-
+	
 	$search_engines = wp_statistics_searchengine_list();
 	
 	$search_result['All'] = wp_statistics_searchengine('all','total');
-
+	
 	foreach( $search_engines as $key => $se ) {
 		$search_result[$key] = wp_statistics_searchengine($key,'total');
 	}
-
-	wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . '../../js/highcharts.js', true, '2.3.5');
+	
+	wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . '../../assets/js/highcharts.js', true, '3.0.9');
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
@@ -99,7 +99,7 @@
 								foreach( $search_engines as $se ) {
 								?>
 								<tr>
-									<th><img src='<?php echo plugins_url('wp-statistics/images/' . $se['image'] );?>'> <?php _e($se['name'], 'wp_statistics'); ?>:</th>
+									<th><img src='<?php echo plugins_url('wp-statistics/assets/images/' . $se['image'] );?>'> <?php _e($se['name'], 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'today'); $se_today_total += $se_temp; echo $se_temp;?></span></th>
 									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'yesterday'); $se_yesterday_total += $se_temp; echo $se_temp;?></span></th>
 								</tr>
@@ -126,7 +126,7 @@
 								</tr>
 
 								<tr>
-									<th colspan="3"><?php $wpstats = new WP_Statistics(); echo sprintf(__('Date: <code dir="ltr">%s</code></code>', 'wp_statistics'), $wpstats->Current_Date(get_option('date_format'))); ?></th>
+									<th colspan="3"><?php echo sprintf(__('Date: <code dir="ltr">%s</code></code>', 'wp_statistics'), $wpstats->Current_Date(get_option('date_format'))); ?></th>
 								</tr>
 
 								<tr>
@@ -313,7 +313,7 @@
 										
 										echo "<tr>";
 										echo "<td style='text-align: left'>$i</td>";
-										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/images/flags/' . $item . '.png')."' title='".__($ISOCountryCode[$item], 'wp_statistics')."'/></td>";
+										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='".__($ISOCountryCode[$item], 'wp_statistics')."'/></td>";
 										echo "<td style='text-align: left'>{$ISOCountryCode[$item]}</td>";
 										echo "<td style='text-align: left'>{$value}</td>";
 										echo "</tr>";
@@ -354,7 +354,7 @@
 							</div>
 							
 							<div class="right-div">
-								<a href="http://iran98.org/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/images/donate/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/><br /><img src="<?php echo plugins_url('wp-statistics/images/donate/tdCflg.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
+								<a href="http://iran98.org/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/><br /><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/tdCflg.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
 							</div>
 						</div>
 						
@@ -405,7 +405,7 @@
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date('M d', '-'.$i).'"';
+											echo '"'.$wpstats->Current_Date('Y-m-d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]
@@ -500,7 +500,7 @@
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date('M d', '-'.$i).'"';
+											echo '"'.$wpstats->Current_Date('Y-m-d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]
@@ -582,13 +582,13 @@
 										echo "<div class='log-referred'>".substr($wpstats->Search_Engine_QueryString($items->referred), 0, 100)."</div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
-										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
+										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/assets/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
 										
 										$this_search_engine = $wpstats->Search_Engine_Info($items->referred);
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
 										
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
-										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
+										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
 									echo "</div>";
 								}
 								
@@ -615,8 +615,8 @@
 										echo "<div class='log-referred'><a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
-										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
-										echo "<img src='".plugins_url('wp-statistics/images/flags/' . $items->location . '.png')."' title='".__($ISOCountryCode[$items->location], 'wp_statistics')."' class='log-tools'/>";
+										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/assets/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
+										echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='".__($ISOCountryCode[$items->location], 'wp_statistics')."' class='log-tools'/>";
 										
 										if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ) 
 											{
@@ -627,8 +627,8 @@
 											$AgentImage = "unknown.png";
 											}
 										
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$AgentImage."' class='log-tools' title='{$items->agent}'/></a>";
-										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 80)."[...]</a></div>";
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/assets/images/').$AgentImage."' class='log-tools' title='{$items->agent}'/></a>";
+										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 80)."[...]</a></div>";
 									echo "</div>";
 									
 								}

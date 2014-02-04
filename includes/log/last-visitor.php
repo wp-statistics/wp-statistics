@@ -91,8 +91,8 @@
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a>";
 										echo "</div>";
 										echo "<div class='clear'></div>";
-										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
-										echo "<img src='".plugins_url('wp-statistics/images/flags/' . $items->location . '.png')."' title='".__('Country', 'wp_statistics')."' class='log-tools'/>";
+										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/assets/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
+										echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='".__('Country', 'wp_statistics')."' class='log-tools'/>";
 
 										if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ) 
 											{
@@ -103,8 +103,8 @@
 											$AgentImage = "unknown.png";
 											}
 										
-										echo "<a href='?page=wps_visitors_menu&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$AgentImage."' class='log-tools' title='{$items->agent}'/></a>";
-										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
+										echo "<a href='?page=wps_visitors_menu&agent={$items->agent}'><img src='".plugins_url('wp-statistics/assets/images/').$AgentImage."' class='log-tools' title='{$items->agent}'/></a>";
+										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
 									echo "</div>";
 									
 								}

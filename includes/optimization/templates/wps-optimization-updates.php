@@ -1,7 +1,7 @@
 <?php
 	if( array_key_exists( 'populate', $_GET ) ) {
 		if( $_GET['populate'] == 1 ) {
-			require_once( plugin_dir_path( __FILE__ ) . '../functions/geoip-populate.php' );
+			require_once( plugin_dir_path( __FILE__ ) . '../../functions/geoip-populate.php' );
 			echo wp_statistics_populate_geoip_info();
 		}
 	}

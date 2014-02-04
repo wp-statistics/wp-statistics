@@ -75,9 +75,9 @@
 											echo "<div class='log-referred'><a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 											echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 											echo "<div class='clear'></div>";
-											echo "<a class='show-map'><img src='".plugins_url('wp-statistics/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
-											echo "<a href='?page=wps_referers_menu&agent={$items->agent}'><img src='".plugins_url('wp-statistics/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
-											echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
+											echo "<a class='show-map'><img src='".plugins_url('wp-statistics/assets/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
+											echo "<a href='?page=wps_referers_menu&agent={$items->agent}'><img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
+											echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
 										echo "</div>";
 									
 									}
@@ -108,7 +108,7 @@
 											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></div>";
 											echo "<div class='log-ip'>".__('Reference', 'wp_statistics').": {$value}</div>";
 											echo "<div class='clear'></div>";
-											echo "<div class='log-url'><a href='http://{$items}/'><img src='".plugins_url('wp-statistics/images/link.png')."' title='{$items}'/> http://{$items}/</a></div>";
+											echo "<div class='log-url'><a href='http://{$items}/'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items}'/> http://{$items}/</a></div>";
 										echo "</div>";
 										
 									}

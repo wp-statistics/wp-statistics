@@ -10,7 +10,6 @@
 	
 	<table class="form-table">
 		<tbody>
-			<?php settings_fields('wps_settings'); ?>
 			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Resources', 'wp_statistics'); ?></h3></th>
 			</tr>

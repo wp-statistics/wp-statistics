@@ -65,7 +65,7 @@
 									categories: [
 									<?php
 										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo '"'.date('M d', strtotime('-'.$i." day") ).'"';
+											echo '"'.$wpstats->Current_Date('Y-m-d', '-'.$i).'"';
 											if( $i > 0 ) { echo ", "; }
 										}
 									?>]

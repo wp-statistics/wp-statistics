@@ -1,10 +1,10 @@
-=== WP-Statistics ===
+=== Wordpress Statistics ===
 Contributors: mostafa.s1990
 Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 4.7
+Stable tag: 4.8
 License: GPL2
 
 Complete statistics for your blog.
@@ -151,6 +151,10 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 4.8 =
+* BACKUP YOUR DATABASE BEFORE INSTALLING!
+* This update includes a new database table, you should not lose any data to make sure to backup your database just in case.
+
 = 4.5 =
 * As of V4.3, the robots list is now stored in the database and is user configurable.  Because of this updates to the default robots list will not automatically be added during upgrades.  You can either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
 
@@ -162,6 +166,14 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 4.8 =
+* Added: Converting Gregorian date to Persian When enabled [wp-parsidate](http://wordpress.org/plugins/wp-parsidate/) plugin.
+* Added: New feature, option to record the number and type of excluded hits to your site.
+* Added: New exclusion types for login and admin pages.
+* Fixes: GeoIP populate code now REALLY functions again.
+* Updated: Arabic (ar) language.
+* Updated: Polish (pl_PL) language.
+
 = 4.7 =
 * Added: Responsive Stats page for smaller-screen devices.
 * Added: Dashicons icon for plugin page.

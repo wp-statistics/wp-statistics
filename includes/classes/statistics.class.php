@@ -122,9 +122,9 @@
 		public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null) {
 		
 			if( $strtotime ) {
-				return date($format, strtotime("{$strtotime} day") ) ;
+				return date_i18n($format, strtotime("{$strtotime} day") ) ;
 			} else {
-				return date($format) ;
+				return date_i18n($format) ;
 			}
 		}
 		

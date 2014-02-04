@@ -17,7 +17,7 @@
 			
 			
 			jQuery("#purge-data-submit").attr("disabled", "disabled");
-			jQuery("#purge-data-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/images/loading.gif'/>");
+			jQuery("#purge-data-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 			
 			jQuery.post("<?php echo parse_url(plugins_url('../purge-data.php', __FILE__), PHP_URL_PATH ); ?>", {purge_days:data['purge-days']})
 				.done(function(result){
@@ -43,7 +43,7 @@
 			
 			
 			jQuery("#empty-table-submit").attr("disabled", "disabled");
-			jQuery("#empty-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/images/loading.gif'/>");
+			jQuery("#empty-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 			
 			jQuery.post("<?php echo parse_url(plugins_url('../empty.php', __FILE__), PHP_URL_PATH ); ?>", {table_name:data['table-name']})
 				.done(function(result){
@@ -69,7 +69,7 @@
 			
 			
 			jQuery("#delete-agents-submit").attr("disabled", "disabled");
-			jQuery("#delete-agents-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/images/loading.gif'/>");
+			jQuery("#delete-agents-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 	
 			jQuery.post("<?php echo parse_url(plugins_url('../delete-agents.php', __FILE__), PHP_URL_PATH ); ?>", {agent_name:data['agent-name']})
 				.done(function(result){
@@ -97,7 +97,7 @@
 			
 			
 			jQuery("#delete-platforms-submit").attr("disabled", "disabled");
-			jQuery("#delete-platforms-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/images/loading.gif'/>");
+			jQuery("#delete-platforms-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 	
 			jQuery.post("<?php echo parse_url(plugins_url('../delete-platforms.php', __FILE__), PHP_URL_PATH ); ?>", {platform_name:data['platform-name']})
 				.done(function(result){
