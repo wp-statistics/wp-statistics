@@ -5,17 +5,12 @@
 </script>
 <?php
 	if( get_option( 'wps_record_exclusions' ) != 1 ) {
-		echo "<div class='updated settings-error'><p><strong>" . __('Attention: Exclusion are not currently set to be record, the results below may not reflect current statistics!', 'wp_statistics') . "</strong></p></div>";
+		echo "<div class='updated settings-error'><p><strong>" . __('Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!', 'wp_statistics') . "</strong></p></div>";
 	}
 
 	$daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } }
 	
-	$excluded_reasons = array(
-		__('Robot', 'wp_statistics'),
-		__('IP Match','Self Referral', 'wp_statistics'),
-		__('Login Page','Admin Page', 'wp_statistics'),
-		__('User Role', 'wp_statistics')
-	);
+	$excluded_reasons = array('Robot','IP Match','Self Referral','Login Page','Admin Page','User Role');
 	$excluded_results = array();
 	$excluded_total = 0;
 	
@@ -69,7 +64,7 @@
 									enabled: false
 								},
 								title: {
-									text: '<?php echo __('Exclusded hits chart in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
+									text: '<?php echo __('Excluded hits chart in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
 									style: {
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
@@ -93,7 +88,7 @@
 								yAxis: {
 									min: 0,
 									title: {
-										text: '<?php _e('Number of exclused hits', 'wp_statistics'); ?>',
+										text: '<?php _e('Number of excluded hits', 'wp_statistics'); ?>',
 										style: {
 											fontSize: '12px',
 											fontFamily: 'Tahoma'
