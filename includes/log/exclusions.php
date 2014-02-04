@@ -85,7 +85,7 @@
 									categories: [
 									<?php
 										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date('Y-m-d', '-'.$i).'"';
+											echo '"'.$wpstats->Current_Date_i18n('Y-m-d', '-'.$i).'"';
 											if( $i > 0 ) { echo ", "; }
 										}
 									?>]

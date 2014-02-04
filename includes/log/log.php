@@ -126,11 +126,11 @@
 								</tr>
 
 								<tr>
-									<th colspan="3"><?php echo sprintf(__('Date: <code dir="ltr">%s</code></code>', 'wp_statistics'), $wpstats->Current_Date(get_option('date_format'))); ?></th>
+									<th colspan="3"><?php echo sprintf(__('Date: <code dir="ltr">%s</code></code>', 'wp_statistics'), $wpstats->Current_Date_i18n(get_option('date_format'))); ?></th>
 								</tr>
 
 								<tr>
-									<th colspan="3"><?php echo sprintf(__('Time: <code dir="ltr">%s</code>', 'wp_statistics'), $wpstats->Current_Date(get_option('time_format'))); ?></th>
+									<th colspan="3"><?php echo sprintf(__('Time: <code dir="ltr">%s</code>', 'wp_statistics'), $wpstats->Current_Date_i18n(get_option('time_format'))); ?></th>
 								</tr>
 							</tbody>
 						</table>
@@ -405,7 +405,7 @@
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date('Y-m-d', '-'.$i).'"';
+											echo '"'.$wpstats->Current_Date_i18n('Y-m-d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]
@@ -500,7 +500,7 @@
 									categories: [
 									<?php
 										for( $i=20; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date('Y-m-d', '-'.$i).'"';
+											echo '"'.$wpstats->Current_Date_i18n('Y-m-d', '-'.$i).'"';
 											echo ", ";
 										}
 									?>]

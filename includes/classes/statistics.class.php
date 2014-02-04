@@ -122,6 +122,15 @@
 		public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null) {
 		
 			if( $strtotime ) {
+				return date($format, strtotime("{$strtotime} day") ) ;
+			} else {
+				return date($format) ;
+			}
+		}
+		
+		public function Current_Date_i18n($format = 'Y-m-d H:i:s', $strtotime = null) {
+		
+			if( $strtotime ) {
 				return date_i18n($format, strtotime("{$strtotime} day") ) ;
 			} else {
 				return date_i18n($format) ;

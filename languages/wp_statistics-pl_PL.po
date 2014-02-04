@@ -2,10 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-02 22:57+0330\n"
-"PO-Revision-Date: 2014-02-03 12:50+0100\n"
+"POT-Creation-Date: 2014-02-04 16:35+0330\n"
+"PO-Revision-Date: 2014-02-04 16:35+0330\n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
-"Language-Team: Radek <radekdb87@gmail.com>\n"
+"Language-Team: Radosław Rak <radekdb87@gmail.com>\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
 "X-Poedit-Basepath: F:\\Programming\\xampp\\htdocs\\cms\\wordpress\\wp-content"
 "\\plugins\\wp-statistics\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.5.5\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: F:\\Programming\\xampp\\htdocs\\cms\\wordpress\\wp-"
@@ -36,7 +36,7 @@ msgid "Show site stats in sidebar"
 msgstr "Pokaż statystyki stron w menu bocznym"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:19
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:174
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:175
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:36
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/widget.php:9
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:37
@@ -181,77 +181,83 @@ msgid "Hits"
 msgstr "Wejścia"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:130
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:92
+#, fuzzy
+msgid "Exclusions"
+msgstr "Dostęp/Wykluczenia"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:131
 msgid "Referers"
 msgstr "Strony odsyłające"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:131
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:132
 msgid "Searches"
 msgstr "Wyszukiwarki"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:132
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:133
 msgid "Search Words"
 msgstr "Wyszukiwane słowa"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:133
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:61
 msgid "Visitors"
 msgstr "Odzwiedzający"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:135
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:136
 msgid "Optimization"
 msgstr "Optymizacja"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:136
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:137
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:179
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:180
 msgid "Today visitor"
 msgstr "Dzisiaj odwiedziło"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:184
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:185
 msgid "Today visit"
 msgstr "Dzisiaj odwiedzin"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:189
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:190
 msgid "Yesterday visitor"
 msgstr "Wczoraj odwiedziło"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:194
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:195
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/widget.php:18
 msgid "Yesterday visit"
 msgstr "Wczoraj odwiedzin"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:199
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:200
 msgid "View Stats"
 msgstr "Zobacz statystyki"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:293
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:353
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:436
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:262
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:328
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:411
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nie posiadasz wystarczających uprawnień by wyświetlić tę stronę."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:303
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:274
 msgid "Table plugin does not exist! Please disable and re-enable the plugin."
 msgstr "Tabela wtyczki nie istnieje! Proszę wyłącz i włącz wtyczkę."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:390
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:365
 #, php-format
 msgid "Error downloading GeoIP database from: %s"
 msgstr "Błąd pobierania bazy danych GeoIP z: %s"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:398
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:373
 #, php-format
 msgid "Error could not open downloaded GeoIP database for reading: %s"
 msgstr "Nie mogę otworzyć pobranej bazy danych GeoIP odnoszącej się do: %s"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:404
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:379
 #, php-format
 msgid "Error could not open destination GeoIP database for writing %s"
 msgstr "Nie mogę otworzyć pobranej bazy danych GeoIP zapisanej w %s"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:417
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:392
 msgid "GeoIP Database updated successfully!"
 msgstr "Baza danych GeoIP zaktualizowana pomyślnie!"
 
@@ -267,6 +273,7 @@ msgstr "Statystyki przeglądarki"
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:23
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:129
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:273
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:55
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:35
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:66
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:56
@@ -314,49 +321,109 @@ msgstr "Wersja %s"
 msgid "Browser version share"
 msgstr "Udział wersji przeglądarki"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:8
+msgid ""
+"Attention: Exclusion are not currently set to be record, the results below "
+"may not reflect current statistics!"
+msgstr ""
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:14
+#, fuzzy
+msgid "Robot"
+msgstr "Lista robotów"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:15
+msgid "IP Match"
+msgstr ""
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:16
+msgid "Login Page"
+msgstr ""
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:17
+#, fuzzy
+msgid "User Role"
+msgstr "Osób online"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:35
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:17
 msgid "Hit Statistics"
 msgstr "Statystyki wejść"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:38
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:21
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:21
 msgid "10 Days"
 msgstr "10 dni"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:39
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:22
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:22
 msgid "20 Days"
 msgstr "20 dni"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:40
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:23
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:23
 msgid "30 Days"
 msgstr "30 dni"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:41
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:24
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:24
 msgid "2 Months"
 msgstr "2 miesiące"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:42
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:25
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:25
 msgid "3 Months"
 msgstr "3 miesiące"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:43
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:26
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:26
 msgid "6 Months"
 msgstr "6 miesięcy"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:44
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:27
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:27
 msgid "9 Months"
 msgstr "9 miesięcy"
 
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:45
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:28
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:28
 msgid "1 Year"
 msgstr "Rok"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:49
+#, fuzzy, php-format
+msgid "Total Exclusions: %s"
+msgstr "Wykluczenia adresów IP/robotów"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:56
+#, fuzzy
+msgid "Exclusions Statistical Chart"
+msgstr "Statystyczny wykres odsłon"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:72
+#, fuzzy
+msgid "Exclusded hits chart in the last"
+msgstr "Wykres odsłon w ostatnich"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:72
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:52
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:52
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:157
+msgid "days"
+msgstr "dniach"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:96
+#, fuzzy
+msgid "Number of exclused hits"
+msgstr "Liczba odwiedzin i odwiedzających"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:36
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:377
@@ -366,12 +433,6 @@ msgstr "Statystyczny wykres odsłon"
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:52
 msgid "Hits chart in the last"
 msgstr "Wykres odsłon w ostatnich"
-
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:52
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:52
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:157
-msgid "days"
-msgstr "dniach"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:76
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:416
@@ -734,7 +795,7 @@ msgstr "Wybierz typ liku wyjściowego."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-export.php:48
 msgid "Start Now!"
-msgstr "Rozpocznij!"
+msgstr "Rozpocznij"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:10
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:36
@@ -757,7 +818,7 @@ msgstr "Wszystkie dane tabeli będą utracone."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:144
 msgid "Clear now!"
-msgstr "Wyczyść!"
+msgstr "Wyczyść"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:152
 msgid "Purge records older than"
@@ -773,7 +834,7 @@ msgstr ""
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:159
 msgid "Purge now!"
-msgstr "Wyczyść!"
+msgstr "Wyczyść"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-purging.php:166
 msgid "Delete User Agent Types"
@@ -806,97 +867,97 @@ msgstr "Opcje GeoIP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-updates.php:31
 msgid "Update Now!"
-msgstr "Zaktualizuj!"
+msgstr "Zaktualizuj"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization-updates.php:32
 msgid "Get updates for the location and the countries, this may take a while"
 msgstr "Pobierz aktualizacje dla lokalizacji i krajów, może to chwilę potrwać"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:15
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:14
 msgid "Resources"
 msgstr "Zasoby"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:20
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:25
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:19
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:24
 msgid "Memory usage in PHP"
 msgstr "Zużycie pamięci w PHP"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:24
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:23
 msgid "Byte"
 msgstr "Bajt"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:31
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:30
 #, php-format
 msgid "Number of rows in the <code>%sstatistics_useronline</code> table"
 msgstr "Liczba rzędów w tabeli <code>%sstatistics_useronline</code>"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:35
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:46
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:57
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:34
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:45
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:56
 msgid "Row"
 msgstr "Rzędów"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:36
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:47
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:58
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:35
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:46
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:57
 msgid "Number of rows"
 msgstr "Liczba rzędów"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:42
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:41
 #, php-format
 msgid "Number of rows in the <code>%sstatistics_visit</code> table"
 msgstr "Liczba rzędów w tabeli <code>%sstatistics_visit</code>"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:53
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:52
 #, php-format
 msgid "Number of rows in the <code>%sstatistics_visitor</code> table"
 msgstr "Liczba rzędów w tabeli <code>%sstatistics_visitor</code>"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:63
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:62
 msgid "Version Info"
 msgstr "Informacje o wersji"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:68
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:67
 msgid "WP Statistics Version"
 msgstr "Wersja WP Statistics"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:73
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:72
 msgid "The WP Statistics version you are running."
 msgstr "Używasz wersji WP Statistics."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:79
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:78
 msgid "PHP Version"
 msgstr "Wersja PHP"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:84
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:83
 msgid "The PHP version you are running."
 msgstr "Używasz wersji PHP."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:90
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:89
 msgid "jQuery Version"
 msgstr "Wersja jQuery"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:95
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:94
 msgid "The jQuery version you are running."
 msgstr "Używasz wersji jQuery."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:100
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:99
 msgid "Client Info"
 msgstr "Informacje o kliencie"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:105
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:104
 msgid "Client IP"
 msgstr "Adres IP klienta"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:110
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:109
 msgid "The client IP address."
 msgstr "Adres IP Klienta."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:116
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:115
 msgid "User Agent"
 msgstr "Agent uzytkownika"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:121
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:120
 msgid "The client user agent string."
 msgstr "Ciąg agenta użytkownika klienta."
 
@@ -932,6 +993,8 @@ msgid ""
 "This will permanently delete data from the database each day, are you sure "
 "you want to enable this option?"
 msgstr ""
+"Spowoduje to trwałe usunięcie danych z bazy danych każdego dnia, czy na "
+"pewno chcesz włączyć tą opcję?"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:21
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:21
@@ -961,104 +1024,173 @@ msgstr "GeoIP"
 msgid "Maintenance"
 msgstr "Zarządzanie"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:58
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:32
+#, fuzzy
+msgid "Access Levels"
+msgstr "Dostęp zabroniony!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:61
 msgid "Required user level to view WP Statistics"
-msgstr ""
+msgstr "Wymagany poziom użytkownika, aby wyświetlić WP Statistics"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:73
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:76
 msgid "Required user level to manage WP Statistics"
-msgstr ""
+msgstr "Wymagany poziom użytkownika, aby zarządzać WP Statistics"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:81
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:84
 #, php-format
 msgid ""
 "See the  %sWordPress Roles and Capabilities page%s for details on capability "
 "levels."
 msgstr ""
+"Zobacz %s zasady WordPress oraz możliwości strony %s dla szczegółowych "
+"informacji na temat poziomów użytkowania."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:82
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:85
+#, fuzzy
 msgid ""
-"Hint: manage_network = Super Admin, manage_options = Administrator, "
+"Hint: manage_network = Super Admin Network, manage_options = Administrator, "
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
 "Contributor, read = Everyone."
 msgstr ""
+"Porada: manage_network = Super Admin, manage_options = Administrator, "
+"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
+"Contributor, read = Everyone."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:83
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:86
 msgid ""
 "Each of the above casscades the rights upwards in the default WordPress "
 "configuration.  So for example selecting publish_posts grants the right to "
 "Authors, Editors, Admins and Super Admins."
 msgstr ""
+"Każdy z powyższych górnych praw z góry ustawia domyślną konfigurację "
+"WordPress. Na przykład wybierając publish_posts daje prawo dla Autorów, "
+"Redaktorów, Administratorów i Super Administratorów."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:84
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:87
 #, php-format
 msgid ""
 "If you need a more robust solution to delegate access you might want to look "
 "at %s in the WordPress plugin directory."
 msgstr ""
+"Jeśli potrzebujesz bardziej niezawodne rozwiązanie do delegowania dostępu, "
+"możesz zajrzeć do %s w katalogu wtyczek WordPress."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:89
-msgid "Exclude User Roles"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:96
+#, fuzzy
+msgid "Record Exclusions"
+msgstr "Wykluczenia adresów IP/robotów"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:98
+msgid "Enable"
 msgstr ""
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:103
-msgid "Exclude"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:99
+msgid ""
+"This will record all the excluded hits in a separate table with the reasons "
+"why it was excluded but no other information.  This will generate a lot of "
+"data but is useful if you want to see the total number of hits your site "
+"gets, not just actual user visits."
 msgstr ""
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:104
+msgid "Exclude User Roles"
+msgstr "Wyklucz zasady użytkownika"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:120
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:165
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:172
+msgid "Exclude"
+msgstr "Wyklucz"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:121
 #, php-format
 msgid "Exclude %s role from data collection."
-msgstr ""
+msgstr "Wyklucz regułę %s z gromadzonych danych."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:110
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:127
 msgid "IP/Robot Exclusions"
-msgstr ""
+msgstr "Wykluczenia adresów IP/robotów"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:114
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:131
 msgid "Robot List"
-msgstr ""
+msgstr "Lista robotów"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:126
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:143
 msgid ""
 "A list of words (one per line) to match against to detect robots.  Entries "
 "must be at least 4 characters long or they will be ignored."
 msgstr ""
+"Lista słów (po jednym w wierszu) tak, aby zgadzały się z wykrytymi robotami. "
+"Wpisy muszą być co najmniej z 4 znakami lub będą one ignorowane."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:127
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:144
 msgid "Reset to Default"
-msgstr ""
+msgstr "Przywróć domyślne"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:131
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:148
 msgid "Excluded IP Address List"
-msgstr ""
+msgstr "Wykluczona lista adresów IP"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:134
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:151
 msgid ""
 "A list of IP addresses and (optional) subnet masks (one per line) to exclude "
 "from statistics collection (both 192.168.0.0/24 and "
 "192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address "
 "only, do not add any subnet value."
 msgstr ""
+"Lista adresów IP i (opcjonalnie) maski podsieci (po jednej w wierszu) można "
+"wyłączyć z gromadzonych statystyk (zarówno formaty 192.168.0.0/24 i "
+"192.168.0.0/255.255.255.0 są akceptowane). Aby podać tylko adres IP, nie "
+"należy dodawać żadnych wartości podsieci."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:135
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:152
 msgid "Add 10.0.0.0"
-msgstr ""
+msgstr "Dodaj 10.0.0.0"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:136
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:153
 msgid "Add 172.16.0.0"
+msgstr "Dodaj 172.16.0.0"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:154
+msgid "Add 192.168.0.0"
+msgstr "Dodaj 192.168.0.0"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:159
+#, fuzzy
+msgid "Site URL Exclusions"
+msgstr "Wykluczenia adresów IP/robotów"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:163
+msgid "Excluded Login Page"
 msgstr ""
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:137
-msgid "Add 192.168.0.0"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:166
+msgid "Exclude the login page for registering as a hit."
 msgstr ""
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:170
+msgid "Excluded Admin Pages"
+msgstr ""
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:173
+msgid "Exclude the admin pages for registering as a hit."
+msgstr ""
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:182
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:125
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-maintenance.php:65
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:222
+msgid "Update"
+msgstr "Zaktualizuj"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:32
 msgid "GeoIP settings"
-msgstr ""
+msgstr "Ustawienia GeoIP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:43
 msgid "GeoIP collection"
-msgstr ""
+msgstr "Biblioteka GeoIP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:48
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:72
@@ -1077,32 +1209,36 @@ msgid ""
 "For get more information and location (country) from visitor, enable this "
 "feature."
 msgstr ""
+"Dla uzyskania dodatkowych informacji i lokalizacji (kraju) z odwiedzającym, "
+"włącz tą funkcję."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:55
 msgid "Update GeoIP Info"
-msgstr ""
+msgstr "Aktualizacja informacji GeoIP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:60
 msgid "Download GeoIP Database"
-msgstr ""
+msgstr "Pobierz bazę danych GeoIP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:61
 msgid "Save changes on this page to download the update."
-msgstr ""
+msgstr "Zapisz zmiany na tej stronie, aby pobrać aktualizację."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:67
 msgid "Schedule monthly update of GeoIP DB"
-msgstr ""
+msgstr "Kalendarz miesięczny aktualizacji GeoIP DB"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:75
 msgid "Next update will be"
-msgstr ""
+msgstr "Następna aktualizacja będzie za"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:94
 msgid ""
 "Download of the GeoIP database will be scheduled for 2 days after the first "
 "Tuesday of the month."
 msgstr ""
+"Pobranie bazy danych GeoIP będzie zaplanowane na 2 dni po pierwszym Wtorku "
+"każdego miesiąca."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:95
 msgid ""
@@ -1110,14 +1246,18 @@ msgid ""
 "than 1k (which usually means the stub that comes with the plugin is still in "
 "place)."
 msgstr ""
+"Ta opcja również pobiera bazę danych, jeśli lokalny rozmiar pliku jest "
+"mniejszy niż 1k (który zazwyczaj oznacza odcinek, pochodzący z tej wtyczk "
+"jest nadal w tym miejscu)."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:101
 msgid "Populate missing GeoIP after update of GeoIP DB"
-msgstr ""
+msgstr "Wypełnienie brakujących GeoIP po aktualizacji GeoIP DB"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:107
 msgid "Update any missing GeoIP data after downloading a new database."
 msgstr ""
+"Zaktualizuj wszelkie brakujące dane GeoIP po pobraniu nowej bazy danych."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:115
 #, php-format
@@ -1125,12 +1265,8 @@ msgid ""
 "GeoIP collection requires PHP %s or above, it is currently disabled due to "
 "the installed PHP version being  "
 msgstr ""
-
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:125
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-maintenance.php:65
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:222
-msgid "Update"
-msgstr "Zaktualizuj"
+"Biblioteka GeoIP wymaga PHP %s lub nowszego, obecnie jest wyłączona z powodu "
+"zainstalowanej istniejącej wersji PHP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-maintenance.php:32
 msgid "Database Maintenance"
@@ -1189,7 +1325,7 @@ msgstr "Włączone tylko do debugowania"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:85
 msgid "Check for online users every"
-msgstr "Sprawdź użytkowników online co"
+msgstr "Sprawdź aktywne osoby co"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:90
 msgid "Second"

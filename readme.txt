@@ -4,7 +4,7 @@ Donate link: http://iran98.org/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 4.8
+Stable tag: 4.8.1
 License: GPL2
 
 Complete statistics for your blog.
@@ -166,6 +166,9 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 4.8.1 =
+* Fixes: Small bug in `Current_Date`.
+
 = 4.8 =
 * Added: Converting Gregorian date to Persian When enabled [wp-parsidate](http://wordpress.org/plugins/wp-parsidate/) plugin.
 * Added: New feature, option to record the number and type of excluded hits to your site.
