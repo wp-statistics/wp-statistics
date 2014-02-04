@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wp-statistics\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-04 16:35+0330\n"
-"PO-Revision-Date: 2014-02-04 16:35+0330\n"
+"PO-Revision-Date: 2014-02-04 14:35+0100\n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team: Radosław Rak <radekdb87@gmail.com>\n"
 "Language: pl_PL\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
 "X-Poedit-Basepath: F:\\Programming\\xampp\\htdocs\\cms\\wordpress\\wp-content"
 "\\plugins\\wp-statistics\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.6.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: F:\\Programming\\xampp\\htdocs\\cms\\wordpress\\wp-"
@@ -182,9 +182,8 @@ msgstr "Wejścia"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:130
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:92
-#, fuzzy
 msgid "Exclusions"
-msgstr "Dostęp/Wykluczenia"
+msgstr "Wykluczenia"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:131
 msgid "Referers"
@@ -326,29 +325,29 @@ msgid ""
 "Attention: Exclusion are not currently set to be record, the results below "
 "may not reflect current statistics!"
 msgstr ""
+"Uwaga: Wykluczenie nie jest obecnie ustawione jako rekord, poniższe wyniki "
+"mogą nie odzwierciedlać bieżących statystyk!"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:14
-#, fuzzy
 msgid "Robot"
-msgstr "Lista robotów"
+msgstr "Roboty"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:15
 msgid "IP Match"
-msgstr ""
+msgstr "Adres IP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:16
 msgid "Login Page"
-msgstr ""
+msgstr "Strona logowania"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:17
-#, fuzzy
 msgid "User Role"
 msgstr "Osób online"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:35
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:17
 msgid "Hit Statistics"
-msgstr "Statystyki wejść"
+msgstr "Statystyki odsłon"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:38
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:21
@@ -399,19 +398,17 @@ msgid "1 Year"
 msgstr "Rok"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:49
-#, fuzzy, php-format
+#, php-format
 msgid "Total Exclusions: %s"
-msgstr "Wykluczenia adresów IP/robotów"
+msgstr "Razem wykluczeń: %s"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:56
-#, fuzzy
 msgid "Exclusions Statistical Chart"
 msgstr "Statystyczny wykres odsłon"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:72
-#, fuzzy
 msgid "Exclusded hits chart in the last"
-msgstr "Wykres odsłon w ostatnich"
+msgstr "Wykres wykluczonych odsłon w ostatnich"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:72
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:52
@@ -421,9 +418,8 @@ msgid "days"
 msgstr "dniach"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:96
-#, fuzzy
 msgid "Number of exclused hits"
-msgstr "Liczba odwiedzin i odwiedzających"
+msgstr "Liczba wykluczonych odsłon"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:36
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:377
@@ -1025,9 +1021,8 @@ msgid "Maintenance"
 msgstr "Zarządzanie"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:32
-#, fuzzy
 msgid "Access Levels"
-msgstr "Dostęp zabroniony!"
+msgstr "Dostęp do poziomów"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:61
 msgid "Required user level to view WP Statistics"
@@ -1047,15 +1042,14 @@ msgstr ""
 "informacji na temat poziomów użytkowania."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:85
-#, fuzzy
 msgid ""
 "Hint: manage_network = Super Admin Network, manage_options = Administrator, "
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
 "Contributor, read = Everyone."
 msgstr ""
-"Porada: manage_network = Super Admin, manage_options = Administrator, "
-"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
-"Contributor, read = Everyone."
+"Porada: manage_network = Super Admin Network, manage_options = "
+"Administrator, edit_others_posts = Editor, publish_posts = Author, "
+"edit_posts = Contributor, read = Everyone."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:86
 msgid ""
@@ -1077,13 +1071,12 @@ msgstr ""
 "możesz zajrzeć do %s w katalogu wtyczek WordPress."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:96
-#, fuzzy
 msgid "Record Exclusions"
-msgstr "Wykluczenia adresów IP/robotów"
+msgstr "Zarejestrowane wykluczenia"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:98
 msgid "Enable"
-msgstr ""
+msgstr "Włącz"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:99
 msgid ""
@@ -1092,6 +1085,10 @@ msgid ""
 "data but is useful if you want to see the total number of hits your site "
 "gets, not just actual user visits."
 msgstr ""
+"Będzie to rekord wszystkich wykluczonych odsłon w oddzielnej tabeli z "
+"powodu, dla których zostały wykluczone z pominięciem innych informacji. "
+"Dzięki temu uzyskasz sporo danych, jeśli chcesz zobaczyć łączną liczbę "
+"odsłon strony otrzymując, nie tylko rzeczywiste odwiedziny użytkowników."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:104
 msgid "Exclude User Roles"
@@ -1157,25 +1154,24 @@ msgid "Add 192.168.0.0"
 msgstr "Dodaj 192.168.0.0"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:159
-#, fuzzy
 msgid "Site URL Exclusions"
-msgstr "Wykluczenia adresów IP/robotów"
+msgstr "Wykluczenia adresów URL"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:163
 msgid "Excluded Login Page"
-msgstr ""
+msgstr "Wykluczona strona logowania"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:166
 msgid "Exclude the login page for registering as a hit."
-msgstr ""
+msgstr "Wyklucz stronę logowania do rejestracji jako wejście."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:170
 msgid "Excluded Admin Pages"
-msgstr ""
+msgstr "Wykluczone strony administracji"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:173
 msgid "Exclude the admin pages for registering as a hit."
-msgstr ""
+msgstr "Wyklucz strony administracji do rejestracji jako wejście."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-access-level.php:182
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-geoip.php:125

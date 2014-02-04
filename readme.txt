@@ -169,6 +169,7 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 = 4.8.1 =
 * Fixes: Small bug in the `Current_Date`.
 * Fixes: Small bug in the `exclusions.php` file.
+* Updated: Polish (pl_PL) language.
 
 = 4.8 =
 * Added: Converting Gregorian date to Persian When enabled [wp-parsidate](http://wordpress.org/plugins/wp-parsidate/) plugin.
