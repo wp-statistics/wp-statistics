@@ -1,0 +1,8 @@
+#adminmenu #toplevel_page_wp-statistics-wp-statistics .wp-menu-image:before {
+	content: "\f184";
+}
+
+#wp-admin-bar-wp-statistic-menu .ab-icon:before{
+	font-family: "dashicons" !important;
+	content: "\f184" !important;
+}
