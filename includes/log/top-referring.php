@@ -44,7 +44,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<?php if($referr) { ?>
-						<h3 class="hndle"><span><?php _e('Referring sites from', 'wp_statistics'); ?>: referr</span></h3>
+						<h3 class="hndle"><span><?php _e('Referring sites from', 'wp_statistics'); ?>: <?php echo $referr; ?></span></h3>
 					<?php } else { ?>
 						<h3 class="hndle"><span><?php _e('Top referring sites', 'wp_statistics'); ?></span></h3>
 					<?php } ?>
@@ -75,9 +75,17 @@
 											echo "<div class='log-referred'><a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 											echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 											echo "<div class='clear'></div>";
-											echo "<a class='show-map'><img src='".plugins_url('wp-statistics/assets/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
-											echo "<a href='?page=wps_referers_menu&agent={$items->agent}'><img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
-											echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
+											echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'><div class='dashicons dashicons-location-alt'></div></a>";
+											
+											if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
+												$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
+											} else {
+												$agent = "<div class='dashicons dashicons-editor-help'></div>";
+											}
+											
+											echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
+											
+											echo "<div class='log-url'><a href='{$items->referred}'><div class='dashicons dashicons-admin-links'></div> ".substr($items->referred, 0, 100)."[...]</a></div>";
 										echo "</div>";
 									
 									}
@@ -108,7 +116,7 @@
 											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></div>";
 											echo "<div class='log-ip'>".__('Reference', 'wp_statistics').": {$value}</div>";
 											echo "<div class='clear'></div>";
-											echo "<div class='log-url'><a href='http://{$items}/'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items}'/> http://{$items}/</a></div>";
+											echo "<div class='log-url'><a href='http://{$items}/' title='{$items}'><div class='dashicons dashicons-admin-links'></div> http://{$items}/</a></div>";
 										echo "</div>";
 										
 									}

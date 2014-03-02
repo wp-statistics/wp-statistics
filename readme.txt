@@ -1,10 +1,10 @@
 === Wordpress Statistics ===
 Contributors: mostafa.s1990
-Donate link: http://iran98.org/donate/
+Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 4.8.1
+Stable tag: 5.0
 License: GPL2
 
 Complete statistics for your blog.
@@ -59,7 +59,7 @@ Language Support:
 * Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
 * Spanish Thanks Jose
 * Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
-* Turkish [Thanks aidinMC](http://www.artadl.ir/) & [Manset27.com](http://www.manset27.com/)
+* Turkish [Thanks aidinMC](http://www.artadl.ir/) & [Manset27.com](http://www.manset27.com/) & [Abdullah Manaz](http://www.manaz.net/)
 * Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/)
 * German [Thanks Andreas Martin](http://www.andreasmartin.com/)
 * Russian [Thanks Oleg](http://www.bestplugins.ru/)
@@ -84,6 +84,31 @@ Support Forum in [WordPress support forum Persian](http://forum.wp-parsi.com/for
 3. Make sure the Date and Time is set correctly in Wordpress.
 4. Go to the plugin settings page and configure as required (note this will also download the GeoIP database for the fist time).
 
+== Shortcode Reference ==
+To display stats in your post, page or widget you can use the following shortcodes:
+
+WP Statitics shortcode is in the format of:
+`[wpstatistics stat=xxx time=xxxx provider=xxxx]`
+
+Where:
+`stat` = the statistic you want.
+`time` = is the timeframe, strtotime() will be used to calculate it.
+`provider `= the search provider to get stats on.
+
+* User online: `[wpstatistics stat="usersonline"]`
+* Today visit: `[wpstatistics stat="visits" time="today"]`
+* Today vistors: `[wpstatistics stat="vistors" time="today"]`
+* All Search Engine reffered: `[wpstatistics stat="searchs" provider="all"]`
+* Total posts: `[wpstatistics stat="postcount"]`
+* Total pages: `[wpstatistics stat="pagecount"]`
+* Total comments: `[wpstatistics stat="commentcount"]`
+* Total spams: `[wpstatistics stat="spamcount"]`
+* Total users: `[wpstatistics stat="usercount"]`
+* Average posts: `[wpstatistics stat="postaverage"]`
+* Average comments: `[wpstatistics stat="commentaverage"]`
+* Average users: `[wpstatistics stat="useraverage"]`
+* Last post date: `[wpstatistics stat="lpd"]`
+
 == Function Reference ==
 To display stats in your own pages you can use the following functions:
 
@@ -104,24 +129,23 @@ To display stats in your own pages you can use the following functions:
 * Number of visits of 40 days to today: `<?php echo wp_statistics_visit('-45'); ?>`
 * Number of visitors 45 days ago: `<?php echo wp_statistics_visitor('-45', true); ?>`
 * Number of visits 45 days ago: `<?php echo wp_statistics_visit('-45', true); ?>`
-* All Search Engine reffered `<?php echo wp_statistics_searchengine(); ?>`
-* Google Search Engine reffered `<?php echo wp_statistics_searchengine('google'); ?>`
-* Yahoo Search Engine reffered `<?php echo wp_statistics_searchengine('yahoo'); ?>`
-* Bing Search Engine reffered `<?php echo wp_statistics_searchengine('bing'); ?>`
-* Google Search Engine reffered in today  `<?php echo wp_statistics_searchengine('google', 'today'); ?>`
-* Google Search Engine reffered in yesterday  `<?php echo wp_statistics_searchengine('google', 'yesterday'); ?>`
-* Google Search Engine reffered in 5 days ago `<?php echo wp_statistics_searchengine('google', '-5'); ?>`
+* All Search Engine reffered: `<?php echo wp_statistics_searchengine(); ?>`
+* Google Search Engine reffered: `<?php echo wp_statistics_searchengine('google'); ?>`
+* Yahoo Search Engine reffered: `<?php echo wp_statistics_searchengine('yahoo'); ?>`
+* Bing Search Engine reffered: `<?php echo wp_statistics_searchengine('bing'); ?>`
+* Google Search Engine reffered in today: `<?php echo wp_statistics_searchengine('google', 'today'); ?>`
+* Google Search Engine reffered in yesterday: `<?php echo wp_statistics_searchengine('google', 'yesterday'); ?>`
+* Google Search Engine reffered in 5 days ago: `<?php echo wp_statistics_searchengine('google', '-5'); ?>`
 * Total All Search Enginee reffered `<?php echo wp_statistics_searchengine('all', 'total'); ?>`
-* Total posts `<?php echo wp_statistics_countposts(); ?>`
-* Total pages `<?php echo wp_statistics_countpages(); ?>`
-* Total comments `<?php echo wp_statistics_countcomment(); ?>`
-* Total spams `<?php echo wp_statistics_countspam(); ?>`
-* Total users `<?php echo wp_statistics_countusers(); ?>`
-* Last post date `<?php echo wp_statistics_lastpostdate(); ?>`
-* Last post date (Persian) `<?php echo wp_statistics_lastpostdate('farsi'); ?>`
-* Average posts `<?php echo wp_statistics_average_post(); ?>`
-* Average comments `<?php echo wp_statistics_average_comment(); ?>`
-* Average users `<?php echo wp_statistics_average_registeruser(); ?>`
+* Total posts: `<?php echo wp_statistics_countposts(); ?>`
+* Total pages: `<?php echo wp_statistics_countpages(); ?>`
+* Total comments: `<?php echo wp_statistics_countcomment(); ?>`
+* Total spams: `<?php echo wp_statistics_countspam(); ?>`
+* Total users: `<?php echo wp_statistics_countusers(); ?>`
+* Last post date: `<?php echo wp_statistics_lastpostdate(); ?>`
+* Average posts: `<?php echo wp_statistics_average_post(); ?>`
+* Average comments: `<?php echo wp_statistics_average_comment(); ?>`
+* Average users: `<?php echo wp_statistics_average_registeruser(); ?>`
 
 == Frequently Asked Questions ==
 = How to update to version 3.0? =
@@ -166,6 +190,19 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 5.0 =
+* Added: Show last visitor in Google Map.
+* Added: Search visitor by IP in log pages.
+* Added: Total line to charts with multiple values, like the search engine referrals.
+* Added: Shortcodes. [By Greg Ross](http://profiles.wordpress.org/gregross)
+* Added: Dashicons to log pages.
+* Fixes: Small bugs.
+* Fixes: More debug warnings.
+* Fixes: User access function level code always returned manage_options no matter what it was actaully set to.
+* Updated: Hungarian (hu_HU) language.
+* Updated: Turkish (tr_TR) language.
+* Removed: Parameter from `wp_statistics_lastpostdate()` function and return date type became dynamic.
+
 = 4.8.1 =
 * Fixes: Small bug in the `Current_Date`.
 * Fixes: Small bug in the `exclusions.php` file.

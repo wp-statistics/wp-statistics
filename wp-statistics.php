@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Wordpress Statistics
-Plugin URI: http://iran98.org/category/wordpress/wp-statistics/
+Plugin URI: http://mostafa-soufi.ir/
 Description: Complete statistics for your blog.
-Version: 4.8.1
+Version: 5.0
 Author: Mostafa Soufi
 Author URI: http://mostafa-soufi.ir/
 Text Domain: wp_statistics
@@ -15,7 +15,7 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '4.8.1');
+	define('WP_STATISTICS_VERSION', '5.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
@@ -54,14 +54,20 @@ License: GPL2
 	
 	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
 	include_once dirname( __FILE__ ) . '/widget.php';
+	include_once dirname( __FILE__ ) . '/shortcode.php';
 	include_once dirname( __FILE__ ) . '/schedule.php';
 	
 	function wp_statistics_not_enable() {
 		$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
-		echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+		
+		if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') )
+			echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+		
+		if(!get_option('wps_geoip'))
+			echo '<div class="error"><p>'.sprintf(__('GeoIP collection is not active! Please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';
 	}
 
-	if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') ) {
+	if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') || !get_option('wps_geoip') ) {
 		add_action('admin_notices', 'wp_statistics_not_enable');
 	}
 
@@ -95,23 +101,17 @@ License: GPL2
 		global $wp_roles;
 
 		$role_list = $wp_roles->get_names();
-		$all_caps = array();
 
 		foreach( $wp_roles->roles as $role ) {
 		
 			$cap_list = $role['capabilities'];
 			
 			foreach( $cap_list as $key => $cap ) {
-				if( substr($key,0,6) != 'level_' ) {
-					if( array_key_exists( $capability, $all_caps ) ) { return $capability; }
-				}
+				if( $capability == $key ) { return $capability; }
 			}
 		}
 
-		if( $all_caps[$capability] == 1 ) { return $capability; }
-		
 		return 'manage_options';
-	
 	}
 	
 	function wp_statistics_menu() {
@@ -138,7 +138,7 @@ License: GPL2
 	}
 	add_action('admin_menu', 'wp_statistics_menu');
 	
-	function wp_statistics_icon() {
+	function wp_statistics_menu_icon() {
 	
 		global $wp_version;
 		
@@ -148,7 +148,7 @@ License: GPL2
 			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin-old.css', true, '1.0');
 		}
 	}
-	add_action('admin_head', 'wp_statistics_icon');
+	add_action('admin_head', 'wp_statistics_menu_icon');
 	
 	function wp_statistics_menubar() {
 	

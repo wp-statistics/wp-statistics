@@ -1,3 +1,4 @@
+
 #right-log {
     width: 31%;
 }
@@ -6,35 +7,32 @@
     width: 68%;
 }
 @media screen and (max-width: 960px) {
-	#right-log {
-	    width: 35%;
-	}
-	#left-log {
-	    margin: 0 0 0 1%;
-	    width: 63%;
-	}
+#right-log {
+    width: 35%;
 }
-
+#left-log {
+    margin: 0 0 0 1%;
+    width: 63%;
+}
+}
 @media screen and (max-width: 758px) {
-	#right-log {
-	    width: 100%;
-	}
-	#left-log {
-	    margin: 0 0 0 1%;
-	    width: 100%;
-	}
+#right-log {
+    width: 100%;
 }
-
+#left-log {
+    margin: 0 0 0 1%;
+    width: 100%;
+}
+}
 @media screen and (max-width: 524px) {
-	#right-log {
-	    width: 100%;
-	}
-	#left-log {
-	    margin: 0 0 0 1%;
-	    width: 100%;
-	}
+#right-log {
+    width: 100%;
 }
-
+#left-log {
+    margin: 0 0 0 1%;
+    width: 100%;
+}
+}
 #last-log {
     width: 100%;
 }
@@ -98,6 +96,25 @@
     text-align: left;
     white-space: nowrap;
 }
+#map_canvas {
+    direction: ltr;
+    height: 380px;
+    width: 100%;
+}
+.map-html-marker {
+    max-height: 170px;
+    width: 200px;
+}
+.map-html-marker p {
+    border-bottom: 1px dashed #EFEFEF;
+    font-size: 10px;
+    margin: 2px 0;
+    padding: 3px 0;
+    text-align: left;
+}
+.map-html-marker p:last-child {
+    border-bottom: 0 none;
+}
 .log-latest {
 }
 .log-item {
@@ -108,6 +125,9 @@
 }
 .log-item:hover {
     background: none repeat scroll 0 0 #EEEEEE;
+}
+.show-map {
+    float: left;
 }
 .log-referred {
     float: left;
@@ -127,13 +147,16 @@
     float: left;
     margin: 0 2px;
 }
+.log-agent {
+    float: left;
+}
 .log-url {
     direction: ltr;
     float: left;
     font-size: 10px;
-    overflow: hidden;
+    margin: 0 0 0 2px;
     white-space: nowrap;
-    width: 90%;
+    width: 85%;
 }
 .log-url img {
 }
@@ -161,7 +184,7 @@
 #visits-stats {
     direction: ltr;
 }
-#exclusion-stats{
+#exclusion-stats {
     direction: ltr;
 }
 #search-stats {

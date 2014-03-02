@@ -81,15 +81,6 @@
 
 	<li><input type="checkbox" id="lpd_widget" class="lpd_widget" name="lpd_widget" <?php checked('on', get_option('lpd_widget')); ?>/>
 	<label for="lpd_widget"><?php _e('Last Post Date', 'wp_statistics'); ?></label></li>
-
-	<p id="lpd_option" style="<?php if(!get_option('lpd_widget')) { echo "display: none;"; } ?>">
-		<?php _e('Type date for last update', 'wp_statistics'); ?>:<br />
-		<input id="wp_statistics_widget_endate" name="select_lps" value="english" type="radio" <?php checked( 'english', get_option('select_lps') ); ?>/>
-		<label for="wp_statistics_widget_endate"><?php _e('English', 'wp_statistics'); ?></label>
-			
-		<input id="wp_statistics_widget_jdate" name="select_lps" value="farsi" type="radio" <?php checked( 'farsi', get_option('select_lps') ); ?>/>	
-		<label for="wp_statistics_widget_jdate"><?php _e('Persian', 'wp_statistics'); ?></label>
-	</p>
 </ul>
 
 <input type="hidden" id="wp_statistics_control_widget_submit" name="wp_statistics_control_widget_submit" value="1" />

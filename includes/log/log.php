@@ -4,11 +4,11 @@
 			alert('<?php _e('To be added soon', 'wp_statistics'); ?>');
 		});
 
-	postboxes.add_postbox_toggles(pagenow);
+		postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
 <?php 
-	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
+	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php");
 	
 	$search_engines = wp_statistics_searchengine_list();
 	
@@ -139,7 +139,7 @@
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?> <a href="?page=wps_browsers_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?> <a href="?page=wps_browsers_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						jQuery(function () {
@@ -240,7 +240,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Top referring sites', 'wp_statistics'); ?></span> <a href="?page=wps_referers_menu"><?php _e('(See more)', 'wp_statistics'); ?></a>
+						<span><?php _e('Top referring sites', 'wp_statistics'); ?></span> <a href="?page=wps_referers_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a>
 					</h3>
 					<div class="inside">
 						<div class="inside">
@@ -285,7 +285,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Top 10 Countries', 'wp_statistics'); ?> <a href="?page=wps_countries_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Top 10 Countries', 'wp_statistics'); ?> <a href="?page=wps_countries_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
 						<div class="inside">
@@ -313,7 +313,7 @@
 										
 										echo "<tr>";
 										echo "<td style='text-align: left'>$i</td>";
-										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='".__($ISOCountryCode[$item], 'wp_statistics')."'/></td>";
+										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='{$ISOCountryCode[$item]}'/></td>";
 										echo "<td style='text-align: left'>{$ISOCountryCode[$item]}</td>";
 										echo "<td style='text-align: left'>{$value}</td>";
 										echo "</tr>";
@@ -336,7 +336,7 @@
 							<p><a href="http://teamwork.wp-parsi.com/projects/wp-statistics/" target="_blank"><?php _e('Translations', 'wp_statistics'); ?></a></p> |
 							<p><a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank"><?php _e('Support', 'wp_statistics'); ?></a> / <a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank"><?php _e('Farsi', 'wp_statistics'); ?></a></p> |
 							<p><a href="https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream" target="_blank"><?php _e('Facebook', 'wp_statistics'); ?></a></p> |
-							<p><a href="http://iran98.org/" target="_blank"><?php _e('Weblog', 'wp_statistics'); ?></a></p>
+							<p><a href="http://mostafa-soufi.ir/blog/" target="_blank"><?php _e('Weblog', 'wp_statistics'); ?></a></p>
 						</div>
 						
 						<hr />
@@ -354,7 +354,7 @@
 							</div>
 							
 							<div class="right-div">
-								<a href="http://iran98.org/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/><br /><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/tdCflg.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
+								<a href="http://mostafa-soufi.ir/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/><br /><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/tdCflg.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
 							</div>
 						</div>
 						
@@ -372,9 +372,10 @@
 	<div class="postbox-container" id="left-log">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
+				<?php if( !get_option('wps_map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_hits_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_hits_menu"> <?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -469,7 +470,7 @@
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Search Engine Referrers Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Search Engine Referrers Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -535,13 +536,31 @@
 								},
 								series: [
 <?php
+								$total_stats = get_option( 'wps_chart_totals' );
+								$total_daily = array();
+
 								foreach( $search_engines as $se ) {
 									echo "								{\n";
 									echo "									name: '" . __($se['name'], 'wp_statistics') . "',\n";
 									echo "									data: [";
 
 									for( $i=20; $i>=0; $i--) {
-										echo wp_statistics_searchengine($se['tag'], '-'.$i) . ", ";
+										$result = wp_statistics_searchengine($se['tag'], '-'.$i) . ", ";
+										$total_daily[$i] += $result;
+										echo $result;
+									}
+									
+									echo "]\n";
+									echo "								},\n";
+								}
+								
+								if( $total_stats == 1 ) {
+									echo "								{\n";
+									echo "									name: '" . __('Total', 'wp_statistics') . "',\n";
+									echo "									data: [";
+
+									for( $i=20; $i>=0; $i--) {
+										echo $total_daily[$i] . ", ";
 									}
 									
 									echo "]\n";
@@ -562,10 +581,9 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Latest search words', 'wp_statistics'); ?> <a href="?page=wps_words_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Latest search words', 'wp_statistics'); ?> <a href="?page=wps_words_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
-							
 							<?php
 								// Retrieve MySQL data
 								$search_query = wp_statistics_searchword_query('all');
@@ -575,20 +593,30 @@
 								echo "<div class='log-latest'>";
 								
 								foreach($result as $items) {
-								
 									if( !$wpstats->Search_Engine_QueryString($items->referred) ) continue;
 									
 									echo "<div class='log-item'>";
 										echo "<div class='log-referred'>".substr($wpstats->Search_Engine_QueryString($items->referred), 0, 100)."</div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
-										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/assets/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
+										echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
+										
+										if(get_option('wps_geoip')) {
+											echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+										}
 										
 										$this_search_engine = $wpstats->Search_Engine_Info($items->referred);
 										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
 										
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/></a>";
-										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 100)."[...]</a></div>";
+										if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
+											$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
+										} else {
+											$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
+										}
+										
+										echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
+										
+										echo "<div class='log-url'><a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".substr($items->referred, 0, 100)."[...]</a></div>";
 									echo "</div>";
 								}
 								
@@ -596,11 +624,13 @@
 							?>
 					</div>
 				</div>
+
+				<?php if( get_option('wps_map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } ?>
 				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Recent Visitors', 'wp_statistics'); ?> <a href="?page=wps_visitors_menu"><?php _e('(See more)', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Recent Visitors', 'wp_statistics'); ?> <a href="?page=wps_visitors_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
 							
@@ -610,27 +640,26 @@
 								echo "<div class='log-latest'>";
 								
 								foreach($result as $items) {
-								
 									echo "<div class='log-item'>";
-										echo "<div class='log-referred'><a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
+										echo "<div class='log-referred'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&ip={$items->ip}'>".wp_statistics_icons('dashicons-visibility', 'visibility')."{$items->ip}</a></div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
-										echo "<a class='show-map'><img src='".plugins_url('wp-statistics/assets/images/map.png')."' class='log-tools' title='".__('Map', 'wp_statistics')."'/></a>";
-										echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='".__($ISOCountryCode[$items->location], 'wp_statistics')."' class='log-tools'/>";
+										echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 										
-										if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ) 
-											{
-											$AgentImage = $items->agent . ".png";
-											}
-										else
-											{
-											$AgentImage = "unknown.png";
-											}
+										if(get_option('wps_geoip')) {
+											echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+										}
 										
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'><img src='".plugins_url('wp-statistics/assets/images/').$AgentImage."' class='log-tools' title='{$items->agent}'/></a>";
-										echo "<div class='log-url'><a href='{$items->referred}'><img src='".plugins_url('wp-statistics/assets/images/link.png')."' title='{$items->referred}'/> ".substr($items->referred, 0, 80)."[...]</a></div>";
+										if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
+											$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
+										} else {
+											$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
+										}
+										
+										echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
+										
+										echo "<div class='log-url'><a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".substr($items->referred, 0, 100)."[...]</a></div>";
 									echo "</div>";
-									
 								}
 								
 								echo "</div>";
@@ -641,3 +670,104 @@
 		</div>
 	</div>
 </div>
+<?php
+	function generate_map_html($wpstats, $ISOCountryCode) {
+	
+		global $wpdb, $table_prefix;
+		
+		if(get_option('wps_geoip') && !get_option('wps_disable_map') ) { ?>
+			<div class="postbox">
+				<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
+				<h3 class="hndle"><span><?php _e('Today visitors on map', 'wp_statistics'); ?></span></h3>
+				<div class="inside">
+					<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+					<div id="map_canvas">Google Map</div>
+					
+					<?php $result = $wpdb->get_row("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE last_counter = '{$wpstats->Current_Date('Y-m-d')}'"); ?>
+					<script type="text/javascript">
+						function initialize() {
+							var map_options = {
+								center: new google.maps.LatLng(<?php echo wp_statistics_get_gmap_coordinate($result->location, 'lat'); ?>, <?php echo wp_statistics_get_gmap_coordinate($result->location, 'lng'); ?>),
+								zoom: 2,
+								mapTypeId: google.maps.MapTypeId.ROADMAP
+							};
+							
+							var google_map = new google.maps.Map(document.getElementById("map_canvas"), map_options);
+							
+							var info_window = new google.maps.InfoWindow({
+								content: 'loading'
+							});
+							
+							var t = [];
+							var x = [];
+							var y = [];
+							var h = [];
+							
+							<?php
+								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE last_counter = '{$wpstats->Current_Date('Y-m-d')}'");
+								$final_result = array();
+								
+								if( $result ) {
+									foreach($result as $new_r) {
+										$final_result[$new_r->location][] = array
+										(
+											'location' => $new_r->location,
+											'agent' => $new_r->agent,
+											'ip' => $new_r->ip
+										);
+									}
+								}
+								
+								unset($final_result['000']);
+								
+								foreach($final_result as $items) {
+								
+									foreach($items as $markets) {
+									
+										if($markets['location'] == '000') continue;
+										
+										$flag = "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $markets['location'] . '.png')."' title='{$ISOCountryCode[$markets['location']]}' class='log-tools'/> {$ISOCountryCode[$markets['location']]}";
+										
+										if( array_search( strtolower( $markets['agent'] ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
+											$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$markets['agent'].".png' class='log-tools' title='{$markets['agent']}'/>";
+										} else {
+											$agent = "<img src='".plugins_url('wp-statistics/assets/images/unknown.png')."' class='log-tools' title='{$markets['agent']}'/>";
+										}
+										
+										$get_ipp[$markets['location']][] = "<p>{$agent} {$markets[ip]}</p>";
+									}
+									?>
+										t.push('<?php echo $ISOCountryCode[$markets['location']]; ?>');
+										x.push(<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lat'); ?>);
+										y.push(<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lng'); ?>);
+										h.push("<div class='map-html-marker'><?php echo $flag . '<hr />' . implode('', $get_ipp[$markets['location']]); ?></div>");
+										<?php
+								}
+							?>
+							var i = 0;
+							for ( item in t ) {
+								var m = new google.maps.Marker({
+									map:		google_map,
+									animation:	google.maps.Animation.DROP,
+									title:		t[i],
+									position:	new google.maps.LatLng(x[i],y[i]),
+									html:		h[i],
+									icon:		'<?php echo plugins_url('wp-statistics/assets/images/marker.png'); ?>'
+								});
+
+								google.maps.event.addListener(m, 'click', function() {
+									info_window.setContent(this.html);
+									info_window.open(google_map, this);
+								});
+								i++;
+							}
+						}
+						
+						initialize();
+					</script>
+				</div>
+			</div>
+			<?php 
+		}
+	}
+?>

@@ -18,6 +18,47 @@
 	
 	<table class="form-table">
 		<tbody>
+				<tr valign="top">
+				<th scope="row" colspan="2"><h3><?php _e('GeoIP File Info', 'wp_statistics'); ?></h3></th>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('File Date', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php $GeoIP_filename =	realpath( dirname( __FILE__ ) . "/../../../GeoIP2-db/GeoLite2-Country.mmdb"); 
+					$GeoIP_filedate = filemtime( $GeoIP_filename );
+					
+					echo date_i18n(get_option('date_format') . ' @ ' . get_option('time_format'), $GeoIP_filedate); ?></strong>
+					<p class="description"><?php _e('The file date of the GeoIP database.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('File Size', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo formatSize( filesize( $GeoIP_filename ) );
+					
+					/* format size of file 
+					* @author Mike Zriel
+					* @date 7 March 2011
+					* @website www.zriel.com
+					*/
+					function formatSize($size) {
+					$sizes = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
+					if ($size == 0) { return('n/a'); } else {
+					return (round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) . $sizes[$i]); }
+					}
+					?></strong>
+					<p class="description"><?php _e('The file size of the GeoIP database.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
 			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('GeoIP Options', 'wp_statistics'); ?></h3></th>
 			</tr>

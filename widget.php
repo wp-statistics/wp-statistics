@@ -151,11 +151,7 @@
 			if(get_option('lpd_widget')) {
 				echo "<li>";
 					echo __('Last Post Date', 'wp_statistics'). ": ";
-					if(get_option('select_lps') == "farsi") {
-						echo wp_statistics_lastpostdate("farsi");
-					} else {
-						echo wp_statistics_lastpostdate();
-					}
+					echo wp_statistics_lastpostdate();
 				echo "</li>";
 			}
 			echo "</ul>";

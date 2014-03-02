@@ -432,23 +432,17 @@
 		return $result['total_users'];
 	}
 
-	function wp_statistics_lastpostdate( $type='english' ) {
+	function wp_statistics_lastpostdate() {
 	
 		global $wpdb;
+		
+		$wpstats = new WP_Statistics();
 		
 		$db_date = $wpdb->get_var("SELECT post_date FROM $wpdb->posts WHERE post_type='post' AND post_status='publish' ORDER BY ID DESC LIMIT 1");
 		
 		$date_format = get_option('date_format');
 		
-		if ( $type == 'farsi' ) {
-		
-			return jdate($date_format, strtotime($db_date));
-			
-		} else {
-		
-			return date($date_format, strtotime($db_date));
-			
-		}
+		return $wpstats->Current_Date_i18n($date_format, $db_date, false);
 	}
 	
 	function wp_statistics_average_post() {
@@ -505,5 +499,60 @@
 		else {
 			// Return array
 			return $d;
+		}
+	}
+	
+	function wp_statistics_get_gmap_coordinate($country, $coordinate) {
+	
+		global $CountryCoordinates;
+		
+		if(get_option('wps_google_coordinates')) {
+		
+			$api_url = "http://maps.google.com/maps/api/geocode/json?address={$country}&sensor=false";
+			
+			if(function_exists('file_get_contents')) {
+			
+				$json = file_get_contents($api_url);
+				$response = json_decode($json);
+				
+				if($response->status != 'OK')
+					return false;
+					
+			} elseif(function_exists('curl_version')) {
+			
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $api_url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				$response = json_decode(curl_exec($ch));
+				
+				if($response->status != 'OK')
+					return false;
+					
+			} else {
+				$response = false;
+			}
+			
+			$result = $response->results[0]->geometry->location->{$coordinate};
+			
+		} else {
+		
+			include_once( dirname( __FILE__ ) . "/country-coordinates.php");
+			
+			$result = $CountryCoordinates[$country][$coordinate];
+		}
+		
+		if( $result == '' ) { $result = '0'; }
+		
+		return $result;
+	}
+	
+	function wp_statistics_icons($dashicons, $icon_name) {
+		
+		global $wp_version;
+		
+		if( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
+			return "<div class='dashicons {$dashicons}'></div>";
+		} else {
+			return "<img src='".plugins_url('wp-statistics/assets/images/')."{$icon_name}.png'/>";
 		}
 	}

@@ -9,21 +9,41 @@
 	}
 
 	$daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } }
+
+	$total_stats = get_option( 'wps_chart_totals' );
 	
 	$excluded_reasons = array('Robot','IP Match','Self Referral','Login Page','Admin Page','User Role');
 	$excluded_results = array();
 	$excluded_total = 0;
 	
 	foreach( $excluded_reasons as $reason ) {
+	
+		// The reasons array above is used both for display and internal purposes.  Internally the values are all lower case but the array
+		// is created with mixed case so it looks nice to the user.  Therefore we have to convert it to lower case here.
+		$thisreason = strtolower( $reason );
+		
 		for( $i=$daysToDisplay; $i>=0; $i--) {
+		
+			// We're looping through the days backwards, so let's fine out what date we want to look at.
 			$thisdate = date('Y-m-d', strtotime('-'.$i." day") );
-			$thisreason = strtolower( $reason );
+		
+			// Create the SQL query string to get the data.
 			$query = "SELECT count FROM {$wpdb->prefix}statistics_exclusions WHERE reason = '{$thisreason}' AND date = '{$thisdate}'";
+			
+			// Execute the query.
 			$excluded_results[$reason][$i] = $wpdb->get_var( $query );
+			
+			// If we're returned an error or a FALSE value, then let's make sure it's set to a numerical 0.
 			if( $excluded_results[$reason][$i] < 1 ) { $excluded_results[$reason][$i] = 0; }
+			
+			// We're totalling things up here for use later.
+			$excluded_results['total'][$i] += $excluded_results[$reason][$i];
 			$excluded_total += $excluded_results[$reason][$i];
 		}
 	}
+	
+	// If the chart totals is enabled, cheat a little and just add another reason category to the list so it get's generated later.
+	if( $total_stats == 1 ) { $excluded_reasons[] = 'Total'; }
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>

@@ -142,6 +142,58 @@
 				</tr>
 				
 				<tr valign="top">
+					<th scope="row">
+						<label for="chart-totals"><?php _e('Include totals', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="chart-totals" type="checkbox" value="1" name="wps_chart_totals" <?php echo get_option('wps_chart_totals')==true? "checked='checked'":'';?>>
+						<label for="chart-totals"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Add a total line to charts with multiple values, like the search engine referrals', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Map', 'wp_statistics'); ?></h3></th>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row">
+						<label for="disable-map"><?php _e('Disable map', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="disable-map" type="checkbox" value="1" name="wps_disable_map" <?php echo get_option('wps_disable_map')==true? "checked='checked'":'';?>>
+						<label for="disable-map"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Disable the map display', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<label for="map-location"><?php _e('Alternate map location', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="map-location" type="checkbox" value="1" name="wps_map_location" <?php echo get_option('wps_map_location')==true? "checked='checked'":'';?>>
+						<label for="map-location"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Place the map above the recent visitors area instead of at the top of the page.', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row">
+						<label for="google-coordinates"><?php _e('Get country location from Google', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="google-coordinates" type="checkbox" value="1" name="wps_google_coordinates" <?php echo get_option('wps_google_coordinates')==true? "checked='checked'":'';?>>
+						<label for="google-coordinates"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('This feature may cause a performance degradation when viewing statistics.', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
+				<tr valign="top">
 					<th scope="row" colspan="2"><h3><?php _e('Statistical reporting', 'wp_statistics'); ?></h3></th>
 				</tr>
 				
@@ -218,7 +270,7 @@
 		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report" />
+			<input type="hidden" name="page_options" value="wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location" />
 			<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp-sms'); ?>" />
 		</p>
 	</form>

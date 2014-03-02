@@ -107,16 +107,16 @@
 		}
 		
 		public function get_Referred($default_referr = false) {
+			$referr = '';
+			
+			if( isset($_SERVER['HTTP_REFERER']) ) { $referr = $_SERVER['HTTP_REFERER']; }
+			if( $default_referr ) { $referr = $default_referr; }
 		
-			if( $default_referr ) {
-				if( !esc_sql(strip_tags($_SERVER['HTTP_REFERER'])) ) {
-					return get_bloginfo('url');
-				} else {
-					return esc_sql(strip_tags($_SERVER['HTTP_REFERER']));
-				}
-			} else {
-				return esc_sql(strip_tags($_SERVER['HTTP_REFERER']));
-			}
+			$referr = esc_sql(strip_tags($referr) );
+		
+			if( !$referr ) { $referr = get_bloginfo('url'); }
+
+			return $referr;
 		}
 		
 		public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null) {
@@ -128,10 +128,10 @@
 			}
 		}
 		
-		public function Current_Date_i18n($format = 'Y-m-d H:i:s', $strtotime = null) {
+		public function Current_Date_i18n($format = 'Y-m-d H:i:s', $strtotime = null, $day=' day') {
 		
 			if( $strtotime ) {
-				return date_i18n($format, strtotime("{$strtotime} day") ) ;
+				return date_i18n($format, strtotime("{$strtotime}{$day}") ) ;
 			} else {
 				return date_i18n($format) ;
 			}

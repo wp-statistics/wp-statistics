@@ -1,5 +1,4 @@
 <?php
-
 $ISOCountryCode['000'] = "Unknown";
 $ISOCountryCode['AF'] = "Afghanistan";
 $ISOCountryCode['AX'] = "Åland Islands";
@@ -281,5 +280,4 @@ $ISOCountryCode['YU'] = "Yugoslavia";
 $ISOCountryCode['ZR'] = "Zaire";
 $ISOCountryCode['ZM'] = "Zambia";
 $ISOCountryCode['ZW'] = "Zimbabwe";
-
 ?>

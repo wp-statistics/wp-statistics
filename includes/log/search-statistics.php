@@ -100,13 +100,31 @@
 								},
 								series: [
 <?php
+								$total_stats = get_option( 'wps_chart_totals' );
+								$total_daily = array();
+
 								foreach( $search_engines as $se ) {
 									echo "								{\n";
 									echo "									name: '" . __($se['name'], 'wp_statistics') . "',\n";
 									echo "									data: [";
 
-									for( $i=$daysToDisplay; $i>=0; $i--) {
-										echo wp_statistics_searchengine($se['tag'], '-'.$i) . ", ";
+									for( $i=20; $i>=0; $i--) {
+										$result = wp_statistics_searchengine($se['tag'], '-'.$i) . ", ";
+										$total_daily[$i] += $result;
+										echo $result;
+									}
+									
+									echo "]\n";
+									echo "								},\n";
+								}
+								
+								if( $total_stats == 1 ) {
+									echo "								{\n";
+									echo "									name: '" . __('Total', 'wp_statistics') . "',\n";
+									echo "									data: [";
+
+									for( $i=20; $i>=0; $i--) {
+										echo $total_daily[$i] . ", ";
 									}
 									
 									echo "]\n";
