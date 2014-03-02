@@ -20,7 +20,7 @@ Lots of new features and bugfixes, please see the change log for a complete desc
 
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
-Features:
+= Features =
 
 * User Online
 * Today visit/visitors
@@ -49,7 +49,7 @@ Features:
 * Standard functions for development
 * GeoIP location by Country [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
-Language Support:
+= Translators =
 
 * English
 * Persian
@@ -73,10 +73,11 @@ Language Support:
 
 [Percentage languages ​​translation](http://teamwork.wp-parsi.com/projects/wp-statistics/)
 To complete the language deficits of [this section](http://teamwork.wp-parsi.com/projects/wp-statistics/) apply.
-Support Forum in [WordPress support forum Persian](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
-[Donate to this plugin](http://iran98.org/donate/)
 
+= Support =
+[Donate to this plugin](http://mostafa-soufi.ir/donate/)
 [Plugin Facebook page](https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream)
+[Persian Support](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -93,7 +94,9 @@ WP Statitics shortcode is in the format of:
 Where:
 
 stat = the statistic you want.
+
 time = is the timeframe, strtotime() will be used to calculate it.
+
 provider = the search provider to get stats on.
 
 * User online: `[wpstatistics stat="usersonline"]`
