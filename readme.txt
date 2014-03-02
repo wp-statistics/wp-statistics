@@ -91,6 +91,7 @@ WP Statitics shortcode is in the format of:
 `[wpstatistics stat=xxx time=xxxx provider=xxxx]`
 
 Where:
+
 stat = the statistic you want.
 time = is the timeframe, strtotime() will be used to calculate it.
 provider = the search provider to get stats on.
