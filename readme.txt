@@ -75,9 +75,9 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 To complete the language deficits of [this section](http://teamwork.wp-parsi.com/projects/wp-statistics/) apply.
 
 = Support =
-[Donate to this plugin](http://mostafa-soufi.ir/donate/)
-[Plugin Facebook page](https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream)
-[Persian Support](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
+* [Donate to this plugin](http://mostafa-soufi.ir/donate/)
+* [Plugin Facebook page](https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream)
+* [Persian Support](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
