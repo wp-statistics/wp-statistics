@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 5.0
+Stable tag: 5.1
 License: GPL2
 
 Complete statistics for your blog.
@@ -195,6 +195,10 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 5.1 =
+* Fixes: Small bug in referral url.
+* Updated: Arabic (ar) language.
+
 = 5.0 =
 * Added: Show last visitor in Google Map.
 * Added: Search visitor by IP in log pages.

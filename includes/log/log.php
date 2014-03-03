@@ -272,7 +272,7 @@
 									
 										echo "<tr>";
 										echo "<td>{$value}</td>";
-										echo "<td>{$items}</td>";
+										echo "<td><a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></td>";
 										echo "</tr>";
 									}
 								?>
@@ -687,8 +687,8 @@
 					<script type="text/javascript">
 						function initialize() {
 							var map_options = {
-								center: new google.maps.LatLng(<?php echo wp_statistics_get_gmap_coordinate($result->location, 'lat'); ?>, <?php echo wp_statistics_get_gmap_coordinate($result->location, 'lng'); ?>),
-								zoom: 2,
+								center: new google.maps.LatLng("<?php echo wp_statistics_get_gmap_coordinate($result->location, 'lat'); ?>", "<?php echo wp_statistics_get_gmap_coordinate($result->location, 'lng'); ?>"),
+								zoom: 3,
 								mapTypeId: google.maps.MapTypeId.ROADMAP
 							};
 							
@@ -737,9 +737,9 @@
 										$get_ipp[$markets['location']][] = "<p>{$agent} {$markets[ip]}</p>";
 									}
 									?>
-										t.push('<?php echo $ISOCountryCode[$markets['location']]; ?>');
-										x.push(<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lat'); ?>);
-										y.push(<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lng'); ?>);
+										t.push("<?php echo $ISOCountryCode[$markets['location']]; ?>");
+										x.push("<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lat'); ?>");
+										y.push("<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lng'); ?>");
 										h.push("<div class='map-html-marker'><?php echo $flag . '<hr />' . implode('', $get_ipp[$markets['location']]); ?></div>");
 										<?php
 								}

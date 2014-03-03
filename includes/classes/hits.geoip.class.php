@@ -199,7 +199,7 @@
 						$this->tb_prefix . "statistics_visitor",
 						array(
 							'last_counter'	=>	$this->Current_date('Y-m-d'),
-							'referred'		=>	$this->get_Referred(true),
+							'referred'		=>	$this->get_Referred(),
 							'agent'			=>	$agent['browser'],
 							'platform'		=>	$agent['platform'],
 							'version'		=> 	$agent['version'],

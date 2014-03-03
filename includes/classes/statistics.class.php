@@ -107,15 +107,16 @@
 		}
 		
 		public function get_Referred($default_referr = false) {
+		
 			$referr = '';
 			
 			if( isset($_SERVER['HTTP_REFERER']) ) { $referr = $_SERVER['HTTP_REFERER']; }
 			if( $default_referr ) { $referr = $default_referr; }
-		
+			
 			$referr = esc_sql(strip_tags($referr) );
-		
+			
 			if( !$referr ) { $referr = get_bloginfo('url'); }
-
+			
 			return $referr;
 		}
 		
