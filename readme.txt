@@ -197,6 +197,7 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 == Changelog ==
 = 5.1 =
 * Fixes: Small bug in referral url.
+* Fixes: Problem export table.
 * Updated: Arabic (ar) language.
 
 = 5.0 =
