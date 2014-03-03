@@ -1,0 +1,11 @@
+_site
+.gh-pages
+.idea
+composer.lock
+composer.phar
+phpunit.xml
+geoip2-php.sublime-*
+vendor/
+*.sw?
+t.php
+*.old

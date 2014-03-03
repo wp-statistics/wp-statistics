@@ -1,0 +1,214 @@
+
+#right-log {
+    width: 31%;
+}
+#left-log {
+    margin: 0 0 0 1%;
+    width: 68%;
+}
+@media screen and (max-width: 960px) {
+#right-log {
+    width: 35%;
+}
+#left-log {
+    margin: 0 0 0 1%;
+    width: 63%;
+}
+}
+@media screen and (max-width: 758px) {
+#right-log {
+    width: 100%;
+}
+#left-log {
+    margin: 0 0 0 1%;
+    width: 100%;
+}
+}
+@media screen and (max-width: 524px) {
+#right-log {
+    width: 100%;
+}
+#left-log {
+    margin: 0 0 0 1%;
+    width: 100%;
+}
+}
+#last-log {
+    width: 100%;
+}
+#right-log a, #left-log a, #last-log a {
+    text-decoration: none;
+}
+#summary-stats {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px none;
+    margin: 0 0 10px;
+}
+#summary-stats tr:first-child th {
+    border-top: 0 none;
+}
+#summary-stats span {
+    color: #21759B !important;
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    font-size: 21px;
+}
+#th-colspan {
+    text-align: center;
+}
+#th-colspan span {
+    color: #459605 !important;
+    font-size: 30px;
+}
+#last-visitor tr {
+    text-align: center;
+}
+#last-visitor tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+#last-search tr {
+    text-align: center;
+}
+#last-search tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+#last-referrer tr {
+    text-align: left;
+}
+#last-referrer tr:first-child {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-weight: bold;
+    text-align: center;
+}
+.th-center {
+    text-align: center !important;
+}
+.td-align {
+    text-align: left;
+}
+.td-url {
+    color: #009936 !important;
+    direction: ltr;
+    font-size: 10px !important;
+    text-align: left;
+    white-space: nowrap;
+}
+#map_canvas {
+    direction: ltr;
+    height: 380px;
+    width: 100%;
+}
+.map-html-marker {
+    max-height: 170px;
+    width: 200px;
+}
+.map-html-marker p {
+    border-bottom: 1px dashed #EFEFEF;
+    font-size: 10px;
+    margin: 2px 0;
+    padding: 3px 0;
+    text-align: left;
+}
+.map-html-marker p:last-child {
+    border-bottom: 0 none;
+}
+.log-latest {
+}
+.log-item {
+    border-bottom: 1px solid #D3CDCD;
+    border-top: 1px solid #FFFFFF;
+    height: 46px;
+    padding: 3px 7px;
+}
+.log-item:hover {
+    background: none repeat scroll 0 0 #EEEEEE;
+}
+.show-map {
+    float: left;
+}
+.log-referred {
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 79%;
+}
+.log-ip {
+    direction: ltr;
+    float: right;
+    font-size: 10px;
+    margin-bottom: 5px;
+    white-space: pre;
+    width: 20%;
+}
+.log-tools {
+    float: left;
+    margin: 0 2px;
+}
+.log-agent {
+    float: left;
+}
+.log-url {
+    direction: ltr;
+    float: left;
+    font-size: 10px;
+    margin: 0 0 0 2px;
+    white-space: nowrap;
+    width: 85%;
+}
+.log-url img {
+}
+#time_zone a {
+    font-size: 11px;
+    text-decoration: none;
+}
+#visits-log {
+    direction: ltr;
+    height: 290px;
+    width: 100%;
+}
+#search-engine-log {
+    direction: ltr;
+}
+#browsers-log {
+    direction: ltr;
+    height: 330px;
+    margin: 0 auto;
+    width: 100%;
+}
+#platform-log {
+    direction: ltr;
+}
+#visits-stats {
+    direction: ltr;
+}
+#exclusion-stats {
+    direction: ltr;
+}
+#search-stats {
+    direction: ltr;
+}
+#about-links {
+    margin: 0 0 10px;
+}
+#about-links p {
+    display: inline;
+    font-size: 11px;
+    margin: 0 2px;
+}
+#about-links a {
+}
+#donate-button {
+    float: left;
+    padding: 7px 0 0;
+    text-align: center;
+    width: 100%;
+}
+.left-div {
+    float: left;
+}
+.right-div {
+    float: right;
+}

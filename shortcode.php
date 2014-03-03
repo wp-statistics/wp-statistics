@@ -1,0 +1,73 @@
+<?php
+	add_shortcode( 'wpstatistics', 'wp_statistics_shortcodes' );
+	add_filter('widget_text', 'do_shortcode');
+	
+	function wp_statistics_shortcodes($atts) {
+		/*
+			WP Statitics shortcode is in the format of:
+			
+				[wpstatistics stat=xxx time=xxxx provider=xxxx]
+				
+			Where:
+				stat = the statistic you want.
+				time = is the timeframe, strtotime() will be used to calculate it.
+				provider = the search provider to get stats on.
+		*/
+		
+		switch( $atts['stat'] ) {
+			case 'usersonline':
+				$result = wp_statistics_useronline();
+				break;
+				
+			case 'visits':
+				$result = wp_statistics_visit($atts['time']);
+				break;
+				
+			case 'vistors':
+				$result = wp_statistics_visitor($atts['time']);
+				break;
+				
+			case 'searchs':
+				$result = wp_statistics_searchengine($attr['provider']);
+				break;
+				
+			case 'postcount':
+				$result = wp_statistics_countposts();
+				break;
+				
+			case 'pagecount':
+				$result = wp_statistics_countpages();
+				break;
+				
+			case 'commentcount':
+				$result = wp_statistics_countcomment();
+				break;
+				
+			case 'spamcount':
+				$result = wp_statistics_countspam();
+				break;
+				
+			case 'usercount':
+				$result = wp_statistics_countusers();
+				break;
+				
+			case 'postaverage':
+				$result = wp_statistics_average_post();
+				break;
+				
+			case 'commentaverage':
+				$result = wp_statistics_average_comment();
+				break;
+				
+			case 'useraverage':
+				$result = wp_statistics_average_registeruser();
+				break;
+				
+			case 'lpd':
+				$result = wp_statistics_lastpostdate();
+				break;
+			}
+			
+		return $result;
+	}
+?>
