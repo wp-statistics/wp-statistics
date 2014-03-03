@@ -1,5 +1,5 @@
 ﻿<?php
-	require('../../../../../wp-blog-header.php');
+	require('../../../../../wp-load.php');
 	
 	if( !is_super_admin() )
 		wp_die(__('Access denied!', 'wp_statistics'));
