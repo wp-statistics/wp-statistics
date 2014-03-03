@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Wordpress Statistics
-Plugin URI: http://mostafa-soufi.ir/
+Plugin URI: http://mostafa-soufi.ir/blog/wordpress-statistics
 Description: Complete statistics for your blog.
 Version: 5.1
 Author: Mostafa Soufi
