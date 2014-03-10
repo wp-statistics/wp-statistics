@@ -44,9 +44,11 @@
 
 		$lastupdate = get_option('wps_last_geoip_dl');
 		
+		$upload_dir = wp_upload_dir();
+		 
 		// We're also going to look to see if our filesize is to small, this means the plugin stub still exists and should
 		// be replaced with a proper file.
-		$dbsize = filesize(plugin_dir_path( __FILE__ ) . 'GeoIP2-db/GeoLite2-Country.mmdb');
+		$dbsize = filesize($upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb');
 		
 		if( $lastupdate < $thisupdate || $dbsize < 1024 ) {
 		

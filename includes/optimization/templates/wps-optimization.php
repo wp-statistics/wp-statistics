@@ -96,6 +96,28 @@
 			</tr>
 
 			<tr valign="top">
+				<th scope="row">
+					<?php _e('cURL Version', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php if( function_exists('curl_version') ) { $curl_ver = curl_version(); echo $curl_ver['version']; } else { _e('cURL not installed', 'wp_statistics'); }?></strong>
+					<p class="description"><?php _e('The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('BC Math', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php if( function_exists('bcadd') ) { _e('Installed','wp_statistics'); } else { _e('Not installed', 'wp_statistics'); }?></strong>
+					<p class="description"><?php _e('If the PHP BC Math Extension is installed.  BC Math is required for the GeoIP code, if it is not installed GeoIP will be disabled.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></th>
 			</tr>
 			

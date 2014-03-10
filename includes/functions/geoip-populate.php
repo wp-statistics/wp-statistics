@@ -6,13 +6,18 @@
 		global $wpdb;
 		
 		$table_prefix = $wpdb->prefix;
-
+		
 		$result = $wpdb->get_results("SELECT id,ip FROM `{$table_prefix}statistics_visitor` WHERE location = '' or location = '000' or location IS NULL");
-
-		$reader = new Reader( plugin_dir_path( __FILE__ ) . '../../GeoIP2-db/GeoLite2-Country.mmdb' );
-
+		
+		try {
+			$upload_dir =  wp_upload_dir();
+			$reader = new Reader( $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb' );
+		} catch( Exception $e ) {
+			return "<div class='updated settings-error'><p><strong>" . __('Unable to load the GeoIP database, make sure you have downloaded it in the settings page.', 'wp_statistics') . "</strong></p></div>";
+		}
+		
 		$count = 0;
-
+		
 		foreach( $result as $item ) {
 			$count++;
 			try {

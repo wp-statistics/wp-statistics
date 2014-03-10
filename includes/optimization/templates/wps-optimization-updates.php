@@ -28,10 +28,15 @@
 				</th>
 				
 				<td>
-					<strong><?php $GeoIP_filename =	realpath( dirname( __FILE__ ) . "/../../../GeoIP2-db/GeoLite2-Country.mmdb"); 
-					$GeoIP_filedate = filemtime( $GeoIP_filename );
-					
-					echo date_i18n(get_option('date_format') . ' @ ' . get_option('time_format'), $GeoIP_filedate); ?></strong>
+					<strong><?php $upload_dir =  wp_upload_dir();
+					$GeoIP_filename = $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb'; 
+					$GeoIP_filedate = @filemtime( $GeoIP_filename );
+				
+					if( $GeoIP_filedate === FALSE ) {
+						_e('Database file does not exist.', 'wp_statistics');
+					} else {
+						echo date_i18n(get_option('date_format') . ' @ ' . get_option('time_format'), $GeoIP_filedate); 
+					}?></strong>
 					<p class="description"><?php _e('The file date of the GeoIP database.', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
@@ -42,7 +47,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo formatSize( filesize( $GeoIP_filename ) );
+					<strong><?php echo formatSize( @filesize( $GeoIP_filename ) );
 					
 					/* format size of file 
 					* @author Mike Zriel

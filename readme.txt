@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 5.1
+Stable tag: 5.2
 License: GPL2
 
 Complete statistics for your blog.
@@ -96,9 +96,9 @@ Where:
 
 stat = the statistic you want.
 
-time = is the timeframe, strtotime() will be used to calculate it.
+time = is the time frame, [strtotime()](http://php.net/manual/en/datetime.formats.php) will be used to calculate it, some acceptable values include; today, yesterday, week, month, year, total and "-x" (i.e., "-10" for the past 10 days).
 
-provider = the search provider to get stats on.
+provider = the search provider to get stats on (bing/duckduckgo/google/yahoo/yandex).
 
 * User online: `[wpstatistics stat="usersonline"]`
 * Today visit: `[wpstatistics stat="visits" time="today"]`
@@ -195,6 +195,13 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 5.2 =
+* Added: Additional checks for BC Math and cURL which are required for the GeoIP code.
+* Updated: GeoIP database handling if it is missing or invalid.
+* Updated: GeoIP database is now stored in uploads/wp-statistics directory so it does not get overwritten during upgrades. 
+* Fixed: Typo's in the shortcode codes (thanks 	g33kg0dd3ss).
+* Updated: Polish (pl_PL) language.
+
 = 5.1 =
 * Fixes: Small bug in referral url.
 * Fixes: Problem export table.

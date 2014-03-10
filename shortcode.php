@@ -10,7 +10,7 @@
 				
 			Where:
 				stat = the statistic you want.
-				time = is the timeframe, strtotime() will be used to calculate it.
+				time = is the timeframe, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it.
 				provider = the search provider to get stats on.
 		*/
 		
@@ -23,12 +23,12 @@
 				$result = wp_statistics_visit($atts['time']);
 				break;
 				
-			case 'vistors':
+			case 'visitors':
 				$result = wp_statistics_visitor($atts['time']);
 				break;
 				
-			case 'searchs':
-				$result = wp_statistics_searchengine($attr['provider']);
+			case 'searches':
+				$result = wp_statistics_searchengine($atts['provider']);
 				break;
 				
 			case 'postcount':

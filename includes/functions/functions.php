@@ -312,7 +312,7 @@
 		
 		$s = new WP_Statistics();
 
-		$search_query = wp_statistics_Searchengine_query($search_engine);
+		$search_query = wp_statistics_searchengine_query($search_engine);
 
 		switch($time) {
 			case 'today':

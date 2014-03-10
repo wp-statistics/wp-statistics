@@ -184,7 +184,8 @@
 
 					try 
 						{
-						$reader = new Reader( plugin_dir_path( __FILE__ ) . '../../GeoIP2-db/GeoLite2-Country.mmdb' );
+						$upload_dir =  wp_upload_dir();
+						$reader = new Reader( $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb' );
 						$record = $reader->country( $this->ip );
 						$location = $record->country->isoCode;
 						}

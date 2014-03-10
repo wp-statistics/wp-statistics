@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://mostafa-soufi.ir/blog/wordpress-statistics
 Description: Complete statistics for your blog.
-Version: 5.1
+Version: 5.2
 Author: Mostafa Soufi
 Author URI: http://mostafa-soufi.ir/
 Text Domain: wp_statistics
@@ -15,7 +15,7 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '5.1');
+	define('WP_STATISTICS_VERSION', '5.2');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
@@ -46,7 +46,7 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 
-	if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
+	if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd') ) {
 		include_once dirname( __FILE__ ) . '/includes/classes/hits.geoip.class.php';
 	} else {
 		include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
@@ -63,7 +63,7 @@ License: GPL2
 		if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') )
 			echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
 		
-		if(!get_option('wps_geoip'))
+		if(!get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd'))
 			echo '<div class="error"><p>'.sprintf(__('GeoIP collection is not active! Please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';
 	}
 
@@ -357,8 +357,13 @@ License: GPL2
 
 		$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
 
-		$DBFile = plugin_dir_path( __FILE__ ) . 'GeoIP2-db/GeoLite2-Country.mmdb';
+		$upload_dir = wp_upload_dir();
+		 
+		$dbsize = filesize($upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb');
+		$DBFile = $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb';
 
+		if( !file_exists($upload_dir['basedir'] . '/wp-statistics') ) { mkdir($upload_dir['basedir'] . '/wp-statistics'); }
+		
 		// Download
 		$TempFile = download_url( $download_url );
 		if (is_wp_error( $TempFile ) ) {
@@ -394,7 +399,7 @@ License: GPL2
 					update_option('wps_last_geoip_dl', time());
 					update_option('wps_update_geoip', false);
 
-					if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && get_option('wps_auto_pop')) {
+					if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd') && get_option('wps_auto_pop')) {
 						include_once dirname( __FILE__ ) . '/includes/functions/geoip-populate.php';
 						$result .= wp_statistics_populate_geoip_info();
 					}
