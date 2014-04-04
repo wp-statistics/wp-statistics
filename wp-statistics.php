@@ -58,13 +58,16 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/schedule.php';
 	
 	function wp_statistics_not_enable() {
-		$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
-		
-		if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') )
-			echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
-		
-		if(!get_option('wps_geoip') && wp_statistics_geoip_supported())
-			echo '<div class="error"><p>'.sprintf(__('GeoIP collection is not active! Please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';
+
+		if( !get_option('wps_hide_notices') ) {
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
+			
+			if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') )
+				echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+			
+			if(!get_option('wps_geoip') && wp_statistics_geoip_supported())
+				echo '<div class="error"><p>'.sprintf(__('GeoIP collection is not active! Please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';
+		}
 	}
 
 	if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') || !get_option('wps_geoip') ) {

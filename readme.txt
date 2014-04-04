@@ -201,8 +201,8 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 = 5.3 =
 * Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
 * Added: Check for PHP's Safe Mode as the GeoIP code does not function with it enabled.
+* Added: Option to disable administrative notices of inactive features.
 * Fixed: Download of the GeoIP database could cause a fatal error message at the end of a page if it was triggered outside the admin area.
-
 
 = 5.2 =
 * Added: Additional checks for BC Math and cURL which are required for the GeoIP code.

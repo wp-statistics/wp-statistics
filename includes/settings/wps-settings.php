@@ -118,6 +118,18 @@
 				</tr>
 				
 				<tr valign="top">
+					<th scope="row">
+						<label for="hide_notices"><?php _e('Hide admin notices about non active features', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="hide_notices" type="checkbox" value="1" name="wps_hide_notices" <?php echo get_option('wps_hide_notices')==true? "checked='checked'":'';?>>
+						<label for="store_ua"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('By default WP Statistics displays an alert if any of the core features are disbaled on every admin page, this option will disable these notices.', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
+				<tr valign="top">
 					<th scope="row" colspan="2"><h3><?php _e('Charts', 'wp_statistics'); ?></h3></th>
 				</tr>
 
@@ -270,7 +282,7 @@
 		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location" />
+			<input type="hidden" name="page_options" value="wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location,wps_hide_notices" />
 			<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp-sms'); ?>" />
 		</p>
 	</form>
