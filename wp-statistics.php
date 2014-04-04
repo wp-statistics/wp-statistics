@@ -41,18 +41,18 @@ License: GPL2
 		}
 	}
 	
+	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
 	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
 	
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 
-	if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd') ) {
+	if( get_option('wps_geoip') && wp_statistics_geoip_supported() ) {
 		include_once dirname( __FILE__ ) . '/includes/classes/hits.geoip.class.php';
 	} else {
 		include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
 	}
 	
-	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
 	include_once dirname( __FILE__ ) . '/widget.php';
 	include_once dirname( __FILE__ ) . '/shortcode.php';
 	include_once dirname( __FILE__ ) . '/schedule.php';
@@ -63,7 +63,7 @@ License: GPL2
 		if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') )
 			echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
 		
-		if(!get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd'))
+		if(!get_option('wps_geoip') && wp_statistics_geoip_supported())
 			echo '<div class="error"><p>'.sprintf(__('GeoIP collection is not active! Please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';
 	}
 
@@ -355,6 +355,8 @@ License: GPL2
 
 	function wp_statistics_download_geoip() {
 
+		if( !function_exists( 'download_url' ) ) { return ''; }
+	
 		$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
 
 		$upload_dir = wp_upload_dir();
@@ -399,7 +401,7 @@ License: GPL2
 					update_option('wps_last_geoip_dl', time());
 					update_option('wps_update_geoip', false);
 
-					if( get_option('wps_geoip') && version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd') && get_option('wps_auto_pop')) {
+					if( get_option('wps_geoip') && wp_statistics_geoip_supported() && get_option('wps_auto_pop')) {
 						include_once dirname( __FILE__ ) . '/includes/functions/geoip-populate.php';
 						$result .= wp_statistics_populate_geoip_info();
 					}

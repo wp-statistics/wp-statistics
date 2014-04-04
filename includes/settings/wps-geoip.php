@@ -37,7 +37,7 @@
 					</th>
 				</tr>
 
-<?php 		if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd') ) {?>
+<?php 		if( wp_statistics_geoip_supported() ) {?>
 				<tr valign="top">
 					<th scope="row">
 						<label for="geoip-enable"><?php _e('GeoIP collection', 'wp_statistics'); ?>:</label>
@@ -113,18 +113,28 @@
 				<tr valign="top">
 					<th scope="row" colspan="2">
 						<?php 
+								echo __('GeoIP collection is disabled due to the following reasons:', 'wp_statistics') . '<br><br>'; 
+								
 						 		if( !version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
-									printf( __('GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  ', 'wp_statistics'), '<code>' . WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION . '</code>' ); echo '<code>' . phpversion() . '</code>.<br>'; 
+									printf( '&nbsp;&nbsp;&nbsp;&nbsp;* ' . __('GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  ', 'wp_statistics'), '<code>' . WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION . '</code>' ); echo '<code>' . phpversion() . '</code>.<br>'; 
 								}
 
 								if( !function_exists('curl_init') ) {
+									echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;* ';
+									_e('GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!','wp_statistics');
 									echo '<br>';
-									_e('GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!','wp_statistics'); 
 								}
 
 								if( !function_exists('bcadd') ) {
+									echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;* ';
+									_e('GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!','wp_statistics');
 									echo '<br>';
-									_e('GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!','wp_statistics'); 
+								}
+
+								if( ini_get('safe_mode') ) {
+									echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;* ';
+									_e('PHP safe mode detected!  GeoIP collection is not supported with PHP\'s safe mode enabled!','wp_statistics'); 
+									echo '<br>';
 								}
 						?>
 					</th>

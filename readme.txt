@@ -180,6 +180,9 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 5.3 = 
+* Robots list updated, please either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
+
 = 4.8 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
 * This update includes a new database table, you should not lose any data to make sure to backup your database just in case.
@@ -195,6 +198,12 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 5.3 =
+* Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
+* Added: Check for PHP's Safe Mode as the GeoIP code does not function with it enabled.
+* Fixed: Download of the GeoIP database could cause a fatal error message at the end of a page if it was triggered outside the admin area.
+
+
 = 5.2 =
 * Added: Additional checks for BC Math and cURL which are required for the GeoIP code.
 * Updated: GeoIP database handling if it is missing or invalid.

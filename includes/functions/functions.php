@@ -556,3 +556,16 @@
 			return "<img src='".plugins_url('wp-statistics/assets/images/')."{$icon_name}.png'/>";
 		}
 	}
+	
+	function wp_statistics_geoip_supported() {
+		// Check to see if we can support the GeoIP code, requirements are:
+		//     - PHP 5.3.0
+		//     - PHP's cURL extension installed
+		//     - PHP's bcadd extension installed
+		//     - PHP NOT running in safe mode
+		if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd') && !ini_get('safe_mode') )	{
+			return true;
+		} 
+
+		return false;
+	}

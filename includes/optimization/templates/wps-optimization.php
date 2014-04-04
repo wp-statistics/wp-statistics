@@ -86,6 +86,17 @@
 
 			<tr valign="top">
 				<th scope="row">
+					<?php _e('PHP Safe Mode', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php if( ini_get('safe_mode') ) { echo 'Yes'; } else { echo 'No'; } ?></strong>
+					<p class="description"><?php _e('Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
 					<?php _e('jQuery Version', 'wp_statistics'); ?>:
 				</th>
 				
