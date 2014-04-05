@@ -55,7 +55,7 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Persian
 * Portuguese [Thanks](http://www.musicalmente.info/)
 * Romanian [Thanks Luke Tyler](http://www.nobelcom.com/)
-* French Thanks Anice Gnampa. Redundancy translated by Nicolas Baudet
+* French Thanks Anice Gnampa. Additional translations by Nicolas Baudet and eldidi
 * Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
 * Spanish Thanks Jose
 * Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
@@ -203,6 +203,7 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * Added: Check for PHP's Safe Mode as the GeoIP code does not function with it enabled.
 * Added: Option to disable administrative notices of inactive features.
 * Added: Option to export column names as first line of export files.
+* Updated: French langauge translation.
 * Fixed: Download of the GeoIP database could cause a fatal error message at the end of a page if it was triggered outside the admin area.
 
 = 5.2 =
