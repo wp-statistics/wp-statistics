@@ -6,6 +6,7 @@
 		
 	$table = $_POST['table-to-export'];
 	$type = $_POST['export-file-type'];
+	$headers = $_POST['export-headers'];
 	
 	if($table && $type) {
 	
@@ -15,7 +16,7 @@
 		
 		$file_name = WPS_EXPORT_FILE_NAME . '-' . $s->Current_Date('Y-m-d-H:i');
 		
-		$result = $wpdb->get_results("SELECT * FROM {$table_prefix}statistics_{$table}");
+		$result = $wpdb->get_results("SELECT * FROM {$table_prefix}statistics_{$table}", ARRAY_A);
 		
 		switch($type) {
 			case 'excel':
@@ -37,7 +38,12 @@
 
 		$exporter->initialize();
 		
-		foreach(objectToArray($result) as $row) {
+		if( $headers ) {
+			foreach( $result[0] as $key => $col ) { $columns[] = $key; }
+			$exporter->addRow($columns);
+		}
+		
+		foreach($result as $row) {
 			$exporter->addRow($row);
 		}
 		

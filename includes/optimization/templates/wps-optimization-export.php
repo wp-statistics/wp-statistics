@@ -45,9 +45,21 @@
 						<option value="tsv">TSV</option>
 					</select>
 					<p class="description"><?php _e('Select the output file type.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<label for="export-headers"><?php _e('Include Header Row', 'wp_statistics'); ?>:</label>
+				</th>
+				
+				<td>
+					<input id="export-headers" type="checkbox" value="1" name="export-headers">
+					<p class="description"><?php _e('Include a header row as the first line of the exported file.', 'wp_statistics'); ?></p>
 					<?php submit_button(__('Start Now!', 'wp_statistics'), 'primary', 'export-file-submit'); ?>
 				</td>
 			</tr>
+
 		</tbody>
 	</table>
 	</form>
