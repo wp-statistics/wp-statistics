@@ -87,7 +87,7 @@
 			if(get_option('ser_widget')) {
 			
 				echo "<li>";
-					echo __('Search Engine reffered', 'wp_statistics'). ": ";
+					echo __('Search Engine referred', 'wp_statistics'). ": ";
 					echo wp_statistics_searchengine(get_option('select_se'));
 				echo "</li>";
 			}
