@@ -3,8 +3,8 @@ Contributors: mostafa.s1990
 Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.8
-Stable tag: 5.2
+Tested up to: 3.9
+Stable tag: 5.3
 License: GPL2
 
 Complete statistics for your blog.
@@ -166,6 +166,27 @@ Also, if your running an internal test site with non-routable IP addresses (like
 
 = I was using V3.2 and now that I've upgraded my visitors and visits have gone way down? =
 The webcrawler detection code has be Fixes and will now exclude them from your stats, don't worry, it now reflects a more accurate view of actual visitors to your site.
+
+= GeoIP is enabled but no hits are being counted? =
+The GeoIP code requires several things to function, PHP 5.3 or above, the bcmath extension, the cURL extension and PHP cannot be running in safe mode.  All of these conditions are checked for but there may be additional items required.  Check your PHP log files and see if there are any fatal errors listed.
+
+= How much memory does PHP Statistics require? =
+This depends on how many hits your site gets.  The data collection code is very light weight, however the reporting and statistics code can take a lot of memory to process.  The longer you collect data for the more memory you will need to process it.  At a bare minimum, a basic WordPress site with WP Statitics should have at least 32g of RAM.  Sites with lots of plugins and high traffic should look at significantly increasing that.
+
+= I've enabled IP subnet exclusions and now no visitors are recorded? =
+Be very careful to set the subnet mask correctly on the subnet list, it is very easy to catch too much traffic.  Likewise if you are excluding a single IP address make sure to include a subnet mask of 32 or 255.255.255.255 otherwise the default subnet of 0 will be used, catching all ip addresses.
+
+= I'm not receiving e-mail reports? =
+Make sure you have WordPress configured correctly for SMTP and also check your WP Cron is working correctly.  You can use [Cron View](http://wordpress.org/plugins/cron-view) to examine your WP Cron table and see if there are any issues.
+
+= Does WP Statistics support multi-site? =
+WP Statistics hasn't been tested with multi-site and there have been some issues reported with getting it enabled correctly on all sites in a network.
+
+= Does WP Statistics report on post hits? =
+No, WP Statistics only tracks total hits to your site, not to individual pages.
+
+= Does WP Statistics track the time of the hits? =
+No.
 
 == Screenshots ==
 1. View stats page.
