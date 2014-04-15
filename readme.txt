@@ -203,7 +203,8 @@ The webcrawler detection code has be Fixes and will now exclude them from your s
 * Added: Check for PHP's Safe Mode as the GeoIP code does not function with it enabled.
 * Added: Option to disable administrative notices of inactive features.
 * Added: Option to export column names as first line of export files.
-* Updated: French langauge translation.
+* Added: Options to disable search engines from being collected/displayed.
+* Updated: French language translation.
 * Fixed: Download of the GeoIP database could cause a fatal error message at the end of a page if it was triggered outside the admin area.
 
 = 5.2 =

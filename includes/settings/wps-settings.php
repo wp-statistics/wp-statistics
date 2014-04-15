@@ -130,6 +130,32 @@
 				</tr>
 
 				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Search Enginges', 'wp_statistics'); ?></h3></th>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row" colspan="2">
+						<p class="description"><?php _e('Disabling all search engines is not allowed, doing so will result in all search engines being active.', 'wp_statistics');?></p>
+					</th>
+				</tr>
+				<?php
+					$selist = wp_statistics_searchengine_list( true );
+					
+					foreach( $selist as $se ) {
+						$option_name = 'wps_disable_se_' . $se['tag'];
+						$se_option_list .= $option_name . ',';
+				?>
+				
+				<tr valign="top">
+					<th scope="row"><label for="<?php echo $option_name;?>"><?php _e($se['name'], 'wp_statistics'); ?>:</label></th>
+					<td>
+						<input id="<?php echo $option_name;?>" type="checkbox" value="1" name="<?php echo $option_name;?>" <?php echo get_option($option_name)==true? "checked='checked'":'';?>><label for="<?php echo $option_name;?>"><?php _e('disable', 'wp_statistics'); ?></label>
+						<p class="description"><?php echo sprintf(__('Disable %s from data collection and reporting.', 'wp_statistics'), $se['name']); ?></p>
+					</td>
+				</tr>
+				<?php } ?>
+
+				<tr valign="top">
 					<th scope="row" colspan="2"><h3><?php _e('Charts', 'wp_statistics'); ?></h3></th>
 				</tr>
 
@@ -282,7 +308,7 @@
 		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location,wps_hide_notices" />
+			<input type="hidden" name="page_options" value="<?php echo $se_option_list;?>wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location,wps_hide_notices" />
 			<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp-sms'); ?>" />
 		</p>
 	</form>

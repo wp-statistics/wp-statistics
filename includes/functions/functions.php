@@ -185,8 +185,11 @@
 		return $result;
 	}
 
-	function wp_statistics_searchengine_list() {
+	function wp_statistics_searchengine_list( $all = false ) {
 		// This function returns an array or array's which define what search engines we should look for.
+		//
+		// By default will only return ones that have not been disabled by the user, this can be overridden by the $all parameter.
+		//
 		// Each sub array is made up of the following items:
 		//		name 		 = The proper name of the search engine
 		//		tag 		 = a short one word, all lower case, representation of the search engine
@@ -195,7 +198,7 @@
 		//		querykey 	 = the URL key that contains the search string for the search engine
 		//		image		 = the name of the image file to associate with this search engine (just the filename, no path info)
 		//
-		return array (
+		$default = $engines = array (
 			'baidu' => array( 'name' => 'Baidu', 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
 			'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' =>'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
 			'duckduckgo' => array( 'name' => 'DuckDuckGo', 'tag' => 'duckduckgo', 'sqlpattern' => array('%duckduckgo.com%', '%ddg.gg%'), 'regexpattern' => array('duckduckgo\.com','ddg\.gg'), 'querykey' => 'q', 'image' => 'duckduckgo.png' ),
@@ -203,6 +206,17 @@
 			'yahoo' => array( 'name' => 'Yahoo!', 'tag' => 'yahoo', 'sqlpattern' => '%yahoo.com%', 'regexpattern' => 'yahoo\.com', 'querykey' => 'p', 'image' => 'yahoo.png' ),
 			'yandex' => array( 'name' => 'Yandex', 'tag' => 'yandex', 'sqlpattern' => '%yandex.ru%', 'regexpattern' => 'yandex\.ru', 'querykey' => 'text', 'image' => 'yandex.png' )
 		);
+		
+		if( $all == false ) {
+			foreach( $engines as $key => $engine ) {
+				if( get_option( 'wps_disable_se_' . $engine['tag'] ) ) { unset( $engines[$key] ); }
+			}
+
+			// If we've disabled all the search engines, reset the list back to default.
+			if( count( $engines ) == 0 ) { $engines = $default;	}
+		}
+		
+		return $engines;
 	}
 	
 	function wp_statistics_searchword_query ($search_engine = 'all') {
