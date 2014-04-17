@@ -219,13 +219,17 @@ No.
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 5.? =
+* Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
+* Updated: Persian (fa_IR) language
+
 = 5.3 =
 * Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
 * Added: Check for PHP's Safe Mode as the GeoIP code does not function with it enabled.
 * Added: Option to disable administrative notices of inactive features.
 * Added: Option to export column names as first line of export files.
 * Added: Options to disable search engines from being collected/displayed.
-* Updated: French language translation.
+* Updated: French (fr_FR) language translation.
 * Fixed: Download of the GeoIP database could cause a fatal error message at the end of a page if it was triggered outside the admin area.
 
 = 5.2 =
