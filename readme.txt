@@ -221,7 +221,8 @@ No.
 == Changelog ==
 = 5.? =
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
-* Updated: Persian (fa_IR) language
+* Updated: Persian (fa_IR) language.
+* Updated: Arabic (ar) language.
 
 = 5.3 =
 * Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
