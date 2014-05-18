@@ -573,13 +573,22 @@
 	
 	function wp_statistics_geoip_supported() {
 		// Check to see if we can support the GeoIP code, requirements are:
-		//     - PHP 5.3.0
-		//     - PHP's cURL extension installed
-		//     - PHP's bcadd extension installed
-		//     - PHP NOT running in safe mode
-		if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') && function_exists('curl_init') && function_exists('bcadd') && !ini_get('safe_mode') )	{
-			return true;
-		} 
+		$enabled = true;
+		
+		// PHP 5.3
+		if( !version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) { $enabled = false; }
 
-		return false;
+		// PHP's cURL extension installed
+		if( !function_exists('curl_init') ) { $enabled = false; }
+		
+		// PHP's bcadd extension installed
+		if( !function_exists('bcadd') ) { $enabled = false; }
+		
+		// PHP NOT running in safe mode
+		if( !ini_get('safe_mode') ) {
+			// Double check php version, 5.4 and above don't support safe mode but the ini value may still be set after an upgrade.
+			if( !version_compare(phpversion(), "5.4", '<') ) { $enabled = false; }
+		}
+		
+		return $enabled;
 	}
