@@ -585,7 +585,7 @@
 		if( !function_exists('bcadd') ) { $enabled = false; }
 		
 		// PHP NOT running in safe mode
-		if( !ini_get('safe_mode') ) {
+		if( ini_get('safe_mode') ) {
 			// Double check php version, 5.4 and above don't support safe mode but the ini value may still be set after an upgrade.
 			if( !version_compare(phpversion(), "5.4", '<') ) { $enabled = false; }
 		}
