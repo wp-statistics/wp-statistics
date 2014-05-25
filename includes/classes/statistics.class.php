@@ -78,19 +78,37 @@
 		
 		public function get_IP() {
 		
+			// By default we use the remote address the server has.
+			$temp_ip = $_SERVER['REMOTE_ADDR'];
+		
+			// Check to see if any of the HTTP headers are set to identify the remote user.
+			// These often given better results as they can identify the remote user even through firewalls etc, 
+			// but are sometimes used in SQL injection attacks.
 			if (getenv('HTTP_CLIENT_IP')) {
-				$this->ip = getenv('HTTP_CLIENT_IP');
+				$temp_ip = getenv('HTTP_CLIENT_IP');
 			} elseif (getenv('HTTP_X_FORWARDED_FOR')) {
-				$this->ip = getenv('HTTP_X_FORWARDED_FOR');
+				$temp_ip = getenv('HTTP_X_FORWARDED_FOR');
 			} elseif (getenv('HTTP_X_FORWARDED')) {
-				$this->ip = getenv('HTTP_X_FORWARDED');
+				$temp_ip = getenv('HTTP_X_FORWARDED');
 			} elseif (getenv('HTTP_FORWARDED_FOR')) {
-				$this->ip = getenv('HTTP_FORWARDED_FOR');
+				$temp_ip = getenv('HTTP_FORWARDED_FOR');
 			} elseif (getenv('HTTP_FORWARDED')) {
-				$this->ip = getenv('HTTP_FORWARDED');
-			} else {
-				$this->ip = $_SERVER['REMOTE_ADDR'];
+				$temp_ip = getenv('HTTP_FORWARDED');
+			} 
+			
+			// If http headers exist, use them.
+			if( $temp_ip != $_SERVER['REMOTE_ADDR'] ) {
+				// Check to make sure the http header is actually an IP address and not some kind of SQL injection attack.
+				$long = ip2long($this->ip);
+			
+				// ip2long returns either -1 or FALSE if it is not a valid IP address depending on the PHP version, so check for both.
+				if($long == -1 || $long === FALSE) {
+					// If the headers are invalid, use the server variable which should be good always.
+					$temp_ip = $_SERVER['REMOTE_ADDR'];
+				}
 			}
+			
+			$this->ip = $temp_ip;
 			
 			return $this->ip;
 		}
