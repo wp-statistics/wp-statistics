@@ -221,6 +221,8 @@ No.
 == Changelog ==
 = 5.? =
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
+* Fixed: GeoIP dependency code to properly detect safe mode with PHP 5.3 or older.
+* Updated: get_IP code to better handle malformed IP addresses.
 * Updated: Persian (fa_IR) language.
 * Updated: Arabic (ar) language.
 
