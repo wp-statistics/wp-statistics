@@ -221,8 +221,11 @@ No.
 == Changelog ==
 = 5.? =
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
+* Fixed: GeoIP dependency code to properly detect safe mode with PHP 5.3 or older.
+* Updated: get_IP code to better handle malformed IP addresses.
 * Updated: Persian (fa_IR) language.
 * Updated: Arabic (ar) language.
+* Updated: Chinese (zh_CN) language.
 
 = 5.3 =
 * Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
