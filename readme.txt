@@ -225,6 +225,7 @@ No.
 * Updated: get_IP code to better handle malformed IP addresses.
 * Updated: Persian (fa_IR) language.
 * Updated: Arabic (ar) language.
+* Updated: Chinese (zh_CN) language.
 
 = 5.3 =
 * Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
