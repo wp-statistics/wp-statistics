@@ -47,10 +47,10 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 
+	include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
+
 	if( get_option('wps_geoip') && wp_statistics_geoip_supported() ) {
 		include_once dirname( __FILE__ ) . '/includes/classes/hits.geoip.class.php';
-	} else {
-		include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
 	}
 	
 	include_once dirname( __FILE__ ) . '/widget.php';
@@ -80,7 +80,12 @@ License: GPL2
 	
 	function wp_statistics_shutdown_action() {
 		$o = new Useronline();
-		$h = new Hits();
+		
+		if( class_exists( 'GeoIPHits' ) ) { 
+			$h = new GeoIPHits();
+		} else {
+			$h = new Hits();
+		}
 	
 		if( get_option('wps_useronline') )
 			$o->Check_online();
@@ -372,7 +377,7 @@ License: GPL2
 		// Download
 		$TempFile = download_url( $download_url );
 		if (is_wp_error( $TempFile ) ) {
-			$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading GeoIP database from: %s', 'wp_statistics'), $download_url) . "</strong></p></div>";
+			$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading GeoIP database from %s: %s', 'wp_statistics'), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
 		}
 		else {
 			// Ungzip File

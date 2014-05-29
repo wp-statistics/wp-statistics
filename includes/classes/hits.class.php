@@ -178,6 +178,8 @@
 
 					if( get_option('wps_store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
 
+					$agent = $this->get_UserAgent();
+
 					$this->db->insert(
 						$this->tb_prefix . "statistics_visitor",
 						array(
@@ -187,7 +189,7 @@
 							'platform'		=>	$agent['platform'],
 							'version'		=> 	$agent['version'],
 							'ip'			=>	$this->ip,
-							'location'		=> 	'000',
+							'location'		=> 	$this->GetGeoIP(),
 							'UAString'		=>	$ua
 						)
 					);
@@ -209,4 +211,10 @@
 				}
 			}
 		}
+
+		// Stub for when GeoIP is disabled, this is overridden through the class extension in hits.geoip.class.php.
+		private function GetGeoIP() {
+			return "000";
+		}
+	
 	}

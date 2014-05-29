@@ -82,7 +82,7 @@
 			$temp_ip = $_SERVER['REMOTE_ADDR'];
 		
 			// Check to see if any of the HTTP headers are set to identify the remote user.
-			// These often given better results as they can identify the remote user even through firewalls etc, 
+			// These often give better results as they can identify the remote user even through firewalls etc, 
 			// but are sometimes used in SQL injection attacks.
 			if (getenv('HTTP_CLIENT_IP')) {
 				$temp_ip = getenv('HTTP_CLIENT_IP');
