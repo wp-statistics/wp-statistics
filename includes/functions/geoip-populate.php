@@ -23,6 +23,7 @@
 			try {
 				$record = $reader->country( $item->ip );
 				$location = $record->country->isoCode;
+				if( $location == "" ) { $location = "000"; }
 			} catch( Exception $e ) {
 				$location = "000";
 			}
