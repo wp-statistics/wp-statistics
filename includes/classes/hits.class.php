@@ -2,11 +2,11 @@
 	class Hits extends WP_Statistics {
 	
 		public $result = null;
+		protected $ip;
 		protected $location = "000";
 		private $exclusion_match = FALSE;
 		private $exclusion_reason = '';
 		private $exclusion_record = FALSE;
-		private $ip;
 		
 		public function __construct() {
 
