@@ -14,6 +14,7 @@
 				$reader = new Reader( $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb' );
 				$record = $reader->country( $this->ip );
 				$location = $record->country->isoCode;
+				if( $location == "" ) { $location = "000"; }
 				}
 			catch( Exception $e )
 				{
