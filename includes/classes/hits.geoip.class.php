@@ -4,9 +4,10 @@
 	use GeoIp2\Database\Reader;
 
 	class GeoIPHits extends Hits {
-	
-		private function GetGeoIP() {
-		
+		public function __construct() {
+
+			parent::__construct();
+
 			try 
 				{
 				$upload_dir =  wp_upload_dir();
@@ -19,6 +20,6 @@
 				$location = "000";
 				}
 			
-			return $location;
+			$this->location = $location;
 		}
 	}

@@ -2,6 +2,7 @@
 	class Hits extends WP_Statistics {
 	
 		public $result = null;
+		protected $location = "000";
 		private $exclusion_match = FALSE;
 		private $exclusion_reason = '';
 		private $exclusion_record = FALSE;
@@ -168,16 +169,16 @@
 		}
 		
 		public function Visitors() {
-		
+	
 			// If we're a webcrawler or referral from ourselves or an excluded address don't record the visit.
 			if( !$this->exclusion_match ) {
 
 				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}'");
-				
+
 				if( !$this->result ) {
 
 					if( get_option('wps_store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
-
+					
 					$agent = $this->get_UserAgent();
 
 					$this->db->insert(
@@ -189,7 +190,7 @@
 							'platform'		=>	$agent['platform'],
 							'version'		=> 	$agent['version'],
 							'ip'			=>	$this->ip,
-							'location'		=> 	$this->GetGeoIP(),
+							'location'		=> 	$this->location,
 							'UAString'		=>	$ua
 						)
 					);
@@ -211,10 +212,4 @@
 				}
 			}
 		}
-
-		// Stub for when GeoIP is disabled, this is overridden through the class extension in hits.geoip.class.php.
-		private function GetGeoIP() {
-			return "000";
-		}
-	
 	}
