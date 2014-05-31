@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Statistics
 Plugin URI: http://mostafa-soufi.ir/blog/wordpress-statistics
 Description: Complete statistics for your blog.
-Version: 5.3
+Version: 5.4
 Author: Mostafa Soufi
 Author URI: http://mostafa-soufi.ir/
 Text Domain: wp_statistics
@@ -15,7 +15,7 @@ License: GPL2
 		date_default_timezone_set( get_option('timezone_string') );
 	}
 	
-	define('WP_STATISTICS_VERSION', '5.3');
+	define('WP_STATISTICS_VERSION', '5.4');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	

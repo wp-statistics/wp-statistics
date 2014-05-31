@@ -3,8 +3,8 @@ Contributors: mostafa.s1990
 Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 5.3
+Tested up to: 3.9.1
+Stable tag: 5.4
 License: GPL2
 
 Complete statistics for your blog.
@@ -219,7 +219,7 @@ No.
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
-= 5.? =
+= 5.4 =
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
 * Fixed: GeoIP dependency code to properly detect safe mode with PHP 5.3 or older.
 * Fixed: Browser information not recorded if GeoIP was not enabled.
