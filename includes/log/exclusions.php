@@ -47,7 +47,7 @@
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
-	<h2><?php _e('Hit Statistics', 'wp_statistics'); ?></h2>
+	<h2><?php _e('Exclusions Statistics', 'wp_statistics'); ?></h2>
 
 	<ul class="subsubsub">
 		<li class="all"><a <?php if($daysToDisplay == 10) { echo 'class="current"'; } ?>href="?page=wps_exclusions_menu&hitdays=10"><?php _e('10 Days', 'wp_statistics'); ?></a></li>
