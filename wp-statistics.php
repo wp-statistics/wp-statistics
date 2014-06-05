@@ -16,7 +16,7 @@ License: GPL2
 	}
 	
 	define('WP_STATISTICS_VERSION', '5.4');
-	define('WP_STATISTICS_MANUAL', '/manual/WP Statistics Admin Manual V5.5.html');
+	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual V5.5.');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
@@ -218,7 +218,7 @@ License: GPL2
 	}
 	
 	function wp_statistics_manual() {
-		if( file_exists(plugin_dir_path(__FILE__) . WP_STATISTICS_MANUAL) ) { 
+		if( file_exists(plugin_dir_path(__FILE__) . WP_STATISTICS_MANUAL . 'html') ) { 
 			echo '<script type="text/javascript">' . "\n";
 			echo '    function AdjustiFrameHeight(id,fudge)' . "\n";
 			echo '    {' . "\n";
@@ -226,8 +226,12 @@ License: GPL2
 			echo '        frame.height = frame.contentDocument.body.offsetHeight + fudge;' . "\n";
 			echo '    }' . "\n";
 			echo '</script>' . "\n";
-		
-			echo '<iframe src="' .  plugin_dir_url(__FILE__) . WP_STATISTICS_MANUAL . '" width="100%" frameborder="0" scrolling="no" id="wps_inline_docs" onload="AdjustiFrameHeight(\'wps_inline_docs\', 50);"></iframe>';
+
+			echo '<br>';
+			echo '<a href="' .  plugin_dir_url(__FILE__) . 'manual/manual.php?type=odt' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/ODT.png' . '" height="32" width="32" alt="' . __('Download ODF file', 'wp_statistics') . '"></a>&nbsp;';
+			echo '<a href="' .  plugin_dir_url(__FILE__) . 'manual/manual.php?type=html' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/HTML.png' . '" height="32" width="32" alt="' . __('Download HTML file', 'wp_statistics') . '"></a><br>';
+			
+			echo '<iframe src="' .  plugin_dir_url(__FILE__) . WP_STATISTICS_MANUAL . 'html' . '" width="100%" frameborder="0" scrolling="no" id="wps_inline_docs" onload="AdjustiFrameHeight(\'wps_inline_docs\', 50);"></iframe>';
 		} else {
 			echo __("Manual file not found.", 'wp_statistics');
 		}
