@@ -16,6 +16,7 @@ License: GPL2
 	}
 	
 	define('WP_STATISTICS_VERSION', '5.4');
+	define('WP_STATISTICS_MANUAL', '/manual/WP Statistics Admin Manual V5.5.html');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
@@ -143,6 +144,7 @@ License: GPL2
 		add_submenu_page(__FILE__, '', '', $manage_cap, 'wps_break_menu', 'wp_statistics_log_overview');
 		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
 		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $manage_cap, 'wp-statistics/settings', 'wp_statistics_settings');
+		add_submenu_page(__FILE__, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, 'wps_manual_menu', 'wp_statistics_manual');
 	}
 	add_action('admin_menu', 'wp_statistics_menu');
 	
@@ -213,6 +215,22 @@ License: GPL2
 	
 	if( get_option('wps_menu_bar') ) {
 		add_action('admin_bar_menu', 'wp_statistics_menubar', 20);
+	}
+	
+	function wp_statistics_manual() {
+		if( file_exists(plugin_dir_path(__FILE__) . WP_STATISTICS_MANUAL) ) { 
+			echo '<script type="text/javascript">' . "\n";
+			echo '    function AdjustiFrameHeight(id,fudge)' . "\n";
+			echo '    {' . "\n";
+			echo '        var frame = document.getElementById(id);' . "\n";
+			echo '        frame.height = frame.contentDocument.body.offsetHeight + fudge;' . "\n";
+			echo '    }' . "\n";
+			echo '</script>' . "\n";
+		
+			echo '<iframe src="' .  plugin_dir_url(__FILE__) . WP_STATISTICS_MANUAL . '" width="100%" frameborder="0" scrolling="no" id="wps_inline_docs" onload="AdjustiFrameHeight(\'wps_inline_docs\', 50);"></iframe>';
+		} else {
+			echo __("Manual file not found.", 'wp_statistics');
+		}
 	}
 	
 	function wp_statistics_log_overview() {
