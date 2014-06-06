@@ -27,6 +27,10 @@
 				$result = wp_statistics_visitor($atts['time']);
 				break;
 				
+			case 'pagevisits':
+				$result = wp_statistics_pages($atts['time']);
+				break;
+				
 			case 'searches':
 				$result = wp_statistics_searchengine($atts['provider']);
 				break;

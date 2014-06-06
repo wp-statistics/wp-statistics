@@ -35,6 +35,9 @@
 	<li><input type="checkbox" id="ttvisitor_widget" name="ttvisitor_widget" <?php checked('on', get_option('ttvisitor_widget')); ?>/>
 	<label for="ttvisitor_widget"><?php _e('Total Visitor', 'wp_statistics'); ?></label></li>
 
+	<li><input type="checkbox" id="tpviews_widget" name="tpviews_widget" <?php checked('on', get_option('tpviews_widget')); ?>/>
+	<label for="tpviews_widget"><?php _e('Total Page Views', 'wp_statistics'); ?></label></li>
+
 	<li><input type="checkbox" id="ser_widget" class="ser_widget" name="ser_widget" <?php checked('on', get_option('ser_widget')); ?>/>
 	<label for="ser_widget"><?php _e('Search Engine reffered', 'wp_statistics'); ?></label></li>
 

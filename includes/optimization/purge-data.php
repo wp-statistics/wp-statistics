@@ -28,6 +28,26 @@
 		} else {
 			$result_string .= '<br>' . sprintf(__('No records found to purge from <code>%s</code>!', 'wp_statistics'), $table_name ); 
 		}
+
+		$table_name = $table_prefix . 'statistics_exclusions';
+
+		$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `date` < \'' . $date_string . '\'');
+		
+		if($result) {
+			$result_string .= '<br>' . sprintf(__('<code>%s</code> data older than <code>%s</code> days purged successfully.', 'wp_statistics'), $table_name, $purge_days);
+		} else {
+			$result_string .= '<br>' . sprintf(__('No records found to purge from <code>%s</code>!', 'wp_statistics'), $table_name ); 
+		}
+
+		$table_name = $table_prefix . 'statistics_pages';
+
+		$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `date` < \'' . $date_string . '\'');
+		
+		if($result) {
+			$result_string .= '<br>' . sprintf(__('<code>%s</code> data older than <code>%s</code> days purged successfully.', 'wp_statistics'), $table_name, $purge_days);
+		} else {
+			$result_string .= '<br>' . sprintf(__('No records found to purge from <code>%s</code>!', 'wp_statistics'), $table_name ); 
+		}
 		
 		echo $result_string;
 		

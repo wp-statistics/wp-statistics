@@ -625,6 +625,38 @@
 					</div>
 				</div>
 
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
+					<h3 class="hndle">
+						<span><?php _e('Top Pages Visited', 'wp_statistics'); ?> <a href="?page=wps_pages_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
+					</h3>
+					<div class="inside">
+							<?php
+								// Retrieve data
+								list( $total, $uris ) = wp_statistics_get_top_pages();
+								
+								echo "<div class='log-latest'>";
+								
+								$i = 0;
+								
+								foreach($uris as $uri) {
+									$i++;
+									echo "<div class='log-item'>";
+
+									if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
+									
+									echo "<div>{$count} - <a href='{$uri[1]}'>{$uri[3]}</a></div>";
+									echo "<div style='float: right'>".__('Visits', 'wp_statistics').": {$uri[1]}</div>";
+									echo "</div>";
+									
+									if( $i > 10 ) { break; }
+								}
+								
+								echo "</div>";
+							?>
+					</div>
+				</div>
+
 				<?php if( get_option('wps_map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } ?>
 				
 				<div class="postbox">

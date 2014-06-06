@@ -18,10 +18,18 @@
 			case 'visitors':
 				echo wp_statitiscs_empty_table($table_prefix . 'statistics_visitor');
 				break;
+			case 'exclusions':
+				echo wp_statitiscs_empty_table($table_prefix . 'statistics_exclusions');
+				break;
+			case 'pages':
+				echo wp_statitiscs_empty_table($table_prefix . 'statistics_pages');
+				break;
 			case 'all':
 				$result_string = wp_statitiscs_empty_table($table_prefix . 'statistics_useronline');
 				$result_string .= '<br>' . wp_statitiscs_empty_table($table_prefix . 'statistics_visit');
 				$result_string .= '<br>' . wp_statitiscs_empty_table($table_prefix . 'statistics_visitor');
+				$result_string .= '<br>' . wp_statitiscs_empty_table($table_prefix . 'statistics_exclusions');
+				$result_string .= '<br>' . wp_statitiscs_empty_table($table_prefix . 'statistics_pages');
 
 				echo $result_string;
 				

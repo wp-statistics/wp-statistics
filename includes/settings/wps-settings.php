@@ -82,6 +82,30 @@
 				
 				<tr valign="top">
 					<th scope="row">
+						<label for="pages"><?php _e('Pages', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="pages" type="checkbox" value="1" name="wps_pages" <?php echo get_option('wps_pages')==true? "checked='checked'":'';?>>
+						<label for="pages"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<label for="pages"><?php _e('Track All Pages', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input id="all_pages" type="checkbox" value="1" name="wps_track_all_pages" <?php echo get_option('wps_track_all_pages')==true? "checked='checked'":'';?>>
+						<label for="all_pages"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">
 						<label for="check_online"><?php _e('Check for online users every', 'wp_statistics'); ?>:</label>
 					</th>
 					
@@ -308,7 +332,7 @@
 		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="<?php echo $se_option_list;?>wps_useronline,wps_visits,wps_visitors,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location,wps_hide_notices" />
+			<input type="hidden" name="page_options" value="<?php echo $se_option_list;?>wps_useronline,wps_visits,wps_visitors,wps_pages,wps_track_all_pages,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location,wps_hide_notices" />
 			<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp-sms'); ?>" />
 		</p>
 	</form>

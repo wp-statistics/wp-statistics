@@ -138,6 +138,8 @@
 						<option value="useronline"><?php echo $table_prefix . 'statistics_useronline'; ?></option>
 						<option value="visit"><?php echo $table_prefix . 'statistics_visit'; ?></option>
 						<option value="visitor"><?php echo $table_prefix . 'statistics_visitor'; ?></option>
+						<option value="exclusions"><?php echo $table_prefix . 'statistics_exclusions'; ?></option>
+						<option value="pages"><?php echo $table_prefix . 'statistics_pages'; ?></option>
 						<option value="all"><?php echo __('All','wp_statistics'); ?></option>
 					</select>
 					<p class="description"><?php _e('All data table will be lost.', 'wp_statistics'); ?></p>

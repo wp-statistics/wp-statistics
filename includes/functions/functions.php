@@ -115,6 +115,115 @@
 		
 		return $result;
 	}
+
+	function wp_statistics_pages($time, $page_uri = '', $id = -1) {
+
+		global $wpdb, $table_prefix;
+		
+		$s = new WP_Statistics();
+		
+		$sqlstatement = '';
+
+		if( $page_uri == '' ) { $page_uri = wp_statistics_get_uri(); }
+		
+		if( $id != -1 ) {
+			$page_sql = '`id` = '  . $id;
+		} else {		
+			$page_sql = "`URI` = '{$page_uri}'";
+		}
+
+		switch($time) {
+			case 'today':
+				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` = '{$s->Current_Date('Y-m-d')}' AND {$page_sql}";
+				break;
+				
+			case 'yesterday':
+				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` = '{$s->Current_Date('Y-m-d', -1)}' AND {$page_sql}";
+				break;
+				
+			case 'week':
+				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` BETWEEN '{$s->Current_Date('Y-m-d', -7)}' AND '{$s->Current_Date('Y-m-d')}' AND {$page_sql}";
+				break;
+				
+			case 'month':
+				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` BETWEEN '{$s->Current_Date('Y-m-d', -30)}' AND '{$s->Current_Date('Y-m-d')}' AND {$page_sql}";
+				break;
+				
+			case 'year':
+				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` BETWEEN '{$s->Current_Date('Y-m-d', -365)}' AND '{$s->Current_Date('Y-m-d')}' AND {$page_sql}";
+				break;
+				
+			case 'total':
+				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE {$page_sql}";
+				break;
+				
+			default:
+				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` = '{$s->Current_Date('Y-m-d', $time)}' AND {$page_sql}";
+				break;
+		}
+
+		$result = $wpdb->get_var( $sqlstatement );
+		
+		if( $result == '' ) { $result = 0; }
+		
+		return $result;
+	}
+	
+	function wp_statistics_uri_to_id( $uri ) {
+		global $wpdb, $table_prefix;
+		
+		$sqlstatement = "SELECT id FROM {$table_prefix}statistics_pages WHERE `URI` = '{$uri}'";
+
+		$result = $wpdb->get_var( $sqlstatement );
+		
+		return $result;
+	}
+	
+	// We need a quick function to pass to usort to properly sort the most popular pages.
+	function wp_stats_compare_uri_hits($a, $b) {
+		return $a[1] < $b[1];
+	}
+		
+	function wp_statistics_get_top_pages() {
+		global $wpdb, $table_prefix;
+		
+		// Get every unique URI from the pages database.
+		$result = $wpdb->get_results( "SELECT DISTINCT uri FROM {$table_prefix}statistics_pages", ARRAY_N );
+
+		$total = 0;
+		
+		// Now get the total page visit count for each unique URI.
+		foreach( $result as $out ) {
+			$total ++;
+			$id = wp_statistics_uri_to_id( $out[0] );
+			
+			$post = get_post($id);
+			$title = $post->post_title;
+
+			$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $id, $title );
+		}
+
+		// Sort the URI's based on their hit count.
+		usort( $uris, 'wp_stats_compare_uri_hits');
+		
+		return array( $total, $uris );
+	}
+	
+	function wp_statistics_get_uri() {
+		// Get the site's path from the URL.
+		$site_uri = parse_url( site_url(), PHP_URL_PATH );
+	
+		// Get the current page URI.
+		$page_uri = $_SERVER["REQUEST_URI"];
+
+		// Strip the site's path from the URI.
+		$page_uri = str_ireplace( $site_uri, '', $page_uri );
+		
+		// If we're at the root (aka the URI is blank), let's make sure to indicate it.
+		if( $page_uri == '' ) { $page_uri = '/'; }
+		
+		return $page_uri;
+	}
 	
 	function wp_statistics_ua_list() {
 	

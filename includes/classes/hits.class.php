@@ -212,4 +212,35 @@
 				}
 			}
 		}
+
+		public function Pages() {
+	
+			// If we're a webcrawler or referral from ourselves or an excluded address don't record the page hit.
+			if( !$this->exclusion_match ) {
+
+				// Don't track anything but actual pages and posts, unless we've been told to.
+				if( get_option('wps_track_all_pages') || is_page() || is_single() || is_front_page() ) {
+					global $wp_query;
+					$current_page_id = $wp_query->get_queried_object_id();
+
+					// Get the current page URI.
+					$page_uri = wp_statistics_get_uri();
+
+					$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = '{$page_uri}'");
+
+					if( !$this->result ) {
+
+						$this->db->insert(
+							$this->tb_prefix . "statistics_pages",
+							array(
+								'uri'		=>	$page_uri,
+								'date'		=>	$this->Current_date('Y-m-d'),
+								'count'		=>	1,
+								'id'		=>	$current_page_id
+								)
+							);
+					}
+				}
+			}
+		}
 	}

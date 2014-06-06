@@ -52,12 +52,24 @@
 				KEY `reason` (`reason`)
 			) CHARSET=utf8");
 
+			$create_pages_table = ("CREATE TABLE {$table_prefix}statistics_pages (
+				`uri` varchar(255) NOT NULL,
+				`date` date NOT NULL,
+				`count` int(11) NOT NULL,
+				`id` int(11) NOT NULL,
+				UNIQUE KEY `date_2` (`date`,`uri`),
+				KEY `url` (`uri`),
+				KEY `date` (`date`),
+				KEY `id` (`id`)
+			) CHARSET=utf8");
+			
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			
 			dbDelta($create_useronline_table);
 			dbDelta($create_visit_table);
 			dbDelta($create_visitor_table);
 			dbDelta($create_exclusion_table);
+			dbDelta($create_pages_table);
 			
 			update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 			update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
@@ -69,6 +81,7 @@
 			if( get_option('wps_useronline') === FALSE ) { update_option('wps_useronline',TRUE); }
 			if( get_option('wps_visits') === FALSE ) { update_option('wps_visits',TRUE); }
 			if( get_option('wps_visitors') === FALSE ) { update_option('wps_visitors',TRUE); }
+			if( get_option('wps_pages') === FALSE ) { update_option('wps_visitors',TRUE); }
 			if( get_option('wps_check_online') === FALSE ) { update_option('wps_check_online','30'); }
 			if( get_option('wps_menu_bar') === FALSE ) { update_option('wps_menu_bar',FALSE); }
 			if( get_option('wps_coefficient') === FALSE ) { update_option('wps_coefficient','1'); }

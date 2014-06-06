@@ -100,8 +100,7 @@
 								},
 								series: [{
 									name: '<?php _e('Visitor', 'wp_statistics'); ?>',
-									data: [
-									<?php
+									data: [<?php
 										for( $i=$daysToDisplay; $i>=0; $i--) {
 											echo wp_statistics_visitor('-'.$i, true);
 											if( $i > 0 ) { echo ", "; }
@@ -110,8 +109,7 @@
 								},
 								{
 									name: '<?php _e('Visit', 'wp_statistics'); ?>',
-									data: [
-									<?php
+									data: [<?php
 										for( $i=$daysToDisplay; $i>=0; $i--) {
 											echo wp_statistics_visit('-'.$i, true);
 											if( $i > 0 ) { echo ", "; }

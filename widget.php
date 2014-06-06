@@ -84,6 +84,13 @@
 				echo "</li>";
 			}
 
+			if(get_option('tpviews_widget')) {
+				echo "<li>";
+					echo __('Total Page Views', 'wp_statistics'). ": ";
+					echo wp_statistics_pages('total');
+				echo "</li>";
+			}
+
 			if(get_option('ser_widget')) {
 			
 				echo "<li>";
@@ -171,6 +178,7 @@
 				update_option('ysvisit_widget', $_POST['ysvisit_widget']);
 				update_option('ttvisit_widget', $_POST['ttvisit_widget']);
 				update_option('ttvisitor_widget', $_POST['ttvisitor_widget']);
+				update_option('tpviews_widget', $_POST['tpviews_widget']);
 				update_option('ser_widget', $_POST['ser_widget']);
 				update_option('select_se', $_POST['select_se']);
 				update_option('tp_widget', $_POST['tp_widget']);

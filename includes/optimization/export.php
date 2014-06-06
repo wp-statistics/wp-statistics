@@ -8,6 +8,12 @@
 	$type = $_POST['export-file-type'];
 	$headers = $_POST['export-headers'];
 	
+	// Validate the table name the user passed to us.
+	if( !( $table == "useronline" || $table == "visit" || $table == "visitor" || $table == "exclusions" || $table == "pages" ) ) { $table = FALSE; } 
+	
+	// Validate the file type the user passed to us.
+	if( !( $type == "excel" || $type == "xml" || $type == "csv" || $type == "tsv" ) ) { $table = FALSE; } 
+	
 	if($table && $type) {
 	
 		require('../classes/php-export-data.class.php');
