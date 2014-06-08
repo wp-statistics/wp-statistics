@@ -203,8 +203,12 @@
 			$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $id, $title );
 		}
 
-		// Sort the URI's based on their hit count.
-		usort( $uris, 'wp_stats_compare_uri_hits');
+		if( count( $uris ) > 0 ) {
+			// Sort the URI's based on their hit count.
+			usort( $uris, 'wp_stats_compare_uri_hits');
+		} else {
+			$uris = array();
+		}
 		
 		return array( $total, $uris );
 	}

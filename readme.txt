@@ -14,6 +14,8 @@ A perfect plugin for your blog visitor statistics.
 
 Track Visitor and visit statistics to your blog for today and keep up to a year of history!
 
+Now includes tracking of individual page hits!
+
 On screen statistics report a graphs are easily viewed through the admin interface.
 
 Lots of new features and bugfixes, please see the change log for a complete description of what's changed.
@@ -22,32 +24,27 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 
 = Features =
 
-* User Online
-* Today visit/visitors
-* Yesterday visit/visitors
-* Week Visit/visitors
-* Month Visit/visitors
-* Years Visit/visitors
-* Total Visit/visitors
-* Search Engine reffered (Google, Yahoo, Bing)
-* Coefficient statistics for each user
-* Total Posts
-* Total Pages
-* Total Comments
-* Total Spams [Need installed akismet plugin](http://automattic.com/wordpress-plugins/)
-* Total Users
-* Last Post Date (English, Persian)
-* Average Posts
-* Average Comments
-* Average Users
-* Visitor Browser View as chart
-* View search words
-* View Recent Visitors (Country and provincial visitor)
-* Send scheduling statistics by email/SMS 
-* Support functions and Widgets
-* The object-oriented programming
-* Standard functions for development
+* User Online, see how many people are currently viewing your site
+* Visits, see how many hits your site gets each day
+* Visitors, see who's visiting your site
+* Page tracking, see which pages are viewed most often
+* Search Engines, see search queries and redirects from popular search engines like Google, Bing, DuckDuckGo, Yahoo, Yandex and Baidu
 * GeoIP location by Country [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
+* Interactive map of visitors location
+* E-mail reports of statistics
+* Set access level for view and manage roles based on WordPress roles
+* Exclude user roles from statistics collection
+* Exclude robots from statistics collection
+* Exclude IP subnets from statistics collection
+* Exclude login/admin pages from statistics collection
+* Record statistics on exclusions
+* Automatic updates to the GeoIP database
+* Automatically prune the databases of old data
+* Export the data to Excel, XML, CSV or TSV files
+* Overview and detail pages for all kinds of data, including; browser versions, country stats, hits, exclusions, referrers, searches, search words and visitors
+* Widget to provide information to your users
+* Shortcodes for many different types of data in both widgets and posts/pages
+* Comprehensive Admin Manual
 
 = Translators =
 
@@ -77,6 +74,7 @@ To complete the language deficits of [this section](http://teamwork.wp-parsi.com
 = Support =
 
 * [Donate to this plugin](http://mostafa-soufi.ir/donate/)
+* [Plugin Support Forum](http://wordpress.org/support/plugin/wp-statistics)
 * [Plugin Facebook page](https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream)
 * [Persian Support](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 
@@ -86,74 +84,10 @@ To complete the language deficits of [this section](http://teamwork.wp-parsi.com
 3. Make sure the Date and Time is set correctly in Wordpress.
 4. Go to the plugin settings page and configure as required (note this will also download the GeoIP database for the fist time).
 
-== Shortcode Reference ==
-To display stats in your post, page or widget you can use the following shortcodes:
-
-WP Statitics shortcode is in the format of:
-`[wpstatistics stat=xxx time=xxxx provider=xxxx]`
-
-Where:
-
-stat = the statistic you want.
-
-time = is the time frame, [strtotime()](http://php.net/manual/en/datetime.formats.php) will be used to calculate it, some acceptable values include; today, yesterday, week, month, year, total and "-x" (i.e., "-10" for the past 10 days).
-
-provider = the search provider to get stats on (bing/duckduckgo/google/yahoo/yandex).
-
-* User online: `[wpstatistics stat="usersonline"]`
-* Today visit: `[wpstatistics stat="visits" time="today"]`
-* Today vistors: `[wpstatistics stat="vistors" time="today"]`
-* Page visits: `[wpstatistics stat="pagevists" time="total"]`
-* All Search Engine reffered: `[wpstatistics stat="searchs" provider="all"]`
-* Total posts: `[wpstatistics stat="postcount"]`
-* Total pages: `[wpstatistics stat="pagecount"]`
-* Total comments: `[wpstatistics stat="commentcount"]`
-* Total spams: `[wpstatistics stat="spamcount"]`
-* Total users: `[wpstatistics stat="usercount"]`
-* Average posts: `[wpstatistics stat="postaverage"]`
-* Average comments: `[wpstatistics stat="commentaverage"]`
-* Average users: `[wpstatistics stat="useraverage"]`
-* Last post date: `[wpstatistics stat="lpd"]`
-
-== Function Reference ==
-To display stats in your own pages you can use the following functions:
-
-* User online: `<?php echo wp_statistics_useronline(); ?>`
-* Today visitor: `<?php echo wp_statistics_visitor('today'); ?>`
-* Today visit: `<?php echo wp_statistics_visit('today'); ?>`
-* Yesterday visitor: `<?php echo wp_statistics_visitor('yesterday'); ?>`
-* Yesterday visit: `<?php echo wp_statistics_visit('yesterday'); ?>`
-* Week visitor: `<?php echo wp_statistics_visitor('week'); ?>`
-* Week visit: `<?php echo wp_statistics_visit('week'); ?>`
-* Month visitor: `<?php echo wp_statistics_visitor('month'); ?>`
-* Mount visit: `<?php echo wp_statistics_visit('month'); ?>`
-* Years visitor: `<?php echo wp_statistics_visitor('year'); ?>`
-* Years visit: `<?php echo wp_statistics_visit('year'); ?>`
-* Total visitor: `<?php echo wp_statistics_visitor('total'); ?>`
-* Total visit: `<?php echo wp_statistics_visit('total'); ?>`
-* Number of visitors of 40 days to today: `<?php echo wp_statistics_visitor('-45'); ?>`
-* Number of visits of 40 days to today: `<?php echo wp_statistics_visit('-45'); ?>`
-* Number of visitors 45 days ago: `<?php echo wp_statistics_visitor('-45', true); ?>`
-* Number of visits 45 days ago: `<?php echo wp_statistics_visit('-45', true); ?>`
-* All Search Engine reffered: `<?php echo wp_statistics_searchengine(); ?>`
-* Google Search Engine reffered: `<?php echo wp_statistics_searchengine('google'); ?>`
-* Yahoo Search Engine reffered: `<?php echo wp_statistics_searchengine('yahoo'); ?>`
-* Bing Search Engine reffered: `<?php echo wp_statistics_searchengine('bing'); ?>`
-* Google Search Engine reffered in today: `<?php echo wp_statistics_searchengine('google', 'today'); ?>`
-* Google Search Engine reffered in yesterday: `<?php echo wp_statistics_searchengine('google', 'yesterday'); ?>`
-* Google Search Engine reffered in 5 days ago: `<?php echo wp_statistics_searchengine('google', '-5'); ?>`
-* Total All Search Enginee reffered `<?php echo wp_statistics_searchengine('all', 'total'); ?>`
-* Total posts: `<?php echo wp_statistics_countposts(); ?>`
-* Total pages: `<?php echo wp_statistics_countpages(); ?>`
-* Total comments: `<?php echo wp_statistics_countcomment(); ?>`
-* Total spams: `<?php echo wp_statistics_countspam(); ?>`
-* Total users: `<?php echo wp_statistics_countusers(); ?>`
-* Last post date: `<?php echo wp_statistics_lastpostdate(); ?>`
-* Average posts: `<?php echo wp_statistics_average_post(); ?>`
-* Average comments: `<?php echo wp_statistics_average_comment(); ?>`
-* Average users: `<?php echo wp_statistics_average_registeruser(); ?>`
-
 == Frequently Asked Questions ==
+= Where's the Admin Manual? =
+The admin manual is installed as part of the plugin, simply go to Statistics->Manual to view it.  At the top of the page will also be two icons that will allow you to download it in either ODT or HTML formats.
+
 = How to update to version 3.0? =
 Get Plugin updates via Automatic only.
 
@@ -202,6 +136,10 @@ No.
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 5.5 =
+* You can now track statistics on WordPress pages!  However this is disabled by default, go to Statistics->Settings->General Settings->Pages to enabled it.
+* There's a new admin manual, you can view or download it by going to Statistics->Manual.
+
 = 5.3 = 
 * Robots list updated, please either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
 
@@ -220,6 +158,10 @@ No.
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
+= 5.5 =
+* Added page tracking support.
+* Updated: Turkish (tr_TR) language.
+
 = 5.4 =
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
 * Fixed: GeoIP dependency code to properly detect safe mode with PHP 5.3 or older.
