@@ -339,6 +339,11 @@ License: GPL2
 		wp_statistics_log('top-pages');
 	}
 	
+	function wp_statistics_log_page() {
+		
+		wp_statistics_log('page-statistics');
+	}
+	
 	function wp_statistics_log_countries() {
 	
 		wp_statistics_log('top-countries');
@@ -425,7 +430,12 @@ License: GPL2
 			
 		} else if( $log_type == 'top-pages' ) {
 
-			include_once dirname( __FILE__ ) . '/includes/log/top-pages.php';
+			// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
+			if( $_GET['page-id'] || $_GET['page-uri'] ) {
+				include_once dirname( __FILE__ ) . '/includes/log/page-statistics.php';
+			} else {
+				include_once dirname( __FILE__ ) . '/includes/log/top-pages.php';
+			}
 			
 		} else {
 		
