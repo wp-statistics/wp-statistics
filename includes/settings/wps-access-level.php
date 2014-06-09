@@ -93,7 +93,7 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row"><label for="wps-exclusions"><?php _e('Record Exclusions', 'wp_statistics'); ?></label>:</th>
+					<th scope="row"><label for="wps-exclusions"><?php _e('Record exclusions', 'wp_statistics'); ?></label>:</th>
 					<td>
 						<input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo get_option('wps_record_exclusions')==true? "checked='checked'":'';?>><label for="wps-exclusions"><?php _e('Enable', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.  This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits.', 'wp_statistics'); ?></p>
@@ -128,7 +128,7 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row"><?php _e('Robot List', 'wp_statistics'); ?>:</th>
+					<th scope="row"><?php _e('Robot list', 'wp_statistics'); ?>:</th>
 					<td>
 						<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php 
 							$robotlist = get_option('wps_robotlist'); 
@@ -145,7 +145,7 @@
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e('Excluded IP Address List', 'wp_statistics'); ?>:</th>
+					<th scope="row"><?php _e('Excluded IP address list', 'wp_statistics'); ?>:</th>
 					<td>
 						<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo get_option('wps_exclude_ip');?></textarea>
 						<p class="description"><?php echo __('A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255.255.', 'wp_statistics'); ?></p>
@@ -160,14 +160,14 @@
 				</tr>
 
 				<tr valign="top">
-					<th scope="row"><?php _e('Excluded Login Page', 'wp_statistics'); ?>:</th>
+					<th scope="row"><?php _e('Excluded login page', 'wp_statistics'); ?>:</th>
 					<td>
 						<input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo get_option('wps_exclude_loginpage')==true? "checked='checked'":'';?>><label for="wps-exclude-loginpage"><?php _e('Exclude', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Exclude the login page for registering as a hit.', 'wp_statistics'); ?></p>
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e('Excluded Admin Pages', 'wp_statistics'); ?>:</th>
+					<th scope="row"><?php _e('Excluded admin pages', 'wp_statistics'); ?>:</th>
 					<td>
 						<input id="wps-exclude-adminpage" type="checkbox" value="1" name="wps_exclude_adminpage" <?php echo get_option('wps_exclude_adminpage')==true? "checked='checked'":'';?>><label for="wps-exclude-adminpage"><?php _e('Exclude', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Exclude the admin pages for registering as a hit.', 'wp_statistics'); ?></p>

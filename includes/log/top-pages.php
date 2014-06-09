@@ -121,7 +121,7 @@
 								if( $total > 0 ) {
 									// Instantiate pagination object with appropriate arguments
 									$pagesPerSection = 10;
-									$options = array(25, "All");
+									$options = 10;
 									$stylePageOff = "pageOff";
 									$stylePageOn = "pageOn";
 									$styleErrors = "paginationErrors";
@@ -139,15 +139,19 @@
 									
 									foreach($uris as $uri) {
 										$count++;
-										
-										echo "<div class='log-item'>";
 
-										if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
-										
-										echo "<div>{$count} - {$uri[3]}</div>";
-										echo "<div style='float: right'>".__('Visits', 'wp_statistics').": {$uri[1]}</div>";
-										echo "<div><a href='{$site_url}{$uri[0]}'>{$uri[0]}</a></div>";
-										echo "</div>";
+										if( $count >= $start ) {
+											echo "<div class='log-item'>";
+
+											if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
+											
+											echo "<div>{$count} - {$uri[3]}</div>";
+											echo "<div style='float: right'>".__('Visits', 'wp_statistics').": {$uri[1]}</div>";
+											echo "<div><a href='{$site_url}{$uri[0]}'>{$uri[0]}</a></div>";
+											echo "</div>";
+										}
+
+										if( $count == $start + 10 ) { break; }
 									
 									}
 									

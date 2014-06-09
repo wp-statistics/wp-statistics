@@ -107,6 +107,74 @@ License: GPL2
 		if( get_option('wps_update_geoip') )
 			wp_statistics_download_geoip();
 	}
+
+	// Add a settings link to the plugin list.
+	function wp_statistics_settings_links( $links, $file ) {
+		$manage_cap = wp_statistics_validate_capability( get_option('wps_manage_capability', 'manage_options') );
+		
+		if( current_user_can( $manage_cap ) ) {
+			array_unshift( $links, '<a href="' . admin_url( 'admin.php?page=wp-statistics/settings' ) . '">' . __( 'Settings', 'wp_statistics' ) . '</a>' );
+		}
+		
+		return $links;
+	}
+	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wp_statistics_settings_links', 10, 2 );
+
+	// Add a WordPress plugin page and rating links to the meta information to the plugin list.
+	function wp_statistics_add_meta_links($links, $file) {
+		if( $file == plugin_basename(__FILE__) ) {
+			$plugin_url = 'http://wordpress.org/plugins/wp-statistics/';
+			
+			$links[] = '<a href="'. $plugin_url .'" target="_blank" title="'. __('Click here to visit the plugin on WordPress.org', 'wp_statistics') .'">'. __('Visit plugin page', 'wp_statistics') .'</a>';
+			
+			$rate_url = 'http://wordpress.org/support/view/plugin-reviews/wp-statistics?rate=5#postform';
+			$links[] = '<a href="'. $rate_url .'" target="_blank" title="'. __('Click here to rate and review this plugin on WordPress.org', 'wp_statistics') .'">'. __('Rate this plugin', 'wp_statistics') .'</a>';
+		}
+		
+		return $links;
+	}
+	add_filter('plugin_row_meta', 'wp_statistics_add_meta_links', 10, 2);
+	
+	// Add a custom column to post/pages for hit statistics.
+	function wp_statistics_add_column( $columns ) {
+		$columns['wp-statistics'] = __('Hits', 'wp_statistics');
+		
+		return $columns;
+	}
+
+	// Render the custom column on the post/pages lists.
+	function wp_statistics_render_column( $column_name, $post_id ) {
+		if( $column_name == 'wp-statistics' ) {
+			echo wp_statistics_pages( 'total', "", $post_id );
+		}
+	}
+	
+	// Call the add/render functions at the appropriate times.
+	function wp_statistics_load_edit_init() {
+		$manage_cap = wp_statistics_validate_capability( get_option('wps_manage_capability', 'manage_options') );
+		
+		if( current_user_can( $manage_cap ) && get_option('wps_pages') && !get_option('wps_disable_column') ) {
+			$post_types = (array)get_post_types( array( 'show_ui' => true ), 'object' );
+			
+			foreach( $post_types as $type ) {
+				add_action( 'manage_' . $type->name . '_posts_columns', 'wp_statistics_add_column', 10, 2 );
+				add_action( 'manage_' . $type->name . '_posts_custom_column', 'wp_statistics_render_column', 10, 2 );
+			}
+		}
+	}
+	add_action( 'load-edit.php', 'wp_statistics_load_edit_init' );
+
+	// Add the hit count to the publish widget in the post/pages editor.
+	function wp_statistics_post_init() {
+		global $post;
+		
+		$id = $post->ID;
+	
+		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp_statistics') . ': <b>' . wp_statistics_pages( 'total', '', $id ) . '</b></div>';
+	}
+	if( get_option('wps_pages') && !get_option('wps_disable_column') ) {
+		add_action( 'post_submitbox_misc_actions', 'wp_statistics_post_init' );
+	}
 	
 	function wp_statistics_validate_capability( $capability ) {
 	

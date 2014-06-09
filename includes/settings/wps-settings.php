@@ -29,12 +29,12 @@
 			<tbody>
 				<?php wp_nonce_field('update-options');?>
 				<tr valign="top">
-					<th scope="row" colspan="2"><h3><?php _e('General', 'wp_statistics'); ?></h3></th>
+					<th scope="row" colspan="2"><h3><?php _e('Users Online', 'wp_statistics'); ?></h3></th>
 				</tr>
 				
 				<tr valign="top">
 					<th scope="row">
-						<label for="useronline"><?php _e('User Online', 'wp_statistics'); ?>:</label>
+						<label for="useronline"><?php _e('User online', 'wp_statistics'); ?>:</label>
 					</th>
 					
 					<td>
@@ -42,6 +42,22 @@
 						<label for="useronline"><?php _e('Active', 'wp_statistics'); ?></label>
 						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
 					</td>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row">
+						<label for="check_online"><?php _e('Check for online users every', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo get_option('wps_check_online'); ?>"/>
+						<?php _e('Second', 'wp_statistics'); ?>
+						<p class="description"><?php echo sprintf(__('Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics'), get_option('wps_check_online')); ?></p>
+					</td>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Visits', 'wp_statistics'); ?></h3></th>
 				</tr>
 				
 				<tr valign="top">
@@ -56,6 +72,10 @@
 					</td>
 				</tr>
 				
+				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Visitors', 'wp_statistics'); ?></h3></th>
+				</tr>
+
 				<tr valign="top">
 					<th scope="row">
 						<label for="visitors"><?php _e('Visitors', 'wp_statistics'); ?>:</label>
@@ -82,6 +102,21 @@
 				
 				<tr valign="top">
 					<th scope="row">
+						<label for="coefficient"><?php _e('Coefficient per visitor', 'wp_statistics'); ?>:</label>
+					</th>
+					
+					<td>
+						<input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo get_option('wps_coefficient'); ?>"/>
+						<p class="description"><?php echo sprintf(__('For each visit to account for several hits. Currently %s.', 'wp_statistics'), get_option('wps_coefficient')); ?></p>
+					</td>
+				</tr>
+				
+				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Pages', 'wp_statistics'); ?></h3></th>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">
 						<label for="pages"><?php _e('Pages', 'wp_statistics'); ?>:</label>
 					</th>
 					
@@ -94,7 +129,7 @@
 
 				<tr valign="top">
 					<th scope="row">
-						<label for="pages"><?php _e('Track All Pages', 'wp_statistics'); ?>:</label>
+						<label for="pages"><?php _e('Track all pages', 'wp_statistics'); ?>:</label>
 					</th>
 					
 					<td>
@@ -106,16 +141,20 @@
 
 				<tr valign="top">
 					<th scope="row">
-						<label for="check_online"><?php _e('Check for online users every', 'wp_statistics'); ?>:</label>
+						<label for="pages"><?php _e('Disable hits column in post/pages list', 'wp_statistics'); ?>:</label>
 					</th>
 					
 					<td>
-						<input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo get_option('wps_check_online'); ?>"/>
-						<?php _e('Second', 'wp_statistics'); ?>
-						<p class="description"><?php echo sprintf(__('Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics'), get_option('wps_check_online')); ?></p>
+						<input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo get_option('wps_disable_column')==true? "checked='checked'":'';?>>
+						<label for="disable_column"><?php _e('Active', 'wp_statistics'); ?></label>
+						<p class="description"><?php _e('Enable or disable this feature', 'wp_statistics'); ?></p>
 					</td>
 				</tr>
-				
+
+				<tr valign="top">
+					<th scope="row" colspan="2"><h3><?php _e('Miscellaneous', 'wp_statistics'); ?></h3></th>
+				</tr>
+
 				<tr valign="top">
 					<th scope="row">
 						<label for="menu-bar"><?php _e('Show stats in menu bar', 'wp_statistics'); ?>:</label>
@@ -127,17 +166,6 @@
 							<option value="1" <?php selected(get_option('wps_menu_bar'), '1'); ?>><?php _e('Yes', 'wp_statistics'); ?></option>
 						</select>
 						<p class="description"><?php _e('Show stats in admin menu bar', 'wp_statistics'); ?></p>
-					</td>
-				</tr>
-				
-				<tr valign="top">
-					<th scope="row">
-						<label for="coefficient"><?php _e('Coefficient per visitor', 'wp_statistics'); ?>:</label>
-					</th>
-					
-					<td>
-						<input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo get_option('wps_coefficient'); ?>"/>
-						<p class="description"><?php echo sprintf(__('For each visit to account for several hits. Currently %s.', 'wp_statistics'), get_option('wps_coefficient')); ?></p>
 					</td>
 				</tr>
 				
@@ -332,7 +360,7 @@
 		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="<?php echo $se_option_list;?>wps_useronline,wps_visits,wps_visitors,wps_pages,wps_track_all_pages,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location,wps_hide_notices" />
+			<input type="hidden" name="page_options" value="<?php echo $se_option_list;?>wps_useronline,wps_visits,wps_visitors,wps_pages,wps_track_all_pages,wps_disable_column,wps_check_online,wps_menu_bar,wps_coefficient,wps_chart_type,wps_stats_report,wps_time_report,wps_send_report,wps_content_report,wps_chart_totals,wps_google_coordinates,wps_store_ua,wps_disable_map,wps_map_location,wps_hide_notices" />
 			<input type="submit" class="button-primary" name="Submit" value="<?php _e('Update', 'wp-sms'); ?>" />
 		</p>
 	</form>
