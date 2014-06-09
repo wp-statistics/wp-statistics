@@ -136,7 +136,7 @@ No.
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 5.5 =
+= 6.0 =
 * You can now track statistics on WordPress pages!  However this is disabled by default, go to Statistics->Settings->General Settings->Pages to enabled it.
 * There's a new admin manual, you can view or download it by going to Statistics->Manual.
 
@@ -158,9 +158,16 @@ No.
 * As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
-= 5.5 =
-* Added page tracking support.
+= 6.0 =
+* Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
+* Added: Admin manual, online viewing as well as downloadable version.
+* Added: Links for “Settings”, “WordPress Plugin Page” and “Rate” pages to the plugin list for WP Statistics.
+* Updated: General settings tab re-organization. 
+* Updated: Several typo's and other minor issues.
+* Updated: Highcharts JS v3.0.9 to JS v4.0.1.
 * Updated: Turkish (tr_TR) language.
+* Updated: Persian (fa_IR) language.
+* Removed: shortcode and functions reference from readme.txt, now in admin manual.
 
 = 5.4 =
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
