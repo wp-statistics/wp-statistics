@@ -12,3 +12,6 @@
 .log-ip {
     float: left;
 }
+#last-log{
+  direction: rtl;
+}

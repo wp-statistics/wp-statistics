@@ -26,7 +26,7 @@
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
-	<h2><?php echo __('Page Trend for Post ID', 'wp_statistics') . $pageid . ' - ' . $title; ?></h2>
+	<h2><?php echo __('Page Trend for Post ID', 'wp_statistics') . ' ' .  $pageid . ' - ' . $title; ?></h2>
 
 	<ul class="subsubsub">
 		<?php $daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } }?>

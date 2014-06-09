@@ -146,8 +146,8 @@
 											if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
 											
 											echo "<div>{$count} - {$uri[3]}</div>";
-											echo "<div style='float: right'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>{$uri[1]}</a></div>";
-											echo "<div><a href='{$site_url}{$uri[0]}'>{$uri[0]}</a></div>";
+											echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>{$uri[1]}</a></div>";
+											echo "<div class='left-div'><a href='{$site_url}{$uri[0]}'>{$uri[0]}</a></div>";
 											echo "</div>";
 										}
 
