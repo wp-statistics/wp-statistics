@@ -16,7 +16,7 @@ License: GPL2
 	}
 	
 	define('WP_STATISTICS_VERSION', '5.4');
-	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual V5.5.');
+	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
