@@ -145,7 +145,7 @@ License: GPL2
 	// Render the custom column on the post/pages lists.
 	function wp_statistics_render_column( $column_name, $post_id ) {
 		if( $column_name == 'wp-statistics' ) {
-			echo wp_statistics_pages( 'total', "", $post_id );
+			echo "<a href='" . get_admin_url() . "admin.php?page=wps_pages_menu&page-id={$post_id}'>" . wp_statistics_pages( 'total', "", $post_id ) . "</a>";
 		}
 	}
 	
