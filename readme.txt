@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 5.4
+Stable tag: 6.0
 License: GPL2
 
 Complete statistics for your blog.
@@ -88,9 +88,6 @@ To complete the language deficits of [this section](http://teamwork.wp-parsi.com
 = Where's the Admin Manual? =
 The admin manual is installed as part of the plugin, simply go to Statistics->Manual to view it.  At the top of the page will also be two icons that will allow you to download it in either ODT or HTML formats.
 
-= How to update to version 3.0? =
-Get Plugin updates via Automatic only.
-
 = If the plug does not work? =
 Disable / Enable the plugin.
 
@@ -100,7 +97,7 @@ Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.
 Also, if your running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will come up as unknown always.
 
 = I was using V3.2 and now that I've upgraded my visitors and visits have gone way down? =
-The webcrawler detection code has be Fixes and will now exclude them from your stats, don't worry, it now reflects a more accurate view of actual visitors to your site.
+The webcrawler detection code has been fixed and will now exclude them from your stats, don't worry, it now reflects a more accurate view of actual visitors to your site.
 
 = GeoIP is enabled but no hits are being counted? =
 The GeoIP code requires several things to function, PHP 5.3 or above, the bcmath extension, the cURL extension and PHP cannot be running in safe mode.  All of these conditions are checked for but there may be additional items required.  Check your PHP log files and see if there are any fatal errors listed.
@@ -118,7 +115,7 @@ Make sure you have WordPress configured correctly for SMTP and also check your W
 WP Statistics hasn't been tested with multi-site and there have been some issues reported with getting it enabled correctly on all sites in a network.
 
 = Does WP Statistics report on post hits? =
-No, WP Statistics only tracks total hits to your site, not to individual pages.
+Yes, version 6.0 has introduced page hit tracking!
 
 = Does WP Statistics track the time of the hits? =
 No.
@@ -137,25 +134,13 @@ No.
 
 == Upgrade Notice ==
 = 6.0 =
+* BACKUP YOUR DATABASE BEFORE INSTALLING!
+* This update includes a new database table, you should not lose any data to make sure to backup your database just in case.
 * You can now track statistics on WordPress pages!  However this is disabled by default, go to Statistics->Settings->General Settings->Pages to enabled it.
 * There's a new admin manual, you can view or download it by going to Statistics->Manual.
 
 = 5.3 = 
 * Robots list updated, please either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
-
-= 4.8 =
-* BACKUP YOUR DATABASE BEFORE INSTALLING!
-* This update includes a new database table, you should not lose any data to make sure to backup your database just in case.
-
-= 4.5 =
-* As of V4.3, the robots list is now stored in the database and is user configurable.  Because of this updates to the default robots list will not automatically be added during upgrades.  You can either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
-
-= 4.0 =
-* BACKUP YOUR DATABASE BEFORE INSTALLING!
-* IF YOU ARE NOT RUNNING V3.2 ALL OF YOUR DATA WILL BE LOST IF YOU UPGRADE TO V4.0 or above!
-* GeoIP is enabled by default but you must download the GeoIP database before any Countries will be detected correctly.  Go to the settings page and it will download automatically, if it does not or it fails, simply go to the bottom of the page and re-download it.
-* The new browser detection code uses "MSIE" instead of "IE", your database will be updated automatically during install to reflect this.
-* As the webcrawler code is now working, you'll probably see a significant change in the "Unknown" browser category and the number of hits your site gets.
 
 == Changelog ==
 = 6.0 =
