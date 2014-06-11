@@ -490,7 +490,7 @@ License: GPL2
 		// Download
 		$TempFile = download_url( $download_url );
 		if (is_wp_error( $TempFile ) ) {
-			$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading GeoIP database from %s: %s', 'wp_statistics'), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
+			$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading GeoIP database from: %s - %s', 'wp_statistics'), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
 		}
 		else {
 			// Ungzip File
