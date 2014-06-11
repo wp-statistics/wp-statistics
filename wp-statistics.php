@@ -381,8 +381,10 @@ License: GPL2
 		$result['useronline'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_useronline`");
 		$result['visit'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visit`");
 		$result['visitor'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visitor`");
+		$result['exclusions'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_exclusions`");
+		$result['pages'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_pages`");
 		
-		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' )
+		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' && ($result['exclusions']) != '1' && ($result['pages']) != '1' )
 			wp_die('<div class="error"><p>'.__('Table plugin does not exist! Please disable and re-enable the plugin.', 'wp_statistics').'</p></div>');
 		
 		wp_enqueue_script('postbox');
@@ -451,9 +453,6 @@ License: GPL2
 		
 		global $wpdb, $table_prefix;
 		
-		$result['useronline'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_useronline`");
-		$result['visit'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visit`");
-		$result['visitor'] = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
 		
 		switch($_GET['tab']) {
 			case 'export':
@@ -469,6 +468,12 @@ License: GPL2
 			break;
 			
 			default:
+				$result['useronline'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_useronline`");
+				$result['visit'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visit`");
+				$result['visitor'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visitor`");
+				$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_exclusions`");
+				$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$table_prefix}statistics_pages`");
+				
 				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization.php";
 			break;
 		}

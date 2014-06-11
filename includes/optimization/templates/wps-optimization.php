@@ -27,7 +27,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%sstatistics_useronline</code> table', 'wp_statistics'), $table_prefix); ?>:
+					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'useronline'); ?>:
 				</th>
 				
 				<td>
@@ -38,7 +38,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%sstatistics_visit</code> table', 'wp_statistics'), $table_prefix); ?>:
+					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'visit'); ?>:
 				</th>
 				
 				<td>
@@ -49,7 +49,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%sstatistics_visitor</code> table', 'wp_statistics'), $table_prefix); ?>:
+					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'visitor'); ?>:
 				</th>
 				
 				<td>
@@ -58,6 +58,28 @@
 				</td>
 			</tr>
 			
+			<tr valign="top">
+				<th scope="row">
+					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'exclusions'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo $result['exclusions']; ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'pages'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo $result['pages']; ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
 			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Version Info', 'wp_statistics'); ?></h3></th>
 			</tr>
