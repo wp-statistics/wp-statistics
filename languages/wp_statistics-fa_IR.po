@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics\n"
-"POT-Creation-Date: 2014-06-09 20:09+0330\n"
-"PO-Revision-Date: 2014-06-09 20:09+0330\n"
+"POT-Creation-Date: 2014-06-11 19:57+0330\n"
+"PO-Revision-Date: 2014-06-11 19:58+0330\n"
 "Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -763,96 +763,94 @@ msgid "Byte"
 msgstr "بایت"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:30
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:41
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:52
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:63
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:74
 #, php-format
-msgid "Number of rows in the <code>%sstatistics_useronline</code> table"
-msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_useronline</code>"
+msgid "Number of rows in the <code>%s</code> table"
+msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_visit</code>"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:34
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:45
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:56
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:67
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:78
 msgid "Row"
 msgstr "ردیف"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:35
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:46
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:57
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:68
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:79
 msgid "Number of rows"
 msgstr "تعداد ردیف‌های موجود"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:41
-#, php-format
-msgid "Number of rows in the <code>%sstatistics_visit</code> table"
-msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_visit</code>"
-
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:52
-#, php-format
-msgid "Number of rows in the <code>%sstatistics_visitor</code> table"
-msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_visitor</code>"
-
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:62
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:84
 msgid "Version Info"
 msgstr "اطلاعات نگارش"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:67
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:89
 msgid "WP Statistics Version"
 msgstr "نگارش افزونه آماره"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:72
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:94
 msgid "The WP Statistics version you are running."
 msgstr "نگارش افزونه آماره در حال اجرای شما."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:78
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:100
 msgid "PHP Version"
 msgstr "نگارش PHP"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:83
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:105
 msgid "The PHP version you are running."
 msgstr "نگارش PHP در حال اجرای شما."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:89
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:111
 msgid "PHP Safe Mode"
 msgstr "حالت ایمن PHP"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:94
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:116
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr "حالت ایمنی PHP فعال است. کدهای GeoIP در حالت امن پشتیبانی نمی‌شوند."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:100
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:122
 msgid "jQuery Version"
 msgstr "نگارش جی‌کوئری"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:105
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:127
 msgid "The jQuery version you are running."
 msgstr "نگارش جی‌کوئری در حال اجرای شما."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:111
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:133
 msgid "cURL Version"
 msgstr "نسخه cURL"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:115
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:137
 msgid "cURL not installed"
 msgstr "cURL نصب نیست"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:116
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:138
 msgid ""
 "The PHP cURL Extension version you are running.  cURL is required for the "
 "GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr ""
 "ماژول cURL در PHP شما در حال اجراست. اگر نصب نیست GeoIP غیرفعال خواهد شد."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:122
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:144
 msgid "BC Math"
 msgstr "BC Math"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:126
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:148
 msgid "Installed"
 msgstr "نصب شده"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:126
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:148
 msgid "Not installed"
 msgstr "نصب نشده"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:127
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:149
 msgid ""
 "If the PHP BC Math Extension is installed.  BC Math is required for the "
 "GeoIP code, if it is not installed GeoIP will be disabled."
@@ -860,23 +858,23 @@ msgstr ""
 "اگر BC Math در PHP نصب شده باشد. GeoIP برای کدکردن نیازمند آن است، اگر نصب "
 "نیست، GeoIP غیرفعال خواهد شد."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:132
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:154
 msgid "Client Info"
 msgstr "اطلاعات کاربر"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:137
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:159
 msgid "Client IP"
 msgstr "آی‌پی کاربر"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:142
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:164
 msgid "The client IP address."
 msgstr "آدرس آی‌پی کاربر."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:148
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:170
 msgid "User Agent"
 msgstr "عامل کاربر"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:153
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/templates/wps-optimization.php:175
 msgid "The client user agent string."
 msgstr "رشته‌ی عامل کاربری"
 
@@ -1742,33 +1740,39 @@ msgid "Manual file not found."
 msgstr "راهنما یافت نشد."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:374
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:449
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:451
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:544
 msgid "You do not have sufficient permissions to access this page."
 msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:386
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:388
 msgid "Table plugin does not exist! Please disable and re-enable the plugin."
 msgstr "جدول های پلاگین وجود ندارد! لطفا پلاگین را غیر فعال و مجدد فعال کنید."
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:493
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:498
 #, php-format
-msgid "Error downloading GeoIP database from %s: %s"
-msgstr "خطای دریافت پایگاه‌داده GeoIP از %s: %s"
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "خطای دریافت پایگاه‌داده GeoIP از %s: - %s"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:501
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:506
 #, php-format
 msgid "Error could not open downloaded GeoIP database for reading: %s"
 msgstr "خطای بازشدن در هنگام دریافت پایگاه‌داده GeoIP برای خواندن: %s"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:507
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:512
 #, php-format
 msgid "Error could not open destination GeoIP database for writing %s"
 msgstr "خطای بازشدن در هنگام دریافت پایگاه‌داده GeoIP برای نوشتن: %s"
 
-#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:520
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:525
 msgid "GeoIP Database updated successfully!"
 msgstr "پایگاه‌داده GeoIP با موفقیت به‌روز شد!"
+
+#~ msgid "Number of rows in the <code>%sstatistics_useronline</code> table"
+#~ msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_useronline</code>"
+
+#~ msgid "Number of rows in the <code>%sstatistics_visitor</code> table"
+#~ msgstr "تعداد ردیف‌ها در جدول <code>%sstatistics_visitor</code>"
 
 #~ msgid "Rank #%s"
 #~ msgstr "رتبه #%s"
