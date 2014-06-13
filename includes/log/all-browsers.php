@@ -104,7 +104,7 @@
 											foreach( $Browsers as $Browser )
 												{
 												$count = wp_statistics_useragent( $Browser );
-												echo "											['" . __( $Browser, 'wp_statistics' ) . " (" . $count . ")', " . $count . "],\r\n";
+												echo "											['" . __( $Browser, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
 												}
 											?>
 										]
@@ -198,7 +198,7 @@
 
 											foreach( $Platforms as $Platform ) {
 												$count = wp_statistics_platform( $Platform );
-												echo "['" . __( $Platform, 'wp_statistics' ) . " (" . $count . ")', " . $count . "],\r\n";
+												echo "['" . __( $Platform, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
 											}
 											?>
 										]
@@ -344,7 +344,7 @@
 								foreach( $Versions as $Version )
 									{
 									$count = wp_statistics_agent_version( $Browser, $Version );
-									echo "											['" . __( $Version, 'wp_statistics' ) . " (" . $count . ")', " . $count . "],\r\n";
+									echo "											['" . __( $Version, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
 									}
 								?>
 							]

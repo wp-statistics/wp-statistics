@@ -45,38 +45,38 @@
 								
 								<tr>
 									<th><?php _e('Today', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('today',null,true); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_visit('today'); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('today',null,true)); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('today')); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Yesterday', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('yesterday',null,true); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_visit('yesterday'); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('yesterday',null,true)); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('yesterday')); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Week', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('week',null,true); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_visit('week'); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('week',null,true)); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('week')); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Month', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('month',null,true); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_visit('month'); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('month',null,true)); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('month')); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Year', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('year',null,true); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_visit('year'); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('year',null,true)); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('year')); ?></span></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo wp_statistics_visitor('total',null,true); ?></span></th>
-									<th class="th-center"><span><?php echo wp_statistics_visit('total'); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('total',null,true)); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('total')); ?></span></th>
 								</tr>
 								
 								<tr>
@@ -100,8 +100,8 @@
 								?>
 								<tr>
 									<th><img src='<?php echo plugins_url('wp-statistics/assets/images/' . $se['image'] );?>'> <?php _e($se['name'], 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'today'); $se_today_total += $se_temp; echo $se_temp;?></span></th>
-									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'yesterday'); $se_yesterday_total += $se_temp; echo $se_temp;?></span></th>
+									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'today'); $se_today_total += $se_temp; echo number_format_i18n($se_temp);?></span></th>
+									<th class="th-center"><span><?php $se_temp = wp_statistics_searchengine($se['tag'], 'yesterday'); $se_yesterday_total += $se_temp; echo number_format_i18n($se_temp);?></span></th>
 								</tr>
 								
 								<?php
@@ -109,13 +109,13 @@
 								?>
 								<tr>
 									<th><?php _e('Daily Total', 'wp_statistics'); ?>:</th>
-									<td id="th-colspan" class="th-center"><span><?php echo $se_today_total; ?></span></td>
-									<td id="th-colspan" class="th-center"><span><?php echo $se_yesterday_total; ?></span></td>
+									<td id="th-colspan" class="th-center"><span><?php echo number_format_i18n($se_today_total); ?></span></td>
+									<td id="th-colspan" class="th-center"><span><?php echo number_format_i18n($se_yesterday_total); ?></span></td>
 								</tr>
 
 								<tr>
 									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
-									<th colspan="2" id="th-colspan"><span><?php echo wp_statistics_searchengine('all'); ?></span></th>
+									<th colspan="2" id="th-colspan"><span><?php echo number_format_i18n(wp_statistics_searchengine('all')); ?></span></th>
 								</tr>
 								<tr>
 									<th colspan="3"><br><hr></th>
@@ -222,7 +222,7 @@
 											foreach( $Browsers as $Browser )
 												{
 												$count = wp_statistics_useragent( $Browser );
-												echo "											['" . __( $Browser, 'wp_statistics' ) . " (" . $count . ")', " . $count . "],\r\n";
+												echo "											['" . __( $Browser, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
 												}
 											?>
 										]
@@ -246,7 +246,7 @@
 						<div class="inside">
 							<table width="100%" class="widefat table-stats" id="last-referrer">
 								<tr>
-									<td width="10%"><?php _e('Reference', 'wp_statistics'); ?></td>
+									<td width="10%"><?php _e('References', 'wp_statistics'); ?></td>
 									<td width="90%"><?php _e('Address', 'wp_statistics'); ?></td>
 								</tr>
 								
@@ -271,7 +271,7 @@
 									foreach( $get_urls as $items => $value) {
 									
 										echo "<tr>";
-										echo "<td>{$value}</td>";
+										echo "<td>" . number_format_i18n($value) . "</td>";
 										echo "<td><a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></td>";
 										echo "</tr>";
 									}
@@ -315,7 +315,7 @@
 										echo "<td style='text-align: left'>$i</td>";
 										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='{$ISOCountryCode[$item]}'/></td>";
 										echo "<td style='text-align: left'>{$ISOCountryCode[$item]}</td>";
-										echo "<td style='text-align: left'>{$value}</td>";
+										echo "<td style='text-align: left'>" . number_format_i18n($value) . "</td>";
 										echo "</tr>";
 										
 										if( $i == 10 ) { break; }
@@ -646,7 +646,7 @@
 									if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
 									
 									echo "<div>{$i} - {$uri[3]}</div>";
-									echo "<div class='right-div'>".__('Visits', 'wp_statistics').": {$uri[1]}</div>";
+									echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";
 									echo "<div class='left-div'><a href='{$site_url}{$uri[0]}'>{$uri[0]}</a></div>";
 									echo "</div>";
 									

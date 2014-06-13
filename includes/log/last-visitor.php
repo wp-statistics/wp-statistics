@@ -44,7 +44,7 @@
 					$i++;
 					if($_get == $Browser) { $current = 'class="current" '; } else { $current = ""; }
 					if( $i == $Total ) { $spacer = ""; }
-					echo "<li><a " . $current . "href='?page=wps_visitors_menu&agent=" . $Browser . "'> " . __($Browser, 'wp_statistics') ." <span class='count'>(" . wp_statistics_useragent($Browser) .")</span></a>" . $spacer . "</li>";
+					echo "<li><a " . $current . "href='?page=wps_visitors_menu&agent=" . $Browser . "'> " . __($Browser, 'wp_statistics') ." <span class='count'>(" . number_format_i18n(wp_statistics_useragent($Browser)) .")</span></a>" . $spacer . "</li>";
 				}
 			} elseif($_var) {
 				if($_get) { $current = 'class="current" '; } else { $current = ""; }

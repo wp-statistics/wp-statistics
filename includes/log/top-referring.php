@@ -114,7 +114,7 @@
 										
 										echo "<div class='log-item'>";
 											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></div>";
-											echo "<div class='log-ip'>".__('Reference', 'wp_statistics').": {$value}</div>";
+											echo "<div class='log-ip'>".__('References', 'wp_statistics').": " . number_format_i18n($value) . "</div>";
 											echo "<div class='clear'></div>";
 											echo "<div class='log-url'><a href='http://{$items}/' title='{$items}'><div class='dashicons dashicons-admin-links'></div> http://{$items}/</a></div>";
 										echo "</div>";

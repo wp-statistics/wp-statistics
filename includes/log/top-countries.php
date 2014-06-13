@@ -49,7 +49,7 @@
 										echo "<td style='text-align: center;'>$i</td>";
 										echo "<td style='text-align: center;'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='{$ISOCountryCode[$item]}'/></td>";
 										echo "<td style='text-align: left; direction: ltr;'>{$ISOCountryCode[$item]}</td>";
-										echo "<td style='text-align: center;'>{$value}</td>";
+										echo "<td style='text-align: center;'>" . number_format_i18n($value) . "</td>";
 										echo "</tr>";
 									}
 								?>
