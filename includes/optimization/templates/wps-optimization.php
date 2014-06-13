@@ -20,7 +20,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo number_format(memory_get_usage()); ?></strong> <?php _e('Byte', 'wp_statistics'); ?>
+					<strong><?php echo number_format_i18n(memory_get_usage()); ?></strong> <?php _e('Byte', 'wp_statistics'); ?>
 					<p class="description"><?php _e('Memory usage in PHP', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
@@ -31,7 +31,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo $result['useronline']; ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<strong><?php echo number_format_i18n($result['useronline']); ?></strong> <?php _e('Row', 'wp_statistics'); ?>
 					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
@@ -42,7 +42,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo $result['visit']; ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<strong><?php echo number_format_i18n($result['visit']); ?></strong> <?php _e('Row', 'wp_statistics'); ?>
 					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
@@ -53,7 +53,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo $result['visitor']; ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<strong><?php echo number_format_i18n($result['visitor']); ?></strong> <?php _e('Row', 'wp_statistics'); ?>
 					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
@@ -64,7 +64,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo $result['exclusions']; ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<strong><?php echo number_format_i18n($result['exclusions']); ?></strong> <?php _e('Row', 'wp_statistics'); ?>
 					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
@@ -75,7 +75,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo $result['pages']; ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<strong><?php echo number_format_i18n($result['pages']); ?></strong> <?php _e('Row', 'wp_statistics'); ?>
 					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
