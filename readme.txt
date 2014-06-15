@@ -150,8 +150,10 @@ No.
 * Updated: General settings tab re-organization. 
 * Updated: Several typo's and other minor issues.
 * Updated: Highcharts JS v3.0.9 to JS v4.0.1.
-* Updated: Turkish (tr_TR) language.
 * Updated: Persian (fa_IR) language.
+* Updated: Polish (pl_PL) language.
+* Updated: Arabic (ar) language.
+* Updated: Turkish (tr_TR) language.
 * Removed: shortcode and functions reference from readme.txt, now in admin manual.
 
 = 5.4 =
