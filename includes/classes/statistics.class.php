@@ -95,17 +95,20 @@
 			} elseif (getenv('HTTP_FORWARDED')) {
 				$temp_ip = getenv('HTTP_FORWARDED');
 			} 
+
+			// Trim off any port values that exist.
+			if( strstr( $temp_ip, ':' ) !== FALSE ) {
+				$temp_a = explode(':', $temp_ip);
+				$temp_ip = $temp_a[0];
+			}
 			
-			// If http headers exist, use them.
-			if( $temp_ip != $_SERVER['REMOTE_ADDR'] ) {
-				// Check to make sure the http header is actually an IP address and not some kind of SQL injection attack.
-				$long = ip2long($this->ip);
-			
-				// ip2long returns either -1 or FALSE if it is not a valid IP address depending on the PHP version, so check for both.
-				if($long == -1 || $long === FALSE) {
-					// If the headers are invalid, use the server variable which should be good always.
-					$temp_ip = $_SERVER['REMOTE_ADDR'];
-				}
+			// Check to make sure the http header is actually an IP address and not some kind of SQL injection attack.
+			$long = ip2long($temp_ip);
+		
+			// ip2long returns either -1 or FALSE if it is not a valid IP address depending on the PHP version, so check for both.
+			if($long == -1 || $long === FALSE) {
+				// If the headers are invalid, use the server variable which should be good always.
+				$temp_ip = $_SERVER['REMOTE_ADDR'];
 			}
 			
 			$this->ip = $temp_ip;
