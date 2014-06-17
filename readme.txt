@@ -143,6 +143,9 @@ No.
 * Robots list updated, please either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
 
 == Changelog ==
+= 6.1 =
+* Fixed bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
+
 = 6.0 =
 * Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
 * Added: Admin manual, online viewing as well as downloadable version.
