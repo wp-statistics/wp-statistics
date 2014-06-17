@@ -144,7 +144,8 @@ No.
 
 == Changelog ==
 = 6.1 =
-* Fixed bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
+* Updated: Support international number formats in statistics display.
+* Fixed: bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
 
 = 6.0 =
 * Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
