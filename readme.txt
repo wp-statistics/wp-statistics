@@ -145,6 +145,7 @@ No.
 == Changelog ==
 = 6.1 =
 * Updated: Support international number formats in statistics display.
+* Updated description of WordPress.org plugin link in plugin list.
 * Fixed: bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
 
 = 6.0 =
