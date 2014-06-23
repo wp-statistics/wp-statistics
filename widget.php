@@ -31,7 +31,7 @@
 			if(get_option('tvisitor_widget')) {
 				echo "<li>";
 					echo __('Today Visitor', 'wp_statistics'). ": ";
-					echo wp_statistics_visitor('today');
+					echo wp_statistics_visitor('today', null, true);
 				echo "</li>";
 			}
 
@@ -45,7 +45,7 @@
 			if(get_option('yvisitor_widget')) {
 				echo "<li>";
 					echo __('Yesterday Visitor', 'wp_statistics'). ": ";
-					echo wp_statistics_visitor('yesterday');
+					echo wp_statistics_visitor('yesterday', null, true);
 				echo "</li>";
 			}
 
@@ -80,7 +80,7 @@
 			if(get_option('ttvisitor_widget')) {
 				echo "<li>";
 					echo __('Total Visitor', 'wp_statistics'). ": ";
-					echo wp_statistics_visitor('total');
+					echo wp_statistics_visitor('total', null, true);
 				echo "</li>";
 			}
 

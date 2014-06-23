@@ -24,7 +24,7 @@
 				break;
 				
 			case 'visitors':
-				$result = wp_statistics_visitor($atts['time']);
+				$result = wp_statistics_visitor($atts['time'], null, true);
 				break;
 				
 			case 'pagevisits':
