@@ -27,6 +27,17 @@
 			
 			<tr valign="top">
 				<th scope="row">
+					<?php _e('PHP Memory Limit', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo ini_get('memory_limit'); ?></strong>
+					<p class="description"><?php _e('The memory limit a script is allowed to consume, set in php.ini.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
 					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'useronline'); ?>:
 				</th>
 				
