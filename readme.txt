@@ -144,6 +144,7 @@ No.
 
 == Changelog ==
 = 6.1 =
+* Added: Display of the current memory_limit setting from php.ini in the optimization page.
 * Updated: Support international number formats in statistics display.
 * Updated: Description of WordPress.org plugin link in plugin list.
 * Updated: Widget and shortcode now use the countonly option in wp_statistics_vistor() for better performance.
