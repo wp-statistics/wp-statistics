@@ -36,6 +36,7 @@
 				`ip` varchar(20) NOT NULL,
 				`location` varchar(10),
 				PRIMARY KEY (`ID`),
+				UNIQUE KEY `date_ip` (`last_counter`,`ip`),
 				KEY `agent` (`agent`),
 				KEY `platform` (`platform`),
 				KEY `version` (`version`),
