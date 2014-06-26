@@ -1,11 +1,10 @@
 <?php
 /*
-Plugin Name: Wordpress Statistics
-Plugin URI: http://mostafa-soufi.ir/blog/wordpress-statistics
+Plugin Name: WP Statistics
+Plugin URI: http://wp-statistics.com
 Description: Complete statistics for your blog.
 Version: 6.0
-Author: Mostafa Soufi
-Author URI: http://mostafa-soufi.ir/
+Author: Mostafa Soufi & Greg Ross
 Text Domain: wp_statistics
 Domain Path: /languages/
 License: GPL2
@@ -21,7 +20,7 @@ License: GPL2
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
-	__('Wordpress Statistics', 'wp_statistics');
+	__('WP Statistics', 'wp_statistics');
 	__('Complete statistics for your blog.', 'wp_statistics');
 
 	// Check to see if we're installed and are the current version.
@@ -64,7 +63,7 @@ License: GPL2
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
 			
 			if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') )
-				echo '<div class="error"><p>'.sprintf(__('Facilities Wordpress Statistics not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+				echo '<div class="error"><p>'.sprintf(__('WP Statistics is not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
 			
 			if(!get_option('wps_geoip') && wp_statistics_geoip_supported())
 				echo '<div class="error"><p>'.sprintf(__('GeoIP collection is not active! Please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';

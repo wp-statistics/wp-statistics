@@ -1,5 +1,5 @@
-=== Wordpress Statistics ===
-Contributors: mostafa.s1990
+=== WP Statistics ===
+Contributors: mostafa.s1990, GregRoss
 Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
@@ -149,6 +149,7 @@ No.
 * Updated: Support international number formats in statistics display.
 * Updated: Description of WordPress.org plugin link in plugin list.
 * Updated: Widget and shortcode now use the countonly option in wp_statistics_vistor() for better performance.
+* Updated: Renamed plugin from "WordPress Statistics" to "WP Statistics".
 * Fixed: bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
 
 = 6.0 =
