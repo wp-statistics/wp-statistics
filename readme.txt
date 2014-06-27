@@ -129,7 +129,7 @@ No.
 6. Settings page.
 7. Widget page.
 8. View Top Browsers page.
-9. View latest Hits Statistics page
+9. View latest Hits Statistics page.
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
@@ -146,6 +146,7 @@ No.
 = 6.1 =
 * Added: Display of the current memory_limit setting from php.ini in the optimization page.
 * Added: New index on visitor table for new installs to avoid duplicate entries being created.  A future update will add this index to existing installs but will need additional testing before it is implemented.
+* Added: Seychelles flag.
 * Updated: Support international number formats in statistics display.
 * Updated: Description of WordPress.org plugin link in plugin list.
 * Updated: Widget and shortcode now use the countonly option in wp_statistics_vistor() for better performance.
