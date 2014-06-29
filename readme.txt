@@ -152,6 +152,7 @@ No.
 * Updated: Widget and shortcode now use the countonly option in wp_statistics_vistor() for better performance.
 * Updated: Renamed plugin from "WordPress Statistics" to "WP Statistics".
 * Fixed: bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
+* Updated: Persian (fa_IR) language.
 
 = 6.0 =
 * Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
