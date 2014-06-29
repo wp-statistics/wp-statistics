@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 6.0
+Stable tag: 6.1
 License: GPL2
 
 Complete statistics for your blog.
@@ -18,8 +18,6 @@ Now includes tracking of individual page hits!
 
 On screen statistics report a graphs are easily viewed through the admin interface.
 
-Lots of new features and bugfixes, please see the change log for a complete description of what's changed.
-
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
 = Features =
@@ -29,7 +27,7 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Visitors, see who's visiting your site
 * Page tracking, see which pages are viewed most often
 * Search Engines, see search queries and redirects from popular search engines like Google, Bing, DuckDuckGo, Yahoo, Yandex and Baidu
-* GeoIP location by Country [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
+* GeoIP location by Country
 * Interactive map of visitors location
 * E-mail reports of statistics
 * Set access level for view and manage roles based on WordPress roles
