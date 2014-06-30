@@ -65,6 +65,7 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Hungarian [Thanks ZSIMI](http://www.zsimi.hu/)
 * Chinese (Taiwan) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
 * Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
+* Dutch thanks Friso van Wieringen.
 
 [Percentage languages ​​translation](http://teamwork.wp-parsi.com/projects/wp-statistics/)
 To complete the language deficits of [this section](http://teamwork.wp-parsi.com/projects/wp-statistics/) apply.
@@ -141,6 +142,10 @@ No.
 * Robots list updated, please either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
 
 == Changelog ==
+= 6.x =
+* Added Dutch (nl_NL) translation, thanks Friso van Wieringen.
+* Updated: Arabic (ar) language.
+
 = 6.1 =
 * Added: Display of the current memory_limit setting from php.ini in the optimization page.
 * Added: New index on visitor table for new installs to avoid duplicate entries being created.  A future update will add this index to existing installs but will need additional testing before it is implemented.
