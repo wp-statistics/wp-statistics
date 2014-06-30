@@ -144,6 +144,7 @@ No.
 == Changelog ==
 = 6.x =
 * Added Dutch (nl_NL) translation, thanks Friso van Wieringen.
+* Updated: Arabic (ar) language.
 
 = 6.1 =
 * Added: Display of the current memory_limit setting from php.ini in the optimization page.
