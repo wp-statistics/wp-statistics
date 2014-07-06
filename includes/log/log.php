@@ -237,6 +237,11 @@
 					</div>
 				</div>
 				
+<?php
+				$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
+				
+				if( sizeof( $result ) > 0 ) {
+?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
@@ -251,7 +256,6 @@
 								</tr>
 								
 								<?php
-									$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 									
 									$urls = array();
 									foreach( $result as $items ) {
@@ -281,6 +285,7 @@
 					</div>
 				</div>
 				
+<?php }?>				
 				<?php if( get_option('wps_geoip') ) { ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -311,6 +316,8 @@
 									foreach( $Countries as $item => $value) {
 										$i++;
 										
+										$item = strtoupper($item);
+										
 										echo "<tr>";
 										echo "<td style='text-align: left'>$i</td>";
 										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='{$ISOCountryCode[$item]}'/></td>";
@@ -325,8 +332,8 @@
 						</div>
 					</div>
 				</div>
-				<?php } ?>
 				
+				<?php } ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php echo sprintf(__('About WP Statistics V%s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></span></h3>
@@ -577,6 +584,14 @@
 					</div>
 				</div>
 
+<?php
+				// Retrieve MySQL data for the search words.
+				$search_query = wp_statistics_searchword_query('all');
+
+				$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
+				
+				if( sizeof($result) > 0 ) {
+?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
@@ -584,11 +599,6 @@
 					</h3>
 					<div class="inside">
 							<?php
-								// Retrieve MySQL data
-								$search_query = wp_statistics_searchword_query('all');
-
-								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
-								
 								echo "<div class='log-latest'>";
 								
 								foreach($result as $items) {
@@ -624,6 +634,11 @@
 					</div>
 				</div>
 
+<?php }
+				list( $total, $uris ) = wp_statistics_get_top_pages();
+				
+				if( $total > 0 ) {
+?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
@@ -632,7 +647,6 @@
 					<div class="inside">
 							<?php
 								// Retrieve data
-								list( $total, $uris ) = wp_statistics_get_top_pages();
 								
 								echo "<div class='log-latest'>";
 								
@@ -657,8 +671,11 @@
 					</div>
 				</div>
 
-				<?php if( get_option('wps_map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } ?>
-				
+<?php 
+	} 
+
+				if( get_option('wps_map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } 
+?>				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">

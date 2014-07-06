@@ -44,6 +44,8 @@
 									
 									foreach( $Countries as $item => $value) {
 										$i++;
+
+										$item = strtoupper($item);
 										
 										echo "<tr>";
 										echo "<td style='text-align: center;'>$i</td>";

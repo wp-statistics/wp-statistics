@@ -144,6 +144,10 @@ No.
 == Changelog ==
 = 6.x =
 * Added Dutch (nl_NL) translation, thanks Friso van Wieringen.
+* Fixed: Some country codes not displaying in the "Top Countries" overview widget/page.
+* Updated: "Top Referring Sites" on the overview page now only displays if there are entries to be displayed.
+* Updated: "Latest Search Words" on the overview page now only displays if there are entries to be displayed.
+* Updated: "Top Pages Visited" on the overview page now only displays if there are entries to be displayed.
 * Updated: Arabic (ar) language.
 
 = 6.1 =
