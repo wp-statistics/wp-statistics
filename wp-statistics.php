@@ -23,6 +23,11 @@ License: GPL2
 	__('WP Statistics', 'wp_statistics');
 	__('Complete statistics for your blog.', 'wp_statistics');
 
+	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
+	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
+
+	$WP_Statistics = new WP_Statistics();
+
 	// Check to see if we're installed and are the current version.
 	$WPS_Installed = get_option('wp_statistics_plugin_version');
 	if( $WPS_Installed != WP_STATISTICS_VERSION ) {	
@@ -42,12 +47,6 @@ License: GPL2
 	}
 	
 	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
-	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
-	
-	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
-
-	$WP_Statistics = new WP_Statistics();
-
 	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
 
@@ -60,7 +59,8 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/schedule.php';
 	
 	function wp_statistics_not_enable() {
-
+		GLOBAL $WP_Statistics;
+		
 		if( !$WP_Statistics->get_option('hide_notices') ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
 			

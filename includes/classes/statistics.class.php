@@ -46,6 +46,8 @@
 		}
 		
 		public function get_option($option, $default = null) {
+			if( !is_array($this->options) ) { return FALSE; }
+		
 			if( !array_key_exists($option, $this->options) ) {
 				if( isset( $default ) ) {
 					return $default;

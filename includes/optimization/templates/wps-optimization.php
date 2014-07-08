@@ -171,7 +171,7 @@
 				</th>
 				
 				<td>
-					<strong><?php $wpstats = new WP_Statistics(); echo $wpstats->get_IP(); ?></strong>
+					<strong><?php echo $WP_Statistics->get_IP(); ?></strong>
 					<p class="description"><?php _e('The client IP address.', 'wp_statistics'); ?></p>
 				</td>
 			</tr>

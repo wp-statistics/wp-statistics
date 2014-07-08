@@ -35,10 +35,8 @@
 				
 				break;
 		}
-				
-		$s = new WP_Statistics();
-		
-		$s->Primary_Values();
+
+		$WP_Statistics->Primary_Values();
 		
 	} else {
 		_e('Please select the desired items.', 'wp_statistics');

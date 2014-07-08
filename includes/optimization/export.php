@@ -18,9 +18,7 @@
 	
 		require('../classes/php-export-data.class.php');
 		
-		$s = new WP_Statistics();
-		
-		$file_name = WPS_EXPORT_FILE_NAME . '-' . $s->Current_Date('Y-m-d-H:i');
+		$file_name = WPS_EXPORT_FILE_NAME . '-' . $WP_Statistics->Current_Date('Y-m-d-H:i');
 		
 		$result = $wpdb->get_results("SELECT * FROM {$table_prefix}statistics_{$table}", ARRAY_A);
 		

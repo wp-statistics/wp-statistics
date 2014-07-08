@@ -3,7 +3,7 @@
 	
 		function wp_statistics_install() {
 		
-			global $wp_statistics_db_version, $table_prefix;
+			global $wp_statistics_db_version, $table_prefix, $WP_Statistics;
 			
 			$create_useronline_table = ("CREATE TABLE {$table_prefix}statistics_useronline (
 				`ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -78,27 +78,27 @@
 			include_once('robotslist.php');
 			
 			// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
-			if( get_option('wps_geoip') === FALSE ) { update_option('wps_geoip',FALSE); }
-			if( get_option('wps_useronline') === FALSE ) { update_option('wps_useronline',TRUE); }
-			if( get_option('wps_visits') === FALSE ) { update_option('wps_visits',TRUE); }
-			if( get_option('wps_visitors') === FALSE ) { update_option('wps_visitors',TRUE); }
-			if( get_option('wps_pages') === FALSE ) { update_option('wps_visitors',TRUE); }
-			if( get_option('wps_check_online') === FALSE ) { update_option('wps_check_online','30'); }
-			if( get_option('wps_menu_bar') === FALSE ) { update_option('wps_menu_bar',FALSE); }
-			if( get_option('wps_coefficient') === FALSE ) { update_option('wps_coefficient','1'); }
-			if( get_option('wps_chart_type') === FALSE ) { update_option('wps_chart_type','line'); }
-			if( get_option('wps_stats_report') === FALSE ) { update_option('wps_stats_report',FALSE); }
-			if( get_option('wps_time_report') === FALSE ) { update_option('wps_time_report','daily'); }
-			if( get_option('wps_send_report') === FALSE ) { update_option('wps_send_report','mail'); }
-			if( get_option('wps_content_report') === FALSE ) { update_option('wps_content_report',''); }
-			if( get_option('wps_update_geoip') === FALSE ) { update_option('wps_update_geoip',TRUE); }
-			if( get_option('wps_store_ua') === FALSE ) { update_option('wps_store_ua',FALSE); }
-			if( get_option('wps_robotlist') === FALSE ) { update_option('wps_robotlist',$wps_robotslist); }
-			if( get_option('wps_exclude_administrator') === FALSE ) { update_option('wps_exclude_administrator',TRUE); }
+			if( $WP_Statistics->get_option('wps_geoip') === FALSE ) { $WP_Statistics->store_option('wps_geoip',FALSE); }
+			if( $WP_Statistics->get_option('wps_useronline') === FALSE ) { $WP_Statistics->store_option('wps_useronline',TRUE); }
+			if( $WP_Statistics->get_option('wps_visits') === FALSE ) { $WP_Statistics->store_option('wps_visits',TRUE); }
+			if( $WP_Statistics->get_option('wps_visitors') === FALSE ) { $WP_Statistics->store_option('wps_visitors',TRUE); }
+			if( $WP_Statistics->get_option('wps_pages') === FALSE ) { $WP_Statistics->store_option('wps_visitors',TRUE); }
+			if( $WP_Statistics->get_option('wps_check_online') === FALSE ) { $WP_Statistics->store_option('wps_check_online','30'); }
+			if( $WP_Statistics->get_option('wps_menu_bar') === FALSE ) { $WP_Statistics->store_option('wps_menu_bar',FALSE); }
+			if( $WP_Statistics->get_option('wps_coefficient') === FALSE ) { $WP_Statistics->store_option('wps_coefficient','1'); }
+			if( $WP_Statistics->get_option('wps_chart_type') === FALSE ) { $WP_Statistics->store_option('wps_chart_type','line'); }
+			if( $WP_Statistics->get_option('wps_stats_report') === FALSE ) { $WP_Statistics->store_option('wps_stats_report',FALSE); }
+			if( $WP_Statistics->get_option('wps_time_report') === FALSE ) { $WP_Statistics->store_option('wps_time_report','daily'); }
+			if( $WP_Statistics->get_option('wps_send_report') === FALSE ) { $WP_Statistics->store_option('wps_send_report','mail'); }
+			if( $WP_Statistics->get_option('wps_content_report') === FALSE ) { $WP_Statistics->store_option('wps_content_report',''); }
+			if( $WP_Statistics->get_option('wps_update_geoip') === FALSE ) { $WP_Statistics->store_option('wps_update_geoip',TRUE); }
+			if( $WP_Statistics->get_option('wps_store_ua') === FALSE ) { $WP_Statistics->store_option('wps_store_ua',FALSE); }
+			if( $WP_Statistics->get_option('wps_robotlist') === FALSE ) { $WP_Statistics->store_option('wps_robotlist',$wps_robotslist); }
+			if( $WP_Statistics->get_option('wps_exclude_administrator') === FALSE ) { $WP_Statistics->store_option('wps_exclude_administrator',TRUE); }
+
+			$WP_Statistics->save_options();
 			
-		
-			$s = new WP_Statistics();
-			$s->Primary_Values();
+			$WP_Statistics->Primary_Values();
 		}
 	}
 ?>
