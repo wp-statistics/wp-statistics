@@ -45,11 +45,13 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
 	
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
-	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 
+	$WP_Statistics = new WP_Statistics();
+
+	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
 
-	if( get_option('wps_geoip') && wp_statistics_geoip_supported() ) {
+	if( $WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported() ) {
 		include_once dirname( __FILE__ ) . '/includes/classes/hits.geoip.class.php';
 	}
 	
@@ -59,18 +61,18 @@ License: GPL2
 	
 	function wp_statistics_not_enable() {
 
-		if( !get_option('wps_hide_notices') ) {
+		if( !$WP_Statistics->get_option('hide_notices') ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
 			
-			if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') )
+			if( !$WP_Statistics->get_option('useronline') || !$WP_Statistics->get_option('visits') || !$WP_Statistics->get_option('visitors') )
 				echo '<div class="error"><p>'.sprintf(__('WP Statistics is not enabled! Please go to <a href="%s">setting page</a> and enable statistics', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
 			
-			if(!get_option('wps_geoip') && wp_statistics_geoip_supported())
+			if(!$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported())
 				echo '<div class="error"><p>'.sprintf(__('GeoIP collection is not active! Please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';
 		}
 	}
 
-	if( !get_option('wps_useronline') || !get_option('wps_visits') || !get_option('wps_visitors') || !get_option('wps_geoip') ) {
+	if( !$WP_Statistics->get_option('useronline') || !$WP_Statistics->get_option('visits') || !$WP_Statistics->get_option('visitors') || !$WP_Statistics->get_option('geoip') ) {
 		add_action('admin_notices', 'wp_statistics_not_enable');
 	}
 
@@ -79,6 +81,8 @@ License: GPL2
 	add_action('shutdown', 'wp_statistics_shutdown_action');
 	
 	function wp_statistics_shutdown_action() {
+		GLOBAL $WP_Statistics;
+		
 		$o = new Useronline();
 		
 		if( class_exists( 'GeoIPHits' ) ) { 
@@ -87,29 +91,31 @@ License: GPL2
 			$h = new Hits();
 		}
 	
-		if( get_option('wps_useronline') )
+		if( $WP_Statistics->get_option('useronline') )
 			$o->Check_online();
 
-		if( get_option('wps_visits') )
+		if( $WP_Statistics->get_option('visits') )
 			$h->Visits();
 
-		if( get_option('wps_visitors') )
+		if( $WP_Statistics->get_option('visitors') )
 			$h->Visitors();
 
-		if( get_option('wps_pages') )
+		if( $WP_Statistics->get_option('pages') )
 			$h->Pages();
 
-		if( get_option('wps_check_online') )
-			$o->second = get_option('wps_check_online');
+		if( $WP_Statistics->get_option('check_online') )
+			$o->second = $WP_Statistics->get_option('check_online');
 		
 		// Check to see if the GeoIP database needs to be downloaded and do so if required.
-		if( get_option('wps_update_geoip') )
+		if( $WP_Statistics->get_option('update_geoip') )
 			wp_statistics_download_geoip();
 	}
 
 	// Add a settings link to the plugin list.
 	function wp_statistics_settings_links( $links, $file ) {
-		$manage_cap = wp_statistics_validate_capability( get_option('wps_manage_capability', 'manage_options') );
+		GLOBAL $WP_Statistics;
+		
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
 		
 		if( current_user_can( $manage_cap ) ) {
 			array_unshift( $links, '<a href="' . admin_url( 'admin.php?page=wp-statistics/settings' ) . '">' . __( 'Settings', 'wp_statistics' ) . '</a>' );
@@ -150,9 +156,9 @@ License: GPL2
 	
 	// Call the add/render functions at the appropriate times.
 	function wp_statistics_load_edit_init() {
-		$manage_cap = wp_statistics_validate_capability( get_option('wps_manage_capability', 'manage_options') );
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
 		
-		if( current_user_can( $manage_cap ) && get_option('wps_pages') && !get_option('wps_disable_column') ) {
+		if( current_user_can( $manage_cap ) && $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
 			$post_types = (array)get_post_types( array( 'show_ui' => true ), 'object' );
 			
 			foreach( $post_types as $type ) {
@@ -171,7 +177,7 @@ License: GPL2
 	
 		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp_statistics') . ': <b>' . wp_statistics_pages( 'total', '', $id ) . '</b></div>';
 	}
-	if( get_option('wps_pages') && !get_option('wps_disable_column') ) {
+	if( $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
 		add_action( 'post_submitbox_misc_actions', 'wp_statistics_post_init' );
 	}
 	
@@ -194,15 +200,16 @@ License: GPL2
 	}
 	
 	function wp_statistics_menu() {
-	
-		$read_cap = wp_statistics_validate_capability( get_option('wps_read_capability', 'manage_options') );
-		$manage_cap = wp_statistics_validate_capability( get_option('wps_manage_capability', 'manage_options') );
+		GLOBAL $WP_Statistics;
+		
+		$read_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
 		
 		add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview');
 		
 		add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview');
 		add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, 'wps_browsers_menu', 'wp_statistics_log_browsers');
-		if( get_option('wps_geoip') ) {
+		if( $WP_Statistics->get_option('geoip') ) {
 			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log_countries');
 		}
 		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log_hits');
@@ -284,7 +291,7 @@ License: GPL2
 		}
 	}
 	
-	if( get_option('wps_menu_bar') ) {
+	if( $WP_Statistics->get_option('menu_bar') ) {
 		add_action('admin_bar_menu', 'wp_statistics_menubar', 20);
 	}
 	
@@ -365,11 +372,14 @@ License: GPL2
 	
 	
 	function wp_statistics_log( $log_type = "" ) {
-	
+		GLOBAL $WP_Statistics;
+		
+		$WP_Statistics->load_user_options();
+
 		if( $log_type == "" && array_key_exists('type', $_GET)) 
 			$log_type = $_GET['type'];
 			
-		if (!current_user_can(wp_statistics_validate_capability(get_option('wps_read_capability', 'manage_option')))) {
+		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('read_capability', 'manage_option')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
@@ -445,8 +455,11 @@ License: GPL2
 	}
 	
 	function wp_statistics_optimization() {
+		GLOBAL $WP_Statistics;
+		
+		$WP_Statistics->load_user_options();
 	
-		if (!current_user_can(wp_statistics_validate_capability(get_option('wps_manage_capability', 'manage_options')))) {
+		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
@@ -526,7 +539,7 @@ License: GPL2
 					update_option('wps_last_geoip_dl', time());
 					update_option('wps_update_geoip', false);
 
-					if( get_option('wps_geoip') && wp_statistics_geoip_supported() && get_option('wps_auto_pop')) {
+					if( $WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported() && $WP_Statistics->get_option('auto_pop')) {
 						include_once dirname( __FILE__ ) . '/includes/functions/geoip-populate.php';
 						$result .= wp_statistics_populate_geoip_info();
 					}
@@ -538,34 +551,26 @@ License: GPL2
 	}
 	
 	function wp_statistics_settings() {
+		GLOBAL $WP_Statistics;
+		
+		$WP_Statistics->load_user_options();
 
-		if (!current_user_can(wp_statistics_validate_capability(get_option('wps_manage_capability', 'manage_options')))) {
+		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', true, '1.0');
+		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . "assets/css/jquery-ui-1.10.4.custom.css");
+		wp_enqueue_style("jquery-ui-css");
+
+		wp_enqueue_script('jquery-ui-core');
+		wp_enqueue_script('jquery-ui-tabs');
 		
 		// We could let the download happen at the end of the page, but this way we get to give some
 		// feedback to the users about the result.
-		if( get_option('wps_update_geoip') == true ) {
+		if( $WP_Statistics->get_option('update_geoip') == true ) {
 			echo wp_statistics_download_geoip();
 		}
 		
-		switch($_GET['tab']) {
-			case 'access-level':
-				include_once dirname( __FILE__ ) . "/includes/settings/wps-access-level.php";
-			break;
-			
-			case 'geoip':
-				include_once dirname( __FILE__ ) . "/includes/settings/wps-geoip.php";
-			break;
-			
-			case 'maintenance':
-				include_once dirname( __FILE__ ) . "/includes/settings/wps-maintenance.php";
-			break;
-			
-			default:
-				include_once dirname( __FILE__ ) . "/includes/settings/wps-settings.php";
-			break;
-		}
+		include_once dirname( __FILE__ ) . "/includes/settings/wps-settings.php";
 	}

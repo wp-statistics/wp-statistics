@@ -4,13 +4,13 @@
 	});
 </script>
 <?php
-	if( get_option( 'wps_record_exclusions' ) != 1 ) {
+	if( $WP_Statistics->get_option( 'record_exclusions' ) != 1 ) {
 		echo "<div class='updated settings-error'><p><strong>" . __('Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!', 'wp_statistics') . "</strong></p></div>";
 	}
 
 	$daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } }
 
-	$total_stats = get_option( 'wps_chart_totals' );
+	$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 	
 	$excluded_reasons = array('Robot','IP Match','Self Referral','Login Page','Admin Page','User Role');
 	$excluded_results = array();
@@ -76,7 +76,7 @@
 							visit_chart = new Highcharts.Chart({
 								chart: {
 									renderTo: 'exclusion-stats',
-									type: '<?php echo get_option('wps_chart_type'); ?>',
+									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
 									backgroundColor: '#FFFFFF',
 									height: '600'
 								},

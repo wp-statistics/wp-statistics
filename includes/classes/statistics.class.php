@@ -9,7 +9,11 @@
 		private $agent;
 		
 		public $coefficient = 1;
-		
+		public $plugin_dir = '';
+		public $user_id = 0;
+		public $options = array();
+		public $user_options = array();
+
 		public function __construct() {
 		
 			global $wpdb, $table_prefix;
@@ -17,12 +21,100 @@
 			$this->db = $wpdb;
 			$this->tb_prefix = $table_prefix;
 			$this->agent = $this->get_UserAgent();
-			if( get_option('wps_coefficient') ) {
-				$this->coefficient = get_option('wps_coefficient');
-			}
+			$this->coefficient = get_option('wps_coefficient', 1);
+			$this->options = get_option( 'wp_statistics' ); 
 			
+			// This is a bit of a hack, we strip off the "includes/classes" at the end of the current class file's path.
+			$this->plugin_dir = substr( dirname( __FILE__ ), 0, -17 );
+		}
+
+		public function set_user_id() {
+			if( $this->user_id == 0 ) {
+				$this->user_id = get_current_user_id();
+			}
 		}
 		
+		public function load_options() {
+			$this->options = get_option( 'wp_statistics' ); 
+		}
+		
+		public function load_user_options() {
+			$this->set_user_id();
+
+			// Not sure why, but get_user_meta() is returning an array or array's unless $single is set to true.
+			$this->user_options = get_user_meta( $this->user_id, 'wp_statistics', true );
+		}
+		
+		public function get_option($option, $default = null) {
+			if( !array_key_exists($option, $this->options) ) {
+				if( isset( $default ) ) {
+					return $default;
+				} else {
+					return FALSE;
+				}
+			}
+			
+			return $this->options[$option];
+		}
+		
+		public function get_user_option($option, $default = null) {
+			if( $this->user_id == 0 ) {return FALSE; }
+			
+			if( !array_key_exists($option, $this->user_options) ) {
+				if( isset( $default ) ) {
+					return $default;
+				} else {
+					return FALSE;
+				}
+			}
+			
+			return $this->user_options[$option];
+		}
+
+		public function update_option($option, $value) {
+			$this->options[$option] = $value;
+			
+			update_option('wp_statistics', $this->options);
+		}
+		
+		public function update_user_option($option, $value) {
+			if( $this->user_id == 0 ) { return FALSE; }
+
+			$this->user_options[$option] = $value;
+			
+			update_user_meta( $this->user_id, 'wp_statistics', $this->user_options );
+		}
+
+		public function store_option($option, $value) {
+			$this->options[$option] = $value;
+		}
+		
+		public function store_user_option($option, $value) {
+			if( $this->user_id == 0 ) { return FALSE; }
+
+			$this->user_options[$option] = $value;
+		}
+
+		public function save_options() {
+			update_option('wp_statistics', $this->options);
+		}
+		
+		public function save_user_options() {
+			if( $this->user_id == 0 ) { return FALSE; }
+
+			update_user_meta( $this->user_id, 'wp_statistics', $this->user_options );
+		}
+		
+		public function isset_option($option) {
+			return array_key_exists( $option, $this->options );
+		}
+		
+		public function isset_user_option($option) {
+			if( $this->user_id == 0 ) { return FALSE; }
+
+			return array_key_exists( $option, $this->user_options );
+		}
+
 		public function Primary_Values() {
 		
 			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline");

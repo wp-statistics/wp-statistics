@@ -102,7 +102,7 @@
 											echo "<div class='clear'></div>";
 											echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 											
-											if(get_option('wps_geoip')) {
+											if($WP_Statistics->get_option('geoip')) {
 												echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 											}
 											

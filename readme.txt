@@ -72,9 +72,8 @@ To complete the language deficits of [this section](http://teamwork.wp-parsi.com
 
 = Support =
 
-* [Donate to this plugin](http://mostafa-soufi.ir/donate/)
+* [Website](http://wp-statistics.com)
 * [Plugin Support Forum](http://wordpress.org/support/plugin/wp-statistics)
-* [Plugin Facebook page](https://www.facebook.com/pages/Wordpress-Statistics/546922341997898?ref=stream)
 * [Persian Support](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 
 == Installation ==

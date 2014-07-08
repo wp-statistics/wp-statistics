@@ -24,7 +24,7 @@
 							pages_chart = new Highcharts.Chart({
 								chart: {
 									renderTo: 'page-stats',
-									type: '<?php echo get_option('wps_chart_type'); ?>',
+									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
 									backgroundColor: '#FFFFFF',
 									height: '500'
 								},

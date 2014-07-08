@@ -16,7 +16,7 @@
 			
 			$this->ip = $this->get_IP();
 			
-			if( get_option( 'wps_record_exclusions' ) == 1 ) {
+			if( $this->get_option('record_exclusions' ) == 1 ) {
 				$this->exclusion_record = TRUE;
 			}
 			

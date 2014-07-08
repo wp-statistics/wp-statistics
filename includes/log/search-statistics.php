@@ -41,7 +41,7 @@
 							visit_chart = new Highcharts.Chart({
 								chart: {
 									renderTo: 'search-stats',
-									type: '<?php echo get_option('wps_chart_type'); ?>',
+									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
 									backgroundColor: '#FFFFFF',
 									height: '600'
 								},
@@ -100,7 +100,7 @@
 								},
 								series: [
 <?php
-								$total_stats = get_option( 'wps_chart_totals' );
+								$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 								$total_daily = array();
 
 								foreach( $search_engines as $se ) {

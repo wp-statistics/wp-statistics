@@ -286,7 +286,7 @@
 				</div>
 				
 <?php }?>				
-				<?php if( get_option('wps_geoip') ) { ?>
+				<?php if( $WP_Statistics->get_option('geoip') ) { ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
@@ -378,7 +378,7 @@
 	<div class="postbox-container" id="left-log">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
-				<?php if( !get_option('wps_map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } ?>
+				<?php if( !$WP_Statistics->get_option('map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_hits_menu"> <?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
@@ -389,7 +389,7 @@
 							visit_chart = new Highcharts.Chart({
 								chart: {
 									renderTo: 'visits-log',
-									type: '<?php echo get_option('wps_chart_type'); ?>',
+									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
 									backgroundColor: '#FFFFFF',
 									height: '300'
 								},
@@ -484,7 +484,7 @@
 							visit_chart = new Highcharts.Chart({
 								chart: {
 									renderTo: 'search-engine-log',
-									type: '<?php echo get_option('wps_chart_type'); ?>',
+									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
 									backgroundColor: '#FFFFFF',
 									height: '300'
 								},
@@ -542,7 +542,7 @@
 								},
 								series: [
 <?php
-								$total_stats = get_option( 'wps_chart_totals' );
+								$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 								$total_daily = array();
 
 								foreach( $search_engines as $se ) {
@@ -610,7 +610,7 @@
 										echo "<div class='clear'></div>";
 										echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 										
-										if(get_option('wps_geoip')) {
+										if($WP_Statistics->get_option('geoip')) {
 											echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 										}
 										
@@ -674,7 +674,7 @@
 <?php 
 	} 
 
-				if( get_option('wps_map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } 
+				if( $WP_Statistics->get_option('map_location') ) { generate_map_html($wpstats, $ISOCountryCode); } 
 ?>				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -695,7 +695,7 @@
 										echo "<div class='clear'></div>";
 										echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 										
-										if(get_option('wps_geoip')) {
+										if($WP_Statistics->get_option('geoip')) {
 											echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 										}
 										
@@ -722,9 +722,9 @@
 <?php
 	function generate_map_html($wpstats, $ISOCountryCode) {
 	
-		global $wpdb, $table_prefix;
+		global $wpdb, $table_prefix, $WP_Statistics;
 		
-		if(get_option('wps_geoip') && !get_option('wps_disable_map') ) { ?>
+		if($WP_Statistics->get_option('geoip') && !$WP_Statistics->get_option('disable_map') ) { ?>
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 				<h3 class="hndle"><span><?php _e('Today visitors on map', 'wp_statistics'); ?></span></h3>

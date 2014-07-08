@@ -41,7 +41,7 @@
 							visit_chart = new Highcharts.Chart({
 								chart: {
 									renderTo: 'visits-stats',
-									type: '<?php echo get_option('wps_chart_type'); ?>',
+									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
 									backgroundColor: '#FFFFFF',
 									height: '600'
 								},

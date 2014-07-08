@@ -15,8 +15,8 @@
 			
 			$this->second = $second;
 			
-			if( get_option('wps_check_online') ) {
-				$this->second = get_option('wps_check_online');
+			if( $this->get_option('check_online') ) {
+				$this->second = $this->get_option('check_online');
 				}
 		}
 		

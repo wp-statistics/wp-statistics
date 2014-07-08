@@ -1,37 +1,37 @@
 <?php
 
 	// Add the report schedule if it doesn't exist and is enabled.
-	if( !wp_next_scheduled('report_hook') && get_option('wps_stats_report') ) {
+	if( !wp_next_scheduled('report_hook') && $WP_Statistics->get_option('stats_report') ) {
 	
-		wp_schedule_event(time(), get_option('wps_time_report'), 'report_hook');
+		wp_schedule_event(time(), $WP_Statistics->get_option('time_report'), 'report_hook');
 	}
 
 	// Remove the report schedule if it does exist and is disabled.
-	if( wp_next_scheduled('report_hook') && !get_option('wps_stats_report') ) {
+	if( wp_next_scheduled('report_hook') && !$WP_Statistics->get_option('stats_report') ) {
 	
 		wp_unschedule_event(wp_next_scheduled('report_hook'), 'report_hook');
 	}
 
 	// Add the GeoIP update schedule if it doesn't exist and it should be.
-	if( !wp_next_scheduled('wp_statistics_geoip_hook') && get_option('wps_schedule_geoip') && get_option('wps_geoip') ) {
+	if( !wp_next_scheduled('wp_statistics_geoip_hook') && $WP_Statistics->get_option('schedule_geoip') && $WP_Statistics->get_option('geoip') ) {
 	
 		wp_schedule_event(time(), 'daily', 'wp_statistics_geoip_hook'); 
 	}
 
 	// Remove the GeoIP update schedule if it does exist and it should shouldn't.
-	if( wp_next_scheduled('wp_statistics_geoip_hook') && (!get_option('wps_schedule_geoip') || !get_option('wps_geoip') ) ) {
+	if( wp_next_scheduled('wp_statistics_geoip_hook') && (!$WP_Statistics->get_option('schedule_geoip') || !$WP_Statistics->get_option('geoip') ) ) {
 	
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook'); 
 	}
 
 	// Add the GeoIP update schedule if it doesn't exist and it should be.
-	if( !wp_next_scheduled('wp_statistics_dbmaint_hook') && get_option('wps_schedule_dbmaint') ) {
+	if( !wp_next_scheduled('wp_statistics_dbmaint_hook') && $WP_Statistics->get_option('schedule_dbmaint') ) {
 	
 		wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_hook'); 
 	}
 
 	// Remove the GeoIP update schedule if it does exist and it should shouldn't.
-	if( wp_next_scheduled('wp_statistics_dbmaint_hook') && (!get_option('wps_schedule_dbmaint') ) ) {
+	if( wp_next_scheduled('wp_statistics_dbmaint_hook') && (!$WP_Statistics->get_option('schedule_dbmaint') ) ) {
 	
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook'); 
 	}
@@ -42,7 +42,7 @@
 		// the update, download it two days later.
 		$thisupdate = strtotime('First Tuesday of this month') + (86400 * 2);
 
-		$lastupdate = get_option('wps_last_geoip_dl');
+		$lastupdate = $WP_Statistics->get_option('last_geoip_dl');
 		
 		$upload_dir = wp_upload_dir();
 		 
@@ -65,7 +65,7 @@
 
 		global $wpdb;
 		
-		$purge_days = intval( get_option('wps_schedule_dbmaint_days', FALSE) );
+		$purge_days = intval( $WP_Statistics->get_option('schedule_dbmaint_days', FALSE) );
 		
 		if(  $purge_days > 30 ) {
 		
@@ -84,7 +84,7 @@
 	
 	function wp_statistics_send_report() {
 	
-		$string = get_option('wps_content_report');
+		$string = $WP_Statistics->get_option('content_report');
 		
 		$template_vars = array(
 			'user_online'		=>	wp_statistics_useronline(),
@@ -98,7 +98,7 @@
 
 		$final_text_report = preg_replace('/%(.*?)%/ime', "\$template_vars['$1']", $string);
 		
-		if( get_option('wps_send_report') == 'mail' ) {
+		if( $WP_Statistics->get_option('send_report') == 'mail' ) {
 		
 			$blogname = get_bloginfo('name');
 			$blogemail = get_bloginfo('admin_email');
@@ -109,7 +109,7 @@
 			
 			wp_mail( get_bloginfo('admin_email'), __('Statistical reporting', 'wp_statistics'), $final_text_report, $headers );
 			
-		} else if( get_option('wps_send_report') == 'sms' ) {
+		} else if( $WP_Statistics->get_option('send_report') == 'sms' ) {
 		
 			global $obj;
 

@@ -311,6 +311,8 @@
 		//		querykey 	 = the URL key that contains the search string for the search engine
 		//		image		 = the name of the image file to associate with this search engine (just the filename, no path info)
 		//
+		GLOBAL $WP_Statistics;
+		
 		$default = $engines = array (
 			'baidu' => array( 'name' => 'Baidu', 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
 			'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' =>'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
@@ -322,7 +324,7 @@
 		
 		if( $all == false ) {
 			foreach( $engines as $key => $engine ) {
-				if( get_option( 'wps_disable_se_' . $engine['tag'] ) ) { unset( $engines[$key] ); }
+				if( $WP_Statistics->get_option( 'disable_se_' . $engine['tag'] ) ) { unset( $engines[$key] ); }
 			}
 
 			// If we've disabled all the search engines, reset the list back to default.
@@ -562,6 +564,7 @@
 	function wp_statistics_lastpostdate() {
 	
 		global $wpdb;
+		GLOBAL $WP_Statistics;
 		
 		$wpstats = new WP_Statistics();
 		
@@ -632,8 +635,9 @@
 	function wp_statistics_get_gmap_coordinate($country, $coordinate) {
 	
 		global $CountryCoordinates;
+		GLOBAL $WP_Statistics;
 		
-		if(get_option('wps_google_coordinates')) {
+		if($WP_Statistics->get_option('google_coordinates')) {
 		
 			$api_url = "http://maps.google.com/maps/api/geocode/json?address={$country}&sensor=false";
 			
