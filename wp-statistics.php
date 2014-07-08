@@ -219,9 +219,9 @@ License: GPL2
 		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log_words');
 		add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, 'wps_visitors_menu', 'wp_statistics_log_visitors');
 		add_submenu_page(__FILE__, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, 'wps_pages_menu', 'wp_statistics_log_pages');
-		add_submenu_page(__FILE__, '', '', $manage_cap, 'wps_break_menu', 'wp_statistics_log_overview');
+		add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview');
 		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
-		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $manage_cap, 'wp-statistics/settings', 'wp_statistics_settings');
+		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $read_cap, 'wp-statistics/settings', 'wp_statistics_settings');
 		add_submenu_page(__FILE__, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, 'wps_manual_menu', 'wp_statistics_manual');
 	}
 	add_action('admin_menu', 'wp_statistics_menu');
