@@ -33,6 +33,15 @@ $column_b_list = array(
 						);
 
 if( $wps_nonce_valid ) {
+	$wps_option_list = array("wps_disable_map","wps_google_coordinates");
+	
+	foreach( $wps_option_list as $option ) {
+		update_option( $option, $_POST[$option] );
+		$new_option = str_replace( "wps_", "", $option );
+		$WP_Statistics->store_option($new_option, $_POST[$option]);
+	}
+
+
 	for( $i = 1; $i < 7; $i++ ) {
 		$display_array['A'][$i] = '';
 		if( array_key_exists( $_POST['wps_display']['A'][$i], $column_a_list) ) { $display_array['A'][$i] = $_POST['wps_display']['A'][$i]; }
@@ -70,18 +79,6 @@ if( $wps_nonce_valid ) {
 			</td>
 		</tr>
 
-		<tr valign="top">
-			<th scope="row">
-				<label for="map-location"><?php _e('Alternate map location', 'wp_statistics'); ?>:</label>
-			</th>
-			
-			<td>
-				<input id="map-location" type="checkbox" value="1" name="wps_map_location" <?php echo $WP_Statistics->get_option('map_location')==true? "checked='checked'":'';?>>
-				<label for="map-location"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('Place the map above the recent visitors area instead of at the top of the page.', 'wp_statistics'); ?></p>
-			</td>
-		</tr>
-		
 		<tr valign="top">
 			<th scope="row">
 				<label for="google-coordinates"><?php _e('Get country location from Google', 'wp_statistics'); ?>:</label>
