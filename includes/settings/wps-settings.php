@@ -14,13 +14,13 @@ if( array_key_exists( 'wp-statistics-nonce', $_POST ) ) {
 <div class="wrap">
 	<form method="post">
 		<?php wp_nonce_field('update-options', 'wp-statistics-nonce');?>
-		<div id="tabs">
-			<ul>
-				<li><a href="#general-settings"><span><?php _e('General', 'wp_statistics'); ?></span></a></li>
-				<li><a href="#overview-display-settings"><span><?php _e('Overview', 'wp_statistics'); ?></span></a></li>
-				<li><a href="#access-settings"><span><?php _e('Access/Exclusions', 'wp_statistics'); ?></span></a></li>
-				<li><a href="#geoip-settings"><span><?php _e('GeoIP', 'wp_statistics'); ?></span></a></li>
-				<li><a href="#maintenance-settings"><span><?php _e('Maintenance', 'wp_statistics'); ?></span></a></li>
+		<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+			<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+				<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active ui-state-focus"><a class="ui-tabs-anchor" href="#general-settings"><span><?php _e('General', 'wp_statistics'); ?></span></a></li>
+				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#overview-display-settings"><span><?php _e('Overview', 'wp_statistics'); ?></span></a></li>
+				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#access-settings"><span><?php _e('Access/Exclusions', 'wp_statistics'); ?></span></a></li>
+				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#geoip-settings"><span><?php _e('GeoIP', 'wp_statistics'); ?></span></a></li>
+				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e('Maintenance', 'wp_statistics'); ?></span></a></li>
 			</ul>
 
 			<div id="general-settings">
