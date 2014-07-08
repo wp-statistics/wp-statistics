@@ -69,25 +69,32 @@
 			
 		$display = $WP_Statistics->get_user_option('overview_display');
 			
+		if( $display['A'][$slot] == '' ) { $display['A'][$slot] = $slot; }
+		
 		$ret = 0;
 		
 		switch( $display['A'][$slot] ) {
+			case 1:
 			case 'summary':
 				wp_statistics_generate_summary_postbox($ISOCountryCode, $search_engines);
 				
 				break;
+			case 2:
 			case 'browsers':
 				wp_statistics_generate_browsers_postbox($ISOCountryCode, $search_engines);
 			
 				break;
+			case 3:
 			case 'referring':
 				wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines);
 			
 				break;
+			case 4:
 			case 'countries':
 				wp_statistics_generate_countries_postbox($ISOCountryCode, $search_engines);
 			
 				break;
+			case 5:
 			case 'about':
 				wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines);
 		
@@ -105,27 +112,35 @@
 			
 		$display = $WP_Statistics->get_user_option('overview_display');
 			
+		if( $display['B'][$slot] == '' ) { $display['B'][$slot] = $slot; }
+		
 		switch( $display['B'][$slot] ) {
+			case 1:
 			case 'map':
 				wp_statistics_generate_map_postbox($ISOCountryCode, $search_engines);
 				
 				break;
+			case 2:
 			case 'hits':
 				wp_statistics_generate_hits_postbox($ISOCountryCode, $search_engines);
 			
 				break;
+			case 3:
 			case 'search':
 				wp_statistics_generate_search_postbox($ISOCountryCode, $search_engines);
 			
 				break;
+			case 4:
 			case 'words':
 				wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines);
 			
 				break;
+			case 5:
 			case 'pages':
 				wp_statistics_generate_pages_postbox($ISOCountryCode, $search_engines);
 			
 				break;
+			case 6:
 			case 'recent':
 				wp_statistics_generate_recent_postbox($ISOCountryCode, $search_engines);
 			
