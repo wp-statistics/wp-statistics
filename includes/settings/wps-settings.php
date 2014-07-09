@@ -59,6 +59,6 @@ if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option
 
 <?php
 if( $wps_nonce_valid ) {
-	$WP_Statistics->save_options();
+	if( $wps_admin ) { $WP_Statistics->save_options(); }
 	$WP_Statistics->save_user_options();
 }
