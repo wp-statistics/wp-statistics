@@ -541,12 +541,12 @@ License: GPL2
 	function wp_statistics_settings() {
 		GLOBAL $WP_Statistics;
 		
-		$WP_Statistics->load_user_options();
-
 		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('read_capability', 'manage_options')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
+		$WP_Statistics->load_user_options();
+
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', true, '1.0');
 		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . "assets/css/jquery-ui-1.10.4.custom.css");
 		wp_enqueue_style("jquery-ui-css");
