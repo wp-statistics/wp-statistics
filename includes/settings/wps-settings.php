@@ -10,23 +10,77 @@ $wps_admin = false;
 if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
 	$wps_admin = true;
 }
+
+switch(  $_GET['tab'] )
+	{
+	case 'overview':
+		if( $wps_admin ) { $current_tab = 1; } else { $current_tab = 0; }
+		break;
+	case 'access':
+		if( $wps_admin ) { $current_tab = 2; } else { $current_tab = 0; }
+		break;
+	case 'geoip':
+		if( $wps_admin ) { $current_tab = 3; } else { $current_tab = 0; }
+		break;
+	case 'maintenance':
+		if( $wps_admin ) { $current_tab = 4; } else { $current_tab = 0; }
+		break;
+	case 'about':
+		if( $wps_admin ) { $current_tab = 5; } else { $current_tab = 1; }
+		break;
+	default:
+		$current_tab = 0;
+
+	}
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery("#tabs").tabs();
+		<?php if( $current_tab != 0 ) { echo 'jQuery("#tabs").tabs("option", "active",' . $current_tab. ');' . "\n"; }?>
+		jQuery("#wps_update_button").click(function() {
+			var wps_admin = <?php echo $wps_admin;?>;
+			var tab = '';
+			
+			switch( jQuery("#tabs").tabs("option", "active") ) {
+				case 0:
+					if( wps_admin == 1 ) { tab = 'general'; } else { tab = 'about'; }
+					break;
+				case 1:
+					if( wps_admin == 1 ) { tab = 'overview'; } else { tab = 'about'; }
+					break;
+				case 2:
+					if( wps_admin == 1 ) { tab = 'access'; } else { tab = 'about'; }
+					break;
+				case 3:
+					if( wps_admin == 1 ) { tab = 'geoip'; } else { tab = 'about'; }
+					break;
+				case 4:
+					if( wps_admin == 1 ) { tab = 'maintenance'; } else { tab = 'about'; }
+					break;
+				case 5:
+					tab = 'about';
+					break;
+			}
+			
+//			var clickurl = jQuery('#wps_settings_form').attr('action') + '?tab=' + tab;
+			var clickurl = jQuery(location).attr('href') + '&tab=' + tab;
+			
+			jQuery('#wps_settings_form').attr('action', clickurl).submit();
+		});
 	} );
 </script>
 <a name="top"></a>
 <div class="wrap">
-	<form method="post">
+	<form id="wps_settings_form" method="post">
 		<?php wp_nonce_field('update-options', 'wp-statistics-nonce');?>
 		<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 			<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-<?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active ui-state-focus"><a class="ui-tabs-anchor" href="#general-settings"><span><?php _e('General', 'wp_statistics'); ?></span></a></li><?php } ?>
+<?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#general-settings"><span><?php _e('General', 'wp_statistics'); ?></span></a></li><?php } ?>
 				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#overview-display-settings"><span><?php _e('Overview', 'wp_statistics'); ?></span></a></li>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#access-settings"><span><?php _e('Access/Exclusions', 'wp_statistics'); ?></span></a></li><?php } ?>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#geoip-settings"><span><?php _e('GeoIP', 'wp_statistics'); ?></span></a></li><?php } ?>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e('Maintenance', 'wp_statistics'); ?></span></a></li><?php } ?>
+				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#about"><span><?php _e('About', 'wp_statistics'); ?></span></a></li>
 			</ul>
 
 			<div id="general-settings">
@@ -49,10 +103,14 @@ if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option
 			<?php if( $wps_admin ) { include( dirname( __FILE__ ) . '/tabs/wps-maintenance.php' ); } ?>
 			</div>
 
+			<div id="about">
+			<?php include( dirname( __FILE__ ) . '/tabs/wps-about.php' ); ?>
+			</div>
+
 		</div>
 
 		<div class="submit">
-			<input type="submit" class="button button-primary" name="Submit" value="<?php _e('Update', 'wp_statistics'); ?>" />
+			<input id="wps_update_button" type="submit" class="button button-primary" name="Submit" value="<?php _e('Update', 'wp_statistics'); ?>" />
 		</div>
 	</form>
 </div>

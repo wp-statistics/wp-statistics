@@ -591,36 +591,23 @@
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php echo sprintf(__('About WP Statistics V%s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></span></h3>
 					<div class="inside">
+						<div>
+							<br/>
+						</div>
+
 						<div id="about-links" style="text-align: center;">
 							<p><a href="http://wp-statistics.com" target="_blank"><?php _e('Website', 'wp_statistics'); ?></a></p> |
-							<p><a href="http://teamwork.wp-parsi.com/projects/wp-statistics" target="_blank"><?php _e('Translations', 'wp_statistics'); ?></a></p> |
-							<p><a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank"><?php _e('Support', 'wp_statistics'); ?></a> / <a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank"><?php _e('Farsi', 'wp_statistics'); ?></a></p>
+							<p><a href="?page=wp-statistics/settings&tab=about"><?php _e('More Information', 'wp_statistics'); ?></a></p>
+						</div>
+
+						<div>
+							<br/>
 						</div>
 						
 						<hr />
 						
-						<p><?php _e('Please donate to WP Statistics. With your help WP Statistics will rule the world!', 'wp_statistics'); ?></p>
-						
-						<div id="donate-button" style="width: 100%;">
-							<div class="left-div" style="width: 100%; text-align: center;">
-								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-									<input type="hidden" name="cmd" value="_s-xclick">
-									<input type="hidden" name="hosted_button_id" value="Z959U3RPCC9WG">
-									<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-									<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-								</form>
-
-								<br>
-								
-								<a href="http://mostafa-soufi.ir/donate/" target="_blank"><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/donate.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/><br /><img src="<?php echo plugins_url('wp-statistics/assets/images/donate/tdCflg.png'); ?>" id="donate" alt="<?php _e('Donate', 'wp_statistics'); ?>"/></a>
-
-							</div>
-						</div>
-						
-						<div class="clear"></div>
-						
 						<div>
-							<br/>This product includes GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+							<br/><?php echo sprintf(__('This product includes GeoLite2 data created by MaxMind, available from %s.', 'wp_statistics'), '<a href="http://www.maxmind.com" target=_blank>http://www.maxmind.com</a>'); ?>
 						</div>
 					</div>
 				</div>
