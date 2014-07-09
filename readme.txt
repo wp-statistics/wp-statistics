@@ -142,12 +142,20 @@ No.
 
 == Changelog ==
 = 6.x =
-* Added Dutch (nl_NL) translation, thanks Friso van Wieringen.
+* Added: Overview page can now be customized for what is displayed on a per user basis.
+* Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP Statistics.
+* Added: Dutch (nl_NL) translation, thanks Friso van Wieringen.
 * Fixed: Some country codes not displaying in the "Top Countries" overview widget/page.
+* Fixed: Export filename contained a colan, which is not a valid character.
 * Updated: "Top Referring Sites" on the overview page now only displays if there are entries to be displayed.
 * Updated: "Latest Search Words" on the overview page now only displays if there are entries to be displayed.
 * Updated: "Top Pages Visited" on the overview page now only displays if there are entries to be displayed.
+* Updated: About on the overview page box.
+* Updated: Settings page from css tabs to jQuery tabs.
+* Updated: Settings system (which used individual WordPress settings for each option) to a new unified system (uses a single WordPress setting and stores it as an array)
+* Updated: Optimization page from css tabs to jQuery tabs.
 * Updated: Arabic (ar) language.
+* Removed: "Alternate map location" setting as it has been made redundent by the new overview display settings.
 
 = 6.1 =
 * Added: Display of the current memory_limit setting from php.ini in the optimization page.
