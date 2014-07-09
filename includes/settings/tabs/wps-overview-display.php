@@ -1,16 +1,21 @@
 <?php
 if( !$WP_Statistics->isset_user_option('overview_display') ) {
-	$WP_Statistics->store_user_option('overview_display', array( 'A' => array( 1 => 'summary' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'A' => array( 2 => 'browsers' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'A' => array( 3 => 'referring' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'A' => array( 4 => 'countries' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'A' => array( 5 => 'about' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'B' => array( 1 => 'map' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'B' => array( 2 => 'hits' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'B' => array( 3 => 'search' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'B' => array( 4 => 'words' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'B' => array( 5 => 'pages' ) ) );
-	$WP_Statistics->store_user_option('overview_display', array( 'B' => array( 6 => 'recent' ) ) );
+	$WP_Statistics->store_user_option('overview_display', 	array( 	'A' => 	array( 	1 => 'summary', 
+																					2 => 'browsers',
+																					3 => 'referring',
+																					4 => 'countries',
+																					5 => 'about' 
+																				),
+																	'B' => 	array( 	1 => 'map',
+																					2 => 'hits',
+																					3 => 'search',
+																					4 => 'words',
+																					5 => 'pages',
+																					6 => 'recent' 
+																				),
+																)
+									);
+	
 }
 
 $column_a_list = array(
@@ -59,10 +64,6 @@ if( $wps_nonce_valid ) {
 
 <table class="form-table">
 	<tbody>
-		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('Overview display settings', 'wp_statistics'); ?></h3></th>
-		</tr>
-
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('Map', 'wp_statistics'); ?></h3></th>
 		</tr>
