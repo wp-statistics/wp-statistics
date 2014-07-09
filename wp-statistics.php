@@ -455,40 +455,28 @@ License: GPL2
 	}
 	
 	function wp_statistics_optimization() {
-		GLOBAL $WP_Statistics;
+
+		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
 		
-		$WP_Statistics->load_user_options();
-	
 		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
+
+		$WP_Statistics->load_user_options();
 		
-		global $wpdb, $table_prefix;
+		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . "assets/css/jquery-ui-1.10.4.custom.css");
+		wp_enqueue_style("jquery-ui-css");
+
+		wp_enqueue_script('jquery-ui-core');
+		wp_enqueue_script('jquery-ui-tabs');
+
+		$result['useronline'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_useronline`");
+		$result['visit'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visit`");
+		$result['visitor'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visitor`");
+		$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_exclusions`");
+		$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$table_prefix}statistics_pages`");
 		
-		
-		switch($_GET['tab']) {
-			case 'export':
-				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization-export.php";
-			break;
-			
-			case 'purging':
-				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization-purging.php";
-			break;
-			
-			case 'updates':
-				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization-updates.php";
-			break;
-			
-			default:
-				$result['useronline'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_useronline`");
-				$result['visit'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visit`");
-				$result['visitor'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visitor`");
-				$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_exclusions`");
-				$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$table_prefix}statistics_pages`");
-				
-				include_once dirname( __FILE__ ) . "/includes/optimization/templates/wps-optimization.php";
-			break;
-		}
+		include_once dirname( __FILE__ ) . "/includes/optimization/wps-optimization.php";
 	}
 
 	function wp_statistics_download_geoip() {
@@ -555,7 +543,7 @@ License: GPL2
 		
 		$WP_Statistics->load_user_options();
 
-		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
+		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('read_capability', 'manage_options')))) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
