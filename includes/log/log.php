@@ -597,6 +597,7 @@
 
 						<div id="about-links" style="text-align: center;">
 							<p><a href="http://wp-statistics.com" target="_blank"><?php _e('Website', 'wp_statistics'); ?></a></p>
+							| <p><a href="http://wordpress.org/support/view/plugin-reviews/wp-statistics" target="_blank"><?php _e('Rate and Review', 'wp_statistics'); ?></a></p>
 <?php
 							if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
 ?>
