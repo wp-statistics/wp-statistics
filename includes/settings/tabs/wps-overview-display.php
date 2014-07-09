@@ -59,9 +59,10 @@ if( $wps_nonce_valid ) {
 
 	$WP_Statistics->store_user_option('overview_display', $display_array );
 }
-						
-?>
 
+// Only display the global options if the user is an administrator.
+if( $wps_admin ) {
+?>
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
@@ -97,6 +98,7 @@ if( $wps_nonce_valid ) {
 		</tr>
 	</tbody>
 </table>	
+<?php 	} ?>
 
 <table class="form-table">
 	<tbody>
