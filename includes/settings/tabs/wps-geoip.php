@@ -18,7 +18,8 @@ if( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top">
-			<th scope="row" colspan="2">IP location services provided by GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+			<th scope="row" colspan="2">
+				<?php echo sprintf(__('IP location services provided by GeoLite2 data created by MaxMind, available from %s.', 'wp_statistics'), '<a href="http://www.maxmind.com" target=_blank>http://www.maxmind.com</a>'); ?>
 			</th>
 		</tr>
 

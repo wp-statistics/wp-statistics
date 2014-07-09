@@ -70,6 +70,10 @@ if( $wps_admin ) {
 		</tr>
 		
 		<tr valign="top">
+			<td scope="row" colspan="2"><?php _e('The following two items are global to all users.', 'wp_statistics');?></td>
+		</tr>
+
+		<tr valign="top">
 			<th scope="row">
 				<label for="disable-map"><?php _e('Disable map', 'wp_statistics'); ?>:</label>
 			</th>
@@ -102,6 +106,10 @@ if( $wps_admin ) {
 
 <table class="form-table">
 	<tbody>
+
+		<tr valign="top">
+			<td scope="row" colspan="2"><?php _e('The following items are unique to each user.', 'wp_statistics');?></td>
+		</tr>
 
 		<tr valign="top">
 			<th scope="row">
