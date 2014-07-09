@@ -108,7 +108,7 @@ if( $wps_admin ) {
 	<tbody>
 
 		<tr valign="top">
-			<td scope="row" colspan="2"><?php _e('The following items are unique to each user.', 'wp_statistics');?></td>
+			<td scope="row" colspan="3"><?php _e('The following items are unique to each user.  If you do not select the \'About\' widget it will automatically be displayed in the last positon of column A.', 'wp_statistics');?></td>
 		</tr>
 
 		<tr valign="top">
