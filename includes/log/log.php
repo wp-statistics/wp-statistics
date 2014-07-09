@@ -157,7 +157,7 @@
 		if($WP_Statistics->get_option('geoip') && !$WP_Statistics->get_option('disable_map') ) { ?>
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-				<h3 class="hndle"><span><?php _e('Today visitors on map', 'wp_statistics'); ?></span></h3>
+				<h3 class="hndle"><span><?php _e('Today Visitors Map', 'wp_statistics'); ?></span></h3>
 				<div class="inside">
 					<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 					<div id="map_canvas">Google Map</div>
@@ -256,7 +256,7 @@
 ?>		
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Summary Statistics', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Summary', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 						<table width="100%" class="widefat table-stats" id="summary-stats">
 							<tbody>
@@ -484,7 +484,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Top referring sites', 'wp_statistics'); ?></span> <a href="?page=wps_referers_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a>
+						<span><?php _e('Top Referring Sites', 'wp_statistics'); ?></span> <a href="?page=wps_referers_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a>
 					</h3>
 					<div class="inside">
 						<div class="inside">
@@ -723,7 +723,7 @@
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Search Engine Referrers Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Search Engine Referrers', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -847,7 +847,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Latest search words', 'wp_statistics'); ?> <a href="?page=wps_words_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Latest Search Words', 'wp_statistics'); ?> <a href="?page=wps_words_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
 							<?php

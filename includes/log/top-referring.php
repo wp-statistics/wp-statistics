@@ -31,7 +31,7 @@
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
-	<h2><?php _e('Top referring sites', 'wp_statistics'); ?></h2>
+	<h2><?php _e('Top Referring Sites', 'wp_statistics'); ?></h2>
 	<ul class="subsubsub">
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php if($referr) { ?>
@@ -46,7 +46,7 @@
 					<?php if($referr) { ?>
 						<h3 class="hndle"><span><?php _e('Referring sites from', 'wp_statistics'); ?>: <?php echo $referr; ?></span></h3>
 					<?php } else { ?>
-						<h3 class="hndle"><span><?php _e('Top referring sites', 'wp_statistics'); ?></span></h3>
+						<h3 class="hndle"><span><?php _e('Top Referring Sites', 'wp_statistics'); ?></span></h3>
 					<?php } ?>
 					<div class="inside">
 							<?php

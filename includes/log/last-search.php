@@ -32,7 +32,7 @@
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
-	<h2><?php _e('Latest search words', 'wp_statistics'); ?></h2>
+	<h2><?php _e('Latest Search Words', 'wp_statistics'); ?></h2>
 	<ul class="subsubsub">
 <?php
 		$search_result_count = count( $search_result );
@@ -64,7 +64,7 @@
 			<div class="meta-box-sortables">
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Latest search words', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Latest Search Word Statistics', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 						<div class='log-latest'>
 							<?php

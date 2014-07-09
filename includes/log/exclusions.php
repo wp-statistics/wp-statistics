@@ -84,7 +84,7 @@
 									enabled: false
 								},
 								title: {
-									text: '<?php echo __('Excluded hits chart in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
+									text: '<?php echo __('Excluded hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
 									style: {
 										fontSize: '12px',
 										fontFamily: 'Tahoma',

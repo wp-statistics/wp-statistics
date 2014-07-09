@@ -14,7 +14,7 @@
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
-	<h2><?php _e('Search Engine Referrers Statistics', 'wp_statistics'); ?></h2>
+	<h2><?php _e('Search Engine Referral Statistics', 'wp_statistics'); ?></h2>
 
 	<ul class="subsubsub">
 		<?php $daysToDisplay = 20; if( array_key_exists('hitdays',$_GET)) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } } ?>
@@ -33,7 +33,7 @@
 			<div class="meta-box-sortables">
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Search Engine Referrers Statistical Chart', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Search Engine Referral Statistics', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -49,7 +49,7 @@
 									enabled: false
 								},
 								title: {
-									text: '<?php echo __('Referrer search engine chart in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
+									text: '<?php echo __('Search engine referrals in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
 									style: {
 										fontSize: '12px',
 										fontFamily: 'Tahoma',

@@ -45,7 +45,7 @@ $widget_options = $WP_Statistics->get_option('widget');
 	<label for="tpviews_widget"><?php _e('Total Page Views', 'wp_statistics'); ?></label></li>
 
 	<li><input type="checkbox" id="ser_widget" class="ser_widget" name="ser_widget" <?php checked('on', $widget_options['ser_widget']); ?>/>
-	<label for="ser_widget"><?php _e('Search Engine reffered', 'wp_statistics'); ?></label></li>
+	<label for="ser_widget"><?php _e('Search Engine Referred', 'wp_statistics'); ?></label></li>
 
 	<p id="ser_option" style="<?php if(!$widget_options['ser_widget']) { echo "display: none;"; } ?>">
 		<?php _e('Select type of search engine', 'wp_statistics'); ?>:<br />

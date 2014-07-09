@@ -31,7 +31,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Recent Visitors', 'wp_statistics'); ?></h2>
 	<ul class="subsubsub">
-		<li class="all"><a <?php if(!$_get) { echo 'class="current"'; } ?>href="?page=wps_visitors_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total_visitor; ?>)</span></a> |</li>
+		<li class="all"><a <?php if(!$_get) { echo 'class="current"'; } ?>href="?page=wps_visitors_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
 		<?php
 			if($_var == 'agent') {
 				$Browsers = wp_statistics_ua_list();
@@ -41,14 +41,15 @@
 				
 				foreach( $Browsers as $Browser ) {
 					if($Browser == null) continue;
+					
 					$i++;
 					if($_get == $Browser) { $current = 'class="current" '; } else { $current = ""; }
 					if( $i == $Total ) { $spacer = ""; }
-					echo "<li><a " . $current . "href='?page=wps_visitors_menu&agent=" . $Browser . "'> " . __($Browser, 'wp_statistics') ." <span class='count'>(" . number_format_i18n(wp_statistics_useragent($Browser)) .")</span></a>" . $spacer . "</li>";
+					echo "| <li><a " . $current . "href='?page=wps_visitors_menu&agent=" . $Browser . "'> " . __($Browser, 'wp_statistics') ." <span class='count'>(" . number_format_i18n(wp_statistics_useragent($Browser)) .")</span></a>" . $spacer . "</li>";
 				}
 			} elseif($_var) {
 				if($_get) { $current = 'class="current" '; } else { $current = ""; }
-				echo "<li><a {$current} href='?page=wps_visitors_menu&{$_var}={$_get}'>{$_get} <span class='count'>({$total})</span></a></li>";
+				echo "| <li><a {$current} href='?page=wps_visitors_menu&{$_var}={$_get}'>{$_get} <span class='count'>({$total})</span></a></li>";
 			}
 		?>
 	</ul>
@@ -60,7 +61,7 @@
 					<?php if($_var) { ?>
 					<h3 class="hndle"><span><?php _e('Search for', 'wp_statistics'); ?>: <?php echo $_get; ?></span></h3>
 					<?php } else { ?>
-					<h3 class="hndle"><span><?php _e('Recent Visitors', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Recent Visitor Statistics', 'wp_statistics'); ?></span></h3>
 					<?php } ?>
 					<div class="inside">
 							<?php

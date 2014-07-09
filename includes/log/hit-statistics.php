@@ -33,7 +33,7 @@
 			<div class="meta-box-sortables">
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Hits Statistics Chart', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -49,7 +49,7 @@
 									enabled: false
 								},
 								title: {
-									text: '<?php echo __('Hits chart in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
+									text: '<?php echo __('Hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
 									style: {
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
