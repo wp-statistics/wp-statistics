@@ -62,7 +62,6 @@ switch(  $_GET['tab'] )
 					break;
 			}
 			
-//			var clickurl = jQuery('#wps_settings_form').attr('action') + '?tab=' + tab;
 			var clickurl = jQuery(location).attr('href') + '&tab=' + tab;
 			
 			jQuery('#wps_settings_form').attr('action', clickurl).submit();
