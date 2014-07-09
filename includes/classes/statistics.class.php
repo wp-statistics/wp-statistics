@@ -61,6 +61,7 @@
 		
 		public function get_user_option($option, $default = null) {
 			if( $this->user_id == 0 ) {return FALSE; }
+			if( !is_array($this->user_options) ) { return FALSE; }
 			
 			if( !array_key_exists($option, $this->user_options) ) {
 				if( isset( $default ) ) {
@@ -108,11 +109,14 @@
 		}
 		
 		public function isset_option($option) {
+			if( !is_array($this->options) ) { return FALSE; }
+			
 			return array_key_exists( $option, $this->options );
 		}
 		
 		public function isset_user_option($option) {
 			if( $this->user_id == 0 ) { return FALSE; }
+			if( !is_array($this->user_options) ) { return FALSE; }
 
 			return array_key_exists( $option, $this->user_options );
 		}
