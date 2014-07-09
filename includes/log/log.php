@@ -261,7 +261,7 @@
 						<table width="100%" class="widefat table-stats" id="summary-stats">
 							<tbody>
 								<tr>
-									<th><?php _e('User Online', 'wp_statistics'); ?>:</th>
+									<th><?php _e('User(s) Online', 'wp_statistics'); ?>:</th>
 									<th colspan="2" id="th-colspan"><span><?php echo wp_statistics_useronline(); ?></span></th>
 								</tr>
 								
@@ -622,7 +622,7 @@
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Hits Statistical Chart', 'wp_statistics'); ?> <a href="?page=wps_hits_menu"> <?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Hit Statistics', 'wp_statistics'); ?> <a href="?page=wps_hits_menu"> <?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -638,7 +638,7 @@
 									enabled: false
 								},
 								title: {
-									text: '<?php _e('Hits chart in the last 20 days', 'wp_statistics'); ?>',
+									text: '<?php _e('Hits in the last 20 days', 'wp_statistics'); ?>',
 									style: {
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
@@ -723,7 +723,7 @@
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Search Engine Referrers', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Search Engine Referrals', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
@@ -739,7 +739,7 @@
 									enabled: false
 								},
 								title: {
-									text: '<?php _e('Referrer search engine chart in the last 20 days', 'wp_statistics'); ?>',
+									text: '<?php _e('Search engine referrals in the last 20 days', 'wp_statistics'); ?>',
 									style: {
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
@@ -900,7 +900,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Top Pages Visited', 'wp_statistics'); ?> <a href="?page=wps_pages_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Top 10 Pages', 'wp_statistics'); ?> <a href="?page=wps_pages_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
 							<?php
