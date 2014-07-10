@@ -33,16 +33,11 @@ License: GPL2
 	if( $WPS_Installed != WP_STATISTICS_VERSION ) {	
 	
 		if( $WPS_Installed == false ) {
-			// If this is a new installed (aka wp_statistics_plugin_version doesn't exists, register the activation hook
-			// We don't need to execute this on every activation as the user may have deactivated us at some point and is
-			// just re-activating us.
-			include_once dirname( __FILE__ ) . '/install.php';
-		
-			register_activation_hook(__FILE__, 'wp_statistics_install');
-		}
-		else {
-			// If it's an upgrade (aka wp_statistics_plugin_version exists and is some number other than what we're running.
-			include_once dirname( __FILE__ ) . '/upgrade.php';
+			// If this is a new installed (aka wp_statistics_plugin_version doesn't exists) run the install.
+			include_once( dirname( __FILE__ ) . '/install.php' );
+		} else {
+			// If it's an upgrade (aka wp_statistics_plugin_version exists and is some number other than what we're running).
+			include_once( dirname( __FILE__ ) . '/upgrade.php' );
 		}
 	}
 	
