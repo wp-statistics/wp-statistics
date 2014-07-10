@@ -110,7 +110,7 @@
 		if( $WP_Statistics->get_option('useronline') === FALSE ) { $WP_Statistics->store_option('useronline',TRUE); }
 		if( $WP_Statistics->get_option('visits') === FALSE ) { $WP_Statistics->store_option('visits',TRUE); }
 		if( $WP_Statistics->get_option('visitors') === FALSE ) { $WP_Statistics->store_option('visitors',TRUE); }
-		if( $WP_Statistics->get_option('pages') === FALSE ) { $WP_Statistics->store_option('visitors',TRUE); }
+		if( $WP_Statistics->get_option('pages') === FALSE ) { $WP_Statistics->store_option('pages',TRUE); }
 		if( $WP_Statistics->get_option('check_online') === FALSE ) { $WP_Statistics->store_option('check_online','30'); }
 		if( $WP_Statistics->get_option('menu_bar') === FALSE ) { $WP_Statistics->store_option('menu_bar',FALSE); }
 		if( $WP_Statistics->get_option('coefficient') === FALSE ) { $WP_Statistics->store_option('coefficient','1'); }
