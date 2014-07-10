@@ -31,14 +31,7 @@ License: GPL2
 	// Check to see if we're installed and are the current version.
 	$WPS_Installed = get_option('wp_statistics_plugin_version');
 	if( $WPS_Installed != WP_STATISTICS_VERSION ) {	
-	
-		if( $WPS_Installed == false ) {
-			// If this is a new installed (aka wp_statistics_plugin_version doesn't exists) run the install.
-			include_once( dirname( __FILE__ ) . '/install.php' );
-		} else {
-			// If it's an upgrade (aka wp_statistics_plugin_version exists and is some number other than what we're running).
-			include_once( dirname( __FILE__ ) . '/upgrade.php' );
-		}
+		include_once( dirname( __FILE__ ) . '/wps-install.php' );
 	}
 	
 	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
