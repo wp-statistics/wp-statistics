@@ -156,6 +156,8 @@ License: GPL2
 	
 	// Call the add/render functions at the appropriate times.
 	function wp_statistics_load_edit_init() {
+		GLOBAL $WP_Statistics;
+		
 		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
 		
 		if( current_user_can( $manage_cap ) && $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
