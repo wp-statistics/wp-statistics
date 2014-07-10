@@ -131,20 +131,23 @@ No.
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 7.0 =
+* BACKUP YOUR DATABASE BEFORE INSTALLING!
+* This update includes a database change to the visitors table that requires the duplicate data in the table to be deleted.  This requires a complete scan of the database and on large installs may take a while.
+* Page track is now enabled on new installs or upgrades from pre 6.0 installs.
+
 = 6.0 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
 * This update includes a new database table, you should not lose any data to make sure to backup your database just in case.
 * You can now track statistics on WordPress pages!  However this is disabled by default, go to Statistics->Settings->General Settings->Pages to enabled it.
 * There's a new admin manual, you can view or download it by going to Statistics->Manual.
 
-= 5.3 = 
-* Robots list updated, please either go to "Statistics->Settings->IP/Robot Exclusions", "Reset to Default" and then save or manually make the changes which can be found in the change log details.
-
 == Changelog ==
-= 6.x =
+= 7.0 =
 * Added: Overview page can now be customized for what is displayed on a per user basis.
 * Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP Statistics.
 * Added: Dutch (nl_NL) translation, thanks Friso van Wieringen.
+* Added: New index on visitor table for existing installs to avoid duplicate entries being created.
 * Fixed: Some country codes not displaying in the "Top Countries" overview widget/page.
 * Fixed: Export filename contained a colan, which is not a valid character.
 * Updated: "Top Referring Sites" on the overview page now only displays if there are entries to be displayed.
@@ -154,6 +157,7 @@ No.
 * Updated: Settings page from css tabs to jQuery tabs.
 * Updated: Settings system (which used individual WordPress settings for each option) to a new unified system (uses a single WordPress setting and stores it as an array)
 * Updated: Optimization page from css tabs to jQuery tabs.
+* Updated: Install/Upgrade code to share a single code base.
 * Updated: Arabic (ar) language.
 * Removed: "Alternate map location" setting as it has been made redundent by the new overview display settings.
 
