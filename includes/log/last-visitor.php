@@ -86,7 +86,7 @@
 								}
 								
 								// Check to see if User Agent logging is enabled.
-								$DisplayUA = get_option( "wps_store_ua" );
+								$DisplayUA = $WP_Statistics->get_option( "store_ua" );
 								
 								echo "<div class='log-latest'>";
 								

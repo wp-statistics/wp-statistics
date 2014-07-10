@@ -21,8 +21,10 @@
 			$this->db = $wpdb;
 			$this->tb_prefix = $table_prefix;
 			$this->agent = $this->get_UserAgent();
-			$this->coefficient = get_option('wps_coefficient', 1);
+
 			$this->options = get_option( 'wp_statistics' ); 
+
+			$this->coefficient = $this->get_option('coefficient', 1);
 			
 			// This is a bit of a hack, we strip off the "includes/classes" at the end of the current class file's path.
 			$this->plugin_dir = substr( dirname( __FILE__ ), 0, -17 );

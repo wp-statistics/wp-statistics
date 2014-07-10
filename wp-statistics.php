@@ -471,6 +471,8 @@ License: GPL2
 
 	function wp_statistics_download_geoip() {
 
+		GLOBAL $WP_Statistics;
+	
 		if( !function_exists( 'download_url' ) ) { return ''; }
 	
 		$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
@@ -514,8 +516,8 @@ License: GPL2
 					
 					$result = "<div class='updated settings-error'><p><strong>" . __('GeoIP Database updated successfully!', 'wp_statistics') . "</strong></p></div>";
 					
-					update_option('wps_last_geoip_dl', time());
-					update_option('wps_update_geoip', false);
+					$WP_Statistics->update_option('last_geoip_dl', time());
+					$WP_Statistics->update_option('update_geoip', false);
 
 					if( $WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported() && $WP_Statistics->get_option('auto_pop')) {
 						include_once dirname( __FILE__ ) . '/includes/functions/geoip-populate.php';

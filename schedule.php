@@ -38,6 +38,8 @@
 
 	function wp_statistics_geoip_event() {
 	
+		GLOBAL $WP_Statistics;
+	
 		// Maxmind updates the geoip database on the first Tuesday of the month, to make sure we don't update before they post
 		// the update, download it two days later.
 		$thisupdate = strtotime('First Tuesday of this month') + (86400 * 2);
@@ -55,7 +57,7 @@
 			// We can't fire the download function directly here as we rely on some functions that haven't been loaded yet
 			// in WordPress, so instead just set the flag in the options table and the shutdown hook will take care of the
 			// actual download at the end of the page.
-			update_option('wps_update_geoip',TRUE);
+			$WP_Statistics->update_option('update_geoip',TRUE);
 		}
 	}
 	add_action('wp_statistics_geoip_hook', 'wp_statistics_geoip_event');
@@ -63,7 +65,7 @@
 
 	function wp_statistics_dbmaint_event() {
 
-		global $wpdb;
+		global $wpdb, $WP_Statistics;
 		
 		$purge_days = intval( $WP_Statistics->get_option('schedule_dbmaint_days', FALSE) );
 		
@@ -84,6 +86,8 @@
 	
 	function wp_statistics_send_report() {
 	
+		GLOBAL $WP_Statistics;
+		
 		$string = $WP_Statistics->get_option('content_report');
 		
 		$template_vars = array(

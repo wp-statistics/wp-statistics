@@ -30,7 +30,7 @@
 			//
 			
 			// Pull the robots from the database.
-			$robots = explode( "\n", get_option('wps_robotlist') );
+			$robots = explode( "\n", $this->get_option('robotlist') );
 
 			// Check to see if we match any of the robots.
 			foreach($robots as $robot) {
@@ -48,7 +48,7 @@
 		
 			if( !$this->exclusion_match ) {
 				// Pull the subnets from the database.
-				$subnets = explode( "\n", get_option('wps_exclude_ip') );
+				$subnets = explode( "\n", $this->get_option('exclude_ip') );
 				
 				// Check to see if we match any of the excluded addresses.
 				foreach($subnets as $subnet ) {
@@ -69,7 +69,7 @@
 					if( $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url("/") ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 					if( $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url() ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 
-					if( get_option('wps_exclude_loginpage') == 1 ) {
+					if( $this->get_option('exclude_loginpage') == 1 ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -80,7 +80,7 @@
 						if( $currentURL == $loginURL ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "login page";}
 					}
 
-					if( get_option('wps_exclude_adminpage') == 1 ) {
+					if( $this->get_option('exclude_adminpage') == 1 ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -100,8 +100,8 @@
 							$current_user = wp_get_current_user();
 							
 							foreach( $current_user->roles as $role ) {
-								$option_name = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
-								if( get_option($option_name) == TRUE ) {
+								$option_name = 'exclude_' . str_replace(" ", "_", strtolower($role) );
+								if( $this->get_option($option_name) == TRUE ) {
 									$this->exclusion_match = TRUE;
 									$this->exclusion_reason = "user role";
 									break;
@@ -177,7 +177,7 @@
 
 				if( !$this->result ) {
 
-					if( get_option('wps_store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
+					if( $this->get_option('store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
 					
 					$agent = $this->get_UserAgent();
 
@@ -219,7 +219,7 @@
 			if( !$this->exclusion_match ) {
 
 				// Don't track anything but actual pages and posts, unless we've been told to.
-				if( get_option('wps_track_all_pages') || is_page() || is_single() || is_front_page() ) {
+				if( $this->get_option('track_all_pages') || is_page() || is_single() || is_front_page() ) {
 					global $wp_query;
 					$current_page_id = $wp_query->get_queried_object_id();
 
