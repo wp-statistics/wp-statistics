@@ -4,8 +4,7 @@ $selist = wp_statistics_searchengine_list( true );
 if( $wps_nonce_valid ) {
 	foreach( $selist as $se ) {
 		$se_post = 'wps_disable_se_' . $se['tag'];
-
-		update_option( $se_post, $_POST[$se_post] );
+		
 		$new_option = str_replace( "wps_", "", $se_post );
 		$WP_Statistics->store_option($new_option, $_POST[$se_post]);
 	}
@@ -13,7 +12,6 @@ if( $wps_nonce_valid ) {
 	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_chart_type","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices" );
 	
 	foreach( $wps_option_list as $option ) {
-		update_option( $option, $_POST[$option] );
 		$new_option = str_replace( "wps_", "", $option );
 		$WP_Statistics->store_option($new_option, $_POST[$option]);
 	}

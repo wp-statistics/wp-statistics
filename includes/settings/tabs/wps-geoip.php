@@ -4,7 +4,6 @@ if( $wps_nonce_valid ) {
 	$wps_option_list = array("wps_geoip","wps_update_geoip","wps_schedule_geoip","wps_auto_pop");
 	
 	foreach( $wps_option_list as $option ) {
-		update_option( $option, $_POST[$option] );
 		$new_option = str_replace( "wps_", "", $option );
 		$WP_Statistics->store_option($new_option, $_POST[$option]);
 	}

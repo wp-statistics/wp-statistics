@@ -8,7 +8,6 @@ if( $wps_nonce_valid ) {
 	foreach( $role_list as $role ) {
 		$role_post = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
 
-		update_option( $role_post, $_POST[$role_post] );
 		$new_option = str_replace( "wps_", "", $role_post );
 		$WP_Statistics->store_option($new_option, $_POST[$role_post]);
 	}
@@ -16,7 +15,6 @@ if( $wps_nonce_valid ) {
 	$wps_option_list = array_merge( $wps_option_list, array("wps_read_capability","wps_manage_capability","wps_record_exclusions","wps_robotlist","wps_exclude_ip","wps_exclude_loginpage","wps_exclude_adminpage" ) );
 	
 	foreach( $wps_option_list as $option ) {
-		update_option( $option, $_POST[$option] );
 		$new_option = str_replace( "wps_", "", $option );
 		$WP_Statistics->store_option($new_option, $_POST[$option]);
 	}

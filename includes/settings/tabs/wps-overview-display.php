@@ -41,7 +41,6 @@ if( $wps_nonce_valid ) {
 	$wps_option_list = array("wps_disable_map","wps_google_coordinates");
 	
 	foreach( $wps_option_list as $option ) {
-		update_option( $option, $_POST[$option] );
 		$new_option = str_replace( "wps_", "", $option );
 		$WP_Statistics->store_option($new_option, $_POST[$option]);
 	}
