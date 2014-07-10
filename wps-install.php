@@ -60,6 +60,34 @@
 			KEY `id` (`id`)
 		) CHARSET=utf8");
 		
+		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
+		$result = $wpdb->query('SHOW INDEX FROM wp_statistics_visitor');
+		
+		if( $result < 6 ) {
+			// We have to loop through all the rows in the visitors table to check for duplicates that may have been created in error.
+			$result = $wpdb->get_results( "SELECT ID, last_counter, ip FROM {$table_prefix}statistics_visitor ORDER BY last_counter, ip" );
+			
+			// Setup the inital values.
+			$lastrow = array( 'last_counter' => '', 'ip' => '' );
+			$deleterows = array();
+			
+			// Ok, now iterate over the results.
+			foreach( $result as $row ) {
+				// if the last_counter (the date) and IP is the same as the last row, add the row to be deleted.
+				if( $row->last_counter == $lastrow['last_counter'] && $row->ip == $lastrow['ip'] ) { $deleterows[] .=  $row->ID;}
+				
+				// Update the lastrow data.
+				$lastrow['last_counter'] = $row->last_counter;
+				$lastrow['ip'] = $row->ip;
+			}
+			
+			// Now do the acutal deletions.
+			foreach( $deleterows as $row ) {
+				$wpdb->delete( $table_prefix . 'statistics_visitor', array( 'ID' => $row ) );
+			}
+			
+		}
+
 		// This includes the dbDelta function from WordPress.
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		
