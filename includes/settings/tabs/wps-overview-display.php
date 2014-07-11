@@ -1,63 +1,63 @@
 <?php
-if( !$WP_Statistics->isset_user_option('overview_display') ) {
-	$WP_Statistics->store_user_option('overview_display', 	array( 	'A' => 	array( 	1 => 'summary', 
-																					2 => 'browsers',
-																					3 => 'referring',
-																					4 => 'countries',
-																					5 => 'about' 
-																				),
-																	'B' => 	array( 	1 => 'map',
-																					2 => 'hits',
-																					3 => 'search',
-																					4 => 'words',
-																					5 => 'pages',
-																					6 => 'recent' 
-																				),
-																)
-									);
-	
-}
-
-$column_a_list = array(
-							'none'		=> __('None', 'wp_statistics'),
-							'summary' 	=> __('Summary Statistics', 'wp_statistics'),
-							'browsers' 	=> __('Browsers', 'wp_statistics'),
-							'referring' => __('Top Referring Sites', 'wp_statistics'),
-							'countries' => __('Top 10 Countries', 'wp_statistics'),
-							'about' 	=> __('About', 'wp_statistics'),
-						);
-
-$column_b_list = array(
-							'none'		=> __('None', 'wp_statistics'),
-							'map' 		=> __('Map', 'wp_statistics'),
-							'hits' 		=> __('Hits Statistical Chart', 'wp_statistics'),
-							'search' 	=> __('Search Engine Referrers Statistical Chart', 'wp_statistics'),
-							'words' 	=> __('Latest Search Words', 'wp_statistics'),
-							'pages' 	=> __('Top Pages Visited', 'wp_statistics'),
-							'recent' 	=> __('Recent Visitors', 'wp_statistics'),
-						);
-
-if( $wps_nonce_valid ) {
-	$wps_option_list = array("wps_disable_map","wps_google_coordinates");
-	
-	foreach( $wps_option_list as $option ) {
-		$new_option = str_replace( "wps_", "", $option );
-		$WP_Statistics->store_option($new_option, $_POST[$option]);
-	}
-
-
-	for( $i = 1; $i < 7; $i++ ) {
-		$display_array['A'][$i] = '';
-		if( array_key_exists( $_POST['wps_display']['A'][$i], $column_a_list) ) { $display_array['A'][$i] = $_POST['wps_display']['A'][$i]; }
+	if( !$WP_Statistics->isset_user_option('overview_display') ) {
+		$WP_Statistics->store_user_option('overview_display', array(
+			'A' => array(
+				1 => 'summary', 
+				2 => 'browsers',
+				3 => 'referring',
+				4 => 'countries',
+				5 => 'about' 
+			),
+			'B' => 	array( 
+				1 => 'map',
+				2 => 'hits',
+				3 => 'search',
+				4 => 'words',
+				5 => 'pages',
+				6 => 'recent' 
+			),
+		));
 	}
 	
-	for( $i = 1; $i < 8; $i++) {
-		$display_array['B'][$i] = '';
-		if( array_key_exists( $_POST['wps_display']['B'][$i], $column_b_list) ) { $display_array['B'][$i] = $_POST['wps_display']['B'][$i]; }
+	$column_a_list = array(
+		'none'		=> __('None', 'wp_statistics'),
+		'summary' 	=> __('Summary Statistics', 'wp_statistics'),
+		'browsers' 	=> __('Browsers', 'wp_statistics'),
+		'referring' => __('Top Referring Sites', 'wp_statistics'),
+		'countries' => __('Top 10 Countries', 'wp_statistics'),
+		'about' 	=> __('About', 'wp_statistics'),
+	);
+	
+	$column_b_list = array(
+		'none'		=> __('None', 'wp_statistics'),
+		'map' 		=> __('Map', 'wp_statistics'),
+		'hits' 		=> __('Hits Statistical Chart', 'wp_statistics'),
+		'search' 	=> __('Search Engine Referrers Statistical Chart', 'wp_statistics'),
+		'words' 	=> __('Latest Search Words', 'wp_statistics'),
+		'pages' 	=> __('Top Pages Visited', 'wp_statistics'),
+		'recent' 	=> __('Recent Visitors', 'wp_statistics'),
+	);
+	
+	if( $wps_nonce_valid ) {
+		$wps_option_list = array("wps_disable_map","wps_google_coordinates");
+		
+		foreach( $wps_option_list as $option ) {
+			$new_option = str_replace( "wps_", "", $option );
+			$WP_Statistics->store_option($new_option, $_POST[$option]);
+		}
+		
+		for( $i = 1; $i < 7; $i++ ) {
+			$display_array['A'][$i] = '';
+			if( array_key_exists( $_POST['wps_display']['A'][$i], $column_a_list) ) { $display_array['A'][$i] = $_POST['wps_display']['A'][$i]; }
+		}
+		
+		for( $i = 1; $i < 8; $i++) {
+			$display_array['B'][$i] = '';
+			if( array_key_exists( $_POST['wps_display']['B'][$i], $column_b_list) ) { $display_array['B'][$i] = $_POST['wps_display']['B'][$i]; }
+		}
+		
+		$WP_Statistics->store_user_option('overview_display', $display_array );
 	}
-
-	$WP_Statistics->store_user_option('overview_display', $display_array );
-}
 
 // Only display the global options if the user is an administrator.
 if( $wps_admin ) {
@@ -101,15 +101,14 @@ if( $wps_admin ) {
 		</tr>
 	</tbody>
 </table>	
-<?php 	} ?>
+<?php } ?>
 
 <table class="form-table">
 	<tbody>
-
 		<tr valign="top">
 			<td scope="row" colspan="3"><?php _e('The following items are unique to each user.  If you do not select the \'About\' widget it will automatically be displayed in the last positon of column A.', 'wp_statistics');?></td>
 		</tr>
-
+		
 		<tr valign="top">
 			<th scope="row">
 				<?php _e('Slot', 'wp_statistics'); ?>
@@ -123,30 +122,34 @@ if( $wps_admin ) {
 				<?php _e('Column B', 'wp_statistics'); ?>
 			</th>
 		</tr>
-
+		
 		<tr valign="top">
 			<th scope="row">
 				<?php _e('Slot 1', 'wp_statistics'); ?>
 			</th>
 			
 			<td>
-				<select name="wps_display[A][1]"><?php
+				<select name="wps_display[A][1]">
+				<?php
 					foreach( $column_a_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['A'][1] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 			
 			<td>
-				<select name="wps_display[B][1]"><?php
+				<select name="wps_display[B][1]">
+				<?php
 					foreach( $column_b_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['B'][1] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 		</tr>
 		
@@ -156,23 +159,27 @@ if( $wps_admin ) {
 			</th>
 			
 			<td>
-				<select name="wps_display[A][2]"><?php
+				<select name="wps_display[A][2]">
+				<?php
 					foreach( $column_a_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['A'][2] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 			
 			<td>
-				<select name="wps_display[B][2]"><?php
+				<select name="wps_display[B][2]">
+				<?php
 					foreach( $column_b_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['B'][2] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 		</tr>
 		
@@ -182,23 +189,27 @@ if( $wps_admin ) {
 			</th>
 			
 			<td>
-				<select name="wps_display[A][3]"><?php
+				<select name="wps_display[A][3]">
+				<?php
 					foreach( $column_a_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['A'][3] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 			
 			<td>
-				<select name="wps_display[B][3]"><?php
+				<select name="wps_display[B][3]">
+				<?php
 					foreach( $column_b_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['B'][3] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 		</tr>
 		
@@ -208,23 +219,27 @@ if( $wps_admin ) {
 			</th>
 			
 			<td>
-				<select name="wps_display[A][4]"><?php
+				<select name="wps_display[A][4]">
+				<?php
 					foreach( $column_a_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['A'][4] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 			
 			<td>
-				<select name="wps_display[B][4]"><?php
+				<select name="wps_display[B][4]">
+				<?php
 					foreach( $column_b_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['B'][4] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 		</tr>
 		
@@ -234,23 +249,27 @@ if( $wps_admin ) {
 			</th>
 			
 			<td>
-				<select name="wps_display[A][5]"><?php
+				<select name="wps_display[A][5]">
+				<?php
 					foreach( $column_a_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['A'][5] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 			
 			<td>
-				<select name="wps_display[B][5]"><?php
+				<select name="wps_display[B][5]">
+				<?php
 					foreach( $column_b_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['B'][5] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 		</tr>
 		
@@ -264,16 +283,16 @@ if( $wps_admin ) {
 			</td>
 			
 			<td>
-				<select name="wps_display[B][6]"><?php
+				<select name="wps_display[B][6]">
+				<?php
 					foreach( $column_b_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['B'][6] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
- ?></select>
+				?>
+				</select>
 			</td>
 		</tr>
-		
-		
 	</tbody>
 </table>

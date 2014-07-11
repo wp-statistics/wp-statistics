@@ -21,8 +21,11 @@ if( $wps_nonce_valid ) {
 				<?php echo sprintf(__('IP location services provided by GeoLite2 data created by MaxMind, available from %s.', 'wp_statistics'), '<a href="http://www.maxmind.com" target=_blank>http://www.maxmind.com</a>'); ?>
 			</th>
 		</tr>
-
-<?php 		if( wp_statistics_geoip_supported() ) {?>
+		
+		<?php
+		if( wp_statistics_geoip_supported() )
+	{
+		?>
 		<tr valign="top">
 			<th scope="row">
 				<label for="geoip-enable"><?php _e('GeoIP collection', 'wp_statistics'); ?>:</label>
@@ -55,32 +58,31 @@ if( $wps_nonce_valid ) {
 			<td>
 				<input id="geoip-schedule" type="checkbox" name="wps_schedule_geoip" <?php echo $WP_Statistics->get_option('schedule_geoip')==true? "checked='checked'":'';?>>
 				<label for="geoip-schedule"><?php _e('Active', 'wp_statistics'); ?></label>
-<?php 
-if( $WP_Statistics->get_option('schedule_geoip') ) {
-echo '						<p class="description">' . __('Next update will be') .': <code>';
-$last_update = $WP_Statistics->get_option('last_geoip_dl');
-$this_month = strtotime('First Tuesday of this month');
+				<?php 
+					if( $WP_Statistics->get_option('schedule_geoip') ) {
+						echo '<p class="description">' . __('Next update will be') .': <code>';
+						$last_update = $WP_Statistics->get_option('last_geoip_dl');
+						$this_month = strtotime('First Tuesday of this month');
 
-if( $last_update > $this_month ) { $next_update = strtotime('First Tuesday of next month') + (86400 * 2);}
-else { $next_update = $this_month + (86400 * 2); }
-
-$next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
-
-if( $next_schedule ) {
-	echo date( get_option('date_format'), $next_update ) . ' @ ' . date( get_option('time_format'), $next_schedule );
-}
-else {
-	echo date( get_option('date_format'), $next_update ) . ' @ ' . date( get_option('time_format'), time() );
-}
-
-echo '</code></p>';
-}
-?>
+						if( $last_update > $this_month ) { $next_update = strtotime('First Tuesday of next month') + (86400 * 2);}
+						else { $next_update = $this_month + (86400 * 2); }
+						
+						$next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
+						
+						if( $next_schedule ) {
+							echo date( get_option('date_format'), $next_update ) . ' @ ' . date( get_option('time_format'), $next_schedule );
+						} else {
+							echo date( get_option('date_format'), $next_update ) . ' @ ' . date( get_option('time_format'), time() );
+						}
+						
+						echo '</code></p>';
+					}
+				?>
 				<p class="description"><?php _e('Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month.', 'wp_statistics'); ?></p>
 				<p class="description"><?php _e('This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place).', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
-
+		
 		<tr valign="top">
 			<th scope="row">
 				<label for="geoip-schedule"><?php _e('Populate missing GeoIP after update of GeoIP DB', 'wp_statistics'); ?>:</label>
@@ -92,9 +94,11 @@ echo '</code></p>';
 				<p class="description"><?php _e('Update any missing GeoIP data after downloading a new database.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
-<?php 	}
-else {
-?>
+		<?php
+	}
+	else
+	{
+		?>
 		<tr valign="top">
 			<th scope="row" colspan="2">
 				<?php 
@@ -124,6 +128,7 @@ else {
 				?>
 			</th>
 		</tr>
-<?php	} ?>
+		<?php
+	} ?>
 	</tbody>
 </table>

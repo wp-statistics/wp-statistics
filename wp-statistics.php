@@ -1,10 +1,11 @@
 <?php
 /*
 Plugin Name: WP Statistics
-Plugin URI: http://wp-statistics.com
+Plugin URI: http://wp-statistics.com/
 Description: Complete statistics for your blog.
 Version: 6.1
 Author: Mostafa Soufi & Greg Ross
+Author URI: http://wp-statistics.com/
 Text Domain: wp_statistics
 Domain Path: /languages/
 License: GPL2
@@ -459,6 +460,9 @@ License: GPL2
 
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-tabs');
+		
+		if( is_rtl() )
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
 
 		$result['useronline'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_useronline`");
 		$result['visit'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visit`");
@@ -545,6 +549,9 @@ License: GPL2
 
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-tabs');
+		
+		if( is_rtl() )
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
 		
 		// We could let the download happen at the end of the page, but this way we get to give some
 		// feedback to the users about the result.

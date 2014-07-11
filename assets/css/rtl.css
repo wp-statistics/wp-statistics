@@ -15,3 +15,9 @@
 #last-log{
   direction: rtl;
 }
+.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+  font-family: Tahoma;
+}
+.ui-tabs .ui-tabs-nav li{
+  float: right;
+}

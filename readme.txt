@@ -158,7 +158,9 @@ No.
 * Updated: Settings system (which used individual WordPress settings for each option) to a new unified system (uses a single WordPress setting and stores it as an array)
 * Updated: Optimization page from css tabs to jQuery tabs.
 * Updated: Install/Upgrade code to share a single code base.
+* Updated: Persian (fa_IR) language.
 * Updated: Arabic (ar) language.
+* Updated: rtl.css file for new version.
 * Removed: "Alternate map location" setting as it has been made redundent by the new overview display settings.
 
 = 6.1 =
