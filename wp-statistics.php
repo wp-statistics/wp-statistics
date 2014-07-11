@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Statistics
 Plugin URI: http://wp-statistics.com/
-Description: Complete statistics for your blog.
+Description: Complete statistics for your WordPress site.
 Version: 6.1
 Author: Mostafa Soufi & Greg Ross
 Author URI: http://wp-statistics.com/

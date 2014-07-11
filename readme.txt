@@ -7,10 +7,10 @@ Tested up to: 3.9.1
 Stable tag: 6.1
 License: GPL2
 
-Complete statistics for your blog.
+Complete statistics for your WordPress site.
 
 == Description ==
-A perfect plugin for your blog visitor statistics.
+A perfect plugin for your WordPress visitor statistics.
 
 Track Visitor and visit statistics to your blog for today and keep up to a year of history!
 
