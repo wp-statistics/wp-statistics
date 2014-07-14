@@ -1,6 +1,7 @@
 <?php
 	if( is_admin() ) {
 
+		// The follow variables are used to define the table structure for new and upgrade installations.
 		$create_useronline_table = ("CREATE TABLE {$table_prefix}statistics_useronline (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
 			`ip` varchar(20) NOT NULL,

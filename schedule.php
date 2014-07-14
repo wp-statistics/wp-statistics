@@ -36,6 +36,7 @@
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook'); 
 	}
 
+	// This function updates the GeoIP database from MaxMind.
 	function wp_statistics_geoip_event() {
 	
 		GLOBAL $WP_Statistics;
@@ -63,12 +64,14 @@
 	add_action('wp_statistics_geoip_hook', 'wp_statistics_geoip_event');
 
 
+	// This function will purge old records on a schedule based on age.
 	function wp_statistics_dbmaint_event() {
 
 		global $wpdb, $WP_Statistics;
 		
 		$purge_days = intval( $WP_Statistics->get_option('schedule_dbmaint_days', FALSE) );
 		
+		// We always keep at least 30 days of stats, if the user has selected a lower interval, don't do anything.
 		if(  $purge_days > 30 ) {
 		
 			$table_name = $wpdb->prefix . 'statistics_visit';
@@ -83,13 +86,15 @@
 	}
 	add_action('wp_statistics_dbmaint_hook', 'wp_statistics_dbmaint_event');
 
-	
+	// This function sends the statistics report to the selected users.
 	function wp_statistics_send_report() {
 	
 		GLOBAL $WP_Statistics;
 		
+		// Retrieve the template from the options.
 		$string = $WP_Statistics->get_option('content_report');
 		
+		// These are the variables we can replace in the template.  Should probably convert this to use the short codes format at some point.
 		$template_vars = array(
 			'user_online'		=>	wp_statistics_useronline(),
 			'today_visitor'		=>	wp_statistics_visitor('today'),
@@ -100,8 +105,10 @@
 			'total_visit'		=>	wp_statistics_visit('total')
 		);
 
+		// Replace the items in the template.
 		$final_text_report = preg_replace('/%(.*?)%/ime', "\$template_vars['$1']", $string);
 		
+		// Send the report through the selected transport agent.
 		if( $WP_Statistics->get_option('send_report') == 'mail' ) {
 		
 			$blogname = get_bloginfo('name');

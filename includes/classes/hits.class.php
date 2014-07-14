@@ -1,21 +1,33 @@
 <?php
+/*
+	This is the primary class for recording hits on the WordPress site.  It extends the WP_Statistics class and is itself extended by the GeoIPHits class.
+	
+	This class handles; visits, visitors and pages.
+*/
 	class Hits extends WP_Statistics {
 	
+		// Setup our public/private/protected variables.
 		public $result = null;
+
 		protected $ip;
 		protected $location = "000";
+
 		private $exclusion_match = FALSE;
 		private $exclusion_reason = '';
 		private $exclusion_record = FALSE;
 		
+		// Construction function.
 		public function __construct() {
 
 			global $wp_version;
 
+			// Call the parent constructor (WP_Statistics::__construct)
 			parent::__construct();
 			
+			// Get the IP address of the current user.
 			$this->ip = $this->get_IP();
 			
+			// Check to see if the user wants us to record why we're excluding hits.
 			if( $this->get_option('record_exclusions' ) == 1 ) {
 				$this->exclusion_record = TRUE;
 			}
@@ -46,6 +58,7 @@
 				}
 			}
 		
+			// If we didn't match a robot, check ip subnets.
 			if( !$this->exclusion_match ) {
 				// Pull the subnets from the database.
 				$subnets = explode( "\n", $this->get_option('exclude_ip') );
@@ -131,14 +144,17 @@
 
 			   return ($ip_long & $mask) == ($network_long & $mask);
 		 }	
-		 
+		
+		// This function records visits to the site.
 		public function Visits() {
 			
 			// If we're a webcrawler or referral from ourselves or an excluded address don't record the visit.
 			if( !$this->exclusion_match ) {
 
+				// Check to see if we're a returning visitor.
 				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visit ORDER BY `{$this->tb_prefix}statistics_visit`.`ID` DESC");
 				
+				// If we're a returning visitor, update the current record in the database, otherwise, create a new one.
 				if( substr($this->result->last_visit, 0, -1) != substr($this->Current_Date('Y-m-d H:i:s'), 0, -1) ) {
 				
 					if( $this->result->last_counter != $this->Current_Date('Y-m-d') ) {
@@ -168,19 +184,25 @@
 			}
 		}
 		
+		// This function records unique visitors to the site.
 		public function Visitors() {
 	
 			// If we're a webcrawler or referral from ourselves or an excluded address don't record the visit.
 			if( !$this->exclusion_match ) {
 
+				// Check to see if we already have an entry in the database.
 				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}'");
 
+				// If we don't create a new one, otherwise update the old one.
 				if( !$this->result ) {
 
+					// If we've been told to store the entire user agent, do so.
 					if( $this->get_option('store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
 					
+					// Parse the user agent.
 					$agent = $this->get_UserAgent();
 
+					// Store the result.
 					$this->db->insert(
 						$this->tb_prefix . "statistics_visitor",
 						array(
@@ -213,6 +235,7 @@
 			}
 		}
 
+		// This function records page hits.
 		public function Pages() {
 	
 			// If we're a webcrawler or referral from ourselves or an excluded address don't record the page hit.
@@ -221,13 +244,19 @@
 				// Don't track anything but actual pages and posts, unless we've been told to.
 				if( $this->get_option('track_all_pages') || is_page() || is_single() || is_front_page() ) {
 					global $wp_query;
+					
+					// Many of the URI's we hit will be pages or posts, get their ID if it exists.
 					$current_page_id = $wp_query->get_queried_object_id();
 
 					// Get the current page URI.
 					$page_uri = wp_statistics_get_uri();
 
+					// If we have already been to this page today (a likely senerio), just update the count on the record.
 					$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = '{$page_uri}'");
 
+					// If the update failed (aka the record doesn't exist), insert a new one.  Note this may drop a page hit if a race condition
+					// exists where two people load the same page a the roughly the same time.  In that case two insers would be attempted but
+					// there is a unique index requirement on the database and one of them would fail.
 					if( !$this->result ) {
 
 						$this->db->insert(
