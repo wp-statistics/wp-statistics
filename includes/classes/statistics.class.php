@@ -302,7 +302,8 @@
 				return date_i18n($format) ;
 			}
 		}
-		
+
+		// This function checks to see if a search engine exists in the current list of search engines.
 		public function Check_Search_Engines ($search_engine_name, $search_engine = null) {
 		
 			if( strstr($search_engine, $search_engine_name) ) {
@@ -310,20 +311,27 @@
 			}
 		}
 		
+		// This function returns an array of information about a given search engine based on the url passed in.
+		// It is used in several places to get the SE icon or the sql query to select an individual SE from the database.
 		public function Search_Engine_Info($url = false) {
 		
+			// If no URL was passed in, get the current referrer for the session.
 			if(!$url) {
 				$url = isset($_SERVER['HTTP_REFERER']) ? $this->get_Referred() : false;
 			}
 			
+			// If there is no URL and no referrer, always return false.
 			if($url == false) {
 				return false;
 			}
 			
+			// Parse the URL in to it's component parts.
 			$parts = parse_url($url);
 			
+			// Get the list of search engines we currently support.
 			$search_engines = wp_statistics_searchengine_list();
 			
+			// Loop through the SE list until we find which search engine matches.
 			foreach( $search_engines as $key => $value ) {
 				$search_regex = wp_statistics_searchengine_regex($key);
 				
@@ -331,29 +339,39 @@
 				
 				if( isset($matches[1]) )
 					{
+					// Return the first matched SE.
 					return $value;
 					}
 			}
 			
+			// If no SE matched, return some defaults.
 			return array('name' => 'Unknown', 'tag' => '', 'sqlpattern' => '', 'regexpattern' => '', 'querykey' => 'q', 'image' => 'unknown.png' );
 		}
 		
+		// This function will parse a URL from a referrer and return the search query words used.
 		public function Search_Engine_QueryString($url = false) {
 		
+			// If no URL was passed in, get the current referrer for the session.
 			if(!$url) {
 				$url = isset($_SERVER['HTTP_REFERER']) ? $this->get_Referred() : false;
 			}
 			
+			// If there is no URL and no referrer, always return false.
 			if($url == false) {
 				return false;
 			}
 			
+			// Parse the URL in to it's component parts.
 			$parts = parse_url($url);
-			
+
+			// Check to see if there is a query component in the URL (everything after the ?).  If there isn't one
+			// set an empty array so we don't get errors later.
 			if( array_key_exists('query',$parts) ) { parse_str($parts['query'], $query); } else { $query = array(); }
 			
+			// Get the list of search engines we currently support.
 			$search_engines = wp_statistics_searchengine_list();
 			
+			// Loop through the SE list until we find which search engine matches.
 			foreach( $search_engines as $key => $value ) {
 				$search_regex = wp_statistics_searchengine_regex($key);
 				
@@ -361,6 +379,7 @@
 				
 				if( isset($matches[1]) )
 					{
+					// Check to see if the query key the SE uses exists in the query part of the URL.
 					if( array_key_exists($search_engines[$key]['querykey'], $query) ) {
 						$words = strip_tags($query[$search_engines[$key]['querykey']]);
 					}
@@ -368,11 +387,14 @@
 						$words = '';
 					}
 				
+					// If no words were found, return a pleasent default.
 					if( $words == '' ) { $words = 'No search query found!'; }
 					return $words;
 					}
 			}
 			
-			return '';
+			// We should never actually get to this point, but let's make sure we return something
+			// just in case something goes terribly wrong.
+			return 'No search query found!';
 		}
 	}

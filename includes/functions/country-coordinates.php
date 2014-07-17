@@ -1,4 +1,9 @@
 <?php
+/*
+	This is a list of all known country codes and their latitue/longitude values.
+	
+	It is used for the map in the overview page.
+*/
 $CountryCoordinates["AF"] = array("lat" => "33", "lng" => "65");
 $CountryCoordinates["AL"] = array("lat" => "41", "lng" => "20");
 $CountryCoordinates["DZ"] = array("lat" => "28", "lng" => "3");

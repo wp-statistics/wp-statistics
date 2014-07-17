@@ -1,4 +1,9 @@
 <?php
+/*
+	This is a list of all known country codes and their country names.
+	
+	It is used in several places in the plugin and is therefore centralized here for ease of update.
+*/
 $ISOCountryCode['000'] = "Unknown";
 $ISOCountryCode['AF'] = "Afghanistan";
 $ISOCountryCode['AX'] = "Åland Islands";
