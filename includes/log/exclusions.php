@@ -13,6 +13,7 @@
 	$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 	
 	$excluded_reasons = array('Robot','IP Match','Self Referral','Login Page','Admin Page','User Role');
+	$excluded_reason_tags = array('Robot' => 'robot','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole', 'Total' => 'total');
 	$excluded_results = array();
 	$excluded_total = 0;
 	
@@ -37,7 +38,7 @@
 			if( $excluded_results[$reason][$i] < 1 ) { $excluded_results[$reason][$i] = 0; }
 			
 			// We're totalling things up here for use later.
-			$excluded_results['total'][$i] += $excluded_results[$reason][$i];
+			$excluded_results['Total'][$i] += $excluded_results[$reason][$i];
 			$excluded_total += $excluded_results[$reason][$i];
 		}
 	}
@@ -73,89 +74,75 @@
 						<script type="text/javascript">
 						var visit_chart;
 						jQuery(document).ready(function() {
-							visit_chart = new Highcharts.Chart({
-								chart: {
-									renderTo: 'exclusion-stats',
-									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
-									backgroundColor: '#FFFFFF',
-									height: '600'
-								},
-								credits: {
-									enabled: false
-								},
-								title: {
-									text: '<?php echo __('Excluded hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma',
-										fontWeight: 'bold'
-									}
-								},
-								xAxis: {
-									type: 'datetime',
-									labels: {
-										rotation: -45,
-										step: <?php echo round($daysToDisplay/20);?>
-										},
-									categories: [
-									<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date_i18n('Y-m-d', '-'.$i).'"';
-											if( $i > 0 ) { echo ", "; }
-										}
-									?>]
-								},
-								yAxis: {
-									min: 0,
-									title: {
-										text: '<?php _e('Number of excluded hits', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										}
-									}
-								},
-								<?php if( is_rtl() ) { ?>
-								legend: {
-									rtl: true,
-									itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-								},
-								<?php } ?>
-								tooltip: {
-									crosshairs: true,
-									shared: true,
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma'
-									},
-									useHTML: true
-								},
-								series: [
-									<?php
-									
-									foreach( $excluded_reasons as $reason ) {
-									
-										echo "{\n";
-										echo "name: '" . __($reason, 'wp_statistics') . "',\n";
-										echo "data: [";
+<?php								
+								foreach( $excluded_reasons as $reason ) {
+								
+									echo "var excluded_data_line_" . $excluded_reason_tags[$reason] . " = [";
 
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo $excluded_results[$reason][$i];
-											if( $i > 0 ) { echo ", "; }
+									for( $i=$daysToDisplay; $i>=0; $i--) {
+										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $excluded_results[$reason][$i] . "], ";
 										}
-										echo "]\n";
-										echo "								},\n";
-									}
-									?>
-								]
-							});
+
+									echo "];\n";
+								}
+								
+?>
+							visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach( $excluded_reasons as $reason ) { echo "excluded_data_line_" . $excluded_reason_tags[$reason] . ", "; } ?>], {
+								title: {
+									text: '<b><?php echo __('Excluded hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?></b>',
+									fontSize: '12px',
+									fontFamily: 'Tahoma',
+									textColor: '#000000',
+									},
+								axes: {
+									xaxis: {
+											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$daysToDisplay);?>',
+											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											tickInterval: '1 day',
+											renderer:jQuery.jqplot.DateAxisRenderer,
+											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+											tickOptions: { 
+												angle: -45,
+												formatString:'%b %#d',
+												showGridline: false, 
+												},
+										},										
+									yaxis: {
+											min: 0,
+											label: '<?php _e('Number of excluded hits', 'wp_statistics'); ?>',
+											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
+											labelOptions: {
+												angle: -90,
+												fontSize: '12px',
+												fontFamily: 'Tahoma',
+												fontWeight: 'bold',
+											},
+										}
+									},
+								legend: {
+									show: true,
+									location: 'e',
+									placement: 'outsideGrid',
+									labels: [<?php foreach( $excluded_reasons as $reason ) { echo "'" . __( $reason, 'wp_statistics' ) . "', "; } ?>],
+									},
+								highlighter: {
+									show: true,
+									bringSeriesToFront: true,
+									tooltipAxes: 'xy',
+									formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
+								},
+								grid: {
+								 drawGridlines: true,
+								 borderColor: 'transparent',
+								 shadow: false,
+								 drawBorder: false,
+								 shadowColor: 'transparent'
+								},
+							} );
 						});
 						</script>
 						
-						<div id="exclusion-stats"></div>
+						<div id="exclusion-stats" style="height:500px;"></div>
 						
 					</div>
 				</div>

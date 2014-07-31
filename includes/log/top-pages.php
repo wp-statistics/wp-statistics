@@ -14,105 +14,96 @@
 	<div class="postbox-container" id="last-log">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
+				
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php _e('Top 5 Pages Trends', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
-						var pages_chart;
+						var pages_jqchart;
 						jQuery(document).ready(function() {
-							pages_chart = new Highcharts.Chart({
-								chart: {
-									renderTo: 'page-stats',
-									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
-									backgroundColor: '#FFFFFF',
-									height: '500'
-								},
-								credits: {
-									enabled: false
-								},
-								title: {
-									text: '<?php echo __('Top 5 Page Trending Stats', 'wp_statistics'); ?>',
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma',
-										fontWeight: 'bold'
-									}
-								},
-								xAxis: {
-									type: 'datetime',
-									labels: {
-										rotation: -45,
-										step: <?php echo round($daysToDisplay/20);?>
-										},
-									categories: [
-									<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date_i18n('Y-m-d', '-'.$i).'"';
-											if( $i > 0 ) { echo ", "; }
-										}
-									?>]
-								},
-								yAxis: {
-									min: 0,
-									title: {
-										text: '<?php _e('Number of Hits', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										}
-									}
-								},
-								<?php if( is_rtl() ) { ?>
-								legend: {
-									rtl: true,
-									itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-								},
-								<?php } ?>
-								tooltip: {
-									crosshairs: true,
-									shared: true,
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma'
-									},
-									useHTML: true
-								},
-								series: [
 <?php								
 								$count = 0;
+								
 								foreach( $uris as $uri ) {
+									
 									$count++;
 									
-									echo "									{\n";
-									echo "									name: 'Rank #{$count}',\n";
-									echo "									data: [";
-
+									echo "var pages_data_line" . $count . " = [";
+									
 									for( $i=$daysToDisplay; $i>=0; $i--) {
-										echo wp_statistics_pages('-'.$i,$uri[0]);
-										if( $i > 0 ) { echo ", "; }
+										$stat = wp_statistics_pages('-'.$i,$uri[0]);
+										
+										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+										
 									}
-									
-									echo "]\n";
-									echo "								},\n";
-									
+
+									echo "];\n";
 									if( $count > 4 ) { break; }
 								}
-
+								
 ?>
-								]
-							});
+
+							pages_jqchart = jQuery.jqplot('jqpage-stats', [pages_data_line1, pages_data_line2, pages_data_line3, pages_data_line4, pages_data_line5], {
+								title: {
+									text: '<b><?php echo __('Top 5 Page Trending Stats', 'wp_statistics'); ?></b>',
+									fontSize: '12px',
+									fontFamily: 'Tahoma',
+									textColor: '#000000',
+									},
+								axes: {
+									xaxis: {
+											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$daysToDisplay);?>',
+											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											tickInterval: '1 day',
+											renderer:jQuery.jqplot.DateAxisRenderer,
+											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+											tickOptions: { 
+												angle: -45,
+												formatString:'%b %#d',
+												showGridline: false, 
+												},
+										},										
+									yaxis: {
+											min: 0,
+											label: '<?php _e('Number of Hits', 'wp_statistics'); ?>',
+											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
+											labelOptions: {
+												angle: -90,
+												fontSize: '12px',
+												fontFamily: 'Tahoma',
+												fontWeight: 'bold',
+											},
+										}
+									},
+								legend: {
+									show: true,
+									location: 'e',
+									placement: 'outsideGrid',
+									labels: [ 'Rank #1', 'Rank #2', 'Rank #3', 'Rank #4', 'Rank #5'],
+									},
+								highlighter: {
+									show: true,
+									bringSeriesToFront: true,
+									tooltipAxes: 'xy',
+									formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
+								},
+								grid: {
+								 drawGridlines: true,
+								 borderColor: 'transparent',
+								 shadow: false,
+								 drawBorder: false,
+								 shadowColor: 'transparent'
+								},
+							} );
 						});
 						</script>
 						
-						<div id="page-stats"></div>
+						<div id="jqpage-stats" style="height:500px;"></div>
 
 					</div>
 				</div>
-				
+
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php _e('Top Pages', 'wp_statistics'); ?></span></h3>

@@ -38,89 +38,88 @@
 						<script type="text/javascript">
 						var visit_chart;
 						jQuery(document).ready(function() {
-							visit_chart = new Highcharts.Chart({
-								chart: {
-									renderTo: 'visits-stats',
-									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
-									backgroundColor: '#FFFFFF',
-									height: '600'
-								},
-								credits: {
-									enabled: false
-								},
+<?php								
+								echo "var visit_data_line = [";
+								
+								for( $i=$daysToDisplay; $i>=0; $i--) {
+									$stat = wp_statistics_visit('-'.$i, true);
+									$stat = wp_statistics_visitor('-'.$i, true);
+									
+									echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+									
+								}
+
+								echo "];\n";
+
+								echo "var visitor_data_line = [";
+								
+								for( $i=$daysToDisplay; $i>=0; $i--) {
+									$stat = wp_statistics_visitor('-'.$i, true);
+									
+									echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+									
+								}
+
+								echo "];\n";
+
+?>
+							visit_chart = jQuery.jqplot('visits-stats', [visit_data_line, visitor_data_line], {
 								title: {
-									text: '<?php echo __('Hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?>',
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma',
-										fontWeight: 'bold'
-									}
-								},
-								xAxis: {
-									type: 'datetime',
-									labels: {
-										rotation: -45,
-										step: <?php echo round($daysToDisplay/20);?>
-										},
-									categories: [
-									<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo '"'.$WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i).'"';
-											if( $i > 0 ) { echo ", "; }
-										}
-									?>]
-								},
-								yAxis: {
-									min: 0,
-									title: {
-										text: '<?php _e('Number of visits and visitors', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										}
-									}
-								},
-								<?php if( is_rtl() ) { ?>
-								legend: {
-									rtl: true,
-									itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-								},
-								<?php } ?>
-								tooltip: {
-									crosshairs: true,
-									shared: true,
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma'
+									text: '<b><?php echo __('Hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?></b>',
+									fontSize: '12px',
+									fontFamily: 'Tahoma',
+									textColor: '#000000',
 									},
-									useHTML: true
-								},
-								series: [{
-									name: '<?php _e('Visitor', 'wp_statistics'); ?>',
-									data: [<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo wp_statistics_visitor('-'.$i, true);
-											if( $i > 0 ) { echo ", "; }
+								axes: {
+									xaxis: {
+											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$daysToDisplay);?>',
+											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											tickInterval: '1 day',
+											renderer:jQuery.jqplot.DateAxisRenderer,
+											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+											tickOptions: { 
+												angle: -45,
+												formatString:'%b %#d',
+												showGridline: false, 
+												},
+										},										
+									yaxis: {
+											min: 0,
+											label: '<?php _e('Number of visits and visitors', 'wp_statistics'); ?>',
+											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
+											labelOptions: {
+												angle: -90,
+												fontSize: '12px',
+												fontFamily: 'Tahoma',
+												fontWeight: 'bold',
+											},
 										}
-									?>]
+									},
+								legend: {
+									show: true,
+									location: 'e',
+									placement: 'outsideGrid',
+									labels: ['<?php _e('Visit', 'wp_statistics'); ?>', '<?php _e('Visitor', 'wp_statistics'); ?>'],
+									},
+								highlighter: {
+									show: true,
+									bringSeriesToFront: true,
+									tooltipAxes: 'xy',
+									formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
 								},
-								{
-									name: '<?php _e('Visit', 'wp_statistics'); ?>',
-									data: [<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo wp_statistics_visit('-'.$i, true);
-											if( $i > 0 ) { echo ", "; }
-										}
-									?>]
-								}]
-							});
+								grid: {
+								 drawGridlines: true,
+								 borderColor: 'transparent',
+								 shadow: false,
+								 drawBorder: false,
+								 shadowColor: 'transparent'
+								},
+							} );
 						});
+
 						</script>
 						
-						<div id="visits-stats"></div>
+						<div id="visits-stats" style="height:500px;"></div>
 						
 					</div>
 				</div>

@@ -628,90 +628,87 @@
 						<script type="text/javascript">
 						var visit_chart;
 						jQuery(document).ready(function() {
-							visit_chart = new Highcharts.Chart({
-								chart: {
-									renderTo: 'visits-log',
-									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
-									backgroundColor: '#FFFFFF',
-									height: '300'
-								},
-								credits: {
-									enabled: false
-								},
+<?php								
+								echo "var visit_data_line = [";
+								
+								for( $i=20; $i>=0; $i--) {
+									$stat = wp_statistics_visit('-'.$i, true);
+									$stat = wp_statistics_visitor('-'.$i, true);
+									
+									echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+									
+								}
+
+								echo "];\n";
+
+								echo "var visitor_data_line = [";
+								
+								for( $i=20; $i>=0; $i--) {
+									$stat = wp_statistics_visitor('-'.$i, true);
+									
+									echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+									
+								}
+
+								echo "];\n";
+
+?>
+							visit_chart = jQuery.jqplot('visits-stats', [visit_data_line, visitor_data_line], {
 								title: {
-									text: '<?php _e('Hits in the last 20 days', 'wp_statistics'); ?>',
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma',
-										fontWeight: 'bold'
-									}
-								},
-								xAxis: {
-									type: 'datetime',
-									labels: {
-										rotation: -45
-										},
-									categories: [
-									<?php
-										for( $i=20; $i>=0; $i--) {
-											echo '"'.$WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i).'"';
-											echo ", ";
-										}
-									?>]
-								},
-								yAxis: {
-									min: 0,
-									title: {
-										text: '<?php _e('Number of visits and visitors', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										}
-									}
-								},
-								<?php if( is_rtl() ) { ?>
-								legend: {
-									rtl: true,
-									itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-								},
-								<?php } ?>
-								tooltip: {
-									crosshairs: true,
-									shared: true,
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma'
+									text: '<b><?php echo __('Hits in the last', 'wp_statistics') . ' 20 ' . __('days', 'wp_statistics'); ?></b>',
+									fontSize: '12px',
+									fontFamily: 'Tahoma',
+									textColor: '#000000',
 									},
-									useHTML: true
-								},
-								series: [{
-									name: '<?php _e('Visitor', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=20; $i>=0; $i--) {
-											echo wp_statistics_visitor('-'.$i, true);
-											echo ", ";
+								axes: {
+									xaxis: {
+											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-20');?>',
+											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											tickInterval: '1 day',
+											renderer:jQuery.jqplot.DateAxisRenderer,
+											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+											tickOptions: { 
+												angle: -45,
+												formatString:'%b %#d',
+												showGridline: false, 
+												},
+										},										
+									yaxis: {
+											min: 0,
+											label: '<?php _e('Number of visits and visitors', 'wp_statistics'); ?>',
+											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
+											labelOptions: {
+												angle: -90,
+												fontSize: '12px',
+												fontFamily: 'Tahoma',
+												fontWeight: 'bold',
+											},
 										}
-									?>]
+									},
+								legend: {
+									show: true,
+									location: 'e',
+									placement: 'outsideGrid',
+									labels: ['<?php _e('Visit', 'wp_statistics'); ?>', '<?php _e('Visitor', 'wp_statistics'); ?>'],
+									},
+								highlighter: {
+									show: true,
+									bringSeriesToFront: true,
+									tooltipAxes: 'xy',
+									formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
 								},
-								{
-									name: '<?php _e('Visit', 'wp_statistics'); ?>',
-									data: [
-									<?php
-										for( $i=20; $i>=0; $i--) {
-											echo wp_statistics_visit('-'.$i, true);
-											echo ", ";
-										}
-									?>]
-								}]
-							});
+								grid: {
+								 drawGridlines: true,
+								 borderColor: 'transparent',
+								 shadow: false,
+								 drawBorder: false,
+								 shadowColor: 'transparent'
+								},
+							} );
 						});
 						</script>
 						
-						<div id="visits-log"></div>
+						<div id="visits-stats" style="height:300px;"></div>
 						
 					</div>
 				</div>
@@ -727,107 +724,95 @@
 					<h3 class="hndle"><span><?php _e('Search Engine Referrals', 'wp_statistics'); ?> <a href="?page=wps_searches_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 						<script type="text/javascript">
-						var visit_chart;
+						var referral_chart;
 						jQuery(document).ready(function() {
-							visit_chart = new Highcharts.Chart({
-								chart: {
-									renderTo: 'search-engine-log',
-									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
-									backgroundColor: '#FFFFFF',
-									height: '300'
-								},
-								credits: {
-									enabled: false
-								},
-								title: {
-									text: '<?php _e('Search engine referrals in the last 20 days', 'wp_statistics'); ?>',
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma',
-										fontWeight: 'bold'
-									}
-								},
-								xAxis: {
-									type: 'datetime',
-									labels: {
-										rotation: -45,
-										},
-									categories: [
-									<?php
-										for( $i=20; $i>=0; $i--) {
-											echo '"'.$WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i).'"';
-											echo ", ";
-										}
-									?>]
-								},
-								yAxis: {
-									min: 0,
-									title: {
-										text: '<?php _e('Number of referrer', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										}
-									}
-								},
-								<?php if( is_rtl() ) { ?>
-								legend: {
-									rtl: true,
-									itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-								},
-								<?php } ?>
-								tooltip: {
-									crosshairs: true,
-									shared: true,
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma'
-									},
-									useHTML: true
-								},
-								series: [
-<?php
+<?php								
 								$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 								$total_daily = array();
 
 								foreach( $search_engines as $se ) {
-									echo "								{\n";
-									echo "									name: '" . __($se['name'], 'wp_statistics') . "',\n";
-									echo "									data: [";
+									
+									echo "var searches_data_line_" . $se['tag'] . " = [";
+									
+									for( $i=20; $i>=0; $i--) {
+										$stat = wp_statistics_searchengine($se['tag'], '-'.$i);
+										$total_daily[$i] += $stat;
+										
+										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+										
+									}
+
+									echo "];\n";
+								}
+
+								if( $total_stats == 1 ) {
+									echo "var searches_data_line_total = [";
 
 									for( $i=20; $i>=0; $i--) {
-										$result = wp_statistics_searchengine($se['tag'], '-'.$i) . ", ";
-										$total_daily[$i] += $result;
-										echo $result;
+										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $total_daily[$i] . "], ";
 									}
 									
-									echo "]\n";
-									echo "								},\n";
+									echo "];\n";
 								}
 								
-								if( $total_stats == 1 ) {
-									echo "								{\n";
-									echo "									name: '" . __('Total', 'wp_statistics') . "',\n";
-									echo "									data: [";
-
-									for( $i=20; $i>=0; $i--) {
-										echo $total_daily[$i] . ", ";
-									}
-									
-									echo "]\n";
-									echo "								},\n";
-								}
 ?>
-								]
-							});
+							referral_chart = jQuery.jqplot('search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
+								title: {
+									text: '<b><?php echo __('Search engine referrals in the last', 'wp_statistics') . ' 20 ' . __('days', 'wp_statistics'); ?></b>',
+									fontSize: '12px',
+									fontFamily: 'Tahoma',
+									textColor: '#000000',
+									},
+								axes: {
+									xaxis: {
+											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-20');?>',
+											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											tickInterval: '1 day',
+											renderer:jQuery.jqplot.DateAxisRenderer,
+											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+											tickOptions: { 
+												angle: -45,
+												formatString:'%b %#d',
+												showGridline: false, 
+												},
+										},										
+									yaxis: {
+											min: 0,
+											label: '<?php _e('Number of referrals', 'wp_statistics'); ?>',
+											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
+											labelOptions: {
+												angle: -90,
+												fontSize: '12px',
+												fontFamily: 'Tahoma',
+												fontWeight: 'bold',
+											},
+										}
+									},
+								legend: {
+									show: true,
+									location: 'e',
+									placement: 'outsideGrid',
+									labels: [<?php foreach( $search_engines as $se ) { echo "'" . __( $se['name'], 'wp_statistics' ) . "', "; } if( $total_stats == 1 ) { echo "'" . __('Total', 'wp_statistics') . "'"; }?>],
+									},
+								highlighter: {
+									show: true,
+									bringSeriesToFront: true,
+									tooltipAxes: 'xy',
+									formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
+								},
+								grid: {
+								 drawGridlines: true,
+								 borderColor: 'transparent',
+								 shadow: false,
+								 drawBorder: false,
+								 shadowColor: 'transparent'
+								},
+							} );
 						});
-						
+
 						</script>
 						
-						<div id="search-engine-log"></div>
+						<div id="search-stats" style="height:300px;"></div>
 						
 					</div>
 				</div>
