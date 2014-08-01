@@ -602,7 +602,6 @@
 								
 								for( $i=20; $i>=0; $i--) {
 									$stat = wp_statistics_visit('-'.$i, true);
-									$stat = wp_statistics_visitor('-'.$i, true);
 									
 									echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
 									
