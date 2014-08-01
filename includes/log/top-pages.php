@@ -78,9 +78,16 @@
 									},
 								legend: {
 									show: true,
-									location: 'e',
+									location: 's',
 									placement: 'outsideGrid',
 									labels: [ 'Rank #1', 'Rank #2', 'Rank #3', 'Rank #4', 'Rank #5'],
+									renderer: jQuery.jqplot.EnhancedLegendRenderer,
+									rendererOptions:
+										{
+											numberColumns: 5, 
+											disableIEFading: false,
+											border: 'none',
+										},
 									},
 								highlighter: {
 									show: true,

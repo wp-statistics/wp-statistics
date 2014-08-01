@@ -121,9 +121,16 @@
 									},
 								legend: {
 									show: true,
-									location: 'e',
+									location: 's',
 									placement: 'outsideGrid',
 									labels: [<?php foreach( $excluded_reasons as $reason ) { echo "'" . __( $reason, 'wp_statistics' ) . "', "; } ?>],
+									renderer: jQuery.jqplot.EnhancedLegendRenderer,
+									rendererOptions:
+										{
+											numberColumns: <?php echo count($excluded_reasons) + 1; ?>, 
+											disableIEFading: false,
+											border: 'none',
+										},
 									},
 								highlighter: {
 									show: true,

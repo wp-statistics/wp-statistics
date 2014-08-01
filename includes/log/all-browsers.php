@@ -27,95 +27,65 @@
 						jQuery(function () {
 							var browser_chart;
 							jQuery(document).ready(function() {
+<?php								
+								$Browsers = wp_statistics_ua_list();
 								
-								// Radialize the colors
-								Highcharts.getOptions().colors = jQuery.map(Highcharts.getOptions().colors, function(color) {
-									return {
-										radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-										stops: [
-											[0, color],
-											[1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-										]
-									};
-								});
+								echo "var browser_data = [";
 								
-								// Build the chart
-								browser_chart = new Highcharts.Chart({
-									chart: {
-										renderTo: 'browsers-log',
-										plotBackgroundColor: null,
-										plotBorderWidth: null,
-										plotShadow: false,
-										backgroundColor: '#FFFFFF',
-									},
-									credits: {
-										enabled: false
-									},
-									title: {
-										text: '<?php _e('Browsers by Type', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma',
-											fontWeight: 'bold'
-										}
-									},
-									<?php if( is_rtl() ) { ?>
-									legend: {
-										rtl: true,
-										itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-									},
-									<?php } ?>
-									tooltip: {
-										formatter: function () {
-											return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
-									   },
-										percentageDecimals: 1,
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										},
-										useHTML: true
-									},
-									plotOptions: {
-										pie: {
-											allowPointSelect: true,
-											cursor: 'pointer',
-											dataLabels: {
-												enabled: true,
-												color: '#000000',
-												connectorColor: '#000000',
-												style: {
-													fontSize: '11px',
-													fontFamily: 'Tahoma',
-												}
-											}
-										}
-									},
-									series: [{
-										type: 'pie',
-										name: '<?php _e('Browser share', 'wp_statistics'); ?>',
-										data: [
-											<?php 
-											$Browsers = wp_statistics_ua_list();
+								foreach( $Browsers as $Browser )
+									{
+									$count = wp_statistics_useragent( $Browser );
+									echo "['" . substr( __( $Browser, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									}
 
-											foreach( $Browsers as $Browser )
-												{
-												$count = wp_statistics_useragent( $Browser );
-												echo "											['" . __( $Browser, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
-												}
-											?>
-										]
-									}]
-								});
+								echo "];\n";
+
+								
+?>
+
+								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
+									title: {
+										text: '<b><?php echo __('Browsers by type', 'wp_statistics'); ?></b>',
+										fontSize: '12px',
+										fontFamily: 'Tahoma',
+										textColor: '#000000',
+										},
+									seriesDefaults: {
+										// Make this a pie chart.
+										renderer: jQuery.jqplot.PieRenderer, 
+										rendererOptions: {
+											// Put data labels on the pie slices.
+											// By default, labels show the percentage of the slice.
+											dataLabels: 'percent',
+											showDataLabels: true,
+											shadowOffset: 0,
+										}
+									}, 
+									legend: { 
+										show:true, 
+										location: 's',
+										renderer: jQuery.jqplot.EnhancedLegendRenderer,
+										rendererOptions:
+											{
+												numberColumns: 3, 
+												disableIEFading: false,
+												border: 'none',
+											},
+										},
+									grid: { background: 'transparent', borderWidth: 0, shadow: false },
+									highlighter: {
+										show: true,
+										formatString:'%s', 
+										tooltipLocation:'n', 
+										useAxesFormatters:false,
+										},
+								} );
 							});
-							
 						});
+								  
 						</script>
 								
-						<div id="browsers-log"></div>
+						<div id="browsers-log" style="height: <?php $height = ( count($Browsers) / 3 * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
 					</div>
 				</div>
 			</div>
@@ -133,82 +103,65 @@
 						jQuery(function () {
 							var platform_chart;
 							jQuery(document).ready(function() {
-								
-								// Build the chart
-								platform_chart = new Highcharts.Chart({
-									chart: {
-										renderTo: 'platform-log',
-										plotBackgroundColor: null,
-										plotBorderWidth: null,
-										plotShadow: false,
-										backgroundColor: '#FFFFFF',
-									},
-									credits: {
-										enabled: false
-									},
-									title: {
-										text: '<?php _e('Browsers by Platform', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma',
-											fontWeight: 'bold'
-										}
-									},
-									<?php if( is_rtl() ) { ?>
-									legend: {
-										rtl: true,
-										itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-									},
-									<?php } ?>
-									tooltip: {
-										formatter: function () {
-											return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
-									   },
-										percentageDecimals: 1,
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										},
-										useHTML: true
-									},
-									plotOptions: {
-										pie: {
-											allowPointSelect: true,
-											cursor: 'pointer',
-											dataLabels: {
-												enabled: true,
-												color: '#000000',
-												connectorColor: '#000000',
-												style: {
-													fontSize: '11px',
-													fontFamily: 'Tahoma',
-												}
-											}
-										}
-									},
-									series: [{
-										type: 'pie',
-										name: '<?php _e('Platform share', 'wp_statistics'); ?>',
-										data: [
-											<?php 
-											$Platforms = wp_statistics_platform_list();
+<?php								
+								$Platforms = wp_statistics_platform_list();
 
-											foreach( $Platforms as $Platform ) {
-												$count = wp_statistics_platform( $Platform );
-												echo "['" . __( $Platform, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
-											}
-											?>
-										]
-									}]
-								});
+								echo "var platform_data = [";
+								
+								foreach( $Platforms as $Platform )
+									{
+									$count = wp_statistics_platform( $Platform );
+									echo "['" . substr( __( $Platform, 'wp_statistics' ), 0, 15) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									}
+
+								echo "];\n";
+
+								
+?>
+
+								platform_chart = jQuery.jqplot('platform-log', [platform_data], { 
+									title: {
+										text: '<b><?php echo __('Browsers by platform', 'wp_statistics'); ?></b>',
+										fontSize: '12px',
+										fontFamily: 'Tahoma',
+										textColor: '#000000',
+										},
+									seriesDefaults: {
+										// Make this a pie chart.
+										renderer: jQuery.jqplot.PieRenderer, 
+										rendererOptions: {
+											// Put data labels on the pie slices.
+											// By default, labels show the percentage of the slice.
+											dataLabels: 'percent',
+											showDataLabels: true,
+											shadowOffset: 0,
+										}
+									}, 
+									legend: { 
+										show:true, 
+										location: 's',
+										renderer: jQuery.jqplot.EnhancedLegendRenderer,
+										rendererOptions: {
+											numberColumns: 3, 
+											disableIEFading: false,
+											border: 'none',
+										},
+									},
+									grid: { background: 'transparent', borderWidth: 0, shadow: false },
+									highlighter: {
+										show: true,
+										formatString:'%s', 
+										tooltipLocation:'n', 
+										useAxesFormatters:false,
+										},
+								} );
 							});
-							
 						});
+								  
 						</script>
-						<div id="platform-log"></div>
+								
+						<div id="platform-log" style="height: <?php $height = ( count($Browsers) / 3 * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
+								
 					</div>
 				</div>
 			</div>
@@ -277,84 +230,62 @@
 			jQuery(function () {
 				var <?php echo $Browser_tag;?>_chart;
 				jQuery(document).ready(function() {
+<?php								
+					$Versions = wp_statistics_agent_version_list($Browser);
 					
-					// Build the chart
-					<?php echo $Browser_tag;?>_chart = new Highcharts.Chart({
-						chart: {
-							renderTo: 'version-<?php echo $Browser_tag;?>-log',
-							plotBackgroundColor: null,
-							plotBorderWidth: null,
-							plotShadow: false,
-							backgroundColor: '#FFFFFF',
-						},
-						credits: {
-							enabled: false
-						},
-						title: {
-							text: '<?php _e($Browser, 'wp_statistics'); ?>',
-							style: {
-								fontSize: '12px',
-								fontFamily: 'Tahoma',
-								fontWeight: 'bold'
-							}
-						},
-						<?php if( is_rtl() ) { ?>
-						legend: {
-							rtl: true,
-							itemStyle: {
-								fontSize: '11px',
-								fontFamily: 'Tahoma'
-							}
-						},
-						<?php } ?>
-						tooltip: {
-							formatter: function () {
-								return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
-						   },
-							percentageDecimals: 1,
-							style: {
-								fontSize: '12px',
-								fontFamily: 'Tahoma'
-							},
-							useHTML: true
-						},
-						plotOptions: {
-							pie: {
-								allowPointSelect: true,
-								cursor: 'pointer',
-								dataLabels: {
-									enabled: true,
-									color: '#000000',
-									connectorColor: '#000000',
-									style: {
-										fontSize: '11px',
-										fontFamily: 'Tahoma',
-									}
-								}
-							}
-						},
-						series: [{
-							type: 'pie',
-							name: '<?php _e('Browser version share', 'wp_statistics'); ?>',
-							data: [
-								<?php 
-								$Versions = wp_statistics_agent_version_list($Browser);
-								$i = 0;
+					echo "var " . $Browser_tag . "_version_data = [";
+					
+					foreach( $Versions as $Version )
+						{
+						$count = wp_statistics_agent_version( $Browser, $Version );
+						echo "['" . __( $Version, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+						}
+
+					echo "];\n";
+
 								
-								foreach( $Versions as $Version )
-									{
-									$count = wp_statistics_agent_version( $Browser, $Version );
-									echo "											['" . __( $Version, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
-									}
-								?>
-							]
-						}]
-					});
+?>
+				<?php echo $Browser_tag;?>_chart = jQuery.jqplot('version-<?php echo $Browser_tag;?>-log', [<?php echo $Browser_tag;?>_version_data], { 
+						title: {
+							text: '<b><?php echo __($Browser, 'wp_statistics'); ?></b>',
+							fontSize: '12px',
+							fontFamily: 'Tahoma',
+							textColor: '#000000',
+							},
+						seriesDefaults: {
+							// Make this a pie chart.
+							renderer: jQuery.jqplot.PieRenderer, 
+							rendererOptions: {
+							  // Put data labels on the pie slices.
+							  // By default, labels show the percentage of the slice.
+							  dataLabels: 'percent',
+							  showDataLabels: true,
+							  shadowOffset: 0,
+							}
+						}, 
+						legend: { 
+							show:true, 
+							location: 's',
+							renderer: jQuery.jqplot.EnhancedLegendRenderer,
+							rendererOptions:
+								{
+									numberColumns: 2, 
+									disableIEFading: false,
+									border: 'none',
+								},
+							},
+						grid: { background: 'transparent', borderWidth: 0, shadow: false },
+						highlighter: {
+							show: true,
+							formatString:'%s', 
+							tooltipLocation:'n', 
+							useAxesFormatters:false,
+							},
+					} );
 				});
-				
 			});
 			</script>
-			<div class="ltr" id="version-<?php echo $Browser_tag;?>-log"></div>
+			<div class="ltr" id="version-<?php echo $Browser_tag;?>-log" style="height: <?php $height = ( count($Versions) / 2 * 27 ) + 237; if( $height < 300 ) { $height = 300; } echo $height; ?>px;"></div>
 		</div>
 	</div>
 <?php } ?>

@@ -17,8 +17,7 @@
 	foreach( $search_engines as $key => $se ) {
 		$search_result[$key] = wp_statistics_searchengine($key,'total');
 	}
-	
-	wp_enqueue_script('highcharts', plugin_dir_url(__FILE__) . '../../assets/js/highcharts.js', true, '3.0.9');
+
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
@@ -379,95 +378,65 @@
 						jQuery(function () {
 							var browser_chart;
 							jQuery(document).ready(function() {
+<?php								
+								$Browsers = wp_statistics_ua_list();
 								
-								// Radialize the colors
-								Highcharts.getOptions().colors = jQuery.map(Highcharts.getOptions().colors, function(color) {
-									return {
-										radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-										stops: [
-											[0, color],
-											[1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-										]
-									};
-								});
+								echo "var browser_data = [";
 								
-								// Build the chart
-								browser_chart = new Highcharts.Chart({
-									chart: {
-										renderTo: 'browsers-log',
-										plotBackgroundColor: null,
-										plotBorderWidth: null,
-										plotShadow: false,
-										backgroundColor: '#FFFFFF',
-									},
-									credits: {
-										enabled: false
-									},
+								foreach( $Browsers as $Browser )
+									{
+									$count = wp_statistics_useragent( $Browser );
+									echo "['" . substr( __( $Browser, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									}
+
+								echo "];\n";
+
+								
+?>
+
+								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
 									title: {
-										text: '<?php _e('Graph of Browsers', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma',
-											fontWeight: 'bold'
-										}
-									},
-									<?php if( is_rtl() ) { ?>
-									legend: {
-										rtl: true,
-										itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-									},
-									<?php } ?>
-									tooltip: {
-										formatter: function () {
-											return this.point.name + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
-									   },
-										percentageDecimals: 1,
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
+										text: '<b><?php echo __('Browsers by type', 'wp_statistics'); ?></b>',
+										fontSize: '12px',
+										fontFamily: 'Tahoma',
+										textColor: '#000000',
 										},
-										useHTML: true
-									},
-									plotOptions: {
-										pie: {
-											allowPointSelect: true,
-											cursor: 'pointer',
-											dataLabels: {
-												enabled: true,
-												color: '#000000',
-												connectorColor: '#000000',
-												style: {
-													fontSize: '11px',
-													fontFamily: 'Tahoma',
-												}
-											}
+									seriesDefaults: {
+										// Make this a pie chart.
+										renderer: jQuery.jqplot.PieRenderer, 
+										rendererOptions: {
+											// Put data labels on the pie slices.
+											// By default, labels show the percentage of the slice.
+											dataLabels: 'percent',
+											showDataLabels: true,
+											shadowOffset: 0,
 										}
-									},
-									series: [{
-										type: 'pie',
-										name: '<?php _e('Browser share', 'wp_statistics'); ?>',
-										data: [
-											<?php 
-											$Browsers = wp_statistics_ua_list();
-											
-											foreach( $Browsers as $Browser )
-												{
-												$count = wp_statistics_useragent( $Browser );
-												echo "											['" . __( $Browser, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")', " . $count . "],\r\n";
-												}
-											?>
-										]
-									}]
-								});
+									}, 
+									legend: { 
+										show:true, 
+										location: 's',
+										renderer: jQuery.jqplot.EnhancedLegendRenderer,
+										rendererOptions:
+											{
+												numberColumns: 2, 
+												disableIEFading: false,
+												border: 'none',
+											},
+										},
+									grid: { background: 'transparent', borderWidth: 0, shadow: false },
+									highlighter: {
+										show: true,
+										formatString:'%s', 
+										tooltipLocation:'n', 
+										useAxesFormatters:false,
+										},
+								} );
 							});
-							
 						});
+								  
 						</script>
-						
-						<div id="browsers-log"></div>
+								
+						<div id="browsers-log" style="height: <?php $height = ( count($Browsers) / 2 * 27 ) + 300; if( $height < 300 ) { $height = 300; } echo $height; ?>px;"></div>
 					</div>
 				</div>
 <?php		
@@ -687,9 +656,16 @@
 									},
 								legend: {
 									show: true,
-									location: 'e',
+									location: 's',
 									placement: 'outsideGrid',
 									labels: ['<?php _e('Visit', 'wp_statistics'); ?>', '<?php _e('Visitor', 'wp_statistics'); ?>'],
+									renderer: jQuery.jqplot.EnhancedLegendRenderer,
+									rendererOptions:
+										{
+											numberColumns: 2, 
+											disableIEFading: false,
+											border: 'none',
+										},
 									},
 								highlighter: {
 									show: true,
@@ -790,9 +766,16 @@
 									},
 								legend: {
 									show: true,
-									location: 'e',
+									location: 's',
 									placement: 'outsideGrid',
 									labels: [<?php foreach( $search_engines as $se ) { echo "'" . __( $se['name'], 'wp_statistics' ) . "', "; } if( $total_stats == 1 ) { echo "'" . __('Total', 'wp_statistics') . "'"; }?>],
+									renderer: jQuery.jqplot.EnhancedLegendRenderer,
+									rendererOptions:
+										{
+											numberColumns: <?php echo count( $search_engines ) + 1;?>, 
+											disableIEFading: false,
+											border: 'none',
+										},
 									},
 								highlighter: {
 									show: true,

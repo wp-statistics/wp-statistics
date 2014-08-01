@@ -50,86 +50,82 @@
 						<script type="text/javascript">
 						var pages_chart;
 						jQuery(document).ready(function() {
-							pages_chart = new Highcharts.Chart({
-								chart: {
-									renderTo: 'page-stats',
-									type: '<?php echo $WP_Statistics->get_option('chart_type'); ?>',
-									backgroundColor: '#FFFFFF',
-									height: '500'
-								},
-								credits: {
-									enabled: false
-								},
-								title: {
-									text: '<?php echo __('Page Trending Stats', 'wp_statistics'); ?>',
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma',
-										fontWeight: 'bold'
-									}
-								},
-								xAxis: {
-									type: 'datetime',
-									labels: {
-										rotation: -45,
-										step: <?php echo round($daysToDisplay/20);?>
-										},
-									categories: [
-									<?php
-										for( $i=$daysToDisplay; $i>=0; $i--) {
-											echo '"'.$wpstats->Current_Date_i18n('Y-m-d', '-'.$i).'"';
-											if( $i > 0 ) { echo ", "; }
-										}
-									?>]
-								},
-								yAxis: {
-									min: 0,
-									title: {
-										text: '<?php _e('Number of Hits', 'wp_statistics'); ?>',
-										style: {
-											fontSize: '12px',
-											fontFamily: 'Tahoma'
-										}
-									}
-								},
-								<?php if( is_rtl() ) { ?>
-								legend: {
-									rtl: true,
-									itemStyle: {
-											fontSize: '11px',
-											fontFamily: 'Tahoma'
-										}
-								},
-								<?php } ?>
-								tooltip: {
-									crosshairs: true,
-									shared: true,
-									style: {
-										fontSize: '12px',
-										fontFamily: 'Tahoma'
-									},
-									useHTML: true
-								},
-								series: [
 <?php								
-								echo "									{\n";
-								echo "									name: '" . $pageid . ' - ' . $title . "',\n";
-								echo "									data: [";
+						echo "var page_data_line" . $count . " = [";
+									
+						for( $i=$daysToDisplay; $i>=0; $i--) {
+							$stat = wp_statistics_pages( '-'.$i, $pageuri, $pageid );
+							
+							echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+							
+						}
 
-								for( $i=$daysToDisplay; $i>=0; $i--) {
-									echo wp_statistics_pages( '-'.$i, $pageuri, $pageid );
-									if( $i > 0 ) { echo ", "; }
-								}
+						echo "];\n";
 								
-								echo "]\n";
-								echo "								},\n";
 ?>
-								]
-							});
+							pages_jqchart = jQuery.jqplot('page-stats', [page_data_line], {
+								title: {
+									text: '<b><?php echo __('Page Trending Stats', 'wp_statistics'); ?></b>',
+									fontSize: '12px',
+									fontFamily: 'Tahoma',
+									textColor: '#000000',
+									},
+								axes: {
+									xaxis: {
+											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$daysToDisplay);?>',
+											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											tickInterval: '1 day',
+											renderer:jQuery.jqplot.DateAxisRenderer,
+											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+											tickOptions: { 
+												angle: -45,
+												formatString:'%b %#d',
+												showGridline: false, 
+												},
+										},										
+									yaxis: {
+											min: 0,
+											label: '<?php _e('Number of Hits', 'wp_statistics'); ?>',
+											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
+											labelOptions: {
+												angle: -90,
+												fontSize: '12px',
+												fontFamily: 'Tahoma',
+												fontWeight: 'bold',
+											},
+										}
+									},
+								legend: {
+									show: true,
+									location: 's',
+									placement: 'outsideGrid',
+									labels: [ '<?php echo  $pageid . ' - ' . $title; ?>' ],
+									renderer: jQuery.jqplot.EnhancedLegendRenderer,
+									rendererOptions:
+										{
+											numberColumns: 5, 
+											disableIEFading: false,
+											border: 'none',
+										},
+									},
+								highlighter: {
+									show: true,
+									bringSeriesToFront: true,
+									tooltipAxes: 'xy',
+									formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
+								},
+								grid: {
+								 drawGridlines: true,
+								 borderColor: 'transparent',
+								 shadow: false,
+								 drawBorder: false,
+								 shadowColor: 'transparent'
+								},
+							} );
 						});
 						</script>
 						
-						<div id="page-stats"></div>
+						<div id="page-stats" style="height:500px;"></div>
 
 					</div>
 				</div>

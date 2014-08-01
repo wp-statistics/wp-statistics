@@ -102,9 +102,16 @@
 									},
 								legend: {
 									show: true,
-									location: 'e',
+									location: 's',
 									placement: 'outsideGrid',
 									labels: [<?php foreach( $search_engines as $se ) { echo "'" . __( $se['name'], 'wp_statistics' ) . "', "; } if( $total_stats == 1 ) { echo "'" . __('Total', 'wp_statistics') . "'"; }?>],
+									renderer: jQuery.jqplot.EnhancedLegendRenderer,
+									rendererOptions:
+										{
+											numberColumns: <?php echo count($search_engines) + 1; ?>, 
+											disableIEFading: false,
+											border: 'none',
+										},
 									},
 								highlighter: {
 									show: true,

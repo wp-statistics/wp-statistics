@@ -97,9 +97,16 @@
 									},
 								legend: {
 									show: true,
-									location: 'e',
+									location: 's',
 									placement: 'outsideGrid',
 									labels: ['<?php _e('Visit', 'wp_statistics'); ?>', '<?php _e('Visitor', 'wp_statistics'); ?>'],
+									renderer: jQuery.jqplot.EnhancedLegendRenderer,
+									rendererOptions:
+										{
+											numberColumns: 2, 
+											disableIEFading: false,
+											border: 'none',
+										},
 									},
 								highlighter: {
 									show: true,
