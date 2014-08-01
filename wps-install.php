@@ -106,27 +106,6 @@
 		// Get the robots list, we'll use this for both upgrades and new installs.
 		include_once('robotslist.php');
 
-		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
-		if( $WP_Statistics->get_option('geoip') === FALSE ) { $WP_Statistics->store_option('geoip',FALSE); }
-		if( $WP_Statistics->get_option('useronline') === FALSE ) { $WP_Statistics->store_option('useronline',TRUE); }
-		if( $WP_Statistics->get_option('visits') === FALSE ) { $WP_Statistics->store_option('visits',TRUE); }
-		if( $WP_Statistics->get_option('visitors') === FALSE ) { $WP_Statistics->store_option('visitors',TRUE); }
-		if( $WP_Statistics->get_option('pages') === FALSE ) { $WP_Statistics->store_option('pages',TRUE); }
-		if( $WP_Statistics->get_option('check_online') === FALSE ) { $WP_Statistics->store_option('check_online','30'); }
-		if( $WP_Statistics->get_option('menu_bar') === FALSE ) { $WP_Statistics->store_option('menu_bar',FALSE); }
-		if( $WP_Statistics->get_option('coefficient') === FALSE ) { $WP_Statistics->store_option('coefficient','1'); }
-		if( $WP_Statistics->get_option('stats_report') === FALSE ) { $WP_Statistics->store_option('stats_report',FALSE); }
-		if( $WP_Statistics->get_option('time_report') === FALSE ) { $WP_Statistics->store_option('time_report','daily'); }
-		if( $WP_Statistics->get_option('send_report') === FALSE ) { $WP_Statistics->store_option('send_report','mail'); }
-		if( $WP_Statistics->get_option('content_report') === FALSE ) { $WP_Statistics->store_option('content_report',''); }
-		if( $WP_Statistics->get_option('update_geoip') === FALSE ) { $WP_Statistics->store_option('update_geoip',TRUE); }
-		if( $WP_Statistics->get_option('store_ua') === FALSE ) { $WP_Statistics->store_option('store_ua',FALSE); }
-		if( $WP_Statistics->get_option('robotlist') === FALSE ) { $WP_Statistics->store_option('robotlist',$wps_robotslist); }
-		if( $WP_Statistics->get_option('exclude_administrator') === FALSE ) { $WP_Statistics->store_option('exclude_administrator',TRUE); }
-
-		// Save the settings now that we've set them.
-		$WP_Statistics->save_options();
-			
 		if( $WPS_Installed == false ) {
 		
 			// If this is a first time install, we just need to setup the primary values in the tables.
@@ -194,5 +173,26 @@
 			$exclude_admins = $WP_Statistics->get_option('exclude_administrator', '2');
 			if( $exclude_admins == '2' ) { $WP_Statistics->update_option('exclude_administrator', '1'); }
 		}
+
+		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
+		if( $WP_Statistics->get_option('geoip') === FALSE ) { $WP_Statistics->store_option('geoip',FALSE); }
+		if( $WP_Statistics->get_option('useronline') === FALSE ) { $WP_Statistics->store_option('useronline',TRUE); }
+		if( $WP_Statistics->get_option('visits') === FALSE ) { $WP_Statistics->store_option('visits',TRUE); }
+		if( $WP_Statistics->get_option('visitors') === FALSE ) { $WP_Statistics->store_option('visitors',TRUE); }
+		if( $WP_Statistics->get_option('pages') === FALSE ) { $WP_Statistics->store_option('pages',TRUE); }
+		if( $WP_Statistics->get_option('check_online') === FALSE ) { $WP_Statistics->store_option('check_online','30'); }
+		if( $WP_Statistics->get_option('menu_bar') === FALSE ) { $WP_Statistics->store_option('menu_bar',FALSE); }
+		if( $WP_Statistics->get_option('coefficient') === FALSE ) { $WP_Statistics->store_option('coefficient','1'); }
+		if( $WP_Statistics->get_option('stats_report') === FALSE ) { $WP_Statistics->store_option('stats_report',FALSE); }
+		if( $WP_Statistics->get_option('time_report') === FALSE ) { $WP_Statistics->store_option('time_report','daily'); }
+		if( $WP_Statistics->get_option('send_report') === FALSE ) { $WP_Statistics->store_option('send_report','mail'); }
+		if( $WP_Statistics->get_option('content_report') === FALSE ) { $WP_Statistics->store_option('content_report',''); }
+		if( $WP_Statistics->get_option('update_geoip') === FALSE ) { $WP_Statistics->store_option('update_geoip',TRUE); }
+		if( $WP_Statistics->get_option('store_ua') === FALSE ) { $WP_Statistics->store_option('store_ua',FALSE); }
+		if( $WP_Statistics->get_option('robotlist') === FALSE ) { $WP_Statistics->store_option('robotlist',$wps_robotslist); }
+		if( $WP_Statistics->get_option('exclude_administrator') === FALSE ) { $WP_Statistics->store_option('exclude_administrator',TRUE); }
+
+		// Save the settings now that we've set them.
+		$WP_Statistics->save_options();
 	}
 ?>
