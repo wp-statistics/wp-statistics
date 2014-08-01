@@ -150,8 +150,9 @@ No.
 * Added: Dutch (nl_NL) translation, thanks Friso van Wieringen.
 * Added: New index on visitor table for existing installs to avoid duplicate entries being created.
 * Added: jqPlot javascript library.
+* Added: Three new schedule options for statistical reports; weekly, bi-weekly and every 4 weeks.
 * Fixed: Some country codes not displaying in the "Top Countries" overview widget/page.
-* Fixed: Export filename contained a colan, which is not a valid character.
+* Fixed: Export filename contained a colon, which is not a valid character.
 * Updated: All charts now use jqPlot instead of HighCharts so we are now fully GPL compliant.
 * Updated: "Top Referring Sites" on the overview page now only displays if there are entries to be displayed.
 * Updated: "Latest Search Words" on the overview page now only displays if there are entries to be displayed.
@@ -165,8 +166,9 @@ No.
 * Updated: Arabic (ar) language.
 * Updated: rtl.css file for new version.
 * Updated: Lots of code comments.
-* Removed: "Alternate map location" setting as it has been made redundent by the new overview display settings.
-* Removed: "Chart type" setting as chart types are now hard coded to the approriate type for the data.
+* Updated: Statistical report schedule list in settings is now dynamically generated.
+* Removed: "Alternate map location" setting as it has been made redundant by the new overview display settings.
+* Removed: "Chart type" setting as chart types are now hard coded to the appropriate type for the data.
 * Removed: HighCharts javascript library.
 * Removed: Unused function objectToArray().
 
