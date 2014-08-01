@@ -1,5 +1,33 @@
 <?php
+	add_filter( 'cron_schedules', 'wp_statistics_addcron' );
+	 
+	function wp_statistics_addcron( $schedules ) {
+		// Adds once weekly to the existing schedules.
+		
+		if( !array_key_exists( 'weekly', $schedules ) ) {
+			$schedules['weekly'] = array(
+				'interval' => 604800,
+				'display' => __( 'Once Weekly' )
+			);
+		}
+		
+		if( !array_key_exists( 'biweekly', $schedules ) ) {
+			$schedules['biweekly'] = array(
+				'interval' => 1209600,
+				'display' => __( 'Once Every 2 Weeks' )
+			);
+		}
 
+		if( !array_key_exists( '4weeks', $schedules ) ) {
+			$schedules['4weeks'] = array(
+				'interval' => 2419200,
+				'display' => __( 'Once Every 4 Weeks' )
+			);
+		}
+
+		return $schedules;
+	}
+	 
 	// Add the report schedule if it doesn't exist and is enabled.
 	if( !wp_next_scheduled('report_hook') && $WP_Statistics->get_option('stats_report') ) {
 	

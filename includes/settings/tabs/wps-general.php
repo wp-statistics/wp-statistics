@@ -243,10 +243,14 @@ if( $wps_nonce_valid ) {
 			
 			<td>
 				<select name="wps_time_report" id="time-report">
-					<option value="0" <?php selected($WP_Statistics->get_option('time_report'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
-					<option value="hourly" <?php selected($WP_Statistics->get_option('time_report'), 'hourly'); ?>><?php _e('Hourly', 'wp_statistics'); ?></option>
-					<option value="twicedaily" <?php selected($WP_Statistics->get_option('time_report'), 'twicedaily'); ?>><?php _e('Twice daily', 'wp_statistics'); ?></option>
-					<option value="daily" <?php selected($WP_Statistics->get_option('time_report'), 'daily'); ?>><?php _e('daily', 'wp_statistics'); ?></option>
+					<option value="0" <?php selected($WP_Statistics->get_option('time_report'), '0'); ?>><?php _e('Please select', 'wp_statistics'); ?></option>
+<?php
+					$schedules = wp_get_schedules();
+					
+					foreach( $schedules as $key => $value ) {
+						echo '					<option value="' . $key . '" ' . selected($WP_Statistics->get_option('time_report'), 'hourly') . '>' . $value['display'] . '</option>';
+					}
+?>					
 				</select>
 				<p class="description"><?php _e('Select when receiving statistics report.', 'wp_statistics'); ?></p>
 			</td>
@@ -259,7 +263,7 @@ if( $wps_nonce_valid ) {
 			
 			<td>
 				<select name="wps_send_report" id="send-report">
-					<option value="0" <?php selected($WP_Statistics->get_option('send_report'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
+					<option value="0" <?php selected($WP_Statistics->get_option('send_report'), '0'); ?>><?php _e('Please select', 'wp_statistics'); ?></option>
 					<option value="mail" <?php selected($WP_Statistics->get_option('send_report'), 'mail'); ?>><?php _e('Email', 'wp_statistics'); ?></option>
 					<option value="sms" <?php selected($WP_Statistics->get_option('send_report'), 'sms'); ?>><?php _e('SMS', 'wp_statistics'); ?></option>
 				</select>
