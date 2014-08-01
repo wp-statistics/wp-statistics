@@ -9,7 +9,7 @@ if( $wps_nonce_valid ) {
 		$WP_Statistics->store_option($new_option, $_POST[$se_post]);
 	}
 
-	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_chart_type","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices" );
+	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices" );
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
@@ -207,26 +207,6 @@ if( $wps_nonce_valid ) {
 			<th scope="row" colspan="2"><h3><?php _e('Charts', 'wp_statistics'); ?></h3></th>
 		</tr>
 
-		<tr valign="top">
-			<th scope="row">
-				<label for="chart-type"><?php _e('Chart type', 'wp_statistics'); ?>:</label>
-			</th>
-			
-			<td>
-				<select name="wps_chart_type" id="chart-type">
-					<option value="0" <?php selected($WP_Statistics->get_option('chart_type'), '0'); ?>><?php _e('Please select.', 'wp_statistics'); ?></option>
-					<option value="line" <?php selected($WP_Statistics->get_option('chart_type'), 'line'); ?>><?php _e('Line', 'wp_statistics'); ?></option>
-					<option value="spline" <?php selected($WP_Statistics->get_option('chart_type'), 'spline'); ?>><?php _e('Spline', 'wp_statistics'); ?></option>
-					<option value="area" <?php selected($WP_Statistics->get_option('chart_type'), 'area'); ?>><?php _e('Area', 'wp_statistics'); ?></option>
-					<option value="areaspline" <?php selected($WP_Statistics->get_option('chart_type'), 'areaspline'); ?>><?php _e('Area Spline', 'wp_statistics'); ?></option>
-					<option value="column" <?php selected($WP_Statistics->get_option('chart_type'), 'column'); ?>><?php _e('Column', 'wp_statistics'); ?></option>
-					<option value="bar" <?php selected($WP_Statistics->get_option('chart_type'), 'bar'); ?>><?php _e('Bar', 'wp_statistics'); ?></option>
-					<option value="scatter" <?php selected($WP_Statistics->get_option('chart_type'), 'scatter'); ?>><?php _e('Scatter', 'wp_statistics'); ?></option>
-				</select>
-				<p class="description"><?php _e('Chart type in view stats.', 'wp_statistics'); ?></p>
-			</td>
-		</tr>
-		
 		<tr valign="top">
 			<th scope="row">
 				<label for="chart-totals"><?php _e('Include totals', 'wp_statistics'); ?>:</label>

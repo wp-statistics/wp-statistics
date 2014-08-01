@@ -115,7 +115,6 @@
 		if( $WP_Statistics->get_option('check_online') === FALSE ) { $WP_Statistics->store_option('check_online','30'); }
 		if( $WP_Statistics->get_option('menu_bar') === FALSE ) { $WP_Statistics->store_option('menu_bar',FALSE); }
 		if( $WP_Statistics->get_option('coefficient') === FALSE ) { $WP_Statistics->store_option('coefficient','1'); }
-		if( $WP_Statistics->get_option('chart_type') === FALSE ) { $WP_Statistics->store_option('chart_type','line'); }
 		if( $WP_Statistics->get_option('stats_report') === FALSE ) { $WP_Statistics->store_option('stats_report',FALSE); }
 		if( $WP_Statistics->get_option('time_report') === FALSE ) { $WP_Statistics->store_option('time_report','daily'); }
 		if( $WP_Statistics->get_option('send_report') === FALSE ) { $WP_Statistics->store_option('send_report','mail'); }
@@ -140,7 +139,7 @@
 		
 			// Check to see if the "new" settings code is in place or not, if not, upgrade the old settings to the new system.
 			if( get_option('wp_statistics') === FALSE ) {
-				$core_options = array('wps_disable_map', 'wps_map_location', 'wps_google_coordinates', 'wps_schedule_dbmaint', 'wps_schedule_dbmaint_days', 'wps_geoip', 'wps_update_geoip', 'wps_schedule_geoip', 'wps_last_geoip_dl', 'wps_auto_pop', 'wps_useronline', 'wps_check_online', 'wps_visits', 'wps_visitors', 'wps_store_ua', 'wps_coefficient', 'wps_pages', 'wps_track_all_pages', 'wps_disable_column', 'wps_menu_bar', 'wps_hide_notices', 'wps_chart_type', 'wps_chart_totals', 'wps_stats_report', 'wps_time_report', 'wps_send_report', 'wps_content_report', 'wps_read_capability', 'wps_manage_capability', 'wps_record_exclusions', 'wps_robotlist', 'wps_exclude_ip', 'wps_exclude_loginpage', 'wps_exclude_adminpage');
+				$core_options = array('wps_disable_map', 'wps_map_location', 'wps_google_coordinates', 'wps_schedule_dbmaint', 'wps_schedule_dbmaint_days', 'wps_geoip', 'wps_update_geoip', 'wps_schedule_geoip', 'wps_last_geoip_dl', 'wps_auto_pop', 'wps_useronline', 'wps_check_online', 'wps_visits', 'wps_visitors', 'wps_store_ua', 'wps_coefficient', 'wps_pages', 'wps_track_all_pages', 'wps_disable_column', 'wps_menu_bar', 'wps_hide_notices', 'wps_chart_totals', 'wps_stats_report', 'wps_time_report', 'wps_send_report', 'wps_content_report', 'wps_read_capability', 'wps_manage_capability', 'wps_record_exclusions', 'wps_robotlist', 'wps_exclude_ip', 'wps_exclude_loginpage', 'wps_exclude_adminpage');
 				$var_options = array('wps_disable_se_%', 'wps_exclude_%');
 				$widget_options = array( 'name_widget', 'useronline_widget', 'tvisit_widget', 'tvisitor_widget', 'yvisit_widget', 'yvisitor_widget', 'wvisit_widget', 'mvisit_widget', 'ysvisit_widget', 'ttvisit_widget', 'ttvisitor_widget', 'tpviews_widget', 'ser_widget', 'select_se', 'tp_widget', 'tpg_widget', 'tc_widget', 'ts_widget', 'tu_widget', 'ap_widget', 'ac_widget', 'au_widget', 'lpd_widget', 'select_lps');
 				

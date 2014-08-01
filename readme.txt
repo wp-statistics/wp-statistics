@@ -148,8 +148,10 @@ No.
 * Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP Statistics.
 * Added: Dutch (nl_NL) translation, thanks Friso van Wieringen.
 * Added: New index on visitor table for existing installs to avoid duplicate entries being created.
+* Added: jqPlot javascript library.
 * Fixed: Some country codes not displaying in the "Top Countries" overview widget/page.
 * Fixed: Export filename contained a colan, which is not a valid character.
+* Updated: All charts now use jqPlot instead of HighCharts so we are now fully GPL compliant.
 * Updated: "Top Referring Sites" on the overview page now only displays if there are entries to be displayed.
 * Updated: "Latest Search Words" on the overview page now only displays if there are entries to be displayed.
 * Updated: "Top Pages Visited" on the overview page now only displays if there are entries to be displayed.
@@ -161,7 +163,11 @@ No.
 * Updated: Persian (fa_IR) language.
 * Updated: Arabic (ar) language.
 * Updated: rtl.css file for new version.
+* Updated: Lots of code comments.
 * Removed: "Alternate map location" setting as it has been made redundent by the new overview display settings.
+* Removed: "Chart type" setting as chart types are now hard coded to the approriate type for the data.
+* Removed: HighCharts javascript library.
+* Removed: Unused function objectToArray().
 
 = 6.1 =
 * Added: Display of the current memory_limit setting from php.ini in the optimization page.
