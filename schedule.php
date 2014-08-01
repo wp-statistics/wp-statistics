@@ -135,6 +135,9 @@
 
 		// Replace the items in the template.
 		$final_text_report = preg_replace('/%(.*?)%/ime', "\$template_vars['$1']", $string);
+
+		// Process shortcodes in the template.
+		$final_text_report = do_shortcode( $final_text_report );
 		
 		// Send the report through the selected transport agent.
 		if( $WP_Statistics->get_option('send_report') == 'mail' ) {
