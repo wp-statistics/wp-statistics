@@ -396,7 +396,7 @@
 
 								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
 									title: {
-										text: '<b><?php echo __('Browsers by type', 'wp_statistics'); ?></b>',
+										text: '<b><?php echo __('Browsers', 'wp_statistics'); ?></b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',

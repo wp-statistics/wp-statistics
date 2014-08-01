@@ -135,6 +135,7 @@ No.
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
 * This update includes a database change to the visitors table that requires the duplicate data in the table to be deleted.  This requires a complete scan of the database and on large installs may take a while.
 * Page track is now enabled on new installs or upgrades from pre 6.0 installs.
+* HighCharts has been replaced by jqPlot and the chart type setting is no longer available.
 
 = 6.0 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
