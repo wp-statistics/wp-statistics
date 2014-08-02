@@ -380,14 +380,23 @@
 							jQuery(document).ready(function() {
 <?php								
 								$Browsers = wp_statistics_ua_list();
+								$BrowserVisits = array();
+								
+								foreach( $Browsers as $Browser ) {
+									$BrowserVisits[$Browser] = wp_statistics_useragent( $Browser );
+								}
+								
+								asort( $BrowserVisits );
 								
 								echo "var browser_data = [";
+								$count = 0;
 								
-								foreach( $Browsers as $Browser )
-									{
-									$count = wp_statistics_useragent( $Browser );
-									echo "['" . substr( __( $Browser, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
-									}
+								foreach( $BrowserVisits as $key => $value ) {
+									echo "['" . substr( __( $key, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $value . "], ";
+
+									$count++;
+									if( $count > 9 ) { break; }
+								}
 
 								echo "];\n";
 
@@ -396,7 +405,7 @@
 
 								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
 									title: {
-										text: '<b><?php echo __('Browsers', 'wp_statistics'); ?></b>',
+										text: '<b><?php echo __('Top 10 Browsers', 'wp_statistics'); ?></b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',
