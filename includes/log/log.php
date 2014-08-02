@@ -386,21 +386,19 @@
 									$BrowserVisits[$Browser] = wp_statistics_useragent( $Browser );
 								}
 								
-								asort( $BrowserVisits );
+								arsort( $BrowserVisits );
 								
 								echo "var browser_data = [";
 								$count = 0;
 								
 								foreach( $BrowserVisits as $key => $value ) {
-									echo "['" . substr( __( $key, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $value . "], ";
+									echo "['" . substr( __( $key, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($value) . ")'," . $value . "], ";
 
 									$count++;
 									if( $count > 9 ) { break; }
 								}
 
 								echo "];\n";
-
-								
 ?>
 
 								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
