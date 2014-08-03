@@ -643,8 +643,8 @@
 									},
 								axes: {
 									xaxis: {
-											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-20');?>',
-											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											min: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '-20');?>',
+											max: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '');?>',
 											tickInterval: '1 day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
@@ -753,8 +753,8 @@
 									},
 								axes: {
 									xaxis: {
-											min: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '-20');?>',
-											max: '<?php echo $WP_Statistics->Current_Date_i18n('Y-m-d', '');?>',
+											min: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '-20');?>',
+											max: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '');?>',
 											tickInterval: '1 day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
