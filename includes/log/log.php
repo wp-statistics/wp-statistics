@@ -381,22 +381,28 @@
 <?php								
 								$Browsers = wp_statistics_ua_list();
 								$BrowserVisits = array();
+								$total = 0;
 								
 								foreach( $Browsers as $Browser ) {
 									$BrowserVisits[$Browser] = wp_statistics_useragent( $Browser );
+									$total += $BrowserVisits[$Browser];
 								}
 								
 								arsort( $BrowserVisits );
 								
 								echo "var browser_data = [";
 								$count = 0;
+								$topten = 0;
 								
 								foreach( $BrowserVisits as $key => $value ) {
-									echo "['" . substr( __( $key, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($value) . ")'," . $value . "], ";
+									echo "['" . substr( $key, 0, 15 ) . " (" . number_format_i18n($value) . ")'," . $value . "], ";
 
+									$topten += $value;
 									$count++;
 									if( $count > 9 ) { break; }
 								}
+
+								echo "['" . __('Other', 'wp_statistics') . " (" . number_format_i18n($total - $topten) . ")'," . ( $total - $topten ) . "], ";
 
 								echo "];\n";
 ?>
