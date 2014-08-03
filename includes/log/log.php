@@ -616,7 +616,7 @@
 								for( $i=20; $i>=0; $i--) {
 									$stat = wp_statistics_visit('-'.$i, true);
 									
-									echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+									echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $stat . "], ";
 									
 								}
 
@@ -627,7 +627,7 @@
 								for( $i=20; $i>=0; $i--) {
 									$stat = wp_statistics_visitor('-'.$i, true);
 									
-									echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+									echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $stat . "], ";
 									
 								}
 
@@ -726,7 +726,7 @@
 										$stat = wp_statistics_searchengine($se['tag'], '-'.$i);
 										$total_daily[$i] += $stat;
 										
-										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+										echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $stat . "], ";
 										
 									}
 
@@ -737,7 +737,7 @@
 									echo "var searches_data_line_total = [";
 
 									for( $i=20; $i>=0; $i--) {
-										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $total_daily[$i] . "], ";
+										echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $total_daily[$i] . "], ";
 									}
 									
 									echo "];\n";
