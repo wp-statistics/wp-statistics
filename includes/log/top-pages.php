@@ -34,7 +34,7 @@
 									for( $i=$daysToDisplay; $i>=0; $i--) {
 										$stat = wp_statistics_pages('-'.$i,$uri[0]);
 										
-										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+										echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $stat . "], ";
 										
 									}
 

@@ -80,7 +80,7 @@
 									echo "var excluded_data_line_" . $excluded_reason_tags[$reason] . " = [";
 
 									for( $i=$daysToDisplay; $i>=0; $i--) {
-										echo "['" . $WP_Statistics->Current_Date_i18n('Y-m-d', '-'.$i) . "'," . $excluded_results[$reason][$i] . "], ";
+										echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $excluded_results[$reason][$i] . "], ";
 										}
 
 									echo "];\n";
