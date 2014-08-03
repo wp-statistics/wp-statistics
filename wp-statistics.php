@@ -25,7 +25,7 @@ License: GPL2
 	// Load the internationalization code.
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 	__('WP Statistics', 'wp_statistics');
-	__('Complete statistics for your blog.', 'wp_statistics');
+	__('Complete statistics for your WordPress site.', 'wp_statistics');
 
 	// Load the user agent parsing code first, the WP_Statistics class depends on it.  Then load the WP_Statistics class.
 	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
