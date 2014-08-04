@@ -153,13 +153,13 @@
 			
 		} else if( $WP_Statistics->get_option('send_report') == 'sms' ) {
 		
-			global $obj;
+			global $sms;
 
 			if( class_exists(get_option('wp_webservice')) ) {
 			
-				$obj->to = array(get_option('wp_admin_mobile'));
-				$obj->msg = $final_text_report;
-				$obj->send_sms();
+				$sms->to = array(get_option('wp_admin_mobile'));
+				$sms->msg = $final_text_report;
+				$sms->SendSMS();
 			}
 			
 		}
