@@ -449,7 +449,7 @@
 								  
 						</script>
 								
-						<div id="browsers-log" style="height: <?php $height = ( count($Browsers) / 2 * 27 ) + 300; if( $height < 300 ) { $height = 300; } echo $height; ?>px;"></div>
+						<div id="browsers-log" style="height: <?php $height = ( count($Browsers) / 2 * 27 ) + 300; if( $height > 462 ) { $height = 462; } echo $height; ?>px;"></div>
 					</div>
 				</div>
 <?php		
