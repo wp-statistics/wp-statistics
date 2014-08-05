@@ -160,7 +160,7 @@
 								  
 						</script>
 								
-						<div id="platform-log" style="height: <?php $height = ( count($Browsers) / 3 * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
+						<div id="platform-log" style="height: <?php $height = ( count($Platforms) / 3 * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
 								
 					</div>
 				</div>
