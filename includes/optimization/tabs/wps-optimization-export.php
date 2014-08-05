@@ -14,7 +14,7 @@
 				
 				<td>
 					<select id="table-to-export" name="table-to-export">
-						<option value="0"><?php _e('Please select.', 'wp_statistics'); ?></option>
+						<option value="0"><?php _e('Please select', 'wp_statistics'); ?></option>
 						<option value="useronline"><?php echo $table_prefix . 'statistics_useronline'; ?></option>
 						<option value="visit"><?php echo $table_prefix . 'statistics_visit'; ?></option>
 						<option value="visitor"><?php echo $table_prefix . 'statistics_visitor'; ?></option>
@@ -32,7 +32,7 @@
 				
 				<td>
 					<select id="export-file-type" name="export-file-type">
-						<option value="0"><?php _e('Please select.', 'wp_statistics'); ?></option>
+						<option value="0"><?php _e('Please select', 'wp_statistics'); ?></option>
 						<option value="excel">Excel</option>
 						<option value="xml">XML</option>
 						<option value="csv">CSV</option>

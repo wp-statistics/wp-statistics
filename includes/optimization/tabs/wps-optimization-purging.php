@@ -125,7 +125,7 @@
 				
 				<td>
 					<select id="empty-table" name="empty-table">
-						<option value="0"><?php _e('Please select.', 'wp_statistics'); ?></option>
+						<option value="0"><?php _e('Please select', 'wp_statistics'); ?></option>
 						<option value="useronline"><?php echo $table_prefix . 'statistics_useronline'; ?></option>
 						<option value="visit"><?php echo $table_prefix . 'statistics_visit'; ?></option>
 						<option value="visitor"><?php echo $table_prefix . 'statistics_visitor'; ?></option>
@@ -166,7 +166,7 @@
 				
 				<td>
 					<select id="delete-agent" name="delete-agent">
-						<option value="0"><?php _e('Please select.', 'wp_statistics'); ?></option>
+						<option value="0"><?php _e('Please select', 'wp_statistics'); ?></option>
 						<?php
 							$agents = wp_statistics_ua_list();
 							
@@ -190,7 +190,7 @@
 				
 				<td>
 					<select id="delete-platform" name="delete-platform">
-						<option value="0"><?php _e('Please select.', 'wp_statistics'); ?></option>
+						<option value="0"><?php _e('Please select', 'wp_statistics'); ?></option>
 						<?php
 							$platforms = wp_statistics_platform_list();
 							
