@@ -30,6 +30,8 @@
 <?php								
 								$Browsers = wp_statistics_ua_list();
 								
+								natcasesort( $Browsers );
+								
 								echo "var browser_data = [";
 								
 								foreach( $Browsers as $Browser )
@@ -106,6 +108,8 @@
 <?php								
 								$Platforms = wp_statistics_platform_list();
 
+								natcasesort( $Platforms );
+								
 								echo "var platform_data = [";
 								
 								foreach( $Platforms as $Platform )
@@ -232,6 +236,8 @@
 				jQuery(document).ready(function() {
 <?php								
 					$Versions = wp_statistics_agent_version_list($Browser);
+					
+					natcasesort( $Versions );
 					
 					echo "var " . $Browser_tag . "_version_data = [";
 					
