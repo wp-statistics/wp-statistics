@@ -87,7 +87,7 @@
 								  
 						</script>
 								
-						<div id="browsers-log" style="height: <?php $height = ( count($Browsers) / 3 * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
+						<div id="browsers-log" style="height: <?php $height = ( ceil( count($Browsers) / 3) * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
 					</div>
 				</div>
 			</div>
@@ -164,7 +164,7 @@
 								  
 						</script>
 								
-						<div id="platform-log" style="height: <?php $height = ( count($Platforms) / 3 * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
+						<div id="platform-log" style="height: <?php $height = ( ceil( count($Platforms) / 3 ) * 27 ) + 400; if( $height < 400 ) { $height = 400; } echo $height; ?>px;"></div>
 								
 					</div>
 				</div>
@@ -291,7 +291,7 @@
 				});
 			});
 			</script>
-			<div class="ltr" id="version-<?php echo $Browser_tag;?>-log" style="height: <?php $height = ( count($Versions) / 2 * 27 ) + 237; if( $height < 300 ) { $height = 300; } echo $height; ?>px;"></div>
+			<div class="ltr" id="version-<?php echo $Browser_tag;?>-log" style="height: <?php $height = ( ceil( count($Versions) / 2 ) * 27 ) + 237; if( $height < 300 ) { $height = 300; } echo $height; ?>px;"></div>
 		</div>
 	</div>
 <?php } ?>
