@@ -61,6 +61,7 @@
 			KEY `id` (`id`)
 		) CHARSET=utf8");
 		
+		GLOBAL $wpdb;
 		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
 		$result = $wpdb->query('SHOW INDEX FROM wp_statistics_visitor');
 		
