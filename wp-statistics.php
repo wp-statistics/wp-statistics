@@ -17,7 +17,7 @@ License: GPL2
 	}
 	
 	// These defines are used later for various reasons.
-	define('WP_STATISTICS_VERSION', '7.0');
+	define('WP_STATISTICS_VERSION', '7.0.1');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', '5.3.0');
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
