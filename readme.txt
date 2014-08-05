@@ -162,6 +162,7 @@ No.
 * Updated: rtl.css file for new version.
 * Updated: Lots of code comments.
 * Updated: Statistical report schedule list in settings is now dynamically generated.
+* Updated: WP-Statistics screenshots.
 * Removed: "Alternate map location" setting as it has been made redundant by the new overview display settings.
 * Removed: "Chart type" setting as chart types are now hard coded to the appropriate type for the data.
 * Removed: HighCharts javascript library.
