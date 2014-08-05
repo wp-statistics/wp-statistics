@@ -140,6 +140,7 @@ No.
 
 == Changelog ==
 = 7.0 =
+* Added: New robots to the robots list: aiHitBot, AntivirusPro, BeetleBot, Blekkobot, cbot, clumboot, coccoc, crowsnest.tv, dbot, dotbot, downloadbot, EasouSpider, Exabot, facebook.com, FriendFeedBot, gimme60bot, GroupHigh, IstellaBot, Kraken, LinkpadBot, MojeekBot, NetcraftSurveyAgent, p4Bot, PaperLiBot, Pimonster, scrapy.org, SearchmetricsBot, SemanticBot, SemrushBot, SiteExplorer, Socialradarbot, SpiderLing, uMBot-LN, Vagabondo, vBSEO, WASALive-Bot, WebMasterAid, WeSEE, XoviBot, YoudaoBot,
 * Added: Overview page can now be customized for what is displayed on a per user basis.
 * Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP Statistics.
 * Added: Dutch (nl_NL) translation, thanks Friso van Wieringen.
@@ -148,6 +149,7 @@ No.
 * Added: Three new schedule options for statistical reports; weekly, bi-weekly and every 4 weeks.
 * Fixed: Some country codes not displaying in the "Top Countries" overview widget/page.
 * Fixed: Export filename contained a colon, which is not a valid character.
+* Fixed: In some cases purging data in the optimization page would succeed but the UI would "re-activate".
 * Updated: All charts now use jqPlot instead of HighCharts so we are now fully GPL compliant.
 * Updated: "Top Referring Sites" on the overview page now only displays if there are entries to be displayed.
 * Updated: "Latest Search Words" on the overview page now only displays if there are entries to be displayed.
