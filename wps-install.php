@@ -1,8 +1,11 @@
 <?php
 	if( is_admin() ) {
+		GLOBAL $wpdb;
+		
+		$wp_prefix = $wpdb->prefix;
 
 		// The follow variables are used to define the table structure for new and upgrade installations.
-		$create_useronline_table = ("CREATE TABLE {$table_prefix}statistics_useronline (
+		$create_useronline_table = ("CREATE TABLE {$wp_prefix}statistics_useronline (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
 			`ip` varchar(20) NOT NULL,
 			`timestamp` int(10) NOT NULL,
@@ -14,7 +17,7 @@
 			PRIMARY KEY (`ID`)
 		) CHARSET=utf8");
 		
-		$create_visit_table = ("CREATE TABLE {$table_prefix}statistics_visit (
+		$create_visit_table = ("CREATE TABLE {$wp_prefix}statistics_visit (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
 			`last_visit` datetime NOT NULL,
 			`last_counter` date NOT NULL,
@@ -22,7 +25,7 @@
 			PRIMARY KEY (`ID`)
 		) CHARSET=utf8");
 		
-		$create_visitor_table = ("CREATE TABLE {$table_prefix}statistics_visitor (
+		$create_visitor_table = ("CREATE TABLE {$wp_prefix}statistics_visitor (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
 			`last_counter` date NOT NULL,
 			`referred` text NOT NULL,
@@ -40,7 +43,7 @@
 			KEY `location` (`location`)
 		) CHARSET=utf8");
 		
-		$create_exclusion_table = ("CREATE TABLE {$table_prefix}statistics_exclusions (
+		$create_exclusion_table = ("CREATE TABLE {$wp_prefix}statistics_exclusions (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
 			`date` date NOT NULL,
 			`reason` varchar(255) DEFAULT NULL,
@@ -50,7 +53,7 @@
 			KEY `reason` (`reason`)
 		) CHARSET=utf8");
 
-		$create_pages_table = ("CREATE TABLE {$table_prefix}statistics_pages (
+		$create_pages_table = ("CREATE TABLE {$wp_prefix}statistics_pages (
 			`uri` varchar(255) NOT NULL,
 			`date` date NOT NULL,
 			`count` int(11) NOT NULL,
@@ -61,13 +64,22 @@
 			KEY `id` (`id`)
 		) CHARSET=utf8");
 		
-		GLOBAL $wpdb;
-		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
-		$result = $wpdb->query('SHOW INDEX FROM wp_statistics_visitor');
+		// This includes the dbDelta function from WordPress.
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		
-		if( $result < 6 ) {
+		// Create/update the plugin tables.
+		dbDelta($create_useronline_table);
+		dbDelta($create_visit_table);
+		dbDelta($create_visitor_table);
+		dbDelta($create_exclusion_table);
+		dbDelta($create_pages_table);
+
+		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
+		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
+		
+		if( $result != 2 ) {
 			// We have to loop through all the rows in the visitors table to check for duplicates that may have been created in error.
-			$result = $wpdb->get_results( "SELECT ID, last_counter, ip FROM {$table_prefix}statistics_visitor ORDER BY last_counter, ip" );
+			$result = $wpdb->get_results( "SELECT ID, last_counter, ip FROM {$wp_prefix}statistics_visitor ORDER BY last_counter, ip" );
 			
 			// Setup the inital values.
 			$lastrow = array( 'last_counter' => '', 'ip' => '' );
@@ -85,21 +97,13 @@
 			
 			// Now do the acutal deletions.
 			foreach( $deleterows as $row ) {
-				$wpdb->delete( $table_prefix . 'statistics_visitor', array( 'ID' => $row ) );
+				$wpdb->delete( $wp_prefix . 'statistics_visitor', array( 'ID' => $row ) );
 			}
 			
+			// The table should be ready to be updated now with the new index, so let's do it.
+			dbDelta($create_visitor_table);
 		}
 
-		// This includes the dbDelta function from WordPress.
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		
-		// Create/update the plugin tables.
-		dbDelta($create_useronline_table);
-		dbDelta($create_visit_table);
-		dbDelta($create_visitor_table);
-		dbDelta($create_exclusion_table);
-		dbDelta($create_pages_table);
-		
 		// Store the new version information.
 		update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 		update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
@@ -145,7 +149,7 @@
 				
 				foreach( $var_options as $option ) {
 					// Handle the special variables options.
-					$result = $wpdb->get_results("SELECT * FROM {$table_prefix}options WHERE option_name LIKE '{$option}'");
+					$result = $wpdb->get_results("SELECT * FROM {$wp_prefix}options WHERE option_name LIKE '{$option}'");
 
 					foreach( $result as $opt ) {
 						$new_name = substr( $opt->option_name, 4 );
