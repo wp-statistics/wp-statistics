@@ -6,62 +6,62 @@
 
 		// The follow variables are used to define the table structure for new and upgrade installations.
 		$create_useronline_table = ("CREATE TABLE {$wp_prefix}statistics_useronline (
-			`ID` int(11) NOT NULL AUTO_INCREMENT,
-			`ip` varchar(20) NOT NULL,
-			`timestamp` int(10) NOT NULL,
-			`date` datetime NOT NULL,
-			`referred` text CHARACTER SET utf8 NOT NULL,
-			`agent` varchar(255) NOT NULL,
-			`platform` varchar(255),
-			`version` varchar(255),
-			PRIMARY KEY (`ID`)
+			ID int(11) NOT NULL AUTO_INCREMENT,
+			ip varchar(20) NOT NULL,
+			timestamp int(10) NOT NULL,
+			date datetime NOT NULL,
+			referred text CHARACTER SET utf8 NOT NULL,
+			agent varchar(255) NOT NULL,
+			platform varchar(255),
+			version varchar(255),
+			PRIMARY KEY  (ID)
 		) CHARSET=utf8");
 		
 		$create_visit_table = ("CREATE TABLE {$wp_prefix}statistics_visit (
-			`ID` int(11) NOT NULL AUTO_INCREMENT,
-			`last_visit` datetime NOT NULL,
-			`last_counter` date NOT NULL,
-			`visit` int(10) NOT NULL,
-			PRIMARY KEY (`ID`)
+			ID int(11) NOT NULL AUTO_INCREMENT,
+			last_visit datetime NOT NULL,
+			last_counter date NOT NULL,
+			visit int(10) NOT NULL,
+			PRIMARY KEY  (ID)
 		) CHARSET=utf8");
 		
 		$create_visitor_table = ("CREATE TABLE {$wp_prefix}statistics_visitor (
-			`ID` int(11) NOT NULL AUTO_INCREMENT,
-			`last_counter` date NOT NULL,
-			`referred` text NOT NULL,
-			`agent` varchar(255) NOT NULL,
-			`platform` varchar(255),
-			`version` varchar(255),
-			`UAString` varchar(255),
-			`ip` varchar(20) NOT NULL,
-			`location` varchar(10),
-			PRIMARY KEY (`ID`),
-			UNIQUE KEY `date_ip` (`last_counter`,`ip`),
-			KEY `agent` (`agent`),
-			KEY `platform` (`platform`),
-			KEY `version` (`version`),
-			KEY `location` (`location`)
+			ID int(11) NOT NULL AUTO_INCREMENT,
+			last_counter date NOT NULL,
+			referred text NOT NULL,
+			agent varchar(255) NOT NULL,
+			platform varchar(255),
+			version varchar(255),
+			AString varchar(255),
+			ip varchar(20) NOT NULL,
+			location varchar(10),
+			PRIMARY KEY  (ID),
+			UNIQUE KEY date_ip (last_counter,ip),
+			KEY agent (agent),
+			KEY platform (platform),
+			KEY version (version),
+			KEY location (location)
 		) CHARSET=utf8");
 		
 		$create_exclusion_table = ("CREATE TABLE {$wp_prefix}statistics_exclusions (
-			`ID` int(11) NOT NULL AUTO_INCREMENT,
-			`date` date NOT NULL,
-			`reason` varchar(255) DEFAULT NULL,
-			`count` bigint(20) NOT NULL,
-			PRIMARY KEY (`ID`),
-			KEY `date` (`date`),
-			KEY `reason` (`reason`)
+			ID int(11) NOT NULL AUTO_INCREMENT,
+			date date NOT NULL,
+			reason varchar(255) DEFAULT NULL,
+			count bigint(20) NOT NULL,
+			PRIMARY KEY  (ID),
+			KEY date (date),
+			KEY reason (reason)
 		) CHARSET=utf8");
 
 		$create_pages_table = ("CREATE TABLE {$wp_prefix}statistics_pages (
-			`uri` varchar(255) NOT NULL,
-			`date` date NOT NULL,
-			`count` int(11) NOT NULL,
-			`id` int(11) NOT NULL,
-			UNIQUE KEY `date_2` (`date`,`uri`),
-			KEY `url` (`uri`),
-			KEY `date` (`date`),
-			KEY `id` (`id`)
+			uri varchar(255) NOT NULL,
+			date date NOT NULL,
+			count int(11) NOT NULL,
+			id int(11) NOT NULL,
+			UNIQUE KEY date_2 (date,uri),
+			KEY url (uri),
+			KEY date (date),
+			KEY id (id)
 		) CHARSET=utf8");
 		
 		// This includes the dbDelta function from WordPress.
