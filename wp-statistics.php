@@ -281,31 +281,37 @@ License: GPL2
 			}
 			
 			$wp_admin_bar->add_menu( array(
+				'id'		=> 	false,
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('User Online', 'wp_statistics') . ": " . wp_statistics_useronline()
 			));
 			
 			$wp_admin_bar->add_menu( array(
+				'id'		=> 	false,
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Today visitor', 'wp_statistics') . ": " . wp_statistics_visitor('today')
 			));
 			
 			$wp_admin_bar->add_menu( array(
+				'id'		=> 	false,
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Today visit', 'wp_statistics') . ": " . wp_statistics_visit('today')
 			));
 			
 			$wp_admin_bar->add_menu( array(
+				'id'		=> 	false,
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Yesterday visitor', 'wp_statistics') . ": " . wp_statistics_visitor('yesterday')
 			));
 			
 			$wp_admin_bar->add_menu( array(
+				'id'		=> 	false,
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('Yesterday visit', 'wp_statistics') . ": " . wp_statistics_visit('yesterday')
 			));
 			
 			$wp_admin_bar->add_menu( array(
+				'id'		=> 	false,
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('View Stats', 'wp_statistics'),
 				'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
