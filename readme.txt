@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 7.0.2
+Stable tag: 7.0.3
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -159,11 +159,11 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * Updated: Format of the dbDetla scripts to match the guidelines from WordPress, thanks kitchin.
 * Updated: Handled some WP_DEBUG warning messages, thanks kitchin.
 * Updated: Multiple additional WP_DEBUG warning fixes.
+* Updated: Arabic (ar) language.
+* Updated: Polish (pl_PL) language.
 * Fixed: Typo in variable name which causes the robots list to be overwritten with the defaults incorrectly.
 * Fixed: Access role exclusions and search engine exclusions options not displaying correctly in the settings page.
 * Removed: Database upgrade code to add the unique index on the visitors table due to issues with multiple users.  Will add back in a future release as a user selectable option.
-* Updated: Arabic (ar) language.
-* Updated: Polish (pl_PL) language.
 
 = 7.0.2 =
 * Fixed: Database prefix not being used when creating/updating tables correctly.
