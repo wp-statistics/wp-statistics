@@ -136,7 +136,7 @@
 			// If the robot list is empty, fill in the defaults.
 			$wps_temp_robotslist = $WP_Statistics->get_option('robotlist'); 
 
-			if(trim($wps_temp_robotlist) == "") {
+			if(trim($wps_temp_robotslist) == "") {
 				$WP_Statistics->update_option('robotlist', $wps_robotslist);
 			}
 
