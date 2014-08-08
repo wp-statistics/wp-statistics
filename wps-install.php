@@ -74,36 +74,6 @@
 		dbDelta($create_exclusion_table);
 		dbDelta($create_pages_table);
 
-		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
-		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
-		
-		if( $result != 2 ) {
-			// We have to loop through all the rows in the visitors table to check for duplicates that may have been created in error.
-			$result = $wpdb->get_results( "SELECT ID, last_counter, ip FROM {$wp_prefix}statistics_visitor ORDER BY last_counter, ip" );
-			
-			// Setup the inital values.
-			$lastrow = array( 'last_counter' => '', 'ip' => '' );
-			$deleterows = array();
-			
-			// Ok, now iterate over the results.
-			foreach( $result as $row ) {
-				// if the last_counter (the date) and IP is the same as the last row, add the row to be deleted.
-				if( $row->last_counter == $lastrow['last_counter'] && $row->ip == $lastrow['ip'] ) { $deleterows[] .=  $row->ID;}
-				
-				// Update the lastrow data.
-				$lastrow['last_counter'] = $row->last_counter;
-				$lastrow['ip'] = $row->ip;
-			}
-			
-			// Now do the acutal deletions.
-			foreach( $deleterows as $row ) {
-				$wpdb->delete( $wp_prefix . 'statistics_visitor', array( 'ID' => $row ) );
-			}
-			
-			// The table should be ready to be updated now with the new index, so let's do it.
-			dbDelta($create_visitor_table);
-		}
-
 		// Store the new version information.
 		update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 		update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
