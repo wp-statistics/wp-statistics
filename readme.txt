@@ -133,12 +133,20 @@ No.
 == Upgrade Notice ==
 = 7.0 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
-* This update includes a database change to the visitors table that requires the duplicate data in the table to be deleted.  This requires a complete scan of the database and on large installs may take a while.
 * Page track is now enabled on new installs or upgrades from pre 6.0 installs.
 * HighCharts has been replaced by jqPlot and the chart type setting is no longer available.
 * If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
+= 7.0.3 =
+* Added: Extra check that the co-efficient setting is valid.
+* Updated: Format of the dbDetla scripts to match the guidelines from WordPress, thanks kitchin.
+* Updated: Handled some WP_DEBUG warning messages, thanks kitchin.
+* Updated: Multiple additional WP_DEBUG warning fixes.
+* Fixed: Typo in variable name which causes the robots list to be overwritten with the defaults incorrectly.
+* Fixed: Access role exclusions and search engine exclusions options not displaying correctly in the settings page.
+* Removed: Database upgrade code to add the unique index on the visitors table due to issues with multiple users.  Will add back in a future release as a user selectable option.
+
 = 7.0.2 =
 * Fixed: Database prefix not being used when creating/updating tables correctly.
 * Fixed: New installs caused an error in the new upgrade code as the visitor table did not exist yet.
