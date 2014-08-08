@@ -146,6 +146,8 @@ No.
 * Fixed: Typo in variable name which causes the robots list to be overwritten with the defaults incorrectly.
 * Fixed: Access role exclusions and search engine exclusions options not displaying correctly in the settings page.
 * Removed: Database upgrade code to add the unique index on the visitors table due to issues with multiple users.  Will add back in a future release as a user selectable option.
+* Updated: Arabic (ar) language.
+* Updated: Polish (pl_PL) language.
 
 = 7.0.2 =
 * Fixed: Database prefix not being used when creating/updating tables correctly.
