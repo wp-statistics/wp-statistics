@@ -35,6 +35,9 @@
 
 			// Set the default co-efficient.
 			$this->coefficient = $this->get_option('coefficient', 1);
+
+			// Double check the co-efficient setting to make sure it's not been set to 0.
+			if( $this->coefficient <= 0 ) { $this->coefficient = 1; }
 			
 			// This is a bit of a hack, we strip off the "includes/classes" at the end of the current class file's path.
 			$this->plugin_dir = substr( dirname( __FILE__ ), 0, -17 );
