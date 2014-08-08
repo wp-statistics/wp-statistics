@@ -43,15 +43,18 @@
 		
 		foreach( $wps_option_list as $option ) {
 			$new_option = str_replace( "wps_", "", $option );
-			$WP_Statistics->store_option($new_option, $_POST[$option]);
+
+			if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
+
+			$WP_Statistics->store_option($new_option, $value);
 		}
 		
-		for( $i = 1; $i < 7; $i++ ) {
+		for( $i = 1; $i < 6; $i++ ) {
 			$display_array['A'][$i] = '';
 			if( array_key_exists( $_POST['wps_display']['A'][$i], $column_a_list) ) { $display_array['A'][$i] = $_POST['wps_display']['A'][$i]; }
 		}
 		
-		for( $i = 1; $i < 8; $i++) {
+		for( $i = 1; $i < 7; $i++) {
 			$display_array['B'][$i] = '';
 			if( array_key_exists( $_POST['wps_display']['B'][$i], $column_b_list) ) { $display_array['B'][$i] = $_POST['wps_display']['B'][$i]; }
 		}

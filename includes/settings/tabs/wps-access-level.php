@@ -8,15 +8,20 @@ if( $wps_nonce_valid ) {
 	foreach( $role_list as $role ) {
 		$role_post = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
 
+		if( array_key_exists( $role_post, $_POST ) ) { $value = $_POST[$role_post]; } else { $value = ''; }
+
 		$new_option = str_replace( "wps_", "", $role_post );
-		$WP_Statistics->store_option($new_option, $_POST[$role_post]);
+		$WP_Statistics->store_option($new_option, $value);
+
 	}
 
 	$wps_option_list = array_merge( $wps_option_list, array("wps_read_capability","wps_manage_capability","wps_record_exclusions","wps_robotlist","wps_exclude_ip","wps_exclude_loginpage","wps_exclude_adminpage" ) );
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
-		$WP_Statistics->store_option($new_option, $_POST[$option]);
+
+		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
+		$WP_Statistics->store_option($new_option, $value);
 	}
 }
 
@@ -103,14 +108,15 @@ if( $wps_nonce_valid ) {
 			$role_option_list = '';
 			
 			foreach( $role_list as $role ) {
-				$option_name = 'wps_exclude_' . str_replace(" ", "_", strtolower($role) );
+				$store_name = 'exclude_' . str_replace(" ", "_", strtolower($role) );
+				$option_name = 'wps_' . $store_name;
 				$role_option_list .= $option_name . ',';
 		?>
 		
 		<tr valign="top">
 			<th scope="row"><label for="<?php echo $option_name;?>"><?php _e($role, 'wp_statistics'); ?>:</label></th>
 			<td>
-				<input id="<?php echo $option_name;?>" type="checkbox" value="1" name="<?php echo $option_name;?>" <?php echo get_option($option_name)==true? "checked='checked'":'';?>><label for="<?php echo $option_name;?>"><?php _e('Exclude', 'wp_statistics'); ?></label>
+				<input id="<?php echo $option_name;?>" type="checkbox" value="1" name="<?php echo $option_name;?>" <?php echo $WP_Statistics->get_option($store_name)==true? "checked='checked'":'';?>><label for="<?php echo $option_name;?>"><?php _e('Exclude', 'wp_statistics'); ?></label>
 				<p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp_statistics'), $role); ?></p>
 			</td>
 		</tr>

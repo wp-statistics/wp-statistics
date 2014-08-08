@@ -6,7 +6,10 @@
 		}
 	}
 
-switch(  $_GET['tab'] )
+$selected_tab = "";
+if( array_key_exists( 'tab', $_GET ) ) { $selected_tab = $_GET['tab']; }
+
+switch( $selected_tab )
 	{
 	case 'export':
 		$current_tab = 1;

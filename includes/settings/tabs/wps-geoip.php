@@ -5,7 +5,8 @@ if( $wps_nonce_valid ) {
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
-		$WP_Statistics->store_option($new_option, $_POST[$option]);
+		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
+		$WP_Statistics->store_option($new_option, $value);
 	}
 }
 

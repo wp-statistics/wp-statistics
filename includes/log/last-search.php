@@ -91,6 +91,8 @@
 									
 									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
 									
+									include_once( dirname( __FILE__ ) . "/../functions/country-codes.php");
+									
 									foreach($result as $items) {
 										if( !$WP_Statistics->Search_Engine_QueryString($items->referred) ) continue;
 										

@@ -5,15 +5,17 @@ if( $wps_nonce_valid ) {
 	foreach( $selist as $se ) {
 		$se_post = 'wps_disable_se_' . $se['tag'];
 		
+		if( array_key_exists( $se_post, $_POST ) ) { $value = $_POST[$se_post]; } else { $value = ''; }
 		$new_option = str_replace( "wps_", "", $se_post );
-		$WP_Statistics->store_option($new_option, $_POST[$se_post]);
+		$WP_Statistics->store_option($new_option, $value);
 	}
 
 	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices" );
 	
 	foreach( $wps_option_list as $option ) {
+		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
 		$new_option = str_replace( "wps_", "", $option );
-		$WP_Statistics->store_option($new_option, $_POST[$option]);
+		$WP_Statistics->store_option($new_option, $value);
 	}
 }
 
@@ -189,15 +191,18 @@ if( $wps_nonce_valid ) {
 			</th>
 		</tr>
 		<?php
+			$se_option_list = '';
+		
 			foreach( $selist as $se ) {
 				$option_name = 'wps_disable_se_' . $se['tag'];
+				$store_name = 'disable_se_' . $se['tag'];
 				$se_option_list .= $option_name . ',';
 		?>
 		
 		<tr valign="top">
 			<th scope="row"><label for="<?php echo $option_name;?>"><?php _e($se['name'], 'wp_statistics'); ?>:</label></th>
 			<td>
-				<input id="<?php echo $option_name;?>" type="checkbox" value="1" name="<?php echo $option_name;?>" <?php echo $WP_Statistics->get_option($option_name)==true? "checked='checked'":'';?>><label for="<?php echo $option_name;?>"><?php _e('disable', 'wp_statistics'); ?></label>
+				<input id="<?php echo $option_name;?>" type="checkbox" value="1" name="<?php echo $option_name;?>" <?php echo $WP_Statistics->get_option($store_name)==true? "checked='checked'":'';?>><label for="<?php echo $option_name;?>"><?php _e('disable', 'wp_statistics'); ?></label>
 				<p class="description"><?php echo sprintf(__('Disable %s from data collection and reporting.', 'wp_statistics'), $se['name']); ?></p>
 			</td>
 		</tr>

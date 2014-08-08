@@ -899,7 +899,7 @@
 									
 									echo "<div>{$i} - {$uri[3]}</div>";
 									echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";
-									echo "<div class='left-div'><a href='{$site_url}{$uri[0]}'>{$uri[0]}</a></div>";
+									echo "<div class='left-div'><a href='{$uri[0]}'>{$uri[0]}</a></div>";
 									echo "</div>";
 									
 									if( $i > 9 ) { break; }

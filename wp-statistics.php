@@ -491,7 +491,7 @@ License: GPL2
 		} else if( $log_type == 'top-pages' ) {
 
 			// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
-			if( $_GET['page-id'] || $_GET['page-uri'] ) {
+			if( array_key_exists( 'page-id', $_GET ) || array_key_exists( 'page-uri', $_GET ) ) {
 				include_once dirname( __FILE__ ) . '/includes/log/page-statistics.php';
 			} else {
 				include_once dirname( __FILE__ ) . '/includes/log/top-pages.php';

@@ -14,7 +14,7 @@
 	
 	$excluded_reasons = array('Robot','IP Match','Self Referral','Login Page','Admin Page','User Role');
 	$excluded_reason_tags = array('Robot' => 'robot','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole', 'Total' => 'total');
-	$excluded_results = array();
+	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
 	foreach( $excluded_reasons as $reason ) {
@@ -36,6 +36,9 @@
 			
 			// If we're returned an error or a FALSE value, then let's make sure it's set to a numerical 0.
 			if( $excluded_results[$reason][$i] < 1 ) { $excluded_results[$reason][$i] = 0; }
+			
+			// Make sure to initialize the results so we don't get warnings when WP_DEBUG is enabled.
+			if( !array_key_exists( $i, $excluded_results['Total'] ) ) { $excluded_results['Total'][$i] = 0; }
 			
 			// We're totalling things up here for use later.
 			$excluded_results['Total'][$i] += $excluded_results[$reason][$i];

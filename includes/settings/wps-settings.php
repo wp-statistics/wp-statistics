@@ -11,7 +11,10 @@ if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option
 	$wps_admin = true;
 }
 
-switch(  $_GET['tab'] )
+$selected_tab = "";
+if( array_key_exists( 'tab', $_GET ) ) { $selected_tab = $_GET['tab']; }
+
+switch( $selected_tab )
 	{
 	case 'overview':
 		if( $wps_admin ) { $current_tab = 1; } else { $current_tab = 0; }

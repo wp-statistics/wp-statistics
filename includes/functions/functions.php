@@ -235,7 +235,13 @@
 			
 			// Lookup the post title.
 			$post = get_post($id);
-			$title = $post->post_title;
+			
+			if( is_object( $post ) ) { 
+				$title = $post->post_title;
+			}
+			else {
+				$title = '';
+			}
 
 			// Add the current post to the array.
 			$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $id, $title );
@@ -756,7 +762,13 @@
 			// If we're not using online looksups, load the country co-ordinates from our local copy.
 			include_once( dirname( __FILE__ ) . "/country-coordinates.php");
 			
-			$result = $CountryCoordinates[$country][$coordinate];
+			if( array_key_exists( $country, $CountryCoordinates ) ) {
+				$result = $CountryCoordinates[$country][$coordinate];
+			}
+			else {
+				$result = '';
+			}
+			
 		}
 		
 		// If we couldn't find the co-ordinates, return 0.
