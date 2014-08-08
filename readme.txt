@@ -118,6 +118,22 @@ Yes, version 6.0 has introduced page hit tracking!
 = Does WP Statistics track the time of the hits? =
 No.
 
+= The GeoIP database isn't downloading and when I force a download through the settings page I get the following error: "Error downloading GeoIP database from: http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz - Forbidden" =
+This means that MaxMind has block the IP address of your webserver, this is often the case if it has been blacklisted in the past due to abuse.
+
+You have two options:
+- Contact MaxMind and have them umblock your IP addres
+- Manually download the database
+
+To manually download it take the following steps:
+
+- On another system (any PC will do) download the maxmind database from http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz
+- Decompress the database
+- Connect to your web host and create a "wp-statistics" directory in your wordpress uploads folder (usually it is located in wp-content, so you would create a directory "wp-content/uploads/wp-statistics").
+- Upload the GeoLite-Country.mmdb file to the folder you just created.
+
+You can also ask MaxMind to unblock your host.  Note that automatic updates will not function until you can successfully download the database from your web server.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
