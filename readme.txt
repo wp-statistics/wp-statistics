@@ -154,6 +154,9 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
+= 7.0.4 =
+* Fixed: Typo in table definition of visitor table's UAString field.
+
 = 7.0.3 =
 * Added: Extra check that the co-efficient setting is valid.
 * Updated: Format of the dbDetla scripts to match the guidelines from WordPress, thanks kitchin.

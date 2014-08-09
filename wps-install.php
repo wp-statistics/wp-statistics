@@ -32,7 +32,7 @@
 			agent varchar(255) NOT NULL,
 			platform varchar(255),
 			version varchar(255),
-			AString varchar(255),
+			UAString varchar(255),
 			ip varchar(20) NOT NULL,
 			location varchar(10),
 			PRIMARY KEY  (ID),
