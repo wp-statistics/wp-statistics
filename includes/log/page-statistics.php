@@ -4,8 +4,8 @@
 	});
 </script>
 <?php
-	$pageuri = $_GET['page-uri'];
-	$pageid = $_GET['page-id'];
+	if( array_key_exists( 'page-uri', $_GET ) ) { $pageuri = $_GET['page-uri']; } else { $pageuri = null; }
+	if( array_key_exists( 'page-id', $_GET ) ) { $pageid = $_GET['page-id']; } else { $pageid = null; }
 
 	if( $pageuri && !$pageid ) { $pageid = wp_statistics_uri_to_id( $pageuri ); }
 	
@@ -51,7 +51,7 @@
 						var pages_chart;
 						jQuery(document).ready(function() {
 <?php								
-						echo "var page_data_line" . $count . " = [";
+						echo "var page_data_line = [";
 									
 						for( $i=$daysToDisplay; $i>=0; $i--) {
 							$stat = wp_statistics_pages( '-'.$i, $pageuri, $pageid );
@@ -122,6 +122,10 @@
 								 shadowColor: 'transparent'
 								},
 							} );
+
+							jQuery(window).resize(function() {
+								pages_jqchart.replot( {resetAxes: true } );
+							});
 						});
 						</script>
 						

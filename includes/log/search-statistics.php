@@ -47,6 +47,8 @@
 									echo "var searches_data_line_" . $se['tag'] . " = [";
 									
 									for( $i=$daysToDisplay; $i>=0; $i--) {
+										if( !array_key_exists( $i, $total_daily ) ) { $total_daily[$i] = 0; }
+										
 										$stat = wp_statistics_searchengine($se['tag'], '-'.$i);
 										$total_daily[$i] += $stat;
 										
@@ -127,6 +129,10 @@
 								 shadowColor: 'transparent'
 								},
 							} );
+
+							jQuery(window).resize(function() {
+								visit_chart.replot( {resetAxes: true } );
+							});
 						});
 
 						</script>

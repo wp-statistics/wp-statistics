@@ -1,9 +1,4 @@
 <script type="text/javascript">
-	jQuery(document).ready(function(){
-		jQuery('.show-map').click(function(){
-			alert('<?php _e('To be added soon', 'wp_statistics'); ?>');
-		});
-
 	postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
@@ -97,10 +92,11 @@
 										if( !$WP_Statistics->Search_Engine_QueryString($items->referred) ) continue;
 										
 										echo "<div class='log-item'>";
-											echo "<div class='log-referred'>".substr($WP_Statistics->Search_Engine_QueryString($items->referred), 0, 100)."</div>";
+											echo "<div class='log-referred'>".$WP_Statistics->Search_Engine_QueryString($items->referred)."</div>";
 											echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 											echo "<div class='clear'></div>";
-											echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
+											echo "<div class='log-url'>";
+											echo "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 											
 											if($WP_Statistics->get_option('geoip')) {
 												echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
@@ -115,9 +111,9 @@
 												$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
 											}
 											
-											echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
+											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 											
-											echo "<div class='log-url'><a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".substr($items->referred, 0, 100)."[...]</a></div>";
+											echo "<a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".$items->referred."</a></div>";
 										echo "</div>";
 									}
 								}

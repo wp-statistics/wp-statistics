@@ -121,6 +121,10 @@
 								 shadowColor: 'transparent'
 								},
 							} );
+
+							jQuery(window).resize(function() {
+								visit_chart.replot( {resetAxes: true } );
+							});
 						});
 
 						</script>

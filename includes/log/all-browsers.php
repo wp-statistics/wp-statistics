@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-	postboxes.add_postbox_toggles(pagenow);
+		postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
 <?php
@@ -83,6 +83,11 @@
 										},
 								} );
 							});
+
+							jQuery(window).resize(function() {
+								browser_chart.replot( {resetAxes: true } );
+							});
+
 						});
 								  
 						</script>
@@ -160,6 +165,11 @@
 										},
 								} );
 							});
+
+							jQuery(window).resize(function() {
+								platform_chart.replot( {resetAxes: true } );
+							});
+
 						});
 								  
 						</script>
@@ -289,6 +299,11 @@
 							},
 					} );
 				});
+
+				jQuery(window).resize(function() {
+					<?php echo $Browser_tag;?>_chart.replot( {resetAxes: true } );
+				});
+
 			});
 			</script>
 			<div class="ltr" id="version-<?php echo $Browser_tag;?>-log" style="height: <?php $height = ( ceil( count($Versions) / 2 ) * 27 ) + 237; if( $height < 300 ) { $height = 300; } echo $height; ?>px;"></div>

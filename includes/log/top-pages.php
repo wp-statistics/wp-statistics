@@ -103,6 +103,11 @@
 								 shadowColor: 'transparent'
 								},
 							} );
+
+							jQuery(window).resize(function() {
+								pages_jqchart.replot( {resetAxes: true } );
+							});
+
 						});
 						</script>
 						
@@ -143,7 +148,7 @@
 
 											if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
 											
-											echo "<div>{$count} - {$uri[3]}</div>";
+											echo "<div class='log-page-title'>{$count} - {$uri[3]}</div>";
 											echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";
 											echo "<div class='left-div'><a href='{$site_url}{$uri[0]}'>{$uri[0]}</a></div>";
 											echo "</div>";
