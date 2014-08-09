@@ -532,6 +532,8 @@
 								</tr>
 								
 								<?php
+									$Countries = array();
+									
 									$result = $wpdb->get_results("SELECT DISTINCT `location` FROM `{$table_prefix}statistics_visitor`");
 									
 									foreach( $result as $item )
