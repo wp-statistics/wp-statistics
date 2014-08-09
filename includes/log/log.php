@@ -445,6 +445,10 @@
 										},
 								} );
 							});
+
+							jQuery(window).resize(function() {
+								browser_chart.replot( {resetAxes: true } );
+							});
 						});
 								  
 						</script>
@@ -695,6 +699,10 @@
 								 shadowColor: 'transparent'
 								},
 							} );
+							
+							jQuery(window).resize(function() {
+								visit_chart.replot( {resetAxes: true } );
+							});
 						});
 						</script>
 						
@@ -725,6 +733,7 @@
 									echo "var searches_data_line_" . $se['tag'] . " = [";
 									
 									for( $i=20; $i>=0; $i--) {
+										if( !array_key_exists( $i, $total_daily ) ) { $total_daily[$i] = 0; }
 										$stat = wp_statistics_searchengine($se['tag'], '-'.$i);
 										$total_daily[$i] += $stat;
 										
@@ -805,6 +814,11 @@
 								 shadowColor: 'transparent'
 								},
 							} );
+						
+							jQuery(window).resize(function() {
+								referral_chart.replot( {resetAxes: true } );
+							});
+
 						});
 
 						</script>
@@ -840,9 +854,10 @@
 									if( !$WP_Statistics->Search_Engine_QueryString($items->referred) ) continue;
 									
 									echo "<div class='log-item'>";
-										echo "<div class='log-referred'>".substr($WP_Statistics->Search_Engine_QueryString($items->referred), 0, 100)."</div>";
+										echo "<div class='log-referred'>".$WP_Statistics->Search_Engine_QueryString($items->referred)."</div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
+										echo "<div class='log-url'>";
 										echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 										
 										if($WP_Statistics->get_option('geoip')) {
@@ -858,9 +873,9 @@
 											$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
 										}
 										
-										echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 										
-										echo "<div class='log-url'><a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".substr($items->referred, 0, 100)."[...]</a></div>";
+										echo "<a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".$items->referred."</a></div>";
 									echo "</div>";
 								}
 								
@@ -899,7 +914,7 @@
 
 									if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
 									
-									echo "<div>{$i} - {$uri[3]}</div>";
+									echo "<div class='log-page-title'>{$i} - {$uri[3]}</div>";
 									echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";
 									echo "<div class='left-div'><a href='{$uri[0]}'>{$uri[0]}</a></div>";
 									echo "</div>";
@@ -936,6 +951,7 @@
 										echo "<div class='log-referred'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&ip={$items->ip}'>".wp_statistics_icons('dashicons-visibility', 'visibility')."{$items->ip}</a></div>";
 										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
 										echo "<div class='clear'></div>";
+										echo "<div class='log-url'>";
 										echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 										
 										if($WP_Statistics->get_option('geoip')) {
@@ -948,9 +964,9 @@
 											$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
 										}
 										
-										echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 										
-										echo "<div class='log-url'><a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".substr($items->referred, 0, 100)."[...]</a></div>";
+										echo "<a href='{$items->referred}' title='{$items->referred}'>".wp_statistics_icons('dashicons-admin-links', 'link')." ".$items->referred."</a></div>";
 									echo "</div>";
 								}
 								
