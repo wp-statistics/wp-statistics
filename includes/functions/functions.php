@@ -367,7 +367,8 @@
 		
 		$default = $engines = array (
 			'baidu' => array( 'name' => 'Baidu', 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
-			'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' =>'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
+			'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' => 'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
+			'clearch' => array( 'name' => 'clearch.org', 'tag' => 'clearch', 'sqlpattern' => '%clearch.org%', 'regexpattern' => 'clearch\.org', 'querykey' => 'q', 'image' => 'clearch.png' ),
 			'duckduckgo' => array( 'name' => 'DuckDuckGo', 'tag' => 'duckduckgo', 'sqlpattern' => array('%duckduckgo.com%', '%ddg.gg%'), 'regexpattern' => array('duckduckgo\.com','ddg\.gg'), 'querykey' => 'q', 'image' => 'duckduckgo.png' ),
 			'google' => array( 'name' => 'Google', 'tag' => 'google', 'sqlpattern' => '%google.%', 'regexpattern' => 'google\.', 'querykey' => 'q', 'image' => 'google.png' ),
 			'yahoo' => array( 'name' => 'Yahoo!', 'tag' => 'yahoo', 'sqlpattern' => '%yahoo.com%', 'regexpattern' => 'yahoo\.com', 'querykey' => 'p', 'image' => 'yahoo.png' ),

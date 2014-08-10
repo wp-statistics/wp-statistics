@@ -166,6 +166,7 @@
 		if( $WP_Statistics->get_option('store_ua') === FALSE ) { $WP_Statistics->store_option('store_ua',FALSE); }
 		if( $WP_Statistics->get_option('robotlist') === FALSE ) { $WP_Statistics->store_option('robotlist',$wps_robotslist); }
 		if( $WP_Statistics->get_option('exclude_administrator') === FALSE ) { $WP_Statistics->store_option('exclude_administrator',TRUE); }
+		if( $WP_Statistics->get_option('disable_se_clearch') === FALSE ) { $WP_Statistics->store_option('disable_se_clearch',TRUE); }
 
 		// Save the settings now that we've set them.
 		$WP_Statistics->save_options();
