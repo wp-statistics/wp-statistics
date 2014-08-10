@@ -6,6 +6,43 @@
 		}
 	}
 
+	if( array_key_exists( 'index', $_GET ) ) {
+		if( $_GET['index'] == 1 ) {
+			GLOBAL $wpdb;
+			$wp_prefix = $wpdb->prefix;
+			
+			// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
+			$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
+			
+			if( $result != 2 ) {
+				// We have to loop through all the rows in the visitors table to check for duplicates that may have been created in error.
+				$result = $wpdb->get_results( "SELECT ID, last_counter, ip FROM {$wp_prefix}statistics_visitor ORDER BY last_counter, ip" );
+				
+				// Setup the inital values.
+				$lastrow = array( 'last_counter' => '', 'ip' => '' );
+				$deleterows = array();
+				
+				// Ok, now iterate over the results.
+				foreach( $result as $row ) {
+					// if the last_counter (the date) and IP is the same as the last row, add the row to be deleted.
+					if( $row->last_counter == $lastrow['last_counter'] && $row->ip == $lastrow['ip'] ) { $deleterows[] .=  $row->ID;}
+					
+					// Update the lastrow data.
+					$lastrow['last_counter'] = $row->last_counter;
+					$lastrow['ip'] = $row->ip;
+				}
+				
+				// Now do the acutal deletions.
+				foreach( $deleterows as $row ) {
+					$wpdb->delete( $wp_prefix . 'statistics_visitor', array( 'ID' => $row ) );
+				}
+				
+				// The table should be ready to be updated now with the new index, so let's do it.
+				$result = $wpdb->get_results( "ALTER TABLE " . $wp_prefix . 'statistics_visitor' . " ADD UNIQUE `date_ip` ( `last_counter`, `ip` )" );
+			}
+		}
+	}
+
 $selected_tab = "";
 if( array_key_exists( 'tab', $_GET ) ) { $selected_tab = $_GET['tab']; }
 
@@ -17,8 +54,11 @@ switch( $selected_tab )
 	case 'purging':
 		$current_tab = 2;
 		break;
-	case 'updates':
+	case 'database':
 		$current_tab = 3;
+		break;
+	case 'updates':
+		$current_tab = 4;
 		break;
 	default:
 		$current_tab = 0;
@@ -37,6 +77,7 @@ switch( $selected_tab )
 			<li class="ui-state-default ui-corner-top"><a href="#resources" class="ui-tabs-anchor"><span><?php _e('Resources/Information', 'wp_statistics'); ?></span></a></li>
 			<li class="ui-state-default ui-corner-top"><a href="#export" class="ui-tabs-anchor"><span><?php _e('Export', 'wp_statistics'); ?></span></a></li>
 			<li class="ui-state-default ui-corner-top"><a href="#purging" class="ui-tabs-anchor"><span><?php _e('Purging', 'wp_statistics'); ?></span></a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#database" class="ui-tabs-anchor"><span><?php _e('Database', 'wp_statistics'); ?></span></a></li>
 			<?php if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) { ?>
 			<li class="ui-state-default ui-corner-top"><a href="#updates" class="ui-tabs-anchor"><span><?php _e('Updates', 'wp_statistics'); ?></span></a></li>
 			<?php } ?>
@@ -54,9 +95,15 @@ switch( $selected_tab )
 		<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-purging.php' ); ?>
 		</div>
 
+		<div id="database">
+		<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-database.php' ); ?>
+		</div>
+
+		<?php if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) { ?>
 		<div id="updates">
 		<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-updates.php' ); ?>
 		</div>
+		<?php } ?>
 
 	</div>
 </div>

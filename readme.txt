@@ -154,6 +154,13 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
+= 7.1 =
+* Added: clearch.org search provider.
+* Added: Database tab to optmization page to manually add unique index on the visitors table removed in 7.0.3.
+* Updated: Additional WP_DEBUG message fixes.
+* Updated: Overview widgets no longer overflows on smaller displays.
+* Updated: Charts now properly resize when the browser window does.
+
 = 7.0.4 =
 * Fixed: Typo in table definition of visitor table's UAString field.
 
