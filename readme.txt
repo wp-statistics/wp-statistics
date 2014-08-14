@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, GregRoss
 Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 3.9.1
-Stable tag: 7.0.4
+Tested up to: 3.9.2
+Stable tag: 7.1
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -125,7 +125,7 @@ You have two options:
 - Contact MaxMind and have them umblock your IP addres
 - Manually download the database
 
-To manually download it take the following steps:
+To manually download the database and install it take the following steps:
 
 - On another system (any PC will do) download the maxmind database from http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz
 - Decompress the database
@@ -147,6 +147,9 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 7.1 = 
+* There is now a manual process for adding an index to the visitor's table to protect against duplicate entries, go to Statistics->Optimization->Database.  Newer installs of WP Statistics already have the index and the option to add it will only be present if do not have it already.
+
 = 7.0 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!
 * Page track is now enabled on new installs or upgrades from pre 6.0 installs.
@@ -155,7 +158,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 == Changelog ==
 = 7.1 =
-* Added: clearch.org search provider.
+* Added: clearch.org search provider, disabled by default.
 * Added: Database tab to optmization page to manually add unique index on the visitors table removed in 7.0.3.
 * Updated: Additional WP_DEBUG message fixes.
 * Updated: Overview widgets no longer overflows on smaller displays.
