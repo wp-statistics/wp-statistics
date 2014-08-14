@@ -169,38 +169,38 @@
 		echo $after_widget;
 	}
 
-		function wp_statistics_control_widget() {
-			GLOBAL $WP_Statistics;
+	function wp_statistics_control_widget() {
+		GLOBAL $WP_Statistics;
+
+		if( array_key_exists( 'wp_statistics_control_widget_submit', $_POST ) ) {
+			$widget_options['name_widget'] = $_POST['name_widget'];
+			$widget_options['useronline_widget'] = $_POST['useronline_widget'];
+			$widget_options['tvisit_widget'] = $_POST['tvisit_widget'];
+			$widget_options['tvisitor_widget'] = $_POST['tvisitor_widget'];
+			$widget_options['yvisit_widget'] = $_POST['yvisit_widget'];
+			$widget_options['yvisitor_widget'] = $_POST['yvisitor_widget'];
+			$widget_options['wvisit_widget'] = $_POST['wvisit_widget'];
+			$widget_options['mvisit_widget'] = $_POST['mvisit_widget'];
+			$widget_options['ysvisit_widget'] = $_POST['ysvisit_widget'];
+			$widget_options['ttvisit_widget'] = $_POST['ttvisit_widget'];
+			$widget_options['ttvisitor_widget'] = $_POST['ttvisitor_widget'];
+			$widget_options['tpviews_widget'] = $_POST['tpviews_widget'];
+			$widget_options['ser_widget'] = $_POST['ser_widget'];
+			$widget_options['select_se'] = $_POST['select_se'];
+			$widget_options['tp_widget'] = $_POST['tp_widget'];
+			$widget_options['tpg_widget'] = $_POST['tpg_widget'];
+			$widget_options['tc_widget'] = $_POST['tc_widget'];
+			$widget_options['ts_widget'] = $_POST['ts_widget'];
+			$widget_options['tu_widget'] = $_POST['tu_widget'];
+			$widget_options['ap_widget'] = $_POST['ap_widget'];
+			$widget_options['ac_widget'] = $_POST['ac_widget'];
+			$widget_options['au_widget'] = $_POST['au_widget'];
+			$widget_options['lpd_widget'] = $_POST['lpd_widget'];
+			$widget_options['select_lps'] = $_POST['select_lps'];
 			
-			if ($_POST['wp_statistics_control_widget_submit']) {
-				$widget_options['name_widget'] = $_POST['name_widget'];
-				$widget_options['useronline_widget'] = $_POST['useronline_widget'];
-				$widget_options['tvisit_widget'] = $_POST['tvisit_widget'];
-				$widget_options['tvisitor_widget'] = $_POST['tvisitor_widget'];
-				$widget_options['yvisit_widget'] = $_POST['yvisit_widget'];
-				$widget_options['yvisitor_widget'] = $_POST['yvisitor_widget'];
-				$widget_options['wvisit_widget'] = $_POST['wvisit_widget'];
-				$widget_options['mvisit_widget'] = $_POST['mvisit_widget'];
-				$widget_options['ysvisit_widget'] = $_POST['ysvisit_widget'];
-				$widget_options['ttvisit_widget'] = $_POST['ttvisit_widget'];
-				$widget_options['ttvisitor_widget'] = $_POST['ttvisitor_widget'];
-				$widget_options['tpviews_widget'] = $_POST['tpviews_widget'];
-				$widget_options['ser_widget'] = $_POST['ser_widget'];
-				$widget_options['select_se'] = $_POST['select_se'];
-				$widget_options['tp_widget'] = $_POST['tp_widget'];
-				$widget_options['tpg_widget'] = $_POST['tpg_widget'];
-				$widget_options['tc_widget'] = $_POST['tc_widget'];
-				$widget_options['ts_widget'] = $_POST['ts_widget'];
-				$widget_options['tu_widget'] = $_POST['tu_widget'];
-				$widget_options['ap_widget'] = $_POST['ap_widget'];
-				$widget_options['ac_widget'] = $_POST['ac_widget'];
-				$widget_options['au_widget'] = $_POST['au_widget'];
-				$widget_options['lpd_widget'] = $_POST['lpd_widget'];
-				$widget_options['select_lps'] = $_POST['select_lps'];
-				
-				$WP_Statistics->update_option('widget', $widget_options);
-			}
-			
-			include dirname( __FILE__ ) . '/includes/settings/widget.php';
+			$WP_Statistics->update_option('widget', $widget_options);
 		}
+		
+		include dirname( __FILE__ ) . '/includes/settings/widget.php';
+	}
 ?>
