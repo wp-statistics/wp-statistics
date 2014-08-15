@@ -208,13 +208,16 @@
 											$agent = "<img src='".plugins_url('wp-statistics/assets/images/unknown.png')."' class='log-tools' title='{$markets['agent']}'/>";
 										}
 										
-										$get_ipp[$markets['location']][] = "<p>{$agent} {$markets[ip]}</p>";
+										$get_ipp[$markets['location']][] = "<p>{$agent} {$markets['ip']}</p>";
 									}
+
+									$summary = ' [' . count($get_ipp[$markets['location']]) . ']';
 									?>
-										t.push("<?php echo $ISOCountryCode[$markets['location']]; ?>");
+									
+										t.push("<?php echo $ISOCountryCode[$markets['location']] . $summary; ?>");
 										x.push("<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lat'); ?>");
 										y.push("<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lng'); ?>");
-										h.push("<div class='map-html-marker'><?php echo $flag . '<hr />' . implode('', $get_ipp[$markets['location']]); ?></div>");
+										h.push("<div class='map-html-marker'><?php echo $flag . $summary . '<hr />' . implode('', $get_ipp[$markets['location']]); ?></div>");
 										<?php
 								}
 							?>
