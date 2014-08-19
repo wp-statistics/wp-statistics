@@ -147,6 +147,14 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 7.2 =
+* Added: Total visitors by country to the push pins on the overview map.
+* Added: Statistical reports can now be sent to a custom list of e-mail addresses instead of just the administrator.
+* Fixed: Additional WP_DEBUG warnings cleaned up.
+* Updated: Statistical report schedules are now listed by occurrence instead of randomly.
+* Updated: Vertical alignment of statistical report option label column now correct.
+* Updated: Various grammatical updates.
+
 = 7.1 = 
 * There is now a manual process for adding an index to the visitor's table to protect against duplicate entries, go to Statistics->Optimization->Database.  Newer installs of WP Statistics already have the index and the option to add it will only be present if do not have it already.
 
