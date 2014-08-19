@@ -148,8 +148,10 @@
 			$headers[] = "From: $blogname <$blogemail>";
 			$headers[] = "MIME-Version: 1.0";
 			$headers[] = "Content-type: text/html; charset=utf-8";
+
+			if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->store_option( 'email_list', $blogemail ); }
 			
-			wp_mail( get_bloginfo('admin_email'), __('Statistical reporting', 'wp_statistics'), $final_text_report, $headers );
+			wp_mail( $WP_Statistics->get_option('email_list'), __('Statistical reporting', 'wp_statistics'), $final_text_report, $headers );
 			
 		} else if( $WP_Statistics->get_option('send_report') == 'sms' ) {
 		

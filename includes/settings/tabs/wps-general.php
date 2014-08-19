@@ -10,7 +10,7 @@ if( $wps_nonce_valid ) {
 		$WP_Statistics->store_option($new_option, $value);
 	}
 
-	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices" );
+	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices","wps_email_list" );
 	
 	foreach( $wps_option_list as $option ) {
 		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
@@ -243,14 +243,24 @@ if( $wps_nonce_valid ) {
 		<?php if( $WP_Statistics->get_option('stats_report') ) { $hidden=""; } else { $hidden=" style='display: none;'"; }?>
 		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
 			<td scope="row">
-				<label for="time-report"><?php _e('Time send', 'wp_statistics'); ?>:</label>
+				<label for="time-report"><?php _e('Schedule', 'wp_statistics'); ?>:</label>
 			</td>
 			
 			<td>
 				<select name="wps_time_report" id="time-report">
 					<option value="0" <?php selected($WP_Statistics->get_option('time_report'), '0'); ?>><?php _e('Please select', 'wp_statistics'); ?></option>
 <?php
+					function wp_statistics_schedule_sort( $a, $b ) {
+						if ($a['interval'] == $b['interval']) {
+							return 0;
+							}
+							
+						return ($a['interval'] < $b['interval']) ? -1 : 1;
+					}
+					
 					$schedules = wp_get_schedules();
+					
+					uasort( $schedules, 'wp_statistics_schedule_sort' );
 					
 					foreach( $schedules as $key => $value ) {
 						echo '					<option value="' . $key . '" ' . selected($WP_Statistics->get_option('time_report'), 'hourly') . '>' . $value['display'] . '</option>';
@@ -263,7 +273,7 @@ if( $wps_nonce_valid ) {
 		
 		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
 			<td scope="row">
-				<label for="send-report"><?php _e('Send Statistical reporting to', 'wp_statistics'); ?>:</label>
+				<label for="send-report"><?php _e('Send statistical reporting to', 'wp_statistics'); ?>:</label>
 			</td>
 			
 			<td>
@@ -280,6 +290,17 @@ if( $wps_nonce_valid ) {
 			</td>
 		</tr>
 		
+		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
+			<td scope="row">
+				<label for="email-report"><?php _e('E-mail addresses', 'wp_statistics'); ?>:</label>
+			</td>
+			
+			<td>
+				<input type="text" id="email_list" name="wps_email_list" size="30" value="<?php if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->store_option('email_list', get_bloginfo('admin_email')); } echo $WP_Statistics->get_option('email_list'); ?>"/>
+				<p class="description"><?php _e('A comma separated list of e-mail addresses to send the reports to if e-mail is selected above.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
 		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
 			<td scope="row">
 				<label for="content-report"><?php _e('Send Content Report', 'wp_statistics'); ?>:</label>
