@@ -242,7 +242,7 @@ if( $wps_nonce_valid ) {
 		
 		<?php if( $WP_Statistics->get_option('stats_report') ) { $hidden=""; } else { $hidden=" style='display: none;'"; }?>
 		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
-			<td scope="row">
+			<td scope="row" style="vertical-align: top;">
 				<label for="time-report"><?php _e('Schedule', 'wp_statistics'); ?>:</label>
 			</td>
 			
@@ -272,8 +272,8 @@ if( $wps_nonce_valid ) {
 		</tr>
 		
 		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
-			<td scope="row">
-				<label for="send-report"><?php _e('Send statistical reporting to', 'wp_statistics'); ?>:</label>
+			<td scope="row" style="vertical-align: top;">
+				<label for="send-report"><?php _e('Send reports via', 'wp_statistics'); ?>:</label>
 			</td>
 			
 			<td>
@@ -284,14 +284,14 @@ if( $wps_nonce_valid ) {
 				</select>
 				<p class="description"><?php _e('Type Select Get Status Report.', 'wp_statistics'); ?></p>
 				
-				<?php if( $WP_Statistics->get_option('send_report') == 'sms' && !is_plugin_active('wp-sms/wp-sms.php') ) { ?>
+				<?php if( !is_plugin_active('wp-sms/wp-sms.php') ) { ?>
 					<p class="description note"><?php echo sprintf(__('Note: To send SMS text messages please install the <a href="%s" target="_blank">Wordpress SMS</a> plugin.', 'wp_statistics'), 'http://wordpress.org/extend/plugins/wp-sms/'); ?></p>
 				<?php } ?>
 			</td>
 		</tr>
 		
 		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
-			<td scope="row">
+			<td scope="row" style="vertical-align: top;">
 				<label for="email-report"><?php _e('E-mail addresses', 'wp_statistics'); ?>:</label>
 			</td>
 			
@@ -302,8 +302,8 @@ if( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top"<?php echo $hidden;?> id='wps_stats_report_option'>
-			<td scope="row">
-				<label for="content-report"><?php _e('Send Content Report', 'wp_statistics'); ?>:</label>
+			<td scope="row"  style="vertical-align: top;">
+				<label for="content-report"><?php _e('Report body', 'wp_statistics'); ?>:</label>
 			</td>
 			
 			<td>
