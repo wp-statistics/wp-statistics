@@ -159,7 +159,7 @@
 					
 					<?php $result = $wpdb->get_row("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE last_counter = '{$WP_Statistics->Current_Date('Y-m-d')}'"); ?>
 					<script type="text/javascript">
-						function initialize() {
+						jQuery(document).ready(function(){
 							var map_options = {
 								center: new google.maps.LatLng("<?php echo wp_statistics_get_gmap_coordinate($result->location, 'lat'); ?>", "<?php echo wp_statistics_get_gmap_coordinate($result->location, 'lng'); ?>"),
 								zoom: 3,
@@ -238,10 +238,7 @@
 								});
 								i++;
 							}
-						}
 						
-						jQuery(document).ready(function(){
-							initialize();
 						});
 					</script>
 				</div>
