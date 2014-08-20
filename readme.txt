@@ -147,14 +147,6 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 7.2 =
-* Added: Total visitors by country to the push pins on the overview map.
-* Added: Statistical reports can now be sent to a custom list of e-mail addresses instead of just the administrator.
-* Fixed: Additional WP_DEBUG warnings cleaned up.
-* Updated: Statistical report schedules are now listed by occurrence instead of randomly.
-* Updated: Vertical alignment of statistical report option label column now correct.
-* Updated: Various grammatical updates.
-
 = 7.1 = 
 * There is now a manual process for adding an index to the visitor's table to protect against duplicate entries, go to Statistics->Optimization->Database.  Newer installs of WP Statistics already have the index and the option to add it will only be present if do not have it already.
 
@@ -165,6 +157,15 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
+= 7.2 =
+* Added: Total visitors by country to the push pins on the overview map.
+* Added: Statistical reports can now be sent to a custom list of e-mail addresses instead of just the administrator.
+* Fixed: Additional WP_DEBUG warnings cleaned up.
+* Fixed: Google map would sometimes only use part of the area to draw the map in the overview page.
+* Updated: Statistical report schedules are now listed by occurrence instead of randomly.
+* Updated: Vertical alignment of statistical report option label column now correct.
+* Updated: Various grammatical updates.
+
 = 7.1 =
 * Added: clearch.org search provider, disabled by default.
 * Added: Database tab to optmization page to manually add unique index on the visitors table removed in 7.0.3.
