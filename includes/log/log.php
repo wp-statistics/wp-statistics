@@ -240,7 +240,9 @@
 							}
 						}
 						
-						initialize();
+						jQuery(document).ready(function(){
+							initialize();
+						});
 					</script>
 				</div>
 			</div>
