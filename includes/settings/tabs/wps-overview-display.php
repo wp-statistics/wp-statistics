@@ -39,7 +39,7 @@
 	);
 	
 	if( $wps_nonce_valid ) {
-		$wps_option_list = array("wps_disable_map","wps_google_coordinates");
+		$wps_option_list = array("wps_disable_map","wps_google_coordinates","wps_map_type");
 		
 		foreach( $wps_option_list as $option ) {
 			$new_option = str_replace( "wps_", "", $option );
@@ -72,7 +72,27 @@ if( $wps_admin ) {
 		</tr>
 		
 		<tr valign="top">
-			<td scope="row" colspan="2"><?php _e('The following two items are global to all users.', 'wp_statistics');?></td>
+			<td scope="row" colspan="2"><?php _e('The following three items are global to all users.', 'wp_statistics');?></td>
+		</tr>
+
+		<tr valign="top">
+			<th scope="row">
+				<label for="wps_map_type"><?php _e('Map type', 'wp_statistics'); ?>:</label>
+			</th>
+			
+			<td>
+				<select name="wps_map_type">
+				<?php
+					foreach( array( 'Google' => 'google', 'JQVMap' => 'jqvmap') as $key => $value ) {
+						echo "<option value=\"$value\"";
+						if( $WP_Statistics->get_option('map_type') == $value ) { echo ' SELECTED'; }
+						echo ">$key</option>";
+					}
+				?>
+				</select>
+				<p class="description"><?php _e('The "Google" option will use Google\'s mapping service to plot the recent visitors (requires access to Google).', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('The "JQVMap" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services).', 'wp_statistics'); ?></p>
+			</td>
 		</tr>
 
 		<tr valign="top">

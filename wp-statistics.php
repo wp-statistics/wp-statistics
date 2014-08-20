@@ -451,7 +451,7 @@ License: GPL2
 		wp_enqueue_script('jqplot-tooltip', plugin_dir_url(__FILE__) . 'assets/js/jqplot.highlighter.min.js', true, '0.8.3');
 		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.pieRenderer.min.js', true, '0.8.3');
 		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/js/jqplot.enhancedLegendRenderer.min.js', true, '0.8.3');
-			
+
 		// Load the pagination code.
 		include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 
@@ -498,6 +498,13 @@ License: GPL2
 			}
 			
 		} else {
+		
+			// Load the map code if required.
+			if( $WP_Statistics->get_option('map_type') == 'jqvmap' ) {
+				wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap.css', true, '1.1');
+				wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap.min.js', true, '1.1');
+				wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.1');
+			}
 		
 			include_once dirname( __FILE__ ) . '/includes/log/log.php';
 		}
