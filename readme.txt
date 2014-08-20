@@ -160,11 +160,13 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 = 7.2 =
 * Added: Total visitors by country to the push pins on the overview map.
 * Added: Statistical reports can now be sent to a custom list of e-mail addresses instead of just the administrator.
+* Added: JQVMap option for the overview map.
 * Fixed: Additional WP_DEBUG warnings cleaned up.
 * Fixed: Google map would sometimes only use part of the area to draw the map in the overview page.
 * Updated: Statistical report schedules are now listed by occurrence instead of randomly.
 * Updated: Vertical alignment of statistical report option label column now correct.
 * Updated: Various grammatical updates.
+* Updated: Overview map now limits the number of visitors to five per country.
 
 = 7.1 =
 * Added: clearch.org search provider, disabled by default.
