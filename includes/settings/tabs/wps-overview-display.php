@@ -83,7 +83,7 @@ if( $wps_admin ) {
 			<td>
 				<select name="wps_map_type">
 				<?php
-					foreach( array( 'Google' => 'google', 'JQVMap' => 'jqvmap') as $key => $value ) {
+					foreach( array( __('Google', 'wp_statistics') => 'google', __('JQVMap', 'wp_statistics') => 'jqvmap') as $key => $value ) {
 						echo "<option value=\"$value\"";
 						if( $WP_Statistics->get_option('map_type') == $value ) { echo ' SELECTED'; }
 						echo ">$key</option>";
@@ -115,7 +115,7 @@ if( $wps_admin ) {
 			<td>
 				<input id="google-coordinates" type="checkbox" value="1" name="wps_google_coordinates" <?php echo $WP_Statistics->get_option('google_coordinates')==true? "checked='checked'":'';?>>
 				<label for="google-coordinates"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('This feature may cause a performance degradation when viewing statistics.', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to "Google".', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 

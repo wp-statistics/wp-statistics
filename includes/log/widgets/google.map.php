@@ -65,13 +65,23 @@
 										$get_ipp[$markets['location']][] = "<p>{$agent} {$markets['ip']}</p>";
 									}
 
-									$summary = ' [' . count($get_ipp[$markets['location']]) . ']';
+									$market_total = count($get_ipp[$markets['location']]);
+									$last_five = "";
+									
+									// Only show the last five visitors, more just makes the map a mess.
+									for( $i = $market_total; $i > $market_total - 6; $i-- ) {
+										if( array_key_exists( $i, $get_ipp[$markets['location']]) ) {
+											$last_five .= $get_ipp[$markets['location']][$i];
+										}
+									}									
+									
+									$summary = ' [' . $market_total . ']';
 									?>
 									
 										t.push("<?php echo $ISOCountryCode[$markets['location']] . $summary; ?>");
 										x.push("<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lat'); ?>");
 										y.push("<?php echo wp_statistics_get_gmap_coordinate($markets['location'], 'lng'); ?>");
-										h.push("<div class='map-html-marker'><?php echo $flag . $summary . '<hr />' . implode('', $get_ipp[$markets['location']]); ?></div>");
+										h.push("<div class='map-html-marker'><?php echo $flag . $summary . '<hr />' . $last_five; ?></div>");
 										<?php
 								}
 							?>
