@@ -167,6 +167,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * Updated: Vertical alignment of statistical report option label column now correct.
 * Updated: Various grammatical updates.
 * Updated: Overview map now limits the number of visitors to five per country.
+* Updated: Persian (fa_IR) language.
 
 = 7.1 =
 * Added: clearch.org search provider, disabled by default.
