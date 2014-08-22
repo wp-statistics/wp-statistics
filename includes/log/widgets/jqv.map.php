@@ -51,7 +51,7 @@
 										$flag = "<img src='".plugins_url('wp-statistics/assets/images/flags/' . strtoupper($markets['location']) . '.png')."' title='{$ISOCountryCode[strtoupper($markets['location'])]}' class='log-tools'/> {$ISOCountryCode[strtoupper($markets['location'])]}";
 										
 										if( array_search( strtolower($markets['agent']), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
-											$agent = "<img src='".plugins_url('wp-statistics/assets/images/').strtoupper($markets['agent']).".png' class='log-tools' title='{$markets['agent']}'/>";
+											$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$markets['agent'].".png' class='log-tools' title='{$markets['agent']}'/>";
 										} else {
 											$agent = "<img src='".plugins_url('wp-statistics/assets/images/unknown.png')."' class='log-tools' title='{$markets['agent']}'/>";
 										}
