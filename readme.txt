@@ -12,11 +12,11 @@ Complete statistics for your WordPress site.
 == Description ==
 A perfect plugin for your WordPress visitor statistics.
 
-Track Visitor and visit statistics to your blog for today and keep up to a year of history!
+Track visitor and visits to your blog for today or up to a year of history!
 
 Now includes tracking of individual page hits!
 
-On screen statistics report a graphs are easily viewed through the admin interface.
+On screen statistics presented as graphs are easily viewed through the admin interface.
 
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
@@ -50,7 +50,7 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Persian
 * Portuguese [Thanks](http://www.musicalmente.info/)
 * Romanian [Thanks Luke Tyler](http://www.nobelcom.com/)
-* French Thanks Anice Gnampa. Additional translations by Nicolas Baudet and eldidi
+* French Thanks Anice Gnampa. Additional translations by Nicolas Baudet, eldidi and apeedn
 * Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
 * Spanish Thanks Jose
 * Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
@@ -157,6 +157,10 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
+= 7.2.1 =
+* Fixed: Bug with new JQVMap code not displaying flags correctly.
+* Updated: French (fr_FR) language, thanks apeedn.
+
 = 7.2 =
 * Added: Total visitors by country to the push pins on the overview map.
 * Added: Statistical reports can now be sent to a custom list of e-mail addresses instead of just the administrator.
