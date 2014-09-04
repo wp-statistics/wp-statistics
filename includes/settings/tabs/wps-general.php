@@ -10,17 +10,38 @@ if( $wps_nonce_valid ) {
 		$WP_Statistics->store_option($new_option, $value);
 	}
 
-	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices","wps_email_list" );
+	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices","wps_email_list", "wps_delete_manual" );
 	
 	foreach( $wps_option_list as $option ) {
 		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
 		$new_option = str_replace( "wps_", "", $option );
 		$WP_Statistics->store_option($new_option, $value);
 	}
+
+	if( $WP_Statistics->get_option('delete_manual') == true ) {
+		$filepath = realpath( plugin_dir_path(__FILE__) . "../../../" ) . "/";
+
+		if( file_exists( $filepath . WP_STATISTICS_MANUAL . 'html' ) ) { unlink( $filepath . WP_STATISTICS_MANUAL . 'html' ); }
+		if( file_exists( $filepath . WP_STATISTICS_MANUAL . 'odt' ) ) { unlink( $filepath . WP_STATISTICS_MANUAL . 'odt' ); }
+	}
+	
 }
 
 ?>
 <script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery("#delete_manual").click(function(){
+			if(!this.checked)
+				return;
+				
+			var agree = confirm('<?php _e('This will delete the manual when you save the settings, are you sure?', 'wp_statistics'); ?>');
+
+			if(!agree)
+				jQuery("#delete_manual").attr("checked", false);
+		
+		});
+	});
+	
 	function ToggleStatOptions() {
 		jQuery('[id^="wps_stats_report_option"]').fadeToggle();	
 	}
@@ -177,7 +198,19 @@ if( $wps_nonce_valid ) {
 			<td>
 				<input id="hide_notices" type="checkbox" value="1" name="wps_hide_notices" <?php echo $WP_Statistics->get_option('hide_notices')==true? "checked='checked'":'';?>>
 				<label for="store_ua"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('By default WP Statistics displays an alert if any of the core features are disbaled on every admin page, this option will disable these notices.', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
+		<tr valign="top">
+			<th scope="row">
+				<label for="hide_notices"><?php _e('Delete the manual', 'wp_statistics'); ?>:</label>
+			</th>
+			
+			<td>
+				<input id="delete_manual" type="checkbox" value="1" name="wps_delete_manual" <?php echo $WP_Statistics->get_option('delete_manual')==true? "checked='checked'":'';?>>
+				<label for="delete_manual"><?php _e('Active', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 

@@ -242,7 +242,11 @@ License: GPL2
 		add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview');
 		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
 		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $read_cap, 'wp-statistics/settings', 'wp_statistics_settings');
-		add_submenu_page(__FILE__, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, 'wps_manual_menu', 'wp_statistics_manual');
+		
+		// Only add the manual entry if it hasn't been deleted.
+		if( $WP_Statistics->get_option('delete_manual') != true ) {
+			add_submenu_page(__FILE__, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, 'wps_manual_menu', 'wp_statistics_manual');
+		}
 	}
 	add_action('admin_menu', 'wp_statistics_menu');
 	
@@ -342,7 +346,7 @@ License: GPL2
 			
 			echo '<iframe src="' .  plugin_dir_url(__FILE__) . WP_STATISTICS_MANUAL . 'html' . '" width="100%" frameborder="0" scrolling="no" id="wps_inline_docs" onload="AdjustiFrameHeight(\'wps_inline_docs\', 50);"></iframe>';
 		} else {
-			echo __("Manual file not found.", 'wp_statistics');
+			echo '<br><br><div class="error"><br>' . __("Manual file not found.", 'wp_statistics') . '<br><br></div>';
 		}
 	}
 	
