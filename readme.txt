@@ -157,7 +157,9 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
-= 7.2.1 =
+= 7.3 =
+* Added: Option to delete the admin manual.
+* Added: Option to force the robots list to be updated during an upgrade.
 * Fixed: Bug with new JQVMap code not displaying flags correctly.
 * Updated: French (fr_FR) language, thanks apeedn.
 

@@ -15,7 +15,7 @@ if( $wps_nonce_valid ) {
 
 	}
 
-	$wps_option_list = array_merge( $wps_option_list, array("wps_read_capability","wps_manage_capability","wps_record_exclusions","wps_robotlist","wps_exclude_ip","wps_exclude_loginpage","wps_exclude_adminpage" ) );
+	$wps_option_list = array_merge( $wps_option_list, array("wps_read_capability","wps_manage_capability","wps_record_exclusions","wps_robotlist","wps_exclude_ip","wps_exclude_loginpage","wps_exclude_adminpage","wps_force_robot_update" ) );
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
@@ -144,6 +144,15 @@ if( $wps_nonce_valid ) {
 				<a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo implode('\n', $wps_robotarray);?>';" class="button"><?php _e('Reset to Default', 'wp_statistics');?></a>
 			</td>
 		</tr>
+
+		<tr valign="top">
+			<th scope="row"><label for="force_robot_update"><?php _e('Force robot list update after upgrades', 'wp_statistics'); ?>:</label></th>
+			<td>
+				<input id="force_robot_update" type="checkbox" value="1" name="wps_force_robot_update" <?php echo $WP_Statistics->get_option('force_robot_update')==true? "checked='checked'":'';?>><label for="force_robot_update"><?php _e('Enable', 'wp_statistics'); ?></label>
+				<p class="description"><?php echo sprintf(__('Force the robot list to be reset to the default after an update to WP Statistics takes place.  Note if this option is enabled any custom robots you have added to the list will be lost.', 'wp_statistics'), $role); ?></p>
+			</td>
+		</tr>
+
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded IP address list', 'wp_statistics'); ?>:</th>
 			<td>
