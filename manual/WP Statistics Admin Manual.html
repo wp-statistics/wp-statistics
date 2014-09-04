@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.0.4 (Windows)"/>
 	<meta name="created" content="2014-06-03T18:16:55.146000000"/>
-	<meta name="changed" content="2014-08-21T15:09:25.384000000"/>
+	<meta name="changed" content="2014-09-04T17:38:11.229000000"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-bottom: 0.25cm; line-height: 120% }
@@ -26,7 +26,7 @@
 <body lang="en-CA" dir="ltr">
 <div title="header">
 	<p style="margin-bottom: 0.5cm; line-height: 100%; text-decoration: none">
-	WP Statistics Administrators Manual		Version 7.2</p>
+	WP Statistics Administrators Manual		Version 7.3</p>
 </div>
 <p style="margin-bottom: 0cm; line-height: 100%"><br/>
 
@@ -87,7 +87,7 @@ Manual</p>
 
 </p>
 <p align="center" style="margin-bottom: 0cm; line-height: 100%">Version
-7.2</p>
+7.3</p>
 <h1 class="western" style="page-break-before: always"><a name="__RefHeading__105_1031655526"></a>
 </h1>
 <div id="Table of Contents1" dir="ltr">
@@ -636,6 +636,19 @@ Statistics.</p>
 			Pages and GeoIP).  If you have disabled a feature on purpose or
 			cannot support the GeoIP code, this option will remove the
 			warning.</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="266" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>Delete the manual</p>
+		</td>
+		<td width="105" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>On/Off</p>
+		</td>
+		<td width="428" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p>By default WP Statistics stores the admin manual in the plugin
+			directory (~5 meg), if this option is enabled it will be deleted
+			now and during upgrades in the future.</p>
 		</td>
 	</tr>
 </table>
@@ -1255,6 +1268,24 @@ if IP subnets and Robots are excluded from the statistics.</p>
 			if you have added your own robots to the list, you will have to
 			manually add any new entries (which can be found in the upgrade
 			section of the readme) to this list.</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="266" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>Force robot list update after upgrades</p>
+		</td>
+		<td width="105" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>On/Off</p>
+		</td>
+		<td width="428" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p>Force the robot list to be reset to the default after an update
+			to WP Statistics takes place. 
+			</p>
+			<p><br/>
+
+			</p>
+			<p>Note if this option is enabled any custom robots you have added
+			to the list will be lost.</p>
 		</td>
 	</tr>
 	<tr valign="top">
