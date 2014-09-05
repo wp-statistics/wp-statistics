@@ -148,7 +148,9 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 == Upgrade Notice ==
 = 7.3 =
+* BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
 * A new option for updating the robot's list automatically during an upgrade is available (Statistics->Settings->Access/Exclusions->IP/Robot Exclusions->Force robot list update after upgrades) but is not set on existing installs by default.
+* Online users and visitors are now calculated on ip address as well as browser details so you may see a change in the reporting of these numbers (more unique visitors and users online).
 
 = 7.1 = 
 * There is now a manual process for adding an index to the visitor's table to protect against duplicate entries, go to Statistics->Optimization->Database.  Newer installs of WP Statistics already have the index and the option to add it will only be present if do not have it already.
