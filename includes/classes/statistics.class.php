@@ -41,6 +41,8 @@
 			
 			// This is a bit of a hack, we strip off the "includes/classes" at the end of the current class file's path.
 			$this->plugin_dir = substr( dirname( __FILE__ ), 0, -17 );
+			
+			$this->get_IP();
 		}
 
 		// This function sets the current WordPress user id for the class.
