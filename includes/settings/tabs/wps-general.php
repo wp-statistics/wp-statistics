@@ -10,7 +10,10 @@ if( $wps_nonce_valid ) {
 		$WP_Statistics->store_option($new_option, $value);
 	}
 
-	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices","wps_email_list", "wps_delete_manual" );
+	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_chart_totals","wps_store_ua","wps_hide_notices","wps_email_list","wps_delete_manual","wps_hash_ips" );
+	
+	// If the IP hash's are enabled, disable storing the complete user agent.
+	if( array_key_exists( 'wps_hash_ips', $_POST ) ) { $_POST['wps_store_ua'] = ''; }
 	
 	foreach( $wps_option_list as $option ) {
 		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
@@ -49,6 +52,22 @@ if( $wps_nonce_valid ) {
 
 <table class="form-table">
 	<tbody>
+		<tr valign="top">
+			<th scope="row" colspan="2"><h3><?php _e('IP Addresses', 'wp_statistics'); ?></h3></th>
+		</tr>
+		
+		<tr valign="top">
+			<th scope="row">
+				<label for="useronline"><?php _e('Hash IP Addresses', 'wp_statistics'); ?>:</label>
+			</th>
+			
+			<td>
+				<input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo $WP_Statistics->get_option('hash_ips')==true? "checked='checked'":'';?>>
+				<label for="hash_ips"><?php _e('Active', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('BETA: This feature will not store IP addresses in the database but instead used a unique hash.  The "Store entire user agent string" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('Users Online', 'wp_statistics'); ?></h3></th>
 		</tr>

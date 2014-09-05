@@ -28,14 +28,18 @@
 			if( $this->get_option('check_online') ) {
 				$this->second = $this->get_option('check_online');
 				}
-				
 		}
 		
 		// This function checks to see if the current user (as defined by thier IP address) has an entry in the database.
 		// Note we set the $this->result variable so we don't have to re-excute the query when we do the user update.
 		public function Is_user() {
-		
-			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'");
+
+			if( $this->ip_hash != false ) {
+				$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip_hash}'");
+			}
+			else {
+				$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'");
+			}
 			
 			if($this->result) 
 				return true;
@@ -64,7 +68,7 @@
 				$this->db->insert(
 					$this->tb_prefix . "statistics_useronline",
 					array(
-						'ip'		=>	$this->ip,
+						'ip'		=>	$this->ip_hash ? $this->ip_hash : $this->ip,
 						'timestamp'	=>	$this->timestamp,
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
@@ -92,7 +96,7 @@
 						'referred'	=>	$this->get_Referred(),
 					),
 					array(
-						'ip'		=>	$this->ip,
+						'ip'		=>	$this->ip_hash ? $this->ip_hash : $this->ip,
 						'agent'		=>	$this->agent['browser'],
 						'platform'	=>  $this->agent['platform'],
 						'version'	=> 	$this->agent['version'],

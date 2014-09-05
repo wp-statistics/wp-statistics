@@ -163,9 +163,11 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 = 7.3 =
 * Added: Option to delete the admin manual.
 * Added: Option to force the robots list to be updated during an upgrade.
+* Added: Beta code for not storing IP addresses in the database.
 * Fixed: Bug with new JQVMap code not displaying flags correctly.
 * Updated: French (fr_FR) language, thanks apeedn.
-* Updated: Visitors online now treats different browsers/platforms from the same IP address as different users (this helps with multiple users behind proxy servers).
+* Updated: Visitors online code now treats different browsers/platforms from the same IP address as different users (this helps with multiple users behind proxy servers).
+* Updated: Visitors code now treats different browsers/platforms from the same IP address as different users (this helps with multiple users behind proxy servers).
 
 = 7.2 =
 * Added: Total visitors by country to the push pins on the overview map.

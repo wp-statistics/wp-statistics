@@ -11,6 +11,7 @@
 		protected $db;
 		protected $tb_prefix;
 		protected $ip;
+		protected $ip_hash = false;
 		protected $agent;
 		
 		private $result;
@@ -43,6 +44,9 @@
 			$this->plugin_dir = substr( dirname( __FILE__ ), 0, -17 );
 			
 			$this->get_IP();
+			
+			if( $this->get_option('hash_ips') == true ) { $this->ip_hash = '#hash#' . sha1( $this->ip + $_SERVER['HTTP_USER_AGENT'] ); }
+
 		}
 
 		// This function sets the current WordPress user id for the class.

@@ -187,8 +187,13 @@
 			if( !$this->exclusion_match ) {
 
 				// Check to see if we already have an entry in the database.
-				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}'");
-
+				if( $this->ip_hash != false ) {
+					$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip_hash}'");
+				}
+				else {
+					$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'");
+				}
+				
 				// If we don't create a new one, otherwise update the old one.
 				if( !$this->result ) {
 
@@ -204,7 +209,7 @@
 							'agent'			=>	$this->agent['browser'],
 							'platform'		=>	$this->agent['platform'],
 							'version'		=> 	$this->agent['version'],
-							'ip'			=>	$this->ip,
+							'ip'			=>	$this->ip_hash ? $this->ip_hash : $this->ip,
 							'location'		=> 	$this->location,
 							'UAString'		=>	$ua
 						)
