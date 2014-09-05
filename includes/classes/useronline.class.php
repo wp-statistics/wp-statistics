@@ -34,7 +34,7 @@
 		// Note we set the $this->result variable so we don't have to re-excute the query when we do the user update.
 		public function Is_user() {
 		
-			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->get_IP()}'");
+			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'");
 			
 			if($this->result) 
 				return true;
@@ -59,20 +59,17 @@
 			
 			if(!$this->Is_user()) {
 			
-				// Parse the user agent string.
-				$agent = $this->get_UserAgent();
-
 				// Insert the user in to the database.
 				$this->db->insert(
 					$this->tb_prefix . "statistics_useronline",
 					array(
-						'ip'		=>	$this->get_IP(),
+						'ip'		=>	$this->ip,
 						'timestamp'	=>	$this->timestamp,
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
-						'agent'		=>	$agent['browser'],
-						'platform'	=>	$agent['platform'],
-						'version'	=> 	$agent['version'],
+						'agent'		=>	$this->agent['browser'],
+						'platform'	=>	$this->agent['platform'],
+						'version'	=> 	$this->agent['version'],
 					)
 				);
 			}
@@ -85,9 +82,6 @@
 			// Make sure we found the user earlier when we called Is_user().
 			if($this->result) {
 			
-				// Parse the user agent.
-				$agent = $this->get_UserAgent();
-			
 				// Update the database with the new information.
 				$this->db->update(
 					$this->tb_prefix . "statistics_useronline",
@@ -95,12 +89,12 @@
 						'timestamp'	=>	$this->timestamp,
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
-						'agent'		=>	$agent['browser'],
-						'platform'	=>  	$agent['platform'],
-						'version'	=> 	$agent['version'],
 					),
 					array(
-						'ip'		=>	$this->get_IP()
+						'ip'		=>	$this->ip,
+						'agent'		=>	$this->agent['browser'],
+						'platform'	=>  $this->agent['platform'],
+						'version'	=> 	$this->agent['version'],
 					)
 				);
 			}
