@@ -8,8 +8,6 @@
 		
 		// Setup our public/private/protected variables.
 		private $timestamp;
-		private $ip;
-		private $agent;
 		
 		public $second;
 		public $result = null;
@@ -31,11 +29,6 @@
 				$this->second = $this->get_option('check_online');
 				}
 				
-			// Get the IP address of the current user.
-			$this->ip = $this->get_IP();
-			
-			$this->agent = $this->get_UserAgent();
-
 		}
 		
 		// This function checks to see if the current user (as defined by thier IP address) has an entry in the database.

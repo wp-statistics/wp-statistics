@@ -10,10 +10,10 @@
 		// Setup our protected, private and public variables.		
 		protected $db;
 		protected $tb_prefix;
+		protected $ip;
+		protected $agent;
 		
-		private $ip;
 		private $result;
-		private $agent;
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';

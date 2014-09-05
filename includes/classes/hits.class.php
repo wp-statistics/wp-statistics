@@ -9,7 +9,6 @@
 		// Setup our public/private/protected variables.
 		public $result = null;
 
-		protected $ip;
 		protected $location = "000";
 
 		private $exclusion_match = FALSE;
@@ -23,9 +22,6 @@
 
 			// Call the parent constructor (WP_Statistics::__construct)
 			parent::__construct();
-			
-			// Get the IP address of the current user.
-			$this->ip = $this->get_IP();
 			
 			// Check to see if the user wants us to record why we're excluding hits.
 			if( $this->get_option('record_exclusions' ) == 1 ) {
@@ -199,18 +195,15 @@
 					// If we've been told to store the entire user agent, do so.
 					if( $this->get_option('store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
 					
-					// Parse the user agent.
-					$agent = $this->get_UserAgent();
-
 					// Store the result.
 					$this->db->insert(
 						$this->tb_prefix . "statistics_visitor",
 						array(
 							'last_counter'	=>	$this->Current_date('Y-m-d'),
 							'referred'		=>	$this->get_Referred(),
-							'agent'			=>	$agent['browser'],
-							'platform'		=>	$agent['platform'],
-							'version'		=> 	$agent['version'],
+							'agent'			=>	$this->agent['browser'],
+							'platform'		=>	$this->agent['platform'],
+							'version'		=> 	$this->agent['version'],
 							'ip'			=>	$this->ip,
 							'location'		=> 	$this->location,
 							'UAString'		=>	$ua
