@@ -7,7 +7,7 @@
 		// The follow variables are used to define the table structure for new and upgrade installations.
 		$create_useronline_table = ("CREATE TABLE {$wp_prefix}statistics_useronline (
 			ID int(11) NOT NULL AUTO_INCREMENT,
-			ip varchar(20) NOT NULL,
+			ip varchar(60) NOT NULL,
 			timestamp int(10) NOT NULL,
 			date datetime NOT NULL,
 			referred text CHARACTER SET utf8 NOT NULL,
@@ -33,7 +33,7 @@
 			platform varchar(255),
 			version varchar(255),
 			UAString varchar(255),
-			ip varchar(20) NOT NULL,
+			ip varchar(60) NOT NULL,
 			location varchar(10),
 			PRIMARY KEY  (ID),
 			UNIQUE KEY date_ip (last_counter,ip),
