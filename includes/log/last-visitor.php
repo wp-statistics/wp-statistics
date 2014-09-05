@@ -87,13 +87,24 @@
 								
 								echo "<div class='log-latest'>";
 								
+								$dash_icon = wp_statistics_icons('dashicons-visibility', 'visibility');
+								
 								foreach($result as $items) {
+									if( substr( $items->ip, 0, 6 ) == '#hash#' ) { 
+										$ip_string = __('#hash#', 'wp_statistics'); 
+										$map_string = "";
+									} 
+									else { 
+										$ip_string = "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>"; 
+										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
+									}
+
 									echo "<div class='log-item'>";
-										echo "<div class='log-referred'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&ip={$items->ip}'>".wp_statistics_icons('dashicons-visibility', 'visibility')."{$items->ip}</a></div>";
+										echo "<div class='log-referred'>{$ip_string}</div>";
 										echo "<div class='log-ip'>{$items->last_counter}</div>";
 										echo "<div class='clear'></div>";
 										echo "<div class='log-url'>";
-										echo "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
+										echo $map_string;
 										
 										if($WP_Statistics->get_option('geoip')) {
 											echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";

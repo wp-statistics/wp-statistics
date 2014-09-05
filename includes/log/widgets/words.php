@@ -22,9 +22,11 @@
 								foreach($result as $items) {
 									if( !$WP_Statistics->Search_Engine_QueryString($items->referred) ) continue;
 									
+									if( substr( $items->ip, 0, 6 ) == '#hash#' ) { $ip_string = __('#hash#', 'wp_statistics'); } else { $ip_string = "<a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a>"; }
+									
 									echo "<div class='log-item'>";
 										echo "<div class='log-referred'>".$WP_Statistics->Search_Engine_QueryString($items->referred)."</div>";
-										echo "<div class='log-ip'>{$items->last_counter} - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
+										echo "<div class='log-ip'>{$items->last_counter} - {$ip_string}</div>";
 										echo "<div class='clear'></div>";
 										echo "<div class='log-url'>";
 										echo "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";

@@ -56,6 +56,8 @@
 											$agent = "<img src='".plugins_url('wp-statistics/assets/images/unknown.png')."' class='log-tools' title='{$markets['agent']}'/>";
 										}
 										
+										if( substr( $markets['ip'], 0, 6 ) == '#hash#' ) { $markets['ip'] = __('#hash#', 'wp_statistics'); } 
+									
 										$get_ipp[$markets['location']][] = "<p>{$agent} {$markets['ip']}</p>";
 									}
 
