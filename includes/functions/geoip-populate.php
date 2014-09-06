@@ -31,16 +31,20 @@
 		// Loop through all the missing rows and update them if we find a locaiton for them.
 		foreach( $result as $item ) {
 			$count++;
-			try {
-				$record = $reader->country( $item->ip );
-				$location = $record->country->isoCode;
-				if( $location == "" ) { $location = "000"; }
-			} catch( Exception $e ) {
-				$location = "000";
-			}
 
-			// Update the row in the database.
-			$wpdb->update( $table_prefix . "statistics_visitor", array( 'location' => $location ), array( 'id' => $item->id) );
+			// If the IP address is only a hash, don't bother updating the record.
+			if( substr( $item->ip, 0, 6 ) != '#hash#' ) { 
+				try {
+					$record = $reader->country( $item->ip );
+					$location = $record->country->isoCode;
+					if( $location == "" ) { $location = "000"; }
+				} catch( Exception $e ) {
+					$location = "000";
+				}
+
+				// Update the row in the database.
+				$wpdb->update( $table_prefix . "statistics_visitor", array( 'location' => $location ), array( 'id' => $item->id) );
+			}
 		}
 		
 		return "<div class='updated settings-error'><p><strong>" . sprintf(__('Updated %s GeoIP records in the visitors database.', 'wp_statistics'), $count) . "</strong></p></div>";
