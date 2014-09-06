@@ -1,3 +1,14 @@
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery("#hash-ips-submit").click(function(){
+			var agree = confirm('<?php _e('This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?', 'wp_statistics'); ?>');
+
+			if(agree)
+				location.href=document.URL+'&tab=updates&hash-ips=1';
+		
+		});
+	});
+</script>
 <div class="wrap">
 	<table class="form-table">
 		<tbody>
@@ -58,6 +69,21 @@
 				
 				<td>
 					<input id="populate-submit" class="button button-primary" type="button" value="<?php _e('Update Now!', 'wp_statistics'); ?>" name="populate-submit" onclick="location.href=document.URL+'&tab=updates&populate=1'">
+					<p class="description"><?php _e('Get updates for the location and the countries, this may take a while', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row" colspan="2"><h3><?php _e('IP Addresses', 'wp_statistics'); ?></h3></th>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<label for="populate-submit"><?php _e('Hash IP Addresses', 'wp_statistics'); ?>:</label>
+				</th>
+				
+				<td>
+					<input id="hash-ips-submit" class="button button-primary" type="button" value="<?php _e('Update Now!', 'wp_statistics'); ?>" name="hash-ips-submit">
 					<p class="description"><?php _e('Get updates for the location and the countries, this may take a while', 'wp_statistics'); ?></p>
 				</td>
 			</tr>

@@ -1,8 +1,46 @@
 <?php
+	if( !is_super_admin() )
+		wp_die(__('Access denied!', 'wp_statistics'));
+		
 	if( array_key_exists( 'populate', $_GET ) ) {
 		if( $_GET['populate'] == 1 ) {
 			require_once( plugin_dir_path( __FILE__ ) . '../functions/geoip-populate.php' );
 			echo wp_statistics_populate_geoip_info();
+		}
+	}
+	
+	if( array_key_exists( 'hash-ips', $_GET ) ) {
+		if( $_GET['hash-ips'] == 1 ) {
+			GLOBAL $wpdb;
+			$wp_prefix = $wpdb->prefix;
+
+			// Generate a random salt
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$randomString = '';
+			for ($i = 0; $i < 50; $i++) {
+				$randomString .= $characters[rand(0, strlen($characters) - 1)];
+			}
+			
+			// Get the rows from the Visitors table.
+			$result = $wpdb->get_results( "SELECT DISTINCT ip FROM {$wp_prefix}statistics_visitor" );
+			
+			foreach( $result as $row ) {
+
+				if( substr( $row->ip, 0, 6 ) != '#hash#' ) { 
+			
+					$wpdb->update(
+							$wp_prefix . "statistics_visitor",
+							array(
+								'ip'	=>	'#hash#' . sha1( $row->ip . $randomString ),
+							),
+							array(
+								'ip'	=>	$row->ip,
+							)
+						);
+				}
+			}
+			
+			echo "<div class='updated settings-error'><p><strong>" . __('IP Addresses replaced with hash values.', 'wp_statistics') . "</strong></p></div>";		
 		}
 	}
 
