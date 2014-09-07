@@ -170,6 +170,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * Updated: French (fr_FR) language, thanks apeedn.
 * Updated: Visitors online code now treats different browsers/platforms from the same IP address as different users (this helps with multiple users behind proxy servers).
 * Updated: Visitors code now treats different browsers/platforms from the same IP address as different users (this helps with multiple users behind proxy servers).
+* Updated: Persian (fa_IR) language.
 
 = 7.2 =
 * Added: Total visitors by country to the push pins on the overview map.
