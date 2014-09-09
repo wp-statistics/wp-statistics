@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 7.2
+Stable tag: 7.3
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -171,6 +171,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * Updated: Visitors online code now treats different browsers/platforms from the same IP address as different users (this helps with multiple users behind proxy servers).
 * Updated: Visitors code now treats different browsers/platforms from the same IP address as different users (this helps with multiple users behind proxy servers).
 * Updated: Persian (fa_IR) language.
+* Updated: Tested with WordPress 4.0.
 
 = 7.2 =
 * Added: Total visitors by country to the push pins on the overview map.
