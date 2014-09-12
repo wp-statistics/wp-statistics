@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-09-08 00:40+0330\n"
+"PO-Revision-Date: 2014-09-12 15:12+0330\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,28 +22,31 @@ msgstr ""
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:22
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:25
 msgid "#hash#"
-msgstr ""
+msgstr "#هاش#"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
 msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
 msgstr ""
+"سيؤدي ذلك إلى استبدال كافة عناوين IP في قاعدة البيانات مع القيم هاش ولا يمكن "
+"التراجع، هل أنت متأكد؟"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:72
 msgid ""
 "Updates any unknown location data in the database, this may take a while"
 msgstr ""
+"تحديث أي بيانات عن مواقع مجهولة في قاعدة البيانات, هذا قد يستغرق بعض الوقت"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:77
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:56
 msgid "IP Addresses"
-msgstr ""
+msgstr "عناوين IP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:82
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:61
 msgid "Hash IP Addresses"
-msgstr ""
+msgstr "هاش عناوين IP"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:87
 msgid ""
@@ -51,14 +54,17 @@ msgid ""
 "to recover the IP addresses in the future to populate location information "
 "afterwards and this may take a while"
 msgstr ""
+"استبدال عناوين IP في قاعدة البيانات مع قيم التجزئة، فإنك لن تكون قادرا على "
+"استرداد عناوين IP في المستقبل لتجميع معلومات الموقع بعد ذلك وهذا قد يستغرق "
+"بعض الوقت"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
-msgstr ""
+msgstr "عناوين IP مع استبدال قيم التجزئة."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:149
 msgid "Force robot list update after upgrades"
-msgstr ""
+msgstr "قائمة تحديث فرقة الروبوت بعد الترقيات"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:152
 msgid ""
@@ -66,10 +72,13 @@ msgid ""
 "Statistics takes place.  Note if this option is enabled any custom robots "
 "you have added to the list will be lost."
 msgstr ""
+"إجبار قائمة الروبوت لإعادة تعيين إلى الافتراضي بعد تحديث احصائيات ووردبريس "
+"لتأخذ مكان. ملاحظة إذا تم تمكين هذا الخيار أي الروبوتات المخصصة التي قمت "
+"بإضافتها إلى القائمة سوف تضيع."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:40
 msgid "This will delete the manual when you save the settings, are you sure?"
-msgstr ""
+msgstr "سيتم حذف هذا الدليل عند حفظ الإعدادات، هل أنت متأكد؟"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:67
 msgid ""
@@ -78,16 +87,22 @@ msgid ""
 "disabled if this is selected.  You will not be able to recover the IP "
 "addresses in the future to recover location information if this is enabled."
 msgstr ""
+"نسخة تجريبية: هذه الميزة لن تقوم بتخزين عناوين IP في قاعدة البيانات ولكن "
+"بدلا من ذلك يستخدم تجزئة فريدة من نوعها. سيتم تعطيل الإعداد \"تخزين سلسلة "
+"عامل المستخدم بأكمله\" إذا تم تحديد هذا. فلن تكون قادرة على استرداد عناوين "
+"IP في المستقبل لاسترداد معلومات الموقع عند تمكين هذا."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:220
 msgid ""
 "By default WP Statistics displays an alert if any of the core features are "
 "disabled on every admin page, this option will disable these notices."
 msgstr ""
+"افتراضيا احصائيات ووردبريس يعرض تنبيها إذا تم تعطيل أي من الميزات الأساسية "
+"في كل صفحة مشرف، هذا الخيار يقوم بتعطيل هذه الإشعارات."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:226
 msgid "Delete the manual"
-msgstr ""
+msgstr "حذف الدليل"
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:232
 msgid ""
@@ -95,6 +110,8 @@ msgid ""
 "meg), if this option is enabled it will be deleted now and during upgrades "
 "in the future."
 msgstr ""
+"افتراضيا احصائيات ووردبريس يخزن دليل المشرف في الدليل المساعد (~ 5 ميج)، إذا "
+"تم تمكين هذا الخيار سيتم حذفه الآن وخلال الترقيات في المستقبل."
 
 #: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Index"
