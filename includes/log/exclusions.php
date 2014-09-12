@@ -89,6 +89,8 @@
 									echo "];\n";
 								}
 								
+								$tickInterval = $daysToDisplay / 20;
+								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
 							visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach( $excluded_reasons as $reason ) { echo "excluded_data_line_" . $excluded_reason_tags[$reason] . ", "; } ?>], {
 								title: {
@@ -101,7 +103,7 @@
 									xaxis: {
 											min: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '-'.$daysToDisplay);?>',
 											max: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '');?>',
-											tickInterval: '1 day',
+											tickInterval: '<?php echo $tickInterval?> day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 											tickOptions: { 

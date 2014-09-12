@@ -147,6 +147,9 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 7.4 =
+* If you have used the sidebar widget you'll have to re-add it to your sidebar as the internal widget name has change (sorry, unavoidable).  Also if you have styled the widget the new class name will be 'widget_wpstatistics_widget' instead of 'wp_statistics_show_widget'.
+
 = 7.3 =
 * BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
 * A new option for updating the robot's list automatically during an upgrade is available (Statistics->Settings->Access/Exclusions->IP/Robot Exclusions->Force robot list update after upgrades) but is not set on existing installs by default.
@@ -162,6 +165,10 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
+= 7.4 =
+* Updated: Widget code now adhears to WordPress standards.
+* Fixed: Dates on charts with large number of data points now no longer overwrite each other.
+
 = 7.3 =
 * Added: Option to delete the admin manual.
 * Added: Option to force the robots list to be updated during an upgrade.

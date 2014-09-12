@@ -69,6 +69,8 @@
 									echo "];\n";
 								}
 								
+								$tickInterval = $daysToDisplay / 20;
+								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
 							visit_chart = jQuery.jqplot('search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
 								title: {
@@ -81,7 +83,7 @@
 									xaxis: {
 											min: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '-'.$daysToDisplay);?>',
 											max: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '');?>',
-											tickInterval: '1 day',
+											tickInterval: '<?php echo $tickInterval?> day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 											tickOptions: { 
