@@ -36,7 +36,7 @@
 			ip varchar(60) NOT NULL,
 			location varchar(10),
 			PRIMARY KEY  (ID),
-			UNIQUE KEY date_ip (last_counter,ip),
+			UNIQUE KEY date_ip (last_counter,ip,agent,platform,version),
 			KEY agent (agent),
 			KEY platform (platform),
 			KEY version (version),
