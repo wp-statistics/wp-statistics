@@ -56,7 +56,7 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
 * Turkish [Thanks aidinMC](http://www.artadl.ir/) & [Manset27.com](http://www.manset27.com/) & [Abdullah Manaz](http://www.manaz.net/)
 * Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/)
-* German [Thanks Andreas Martin](http://www.andreasmartin.com/)
+* German [Thanks Andreas Martin](http://www.andreasmartin.com/) and Mike
 * Russian [Thanks Oleg](http://www.bestplugins.ru/)
 * Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
 * Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info/)
@@ -148,6 +148,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 == Upgrade Notice ==
 = 7.4 =
+* BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
 * If you have used the sidebar widget you'll have to re-add it to your sidebar as the internal widget name has change (sorry, unavoidable).  Also if you have styled the widget the new class name will be 'widget_wpstatistics_widget' instead of 'wp_statistics_show_widget'.
 
 = 7.3 =
@@ -167,7 +168,13 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 == Changelog ==
 = 7.4 =
 * Updated: Widget code now adhears to WordPress standards.
+* Updated: Arabic and German (thanks Mike) translations.
+* Updated: Unique index on visitors table now takes in to account the agent/platform/version information.
+* Updated: Line charts now redraw when the legend is click to add/remove a line.
 * Fixed: Dates on charts with large number of data points now no longer overwrite each other.
+* Fixed: Admin bar menu item would use the incorrect admin URL in some circumstances.
+* Removed: Screenshots are no longer included in the distribution.
+
 
 = 7.3 =
 * Added: Option to delete the admin manual.
