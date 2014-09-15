@@ -269,18 +269,20 @@ License: GPL2
 		global $wp_admin_bar, $wp_version;
 		
 		if ( is_super_admin() || is_admin_bar_showing() ) {
+
+			$AdminURL = get_admin_url();
 		
 			if( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
 				$wp_admin_bar->add_menu( array(
 					'id'		=>	'wp-statistic-menu',
 					'title'		=>	'<span class="ab-icon"></span>',
-					'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
+					'href'		=>	$AdminURL . '?page=wp-statistics/wp-statistics.php'
 				));
 			} else {
 				$wp_admin_bar->add_menu( array(
 					'id'		=>	'wp-statistic-menu',
 					'title'		=>	'<img src="'.plugin_dir_url(__FILE__).'/assets/images/icon.png"/>',
-					'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
+					'href'		=>	$AdminURL . '?page=wp-statistics/wp-statistics.php'
 				));
 			}
 			
@@ -318,7 +320,7 @@ License: GPL2
 				'id'		=> 	'wp-statistics-menu-viewstats',
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('View Stats', 'wp_statistics'),
-				'href'		=>	get_bloginfo('url') . '/wp-admin/admin.php?page=wp-statistics/wp-statistics.php'
+				'href'		=>	$AdminURL . '?page=wp-statistics/wp-statistics.php'
 			));
 		}
 	}
