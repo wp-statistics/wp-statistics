@@ -76,7 +76,7 @@
 				}
 				
 				// The table should be ready to be updated now with the new index, so let's do it.
-				$result = $wpdb->get_results( "ALTER TABLE " . $wp_prefix . 'statistics_visitor' . " ADD UNIQUE `date_ip` ( `last_counter`, `ip` )" );
+				$result = $wpdb->get_results( "ALTER TABLE " . $wp_prefix . 'statistics_visitor' . " ADD UNIQUE `date_ip` ( `last_counter`, `ip`, `agent`, `platform`, `version` )" );
 			}
 		}
 	}

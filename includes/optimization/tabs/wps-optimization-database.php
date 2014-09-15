@@ -21,14 +21,14 @@
 		if( $result != 2 ) {
 ?>			
 					<input id="index-submit" class="button button-primary" type="button" value="<?php _e('Update Now!', 'wp_statistics'); ?>" name="index-submit" onclick="location.href=document.URL+'&index=1&tab=database'">
-					<p class="description"><?php _e('Older installs of WP Statistics allow for duplicate entires in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistitors table, delete duplicate entries and add the index.', 'wp_statistics'); ?></p>
+					<p class="description"><?php _e('Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistitors table, delete duplicate entries and add the index.', 'wp_statistics'); ?></p>
 					<p class="description"><?php _e('This operation could take a long time on installs with many rows in the visitors table.', 'wp_statistics'); ?></p>
 <?php
 		}
 		else {
 ?>
-					<p class="description"><?php _e('Older installs of WP Statistics allow for duplicate entires in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.', 'wp_statistics'); ?></p>
-					<p class="description"><?php _e('Congradulations, your installation is already up to date, nothing to do.', 'wp_statistics'); ?></p>
+					<p class="description"><?php _e('Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.', 'wp_statistics'); ?></p>
+					<p class="description"><?php _e('Congratulations, your installation is already up to date, nothing to do.', 'wp_statistics'); ?></p>
 <?php
 		}
 ?>
