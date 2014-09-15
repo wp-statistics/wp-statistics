@@ -276,13 +276,13 @@ License: GPL2
 				$wp_admin_bar->add_menu( array(
 					'id'		=>	'wp-statistic-menu',
 					'title'		=>	'<span class="ab-icon"></span>',
-					'href'		=>	$AdminURL . '?page=wp-statistics/wp-statistics.php'
+					'href'		=>	$AdminURL . 'admin.php?page=wp-statistics/wp-statistics.php'
 				));
 			} else {
 				$wp_admin_bar->add_menu( array(
 					'id'		=>	'wp-statistic-menu',
 					'title'		=>	'<img src="'.plugin_dir_url(__FILE__).'/assets/images/icon.png"/>',
-					'href'		=>	$AdminURL . '?page=wp-statistics/wp-statistics.php'
+					'href'		=>	$AdminURL . 'admin.php?page=wp-statistics/wp-statistics.php'
 				));
 			}
 			
@@ -320,7 +320,7 @@ License: GPL2
 				'id'		=> 	'wp-statistics-menu-viewstats',
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('View Stats', 'wp_statistics'),
-				'href'		=>	$AdminURL . '?page=wp-statistics/wp-statistics.php'
+				'href'		=>	$AdminURL . 'admin.php?page=wp-statistics/wp-statistics.php'
 			));
 		}
 	}
