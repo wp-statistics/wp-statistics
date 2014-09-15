@@ -108,6 +108,16 @@
 								pages_jqchart.replot( {resetAxes: true } );
 							});
 
+							function JQPlotPagesChartLengendClickRedraw() {
+								pages_jqchart.replot( {resetAxes: true } );
+								jQuery('div[id="jqpage-stats"] .jqplot-table-legend').click(function() {
+									JQPlotPagesChartLengendClickRedraw();
+								});
+							}
+							
+							jQuery('div[id="jqpage-stats"] .jqplot-table-legend').click(function() {
+								JQPlotPagesChartLengendClickRedraw()
+							});
 						});
 						</script>
 						

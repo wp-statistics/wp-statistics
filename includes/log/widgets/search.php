@@ -105,6 +105,17 @@
 								referral_chart.replot( {resetAxes: true } );
 							});
 
+							function JQPlotReferralChartLengendClickRedraw() {
+								referral_chart.replot( {resetAxes: true } );
+								jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
+									JQPlotReferralChartLengendClickRedraw();
+								});
+							}
+							
+							jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
+								JQPlotReferralChartLengendClickRedraw()
+							});
+
 						});
 
 						</script>

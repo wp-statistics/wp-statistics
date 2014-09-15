@@ -155,6 +155,17 @@
 							jQuery(window).resize(function() {
 								visit_chart.replot( {resetAxes: true } );
 							});
+							function JQPlotExclusionChartLengendClickRedraw() {
+								visit_chart.replot( {resetAxes: true } );
+								jQuery('div[id="exclusion-stats"] .jqplot-table-legend').click(function() {
+									JQPlotExclusionChartLengendClickRedraw();
+								});
+							}
+							
+							jQuery('div[id="exclusion-stats"] .jqplot-table-legend').click(function() {
+								JQPlotExclusionChartLengendClickRedraw()
+							});
+
 						});
 						</script>
 						

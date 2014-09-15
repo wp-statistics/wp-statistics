@@ -127,6 +127,18 @@
 							jQuery(window).resize(function() {
 								visit_chart.replot( {resetAxes: true } );
 							});
+
+							function JQPlotVisitChartLengendClickRedraw() {
+								visit_chart.replot( {resetAxes: true } );
+								jQuery('div[id="visits-stats"] .jqplot-table-legend').click(function() {
+									JQPlotVisitChartLengendClickRedraw();
+								});
+							}
+							
+							jQuery('div[id="visits-stats"] .jqplot-table-legend').click(function() {
+								JQPlotVisitChartLengendClickRedraw()
+							});
+
 						});
 
 						</script>

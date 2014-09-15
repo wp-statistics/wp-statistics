@@ -135,6 +135,18 @@
 							jQuery(window).resize(function() {
 								visit_chart.replot( {resetAxes: true } );
 							});
+
+							function JQPlotSearchChartLengendClickRedraw() {
+								visit_chart.replot( {resetAxes: true } );
+								jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
+									JQPlotSearchChartLengendClickRedraw();
+								});
+							}
+							
+							jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
+								JQPlotSearchChartLengendClickRedraw()
+							});
+
 						});
 
 						</script>
