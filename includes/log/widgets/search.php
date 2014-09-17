@@ -103,11 +103,11 @@
 							} );
 						
 							jQuery(window).resize(function() {
-								referral_chart.replot( {resetAxes: true } );
+								referral_chart.replot( {resetAxes: ['yaxis'] } );
 							});
 
 							function JQPlotReferralChartLengendClickRedraw() {
-								referral_chart.replot( {resetAxes: true } );
+								referral_chart.replot( {resetAxes: ['yaxis'] } );
 								jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
 									JQPlotReferralChartLengendClickRedraw();
 								});

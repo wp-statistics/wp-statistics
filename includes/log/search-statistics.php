@@ -134,11 +134,11 @@
 							} );
 
 							jQuery(window).resize(function() {
-								visit_chart.replot( {resetAxes: true } );
+								visit_chart.replot( {resetAxes: ['yaxis'] } );
 							});
 
 							function JQPlotSearchChartLengendClickRedraw() {
-								visit_chart.replot( {resetAxes: true } );
+								visit_chart.replot( {resetAxes: ['yaxis'] } );
 								jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
 									JQPlotSearchChartLengendClickRedraw();
 								});

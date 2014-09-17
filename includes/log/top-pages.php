@@ -106,11 +106,11 @@
 							} );
 
 							jQuery(window).resize(function() {
-								pages_jqchart.replot( {resetAxes: true } );
+								pages_jqchart.replot( {resetAxes: ['yaxis'] } );
 							});
 
 							function JQPlotPagesChartLengendClickRedraw() {
-								pages_jqchart.replot( {resetAxes: true } );
+								pages_jqchart.replot( {resetAxes: ['yaxis'] } );
 								jQuery('div[id="jqpage-stats"] .jqplot-table-legend').click(function() {
 									JQPlotPagesChartLengendClickRedraw();
 								});
