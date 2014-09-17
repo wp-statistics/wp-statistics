@@ -59,6 +59,8 @@ And a few things to double-check:
 * Have you tried using the default WordPress theme?
 * Have you double checked the plugin settings?
 * Do you have all the required PHP extensions installed?
+* Are you getting a blank or incomplete page displayed in your browser?  Did you view the source for the page and check for any fatal errors?
+* Have you checked your PHP and web server error logs?
 
 Still not having any luck?  Open a new thread on one of the support forums and we'll respond as soon as possible.
 
