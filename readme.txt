@@ -10,24 +10,26 @@ License: GPL2
 Complete statistics for your WordPress site.
 
 == Description ==
-A perfect plugin for your WordPress visitor statistics.
+A perfect plugin for your WordPress visitor statistics, come visit us at our [website](http://wp-statistics.com) for all the latest news and information.
 
-Track visitor and visits to your blog for today or up to a year of history!
+Track statistics for your WordPress site without depending on external services.
 
-Now includes tracking of individual page hits!
+Statistics are arrogate data whenever possible to respect your users privacy.
+
+Now includes beta support for not storing IP addresses in the database!
 
 On screen statistics presented as graphs are easily viewed through the admin interface.
 
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
 = Features =
-
 * User Online, see how many people are currently viewing your site
 * Visits, see how many hits your site gets each day
 * Visitors, see who's visiting your site
 * Page tracking, see which pages are viewed most often
 * Search Engines, see search queries and redirects from popular search engines like Google, Bing, DuckDuckGo, Yahoo, Yandex and Baidu
 * GeoIP location by Country
+* Beta support for not storing IP addresses in the database.
 * Interactive map of visitors location
 * E-mail reports of statistics
 * Set access level for view and manage roles based on WordPress roles
@@ -44,7 +46,26 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Shortcodes for many different types of data in both widgets and posts/pages
 * Comprehensive Admin Manual
 
-= Translators =
+= Support =
+We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:
+* Have you read the [FAQs](http://wordpress.org/plugins/wp-statistics/faq/)?
+* Have you read the [manual](http://plugins.svn.wordpress.org/wp-statistics/trunk/manual/WP%20Statistics%20Admin%20Manual.html)?
+* Have you search the [support forum](http://wordpress.org/support/plugin/wp-statistics) for a similar issue?
+* Have you search the Internet for any error messages you are receiving?
+
+And a few things to double-check:
+* How's your memory_limit in php.ini?
+* Have you tried disabling any other plugins you may have installed?
+* Have you tried using the default WordPress theme?
+* Have you double checked the plugin settings?
+* Do you have all the required PHP extensions installed?
+
+Still not having any luck?  Open a new thread on one of the support forums and we'll respond as soon as possible.
+
+* [English Support Forum](http://wordpress.org/support/plugin/wp-statistics)
+* [Persian Support Forum](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
+
+= Translations =
 
 * English
 * Persian
@@ -67,27 +88,20 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
 * Dutch thanks Friso van Wieringen.
 
-[Percentage languages ​​translation](http://teamwork.wp-parsi.com/projects/wp-statistics/)
-To complete the language deficits of [this section](http://teamwork.wp-parsi.com/projects/wp-statistics/) apply.
-
-= Support =
-
-* [Website](http://wp-statistics.com)
-* [Plugin Support Forum](http://wordpress.org/support/plugin/wp-statistics)
-* [Persian Support](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
+Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://teamwork.wp-parsi.com/projects/wp-statistics/) today!
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Make sure the Date and Time is set correctly in Wordpress.
+3. Make sure the Date and Time is set correctly in WordPress.
 4. Go to the plugin settings page and configure as required (note this will also download the GeoIP database for the fist time).
 
 == Frequently Asked Questions ==
 = Where's the Admin Manual? =
 The admin manual is installed as part of the plugin, simply go to Statistics->Manual to view it.  At the top of the page will also be two icons that will allow you to download it in either ODT or HTML formats.
 
-= If the plug does not work? =
-Disable / Enable the plugin.
+= What do I do if the plug does not work? =
+Disable / Enable the plugin.  You may also want to remove and re-install it.
 
 = All visitors are being set to unknown for their location? =
 Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.  
@@ -101,7 +115,7 @@ The webcrawler detection code has been fixed and will now exclude them from your
 The GeoIP code requires several things to function, PHP 5.3 or above, the bcmath extension, the cURL extension and PHP cannot be running in safe mode.  All of these conditions are checked for but there may be additional items required.  Check your PHP log files and see if there are any fatal errors listed.
 
 = How much memory does PHP Statistics require? =
-This depends on how many hits your site gets.  The data collection code is very light weight, however the reporting and statistics code can take a lot of memory to process.  The longer you collect data for the more memory you will need to process it.  At a bare minimum, a basic WordPress site with WP Statitics should have at least 32g of RAM.  Sites with lots of plugins and high traffic should look at significantly increasing that.
+This depends on how many hits your site gets.  The data collection code is very light weight, however the reporting and statistics code can take a lot of memory to process.  The longer you collect data for the more memory you will need to process it.  At a bare minimum, a basic WordPress site with WP Statistics should have at least 32 meg of RAM available for a page load.  Sites with lots of plugins and high traffic should look at significantly increasing that (128 to 256 meg is not unreasonable).
 
 = I've enabled IP subnet exclusions and now no visitors are recorded? =
 Be very careful to set the subnet mask correctly on the subnet list, it is very easy to catch too much traffic.  Likewise if you are excluding a single IP address make sure to include a subnet mask of 32 or 255.255.255.255 otherwise the default subnet of 0 will be used, catching all ip addresses.
@@ -113,7 +127,7 @@ Make sure you have WordPress configured correctly for SMTP and also check your W
 WP Statistics hasn't been tested with multi-site and there have been some issues reported with getting it enabled correctly on all sites in a network.
 
 = Does WP Statistics report on post hits? =
-Yes, version 6.0 has introduced page hit tracking!
+Yes, version 6.0 has introduced page hit statistics!
 
 = Does WP Statistics track the time of the hits? =
 No.
@@ -122,7 +136,7 @@ No.
 This means that MaxMind has block the IP address of your webserver, this is often the case if it has been blacklisted in the past due to abuse.
 
 You have two options:
-- Contact MaxMind and have them umblock your IP addres
+- Contact MaxMind and have them unblock your IP address
 - Manually download the database
 
 To manually download the database and install it take the following steps:
@@ -175,7 +189,6 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 * Fixed: Admin bar menu item would use the incorrect admin URL in some circumstances.
 * Removed: Screenshots are no longer included in the distribution.
 
-
 = 7.3 =
 * Added: Option to delete the admin manual.
 * Added: Option to force the robots list to be updated during an upgrade.
@@ -201,7 +214,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 = 7.1 =
 * Added: clearch.org search provider, disabled by default.
-* Added: Database tab to optmization page to manually add unique index on the visitors table removed in 7.0.3.
+* Added: Database tab to optimization page to manually add unique index on the visitors table removed in 7.0.3.
 * Updated: Additional WP_DEBUG message fixes.
 * Updated: Overview widgets no longer overflows on smaller displays.
 * Updated: Charts now properly resize when the browser window does.
