@@ -59,6 +59,8 @@
 					<li><?php _e('Have you tried using the default WordPress theme?', 'wp_statistics' );?></li>
 					<li><?php _e('Have you double checked the plugin settings?', 'wp_statistics' );?></li>
 					<li><?php _e('Do you have all the required PHP extensions installed?', 'wp_statistics' );?></li>
+					<li><?php _e('Are you getting a blank or incomplete page displayed in your browser?  Did you view the source for the page and check for any fatal errors?', 'wp_statistics' );?></li>
+					<li><?php _e('Have you checked your PHP and web server error logs?', 'wp_statistics' );?></li>
 				</ul>
 
 				<p><?php _e('Still not having any luck?', 'wp_statistics' );?> <?php _e('Then please open a new thread on the <a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">WordPress.org support forum</a> and we\'ll respond as soon as possible.', 'wp_statistics' );?></p>
