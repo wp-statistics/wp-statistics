@@ -48,6 +48,7 @@
 					<li><?php echo _e('Have you read the <a title="FAQs" href="http://wp-statistics.com/?page_id=19" target=_blank>FAQs</a>?', 'wp_statistics' );?></li>
 					<li><?php _e('Have you read the <a title="Manual" href="?page=wps_manual_menu">manual</a>?', 'wp_statistics' );?></li>
 					<li><?php _e('Have you search the <a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">support forum</a> for a similar issue?', 'wp_statistics' );?></li>
+					<li><?php _e('Have you search the Internet for any error messages you are receiving?', 'wp_statistics' );?></li>
 				</ul>
 
 				<p><?php _e('And a few things to double-check:', 'wp_statistics' );?></p>
