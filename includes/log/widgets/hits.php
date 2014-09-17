@@ -56,6 +56,7 @@
 										},										
 									yaxis: {
 											min: 0,
+											padMin: 1.0,
 											label: '<?php _e('Number of visits and visitors', 'wp_statistics'); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
