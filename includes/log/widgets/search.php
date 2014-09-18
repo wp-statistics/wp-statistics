@@ -103,7 +103,7 @@
 							} );
 						
 							jQuery(window).resize(function() {
-								referral_chart.replot( {resetAxes: ['yaxis'] } );
+								JQPlotReferralChartLengendClickRedraw()
 							});
 
 							function JQPlotReferralChartLengendClickRedraw() {

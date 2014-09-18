@@ -106,7 +106,7 @@
 							} );
 
 							jQuery(window).resize(function() {
-								pages_jqchart.replot( {resetAxes: ['yaxis'] } );
+								JQPlotPagesChartLengendClickRedraw()
 							});
 
 							function JQPlotPagesChartLengendClickRedraw() {

@@ -154,8 +154,9 @@
 							} );
 
 							jQuery(window).resize(function() {
-								visit_chart.replot( {resetAxes: ['yaxis'] } );
+								JQPlotExclusionChartLengendClickRedraw()
 							});
+							
 							function JQPlotExclusionChartLengendClickRedraw() {
 								visit_chart.replot( {resetAxes: ['yaxis'] } );
 								jQuery('div[id="exclusion-stats"] .jqplot-table-legend').click(function() {

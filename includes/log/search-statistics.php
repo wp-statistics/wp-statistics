@@ -134,7 +134,7 @@
 							} );
 
 							jQuery(window).resize(function() {
-								visit_chart.replot( {resetAxes: ['yaxis'] } );
+								JQPlotSearchChartLengendClickRedraw()
 							});
 
 							function JQPlotSearchChartLengendClickRedraw() {
