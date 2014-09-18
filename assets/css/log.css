@@ -154,7 +154,6 @@
     white-space: pre;
 	overflow: hidden;
 	text-overflow: ellipsis; 
-	width: 30%;
 	text-align: right;
 }
 .log-tools {

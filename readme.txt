@@ -183,8 +183,9 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 == Changelog ==
 = 7.4 =
+* Added: Link URL for referred.
 * Updated: Widget code now adhears to WordPress standards.
-* Updated: Arabic and German (thanks Mike) translations.
+* Updated: Persian, Arabic and German (thanks Mike) translations.
 * Updated: Unique index on visitors table now takes in to account the agent/platform/version information.
 * Updated: Line charts now redraw when the legend is clicked to add/remove a line.
 * Fixed: Dates on charts with large number of data points now no longer overwrite each other.
