@@ -36,7 +36,7 @@
 			ip varchar(60) NOT NULL,
 			location varchar(10),
 			PRIMARY KEY  (ID),
-			UNIQUE KEY date_ip (last_counter,ip,agent,platform,version),
+			UNIQUE KEY date_ip_agent (last_counter,ip,agent (75),platform (75),version (75)),
 			KEY agent (agent),
 			KEY platform (platform),
 			KEY version (version),
@@ -74,6 +74,8 @@
 		dbDelta($create_exclusion_table);
 		dbDelta($create_pages_table);
 
+		$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+		
 		// Store the new version information.
 		update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 		update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
