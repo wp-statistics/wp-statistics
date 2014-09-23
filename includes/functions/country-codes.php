@@ -102,7 +102,6 @@ $ISOCountryCode['DD'] = "German Democratic Republic";
 $ISOCountryCode['DE'] = "Germany";
 $ISOCountryCode['GH'] = "Ghana";
 $ISOCountryCode['GI'] = "Gibraltar";
-$ISOCountryCode['GE'] = "Gilbert and Ellice Islands";
 $ISOCountryCode['GR'] = "Greece";
 $ISOCountryCode['GL'] = "Greenland";
 $ISOCountryCode['GD'] = "Grenada";
