@@ -30,7 +30,7 @@ License: GPL2
 	// Load the user agent parsing code first, the WP_Statistics class depends on it.  Then load the WP_Statistics class.
 	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
-	include_once dirname( __FILE__ ) . '/includes/classes/browscap.php';
+	include_once dirname( __FILE__ ) . '/includes/classes/Browscap.php';
 
 	use phpbrowscap\Browscap;
 	
