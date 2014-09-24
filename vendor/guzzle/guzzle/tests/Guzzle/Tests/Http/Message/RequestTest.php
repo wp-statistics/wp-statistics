@@ -245,7 +245,7 @@ class RequestTest extends \Guzzle\Tests\GuzzleTestCase
         $request = new Request('GET', 'http://0/0?0');
         $this->assertSame('0', $request->getHost());
         $this->assertSame('/0', $request->getPath());
-        $this->assertSame('0=', $request->getQuery(true));
+        $this->assertSame('0', $request->getQuery(true));
 
         $request = new Request('GET', '0');
         $this->assertEquals('/0', $request->getPath());
@@ -621,5 +621,19 @@ class RequestTest extends \Guzzle\Tests\GuzzleTestCase
         $request->setResponseBody($en);
         $request->setResponse(new Response(200, array(), 'foo'));
         $this->assertEquals('foo', (string) $en);
+    }
+
+    public function testCanChangePortThroughScheme()
+    {
+        $request = new Request('GET', 'http://foo.com');
+        $request->setScheme('https');
+        $this->assertEquals('https://foo.com', (string) $request->getUrl());
+        $this->assertEquals('foo.com', $request->getHost());
+        $request->setScheme('http');
+        $this->assertEquals('http://foo.com', (string) $request->getUrl());
+        $this->assertEquals('foo.com', $request->getHost());
+        $request->setPort(null);
+        $this->assertEquals('http://foo.com', (string) $request->getUrl());
+        $this->assertEquals('foo.com', $request->getHost());
     }
 }

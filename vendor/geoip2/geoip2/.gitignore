@@ -1,9 +1,12 @@
 _site
 .gh-pages
 .idea
+GeoLite2-City.mmdb
+build
 composer.lock
 composer.phar
 phpunit.xml
+geoip2.phar
 geoip2-php.sublime-*
 vendor/
 *.sw?

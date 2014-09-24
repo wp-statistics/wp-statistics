@@ -107,7 +107,7 @@ class CookieParserProvider extends \Guzzle\Tests\GuzzleTestCase
             ),
             // Tests getting the domain and path from a reference request
             array(array(
-                'foo=1; port="80,8081"; httponly', 'foo=1; port="80,8081"; domain=www.test.com; HttpOnly;', 'foo=1; ; domain=www.test.com; path=/path/; port="80,8081"; HttpOnly;'),
+                'foo=1; port="80,8081"; httponly', 'foo=1; port="80,8081"; domain=www.test.com; HttpOnly;', 'foo=1; ; domain=www.test.com; path=/path; port="80,8081"; HttpOnly;'),
                 array(
                     'cookies' => array(
                         'foo' => 1
@@ -117,7 +117,7 @@ class CookieParserProvider extends \Guzzle\Tests\GuzzleTestCase
                     'domain' => 'www.test.com',
                     'expires' => null,
                     'max_age' => null,
-                    'path' => '/path/',
+                    'path' => '/path',
                     'port' => array('80', '8081'),
                     'secure' => null,
                     'version' => null,
@@ -135,7 +135,6 @@ class CookieParserProvider extends \Guzzle\Tests\GuzzleTestCase
                         'justacookie' => 'foo'
                     ),
                     'domain' => 'example.com',
-                    'path' => '',
                     'data' => array(),
                     'discard' => null,
                     'expires' => null,
@@ -249,6 +248,91 @@ class CookieParserProvider extends \Guzzle\Tests\GuzzleTestCase
                     'http_only' => false
                 )
             ),
+            // rfc6265#section-5.1.4
+            array(
+                'cookie=value',
+                array(
+                    'cookies' => array(
+                        'cookie' => 'value'
+                    ),
+                    'domain' => 'example.com',
+                    'data' => array(),
+                    'discard' => null,
+                    'expires' => null,
+                    'max_age' => null,
+                    'path' => '/some/path',
+                    'port' => null,
+                    'secure' => null,
+                    'version' => null,
+                    'comment' => null,
+                    'comment_url' => null,
+                    'http_only' => false
+                ),
+                'http://example.com/some/path/test.html'
+            ),
+            array(
+                'empty=path',
+                array(
+                    'cookies' => array(
+                        'empty' => 'path'
+                    ),
+                    'domain' => 'example.com',
+                    'data' => array(),
+                    'discard' => null,
+                    'expires' => null,
+                    'max_age' => null,
+                    'path' => '/',
+                    'port' => null,
+                    'secure' => null,
+                    'version' => null,
+                    'comment' => null,
+                    'comment_url' => null,
+                    'http_only' => false
+                ),
+                'http://example.com/test.html'
+            ),
+            array(
+                'baz=qux',
+                array(
+                    'cookies' => array(
+                        'baz' => 'qux'
+                    ),
+                    'domain' => 'example.com',
+                    'data' => array(),
+                    'discard' => null,
+                    'expires' => null,
+                    'max_age' => null,
+                    'path' => '/',
+                    'port' => null,
+                    'secure' => null,
+                    'version' => null,
+                    'comment' => null,
+                    'comment_url' => null,
+                    'http_only' => false
+                ),
+                'http://example.com?query=here'
+            ),
+            array(
+                'test=noSlashPath; path=someString',
+                array(
+                    'cookies' => array(
+                        'test' => 'noSlashPath'
+                    ),
+                    'domain' => 'example.com',
+                    'data' => array(),
+                    'discard' => null,
+                    'expires' => null,
+                    'max_age' => null,
+                    'path' => '/real/path',
+                    'port' => null,
+                    'secure' => null,
+                    'version' => null,
+                    'comment' => null,
+                    'comment_url' => null,
+                    'http_only' => false
+                ),
+                'http://example.com/real/path/'
+            ),
         );
     }
 
@@ -273,9 +357,9 @@ class CookieParserProvider extends \Guzzle\Tests\GuzzleTestCase
         foreach ((array) $cookie as $c) {
             $p = $parser->parseCookie($c, $host, $path);
 
-            // Remove expires values from the assertion if they are relatively equal
+            // Remove expires values from the assertion if they are relatively equal by allowing a 5 minute difference
             if ($p['expires'] != $parsed['expires']) {
-                if (abs($p['expires'] - $parsed['expires']) < 20) {
+                if (abs($p['expires'] - $parsed['expires']) < 300) {
                     unset($p['expires']);
                     unset($parsed['expires']);
                 }

@@ -52,13 +52,25 @@
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook'); 
 	}
 
-	// Add the GeoIP update schedule if it doesn't exist and it should be.
+	// Add the browscap update schedule if it doesn't exist and it should be.
+	if( !wp_next_scheduled('wp_statistics_browscap_hook') && $WP_Statistics->get_option('schedule_browscap') ) {
+	
+		wp_schedule_event(time(), 'weekly', 'wp_statistics_browscap_hook'); 
+	}
+
+	// Remove the browscap update schedule if it does exist and it should shouldn't.
+	if( wp_next_scheduled('wp_statistics_browscap_hook') && !$WP_Statistics->get_option('schedule_browscap') ) {
+	
+		wp_unschedule_event(wp_next_scheduled('wp_statistics_browscap_hook'), 'wp_statistics_browscap_hook'); 
+	}
+
+	// Add the database maintenance schedule if it doesn't exist and it should be.
 	if( !wp_next_scheduled('wp_statistics_dbmaint_hook') && $WP_Statistics->get_option('schedule_dbmaint') ) {
 	
 		wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_hook'); 
 	}
 
-	// Remove the GeoIP update schedule if it does exist and it should shouldn't.
+	// Remove the database maintenance schedule if it does exist and it should shouldn't.
 	if( wp_next_scheduled('wp_statistics_dbmaint_hook') && (!$WP_Statistics->get_option('schedule_dbmaint') ) ) {
 	
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook'); 
@@ -91,6 +103,15 @@
 	}
 	add_action('wp_statistics_geoip_hook', 'wp_statistics_geoip_event');
 
+	// This function updates the browscap database.
+	function wp_statistics_browscap_event() {
+	
+		GLOBAL $WP_Statistics;
+	
+		// Check for a new browscap once a week
+		$WP_Statistics->update_option('update_browscap',TRUE);
+	}
+	add_action('wp_statistics_browscap_hook', 'wp_statistics_browscap_event');
 
 	// This function will purge old records on a schedule based on age.
 	function wp_statistics_dbmaint_event() {

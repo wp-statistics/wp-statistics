@@ -25,11 +25,14 @@ switch( $selected_tab )
 	case 'geoip':
 		if( $wps_admin ) { $current_tab = 3; } else { $current_tab = 0; }
 		break;
-	case 'maintenance':
+	case 'browscap':
 		if( $wps_admin ) { $current_tab = 4; } else { $current_tab = 0; }
 		break;
+	case 'maintenance':
+		if( $wps_admin ) { $current_tab = 5; } else { $current_tab = 0; }
+		break;
 	case 'about':
-		if( $wps_admin ) { $current_tab = 5; } else { $current_tab = 1; }
+		if( $wps_admin ) { $current_tab = 6; } else { $current_tab = 1; }
 		break;
 	default:
 		$current_tab = 0;
@@ -58,9 +61,12 @@ switch( $selected_tab )
 					if( wps_admin == 1 ) { tab = 'geoip'; } else { tab = 'about'; }
 					break;
 				case 4:
-					if( wps_admin == 1 ) { tab = 'maintenance'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'browscap'; } else { tab = 'about'; }
 					break;
 				case 5:
+					if( wps_admin == 1 ) { tab = 'maintenance'; } else { tab = 'about'; }
+					break;
+				case 6:
 					tab = 'about';
 					break;
 			}
@@ -81,6 +87,7 @@ switch( $selected_tab )
 				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#overview-display-settings"><span><?php _e('Overview', 'wp_statistics'); ?></span></a></li>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#access-settings"><span><?php _e('Access/Exclusions', 'wp_statistics'); ?></span></a></li><?php } ?>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#geoip-settings"><span><?php _e('GeoIP', 'wp_statistics'); ?></span></a></li><?php } ?>
+<?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#browscap-settings"><span><?php _e('browscap', 'wp_statistics'); ?></span></a></li><?php } ?>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e('Maintenance', 'wp_statistics'); ?></span></a></li><?php } ?>
 				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#about"><span><?php _e('About', 'wp_statistics'); ?></span></a></li>
 			</ul>
@@ -99,6 +106,10 @@ switch( $selected_tab )
 
 			<div id="geoip-settings">
 			<?php if( $wps_admin ) { include( dirname( __FILE__ ) . '/tabs/wps-geoip.php' ); } ?>
+			</div>
+
+			<div id="browscap-settings">
+			<?php if( $wps_admin ) { include( dirname( __FILE__ ) . '/tabs/wps-browscap.php' ); } ?>
 			</div>
 
 			<div id="maintenance-settings">

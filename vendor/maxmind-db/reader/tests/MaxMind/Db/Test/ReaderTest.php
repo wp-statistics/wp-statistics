@@ -54,9 +54,16 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(268435456, $record['uint32']);
         $this->assertEquals('1152921504606846976', $record['uint64']);
 
+        $uint128 = $record['uint128'];
+
+        // For the C extension, which returns a hexadecimal
+        if (extension_loaded('gmp')) {
+            $uint128 = gmp_strval($uint128);
+        }
+
         $this->assertEquals(
             '1329227995784915872903807060280344576',
-            $record['uint128']
+            $uint128
         );
     }
 
@@ -86,8 +93,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new Reader(
             'tests/data/test-data/MaxMind-DB-no-ipv4-search-tree.mmdb'
         );
-        $this->assertEquals('::/64', $reader->get('1.1.1.1'));
-        $this->assertEquals('::/64', $reader->get('192.1.1.1'));
+        $this->assertEquals('::0/64', $reader->get('1.1.1.1'));
+        $this->assertEquals('::0/64', $reader->get('192.1.1.1'));
     }
 
     /**
@@ -132,7 +139,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException MaxMind\Db\Reader\InvalidDatabaseException
-     * @expectedExceptionMessage The MaxMind DB file's data section contains bad data (unknown data type or corrupt data)
+     * @expectedExceptionMessage contains bad data
      */
     public function testBrokenDataPointer()
     {

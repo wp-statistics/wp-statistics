@@ -198,16 +198,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testOmni()
+    public function testInsights()
     {
-        $omni = $this->client($this->getResponse('1.2.3.4'))
-            ->omni('1.2.3.4');
 
-        $this->assertInstanceOf('GeoIp2\Model\Omni', $omni);
+        $record = $this->client($this->getResponse('1.2.3.4'))
+            ->insights('1.2.3.4');
+
+        $this->assertInstanceOf('GeoIp2\Model\Insights', $record);
 
         $this->assertEquals(
             42,
-            $omni->continent->geonameId,
+            $record->continent->geonameId,
             'continent geoname_id is 42'
         );
     }
@@ -225,15 +226,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client = $this->client($this->getResponse('me'));
 
         $this->assertInstanceOf(
-            'GeoIp2\Model\CityIspOrg',
-            $client->cityIspOrg('me'),
+            'GeoIp2\Model\City',
+            $client->city('me'),
             'can set ip parameter to me'
         );
     }
 
     /**
      * @expectedException GeoIp2\Exception\GeoIp2Exception
-     * @expectedExceptionMessage Received a 200 response for https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.5 but did not receive a HTTP body.
+     * @expectedExceptionMessage Received a 200 response for https://geoip.maxmind.com/geoip/v2.1/country/1.2.3.5 but did not receive a HTTP body.
      */
     public function testNoBodyException()
     {
@@ -244,7 +245,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException GeoIp2\Exception\GeoIp2Exception
-     * @expectedExceptionMessage Received a 200 response for https://geoip.maxmind.com/geoip/v2.0/country/2.2.3.5 but could not decode the response as JSON:
+     * @expectedExceptionMessage Received a 200 response for https://geoip.maxmind.com/geoip/v2.1/country/2.2.3.5 but could not decode the response as JSON:
      */
     public function testBadBodyException()
     {
@@ -332,7 +333,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException GeoIp2\Exception\HttpException
      * @expectedExceptionCode 406
-     * @expectedExceptionMessage Received a 406 error for https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.12 with the following body: Cannot satisfy your Accept-Charset requirements
+     * @expectedExceptionMessage Received a 406 error for https://geoip.maxmind.com/geoip/v2.1/country/1.2.3.12 with the following body: Cannot satisfy your Accept-Charset requirements
      */
     public function test406Exception()
     {
@@ -426,7 +427,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $request = $all_requests[0];
 
         $this->assertEquals(
-            'https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.4',
+            'https://geoip.maxmind.com/geoip/v2.1/country/1.2.3.4',
             $request->getUrl(),
             'got expected URI for Country request'
         );

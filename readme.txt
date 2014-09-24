@@ -163,25 +163,16 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 7.4 =
+= 8.0 =
+* PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
 * BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
-* If you have used the sidebar widget you'll have to re-add it to your sidebar as the internal widget name has change (sorry, unavoidable).  Also if you have styled the widget the new class name will be 'widget_wpstatistics_widget' instead of 'wp_statistics_show_widget'.
-
-= 7.3 =
-* BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
-* A new option for updating the robot's list automatically during an upgrade is available (Statistics->Settings->Access/Exclusions->IP/Robot Exclusions->Force robot list update after upgrades) but is not set on existing installs by default.
-* Online users and visitors are now calculated on ip address as well as browser details so you may see a change in the reporting of these numbers (more unique visitors and users online).
-
-= 7.1 = 
-* There is now a manual process for adding an index to the visitor's table to protect against duplicate entries, go to Statistics->Optimization->Database.  Newer installs of WP Statistics already have the index and the option to add it will only be present if do not have it already.
-
-= 7.0 =
-* BACKUP YOUR DATABASE BEFORE INSTALLING!
-* Page track is now enabled on new installs or upgrades from pre 6.0 installs.
-* HighCharts has been replaced by jqPlot and the chart type setting is no longer available.
-* If you have enabled statistical reporting you can now use any shortcode that is supported in your WordPress installation, the old variables will continue to work for the time being, however in a future version of WP Statistics they will be removed so please update your message text now with the appropriate shortcodes.
 
 == Changelog ==
+= 8.0 =
+* Added: browscap.ini support for robot detection.
+* Updated: GeoIP libary from version 0.5 to 2.0.
+* Fixed: Incorrect country name being displayed for Georgia.
+
 = 7.4 =
 * Added: Link URL for referred.
 * Updated: Widget code now adhears to WordPress standards.

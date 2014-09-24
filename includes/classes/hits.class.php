@@ -4,6 +4,8 @@
 	
 	This class handles; visits, visitors and pages.
 */
+	use phpbrowscap\Browscap;
+
 	class Hits extends WP_Statistics {
 	
 		// Setup our public/private/protected variables.
@@ -37,23 +39,49 @@
 			//		4 - User roles
 			//
 			
-			// Pull the robots from the database.
-			$robots = explode( "\n", $this->get_option('robotlist') );
+			// Get the upload directory from WordPRess.
+			$upload_dir = wp_upload_dir();
+			 
+			// Create a variable with the name of the database file to download.
+			$BrowscapFile = $upload_dir['basedir'] . '/wp-statistics';
+			
+			$crawler = false;
+			
+			if( $this->get_option('last_browscap_dl') > 1 && $this->get_option('browscap') ) { 
+				// Get the Browser Capabilities use Browscap.
+				$bc = new Browscap($BrowscapFile);
+				$bc->doAutoUpdate = false; 	// We don't want to auto update.
+				$current_browser = $bc->getBrowser();
+				$crawler = $current_browser->Crawler;
+			}
+			else {
+				$WP_Statistics->update_option('update_browscap', true);
+			}
 
-			// Check to see if we match any of the robots.
-			foreach($robots as $robot) {
-				$robot = trim($robot);
-				
-				// If the match case is less than 4 characters long, it might match too much so don't execute it.
-				if(strlen($robot) > 3) { 
-					if(stripos($_SERVER['HTTP_USER_AGENT'], $robot) !== FALSE) {
-						$this->exclusion_match = TRUE;
-						$this->exclusion_reason = "robot";
-						break;
+			// If we're a crawler as per browscap, exclude us, otherwise double check based on the WP Statistics robot list.
+			if( $crawler == true ) {
+				$this->exclusion_match = TRUE;
+				$this->exclusion_reason = "robot";
+			}
+			else {
+				// Pull the robots from the database.
+				$robots = explode( "\n", $this->get_option('robotlist') );
+
+				// Check to see if we match any of the robots.
+				foreach($robots as $robot) {
+					$robot = trim($robot);
+					
+					// If the match case is less than 4 characters long, it might match too much so don't execute it.
+					if(strlen($robot) > 3) { 
+						if(stripos($_SERVER['HTTP_USER_AGENT'], $robot) !== FALSE) {
+							$this->exclusion_match = TRUE;
+							$this->exclusion_reason = "robot";
+							break;
+						}
 					}
 				}
 			}
-		
+			
 			// If we didn't match a robot, check ip subnets.
 			if( !$this->exclusion_match ) {
 				// Pull the subnets from the database.

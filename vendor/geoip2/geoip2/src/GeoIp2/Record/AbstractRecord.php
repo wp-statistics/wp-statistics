@@ -2,7 +2,7 @@
 
 namespace GeoIp2\Record;
 
-abstract class AbstractRecord
+abstract class AbstractRecord implements \JsonSerializable
 {
     private $record;
 
@@ -11,7 +11,7 @@ abstract class AbstractRecord
      */
     public function __construct($record)
     {
-        $this->record = $record;
+        $this->record = isset($record) ? $record : array();
     }
 
     /**
@@ -19,16 +19,36 @@ abstract class AbstractRecord
      */
     public function __get($attr)
     {
-        $valid = in_array($attr, $this->validAttributes);
         // XXX - kind of ugly but greatly reduces boilerplate code
-        $key = strtolower(preg_replace('/([A-Z])/', '_\1', $attr));
+        $key = $this->attributeToKey($attr);
 
-        if ($valid && isset($this->record[$key])) {
+        if ($this->__isset($attr)) {
             return $this->record[$key];
-        } elseif ($valid) {
+        } elseif ($this->validAttribute($attr)) {
             return null;
         } else {
             throw new \RuntimeException("Unknown attribute: $attr");
         }
+    }
+
+    public function __isset($attr)
+    {
+        return $this->validAttribute($attr) &&
+             isset($this->record[$this->attributeToKey($attr)]);
+    }
+
+    private function attributeToKey($attr)
+    {
+        return strtolower(preg_replace('/([A-Z])/', '_\1', $attr));
+    }
+
+    private function validAttribute($attr)
+    {
+        return in_array($attr, $this->validAttributes);
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->record;
     }
 }

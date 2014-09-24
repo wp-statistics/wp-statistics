@@ -119,9 +119,7 @@ switch( $selected_tab )
 			<li class="ui-state-default ui-corner-top"><a href="#export" class="ui-tabs-anchor"><span><?php _e('Export', 'wp_statistics'); ?></span></a></li>
 			<li class="ui-state-default ui-corner-top"><a href="#purging" class="ui-tabs-anchor"><span><?php _e('Purging', 'wp_statistics'); ?></span></a></li>
 			<li class="ui-state-default ui-corner-top"><a href="#database" class="ui-tabs-anchor"><span><?php _e('Database', 'wp_statistics'); ?></span></a></li>
-			<?php if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) { ?>
 			<li class="ui-state-default ui-corner-top"><a href="#updates" class="ui-tabs-anchor"><span><?php _e('Updates', 'wp_statistics'); ?></span></a></li>
-			<?php } ?>
 		</ul>
 
 		<div id="resources">
@@ -140,11 +138,9 @@ switch( $selected_tab )
 		<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-database.php' ); ?>
 		</div>
 
-		<?php if( version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) { ?>
 		<div id="updates">
 		<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-updates.php' ); ?>
 		</div>
-		<?php } ?>
 
 	</div>
 </div>

@@ -153,6 +153,7 @@
 
 		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
 		if( $WP_Statistics->get_option('geoip') === FALSE ) { $WP_Statistics->store_option('geoip',FALSE); }
+		if( $WP_Statistics->get_option('browscap') === FALSE ) { $WP_Statistics->store_option('browscap',FALSE); }
 		if( $WP_Statistics->get_option('useronline') === FALSE ) { $WP_Statistics->store_option('useronline',TRUE); }
 		if( $WP_Statistics->get_option('visits') === FALSE ) { $WP_Statistics->store_option('visits',TRUE); }
 		if( $WP_Statistics->get_option('visitors') === FALSE ) { $WP_Statistics->store_option('visitors',TRUE); }

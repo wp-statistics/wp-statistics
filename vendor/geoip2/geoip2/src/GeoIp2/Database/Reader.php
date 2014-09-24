@@ -71,7 +71,7 @@ class Reader implements ProviderInterface
      */
     public function city($ipAddress)
     {
-        return $this->modelFor('City', $ipAddress);
+        return $this->modelFor('City', 'City', $ipAddress);
     }
 
     /**
@@ -88,55 +88,82 @@ class Reader implements ProviderInterface
      */
     public function country($ipAddress)
     {
-        return $this->modelFor('Country', $ipAddress);
+        return $this->modelFor('Country', 'Country', $ipAddress);
     }
 
-    /**
-     * This method returns a GeoIP2 City/ISP/Org model.
-     *
-     * @param string $ipAddress IPv4 or IPv6 address as a string.
-     *
-     * @return \GeoIp2\Model\CityIspOrg
-     *
-     * @throws \GeoIp2\Exception\AddressNotFoundException if the address is
-     *         not in the database.
-     * @throws \MaxMind\Db\Reader\InvalidDatabaseException if the database
-     *         is corrupt or invalid
-     */
-    public function cityIspOrg($ipAddress)
+    public function connectionType($ipAddress)
     {
-        return $this->modelFor('CityIspOrg', $ipAddress);
+        return $this->flatModelFor(
+            'ConnectionType',
+            'GeoIP2-Connection-Type',
+            $ipAddress
+        );
     }
 
-    /**
-     * This method returns a GeoIP2 Omni model.
-     *
-     * @param string $ipAddress IPv4 or IPv6 address as a string.
-     *
-     * @return \GeoIp2\Model\Omni
-     *
-     * @throws \GeoIp2\Exception\AddressNotFoundException if the address is
-     *         not in the database.
-     * @throws \MaxMind\Db\Reader\InvalidDatabaseException if the database
-     *         is corrupt or invalid
-     */
-    public function omni($ipAddress)
+    public function domain($ipAddress)
     {
-        return $this->modelFor('Omni', $ipAddress);
+        return $this->flatModelFor(
+            'Domain',
+            'GeoIP2-Domain',
+            $ipAddress
+        );
     }
 
-    private function modelFor($class, $ipAddress)
+    public function isp($ipAddress)
     {
+        return $this->flatModelFor(
+            'Isp',
+            'GeoIP2-ISP',
+            $ipAddress
+        );
+    }
+
+    private function modelFor($class, $type, $ipAddress)
+    {
+        $record = $this->getRecord($class, $type, $ipAddress);
+
+        $record['traits']['ip_address'] = $ipAddress;
+        $class = "GeoIp2\\Model\\" . $class;
+
+        return new $class($record, $this->locales);
+    }
+
+    private function flatModelFor($class, $type, $ipAddress)
+    {
+        $record = $this->getRecord($class, $type, $ipAddress);
+
+        $record['ip_address'] = $ipAddress;
+        $class = "GeoIp2\\Model\\" . $class;
+
+        return new $class($record);
+    }
+
+    private function getRecord($class, $type, $ipAddress)
+    {
+        if (strpos($this->metadata()->databaseType, $type) === false) {
+            $method = lcfirst($class);
+            throw new \BadMethodCallException(
+                "The $method method cannot be used to open a "
+                . $this->metadata()->databaseType . " database"
+            );
+        }
         $record = $this->dbReader->get($ipAddress);
         if ($record === null) {
             throw new AddressNotFoundException(
                 "The address $ipAddress is not in the database."
             );
         }
-        $record['traits']['ip_address'] = $ipAddress;
-        $class = "GeoIp2\\Model\\" . $class;
+        return $record;
+    }
 
-        return new $class($record, $this->locales);
+    /**
+     * @throws \InvalidArgumentException if arguments are passed to the method.
+     * @throws \BadMethodCallException if the database has been closed.
+     * @return \MaxMind\Db\Reader\Metadata object for the database.
+     */
+    public function metadata()
+    {
+        return $this->dbReader->metadata();
     }
 
     /**
