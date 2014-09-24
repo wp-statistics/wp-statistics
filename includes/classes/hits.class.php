@@ -55,7 +55,7 @@
 				$crawler = $current_browser->Crawler;
 			}
 			else {
-				$WP_Statistics->update_option('update_browscap', true);
+				$this->update_option('update_browscap', true);
 			}
 
 			// If we're a crawler as per browscap, exclude us, otherwise double check based on the WP Statistics robot list.

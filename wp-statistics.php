@@ -566,7 +566,7 @@ License: GPL2
 		if( !function_exists( 'download_url' ) ) { return ''; }
 	
 		// If GeoIP is disabled, bail out.
-		if( $this->get_option('geoip') == false ) { return '';}
+		if( $WP_Statistics->get_option('geoip') == false ) { return '';}
 	
 		// This is the location of the file to download.
 		$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
@@ -647,7 +647,7 @@ License: GPL2
 		if( !function_exists( 'download_url' ) ) { return ''; }
 		
 		// If browscap is disabled, bail out.
-		if( $this->get_option('browscap') == false ) { return '';}
+		if( $WP_Statistics->get_option('browscap') == false ) { return '';}
 	
 		// This is the location of the file to download.
 		$download_url = 'http://browscap.org/stream?q=PHP_BrowsCapINI';
@@ -668,7 +668,7 @@ License: GPL2
 		// If we already have a browscap.ini file (aka we're already done a download in the past) we can get it's version number.
 		// We can't execute this code if no browscap.ini exists as then the library will automatically download a full version, even
 		// though we've told it not to autoupdate above.
-		if( $this->get_option('last_browscap_dl') > 1 ) { 
+		if( $WP_Statistics->get_option('last_browscap_dl') > 1 ) { 
 			// Get the current browser so that the version information is populated.
 			$bc->getBrowser();
 			
