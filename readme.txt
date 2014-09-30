@@ -170,8 +170,10 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 == Changelog ==
 = 8.0 =
 * Added: browscap.ini support for robot detection.
+* Added: Statistics->Optimization->Database tab now how an option to re-run the install routine in case you have had to delete tables from the database.
 * Updated: GeoIP libary from version 0.5 to 2.0.
 * Fixed: Incorrect country name being displayed for Georgia.
+* Fixed: Bug in detecting the new index in the Statistics->Optimization->Database tab.
 
 = 7.4 =
 * Added: Link URL for referred.

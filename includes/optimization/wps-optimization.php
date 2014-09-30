@@ -44,6 +44,14 @@
 		}
 	}
 
+	if( array_key_exists( 'install', $_GET ) ) {
+		if( $_GET['install'] == 1 ) {
+			$WPS_Installed = "1.0";
+			include( plugin_dir_path( __FILE__ ) . "../../wps-install.php" );
+			echo "<div class='updated settings-error'><p><strong>" . __('Install routine complete.', 'wp_statistics') . "</strong></p></div>";		
+		}
+	}
+	
 	if( array_key_exists( 'index', $_GET ) ) {
 		if( $_GET['index'] == 1 ) {
 			GLOBAL $wpdb;
