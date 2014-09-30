@@ -1,3 +1,15 @@
+<?php 
+	/* format size of file 
+	* @author Mike Zriel
+	* @date 7 March 2011
+	* @website www.zriel.com
+	*/
+	function formatSize($size) {
+		$sizes = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
+		if ($size == 0) { return('n/a'); } else {
+		return (round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) . $sizes[$i]); }
+	}
+?>
 <div class="wrap">
 	<table class="form-table">
 		<tbody>
@@ -148,10 +160,52 @@
 				
 				<td>
 					<strong><?php if( function_exists('bcadd') ) { _e('Installed','wp_statistics'); } else { _e('Not installed', 'wp_statistics'); }?></strong>
-					<p class="description"><?php _e('If the PHP BC Math Extension is installed.  BC Math is required for the GeoIP code, if it is not installed GeoIP will be disabled.', 'wp_statistics'); ?></p>
+					<p class="description"><?php _e('If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons.', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
 
+			<tr valign="top">
+				<th scope="row" colspan="2"><h3><?php _e('File Info', 'wp_statistics'); ?></h3></th>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('GeoIP Database', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php $upload_dir =  wp_upload_dir();
+					$GeoIP_filename = $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb'; 
+					$GeoIP_filedate = @filemtime( $GeoIP_filename );
+				
+					if( $GeoIP_filedate === FALSE ) {
+						_e('Database file does not exist.', 'wp_statistics');
+					} else {
+						echo formatSize( @filesize( $GeoIP_filename ) ) . __(', created on ', 'wp_statistics') . date_i18n(get_option('date_format') . ' @ ' . get_option('time_format'), $GeoIP_filedate); 
+					}?></strong>
+					<p class="description"><?php _e('The file size and date of the GeoIP database.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('browscap.ini File', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php 
+					$browscap_filename = $upload_dir['basedir'] . '/wp-statistics/browscap.ini'; 
+					$browscap_filedate = @filemtime( $browscap_filename );
+				
+					if( $browscap_filedate === FALSE ) {
+						_e('browscap.ini file does not exist.', 'wp_statistics');
+					} else {
+						echo formatSize( @filesize( $browscap_filename ) ) . __(', created on ', 'wp_statistics') . date_i18n(get_option('date_format') . ' @ ' . get_option('time_format'), $browscap_filedate); 
+					}?></strong>
+					<p class="description"><?php _e('The file size and date of the browscap.ini file.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+			
 			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></th>
 			</tr>
