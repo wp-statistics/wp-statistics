@@ -103,7 +103,7 @@
 								</tr>
 
 								<tr>
-									<th colspan="3"><?php echo sprintf(__('Date: <code dir="ltr">%s</code></code>', 'wp_statistics'), $WP_Statistics->Current_Date_i18n(get_option('date_format'))); ?></th>
+									<th colspan="3"><?php echo sprintf(__('Date: <code dir="ltr">%s</code>', 'wp_statistics'), $WP_Statistics->Current_Date_i18n(get_option('date_format'))); ?></th>
 								</tr>
 
 								<tr>
