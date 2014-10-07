@@ -1,6 +1,10 @@
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
+			<td scope="row" align="center"><img src="<?php echo plugins_url('wp-statistics/assets/images/logo-250.png'); ?>"></td>
+		</tr>
+
+		<tr valign="top">
 			<td scope="row" align="center"><h2><?php echo sprintf(__('WP Statistics V%s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></h2></td>
 		</tr>
 
