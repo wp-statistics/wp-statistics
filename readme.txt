@@ -150,6 +150,24 @@ To manually download the database and install it take the following steps:
 
 You can also ask MaxMind to unblock your host.  Note that automatic updates will not function until you can successfully download the database from your web server.
 
+= I've activated the plugin but the menus don't show up and nothing happens? =
+
+WP Statistics requires PHP 5.3, if it has detected it will active but it will display an error on your plugin list just below the WP Statistics entry to let you know.
+
+If there is no error message there may be something else wrong, your first thing to try is disabling your other plugins as they can sometimes cause conflicts.
+
+If you still don't see the menus, go to the support forums and open a new thread and we'll try to help out.
+
+= I'm using another statistics plugin/service and get different numbers for them, why? =
+
+Pretty much every plugin/service is going to give you different results for visits and vistors, there are several reasons for this:
+
+* Web crawler detection
+* Detection method (javascript vs server side PHP)
+* Centralized exclusions
+
+Services that use centralized databases, like Google Analytics, for spam and robot detection have better detection that WP Statistics can.  The trade off of course is relaying on an external service.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
