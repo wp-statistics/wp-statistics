@@ -37,7 +37,6 @@
  * @return array an array with browser, version and platform keys
  */
 function parse_user_agent( $u_agent = null ) {
-
 	if( is_null($u_agent) ) {
 		if( isset($_SERVER['HTTP_USER_AGENT']) ) {
 			$u_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -79,31 +78,21 @@ function parse_user_agent( $u_agent = null ) {
 		$platform = 'Chrome OS';
 	}
 
-	preg_match_all('%(?P<browser>Camino|Kindle(\ Fire\ Build)?|Firefox|Iceweasel|Safari|MSIE|Trident/.*rv|AppleWebKit|Chrome|IEMobile|Opera|OPR|Silk|Lynx|Midori|Version|Wget|curl|NintendoBrowser|PLAYSTATION\ (\d|Vita)+)
+	preg_match_all('%(?P<browser>Camino|Kindle(\ Fire\ Build)?|Firefox|Iceweasel|Safari|MSIE|Trident/.*rv|AppleWebKit|Chrome|
+			IEMobile|Opera|OPR|Silk|Midori|
+			Baiduspider|Googlebot|YandexBot|bingbot|Lynx|Version|Wget|curl|
+			NintendoBrowser|PLAYSTATION\ (\d|Vita)+)
 			(?:\)?;?)
 			(?:(?:[:/ ])(?P<version>[0-9A-Z.]+)|/(?:[A-Z]*))%ix',
 		$u_agent, $result, PREG_PATTERN_ORDER);
 
-	// If nothing has been found, handle cases like: "WordPress/3.7.1; http://wordpress.com" or "Googlebot/2.1 http://www.google.com/bot.html" or "FeedValidator/1.3"
-	if( !isset($result['browser'][0]) || !isset($result['version'][0]) ) {
-		if( preg_match( "/.*\/.*[; ]?.*/", $u_agent ) ) { 
-			$split = explode( "/", $u_agent );
-			$result['browser'][0] = $split[0];
-			
-			unset( $split[0] );
-			
-			$split = preg_split( "/[; ]/", implode( "/", $split ), 2 );
-			$result['version'][0] = $split[0];
-			
-			// If we didn't actually split on anything, leave the platform blank.
-			if( array_key_exists( 1, $split ) ) {
-				$platform = trim( $split[1] );
-			}
-		}
-	}
-	
 	// If nothing matched, return null (to avoid undefined index errors)
 	if( !isset($result['browser'][0]) || !isset($result['version'][0]) ) {
+		if( !$platform && preg_match('%^(?!Mozilla)(?P<browser>[A-Z0-9\-]+)(/(?P<version>[0-9A-Z.]+))?([;| ]\ ?.*)?$%ix', $u_agent, $result)
+		) {
+			return array( 'platform' => null, 'browser' => $result['browser'], 'version' => isset($result['version']) ? $result['version'] ?: null : null );
+		}
+
 		return $empty;
 	}
 
@@ -183,5 +172,7 @@ function parse_user_agent( $u_agent = null ) {
 		$browser  = 'NetFront';
 	}
 
-	return array( 'platform' => $platform, 'browser' => $browser, 'version' => $version );
+	return array( 'platform' => $platform ?: null, 'browser' => $browser ?: null, 'version' => $version ?: null );
+
 }
+
