@@ -8,6 +8,7 @@
 	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php");
 	
 	// Load the widgets.
+	include_once( dirname( __FILE__ ) . "/widgets/about.php");
 	include_once( dirname( __FILE__ ) . "/widgets/browsers.php");
 
 	if( $WP_Statistics->get_option( 'map_type' ) == 'jqvmap' ) {
