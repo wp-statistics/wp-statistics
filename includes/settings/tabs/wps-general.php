@@ -64,7 +64,7 @@ if( $wps_nonce_valid ) {
 			<td>
 				<input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo $WP_Statistics->get_option('hash_ips')==true? "checked='checked'":'';?>>
 				<label for="hash_ips"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('BETA: This feature will not store IP addresses in the database but instead used a unique hash.  The "Store entire user agent string" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled.', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('This feature will not store IP addresses in the database but instead used a unique hash.  The "Store entire user agent string" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 
