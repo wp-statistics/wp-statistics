@@ -82,7 +82,7 @@ Still not having any luck?  Open a new thread on one of the support forums and w
 * German [Thanks Andreas Martin](http://www.andreasmartin.com/) and Mike
 * Russian [Thanks Oleg](http://www.bestplugins.ru/)
 * Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
-* Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info/)
+* Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info/) & [Thanks Ogi Djuraskovic](http://firstsiteguide.com/)
 * Polish Thanks Radosław Rak and Tomasz Stulka.
 * Indonesian [Thanks Agit Amrullah](http://www.facebook.com/agitowblinkerz/)
 * Hungarian [Thanks ZSIMI](http://www.zsimi.hu/)
@@ -193,7 +193,7 @@ Services that use centralized databases, like Google Analytics, for spam and rob
 * Updated: Top pages now decode the URL for better readability.
 * Updated: GeoIP library from version 0.5 to 2.0.
 * Updated: User Agent detection code.
-* Updated: Polish translations.
+* Updated: Serbian, Polish translations.
 * Fixed: Incorrect country name being displayed for Georgia.
 * Fixed: Bug in detecting the new index in the Statistics->Optimization->Database tab.
 * Fixed: Duplicate closing tag in summary page.
