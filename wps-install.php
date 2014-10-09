@@ -175,6 +175,29 @@
 			// We now need to set the robot list to update during the next release.  This is only done for new installs to ensure we don't overwrite existing custom robot lists.
 			$WP_Statistics->store_option('force_robot_update',TRUE);
 		}
+
+		// For version 8.0, we're removing the old %option% types from the reports, so let's upgrade anyone who still has them to short codes.
+		$report_content = $WP_Statistics->get_option('content_report');
+
+		// Check to make sure we have a report to process.
+		if( trim( $report_content ) == '' ) {
+			// These are the variables we can replace in the template and the short codes we're going to replace them with.
+			$template_vars = array(
+				'user_online'		=>	'[wpstatistics stat=usersonline]',
+				'today_visitor'		=>	'[wpstatistics stat=visitors time=today]',
+				'today_visit'		=>	'[wpstatistics stat=visits time=today]',
+				'yesterday_visitor'	=>	'[wpstatistics stat=visitors time=yesterday]',
+				'yesterday_visit'	=>	'[wpstatistics stat=visits time=yesterday]',
+				'total_visitor'		=>	'[wpstatistics stat=visitors time=total]',
+				'total_visit'		=>	'[wpstatistics stat=visits time=total]',
+			);
+
+		// Replace the items in the template.
+		$final_report = preg_replace('/%(.*?)%/ime', "\$template_vars['$1']", $report_content);
+
+		// Store the updated report content.
+		$WP_Statistics->store_option('content_report', $final_report);
+		}
 		
 		// Save the settings now that we've set them.
 		$WP_Statistics->save_options();

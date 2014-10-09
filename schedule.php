@@ -143,21 +143,7 @@
 		// Retrieve the template from the options.
 		$string = $WP_Statistics->get_option('content_report');
 		
-		// These are the variables we can replace in the template.  Should probably convert this to use the short codes format at some point.
-		$template_vars = array(
-			'user_online'		=>	wp_statistics_useronline(),
-			'today_visitor'		=>	wp_statistics_visitor('today'),
-			'today_visit'		=>	wp_statistics_visit('today'),
-			'yesterday_visitor'	=>	wp_statistics_visitor('yesterday'),
-			'yesterday_visit'	=>	wp_statistics_visit('yesterday'),
-			'total_visitor'		=>	wp_statistics_visitor('total'),
-			'total_visit'		=>	wp_statistics_visit('total')
-		);
-
-		// Replace the items in the template.
-		$final_text_report = preg_replace('/%(.*?)%/ime', "\$template_vars['$1']", $string);
-
-		// Process shortcodes in the template.
+		// Process shortcodes in the template.  Note that V8.0 upgrade script replaced the old %option% codes with the appropriate short codes.
 		$final_text_report = do_shortcode( $final_text_report );
 		
 		// Send the report through the selected transport agent.
