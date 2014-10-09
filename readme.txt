@@ -1,7 +1,7 @@
 === WP Statistics ===
 Contributors: mostafa.s1990, GregRoss
 Donate link: http://mostafa-soufi.ir/donate/
-Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, yearl, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
+Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
 Stable tag: 7.4
@@ -10,26 +10,26 @@ License: GPL2
 Complete statistics for your WordPress site.
 
 == Description ==
-A perfect plugin for your WordPress visitor statistics, come visit us at our [website](http://wp-statistics.com) for all the latest news and information.
+A comprehensive plugin for your WordPress visitor statistics, come visit us at our [website](http://wp-statistics.com) for all the latest news and information.
 
 Track statistics for your WordPress site without depending on external services.
 
 Statistics are arrogate data whenever possible to respect your users privacy.
 
-Now includes beta support for not storing IP addresses in the database!
+Now includes support for not storing IP addresses in the database!
 
 On screen statistics presented as graphs are easily viewed through the admin interface.
 
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
 = Features =
-* User Online, see how many people are currently viewing your site
+* User online, see how many people are currently viewing your site
 * Visits, see how many hits your site gets each day
 * Visitors, see who's visiting your site
 * Page tracking, see which pages are viewed most often
 * Search Engines, see search queries and redirects from popular search engines like Google, Bing, DuckDuckGo, Yahoo, Yandex and Baidu
 * GeoIP location by Country
-* Beta support for not storing IP addresses in the database.
+* Support for not storing IP addresses in the database.
 * Interactive map of visitors location
 * E-mail reports of statistics
 * Set access level for view and manage roles based on WordPress roles
@@ -63,12 +63,10 @@ And a few things to double-check:
 * Have you checked your PHP and web server error logs?
 
 Still not having any luck?  Open a new thread on one of the support forums and we'll respond as soon as possible.
-
 * [English Support Forum](http://wordpress.org/support/plugin/wp-statistics)
 * [Persian Support Forum](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 
 = Translations =
-
 * English
 * Persian
 * Portuguese [Thanks](http://www.musicalmente.info/)
@@ -152,7 +150,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 = I've activated the plugin but the menus don't show up and nothing happens? =
 
-WP Statistics requires PHP 5.3, if it has detected it will active but it will display an error on your plugin list just below the WP Statistics entry to let you know.
+WP Statistics requires PHP 5.3, if it has detected an older version of PHP installed it will active but it will display an error on your plugin list just below the WP Statistics entry to let you know.
 
 If there is no error message there may be something else wrong, your first thing to try is disabling your other plugins as they can sometimes cause conflicts.
 
@@ -166,7 +164,7 @@ Pretty much every plugin/service is going to give you different results for visi
 * Detection method (javascript vs server side PHP)
 * Centralized exclusions
 
-Services that use centralized databases, like Google Analytics, for spam and robot detection have better detection that WP Statistics can.  The trade off of course is relaying on an external service.
+Services that use centralized databases, like Google Analytics, for spam and robot detection have better detection than WP Statistics can.  The trade off of course is relaying on an external service.
 
 == Screenshots ==
 1. View stats page.
