@@ -207,6 +207,25 @@
 			</tr>
 			
 			<tr valign="top">
+				<th scope="row">
+					<?php _e('browscap Cache File', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php 
+					$browscap_filename = $upload_dir['basedir'] . '/wp-statistics/cache.php'; 
+					$browscap_filedate = @filemtime( $browscap_filename );
+				
+					if( $browscap_filedate === FALSE ) {
+						_e('browscap cache file does not exist.', 'wp_statistics');
+					} else {
+						echo formatSize( @filesize( $browscap_filename ) ) . __(', created on ', 'wp_statistics') . date_i18n(get_option('date_format') . ' @ ' . get_option('time_format'), $browscap_filedate); 
+					}?></strong>
+					<p class="description"><?php _e('The file size and date of the browscap cache file.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+			
+			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Client Info', 'wp_statistics'); ?></h3></th>
 			</tr>
 			
