@@ -21,7 +21,7 @@
 		</tr>
 		
 		<tr valign="top">
-			<td scope="row" colspan="2"><?php _e('Come visit our great new <a href="http://wp-statistics.com" target="_blank">website</a> and keep up to date on the latest news about WP Statistics.', 'wp_statistics');?></td>
+			<td scope="row" colspan="2"><?php echo sprintf( __('Come visit our great new %s and keep up to date on the latest news about WP Statistics.', 'wp_statistics'), '<a href="http://wp-statistics.com" target="_blank">' . __('website', 'wp_statistics') . '</a>');?></td>
 		</tr>
 		
 		<tr valign="top">
@@ -37,7 +37,7 @@
 		</tr>
 		
 		<tr valign="top">
-			<td scope="row" colspan="2"><?php _e('WP Statistics supports internationalization and we encourage our users to submit translations, please visit our <a href="http://teamwork.wp-parsi.com/projects/wp-statistics" target="_blank">translation collaboration site</a> to see the current status and <a href="http://wp-statistics.com/contact/" target="_blank">drop us a line</a> if you would like to help.', 'wp_statistics');?></td>
+			<td scope="row" colspan="2"><?php echo sprintf( __('WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help.', 'wp_statistics'), '<a href="http://teamwork.wp-parsi.com/projects/wp-statistics" target="_blank">' . __('translation collaboration site', 'wp_statistics') . '</a>', '<a href="http://wp-statistics.com/contact/" target="_blank">' . __( 'drop us a line', 'wp_statistics') . '</a>');?></td>
 		</tr>
 		
 		<tr valign="top">
@@ -49,9 +49,9 @@
 				<p><?php _e("We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:", 'wp_statistics'); ?></p>
 
 				<ul style="list-style-type: disc; list-style-position: inside; padding-left: 25px;">
-					<li><?php echo _e('Have you read the <a title="FAQs" href="http://wp-statistics.com/?page_id=19" target=_blank>FAQs</a>?', 'wp_statistics' );?></li>
-					<li><?php _e('Have you read the <a title="Manual" href="?page=wps_manual_menu">manual</a>?', 'wp_statistics' );?></li>
-					<li><?php _e('Have you search the <a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">support forum</a> for a similar issue?', 'wp_statistics' );?></li>
+					<li><?php echo sprintf( __('Have you read the %s?', 'wp_statistics' ), '<a title="' . __('FAQs', 'wp_statistics') . '" href="http://wp-statistics.com/?page_id=19" target="_blank">' . __('FAQs', 'wp_statistics'). '</a>');?></li>
+					<li><?php echo sprintf( __('Have you read the %s?', 'wp_statistics' ), '<a title="' . __('manual', 'wp_statistics') . '" href="?page=wps_manual_menu">' . __('manual', 'wp_statistics') . '</a>');?></li>
+					<li><?php echo sprintf( __('Have you search the %s for a similar issue?', 'wp_statistics' ), '<a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">' . __('support forum', 'wp_statistics') . '</a>');?></li>
 					<li><?php _e('Have you search the Internet for any error messages you are receiving?', 'wp_statistics' );?></li>
 				</ul>
 
@@ -67,11 +67,11 @@
 					<li><?php _e('Have you checked your PHP and web server error logs?', 'wp_statistics' );?></li>
 				</ul>
 
-				<p><?php _e('Still not having any luck?', 'wp_statistics' );?> <?php _e('Then please open a new thread on the <a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">WordPress.org support forum</a> and we\'ll respond as soon as possible.', 'wp_statistics' );?></p>
+				<p><?php _e('Still not having any luck?', 'wp_statistics' );?> <?php echo sprintf(__('Then please open a new thread on the %s and we\'ll respond as soon as possible.', 'wp_statistics' ), '<a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">' . __('WordPress.org support forum', 'wp_statistics') . '</a>');?></p>
 
 				<p><br /></p>
 				
-				<p><?php _e('Alternatively <a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank">Farsi</a> support is available as well.', 'wp_statistics' );?></p>
+				<p><?php echo sprintf( __('Alternatively %s support is available as well.', 'wp_statistics' ), '<a href="http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/" target="_blank">' . __('Farsi', 'wp_statistics' ) .'</a>');?></p>
 			</td>
 		</tr>
 

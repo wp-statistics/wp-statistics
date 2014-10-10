@@ -11,7 +11,7 @@
 		$result = $wpdb->query("DELETE FROM {$table_prefix}statistics_visitor WHERE agent = '$agent'");
 		
 		if($result) {
-			echo sprintf(__('<code>%s</code> agent data deleted successfully.', 'wp_statistics'), $agent);
+			echo sprintf(__('%s agent data deleted successfully.', 'wp_statistics'), '<code>' . $agent . '</code>');
 		}
 		
 	} else {

@@ -337,7 +337,7 @@ if( $wps_nonce_valid ) {
 				<p class="description"><?php _e('Type Select Get Status Report.', 'wp_statistics'); ?></p>
 				
 				<?php if( !is_plugin_active('wp-sms/wp-sms.php') ) { ?>
-					<p class="description note"><?php echo sprintf(__('Note: To send SMS text messages please install the <a href="%s" target="_blank">Wordpress SMS</a> plugin.', 'wp_statistics'), 'http://wordpress.org/extend/plugins/wp-sms/'); ?></p>
+					<p class="description note"><?php echo sprintf(__('Note: To send SMS text messages please install the %s plugin.', 'wp_statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WordPress SMS', 'wp_statistics') . '</a>'); ?></p>
 				<?php } ?>
 			</td>
 		</tr>

@@ -50,7 +50,7 @@ function wp_statitiscs_empty_table( $table_name = FALSE ) {
 		$result = $wpdb->query('DELETE FROM ' . $table_name);
 		
 		if($result) {
-			return sprintf(__('<code>%s</code> table data deleted successfully.', 'wp_statistics'), $table_name);
+			return sprintf(__('%s table data deleted successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>');
 		}
 	}
 

@@ -11,7 +11,7 @@
 		$result = $wpdb->query("DELETE FROM {$table_prefix}statistics_visitor WHERE platform = '$platform'");
 		
 		if($result) {
-			echo sprintf(__('<code>%s</code> platform data deleted successfully.', 'wp_statistics'), $platform);
+			echo sprintf(__('%s platform data deleted successfully.', 'wp_statistics'), '<code>' . $platform . '</code>');
 		}
 		
 	} else {

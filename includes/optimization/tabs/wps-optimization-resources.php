@@ -41,7 +41,7 @@
 
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'useronline'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'useronline' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -52,7 +52,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'visit'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'visit' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -63,7 +63,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'visitor'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'visitor' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -74,7 +74,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'exclusions'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'exclusions' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -85,7 +85,7 @@
 
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the <code>%s</code> table', 'wp_statistics'), $table_prefix . 'statistics_' . 'pages'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'pages' . '</code>'); ?>:
 				</th>
 				
 				<td>

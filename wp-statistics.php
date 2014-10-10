@@ -78,16 +78,16 @@ License: GPL2
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
 			
 			if( !$WP_Statistics->get_option('useronline') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Online user tracking in WP Statistics is not enabled, please go to <a href="%s">setting page</a> and enable it.', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+				echo '<div class="update-nag"><p>'.sprintf(__('Online user tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
 
 			if( !$WP_Statistics->get_option('visits') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Hit tracking in WP Statistics is not enabled, please go to <a href="%s">setting page</a> and enable it.', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+				echo '<div class="update-nag"><p>'.sprintf(__('Hit tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
 
 			if( !$WP_Statistics->get_option('visitors') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to <a href="%s">setting page</a> and enable it.', 'wp_statistics'), $get_bloginfo_url).'</p></div>';
+				echo '<div class="update-nag"><p>'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
 			
 			if(!$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported())
-				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to <a href="%s">Setting page > GeoIP</a> and enable this feature (GeoIP can detect the visitors country)', 'wp_statistics'), $get_bloginfo_url . '&tab=geoip').'</p></div>';
+				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=geoip">' . __( 'Setting page > GeoIP', 'wp_statistics') . '</a>').'</p></div>';
 		}
 	}
 

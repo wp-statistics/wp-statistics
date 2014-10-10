@@ -103,11 +103,11 @@
 								</tr>
 
 								<tr>
-									<th colspan="3"><?php echo sprintf(__('Date: <code dir="ltr">%s</code>', 'wp_statistics'), $WP_Statistics->Current_Date_i18n(get_option('date_format'))); ?></th>
+									<th colspan="3"><?php echo sprintf(__('Date: %s', 'wp_statistics'), '<code dir="ltr">' . $WP_Statistics->Current_Date_i18n(get_option('date_format')) . '</code>'); ?></th>
 								</tr>
 
 								<tr>
-									<th colspan="3"><?php echo sprintf(__('Time: <code dir="ltr">%s</code>', 'wp_statistics'), $WP_Statistics->Current_Date_i18n(get_option('time_format'))); ?></th>
+									<th colspan="3"><?php echo sprintf(__('Time: %s', 'wp_statistics'), '<code dir="ltr">' .$WP_Statistics->Current_Date_i18n(get_option('time_format')) . '</code>'); ?></th>
 								</tr>
 							</tbody>
 						</table>
