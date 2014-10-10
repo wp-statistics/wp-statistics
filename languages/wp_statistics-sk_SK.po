@@ -1,897 +1,2530 @@
+# Translation of Wordpress Statistics in Slovak
+# This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2013-01-28 19:14+0330\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2014-10-10 12:54-0500\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
-"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content"
-"\\plugins\\wp-statistics\n"
-"X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-"
-"content\\plugins\\wp-statistics\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Poedit 1.6.9\n"
+"Project-Id-Version: Wordpress Statistics\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/schedule.php:32
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:103
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:90
+msgid "browscap"
+msgstr "browscap"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:695
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "Chyba pri preberaní browscap databázy z: %s - %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:783
+msgid "browscap database updated successfully!"
+msgstr "browscap databáza je aktualizovaná úspešne!"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:791
+msgid "browscap already at current version!"
+msgstr "browscap už v aktuálnej verzii!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:5
+msgid "Database Setup"
+msgstr "Nastavenie databázy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:10
+msgid "Re-run Install"
+msgstr "Spustite znova inštaláciu"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:14
+msgid "Install Now!"
+msgstr "Inštalovať teraz!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:15
+msgid ""
+"If for some reason your installation of WP Statistics is missing the "
+"database tables or other core items, this will re-execute the install "
+"process."
+msgstr ""
+"Ak z nejakého dôvodu vaša inštalácia WP Statistics chýba databázových "
+"tabuliek alebo iných položiek, jadro, to re-spustiť inštalačný proces."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:163
+msgid ""
+"If the PHP BC Math Extension is installed.  BC Math is no longer required "
+"for the GeoIP code and is listed here only for historical reasons."
+msgstr ""
+"Ak je nainštalovaný roz┼í├¡renie PHP BC Math. BC Math už nie je potrebné pre "
+"GeoIP kód a je tu uvedený len z historických dôvodov."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:168
+msgid "File Info"
+msgstr "Informácie o súbore"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "GeoIP Database"
+msgstr "GeoIP databázy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:184
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:203
+msgid ", created on "
+msgstr ", vytvorené na "
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:186
+msgid "The file size and date of the GeoIP database."
+msgstr "Veľkosť súboru a dátum GeoIP databázy."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:192
+msgid "browscap.ini File"
+msgstr "browscap.ini súboru"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:201
+msgid "browscap.ini file does not exist."
+msgstr "browscap.ini súbor neexistuje."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:205
+msgid "The file size and date of the browscap.ini file."
+msgstr "Veľkosť súboru a dátum súboru browscap.ini."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:51
+msgid "Install routine complete."
+msgstr "Inštalačný rutinu kompletný."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:17
+msgid "browscap settings"
+msgstr "browscap nastavenia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:22
+msgid "browscap usage"
+msgstr "browscap použitie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:28
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr "Browscap databázy budú stiahnuté a použité zistiť roboty."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:34
+msgid "Update browscap Info"
+msgstr "Aktualizácia browscap Info"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:39
+msgid "Download browscap Database"
+msgstr "Stiahnuť browscap databázy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:46
+msgid "Schedule weekly update of browscap DB"
+msgstr "Týždenná aktualizácia plánu browscap DB"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:69
+msgid "Download of the browscap database will be scheduled for once a week."
+msgstr "Na stiahnutie databázy browscap bude konať raz za týždeň."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:40
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table.  To create the index on the older installs duplicate "
+"entries must be deleted first.  Clicking \"Update Now\" will scan the "
+"vistitors table, delete duplicate entries and add the index."
+msgstr ""
+"Staršie inštalácie WP Statistics umožňujú duplicitné záznamy v tabuľke "
+"návštevníkov v prípade rohu. Novšie inštaluje chrániť proti tomuto s "
+"jedinečný index na tabuľku. Vytvoriť index na staršie inštaluje duplicitné "
+"položky musia byť najprv odstránené. Kliknutím \"Update Now\" kontrola "
+"vistitors stola, odstráni duplicitné záznamy a pridať do indexu."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:46
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table."
+msgstr ""
+"Staršie inštalácie WP Statistics umožňujú duplicitné záznamy v tabuľke "
+"návštevníkov v prípade rohu. Novšie inštaluje chrániť proti tomuto s "
+"jedinečný index na tabuľku."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:47
+msgid ""
+"Congratulations, your installation is already up to date, nothing to do."
+msgstr "Gratulujem, vaša inštalácia je už až do dnešného dňa, čo robiť."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:51
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr "Máte Hľadať na internete pre chybové hlásenia dostávate?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:62
+msgid ""
+"Are you getting a blank or incomplete page displayed in your browser?  Did "
+"you view the source for the page and check for any fatal errors?"
+msgstr ""
+"Ste stále nevyplnené alebo neúplné stránky zobrazujú v prehliadači? Môžete "
+"zobraziť zdrojový kód stránky a skontrolovať prípadné fatálne chyby?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:63
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "Skontrolovali ste svoje PHP a webové protokoly serveri chyba?"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "Zobraziť štatistiky stránok v bočnom paneli."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:97
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:94
+#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:65
+#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:59
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:22
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:25
+msgid "#hash#"
+msgstr "#hash #"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:4
+msgid ""
+"This will replace all IP addresses in the database with hash values and "
+"cannot be undo, are you sure?"
+msgstr ""
+"To nahradí všetky IP adresy z databázy s hash hodnoty a nie je možné vrátiť "
+"späť, ste si istí?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:26
+msgid ""
+"Updates any unknown location data in the database, this may take a while"
+msgstr ""
+"Aktualizuje všetky neznáme miesto údaje v databáze, to môže chvíľu trvať,"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:31
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:56
+msgid "IP Addresses"
+msgstr "IP adresy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:36
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:61
+msgid "Hash IP Addresses"
+msgstr "Haš IP adresy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:41
+msgid ""
+"Replace IP addresses in the database with hash values, you will not be able "
+"to recover the IP addresses in the future to populate location information "
+"afterwards and this may take a while"
+msgstr ""
+"IP adresy v databáze nahradiť hodnoty hash, nebudete schopní obnoviť IP "
+"adresy v budúcnosti naplniť umiestnenie informácií neskôr a to môže chvíľu "
+"trvať,"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:43
+msgid "IP Addresses replaced with hash values."
+msgstr "IP adresy nahradené hodnotami hash."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:149
+msgid "Force robot list update after upgrades"
+msgstr "Aktualizácia zoznamu robot sily po upgrade"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:152
+msgid ""
+"Force the robot list to be reset to the default after an update to WP "
+"Statistics takes place.  Note if this option is enabled any custom robots "
+"you have added to the list will be lost."
+msgstr ""
+"Platnosť zoznamu robot obnoviť predvolené po aktualizáciu na WP Statistics "
+"sa odohráva. Poznámka: Ak je táto možnosť povolená žiadne vlastné roboty ste "
+"pridali do zoznamu sa stratia."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:40
+msgid "This will delete the manual when you save the settings, are you sure?"
+msgstr "To odstráni manuálne uložíte nastavenia, sú si istí?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:67
+msgid ""
+"BETA: This feature will not store IP addresses in the database but instead "
+"used a unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+"BETA: Táto funkcia nebude ukladať IP adresy v databáze, ale namiesto toho "
+"použiť jedinečné hodnoty hash. \"Store celého užívateľského agenta string\" "
+"nastavenie sa vypne, ak je táto možnosť vybratá. Nebudete môcť obnoviť IP "
+"adresy v budúcnosti obnoviť informácie o polohe, ak je toto povolené."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:220
+msgid ""
+"By default WP Statistics displays an alert if any of the core features are "
+"disabled on every admin page, this option will disable these notices."
+msgstr ""
+"V predvolenom nastavení WP Statistics zobrazí výstrahu, ak základné funkcie "
+"sú vypnuté na každý admin stránky, táto možnosť bude vypnúť tieto oznámenia."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:226
+msgid "Delete the manual"
+msgstr "Odstrániť manuál"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:232
+msgid ""
+"By default WP Statistics stores the admin manual in the plugin directory (~5 "
+"meg), if this option is enabled it will be deleted now and during upgrades "
+"in the future."
+msgstr ""
+"V predvolenom nastavení WP Statistics ukladá admin manuálne v plugin "
+"adresári (~ 5 meg), ak je táto možnosť povolená, bude zmazaný teraz a počas "
+"upgrade v budúcnosti."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "Databáza registra"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:41
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visitors table."
+msgstr ""
+"Táto operácia môže trvať dlhú dobu na inštaluje s veľa riadkov v tabuľke "
+"návštevníkov."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:129
+msgid "Database"
+msgstr "Databáza"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:298
+msgid "Schedule"
+msgstr "Rozvrh"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:328
+msgid "Send reports via"
+msgstr "Odoslať správy prostredníctvom"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:347
+msgid "E-mail addresses"
+msgstr "E-mailové adresy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:352
+msgid ""
+"A comma separated list of e-mail addresses to send the reports to if e-mail "
+"is selected above."
+msgstr ""
+"Čiarkou oddelený zoznam e-mailové adresy Odoslať správy ak e-mail je vybraté "
+"vyššie."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:358
+msgid "Report body"
+msgstr "Telo správy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:75
+msgid "The following three items are global to all users."
+msgstr "Nasledujúce tri položky sú globálnych všetkým používateľom."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:80
+msgid "Map type"
+msgstr "Typ mapy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+msgid "JQVMap"
+msgstr "JQVMap"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:93
+msgid ""
+"The \"Google\" option will use Google's mapping service to plot the recent "
+"visitors (requires access to Google)."
+msgstr ""
+"\"Google\" možnosť používať Google mapovanie služby pozemok posledných "
+"návštevníkov (vyžaduje prístup k Google)."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:94
+msgid ""
+"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
+"recent visitors (requires no extenral services)."
+msgstr ""
+"\"JQVMap\" možnosť používať JQVMap javascript mapovanie knižnica pozemok "
+"posledných návštevníkov (vyžaduje služby bez extenral)."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:118
+msgid ""
+"This feature may cause a performance degradation when viewing statistics and "
+"is only valid if the map type is set to \"Google\"."
+msgstr ""
+"Táto funkcia môže spôsobiť výkonu pri prezeraní štatistiky a platí len ak je "
+"nastavený typ mapy na \"Google\"."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:50
+msgid "Browsers by type"
+msgstr "Prehliadače podľa typu"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:133
+msgid "Browsers by platform"
+msgstr "Prehliadače podľa platformy"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
+msgid "Excluded hits in the last"
+msgstr "Vylúčiť zásahy v posledných"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:36
+msgid "Hits Statistics Chart"
+msgstr "Hity štatistických údajov graf"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
+msgid "Hits in the last"
+msgstr "Hity v posledných"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:30
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:36
+msgid "Latest Search Words"
+msgstr "Posledná hľadaných slov"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:62
+msgid "Latest Search Word Statistics"
+msgstr "Najnovšie vyhľadávania slovo štatistiky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:61
+msgid "Recent Visitor Statistics"
+msgstr "Nedávne štatistiky návštevnosti"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:9
+#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:9
+msgid "Today Visitors Map"
+msgstr "Dnes návštevníci mapa"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:8
+msgid "Summary"
+msgstr "Zhrnutie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:13
+msgid "User(s) Online"
+msgstr "(Ov) Online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:45
+msgid "Top 10 Browsers"
+msgstr "Top 10 prehliadače"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:34
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:49
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:26
+msgid "Top Referring Sites"
+msgstr "Začiatok odkazuje stránky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:73
+msgid "Rate and Review"
+msgstr "Hodnotiť a recenzovať"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:77
+msgid "More Information"
+msgstr "Ďalšie informácie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:86
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:8
+msgid ""
+"This product includes GeoLite2 data created by MaxMind, available from %s."
+msgstr ""
+"Tento produkt obsahuje GeoLite2 údaje vytvorené MaxMind, dostupné z %s."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
+msgid "Search engine referrals in the last"
+msgstr "Vyhľadávače referrals v posledných"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:98
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:67
+msgid "Number of referrals"
+msgstr "Počet odkazujúcich serverov"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
+msgid "Top 10 Pages"
+msgstr "Top 10 stránok"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:17
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:36
+msgid "Search Engine Referral Statistics"
+msgstr "Hľadať Motor postúpenie štatistiky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:4
+msgid "WP Statistics V%s"
+msgstr "WP Statistics V %s"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:16
+msgid "Visit Us Online"
+msgstr "Navštívte nás Online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:20
+msgid ""
+"Come visit our great new <a href=\"http://wp-statistics.com\" target=\"_blank"
+"\">website</a> and keep up to date on the latest news about WP Statistics."
+msgstr ""
+"Príďte navštíviť naše skvelé nové <a href=\"http://wp-statistics.com\" "
+"target=\"_blank\">webovej stránky</a> a držať až do dnešného dňa najnovšie "
+"správy o WP Statistics."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:24
+msgid "Rate and Review at WordPress.org"
+msgstr "Hodnotiť a recenzovať na WordPress.org"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+msgid "Thanks for installing WP Statistics, we encourage you to submit a "
+msgstr "Vďaka za inštaláciu WP Statistics, odporúčame vám podať "
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+msgid "rating and review"
+msgstr "Hodnotenie a preskúmanie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
+msgstr "viac ako na WordPress.org. Vaša spätná väzba je veľmi ocenil!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:36
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our <a href=\"http://teamwork.wp-parsi.com/"
+"projects/wp-statistics\" target=\"_blank\">translation collaboration site</"
+"a> to see the current status and <a href=\"http://wp-statistics.com/contact/"
+"\" target=\"_blank\">drop us a line</a> if you would like to help."
+msgstr ""
+"WP Statistics podporuje internacionalizáciu a žiadame našich užívateľov, aby "
+"predložili preklady, prosím navštívte naše <a href=\"http://teamwork.wp-"
+"parsi.com/projects/wp-statistics\" target=\"_blank\">preklad spolupracujúca "
+"lokalita</a> zistiť aktuálny stav <a href=\"http://wp-statistics.com/contact/"
+"\" target=\"_blank\">nás čiary</a> Ak by ste chceli pomôcť."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:45
+msgid ""
+"We're sorry you're having problem with WP Statistics and we're happy to help "
+"out.  Here are a few things to do before contacting us:"
+msgstr ""
+"Ľutujeme, máte problém s WP Statistics a sme radi pomohli. Tu je niekoľko "
+"vecí, ktoré urobiť, než nás budete kontaktovať:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:48
+msgid ""
+"Have you read the <a title=\"FAQs\" href=\"http://wp-statistics.com/?"
+"page_id=19\" target=_blank>FAQs</a>?"
+msgstr ""
+"Ste čítal <a title=\"FAQs\" href=\"http://wp-statistics.com/?page_id=19\" "
+"target=_blank>FAQ</a>?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:49
+msgid ""
+"Have you read the <a title=\"Manual\" href=\"?page=wps_manual_menu\">manual</"
+"a>?"
+msgstr ""
+"Čítal ste <a title=\"Manual\" href=\"?page=wps_manual_menu\">manuál</a>?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:50
+msgid ""
+"Have you search the <a href=\"http://wordpress.org/support/plugin/wp-"
+"statistics\" target=\"_blank\">support forum</a> for a similar issue?"
+msgstr ""
+"Máte Hľadať <a href=\"http://wordpress.org/support/plugin/wp-statistics\" "
+"target=\"_blank\">podpora fóra</a> pre podobný problém?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:54
+msgid "And a few things to double-check:"
+msgstr "A pár vecí skontrolovať:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:57
+msgid "How's your memory_limit in php.ini?"
+msgstr "Ako je váš memory_limit v php.ini?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:58
+msgid "Have you tried disabling any other plugins you may have installed?"
+msgstr "Skúšali ste vypnúť ostatné pluginy môžete mať nainštalovaný"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:59
+msgid "Have you tried using the default WordPress theme?"
+msgstr "Už ste vyskúšali pomocou predvolené WordPress tému?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:60
+msgid "Have you double checked the plugin settings?"
+msgstr "Ste dvojité skontrolovať nastavenia plugin?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:61
+msgid "Do you have all the required PHP extensions installed?"
+msgstr "Máte všetky potrebné rozšírenie PHP nainštalované?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
+msgid "Still not having any luck?"
+msgstr "Ešte s trochou šťastia?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
+msgid ""
+"Then please open a new thread on the <a href=\"http://wordpress.org/support/"
+"plugin/wp-statistics\" target=\"_blank\">WordPress.org support forum</a> and "
+"we'll respond as soon as possible."
+msgstr ""
+"Potom prosím otvoriť nové vlákno na <a href=\"http://wordpress.org/support/"
+"plugin/wp-statistics\" target=\"_blank\">WordPress.org fórum</a> a budem "
+"reagovať čo najskôr."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:70
+msgid ""
+"Alternatively <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
+"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
+"a> support is available as well."
+msgstr ""
+"Alternatívne <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
+"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
+"a> podpora je k dispozícii aj."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:17
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:35
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:128
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:169
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:193
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:303
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:333
+msgid "Please select"
+msgstr "Prosím, vyberte"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:365
+msgid ""
+"Any shortcode supported by your installation of WordPress, include all "
+"shortcodes for WP Statistics (see the admin manual for a list of codes "
+"available) are supported in the body of the message."
+msgstr ""
+"Akékoľvek krátky podporované vaše inštalácie WordPress, zahŕňajú všetky "
+"shortcodes pre WP Statistics (pozri príručku admin zoznam dostupných kódov) "
+"sú podporované v tele správy."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:368
+msgid ""
+"Input data codes are now deprecated and will be removed in a future version "
+"of WP Statistics, please use the appropriate shortcodes, they are included "
+"here only for historical purposes:"
+msgstr ""
+"Kódy vstupných údajov sú teraz zastarané a odstráni sa v budúcej verzii WP "
+"Statistics, použite vhodné shortcodes, ktoré sú tu zahrnuté iba pre "
+"historické účely:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:22
+msgid ""
+"IP location services provided by GeoLite2 data created by MaxMind, available "
+"from %s."
+msgstr ""
+"IP poloha služby poskytované GeoLite2 údaje vytvorené MaxMind, dostupné z %s."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:23
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:32
+msgid "None"
+msgstr "Žiadna"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:28
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:92
+msgid "About"
+msgstr "O"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:123
+msgid "Widgets to Display"
+msgstr "Widgety displej"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:132
+msgid ""
+"The following items are unique to each user.  If you do not select the "
+"'About' widget it will automatically be displayed in the last positon of "
+"column A."
+msgstr ""
+"Tieto položky sú jedinečné pre každého používateľa. Ak nevyberiete \"O' "
+"widget sa automaticky zobrazí v poslednej pozícii stĺpca A."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:137
+msgid "Slot"
+msgstr "Slot"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:141
+msgid "Column A"
+msgstr "Stĺpec A"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:145
+msgid "Column B"
+msgstr "Stĺpec B"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:151
+msgid "Slot 1"
+msgstr "Slot 1"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:181
+msgid "Slot 2"
+msgstr "Slot 2"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:211
+msgid "Slot 3"
+msgstr "Slot 3"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:241
+msgid "Slot 4"
+msgstr "Slot 4"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:271
+msgid "Slot 5"
+msgstr "Slot 5"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:301
+msgid "Slot 6"
+msgstr "Slot 6"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:305
+msgid "N/A"
+msgstr "N/A"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:280
+msgid "Search Engine Referred"
+msgstr "Vyhľadávač uvedených"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:10
+msgid "Once Weekly"
+msgstr "Hmotnosti raz týždenne"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "Raz za 2 týždne"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "Raz za 4 týždne"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:28
+msgid "Complete statistics for your WordPress site."
+msgstr "Kompletné štatistiky pre vaše stránky WordPress."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:70
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to <a href="
+"\"%s\">setting page</a> and enable it."
+msgstr ""
+"Používateľa on-line sledovanie v WP Statistics nie je povolená, prosím, "
+"choďte na <a href=\"%s\">nastavenie stránky</a> a umožniť mu."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:73
+msgid ""
+"Hit tracking in WP Statistics is not enabled, please go to <a href=\"%s"
+"\">setting page</a> and enable it."
+msgstr ""
+"Hit sledovania v WP Statistics nie je povolená, navštívte <a href=\"%s"
+"\">nastavenie stránky</a> a umožniť mu."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:76
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to <a href=\"%s"
+"\">setting page</a> and enable it."
+msgstr ""
+"Návštevník tracking v WP Statistics nie je povolená, navštívte <a href=\"%s"
+"\">nastavenie stránky</a> a umožniť mu."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:79
+msgid ""
+"GeoIP collection is not active, please go to <a href=\"%s\">Setting page > "
+"GeoIP</a> and enable this feature (GeoIP can detect the visitors country)"
+msgstr ""
+"GeoIP kolekcia nie je aktívny, prosím, choďte na <a href=\"%s\">Nastavenie "
+"stránky > GeoIP</a> a túto funkciu (GeoIP dokáže detekovať návštevníkov "
+"krajiny)"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:65
+msgid "About WP Statistics V%s"
+msgstr "O WP Statistics V%s"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:72
+msgid "Website"
+msgstr "Webové stránky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:117
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:19
+msgid "References"
+msgstr "Referencie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:33
+msgid "PHP Memory Limit"
+msgstr "PHP Limit pamäte"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:38
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr "Limit pamäte skript môže spotrebovať, nastavená v php.ini."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:27
+msgid "WP Statistics"
+msgstr "WP Statistics"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+msgid "Visit WordPress.org page"
+msgstr "Navštívte stránku WordPress.org"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:29
+msgid "Page Trend for Post ID"
+msgstr "Stránka Trend Post ID"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:48
+msgid "Page Trend"
+msgstr "Stránka Trend"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:68
+msgid "Page Trending Stats"
+msgstr "Stránka trendy štatistiky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:44
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:55
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:66
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:77
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:88
+msgid "Number of rows in the <code>%s</code> table"
+msgstr "Počet riadkov v <code>%s</code> tabuľky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:97
+msgid "Record exclusions"
+msgstr "Záznam vylúčenia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:130
+msgid "Robot list"
+msgstr "Robot zoznam"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:157
+msgid "Excluded IP address list"
+msgstr "Zoznam vylúčených adries IP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:160
+msgid ""
+"A list of IP addresses and subnet masks (one per line) to exclude from "
+"statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
+"formats are accepted).  To specify an IP address only, use a subnet value of "
+"32 or 255.255.255.255."
+msgstr ""
+"Zoznam IP adresy a podsiete masky (jeden na riadok) vylúčiť z zber "
+"štatistiky (192.168.0.0/24 a 192.168.0.0/255.255.255.0 formáty sú "
+"akceptované). Ak chcete zadať adresu IP len, použite podsiete hodnotu 32 "
+"alebo 255.255.255.255."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:172
+msgid "Excluded login page"
+msgstr "Vylúčené prihlasovaciu stránku"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:179
+msgid "Excluded admin pages"
+msgstr "Vylúčené admin stránky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:72
+msgid "Users Online"
+msgstr "Užívatelia Online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:77
+msgid "User online"
+msgstr "Užívateľov online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:172
+msgid "Track all pages"
+msgstr "Sledovať všetky stránky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:184
+msgid "Disable hits column in post/pages list"
+msgstr "Zakázať hity stĺpec v post/stránky zoznam"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:195
+msgid "Miscellaneous"
+msgstr "Rôzne"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "Kliknite tu pre návštevu plugin na WordPress.org"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr "Kliknite tu pre sadzby a preskúmať tento plugin na WordPress.org"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+msgid "Rate this plugin"
+msgstr "Hodnotiť tento plugin"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:200
+msgid "WP Statistics - Hits"
+msgstr "WP Statistics - hity"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:588
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "Chyba pri preberaní GeoIP databázy z: %s - %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:108
+#: Plugins\wp-statistics\trunk/widget.php:277
+msgid "Total Page Views"
+msgstr "Celkový počet zobrazení stránky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:155
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:160
+#: Plugins\wp-statistics\trunk/wp-statistics.php:248
+msgid "Pages"
+msgstr "Stránky"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:255
+msgid "Manual"
+msgstr "Manuál"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:353
+msgid "Download ODF file"
+msgstr "Stiahnuť ODF súbor"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:354
+msgid "Download HTML file"
+msgstr "Stiahnuť súbor vo formáte HTML"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:358
+msgid "Manual file not found."
+msgstr "Manuálny súbor nebol nájdený."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:54
+msgid "Exclusions Statistics"
+msgstr "Vylúčenie štatistiky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:37
+msgid "Top Pages Visited"
+msgstr "Začiatok stránky navštívil"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:160
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:27
+msgid "No page title found"
+msgstr "Našiel žiadny názov stránky"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:13
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:132
+msgid "Top Pages"
+msgstr "Začiatok stránky"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:20
+msgid "Top 5 Pages Trends"
+msgstr "Top 5 stránok trendy"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:49
+msgid "Top 5 Page Trending Stats"
+msgstr "Top 5 štatistiky stránka trendy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:89
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:70
+msgid "Number of Hits"
+msgstr "Počet prístupov"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:29
+msgid "Manual not found: %s"
+msgstr "Manuál nenašla: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:39
+msgid "Invalid file type selected: %s"
+msgstr "Neplatný typ súboru vybraté: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:116
+msgid "Search Engine referred"
+msgstr "Vyhľadávač uvedených"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:47
+msgid "Include Header Row"
+msgstr "Zahrnúť hlavičku"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:52
+msgid "Include a header row as the first line of the exported file."
+msgstr "Zahrnúť hlavičku ako prvý riadok z exportovaného súboru."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:125
+msgid "PHP Safe Mode"
+msgstr "PHP núdzovom režime"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:130
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr ""
+"Pôsobí PHP núdzovom režime. GeoIP kód nie je podporovaný v núdzovom režime."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:106
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "GeoIP kolekcia je zakázané z nasledujúcich príčin:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:126
+msgid ""
+"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
+"mode enabled!"
+msgstr ""
+"PHP núdzovom režime zistiť! GeoIP kolekcia nie je podporovaná s PHP v "
+"núdzovom režime povolený!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:214
+msgid "Hide admin notices about non active features"
+msgstr "Skryť admin oznámenia o non aktívne funkcie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:237
+msgid "Search Enginges"
+msgstr "Hľadať Enginges"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:242
+msgid ""
+"Disabling all search engines is not allowed, doing so will result in all "
+"search engines being active."
+msgstr ""
+"Vypnutie všetkých vyhľadávačov nie je povolené, by to znamenalo vo všetkých "
+"vyhľadávačoch je aktívny."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:257
+msgid "disable"
+msgstr "vypnúť"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:258
+msgid "Disable %s from data collection and reporting."
+msgstr "Vypnúť %s zo zberu údajov a oznamovania."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "cURL Version"
+msgstr "cURL verziu"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:151
+msgid "cURL not installed"
+msgstr "nie nainštalovaný cURL"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:152
+msgid ""
+"The PHP cURL Extension version you are running.  cURL is required for the "
+"GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+"PHP cURL verzia rozšírenia používate. cURL je potrebné pre GeoIP kód, ak nie "
+"je nainštalovaný GeoIP bude vypnutá."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "BC Math"
+msgstr "BC Math"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+msgid "Installed"
+msgstr "Inštalované"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+msgid "Not installed"
+msgstr "Nie je nainštalovaný"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:114
+msgid ""
+"GeoIP collection requires the cURL PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP zber vyžaduje rozšírenie PHP cURL a nie je naložené na svoju verziu "
+"PHP!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:120
+msgid ""
+"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP zber vyžaduje BC Math PHP rozšírenie a to nie je naložené na svoju "
+"verziu PHP!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:26
+msgid ""
+"Unable to load the GeoIP database, make sure you have downloaded it in the "
+"settings page."
+msgstr ""
+"Nepodarilo sa načítať GeoIP databázy, uistite sa, že ste si stiahli na "
+"stránke nastavení."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:182
+msgid "Database file does not exist."
+msgstr "Databázový súbor neexistuje."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:59
+msgid "Search for"
+msgstr "Hľadanie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
+msgid "More"
+msgstr "Viac"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:269
+msgid "Include totals"
+msgstr "Zahrnúť súčty"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:275
+msgid ""
+"Add a total line to charts with multiple values, like the search engine "
+"referrals"
+msgstr ""
+"Pridanie riadka Celkom na grafy s viacerými hodnotami, ako vyhľadávače "
+"referrals"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:100
+msgid "Disable map"
+msgstr "Zakázať mapa"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:106
+msgid "Disable the map display"
+msgstr "Vypnúť zobrazovanie máp"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:112
+msgid "Get country location from Google"
+msgstr "Získajte krajinu od Google"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:8
+msgid ""
+"Attention: Exclusion are not currently set to be recorded, the results below "
+"may not reflect current statistics!"
+msgstr ""
+"Pozor: Vylúčenie nie sú v súčasnosti nastavené zaznamenajú, výsledky nižšie "
+"nemusia odrážať súčasné štatistiky!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:118
+msgid "Number of excluded hits"
+msgstr "Počet vylúčených hity"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:86
+msgid ""
+"Hint: manage_network = Super Admin Network, manage_options = Administrator, "
+"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
+"Contributor, read = Everyone."
+msgstr ""
+"Tip: manage_network = Super Admin siete, manage_options = správca, "
+"edit_others_posts = Editor, publish_posts = autor, edit_posts = "
+"prispievateľ, čítať = všetci."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:99
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:151
+msgid "Enable"
+msgstr "Zapnúť"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:100
+msgid ""
+"This will record all the excluded hits in a separate table with the reasons "
+"why it was excluded but no other information.  This will generate a lot of "
+"data but is useful if you want to see the total number of hits your site "
+"gets, not just actual user visits."
+msgstr ""
+"To bude zaznamenávať všetky vylúčené hity v samostatnej tabuľke dôvody prečo "
+"to bolo vylúčené, ale žiadne ďalšie informácie. To bude generovať veľa "
+"údajov, ale je užitočné, ak chcete zobraziť celkový počet hitov vaše stránky "
+"dostane, nie len skutočný užívateľ návštev."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:168
+msgid "Site URL Exclusions"
+msgstr "Stránky URL vylúčenia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:175
+msgid "Exclude the login page for registering as a hit."
+msgstr "Vylúčiť prihlasovaciu stránku pre registráciu ako hit."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:182
+msgid "Exclude the admin pages for registering as a hit."
+msgstr "Vylúčiť stránky admin za registráciu ako hit."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:93
+#: Plugins\wp-statistics\trunk/wp-statistics.php:243
+msgid "Exclusions"
+msgstr "Vylúčenia"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:68
+msgid "Total Exclusions: %s"
+msgstr "Celkové vylúčenie: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:75
+msgid "Exclusions Statistical Chart"
+msgstr "Vylúčenia štatistický graf"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:33
+msgid "Access Levels"
+msgstr "Úrovne prístupu"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:126
+msgid "Resources/Information"
+msgstr "Zdroje informácií /"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:128
+msgid "Purging"
+msgstr "Preplachovací"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:130
+msgid "Updates"
+msgstr "Aktualizácie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:88
+msgid "Access/Exclusions"
+msgstr "Prístup/vylúčenia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:91
+msgid "Maintenance"
+msgstr "Údržba"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:126
+msgid "Update"
+msgstr "Aktualizácia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:86
+msgid "General"
+msgstr "Všeobecné"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:57
+msgid "Error, %s not emptied!"
+msgstr "Chyba %s nie vyprázdnení!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:118
+msgid "Data"
+msgstr "Údajov"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:145
+msgid "Purge records older than"
+msgstr "Vymazať záznamy staršie ako"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:151
+msgid ""
+"Deleted user statistics data older than the selected number of days.  "
+"Minimum value is 30 days."
+msgstr ""
+"Odstránené používateľské štatistiky údaje staršie ako je vybraný počet dní. "
+"Minimálna hodnota je 30 dní."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:152
+msgid "Purge now!"
+msgstr "Vymazať teraz!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:17
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:27
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:37
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:47
+msgid ""
+"<code>%s</code> data older than <code>%s</code> days purged successfully."
+msgstr ""
+"<code>%s</code> údaje staršie ako <code>%s</code> dní úspešne vymazané."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:19
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:29
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:39
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:49
+msgid "No records found to purge from <code>%s</code>!"
+msgstr "Nájdené žiadne záznamy o vymazanie z <code>%s</code>!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:55
+msgid "Please select a value over 30 days."
+msgstr "Vyberte hodnotu viac ako 30 dní."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:20
+msgid ""
+"This will permanently delete data from the database each day, are you sure "
+"you want to enable this option?"
+msgstr ""
+"To bude natrvalo odstrániť dáta z databázy každý deň, ste si istí, že chcete "
+"povoliť túto možnosť?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:30
+msgid "Database Maintenance"
+msgstr "Údržba databázy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:35
+msgid "Run a daily WP Cron job to prune the databases"
+msgstr "Spustiť denné WP cronu prerezávať databázy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:41
+msgid ""
+"A WP Cron job will be run daily to prune any data older than a set number of "
+"days."
+msgstr ""
+"WP cronu bude prebiehať denne prerezávať všetky údaje staršie ako nastavený "
+"počet dní."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:47
+msgid "Prune data older than"
+msgstr "Prerezávať údaje staršie ako"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:52
+msgid "Days"
+msgstr "Dní"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:53
+msgid ""
+"The number of days to keep statistics for.  Minimum value is 30 days.  "
+"Invalid values will disable the daily maintenance."
+msgstr ""
+"Počet dní, aby štatistiky. Minimálna hodnota je 30 dní. Neplatné hodnoty "
+"zakážete každodennú údržbu."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:106
+msgid "Date: <code dir=\"ltr\">%s</code></code>"
+msgstr "Dátum: <code dir=\"ltr\">%s</code>"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:110
+msgid "Time: <code dir=\"ltr\">%s</code>"
+msgstr "Čas: <code dir=\"ltr\">%s</code>"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:89
+msgid "GeoIP"
+msgstr "GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:54
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:64
+msgid "Next update will be"
+msgstr "Ďalšia aktualizácia bude"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:109
+msgid ""
+"GeoIP collection requires PHP %s or above, it is currently disabled due to "
+"the installed PHP version being  "
+msgstr ""
+"GeoIP zber vyžaduje PHP %s alebo vyššie, je v súčasnosti zakázaný kvôli "
+"nainštalované PHP verzia je "
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:64
+msgid "Search Engine Referrals"
+msgstr "Vyhľadávače Referrals"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:88
+msgid "Daily Total"
+msgstr "Denné spolu"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+msgid "Current Time and Date"
+msgstr "Aktuálny čas a dátum"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:39
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:25
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "aktualizovať teraz!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:85
+msgid ""
+"See the  %sWordPress Roles and Capabilities page%s for details on capability "
+"levels."
+msgstr ""
+"Zobraziť % sWordPress úlohy a možnosti stránku %s Podrobnosti na úroveň "
+"spôsobilostí."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:87
+msgid ""
+"Each of the above casscades the rights upwards in the default WordPress "
+"configuration.  So for example selecting publish_posts grants the right to "
+"Authors, Editors, Admins and Super Admins."
+msgstr ""
+"Každá z vyššie uvedených casscades práva nahor v predvolenom nastavení "
+"WordPress. Tak napríklad výberom publish_posts udeľuje právo autorov, "
+"editory, administrátorov a Super administrátorov."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:88
+msgid ""
+"If you need a more robust solution to delegate access you might want to look "
+"at %s in the WordPress plugin directory."
+msgstr ""
+"Ak potrebujete viac robustné riešenie prístup delegáta, budete chcieť "
+"pozrieť na %s do WordPress plugin adresári."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:62
+msgid "Required user level to view WP Statistics"
+msgstr "Požadované užívateľskej úrovni zobrazenie WP Statistics"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:77
+msgid "Required user level to manage WP Statistics"
+msgstr "Požadovanej užívateľskej úrovni spravovať WP Statistics"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:56
+msgid "Schedule monthly update of GeoIP DB"
+msgstr "Harmonogram mesačná aktualizácia dB GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:82
+msgid ""
+"Download of the GeoIP database will be scheduled for 2 days after the first "
+"Tuesday of the month."
+msgstr "Stiahnuť GeoIP databázy bude konať 2 dni po prvý utorok v mesiaci."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:83
+msgid ""
+"This option will also download the database if the local filesize is less "
+"than 1k (which usually means the stub that comes with the plugin is still in "
+"place)."
+msgstr ""
+"Táto voľba bude tiež stiahnuť databázu ak miestne veľkosť je menej ako 1 kB "
+"(čo zvyčajne znamená stub, ktorý je dodávaný s pluginom je stále na svojom "
+"mieste)."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:89
+msgid "Populate missing GeoIP after update of GeoIP DB"
+msgstr "Vyplniť chýbajúce GeoIP po aktualizácii GeoIP dB"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:95
+msgid "Update any missing GeoIP data after downloading a new database."
+msgstr "Aktualizovať chýbajúce údaje, GeoIP po stiahnutí novej databázy."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:50
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "Aktualizovať %s GeoIP záznamov v databáze návštevníkov."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:98
+msgid "Version Info"
+msgstr "Informácie o verzii"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:103
+msgid "WP Statistics Version"
+msgstr "Verzia WP Statistics"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:108
+msgid "The WP Statistics version you are running."
+msgstr "Používate verziu WP Statistics."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:114
+msgid "PHP Version"
+msgstr "PHP verzia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:119
+msgid "The PHP version you are running."
+msgstr "Používate verziu PHP."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "jQuery Version"
+msgstr "jQuery verziu"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "The jQuery version you are running."
+msgstr "JQuery verziu používate."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:599
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "Chyba Nepodarilo sa otvoriť stiahnutý GeoIP databázy pre čítanie: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:606
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr "Chyba nemožno otvoriť určenia GeoIP databázy pre písanie %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:622
+msgid "GeoIP Database updated successfully!"
+msgstr "GeoIP databázy aktualizovan²!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:210
+msgid "Client Info"
+msgstr "Klient Info"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:215
+msgid "Client IP"
+msgstr "Klienta IP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:220
+msgid "The client IP address."
+msgstr "Adresu IP klienta."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:226
+msgid "User Agent"
+msgstr "User Agent"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:231
+msgid "The client user agent string."
+msgstr "Identifikačný reťazec klienta."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:105
+msgid "Exclude User Roles"
+msgstr "Vylúčiť roly používateľa"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:119
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:174
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:181
+msgid "Exclude"
+msgstr "Vylúčiť"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:120
+msgid "Exclude %s role from data collection."
+msgstr "%S úloha vylúčiť zo zberu údajov."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:126
+msgid "IP/Robot Exclusions"
+msgstr "IP/Robot vylúčenia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:143
+msgid ""
+"A list of words (one per line) to match against to detect robots.  Entries "
+"must be at least 4 characters long or they will be ignored."
+msgstr ""
+"Zoznam slov, (jeden na riadok) na zápas proti zistiť roboty. Položky musia "
+"mať aspoň 4 znakov alebo sa bude ignorovať."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:144
+msgid "Reset to Default"
+msgstr "Obnoviť predvolené"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:161
+msgid "Add 10.0.0.0"
+msgstr "Pridať 10.0.0.0"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:162
+msgid "Add 172.16.0.0"
+msgstr "Pridať 172.16.0.0"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:163
+msgid "Add 192.168.0.0"
+msgstr "Pridať 192.168.0.0"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:264
+msgid "Charts"
+msgstr "Grafy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:38
+msgid ""
+"For get more information and location (country) from visitor, enable this "
+"feature."
+msgstr "Pre viac informácií a lokalita (krajina) návštevníka, túto funkciu."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:87
+#: Plugins\wp-statistics\trunk/wp-statistics.php:237
+msgid "Overview"
+msgstr "Prehľad"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:25
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:21
+#: Plugins\wp-statistics\trunk/wp-statistics.php:240
+msgid "Countries"
+msgstr "Krajín"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:165
+#: Plugins\wp-statistics\trunk/wp-statistics.php:242
+msgid "Hits"
+msgstr "Hity"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:244
+msgid "Referers"
+msgstr "Vyhľadávaných výrazov"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:245
+msgid "Searches"
+msgstr "Vyhľadávanie"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:246
+msgid "Search Words"
+msgstr "Hľadané slová"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:94
+msgid "Second"
+msgstr "Druhý"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:17
+msgid "Browser Statistics"
+msgstr "Prehliadač štatistiky"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:107
+msgid "Platform"
+msgstr "Platforma"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:241
+msgid "%s Version"
+msgstr "verzia %s"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:17
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
+msgid "Hit Statistics"
+msgstr "Hit štatistiky"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:57
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:21
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:33
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:21
+msgid "10 Days"
+msgstr "10 dní"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:58
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:22
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:34
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:22
+msgid "20 Days"
+msgstr "20 dní"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:59
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:23
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:35
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:23
+msgid "30 Days"
+msgstr "30 dní"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:60
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:24
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:36
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:24
+msgid "2 Months"
+msgstr "2 mesiace"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:61
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:25
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:37
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:25
+msgid "3 Months"
+msgstr "3 mesiace"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:62
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:26
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:38
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:26
+msgid "6 Months"
+msgstr "6 mesiacov"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:63
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:27
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:39
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:27
+msgid "9 Months"
+msgstr "9 mesiacov"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:64
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:28
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:40
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:28
+msgid "1 Year"
+msgstr "1 rok"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:34
+msgid "Hits Statistical Chart"
+msgstr "Hity štatistický graf"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:150
+msgid "days"
+msgstr "dní"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:27
+msgid "Top 10 Countries"
+msgstr "Top 10 krajín"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:28
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:17
+msgid "Rank"
+msgstr "Hodnosť"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:29
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:18
+msgid "Flag"
+msgstr "Vlajka"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:31
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:20
+msgid "Visitor Count"
+msgstr "Počet návštev"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:35
+msgid "Search Engine Referrers Statistical Chart"
+msgstr "Hľadať Motor odkazovateľov štatistický graf"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:19
+msgid "Top Countries"
+msgstr "Top krajiny"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:14
+msgid "<code>%s</code> agent data deleted successfully."
+msgstr "<code>%s</code> agenta údajov úspešne vymazaná."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:14
+msgid "<code>%s</code> platform data deleted successfully."
+msgstr "<code>%s</code> platforma údajov úspešne vymazaná."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:159
+msgid "Delete User Agent Types"
+msgstr "Odstrániť typy používateľov Agent"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:164
+msgid "Delete Agents"
+msgstr "Odstráňte agentov"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:179
+msgid "All visitor data will be lost for this agent type."
+msgstr "Všetky návštevník údaje budú stratené pre tento typ agenta."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:180
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:204
+msgid "Delete now!"
+msgstr "Odstrániť teraz!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:188
+msgid "Delete Platforms"
+msgstr "Odstrániť platformy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:203
+msgid "All visitor data will be lost for this platform type."
+msgstr "Všetky návštevník údaje budú stratené pre tento typ platformy."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "Možnosti GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:133
+msgid "Store entire user agent string"
+msgstr "Uloženie celého reťazca"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:139
+msgid "Only enabled for debugging"
+msgstr "Len aktivované pre ladenie"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:17
+msgid "GeoIP settings"
+msgstr "GeoIP nastavenia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:32
+msgid "GeoIP collection"
+msgstr "Kolekcia GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:44
+msgid "Update GeoIP Info"
+msgstr "Aktualizácia GeoIP Info"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:49
+msgid "Download GeoIP Database"
+msgstr "Stiahnuť GeoIP databázy"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:40
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:50
+msgid "Save changes on this page to download the update."
+msgstr "Uložiť zmeny na tejto stránke prevezmite aktualizáciu."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:10
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:36
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:62
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:90
+msgid "Are you sure?"
+msgstr "si si istý?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:137
+msgid "Clear now!"
+msgstr "Jasné, teraz!"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:250
+msgid "Optimization"
+msgstr "Optimalizácia"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/export.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:3
+#: Plugins\wp-statistics\trunk/manual/manual.php:5
+msgid "Access denied!"
+msgstr "Prístup zamietnutý!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:53
+msgid "<code>%s</code> table data deleted successfully."
+msgstr "<code>%s</code> tabuľka údajov úspešne vymazaná."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:18
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:18
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:42
+#: Plugins\wp-statistics\trunk/includes/optimization/export.php:57
+msgid "Please select the desired items."
+msgstr "Vyberte požadované položky."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:17
+msgid "Resources"
+msgstr "Zdroje"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:22
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:27
+msgid "Memory usage in PHP"
+msgstr "Využitie pamäte v PHP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:26
+msgid "Byte"
+msgstr "Bajt"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:48
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:59
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:70
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:81
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:92
+msgid "Row"
+msgstr "Riadok"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:49
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:60
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:71
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:82
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:93
+msgid "Number of rows"
+msgstr "Počet riadkov"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:7
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:127
+msgid "Export"
+msgstr "Vývoz"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:12
+msgid "Export from"
+msgstr "Export z"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:24
+msgid "Select the table for the output file."
+msgstr "Vyberte tabuľku pre výstupný súbor."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:30
+msgid "Export To"
+msgstr "Export do"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:41
+msgid "Select the output file type."
+msgstr "Vyberte typ súboru výstupu."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Start Now!"
+msgstr "Začnite teraz!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:123
+msgid "Empty Table"
+msgstr "Prázdna tabuľka"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:136
+msgid "All data table will be lost."
+msgstr "Všetky údaje tabuľky sa stratia."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:40
+msgid "Support"
+msgstr "Podpora"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:47
+msgid "Referring sites from"
+msgstr "Odkazujúce stránky z"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:32
+msgid "Translations"
+msgstr "Preklady"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "Ktoré sa dopĺňajú čoskoro"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:102
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:99
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:78
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:27
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:32
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:33
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:71
+msgid "Map"
+msgstr "Mapa"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+msgid "Page"
+msgstr "Stránka"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+msgid "From"
+msgstr "Od"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:444
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
+msgstr "Stôl plugin neexistuje! Vypnúť a znova zapnúť plugin."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:280
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:285
+#: Plugins\wp-statistics\trunk/schedule.php:175
 msgid "Statistical reporting"
-msgstr "Zive statistiky konfiguracie"
+msgstr "Štatistické vykazovanie"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:4
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:6
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:58
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:14
+#: Plugins\wp-statistics\trunk/wp-statistics.php:234
 msgid "Statistics"
 msgstr "Statistika"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:5
-msgid "Show site stats in sidebar"
-msgstr "Statistiky Zobrazit stranky v bocnom paneli"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:19
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:80
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:14
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:159
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:9
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:369
+#: Plugins\wp-statistics\trunk/widget.php:38
+#: Plugins\wp-statistics\trunk/widget.php:247
+#: Plugins\wp-statistics\trunk/wp-statistics.php:299
 msgid "User Online"
 msgstr "Uzivatel Online"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:26
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:161
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:12
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:371
+#: Plugins\wp-statistics\trunk/widget.php:45
+#: Plugins\wp-statistics\trunk/widget.php:250
 msgid "Today Visit"
 msgstr "Dnes Visit"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:33
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:160
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:15
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:370
+#: Plugins\wp-statistics\trunk/widget.php:52
+#: Plugins\wp-statistics\trunk/widget.php:253
 msgid "Today Visitor"
-msgstr "Dnes Visit"
+msgstr "Dnes návštevník"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:40
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:163
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:373
+#: Plugins\wp-statistics\trunk/widget.php:59
 msgid "Yesterday Visit"
 msgstr "Vcera Visit"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:47
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:162
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:21
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:372
+#: Plugins\wp-statistics\trunk/widget.php:66
+#: Plugins\wp-statistics\trunk/widget.php:259
 msgid "Yesterday Visitor"
-msgstr "Vcera Visit"
+msgstr "Včera návštevník"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:54
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:24
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:73
+#: Plugins\wp-statistics\trunk/widget.php:262
 msgid "Week Visit"
 msgstr "Tyzden Visit"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:61
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:27
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:80
+#: Plugins\wp-statistics\trunk/widget.php:265
 msgid "Month Visit"
 msgstr "Mesiac Visit"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:68
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:30
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:87
+#: Plugins\wp-statistics\trunk/widget.php:268
 msgid "Years Visit"
 msgstr "Roky Navstivte"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:75
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:33
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:375
+#: Plugins\wp-statistics\trunk/widget.php:94
+#: Plugins\wp-statistics\trunk/widget.php:271
 msgid "Total Visit"
 msgstr "Celkom Visit"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:82
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:164
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:36
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:374
+#: Plugins\wp-statistics\trunk/widget.php:101
+#: Plugins\wp-statistics\trunk/widget.php:274
 msgid "Total Visitor"
-msgstr "Celkom Visit"
+msgstr "Celkom návštevníkov"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:90
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:39
-msgid "Search Engine reffered"
-msgstr "Search Engine reffered"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:105
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:57
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:123
+#: Plugins\wp-statistics\trunk/widget.php:300
 msgid "Total Posts"
 msgstr "Celkom prispevkov"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:112
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:60
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:130
+#: Plugins\wp-statistics\trunk/widget.php:303
 msgid "Total Pages"
 msgstr "Celkom Stranok"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:119
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:63
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:137
+#: Plugins\wp-statistics\trunk/widget.php:306
 msgid "Total Comments"
 msgstr "Pocet komentarov"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:126
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:66
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:144
+#: Plugins\wp-statistics\trunk/widget.php:309
 msgid "Total Spams"
 msgstr "Celkom spamy"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:133
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:69
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:151
+#: Plugins\wp-statistics\trunk/widget.php:312
 msgid "Total Users"
 msgstr "Celkom Uzivatelske"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:140
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:72
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:158
+#: Plugins\wp-statistics\trunk/widget.php:315
 msgid "Average Posts"
 msgstr "Priemerna prispevky"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:147
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:75
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:165
+#: Plugins\wp-statistics\trunk/widget.php:318
 msgid "Average Comments"
 msgstr "Priemerna Komentare"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:154
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:78
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:172
+#: Plugins\wp-statistics\trunk/widget.php:321
 msgid "Average Users"
 msgstr "Priemerny Uzivatelske"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:161
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:81
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:179
+#: Plugins\wp-statistics\trunk/widget.php:324
 msgid "Last Post Date"
 msgstr "Datum posledneho prispevku"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:60
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:105
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:329
 msgid "View Stats"
-msgstr ""
+msgstr "Zobrazenie štatistiky"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:61
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:141
+#: Plugins\wp-statistics\trunk/wp-statistics.php:251
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
-#, fuzzy
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:305
 msgid "Today visitor"
-msgstr "Dnes Visit"
+msgstr "Dnes návštevník"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:90
-#, fuzzy
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:311
 msgid "Today visit"
-msgstr "Dnes Visit"
+msgstr "Dnes navštíviť"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:95
-#, fuzzy
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:317
 msgid "Yesterday visitor"
-msgstr "Vcera navsteva"
+msgstr "Včera návštevník"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:256
+#: Plugins\wp-statistics\trunk/wp-statistics.php:323
 msgid "Yesterday visit"
 msgstr "Vcera navsteva"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:151
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:433
+#: Plugins\wp-statistics\trunk/wp-statistics.php:533
+#: Plugins\wp-statistics\trunk/wp-statistics.php:804
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nemate dostatocne opravnenia pre pristup k tejto stranke."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:209
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:244
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:334
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:374
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:23
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:106
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:240
+#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:74
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:35
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:61
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:57
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:47
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:35
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:19
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:131
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:45
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:9
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:64
+#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:11
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:11
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:14
 msgid "Click to toggle"
-msgstr ""
+msgstr "Kliknutím prepnúť"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:9
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:24
 msgid "Summary Statistics"
-msgstr "Statistika"
+msgstr "Súhrnné štatistiky"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:305
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:19
 msgid "Visitor"
-msgstr ""
+msgstr "Návštevník"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:315
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:20
 msgid "Visit"
-msgstr "Tyzden Visit"
+msgstr "Navštívte"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:25
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:24
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:69
 msgid "Today"
-msgstr "Dnes Visit"
+msgstr "Dnes"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:31
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:30
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:70
 msgid "Yesterday"
-msgstr "Vcera Visit"
+msgstr "Včera"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:37
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:36
 msgid "Week"
-msgstr ""
+msgstr "Týždeň"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:43
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:42
 msgid "Month"
-msgstr "Mesiac Visit"
+msgstr "Mesiac"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:49
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:48
 msgid "Year"
-msgstr ""
+msgstr "Rok"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:55
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:112
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:81
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:54
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:94
 msgid "Total"
-msgstr "Celkom Visit"
+msgstr "Celkom"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:62
-#, php-format
-msgid ""
-"Today date: <code dir=\"ltr\">%s</code>, Time: <code dir=\"ltr\">%s</code>"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:64
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
 msgid "(Adjustment)"
-msgstr ""
+msgstr "(Úprava)"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:70
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:24
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:25
+#: Plugins\wp-statistics\trunk/wp-statistics.php:238
 msgid "Browsers"
-msgstr ""
+msgstr "Prehliadače"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:101
-msgid "Graph of Browsers"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:143
-msgid "Browser share"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:145
-msgid "Firefox"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:146
-msgid "IE"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:147
-msgid "Ipad"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:148
-msgid "Android"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:149
-msgid "Chrome"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:150
-msgid "Safari"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:151
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:38
 msgid "Other"
-msgstr ""
+msgstr "Ostatné"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:166
-msgid "Top referring sites"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:386
-#, fuzzy
-msgid "Reference"
-msgstr "Prepojeny"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:172
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:20
 msgid "Address"
-msgstr ""
+msgstr "Adresa"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:210
-#, fuzzy
-msgid "About plugin"
-msgstr "Forum plugins"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
-#, fuzzy, php-format
-msgid "Plugin version: %s"
-msgstr "Plugin prekladatelia"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
-msgid "Translation plugin languages"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
-#, fuzzy
-msgid "Support plugin"
-msgstr "Forum plugins"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:216
-msgid "Weblog"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
-msgid ""
-"Please donate to the plugin. With the help of plug-ins you can quickly "
-"spread."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:224
-msgid "Donate"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:245
-#, fuzzy
-msgid "Statistical Chart"
-msgstr "Statistika"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:260
-msgid "Chart hit in the last 20 days"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:279
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:90
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:60
 msgid "Number of visits and visitors"
-msgstr ""
+msgstr "Návštevy a návštevníci"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:335
-msgid "Latest search words"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
-msgid "Word"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
-msgid "Date"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
-msgid "Site"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
 msgid "Google"
 msgstr "Google"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
-msgid "Yahoo!"
-msgstr "Yahoo!"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:358
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
-msgid "Bing"
-msgstr "Bing"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:363
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:400
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:408
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:420
-msgid "Unknown"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:375
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:27
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:38
 msgid "Recent Visitors"
-msgstr "Tyzden Visit"
+msgstr "Posledný návštevníci"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
-msgid "IP"
-msgstr "IP"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:30
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:19
 msgid "Country"
-msgstr ""
+msgstr "Krajiny"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
-msgid "Province"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:385
-msgid "Browser"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:9
-#, fuzzy
-msgid "General Settings"
-msgstr "Nastavenia"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:19
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:31
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:43
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:92
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:108
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:27
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:51
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:66
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:82
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:110
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:126
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:138
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:165
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:177
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:189
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:219
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:231
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:274
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:290
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:37
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:61
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:94
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:40
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:105
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:117
 msgid "Active"
-msgstr ""
+msgstr "Aktívne"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:32
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:44
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:109
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:83
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:111
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:127
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:166
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:178
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:190
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:291
 msgid "Enable or disable this feature"
-msgstr ""
+msgstr "Zapnúť alebo vypnúť túto funkciu"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:26
-#, fuzzy
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:163
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:30
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:100
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:105
 msgid "Visits"
-msgstr "Tyzden Visit"
+msgstr "Návštevy"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:38
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:116
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:121
+#: Plugins\wp-statistics\trunk/wp-statistics.php:247
 msgid "Visitors"
-msgstr ""
+msgstr "Návštevníci"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:50
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:89
 msgid "Check for online users every"
 msgstr "Skontrolujte, ci on-line uzivatelov kazdy"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:55
-#, fuzzy
-msgid "Secound"
-msgstr "Druha"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:56
-#, fuzzy, php-format
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:95
 msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr ". Cas pre kontrolne presne online uzivatel na webe Default:% s Second"
+msgstr "Čas pre odhlásenie presné on-line užívateľov na webe. Teraz: %s druhý"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:62
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:200
 msgid "Show stats in menu bar"
 msgstr "Zobrazit statistiky v menu"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:67
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:205
 msgid "No"
 msgstr "Nie"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:68
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:206
 msgid "Yes"
 msgstr "Ano"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:70
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:208
 msgid "Show stats in admin menu bar"
 msgstr "Zobrazit statistiky do admin menu"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:76
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:145
 msgid "Coefficient per visitor"
 msgstr "Koeficient za navstevnika"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:81
-#, fuzzy, php-format
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:150
 msgid "For each visit to account for several hits. Currently %s."
-msgstr "Pre kazdeho navstevnika ucet pre niekolko hitov."
+msgstr "Za každú návštevu účet pre niekoľko hitov. Momentálne %s."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:87
-msgid "Display IP Information On-screen statistics"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:93
-msgid "Showing the flag country and Visitor province name (May be a bit slow)"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:98
-msgid "Statistical reporting settings"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:116
-#, fuzzy
-msgid "Time send"
-msgstr "Cas"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:121
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:137
-#, fuzzy
-msgid "Please select."
-msgstr "Zadajte prosim hodnotu!"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:122
-msgid "Hourly"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:123
-msgid "Twice daily"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:124
-msgid "daily"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:126
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:322
 msgid "Select when receiving statistics report."
-msgstr ""
+msgstr "Vyberte pri prijímaní štatistiky správe."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:132
-msgid "Send Statistical reporting to"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:138
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:334
 msgid "Email"
-msgstr ""
+msgstr "E-mailom"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:139
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:335
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:141
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:337
 msgid "Type Select Get Status Report."
-msgstr ""
+msgstr "Typ vybrať dostať správu o stave."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:144
-#, php-format
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:340
 msgid ""
 "Note: To send SMS text messages please install the <a href=\"%s\" target="
 "\"_blank\">Wordpress SMS</a> plugin."
 msgstr ""
+"Poznámka: Poslať SMS textové správy prosím nainštalujte plugin <a href=\"%s"
+"\" target=\"_blank\">Wordpress SMS</a>."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:151
-msgid "Send Content Report"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:156
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:363
 msgid "Enter the contents of the reports received."
-msgstr ""
+msgstr "Zadajte obsah správ."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:158
-msgid "Input data:"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:2
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:240
 msgid "Name"
 msgstr "Meno"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:6
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:244
 msgid "Items"
 msgstr "Polozky"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:42
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:283
 msgid "Select type of search engine"
 msgstr "Vyberte typ vyhladavace"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:53
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:29
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:36
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:134
+#: Plugins\wp-statistics\trunk/widget.php:296
 msgid "All"
 msgstr "Vsetko"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:84
-msgid "Type date for last update"
-msgstr "Typ datum poslednej aktualizacie"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:86
-msgid "English"
-msgstr "English"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:89
-msgid "Persian"
-msgstr "Persian"
-
-#~ msgid "Added"
-#~ msgstr "Pridane"
-
-#~ msgid "value"
-#~ msgstr "Hodnota"
-
-#~ msgid "Was"
-#~ msgstr "Bol"
-
-#~ msgid "low value"
-#~ msgstr "nizka hodnota"
-
-#~ msgid "Access is Denied!"
-#~ msgstr "Pristup bol odmietnuty!"
-
-#~ msgid "Report a problem for WP Statistics"
-#~ msgstr "Nahlasit problem pre WP statistiku"
-
-#~ msgid "Thanks for your report!"
-#~ msgstr "Dakujeme za vasu spravu!"
-
-#~ msgid "An error has occurred!"
-#~ msgstr "Doslo k chybe!"
-
-#~ msgid "Error! Please Enter all field"
-#~ msgstr "Chyba! Zadajte prosim vsetky polia"
-
-#~ msgid "deleted!"
-#~ msgstr "zmazany!"
-
-#~ msgid "All plugin data is deleted"
-#~ msgstr "Vsetky plugin data su odstranene"
-
-#~ msgid "Disable plugin"
-#~ msgstr "Zakazat plugin"
-
-#~ msgid "plugin options have been deleted"
-#~ msgstr "plugin moznosti boli odstranene"
-
-#~ msgid "WP-Statistics"
-#~ msgstr "WP-Statistika"
-
-#~ msgid "Plugin home page"
-#~ msgstr "Plugin home page"
-
-#~ msgid "http://wordpress.org/extend/plugins/wp-statistics/"
-#~ msgstr "http://wordpress.org/extend/plugins/wp-statistics/"
-
-#~ msgid ""
-#~ "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> "
-#~ "and enable statistics"
-#~ msgstr ""
-#~ "WP-Statistika nie je povoleny! prosim prejdite na nastavenie <a href=\"%s"
-#~ "\"> stranke </ a> a umozni statistika"
-
-#~ msgid "Stats Log"
-#~ msgstr "Statistiky Log"
-
-#~ msgid "Users Online"
-#~ msgstr "Uzivatelia Online"
-
-#~ msgid "Are you sure?"
-#~ msgstr "Ste si isty?"
-
-#~ msgid "Configuration"
-#~ msgstr "Konfiguracia"
-
-#~ msgid "Enable Statistics"
-#~ msgstr "Povolit Statistika"
-
-#~ msgid "Statistics are enabled."
-#~ msgstr "Statistiky su povolene."
-
-#~ msgid "Statistics are disabled!"
-#~ msgstr "Statistiky su zakazane!"
-
-#~ msgid "General configuration"
-#~ msgstr "Vseobecne nastavenia"
-
-#~ msgid "Show decimals number"
-#~ msgstr "Zobrazit desatinne cisla"
-
-#~ msgid "Show number stats with decimal. For examle: 3,500"
-#~ msgstr "Zobrazit pocet statistiky s desatinnym Pre examle:. 3.500"
-
-#~ msgid "Daily referer of search engines"
-#~ msgstr "Denna referer vyhladavacov"
-
-#~ msgid "Can be calculated daily or total search engines"
-#~ msgstr "Moze byt vypocitana denny alebo celkovy vyhladavace"
-
-#~ msgid "Increase value of the total hits by"
-#~ msgstr "Zvysenie hodnota celkovych hitov od"
-
-#~ msgid "Done"
-#~ msgstr "Hotovo"
-
-#~ msgid "Your total visit sum with this value"
-#~ msgstr "Vasa celkova navsteva sucet s touto hodnotou"
-
-#~ msgid "Reduce value of the total hits by"
-#~ msgstr "Znizit hodnotu celkovych hitov od"
-
-#~ msgid "Your total visit minus with this value"
-#~ msgstr "Vasa celkova navsteva minus s touto hodnotou"
-
-#~ msgid "Number item for show Statistics"
-#~ msgstr "Pocet vyrobkov pre vystavne statistiku"
-
-#~ msgid "Default 5"
-#~ msgstr "Predvoleny 5"
-
-#~ msgid "Number for submit item in Database and show that"
-#~ msgstr "Cislo na predlozenie polozky v databaze, a ukazuju, ze"
-
-#~ msgid "Default 1"
-#~ msgstr "Predvolena 1"
-
-#~ msgid "Refresh Stats every"
-#~ msgstr "Obnovit statistiky kazdy"
-
-#~ msgid "Second(s)"
-#~ msgstr "Druha (y)"
-
-#~ msgid "Recommended"
-#~ msgstr "Odporucana"
-
-#~ msgid "To reduce pressure on the server, this defaults to 10 sec"
-#~ msgstr "Ak chcete znizit tlak na serveri, tento predvoleny 10 sekund"
-
-#~ msgid "Pagerank configuration"
-#~ msgstr "Pagerank konfiguracie"
-
-#~ msgid "Your url for Google pagerank check"
-#~ msgstr "Vas url pre Google PageRank check"
-
-#~ msgid "If empty. you website url is used"
-#~ msgstr "Ak nechate prazdne. si stranky url je pouzity"
-
-#~ msgid "Your url for Alexa pagerank check"
-#~ msgstr "Vas url pre Alexa pagerank check"
-
-#~ msgid "Update"
-#~ msgstr "Aktualizacia"
-
-#~ msgid "This plugin created by %s from %s and %s."
-#~ msgstr "Tento plugin vytvoril% s od% s% s"
-
-#~ msgid "Language"
-#~ msgstr "Jazyk"
-
-#~ msgid "by"
-#~ msgstr "by"
-
-#~ msgid "for translate language files. please send files for"
-#~ msgstr "Pre prelozit jazykovych suborov. zaslite subory"
-
-#~ msgid "Show Functions"
-#~ msgstr "Zobrazit Funkcia"
-
-#~ msgid "Report Problem"
-#~ msgstr "Sprava Problem"
-
-#~ msgid "User Online Live"
-#~ msgstr "Uzivatel Online Live"
-
-#~ msgid "Total Visit Live"
-#~ msgstr "Celkom Visit Live"
-
-#~ msgid "Total Feedburner Subscribe"
-#~ msgstr "Celkom FeedBurner Prihlaste"
-
-#~ msgid "Google Pagerank"
-#~ msgstr "Google Pagerank"
-
-#~ msgid "Alexa Pagerank"
-#~ msgstr "Alexa Pagerank"
-
-#~ msgid "Hide"
-#~ msgstr "Skryt"
-
-#~ msgid "Your Name"
-#~ msgstr "Vase meno"
-
-#~ msgid "Description Problem"
-#~ msgstr "Popis Problem"
-
-#~ msgid "Send Problem"
-#~ msgstr "Odoslat Problem"
-
-#~ msgid "Unistall plugin"
-#~ msgstr "unistall plugin"
-
-#~ msgid "Delete all data, including tables and plugin options"
-#~ msgstr "Zmazat vsetky udaje, vratane tabuliek a plugin moznosti"
-
-#~ msgid "Uninstall"
-#~ msgstr "Odinstalovat"
-
-#~ msgid "Stats weblog"
-#~ msgstr "Statistiky weblog"
-
-#~ msgid "Agent"
-#~ msgstr "Agent"
-
-#~ msgid "Not Found!"
-#~ msgstr "Nebol najdeny!"

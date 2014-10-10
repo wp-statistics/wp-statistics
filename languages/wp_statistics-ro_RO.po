@@ -1,714 +1,2535 @@
+# Translation of Wordpress Statistics in Romanian
+# This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-statistics\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-28 19:12+0330\n"
-"PO-Revision-Date: 2013-01-28 19:12+0330\n"
-"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
-"Language-Team: \n"
-"Language: en\n"
+"PO-Revision-Date: 2014-10-10 12:54-0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
-"X-Generator: Poedit 1.5.4\n"
-"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content"
-"\\plugins\\wp-statistics\n"
-"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-"
-"content\\plugins\\wp-statistics\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);\n"
+"X-Generator: Poedit 1.6.9\n"
+"Project-Id-Version: Wordpress Statistics\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro_RO\n"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:209
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:244
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:334
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:374
-msgid "Click to toggle"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:90
+msgid "browscap"
+msgstr "browscap"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:695
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "Eroare de descărcare browscap bazei de date: %s - %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:783
+msgid "browscap database updated successfully!"
+msgstr "browscap baza de date actualizată cu succes!"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:791
+msgid "browscap already at current version!"
+msgstr "browscap deja la versiunea curentă!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:5
+msgid "Database Setup"
+msgstr "Baza de date de configurare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:10
+msgid "Re-run Install"
+msgstr "Executați din nou instalare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:14
+msgid "Install Now!"
+msgstr "Instalaţi acum!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:15
+msgid ""
+"If for some reason your installation of WP Statistics is missing the "
+"database tables or other core items, this will re-execute the install "
+"process."
+msgstr ""
+"Dacă pentru un motiv oarecare instalarea WP Statistics lipseşte tabelele "
+"bazei de date sau alte elemente de bază, acest lucru va re-executa procesul "
+"de instalare."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:163
+msgid ""
+"If the PHP BC Math Extension is installed.  BC Math is no longer required "
+"for the GeoIP code and is listed here only for historical reasons."
+msgstr ""
+"Dacă este instalat extensia PHP BC matematica. BC matematica nu mai este "
+"necesară pentru codul GeoIP şi este listat aici doar pentru motive istorice."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:168
+msgid "File Info"
+msgstr "Informaţii fişier"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "GeoIP Database"
+msgstr "Baza de date GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:184
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:203
+msgid ", created on "
+msgstr ", creat pe "
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:186
+msgid "The file size and date of the GeoIP database."
+msgstr "Dimensiunea fişierului şi data GeoIP bazei de date."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:192
+msgid "browscap.ini File"
+msgstr "browscap.ini fişier"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:201
+msgid "browscap.ini file does not exist."
+msgstr "browscap.ini fişierul nu există."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:205
+msgid "The file size and date of the browscap.ini file."
+msgstr "Dimensiunea fişierului şi data de fişier browscap.ini."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:51
+msgid "Install routine complete."
+msgstr "Instalarea completă de rutină."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:17
+msgid "browscap settings"
+msgstr "Setări browscap"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:22
+msgid "browscap usage"
+msgstr "browscap de utilizare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:28
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr ""
+"Browscap baza de date va fi descărcate şi utilizate pentru a detecta roboţi."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:34
+msgid "Update browscap Info"
+msgstr "Actualizare browscap Info"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:39
+msgid "Download browscap Database"
+msgstr "Descarca browscap baza de date"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:46
+msgid "Schedule weekly update of browscap DB"
+msgstr "Orarul săptămânal update de browscap DB"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:69
+msgid "Download of the browscap database will be scheduled for once a week."
+msgstr ""
+"Descarca browscap bazei de date va fi programat pentru o dată pe săptămână."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:40
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table.  To create the index on the older installs duplicate "
+"entries must be deleted first.  Clicking \"Update Now\" will scan the "
+"vistitors table, delete duplicate entries and add the index."
 msgstr ""
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:9
-#, fuzzy
-msgid "Summary Statistics"
-msgstr "Activeaza statistici"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:46
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table."
+msgstr ""
+"Instalări mai vechi de WP Statistics permit intrările dublate în tabelul de "
+"vizitatori într-un caz de colţ. Mai nou se instalează proteja cu un index "
+"unic pe masă."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:14
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:159
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:9
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:47
+msgid ""
+"Congratulations, your installation is already up to date, nothing to do."
+msgstr "Felicitări, instalarea este deja până la data, nimic de a face."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:51
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr ""
+"Aţi fost căutaţi pe Internet pentru orice mesaje de eroare care le primesc?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:62
+msgid ""
+"Are you getting a blank or incomplete page displayed in your browser?  Did "
+"you view the source for the page and check for any fatal errors?"
+msgstr ""
+"Sunt Noţiuni de bază o pagină necompletată sau incomplete afişate în browser-"
+"ul? Ai Vezi sursa pentru pagină şi a verifica pentru orice erori fatale?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:63
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "Have tu a verifica jurnalele de eroare server PHP şi web?"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "Arată Statistici site în bara laterală."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:97
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:94
+#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:65
+#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:59
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:22
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:25
+msgid "#hash#"
+msgstr "#hash #"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:4
+msgid ""
+"This will replace all IP addresses in the database with hash values and "
+"cannot be undo, are you sure?"
+msgstr ""
+"Aceasta va înlocui toate adresele de IP în baza de date cu valorile hash şi "
+"nu poate fi anulare, eşti sigur?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:26
+msgid ""
+"Updates any unknown location data in the database, this may take a while"
+msgstr ""
+"Actualizări orice date de locaţie necunoscută în baza de date, aceasta poate "
+"dura un timp"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:31
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:56
+msgid "IP Addresses"
+msgstr "Adrese IP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:36
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:61
+msgid "Hash IP Addresses"
+msgstr "Adrese de IP hash"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:41
+msgid ""
+"Replace IP addresses in the database with hash values, you will not be able "
+"to recover the IP addresses in the future to populate location information "
+"afterwards and this may take a while"
+msgstr ""
+"Înlocuiţi adrese de IP în baza de date cu valorile hash, nu va fi capabil de "
+"a recupera adresele IP în viitor pentru a popula informatii de localizare "
+"după aceea şi acest lucru poate dura un timp"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:43
+msgid "IP Addresses replaced with hash values."
+msgstr "Adrese IP înlocuite cu valorile hash."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:149
+msgid "Force robot list update after upgrades"
+msgstr "Vigoare robot lista actualizare după upgrade-uri"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:152
+msgid ""
+"Force the robot list to be reset to the default after an update to WP "
+"Statistics takes place.  Note if this option is enabled any custom robots "
+"you have added to the list will be lost."
+msgstr ""
+"Vigoare lista de robot pentru a fi resetat la valorile implicite din după o "
+"actualizare a WP Statistics are loc. Notă Dacă această opţiune este activată "
+"orice personalizat roboti ai adăugat în listă vor fi pierdute."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:40
+msgid "This will delete the manual when you save the settings, are you sure?"
+msgstr "Aceasta va şterge manual când salvaţi setările, sigur?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:67
+msgid ""
+"BETA: This feature will not store IP addresses in the database but instead "
+"used a unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:220
+msgid ""
+"By default WP Statistics displays an alert if any of the core features are "
+"disabled on every admin page, this option will disable these notices."
+msgstr ""
+"Implicit WP Statistics afişează o avertizare în cazul în care oricare dintre "
+"caracteristicile de bază sunt dezactivate pe fiecare pagina de admin, "
+"această opţiune va dezactiva aceste notificări."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:226
+msgid "Delete the manual"
+msgstr "Ştergeţi manual"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:232
+msgid ""
+"By default WP Statistics stores the admin manual in the plugin directory (~5 "
+"meg), if this option is enabled it will be deleted now and during upgrades "
+"in the future."
+msgstr ""
+"În mod implicit WP Statistics magazine admin manual în directorul de plugin-"
+"ul (~ 5 meg), dacă această opţiune este activată va fi şters acum şi în "
+"timpul upgrade-uri în viitor."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "Indicele de baze de date"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:41
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visitors table."
+msgstr ""
+"Această operaţiune ar putea dura mult timp pe instalează cu multe rânduri "
+"din tabelul de vizitatori."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:129
+msgid "Database"
+msgstr "Baza de date"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:298
+msgid "Schedule"
+msgstr "Programul"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:328
+msgid "Send reports via"
+msgstr "Trimite rapoarte prin"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:347
+msgid "E-mail addresses"
+msgstr "Adresele de poştă electronică"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:352
+msgid ""
+"A comma separated list of e-mail addresses to send the reports to if e-mail "
+"is selected above."
+msgstr ""
+"O virgulă separated listă de adrese de e-mail pentru a trimite rapoartele "
+"dacă e-mail este selectat mai sus."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:358
+msgid "Report body"
+msgstr "Raportul corpului"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:75
+msgid "The following three items are global to all users."
+msgstr "Următoarele trei elemente sunt globale pentru toţi utilizatorii."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:80
+msgid "Map type"
+msgstr "Tip hartă"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+msgid "JQVMap"
+msgstr "JQVMap"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:93
+msgid ""
+"The \"Google\" option will use Google's mapping service to plot the recent "
+"visitors (requires access to Google)."
+msgstr ""
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:94
+msgid ""
+"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
+"recent visitors (requires no extenral services)."
+msgstr ""
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:118
+msgid ""
+"This feature may cause a performance degradation when viewing statistics and "
+"is only valid if the map type is set to \"Google\"."
+msgstr ""
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:50
+msgid "Browsers by type"
+msgstr "Browsere de tip"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:133
+msgid "Browsers by platform"
+msgstr "Browsere de platforma"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
+msgid "Excluded hits in the last"
+msgstr "Exclus hit-uri în ultima"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:36
+msgid "Hits Statistics Chart"
+msgstr "Graficul de statistici afisari"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
+msgid "Hits in the last"
+msgstr "Hit-uri în ultima"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:30
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:36
+msgid "Latest Search Words"
+msgstr "Ultimele cuvinte de căutare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:62
+msgid "Latest Search Word Statistics"
+msgstr "Cele mai recente căutare cuvânt statistici"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:61
+msgid "Recent Visitor Statistics"
+msgstr "Statisticile recente vizitator"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:9
+#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:9
+msgid "Today Visitors Map"
+msgstr "Azi vizitatori hartă"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:8
+msgid "Summary"
+msgstr "Rezumat"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:13
+msgid "User(s) Online"
+msgstr "Utilizator(i) Online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:45
+msgid "Top 10 Browsers"
+msgstr "Top 10 browsere"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:34
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:49
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:26
+msgid "Top Referring Sites"
+msgstr "Top referindu-se site-uri"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:73
+msgid "Rate and Review"
+msgstr "Rata şi revizuirea"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:77
+msgid "More Information"
+msgstr "Mai multe informaţii"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:86
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:8
+msgid ""
+"This product includes GeoLite2 data created by MaxMind, available from %s."
+msgstr ""
+"Acest produs include date GeoLite2 creat de MaxMind, disponibil de la %s."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
+msgid "Search engine referrals in the last"
+msgstr "Căutare motor de recomandări în ultima"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:98
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:67
+msgid "Number of referrals"
+msgstr "Numărul de accesări"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
+msgid "Top 10 Pages"
+msgstr "Top 10 pagini"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:17
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:36
+msgid "Search Engine Referral Statistics"
+msgstr "Căutare motor de recomandare statistici"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:4
+msgid "WP Statistics V%s"
+msgstr "WP Statistics V %s"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:16
+msgid "Visit Us Online"
+msgstr "Vizitaţi-ne Online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:20
+msgid ""
+"Come visit our great new <a href=\"http://wp-statistics.com\" target=\"_blank"
+"\">website</a> and keep up to date on the latest news about WP Statistics."
+msgstr ""
+"Vino vizita noastră mare nou <a href=\"http://wp-statistics.com\" target="
+"\"_blank\">site-ul web</a> şi să păstreze până la data la cele mai recente "
+"ştiri despre WP Statistics."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:24
+msgid "Rate and Review at WordPress.org"
+msgstr "Rata şi revizuirea la WordPress.org"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+msgid "Thanks for installing WP Statistics, we encourage you to submit a "
+msgstr ""
+"Vă mulţumim pentru instalarea WP Statistics, vă încurajăm să prezinte o "
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+msgid "rating and review"
+msgstr "rating şi revizuire"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
+msgstr ""
+"peste la WordPress.org. Feedback-ul dumneavoastră este apreciat foarte mult!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:36
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our <a href=\"http://teamwork.wp-parsi.com/"
+"projects/wp-statistics\" target=\"_blank\">translation collaboration site</"
+"a> to see the current status and <a href=\"http://wp-statistics.com/contact/"
+"\" target=\"_blank\">drop us a line</a> if you would like to help."
+msgstr ""
+"WP Statistics sprijină internaţionalizare şi încurajăm utilizatorii noştri "
+"să prezinte traduceri, vă rugăm să vizitaţi nostru <a href=\"http://teamwork."
+"wp-parsi.com/projects/wp-statistics\" target=\"_blank\">colaborare "
+"traducerilor</a> pentru a vedea starea curentă şi <a href=\"http://wp-"
+"statistics.com/contact/\" target=\"_blank\">ne picătură o linie</a>, dacă "
+"doriţi pentru a ajuta."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:45
+msgid ""
+"We're sorry you're having problem with WP Statistics and we're happy to help "
+"out.  Here are a few things to do before contacting us:"
+msgstr ""
+"Ne pare rău, sunteţi având problemă cu WP Statistics şi suntem bucuroşi să "
+"ajute. Aici sunt câteva lucruri de făcut înainte de a ne contacta:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:48
+msgid ""
+"Have you read the <a title=\"FAQs\" href=\"http://wp-statistics.com/?"
+"page_id=19\" target=_blank>FAQs</a>?"
+msgstr ""
+"Ai citit <a title=\"FAQs\" href=\"http://wp-statistics.com/?page_id=19\" "
+"target=_blank>Întrebări frecvente</a>?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:49
+msgid ""
+"Have you read the <a title=\"Manual\" href=\"?page=wps_manual_menu\">manual</"
+"a>?"
+msgstr ""
+"Ai citit <a title=\"Manual\" href=\"?page=wps_manual_menu\">manualul</a>?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:50
+msgid ""
+"Have you search the <a href=\"http://wordpress.org/support/plugin/wp-"
+"statistics\" target=\"_blank\">support forum</a> for a similar issue?"
+msgstr ""
+"Ai de căutare <a href=\"http://wordpress.org/support/plugin/wp-statistics\" "
+"target=\"_blank\">suport forum</a> pentru o problemă similară?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:54
+msgid "And a few things to double-check:"
+msgstr "Şi câteva lucruri să verificaţi:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:57
+msgid "How's your memory_limit in php.ini?"
+msgstr "Cum este vă memory_limit în php.ini?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:58
+msgid "Have you tried disabling any other plugins you may have installed?"
+msgstr "Aţi încercat dezactivarea orice alte plugin-uri le-aţi instalat?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:59
+msgid "Have you tried using the default WordPress theme?"
+msgstr "Aţi încercat, folosind WordPress tema implicită?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:60
+msgid "Have you double checked the plugin settings?"
+msgstr "Ai dublu verificat setările plugin-ul?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:61
+msgid "Do you have all the required PHP extensions installed?"
+msgstr "Ai toate extensiile necesare de PHP instalat?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
+msgid "Still not having any luck?"
+msgstr "Încă nu au nici un noroc?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
+msgid ""
+"Then please open a new thread on the <a href=\"http://wordpress.org/support/"
+"plugin/wp-statistics\" target=\"_blank\">WordPress.org support forum</a> and "
+"we'll respond as soon as possible."
+msgstr ""
+"Apoi, vă rugăm să deschideţi un nou thread pe <a href=\"http://wordpress.org/"
+"support/plugin/wp-statistics\" target=\"_blank\">WordPress.org suport forum</"
+"a> şi ne veţi răspunde cât de curând posibil."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:70
+msgid ""
+"Alternatively <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
+"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
+"a> support is available as well."
+msgstr ""
+"Alternativ <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
+"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
+"a> suport este disponibil, de asemenea."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:17
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:35
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:128
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:169
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:193
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:303
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:333
+msgid "Please select"
+msgstr "Vă rugăm să selectaţi"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:365
+msgid ""
+"Any shortcode supported by your installation of WordPress, include all "
+"shortcodes for WP Statistics (see the admin manual for a list of codes "
+"available) are supported in the body of the message."
+msgstr ""
+"Orice shortcode susţinută de instalare de WordPress, include toate "
+"shortcodes pentru WP Statistics (a se vedea manualul de admin pentru o listă "
+"a codurilor disponibile) sunt acceptate în corpul mesajului."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:368
+msgid ""
+"Input data codes are now deprecated and will be removed in a future version "
+"of WP Statistics, please use the appropriate shortcodes, they are included "
+"here only for historical purposes:"
+msgstr ""
+"Codurile de datele de intrare sunt acum învechită şi vor fi eliminate într-o "
+"versiune viitoare de WP Statistics, vă rugăm să folosiţi shortcodes "
+"corespunzătoare, ele sunt incluse aici doar pentru scopuri istorice:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:22
+msgid ""
+"IP location services provided by GeoLite2 data created by MaxMind, available "
+"from %s."
+msgstr ""
+"IP locaţie servicii oferite de GeoLite2 de date creat de MaxMind, disponibil "
+"de la %s."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:23
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:32
+msgid "None"
+msgstr "Nici unul"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:28
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:92
+msgid "About"
+msgstr "Despre"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:123
+msgid "Widgets to Display"
+msgstr "Widget-uri pentru a afişa"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:132
+msgid ""
+"The following items are unique to each user.  If you do not select the "
+"'About' widget it will automatically be displayed in the last positon of "
+"column A."
+msgstr ""
+"Următoarele articole sunt unice pentru fiecare utilizator. Dacă nu selectaţi "
+"\"Despre\" widget automat vor fi afişate în ultima poziţie de coloana A."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:137
+msgid "Slot"
+msgstr "Slot"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:141
+msgid "Column A"
+msgstr "Coloana A"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:145
+msgid "Column B"
+msgstr "Coloana B"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:151
+msgid "Slot 1"
+msgstr "Slot 1"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:181
+msgid "Slot 2"
+msgstr "Slotul 2"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:211
+msgid "Slot 3"
+msgstr "Slot 3"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:241
+msgid "Slot 4"
+msgstr "Slot 4"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:271
+msgid "Slot 5"
+msgstr "Slot 5"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:301
+msgid "Slot 6"
+msgstr "Slot 6"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:305
+msgid "N/A"
+msgstr "N/A"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:280
+msgid "Search Engine Referred"
+msgstr "Motor de căutare prevăzute"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:10
+msgid "Once Weekly"
+msgstr "O dată săptămânal"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "O dată la 2 săptămâni"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "O dată la 4 săptămâni"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:28
+msgid "Complete statistics for your WordPress site."
+msgstr "Complet de statistici pentru site-ul WordPress."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:70
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to <a href="
+"\"%s\">setting page</a> and enable it."
+msgstr ""
+"Utilizator online de urmărire în WP Statistics nu este activat, vă rugăm să "
+"<a href=\"%s\">Setare pagină</a> şi îl activaţi."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:73
+msgid ""
+"Hit tracking in WP Statistics is not enabled, please go to <a href=\"%s"
+"\">setting page</a> and enable it."
+msgstr ""
+"Lovit de urmărire în WP Statistics nu este activat, vă rugăm să <a href=\"%s"
+"\">Setare pagină</a> şi îl activaţi."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:76
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to <a href=\"%s"
+"\">setting page</a> and enable it."
+msgstr ""
+"Vizitator de urmărire în WP Statistics nu este activat, vă rugăm să <a href="
+"\"%s\">Setare pagină</a> şi îl activaţi."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:79
+msgid ""
+"GeoIP collection is not active, please go to <a href=\"%s\">Setting page > "
+"GeoIP</a> and enable this feature (GeoIP can detect the visitors country)"
+msgstr ""
+"GeoIP colectare nu este activ, vă rugăm să <a href=\"%s\">Pagina de setare > "
+"GeoIP</a> şi activaţi această caracteristică (GeoIP pot detecta țara "
+"vizitatori)"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:65
+msgid "About WP Statistics V%s"
+msgstr "Despre WP Statistics V %s"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:72
+msgid "Website"
+msgstr "Site-ul"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:117
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:19
+msgid "References"
+msgstr "Referințe"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:33
+msgid "PHP Memory Limit"
+msgstr "PHP memorie limită"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:38
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr "Limita de memorie, un script poate consuma, stabilit în php.ini."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:27
+msgid "WP Statistics"
+msgstr "WP Statistics"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+msgid "Visit WordPress.org page"
+msgstr "Vizitaţi pagina de WordPress.org"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:29
+msgid "Page Trend for Post ID"
+msgstr "Pagina Trend pentru ID-ul Post"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:48
+msgid "Page Trend"
+msgstr "Pagina Trend"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:68
+msgid "Page Trending Stats"
+msgstr "Pagina Trend-Stats"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:44
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:55
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:66
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:77
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:88
+msgid "Number of rows in the <code>%s</code> table"
+msgstr "Numărul de rânduri în <code>%s</code> masa"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:97
+msgid "Record exclusions"
+msgstr "Înregistrare excluderi"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:130
+msgid "Robot list"
+msgstr "Lista de robot"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:157
+msgid "Excluded IP address list"
+msgstr "Lista de adrese IP excluse"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:160
+msgid ""
+"A list of IP addresses and subnet masks (one per line) to exclude from "
+"statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
+"formats are accepted).  To specify an IP address only, use a subnet value of "
+"32 or 255.255.255.255."
+msgstr ""
+"O listă de adrese IP şi subnet masti (una pe linie) pentru a exclude de la "
+"colectarea de statistici (ambele 192.168.0.0/24 şi 192.168.0.0/255.255.255.0 "
+"formate sunt acceptate). Pentru a specifica o adresă IP numai, utilizaţi o "
+"valoare de subreţea de 32 sau 255.255.255.255."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:172
+msgid "Excluded login page"
+msgstr "Pagina de login excluse"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:179
+msgid "Excluded admin pages"
+msgstr "Exclus admin pagini"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:72
+msgid "Users Online"
+msgstr "Utilizatori Online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:77
+msgid "User online"
+msgstr "Utilizator online"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:172
+msgid "Track all pages"
+msgstr "Urmări toate paginile"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:184
+msgid "Disable hits column in post/pages list"
+msgstr "Dezactivaţi coloana de hit-uri în post/pagini lista"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:195
+msgid "Miscellaneous"
+msgstr "Diverse"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "Click aici pentru a vizita plugin-ul pe WordPress.org"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr "Click aici pentru a evalua şi revizui acest plug-in pe WordPress.org"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+msgid "Rate this plugin"
+msgstr "Rata de acest plugin"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:200
+msgid "WP Statistics - Hits"
+msgstr "WP Statistics - hit-uri"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:588
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "Eroare de descărcare GeoIP bazei de date: %s - %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:108
+#: Plugins\wp-statistics\trunk/widget.php:277
+msgid "Total Page Views"
+msgstr "Total de vizualizări"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:155
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:160
+#: Plugins\wp-statistics\trunk/wp-statistics.php:248
+msgid "Pages"
+msgstr "Pagini"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:255
+msgid "Manual"
+msgstr "Manual de"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:353
+msgid "Download ODF file"
+msgstr "Descarcă ODF"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:354
+msgid "Download HTML file"
+msgstr "Descărcaţi fişierul HTML"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:358
+msgid "Manual file not found."
+msgstr "Manualul fişier negăsit."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:54
+msgid "Exclusions Statistics"
+msgstr "Excluderi statistici"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:37
+msgid "Top Pages Visited"
+msgstr "Top pagini vizitate"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:160
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:27
+msgid "No page title found"
+msgstr "Nici a title de pagina găsit"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:13
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:132
+msgid "Top Pages"
+msgstr "Top pagini"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:20
+msgid "Top 5 Pages Trends"
+msgstr "Top 5 tendinţe de pagini"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:49
+msgid "Top 5 Page Trending Stats"
+msgstr "Top 5 filme Trend-Stats"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:89
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:70
+msgid "Number of Hits"
+msgstr "Număr de hit-uri"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:29
+msgid "Manual not found: %s"
+msgstr "Manual de negăsit: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:39
+msgid "Invalid file type selected: %s"
+msgstr "Invalid tip de fişier selectat: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:116
+msgid "Search Engine referred"
+msgstr "Motor de căutare prevăzute"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:47
+msgid "Include Header Row"
+msgstr "Includeţi rândul antet"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:52
+msgid "Include a header row as the first line of the exported file."
+msgstr "Includeţi un rând ca prima linie de fişierul exportat."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:125
+msgid "PHP Safe Mode"
+msgstr "PHP Safe Mode"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:130
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr ""
+"PHP Safe Mode este activ. GeoIP codul nu este acceptat în modul de siguranţă."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:106
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "GeoIP colecţie este dezactivat din următoarele motive:"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:126
+msgid ""
+"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
+"mode enabled!"
+msgstr ""
+"Modul de siguranţă PHP detectat! GeoIP colecția nu este acceptată cu modul "
+"de siguranţă PHP activat!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:214
+msgid "Hide admin notices about non active features"
+msgstr "Ascunde admin notificări despre caracteristici non-activă"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:237
+msgid "Search Enginges"
+msgstr "Căutare Enginges"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:242
+msgid ""
+"Disabling all search engines is not allowed, doing so will result in all "
+"search engines being active."
+msgstr ""
+"Dezactivarea toate motoarele de căutare nu este permis, face deci va duce la "
+"toate motoarele de căutare, fiind activi."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:257
+msgid "disable"
+msgstr "nu fi de acord"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:258
+msgid "Disable %s from data collection and reporting."
+msgstr "Dezactivaţi %s de colectare a datelor şi raportare."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "cURL Version"
+msgstr "cURL versiune"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:151
+msgid "cURL not installed"
+msgstr "cURL neinstalată"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:152
+msgid ""
+"The PHP cURL Extension version you are running.  cURL is required for the "
+"GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+"PHP buclat versiune de extensie se execută. cURL este necesar pentru codul "
+"GeoIP, dacă nu este instalat GeoIP va fi dezactivat."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "BC Math"
+msgstr "BC matematica"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+msgid "Installed"
+msgstr "Instalat"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+msgid "Not installed"
+msgstr "Nu a instala"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:114
+msgid ""
+"GeoIP collection requires the cURL PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP Colectia necesită extensia PHP buclat şi nu este încărcat pe versiunea "
+"dumneavoastră a PHP!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:120
+msgid ""
+"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP Colectia necesită extensia PHP de matematica BC şi nu este încărcat pe "
+"versiunea dumneavoastră a PHP!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:26
+msgid ""
+"Unable to load the GeoIP database, make sure you have downloaded it in the "
+"settings page."
+msgstr ""
+"Imposibilitatea de a încărca baza GeoIP de date, asiguraţi-vă că aţi "
+"descărcat-o în pagina de setări."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:182
+msgid "Database file does not exist."
+msgstr "Fişier bază de date nu exista."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:59
+msgid "Search for"
+msgstr "Căutare pentru"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
+msgid "More"
+msgstr "Mai mult"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:269
+msgid "Include totals"
+msgstr "Include totaluri"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:275
+msgid ""
+"Add a total line to charts with multiple values, like the search engine "
+"referrals"
+msgstr ""
+"Adăugaţi o linie total grafice cu valori multiple, cum ar fi căutare motor "
+"de recomandări"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:100
+msgid "Disable map"
+msgstr "Dezactivează harta"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:106
+msgid "Disable the map display"
+msgstr "Nu fi de acord display-ului"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:112
+msgid "Get country location from Google"
+msgstr "Obţine locatia tarii de la Google"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:8
+msgid ""
+"Attention: Exclusion are not currently set to be recorded, the results below "
+"may not reflect current statistics!"
+msgstr ""
+"Atentie: Excluderea nu sunt în prezent stabilite pentru a fi înregistrate, "
+"rezultatele de mai jos să nu reflecte statisticile actuale!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:118
+msgid "Number of excluded hits"
+msgstr "Număr de hit-uri excluse"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:86
+msgid ""
+"Hint: manage_network = Super Admin Network, manage_options = Administrator, "
+"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
+"Contributor, read = Everyone."
+msgstr ""
+"Sugestie: manage_network = Super Admin retea, manage_options = "
+"Administrator, edit_others_posts = Editor, publish_posts = autor, edit_posts "
+"= contribuitor, citi = toată lumea."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:99
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:151
+msgid "Enable"
+msgstr "Permite"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:100
+msgid ""
+"This will record all the excluded hits in a separate table with the reasons "
+"why it was excluded but no other information.  This will generate a lot of "
+"data but is useful if you want to see the total number of hits your site "
+"gets, not just actual user visits."
+msgstr ""
+"Acest lucru va înregistra toate hit-uri excluse dintr-un tabel separat cu "
+"motive de ce acesta a fost exclus, dar fără alte informaţii. Acest lucru va "
+"genera o mulţime de date, dar este util dacă doriţi să vedeţi numărul total "
+"de hit-uri site-ul devine, vizite de utilizator nu doar real."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:168
+msgid "Site URL Exclusions"
+msgstr "Excluderile de URL-ul site-ului"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:175
+msgid "Exclude the login page for registering as a hit."
+msgstr "Exclude pagina de login pentru înregistrarea ca un hit."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:182
+msgid "Exclude the admin pages for registering as a hit."
+msgstr "Excludeţi pagini de admin pentru înregistrarea ca un hit."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:93
+#: Plugins\wp-statistics\trunk/wp-statistics.php:243
+msgid "Exclusions"
+msgstr "Excluderi"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:68
+msgid "Total Exclusions: %s"
+msgstr "Total excluderi: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:75
+msgid "Exclusions Statistical Chart"
+msgstr "Excluderi statistice diagramă"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:33
+msgid "Access Levels"
+msgstr "Nivele de acces"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:126
+msgid "Resources/Information"
+msgstr "Resurse/informatii"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:128
+msgid "Purging"
+msgstr "Epurare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:130
+msgid "Updates"
+msgstr "Actualizări"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:88
+msgid "Access/Exclusions"
+msgstr "Acces/excluderi"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:91
+msgid "Maintenance"
+msgstr "Intretinere"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:126
+msgid "Update"
+msgstr "Actualizare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:86
+msgid "General"
+msgstr "Generale"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:57
+msgid "Error, %s not emptied!"
+msgstr "Eroare, %s nu golite!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:118
+msgid "Data"
+msgstr "Date"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:145
+msgid "Purge records older than"
+msgstr "Epurare înregistrările mai vechi"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:151
+msgid ""
+"Deleted user statistics data older than the selected number of days.  "
+"Minimum value is 30 days."
+msgstr ""
+"Elimină datele utilizatorului statistici mai vechi decât numărul de zile "
+"selectate. Valoarea minimă este de 30 de zile."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:152
+msgid "Purge now!"
+msgstr "Epurare acum!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:17
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:27
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:37
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:47
+msgid ""
+"<code>%s</code> data older than <code>%s</code> days purged successfully."
+msgstr ""
+"<code>%s</code> date mai vechi decât <code>%s</code> zile curăţit cu succes."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:19
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:29
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:39
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:49
+msgid "No records found to purge from <code>%s</code>!"
+msgstr "Înregistrări găsite să purge la <code>%s</code>!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:55
+msgid "Please select a value over 30 days."
+msgstr "Vă rugăm să selectaţi o valoare de peste 30 de zile."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:20
+msgid ""
+"This will permanently delete data from the database each day, are you sure "
+"you want to enable this option?"
+msgstr ""
+"Aceasta va șterge definitiv datele din baza de date fiecare zi, sunteţi "
+"sigur că doriţi să activaţi această opţiune?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:30
+msgid "Database Maintenance"
+msgstr "Întreţinerea bazei de date"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:35
+msgid "Run a daily WP Cron job to prune the databases"
+msgstr "Rulaţi un zilnic WP Cron job pentru a bazelor de date de prune"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:41
+msgid ""
+"A WP Cron job will be run daily to prune any data older than a set number of "
+"days."
+msgstr ""
+"Un WP Cron job va rula zilnic să prune orice date mai vechi decât un anumit "
+"număr de zile."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:47
+msgid "Prune data older than"
+msgstr "Date mai vechi de prune"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:52
+msgid "Days"
+msgstr "Zile"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:53
+msgid ""
+"The number of days to keep statistics for.  Minimum value is 30 days.  "
+"Invalid values will disable the daily maintenance."
+msgstr ""
+"Numărul de zile să păstreze statistici pentru. Valoarea minimă este de 30 de "
+"zile. Valori nevalide va dezactiva zilnică de întreţinere."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:106
+msgid "Date: <code dir=\"ltr\">%s</code></code>"
+msgstr "Data: <code dir=\"ltr\">%s</code>"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:110
+msgid "Time: <code dir=\"ltr\">%s</code>"
+msgstr "Timp: <code dir=\"ltr\">%s</code>"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:89
+msgid "GeoIP"
+msgstr "GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:54
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:64
+msgid "Next update will be"
+msgstr "Următoarea actualizare va fi"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:109
+msgid ""
+"GeoIP collection requires PHP %s or above, it is currently disabled due to "
+"the installed PHP version being  "
+msgstr ""
+"GeoIP Colectia necesită PHP %s sau mai sus, aceasta este în prezent "
+"dezactivată datorită instalat PHP versiune fiind "
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:64
+msgid "Search Engine Referrals"
+msgstr "Recomandări de motor de căutare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:88
+msgid "Daily Total"
+msgstr "Total zilnic"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+msgid "Current Time and Date"
+msgstr "Ora şi data"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:39
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:25
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "actualizaţi acum!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:85
+msgid ""
+"See the  %sWordPress Roles and Capabilities page%s for details on capability "
+"levels."
+msgstr ""
+"Vedea sWordPress % filme roluri şi capabilităţi %s pentru detalii pe "
+"capacitatea de niveluri."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:87
+msgid ""
+"Each of the above casscades the rights upwards in the default WordPress "
+"configuration.  So for example selecting publish_posts grants the right to "
+"Authors, Editors, Admins and Super Admins."
+msgstr ""
+"Fiecare dintre floremtina mai sus drepturile în sus în configuraţia "
+"implicită WordPress. Deci, de exemplu, selectând publish_posts acordă "
+"dreptul de la autori, editori, administratori şi Super administratori."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:88
+msgid ""
+"If you need a more robust solution to delegate access you might want to look "
+"at %s in the WordPress plugin directory."
+msgstr ""
+"Dacă aveţi nevoie de o soluţie mai robust pentru a delega acces aţi putea "
+"dori să se uite la %s în WordPress plug-in directorul."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:62
+msgid "Required user level to view WP Statistics"
+msgstr "Necesare la nivel de utilizator pentru a vizualiza statistica WP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:77
+msgid "Required user level to manage WP Statistics"
+msgstr "La nivel de utilizator necesare pentru a gestiona WP Statistics"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:56
+msgid "Schedule monthly update of GeoIP DB"
+msgstr "Programa actualizarea lunara a GeoIP DB"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:82
+msgid ""
+"Download of the GeoIP database will be scheduled for 2 days after the first "
+"Tuesday of the month."
+msgstr ""
+"Download de date GeoIP va fi programat pentru 2 zile de la prima zi de marţi "
+"a lunii."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:83
+msgid ""
+"This option will also download the database if the local filesize is less "
+"than 1k (which usually means the stub that comes with the plugin is still in "
+"place)."
+msgstr ""
+"Această opţiune va descărca, de asemenea, baza de date în cazul în care "
+"filesize locale este mai puţin 1k (care de obicei înseamnă ciot care vine cu "
+"plugin-ul este încă în vigoare)."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:89
+msgid "Populate missing GeoIP after update of GeoIP DB"
+msgstr "Popula GeoIP lipsă după actualizare de GeoIP DB"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:95
+msgid "Update any missing GeoIP data after downloading a new database."
+msgstr ""
+"Actualizaţi orice date lipsă GeoIP după descărcarea o nouă bază de date."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:50
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "Actualizat %s GeoIP înregistrările bazei de date de vizitatori."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:98
+msgid "Version Info"
+msgstr "Info versiune"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:103
+msgid "WP Statistics Version"
+msgstr "Versiune WP Statistics"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:108
+msgid "The WP Statistics version you are running."
+msgstr "Versiunea WP Statistics se execută."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:114
+msgid "PHP Version"
+msgstr "Versiunea PHP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:119
+msgid "The PHP version you are running."
+msgstr "Versiunea de PHP se execută."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "jQuery Version"
+msgstr "jQuery Traducere"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "The jQuery version you are running."
+msgstr "Versiune de jQuery se execută."
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:599
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "Eroare nu a putut deschide descărcat GeoIP date pentru lectură: %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:606
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr ""
+"Eroare nu pot deschide baza de date destinaţie GeoIP pentru scrierea %s"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:622
+msgid "GeoIP Database updated successfully!"
+msgstr "GeoIP baza de date actualizată cu succes!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:210
+msgid "Client Info"
+msgstr "Client Info"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:215
+msgid "Client IP"
+msgstr "Client IP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:220
+msgid "The client IP address."
+msgstr "IP-ul client."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:226
+msgid "User Agent"
+msgstr "Agent utilizator"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:231
+msgid "The client user agent string."
+msgstr "Şirul de agent utilizator clientului."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:105
+msgid "Exclude User Roles"
+msgstr "Exclude rolurile de utilizator"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:119
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:174
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:181
+msgid "Exclude"
+msgstr "Exclude"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:120
+msgid "Exclude %s role from data collection."
+msgstr "Exclude rolul %s la culegerea datelor."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:126
+msgid "IP/Robot Exclusions"
+msgstr "IP/Robot excluderi"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:143
+msgid ""
+"A list of words (one per line) to match against to detect robots.  Entries "
+"must be at least 4 characters long or they will be ignored."
+msgstr ""
+"O listă de cuvinte (una pe linie) pentru a se potrivi împotriva pentru a "
+"detecta roboţi. Intrările trebuie să fie cel puţin 4 caractere sau ele vor "
+"fi ignorate."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:144
+msgid "Reset to Default"
+msgstr "Resetare la valorile implicite"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:161
+msgid "Add 10.0.0.0"
+msgstr "Adauga 10.0.0.0"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:162
+msgid "Add 172.16.0.0"
+msgstr "Adauga 172.16.0.0"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:163
+msgid "Add 192.168.0.0"
+msgstr "Adauga 192.168.0.0"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:264
+msgid "Charts"
+msgstr "Diagrame"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:38
+msgid ""
+"For get more information and location (country) from visitor, enable this "
+"feature."
+msgstr ""
+"Pentru a lua mai multe informaţii şi locația (ţara) la vizitator, activaţi "
+"această caracteristică."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:87
+#: Plugins\wp-statistics\trunk/wp-statistics.php:237
+msgid "Overview"
+msgstr "Privire de ansamblu"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:25
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:21
+#: Plugins\wp-statistics\trunk/wp-statistics.php:240
+msgid "Countries"
+msgstr "Ţări"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:165
+#: Plugins\wp-statistics\trunk/wp-statistics.php:242
+msgid "Hits"
+msgstr "Hit-uri"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:244
+msgid "Referers"
+msgstr "Cei"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:245
+msgid "Searches"
+msgstr "Căutări"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:246
+msgid "Search Words"
+msgstr "Căutare cuvinte"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:94
+msgid "Second"
+msgstr "Al doilea"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:17
+msgid "Browser Statistics"
+msgstr "Statistici browser"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:107
+msgid "Platform"
+msgstr "Platforma"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:241
+msgid "%s Version"
+msgstr "versiunea de %s"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:17
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
+msgid "Hit Statistics"
+msgstr "Lovit statistici"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:57
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:21
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:33
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:21
+msgid "10 Days"
+msgstr "10 zile"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:58
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:22
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:34
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:22
+msgid "20 Days"
+msgstr "20 de zile"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:59
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:23
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:35
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:23
+msgid "30 Days"
+msgstr "30 de zile"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:60
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:24
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:36
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:24
+msgid "2 Months"
+msgstr "2 luni"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:61
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:25
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:37
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:25
+msgid "3 Months"
+msgstr "3 luni"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:62
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:26
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:38
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:26
+msgid "6 Months"
+msgstr "6 luni"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:63
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:27
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:39
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:27
+msgid "9 Months"
+msgstr "9 luni"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:64
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:28
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:40
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:28
+msgid "1 Year"
+msgstr "1 an"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:34
+msgid "Hits Statistical Chart"
+msgstr "Hit-uri statistic diagramă"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:150
+msgid "days"
+msgstr "zile"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:27
+msgid "Top 10 Countries"
+msgstr "Top 10 tari"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:28
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:17
+msgid "Rank"
+msgstr "Protopopiat"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:29
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:18
+msgid "Flag"
+msgstr "Pavilion"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:31
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:20
+msgid "Visitor Count"
+msgstr "Vizitatorul conta"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:35
+msgid "Search Engine Referrers Statistical Chart"
+msgstr "Căutare motor Referrers statistice diagramă"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:19
+msgid "Top Countries"
+msgstr "Top tari"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:14
+msgid "<code>%s</code> agent data deleted successfully."
+msgstr "<code>%s</code> date de agent de şters cu succes."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:14
+msgid "<code>%s</code> platform data deleted successfully."
+msgstr "<code>%s</code> date platformă şters cu succes."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:159
+msgid "Delete User Agent Types"
+msgstr "Ştergeţi tipuri de Agent de utilizator"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:164
+msgid "Delete Agents"
+msgstr "Ştergeţi agenţi"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:179
+msgid "All visitor data will be lost for this agent type."
+msgstr "Toate vizitator datele vor fi pierdute pentru acest tip de agent."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:180
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:204
+msgid "Delete now!"
+msgstr "Ştergeţi acum!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:188
+msgid "Delete Platforms"
+msgstr "Ştergeţi platforme"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:203
+msgid "All visitor data will be lost for this platform type."
+msgstr "Toate vizitator datele vor fi pierdute pentru acest tip de platforma."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "Opţiuni de GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:133
+msgid "Store entire user agent string"
+msgstr "Magazin întregul user agenţie fibros"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:139
+msgid "Only enabled for debugging"
+msgstr "Doar activat pentru depanare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:17
+msgid "GeoIP settings"
+msgstr "Setările de GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:32
+msgid "GeoIP collection"
+msgstr "Colectia GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:44
+msgid "Update GeoIP Info"
+msgstr "Actualizare GeoIP Info"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:49
+msgid "Download GeoIP Database"
+msgstr "Download baza de date GeoIP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:40
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:50
+msgid "Save changes on this page to download the update."
+msgstr "Salvați modificările pe această pagină pentru a descărca actualizarea."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:10
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:36
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:62
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:90
+msgid "Are you sure?"
+msgstr "eşti sigur?"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:137
+msgid "Clear now!"
+msgstr "Clar acum!"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:250
+msgid "Optimization"
+msgstr "Optimizare"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/export.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:5
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:3
+#: Plugins\wp-statistics\trunk/manual/manual.php:5
+msgid "Access denied!"
+msgstr "Accent denied!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:53
+msgid "<code>%s</code> table data deleted successfully."
+msgstr "<code>%s</code> masă date şters cu succes."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:18
+#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:18
+#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:42
+#: Plugins\wp-statistics\trunk/includes/optimization/export.php:57
+msgid "Please select the desired items."
+msgstr "Vă rugăm să selectaţi elementele dorite."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:17
+msgid "Resources"
+msgstr "Resurse"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:22
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:27
+msgid "Memory usage in PHP"
+msgstr "Memorie usage în PHP"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:26
+msgid "Byte"
+msgstr "Octet"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:48
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:59
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:70
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:81
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:92
+msgid "Row"
+msgstr "Rând"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:49
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:60
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:71
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:82
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:93
+msgid "Number of rows"
+msgstr "Numărul de rânduri"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:7
+#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:127
+msgid "Export"
+msgstr "Export"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:12
+msgid "Export from"
+msgstr "Exportul din"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:24
+msgid "Select the table for the output file."
+msgstr "Selectaţi tabelul pentru fişierul de ieşire."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:30
+msgid "Export To"
+msgstr "Export"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:41
+msgid "Select the output file type."
+msgstr "Selectaţi tipul de fişier de ieşire."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Start Now!"
+msgstr "Începe acum!"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:123
+msgid "Empty Table"
+msgstr "Tabel gol"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:136
+msgid "All data table will be lost."
+msgstr "Tabel de date cu toate vor fi pierdute."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:40
+msgid "Support"
+msgstr "Suport"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:47
+msgid "Referring sites from"
+msgstr "Referindu-se site-uri din"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:32
+msgid "Translations"
+msgstr "Traduceri"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "Pentru a fi adăugate în curând"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:102
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:99
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:78
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:27
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:32
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:33
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:71
+msgid "Map"
+msgstr "Hartă"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+msgid "Page"
+msgstr "Filme"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+msgid "From"
+msgstr "La"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:444
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
+msgstr ""
+"Tabelul plugin nu exista! Vă rugăm să dezactivaţi şi re-activa plug-in."
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:280
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:285
+#: Plugins\wp-statistics\trunk/schedule.php:175
+msgid "Statistical reporting"
+msgstr "Raportarea statistică"
+
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:14
+#: Plugins\wp-statistics\trunk/wp-statistics.php:234
+msgid "Statistics"
+msgstr "Statistici"
+
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:369
+#: Plugins\wp-statistics\trunk/widget.php:38
+#: Plugins\wp-statistics\trunk/widget.php:247
+#: Plugins\wp-statistics\trunk/wp-statistics.php:299
 msgid "User Online"
 msgstr "Useri online"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:305
-msgid "Visitor"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:315
-#, fuzzy
-msgid "Visit"
-msgstr "Vizite pe saptamana"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:25
-#, fuzzy
-msgid "Today"
-msgstr "Vizite azi"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:31
-#, fuzzy
-msgid "Yesterday"
-msgstr "Vizite ieri"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:37
-msgid "Week"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:43
-#, fuzzy
-msgid "Month"
-msgstr "Vizite pe luna"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:49
-msgid "Year"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:55
-#, fuzzy
-msgid "Total"
-msgstr "Vizite pe an"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:64
-msgid "(Adjustment)"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:70
-msgid "Browsers"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:101
-msgid "Graph of Browsers"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:143
-msgid "Browser share"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:145
-msgid "Firefox"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:146
-msgid "IE"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:147
-msgid "Ipad"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:148
-msgid "Android"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:149
-msgid "Chrome"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:150
-msgid "Safari"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:151
-msgid "Other"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:166
-msgid "Top referring sites"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:386
-msgid "Reference"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:172
-msgid "Address"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:210
-msgid "About plugin"
-msgstr "Despre plugin"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
-msgid "Translation plugin languages"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
-#, fuzzy
-msgid "Support plugin"
-msgstr "Despre plugin"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:216
-msgid "Weblog"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
-msgid ""
-"Please donate to the plugin. With the help of plug-ins you can quickly "
-"spread."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:224
-msgid "Donate"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:245
-#, fuzzy
-msgid "Statistical Chart"
-msgstr "Statisicile sunt activate"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:260
-msgid "Chart hit in the last 20 days"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:279
-msgid "Number of visits and visitors"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:335
-msgid "Latest search words"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
-msgid "Word"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
-msgid "Date"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
-msgid "Site"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:375
-#, fuzzy
-msgid "Recent Visitors"
-msgstr "Vizite pe saptamana"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
-msgid "IP"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
-msgid "Country"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
-msgid "Province"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:385
-msgid "Browser"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:9
-msgid "General Settings"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:19
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:31
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:43
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:92
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:108
-msgid "Active"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:32
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:44
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:109
-msgid "Enable or disable this feature"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:26
-#, fuzzy
-msgid "Visits"
-msgstr "Vizite pe saptamana"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:38
-msgid "Visitors"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:50
-msgid "Check for online users every"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:55
-msgid "Secound"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:62
-msgid "Show stats in menu bar"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:67
-msgid "No"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:68
-msgid "Yes"
-msgstr "Da"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:70
-msgid "Show stats in admin menu bar"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:76
-msgid "Coefficient per visitor"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:87
-msgid "Display IP Information On-screen statistics"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:93
-msgid "Showing the flag country and Visitor province name (May be a bit slow)"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:98
-msgid "Statistical reporting settings"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:103
-#, fuzzy
-msgid "Statistical reporting"
-msgstr "Configurarea statisticilor live"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:116
-msgid "Time send"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:121
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:137
-#, fuzzy
-msgid "Please select."
-msgstr "Va rugam introduceti o valoare!"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:122
-msgid "Hourly"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:123
-msgid "Twice daily"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:124
-msgid "daily"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:126
-msgid "Select when receiving statistics report."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:132
-msgid "Send Statistical reporting to"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:138
-msgid "Email"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:139
-msgid "SMS"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:141
-msgid "Type Select Get Status Report."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:151
-msgid "Send Content Report"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:156
-msgid "Enter the contents of the reports received."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:158
-msgid "Input data:"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:160
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:15
-#, fuzzy
-msgid "Today Visitor"
-msgstr "Vizite azi"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:161
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:12
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:371
+#: Plugins\wp-statistics\trunk/widget.php:45
+#: Plugins\wp-statistics\trunk/widget.php:250
 msgid "Today Visit"
 msgstr "Vizite azi"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:162
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:21
-#, fuzzy
-msgid "Yesterday Visitor"
-msgstr "Vizite ieri"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:370
+#: Plugins\wp-statistics\trunk/widget.php:52
+#: Plugins\wp-statistics\trunk/widget.php:253
+msgid "Today Visitor"
+msgstr "Vizitatori astăzi"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:163
-#, fuzzy
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:373
+#: Plugins\wp-statistics\trunk/widget.php:59
 msgid "Yesterday Visit"
-msgstr "Vizite ieri"
+msgstr "Vizitaţi ieri"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:164
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:36
-#, fuzzy
-msgid "Total Visitor"
-msgstr "Vizite pe an"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:372
+#: Plugins\wp-statistics\trunk/widget.php:66
+#: Plugins\wp-statistics\trunk/widget.php:259
+msgid "Yesterday Visitor"
+msgstr "Ieri vizitator"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:33
-msgid "Total Visit"
-msgstr "Vizite pe an"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:2
-msgid "Name"
-msgstr "Nume"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:6
-msgid "Items"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
-msgid "Yesterday visit"
-msgstr "Vizite ieri"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:24
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:73
+#: Plugins\wp-statistics\trunk/widget.php:262
 msgid "Week Visit"
 msgstr "Vizite pe saptamana"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:27
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:80
+#: Plugins\wp-statistics\trunk/widget.php:265
 msgid "Month Visit"
 msgstr "Vizite pe luna"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:30
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:87
+#: Plugins\wp-statistics\trunk/widget.php:268
 msgid "Years Visit"
 msgstr "Vizite pe an"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:39
-msgid "Search Engine reffered"
-msgstr "Vizite din motoarele de cautare"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:375
+#: Plugins\wp-statistics\trunk/widget.php:94
+#: Plugins\wp-statistics\trunk/widget.php:271
+msgid "Total Visit"
+msgstr "Vizite pe an"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:42
-msgid "Select type of search engine"
-msgstr ""
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:374
+#: Plugins\wp-statistics\trunk/widget.php:101
+#: Plugins\wp-statistics\trunk/widget.php:274
+msgid "Total Visitor"
+msgstr "Total vizitatori"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
-msgid "Google"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
-msgid "Yahoo!"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
-msgid "Bing"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:53
-msgid "All"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:57
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:123
+#: Plugins\wp-statistics\trunk/widget.php:300
 msgid "Total Posts"
 msgstr "Postari totale"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:60
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:130
+#: Plugins\wp-statistics\trunk/widget.php:303
 msgid "Total Pages"
 msgstr "Pagini totale"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:63
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:137
+#: Plugins\wp-statistics\trunk/widget.php:306
 msgid "Total Comments"
 msgstr "Comentarii totale"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:66
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:144
+#: Plugins\wp-statistics\trunk/widget.php:309
 msgid "Total Spams"
 msgstr "Spam total"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:69
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:151
+#: Plugins\wp-statistics\trunk/widget.php:312
 msgid "Total Users"
 msgstr "Useri totali"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:72
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:158
+#: Plugins\wp-statistics\trunk/widget.php:315
 msgid "Average Posts"
 msgstr "Postari in medie"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:75
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:165
+#: Plugins\wp-statistics\trunk/widget.php:318
 msgid "Average Comments"
 msgstr "Comentarii in medie"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:78
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:172
+#: Plugins\wp-statistics\trunk/widget.php:321
 msgid "Average Users"
 msgstr "Useri in medie"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:81
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:179
+#: Plugins\wp-statistics\trunk/widget.php:324
 msgid "Last Post Date"
 msgstr "Data ultimei postari"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:84
-msgid "Type date for last update"
-msgstr "Introduceti data pentru ultimul update"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:329
+msgid "View Stats"
+msgstr "Vezi statisticile"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:86
-msgid "English"
-msgstr "Engleza"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:141
+#: Plugins\wp-statistics\trunk/wp-statistics.php:251
+msgid "Settings"
+msgstr "Setări"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:89
-msgid "Persian"
-msgstr "Persana"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:305
+msgid "Today visitor"
+msgstr "Azi vizitatori"
 
-#~ msgid "Error! Please Enter all field"
-#~ msgstr "Eroare! Va rugam completati toate campurile"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:311
+msgid "Today visit"
+msgstr "Astăzi vizita"
 
-#~ msgid "Configuration"
-#~ msgstr "Configurare"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:317
+msgid "Yesterday visitor"
+msgstr "Ieri vizitator"
 
-#~ msgid "Statistics are disabled!"
-#~ msgstr "Statisicile sunt dezactivate"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:256
+#: Plugins\wp-statistics\trunk/wp-statistics.php:323
+msgid "Yesterday visit"
+msgstr "Vizite ieri"
 
-#~ msgid "General configuration"
-#~ msgstr "Configurare generala"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:433
+#: Plugins\wp-statistics\trunk/wp-statistics.php:533
+#: Plugins\wp-statistics\trunk/wp-statistics.php:804
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Nu aveți suficiente permisiuni pentru a accesa această pagină."
 
-#~ msgid "Show decimals number"
-#~ msgstr "Arata decimalele"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:23
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:106
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:240
+#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:74
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:35
+#: Plugins\wp-statistics\trunk/includes/log/last-search.php:61
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:57
+#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:47
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:35
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:19
+#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:131
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:45
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:9
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:64
+#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:8
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:11
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:11
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:7
+#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:14
+msgid "Click to toggle"
+msgstr "Faceţi clic pentru a comuta"
 
-#~ msgid "Show number stats with decimal. For examle: 3,500"
-#~ msgstr "Arata statistici cu decimale. De exemplu: 3.500"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:24
+msgid "Summary Statistics"
+msgstr "Sumar statistici"
 
-#~ msgid "Online user check time"
-#~ msgstr "Verifica ora utilizatorilor online"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:19
+msgid "Visitor"
+msgstr "Vizitator"
 
-#~ msgid "Each"
-#~ msgstr "Fiecare"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:20
+msgid "Visit"
+msgstr "Vizitaţi"
 
-#~ msgid "Compute min"
-#~ msgstr "Minut de calculat"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:24
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:69
+msgid "Today"
+msgstr "Astăzi"
 
-#~ msgid ""
-#~ "Time for the check accurate online user in the site. Default: 5 Minutes"
-#~ msgstr ""
-#~ "Timpul pentru a verifica utilizatorii online de pe site. Prestabilit: 5 "
-#~ "minute"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:30
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:70
+msgid "Yesterday"
+msgstr "Ieri"
 
-#~ msgid "Increase value of the total hits"
-#~ msgstr "Mareste valoarea vizitelor totale"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:36
+msgid "Week"
+msgstr "Săptămâna"
 
-#~ msgid "Done"
-#~ msgstr "Gata"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:42
+msgid "Month"
+msgstr "Lună"
 
-#~ msgid "Your total visit sum with this value"
-#~ msgstr "Suma vizitelor totale cu aceasta valoare"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:48
+msgid "Year"
+msgstr "An"
 
-#~ msgid "Reduction value of the total hits"
-#~ msgstr "Reducerea valorii a vizitelor totale"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:112
+#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:81
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:54
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:94
+msgid "Total"
+msgstr "Total"
 
-#~ msgid "Your total visit minus with this value"
-#~ msgstr "Vizitele totale minus aceasta valoare"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+msgid "(Adjustment)"
+msgstr "(Adaptare)"
 
-#~ msgid "Number item for show Statistics"
-#~ msgstr "Item pentru aratarea statisticilor"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:24
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:25
+#: Plugins\wp-statistics\trunk/wp-statistics.php:238
+msgid "Browsers"
+msgstr "Browsere"
 
-#~ msgid "Default 5"
-#~ msgstr "Prestabilit 5"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:38
+msgid "Other"
+msgstr "Alte"
 
-#~ msgid "Number for submit item in Database and show that"
-#~ msgstr "Numarul pentru submiterea item-ului in baza de date si arata ca"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:20
+msgid "Address"
+msgstr "Adresa"
 
-#~ msgid "Database check time"
-#~ msgstr "Verifica ora bazei de date"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:90
+#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:60
+msgid "Number of visits and visitors"
+msgstr "Numărul de vizite şi vizitatori"
 
-#~ msgid "Minute updates"
-#~ msgstr "Update-uri la minut"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+msgid "Google"
+msgstr "Google"
 
-#~ msgid "Recommended"
-#~ msgstr "Recomandat"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:27
+#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:38
+msgid "Recent Visitors"
+msgstr "Vizitatori recente"
 
-#~ msgid "Due to pressure on the server, Be set up on time. Default 1 min."
-#~ msgstr "Datorita incarcarii pe server, setati timpul. Prestabilit 1 min."
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:30
+#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:19
+msgid "Country"
+msgstr "Tara"
 
-#~ msgid "Pagerank configuration"
-#~ msgstr "Configurare pagerank"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:27
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:51
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:66
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:82
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:110
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:126
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:138
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:165
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:177
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:189
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:219
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:231
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:274
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:290
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:37
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:61
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:94
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:40
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:105
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:117
+msgid "Active"
+msgstr "Activ"
 
-#~ msgid "Your url for Google pagerank check"
-#~ msgstr "URL-ul dvs. pentru verificare pagerank-ului"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:83
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:111
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:127
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:166
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:178
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:190
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:291
+msgid "Enable or disable this feature"
+msgstr "Activa sau dezactiva această facilitate"
 
-#~ msgid "If this input is empty, The website url uses"
-#~ msgstr "Daca spatiul este gol, URL-ul site-ului foloseste"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:163
+#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:30
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:100
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:105
+msgid "Visits"
+msgstr "Vizite"
 
-#~ msgid "Your url for Alexa pagerank check"
-#~ msgstr "URL-ul dvs. pentru verificare Alexa rank"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:116
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:121
+#: Plugins\wp-statistics\trunk/wp-statistics.php:247
+msgid "Visitors"
+msgstr "Vizitatori"
 
-#~ msgid "Plugin Version"
-#~ msgstr "Versiune plugin"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:89
+msgid "Check for online users every"
+msgstr "Verificaţi pentru utilizatorii online, fiecare"
 
-#~ msgid "Free!"
-#~ msgstr "Gratuit!"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:95
+msgid "Time for the check accurate online user in the site. Now: %s Second"
+msgstr ""
+"Timp pentru a verifica exacte online utilizator în site-ul. Acum: %s a doua"
 
-#~ msgid "Get Premium version"
-#~ msgstr "Ia versiunea premium"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:200
+msgid "Show stats in menu bar"
+msgstr "Statisticile arată, în bara de meniu"
 
-#~ msgid "This plugin created by"
-#~ msgstr "Pluginul a fost create de"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:205
+msgid "No"
+msgstr "nu"
 
-#~ msgid "from"
-#~ msgstr "de la"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:206
+msgid "Yes"
+msgstr "Da"
 
-#~ msgid "group"
-#~ msgstr "grup"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:208
+msgid "Show stats in admin menu bar"
+msgstr "Statisticile arată, în bara de meniu admin"
 
-#~ msgid "for translate language files. please send files for"
-#~ msgstr "pentru traducere, va rugam trimiteti fisierele pentru"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:145
+msgid "Coefficient per visitor"
+msgstr "Coeficientul pe vizitator"
 
-#~ msgid "Show Functions"
-#~ msgstr "Arata functii"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:150
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "Pentru fiecare vizita a ţine cont de mai multe hit-uri. În prezent %s."
 
-#~ msgid "Report Problem"
-#~ msgstr "Raporteaza problema"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:322
+msgid "Select when receiving statistics report."
+msgstr "Selectaţi când primiţi raportul statistici."
 
-#~ msgid "User Online Live"
-#~ msgstr "Useri online"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:334
+msgid "Email"
+msgstr "E-mail"
 
-#~ msgid "Total Visit Live"
-#~ msgstr "Vizite live totale"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:335
+msgid "SMS"
+msgstr "SMS-URI"
 
-#~ msgid "Total Feedburner Subscribe"
-#~ msgstr "Abonati totali din Feedburner"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:337
+msgid "Type Select Get Status Report."
+msgstr "Selectaţi ia tip Status Raport."
 
-#~ msgid "Google Pagerank"
-#~ msgstr "Pagerank Google"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:340
+msgid ""
+"Note: To send SMS text messages please install the <a href=\"%s\" target="
+"\"_blank\">Wordpress SMS</a> plugin."
+msgstr ""
+"Notă: Pentru a trimite SMS text mesaje, vă rugăm să instalaţi plugin <a href="
+"\"%s\" target=\"_blank\">Wordpress SMS</a>."
 
-#~ msgid "Alexa Pagerank"
-#~ msgstr "Rank Alexa"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:363
+msgid "Enter the contents of the reports received."
+msgstr "Introduceţi conţinutul rapoartele primite."
 
-#~ msgid "Hide"
-#~ msgstr "Ascunde"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:240
+msgid "Name"
+msgstr "Nume"
 
-#~ msgid "Your Name"
-#~ msgstr "Numele tau"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:244
+msgid "Items"
+msgstr "Elemente"
 
-#~ msgid "Description Problem"
-#~ msgstr "Descrierea problemei"
+#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:283
+msgid "Select type of search engine"
+msgstr "Selectaţi tipul de motor de căutare"
 
-#~ msgid "Send Problem"
-#~ msgstr "Trimite problema"
-
-#~ msgid "Update"
-#~ msgstr "Actualizare"
-
-#~ msgid "Stats weblog"
-#~ msgstr "Blog statistici"
+#: D:\SVN\Wordpress
+#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:29
+#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:36
+#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:134
+#: Plugins\wp-statistics\trunk/widget.php:296
+msgid "All"
+msgstr "Toate"
