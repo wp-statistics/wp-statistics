@@ -188,6 +188,7 @@ Services that use centralized databases, like Google Analytics, for spam and rob
 * Added: browscap.ini support for robot detection.
 * Added: Statistics->Optimization->Database tab now how an option to re-run the install routine in case you have had to delete tables from the database.
 * Added: PHP version check, WP Statistics now requires PHP 5.3 and will no longer execute without it.
+* Added: Dashboard widget.
 * Updated: Top pages now decode the URL for better readability.
 * Updated: GeoIP library from version 0.5 to 2.0.
 * Updated: User Agent detection code.

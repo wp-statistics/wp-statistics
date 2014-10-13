@@ -64,8 +64,9 @@ License: GPL2
 		include_once dirname( __FILE__ ) . '/includes/classes/hits.geoip.class.php';
 	}
 	
-	// Finally load the widget, shortcode and scheduled events.
+	// Finally load the widget, dashboard, shortcode and scheduled events.
 	include_once dirname( __FILE__ ) . '/widget.php';
+	include_once dirname( __FILE__ ) . '/dashboard.php';
 	include_once dirname( __FILE__ ) . '/shortcode.php';
 	include_once dirname( __FILE__ ) . '/schedule.php';
 	
