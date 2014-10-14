@@ -182,6 +182,7 @@ Services that use centralized databases, like Google Analytics, for spam and rob
 = 8.0 =
 * PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
 * BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
+* Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
 = 8.0 =
@@ -193,9 +194,13 @@ Services that use centralized databases, like Google Analytics, for spam and rob
 * Updated: GeoIP library from version 0.5 to 2.0.
 * Updated: User Agent detection code.
 * Updated: Serbian, Polish translations.
+* Updated: All missing language strings have been machine translated when possible.
+* Updated: IP hashing code has moved out of beta.
 * Fixed: Incorrect country name being displayed for Georgia.
 * Fixed: Bug in detecting the new index in the Statistics->Optimization->Database tab.
 * Fixed: Duplicate closing tag in summary page.
+* Fixed: Purging the database did not display the results.
+* Removed: Support for old format substitution codes in the statistics reports, upgrade now converts them to short codes.
 
 = 7.4 =
 * Added: Link URL for referred.
