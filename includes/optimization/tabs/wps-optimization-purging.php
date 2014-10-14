@@ -15,13 +15,13 @@
 			var data = new Array();
 			data['purge-days'] = action;
 			
-			
 			jQuery("#purge-data-submit").attr("disabled", "disabled");
-			jQuery("#purge-data-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+			jQuery("#purge-data-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 			
 			jQuery.post("<?php echo parse_url(plugins_url('../purge-data.php', __FILE__), PHP_URL_PATH ); ?>", {purge_days:data['purge-days']})
 				.always(function(result){
-				jQuery("#purge-data-result").html(result);
+				jQuery("#purge-data-status").html("");
+				jQuery("#purge-data-result").html(result.responseText);
 				jQuery("#purge-data-submit").removeAttr("disabled");
 			});
 		});
@@ -41,13 +41,13 @@
 			var data = new Array();
 			data['table-name'] = jQuery("#empty-table").val();
 			
-			
 			jQuery("#empty-table-submit").attr("disabled", "disabled");
-			jQuery("#empty-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+			jQuery("#empty-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 			
 			jQuery.post("<?php echo parse_url(plugins_url('../empty.php', __FILE__), PHP_URL_PATH ); ?>", {table_name:data['table-name']})
 				.always(function(result){
-				jQuery("#empty-result").html(result);
+				jQuery("#empty-status").html("");
+				jQuery("#empty-result").html(result.responseText);
 				jQuery("#empty-table-submit").removeAttr("disabled");
 			});
 		});
@@ -67,13 +67,13 @@
 			var data = new Array();
 			data['agent-name'] = jQuery("#delete-agent").val();
 			
-			
 			jQuery("#delete-agents-submit").attr("disabled", "disabled");
-			jQuery("#delete-agents-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+			jQuery("#delete-agents-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 	
 			jQuery.post("<?php echo parse_url(plugins_url('../delete-agents.php', __FILE__), PHP_URL_PATH ); ?>", {agent_name:data['agent-name']})
 				.always(function(result){
-					jQuery("#delete-agents-result").html(result);
+					jQuery("#delete-agents-status").html("");
+					jQuery("#delete-agents-result").html(result.responseText);
 					jQuery("#delete-agents-submit").removeAttr("disabled");
 					aid = data['agent-name'].replace(/[^a-zA-Z]/g, "");
 					jQuery("#agent-" + aid + "-id").remove();
@@ -95,13 +95,13 @@
 			var data = new Array();
 			data['platform-name'] = jQuery("#delete-platform").val();
 			
-			
 			jQuery("#delete-platforms-submit").attr("disabled", "disabled");
-			jQuery("#delete-platforms-result").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+			jQuery("#delete-platforms-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 	
 			jQuery.post("<?php echo parse_url(plugins_url('../delete-platforms.php', __FILE__), PHP_URL_PATH ); ?>", {platform_name:data['platform-name']})
 				.always(function(result){
-				jQuery("#delete-platforms-result").html(result);
+				jQuery("#delete-platforms-status").html("");
+				jQuery("#delete-platforms-result").html(result.responseText);
 				jQuery("#delete-platforms-submit").removeAttr("disabled");
 				pid = data['platform-name'].replace(/[^a-zA-Z]/g, "");
 				jQuery("#platform-" + pid + "-id").remove();
@@ -135,8 +135,8 @@
 					</select>
 					<p class="description"><?php _e('All data table will be lost.', 'wp_statistics'); ?></p>
 					<input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Clear now!', 'wp_statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
-					
-					<span id="empty-result"></span>
+					<span id="empty-status"></span>
+					<div id="empty-result"></div>
 				</td>
 			</tr>
 			
@@ -150,8 +150,8 @@
 					<label for="purge-data"><?php _e('days', 'wp_statistics'); ?></label>
 					<p class="description"><?php _e('Deleted user statistics data older than the selected number of days.  Minimum value is 30 days.', 'wp_statistics'); ?></p>
 					<input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp_statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
-
-					<span id="purge-data-result"></span>
+					<span id="purge-data-status"></span>
+					<div id="purge-data-result"></div>
 				</td>
 			</tr>
 
@@ -178,8 +178,8 @@
 					</select>
 					<p class="description"><?php _e('All visitor data will be lost for this agent type.', 'wp_statistics'); ?></p>
 					<input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp_statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
-					
-					<span id="delete-agents-result"></span>
+					<span id="delete-agents-status"></span>
+					<div id="delete-agents-result"></div>
 				</td>
 			</tr>
 
@@ -202,8 +202,8 @@
 					</select>
 					<p class="description"><?php _e('All visitor data will be lost for this platform type.', 'wp_statistics'); ?></p>
 					<input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp_statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
-					
-					<span id="delete-platforms-result"></span>
+					<span id="delete-platforms-status"></span>
+					<div id="delete-platforms-result"></div>
 				</td>
 			</tr>
 		</tbody>

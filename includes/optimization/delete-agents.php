@@ -13,6 +13,9 @@
 		if($result) {
 			echo sprintf(__('%s agent data deleted successfully.', 'wp_statistics'), '<code>' . $agent . '</code>');
 		}
+		else {
+			_e('No agent data found to remove!', 'wp_statistics');
+		}
 		
 	} else {
 		_e('Please select the desired items.', 'wp_statistics');
