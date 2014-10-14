@@ -2,247 +2,596 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-14 17:15-0500\n"
+"Project-Id-Version: Wordpress Statistics\n"
+"POT-Creation-Date: 2014-10-15 01:54+0330\n"
+"PO-Revision-Date: 2014-10-15 02:00+0330\n"
+"Last-Translator: \n"
+"Language-Team: Parsi Wordpress Team <mst404@gmail.com>\n"
+"Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.9\n"
-"Project-Id-Version: Wordpress Statistics\n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: fa_IR\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: F:\\Programming\\xampp\\htdocs\\cms\\wordpress\\wp-content"
+"\\plugins\\wp-statistics\n"
+"X-Poedit-SearchPath-0: F:\\Programming\\xampp\\htdocs\\cms\\wordpress\\wp-"
+"content\\plugins\\wp-statistics\n"
 
-#: includes/log/widgets/about.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:20
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:13
+msgid "User(s) Online"
+msgstr "کاربر(های) حاضر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:26
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:104
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:74
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:19
+msgid "Visitor"
+msgstr "بازدیدکننده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:27
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:104
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:74
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:20
+msgid "Visit"
+msgstr "بازدید"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:31
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:24
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:69
+msgid "Today"
+msgstr "امروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:37
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:30
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:70
+msgid "Yesterday"
+msgstr "دیروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:43
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:36
+msgid "Week"
+msgstr "هفته"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:49
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:42
+msgid "Month"
+msgstr "ماه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:55
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:48
+msgid "Year"
+msgstr "سال"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:61
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:112
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:81
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:54
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:94
+msgid "Total"
+msgstr "کل"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:26
+msgid ""
+"Unable to load the GeoIP database, make sure you have downloaded it in the "
+"settings page."
+msgstr ""
+"قادر به بارگزاری پایگاه‌داده GeoIP نیست، مطمئن شوید در برگه‌ی تنظیمات دریافت "
+"می‌شود."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:50
+#, php-format
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "%s رکورد GeoIP در پایگاه داده به‌روز شد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:17
+msgid "Browser Statistics"
+msgstr "آمار مرورگرها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:23
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:106
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:240
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:74
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:35
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:61
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:57
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:47
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:35
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:19
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:131
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:45
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:7
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:7
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:9
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:7
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:11
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:7
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:11
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:7
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:7
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:14
+msgid "Click to toggle"
+msgstr "برای باز و بستن کلیک کنید"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:24
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:25
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:250
+msgid "Browsers"
+msgstr "مرورگرها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:50
+msgid "Browsers by type"
+msgstr "مرورگرها براساس نوع"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:107
+msgid "Platform"
+msgstr "سَکو"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:133
+msgid "Browsers by platform"
+msgstr "مرورگرها براساس سَکو"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:241
+#, php-format
+msgid "%s Version"
+msgstr "نسخه %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:8
+msgid ""
+"Attention: Exclusion are not currently set to be recorded, the results below "
+"may not reflect current statistics!"
+msgstr ""
+"توجه: در حال حاظر استثنائات برای رکوردها تنظیم نشده‌اند. نتایج زیر ممکن است "
+"آمار فعلی را منعکس نکند."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:54
+msgid "Exclusions Statistics"
+msgstr "استثنائات آمار"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:57
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:21
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:33
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:21
+msgid "10 Days"
+msgstr "10 روز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:58
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:22
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:34
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:22
+msgid "20 Days"
+msgstr "20 روز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:59
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:23
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:35
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:23
+msgid "30 Days"
+msgstr "30 روز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:60
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:24
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:36
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:24
+msgid "2 Months"
+msgstr "2 ماهه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:61
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:25
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:37
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:25
+msgid "3 Months"
+msgstr "3 ماهه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:62
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:26
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:38
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:26
+msgid "6 Months"
+msgstr "6 ماهه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:63
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:27
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:39
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:27
+msgid "9 Months"
+msgstr "9 ماهه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:64
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:28
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:40
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:28
+msgid "1 Year"
+msgstr "1 ساله"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:68
+#, php-format
+msgid "Total Exclusions: %s"
+msgstr "کل استثنائات %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:75
+msgid "Exclusions Statistical Chart"
+msgstr "نمودار آمار استثنائات"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:97
+msgid "Excluded hits in the last"
+msgstr "بازدید آخرین استثنائات"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:97
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:69
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:77
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:39
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:46
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:150
+msgid "days"
+msgstr "روز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:118
+msgid "Number of excluded hits"
+msgstr "تعداد بازدید استثنائات"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:17
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:8
+msgid "Hit Statistics"
+msgstr "آمار بازدیدها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:36
+msgid "Hits Statistics Chart"
+msgstr "نمودار آمار بازدیدها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:69
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:39
+msgid "Hits in the last"
+msgstr "آخرین بازدیدها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:90
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:60
+msgid "Number of visits and visitors"
+msgstr "تعداد بازدید و بازدید کننده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:30
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:16
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:36
+msgid "Latest Search Words"
+msgstr "آخرین کلمات جستجو شده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:62
+msgid "Latest Search Word Statistics"
+msgstr "آخرین آمار کلمات جستجو شده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:97
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:94
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:65
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:59
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:22
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:25
+msgid "#hash#"
+msgstr "#hash#"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:102
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:99
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:78
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:27
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:32
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:33
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:71
+msgid "Map"
+msgstr "نقشه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:139
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:132
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:181
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:132
+msgid "Page"
+msgstr "صفحه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:139
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:132
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:181
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:132
+msgid "From"
+msgstr "از"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:27
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:9
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:38
+msgid "Recent Visitors"
+msgstr "آخرین بازدیدکنندگان"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:29
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:36
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:134
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:296
+msgid "All"
+msgstr "همه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:59
+msgid "Search for"
+msgstr "جستجو برای"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:61
+msgid "Recent Visitor Statistics"
+msgstr "آخرین آمار بازدیدکنندگان"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:29
+msgid "Page Trend for Post ID"
+msgstr "برگه تمایل برای شناسه نوشته‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:48
+msgid "Page Trend"
+msgstr "برگه تمایل"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:68
+msgid "Page Trending Stats"
+msgstr "روند بازدید برگه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:89
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:70
+msgid "Number of Hits"
+msgstr "تعداد بازدید"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:17
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:36
+msgid "Search Engine Referral Statistics"
+msgstr "آمار ورودی از موتورهای جستجو"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:77
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:46
+msgid "Search engine referrals in the last"
+msgstr "آخرین ورودی‌‌ها از موتورهای جستجوگر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:98
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:67
+msgid "Number of referrals"
+msgstr "تعداد ورودی‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:19
+msgid "Top Countries"
+msgstr "برترین کشورها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:28
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:17
+msgid "Rank"
+msgstr "رتبه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:29
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:18
+msgid "Flag"
+msgstr "پرچم"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:30
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:19
+msgid "Country"
+msgstr "کشور"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:31
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:20
+msgid "Visitor Count"
+msgstr "تعداد بازدیدکننده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:13
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:132
+msgid "Top Pages"
+msgstr "برترین برگه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:20
+msgid "Top 5 Pages Trends"
+msgstr "برترین 5 برگه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:49
+msgid "Top 5 Page Trending Stats"
+msgstr "برترین بازدید 5 برگه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:160
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:27
+msgid "No page title found"
+msgstr "عنوان برگه یافت نشد"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:163
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:30
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:100
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:105
+msgid "Visits"
+msgstr "بازدیدها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "به زودی اضافه می شود"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:34
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:49
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:13
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:26
+msgid "Top Referring Sites"
+msgstr "برترین ارجاع دهنده‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:47
+msgid "Referring sites from"
+msgstr "سایت های ارجاع دهنده از"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:117
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:19
+msgid "References"
+msgstr "ارجاع"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:8
+#, php-format
 msgid "About WP Statistics Version %s"
 msgstr "درباره آمار وپ نسخه %s"
 
-#: includes/log/widgets/summary.php:106
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:15
+msgid "Website"
+msgstr "وب‌سایت"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:16
+msgid "Rate and Review"
+msgstr "رتبه بندی و بازبینی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:20
+msgid "More Information"
+msgstr "اطلاعات بیشتر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:29
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:12
+#, php-format
+msgid ""
+"This product includes GeoLite2 data created by MaxMind, available from %s."
+msgstr ""
+"این محصول شامل داده‌های GeoLite2 می‌باشد که توسط MaxMind، ایجاد شده و در %s "
+"قابل دسترس می‌باشد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:13
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:9
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:13
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:16
+msgid "More"
+msgstr "بیشتر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:38
+msgid "Other"
+msgstr "دیگر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:45
+msgid "Top 10 Browsers"
+msgstr "10 مرورگر برتر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:27
+msgid "Top 10 Countries"
+msgstr "10 کشور برتر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:9
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:9
+msgid "Today Visitors Map"
+msgstr "بازدیدکنندگان امروز برروی نقشه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:13
+msgid "Top 10 Pages"
+msgstr "10 برگه برتر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:20
+msgid "Address"
+msgstr "آدرس"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:64
+msgid "Search Engine Referrals"
+msgstr "ورودی‌ موتورهای جستجوگر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:8
+msgid "Summary"
+msgstr "خلاصه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:88
+msgid "Daily Total"
+msgstr "کل روزانه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:102
+msgid "Current Time and Date"
+msgstr "تاریخ و زمان امروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:102
+msgid "(Adjustment)"
+msgstr "(تنظیم)"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:106
+#, php-format
 msgid "Date: %s"
 msgstr "تاریخ: %s"
 
-#: includes/log/widgets/summary.php:110
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:110
+#, php-format
 msgid "Time: %s"
 msgstr "زمان: %s"
 
-#: includes/optimization/delete-agents.php:14
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:5
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:5
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:5
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/export.php:5
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:5
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:3
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.php:5
+msgid "Access denied!"
+msgstr "دسترسی غیرمجاز!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:14
+#, php-format
 msgid "%s agent data deleted successfully."
 msgstr "%s عامل داده ها با موفقیت حذف."
 
-#: includes/optimization/delete-platforms.php:14
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:17
+msgid "No agent data found to remove!"
+msgstr "داده‌های مرورگر برای حذف شدن یافت نشد!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:21
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:21
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:42
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/export.php:57
+msgid "Please select the desired items."
+msgstr "لطفا موارد مورد نظر را انتخاب کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:14
+#, php-format
 msgid "%s platform data deleted successfully."
 msgstr "اطلاعات پلت فرم %s با موفقیت حذف."
 
-#: includes/optimization/empty.php:53
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:17
+msgid "No platform data found to remove!"
+msgstr "سکوی‌های مرورگر برای حذف شدن یافت نشد!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:53
+#, php-format
 msgid "%s table data deleted successfully."
 msgstr "اطلاعات جدول %s با موفقیت حذف."
 
-#: includes/optimization/purge-data.php:17
-#: includes/optimization/purge-data.php:27
-#: includes/optimization/purge-data.php:37
-#: includes/optimization/purge-data.php:47
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:57
+#, php-format
+msgid "Error, %s not emptied!"
+msgstr "خطا! %s خالی نیست!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:17
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:27
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:37
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:47
+#, php-format
 msgid "%s data older than %s days purged successfully."
 msgstr "%s داده های قدیمی تر از روز %s با موفقیت پاکسازی است."
 
-#: includes/optimization/purge-data.php:19
-#: includes/optimization/purge-data.php:29
-#: includes/optimization/purge-data.php:39
-#: includes/optimization/purge-data.php:49
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:19
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:29
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:39
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:49
+#, php-format
 msgid "No records found to purge from %s!"
 msgstr "هیچ رکورد یافت نشد برای پاکسازی از %s!"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:44
-#: includes/optimization/tabs/wps-optimization-resources.php:55
-#: includes/optimization/tabs/wps-optimization-resources.php:66
-#: includes/optimization/tabs/wps-optimization-resources.php:77
-#: includes/optimization/tabs/wps-optimization-resources.php:88
-msgid "Number of rows in the %s table"
-msgstr "تعداد ردیفها در جدول %s"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:55
+msgid "Please select a value over 30 days."
+msgstr "لطفاً مقدار بیشتر از 30 روز انتخاب کنید."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:211
-msgid "browscap Cache File"
-msgstr "browscap فایل حافظه پنهان"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:220
-msgid "browscap cache file does not exist."
-msgstr "پرونده حافظه پنهان در browscap وجود ندارد."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:224
-msgid "The file size and date of the browscap cache file."
-msgstr "اندازه فایل و تاریخ فایل حافظه پنهان browscap."
-
-#: includes/settings/tabs/wps-about.php:24
-msgid ""
-"Come visit our great new %s and keep up to date on the latest news about WP "
-"Statistics."
-msgstr ""
-"ببینید ما %s جدید بزرگ و نگه دارید تا تاریخ در آخرین اخبار در مورد وپ آمار "
-"آمده است."
-
-#: includes/settings/tabs/wps-about.php:24
-msgid "website"
-msgstr "وب سایت"
-
-#: includes/settings/tabs/wps-about.php:40
-msgid ""
-"WP Statistics supports internationalization and we encourage our users to "
-"submit translations, please visit our %s to see the current status and %s if "
-"you would like to help."
-msgstr ""
-"وپ آمار بین المللی حمایت می کند و ما را تشویق کاربران به ارائه ترجمه, اگر "
-"شما می خواهم برای کمک به ما %s برای دیدن وضعیت فعلی و %s مراجعه کنید."
-
-#: includes/settings/tabs/wps-about.php:40
-msgid "translation collaboration site"
-msgstr "ترجمه سایت همکاری"
-
-#: includes/settings/tabs/wps-about.php:40
-msgid "drop us a line"
-msgstr "ما افت خط"
-
-#: includes/settings/tabs/wps-about.php:52
-#: includes/settings/tabs/wps-about.php:53
-msgid "Have you read the %s?"
-msgstr "شما باید %s را بخوانید؟"
-
-#: includes/settings/tabs/wps-about.php:52
-msgid "FAQs"
-msgstr "سوالات متداول"
-
-#: includes/settings/tabs/wps-about.php:53
-msgid "manual"
-msgstr "کتابچه راهنمای کاربر"
-
-#: includes/settings/tabs/wps-about.php:54
-msgid "Have you search the %s for a similar issue?"
-msgstr "جستجو در %s برای موضوع مشابه دارید؟"
-
-#: includes/settings/tabs/wps-about.php:54
-msgid "support forum"
-msgstr "انجمن پشتیبانی"
-
-#: includes/settings/tabs/wps-about.php:70
-msgid ""
-"Then please open a new thread on the %s and we'll respond as soon as "
-"possible."
-msgstr "سپس لطفا یک تاپیک جدید در %s را باز کنید و ما اسرع پاسخ دهد."
-
-#: includes/settings/tabs/wps-about.php:70
-msgid "WordPress.org support forum"
-msgstr "انجمن پشتیبانی WordPress.org"
-
-#: includes/settings/tabs/wps-about.php:74
-msgid "Alternatively %s support is available as well."
-msgstr "متناوبا %s پشتیبانی نیز موجود است."
-
-#: includes/settings/tabs/wps-access-level.php:85
-msgid "See the %s for details on capability levels."
-msgstr "%S برای جزئیات بیشتر در سطح توانایی را ببینید."
-
-#: includes/settings/tabs/wps-access-level.php:85
-msgid "WordPress Roles and Capabilities page"
-msgstr "صفحه وردپرس نقش و توانایی"
-
-#: includes/settings/tabs/wps-general.php:67
-msgid ""
-"This feature will not store IP addresses in the database but instead used a "
-"unique hash.  The \"Store entire user agent string\" setting will be "
-"disabled if this is selected.  You will not be able to recover the IP "
-"addresses in the future to recover location information if this is enabled."
-msgstr ""
-"این ویژگی آدرس IP را در پایگاه داده ذخیره خواهد شد اما در عوض هش منحصر به "
-"فرد استفاده. String عامل کاربر کل \"Store\" تنظیم غیرفعال خواهد شد اگر این "
-"گزینه انتخاب شود. شما قادر خواهید بود برای بازیابی آدرس IP در آینده برای "
-"بازیابی اطلاعات مکان اگر این فعال شده است."
-
-#: includes/settings/tabs/wps-general.php:340
-msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr "توجه: برای ارسال اس ام اس متن پیام لطفا پلاگین %s نصب کنید."
-
-#: includes/settings/tabs/wps-general.php:340
-msgid "WordPress SMS"
-msgstr "اس ام اس وردپرس"
-
-#: wp-statistics.php:27
-msgid ""
-"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
-"Statistics will not function without PHP Version "
-msgstr ""
-"خطا: آمار وپ نسخه پشتیبانی نشده ای را شناسایی کرده است از پی اچ پی، وپ آمار "
-"بدون نسخه پی اچ پی عمل نمی کند "
-
-#: wp-statistics.php:27
-msgid " or higher!"
-msgstr "و یا بالاتر!"
-
-#: wp-statistics.php:81
-msgid ""
-"Online user tracking in WP Statistics is not enabled, please go to %s and "
-"enable it."
-msgstr ""
-"کاربران آنلاین در وپ آمار پیگیری فعال است لطفا به %s بروید و آن را فعال کنید."
-
-#: wp-statistics.php:81 wp-statistics.php:84 wp-statistics.php:87
-msgid "setting page"
-msgstr "تنظیمات صفحه"
-
-#: wp-statistics.php:84
-msgid ""
-"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
-msgstr "ردیابی آمار در وپ آمار فعال نیست لطفا به %s بروید و آن را فعال کنید."
-
-#: wp-statistics.php:87
-msgid ""
-"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
-"it."
-msgstr ""
-"ردیابی در وپ آمار بازدید کننده فعال است لطفا به %s بروید و آن را فعال کنید."
-
-#: wp-statistics.php:90
-msgid ""
-"GeoIP collection is not active, please go to %s and enable this feature."
-msgstr "مجموعه GeoIP فعال نیست لطفا برو به %s و فعال کردن این ویژگی."
-
-#: wp-statistics.php:90
-msgid "Setting page > GeoIP"
-msgstr "صفحه تنظیمات > GeoIP"
-
-msgid "http://wp-statistics.com/"
-msgstr "http://wp-statistics.com/"
-
-msgid "Mostafa Soufi & Greg Ross"
-msgstr "مصطفی Soufi & راس گرگ"
-
-#: includes/settings/wps-settings.php:90
-msgid "browscap"
-msgstr "browscap"
-
-#: wp-statistics.php:706
-msgid "Error downloading browscap database from: %s - %s"
-msgstr "دانلود پایگاه داده browscap از خطا: %s - %s"
-
-#: wp-statistics.php:794
-msgid "browscap database updated successfully!"
-msgstr "browscap پایگاه داده با موفقیت به روز!"
-
-#: wp-statistics.php:802
-msgid "browscap already at current version!"
-msgstr "browscap در حال حاضر در نسخه فعلی!"
-
-#: includes/optimization/tabs/wps-optimization-database.php:5
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
 msgstr "راه اندازی پایگاه داده"
 
-#: includes/optimization/tabs/wps-optimization-database.php:10
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
 msgstr "اجرای نصب دوباره"
 
-#: includes/optimization/tabs/wps-optimization-database.php:14
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
 msgstr "در حال حاضر نصب!"
 
-#: includes/optimization/tabs/wps-optimization-database.php:15
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:15
 msgid ""
 "If for some reason your installation of WP Statistics is missing the "
 "database tables or other core items, this will re-execute the install "
@@ -251,78 +600,23 @@ msgstr ""
 "اگر به هر دلیلی خود را نصب وپ آمار جداول پایگاه داده یا موارد دیگر هسته از "
 "دست رفته است این فرایند نصب دوباره اجرا خواهد شد."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:163
-msgid ""
-"If the PHP BC Math Extension is installed.  BC Math is no longer required "
-"for the GeoIP code and is listed here only for historical reasons."
-msgstr ""
-"اگر قادر به نصب پسوند پی اچ پی ریاضی سال قبل از میلاد است. ریاضی سال قبل از "
-"میلاد دیگر برای کد GeoIP لازم است و تنها به دلایل تاریخی ذکر شده است."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "شاخص پایگاه‌داده"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:168
-msgid "File Info"
-msgstr "اطلاعات فایل"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:252
+msgid "Countries"
+msgstr "کشورها"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:173
-msgid "GeoIP Database"
-msgstr "GeoIP پایگاه داده"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:39
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:25
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "به‌روز رسانی کن!"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:184
-#: includes/optimization/tabs/wps-optimization-resources.php:203
-#: includes/optimization/tabs/wps-optimization-resources.php:222
-msgid ", created on "
-msgstr "، در ایجاد "
-
-#: includes/optimization/tabs/wps-optimization-resources.php:186
-msgid "The file size and date of the GeoIP database."
-msgstr "اندازه فایل و تاریخ از GeoIP پایگاه داده."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:192
-msgid "browscap.ini File"
-msgstr "browscap.ini فایل"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:201
-msgid "browscap.ini file does not exist."
-msgstr "فایل browscap.ini وجود ندارد."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:205
-msgid "The file size and date of the browscap.ini file."
-msgstr "اندازه فایل و تاریخ فایل browscap.ini."
-
-#: includes/optimization/wps-optimization.php:51
-msgid "Install routine complete."
-msgstr "روال کامل نصب کنید."
-
-#: includes/settings/tabs/wps-browscap.php:17
-msgid "browscap settings"
-msgstr "تنظیمات browscap"
-
-#: includes/settings/tabs/wps-browscap.php:22
-msgid "browscap usage"
-msgstr "استفاده از browscap"
-
-#: includes/settings/tabs/wps-browscap.php:28
-msgid "The browscap database will be downloaded and used to detect robots."
-msgstr "پایگاه داده browscap را دانلود و استفاده برای شناسایی ربات."
-
-#: includes/settings/tabs/wps-browscap.php:34
-msgid "Update browscap Info"
-msgstr "Browscap به روز رسانی اطلاعات"
-
-#: includes/settings/tabs/wps-browscap.php:39
-msgid "Download browscap Database"
-msgstr "دانلود browscap پایگاه داده"
-
-#: includes/settings/tabs/wps-browscap.php:46
-msgid "Schedule weekly update of browscap DB"
-msgstr "برنامه به روز رسانی هفتگی browscap دسی بل"
-
-#: includes/settings/tabs/wps-browscap.php:69
-msgid "Download of the browscap database will be scheduled for once a week."
-msgstr ""
-"دانلود بانک اطلاعاتی browscap برای یک بار در هفته طوری زمانبندی خواهد شد."
-
-#: includes/optimization/tabs/wps-optimization-database.php:40
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:40
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -336,7 +630,14 @@ msgstr ""
 "باید داده‌های تکراری را پاک کنید. با کلیک برروی \"به روز رسانی\" ابتدا جدول "
 "بازدیدکننده‌گان را بررسی و سپس داده‌های تکراری را حذف و فهرست را اضافه می‌کند."
 
-#: includes/optimization/tabs/wps-optimization-database.php:46
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:41
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visitors table."
+msgstr ""
+"این عملیات زمان زیادی برای نصب تعدادی ردیف‌ها در جدل بازدیدکنندگان صرف می کند."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:46
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -346,38 +647,301 @@ msgstr ""
 "بازدیدکننده‌‌گان ایجاد می‌شدند. نصب‌های جدیدتر در رابطه با این مورد توسط یک "
 "فهرست شاخص محافظت شده‌اند."
 
-#: includes/optimization/tabs/wps-optimization-database.php:47
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:47
 msgid ""
 "Congratulations, your installation is already up to date, nothing to do."
 msgstr "تبریک می‌گویم، در حال حاضر نصب شما به‌روز است و مشکلی ندارد."
 
-#: includes/settings/tabs/wps-about.php:55
-msgid "Have you search the Internet for any error messages you are receiving?"
-msgstr "آیا برای هر خطا در اینترنت جستجو کرده‌اید؟"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:7
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:127
+msgid "Export"
+msgstr "برون‌بری"
 
-#: includes/settings/tabs/wps-about.php:66
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:12
+msgid "Export from"
+msgstr "برون‌بری از"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:17
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:35
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:128
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:169
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:193
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:303
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:333
+msgid "Please select"
+msgstr "لطفا انتخاب کنید"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:24
+msgid "Select the table for the output file."
+msgstr "جدول مورد نظر برای تهیه فایل خروجی را انتخاب کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:30
+msgid "Export To"
+msgstr "برون‌بری به"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:41
+msgid "Select the output file type."
+msgstr "نوع فایل خروجی را انتخاب کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:47
+msgid "Include Header Row"
+msgstr "شامل بودن سربرگ ردیف"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:52
+msgid "Include a header row as the first line of the exported file."
+msgstr "شامل شدن سربرگ ردیف در خط اول فایل برون‌بری شده."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Start Now!"
+msgstr "شروع کن!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:10
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:36
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:62
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:90
+msgid "Are you sure?"
+msgstr "آیا مطمئن هستید؟"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:118
+msgid "Data"
+msgstr "داده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:123
+msgid "Empty Table"
+msgstr "خالی کردن جدول"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:136
+msgid "All data table will be lost."
+msgstr "تمامی دادههای جدول از بین خواهد رفت."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:137
+msgid "Clear now!"
+msgstr "پاک کن!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:145
+msgid "Purge records older than"
+msgstr "پاک‌سازی رکوردهای قدیمی‌تر از"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:151
 msgid ""
-"Are you getting a blank or incomplete page displayed in your browser?  Did "
-"you view the source for the page and check for any fatal errors?"
+"Deleted user statistics data older than the selected number of days.  "
+"Minimum value is 30 days."
 msgstr ""
-"آیا یک صفحه خالی یا یک صفحه ناقص در مروگر شما مشاهده می‌شود؟ آیا سورس صفحه را "
-"مشاهده و خطای رخ داده را بررسی کرده‌اید؟"
+"انتخاب روزهای قبل برای حذف داده‌های آماری کاربری. حداقل مقدار 30 روز است."
 
-#: includes/settings/tabs/wps-about.php:67
-msgid "Have you checked your PHP and web server error logs?"
-msgstr "آقا PHP و گزارش‌ خطاهای سرور وب خود را بررسی کرده‌اید؟"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:152
+msgid "Purge now!"
+msgstr "هم‌اکنون پاک‌سازی کن!"
 
-#: widget.php:15
-msgid "Show site stats in sidebar."
-msgstr "نمایش آمار سایت در ابزارک."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:159
+msgid "Delete User Agent Types"
+msgstr "حذف نوع سیستم عامل کاربر"
 
-#: includes/log/last-search.php:97 includes/log/last-visitor.php:94
-#: includes/log/widgets/google.map.php:65 includes/log/widgets/jqv.map.php:59
-#: includes/log/widgets/recent.php:22 includes/log/widgets/words.php:25
-msgid "#hash#"
-msgstr "#hash#"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:164
+msgid "Delete Agents"
+msgstr "حذف سیستم عاملها"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:4
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:179
+msgid "All visitor data will be lost for this agent type."
+msgstr "تمامی دادههای مرورگر بازدیدکننده از بین خواهد رفت."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:180
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:204
+msgid "Delete now!"
+msgstr "پاک کن!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:188
+msgid "Delete Platforms"
+msgstr "حذف سَکوها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:203
+msgid "All visitor data will be lost for this platform type."
+msgstr "تمامی دادههای سَکوی بازدیدکننده از بین خواهد رفت."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:17
+msgid "Resources"
+msgstr "منابع"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:22
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:27
+msgid "Memory usage in PHP"
+msgstr "حافظه استفاده شده در پی‌اچ‌پی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:26
+msgid "Byte"
+msgstr "بایت"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:33
+msgid "PHP Memory Limit"
+msgstr "PHP Memory Limit"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:38
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr "تنظیم محدودیت حافظه برای اسکریپت در php.ini قرار دارد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:44
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:55
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:66
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:77
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:88
+#, php-format
+msgid "Number of rows in the %s table"
+msgstr "تعداد ردیفها در جدول %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:48
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:59
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:70
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:81
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:92
+msgid "Row"
+msgstr "ردیف"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:49
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:60
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:71
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:82
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:93
+msgid "Number of rows"
+msgstr "تعداد ردیف‌های موجود"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:98
+msgid "Version Info"
+msgstr "اطلاعات نگارش"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:103
+msgid "WP Statistics Version"
+msgstr "نگارش افزونه آماره"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:108
+msgid "The WP Statistics version you are running."
+msgstr "نگارش افزونه آماره در حال اجرای شما."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:114
+msgid "PHP Version"
+msgstr "نگارش PHP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:119
+msgid "The PHP version you are running."
+msgstr "نگارش PHP در حال اجرای شما."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:125
+msgid "PHP Safe Mode"
+msgstr "حالت ایمن PHP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:130
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr "حالت ایمنی PHP فعال است. کدهای GeoIP در حالت امن پشتیبانی نمی‌شوند."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "jQuery Version"
+msgstr "نگارش جی‌کوئری"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "The jQuery version you are running."
+msgstr "نگارش جی‌کوئری در حال اجرای شما."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "cURL Version"
+msgstr "نسخه cURL"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:151
+msgid "cURL not installed"
+msgstr "cURL نصب نیست"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:152
+msgid ""
+"The PHP cURL Extension version you are running.  cURL is required for the "
+"GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+"ماژول cURL در PHP شما در حال اجراست. اگر نصب نیست GeoIP غیرفعال خواهد شد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "BC Math"
+msgstr "BC Math"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:162
+msgid "Installed"
+msgstr "نصب شده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:162
+msgid "Not installed"
+msgstr "نصب نشده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+msgid ""
+"If the PHP BC Math Extension is installed.  BC Math is no longer required "
+"for the GeoIP code and is listed here only for historical reasons."
+msgstr ""
+"اگر قادر به نصب پسوند پی اچ پی ریاضی سال قبل از میلاد است. ریاضی سال قبل از "
+"میلاد دیگر برای کد GeoIP لازم است و تنها به دلایل تاریخی ذکر شده است."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:168
+msgid "File Info"
+msgstr "اطلاعات فایل"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "GeoIP Database"
+msgstr "GeoIP پایگاه داده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:182
+msgid "Database file does not exist."
+msgstr "فایل پایگاه‌داده وجود ندارد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:203
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:222
+msgid ", created on "
+msgstr "، در ایجاد "
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:186
+msgid "The file size and date of the GeoIP database."
+msgstr "اندازه فایل و تاریخ از GeoIP پایگاه داده."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:192
+msgid "browscap.ini File"
+msgstr "browscap.ini فایل"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:201
+msgid "browscap.ini file does not exist."
+msgstr "فایل browscap.ini وجود ندارد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:205
+msgid "The file size and date of the browscap.ini file."
+msgstr "اندازه فایل و تاریخ فایل browscap.ini."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:211
+msgid "browscap Cache File"
+msgstr "browscap فایل حافظه پنهان"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:220
+msgid "browscap cache file does not exist."
+msgstr "پرونده حافظه پنهان در browscap وجود ندارد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:224
+msgid "The file size and date of the browscap cache file."
+msgstr "اندازه فایل و تاریخ فایل حافظه پنهان browscap."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:229
+msgid "Client Info"
+msgstr "اطلاعات کاربر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:234
+msgid "Client IP"
+msgstr "آی‌پی کاربر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:239
+msgid "The client IP address."
+msgstr "آدرس آی‌پی کاربر."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:245
+msgid "User Agent"
+msgstr "عامل کاربر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:250
+msgid "The client user agent string."
+msgstr "رشته‌ی عامل کاربری"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
 msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
@@ -385,23 +949,27 @@ msgstr ""
 "همه آدرس‌های آی‌پی در پایگاه‌داده با مقادیر هش جایگزین می‌شود و قابل برگشت نیست، "
 "آیا مطمئن هستید؟"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:26
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "تنظیمات GeoIP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:26
 msgid ""
 "Updates any unknown location data in the database, this may take a while"
 msgstr ""
 "دریافت به‌روز رسانی برای موقعیت وکشورها، ممکن است انجام این عمل کمی طول بکشد."
 
-#: includes/optimization/tabs/wps-optimization-updates.php:31
-#: includes/settings/tabs/wps-general.php:56
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:31
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:56
 msgid "IP Addresses"
 msgstr "آدرس آی‌پی"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:36
-#: includes/settings/tabs/wps-general.php:61
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:36
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:61
 msgid "Hash IP Addresses"
 msgstr "هش‌کردن آدرس آی‌پی"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:41
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:41
 msgid ""
 "Replace IP addresses in the database with hash values, you will not be able "
 "to recover the IP addresses in the future to populate location information "
@@ -410,233 +978,95 @@ msgstr ""
 "جایگزین کردن مقادیر هش به جای آدرس آی‌پی در پایگاه‌داده، شما در آینده "
 "نمی‌توانید آدرس‌های آی‌پی را بازیابی کنید و ممکن است کمی طول بکشد."
 
-#: includes/optimization/wps-optimization.php:43
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
 msgstr "آدرس آی‌پی با مقادیر خش جایگزینه می‌شود."
 
-#: includes/settings/tabs/wps-access-level.php:149
-msgid "Force robot list update after upgrades"
-msgstr "به‌روز رسانی لیست روبات‌ها پس از ارتقاء"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:51
+msgid "Install routine complete."
+msgstr "روال کامل نصب کنید."
 
-#: includes/settings/tabs/wps-access-level.php:152
-msgid ""
-"Force the robot list to be reset to the default after an update to WP "
-"Statistics takes place.  Note if this option is enabled any custom robots "
-"you have added to the list will be lost."
-msgstr ""
-"لیست روبات‌ها بعد از به‌روز رسانی ریست می‌شود. توجه داشته باشید اگر این گزینه "
-"فعال باشد لیست سفارشی شما از دست خواهد رفت."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:126
+msgid "Resources/Information"
+msgstr "منابع/اطلاعات"
 
-#: includes/settings/tabs/wps-general.php:40
-msgid "This will delete the manual when you save the settings, are you sure?"
-msgstr "پس از ذخیره‌ی صفحه، فایل راهنما حذف خواهد شد، آیا مطمئن هستید؟"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:128
+msgid "Purging"
+msgstr "پاک‌سازی"
 
-#: includes/settings/tabs/wps-general.php:220
-msgid ""
-"By default WP Statistics displays an alert if any of the core features are "
-"disabled on every admin page, this option will disable these notices."
-msgstr ""
-"به‌طور پیش‌فرض آماره‌وردپرس امکاناتی که در افزونه غیرفعال باشد را به صورت اخطار "
-"در برگه‌های مدیریت نمایان می‌کند، این گزینه این ویژگی را غیرفعال می‌کند."
-
-#: includes/settings/tabs/wps-general.php:226
-msgid "Delete the manual"
-msgstr "حذف فایل راهنما"
-
-#: includes/settings/tabs/wps-general.php:232
-msgid ""
-"By default WP Statistics stores the admin manual in the plugin directory (~5 "
-"meg), if this option is enabled it will be deleted now and during upgrades "
-"in the future."
-msgstr ""
-"به طور پیش‌فرض فایل راهنمای کاربری افزونه آمار در شاخه افزونه با حجم (تقریباً "
-"5 مگابایت) می‌باشد. اگر این گزینه فعال باشد هم‌اکنون پاک خواهد شد و در زمان "
-"ارتقاء نیز حذف می‌شود."
-
-#: includes/optimization/tabs/wps-optimization-database.php:20
-msgid "Database Index"
-msgstr "شاخص پایگاه‌داده"
-
-#: includes/optimization/tabs/wps-optimization-database.php:41
-msgid ""
-"This operation could take a long time on installs with many rows in the "
-"visitors table."
-msgstr ""
-"این عملیات زمان زیادی برای نصب تعدادی ردیف‌ها در جدل بازدیدکنندگان صرف می کند."
-
-#: includes/optimization/wps-optimization.php:129
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:129
 msgid "Database"
 msgstr "پایگاه‌داده"
 
-#: includes/settings/tabs/wps-general.php:298
-msgid "Schedule"
-msgstr "زمان‌بندی"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:130
+msgid "Updates"
+msgstr "به‌روز رسانی‌ها"
 
-#: includes/settings/tabs/wps-general.php:328
-msgid "Send reports via"
-msgstr "ارسال از طریق"
-
-#: includes/settings/tabs/wps-general.php:347
-msgid "E-mail addresses"
-msgstr "آدرس‌های پست‌الکترونیک"
-
-#: includes/settings/tabs/wps-general.php:352
-msgid ""
-"A comma separated list of e-mail addresses to send the reports to if e-mail "
-"is selected above."
-msgstr "آدرس‌های پست‌الکترونیک را با ویرگول لاتین از هم جدا کنید."
-
-#: includes/settings/tabs/wps-general.php:358
-msgid "Report body"
-msgstr "متن بدنه گزارش"
-
-#: includes/settings/tabs/wps-overview-display.php:75
-msgid "The following three items are global to all users."
-msgstr "سه آیتم زیر برای تمامی کاربرها قابل دسترسی می‌باشد."
-
-#: includes/settings/tabs/wps-overview-display.php:80
-msgid "Map type"
-msgstr "نوع نقشه"
-
-#: includes/settings/tabs/wps-overview-display.php:86
-msgid "JQVMap"
-msgstr "JQV"
-
-#: includes/settings/tabs/wps-overview-display.php:93
-msgid ""
-"The \"Google\" option will use Google's mapping service to plot the recent "
-"visitors (requires access to Google)."
-msgstr ""
-"گزینه \"گوگل\" از سرویس نقشه گوگل برای آخرین بازدیدکنندگاه استفاده می‌کند. "
-"(نیازمند دسترسی به گوگل است)."
-
-#: includes/settings/tabs/wps-overview-display.php:94
-msgid ""
-"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
-"recent visitors (requires no extenral services)."
-msgstr ""
-"گزینه \"JQVMap\" از کتابخوانه جاوا اسکریپتی JQVMap برای آخرین بازدیدکنندگاه "
-"استفاده می‌کند. (نیازمند سرویس خارجی نمی‌باشد)."
-
-#: includes/settings/tabs/wps-overview-display.php:118
-msgid ""
-"This feature may cause a performance degradation when viewing statistics and "
-"is only valid if the map type is set to \"Google\"."
-msgstr ""
-"این ویژگی ممکن است مشاهده آمار را با کندی مواجه کند و تنها برای نوع نقشه "
-"\"گوگل\" تنظیم شده است."
-
-#: includes/log/all-browsers.php:50
-msgid "Browsers by type"
-msgstr "مرورگرها براساس نوع"
-
-#: includes/log/all-browsers.php:133
-msgid "Browsers by platform"
-msgstr "مرورگرها براساس سَکو"
-
-#: includes/log/exclusions.php:97
-msgid "Excluded hits in the last"
-msgstr "بازدید آخرین استثنائات"
-
-#: includes/log/hit-statistics.php:36
-msgid "Hits Statistics Chart"
-msgstr "نمودار آمار بازدیدها"
-
-#: includes/log/hit-statistics.php:69 includes/log/widgets/hits.php:39
-msgid "Hits in the last"
-msgstr "آخرین بازدیدها"
-
-#: includes/log/last-search.php:30 includes/log/widgets/words.php:16
-#: includes/settings/tabs/wps-overview-display.php:36
-msgid "Latest Search Words"
-msgstr "آخرین کلمات جستجو شده"
-
-#: includes/log/last-search.php:62
-msgid "Latest Search Word Statistics"
-msgstr "آخرین آمار کلمات جستجو شده"
-
-#: includes/log/last-visitor.php:61
-msgid "Recent Visitor Statistics"
-msgstr "آخرین آمار بازدیدکنندگان"
-
-#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
-msgid "Today Visitors Map"
-msgstr "بازدیدکنندگان امروز برروی نقشه"
-
-#: includes/log/widgets/summary.php:8
-msgid "Summary"
-msgstr "خلاصه"
-
-#: includes/log/widgets/summary.php:13
-msgid "User(s) Online"
-msgstr "کاربر(های) حاضر"
-
-#: includes/log/widgets/browsers.php:45
-msgid "Top 10 Browsers"
-msgstr "10 مرورگر برتر"
-
-#: includes/log/top-referring.php:34 includes/log/top-referring.php:49
-#: includes/log/widgets/referring.php:13
-#: includes/settings/tabs/wps-overview-display.php:26
-msgid "Top Referring Sites"
-msgstr "برترین ارجاع دهنده‌ها"
-
-#: includes/log/widgets/about.php:16
-msgid "Rate and Review"
-msgstr "رتبه بندی و بازبینی"
-
-#: includes/log/widgets/about.php:20
-msgid "More Information"
-msgstr "اطلاعات بیشتر"
-
-#: includes/log/widgets/about.php:29 includes/settings/tabs/wps-about.php:12
-msgid ""
-"This product includes GeoLite2 data created by MaxMind, available from %s."
-msgstr ""
-"این محصول شامل داده‌های GeoLite2 می‌باشد که توسط MaxMind، ایجاد شده و در %s "
-"قابل دسترس می‌باشد."
-
-#: includes/log/search-statistics.php:77 includes/log/widgets/search.php:46
-msgid "Search engine referrals in the last"
-msgstr "آخرین ورودی‌‌ها از موتورهای جستجوگر"
-
-#: includes/log/search-statistics.php:98 includes/log/widgets/search.php:67
-msgid "Number of referrals"
-msgstr "تعداد ورودی‌ها"
-
-#: includes/log/widgets/pages.php:13
-msgid "Top 10 Pages"
-msgstr "10 برگه برتر"
-
-#: includes/log/search-statistics.php:17 includes/log/search-statistics.php:36
-msgid "Search Engine Referral Statistics"
-msgstr "آمار ورودی از موتورهای جستجو"
-
-#: includes/settings/tabs/wps-about.php:8
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:8
+#, php-format
 msgid "WP Statistics V%s"
 msgstr "آماره وردپرس نگارش %s"
 
-#: includes/settings/tabs/wps-about.php:20
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:20
 msgid "Visit Us Online"
 msgstr "مشاهده ما"
 
-#: includes/settings/tabs/wps-about.php:28
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
+#, php-format
+msgid ""
+"Come visit our great new %s and keep up to date on the latest news about WP "
+"Statistics."
+msgstr ""
+"ببینید ما %s جدید بزرگ و نگه دارید تا تاریخ در آخرین اخبار در مورد وپ آمار "
+"آمده است."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
+msgid "website"
+msgstr "وب سایت"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:28
 msgid "Rate and Review at WordPress.org"
 msgstr "امتیاز و بررسی در Wordpress.org"
 
-#: includes/settings/tabs/wps-about.php:32
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
 msgstr "با تشکر از شما بابت نصب افزونه آماره وردپرس، توصیه می‌کنیم به"
 
-#: includes/settings/tabs/wps-about.php:32
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
 msgstr "رتبه بندی و بازبینی"
 
-#: includes/settings/tabs/wps-about.php:32
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
 msgstr "سر بزنید. نقطه نظرات شما قابل قدردانیست!"
 
-#: includes/settings/tabs/wps-about.php:49
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:36
+msgid "Translations"
+msgstr "ترجمه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+#, php-format
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our %s to see the current status and %s if "
+"you would like to help."
+msgstr ""
+"وپ آمار بین المللی حمایت می کند و ما را تشویق کاربران به ارائه ترجمه, اگر "
+"شما می خواهم برای کمک به ما %s برای دیدن وضعیت فعلی و %s مراجعه کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+msgid "translation collaboration site"
+msgstr "ترجمه سایت همکاری"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+msgid "drop us a line"
+msgstr "ما افت خط"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:44
+msgid "Support"
+msgstr "پشتیبانی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:49
 msgid ""
 "We're sorry you're having problem with WP Statistics and we're happy to help "
 "out.  Here are a few things to do before contacting us:"
@@ -644,478 +1074,115 @@ msgstr ""
 "اگر با آماره وردپرس مشکل دارید، ما متأسفیم و خوشحال می‌شویم شما را کمک کنیم. "
 "می‌توانید از بخش‌های زیر اقدام کنید:"
 
-#: includes/settings/tabs/wps-about.php:58
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:52
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
+#, php-format
+msgid "Have you read the %s?"
+msgstr "شما باید %s را بخوانید؟"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:52
+msgid "FAQs"
+msgstr "سوالات متداول"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
+msgid "manual"
+msgstr "کتابچه راهنمای کاربر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
+#, php-format
+msgid "Have you search the %s for a similar issue?"
+msgstr "جستجو در %s برای موضوع مشابه دارید؟"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
+msgid "support forum"
+msgstr "انجمن پشتیبانی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:55
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr "آیا برای هر خطا در اینترنت جستجو کرده‌اید؟"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:58
 msgid "And a few things to double-check:"
 msgstr "و به چند نکته دقت کنید:"
 
-#: includes/settings/tabs/wps-about.php:61
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:61
 msgid "How's your memory_limit in php.ini?"
 msgstr "مقدار memory_limit در php.ini را بررسی کرده‌اید؟"
 
-#: includes/settings/tabs/wps-about.php:62
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:62
 msgid "Have you tried disabling any other plugins you may have installed?"
 msgstr "سعی کردید افزونه‌های نصب شده دیگر را غیرفعال کنید؟"
 
-#: includes/settings/tabs/wps-about.php:63
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:63
 msgid "Have you tried using the default WordPress theme?"
 msgstr "سعی کردید پوسته پیش‌فرض وردپرس را استفاده کنید؟"
 
-#: includes/settings/tabs/wps-about.php:64
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:64
 msgid "Have you double checked the plugin settings?"
 msgstr "آیا تنظیمات افزونه را مجدد بررسی کرده‌اید؟"
 
-#: includes/settings/tabs/wps-about.php:65
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
 msgid "Do you have all the required PHP extensions installed?"
 msgstr "آیا الزامات مربوط به اکستنشن‌های PHP را نصب کرده‌اید؟"
 
-#: includes/settings/tabs/wps-about.php:70
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
+msgid ""
+"Are you getting a blank or incomplete page displayed in your browser?  Did "
+"you view the source for the page and check for any fatal errors?"
+msgstr ""
+"آیا یک صفحه خالی یا یک صفحه ناقص در مروگر شما مشاهده می‌شود؟ آیا سورس صفحه را "
+"مشاهده و خطای رخ داده را بررسی کرده‌اید؟"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "آقا PHP و گزارش‌ خطاهای سرور وب خود را بررسی کرده‌اید؟"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:70
 msgid "Still not having any luck?"
 msgstr "با این حال، شانشی برایتان نیست؟"
 
-#: includes/optimization/tabs/wps-optimization-export.php:17
-#: includes/optimization/tabs/wps-optimization-export.php:35
-#: includes/optimization/tabs/wps-optimization-purging.php:128
-#: includes/optimization/tabs/wps-optimization-purging.php:169
-#: includes/optimization/tabs/wps-optimization-purging.php:193
-#: includes/settings/tabs/wps-general.php:303
-#: includes/settings/tabs/wps-general.php:333
-msgid "Please select"
-msgstr "لطفا انتخاب کنید"
-
-#: includes/settings/tabs/wps-general.php:365
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:70
+#, php-format
 msgid ""
-"Any shortcode supported by your installation of WordPress, include all "
-"shortcodes for WP Statistics (see the admin manual for a list of codes "
-"available) are supported in the body of the message."
-msgstr ""
-"هر کدکوتاهی توسط وردپرس شما پشتیبانی میشود. کدهای کوتاه در افزونه آمار (لیست "
-"کدها در راهنمای کاربری موجود است) در بدنه‌ی متن پشتیبانی می‌شوند."
-
-#: includes/settings/tabs/wps-general.php:368
-msgid ""
-"Input data codes are now deprecated and will be removed in a future version "
-"of WP Statistics, please use the appropriate shortcodes, they are included "
-"here only for historical purposes:"
-msgstr ""
-"در حال حاضر داده‌های آماری توصیه نمی‌شوند و این قابلیت در آینده از آمار وردپرس "
-"حذف خواهد شد، لطفاً از کدهای مناسب‌تر استفاده کنید. آنها در این قسمت برای "
-"اهدافی مشخص شده‌اند:"
-
-#: includes/settings/tabs/wps-geoip.php:22
-msgid ""
-"IP location services provided by GeoLite2 data created by MaxMind, available "
-"from %s."
-msgstr ""
-"سرویس ارائه‌دهنده مکان‌نمای IP با GeoLite2 ایجاد شده و توسط MaxMind ساخته شده "
-"است و در %s قابل دسترس است."
-
-#: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32
-msgid "None"
-msgstr "هیچ"
-
-#: includes/settings/tabs/wps-overview-display.php:28
-#: includes/settings/wps-settings.php:92
-msgid "About"
-msgstr "درباره"
-
-#: includes/settings/tabs/wps-overview-display.php:123
-msgid "Widgets to Display"
-msgstr "نمایش ابزارک‌ها"
-
-#: includes/settings/tabs/wps-overview-display.php:132
-msgid ""
-"The following items are unique to each user.  If you do not select the "
-"'About' widget it will automatically be displayed in the last positon of "
-"column A."
-msgstr ""
-"موارد زیر برای هرکاربر منحصر به فرد است. اگر شما ابزارک \"درباره پلاگین\" را "
-"انتخاب نکنید، به صورت پیش‌فرض در ستون A نمایش داده می‌شود."
-
-#: includes/settings/tabs/wps-overview-display.php:137
-msgid "Slot"
-msgstr "سطر"
-
-#: includes/settings/tabs/wps-overview-display.php:141
-msgid "Column A"
-msgstr "ستون A"
-
-#: includes/settings/tabs/wps-overview-display.php:145
-msgid "Column B"
-msgstr "ستون B"
-
-#: includes/settings/tabs/wps-overview-display.php:151
-msgid "Slot 1"
-msgstr "سطر 1"
-
-#: includes/settings/tabs/wps-overview-display.php:181
-msgid "Slot 2"
-msgstr "سطر 2"
-
-#: includes/settings/tabs/wps-overview-display.php:211
-msgid "Slot 3"
-msgstr "سطر 3"
-
-#: includes/settings/tabs/wps-overview-display.php:241
-msgid "Slot 4"
-msgstr "سطر 4"
-
-#: includes/settings/tabs/wps-overview-display.php:271
-msgid "Slot 5"
-msgstr "سطر 5"
-
-#: includes/settings/tabs/wps-overview-display.php:301
-msgid "Slot 6"
-msgstr "سطر 6"
-
-#: includes/settings/tabs/wps-overview-display.php:305
-msgid "N/A"
-msgstr "خالی"
-
-#: widget.php:280
-msgid "Search Engine Referred"
-msgstr "ورودی موتور جستجو"
-
-#: schedule.php:10
-msgid "Once Weekly"
-msgstr "یکبار در هفته"
-
-#: schedule.php:17
-msgid "Once Every 2 Weeks"
-msgstr "هر 2 هفته"
-
-#: schedule.php:24
-msgid "Once Every 4 Weeks"
-msgstr "هر 4 هفته"
-
-#: wp-statistics.php:39
-msgid "Complete statistics for your WordPress site."
-msgstr "آماری کامل برای سایت وردپرسی شما."
-
-#: includes/log/widgets/about.php:15
-msgid "Website"
-msgstr "وب‌سایت"
-
-#: includes/log/top-referring.php:117 includes/log/widgets/referring.php:19
-msgid "References"
-msgstr "ارجاع"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:33
-msgid "PHP Memory Limit"
-msgstr "PHP Memory Limit"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:38
-msgid "The memory limit a script is allowed to consume, set in php.ini."
-msgstr "تنظیم محدودیت حافظه برای اسکریپت در php.ini قرار دارد."
-
-#: wp-statistics.php:38
-msgid "WP Statistics"
-msgstr "آماره وردپرس"
-
-#: wp-statistics.php:164
-msgid "Visit WordPress.org page"
-msgstr "مشاهده برگه‌ی Wordpress.org"
-
-#: includes/log/page-statistics.php:29
-msgid "Page Trend for Post ID"
-msgstr "برگه تمایل برای شناسه نوشته‌ها"
-
-#: includes/log/page-statistics.php:48
-msgid "Page Trend"
-msgstr "برگه تمایل"
-
-#: includes/log/page-statistics.php:68
-msgid "Page Trending Stats"
-msgstr "روند بازدید برگه‌ها"
-
-#: includes/settings/tabs/wps-access-level.php:97
-msgid "Record exclusions"
-msgstr "رکوردهای استثناء"
-
-#: includes/settings/tabs/wps-access-level.php:130
-msgid "Robot list"
-msgstr "لیست روبات‌ها"
-
-#: includes/settings/tabs/wps-access-level.php:157
-msgid "Excluded IP address list"
-msgstr "لیست آدرس آی‌پی‌های محروم"
-
-#: includes/settings/tabs/wps-access-level.php:160
-msgid ""
-"A list of IP addresses and subnet masks (one per line) to exclude from "
-"statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
-"formats are accepted).  To specify an IP address only, use a subnet value of "
-"32 or 255.255.255.255."
-msgstr ""
-"یک لیست از آدرس آی‌پی‌ و Subnet Maskهای (در در خط یکی) برای جلوگیری در محاسبه "
-"آمارگیر (هردو فرمت 192.168.0.0/24 و 192.168.0.0/255.255.255.0 قابل قبول). "
-"برای مشخص کردن تنها یک آدرس آی‌پی نیازی نیست Subnet Mask را اضافه کنید."
-
-#: includes/settings/tabs/wps-access-level.php:172
-msgid "Excluded login page"
-msgstr "استثنائات برگه‌ی ورود"
-
-#: includes/settings/tabs/wps-access-level.php:179
-msgid "Excluded admin pages"
-msgstr "استثنائات برگه‌های مدیریت"
-
-#: includes/settings/tabs/wps-general.php:72
-msgid "Users Online"
-msgstr "کاربران حاضر"
-
-#: includes/settings/tabs/wps-general.php:77
-msgid "User online"
-msgstr "کاربران حاضر"
-
-#: includes/settings/tabs/wps-general.php:172
-msgid "Track all pages"
-msgstr "رهگیری همه برگه‌ها"
-
-#: includes/settings/tabs/wps-general.php:184
-msgid "Disable hits column in post/pages list"
-msgstr "غیرفعال کردن ستون بازدید در لیست برگه/نوشته(ها)"
-
-#: includes/settings/tabs/wps-general.php:195
-msgid "Miscellaneous"
-msgstr "متفرقه"
-
-#: wp-statistics.php:164
-msgid "Click here to visit the plugin on WordPress.org"
-msgstr "برای مشاهده افزونه در Wordpress.org کلیک کنید."
-
-#: wp-statistics.php:167
-msgid "Click here to rate and review this plugin on WordPress.org"
-msgstr "برای دادن امتیاز و بررسی افزونه در Wordpress.org کلیک کنید."
-
-#: wp-statistics.php:167
-msgid "Rate this plugin"
-msgstr "امتیاز به افزونه"
-
-#: wp-statistics.php:211
-msgid "WP Statistics - Hits"
-msgstr "آماره وردپرس - بازدیدها"
-
-#: wp-statistics.php:599
-msgid "Error downloading GeoIP database from: %s - %s"
-msgstr "خطای دریافت پایگاه‌داده GeoIP از %s: - %s"
-
-#: widget.php:108 widget.php:277
-msgid "Total Page Views"
-msgstr "کل بازدید برگه‌ها"
-
-#: includes/settings/tabs/wps-general.php:155
-#: includes/settings/tabs/wps-general.php:160 wp-statistics.php:259
-msgid "Pages"
-msgstr "برگه‌ها"
-
-#: wp-statistics.php:266
-msgid "Manual"
-msgstr "راهنما"
-
-#: wp-statistics.php:364
-msgid "Download ODF file"
-msgstr "دریافت فایل ODF"
-
-#: wp-statistics.php:365
-msgid "Download HTML file"
-msgstr "دریافت فایل HTML"
-
-#: wp-statistics.php:369
-msgid "Manual file not found."
-msgstr "راهنما یافت نشد."
-
-#: includes/log/exclusions.php:54
-msgid "Exclusions Statistics"
-msgstr "استثنائات آمار"
-
-#: includes/settings/tabs/wps-overview-display.php:37
-msgid "Top Pages Visited"
-msgstr "برترین برگه‌های بازدید شده"
-
-#: includes/log/top-pages.php:160 includes/log/widgets/pages.php:27
-msgid "No page title found"
-msgstr "عنوان برگه یافت نشد"
-
-#: includes/log/top-pages.php:13 includes/log/top-pages.php:132
-msgid "Top Pages"
-msgstr "برترین برگه‌ها"
-
-#: includes/log/top-pages.php:20
-msgid "Top 5 Pages Trends"
-msgstr "برترین 5 برگه"
-
-#: includes/log/top-pages.php:49
-msgid "Top 5 Page Trending Stats"
-msgstr "برترین بازدید 5 برگه"
-
-#: includes/log/page-statistics.php:89 includes/log/top-pages.php:70
-msgid "Number of Hits"
-msgstr "تعداد بازدید"
-
-#: manual/manual.php:29
-msgid "Manual not found: %s"
-msgstr "راهنما یافت نشد: %s"
-
-#: manual/manual.php:39
-msgid "Invalid file type selected: %s"
-msgstr "نوع فایل نامعتبر انتخاب شده: %s"
-
-#: widget.php:116
-msgid "Search Engine referred"
-msgstr "ورودی موتور جستجو"
-
-#: includes/optimization/tabs/wps-optimization-export.php:47
-msgid "Include Header Row"
-msgstr "شامل بودن سربرگ ردیف"
-
-#: includes/optimization/tabs/wps-optimization-export.php:52
-msgid "Include a header row as the first line of the exported file."
-msgstr "شامل شدن سربرگ ردیف در خط اول فایل برون‌بری شده."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:125
-msgid "PHP Safe Mode"
-msgstr "حالت ایمن PHP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:130
-msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
-msgstr "حالت ایمنی PHP فعال است. کدهای GeoIP در حالت امن پشتیبانی نمی‌شوند."
-
-#: includes/settings/tabs/wps-geoip.php:106
-msgid "GeoIP collection is disabled due to the following reasons:"
-msgstr "مجموعه GeoIP با توجه به دلایل زیر غیرفعال شده است:"
-
-#: includes/settings/tabs/wps-geoip.php:126
-msgid ""
-"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
-"mode enabled!"
-msgstr ""
-"حالت ایمنی PHP شناسایی نشد! مجموعه GeoIP توسط حالت ایمنی PHP پشتیبانی نمی‌شود!"
-
-#: includes/settings/tabs/wps-general.php:214
-msgid "Hide admin notices about non active features"
-msgstr "غیرفعال شدن اطلاعیه‌های مدیریت درمورد فعال بودن امکانات"
-
-#: includes/settings/tabs/wps-general.php:237
-msgid "Search Enginges"
-msgstr "موتورهای جستجوگر"
-
-#: includes/settings/tabs/wps-general.php:242
-msgid ""
-"Disabling all search engines is not allowed, doing so will result in all "
-"search engines being active."
-msgstr ""
-"از کار انداختن موتورهای جستجویی که نیازی به آنها نیست، این عمل در نتیجه کل "
-"موتورهای جستجو تأثیر می‌گذارد."
-
-#: includes/settings/tabs/wps-general.php:257
-msgid "disable"
-msgstr "غیرفعال"
-
-#: includes/settings/tabs/wps-general.php:258
-msgid "Disable %s from data collection and reporting."
-msgstr "غیرفعال کردن %s از جمع آوری داده‌ها و گزارش."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:147
-msgid "cURL Version"
-msgstr "نسخه cURL"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:151
-msgid "cURL not installed"
-msgstr "cURL نصب نیست"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:152
-msgid ""
-"The PHP cURL Extension version you are running.  cURL is required for the "
-"GeoIP code, if it is not installed GeoIP will be disabled."
-msgstr ""
-"ماژول cURL در PHP شما در حال اجراست. اگر نصب نیست GeoIP غیرفعال خواهد شد."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:158
-msgid "BC Math"
-msgstr "BC Math"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:162
-msgid "Installed"
-msgstr "نصب شده"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:162
-msgid "Not installed"
-msgstr "نصب نشده"
-
-#: includes/settings/tabs/wps-geoip.php:114
-msgid ""
-"GeoIP collection requires the cURL PHP extension and it is not loaded on "
-"your version of PHP!"
-msgstr ""
-"مجموعه‌ی GeoIP نیاز به ماژول cURL در PHP دارد و نمی‌تواند در نگارش PHP شما "
-"بارگزاری شود!"
-
-#: includes/settings/tabs/wps-geoip.php:120
-msgid ""
-"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
-"your version of PHP!"
-msgstr ""
-"مجموعه‌ی GeoIP نیاز به ماژول BC Math در PHP دارد و نمی‌تواند در نگارش PHP شما "
-"بارگزاری شود!"
-
-#: includes/functions/geoip-populate.php:26
-msgid ""
-"Unable to load the GeoIP database, make sure you have downloaded it in the "
-"settings page."
-msgstr ""
-"قادر به بارگزاری پایگاه‌داده GeoIP نیست، مطمئن شوید در برگه‌ی تنظیمات دریافت "
-"می‌شود."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:182
-msgid "Database file does not exist."
-msgstr "فایل پایگاه‌داده وجود ندارد."
-
-#: includes/log/last-visitor.php:59
-msgid "Search for"
-msgstr "جستجو برای"
-
-#: includes/log/widgets/browsers.php:8 includes/log/widgets/countries.php:11
-#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:13
-#: includes/log/widgets/recent.php:9 includes/log/widgets/referring.php:13
-#: includes/log/widgets/search.php:8 includes/log/widgets/words.php:16
-msgid "More"
-msgstr "بیشتر"
-
-#: includes/settings/tabs/wps-general.php:269
-msgid "Include totals"
-msgstr "جمع کل"
-
-#: includes/settings/tabs/wps-general.php:275
-msgid ""
-"Add a total line to charts with multiple values, like the search engine "
-"referrals"
-msgstr "اضافه شدن جمع کل به نمودار آمار ورودی از موتورهای جستجو"
-
-#: includes/settings/tabs/wps-overview-display.php:100
-msgid "Disable map"
-msgstr "غیرفعال کردن نقشه"
-
-#: includes/settings/tabs/wps-overview-display.php:106
-msgid "Disable the map display"
-msgstr "غیرفعال کردن نمایش نقشه"
-
-#: includes/settings/tabs/wps-overview-display.php:112
-msgid "Get country location from Google"
-msgstr "دریافت مختصات کشورها از گوگل"
-
-#: includes/log/exclusions.php:8
-msgid ""
-"Attention: Exclusion are not currently set to be recorded, the results below "
-"may not reflect current statistics!"
-msgstr ""
-"توجه: در حال حاظر استثنائات برای رکوردها تنظیم نشده‌اند. نتایج زیر ممکن است "
-"آمار فعلی را منعکس نکند."
-
-#: includes/log/exclusions.php:118
-msgid "Number of excluded hits"
-msgstr "تعداد بازدید استثنائات"
-
-#: includes/settings/tabs/wps-access-level.php:86
+"Then please open a new thread on the %s and we'll respond as soon as "
+"possible."
+msgstr "سپس لطفا یک تاپیک جدید در %s را باز کنید و ما اسرع پاسخ دهد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:70
+msgid "WordPress.org support forum"
+msgstr "انجمن پشتیبانی WordPress.org"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:74
+#, php-format
+msgid "Alternatively %s support is available as well."
+msgstr "انجمن پشتیبانی %s ما، راه دیگری است که همیشه در دسترس است."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:74
+msgid "Farsi"
+msgstr "فارسی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:33
+msgid "Access Levels"
+msgstr "سطح دسترسی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:62
+msgid "Required user level to view WP Statistics"
+msgstr "سطح کاربری مورد نیاز برای مشاهده آمارگیر وردپرس"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:77
+msgid "Required user level to manage WP Statistics"
+msgstr "سطح کاربری مورد نیاز برای مدیریت آمارگیر وردپرس"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:85
+#, php-format
+msgid "See the %s for details on capability levels."
+msgstr "مشاهده جزئیات %s سطح توانایی."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:85
+msgid "WordPress Roles and Capabilities page"
+msgstr "صفحه وردپرس نقش و توانایی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:86
 msgid ""
 "Hint: manage_network = Super Admin Network, manage_options = Administrator, "
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
@@ -1124,12 +1191,39 @@ msgstr ""
 "نکته: manage_network = مدیر شبکه، manage_options = مدیر، edit_others_posts = "
 "ویرایشگر، publish_posts = نویسنده، edit_posts = مشارکت‌کننده، read = همه."
 
-#: includes/settings/tabs/wps-access-level.php:99
-#: includes/settings/tabs/wps-access-level.php:151
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:87
+msgid ""
+"Each of the above casscades the rights upwards in the default WordPress "
+"configuration.  So for example selecting publish_posts grants the right to "
+"Authors, Editors, Admins and Super Admins."
+msgstr ""
+"هریک از موارد به‌صورت پیش‌فرض در وردپرس تعریف شده‌اند. به‌عنوان مثال با انتخاب "
+"publish_posts به نویسنده‌گاه، ویرایشگر‌ها، مدیر و مدیرکلی دسترسی اعطا می‌گردد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:88
+#, php-format
+msgid ""
+"If you need a more robust solution to delegate access you might want to look "
+"at %s in the WordPress plugin directory."
+msgstr ""
+"اگر نیاز به راه‌حل‌های بیشتری در رابطه با نقش‌های کاربری وردپرس داشتید، نگاهی "
+"به افزونه %s بیندازید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:93
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:255
+msgid "Exclusions"
+msgstr "استثنائات"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:97
+msgid "Record exclusions"
+msgstr "رکوردهای استثناء"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:99
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:151
 msgid "Enable"
 msgstr "فعال"
 
-#: includes/settings/tabs/wps-access-level.php:100
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:100
 msgid ""
 "This will record all the excluded hits in a separate table with the reasons "
 "why it was excluded but no other information.  This will generate a lot of "
@@ -1140,200 +1234,490 @@ msgstr ""
 "جدول دیگر. می‌تواند مقدار زیادی داده تولید شود، درعوض مفید خواهد بود و "
 "می‌توانید آمار دقیق بازدید و بازدیدکننده‌تان را به دست آورید."
 
-#: includes/settings/tabs/wps-access-level.php:168
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:105
+msgid "Exclude User Roles"
+msgstr "محروم‌کردن نقش‌های کاربری"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:119
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:174
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:181
+msgid "Exclude"
+msgstr "محروم"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:120
+#, php-format
+msgid "Exclude %s role from data collection."
+msgstr "محروم کردن نقش کاربری %s از محاسبه در آمار"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:126
+msgid "IP/Robot Exclusions"
+msgstr "محرومیت‌های آی‌پی/ربات"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:130
+msgid "Robot list"
+msgstr "لیست روبات‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:143
+msgid ""
+"A list of words (one per line) to match against to detect robots.  Entries "
+"must be at least 4 characters long or they will be ignored."
+msgstr ""
+"یک لیست از کلمات برای مقایسه و شناسایی ربات‌ها (در هر خط یک کلمه وارد شود). "
+"ورودی‌ها باید حداقل دارای 4 کارکتر باشد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:144
+msgid "Reset to Default"
+msgstr "بازگشت به حالت پیش‌فرض"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:149
+msgid "Force robot list update after upgrades"
+msgstr "به‌روز رسانی لیست روبات‌ها پس از ارتقاء"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:152
+msgid ""
+"Force the robot list to be reset to the default after an update to WP "
+"Statistics takes place.  Note if this option is enabled any custom robots "
+"you have added to the list will be lost."
+msgstr ""
+"لیست روبات‌ها بعد از به‌روز رسانی ریست می‌شود. توجه داشته باشید اگر این گزینه "
+"فعال باشد لیست سفارشی شما از دست خواهد رفت."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:157
+msgid "Excluded IP address list"
+msgstr "لیست آدرس آی‌پی‌های محروم"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:160
+msgid ""
+"A list of IP addresses and subnet masks (one per line) to exclude from "
+"statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
+"formats are accepted).  To specify an IP address only, use a subnet value of "
+"32 or 255.255.255.255."
+msgstr ""
+"یک لیست از آدرس آی‌پی‌ و Subnet Maskهای (در در خط یکی) برای جلوگیری در محاسبه "
+"آمارگیر (هردو فرمت 192.168.0.0/24 و 192.168.0.0/255.255.255.0 قابل قبول). "
+"برای مشخص کردن تنها یک آدرس آی‌پی نیازی نیست Subnet Mask را اضافه کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:161
+msgid "Add 10.0.0.0"
+msgstr "افزودن 10.0.0.0"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:162
+msgid "Add 172.16.0.0"
+msgstr "افزودن 172.16.0.0"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:163
+msgid "Add 192.168.0.0"
+msgstr "افزودن 192.168.0.0"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:168
 msgid "Site URL Exclusions"
 msgstr "استثنائات آدرس"
 
-#: includes/settings/tabs/wps-access-level.php:175
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:172
+msgid "Excluded login page"
+msgstr "استثنائات برگه‌ی ورود"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:175
 msgid "Exclude the login page for registering as a hit."
 msgstr "نادیده گرفتن برگه‌ی ورود برای نام‌نویسی به‌عنوان محاسبه در آمار"
 
-#: includes/settings/tabs/wps-access-level.php:182
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:179
+msgid "Excluded admin pages"
+msgstr "استثنائات برگه‌های مدیریت"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:182
 msgid "Exclude the admin pages for registering as a hit."
 msgstr "نادیده گرفتن برگه‌های مدیریت برای نام‌نویسی به‌عنوان محاسبه در آمار"
 
-#: includes/settings/tabs/wps-access-level.php:93 wp-statistics.php:254
-msgid "Exclusions"
-msgstr "استثنائات"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:17
+msgid "browscap settings"
+msgstr "تنظیمات browscap"
 
-#: includes/log/exclusions.php:68
-msgid "Total Exclusions: %s"
-msgstr "کل استثنائات %s"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:22
+msgid "browscap usage"
+msgstr "استفاده از browscap"
 
-#: includes/log/exclusions.php:75
-msgid "Exclusions Statistical Chart"
-msgstr "نمودار آمار استثنائات"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:27
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:51
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:66
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:82
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:110
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:126
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:138
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:165
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:177
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:189
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:219
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:231
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:274
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:290
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:37
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:61
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:94
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:40
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:105
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:117
+msgid "Active"
+msgstr "فعال"
 
-#: includes/settings/tabs/wps-access-level.php:33
-msgid "Access Levels"
-msgstr "سطح دسترسی"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:28
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr "پایگاه داده browscap را دانلود و استفاده برای شناسایی ربات."
 
-#: includes/optimization/wps-optimization.php:126
-msgid "Resources/Information"
-msgstr "منابع/اطلاعات"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:34
+msgid "Update browscap Info"
+msgstr "Browscap به روز رسانی اطلاعات"
 
-#: includes/optimization/wps-optimization.php:128
-msgid "Purging"
-msgstr "پاک‌سازی"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:39
+msgid "Download browscap Database"
+msgstr "دانلود browscap پایگاه داده"
 
-#: includes/optimization/wps-optimization.php:130
-msgid "Updates"
-msgstr "به‌روز رسانی‌ها"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:40
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:50
+msgid "Save changes on this page to download the update."
+msgstr "ذخیره‌ی تغییرات در این برگه و دریافت به‌روز رسانی"
 
-#: includes/settings/wps-settings.php:88
-msgid "Access/Exclusions"
-msgstr "دسترسی/محرومیت‌ها"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:46
+msgid "Schedule weekly update of browscap DB"
+msgstr "برنامه به روز رسانی هفتگی browscap دسی بل"
 
-#: includes/settings/wps-settings.php:91
-msgid "Maintenance"
-msgstr "تعمیر و نگه‌داری"
-
-#: includes/settings/wps-settings.php:126
-msgid "Update"
-msgstr "به‌روز رسانی"
-
-#: includes/settings/wps-settings.php:86
-msgid "General"
-msgstr "عمومی"
-
-#: includes/optimization/empty.php:57
-msgid "Error, %s not emptied!"
-msgstr "خطا! %s خالی نیست!"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:118
-msgid "Data"
-msgstr "داده"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:145
-msgid "Purge records older than"
-msgstr "پاک‌سازی رکوردهای قدیمی‌تر از"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:151
-msgid ""
-"Deleted user statistics data older than the selected number of days.  "
-"Minimum value is 30 days."
-msgstr ""
-"انتخاب روزهای قبل برای حذف داده‌های آماری کاربری. حداقل مقدار 30 روز است."
-
-#: includes/optimization/tabs/wps-optimization-purging.php:152
-msgid "Purge now!"
-msgstr "هم‌اکنون پاک‌سازی کن!"
-
-#: includes/optimization/purge-data.php:55
-msgid "Please select a value over 30 days."
-msgstr "لطفاً مقدار بیشتر از 30 روز انتخاب کنید."
-
-#: includes/settings/tabs/wps-maintenance.php:20
-msgid ""
-"This will permanently delete data from the database each day, are you sure "
-"you want to enable this option?"
-msgstr ""
-"این درخواست داده‌های قدیمی را برای همیشه پاک می‌کند. برای فعال سازی آن مطمئن "
-"هستید؟"
-
-#: includes/settings/tabs/wps-maintenance.php:30
-msgid "Database Maintenance"
-msgstr "تعمیر و نگه‌داری پایگاه‌داده"
-
-#: includes/settings/tabs/wps-maintenance.php:35
-msgid "Run a daily WP Cron job to prune the databases"
-msgstr "اجرای روزانه یک زمان‌بندی برای هرس کردن پایگاه‌داده."
-
-#: includes/settings/tabs/wps-maintenance.php:41
-msgid ""
-"A WP Cron job will be run daily to prune any data older than a set number of "
-"days."
-msgstr ""
-"وظیفه آن اجرای روزانه برای حذف داده‌هایی که بیشتر از زمان انتخاب شده نگه‌داری "
-"شده اند."
-
-#: includes/settings/tabs/wps-maintenance.php:47
-msgid "Prune data older than"
-msgstr "داده‌های قدیمی‌تر از"
-
-#: includes/settings/tabs/wps-maintenance.php:52
-msgid "Days"
-msgstr "روز"
-
-#: includes/settings/tabs/wps-maintenance.php:53
-msgid ""
-"The number of days to keep statistics for.  Minimum value is 30 days.  "
-"Invalid values will disable the daily maintenance."
-msgstr ""
-"تعداد روزها برای حفظ آمار. حداقل مقدار 30 روز است. مقدارهای نامعتبر روزانه "
-"غیرفعال می‌شوند."
-
-#: includes/settings/wps-settings.php:89
-msgid "GeoIP"
-msgstr "GeoIP"
-
-#: includes/settings/tabs/wps-browscap.php:54
-#: includes/settings/tabs/wps-geoip.php:64
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:54
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:64
 msgid "Next update will be"
 msgstr "به‌روز رسانی بعدی خواهد بود"
 
-#: includes/settings/tabs/wps-geoip.php:109
-msgid ""
-"GeoIP collection requires PHP %s or above, it is currently disabled due to "
-"the installed PHP version being  "
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:69
+msgid "Download of the browscap database will be scheduled for once a week."
 msgstr ""
-"مجموعه GeoIP به PHP نسخه %s و بالاتر نیاز دارد، در حال حاضر با توجه به پایین "
-"بودن نسخه PHP شما، غیرفعال است"
+"دانلود بانک اطلاعاتی browscap برای یک بار در هفته طوری زمانبندی خواهد شد."
 
-#: includes/log/widgets/search.php:8 includes/log/widgets/summary.php:64
-msgid "Search Engine Referrals"
-msgstr "ورودی‌ موتورهای جستجوگر"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:40
+msgid "This will delete the manual when you save the settings, are you sure?"
+msgstr "پس از ذخیره‌ی صفحه، فایل راهنما حذف خواهد شد، آیا مطمئن هستید؟"
 
-#: includes/log/widgets/summary.php:88
-msgid "Daily Total"
-msgstr "کل روزانه‌ها"
-
-#: includes/log/widgets/summary.php:102
-msgid "Current Time and Date"
-msgstr "تاریخ و زمان امروز"
-
-#: includes/optimization/tabs/wps-optimization-database.php:39
-#: includes/optimization/tabs/wps-optimization-updates.php:25
-#: includes/optimization/tabs/wps-optimization-updates.php:40
-msgid "Update Now!"
-msgstr "به‌روز رسانی کن!"
-
-#: includes/settings/tabs/wps-access-level.php:87
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:67
 msgid ""
-"Each of the above casscades the rights upwards in the default WordPress "
-"configuration.  So for example selecting publish_posts grants the right to "
-"Authors, Editors, Admins and Super Admins."
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
 msgstr ""
-"هریک از موارد به‌صورت پیش‌فرض در وردپرس تعریف شده‌اند. به‌عنوان مثال با انتخاب "
-"publish_posts به نویسنده‌گاه، ویرایشگر‌ها، مدیر و مدیرکلی دسترسی اعطا می‌گردد."
+"این ویژگی آدرس IP را در پایگاه داده ذخیره خواهد شد اما در عوض هش منحصر به "
+"فرد استفاده. String عامل کاربر کل \"Store\" تنظیم غیرفعال خواهد شد اگر این "
+"گزینه انتخاب شود. شما قادر خواهید بود برای بازیابی آدرس IP در آینده برای "
+"بازیابی اطلاعات مکان اگر این فعال شده است."
 
-#: includes/settings/tabs/wps-access-level.php:88
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:72
+msgid "Users Online"
+msgstr "کاربران حاضر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:77
+msgid "User online"
+msgstr "کاربران حاضر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:83
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:111
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:127
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:166
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:178
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:190
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:291
+msgid "Enable or disable this feature"
+msgstr "فعال یا غیرفعال کردن این امکان"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:89
+msgid "Check for online users every"
+msgstr "زمان بررسی برای محاسبه کاربران آنلاین هر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:94
+msgid "Second"
+msgstr "ثانیه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:95
+#, php-format
+msgid "Time for the check accurate online user in the site. Now: %s Second"
+msgstr "زمان برای بررسی دقیق کاربران حاضر در سایت. فعلا %s ثانیه است"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:116
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:121
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:259
+msgid "Visitors"
+msgstr "بازدیدکننده‌گان"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:133
+msgid "Store entire user agent string"
+msgstr "ذخیره تمامی مرورگرهای کاربر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:139
+msgid "Only enabled for debugging"
+msgstr "فعال فقط برای اشکال زدایی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:145
+msgid "Coefficient per visitor"
+msgstr "ضریب محاسبه هر بازدیدکننده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:150
+#, php-format
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "ضریب محاسبه هر بازدید کننده را در آمار مشخص می‌کند. درحال حاضر %s است."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:155
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:160
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:260
+msgid "Pages"
+msgstr "برگه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:172
+msgid "Track all pages"
+msgstr "رهگیری همه برگه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:184
+msgid "Disable hits column in post/pages list"
+msgstr "غیرفعال کردن ستون بازدید در لیست برگه/نوشته(ها)"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:195
+msgid "Miscellaneous"
+msgstr "متفرقه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:200
+msgid "Show stats in menu bar"
+msgstr "نمایش آمار در منوبار"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:205
+msgid "No"
+msgstr "خیر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:206
+msgid "Yes"
+msgstr "بله"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:208
+msgid "Show stats in admin menu bar"
+msgstr "نمایش آمار در منوبار مدیریت"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:214
+msgid "Hide admin notices about non active features"
+msgstr "غیرفعال شدن اطلاعیه‌های مدیریت درمورد فعال بودن امکانات"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:220
 msgid ""
-"If you need a more robust solution to delegate access you might want to look "
-"at %s in the WordPress plugin directory."
+"By default WP Statistics displays an alert if any of the core features are "
+"disabled on every admin page, this option will disable these notices."
 msgstr ""
-"اگر نیاز به راه‌حل‌های بیشتری در رابطه با نقش‌های کاربری وردپرس داشتید، نگاهی "
-"به افزونه %s بیندازید."
+"به‌طور پیش‌فرض آماره‌وردپرس امکاناتی که در افزونه غیرفعال باشد را به صورت اخطار "
+"در برگه‌های مدیریت نمایان می‌کند، این گزینه این ویژگی را غیرفعال می‌کند."
 
-#: includes/settings/tabs/wps-access-level.php:62
-msgid "Required user level to view WP Statistics"
-msgstr "سطح کاربری مورد نیاز برای مشاهده آمارگیر وردپرس"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:226
+msgid "Delete the manual"
+msgstr "حذف فایل راهنما"
 
-#: includes/settings/tabs/wps-access-level.php:77
-msgid "Required user level to manage WP Statistics"
-msgstr "سطح کاربری مورد نیاز برای مدیریت آمارگیر وردپرس"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:232
+msgid ""
+"By default WP Statistics stores the admin manual in the plugin directory (~5 "
+"meg), if this option is enabled it will be deleted now and during upgrades "
+"in the future."
+msgstr ""
+"به طور پیش‌فرض فایل راهنمای کاربری افزونه آمار در شاخه افزونه با حجم (تقریباً "
+"5 مگابایت) می‌باشد. اگر این گزینه فعال باشد هم‌اکنون پاک خواهد شد و در زمان "
+"ارتقاء نیز حذف می‌شود."
 
-#: includes/settings/tabs/wps-geoip.php:56
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:237
+msgid "Search Enginges"
+msgstr "موتورهای جستجوگر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:242
+msgid ""
+"Disabling all search engines is not allowed, doing so will result in all "
+"search engines being active."
+msgstr ""
+"از کار انداختن موتورهای جستجویی که نیازی به آنها نیست، این عمل در نتیجه کل "
+"موتورهای جستجو تأثیر می‌گذارد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:257
+msgid "disable"
+msgstr "غیرفعال"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:258
+#, php-format
+msgid "Disable %s from data collection and reporting."
+msgstr "غیرفعال کردن %s از جمع آوری داده‌ها و گزارش."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:264
+msgid "Charts"
+msgstr "نمودار"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:269
+msgid "Include totals"
+msgstr "جمع کل"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:275
+msgid ""
+"Add a total line to charts with multiple values, like the search engine "
+"referrals"
+msgstr "اضافه شدن جمع کل به نمودار آمار ورودی از موتورهای جستجو"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:280
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:285
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:161
+msgid "Statistical reporting"
+msgstr "گزارش آماری"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:298
+msgid "Schedule"
+msgstr "زمان‌بندی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:322
+msgid "Select when receiving statistics report."
+msgstr "زمان دریافت گزارش آماری را انتخاب کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:328
+msgid "Send reports via"
+msgstr "ارسال از طریق"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:334
+msgid "Email"
+msgstr "پست الکترونیک"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:335
+msgid "SMS"
+msgstr "پیامک"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:337
+msgid "Type Select Get Status Report."
+msgstr "نوع دریافت گزارش آماری را انتخاب کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:340
+#, php-format
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr "توجه: برای ارسال اس ام اس متن پیام لطفا پلاگین %s نصب کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:340
+msgid "WordPress SMS"
+msgstr "اس ام اس وردپرس"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:347
+msgid "E-mail addresses"
+msgstr "آدرس‌های پست‌الکترونیک"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:352
+msgid ""
+"A comma separated list of e-mail addresses to send the reports to if e-mail "
+"is selected above."
+msgstr "آدرس‌های پست‌الکترونیک را با ویرگول لاتین از هم جدا کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:358
+msgid "Report body"
+msgstr "متن بدنه گزارش"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:363
+msgid "Enter the contents of the reports received."
+msgstr "محتوای دریافت گزارش را وارد کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:365
+msgid ""
+"Any shortcode supported by your installation of WordPress, include all "
+"shortcodes for WP Statistics (see the admin manual for a list of codes "
+"available) are supported in the body of the message."
+msgstr ""
+"هر کدکوتاهی توسط وردپرس شما پشتیبانی میشود. کدهای کوتاه در افزونه آمار (لیست "
+"کدها در راهنمای کاربری موجود است) در بدنه‌ی متن پشتیبانی می‌شوند."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:368
+msgid ""
+"Input data codes are now deprecated and will be removed in a future version "
+"of WP Statistics, please use the appropriate shortcodes, they are included "
+"here only for historical purposes:"
+msgstr ""
+"در حال حاضر داده‌های آماری توصیه نمی‌شوند و این قابلیت در آینده از آمار وردپرس "
+"حذف خواهد شد، لطفاً از کدهای مناسب‌تر استفاده کنید. آنها در این قسمت برای "
+"اهدافی مشخص شده‌اند:"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:369
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:38
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:247
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:311
+msgid "User Online"
+msgstr "کاربران حاضر"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:370
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:52
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:253
+msgid "Today Visitor"
+msgstr "بازدیدکننده امروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:371
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:45
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:250
+msgid "Today Visit"
+msgstr "بازدید امروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:372
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:66
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:259
+msgid "Yesterday Visitor"
+msgstr "بازدید کننده دیروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:373
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:59
+msgid "Yesterday Visit"
+msgstr "بازدید دیروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:374
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:101
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:274
+msgid "Total Visitor"
+msgstr "کل بازدیدکننده‌گان"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:375
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:94
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:271
+msgid "Total Visit"
+msgstr "کل بازدیدها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:17
+msgid "GeoIP settings"
+msgstr "تنظیمات GeoIP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:22
+#, php-format
+msgid ""
+"IP location services provided by GeoLite2 data created by MaxMind, available "
+"from %s."
+msgstr ""
+"سرویس ارائه‌دهنده مکان‌نمای IP با GeoLite2 ایجاد شده و توسط MaxMind ساخته شده "
+"است و در %s قابل دسترس است."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:32
+msgid "GeoIP collection"
+msgstr "مجموعه GeoIP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:38
+msgid ""
+"For get more information and location (country) from visitor, enable this "
+"feature."
+msgstr ""
+"برای دریافت اطلاعات بیشتر و موقعیت (کشور) بازدیدکننده، این امکان را فعال "
+"کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:44
+msgid "Update GeoIP Info"
+msgstr "به روز رسانی اطلاعات GeoIP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:49
+msgid "Download GeoIP Database"
+msgstr "دریافت پایگاه‌داده GeoIP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:56
 msgid "Schedule monthly update of GeoIP DB"
 msgstr "برنامه‌ریزی به‌روزرسانی ماهیانه پایگاه‌داده‌ی GeoIP"
 
-#: includes/settings/tabs/wps-geoip.php:82
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:82
 msgid ""
 "Download of the GeoIP database will be scheduled for 2 days after the first "
 "Tuesday of the month."
 msgstr "دریافت پایگاه‌داده‌ی GeoIP در 2 روز بعد از اولین سه‌شنبه در هرماه."
 
-#: includes/settings/tabs/wps-geoip.php:83
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:83
 msgid ""
 "This option will also download the database if the local filesize is less "
 "than 1k (which usually means the stub that comes with the plugin is still in "
@@ -1342,757 +1726,552 @@ msgstr ""
 "این امکان حتی داده‌های کمتر از  1 کیلوبایت را نیز دریافت می‌کند (که به معنای "
 "داده‌های همراه افزونه است)."
 
-#: includes/settings/tabs/wps-geoip.php:89
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:89
 msgid "Populate missing GeoIP after update of GeoIP DB"
 msgstr "جمعیت‌های از دست رفته GeoIP بعد از به‌روز سانی پایگاه‌داده‌ی GeoIP"
 
-#: includes/settings/tabs/wps-geoip.php:95
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:95
 msgid "Update any missing GeoIP data after downloading a new database."
 msgstr ""
 "به‌روز رسانی هر داده‌ی از دست‌رفته‌ی GeoIP بعد از دریافت پایگاه داده‌ی جدید."
 
-#: includes/functions/geoip-populate.php:50
-msgid "Updated %s GeoIP records in the visitors database."
-msgstr "%s رکورد GeoIP در پایگاه داده به‌روز شد."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:106
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "مجموعه GeoIP با توجه به دلایل زیر غیرفعال شده است:"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:98
-msgid "Version Info"
-msgstr "اطلاعات نگارش"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:103
-msgid "WP Statistics Version"
-msgstr "نگارش افزونه آماره"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:108
-msgid "The WP Statistics version you are running."
-msgstr "نگارش افزونه آماره در حال اجرای شما."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:114
-msgid "PHP Version"
-msgstr "نگارش PHP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:119
-msgid "The PHP version you are running."
-msgstr "نگارش PHP در حال اجرای شما."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:136
-msgid "jQuery Version"
-msgstr "نگارش جی‌کوئری"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:141
-msgid "The jQuery version you are running."
-msgstr "نگارش جی‌کوئری در حال اجرای شما."
-
-#: wp-statistics.php:610
-msgid "Error could not open downloaded GeoIP database for reading: %s"
-msgstr "خطای بازشدن در هنگام دریافت پایگاه‌داده GeoIP برای خواندن: %s"
-
-#: wp-statistics.php:617
-msgid "Error could not open destination GeoIP database for writing %s"
-msgstr "خطای بازشدن در هنگام دریافت پایگاه‌داده GeoIP برای نوشتن: %s"
-
-#: wp-statistics.php:633
-msgid "GeoIP Database updated successfully!"
-msgstr "پایگاه‌داده GeoIP با موفقیت به‌روز شد!"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:229
-msgid "Client Info"
-msgstr "اطلاعات کاربر"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:234
-msgid "Client IP"
-msgstr "آی‌پی کاربر"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:239
-msgid "The client IP address."
-msgstr "آدرس آی‌پی کاربر."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:245
-msgid "User Agent"
-msgstr "عامل کاربر"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:250
-msgid "The client user agent string."
-msgstr "رشته‌ی عامل کاربری"
-
-#: includes/settings/tabs/wps-access-level.php:105
-msgid "Exclude User Roles"
-msgstr "محروم‌کردن نقش‌های کاربری"
-
-#: includes/settings/tabs/wps-access-level.php:119
-#: includes/settings/tabs/wps-access-level.php:174
-#: includes/settings/tabs/wps-access-level.php:181
-msgid "Exclude"
-msgstr "محروم"
-
-#: includes/settings/tabs/wps-access-level.php:120
-msgid "Exclude %s role from data collection."
-msgstr "محروم کردن نقش کاربری %s از محاسبه در آمار"
-
-#: includes/settings/tabs/wps-access-level.php:126
-msgid "IP/Robot Exclusions"
-msgstr "محرومیت‌های آی‌پی/ربات"
-
-#: includes/settings/tabs/wps-access-level.php:143
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:109
+#, php-format
 msgid ""
-"A list of words (one per line) to match against to detect robots.  Entries "
-"must be at least 4 characters long or they will be ignored."
+"GeoIP collection requires PHP %s or above, it is currently disabled due to "
+"the installed PHP version being  "
 msgstr ""
-"یک لیست از کلمات برای مقایسه و شناسایی ربات‌ها (در هر خط یک کلمه وارد شود). "
-"ورودی‌ها باید حداقل دارای 4 کارکتر باشد."
+"مجموعه GeoIP به PHP نسخه %s و بالاتر نیاز دارد، در حال حاضر با توجه به پایین "
+"بودن نسخه PHP شما، غیرفعال است"
 
-#: includes/settings/tabs/wps-access-level.php:144
-msgid "Reset to Default"
-msgstr "بازگشت به حالت پیش‌فرض"
-
-#: includes/settings/tabs/wps-access-level.php:161
-msgid "Add 10.0.0.0"
-msgstr "افزودن 10.0.0.0"
-
-#: includes/settings/tabs/wps-access-level.php:162
-msgid "Add 172.16.0.0"
-msgstr "افزودن 172.16.0.0"
-
-#: includes/settings/tabs/wps-access-level.php:163
-msgid "Add 192.168.0.0"
-msgstr "افزودن 192.168.0.0"
-
-#: includes/settings/tabs/wps-general.php:264
-msgid "Charts"
-msgstr "نمودار"
-
-#: includes/settings/tabs/wps-geoip.php:38
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:114
 msgid ""
-"For get more information and location (country) from visitor, enable this "
-"feature."
+"GeoIP collection requires the cURL PHP extension and it is not loaded on "
+"your version of PHP!"
 msgstr ""
-"برای دریافت اطلاعات بیشتر و موقعیت (کشور) بازدیدکننده، این امکان را فعال "
-"کنید."
+"مجموعه‌ی GeoIP نیاز به ماژول cURL در PHP دارد و نمی‌تواند در نگارش PHP شما "
+"بارگزاری شود!"
 
-#: includes/settings/wps-settings.php:87 wp-statistics.php:248
-msgid "Overview"
-msgstr "مرور کلی"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:120
+msgid ""
+"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"مجموعه‌ی GeoIP نیاز به ماژول BC Math در PHP دارد و نمی‌تواند در نگارش PHP شما "
+"بارگزاری شود!"
 
-#: includes/optimization/tabs/wps-optimization-database.php:25
-#: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:251
-msgid "Countries"
-msgstr "کشورها"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:126
+msgid ""
+"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
+"mode enabled!"
+msgstr ""
+"حالت ایمنی PHP شناسایی نشد! مجموعه GeoIP توسط حالت ایمنی PHP پشتیبانی نمی‌شود!"
 
-#: wp-statistics.php:176 wp-statistics.php:253
-msgid "Hits"
-msgstr "بازدیدها"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:20
+msgid ""
+"This will permanently delete data from the database each day, are you sure "
+"you want to enable this option?"
+msgstr ""
+"این درخواست داده‌های قدیمی را برای همیشه پاک می‌کند. برای فعال سازی آن مطمئن "
+"هستید؟"
 
-#: wp-statistics.php:255
-msgid "Referers"
-msgstr "ارجاع‌دهنده‌ها"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:30
+msgid "Database Maintenance"
+msgstr "تعمیر و نگه‌داری پایگاه‌داده"
 
-#: wp-statistics.php:256
-msgid "Searches"
-msgstr "جستجوها"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:35
+msgid "Run a daily WP Cron job to prune the databases"
+msgstr "اجرای روزانه یک زمان‌بندی برای هرس کردن پایگاه‌داده."
 
-#: wp-statistics.php:257
-msgid "Search Words"
-msgstr "کلمات جستجو شده"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:41
+msgid ""
+"A WP Cron job will be run daily to prune any data older than a set number of "
+"days."
+msgstr ""
+"وظیفه آن اجرای روزانه برای حذف داده‌هایی که بیشتر از زمان انتخاب شده نگه‌داری "
+"شده اند."
 
-#: includes/settings/tabs/wps-general.php:94
-msgid "Second"
-msgstr "ثانیه"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:47
+msgid "Prune data older than"
+msgstr "داده‌های قدیمی‌تر از"
 
-#: includes/log/all-browsers.php:17
-msgid "Browser Statistics"
-msgstr "آمار مرورگرها"
-
-#: includes/log/all-browsers.php:107
-msgid "Platform"
-msgstr "سَکو"
-
-#: includes/log/all-browsers.php:241
-msgid "%s Version"
-msgstr "نسخه %s"
-
-#: includes/log/hit-statistics.php:17 includes/log/widgets/hits.php:8
-msgid "Hit Statistics"
-msgstr "آمار بازدیدها"
-
-#: includes/log/exclusions.php:57 includes/log/hit-statistics.php:21
-#: includes/log/page-statistics.php:33 includes/log/search-statistics.php:21
-msgid "10 Days"
-msgstr "10 روز"
-
-#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:22
-#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:22
-msgid "20 Days"
-msgstr "20 روز"
-
-#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:23
-#: includes/log/page-statistics.php:35 includes/log/search-statistics.php:23
-msgid "30 Days"
-msgstr "30 روز"
-
-#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:24
-#: includes/log/page-statistics.php:36 includes/log/search-statistics.php:24
-msgid "2 Months"
-msgstr "2 ماهه"
-
-#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:25
-#: includes/log/page-statistics.php:37 includes/log/search-statistics.php:25
-msgid "3 Months"
-msgstr "3 ماهه"
-
-#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:26
-#: includes/log/page-statistics.php:38 includes/log/search-statistics.php:26
-msgid "6 Months"
-msgstr "6 ماهه"
-
-#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:27
-#: includes/log/page-statistics.php:39 includes/log/search-statistics.php:27
-msgid "9 Months"
-msgstr "9 ماهه"
-
-#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:28
-#: includes/log/page-statistics.php:40 includes/log/search-statistics.php:28
-msgid "1 Year"
-msgstr "1 ساله"
-
-#: includes/settings/tabs/wps-overview-display.php:34
-msgid "Hits Statistical Chart"
-msgstr "نمودار آمار بازدیدها"
-
-#: includes/log/exclusions.php:97 includes/log/hit-statistics.php:69
-#: includes/log/search-statistics.php:77 includes/log/widgets/hits.php:39
-#: includes/log/widgets/search.php:46
-#: includes/optimization/tabs/wps-optimization-purging.php:150
-msgid "days"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:52
+msgid "Days"
 msgstr "روز"
 
-#: includes/log/widgets/countries.php:11
-#: includes/settings/tabs/wps-overview-display.php:27
-msgid "Top 10 Countries"
-msgstr "10 کشور برتر"
-
-#: includes/log/top-countries.php:28 includes/log/widgets/countries.php:17
-msgid "Rank"
-msgstr "رتبه"
-
-#: includes/log/top-countries.php:29 includes/log/widgets/countries.php:18
-msgid "Flag"
-msgstr "پرچم"
-
-#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:20
-msgid "Visitor Count"
-msgstr "تعداد بازدیدکننده"
-
-#: includes/settings/tabs/wps-overview-display.php:35
-msgid "Search Engine Referrers Statistical Chart"
-msgstr "نمودار آمار موتورهای جستجو"
-
-#: includes/log/top-countries.php:19
-msgid "Top Countries"
-msgstr "برترین کشورها"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:159
-msgid "Delete User Agent Types"
-msgstr "حذف نوع سیستم عامل کاربر"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:164
-msgid "Delete Agents"
-msgstr "حذف سیستم عاملها"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:179
-msgid "All visitor data will be lost for this agent type."
-msgstr "تمامی دادههای مرورگر بازدیدکننده از بین خواهد رفت."
-
-#: includes/optimization/tabs/wps-optimization-purging.php:180
-#: includes/optimization/tabs/wps-optimization-purging.php:204
-msgid "Delete now!"
-msgstr "پاک کن!"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:188
-msgid "Delete Platforms"
-msgstr "حذف سَکوها"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:203
-msgid "All visitor data will be lost for this platform type."
-msgstr "تمامی دادههای سَکوی بازدیدکننده از بین خواهد رفت."
-
-#: includes/optimization/tabs/wps-optimization-updates.php:16
-msgid "GeoIP Options"
-msgstr "تنظیمات GeoIP"
-
-#: includes/settings/tabs/wps-general.php:133
-msgid "Store entire user agent string"
-msgstr "ذخیره تمامی مرورگرهای کاربر"
-
-#: includes/settings/tabs/wps-general.php:139
-msgid "Only enabled for debugging"
-msgstr "فعال فقط برای اشکال زدایی"
-
-#: includes/settings/tabs/wps-geoip.php:17
-msgid "GeoIP settings"
-msgstr "تنظیمات GeoIP"
-
-#: includes/settings/tabs/wps-geoip.php:32
-msgid "GeoIP collection"
-msgstr "مجموعه GeoIP"
-
-#: includes/settings/tabs/wps-geoip.php:44
-msgid "Update GeoIP Info"
-msgstr "به روز رسانی اطلاعات GeoIP"
-
-#: includes/settings/tabs/wps-geoip.php:49
-msgid "Download GeoIP Database"
-msgstr "دریافت پایگاه‌داده GeoIP"
-
-#: includes/settings/tabs/wps-browscap.php:40
-#: includes/settings/tabs/wps-geoip.php:50
-msgid "Save changes on this page to download the update."
-msgstr "ذخیره‌ی تغییرات در این برگه و دریافت به‌روز رسانی"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:10
-#: includes/optimization/tabs/wps-optimization-purging.php:36
-#: includes/optimization/tabs/wps-optimization-purging.php:62
-#: includes/optimization/tabs/wps-optimization-purging.php:90
-msgid "Are you sure?"
-msgstr "آیا مطمئن هستید؟"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:137
-msgid "Clear now!"
-msgstr "پاک کن!"
-
-#: wp-statistics.php:261
-msgid "Optimization"
-msgstr "بهینه سازی"
-
-#: includes/optimization/delete-agents.php:5
-#: includes/optimization/delete-platforms.php:5
-#: includes/optimization/empty.php:5 includes/optimization/export.php:5
-#: includes/optimization/purge-data.php:5
-#: includes/optimization/wps-optimization.php:3 manual/manual.php:5
-msgid "Access denied!"
-msgstr "دسترسی غیرمجاز!"
-
-#: includes/optimization/delete-agents.php:18
-#: includes/optimization/delete-platforms.php:18
-#: includes/optimization/empty.php:42 includes/optimization/export.php:57
-msgid "Please select the desired items."
-msgstr "لطفا موارد مورد نظر را انتخاب کنید."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:17
-msgid "Resources"
-msgstr "منابع"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:22
-#: includes/optimization/tabs/wps-optimization-resources.php:27
-msgid "Memory usage in PHP"
-msgstr "حافظه استفاده شده در پی‌اچ‌پی"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:26
-msgid "Byte"
-msgstr "بایت"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:48
-#: includes/optimization/tabs/wps-optimization-resources.php:59
-#: includes/optimization/tabs/wps-optimization-resources.php:70
-#: includes/optimization/tabs/wps-optimization-resources.php:81
-#: includes/optimization/tabs/wps-optimization-resources.php:92
-msgid "Row"
-msgstr "ردیف"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:49
-#: includes/optimization/tabs/wps-optimization-resources.php:60
-#: includes/optimization/tabs/wps-optimization-resources.php:71
-#: includes/optimization/tabs/wps-optimization-resources.php:82
-#: includes/optimization/tabs/wps-optimization-resources.php:93
-msgid "Number of rows"
-msgstr "تعداد ردیف‌های موجود"
-
-#: includes/optimization/tabs/wps-optimization-export.php:7
-#: includes/optimization/wps-optimization.php:127
-msgid "Export"
-msgstr "برون‌بری"
-
-#: includes/optimization/tabs/wps-optimization-export.php:12
-msgid "Export from"
-msgstr "برون‌بری از"
-
-#: includes/optimization/tabs/wps-optimization-export.php:24
-msgid "Select the table for the output file."
-msgstr "جدول مورد نظر برای تهیه فایل خروجی را انتخاب کنید."
-
-#: includes/optimization/tabs/wps-optimization-export.php:30
-msgid "Export To"
-msgstr "برون‌بری به"
-
-#: includes/optimization/tabs/wps-optimization-export.php:41
-msgid "Select the output file type."
-msgstr "نوع فایل خروجی را انتخاب کنید."
-
-#: includes/optimization/tabs/wps-optimization-export.php:53
-msgid "Start Now!"
-msgstr "شروع کن!"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:123
-msgid "Empty Table"
-msgstr "خالی کردن جدول"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:136
-msgid "All data table will be lost."
-msgstr "تمامی دادههای جدول از بین خواهد رفت."
-
-#: includes/settings/tabs/wps-about.php:44
-msgid "Support"
-msgstr "پشتیبانی"
-
-#: includes/settings/tabs/wps-about.php:74
-msgid "Farsi"
-msgstr "فارسی"
-
-#: includes/log/top-referring.php:47
-msgid "Referring sites from"
-msgstr "سایت های ارجاع دهنده از"
-
-#: includes/settings/tabs/wps-about.php:36
-msgid "Translations"
-msgstr "ترجمه‌ها"
-
-#: includes/log/top-referring.php:4
-msgid "To be added soon"
-msgstr "به زودی اضافه می شود"
-
-#: includes/log/last-search.php:102 includes/log/last-visitor.php:99
-#: includes/log/top-referring.php:78 includes/log/widgets/recent.php:27
-#: includes/log/widgets/words.php:32
-#: includes/settings/tabs/wps-overview-display.php:33
-#: includes/settings/tabs/wps-overview-display.php:71
-msgid "Map"
-msgstr "نقشه"
-
-#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
-#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
-msgid "Page"
-msgstr "صفحه"
-
-#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
-#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
-msgid "From"
-msgstr "از"
-
-#: wp-statistics.php:455
-msgid "Table plugin does not exist! Please disable and re-enable the plugin."
-msgstr "جدول های پلاگین وجود ندارد! لطفا پلاگین را غیر فعال و مجدد فعال کنید."
-
-#: includes/settings/tabs/wps-general.php:280
-#: includes/settings/tabs/wps-general.php:285 schedule.php:161
-msgid "Statistical reporting"
-msgstr "گزارش آماری"
-
-#: widget.php:14 wp-statistics.php:245
-msgid "Statistics"
-msgstr "آماره"
-
-#: includes/settings/tabs/wps-general.php:369 widget.php:38 widget.php:247
-#: wp-statistics.php:310
-msgid "User Online"
-msgstr "کاربران حاضر"
-
-#: includes/settings/tabs/wps-general.php:371 widget.php:45 widget.php:250
-msgid "Today Visit"
-msgstr "بازدید امروز"
-
-#: includes/settings/tabs/wps-general.php:370 widget.php:52 widget.php:253
-msgid "Today Visitor"
-msgstr "بازدیدکننده امروز"
-
-#: includes/settings/tabs/wps-general.php:373 widget.php:59
-msgid "Yesterday Visit"
-msgstr "بازدید دیروز"
-
-#: includes/settings/tabs/wps-general.php:372 widget.php:66 widget.php:259
-msgid "Yesterday Visitor"
-msgstr "بازدید کننده دیروز"
-
-#: widget.php:73 widget.php:262
-msgid "Week Visit"
-msgstr "بازدید هفته"
-
-#: widget.php:80 widget.php:265
-msgid "Month Visit"
-msgstr "بازدید ماه"
-
-#: widget.php:87 widget.php:268
-msgid "Years Visit"
-msgstr "بازدید سال"
-
-#: includes/settings/tabs/wps-general.php:375 widget.php:94 widget.php:271
-msgid "Total Visit"
-msgstr "کل بازدیدها"
-
-#: includes/settings/tabs/wps-general.php:374 widget.php:101 widget.php:274
-msgid "Total Visitor"
-msgstr "کل بازدیدکننده‌گان"
-
-#: widget.php:123 widget.php:300
-msgid "Total Posts"
-msgstr "کل نوشته‌ها"
-
-#: widget.php:130 widget.php:303
-msgid "Total Pages"
-msgstr "کل برگه‌ها"
-
-#: widget.php:137 widget.php:306
-msgid "Total Comments"
-msgstr "کل دیدگاه‌ها"
-
-#: widget.php:144 widget.php:309
-msgid "Total Spams"
-msgstr "کل جفنگ‌ها"
-
-#: widget.php:151 widget.php:312
-msgid "Total Users"
-msgstr "کل کاربرها"
-
-#: widget.php:158 widget.php:315
-msgid "Average Posts"
-msgstr "میانگین نوشته‌ها"
-
-#: widget.php:165 widget.php:318
-msgid "Average Comments"
-msgstr "میانگین دیدگاه‌ها"
-
-#: widget.php:172 widget.php:321
-msgid "Average Users"
-msgstr "میانگین کاربرها"
-
-#: widget.php:179 widget.php:324
-msgid "Last Post Date"
-msgstr "تاریخ به‌روزشدن سایت"
-
-#: wp-statistics.php:340
-msgid "View Stats"
-msgstr "نمایش آمار"
-
-#: wp-statistics.php:152 wp-statistics.php:262
-msgid "Settings"
-msgstr "تنظیمات"
-
-#: wp-statistics.php:316
-msgid "Today visitor"
-msgstr "بازدید کننده امروز"
-
-#: wp-statistics.php:322
-msgid "Today visit"
-msgstr "بازدید امروز"
-
-#: wp-statistics.php:328
-msgid "Yesterday visitor"
-msgstr "بازدید کننده دیروز"
-
-#: widget.php:256 wp-statistics.php:334
-msgid "Yesterday visit"
-msgstr "بازدید دیروز"
-
-#: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
-msgid "You do not have sufficient permissions to access this page."
-msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
-
-#: includes/log/all-browsers.php:23 includes/log/all-browsers.php:106
-#: includes/log/all-browsers.php:240 includes/log/exclusions.php:74
-#: includes/log/hit-statistics.php:35 includes/log/last-search.php:61
-#: includes/log/last-visitor.php:57 includes/log/page-statistics.php:47
-#: includes/log/search-statistics.php:35 includes/log/top-pages.php:19
-#: includes/log/top-pages.php:131 includes/log/top-referring.php:45
-#: includes/log/widgets/about.php:7 includes/log/widgets/browsers.php:7
-#: includes/log/widgets/countries.php:9 includes/log/widgets/google.map.php:8
-#: includes/log/widgets/hits.php:7 includes/log/widgets/jqv.map.php:8
-#: includes/log/widgets/pages.php:11 includes/log/widgets/recent.php:7
-#: includes/log/widgets/referring.php:11 includes/log/widgets/search.php:7
-#: includes/log/widgets/summary.php:7 includes/log/widgets/words.php:14
-msgid "Click to toggle"
-msgstr "برای باز و بستن کلیک کنید"
-
-#: includes/settings/tabs/wps-overview-display.php:24
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:53
+msgid ""
+"The number of days to keep statistics for.  Minimum value is 30 days.  "
+"Invalid values will disable the daily maintenance."
+msgstr ""
+"تعداد روزها برای حفظ آمار. حداقل مقدار 30 روز است. مقدارهای نامعتبر روزانه "
+"غیرفعال می‌شوند."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:23
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:32
+msgid "None"
+msgstr "هیچ"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:24
 msgid "Summary Statistics"
 msgstr "خلاصه آمار"
 
-#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
-#: includes/log/widgets/summary.php:19
-msgid "Visitor"
-msgstr "بازدیدکننده"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:28
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:92
+msgid "About"
+msgstr "درباره"
 
-#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
-#: includes/log/widgets/summary.php:20
-msgid "Visit"
-msgstr "بازدید"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:34
+msgid "Hits Statistical Chart"
+msgstr "نمودار آمار بازدیدها"
 
-#: includes/log/widgets/summary.php:24 includes/log/widgets/summary.php:69
-msgid "Today"
-msgstr "امروز"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:35
+msgid "Search Engine Referrers Statistical Chart"
+msgstr "نمودار آمار موتورهای جستجو"
 
-#: includes/log/widgets/summary.php:30 includes/log/widgets/summary.php:70
-msgid "Yesterday"
-msgstr "دیروز"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:37
+msgid "Top Pages Visited"
+msgstr "برترین برگه‌های بازدید شده"
 
-#: includes/log/widgets/summary.php:36
-msgid "Week"
-msgstr "هفته"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:75
+msgid "The following three items are global to all users."
+msgstr "سه آیتم زیر برای تمامی کاربرها قابل دسترسی می‌باشد."
 
-#: includes/log/widgets/summary.php:42
-msgid "Month"
-msgstr "ماه"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:80
+msgid "Map type"
+msgstr "نوع نقشه"
 
-#: includes/log/widgets/summary.php:48
-msgid "Year"
-msgstr "سال"
-
-#: includes/log/search-statistics.php:112 includes/log/widgets/search.php:81
-#: includes/log/widgets/summary.php:54 includes/log/widgets/summary.php:94
-msgid "Total"
-msgstr "کل"
-
-#: includes/log/widgets/summary.php:102
-msgid "(Adjustment)"
-msgstr "(تنظیم)"
-
-#: includes/log/all-browsers.php:24 includes/log/widgets/browsers.php:8
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:249
-msgid "Browsers"
-msgstr "مرورگرها"
-
-#: includes/log/widgets/browsers.php:38
-msgid "Other"
-msgstr "دیگر"
-
-#: includes/log/widgets/referring.php:20
-msgid "Address"
-msgstr "آدرس"
-
-#: includes/log/hit-statistics.php:90 includes/log/widgets/hits.php:60
-msgid "Number of visits and visitors"
-msgstr "تعداد بازدید و بازدید کننده"
-
-#: includes/settings/tabs/wps-overview-display.php:86
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:86
 msgid "Google"
 msgstr "گوگل"
 
-#: includes/log/last-visitor.php:27 includes/log/widgets/recent.php:9
-#: includes/settings/tabs/wps-overview-display.php:38
-msgid "Recent Visitors"
-msgstr "آخرین بازدیدکنندگان"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:86
+msgid "JQVMap"
+msgstr "JQV"
 
-#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:19
-msgid "Country"
-msgstr "کشور"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:93
+msgid ""
+"The \"Google\" option will use Google's mapping service to plot the recent "
+"visitors (requires access to Google)."
+msgstr ""
+"گزینه \"گوگل\" از سرویس نقشه گوگل برای آخرین بازدیدکنندگاه استفاده می‌کند. "
+"(نیازمند دسترسی به گوگل است)."
 
-#: includes/settings/tabs/wps-browscap.php:27
-#: includes/settings/tabs/wps-browscap.php:51
-#: includes/settings/tabs/wps-general.php:66
-#: includes/settings/tabs/wps-general.php:82
-#: includes/settings/tabs/wps-general.php:110
-#: includes/settings/tabs/wps-general.php:126
-#: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:165
-#: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:189
-#: includes/settings/tabs/wps-general.php:219
-#: includes/settings/tabs/wps-general.php:231
-#: includes/settings/tabs/wps-general.php:274
-#: includes/settings/tabs/wps-general.php:290
-#: includes/settings/tabs/wps-geoip.php:37
-#: includes/settings/tabs/wps-geoip.php:61
-#: includes/settings/tabs/wps-geoip.php:94
-#: includes/settings/tabs/wps-maintenance.php:40
-#: includes/settings/tabs/wps-overview-display.php:105
-#: includes/settings/tabs/wps-overview-display.php:117
-msgid "Active"
-msgstr "فعال"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:94
+msgid ""
+"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
+"recent visitors (requires no extenral services)."
+msgstr ""
+"گزینه \"JQVMap\" از کتابخوانه جاوا اسکریپتی JQVMap برای آخرین بازدیدکنندگاه "
+"استفاده می‌کند. (نیازمند سرویس خارجی نمی‌باشد)."
 
-#: includes/settings/tabs/wps-general.php:83
-#: includes/settings/tabs/wps-general.php:111
-#: includes/settings/tabs/wps-general.php:127
-#: includes/settings/tabs/wps-general.php:166
-#: includes/settings/tabs/wps-general.php:178
-#: includes/settings/tabs/wps-general.php:190
-#: includes/settings/tabs/wps-general.php:291
-msgid "Enable or disable this feature"
-msgstr "فعال یا غیرفعال کردن این امکان"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:100
+msgid "Disable map"
+msgstr "غیرفعال کردن نقشه"
 
-#: includes/log/top-pages.php:163 includes/log/widgets/pages.php:30
-#: includes/settings/tabs/wps-general.php:100
-#: includes/settings/tabs/wps-general.php:105
-msgid "Visits"
-msgstr "بازدیدها"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:106
+msgid "Disable the map display"
+msgstr "غیرفعال کردن نمایش نقشه"
 
-#: includes/settings/tabs/wps-general.php:116
-#: includes/settings/tabs/wps-general.php:121 wp-statistics.php:258
-msgid "Visitors"
-msgstr "بازدیدکننده‌گان"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:112
+msgid "Get country location from Google"
+msgstr "دریافت مختصات کشورها از گوگل"
 
-#: includes/settings/tabs/wps-general.php:89
-msgid "Check for online users every"
-msgstr "زمان بررسی برای محاسبه کاربران آنلاین هر"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:118
+msgid ""
+"This feature may cause a performance degradation when viewing statistics and "
+"is only valid if the map type is set to \"Google\"."
+msgstr ""
+"این ویژگی ممکن است مشاهده آمار را با کندی مواجه کند و تنها برای نوع نقشه "
+"\"گوگل\" تنظیم شده است."
 
-#: includes/settings/tabs/wps-general.php:95
-msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "زمان برای بررسی دقیق کاربران حاضر در سایت. فعلا %s ثانیه است"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:123
+msgid "Widgets to Display"
+msgstr "نمایش ابزارک‌ها"
 
-#: includes/settings/tabs/wps-general.php:200
-msgid "Show stats in menu bar"
-msgstr "نمایش آمار در منوبار"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:132
+msgid ""
+"The following items are unique to each user.  If you do not select the "
+"'About' widget it will automatically be displayed in the last positon of "
+"column A."
+msgstr ""
+"موارد زیر برای هرکاربر منحصر به فرد است. اگر شما ابزارک \"درباره پلاگین\" را "
+"انتخاب نکنید، به صورت پیش‌فرض در ستون A نمایش داده می‌شود."
 
-#: includes/settings/tabs/wps-general.php:205
-msgid "No"
-msgstr "خیر"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:137
+msgid "Slot"
+msgstr "سطر"
 
-#: includes/settings/tabs/wps-general.php:206
-msgid "Yes"
-msgstr "بله"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:141
+msgid "Column A"
+msgstr "ستون A"
 
-#: includes/settings/tabs/wps-general.php:208
-msgid "Show stats in admin menu bar"
-msgstr "نمایش آمار در منوبار مدیریت"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:145
+msgid "Column B"
+msgstr "ستون B"
 
-#: includes/settings/tabs/wps-general.php:145
-msgid "Coefficient per visitor"
-msgstr "ضریب محاسبه هر بازدیدکننده"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:151
+msgid "Slot 1"
+msgstr "سطر 1"
 
-#: includes/settings/tabs/wps-general.php:150
-msgid "For each visit to account for several hits. Currently %s."
-msgstr "ضریب محاسبه هر بازدید کننده را در آمار مشخص می‌کند. درحال حاضر %s است."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:181
+msgid "Slot 2"
+msgstr "سطر 2"
 
-#: includes/settings/tabs/wps-general.php:322
-msgid "Select when receiving statistics report."
-msgstr "زمان دریافت گزارش آماری را انتخاب کنید."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:211
+msgid "Slot 3"
+msgstr "سطر 3"
 
-#: includes/settings/tabs/wps-general.php:334
-msgid "Email"
-msgstr "پست الکترونیک"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:241
+msgid "Slot 4"
+msgstr "سطر 4"
 
-#: includes/settings/tabs/wps-general.php:335
-msgid "SMS"
-msgstr "پیامک"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:271
+msgid "Slot 5"
+msgstr "سطر 5"
 
-#: includes/settings/tabs/wps-general.php:337
-msgid "Type Select Get Status Report."
-msgstr "نوع دریافت گزارش آماری را انتخاب کنید."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:301
+msgid "Slot 6"
+msgstr "سطر 6"
 
-#: includes/settings/tabs/wps-general.php:363
-msgid "Enter the contents of the reports received."
-msgstr "محتوای دریافت گزارش را وارد کنید."
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:305
+msgid "N/A"
+msgstr "خالی"
 
-#: widget.php:240
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:86
+msgid "General"
+msgstr "عمومی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:87
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:249
+msgid "Overview"
+msgstr "مرور کلی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:88
+msgid "Access/Exclusions"
+msgstr "دسترسی/محرومیت‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:89
+msgid "GeoIP"
+msgstr "GeoIP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:90
+msgid "browscap"
+msgstr "browscap"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:91
+msgid "Maintenance"
+msgstr "تعمیر و نگه‌داری"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:126
+msgid "Update"
+msgstr "به‌روز رسانی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.php:29
+#, php-format
+msgid "Manual not found: %s"
+msgstr "راهنما یافت نشد: %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.php:39
+#, php-format
+msgid "Invalid file type selected: %s"
+msgstr "نوع فایل نامعتبر انتخاب شده: %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:10
+msgid "Once Weekly"
+msgstr "یکبار در هفته"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "هر 2 هفته"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "هر 4 هفته"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:14
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:246
+msgid "Statistics"
+msgstr "آماره"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "نمایش آمار سایت در ابزارک."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:73
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:262
+msgid "Week Visit"
+msgstr "بازدید هفته"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:80
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:265
+msgid "Month Visit"
+msgstr "بازدید ماه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:87
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:268
+msgid "Years Visit"
+msgstr "بازدید سال"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:108
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:277
+msgid "Total Page Views"
+msgstr "کل بازدید برگه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:116
+msgid "Search Engine referred"
+msgstr "ورودی موتور جستجو"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:123
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:300
+msgid "Total Posts"
+msgstr "کل نوشته‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:130
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:303
+msgid "Total Pages"
+msgstr "کل برگه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:137
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:306
+msgid "Total Comments"
+msgstr "کل دیدگاه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:144
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:309
+msgid "Total Spams"
+msgstr "کل جفنگ‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:151
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:312
+msgid "Total Users"
+msgstr "کل کاربرها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:158
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:315
+msgid "Average Posts"
+msgstr "میانگین نوشته‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:165
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:318
+msgid "Average Comments"
+msgstr "میانگین دیدگاه‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:172
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:321
+msgid "Average Users"
+msgstr "میانگین کاربرها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:179
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:324
+msgid "Last Post Date"
+msgstr "تاریخ به‌روزشدن سایت"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:240
 msgid "Name"
 msgstr "نام"
 
-#: widget.php:244
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:244
 msgid "Items"
 msgstr "آیتم‌ها"
 
-#: widget.php:283
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:256
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:335
+msgid "Yesterday visit"
+msgstr "بازدید دیروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:280
+msgid "Search Engine Referred"
+msgstr "ورودی موتور جستجو"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:283
 msgid "Select type of search engine"
 msgstr "انتخاب نوع موتورجستجو"
 
-#: includes/log/last-visitor.php:29 includes/log/top-referring.php:36
-#: includes/optimization/tabs/wps-optimization-purging.php:134 widget.php:296
-msgid "All"
-msgstr "همه"
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:27
+msgid ""
+"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
+"Statistics will not function without PHP Version "
+msgstr ""
+"خطا: آمار وپ نسخه پشتیبانی نشده ای را شناسایی کرده است از پی اچ پی، وپ آمار "
+"بدون نسخه پی اچ پی عمل نمی کند "
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:27
+msgid " or higher!"
+msgstr "و یا بالاتر!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:38
+msgid "WP Statistics"
+msgstr "آماره وردپرس"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:39
+msgid "Complete statistics for your WordPress site."
+msgstr "آماری کامل برای سایت وردپرسی شما."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:82
+#, php-format
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to %s and "
+"enable it."
+msgstr ""
+"کاربران آنلاین در وپ آمار پیگیری فعال است لطفا به %s بروید و آن را فعال کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:82
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:88
+msgid "setting page"
+msgstr "تنظیمات صفحه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
+#, php-format
+msgid ""
+"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr "ردیابی آمار در وپ آمار فعال نیست لطفا به %s بروید و آن را فعال کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:88
+#, php-format
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
+"it."
+msgstr ""
+"ردیابی در وپ آمار بازدید کننده فعال است لطفا به %s بروید و آن را فعال کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:91
+#, php-format
+msgid ""
+"GeoIP collection is not active, please go to %s and enable this feature."
+msgstr "مجموعه GeoIP فعال نیست لطفا برو به %s و فعال کردن این ویژگی."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:91
+msgid "Setting page > GeoIP"
+msgstr "صفحه تنظیمات > GeoIP"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:153
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:263
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:165
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "برای مشاهده افزونه در Wordpress.org کلیک کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:165
+msgid "Visit WordPress.org page"
+msgstr "مشاهده برگه‌ی Wordpress.org"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:168
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr "برای دادن امتیاز و بررسی افزونه در Wordpress.org کلیک کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:168
+msgid "Rate this plugin"
+msgstr "امتیاز به افزونه"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:177
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:254
+msgid "Hits"
+msgstr "بازدیدها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:212
+msgid "WP Statistics - Hits"
+msgstr "آماره وردپرس - بازدیدها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:256
+msgid "Referers"
+msgstr "ارجاع‌دهنده‌ها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:257
+msgid "Searches"
+msgstr "جستجوها"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:258
+msgid "Search Words"
+msgstr "کلمات جستجو شده"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:262
+msgid "Optimization"
+msgstr "بهینه سازی"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:267
+msgid "Manual"
+msgstr "راهنما"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:317
+msgid "Today visitor"
+msgstr "بازدید کننده امروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:323
+msgid "Today visit"
+msgstr "بازدید امروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:329
+msgid "Yesterday visitor"
+msgstr "بازدید کننده دیروز"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:341
+msgid "View Stats"
+msgstr "نمایش آمار"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:365
+msgid "Download ODF file"
+msgstr "دریافت فایل ODF"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:366
+msgid "Download HTML file"
+msgstr "دریافت فایل HTML"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:370
+msgid "Manual file not found."
+msgstr "راهنما یافت نشد."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:445
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:545
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:816
+msgid "You do not have sufficient permissions to access this page."
+msgstr "شما مجوز کافی برای مشاهده‌ی این قسمت را ندارید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:456
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
+msgstr "جدول های پلاگین وجود ندارد! لطفا پلاگین را غیر فعال و مجدد فعال کنید."
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:600
+#, php-format
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "خطای دریافت پایگاه‌داده GeoIP از %s: - %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:611
+#, php-format
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "خطای بازشدن در هنگام دریافت پایگاه‌داده GeoIP برای خواندن: %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:618
+#, php-format
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr "خطای بازشدن در هنگام دریافت پایگاه‌داده GeoIP برای نوشتن: %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:634
+msgid "GeoIP Database updated successfully!"
+msgstr "پایگاه‌داده GeoIP با موفقیت به‌روز شد!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:707
+#, php-format
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "دانلود پایگاه داده browscap از خطا: %s - %s"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:795
+msgid "browscap database updated successfully!"
+msgstr "browscap پایگاه داده با موفقیت به روز!"
+
+#: F:\Programming\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:803
+msgid "browscap already at current version!"
+msgstr "browscap در حال حاضر در نسخه فعلی!"
+
+#~ msgid "http://wp-statistics.com/"
+#~ msgstr "http://wp-statistics.com/"
+
+#~ msgid "Mostafa Soufi & Greg Ross"
+#~ msgstr "مصطفی Soufi & راس گرگ"
