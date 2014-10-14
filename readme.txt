@@ -44,6 +44,7 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Overview and detail pages for all kinds of data, including; browser versions, country stats, hits, exclusions, referrers, searches, search words and visitors
 * Widget to provide information to your users
 * Shortcodes for many different types of data in both widgets and posts/pages
+* Dashboard widget for the admin area
 * Comprehensive Admin Manual
 
 = Support =
