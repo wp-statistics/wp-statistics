@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-10 12:55-0500\n"
+"PO-Revision-Date: 2014-10-14 17:16-0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,40 +14,246 @@ msgstr ""
 "Language-Team: \n"
 "Language: vi\n"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:90
+#: includes/log/widgets/about.php:8
+msgid "About WP Statistics Version %s"
+msgstr "Về số WP Statistics Phiên bản %s"
+
+#: includes/log/widgets/summary.php:106
+msgid "Date: %s"
+msgstr "Ngày: %s"
+
+#: includes/log/widgets/summary.php:110
+msgid "Time: %s"
+msgstr "Thời gian: %s"
+
+#: includes/optimization/delete-agents.php:14
+msgid "%s agent data deleted successfully."
+msgstr "dữ liệu đại lý %s đã xóa thành công."
+
+#: includes/optimization/delete-platforms.php:14
+msgid "%s platform data deleted successfully."
+msgstr "%s nền tảng dữ liệu đã xóa thành công."
+
+#: includes/optimization/empty.php:53
+msgid "%s table data deleted successfully."
+msgstr "%s bảng dữ liệu đã xóa thành công."
+
+#: includes/optimization/purge-data.php:17
+#: includes/optimization/purge-data.php:27
+#: includes/optimization/purge-data.php:37
+#: includes/optimization/purge-data.php:47
+msgid "%s data older than %s days purged successfully."
+msgstr "%s dữ liệu cũ hơn %s ngày thanh trừng thành công."
+
+#: includes/optimization/purge-data.php:19
+#: includes/optimization/purge-data.php:29
+#: includes/optimization/purge-data.php:39
+#: includes/optimization/purge-data.php:49
+msgid "No records found to purge from %s!"
+msgstr "Không có hồ sơ tìm thấy để tẩy từ %s!"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:44
+#: includes/optimization/tabs/wps-optimization-resources.php:55
+#: includes/optimization/tabs/wps-optimization-resources.php:66
+#: includes/optimization/tabs/wps-optimization-resources.php:77
+#: includes/optimization/tabs/wps-optimization-resources.php:88
+msgid "Number of rows in the %s table"
+msgstr "Số lượng các hàng trong bảng %s"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:211
+msgid "browscap Cache File"
+msgstr "browscap tập tin bộ nhớ Cache"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:220
+msgid "browscap cache file does not exist."
+msgstr "browscap bộ nhớ cache tập tin không tồn tại."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:224
+msgid "The file size and date of the browscap cache file."
+msgstr "Kích thước tập tin và ngày của tập tin bộ nhớ cache browscap."
+
+#: includes/settings/tabs/wps-about.php:24
+msgid ""
+"Come visit our great new %s and keep up to date on the latest news about WP "
+"Statistics."
+msgstr ""
+"Hãy đến thăm chúng tôi %s mới tuyệt vời và giữ đến ngày về những tin tức mới "
+"nhất về số WP Statistics."
+
+#: includes/settings/tabs/wps-about.php:24
+msgid "website"
+msgstr "Trang web"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our %s to see the current status and %s if "
+"you would like to help."
+msgstr ""
+"WP Statistics hỗ trợ quốc tế và chúng tôi khuyến khích người dùng gửi bản "
+"dịch, xin vui lòng ghé thăm chúng tôi %s để xem trạng thái hiện tại và %s "
+"nếu bạn muốn giúp đỡ."
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "translation collaboration site"
+msgstr "bản dịch hợp tác trang web"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "drop us a line"
+msgstr "thả chúng tôi một dòng"
+
+#: includes/settings/tabs/wps-about.php:52
+#: includes/settings/tabs/wps-about.php:53
+msgid "Have you read the %s?"
+msgstr "Bạn đã đọc %s?"
+
+#: includes/settings/tabs/wps-about.php:52
+msgid "FAQs"
+msgstr "Câu hỏi thường gặp"
+
+#: includes/settings/tabs/wps-about.php:53
+msgid "manual"
+msgstr "hướng dẫn sử dụng"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "Have you search the %s for a similar issue?"
+msgstr "Quý vị tìm kiếm %s cho một vấn đề tương tự?"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "support forum"
+msgstr "hỗ trợ diễn đàn"
+
+#: includes/settings/tabs/wps-about.php:70
+msgid ""
+"Then please open a new thread on the %s and we'll respond as soon as "
+"possible."
+msgstr ""
+"Sau đó, xin vui lòng mở một chủ đề mới trên %s và chúng tôi sẽ trả lời càng "
+"sớm càng tốt."
+
+#: includes/settings/tabs/wps-about.php:70
+msgid "WordPress.org support forum"
+msgstr "WordPress.org hỗ trợ diễn đàn"
+
+#: includes/settings/tabs/wps-about.php:74
+msgid "Alternatively %s support is available as well."
+msgstr "Ngoài ra %s hỗ trợ có sẵn là tốt."
+
+#: includes/settings/tabs/wps-access-level.php:85
+msgid "See the %s for details on capability levels."
+msgstr "Xem abnj %s để biết chi tiết về mức độ khả năng."
+
+#: includes/settings/tabs/wps-access-level.php:85
+msgid "WordPress Roles and Capabilities page"
+msgstr "WordPress vai trò và khả năng trang"
+
+#: includes/settings/tabs/wps-general.php:67
+msgid ""
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+"Tính năng này sẽ không lưu trữ địa chỉ IP trong cơ sở dữ liệu nhưng thay vào "
+"đó sử dụng một băm duy nhất. \"Store người dùng toàn bộ đại lý string\" cài "
+"đặt sẽ bị vô hiệu nếu điều này được chọn. Bạn sẽ không thể phục hồi các địa "
+"chỉ IP trong tương lai để phục hồi thông tin vị trí nếu điều này được kích "
+"hoạt."
+
+#: includes/settings/tabs/wps-general.php:340
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr ""
+"Lưu ý: Để gửi tin nhắn văn bản tin nhắn xin vui lòng cài đặt %s plugin."
+
+#: includes/settings/tabs/wps-general.php:340
+msgid "WordPress SMS"
+msgstr "WordPress tin nhắn SMS"
+
+#: wp-statistics.php:27
+msgid ""
+"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
+"Statistics will not function without PHP Version "
+msgstr ""
+"LỖI: WP Statistics đã phát hiện một phiên bản không được hỗ trợ của PHP, WP "
+"thống kê sẽ không hoạt động mà không có phiên bản PHP "
+
+#: wp-statistics.php:27
+msgid " or higher!"
+msgstr "hoặc cao hơn!"
+
+#: wp-statistics.php:81
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to %s and "
+"enable it."
+msgstr ""
+"Người dùng trực tuyến theo dõi trong WP thống kê không được kích hoạt, hãy "
+"đi đến %s và kích hoạt nó."
+
+#: wp-statistics.php:81 wp-statistics.php:84 wp-statistics.php:87
+msgid "setting page"
+msgstr "thiết lập trang"
+
+#: wp-statistics.php:84
+msgid ""
+"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr ""
+"Nhấn theo dõi trong WP thống kê không được kích hoạt, hãy đi đến %s và kích "
+"hoạt nó."
+
+#: wp-statistics.php:87
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
+"it."
+msgstr ""
+"Số lượt truy cập theo dõi trong WP thống kê không được kích hoạt, hãy đi đến "
+"%s và kích hoạt nó."
+
+#: wp-statistics.php:90
+msgid ""
+"GeoIP collection is not active, please go to %s and enable this feature."
+msgstr ""
+"GeoIP bộ sưu tập là không hoạt động, hãy đi đến %s và kích hoạt tính năng "
+"này."
+
+#: wp-statistics.php:90
+msgid "Setting page > GeoIP"
+msgstr "Thiết lập trang > GeoIP"
+
+msgid "http://wp-statistics.com/"
+msgstr "http://WP-Statistics.com/"
+
+msgid "Mostafa Soufi & Greg Ross"
+msgstr "Mostafa Soufi & Greg Ross"
+
+#: includes/settings/wps-settings.php:90
 msgid "browscap"
 msgstr "browscap"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:695
+#: wp-statistics.php:706
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "Lỗi tải browscap cơ sở dữ liệu từ: %s - %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:783
+#: wp-statistics.php:794
 msgid "browscap database updated successfully!"
 msgstr "browscap cơ sở dữ liệu Cập Nhật thành công!"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:791
+#: wp-statistics.php:802
 msgid "browscap already at current version!"
 msgstr "browscap đã có tại phiên bản hiện tại!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:5
+#: includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
 msgstr "Thiết lập cơ sở dữ liệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:10
+#: includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
 msgstr "Chạy lại cài đặt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:14
+#: includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
 msgstr "Cài đặt bây giờ!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:15
+#: includes/optimization/tabs/wps-optimization-database.php:15
 msgid ""
 "If for some reason your installation of WP Statistics is missing the "
 "database tables or other core items, this will re-execute the install "
@@ -56,8 +262,7 @@ msgstr ""
 "Nếu vì một lý do của bạn cài đặt WP Statistics thiếu các bảng cơ sở dữ liệu "
 "hoặc các mặt hàng cốt lõi, điều này sẽ tái thực hiện quá trình cài đặt."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid ""
 "If the PHP BC Math Extension is installed.  BC Math is no longer required "
 "for the GeoIP code and is listed here only for historical reasons."
@@ -65,86 +270,71 @@ msgstr ""
 "Nếu PHP BC toán phần mở rộng được cài đặt. Toán học BC không còn cần thiết "
 "cho GeoIP mã và được liệt kê ở đây chỉ vì lý do lịch sử."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:168
+#: includes/optimization/tabs/wps-optimization-resources.php:168
 msgid "File Info"
 msgstr "Thông tin tập tin"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:173
+#: includes/optimization/tabs/wps-optimization-resources.php:173
 msgid "GeoIP Database"
 msgstr "GeoIP cơ sở dữ liệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:184
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:203
+#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:203
+#: includes/optimization/tabs/wps-optimization-resources.php:222
 msgid ", created on "
 msgstr ", thành lập ngày "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:186
+#: includes/optimization/tabs/wps-optimization-resources.php:186
 msgid "The file size and date of the GeoIP database."
 msgstr "Kích thước tập tin và ngày của GeoIP cơ sở dữ liệu."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:192
+#: includes/optimization/tabs/wps-optimization-resources.php:192
 msgid "browscap.ini File"
 msgstr "browscap.ini tập tin"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:201
+#: includes/optimization/tabs/wps-optimization-resources.php:201
 msgid "browscap.ini file does not exist."
 msgstr "browscap.ini tập tin không tồn tại."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:205
+#: includes/optimization/tabs/wps-optimization-resources.php:205
 msgid "The file size and date of the browscap.ini file."
 msgstr "Kích thước tập tin và ngày của các tập tin browscap.ini."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:51
+#: includes/optimization/wps-optimization.php:51
 msgid "Install routine complete."
 msgstr "Cài đặt hoàn thành thói quen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:17
+#: includes/settings/tabs/wps-browscap.php:17
 msgid "browscap settings"
 msgstr "cài đặt browscap"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:22
+#: includes/settings/tabs/wps-browscap.php:22
 msgid "browscap usage"
 msgstr "sử dụng browscap"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:28
+#: includes/settings/tabs/wps-browscap.php:28
 msgid "The browscap database will be downloaded and used to detect robots."
 msgstr ""
 "Cơ sở dữ liệu browscap sẽ được tải về và sử dụng để phát hiện các robot."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:34
+#: includes/settings/tabs/wps-browscap.php:34
 msgid "Update browscap Info"
 msgstr "Cập Nhật browscap thông tin"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:39
+#: includes/settings/tabs/wps-browscap.php:39
 msgid "Download browscap Database"
 msgstr "Tải về browscap cơ sở dữ liệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:46
+#: includes/settings/tabs/wps-browscap.php:46
 msgid "Schedule weekly update of browscap DB"
 msgstr "Lịch trình cập nhật hàng tuần của browscap DB"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:69
+#: includes/settings/tabs/wps-browscap.php:69
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr ""
 "Tải về phần browscap cơ sở dữ liệu sẽ được sắp xếp để có một lần một tuần."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:40
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -158,8 +348,7 @@ msgstr ""
 "trên các cài đặt cũ hơn mục trùng lặp phải được xóa lần đầu tiên. Cách nhấn "
 "vào \"Update Now\" sẽ quét bảng vistitors, xóa mục trùng lặp và thêm chỉ mục."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:46
+#: includes/optimization/tabs/wps-optimization-database.php:46
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -169,19 +358,16 @@ msgstr ""
 "bảng số lượt truy cập trong một trường hợp góc. Tiến trình cài đặt mới hơn "
 "bảo vệ chống lại điều này với một chỉ số duy nhất trên bàn."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:47
+#: includes/optimization/tabs/wps-optimization-database.php:47
 msgid ""
 "Congratulations, your installation is already up to date, nothing to do."
 msgstr "Xin chúc mừng, cài đặt là đã đến nay, không có gì để làm."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:51
+#: includes/settings/tabs/wps-about.php:55
 msgid "Have you search the Internet for any error messages you are receiving?"
 msgstr "Có bạn tìm kiếm trên Internet cho bất kỳ thông báo lỗi bạn nhận được?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:62
+#: includes/settings/tabs/wps-about.php:66
 msgid ""
 "Are you getting a blank or incomplete page displayed in your browser?  Did "
 "you view the source for the page and check for any fatal errors?"
@@ -190,27 +376,21 @@ msgstr ""
 "duyệt của bạn? Đã làm bạn xem mã nguồn cho trang và kiểm tra bất kỳ lỗi "
 "nghiêm trọng?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:63
+#: includes/settings/tabs/wps-about.php:67
 msgid "Have you checked your PHP and web server error logs?"
 msgstr "Bạn đã kiểm tra của bạn PHP và web máy chủ bản ghi lỗi?"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:15
+#: widget.php:15
 msgid "Show site stats in sidebar."
 msgstr "Hiển thị thống kê trang web trong thanh bên."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:97
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:94
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:65
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:59
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:22
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:25
+#: includes/log/last-search.php:97 includes/log/last-visitor.php:94
+#: includes/log/widgets/google.map.php:65 includes/log/widgets/jqv.map.php:59
+#: includes/log/widgets/recent.php:22 includes/log/widgets/words.php:25
 msgid "#hash#"
 msgstr "#hash #"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:4
+#: includes/optimization/tabs/wps-optimization-updates.php:4
 msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
@@ -218,28 +398,24 @@ msgstr ""
 "Điều này sẽ thay thế tất cả các địa chỉ IP trong cơ sở dữ liệu với các băm "
 "giá trị và không thể là hoàn tác, bạn có chắc chắn?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:26
+#: includes/optimization/tabs/wps-optimization-updates.php:26
 msgid ""
 "Updates any unknown location data in the database, this may take a while"
 msgstr ""
 "Cập Nhật bất kỳ dữ liệu không rõ vị trí trong cơ sở dữ liệu, điều này có thể "
 "mất một lúc"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:31
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:56
+#: includes/optimization/tabs/wps-optimization-updates.php:31
+#: includes/settings/tabs/wps-general.php:56
 msgid "IP Addresses"
 msgstr "Địa chỉ IP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:36
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:61
+#: includes/optimization/tabs/wps-optimization-updates.php:36
+#: includes/settings/tabs/wps-general.php:61
 msgid "Hash IP Addresses"
 msgstr "Địa chỉ IP băm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:41
+#: includes/optimization/tabs/wps-optimization-updates.php:41
 msgid ""
 "Replace IP addresses in the database with hash values, you will not be able "
 "to recover the IP addresses in the future to populate location information "
@@ -249,18 +425,15 @@ msgstr ""
 "thể phục hồi các địa chỉ IP trong tương lai để đưa thông tin vị trí sau đó "
 "và điều này có thể mất một lúc"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:43
+#: includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
 msgstr "Địa chỉ IP thay thế với giá trị hash."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:149
+#: includes/settings/tabs/wps-access-level.php:149
 msgid "Force robot list update after upgrades"
 msgstr "Cập nhật danh sách robot quân sau khi nâng cấp"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:152
+#: includes/settings/tabs/wps-access-level.php:152
 msgid ""
 "Force the robot list to be reset to the default after an update to WP "
 "Statistics takes place.  Note if this option is enabled any custom robots "
@@ -270,27 +443,11 @@ msgstr ""
 "Nhật để thống kê WP diễn ra. Lưu ý Nếu tùy chọn này được kích hoạt bất kỳ "
 "tùy chỉnh robot bạn đã thêm vào danh sách sẽ bị mất."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:40
+#: includes/settings/tabs/wps-general.php:40
 msgid "This will delete the manual when you save the settings, are you sure?"
 msgstr "Điều này sẽ xóa sổ tay khi bạn lưu cài đặt, bạn có chắc chắn?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:67
-msgid ""
-"BETA: This feature will not store IP addresses in the database but instead "
-"used a unique hash.  The \"Store entire user agent string\" setting will be "
-"disabled if this is selected.  You will not be able to recover the IP "
-"addresses in the future to recover location information if this is enabled."
-msgstr ""
-"Phiên bản BETA: Tính năng này sẽ không lưu trữ địa chỉ IP trong cơ sở dữ "
-"liệu nhưng thay vào đó sử dụng một băm duy nhất. \"Store người dùng toàn bộ "
-"đại lý string\" cài đặt sẽ bị vô hiệu nếu điều này được chọn. Bạn sẽ không "
-"thể phục hồi các địa chỉ IP trong tương lai để phục hồi thông tin vị trí nếu "
-"điều này được kích hoạt."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:220
+#: includes/settings/tabs/wps-general.php:220
 msgid ""
 "By default WP Statistics displays an alert if any of the core features are "
 "disabled on every admin page, this option will disable these notices."
@@ -299,13 +456,11 @@ msgstr ""
 "bị vô hiệu hoá trên mỗi trang admin, tùy chọn này sẽ vô hiệu hóa các thông "
 "báo này."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:226
+#: includes/settings/tabs/wps-general.php:226
 msgid "Delete the manual"
 msgstr "Xóa sổ tay"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:232
+#: includes/settings/tabs/wps-general.php:232
 msgid ""
 "By default WP Statistics stores the admin manual in the plugin directory (~5 "
 "meg), if this option is enabled it will be deleted now and during upgrades "
@@ -315,13 +470,11 @@ msgstr ""
 "plugin (~ 5 meg), nếu tùy chọn này được kích hoạt nó sẽ được xóa bây giờ và "
 "trong quá trình nâng cấp trong tương lai."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:20
+#: includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
 msgstr "Cơ sở dữ liệu chỉ mục"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:41
+#: includes/optimization/tabs/wps-optimization-database.php:41
 msgid ""
 "This operation could take a long time on installs with many rows in the "
 "visitors table."
@@ -329,28 +482,23 @@ msgstr ""
 "Thao tác này có thể mất một thời gian dài ngày cài đặt với nhiều hàng trong "
 "bảng số lượt truy cập."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:129
+#: includes/optimization/wps-optimization.php:129
 msgid "Database"
 msgstr "Cơ sở dữ liệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:298
+#: includes/settings/tabs/wps-general.php:298
 msgid "Schedule"
 msgstr "Lịch trình"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:328
+#: includes/settings/tabs/wps-general.php:328
 msgid "Send reports via"
 msgstr "Gửi báo cáo qua"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:347
+#: includes/settings/tabs/wps-general.php:347
 msgid "E-mail addresses"
 msgstr "Địa chỉ e-mail"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:352
+#: includes/settings/tabs/wps-general.php:352
 msgid ""
 "A comma separated list of e-mail addresses to send the reports to if e-mail "
 "is selected above."
@@ -358,28 +506,23 @@ msgstr ""
 "Dấu phẩy ngăn cách danh sách địa chỉ e-mail để gửi các báo cáo để nếu e-mail "
 "được chọn ở trên."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:358
+#: includes/settings/tabs/wps-general.php:358
 msgid "Report body"
 msgstr "Báo cáo cơ thể"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:75
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "The following three items are global to all users."
 msgstr "Ba mục sau đây là toàn cầu cho tất cả người dùng."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:80
+#: includes/settings/tabs/wps-overview-display.php:80
 msgid "Map type"
 msgstr "Loại bản đồ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+#: includes/settings/tabs/wps-overview-display.php:86
 msgid "JQVMap"
 msgstr "JQVMap"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:93
+#: includes/settings/tabs/wps-overview-display.php:93
 msgid ""
 "The \"Google\" option will use Google's mapping service to plot the recent "
 "visitors (requires access to Google)."
@@ -387,8 +530,7 @@ msgstr ""
 "\"Google\" tùy chọn sẽ sử dụng dịch vụ lập bản đồ của Google để vẽ các du "
 "khách gần đây (yêu cầu quyền truy cập vào Google)."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:94
+#: includes/settings/tabs/wps-overview-display.php:94
 msgid ""
 "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
 "recent visitors (requires no extenral services)."
@@ -396,8 +538,7 @@ msgstr ""
 "\"JQVMap\" tùy chọn sẽ sử dụng JQVMap thư viện lập bản đồ javascript lô du "
 "khách gần đây (yêu cầu không có dịch vụ extenral)."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:118
+#: includes/settings/tabs/wps-overview-display.php:118
 msgid ""
 "This feature may cause a performance degradation when viewing statistics and "
 "is only valid if the map type is set to \"Google\"."
@@ -405,175 +546,116 @@ msgstr ""
 "Tính năng này có thể gây ra một sự xuống cấp hiệu suất khi xem số liệu thống "
 "kê và chỉ là hợp lệ nếu loại bản đồ được thiết lập để \"Google\"."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:50
+#: includes/log/all-browsers.php:50
 msgid "Browsers by type"
 msgstr "Trình duyệt theo loại"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:133
+#: includes/log/all-browsers.php:133
 msgid "Browsers by platform"
 msgstr "Trình duyệt bởi nền tảng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
+#: includes/log/exclusions.php:97
 msgid "Excluded hits in the last"
 msgstr "Loại trừ lượt truy cập trong"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:36
+#: includes/log/hit-statistics.php:36
 msgid "Hits Statistics Chart"
 msgstr "Biểu đồ thống kê lượt truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
+#: includes/log/hit-statistics.php:69 includes/log/widgets/hits.php:39
 msgid "Hits in the last"
 msgstr "Lượt truy cập trong"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:36
+#: includes/log/last-search.php:30 includes/log/widgets/words.php:16
+#: includes/settings/tabs/wps-overview-display.php:36
 msgid "Latest Search Words"
 msgstr "Từ tìm kiếm mới nhất"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:62
+#: includes/log/last-search.php:62
 msgid "Latest Search Word Statistics"
 msgstr "Thống kê từ tìm kiếm mới nhất"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:61
+#: includes/log/last-visitor.php:61
 msgid "Recent Visitor Statistics"
 msgstr "Thống kê lượt truy cập gần đây"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:9
+#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
 msgid "Today Visitors Map"
 msgstr "Hôm nay truy cập bản đồ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:8
+#: includes/log/widgets/summary.php:8
 msgid "Summary"
 msgstr "Tóm tắt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:13
+#: includes/log/widgets/summary.php:13
 msgid "User(s) Online"
 msgstr "() Người dùng trực tuyến"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:45
+#: includes/log/widgets/browsers.php:45
 msgid "Top 10 Browsers"
 msgstr "Top 10 trình duyệt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:34
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:49
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:26
+#: includes/log/top-referring.php:34 includes/log/top-referring.php:49
+#: includes/log/widgets/referring.php:13
+#: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "Trang web giới thiệu hàng đầu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:73
+#: includes/log/widgets/about.php:16
 msgid "Rate and Review"
 msgstr "Tỷ lệ và nhận xét"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:77
+#: includes/log/widgets/about.php:20
 msgid "More Information"
 msgstr "Biết thêm thông tin"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:86
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:8
+#: includes/log/widgets/about.php:29 includes/settings/tabs/wps-about.php:12
 msgid ""
 "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr "Sản phẩm này bao gồm dữ liệu GeoLite2 tạo bởi MaxMind, có sẵn từ %s."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
+#: includes/log/search-statistics.php:77 includes/log/widgets/search.php:46
 msgid "Search engine referrals in the last"
 msgstr "Tìm kiếm giới thiệu trong"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:98
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:67
+#: includes/log/search-statistics.php:98 includes/log/widgets/search.php:67
 msgid "Number of referrals"
 msgstr "Số lượng giới thiệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
+#: includes/log/widgets/pages.php:13
 msgid "Top 10 Pages"
 msgstr "Top 10 trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:17
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:36
+#: includes/log/search-statistics.php:17 includes/log/search-statistics.php:36
 msgid "Search Engine Referral Statistics"
 msgstr "Tìm kiếm giới thiệu thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:4
+#: includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
 msgstr "Thống kê WP V %s"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:16
+#: includes/settings/tabs/wps-about.php:20
 msgid "Visit Us Online"
 msgstr "Ghé thăm chúng tôi trực tuyến"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:20
-msgid ""
-"Come visit our great new <a href=\"http://wp-statistics.com\" target=\"_blank"
-"\">website</a> and keep up to date on the latest news about WP Statistics."
-msgstr ""
-"Hãy đến thăm chúng tôi tuyệt vời mới <a href=\"http://wp-statistics.com\" "
-"target=\"_blank\" >trang web</a> và giữ đến ngày về những tin tức mới nhất "
-"về số liệu thống kê WP."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:24
+#: includes/settings/tabs/wps-about.php:28
 msgid "Rate and Review at WordPress.org"
 msgstr "Đánh giá và xem xét tại WordPress.org"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
 msgstr ""
 "Cảm ơn bạn đã cài đặt WP Statistics, chúng tôi khuyến khích bạn gửi một "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
 msgstr "đánh giá và xem xét"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
 msgstr "qua tại WordPress.org. Phản hồi của bạn được đánh giá rất nhiều!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:36
-msgid ""
-"WP Statistics supports internationalization and we encourage our users to "
-"submit translations, please visit our <a href=\"http://teamwork.wp-parsi.com/"
-"projects/wp-statistics\" target=\"_blank\">translation collaboration site</"
-"a> to see the current status and <a href=\"http://wp-statistics.com/contact/"
-"\" target=\"_blank\">drop us a line</a> if you would like to help."
-msgstr ""
-"Thống kê WP hỗ trợ quốc tế và chúng tôi khuyến khích người dùng để gửi bản "
-"dịch, xin vui lòng truy cập của chúng tôi <a href=\"http://teamwork.wp-parsi."
-"com/projects/wp-statistics\" target=\"_blank\" > dịch hợp tác trang web </a> "
-"để xem trạng thái hiện tại và <a href=\"http://wp-statistics.com/contact/\" "
-"target=\"_blank\">thả chúng tôi một dòng</a> nếu bạn muốn giúp đỡ."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:45
+#: includes/settings/tabs/wps-about.php:49
 msgid ""
 "We're sorry you're having problem with WP Statistics and we're happy to help "
 "out.  Here are a few things to do before contacting us:"
@@ -582,104 +664,46 @@ msgstr ""
 "hạnh phúc để giúp đỡ. Dưới đây là một số điều cần làm trước khi liên hệ với "
 "chúng tôi:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:48
-msgid ""
-"Have you read the <a title=\"FAQs\" href=\"http://wp-statistics.com/?"
-"page_id=19\" target=_blank>FAQs</a>?"
-msgstr ""
-"Có bạn đọc các <a title=\"FAQs\" href=\"http://wp-statistics.com/?"
-"page_id=19\" target=_blank>câu hỏi thường gặp</a>?"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:49
-msgid ""
-"Have you read the <a title=\"Manual\" href=\"?page=wps_manual_menu\">manual</"
-"a>?"
-msgstr ""
-"Có bạn đọc các <a title=\"Manual\" href=\"?page=wps_manual_menu\" >hướng dẫn "
-"sử dụng</a>?"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:50
-msgid ""
-"Have you search the <a href=\"http://wordpress.org/support/plugin/wp-"
-"statistics\" target=\"_blank\">support forum</a> for a similar issue?"
-msgstr ""
-"Có bạn tìm kiếm các <a href=\"http://wordpress.org/support/plugin/wp-"
-"statistics\" target=\"_blank\">diễn đàn hỗ trợ</a> cho một vấn đề tương tự?"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:54
+#: includes/settings/tabs/wps-about.php:58
 msgid "And a few things to double-check:"
 msgstr "Và một số điều cần kiểm tra:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:57
+#: includes/settings/tabs/wps-about.php:61
 msgid "How's your memory_limit in php.ini?"
 msgstr "Làm thế nào là của bạn memory_limit trong php.ini?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:58
+#: includes/settings/tabs/wps-about.php:62
 msgid "Have you tried disabling any other plugins you may have installed?"
 msgstr ""
 "Có bạn đã cố gắng vô hiệu hóa bất kỳ bổ sung khác mà bạn có thể cài đặt?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:59
+#: includes/settings/tabs/wps-about.php:63
 msgid "Have you tried using the default WordPress theme?"
 msgstr "Bạn đã thử bằng cách sử dụng WordPress theme mặc định?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:60
+#: includes/settings/tabs/wps-about.php:64
 msgid "Have you double checked the plugin settings?"
 msgstr "Bạn đôi đã kiểm tra các cài đặt plugin?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:61
+#: includes/settings/tabs/wps-about.php:65
 msgid "Do you have all the required PHP extensions installed?"
 msgstr "Bạn có tất cả các yêu cầu PHP mở rộng cài đặt?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
+#: includes/settings/tabs/wps-about.php:70
 msgid "Still not having any luck?"
 msgstr "Vẫn không có bất kỳ may mắn?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
-msgid ""
-"Then please open a new thread on the <a href=\"http://wordpress.org/support/"
-"plugin/wp-statistics\" target=\"_blank\">WordPress.org support forum</a> and "
-"we'll respond as soon as possible."
-msgstr ""
-"Sau đó, xin vui lòng mở một chủ đề mới trên các <a href=\"http://wordpress."
-"org/support/plugin/wp-statistics\" target=\"_blank\">WordPress.org hỗ trợ "
-"diễn đàn</a> và chúng tôi sẽ trả lời càng sớm càng tốt."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:70
-msgid ""
-"Alternatively <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
-"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
-"a> support is available as well."
-msgstr ""
-"Ngoài ra <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
-"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">tiếng "
-"Farsi</a> hỗ trợ có sẵn là tốt."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:17
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:35
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:128
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:169
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:193
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:303
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:333
+#: includes/optimization/tabs/wps-optimization-export.php:17
+#: includes/optimization/tabs/wps-optimization-export.php:35
+#: includes/optimization/tabs/wps-optimization-purging.php:128
+#: includes/optimization/tabs/wps-optimization-purging.php:169
+#: includes/optimization/tabs/wps-optimization-purging.php:193
+#: includes/settings/tabs/wps-general.php:303
+#: includes/settings/tabs/wps-general.php:333
 msgid "Please select"
 msgstr "Vui lòng chọn"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:365
+#: includes/settings/tabs/wps-general.php:365
 msgid ""
 "Any shortcode supported by your installation of WordPress, include all "
 "shortcodes for WP Statistics (see the admin manual for a list of codes "
@@ -689,8 +713,7 @@ msgstr ""
 "mã ngắn cho thống kê WP (xem hướng dẫn sử dụng admin cho một danh sách các "
 "mã có sẵn) được hỗ trợ trong nội dung thư."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:368
+#: includes/settings/tabs/wps-general.php:368
 msgid ""
 "Input data codes are now deprecated and will be removed in a future version "
 "of WP Statistics, please use the appropriate shortcodes, they are included "
@@ -700,8 +723,7 @@ msgstr ""
 "bản mới của WP Statistics, xin vui lòng sử dụng mã ngắn thích hợp, họ được "
 "bao gồm ở đây chỉ cho mục đích lịch sử:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:22
+#: includes/settings/tabs/wps-geoip.php:22
 msgid ""
 "IP location services provided by GeoLite2 data created by MaxMind, available "
 "from %s."
@@ -709,25 +731,21 @@ msgstr ""
 "Dịch vụ vị trí IP cung cấp bởi dữ liệu GeoLite2 tạo bởi MaxMind, có sẵn từ "
 "%s."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:23
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:32
+#: includes/settings/tabs/wps-overview-display.php:23
+#: includes/settings/tabs/wps-overview-display.php:32
 msgid "None"
 msgstr "Không có"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:28
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:92
+#: includes/settings/tabs/wps-overview-display.php:28
+#: includes/settings/wps-settings.php:92
 msgid "About"
 msgstr "Về"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:123
+#: includes/settings/tabs/wps-overview-display.php:123
 msgid "Widgets to Display"
 msgstr "Các vật dụng để hiển thị"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:132
+#: includes/settings/tabs/wps-overview-display.php:132
 msgid ""
 "The following items are unique to each user.  If you do not select the "
 "'About' widget it will automatically be displayed in the last positon of "
@@ -736,186 +754,117 @@ msgstr ""
 "Các mục sau đây được duy nhất cho mỗi người dùng. Nếu bạn không chọn Tiện "
 "ích 'Khoảng' nó sẽ tự động được hiển thị ở vị trí cuối cùng của cột A."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:137
+#: includes/settings/tabs/wps-overview-display.php:137
 msgid "Slot"
 msgstr "Khe cắm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:141
+#: includes/settings/tabs/wps-overview-display.php:141
 msgid "Column A"
 msgstr "Cột A"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:145
+#: includes/settings/tabs/wps-overview-display.php:145
 msgid "Column B"
 msgstr "Cột B"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:151
+#: includes/settings/tabs/wps-overview-display.php:151
 msgid "Slot 1"
 msgstr "Khe cắm 1"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:181
+#: includes/settings/tabs/wps-overview-display.php:181
 msgid "Slot 2"
 msgstr "Khe cắm 2"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:211
+#: includes/settings/tabs/wps-overview-display.php:211
 msgid "Slot 3"
 msgstr "Khe cắm 3"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:241
+#: includes/settings/tabs/wps-overview-display.php:241
 msgid "Slot 4"
 msgstr "Khe cắm 4"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:271
+#: includes/settings/tabs/wps-overview-display.php:271
 msgid "Slot 5"
 msgstr "Khe cắm 5"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:301
+#: includes/settings/tabs/wps-overview-display.php:301
 msgid "Slot 6"
 msgstr "Khe cắm 6"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:305
+#: includes/settings/tabs/wps-overview-display.php:305
 msgid "N/A"
 msgstr "N/A"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:280
+#: widget.php:280
 msgid "Search Engine Referred"
 msgstr "Công cụ tìm kiếm được gọi"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:10
+#: schedule.php:10
 msgid "Once Weekly"
 msgstr "Một lần lượt"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:17
+#: schedule.php:17
 msgid "Once Every 2 Weeks"
 msgstr "Một lần mỗi 2 tuần"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:24
+#: schedule.php:24
 msgid "Once Every 4 Weeks"
 msgstr "Một lần mỗi tuần 4"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:28
+#: wp-statistics.php:39
 msgid "Complete statistics for your WordPress site."
 msgstr "Hoàn thành các thống kê cho trang web WordPress của bạn."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:70
-msgid ""
-"Online user tracking in WP Statistics is not enabled, please go to <a href="
-"\"%s\">setting page</a> and enable it."
-msgstr ""
-"Người dùng trực tuyến theo dõi trong WP Statistics không được kích hoạt, hãy "
-"truy cập vào <a href=\"%s\">thiết lập trang</a> và kích hoạt nó."
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:73
-msgid ""
-"Hit tracking in WP Statistics is not enabled, please go to <a href=\"%s"
-"\">setting page</a> and enable it."
-msgstr ""
-"Nhấn theo dõi trong WP Statistics không được kích hoạt, hãy truy cập vào <a "
-"href=\"%s\">thiết lập trang</a> và kích hoạt nó."
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:76
-msgid ""
-"Visitor tracking in WP Statistics is not enabled, please go to <a href=\"%s"
-"\">setting page</a> and enable it."
-msgstr ""
-"Số lượt truy cập theo dõi trong WP Statistics không được kích hoạt, hãy truy "
-"cập vào <a href=\"%s\" >thiết lập trang</a> và kích hoạt nó."
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:79
-msgid ""
-"GeoIP collection is not active, please go to <a href=\"%s\">Setting page > "
-"GeoIP</a> and enable this feature (GeoIP can detect the visitors country)"
-msgstr ""
-"GeoIP bộ sưu tập không phải là hoạt động, hãy truy cập vào <a href=\"%s"
-"\">thiết lập trang > GeoIP</a> và kích hoạt tính năng này (GeoIP có thể phát "
-"hiện gia số lượt truy cập)"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:65
-msgid "About WP Statistics V%s"
-msgstr "Về WP Statistics V %s"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:72
+#: includes/log/widgets/about.php:15
 msgid "Website"
 msgstr "Trang web"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:117
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:19
+#: includes/log/top-referring.php:117 includes/log/widgets/referring.php:19
 msgid "References"
 msgstr "Tài liệu tham khảo"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:33
+#: includes/optimization/tabs/wps-optimization-resources.php:33
 msgid "PHP Memory Limit"
 msgstr "Giới hạn bộ nhớ PHP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:38
+#: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
 msgstr ""
 "Giới hạn bộ nhớ một kịch bản được cho phép để tiêu thụ, thiết lập trong php."
 "ini."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:27
+#: wp-statistics.php:38
 msgid "WP Statistics"
 msgstr "Thống kê WP"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+#: wp-statistics.php:164
 msgid "Visit WordPress.org page"
 msgstr "Truy cập WordPress.org Trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:29
+#: includes/log/page-statistics.php:29
 msgid "Page Trend for Post ID"
 msgstr "Xu hướng trang Post ID"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:48
+#: includes/log/page-statistics.php:48
 msgid "Page Trend"
 msgstr "Xu hướng trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:68
+#: includes/log/page-statistics.php:68
 msgid "Page Trending Stats"
 msgstr "Trang có xu hướng thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:44
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:55
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:66
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:77
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:88
-msgid "Number of rows in the <code>%s</code> table"
-msgstr "Số lượng hàng trong <code>%s</code> bàn"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:97
+#: includes/settings/tabs/wps-access-level.php:97
 msgid "Record exclusions"
 msgstr "Ghi lại loại trừ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:130
+#: includes/settings/tabs/wps-access-level.php:130
 msgid "Robot list"
 msgstr "Danh sách Robot"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:157
+#: includes/settings/tabs/wps-access-level.php:157
 msgid "Excluded IP address list"
 msgstr "Danh sách địa chỉ IP bị loại trừ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:160
+#: includes/settings/tabs/wps-access-level.php:160
 msgid ""
 "A list of IP addresses and subnet masks (one per line) to exclude from "
 "statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
@@ -927,163 +876,142 @@ msgstr ""
 "192.168.0.0/255.255.255.0 các định dạng được chấp nhận). Để chỉ định một địa "
 "chỉ IP chỉ, sử dụng một giá trị mạng con của 32 hoặc 255.255.255.255."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:172
+#: includes/settings/tabs/wps-access-level.php:172
 msgid "Excluded login page"
 msgstr "Trang đăng nhập bị loại trừ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:179
+#: includes/settings/tabs/wps-access-level.php:179
 msgid "Excluded admin pages"
 msgstr "Bị loại trừ admin trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:72
+#: includes/settings/tabs/wps-general.php:72
 msgid "Users Online"
 msgstr "Người dùng trực tuyến"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:77
+#: includes/settings/tabs/wps-general.php:77
 msgid "User online"
 msgstr "Người dùng trực tuyến"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:172
+#: includes/settings/tabs/wps-general.php:172
 msgid "Track all pages"
 msgstr "Theo dõi tất cả các trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:184
+#: includes/settings/tabs/wps-general.php:184
 msgid "Disable hits column in post/pages list"
 msgstr "Vô hiệu hóa truy cập cột trong danh sách bài/trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:195
+#: includes/settings/tabs/wps-general.php:195
 msgid "Miscellaneous"
 msgstr "Linh tinh"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+#: wp-statistics.php:164
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "Click vào đây để truy cập vào các plugin trên WordPress.org"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+#: wp-statistics.php:167
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "Click vào đây để đánh giá và xem xét này plugin trên WordPress.org"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+#: wp-statistics.php:167
 msgid "Rate this plugin"
 msgstr "Tỷ lệ này plugin"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:200
+#: wp-statistics.php:211
 msgid "WP Statistics - Hits"
 msgstr "Thống kê WP - lượt truy cập"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:588
+#: wp-statistics.php:599
 msgid "Error downloading GeoIP database from: %s - %s"
 msgstr "Lỗi tải GeoIP cơ sở dữ liệu từ: %s - %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:108
-#: Plugins\wp-statistics\trunk/widget.php:277
+#: widget.php:108 widget.php:277
 msgid "Total Page Views"
 msgstr "Xem tất cả trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:155
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:160
-#: Plugins\wp-statistics\trunk/wp-statistics.php:248
+#: includes/settings/tabs/wps-general.php:155
+#: includes/settings/tabs/wps-general.php:160 wp-statistics.php:259
 msgid "Pages"
 msgstr "Trang"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:255
+#: wp-statistics.php:266
 msgid "Manual"
 msgstr "Hướng dẫn sử dụng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:353
+#: wp-statistics.php:364
 msgid "Download ODF file"
 msgstr "Tải về tập tin ODF"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:354
+#: wp-statistics.php:365
 msgid "Download HTML file"
 msgstr "Tải xuống tệp HTML"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:358
+#: wp-statistics.php:369
 msgid "Manual file not found."
 msgstr "Hướng dẫn sử dụng tập tin không tìm thấy."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:54
+#: includes/log/exclusions.php:54
 msgid "Exclusions Statistics"
 msgstr "Loại trừ số liệu thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:37
+#: includes/settings/tabs/wps-overview-display.php:37
 msgid "Top Pages Visited"
 msgstr "Đầu trang truy cập"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:160
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:27
+#: includes/log/top-pages.php:160 includes/log/widgets/pages.php:27
 msgid "No page title found"
 msgstr "Tiêu đề trang không tìm thấy"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:13
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:132
+#: includes/log/top-pages.php:13 includes/log/top-pages.php:132
 msgid "Top Pages"
 msgstr "Trang đầu"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:20
+#: includes/log/top-pages.php:20
 msgid "Top 5 Pages Trends"
 msgstr "Top 5 trang xu hướng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:49
+#: includes/log/top-pages.php:49
 msgid "Top 5 Page Trending Stats"
 msgstr "Top 5 trang có xu hướng thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:89
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:70
+#: includes/log/page-statistics.php:89 includes/log/top-pages.php:70
 msgid "Number of Hits"
 msgstr "Số lượt truy cập"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:29
+#: manual/manual.php:29
 msgid "Manual not found: %s"
 msgstr "Hướng dẫn sử dụng không tìm thấy: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:39
+#: manual/manual.php:39
 msgid "Invalid file type selected: %s"
 msgstr "Loại tệp không hợp lệ được chọn: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:116
+#: widget.php:116
 msgid "Search Engine referred"
 msgstr "Công cụ tìm kiếm được gọi"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:47
+#: includes/optimization/tabs/wps-optimization-export.php:47
 msgid "Include Header Row"
 msgstr "Bao gồm hàng tiêu đề"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:52
+#: includes/optimization/tabs/wps-optimization-export.php:52
 msgid "Include a header row as the first line of the exported file."
 msgstr "Bao gồm một dòng tiêu đề như là dòng đầu tiên của tập tin xuất khẩu."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:125
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "PHP Safe Mode"
 msgstr "PHP chế độ an toàn"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:130
+#: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr ""
 "Là PHP chế độ an toàn hoạt động. Mã GeoIP không được hỗ trợ trong chế độ an "
 "toàn."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:106
+#: includes/settings/tabs/wps-geoip.php:106
 msgid "GeoIP collection is disabled due to the following reasons:"
 msgstr "Bộ sưu tập GeoIP bị vô hiệu hoá do những lý do sau:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:126
+#: includes/settings/tabs/wps-geoip.php:126
 msgid ""
 "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
 "mode enabled!"
@@ -1091,18 +1019,15 @@ msgstr ""
 "PHP phát hiện chế độ an toàn! Bộ sưu tập GeoIP không được hỗ trợ với chế độ "
 "an toàn của PHP được kích hoạt!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:214
+#: includes/settings/tabs/wps-general.php:214
 msgid "Hide admin notices about non active features"
 msgstr "Ẩn admin thông báo về các tính năng không hoạt động"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:237
+#: includes/settings/tabs/wps-general.php:237
 msgid "Search Enginges"
 msgstr "Tìm Enginges"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:242
+#: includes/settings/tabs/wps-general.php:242
 msgid ""
 "Disabling all search engines is not allowed, doing so will result in all "
 "search engines being active."
@@ -1110,28 +1035,23 @@ msgstr ""
 "Vô hiệu hóa tất cả các công cụ tìm kiếm không được phép, làm như vậy sẽ dẫn "
 "đến trong tất cả công cụ tìm kiếm đang hoạt động."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:257
+#: includes/settings/tabs/wps-general.php:257
 msgid "disable"
 msgstr "vô hiệu hoá"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:258
+#: includes/settings/tabs/wps-general.php:258
 msgid "Disable %s from data collection and reporting."
 msgstr "Vô hiệu hoá %s từ thu thập dữ liệu và báo cáo."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "cURL Version"
 msgstr "Phiên Bản cURL"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:151
+#: includes/optimization/tabs/wps-optimization-resources.php:151
 msgid "cURL not installed"
 msgstr "cURL chưa được cài đặt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid ""
 "The PHP cURL Extension version you are running.  cURL is required for the "
 "GeoIP code, if it is not installed GeoIP will be disabled."
@@ -1139,23 +1059,19 @@ msgstr ""
 "Phiên bản phần mở rộng cURL mà bạn đang chạy.cURL cần thiết cho mã GeoIP.Nếu "
 "nó không được cài đặt GeoIP se bị tắt."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "BC Math"
 msgstr "BC Math"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+#: includes/optimization/tabs/wps-optimization-resources.php:162
 msgid "Installed"
 msgstr "Đã cài đặt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+#: includes/optimization/tabs/wps-optimization-resources.php:162
 msgid "Not installed"
 msgstr "Chưa cài đặt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:114
+#: includes/settings/tabs/wps-geoip.php:114
 msgid ""
 "GeoIP collection requires the cURL PHP extension and it is not loaded on "
 "your version of PHP!"
@@ -1163,8 +1079,7 @@ msgstr ""
 "Thư viện GeoIP cần có phần mở rộng cURL  nhưng phần mở rộng này không có "
 "trên phiên bản PHP của bạn!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:120
+#: includes/settings/tabs/wps-geoip.php:120
 msgid ""
 "GeoIP collection requires the BC Math PHP extension and it is not loaded on "
 "your version of PHP!"
@@ -1172,8 +1087,7 @@ msgstr ""
 "Thư viện GeoIP cần có phần mở rộng BC Math nhưng phần mở rộng này không có "
 "trên phiên bản PHP của bạn"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:26
+#: includes/functions/geoip-populate.php:26
 msgid ""
 "Unable to load the GeoIP database, make sure you have downloaded it in the "
 "settings page."
@@ -1181,35 +1095,26 @@ msgstr ""
 ".hông thể nạp được CSDL GeoIP,hãy chắc chắn rằng bạn đã tải nó trong phần "
 "thiết lập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:182
+#: includes/optimization/tabs/wps-optimization-resources.php:182
 msgid "Database file does not exist."
 msgstr "Cơ sở dữ liệu không tồn tại."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:59
+#: includes/log/last-visitor.php:59
 msgid "Search for"
 msgstr "Tìm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
+#: includes/log/widgets/browsers.php:8 includes/log/widgets/countries.php:11
+#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:13
+#: includes/log/widgets/recent.php:9 includes/log/widgets/referring.php:13
+#: includes/log/widgets/search.php:8 includes/log/widgets/words.php:16
 msgid "More"
 msgstr "Thêm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:269
+#: includes/settings/tabs/wps-general.php:269
 msgid "Include totals"
 msgstr "Tổng cộng bao gồm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:275
+#: includes/settings/tabs/wps-general.php:275
 msgid ""
 "Add a total line to charts with multiple values, like the search engine "
 "referrals"
@@ -1217,22 +1122,19 @@ msgstr ""
 "Thêm một dòng tất cả vào bảng xếp hạng với nhiều giá trị, như tìm kiếm giới "
 "thiệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:100
+#: includes/settings/tabs/wps-overview-display.php:100
 msgid "Disable map"
 msgstr "Tắt bản đồ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:106
+#: includes/settings/tabs/wps-overview-display.php:106
 msgid "Disable the map display"
 msgstr "Tắt hiển thị bản đồ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:112
+#: includes/settings/tabs/wps-overview-display.php:112
 msgid "Get country location from Google"
 msgstr "Lấy vị tri trí các quốc gia từ Google"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:8
+#: includes/log/exclusions.php:8
 msgid ""
 "Attention: Exclusion are not currently set to be recorded, the results below "
 "may not reflect current statistics!"
@@ -1240,13 +1142,11 @@ msgstr ""
 "Chú ý: Loại trừ không hiện đang được thiết lập để được ghi lại, kết quả dưới "
 "đây có thể không phản ánh số liệu thống kê hiện tại!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:118
+#: includes/log/exclusions.php:118
 msgid "Number of excluded hits"
 msgstr "Số lượt truy cập bị loại trừ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:86
+#: includes/settings/tabs/wps-access-level.php:86
 msgid ""
 "Hint: manage_network = Super Admin Network, manage_options = Administrator, "
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
@@ -1256,14 +1156,12 @@ msgstr ""
 "trị, edit_others_posts = trình biên tập, publish_posts = tác giả, edit_posts "
 "= đóng góp, đọc = tất cả mọi người."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:99
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:151
+#: includes/settings/tabs/wps-access-level.php:99
+#: includes/settings/tabs/wps-access-level.php:151
 msgid "Enable"
 msgstr "Bật"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:100
+#: includes/settings/tabs/wps-access-level.php:100
 msgid ""
 "This will record all the excluded hits in a separate table with the reasons "
 "why it was excluded but no other information.  This will generate a lot of "
@@ -1276,127 +1174,89 @@ msgstr ""
 "xem tổng số lượt truy cập trang web của bạn được, không chỉ thực tế người "
 "dùng truy cập."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:168
+#: includes/settings/tabs/wps-access-level.php:168
 msgid "Site URL Exclusions"
 msgstr "Trang web URL loại trừ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:175
+#: includes/settings/tabs/wps-access-level.php:175
 msgid "Exclude the login page for registering as a hit."
 msgstr ""
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:182
+#: includes/settings/tabs/wps-access-level.php:182
 msgid "Exclude the admin pages for registering as a hit."
 msgstr ""
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:93
-#: Plugins\wp-statistics\trunk/wp-statistics.php:243
+#: includes/settings/tabs/wps-access-level.php:93 wp-statistics.php:254
 msgid "Exclusions"
 msgstr "Ngoại trừ"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:68
+#: includes/log/exclusions.php:68
 msgid "Total Exclusions: %s"
 msgstr "Tổng số loại trừ: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:75
+#: includes/log/exclusions.php:75
 msgid "Exclusions Statistical Chart"
 msgstr "Loại trừ biểu đồ thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:33
+#: includes/settings/tabs/wps-access-level.php:33
 msgid "Access Levels"
 msgstr "Cấp độ truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:126
+#: includes/optimization/wps-optimization.php:126
 msgid "Resources/Information"
 msgstr "Tài nguyên/thông tin"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:128
+#: includes/optimization/wps-optimization.php:128
 msgid "Purging"
 msgstr "Lọc"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:130
+#: includes/optimization/wps-optimization.php:130
 msgid "Updates"
 msgstr "Cập Nhật"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:88
+#: includes/settings/wps-settings.php:88
 msgid "Access/Exclusions"
 msgstr "Truy cập\\Ngoại trừ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:91
+#: includes/settings/wps-settings.php:91
 msgid "Maintenance"
 msgstr "Duy trì"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:126
+#: includes/settings/wps-settings.php:126
 msgid "Update"
 msgstr "Cập nhật"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:86
+#: includes/settings/wps-settings.php:86
 msgid "General"
 msgstr "Cơ bản"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:57
+#: includes/optimization/empty.php:57
 msgid "Error, %s not emptied!"
 msgstr "Lỗi, %s không trống"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:118
+#: includes/optimization/tabs/wps-optimization-purging.php:118
 msgid "Data"
 msgstr "Dữ liệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:145
+#: includes/optimization/tabs/wps-optimization-purging.php:145
 msgid "Purge records older than"
 msgstr "Lọc những bản ghi cũ hơn"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:151
+#: includes/optimization/tabs/wps-optimization-purging.php:151
 msgid ""
 "Deleted user statistics data older than the selected number of days.  "
 "Minimum value is 30 days."
 msgstr "Xoá dữ liệu thống kê cũ hơn một ngày quy định.Tối đa là 30 ngày"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:152
+#: includes/optimization/tabs/wps-optimization-purging.php:152
 msgid "Purge now!"
 msgstr "Thực hiện lọc"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:17
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:27
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:37
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:47
-msgid ""
-"<code>%s</code> data older than <code>%s</code> days purged successfully."
-msgstr ""
-".code>%s</code> dữ liệu cũ hơn <code>%s</code> ngày đã được lọc thành công>"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:19
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:29
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:39
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:49
-msgid "No records found to purge from <code>%s</code>!"
-msgstr "!<hông bản ghi nào được phát hiện để lọc từ <code>%s</code     "
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:55
+#: includes/optimization/purge-data.php:55
 msgid "Please select a value over 30 days."
 msgstr ".Hãy chọn giá trị lớn hơn 30 ngày"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:20
+#: includes/settings/tabs/wps-maintenance.php:20
 msgid ""
 "This will permanently delete data from the database each day, are you sure "
 "you want to enable this option?"
@@ -1404,18 +1264,15 @@ msgstr ""
 "Điều này sẽ xoá vĩnh viễn dữ liệu từ cơ sở dữ liệu mỗi ngày, bạn có chắc bạn "
 "muốn bật tùy chọn này?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:30
+#: includes/settings/tabs/wps-maintenance.php:30
 msgid "Database Maintenance"
 msgstr "Cơ sở dữ liệu bảo trì"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:35
+#: includes/settings/tabs/wps-maintenance.php:35
 msgid "Run a daily WP Cron job to prune the databases"
 msgstr "Chạy một công việc WP Cron hàng ngày để prune các cơ sở dữ liệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:41
+#: includes/settings/tabs/wps-maintenance.php:41
 msgid ""
 "A WP Cron job will be run daily to prune any data older than a set number of "
 "days."
@@ -1423,18 +1280,15 @@ msgstr ""
 "Một công việc WP Cron sẽ được chạy hàng ngày để prune bất kỳ dữ liệu nào lớn "
 "hơn một số thiết lập ngày."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:47
+#: includes/settings/tabs/wps-maintenance.php:47
 msgid "Prune data older than"
 msgstr "Prune dữ liệu cũ hơn"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:52
+#: includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
 msgstr "Ngày"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:53
+#: includes/settings/tabs/wps-maintenance.php:53
 msgid ""
 "The number of days to keep statistics for.  Minimum value is 30 days.  "
 "Invalid values will disable the daily maintenance."
@@ -1442,29 +1296,16 @@ msgstr ""
 "Số ngày giữ số liệu thống kê cho. Giá trị tối thiểu là 30 ngày. Giá trị "
 "không hợp lệ sẽ vô hiệu hóa việc duy trì hàng ngày."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:106
-msgid "Date: <code dir=\"ltr\">%s</code></code>"
-msgstr "Ngày: <code dir=\"ltr\">%s</code>< / mã >"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:110
-msgid "Time: <code dir=\"ltr\">%s</code>"
-msgstr "Thời gian: <code dir=\"ltr\">%s</code>"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:89
+#: includes/settings/wps-settings.php:89
 msgid "GeoIP"
 msgstr "GeoIP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:54
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:64
+#: includes/settings/tabs/wps-browscap.php:54
+#: includes/settings/tabs/wps-geoip.php:64
 msgid "Next update will be"
 msgstr "Cập Nhật tiếp theo sẽ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:109
+#: includes/settings/tabs/wps-geoip.php:109
 msgid ""
 "GeoIP collection requires PHP %s or above, it is currently disabled due to "
 "the installed PHP version being  "
@@ -1472,40 +1313,25 @@ msgstr ""
 "Yêu cầu bộ sưu tập GeoIP PHP %s hoặc ở trên, nó hiện đang vô hiệu hoá do cài "
 "đặt PHP phiên bản "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:64
+#: includes/log/widgets/search.php:8 includes/log/widgets/summary.php:64
 msgid "Search Engine Referrals"
 msgstr "Tìm kiếm giới thiệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:88
+#: includes/log/widgets/summary.php:88
 msgid "Daily Total"
 msgstr "Tổng số hàng ngày"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+#: includes/log/widgets/summary.php:102
 msgid "Current Time and Date"
 msgstr "Tất cả thời gian và ngày tháng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:39
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:25
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:39
+#: includes/optimization/tabs/wps-optimization-updates.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:40
 msgid "Update Now!"
 msgstr "Cập nhật bây giờ!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:85
-msgid ""
-"See the  %sWordPress Roles and Capabilities page%s for details on capability "
-"levels."
-msgstr ""
-"Xem abnj % sWordPress vai trò và khả năng trang %s để biết chi tiết về mức "
-"độ khả năng."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:87
+#: includes/settings/tabs/wps-access-level.php:87
 msgid ""
 "Each of the above casscades the rights upwards in the default WordPress "
 "configuration.  So for example selecting publish_posts grants the right to "
@@ -1515,8 +1341,7 @@ msgstr ""
 "ví dụ chọn publish_posts cấp quyền tác giả, biên tập viên, quản trị viên và "
 "quản trị viên Super."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:88
+#: includes/settings/tabs/wps-access-level.php:88
 msgid ""
 "If you need a more robust solution to delegate access you might want to look "
 "at %s in the WordPress plugin directory."
@@ -1524,23 +1349,19 @@ msgstr ""
 "Nếu bạn cần một giải pháp mạnh mẽ hơn để đại biểu truy cập bạn có thể muốn "
 "nhìn vào %s trong thư mục plugin WordPress."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:62
+#: includes/settings/tabs/wps-access-level.php:62
 msgid "Required user level to view WP Statistics"
 msgstr "Yêu cầu độ người dùng để xem số liệu thống kê WP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:77
+#: includes/settings/tabs/wps-access-level.php:77
 msgid "Required user level to manage WP Statistics"
 msgstr "Yêu cầu người sử dụng nhằm mục đích quản lý số liệu thống kê WP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:56
+#: includes/settings/tabs/wps-geoip.php:56
 msgid "Schedule monthly update of GeoIP DB"
 msgstr "Lịch trình hàng tháng Cập Nhật của GeoIP DB"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:82
+#: includes/settings/tabs/wps-geoip.php:82
 msgid ""
 "Download of the GeoIP database will be scheduled for 2 days after the first "
 "Tuesday of the month."
@@ -1548,8 +1369,7 @@ msgstr ""
 "Tải về phần GeoIP cơ sở dữ liệu sẽ được sắp xếp cho 2 ngày sau khi thứ ba "
 "đầu tiên của tháng."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:83
+#: includes/settings/tabs/wps-geoip.php:83
 msgid ""
 "This option will also download the database if the local filesize is less "
 "than 1k (which usually means the stub that comes with the plugin is still in "
@@ -1559,118 +1379,98 @@ msgstr ""
 "1k (mà thường có nghĩa là ngẫu nhiên mà đi kèm với các plugin là vẫn còn tại "
 "chỗ)."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:89
+#: includes/settings/tabs/wps-geoip.php:89
 msgid "Populate missing GeoIP after update of GeoIP DB"
 msgstr "Cư GeoIP mất tích sau khi cập nhật của GeoIP DB"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:95
+#: includes/settings/tabs/wps-geoip.php:95
 msgid "Update any missing GeoIP data after downloading a new database."
 msgstr ""
 "Cập Nhật bất kỳ dữ liệu GeoIP mất tích sau khi tải về cơ sở dữ liệu mới."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:50
+#: includes/functions/geoip-populate.php:50
 msgid "Updated %s GeoIP records in the visitors database."
 msgstr "Cập Nhật bản ghi GeoIP %s trong cơ sở dữ liệu số lượt truy cập."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:98
+#: includes/optimization/tabs/wps-optimization-resources.php:98
 msgid "Version Info"
 msgstr "Phiên bản thông tin"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:103
+#: includes/optimization/tabs/wps-optimization-resources.php:103
 msgid "WP Statistics Version"
 msgstr "Thống kê WP Phiên bản"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:108
+#: includes/optimization/tabs/wps-optimization-resources.php:108
 msgid "The WP Statistics version you are running."
 msgstr "Thống kê WP Phiên bản bạn đang chạy."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:114
+#: includes/optimization/tabs/wps-optimization-resources.php:114
 msgid "PHP Version"
 msgstr "PHP phiên bản"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:119
+#: includes/optimization/tabs/wps-optimization-resources.php:119
 msgid "The PHP version you are running."
 msgstr ".Phiên bản PHP bạn đang dùng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "jQuery Version"
 msgstr "phiên bản jQuery"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The jQuery version you are running."
 msgstr " .Phiên bản jQuery bạn đang dùng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:599
+#: wp-statistics.php:610
 msgid "Error could not open downloaded GeoIP database for reading: %s"
 msgstr "Lỗi không thể mở được CSDL GeoIP để đọc: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:606
+#: wp-statistics.php:617
 msgid "Error could not open destination GeoIP database for writing %s"
 msgstr "Không thể mở CSDL GeoIP để viết %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:622
+#: wp-statistics.php:633
 msgid "GeoIP Database updated successfully!"
 msgstr "! CSDL GeoIP cập nhật thành công"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:210
+#: includes/optimization/tabs/wps-optimization-resources.php:229
 msgid "Client Info"
 msgstr "Thông tin máy khách"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:215
+#: includes/optimization/tabs/wps-optimization-resources.php:234
 msgid "Client IP"
 msgstr "IP máy khách"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:220
+#: includes/optimization/tabs/wps-optimization-resources.php:239
 msgid "The client IP address."
 msgstr ".Địa chỉ IP máy khách"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:226
+#: includes/optimization/tabs/wps-optimization-resources.php:245
 msgid "User Agent"
 msgstr "Tác nhân người dùng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:231
+#: includes/optimization/tabs/wps-optimization-resources.php:250
 msgid "The client user agent string."
 msgstr "Chuỗi nhân người dùng khách hàng."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:105
+#: includes/settings/tabs/wps-access-level.php:105
 msgid "Exclude User Roles"
 msgstr "Loại trừ các vai trò người dùng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:119
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:174
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:181
+#: includes/settings/tabs/wps-access-level.php:119
+#: includes/settings/tabs/wps-access-level.php:174
+#: includes/settings/tabs/wps-access-level.php:181
 msgid "Exclude"
 msgstr "Loại trừ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:120
+#: includes/settings/tabs/wps-access-level.php:120
 msgid "Exclude %s role from data collection."
 msgstr "Loại trừ các vai trò %s từ thu thập dữ liệu."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:126
+#: includes/settings/tabs/wps-access-level.php:126
 msgid "IP/Robot Exclusions"
 msgstr "Loại trừ IP/Robot"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:143
+#: includes/settings/tabs/wps-access-level.php:143
 msgid ""
 "A list of words (one per line) to match against to detect robots.  Entries "
 "must be at least 4 characters long or they will be ignored."
@@ -1678,33 +1478,27 @@ msgstr ""
 "Một danh sách các từ (một mỗi dòng) để phù hợp với chống lại để phát hiện "
 "các robot. Mục phải là ít nhất 4 ký tự hoặc họ sẽ bị bỏ qua."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:144
+#: includes/settings/tabs/wps-access-level.php:144
 msgid "Reset to Default"
 msgstr "Đặt lại về mặc định"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:161
+#: includes/settings/tabs/wps-access-level.php:161
 msgid "Add 10.0.0.0"
 msgstr "Thêm 10.0.0.0"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:162
+#: includes/settings/tabs/wps-access-level.php:162
 msgid "Add 172.16.0.0"
 msgstr "Thêm 172.16.0.0"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:163
+#: includes/settings/tabs/wps-access-level.php:163
 msgid "Add 192.168.0.0"
 msgstr "Thêm 192.168.0.0"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:264
+#: includes/settings/tabs/wps-general.php:264
 msgid "Charts"
 msgstr "Bảng xếp hạng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:38
+#: includes/settings/tabs/wps-geoip.php:38
 msgid ""
 "For get more information and location (country) from visitor, enable this "
 "feature."
@@ -1712,836 +1506,630 @@ msgstr ""
 "Để có thêm thông tin và vị trí (đất nước) từ khách truy cập, kích hoạt tính "
 "năng này."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:87
-#: Plugins\wp-statistics\trunk/wp-statistics.php:237
+#: includes/settings/wps-settings.php:87 wp-statistics.php:248
 msgid "Overview"
 msgstr "Tổng quan"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:25
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:21
-#: Plugins\wp-statistics\trunk/wp-statistics.php:240
+#: includes/optimization/tabs/wps-optimization-database.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:21
+#: wp-statistics.php:251
 msgid "Countries"
 msgstr "Quốc gia"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:165
-#: Plugins\wp-statistics\trunk/wp-statistics.php:242
+#: wp-statistics.php:176 wp-statistics.php:253
 msgid "Hits"
 msgstr "Lượt đếm"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:244
+#: wp-statistics.php:255
 msgid "Referers"
 msgstr "Trang nguồn"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:245
+#: wp-statistics.php:256
 msgid "Searches"
 msgstr "Lượt tìm kiếm"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:246
+#: wp-statistics.php:257
 msgid "Search Words"
 msgstr "Từ được tìm kiếm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:94
+#: includes/settings/tabs/wps-general.php:94
 msgid "Second"
 msgstr "Giây"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:17
+#: includes/log/all-browsers.php:17
 msgid "Browser Statistics"
 msgstr "Thống kê trình duyệt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:107
+#: includes/log/all-browsers.php:107
 msgid "Platform"
 msgstr "Hệ điều hành"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:241
+#: includes/log/all-browsers.php:241
 msgid "%s Version"
 msgstr "Phiên bản  %s "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:17
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
+#: includes/log/hit-statistics.php:17 includes/log/widgets/hits.php:8
 msgid "Hit Statistics"
 msgstr "Thống kê Lượt đếm"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:57
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:21
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:33
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:21
+#: includes/log/exclusions.php:57 includes/log/hit-statistics.php:21
+#: includes/log/page-statistics.php:33 includes/log/search-statistics.php:21
 msgid "10 Days"
 msgstr "10 ngày"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:58
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:22
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:34
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:22
+#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:22
+#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:22
 msgid "20 Days"
 msgstr "20 ngày"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:59
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:23
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:23
+#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:23
+#: includes/log/page-statistics.php:35 includes/log/search-statistics.php:23
 msgid "30 Days"
 msgstr "30 ngày"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:60
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:24
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:36
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:24
+#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:24
+#: includes/log/page-statistics.php:36 includes/log/search-statistics.php:24
 msgid "2 Months"
 msgstr "2 tháng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:61
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:25
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:37
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:25
+#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:25
+#: includes/log/page-statistics.php:37 includes/log/search-statistics.php:25
 msgid "3 Months"
 msgstr "3 tháng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:62
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:26
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:38
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:26
+#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:26
+#: includes/log/page-statistics.php:38 includes/log/search-statistics.php:26
 msgid "6 Months"
 msgstr "6 tháng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:63
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:27
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:39
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:27
+#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:27
+#: includes/log/page-statistics.php:39 includes/log/search-statistics.php:27
 msgid "9 Months"
 msgstr "9 tháng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:64
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:28
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:40
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:28
+#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:28
+#: includes/log/page-statistics.php:40 includes/log/search-statistics.php:28
 msgid "1 Year"
 msgstr "1 năm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:34
+#: includes/settings/tabs/wps-overview-display.php:34
 msgid "Hits Statistical Chart"
 msgstr "Biểu đồ thống kê lượt truy cập"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:150
+#: includes/log/exclusions.php:97 includes/log/hit-statistics.php:69
+#: includes/log/search-statistics.php:77 includes/log/widgets/hits.php:39
+#: includes/log/widgets/search.php:46
+#: includes/optimization/tabs/wps-optimization-purging.php:150
 msgid "days"
 msgstr "Ngày"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:27
+#: includes/log/widgets/countries.php:11
+#: includes/settings/tabs/wps-overview-display.php:27
 msgid "Top 10 Countries"
 msgstr "Top 10 quốc gia"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:28
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:17
+#: includes/log/top-countries.php:28 includes/log/widgets/countries.php:17
 msgid "Rank"
 msgstr "Xếp hạng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:29
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:18
+#: includes/log/top-countries.php:29 includes/log/widgets/countries.php:18
 msgid "Flag"
 msgstr "Lá cờ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:31
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:20
+#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:20
 msgid "Visitor Count"
 msgstr "Số lượt truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:35
+#: includes/settings/tabs/wps-overview-display.php:35
 msgid "Search Engine Referrers Statistical Chart"
 msgstr "Tìm kiếm Referrers biểu đồ thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:19
+#: includes/log/top-countries.php:19
 msgid "Top Countries"
 msgstr "Quốc gia hàng đầu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:14
-msgid "<code>%s</code> agent data deleted successfully."
-msgstr "<code>%s</code> đại lý dữ liệu đã xóa thành công."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:14
-msgid "<code>%s</code> platform data deleted successfully."
-msgstr "<code>%s</code> nền tảng dữ liệu đã xóa thành công."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:159
+#: includes/optimization/tabs/wps-optimization-purging.php:159
 msgid "Delete User Agent Types"
 msgstr "Xóa loại tác nhân người dùng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:164
+#: includes/optimization/tabs/wps-optimization-purging.php:164
 msgid "Delete Agents"
 msgstr "Xóa đại lý"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:179
+#: includes/optimization/tabs/wps-optimization-purging.php:179
 msgid "All visitor data will be lost for this agent type."
 msgstr "Tất cả khách truy cập dữ liệu sẽ bị mất đối với tác nhân loại."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:180
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:204
+#: includes/optimization/tabs/wps-optimization-purging.php:180
+#: includes/optimization/tabs/wps-optimization-purging.php:204
 msgid "Delete now!"
 msgstr "Xóa bây giờ!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:188
+#: includes/optimization/tabs/wps-optimization-purging.php:188
 msgid "Delete Platforms"
 msgstr "Xóa nền tảng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:203
+#: includes/optimization/tabs/wps-optimization-purging.php:203
 msgid "All visitor data will be lost for this platform type."
 msgstr "Tất cả khách truy cập dữ liệu sẽ bị mất cho loại nền tảng."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:16
+#: includes/optimization/tabs/wps-optimization-updates.php:16
 msgid "GeoIP Options"
 msgstr "GeoIP tùy chọn"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:133
+#: includes/settings/tabs/wps-general.php:133
 msgid "Store entire user agent string"
 msgstr "Lưu trữ chuỗi nhân người dùng toàn bộ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:139
+#: includes/settings/tabs/wps-general.php:139
 msgid "Only enabled for debugging"
 msgstr "Chỉ được kích hoạt để gỡ lỗi"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:17
+#: includes/settings/tabs/wps-geoip.php:17
 msgid "GeoIP settings"
 msgstr "GeoIP cài đặt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:32
+#: includes/settings/tabs/wps-geoip.php:32
 msgid "GeoIP collection"
 msgstr "GeoIP bộ sưu tập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:44
+#: includes/settings/tabs/wps-geoip.php:44
 msgid "Update GeoIP Info"
 msgstr "Cập nhật thông tin GeoIP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:49
+#: includes/settings/tabs/wps-geoip.php:49
 msgid "Download GeoIP Database"
 msgstr "Tải về GeoIP cơ sở dữ liệu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:40
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:50
+#: includes/settings/tabs/wps-browscap.php:40
+#: includes/settings/tabs/wps-geoip.php:50
 msgid "Save changes on this page to download the update."
 msgstr "Lưu các thay đổi trên Trang này để tải xuống bản Cập Nhật."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:10
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:36
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:62
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:90
+#: includes/optimization/tabs/wps-optimization-purging.php:10
+#: includes/optimization/tabs/wps-optimization-purging.php:36
+#: includes/optimization/tabs/wps-optimization-purging.php:62
+#: includes/optimization/tabs/wps-optimization-purging.php:90
 msgid "Are you sure?"
 msgstr "Bạn có chắc không?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:137
+#: includes/optimization/tabs/wps-optimization-purging.php:137
 msgid "Clear now!"
 msgstr "Rõ ràng bây giờ!"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:250
+#: wp-statistics.php:261
 msgid "Optimization"
 msgstr "Tối ưu hóa"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/export.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:3
-#: Plugins\wp-statistics\trunk/manual/manual.php:5
+#: includes/optimization/delete-agents.php:5
+#: includes/optimization/delete-platforms.php:5
+#: includes/optimization/empty.php:5 includes/optimization/export.php:5
+#: includes/optimization/purge-data.php:5
+#: includes/optimization/wps-optimization.php:3 manual/manual.php:5
 msgid "Access denied!"
 msgstr "Truy nhập bị Cấm!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:53
-msgid "<code>%s</code> table data deleted successfully."
-msgstr "<code>%s</code> bàn dữ liệu đã xóa thành công."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:18
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:18
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:42
-#: Plugins\wp-statistics\trunk/includes/optimization/export.php:57
+#: includes/optimization/delete-agents.php:18
+#: includes/optimization/delete-platforms.php:18
+#: includes/optimization/empty.php:42 includes/optimization/export.php:57
 msgid "Please select the desired items."
 msgstr "Hãy chọn các mục bạn muốn."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:17
+#: includes/optimization/tabs/wps-optimization-resources.php:17
 msgid "Resources"
 msgstr "Tài nguyên"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:22
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:27
+#: includes/optimization/tabs/wps-optimization-resources.php:22
+#: includes/optimization/tabs/wps-optimization-resources.php:27
 msgid "Memory usage in PHP"
 msgstr "Sử dụng bộ nhớ trong PHP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:26
+#: includes/optimization/tabs/wps-optimization-resources.php:26
 msgid "Byte"
 msgstr "Byte"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:48
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:59
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:70
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:81
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:92
+#: includes/optimization/tabs/wps-optimization-resources.php:48
+#: includes/optimization/tabs/wps-optimization-resources.php:59
+#: includes/optimization/tabs/wps-optimization-resources.php:70
+#: includes/optimization/tabs/wps-optimization-resources.php:81
+#: includes/optimization/tabs/wps-optimization-resources.php:92
 msgid "Row"
 msgstr "Hàng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:49
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:60
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:71
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:82
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:93
+#: includes/optimization/tabs/wps-optimization-resources.php:49
+#: includes/optimization/tabs/wps-optimization-resources.php:60
+#: includes/optimization/tabs/wps-optimization-resources.php:71
+#: includes/optimization/tabs/wps-optimization-resources.php:82
+#: includes/optimization/tabs/wps-optimization-resources.php:93
 msgid "Number of rows"
 msgstr "Số lượng hàng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:7
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:127
+#: includes/optimization/tabs/wps-optimization-export.php:7
+#: includes/optimization/wps-optimization.php:127
 msgid "Export"
 msgstr "Xuất khẩu"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:12
+#: includes/optimization/tabs/wps-optimization-export.php:12
 msgid "Export from"
 msgstr "Xuất khẩu từ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:24
+#: includes/optimization/tabs/wps-optimization-export.php:24
 msgid "Select the table for the output file."
 msgstr "Chọn bảng cho các tập tin đầu ra."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:30
+#: includes/optimization/tabs/wps-optimization-export.php:30
 msgid "Export To"
 msgstr "Xuất khẩu để"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:41
+#: includes/optimization/tabs/wps-optimization-export.php:41
 msgid "Select the output file type."
 msgstr "Chọn loại tệp đầu ra."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:53
+#: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Start Now!"
 msgstr "Bắt đầu bây giờ!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:123
+#: includes/optimization/tabs/wps-optimization-purging.php:123
 msgid "Empty Table"
 msgstr "Sản phẩm nào bảng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:136
+#: includes/optimization/tabs/wps-optimization-purging.php:136
 msgid "All data table will be lost."
 msgstr "Tất cả các bảng dữ liệu sẽ bị mất."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:40
+#: includes/settings/tabs/wps-about.php:44
 msgid "Support"
 msgstr "Hỗ trợ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:47
+#: includes/settings/tabs/wps-about.php:74
+msgid "Farsi"
+msgstr "Tiếng Farsi"
+
+#: includes/log/top-referring.php:47
 msgid "Referring sites from"
 msgstr "Nguồn từ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:32
+#: includes/settings/tabs/wps-about.php:36
 msgid "Translations"
 msgstr "Phiên dịch"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:4
+#: includes/log/top-referring.php:4
 msgid "To be added soon"
 msgstr "Sẽ được bổ sung "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:102
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:99
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:78
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:27
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:32
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:33
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:71
+#: includes/log/last-search.php:102 includes/log/last-visitor.php:99
+#: includes/log/top-referring.php:78 includes/log/widgets/recent.php:27
+#: includes/log/widgets/words.php:32
+#: includes/settings/tabs/wps-overview-display.php:33
+#: includes/settings/tabs/wps-overview-display.php:71
 msgid "Map"
 msgstr "Bản đồ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
+#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
 msgid "Page"
 msgstr "Trang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
+#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
 msgid "From"
 msgstr "Từ"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:444
+#: wp-statistics.php:455
 msgid "Table plugin does not exist! Please disable and re-enable the plugin."
 msgstr "Bảng mở rộng không tồn tại! Hãy tắt và bật lại phần mở rộng này"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:280
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:285
-#: Plugins\wp-statistics\trunk/schedule.php:175
+#: includes/settings/tabs/wps-general.php:280
+#: includes/settings/tabs/wps-general.php:285 schedule.php:161
 msgid "Statistical reporting"
 msgstr "Đang báo cáo thống kê"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:14
-#: Plugins\wp-statistics\trunk/wp-statistics.php:234
+#: widget.php:14 wp-statistics.php:245
 msgid "Statistics"
 msgstr "Thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:369
-#: Plugins\wp-statistics\trunk/widget.php:38
-#: Plugins\wp-statistics\trunk/widget.php:247
-#: Plugins\wp-statistics\trunk/wp-statistics.php:299
+#: includes/settings/tabs/wps-general.php:369 widget.php:38 widget.php:247
+#: wp-statistics.php:310
 msgid "User Online"
 msgstr "Người online"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:371
-#: Plugins\wp-statistics\trunk/widget.php:45
-#: Plugins\wp-statistics\trunk/widget.php:250
+#: includes/settings/tabs/wps-general.php:371 widget.php:45 widget.php:250
 msgid "Today Visit"
 msgstr "Lượt truy cập hôm nay"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:370
-#: Plugins\wp-statistics\trunk/widget.php:52
-#: Plugins\wp-statistics\trunk/widget.php:253
+#: includes/settings/tabs/wps-general.php:370 widget.php:52 widget.php:253
 msgid "Today Visitor"
 msgstr "Số người truy câp hôm nay"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:373
-#: Plugins\wp-statistics\trunk/widget.php:59
+#: includes/settings/tabs/wps-general.php:373 widget.php:59
 msgid "Yesterday Visit"
 msgstr "Lượt truy cập hôm qua"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:372
-#: Plugins\wp-statistics\trunk/widget.php:66
-#: Plugins\wp-statistics\trunk/widget.php:259
+#: includes/settings/tabs/wps-general.php:372 widget.php:66 widget.php:259
 msgid "Yesterday Visitor"
 msgstr "Số người truy câp hôm qua"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:73
-#: Plugins\wp-statistics\trunk/widget.php:262
+#: widget.php:73 widget.php:262
 msgid "Week Visit"
 msgstr "Chuyến thăm tuần"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:80
-#: Plugins\wp-statistics\trunk/widget.php:265
+#: widget.php:80 widget.php:265
 msgid "Month Visit"
 msgstr "Chuyến thăm tháng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:87
-#: Plugins\wp-statistics\trunk/widget.php:268
+#: widget.php:87 widget.php:268
 msgid "Years Visit"
 msgstr "Tuổi truy cập vào"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:375
-#: Plugins\wp-statistics\trunk/widget.php:94
-#: Plugins\wp-statistics\trunk/widget.php:271
+#: includes/settings/tabs/wps-general.php:375 widget.php:94 widget.php:271
 msgid "Total Visit"
 msgstr "Tất cả chuyến thăm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:374
-#: Plugins\wp-statistics\trunk/widget.php:101
-#: Plugins\wp-statistics\trunk/widget.php:274
+#: includes/settings/tabs/wps-general.php:374 widget.php:101 widget.php:274
 msgid "Total Visitor"
 msgstr "Số lượt truy cập"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:123
-#: Plugins\wp-statistics\trunk/widget.php:300
+#: widget.php:123 widget.php:300
 msgid "Total Posts"
 msgstr "Tổng số bài viết"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:130
-#: Plugins\wp-statistics\trunk/widget.php:303
+#: widget.php:130 widget.php:303
 msgid "Total Pages"
 msgstr "Tất cả trang"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:137
-#: Plugins\wp-statistics\trunk/widget.php:306
+#: widget.php:137 widget.php:306
 msgid "Total Comments"
 msgstr "Tổng số bình"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:144
-#: Plugins\wp-statistics\trunk/widget.php:309
+#: widget.php:144 widget.php:309
 msgid "Total Spams"
 msgstr "Tất cả spam"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:151
-#: Plugins\wp-statistics\trunk/widget.php:312
+#: widget.php:151 widget.php:312
 msgid "Total Users"
 msgstr "Tất cả người dùng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:158
-#: Plugins\wp-statistics\trunk/widget.php:315
+#: widget.php:158 widget.php:315
 msgid "Average Posts"
 msgstr "Trung bình là bài viết"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:165
-#: Plugins\wp-statistics\trunk/widget.php:318
+#: widget.php:165 widget.php:318
 msgid "Average Comments"
 msgstr "Ý kiến trung bình"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:172
-#: Plugins\wp-statistics\trunk/widget.php:321
+#: widget.php:172 widget.php:321
 msgid "Average Users"
 msgstr "Người dùng trung bình"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:179
-#: Plugins\wp-statistics\trunk/widget.php:324
+#: widget.php:179 widget.php:324
 msgid "Last Post Date"
 msgstr "Cuối ngày đăng"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:329
+#: wp-statistics.php:340
 msgid "View Stats"
 msgstr "Xem số liệu thống kê"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:141
-#: Plugins\wp-statistics\trunk/wp-statistics.php:251
+#: wp-statistics.php:152 wp-statistics.php:262
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:305
+#: wp-statistics.php:316
 msgid "Today visitor"
 msgstr "Số người truy câp hôm nay"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:311
+#: wp-statistics.php:322
 msgid "Today visit"
 msgstr "Lượt truy cập hôm nay"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:317
+#: wp-statistics.php:328
 msgid "Yesterday visitor"
 msgstr "Số người truy cập hôm qua"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:256
-#: Plugins\wp-statistics\trunk/wp-statistics.php:323
+#: widget.php:256 wp-statistics.php:334
 msgid "Yesterday visit"
 msgstr "Lượt truy cập hôm qua"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:433
-#: Plugins\wp-statistics\trunk/wp-statistics.php:533
-#: Plugins\wp-statistics\trunk/wp-statistics.php:804
+#: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
 msgid "You do not have sufficient permissions to access this page."
 msgstr ".Bạn không có quyền truy cập trang này"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:23
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:106
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:240
-#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:74
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:61
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:57
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:47
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:19
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:131
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:45
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:64
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:14
+#: includes/log/all-browsers.php:23 includes/log/all-browsers.php:106
+#: includes/log/all-browsers.php:240 includes/log/exclusions.php:74
+#: includes/log/hit-statistics.php:35 includes/log/last-search.php:61
+#: includes/log/last-visitor.php:57 includes/log/page-statistics.php:47
+#: includes/log/search-statistics.php:35 includes/log/top-pages.php:19
+#: includes/log/top-pages.php:131 includes/log/top-referring.php:45
+#: includes/log/widgets/about.php:7 includes/log/widgets/browsers.php:7
+#: includes/log/widgets/countries.php:9 includes/log/widgets/google.map.php:8
+#: includes/log/widgets/hits.php:7 includes/log/widgets/jqv.map.php:8
+#: includes/log/widgets/pages.php:11 includes/log/widgets/recent.php:7
+#: includes/log/widgets/referring.php:11 includes/log/widgets/search.php:7
+#: includes/log/widgets/summary.php:7 includes/log/widgets/words.php:14
 msgid "Click to toggle"
 msgstr "Nhấn vào đây để chuyển đổi"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:24
+#: includes/settings/tabs/wps-overview-display.php:24
 msgid "Summary Statistics"
 msgstr "Tóm tắt thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:19
+#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
+#: includes/log/widgets/summary.php:19
 msgid "Visitor"
 msgstr "Số người truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:20
+#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
+#: includes/log/widgets/summary.php:20
 msgid "Visit"
 msgstr "Lượt truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:24
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:69
+#: includes/log/widgets/summary.php:24 includes/log/widgets/summary.php:69
 msgid "Today"
 msgstr "Hôm nay"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:70
+#: includes/log/widgets/summary.php:30 includes/log/widgets/summary.php:70
 msgid "Yesterday"
 msgstr "Hôm qua"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:36
+#: includes/log/widgets/summary.php:36
 msgid "Week"
 msgstr "Tuần này"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:42
+#: includes/log/widgets/summary.php:42
 msgid "Month"
 msgstr "Tháng này"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:48
+#: includes/log/widgets/summary.php:48
 msgid "Year"
 msgstr "Năm này"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:112
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:81
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:54
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:94
+#: includes/log/search-statistics.php:112 includes/log/widgets/search.php:81
+#: includes/log/widgets/summary.php:54 includes/log/widgets/summary.php:94
 msgid "Total"
 msgstr "Tổng cộng"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+#: includes/log/widgets/summary.php:102
 msgid "(Adjustment)"
 msgstr "(Điều chỉnh)"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:24
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:25
-#: Plugins\wp-statistics\trunk/wp-statistics.php:238
+#: includes/log/all-browsers.php:24 includes/log/widgets/browsers.php:8
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:249
 msgid "Browsers"
 msgstr "Trình duyệt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:38
+#: includes/log/widgets/browsers.php:38
 msgid "Other"
 msgstr "Khác"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:20
+#: includes/log/widgets/referring.php:20
 msgid "Address"
 msgstr "Địa chỉ"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:90
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:60
+#: includes/log/hit-statistics.php:90 includes/log/widgets/hits.php:60
 msgid "Number of visits and visitors"
 msgstr "Số lượt truy cập và số người truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+#: includes/settings/tabs/wps-overview-display.php:86
 msgid "Google"
 msgstr "Google"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:27
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:38
+#: includes/log/last-visitor.php:27 includes/log/widgets/recent.php:9
+#: includes/settings/tabs/wps-overview-display.php:38
 msgid "Recent Visitors"
 msgstr "Số người truy cập gần đây nhất"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:19
+#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:19
 msgid "Country"
 msgstr "Quốc gia"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:27
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:51
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:66
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:82
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:110
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:126
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:138
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:165
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:177
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:189
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:219
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:231
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:274
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:290
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:37
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:61
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:94
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:40
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:105
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:117
+#: includes/settings/tabs/wps-browscap.php:27
+#: includes/settings/tabs/wps-browscap.php:51
+#: includes/settings/tabs/wps-general.php:66
+#: includes/settings/tabs/wps-general.php:82
+#: includes/settings/tabs/wps-general.php:110
+#: includes/settings/tabs/wps-general.php:126
+#: includes/settings/tabs/wps-general.php:138
+#: includes/settings/tabs/wps-general.php:165
+#: includes/settings/tabs/wps-general.php:177
+#: includes/settings/tabs/wps-general.php:189
+#: includes/settings/tabs/wps-general.php:219
+#: includes/settings/tabs/wps-general.php:231
+#: includes/settings/tabs/wps-general.php:274
+#: includes/settings/tabs/wps-general.php:290
+#: includes/settings/tabs/wps-geoip.php:37
+#: includes/settings/tabs/wps-geoip.php:61
+#: includes/settings/tabs/wps-geoip.php:94
+#: includes/settings/tabs/wps-maintenance.php:40
+#: includes/settings/tabs/wps-overview-display.php:105
+#: includes/settings/tabs/wps-overview-display.php:117
 msgid "Active"
 msgstr "Hoạt động"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:83
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:111
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:127
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:166
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:178
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:190
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:291
+#: includes/settings/tabs/wps-general.php:83
+#: includes/settings/tabs/wps-general.php:111
+#: includes/settings/tabs/wps-general.php:127
+#: includes/settings/tabs/wps-general.php:166
+#: includes/settings/tabs/wps-general.php:178
+#: includes/settings/tabs/wps-general.php:190
+#: includes/settings/tabs/wps-general.php:291
 msgid "Enable or disable this feature"
 msgstr "Bật hoặc tắt chức năng này"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:163
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:30
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:100
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:105
+#: includes/log/top-pages.php:163 includes/log/widgets/pages.php:30
+#: includes/settings/tabs/wps-general.php:100
+#: includes/settings/tabs/wps-general.php:105
 msgid "Visits"
 msgstr "Các lượt truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:116
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:121
-#: Plugins\wp-statistics\trunk/wp-statistics.php:247
+#: includes/settings/tabs/wps-general.php:116
+#: includes/settings/tabs/wps-general.php:121 wp-statistics.php:258
 msgid "Visitors"
 msgstr "Lượng người truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:89
+#: includes/settings/tabs/wps-general.php:89
 msgid "Check for online users every"
 msgstr "Thường xuyên kiểm tra số lượng người online"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:95
+#: includes/settings/tabs/wps-general.php:95
 msgid "Time for the check accurate online user in the site. Now: %s Second"
 msgstr " Thời gian kiểm tra số người online trên trang web.Là %s giây"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:200
+#: includes/settings/tabs/wps-general.php:200
 msgid "Show stats in menu bar"
 msgstr "Hiện trạng thái trên thanh menu chính"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:205
+#: includes/settings/tabs/wps-general.php:205
 msgid "No"
 msgstr "Không"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:206
+#: includes/settings/tabs/wps-general.php:206
 msgid "Yes"
 msgstr "Có"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:208
+#: includes/settings/tabs/wps-general.php:208
 msgid "Show stats in admin menu bar"
 msgstr " Hiện trạng thái trên thanh menu chính phần quản trị"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:145
+#: includes/settings/tabs/wps-general.php:145
 msgid "Coefficient per visitor"
 msgstr "Hệ số tính cho mỗi người truy cập"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:150
+#: includes/settings/tabs/wps-general.php:150
 msgid "For each visit to account for several hits. Currently %s."
 msgstr "Cho mỗi truy cập vào tài khoản cho một số lượt truy cập. Hiện nay %s."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:322
+#: includes/settings/tabs/wps-general.php:322
 msgid "Select when receiving statistics report."
 msgstr ".Chọn khi nào nhận báo cáo thống kê"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:334
+#: includes/settings/tabs/wps-general.php:334
 msgid "Email"
 msgstr "Email"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:335
+#: includes/settings/tabs/wps-general.php:335
 msgid "SMS"
 msgstr "Tin nhắn điện thoại"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:337
+#: includes/settings/tabs/wps-general.php:337
 msgid "Type Select Get Status Report."
 msgstr "Chọn cách nhận báo cáo trạng thái"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:340
-msgid ""
-"Note: To send SMS text messages please install the <a href=\"%s\" target="
-"\"_blank\">Wordpress SMS</a> plugin."
-msgstr ""
-"Chú ý:Để gửi tin nhắn đến điện thoại hãy cài đặt phần mở rộng<a href=\"%s\" "
-"target=\"_blank\">Wordpress SMS</a>."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:363
+#: includes/settings/tabs/wps-general.php:363
 msgid "Enter the contents of the reports received."
 msgstr ".Nhập nội dung của những báo cáo sẽ nhận được"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:240
+#: widget.php:240
 msgid "Name"
 msgstr "Tên"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:244
+#: widget.php:244
 msgid "Items"
 msgstr "Mục"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:283
+#: widget.php:283
 msgid "Select type of search engine"
 msgstr "Chọn loại cỗ máy tìm kiếm"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:29
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:36
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:134
-#: Plugins\wp-statistics\trunk/widget.php:296
+#: includes/log/last-visitor.php:29 includes/log/top-referring.php:36
+#: includes/optimization/tabs/wps-optimization-purging.php:134 widget.php:296
 msgid "All"
 msgstr "Tất cả"

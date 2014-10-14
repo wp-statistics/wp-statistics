@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-10 12:54-0500\n"
+"PO-Revision-Date: 2014-10-14 17:17-0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,40 +14,246 @@ msgstr ""
 "Language-Team: \n"
 "Language: nl_NL\n"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:90
-msgid "browscap"
-msgstr "browscap"
+#: includes/log/widgets/about.php:8
+msgid "About WP Statistics Version %s"
+msgstr "Over WP Statistics Versie %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:695
+#: includes/log/widgets/summary.php:106
+msgid "Date: %s"
+msgstr "Datum: %s"
+
+#: includes/log/widgets/summary.php:110
+msgid "Time: %s"
+msgstr "Tijd: %s"
+
+#: includes/optimization/delete-agents.php:14
+msgid "%s agent data deleted successfully."
+msgstr "%s agent gegevens verwijderd."
+
+#: includes/optimization/delete-platforms.php:14
+msgid "%s platform data deleted successfully."
+msgstr "%s platform gegevens verwijderd."
+
+#: includes/optimization/empty.php:53
+msgid "%s table data deleted successfully."
+msgstr "tabelgegevens %s succesvol verwijderd."
+
+#: includes/optimization/purge-data.php:17
+#: includes/optimization/purge-data.php:27
+#: includes/optimization/purge-data.php:37
+#: includes/optimization/purge-data.php:47
+msgid "%s data older than %s days purged successfully."
+msgstr "%s gegevens ouder dan %s dagen met succes verwijderd."
+
+#: includes/optimization/purge-data.php:19
+#: includes/optimization/purge-data.php:29
+#: includes/optimization/purge-data.php:39
+#: includes/optimization/purge-data.php:49
+msgid "No records found to purge from %s!"
+msgstr "Geen records gevonden om te zuiveren van %s!"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:44
+#: includes/optimization/tabs/wps-optimization-resources.php:55
+#: includes/optimization/tabs/wps-optimization-resources.php:66
+#: includes/optimization/tabs/wps-optimization-resources.php:77
+#: includes/optimization/tabs/wps-optimization-resources.php:88
+msgid "Number of rows in the %s table"
+msgstr "Aantal rijen in de tabel %s"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:211
+msgid "browscap Cache File"
+msgstr "Browscap cachebestand"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:220
+msgid "browscap cache file does not exist."
+msgstr "Browscap cachebestand bestaat niet."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:224
+msgid "The file size and date of the browscap cache file."
+msgstr "De bestandsgrootte en de datum van het browscap cachebestand."
+
+#: includes/settings/tabs/wps-about.php:24
+msgid ""
+"Come visit our great new %s and keep up to date on the latest news about WP "
+"Statistics."
+msgstr ""
+"Kom bezoeken onze grote nieuwe %s en blijf op de hoogte van het laatste "
+"nieuws over WP Statistics."
+
+#: includes/settings/tabs/wps-about.php:24
+msgid "website"
+msgstr "website"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our %s to see the current status and %s if "
+"you would like to help."
+msgstr ""
+"WP Statistics ondersteunt internationalisatie en wij moedigen onze "
+"gebruikers in te dienen van vertalingen, gelieve te bezoeken onze %s om te "
+"zien wat de huidige status en %s als u zou willen helpen."
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "translation collaboration site"
+msgstr "vertaling samenwerkingssite"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "drop us a line"
+msgstr "drop ons een lijn"
+
+#: includes/settings/tabs/wps-about.php:52
+#: includes/settings/tabs/wps-about.php:53
+msgid "Have you read the %s?"
+msgstr "Heb je de %s?"
+
+#: includes/settings/tabs/wps-about.php:52
+msgid "FAQs"
+msgstr "Veelgestelde vragen"
+
+#: includes/settings/tabs/wps-about.php:53
+msgid "manual"
+msgstr "Handmatig"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "Have you search the %s for a similar issue?"
+msgstr "Heb je de %s voor een soortgelijk probleem zoeken?"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "support forum"
+msgstr "ondersteuningsforum"
+
+#: includes/settings/tabs/wps-about.php:70
+msgid ""
+"Then please open a new thread on the %s and we'll respond as soon as "
+"possible."
+msgstr ""
+"Open vervolgens een nieuwe draad op de %s en wij zullen zo spoedig mogelijk "
+"reageren."
+
+#: includes/settings/tabs/wps-about.php:70
+msgid "WordPress.org support forum"
+msgstr "WordPress.org ondersteuningsforum"
+
+#: includes/settings/tabs/wps-about.php:74
+msgid "Alternatively %s support is available as well."
+msgstr "U kunt ook is %s ondersteuning ook beschikbaar."
+
+#: includes/settings/tabs/wps-access-level.php:85
+msgid "See the %s for details on capability levels."
+msgstr "Zie de %s voor details op vermogen niveaus."
+
+#: includes/settings/tabs/wps-access-level.php:85
+msgid "WordPress Roles and Capabilities page"
+msgstr "Pagina WordPress rollen en capaciteiten"
+
+#: includes/settings/tabs/wps-general.php:67
+msgid ""
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+"Deze functie zal niet IP-adressen in de database opgeslagen maar in plaats "
+"daarvan gebruikt een unieke hash. De \"Store hele gebruiker agent string\" "
+"instelling wordt uitgeschakeld als deze optie is geselecteerd. U zal niet "
+"zitten kundig voor herstellen van de IP-adressen in de toekomst om te "
+"herstellen van locatie-informatie als dit is ingeschakeld."
+
+#: includes/settings/tabs/wps-general.php:340
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr ""
+"Opmerking: Voor het verzenden van SMS-tekst berichten Installeer de plugin "
+"%s."
+
+#: includes/settings/tabs/wps-general.php:340
+msgid "WordPress SMS"
+msgstr "WordPress SMS"
+
+#: wp-statistics.php:27
+msgid ""
+"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
+"Statistics will not function without PHP Version "
+msgstr ""
+"FOUT: WP Statistics heeft ontdekt een niet-ondersteunde versie van PHP, WP "
+"Statistics zal niet functioneren zonder PHP versie "
+
+#: wp-statistics.php:27
+msgid " or higher!"
+msgstr "of hoger!"
+
+#: wp-statistics.php:81
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to %s and "
+"enable it."
+msgstr ""
+"On line-gebruiker volgen in statistieken van WP is niet ingeschakeld, ga "
+"naar %s en inschakelen."
+
+#: wp-statistics.php:81 wp-statistics.php:84 wp-statistics.php:87
+msgid "setting page"
+msgstr "pagina-instelling"
+
+#: wp-statistics.php:84
+msgid ""
+"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr ""
+"Hit volgen in statistieken van WP is niet ingeschakeld, ga naar %s en "
+"inschakelen."
+
+#: wp-statistics.php:87
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
+"it."
+msgstr ""
+"Bezoeker bijhouden in WP Statistics niet is ingeschakeld, ga naar %s en "
+"inschakelen."
+
+#: wp-statistics.php:90
+msgid ""
+"GeoIP collection is not active, please go to %s and enable this feature."
+msgstr ""
+"GeoIP collectie is niet actief, ga naar %s en deze functie inschakelen."
+
+#: wp-statistics.php:90
+msgid "Setting page > GeoIP"
+msgstr "Instellingenpagina > GeoIP"
+
+msgid "http://wp-statistics.com/"
+msgstr "http://WP-Statistics.com/"
+
+msgid "Mostafa Soufi & Greg Ross"
+msgstr "Mostafa Soufi & Greg Ross"
+
+#: includes/settings/wps-settings.php:90
+msgid "browscap"
+msgstr "Browscap"
+
+#: wp-statistics.php:706
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "Fout browscap database van downloaden: %s - %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:783
+#: wp-statistics.php:794
 msgid "browscap database updated successfully!"
-msgstr "browscap database succesvol bijgewerkt!"
+msgstr "Browscap database succesvol bijgewerkt!"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:791
+#: wp-statistics.php:802
 msgid "browscap already at current version!"
-msgstr "browscap al op de huidige versie!"
+msgstr "Browscap al op de huidige versie!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:5
+#: includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
 msgstr "Database Setup"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:10
+#: includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
-msgstr "Opnieuw Uitvoeren Installeren"
+msgstr "Opnieuw uitvoeren installeren"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:14
+#: includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
 msgstr "Install Now!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:15
+#: includes/optimization/tabs/wps-optimization-database.php:15
 msgid ""
 "If for some reason your installation of WP Statistics is missing the "
 "database tables or other core items, this will re-execute the install "
@@ -57,8 +263,7 @@ msgstr ""
 "of andere items kern ontbreekt, zal dit het installatieproces opnieuw "
 "uitvoeren."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid ""
 "If the PHP BC Math Extension is installed.  BC Math is no longer required "
 "for the GeoIP code and is listed here only for historical reasons."
@@ -67,87 +272,72 @@ msgstr ""
 "vereist voor de GeoIP code en hier alleen om historische redenen wordt "
 "vermeld."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:168
+#: includes/optimization/tabs/wps-optimization-resources.php:168
 msgid "File Info"
 msgstr "Bestandsinfo"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:173
+#: includes/optimization/tabs/wps-optimization-resources.php:173
 msgid "GeoIP Database"
 msgstr "GeoIP-Database"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:184
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:203
+#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:203
+#: includes/optimization/tabs/wps-optimization-resources.php:222
 msgid ", created on "
 msgstr ", gemaakt op "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:186
+#: includes/optimization/tabs/wps-optimization-resources.php:186
 msgid "The file size and date of the GeoIP database."
 msgstr "De bestandsgrootte en de datum van de GeoIP-database."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:192
+#: includes/optimization/tabs/wps-optimization-resources.php:192
 msgid "browscap.ini File"
-msgstr "browscap.ini bestand"
+msgstr "Browscap.ini bestand"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:201
+#: includes/optimization/tabs/wps-optimization-resources.php:201
 msgid "browscap.ini file does not exist."
-msgstr "Bestand browscap.ini bestaat niet."
+msgstr "bestand Browscap.ini bestaat niet."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:205
+#: includes/optimization/tabs/wps-optimization-resources.php:205
 msgid "The file size and date of the browscap.ini file."
 msgstr "De bestandsgrootte en de datum van het bestand browscap.ini."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:51
+#: includes/optimization/wps-optimization.php:51
 msgid "Install routine complete."
 msgstr "Installeren volledige routine."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:17
+#: includes/settings/tabs/wps-browscap.php:17
 msgid "browscap settings"
 msgstr "Browscap instellingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:22
+#: includes/settings/tabs/wps-browscap.php:22
 msgid "browscap usage"
 msgstr "Browscap gebruik"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:28
+#: includes/settings/tabs/wps-browscap.php:28
 msgid "The browscap database will be downloaded and used to detect robots."
 msgstr ""
 "De browscap database zal worden gedownload en gebruikt voor het opsporen van "
 "robots."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:34
+#: includes/settings/tabs/wps-browscap.php:34
 msgid "Update browscap Info"
 msgstr "Update browscap Info"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:39
+#: includes/settings/tabs/wps-browscap.php:39
 msgid "Download browscap Database"
 msgstr "Browscap Database downloaden"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:46
+#: includes/settings/tabs/wps-browscap.php:46
 msgid "Schedule weekly update of browscap DB"
 msgstr "Plant wekelijkse update van browscap DB"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:69
+#: includes/settings/tabs/wps-browscap.php:69
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr ""
 "Download van de browscap database zal worden gepland voor een keer per week."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:40
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -162,8 +352,7 @@ msgstr ""
 "verwijderd. Te klikken op \"Update Now\" scant de tabel vistitors, "
 "verwijderen van dubbele vermeldingen en de index toevoegen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:46
+#: includes/optimization/tabs/wps-optimization-database.php:46
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -173,20 +362,17 @@ msgstr ""
 "de bezoekers tabel in het geval van een hoek. Nieuwere installeert "
 "beschermen tegen dit met een unieke index op de tafel."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:47
+#: includes/optimization/tabs/wps-optimization-database.php:47
 msgid ""
 "Congratulations, your installation is already up to date, nothing to do."
 msgstr "Gefeliciteerd, is uw installatie al up to date, niets te maken."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:51
+#: includes/settings/tabs/wps-about.php:55
 msgid "Have you search the Internet for any error messages you are receiving?"
 msgstr ""
 "Heb je zoeken op het Internet voor eventuele foutberichten die u ontvangt?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:62
+#: includes/settings/tabs/wps-about.php:66
 msgid ""
 "Are you getting a blank or incomplete page displayed in your browser?  Did "
 "you view the source for the page and check for any fatal errors?"
@@ -195,27 +381,21 @@ msgstr ""
 "browser? U de bron van de pagina weergeven en controleren voor eventuele "
 "fatale fouten?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:63
+#: includes/settings/tabs/wps-about.php:67
 msgid "Have you checked your PHP and web server error logs?"
 msgstr "Hebt u gecontroleerd uw PHP en web server foutenlogboeken?"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:15
+#: widget.php:15
 msgid "Show site stats in sidebar."
 msgstr "Sitestatistieken in zijbalk weergeven."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:97
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:94
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:65
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:59
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:22
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:25
+#: includes/log/last-search.php:97 includes/log/last-visitor.php:94
+#: includes/log/widgets/google.map.php:65 includes/log/widgets/jqv.map.php:59
+#: includes/log/widgets/recent.php:22 includes/log/widgets/words.php:25
 msgid "#hash#"
-msgstr "#hash#"
+msgstr "#hash #"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:4
+#: includes/optimization/tabs/wps-optimization-updates.php:4
 msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
@@ -223,49 +403,42 @@ msgstr ""
 "Dit vervangt alle IP-adressen in de database met hash-waarden en kan niet "
 "worden ongedaan maken, bent u zeker?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:26
+#: includes/optimization/tabs/wps-optimization-updates.php:26
 msgid ""
 "Updates any unknown location data in the database, this may take a while"
 msgstr ""
 "Elke onbekende locatiegegevens bijgewerkt in de database, kan dit een tijdje "
 "duren"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:31
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:56
+#: includes/optimization/tabs/wps-optimization-updates.php:31
+#: includes/settings/tabs/wps-general.php:56
 msgid "IP Addresses"
 msgstr "IP-adressen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:36
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:61
+#: includes/optimization/tabs/wps-optimization-updates.php:36
+#: includes/settings/tabs/wps-general.php:61
 msgid "Hash IP Addresses"
-msgstr "Hash-IP-Adressen"
+msgstr "Hash-IP-adressen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:41
+#: includes/optimization/tabs/wps-optimization-updates.php:41
 msgid ""
 "Replace IP addresses in the database with hash values, you will not be able "
 "to recover the IP addresses in the future to populate location information "
 "afterwards and this may take a while"
 msgstr ""
-"IP-Adressen in de database vervangen door hash-waarden, u zal niet zitten "
+"IP-adressen in de database vervangen door hash-waarden, u zal niet zitten "
 "kundig voor herstellen van de IP-adressen in de toekomst om te vullen "
 "locatiegegevens daarna en dit kan een tijdje duren"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:43
+#: includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
-msgstr "IP-Adressen vervangen met hash-waarden."
+msgstr "IP-adressen vervangen met hash-waarden."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:149
+#: includes/settings/tabs/wps-access-level.php:149
 msgid "Force robot list update after upgrades"
 msgstr "Afdwingen van robot lijst wordt bijgewerkt na upgrades"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:152
+#: includes/settings/tabs/wps-access-level.php:152
 msgid ""
 "Force the robot list to be reset to the default after an update to WP "
 "Statistics takes place.  Note if this option is enabled any custom robots "
@@ -276,29 +449,13 @@ msgstr ""
 "ingeschakeld een aangepaste robots die u hebt toegevoegd aan de lijst zullen "
 "verloren gaan."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:40
+#: includes/settings/tabs/wps-general.php:40
 msgid "This will delete the manual when you save the settings, are you sure?"
 msgstr ""
 "Dit zal de handleiding verwijderen wanneer u de instellingen opslaan, bent u "
 "zeker?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:67
-msgid ""
-"BETA: This feature will not store IP addresses in the database but instead "
-"used a unique hash.  The \"Store entire user agent string\" setting will be "
-"disabled if this is selected.  You will not be able to recover the IP "
-"addresses in the future to recover location information if this is enabled."
-msgstr ""
-"BETA: Deze functie zal niet IP-adressen in de database opgeslagen maar in "
-"plaats daarvan gebruikt een unieke hash. De \"Store hele gebruiker agent "
-"string\" instelling wordt uitgeschakeld als deze optie is geselecteerd. U "
-"zal niet zitten kundig voor herstellen van de IP-adressen in de toekomst om "
-"te herstellen van locatie-informatie als dit is ingeschakeld."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:220
+#: includes/settings/tabs/wps-general.php:220
 msgid ""
 "By default WP Statistics displays an alert if any of the core features are "
 "disabled on every admin page, this option will disable these notices."
@@ -307,13 +464,11 @@ msgstr ""
 "kernfuncties zijn uitgeschakeld op elke adminpagina, deze optie schakelt u "
 "deze mededelingen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:226
+#: includes/settings/tabs/wps-general.php:226
 msgid "Delete the manual"
 msgstr "Verwijderen van de handleiding"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:232
+#: includes/settings/tabs/wps-general.php:232
 msgid ""
 "By default WP Statistics stores the admin manual in the plugin directory (~5 "
 "meg), if this option is enabled it will be deleted now and during upgrades "
@@ -323,13 +478,11 @@ msgstr ""
 "meg), als deze optie is ingeschakeld wordt deze waarde gewist nu en tijdens "
 "upgrades in de toekomst."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:20
+#: includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
 msgstr "Database Index"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:41
+#: includes/optimization/tabs/wps-optimization-database.php:41
 msgid ""
 "This operation could take a long time on installs with many rows in the "
 "visitors table."
@@ -337,28 +490,23 @@ msgstr ""
 "Deze bewerking kan lang duren op installeert met vele rijen in de tabel van "
 "de bezoekers."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:129
+#: includes/optimization/wps-optimization.php:129
 msgid "Database"
 msgstr "Database"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:298
+#: includes/settings/tabs/wps-general.php:298
 msgid "Schedule"
 msgstr "Schema"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:328
+#: includes/settings/tabs/wps-general.php:328
 msgid "Send reports via"
 msgstr "Versturen van rapporten via"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:347
+#: includes/settings/tabs/wps-general.php:347
 msgid "E-mail addresses"
 msgstr "E-mailadressen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:352
+#: includes/settings/tabs/wps-general.php:352
 msgid ""
 "A comma separated list of e-mail addresses to send the reports to if e-mail "
 "is selected above."
@@ -366,28 +514,23 @@ msgstr ""
 "Een door komma's gescheiden lijst met e-mailadressen aan de rapporten te "
 "verzenden als e-mail is hierboven hebt geselecteerd."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:358
+#: includes/settings/tabs/wps-general.php:358
 msgid "Report body"
 msgstr "Verslag lichaam"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:75
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "The following three items are global to all users."
 msgstr "De volgende drie items zijn globaal voor alle gebruikers."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:80
+#: includes/settings/tabs/wps-overview-display.php:80
 msgid "Map type"
 msgstr "Kaarttype"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+#: includes/settings/tabs/wps-overview-display.php:86
 msgid "JQVMap"
 msgstr "JQVMap"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:93
+#: includes/settings/tabs/wps-overview-display.php:93
 msgid ""
 "The \"Google\" option will use Google's mapping service to plot the recent "
 "visitors (requires access to Google)."
@@ -395,8 +538,7 @@ msgstr ""
 "De \"Google\" optie zal het gebruik van Googles kaartservice op internet "
 "kunnen worden uitgezet de recente bezoekers (vereist toegang tot Google)."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:94
+#: includes/settings/tabs/wps-overview-display.php:94
 msgid ""
 "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
 "recent visitors (requires no extenral services)."
@@ -404,8 +546,7 @@ msgstr ""
 "De \"JQVMap\" optie zal JQVMap javascript toewijzing bibliotheek uitzetten "
 "in de recente bezoekers (vereist geen extenral services) gebruiken."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:118
+#: includes/settings/tabs/wps-overview-display.php:118
 msgid ""
 "This feature may cause a performance degradation when viewing statistics and "
 "is only valid if the map type is set to \"Google\"."
@@ -414,178 +555,118 @@ msgstr ""
 "van statistieken en is alleen geldig als de kaarttype is ingesteld op "
 "\"Google\"."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:50
+#: includes/log/all-browsers.php:50
 msgid "Browsers by type"
 msgstr "Browsers door type"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:133
+#: includes/log/all-browsers.php:133
 msgid "Browsers by platform"
 msgstr "Browsers door platform"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
+#: includes/log/exclusions.php:97
 msgid "Excluded hits in the last"
 msgstr "Uitgesloten hits in de laatste"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:36
+#: includes/log/hit-statistics.php:36
 msgid "Hits Statistics Chart"
 msgstr "Hits statistieken grafiek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
+#: includes/log/hit-statistics.php:69 includes/log/widgets/hits.php:39
 msgid "Hits in the last"
 msgstr "Hits in de laatste"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:36
+#: includes/log/last-search.php:30 includes/log/widgets/words.php:16
+#: includes/settings/tabs/wps-overview-display.php:36
 msgid "Latest Search Words"
 msgstr "Laatste zoektermen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:62
+#: includes/log/last-search.php:62
 msgid "Latest Search Word Statistics"
 msgstr "Laatste Search Word statistieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:61
+#: includes/log/last-visitor.php:61
 msgid "Recent Visitor Statistics"
 msgstr "Recente bezoekersstatistieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:9
+#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
 msgid "Today Visitors Map"
 msgstr "Vandaag bezoekers brengen in kaart"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:8
+#: includes/log/widgets/summary.php:8
 msgid "Summary"
 msgstr "Samenvatting"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:13
+#: includes/log/widgets/summary.php:13
 msgid "User(s) Online"
 msgstr "Gebruiker (s) Online"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:45
+#: includes/log/widgets/browsers.php:45
 msgid "Top 10 Browsers"
 msgstr "Top 10 Browsers"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:34
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:49
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:26
+#: includes/log/top-referring.php:34 includes/log/top-referring.php:49
+#: includes/log/widgets/referring.php:13
+#: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
-msgstr "Top Verwijzende Sites"
+msgstr "Top verwijzende Sites"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:73
+#: includes/log/widgets/about.php:16
 msgid "Rate and Review"
-msgstr "Tarief en Herziening"
+msgstr "Tarief en herziening"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:77
+#: includes/log/widgets/about.php:20
 msgid "More Information"
-msgstr "Meer Informatie"
+msgstr "Meer informatie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:86
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:8
+#: includes/log/widgets/about.php:29 includes/settings/tabs/wps-about.php:12
 msgid ""
 "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr ""
 "Dit product bevat GeoLite2 gegevens gemaakt door MaxMind, beschikbaar vanaf "
 "%s."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
+#: includes/log/search-statistics.php:77 includes/log/widgets/search.php:46
 msgid "Search engine referrals in the last"
 msgstr "Zoek motor verwijzingen in de laatste"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:98
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:67
+#: includes/log/search-statistics.php:98 includes/log/widgets/search.php:67
 msgid "Number of referrals"
 msgstr "Aantal verwijzingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
+#: includes/log/widgets/pages.php:13
 msgid "Top 10 Pages"
-msgstr "Top 10 Paginas"
+msgstr "Top 10 pagina 's"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:17
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:36
+#: includes/log/search-statistics.php:17 includes/log/search-statistics.php:36
 msgid "Search Engine Referral Statistics"
-msgstr "Search Engine Referral Statistieken"
+msgstr "Search Engine Referral statistieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:4
+#: includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
-msgstr "WP Statistics V%s"
+msgstr "WP Statistics V %s"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:16
+#: includes/settings/tabs/wps-about.php:20
 msgid "Visit Us Online"
-msgstr "Bezoek Ons Online"
+msgstr "Bezoek ons Online"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:20
-msgid ""
-"Come visit our great new <a href=\"http://wp-statistics.com\" target=\"_blank"
-"\">website</a> and keep up to date on the latest news about WP Statistics."
-msgstr ""
-"Kom bezoeken onze nieuwe grote <a href=\"http://wp-statistics.com\" target="
-"\"_blank\">website</a> en blijf op de hoogte van het laatste nieuws over WP "
-"Statistics."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:24
+#: includes/settings/tabs/wps-about.php:28
 msgid "Rate and Review at WordPress.org"
 msgstr "Tarief en Review op WordPress.org"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
 msgstr ""
 "Bedankt voor het installeren van WP Statistics, we raden u in te dienen een "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
 msgstr "beoordeling en herziening"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
 msgstr "over ten WordPress.org. Uw feedback wordt zeer gewaardeerd!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:36
-msgid ""
-"WP Statistics supports internationalization and we encourage our users to "
-"submit translations, please visit our <a href=\"http://teamwork.wp-parsi.com/"
-"projects/wp-statistics\" target=\"_blank\">translation collaboration site</"
-"a> to see the current status and <a href=\"http://wp-statistics.com/contact/"
-"\" target=\"_blank\">drop us a line</a> if you would like to help."
-msgstr ""
-"WP Statistics ondersteunt internationalisatie en wij moedigen onze "
-"gebruikers in te dienen van vertalingen, bezoek onze <a href=\"http://"
-"teamwork.wp-parsi.com/projects/wp-statistics\" target=\"_blank\">vertaling "
-"samenwerkingssite</a> om te zien de huidige status en < een href =  \"http://"
-"wp-statistics.com/contact/ \" target =  \"_blank\" > drop ons een lijn < /a "
-"> als u zou willen helpen."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:45
+#: includes/settings/tabs/wps-about.php:49
 msgid ""
 "We're sorry you're having problem with WP Statistics and we're happy to help "
 "out.  Here are a few things to do before contacting us:"
@@ -594,105 +675,47 @@ msgstr ""
 "om te helpen. Hier zijn een paar dingen om te doen alvorens ons te "
 "contacteren:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:48
-msgid ""
-"Have you read the <a title=\"FAQs\" href=\"http://wp-statistics.com/?"
-"page_id=19\" target=_blank>FAQs</a>?"
-msgstr ""
-"Heb je gelezen de <a title=\"FAQs\" href=\"http://wp-statistics.com/?"
-"page_id=19\" target=_blank>FAQs</a>?"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:49
-msgid ""
-"Have you read the <a title=\"Manual\" href=\"?page=wps_manual_menu\">manual</"
-"a>?"
-msgstr ""
-"Heb je gelezen de <a title=\"Manual\" href=\"?page=wps_manual_menu"
-"\">handleiding</a>?"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:50
-msgid ""
-"Have you search the <a href=\"http://wordpress.org/support/plugin/wp-"
-"statistics\" target=\"_blank\">support forum</a> for a similar issue?"
-msgstr ""
-"Heb je zoeken de <a href=\"http://wordpress.org/support/plugin/wp-statistics"
-"\" target=\"_blank\">support forum</a> voor een soortgelijk probleem?"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:54
+#: includes/settings/tabs/wps-about.php:58
 msgid "And a few things to double-check:"
 msgstr "En een paar dingen om te controleren of:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:57
+#: includes/settings/tabs/wps-about.php:61
 msgid "How's your memory_limit in php.ini?"
 msgstr "Hoe is uw memory_limit in php.ini?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:58
+#: includes/settings/tabs/wps-about.php:62
 msgid "Have you tried disabling any other plugins you may have installed?"
 msgstr ""
 "Heeft u geprobeerd het uitschakelen van alle andere plugins die u hebt "
 "geïnstalleerd?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:59
+#: includes/settings/tabs/wps-about.php:63
 msgid "Have you tried using the default WordPress theme?"
 msgstr "Heeft u geprobeerd met behulp van de standaard wordpressthema?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:60
+#: includes/settings/tabs/wps-about.php:64
 msgid "Have you double checked the plugin settings?"
 msgstr "Hebt u dubbele de plugin instellingen gecontroleerd?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:61
+#: includes/settings/tabs/wps-about.php:65
 msgid "Do you have all the required PHP extensions installed?"
 msgstr "Hebt u alle vereiste PHP extensies geïnstalleerd?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
+#: includes/settings/tabs/wps-about.php:70
 msgid "Still not having any luck?"
 msgstr "Nog steeds niet dat enig geluk?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
-msgid ""
-"Then please open a new thread on the <a href=\"http://wordpress.org/support/"
-"plugin/wp-statistics\" target=\"_blank\">WordPress.org support forum</a> and "
-"we'll respond as soon as possible."
-msgstr ""
-"Open vervolgens een nieuwe thread op de <a href=\"http://wordpress.org/"
-"support/plugin/wp-statistics\" target=\"_blank\" >WordPress.org "
-"ondersteuningsforum</a> en wij zullen zo spoedig mogelijk reageren."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:70
-msgid ""
-"Alternatively <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
-"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
-"a> support is available as well."
-msgstr ""
-"U kunt ook <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
-"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
-"a> ondersteuning is ook beschikbaar."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:17
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:35
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:128
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:169
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:193
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:303
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:333
+#: includes/optimization/tabs/wps-optimization-export.php:17
+#: includes/optimization/tabs/wps-optimization-export.php:35
+#: includes/optimization/tabs/wps-optimization-purging.php:128
+#: includes/optimization/tabs/wps-optimization-purging.php:169
+#: includes/optimization/tabs/wps-optimization-purging.php:193
+#: includes/settings/tabs/wps-general.php:303
+#: includes/settings/tabs/wps-general.php:333
 msgid "Please select"
 msgstr "Gelieve te selecteren"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:365
+#: includes/settings/tabs/wps-general.php:365
 msgid ""
 "Any shortcode supported by your installation of WordPress, include all "
 "shortcodes for WP Statistics (see the admin manual for a list of codes "
@@ -702,8 +725,7 @@ msgstr ""
 "shortcodes voor WP Statistics (Zie de admin-handleiding voor een lijst met "
 "codes beschikbaar) worden ondersteund in de hoofdtekst van het bericht."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:368
+#: includes/settings/tabs/wps-general.php:368
 msgid ""
 "Input data codes are now deprecated and will be removed in a future version "
 "of WP Statistics, please use the appropriate shortcodes, they are included "
@@ -713,8 +735,7 @@ msgstr ""
 "toekomstige versie van WP Statistics, gebruik de juiste shortcodes, ze zijn "
 "opgenomen hier alleen voor historische doeleinden:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:22
+#: includes/settings/tabs/wps-geoip.php:22
 msgid ""
 "IP location services provided by GeoLite2 data created by MaxMind, available "
 "from %s."
@@ -722,25 +743,21 @@ msgstr ""
 "IP-locatie diensten geboden door GeoLite2 data gemaakt door MaxMind, "
 "beschikbaar vanaf %s."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:23
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:32
+#: includes/settings/tabs/wps-overview-display.php:23
+#: includes/settings/tabs/wps-overview-display.php:32
 msgid "None"
 msgstr "Geen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:28
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:92
+#: includes/settings/tabs/wps-overview-display.php:28
+#: includes/settings/wps-settings.php:92
 msgid "About"
 msgstr "Over"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:123
+#: includes/settings/tabs/wps-overview-display.php:123
 msgid "Widgets to Display"
 msgstr "Widgets weer te geven"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:132
+#: includes/settings/tabs/wps-overview-display.php:132
 msgid ""
 "The following items are unique to each user.  If you do not select the "
 "'About' widget it will automatically be displayed in the last positon of "
@@ -750,1817 +767,1396 @@ msgstr ""
 "'About' selecteert zal het automatisch worden weergegeven in de laatste "
 "positie van kolom A."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:137
+#: includes/settings/tabs/wps-overview-display.php:137
 msgid "Slot"
-msgstr "Sleuf"
+msgstr "Slot"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:141
+#: includes/settings/tabs/wps-overview-display.php:141
 msgid "Column A"
 msgstr "Kolom A"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:145
+#: includes/settings/tabs/wps-overview-display.php:145
 msgid "Column B"
 msgstr "Kolom B"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:151
+#: includes/settings/tabs/wps-overview-display.php:151
 msgid "Slot 1"
 msgstr "Sleuf 1"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:181
+#: includes/settings/tabs/wps-overview-display.php:181
 msgid "Slot 2"
 msgstr "Sleuf 2"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:211
+#: includes/settings/tabs/wps-overview-display.php:211
 msgid "Slot 3"
 msgstr "Sleuf 3"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:241
+#: includes/settings/tabs/wps-overview-display.php:241
 msgid "Slot 4"
 msgstr "Sleuf 4"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:271
+#: includes/settings/tabs/wps-overview-display.php:271
 msgid "Slot 5"
-msgstr "Sleuf 5"
+msgstr "Slot 5"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:301
+#: includes/settings/tabs/wps-overview-display.php:301
 msgid "Slot 6"
 msgstr "Sleuf 6"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:305
+#: includes/settings/tabs/wps-overview-display.php:305
 msgid "N/A"
 msgstr "N/B"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:280
+#: widget.php:280
 msgid "Search Engine Referred"
-msgstr "Zoekmachine Bedoelde"
+msgstr "Zoekmachine bedoelde"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:10
+#: schedule.php:10
 msgid "Once Weekly"
-msgstr "Eenmaal Per"
+msgstr "Eenmaal per"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:17
+#: schedule.php:17
 msgid "Once Every 2 Weeks"
-msgstr "Eenmaal Per 2 weken"
+msgstr "Eenmaal per 2 weken"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:24
+#: schedule.php:24
 msgid "Once Every 4 Weeks"
-msgstr "Eenmaal Per 4 weken"
+msgstr "Eenmaal per 4 weken"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:28
+#: wp-statistics.php:39
 msgid "Complete statistics for your WordPress site."
 msgstr "Volledige statistieken voor uw WordPress site."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:70
-msgid ""
-"Online user tracking in WP Statistics is not enabled, please go to <a href="
-"\"%s\">setting page</a> and enable it."
-msgstr ""
-"On line-gebruiker volgen in statistieken van WP is niet ingeschakeld, ga "
-"naar <a href=\"%s\">instelling pagina</a> en in staat stellen."
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:73
-msgid ""
-"Hit tracking in WP Statistics is not enabled, please go to <a href=\"%s"
-"\">setting page</a> and enable it."
-msgstr ""
-"Hit volgen in statistieken van WP is niet ingeschakeld, ga naar <a href=\"%s"
-"\"> instelling pagina</a>en in staat stellen."
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:76
-msgid ""
-"Visitor tracking in WP Statistics is not enabled, please go to <a href=\"%s"
-"\">setting page</a> and enable it."
-msgstr ""
-"Bezoeker bijhouden in WP Statistics niet is ingeschakeld, ga naar <a href="
-"\"%s\" >instelling pagina</a> en in staat stellen."
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:79
-msgid ""
-"GeoIP collection is not active, please go to <a href=\"%s\">Setting page > "
-"GeoIP</a> and enable this feature (GeoIP can detect the visitors country)"
-msgstr ""
-"GeoIP collectie niet actief is, ga naar <a href=\"%s\">pagina-instelling > "
-"GeoIP</a> en deze inschakelen (GeoIP kan detecteren de bezoekers land)"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:65
-msgid "About WP Statistics V%s"
-msgstr "Over WP Statistics V%s"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:72
+#: includes/log/widgets/about.php:15
 msgid "Website"
 msgstr "Website"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:117
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:19
+#: includes/log/top-referring.php:117 includes/log/widgets/referring.php:19
 msgid "References"
-msgstr "Referenties"
+msgstr "Verwijzingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:33
+#: includes/optimization/tabs/wps-optimization-resources.php:33
 msgid "PHP Memory Limit"
-msgstr "PHP Geheugenlimiet"
+msgstr "PHP-geheugenlimiet"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:38
+#: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
-msgstr "Het geheugenlimiet dat een script mag gebruiken, stel in in php.ini."
+msgstr ""
+"De geheugenlimiet een script is toegestaan om te consumeren, ingesteld in "
+"php.ini."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:27
+#: wp-statistics.php:38
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+#: wp-statistics.php:164
 msgid "Visit WordPress.org page"
-msgstr "Bezoek de WordPress.org pagina"
+msgstr "Bezoek WordPress.org pagina"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:29
+#: includes/log/page-statistics.php:29
 msgid "Page Trend for Post ID"
-msgstr "Pagina Trend voor Post ID"
+msgstr "Pagina Trend voor Post-ID"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:48
+#: includes/log/page-statistics.php:48
 msgid "Page Trend"
 msgstr "Pagina Trend"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:68
+#: includes/log/page-statistics.php:68
 msgid "Page Trending Stats"
-msgstr "Pagina Trend Statistieken"
+msgstr "Pagina Trending Stats"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:44
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:55
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:66
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:77
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:88
-msgid "Number of rows in the <code>%s</code> table"
-msgstr "Aantal rijden in de <code>%s</code> tabel"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:97
+#: includes/settings/tabs/wps-access-level.php:97
 msgid "Record exclusions"
-msgstr "Recorduitzonderingen"
+msgstr "Record uitsluitingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:130
+#: includes/settings/tabs/wps-access-level.php:130
 msgid "Robot list"
-msgstr "Robotlijst"
+msgstr "Robot lijst"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:157
+#: includes/settings/tabs/wps-access-level.php:157
 msgid "Excluded IP address list"
-msgstr "Sluit IP-adreslijst uit"
+msgstr "Lijst van uitgesloten IP-adres"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:160
+#: includes/settings/tabs/wps-access-level.php:160
 msgid ""
 "A list of IP addresses and subnet masks (one per line) to exclude from "
 "statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
 "formats are accepted).  To specify an IP address only, use a subnet value of "
 "32 or 255.255.255.255."
 msgstr ""
-"Een lijst van IP-adressen en subnetmaskers (één per regel) om uit te sluiten "
-"bij het verzamelen van gegevens (zowel 192.168.0.0/24 en "
-"192.168.0.0/255.255.255.0 noteringen worden geaccepteerd). Gebruik een "
-"subnetwaarde 32 of 255.255.255.255 om slechts één IP-adres te specificeren."
+"Een lijst met IP-adressen en subnet masker (een per regel) uit te sluiten "
+"van statistieken collectie (zowel 192.168.0.0/24 als "
+"192.168.0.0/255.255.255.0 formaten worden geaccepteerd). Als u wilt opgeven "
+"alleen een IP-adres, een subnet waarde van 32 of 255.255.255.255 te "
+"gebruiken."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:172
+#: includes/settings/tabs/wps-access-level.php:172
 msgid "Excluded login page"
-msgstr "Sluit loginpagina uit"
+msgstr "Uitgesloten loginpagina"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:179
+#: includes/settings/tabs/wps-access-level.php:179
 msgid "Excluded admin pages"
-msgstr "Sluit beheerpagina's uit"
+msgstr "Uitgesloten admin-pagina 's"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:72
+#: includes/settings/tabs/wps-general.php:72
 msgid "Users Online"
 msgstr "Gebruikers Online"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:77
+#: includes/settings/tabs/wps-general.php:77
 msgid "User online"
 msgstr "Gebruiker online"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:172
+#: includes/settings/tabs/wps-general.php:172
 msgid "Track all pages"
-msgstr "Monitor alle pagina's"
+msgstr "Alle pagina's bijhouden"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:184
+#: includes/settings/tabs/wps-general.php:184
 msgid "Disable hits column in post/pages list"
-msgstr "Schakel kolom met hits uit in de berichten/pagina's lijst"
+msgstr "Uitschakelen hits kolom in post/pagina's lijst"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:195
+#: includes/settings/tabs/wps-general.php:195
 msgid "Miscellaneous"
-msgstr "Overig"
+msgstr "Diversen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+#: wp-statistics.php:164
 msgid "Click here to visit the plugin on WordPress.org"
-msgstr "Klik hier om naar de pluginpagina op WordPress.org te gaan"
+msgstr "Klik hier om naar de plugin op WordPress.org"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+#: wp-statistics.php:167
 msgid "Click here to rate and review this plugin on WordPress.org"
-msgstr "Klik hier om deze plugin te beoordelen  op WordPress.org"
+msgstr ""
+"Klik hier om te beoordelen en bekijken van deze plugin op WordPress.org"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+#: wp-statistics.php:167
 msgid "Rate this plugin"
-msgstr "Beoordeel deze plugin"
+msgstr "Stem op deze plugin"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:200
+#: wp-statistics.php:211
 msgid "WP Statistics - Hits"
-msgstr "WP Statistics - Hits"
+msgstr "WP statistiek - Hits"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:588
+#: wp-statistics.php:599
 msgid "Error downloading GeoIP database from: %s - %s"
-msgstr "Fout bij het downloaden van de GeoIP-database van: %s - %s"
+msgstr "Fout GeoIP-database downloaden: %s - %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:108
-#: Plugins\wp-statistics\trunk/widget.php:277
+#: widget.php:108 widget.php:277
 msgid "Total Page Views"
-msgstr "Totaal Paginaweergaven"
+msgstr "Totale pageviews"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:155
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:160
-#: Plugins\wp-statistics\trunk/wp-statistics.php:248
+#: includes/settings/tabs/wps-general.php:155
+#: includes/settings/tabs/wps-general.php:160 wp-statistics.php:259
 msgid "Pages"
-msgstr "Pagina's"
+msgstr "Pagina 's"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:255
+#: wp-statistics.php:266
 msgid "Manual"
-msgstr "Handleiding"
+msgstr "Handmatig"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:353
+#: wp-statistics.php:364
 msgid "Download ODF file"
-msgstr "Download ODF-bestand"
+msgstr "ODF bestand downloaden"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:354
+#: wp-statistics.php:365
 msgid "Download HTML file"
-msgstr "Download HTML-bestand"
+msgstr "Het HTML-bestand downloaden"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:358
+#: wp-statistics.php:369
 msgid "Manual file not found."
-msgstr "Handleiding niet gevonden."
+msgstr "Handmatige bestand niet gevonden."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:54
+#: includes/log/exclusions.php:54
 msgid "Exclusions Statistics"
-msgstr "Uitzonderingsstatistieken"
+msgstr "Uitsluitingen statistieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:37
+#: includes/settings/tabs/wps-overview-display.php:37
 msgid "Top Pages Visited"
-msgstr "Top Pagina's Bezocht"
+msgstr "Top pagina's bezocht"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:160
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:27
+#: includes/log/top-pages.php:160 includes/log/widgets/pages.php:27
 msgid "No page title found"
 msgstr "Geen paginatitel gevonden"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:13
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:132
+#: includes/log/top-pages.php:13 includes/log/top-pages.php:132
 msgid "Top Pages"
-msgstr "Top Pagina's"
+msgstr "Top pagina 's"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:20
+#: includes/log/top-pages.php:20
 msgid "Top 5 Pages Trends"
-msgstr "Top 5 Pagina Trends"
+msgstr "Top 5 blz Trends"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:49
+#: includes/log/top-pages.php:49
 msgid "Top 5 Page Trending Stats"
-msgstr "Top 5 Pagina Trends Statistieken"
+msgstr "Top 5 pagina Trending Stats"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:89
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:70
+#: includes/log/page-statistics.php:89 includes/log/top-pages.php:70
 msgid "Number of Hits"
 msgstr "Aantal Hits"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:29
+#: manual/manual.php:29
 msgid "Manual not found: %s"
-msgstr "Handleiding niet gevonden: %s"
+msgstr "Handboek niet gevonden: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:39
+#: manual/manual.php:39
 msgid "Invalid file type selected: %s"
-msgstr "Ongeldig bestandtype geselecteerd: %s"
+msgstr "Ongeldig bestandstype geselecteerd: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:116
+#: widget.php:116
 msgid "Search Engine referred"
-msgstr "Verwijzende Zoekmachines"
+msgstr "Zoekmachine bedoelde"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:47
+#: includes/optimization/tabs/wps-optimization-export.php:47
 msgid "Include Header Row"
-msgstr "Neem een Kopregel op"
+msgstr "Rij met kolomkoppen opneemt"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:52
+#: includes/optimization/tabs/wps-optimization-export.php:52
 msgid "Include a header row as the first line of the exported file."
-msgstr "Neem een kopregel op als eerste regel in het geëxporteerde bestand."
+msgstr ""
+"Een rij met kolomkoppen opneemt als de eerste regel van het geëxporteerde "
+"bestand."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:125
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "PHP Safe Mode"
-msgstr "PHP Veilige Modus"
+msgstr "PHP veilige modus"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:130
+#: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr ""
-"Is PHP Veilige Modus actief. De GeoIP-code werkt niet in Veilige Modus."
+"PHP veilige modus is actief. De GeoIP-code wordt niet ondersteund in de "
+"veilige modus."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:106
+#: includes/settings/tabs/wps-geoip.php:106
 msgid "GeoIP collection is disabled due to the following reasons:"
-msgstr "GeoIP verzamelen is uitgeschakeld vanwege de volgende redenen:"
+msgstr "GeoIP collectie is uitgeschakeld als gevolg van de volgende redenen:"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:126
+#: includes/settings/tabs/wps-geoip.php:126
 msgid ""
 "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
 "mode enabled!"
 msgstr ""
-"PHP Veilige Modus gedetecteerd! GeoIP verzamelen wordt niet ondersteund "
-"wanneer PHP's Veilige Modus is ingesteld!"
+"PHP veilige modus gedetecteerd! GeoIP-collectie wordt niet ondersteund met "
+"PHP veilige modus ingeschakeld!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:214
+#: includes/settings/tabs/wps-general.php:214
 msgid "Hide admin notices about non active features"
-msgstr "Verberg beheerdersmeldingen over niet ingestelde opties"
+msgstr "Verbergen van de admin mededelingen over niet actieve functies"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:237
+#: includes/settings/tabs/wps-general.php:237
 msgid "Search Enginges"
-msgstr "Zoekmachines"
+msgstr "Zoek Enginges"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:242
+#: includes/settings/tabs/wps-general.php:242
 msgid ""
 "Disabling all search engines is not allowed, doing so will result in all "
 "search engines being active."
 msgstr ""
-"Het is niet toegestaan alle zoekmachines uit te schakelen, door dit toch te "
-"doen zullen alle zoekmachines actief worden."
+"Uitschakelen van alle zoekmachines is niet toegestaan, dus doen zal "
+"resulteren in alle zoekmachines actief."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:257
+#: includes/settings/tabs/wps-general.php:257
 msgid "disable"
 msgstr "uitschakelen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:258
+#: includes/settings/tabs/wps-general.php:258
 msgid "Disable %s from data collection and reporting."
-msgstr "Sluit %s uit bij het verzamelen van gegevens en rapporten."
+msgstr "Uitschakelen %s van gegevensverzameling en rapportage."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "cURL Version"
-msgstr "cURL Versie"
+msgstr "cURL versie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:151
+#: includes/optimization/tabs/wps-optimization-resources.php:151
 msgid "cURL not installed"
 msgstr "cURL niet geïnstalleerd"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid ""
 "The PHP cURL Extension version you are running.  cURL is required for the "
 "GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr ""
-"De PHP cURL Extentie versie die je gebruikt. cURL is vereist voor de GeoIP-"
-"code, GeoIP zal worden uitgeschakeld wanneer niet geïnstalleerd."
+"De PHP cURL uitbreiding-versie u uitvoert. cURL is vereist voor de GeoIP-"
+"code, als het niet is geïnstalleerd dat geoip wordt uitgeschakeld."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "BC Math"
 msgstr "BC Math"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+#: includes/optimization/tabs/wps-optimization-resources.php:162
 msgid "Installed"
 msgstr "Geïnstalleerd"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+#: includes/optimization/tabs/wps-optimization-resources.php:162
 msgid "Not installed"
 msgstr "Niet geïnstalleerd"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:114
+#: includes/settings/tabs/wps-geoip.php:114
 msgid ""
 "GeoIP collection requires the cURL PHP extension and it is not loaded on "
 "your version of PHP!"
 msgstr ""
-"GeoIP verzamelen vereist de cURL PHP extentie en deze is niet geladen bij "
-"jouw PHP-versie!"
+"GeoIP collectie vereist de PHP cURL-extentie en het is niet geladen op uw "
+"versie van PHP!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:120
+#: includes/settings/tabs/wps-geoip.php:120
 msgid ""
 "GeoIP collection requires the BC Math PHP extension and it is not loaded on "
 "your version of PHP!"
 msgstr ""
-"GeoIP verzamelen vereist de BC Math PHP extentie en deze is niet geladen bij "
-"jouw PHP-versie!"
+"GeoIP collectie vereist de BC Math PHP extensie en het is niet geladen op uw "
+"versie van PHP!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:26
+#: includes/functions/geoip-populate.php:26
 msgid ""
 "Unable to load the GeoIP database, make sure you have downloaded it in the "
 "settings page."
 msgstr ""
-"Laden van de GeoIP database niet mogelijk, zorg ervoor dat je hem gedownload "
-"hebt via de instellingenpagina."
+"Kan niet de GeoIP-database laden, zorg ervoor dat u het hebt gedownload in "
+"de pagina-instellingen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:182
+#: includes/optimization/tabs/wps-optimization-resources.php:182
 msgid "Database file does not exist."
 msgstr "Databasebestand bestaat niet."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:59
+#: includes/log/last-visitor.php:59
 msgid "Search for"
 msgstr "Zoeken naar"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
+#: includes/log/widgets/browsers.php:8 includes/log/widgets/countries.php:11
+#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:13
+#: includes/log/widgets/recent.php:9 includes/log/widgets/referring.php:13
+#: includes/log/widgets/search.php:8 includes/log/widgets/words.php:16
 msgid "More"
 msgstr "Meer"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:269
+#: includes/settings/tabs/wps-general.php:269
 msgid "Include totals"
-msgstr "Neem totalen op"
+msgstr "Totalen opnemen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:275
+#: includes/settings/tabs/wps-general.php:275
 msgid ""
 "Add a total line to charts with multiple values, like the search engine "
 "referrals"
 msgstr ""
-"Neem een extra regel met totalen op bij grafieken met meerdere waarden, "
-"zoals de verwijzingen van zoekmachines"
+"Een totale lijn toevoegen aan grafieken met meerdere waarden, zoals de "
+"verwijzingen van de Motor zoek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:100
+#: includes/settings/tabs/wps-overview-display.php:100
 msgid "Disable map"
-msgstr "Schakel kaart uit"
+msgstr "Kaart uitschakelen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:106
+#: includes/settings/tabs/wps-overview-display.php:106
 msgid "Disable the map display"
-msgstr "Schakel het weergeven van de kaart uit"
+msgstr "De kaart-beeldscherm uitschakelen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:112
+#: includes/settings/tabs/wps-overview-display.php:112
 msgid "Get country location from Google"
-msgstr "Haal land op via Google"
+msgstr "Land locatie krijgt van Google"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:8
+#: includes/log/exclusions.php:8
 msgid ""
 "Attention: Exclusion are not currently set to be recorded, the results below "
 "may not reflect current statistics!"
 msgstr ""
-"Let op: Uitzonderingen worden op dit moment niet gelogd, het resultaat "
-"hieronder kan afwijken van de werkelijke statistieken!"
+"Let op: Uitsluiting niet momenteel zijn ingesteld om te worden opgenomen, "
+"onderstaande resultaten kunnen niet weerspiegelen huidige statistieken!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:118
+#: includes/log/exclusions.php:118
 msgid "Number of excluded hits"
-msgstr "Aantal uitgezonderde hits"
+msgstr "Aantal uitgesloten hits"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:86
+#: includes/settings/tabs/wps-access-level.php:86
 msgid ""
 "Hint: manage_network = Super Admin Network, manage_options = Administrator, "
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
 "Contributor, read = Everyone."
 msgstr ""
-"Hint: manage_network = Netwerk Beheerder, manage_options = Beheerder, "
-"edit_others_posts = Redacteur, publish_posts = Auteur, edit_posts = "
-"Schrijver, read = Iedereen."
+"Tip: manage_network = Super Admin Network, manage_options = Administrator, "
+"edit_others_posts = bewerker, publish_posts = auteur, edit_posts = "
+"contribuant, lees = iedereen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:99
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:151
+#: includes/settings/tabs/wps-access-level.php:99
+#: includes/settings/tabs/wps-access-level.php:151
 msgid "Enable"
-msgstr "Instellen"
+msgstr "Inschakelen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:100
+#: includes/settings/tabs/wps-access-level.php:100
 msgid ""
 "This will record all the excluded hits in a separate table with the reasons "
 "why it was excluded but no other information.  This will generate a lot of "
 "data but is useful if you want to see the total number of hits your site "
 "gets, not just actual user visits."
 msgstr ""
-"Hierdoor zullen alle uitgezonderde hits worden opgeslagen in een aparte "
-"tabel met de reden van uitsluiten. Dit zal een grote hoeveelheid gegevens "
-"genereren, maar kan nuttig zijn wanneer je inzicht wilt hebben in het totale "
-"sitebezoek en niet alleen de werkelijke bezoeken van gebruikers."
+"Dit zal alle uitgesloten hits opnemen in een aparte tabel met de redenen "
+"waarom het was uitgesloten, maar geen andere informatie. Dit zal een "
+"heleboel gegevens genereren, maar is handig als u wilt zien van het totale "
+"aantal hits uw site krijgt, niet alleen de feitelijke gebruiker bezoeken."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:168
+#: includes/settings/tabs/wps-access-level.php:168
 msgid "Site URL Exclusions"
-msgstr "Site URL Uitzonderingen"
+msgstr "Website URL uitsluitingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:175
+#: includes/settings/tabs/wps-access-level.php:175
 msgid "Exclude the login page for registering as a hit."
-msgstr "Sluit de loginpagina uit bij het registreren van hits."
+msgstr "Uitsluiten van de login-pagina voor het registreren als een hit."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:182
+#: includes/settings/tabs/wps-access-level.php:182
 msgid "Exclude the admin pages for registering as a hit."
-msgstr "Sluit beheerpagina's uit bij het registreren van hits."
+msgstr "Uitsluiten van de admin pagina's voor het registreren als een hit."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:93
-#: Plugins\wp-statistics\trunk/wp-statistics.php:243
+#: includes/settings/tabs/wps-access-level.php:93 wp-statistics.php:254
 msgid "Exclusions"
-msgstr "Uitzonderingen"
+msgstr "Uitsluitingen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:68
+#: includes/log/exclusions.php:68
 msgid "Total Exclusions: %s"
-msgstr "Totaal Uitzonderingen: %s"
+msgstr "Total uitsluitingen: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:75
+#: includes/log/exclusions.php:75
 msgid "Exclusions Statistical Chart"
-msgstr "Grafiek met Uitzonderingsstatistieken"
+msgstr "Uitsluitingen statistische grafiek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:33
+#: includes/settings/tabs/wps-access-level.php:33
 msgid "Access Levels"
 msgstr "Toegangsniveaus"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:126
+#: includes/optimization/wps-optimization.php:126
 msgid "Resources/Information"
-msgstr "Bronnen/Informatie"
+msgstr "Middelen/informatie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:128
+#: includes/optimization/wps-optimization.php:128
 msgid "Purging"
-msgstr "Verwijderen"
+msgstr "Systeemaanpassingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:130
+#: includes/optimization/wps-optimization.php:130
 msgid "Updates"
 msgstr "Updates"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:88
+#: includes/settings/wps-settings.php:88
 msgid "Access/Exclusions"
-msgstr "Toegang/Uitzonderingen"
+msgstr "Toegang/uitsluitingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:91
+#: includes/settings/wps-settings.php:91
 msgid "Maintenance"
 msgstr "Onderhoud"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:126
+#: includes/settings/wps-settings.php:126
 msgid "Update"
 msgstr "Update"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:86
+#: includes/settings/wps-settings.php:86
 msgid "General"
 msgstr "Algemene"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:57
+#: includes/optimization/empty.php:57
 msgid "Error, %s not emptied!"
 msgstr "Fout, %s niet leeggemaakt!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:118
+#: includes/optimization/tabs/wps-optimization-purging.php:118
 msgid "Data"
 msgstr "Gegevens"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:145
+#: includes/optimization/tabs/wps-optimization-purging.php:145
 msgid "Purge records older than"
-msgstr "Verwijder records ouder dan"
+msgstr "Purge records ouder dan"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:151
+#: includes/optimization/tabs/wps-optimization-purging.php:151
 msgid ""
 "Deleted user statistics data older than the selected number of days.  "
 "Minimum value is 30 days."
 msgstr ""
-"Verwijder gebruikerstatistieken ouder dan het geselecteerde aantal dagen. "
-"Minimale waarde is 30 dagen."
+"Verwijderde gebruiker statistieken gegevens ouder zijn dan het geselecteerde "
+"aantal dagen. Minimumwaarde is 30 dagen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:152
+#: includes/optimization/tabs/wps-optimization-purging.php:152
 msgid "Purge now!"
-msgstr "Verwijder nu!"
+msgstr "Purge nu!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:17
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:27
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:37
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:47
-msgid ""
-"<code>%s</code> data older than <code>%s</code> days purged successfully."
-msgstr ""
-"<code>%s</code> gegevens ouder dan <code>%s</code> dagen succesvol "
-"verwijderd."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:19
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:29
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:39
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:49
-msgid "No records found to purge from <code>%s</code>!"
-msgstr "Geen records gevonden om te verwijderen uit <code>%s</code>!"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:55
+#: includes/optimization/purge-data.php:55
 msgid "Please select a value over 30 days."
-msgstr "Selecteer a.u.b. een waarde hoger dan 30 dagen."
+msgstr "Selecteer een waarde meer dan 30 dagen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:20
+#: includes/settings/tabs/wps-maintenance.php:20
 msgid ""
 "This will permanently delete data from the database each day, are you sure "
 "you want to enable this option?"
 msgstr ""
-"Hierdoor zullen dagelijks gegevens uit de database worden verwijderd, weet "
-"je zeker dat je deze optie wilt instellen?"
+"Dit zal gegevens permanent worden verwijderd uit de database elke dag, weet "
+"u zeker dat u wilt inschakelen deze optie?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:30
+#: includes/settings/tabs/wps-maintenance.php:30
 msgid "Database Maintenance"
-msgstr "Databasebeheer"
+msgstr "Databaseonderhoud"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:35
+#: includes/settings/tabs/wps-maintenance.php:35
 msgid "Run a daily WP Cron job to prune the databases"
-msgstr "Plan een dagelijkse WP Cron taak om de database leeg te maken"
+msgstr "Uitvoeren van een dagelijkse WP-Cron job om te snoeien de databases"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:41
+#: includes/settings/tabs/wps-maintenance.php:41
 msgid ""
 "A WP Cron job will be run daily to prune any data older than a set number of "
 "days."
 msgstr ""
-"Een WP Cron taak zal dagelijks worden gedraaid om gegevens ouder dan een "
-"bepaald aantal dagen te verwijderen."
+"Een WP-Cron job zal dagelijkse te snoeien van alle gegevens die ouder zijn "
+"dan een bepaald aantal dagen worden uitgevoerd."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:47
+#: includes/settings/tabs/wps-maintenance.php:47
 msgid "Prune data older than"
-msgstr "Verwijder gegevens ouder dan"
+msgstr "Snoeien gegevens ouder dan"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:52
+#: includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
 msgstr "Dagen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:53
+#: includes/settings/tabs/wps-maintenance.php:53
 msgid ""
 "The number of days to keep statistics for.  Minimum value is 30 days.  "
 "Invalid values will disable the daily maintenance."
 msgstr ""
-"Het aantal dagen waarover statistieken worden bewaard. Minimum aantal is 30 "
-"dagen. Ongeldige waarden zullen dagelijkse onderhoud uitschakelen."
+"Het aantal dagen te houden statistieken voor. Minimumwaarde is 30 dagen. "
+"Ongeldige waarden zal onbruikbaar maken het dagelijks onderhoud."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:106
-msgid "Date: <code dir=\"ltr\">%s</code></code>"
-msgstr "Datum: <code dir=\"ltr\">%s</code></code>"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:110
-msgid "Time: <code dir=\"ltr\">%s</code>"
-msgstr "Tijd: <code dir=\"ltr\">%s</code>"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:89
+#: includes/settings/wps-settings.php:89
 msgid "GeoIP"
 msgstr "GeoIP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:54
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:64
+#: includes/settings/tabs/wps-browscap.php:54
+#: includes/settings/tabs/wps-geoip.php:64
 msgid "Next update will be"
-msgstr "Volgende update zal zijn op"
+msgstr "Volgende update zal worden"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:109
+#: includes/settings/tabs/wps-geoip.php:109
 msgid ""
 "GeoIP collection requires PHP %s or above, it is currently disabled due to "
 "the installed PHP version being  "
 msgstr ""
-"GeoIP verzamelen vereist PHP %s of hoger en is op dit moment uitgeschakeld "
-"omdat de geïnstalleerde PHP-versie is"
+"GeoIP collectie vereist PHP %s of boven, is het momenteel uitgeschakeld als "
+"gevolg van de geïnstalleerde PHP versie wordt "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:64
+#: includes/log/widgets/search.php:8 includes/log/widgets/summary.php:64
 msgid "Search Engine Referrals"
-msgstr "Verwijzingen van Zoekmachines"
+msgstr "Zoek Engine verwijzingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:88
+#: includes/log/widgets/summary.php:88
 msgid "Daily Total"
-msgstr "Dagelijks Totaal"
+msgstr "Dagelijks totaal"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+#: includes/log/widgets/summary.php:102
 msgid "Current Time and Date"
-msgstr "Huidige Tijd en Datum"
+msgstr "Huidige tijd en datum"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:39
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:25
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:39
+#: includes/optimization/tabs/wps-optimization-updates.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:40
 msgid "Update Now!"
-msgstr "Update Nu!"
+msgstr "Nu bijwerken!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:85
-msgid ""
-"See the  %sWordPress Roles and Capabilities page%s for details on capability "
-"levels."
-msgstr ""
-"Zie de %sWordPress Rollen en Rechten pagina%s voor meer informatie over "
-"rechtenniveaus."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:87
+#: includes/settings/tabs/wps-access-level.php:87
 msgid ""
 "Each of the above casscades the rights upwards in the default WordPress "
 "configuration.  So for example selecting publish_posts grants the right to "
 "Authors, Editors, Admins and Super Admins."
 msgstr ""
-"Rechten worden automatisch overgenomen naar hogere niveaus in de standaard "
-"WordPress configuratie. Wanneer je bijvoorbeeld publish_posts selecteert "
-"worden rechten toegekend aan Auteurs, Redacteurs, Beheerders en Netwerk "
-"Beheerders."
+"Elk van de bovenstaande casscades de rechten naar boven in de "
+"standaardconfiguratie voor WordPress. Dus bijvoorbeeld selecteren "
+"publish_posts verleent het recht aan auteurs, redacteurs, Admins en Super "
+"beheerders."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:88
+#: includes/settings/tabs/wps-access-level.php:88
 msgid ""
 "If you need a more robust solution to delegate access you might want to look "
 "at %s in the WordPress plugin directory."
 msgstr ""
-"Wanneer je een meer robuuste oplossing wens om toegang toe te kennen kun je "
-"%s bekijken in de WordPress plugin directory."
+"Als u een robuustere oplossing voor gemachtigdentoegang moet kunt u kijken "
+"naar %s in de WordPress plugin map."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:62
+#: includes/settings/tabs/wps-access-level.php:62
 msgid "Required user level to view WP Statistics"
-msgstr "Vereist niveau om WP Statistics te tonen"
+msgstr "Vereist gebruikersniveau WP Statistics bekijken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:77
+#: includes/settings/tabs/wps-access-level.php:77
 msgid "Required user level to manage WP Statistics"
-msgstr "Vereist niveau om WP Statistics te beheren"
+msgstr "Nodig gebruikersniveau voor het beheren van WP Statistics"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:56
+#: includes/settings/tabs/wps-geoip.php:56
 msgid "Schedule monthly update of GeoIP DB"
-msgstr "Plan een maandelijkse update van de GeoIP DB"
+msgstr "Maandelijkse update voor GeoIP DB plannen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:82
+#: includes/settings/tabs/wps-geoip.php:82
 msgid ""
 "Download of the GeoIP database will be scheduled for 2 days after the first "
 "Tuesday of the month."
 msgstr ""
-"Het downloaden van de GeoIP database zal worden gepland 2 dagen na de eerste "
-"dinsdag van de maand."
+"Downloaden van de GeoIP-database zal worden gepland voor 2 dagen na de "
+"eerste dinsdag van de maand."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:83
+#: includes/settings/tabs/wps-geoip.php:83
 msgid ""
 "This option will also download the database if the local filesize is less "
 "than 1k (which usually means the stub that comes with the plugin is still in "
 "place)."
 msgstr ""
-"Deze optie zorgt ervoor dat de database ook wordt gedownload wanneer de "
-"bestandsgrootte minder dan 1k is (wat meestal betekent dat de dummy welke is "
-"geplaatst bij installatie van de plugin nog bestaat)."
+"Deze optie zal de database ook downloaden als de lokale bestandsgrootte "
+"minder dan 1k is (wat meestal betekent de stub die wordt geleverd met de "
+"plugin is nog steeds in plaats)."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:89
+#: includes/settings/tabs/wps-geoip.php:89
 msgid "Populate missing GeoIP after update of GeoIP DB"
-msgstr "Werk ontbrekende GeoIP bij na het bijwerken van de GeoIP DB"
+msgstr "Ontbrekende GeoIP vullen na actualisering van GeoIP DB"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:95
+#: includes/settings/tabs/wps-geoip.php:95
 msgid "Update any missing GeoIP data after downloading a new database."
 msgstr ""
-"Werk ontbrekende GeoIP-gegevens bij na het downloaden van de nieuwe database."
+"Eventuele ontbrekende GeoIP gegevens bijwerken na het downloaden van een "
+"nieuwe database."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:50
+#: includes/functions/geoip-populate.php:50
 msgid "Updated %s GeoIP records in the visitors database."
-msgstr "%s GeoIP records geupdate in de bezoekersdatabase."
+msgstr "Bijgewerkt %s-GeoIP records in de database van de bezoekers."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:98
+#: includes/optimization/tabs/wps-optimization-resources.php:98
 msgid "Version Info"
-msgstr "Versie-informatie"
+msgstr "Versieinfo"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:103
+#: includes/optimization/tabs/wps-optimization-resources.php:103
 msgid "WP Statistics Version"
-msgstr "WP Statistics Versie"
+msgstr "WP Statistics versie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:108
+#: includes/optimization/tabs/wps-optimization-resources.php:108
 msgid "The WP Statistics version you are running."
-msgstr "De WP Statistics versie die je gebruikt."
+msgstr "De statistieken van WP-versie die u uitvoert."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:114
+#: includes/optimization/tabs/wps-optimization-resources.php:114
 msgid "PHP Version"
-msgstr "PHP Versie"
+msgstr "PHP versie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:119
+#: includes/optimization/tabs/wps-optimization-resources.php:119
 msgid "The PHP version you are running."
-msgstr "De PHP versie die je gebruikt."
+msgstr "De PHP-versie die u uitvoert."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "jQuery Version"
-msgstr "jQuery Versie"
+msgstr "jQuery versie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The jQuery version you are running."
-msgstr "De jQuery versie die je gebruikt."
+msgstr "De jQuery versie die u uitvoert."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:599
+#: wp-statistics.php:610
 msgid "Error could not open downloaded GeoIP database for reading: %s"
-msgstr "Fout bij het openen van de gedownloade GeoIP-database: %s"
+msgstr ""
+"Fout kon niet worden geopend gedownloade GeoIP-database voor de lezing: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:606
+#: wp-statistics.php:617
 msgid "Error could not open destination GeoIP database for writing %s"
-msgstr "Fout bij het openen van de up te daten GeoIP-database: %s"
+msgstr ""
+"Fout kon niet worden geopend GeoIP doeldatabase voor het schrijven van %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:622
+#: wp-statistics.php:633
 msgid "GeoIP Database updated successfully!"
-msgstr "GeoIP-database succesvol bijgewerkt!"
+msgstr "GeoIP-Database succesvol bijgewerkt!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:210
+#: includes/optimization/tabs/wps-optimization-resources.php:229
 msgid "Client Info"
 msgstr "Client Info"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:215
+#: includes/optimization/tabs/wps-optimization-resources.php:234
 msgid "Client IP"
 msgstr "Client IP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:220
+#: includes/optimization/tabs/wps-optimization-resources.php:239
 msgid "The client IP address."
-msgstr "Het IP-adres van de client."
+msgstr "Het IP-adres van client."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:226
+#: includes/optimization/tabs/wps-optimization-resources.php:245
 msgid "User Agent"
-msgstr "Gebruikersagent"
+msgstr "User-Agent"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:231
+#: includes/optimization/tabs/wps-optimization-resources.php:250
 msgid "The client user agent string."
-msgstr "De Gebruikersagent van de client."
+msgstr "Clienttekenreeks van de gebruikersagent."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:105
+#: includes/settings/tabs/wps-access-level.php:105
 msgid "Exclude User Roles"
-msgstr "Sluit Gebruikersrollen uit"
+msgstr "Uitsluiten van gebruikersrollen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:119
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:174
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:181
+#: includes/settings/tabs/wps-access-level.php:119
+#: includes/settings/tabs/wps-access-level.php:174
+#: includes/settings/tabs/wps-access-level.php:181
 msgid "Exclude"
-msgstr "Sluit uit"
+msgstr "Uitsluiten"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:120
+#: includes/settings/tabs/wps-access-level.php:120
 msgid "Exclude %s role from data collection."
-msgstr "Sluit %s rol uit bij het verzamelen van gegevens."
+msgstr "%S rol van gegevensverzameling uitsluiten."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:126
+#: includes/settings/tabs/wps-access-level.php:126
 msgid "IP/Robot Exclusions"
-msgstr "Sluit IP-adressen/Robots uit"
+msgstr "IP-/ Robot uitsluitingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:143
+#: includes/settings/tabs/wps-access-level.php:143
 msgid ""
 "A list of words (one per line) to match against to detect robots.  Entries "
 "must be at least 4 characters long or they will be ignored."
 msgstr ""
-"Een lijst met woorden (één per regel) om te matchen en om robots te "
-"detecteren. Woorden moeten tenminste 4 tekens lang zijn, anders worden ze "
+"Een lijst van woorden (een per regel) overeenkomen met tegen te detecteren "
+"robots. Inzendingen moeten ten minste 4 tekens lang, of ze zullen worden "
 "genegeerd."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:144
+#: includes/settings/tabs/wps-access-level.php:144
 msgid "Reset to Default"
-msgstr "Stel Standaardwaarde in"
+msgstr "Standaardinstellingen herstellen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:161
+#: includes/settings/tabs/wps-access-level.php:161
 msgid "Add 10.0.0.0"
-msgstr "Voeg 10.0.0.0 toe"
+msgstr "10.0.0.0 toevoegen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:162
+#: includes/settings/tabs/wps-access-level.php:162
 msgid "Add 172.16.0.0"
-msgstr "Voeg 172.16.0.0 toe"
+msgstr "172.16.0.0 toevoegen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:163
+#: includes/settings/tabs/wps-access-level.php:163
 msgid "Add 192.168.0.0"
-msgstr "Voeg 192.168.0.0 toe"
+msgstr "192.168.0.0 toevoegen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:264
+#: includes/settings/tabs/wps-general.php:264
 msgid "Charts"
 msgstr "Grafieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:38
+#: includes/settings/tabs/wps-geoip.php:38
 msgid ""
 "For get more information and location (country) from visitor, enable this "
 "feature."
 msgstr ""
-"Stel deze optie in om meer informatie over de locatie (land) van de bezoeker "
-"te registreren."
+"Voor meer informatie krijgen en vestiging (land) van bezoeker, deze functie "
+"inschakelen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:87
-#: Plugins\wp-statistics\trunk/wp-statistics.php:237
+#: includes/settings/wps-settings.php:87 wp-statistics.php:248
 msgid "Overview"
 msgstr "Overzicht"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:25
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:21
-#: Plugins\wp-statistics\trunk/wp-statistics.php:240
+#: includes/optimization/tabs/wps-optimization-database.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:21
+#: wp-statistics.php:251
 msgid "Countries"
 msgstr "Landen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:165
-#: Plugins\wp-statistics\trunk/wp-statistics.php:242
+#: wp-statistics.php:176 wp-statistics.php:253
 msgid "Hits"
 msgstr "Hits"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:244
+#: wp-statistics.php:255
 msgid "Referers"
-msgstr "Verwijzers"
+msgstr "Referers"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:245
+#: wp-statistics.php:256
 msgid "Searches"
-msgstr "Zoekacties"
+msgstr "Zoekopdrachten"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:246
+#: wp-statistics.php:257
 msgid "Search Words"
-msgstr "Zoektermen"
+msgstr "Zoekwoorden"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:94
+#: includes/settings/tabs/wps-general.php:94
 msgid "Second"
-msgstr "Seconde"
+msgstr "Tweede"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:17
+#: includes/log/all-browsers.php:17
 msgid "Browser Statistics"
-msgstr "Browser Statistieken"
+msgstr "Browser statistieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:107
+#: includes/log/all-browsers.php:107
 msgid "Platform"
 msgstr "Platform"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:241
+#: includes/log/all-browsers.php:241
 msgid "%s Version"
-msgstr "%s Versie"
+msgstr "%s versie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:17
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
+#: includes/log/hit-statistics.php:17 includes/log/widgets/hits.php:8
 msgid "Hit Statistics"
-msgstr "Hitstatistieken"
+msgstr "Hit statistieken"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:57
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:21
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:33
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:21
+#: includes/log/exclusions.php:57 includes/log/hit-statistics.php:21
+#: includes/log/page-statistics.php:33 includes/log/search-statistics.php:21
 msgid "10 Days"
-msgstr "10 Dagen"
+msgstr "10 dagen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:58
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:22
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:34
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:22
+#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:22
+#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:22
 msgid "20 Days"
-msgstr "20 Dagen"
+msgstr "20 dagen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:59
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:23
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:23
+#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:23
+#: includes/log/page-statistics.php:35 includes/log/search-statistics.php:23
 msgid "30 Days"
-msgstr "30 Dagen"
+msgstr "30 dagen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:60
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:24
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:36
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:24
+#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:24
+#: includes/log/page-statistics.php:36 includes/log/search-statistics.php:24
 msgid "2 Months"
-msgstr "2 Maanden"
+msgstr "2 maanden"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:61
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:25
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:37
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:25
+#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:25
+#: includes/log/page-statistics.php:37 includes/log/search-statistics.php:25
 msgid "3 Months"
-msgstr "3 Maanden"
+msgstr "3 maanden"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:62
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:26
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:38
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:26
+#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:26
+#: includes/log/page-statistics.php:38 includes/log/search-statistics.php:26
 msgid "6 Months"
-msgstr "6 Maanden"
+msgstr "6 maanden"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:63
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:27
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:39
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:27
+#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:27
+#: includes/log/page-statistics.php:39 includes/log/search-statistics.php:27
 msgid "9 Months"
-msgstr "9 Maanden"
+msgstr "9 maanden"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:64
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:28
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:40
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:28
+#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:28
+#: includes/log/page-statistics.php:40 includes/log/search-statistics.php:28
 msgid "1 Year"
-msgstr "1 Jaar"
+msgstr "1 jaar"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:34
+#: includes/settings/tabs/wps-overview-display.php:34
 msgid "Hits Statistical Chart"
-msgstr "Grafiek met hitstatistieken"
+msgstr "Hits statistische grafiek"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:150
+#: includes/log/exclusions.php:97 includes/log/hit-statistics.php:69
+#: includes/log/search-statistics.php:77 includes/log/widgets/hits.php:39
+#: includes/log/widgets/search.php:46
+#: includes/optimization/tabs/wps-optimization-purging.php:150
 msgid "days"
 msgstr "dagen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:27
+#: includes/log/widgets/countries.php:11
+#: includes/settings/tabs/wps-overview-display.php:27
 msgid "Top 10 Countries"
-msgstr "Top 10 Landen"
+msgstr "Top 10 landen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:28
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:17
+#: includes/log/top-countries.php:28 includes/log/widgets/countries.php:17
 msgid "Rank"
 msgstr "Rang"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:29
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:18
+#: includes/log/top-countries.php:29 includes/log/widgets/countries.php:18
 msgid "Flag"
 msgstr "Vlag"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:31
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:20
+#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:20
 msgid "Visitor Count"
-msgstr "Aantal Bezoekers"
+msgstr "Bezoeker rekenen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:35
+#: includes/settings/tabs/wps-overview-display.php:35
 msgid "Search Engine Referrers Statistical Chart"
-msgstr "Grafiek met Verwijzingen van Zoekmachines"
+msgstr "Zoek Engine verwijzers statistische grafiek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:19
+#: includes/log/top-countries.php:19
 msgid "Top Countries"
-msgstr "Top Landen"
+msgstr "Top landen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:14
-msgid "<code>%s</code> agent data deleted successfully."
-msgstr "<code>%s</code> agentgegevens succesvol verwijderd."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:14
-msgid "<code>%s</code> platform data deleted successfully."
-msgstr "<code>%s</code> platformgegevens succesvol verwijderd."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:159
+#: includes/optimization/tabs/wps-optimization-purging.php:159
 msgid "Delete User Agent Types"
-msgstr "Verwijder Gebruikersagent Types"
+msgstr "Verwijderen van User Agent typen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:164
+#: includes/optimization/tabs/wps-optimization-purging.php:164
 msgid "Delete Agents"
-msgstr "Verwijder Agents"
+msgstr "Verwijderen van agenten"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:179
+#: includes/optimization/tabs/wps-optimization-purging.php:179
 msgid "All visitor data will be lost for this agent type."
-msgstr "Alle bezoekersgegevens zullen worden verwijderd voor dit agenttype."
+msgstr "Alle bezoekersgegevens zullen verloren gaan voor dit type agent."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:180
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:204
+#: includes/optimization/tabs/wps-optimization-purging.php:180
+#: includes/optimization/tabs/wps-optimization-purging.php:204
 msgid "Delete now!"
 msgstr "Verwijder nu!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:188
+#: includes/optimization/tabs/wps-optimization-purging.php:188
 msgid "Delete Platforms"
-msgstr "Verwijder Platforms"
+msgstr "Verwijderen van Platforms"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:203
+#: includes/optimization/tabs/wps-optimization-purging.php:203
 msgid "All visitor data will be lost for this platform type."
-msgstr "Alle bezoekersgegevens zullen worden verwijderd voor dit platformtype."
+msgstr "Alle bezoekersgegevens zullen verloren gaan voor dit platformtype."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:16
+#: includes/optimization/tabs/wps-optimization-updates.php:16
 msgid "GeoIP Options"
-msgstr "GeoIP Opties"
+msgstr "GeoIP opties"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:133
+#: includes/settings/tabs/wps-general.php:133
 msgid "Store entire user agent string"
-msgstr "Sla gehele gebruikersagent op"
+msgstr "Opslaan hele tekenreeks van de gebruikersagent"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:139
+#: includes/settings/tabs/wps-general.php:139
 msgid "Only enabled for debugging"
-msgstr "Alleen ingesteld voor foutopsporing"
+msgstr "Alleen ingeschakeld voor foutopsporing"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:17
+#: includes/settings/tabs/wps-geoip.php:17
 msgid "GeoIP settings"
-msgstr "GeoIP-instellingen"
+msgstr "GeoIP instellingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:32
+#: includes/settings/tabs/wps-geoip.php:32
 msgid "GeoIP collection"
-msgstr "GeoIP verzamelen"
+msgstr "GeoIP-collectie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:44
+#: includes/settings/tabs/wps-geoip.php:44
 msgid "Update GeoIP Info"
-msgstr "Werk GeoIP-informatie bij"
+msgstr "GeoIP Info bijwerken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:49
+#: includes/settings/tabs/wps-geoip.php:49
 msgid "Download GeoIP Database"
-msgstr "Download GeoIP-database"
+msgstr "GeoIP-Database downloaden"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:40
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:50
+#: includes/settings/tabs/wps-browscap.php:40
+#: includes/settings/tabs/wps-geoip.php:50
 msgid "Save changes on this page to download the update."
-msgstr "Sla de wijzigingen op deze pagina op om de update te downloaden."
+msgstr "Sla de wijzigingen op deze pagina om de update te downloaden."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:10
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:36
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:62
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:90
+#: includes/optimization/tabs/wps-optimization-purging.php:10
+#: includes/optimization/tabs/wps-optimization-purging.php:36
+#: includes/optimization/tabs/wps-optimization-purging.php:62
+#: includes/optimization/tabs/wps-optimization-purging.php:90
 msgid "Are you sure?"
 msgstr "Weet je het zeker?"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:137
+#: includes/optimization/tabs/wps-optimization-purging.php:137
 msgid "Clear now!"
-msgstr "Maak Leeg!"
+msgstr "Nu duidelijk!"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:250
+#: wp-statistics.php:261
 msgid "Optimization"
 msgstr "Optimalisatie"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/export.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:3
-#: Plugins\wp-statistics\trunk/manual/manual.php:5
+#: includes/optimization/delete-agents.php:5
+#: includes/optimization/delete-platforms.php:5
+#: includes/optimization/empty.php:5 includes/optimization/export.php:5
+#: includes/optimization/purge-data.php:5
+#: includes/optimization/wps-optimization.php:3 manual/manual.php:5
 msgid "Access denied!"
 msgstr "Toegang geweigerd!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:53
-msgid "<code>%s</code> table data deleted successfully."
-msgstr "<code>%s</code> tabelgegevens succesvol verwijderd."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:18
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:18
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:42
-#: Plugins\wp-statistics\trunk/includes/optimization/export.php:57
+#: includes/optimization/delete-agents.php:18
+#: includes/optimization/delete-platforms.php:18
+#: includes/optimization/empty.php:42 includes/optimization/export.php:57
 msgid "Please select the desired items."
-msgstr "Selecteer de gewenste items."
+msgstr "Selecteer de gewenste objecten."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:17
+#: includes/optimization/tabs/wps-optimization-resources.php:17
 msgid "Resources"
-msgstr "Bronnen"
+msgstr "Middelen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:22
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:27
+#: includes/optimization/tabs/wps-optimization-resources.php:22
+#: includes/optimization/tabs/wps-optimization-resources.php:27
 msgid "Memory usage in PHP"
-msgstr "Geheugengebruik van PHP"
+msgstr "Geheugengebruik in PHP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:26
+#: includes/optimization/tabs/wps-optimization-resources.php:26
 msgid "Byte"
 msgstr "Byte"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:48
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:59
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:70
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:81
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:92
+#: includes/optimization/tabs/wps-optimization-resources.php:48
+#: includes/optimization/tabs/wps-optimization-resources.php:59
+#: includes/optimization/tabs/wps-optimization-resources.php:70
+#: includes/optimization/tabs/wps-optimization-resources.php:81
+#: includes/optimization/tabs/wps-optimization-resources.php:92
 msgid "Row"
 msgstr "Rij"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:49
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:60
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:71
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:82
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:93
+#: includes/optimization/tabs/wps-optimization-resources.php:49
+#: includes/optimization/tabs/wps-optimization-resources.php:60
+#: includes/optimization/tabs/wps-optimization-resources.php:71
+#: includes/optimization/tabs/wps-optimization-resources.php:82
+#: includes/optimization/tabs/wps-optimization-resources.php:93
 msgid "Number of rows"
 msgstr "Aantal rijen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:7
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:127
+#: includes/optimization/tabs/wps-optimization-export.php:7
+#: includes/optimization/wps-optimization.php:127
 msgid "Export"
 msgstr "Exporteren"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:12
+#: includes/optimization/tabs/wps-optimization-export.php:12
 msgid "Export from"
-msgstr "Exporteren uit"
+msgstr "Exporteren vanuit"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:24
+#: includes/optimization/tabs/wps-optimization-export.php:24
 msgid "Select the table for the output file."
-msgstr "Selecteer de te exporteren tabel."
+msgstr "Selecteer de tabel voor het uitvoerbestand."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:30
+#: includes/optimization/tabs/wps-optimization-export.php:30
 msgid "Export To"
-msgstr "Exporteren Naar"
+msgstr "Exporteren naar"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:41
+#: includes/optimization/tabs/wps-optimization-export.php:41
 msgid "Select the output file type."
 msgstr "Selecteer het output bestandstype."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:53
+#: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Start Now!"
-msgstr "Start Nu!"
+msgstr "Start nu!"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:123
+#: includes/optimization/tabs/wps-optimization-purging.php:123
 msgid "Empty Table"
-msgstr "Maak Tabel Leeg"
+msgstr "Lege tabel"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:136
+#: includes/optimization/tabs/wps-optimization-purging.php:136
 msgid "All data table will be lost."
-msgstr "Alle gegevens in de tabel zullen verwijderd worden."
+msgstr "Tabel met alle gegevens zullen verloren gaan."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:40
+#: includes/settings/tabs/wps-about.php:44
 msgid "Support"
 msgstr "Ondersteuning"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:47
+#: includes/settings/tabs/wps-about.php:74
+msgid "Farsi"
+msgstr "Farsi"
+
+#: includes/log/top-referring.php:47
 msgid "Referring sites from"
 msgstr "Verwijzende sites van"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:32
+#: includes/settings/tabs/wps-about.php:36
 msgid "Translations"
 msgstr "Vertalingen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:4
+#: includes/log/top-referring.php:4
 msgid "To be added soon"
-msgstr "Wordt binnenkort toegevoegd"
+msgstr "Binnenkort worden toegevoegd"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:102
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:99
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:78
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:27
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:32
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:33
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:71
+#: includes/log/last-search.php:102 includes/log/last-visitor.php:99
+#: includes/log/top-referring.php:78 includes/log/widgets/recent.php:27
+#: includes/log/widgets/words.php:32
+#: includes/settings/tabs/wps-overview-display.php:33
+#: includes/settings/tabs/wps-overview-display.php:71
 msgid "Map"
 msgstr "Kaart"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
+#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
 msgid "Page"
 msgstr "Pagina"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
+#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
 msgid "From"
 msgstr "Van"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:444
+#: wp-statistics.php:455
 msgid "Table plugin does not exist! Please disable and re-enable the plugin."
-msgstr "Tabelplugin bestaat niet! Schakel de plugin uit en opnieuw in."
+msgstr ""
+"Tabel plugin bestaat niet! Alstublieft uitschakelen en opnieuw inschakelen "
+"van de plugin."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:280
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:285
-#: Plugins\wp-statistics\trunk/schedule.php:175
+#: includes/settings/tabs/wps-general.php:280
+#: includes/settings/tabs/wps-general.php:285 schedule.php:161
 msgid "Statistical reporting"
-msgstr "Statistiekrapportages"
+msgstr "Statistische rapportage"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:14
-#: Plugins\wp-statistics\trunk/wp-statistics.php:234
+#: widget.php:14 wp-statistics.php:245
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:369
-#: Plugins\wp-statistics\trunk/widget.php:38
-#: Plugins\wp-statistics\trunk/widget.php:247
-#: Plugins\wp-statistics\trunk/wp-statistics.php:299
+#: includes/settings/tabs/wps-general.php:369 widget.php:38 widget.php:247
+#: wp-statistics.php:310
 msgid "User Online"
 msgstr "Gebruiker Online"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:371
-#: Plugins\wp-statistics\trunk/widget.php:45
-#: Plugins\wp-statistics\trunk/widget.php:250
+#: includes/settings/tabs/wps-general.php:371 widget.php:45 widget.php:250
 msgid "Today Visit"
-msgstr "Bezoek Vandaag"
+msgstr "Vandaag bezoek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:370
-#: Plugins\wp-statistics\trunk/widget.php:52
-#: Plugins\wp-statistics\trunk/widget.php:253
+#: includes/settings/tabs/wps-general.php:370 widget.php:52 widget.php:253
 msgid "Today Visitor"
-msgstr "Bezoeker Vandaag"
+msgstr "Vandaag bezoeker"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:373
-#: Plugins\wp-statistics\trunk/widget.php:59
+#: includes/settings/tabs/wps-general.php:373 widget.php:59
 msgid "Yesterday Visit"
-msgstr "Bezoek Gisteren"
+msgstr "Gisteren bezoek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:372
-#: Plugins\wp-statistics\trunk/widget.php:66
-#: Plugins\wp-statistics\trunk/widget.php:259
+#: includes/settings/tabs/wps-general.php:372 widget.php:66 widget.php:259
 msgid "Yesterday Visitor"
-msgstr "Bezoeker Gisteren"
+msgstr "Gisteren bezoeker"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:73
-#: Plugins\wp-statistics\trunk/widget.php:262
+#: widget.php:73 widget.php:262
 msgid "Week Visit"
-msgstr "Bezoek Week"
+msgstr "Week bezoek"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:80
-#: Plugins\wp-statistics\trunk/widget.php:265
+#: widget.php:80 widget.php:265
 msgid "Month Visit"
-msgstr "Bezoek Maand"
+msgstr "Maand bezoek"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:87
-#: Plugins\wp-statistics\trunk/widget.php:268
+#: widget.php:87 widget.php:268
 msgid "Years Visit"
-msgstr "Bezoek Jaar"
+msgstr "Jaar bezoeken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:375
-#: Plugins\wp-statistics\trunk/widget.php:94
-#: Plugins\wp-statistics\trunk/widget.php:271
+#: includes/settings/tabs/wps-general.php:375 widget.php:94 widget.php:271
 msgid "Total Visit"
-msgstr "Bezoek Totaal"
+msgstr "Totale bezoek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:374
-#: Plugins\wp-statistics\trunk/widget.php:101
-#: Plugins\wp-statistics\trunk/widget.php:274
+#: includes/settings/tabs/wps-general.php:374 widget.php:101 widget.php:274
 msgid "Total Visitor"
-msgstr "Bezoeker Totaal"
+msgstr "Totaal aantal bezoekers"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:123
-#: Plugins\wp-statistics\trunk/widget.php:300
+#: widget.php:123 widget.php:300
 msgid "Total Posts"
-msgstr "Totaal Berichten"
+msgstr "Totaal aantal berichten"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:130
-#: Plugins\wp-statistics\trunk/widget.php:303
+#: widget.php:130 widget.php:303
 msgid "Total Pages"
-msgstr "Totaal Pagina's"
+msgstr "Totaal aantal pagina 's"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:137
-#: Plugins\wp-statistics\trunk/widget.php:306
+#: widget.php:137 widget.php:306
 msgid "Total Comments"
-msgstr "Totaal Commentaren"
+msgstr "Totaal commentaren"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:144
-#: Plugins\wp-statistics\trunk/widget.php:309
+#: widget.php:144 widget.php:309
 msgid "Total Spams"
-msgstr "Totaal Spams"
+msgstr "Totale Spams"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:151
-#: Plugins\wp-statistics\trunk/widget.php:312
+#: widget.php:151 widget.php:312
 msgid "Total Users"
-msgstr "Totaal Gebruikers"
+msgstr "Totaal aantal gebruikers"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:158
-#: Plugins\wp-statistics\trunk/widget.php:315
+#: widget.php:158 widget.php:315
 msgid "Average Posts"
-msgstr "Gemiddeld Berichten"
+msgstr "Gemiddelde berichten"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:165
-#: Plugins\wp-statistics\trunk/widget.php:318
+#: widget.php:165 widget.php:318
 msgid "Average Comments"
-msgstr "Gemiddeld Commentaren"
+msgstr "Gemiddelde reacties"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:172
-#: Plugins\wp-statistics\trunk/widget.php:321
+#: widget.php:172 widget.php:321
 msgid "Average Users"
-msgstr "Gemiddels Gebruikers"
+msgstr "Gemiddelde gebruikers"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:179
-#: Plugins\wp-statistics\trunk/widget.php:324
+#: widget.php:179 widget.php:324
 msgid "Last Post Date"
-msgstr "Laatste Berichtdatum"
+msgstr "Datum laatste Post"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:329
+#: wp-statistics.php:340
 msgid "View Stats"
-msgstr "Toon Statistieken"
+msgstr "Weergave Stats"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:141
-#: Plugins\wp-statistics\trunk/wp-statistics.php:251
+#: wp-statistics.php:152 wp-statistics.php:262
 msgid "Settings"
 msgstr "Instellingen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:305
+#: wp-statistics.php:316
 msgid "Today visitor"
-msgstr "Bezoeker vandaag"
+msgstr "Vandaag bezoeker"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:311
+#: wp-statistics.php:322
 msgid "Today visit"
-msgstr "Bezoek vandaag"
+msgstr "Vandaag bezoek"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:317
+#: wp-statistics.php:328
 msgid "Yesterday visitor"
-msgstr "Bezoeker gisteren"
+msgstr "Gisteren bezoeker"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:256
-#: Plugins\wp-statistics\trunk/wp-statistics.php:323
+#: widget.php:256 wp-statistics.php:334
 msgid "Yesterday visit"
-msgstr "Bezoek Gisteren"
+msgstr "Gisteren bezoek"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:433
-#: Plugins\wp-statistics\trunk/wp-statistics.php:533
-#: Plugins\wp-statistics\trunk/wp-statistics.php:804
+#: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
 msgid "You do not have sufficient permissions to access this page."
-msgstr "Je hebt niet voldoende rechten om deze pagina te openen."
+msgstr "U hoeft niet voldoende rechten om deze pagina te openen."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:23
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:106
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:240
-#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:74
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:61
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:57
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:47
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:19
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:131
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:45
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:64
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:14
+#: includes/log/all-browsers.php:23 includes/log/all-browsers.php:106
+#: includes/log/all-browsers.php:240 includes/log/exclusions.php:74
+#: includes/log/hit-statistics.php:35 includes/log/last-search.php:61
+#: includes/log/last-visitor.php:57 includes/log/page-statistics.php:47
+#: includes/log/search-statistics.php:35 includes/log/top-pages.php:19
+#: includes/log/top-pages.php:131 includes/log/top-referring.php:45
+#: includes/log/widgets/about.php:7 includes/log/widgets/browsers.php:7
+#: includes/log/widgets/countries.php:9 includes/log/widgets/google.map.php:8
+#: includes/log/widgets/hits.php:7 includes/log/widgets/jqv.map.php:8
+#: includes/log/widgets/pages.php:11 includes/log/widgets/recent.php:7
+#: includes/log/widgets/referring.php:11 includes/log/widgets/search.php:7
+#: includes/log/widgets/summary.php:7 includes/log/widgets/words.php:14
 msgid "Click to toggle"
-msgstr "Klik om te wisselen"
+msgstr "Klik hierop om te schakelen"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:24
+#: includes/settings/tabs/wps-overview-display.php:24
 msgid "Summary Statistics"
-msgstr "Samenvatting van Statistieken"
+msgstr "Samenvatting van de statistieken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:19
+#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
+#: includes/log/widgets/summary.php:19
 msgid "Visitor"
 msgstr "Bezoeker"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:20
+#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
+#: includes/log/widgets/summary.php:20
 msgid "Visit"
 msgstr "Bezoek"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:24
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:69
+#: includes/log/widgets/summary.php:24 includes/log/widgets/summary.php:69
 msgid "Today"
 msgstr "Vandaag"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:70
+#: includes/log/widgets/summary.php:30 includes/log/widgets/summary.php:70
 msgid "Yesterday"
 msgstr "Gisteren"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:36
+#: includes/log/widgets/summary.php:36
 msgid "Week"
 msgstr "Week"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:42
+#: includes/log/widgets/summary.php:42
 msgid "Month"
 msgstr "Maand"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:48
+#: includes/log/widgets/summary.php:48
 msgid "Year"
 msgstr "Jaar"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:112
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:81
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:54
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:94
+#: includes/log/search-statistics.php:112 includes/log/widgets/search.php:81
+#: includes/log/widgets/summary.php:54 includes/log/widgets/summary.php:94
 msgid "Total"
 msgstr "Totaal"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+#: includes/log/widgets/summary.php:102
 msgid "(Adjustment)"
 msgstr "(Aanpassing)"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:24
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:25
-#: Plugins\wp-statistics\trunk/wp-statistics.php:238
+#: includes/log/all-browsers.php:24 includes/log/widgets/browsers.php:8
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:249
 msgid "Browsers"
 msgstr "Browsers"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:38
+#: includes/log/widgets/browsers.php:38
 msgid "Other"
 msgstr "Andere"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:20
+#: includes/log/widgets/referring.php:20
 msgid "Address"
 msgstr "Adres"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:90
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:60
+#: includes/log/hit-statistics.php:90 includes/log/widgets/hits.php:60
 msgid "Number of visits and visitors"
 msgstr "Aantal bezoeken en bezoekers"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+#: includes/settings/tabs/wps-overview-display.php:86
 msgid "Google"
 msgstr "Google"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:27
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:38
+#: includes/log/last-visitor.php:27 includes/log/widgets/recent.php:9
+#: includes/settings/tabs/wps-overview-display.php:38
 msgid "Recent Visitors"
-msgstr "Recente Bezoekers"
+msgstr "Recente bezoekers"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:19
+#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:19
 msgid "Country"
 msgstr "Land"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:27
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:51
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:66
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:82
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:110
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:126
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:138
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:165
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:177
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:189
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:219
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:231
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:274
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:290
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:37
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:61
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:94
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:40
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:105
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:117
+#: includes/settings/tabs/wps-browscap.php:27
+#: includes/settings/tabs/wps-browscap.php:51
+#: includes/settings/tabs/wps-general.php:66
+#: includes/settings/tabs/wps-general.php:82
+#: includes/settings/tabs/wps-general.php:110
+#: includes/settings/tabs/wps-general.php:126
+#: includes/settings/tabs/wps-general.php:138
+#: includes/settings/tabs/wps-general.php:165
+#: includes/settings/tabs/wps-general.php:177
+#: includes/settings/tabs/wps-general.php:189
+#: includes/settings/tabs/wps-general.php:219
+#: includes/settings/tabs/wps-general.php:231
+#: includes/settings/tabs/wps-general.php:274
+#: includes/settings/tabs/wps-general.php:290
+#: includes/settings/tabs/wps-geoip.php:37
+#: includes/settings/tabs/wps-geoip.php:61
+#: includes/settings/tabs/wps-geoip.php:94
+#: includes/settings/tabs/wps-maintenance.php:40
+#: includes/settings/tabs/wps-overview-display.php:105
+#: includes/settings/tabs/wps-overview-display.php:117
 msgid "Active"
-msgstr "Actief"
+msgstr "Actieve"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:83
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:111
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:127
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:166
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:178
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:190
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:291
+#: includes/settings/tabs/wps-general.php:83
+#: includes/settings/tabs/wps-general.php:111
+#: includes/settings/tabs/wps-general.php:127
+#: includes/settings/tabs/wps-general.php:166
+#: includes/settings/tabs/wps-general.php:178
+#: includes/settings/tabs/wps-general.php:190
+#: includes/settings/tabs/wps-general.php:291
 msgid "Enable or disable this feature"
-msgstr "Schakel deze optie in of uit"
+msgstr "In- of uitschakelen van deze functie"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:163
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:30
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:100
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:105
+#: includes/log/top-pages.php:163 includes/log/widgets/pages.php:30
+#: includes/settings/tabs/wps-general.php:100
+#: includes/settings/tabs/wps-general.php:105
 msgid "Visits"
 msgstr "Bezoeken"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:116
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:121
-#: Plugins\wp-statistics\trunk/wp-statistics.php:247
+#: includes/settings/tabs/wps-general.php:116
+#: includes/settings/tabs/wps-general.php:121 wp-statistics.php:258
 msgid "Visitors"
 msgstr "Bezoekers"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:89
+#: includes/settings/tabs/wps-general.php:89
 msgid "Check for online users every"
-msgstr "Controleer op online gebruikers iedere"
+msgstr "Controleer voor online gebruikers elke"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:95
+#: includes/settings/tabs/wps-general.php:95
 msgid "Time for the check accurate online user in the site. Now: %s Second"
 msgstr ""
-"Interval waarop gecontroleerd wordt of er gebruikers online zijn op de site. "
-"Nu: %s Seconden"
+"Tijd voor het selectievakje nauwkeurige online gebruikers in de site. Nu: %s "
+"tweede"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:200
+#: includes/settings/tabs/wps-general.php:200
 msgid "Show stats in menu bar"
-msgstr "Toon statistieken in menubalk"
+msgstr "Stats in menubalk weergeven"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:205
+#: includes/settings/tabs/wps-general.php:205
 msgid "No"
-msgstr "Nee"
+msgstr "No"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:206
+#: includes/settings/tabs/wps-general.php:206
 msgid "Yes"
 msgstr "Ja"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:208
+#: includes/settings/tabs/wps-general.php:208
 msgid "Show stats in admin menu bar"
-msgstr "Toon statistieken in de beheerderswerkbalk"
+msgstr "Stats in admin menubalk weergeven"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:145
+#: includes/settings/tabs/wps-general.php:145
 msgid "Coefficient per visitor"
-msgstr "Coëfficient per bezoeker"
+msgstr "Coëfficiënt per bezoeker"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:150
+#: includes/settings/tabs/wps-general.php:150
 msgid "For each visit to account for several hits. Currently %s."
-msgstr ""
-"Om ervoor te zorgen dat ieder bezoek telt voor meerdere hits. Op dit moment "
-"%s."
+msgstr "Voor elk bezoek aan de rekening voor meerdere hits. Momenteel %s."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:322
+#: includes/settings/tabs/wps-general.php:322
 msgid "Select when receiving statistics report."
-msgstr "Selecteer wanneer je statistiekrapportages wilt ontvangen."
+msgstr "Selecteer bij het ontvangen van statistieken verslag."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:334
+#: includes/settings/tabs/wps-general.php:334
 msgid "Email"
 msgstr "E-mail"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:335
+#: includes/settings/tabs/wps-general.php:335
 msgid "SMS"
 msgstr "SMS"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:337
+#: includes/settings/tabs/wps-general.php:337
 msgid "Type Select Get Status Report."
-msgstr "Selecteer hoe je de rapportage wilt ontvangen"
+msgstr "Type Select Get statusrapport."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:340
-msgid ""
-"Note: To send SMS text messages please install the <a href=\"%s\" target="
-"\"_blank\">Wordpress SMS</a> plugin."
-msgstr ""
-"Opmerking: Installeer de <a href=\"%s\" target=\"_blank\">Wordpress SMS</a>-"
-"plugin om SMS-berichten te versturen."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:363
+#: includes/settings/tabs/wps-general.php:363
 msgid "Enter the contents of the reports received."
-msgstr ""
-"Welke begeleidende tekst wil je opnemen bij het versturen van de rapportages?"
+msgstr "Geef de inhoud van de verslagen ontvangen."
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:240
+#: widget.php:240
 msgid "Name"
 msgstr "Naam"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:244
+#: widget.php:244
 msgid "Items"
-msgstr "Items"
+msgstr "Artikelen"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:283
+#: widget.php:283
 msgid "Select type of search engine"
-msgstr "Selecteer type zoekmachine"
+msgstr "Selecteer type van search engine"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:29
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:36
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:134
-#: Plugins\wp-statistics\trunk/widget.php:296
+#: includes/log/last-visitor.php:29 includes/log/top-referring.php:36
+#: includes/optimization/tabs/wps-optimization-purging.php:134 widget.php:296
 msgid "All"
-msgstr "Alles"
+msgstr "Alle"

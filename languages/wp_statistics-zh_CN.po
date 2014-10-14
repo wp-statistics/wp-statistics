@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-10 12:55-0500\n"
+"PO-Revision-Date: 2014-10-14 17:16-0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,40 +14,230 @@ msgstr ""
 "Language-Team: \n"
 "Language: zh_CN\n"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:90
+#: includes/log/widgets/about.php:8
+msgid "About WP Statistics Version %s"
+msgstr "关于 WP Statistics版本 %s"
+
+#: includes/log/widgets/summary.php:106
+msgid "Date: %s"
+msgstr "日期： %s"
+
+#: includes/log/widgets/summary.php:110
+msgid "Time: %s"
+msgstr "时间： %s"
+
+#: includes/optimization/delete-agents.php:14
+msgid "%s agent data deleted successfully."
+msgstr "%s 已成功删除的代理数据。"
+
+#: includes/optimization/delete-platforms.php:14
+msgid "%s platform data deleted successfully."
+msgstr "%s 平台数据已成功删除。"
+
+#: includes/optimization/empty.php:53
+msgid "%s table data deleted successfully."
+msgstr "%s 已成功删除的表数据。"
+
+#: includes/optimization/purge-data.php:17
+#: includes/optimization/purge-data.php:27
+#: includes/optimization/purge-data.php:37
+#: includes/optimization/purge-data.php:47
+msgid "%s data older than %s days purged successfully."
+msgstr "%s 的数据超过 %s 天成功清除。"
+
+#: includes/optimization/purge-data.php:19
+#: includes/optimization/purge-data.php:29
+#: includes/optimization/purge-data.php:39
+#: includes/optimization/purge-data.php:49
+msgid "No records found to purge from %s!"
+msgstr "没有找到要从 %s 清除的记录 ！"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:44
+#: includes/optimization/tabs/wps-optimization-resources.php:55
+#: includes/optimization/tabs/wps-optimization-resources.php:66
+#: includes/optimization/tabs/wps-optimization-resources.php:77
+#: includes/optimization/tabs/wps-optimization-resources.php:88
+msgid "Number of rows in the %s table"
+msgstr "%S 表中的行数"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:211
+msgid "browscap Cache File"
+msgstr "browscap 高速缓存文件"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:220
+msgid "browscap cache file does not exist."
+msgstr "browscap 高速缓存文件不存在。"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:224
+msgid "The file size and date of the browscap cache file."
+msgstr "文件的大小和 browscap 缓存文件的日期。"
+
+#: includes/settings/tabs/wps-about.php:24
+msgid ""
+"Come visit our great new %s and keep up to date on the latest news about WP "
+"Statistics."
+msgstr "来参观我们伟大的新的 %s 并且保持最新关于 WP Statistics的最新消息。"
+
+#: includes/settings/tabs/wps-about.php:24
+msgid "website"
+msgstr "网站"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our %s to see the current status and %s if "
+"you would like to help."
+msgstr ""
+"WP Statistics支持国际化，我们鼓励用户提交的翻译，如果你想要帮助，请访问我们"
+"的 %s 可查看当前的状态和 %s。"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "translation collaboration site"
+msgstr "翻译协作站点"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "drop us a line"
+msgstr "给我们写信。"
+
+#: includes/settings/tabs/wps-about.php:52
+#: includes/settings/tabs/wps-about.php:53
+msgid "Have you read the %s?"
+msgstr "你读过 %s 吗？"
+
+#: includes/settings/tabs/wps-about.php:52
+msgid "FAQs"
+msgstr "常见问题解答"
+
+#: includes/settings/tabs/wps-about.php:53
+msgid "manual"
+msgstr "手动"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "Have you search the %s for a similar issue?"
+msgstr "你们搜索 %s 的一个类似问题吗？"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "support forum"
+msgstr "支持论坛"
+
+#: includes/settings/tabs/wps-about.php:70
+msgid ""
+"Then please open a new thread on the %s and we'll respond as soon as "
+"possible."
+msgstr "然后请打开 %s 上的一个新的线程，我们会尽快回复。"
+
+#: includes/settings/tabs/wps-about.php:70
+msgid "WordPress.org support forum"
+msgstr "好支持论坛"
+
+#: includes/settings/tabs/wps-about.php:74
+msgid "Alternatively %s support is available as well."
+msgstr "或者 %s 支持也是可用的。"
+
+#: includes/settings/tabs/wps-access-level.php:85
+msgid "See the %s for details on capability levels."
+msgstr "在能力水平见到 %s 的详细信息。"
+
+#: includes/settings/tabs/wps-access-level.php:85
+msgid "WordPress Roles and Capabilities page"
+msgstr "WordPress 的角色和功能的页"
+
+#: includes/settings/tabs/wps-general.php:67
+msgid ""
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+"此功能不会将 IP 地址存储在数据库中，但相反用唯一的哈希。\"Store 整个用户代理 "
+"string\"设置将被禁用，如果选择了此选项。你将不能恢复的 IP 地址在将来恢复位置"
+"的信息，如果启用此选项。"
+
+#: includes/settings/tabs/wps-general.php:340
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr "注意： 若要发送 SMS 文本消息请安装 %s 插件。"
+
+#: includes/settings/tabs/wps-general.php:340
+msgid "WordPress SMS"
+msgstr "WordPress 短信"
+
+#: wp-statistics.php:27
+msgid ""
+"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
+"Statistics will not function without PHP Version "
+msgstr ""
+"错误: WP Statistics检测到不受支持的版本的 PHP，WP Statistics将不起作用没有 "
+"PHP 版本"
+
+#: wp-statistics.php:27
+msgid " or higher!"
+msgstr "或更高 ！"
+
+#: wp-statistics.php:81
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to %s and "
+"enable it."
+msgstr "在线用户跟踪 WP Statistic 中未启用，请转到 %s，并启用它。"
+
+#: wp-statistics.php:81 wp-statistics.php:84 wp-statistics.php:87
+msgid "setting page"
+msgstr "设置页面"
+
+#: wp-statistics.php:84
+msgid ""
+"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr "WP Statistics命中的跟踪未启用，请转到 %s，并启用它。"
+
+#: wp-statistics.php:87
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
+"it."
+msgstr "访客在 WP Statistics跟踪未启用，请转到 %s，并启用它。"
+
+#: wp-statistics.php:90
+msgid ""
+"GeoIP collection is not active, please go to %s and enable this feature."
+msgstr "GeoIP 集合未处于活动状态，请转到 %s 并启用此功能。"
+
+#: wp-statistics.php:90
+msgid "Setting page > GeoIP"
+msgstr "设置页面 > GeoIP"
+
+msgid "http://wp-statistics.com/"
+msgstr "http://wp-statistics.com/"
+
+msgid "Mostafa Soufi & Greg Ross"
+msgstr "穆斯塔法来台与格雷格 · 罗斯"
+
+#: includes/settings/wps-settings.php:90
 msgid "browscap"
 msgstr "browscap"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:695
+#: wp-statistics.php:706
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "下载 browscap 数据库时出错： %s-%s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:783
+#: wp-statistics.php:794
 msgid "browscap database updated successfully!"
 msgstr "browscap 数据库已成功更新 ！"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:791
+#: wp-statistics.php:802
 msgid "browscap already at current version!"
 msgstr "已经在当前版本的 browscap！"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:5
+#: includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
 msgstr "数据库安装程序"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:10
+#: includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
 msgstr "重新运行安装程序"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:14
+#: includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
 msgstr "现在安装 ！"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:15
+#: includes/optimization/tabs/wps-optimization-database.php:15
 msgid ""
 "If for some reason your installation of WP Statistics is missing the "
 "database tables or other core items, this will re-execute the install "
@@ -56,8 +246,7 @@ msgstr ""
 "如果由于某种原因您安装可湿性粉剂统计缺少数据库表或其他核心项目，这将会重新执"
 "行安装过程。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid ""
 "If the PHP BC Math Extension is installed.  BC Math is no longer required "
 "for the GeoIP code and is listed here only for historical reasons."
@@ -65,84 +254,69 @@ msgstr ""
 "如果安装了 PHP BC 数学扩展。BC 数学不再是必需的 GeoIP 代码，仅出于历史原因如"
 "下所示。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:168
+#: includes/optimization/tabs/wps-optimization-resources.php:168
 msgid "File Info"
 msgstr "文件信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:173
+#: includes/optimization/tabs/wps-optimization-resources.php:173
 msgid "GeoIP Database"
 msgstr "GeoIP 数据库"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:184
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:203
+#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:203
+#: includes/optimization/tabs/wps-optimization-resources.php:222
 msgid ", created on "
 msgstr "在上创建"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:186
+#: includes/optimization/tabs/wps-optimization-resources.php:186
 msgid "The file size and date of the GeoIP database."
 msgstr "文件的大小和日期的 GeoIP 数据库。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:192
+#: includes/optimization/tabs/wps-optimization-resources.php:192
 msgid "browscap.ini File"
 msgstr "browscap.ini 文件"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:201
+#: includes/optimization/tabs/wps-optimization-resources.php:201
 msgid "browscap.ini file does not exist."
 msgstr "browscap.ini 文件不存在。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:205
+#: includes/optimization/tabs/wps-optimization-resources.php:205
 msgid "The file size and date of the browscap.ini file."
 msgstr "文件的大小和 browscap.ini 文件的日期。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:51
+#: includes/optimization/wps-optimization.php:51
 msgid "Install routine complete."
 msgstr "安装例行完成。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:17
+#: includes/settings/tabs/wps-browscap.php:17
 msgid "browscap settings"
 msgstr "browscap 设置"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:22
+#: includes/settings/tabs/wps-browscap.php:22
 msgid "browscap usage"
 msgstr "browscap 使用"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:28
+#: includes/settings/tabs/wps-browscap.php:28
 msgid "The browscap database will be downloaded and used to detect robots."
 msgstr "Browscap 数据库将下载，并可以用来检测机器人。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:34
+#: includes/settings/tabs/wps-browscap.php:34
 msgid "Update browscap Info"
 msgstr "更新 browscap 信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:39
+#: includes/settings/tabs/wps-browscap.php:39
 msgid "Download browscap Database"
 msgstr "下载 browscap 数据库"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:46
+#: includes/settings/tabs/wps-browscap.php:46
 msgid "Schedule weekly update of browscap DB"
 msgstr "安排每周的更新的 browscap DB"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:69
+#: includes/settings/tabs/wps-browscap.php:69
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr "下载 browscap 数据库将会安排一次一周。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:40
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -154,8 +328,7 @@ msgstr ""
 "表的唯一索引。要创建索引的老式安装重复条目，必须删除第一次。单击 \"Update Now"
 "\"将扫描该访客表、 删除重复的条目和添加索引。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:46
+#: includes/optimization/tabs/wps-optimization-database.php:46
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -164,19 +337,16 @@ msgstr ""
 "WP 统计的老式安装允许访客表中一个角落案例中的重复条目。更新安装保护免受这与上"
 "表的唯一索引。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:47
+#: includes/optimization/tabs/wps-optimization-database.php:47
 msgid ""
 "Congratulations, your installation is already up to date, nothing to do."
 msgstr "恭喜，您的安装是已经到目前为止，什么都不做。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:51
+#: includes/settings/tabs/wps-about.php:55
 msgid "Have you search the Internet for any error messages you are receiving?"
 msgstr "您收到任何错误消息在互联网上搜索你有吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:62
+#: includes/settings/tabs/wps-about.php:66
 msgid ""
 "Are you getting a blank or incomplete page displayed in your browser?  Did "
 "you view the source for the page and check for any fatal errors?"
@@ -184,52 +354,42 @@ msgstr ""
 "你有在浏览器中显示一个空白或不完整的页面吗？你查看网页的源代码并检查是否有任"
 "何致命的错误吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:63
+#: includes/settings/tabs/wps-about.php:67
 msgid "Have you checked your PHP and web server error logs?"
 msgstr "你检查过你的 PHP 和 web 服务器错误日志吗？"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:15
+#: widget.php:15
 msgid "Show site stats in sidebar."
 msgstr "在侧边栏中显示网站的统计资料。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:97
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:94
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:65
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:59
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:22
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:25
+#: includes/log/last-search.php:97 includes/log/last-visitor.php:94
+#: includes/log/widgets/google.map.php:65 includes/log/widgets/jqv.map.php:59
+#: includes/log/widgets/recent.php:22 includes/log/widgets/words.php:25
 msgid "#hash#"
 msgstr "#hash #"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:4
+#: includes/optimization/tabs/wps-optimization-updates.php:4
 msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
 msgstr "这将替换数据库中的所有 IP 地址的哈希值，无法撤消，是吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:26
+#: includes/optimization/tabs/wps-optimization-updates.php:26
 msgid ""
 "Updates any unknown location data in the database, this may take a while"
 msgstr "更新任何未知的位置数据在数据库中，这可能需要一段时间"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:31
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:56
+#: includes/optimization/tabs/wps-optimization-updates.php:31
+#: includes/settings/tabs/wps-general.php:56
 msgid "IP Addresses"
 msgstr "IP 地址"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:36
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:61
+#: includes/optimization/tabs/wps-optimization-updates.php:36
+#: includes/settings/tabs/wps-general.php:61
 msgid "Hash IP Addresses"
 msgstr "散列 IP 地址"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:41
+#: includes/optimization/tabs/wps-optimization-updates.php:41
 msgid ""
 "Replace IP addresses in the database with hash values, you will not be able "
 "to recover the IP addresses in the future to populate location information "
@@ -238,18 +398,15 @@ msgstr ""
 "在数据库中的 IP 地址替换为哈希值，您将不能恢复的 IP 地址，在将来要填充位置信"
 "息之后，这可能需要一段时间"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:43
+#: includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
 msgstr "IP 地址替换为哈希值。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:149
+#: includes/settings/tabs/wps-access-level.php:149
 msgid "Force robot list update after upgrades"
 msgstr "升级后的强制机器人列表更新"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:152
+#: includes/settings/tabs/wps-access-level.php:152
 msgid ""
 "Force the robot list to be reset to the default after an update to WP "
 "Statistics takes place.  Note if this option is enabled any custom robots "
@@ -258,25 +415,11 @@ msgstr ""
 "要更新到 WP 统计后将重置为默认值的机器人列表生效后才能发生。注意是否启用任何"
 "自定义此选项已添加到列表中的机器人将会丢失。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:40
+#: includes/settings/tabs/wps-general.php:40
 msgid "This will delete the manual when you save the settings, are you sure?"
 msgstr "这将删除手册 》，当您保存设置时，你确定吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:67
-msgid ""
-"BETA: This feature will not store IP addresses in the database but instead "
-"used a unique hash.  The \"Store entire user agent string\" setting will be "
-"disabled if this is selected.  You will not be able to recover the IP "
-"addresses in the future to recover location information if this is enabled."
-msgstr ""
-"贝塔： 此功能不会将 IP 地址存储在数据库中，但相反用唯一的哈希。\"Store 整个用"
-"户代理 string\"设置将被禁用，如果选择了此选项。你将不能恢复的 IP 地址在将来恢"
-"复位置的信息，如果启用此选项。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:220
+#: includes/settings/tabs/wps-general.php:220
 msgid ""
 "By default WP Statistics displays an alert if any of the core features are "
 "disabled on every admin page, this option will disable these notices."
@@ -284,13 +427,11 @@ msgstr ""
 "默认情况下 WP 统计显示一条警报，如果任何核心功能被禁用每个管理员页面上，此选"
 "项将禁用这些通告。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:226
+#: includes/settings/tabs/wps-general.php:226
 msgid "Delete the manual"
 msgstr "删除手册 》"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:232
+#: includes/settings/tabs/wps-general.php:232
 msgid ""
 "By default WP Statistics stores the admin manual in the plugin directory (~5 "
 "meg), if this option is enabled it will be deleted now and during upgrades "
@@ -299,74 +440,61 @@ msgstr ""
 "默认情况下 WP 统计数据存储管理员手动在插件目录 （~ 5 meg），如果启用了此选"
 "项，则将删除它现在和将来的升级期间。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:20
+#: includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
 msgstr "数据库索引"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:41
+#: includes/optimization/tabs/wps-optimization-database.php:41
 msgid ""
 "This operation could take a long time on installs with many rows in the "
 "visitors table."
 msgstr "此操作可能需要很长时间，安装与游客表中的多行上。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:129
+#: includes/optimization/wps-optimization.php:129
 msgid "Database"
 msgstr "数据库"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:298
+#: includes/settings/tabs/wps-general.php:298
 msgid "Schedule"
 msgstr "附表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:328
+#: includes/settings/tabs/wps-general.php:328
 msgid "Send reports via"
 msgstr "发送通过报告"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:347
+#: includes/settings/tabs/wps-general.php:347
 msgid "E-mail addresses"
 msgstr "电子邮件地址"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:352
+#: includes/settings/tabs/wps-general.php:352
 msgid ""
 "A comma separated list of e-mail addresses to send the reports to if e-mail "
 "is selected above."
 msgstr "以逗号分隔列表的电子邮件地址，如果上面选定的电子邮件发送的报告。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:358
+#: includes/settings/tabs/wps-general.php:358
 msgid "Report body"
 msgstr "报告正文"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:75
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "The following three items are global to all users."
 msgstr "以下三个项目是全球化给所有用户。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:80
+#: includes/settings/tabs/wps-overview-display.php:80
 msgid "Map type"
 msgstr "映射类型"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+#: includes/settings/tabs/wps-overview-display.php:86
 msgid "JQVMap"
 msgstr "JQVMap"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:93
+#: includes/settings/tabs/wps-overview-display.php:93
 msgid ""
 "The \"Google\" option will use Google's mapping service to plot the recent "
 "visitors (requires access to Google)."
 msgstr "\"Google\"选项将使用谷歌的地图服务密谋最近访客 （要求对谷歌的访问）。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:94
+#: includes/settings/tabs/wps-overview-display.php:94
 msgid ""
 "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
 "recent visitors (requires no extenral services)."
@@ -374,8 +502,7 @@ msgstr ""
 "\"JQVMap\"选项将使用 JQVMap javascript 映射库密谋最近访客 （需要没有 "
 "extenral 服务）。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:118
+#: includes/settings/tabs/wps-overview-display.php:118
 msgid ""
 "This feature may cause a performance degradation when viewing statistics and "
 "is only valid if the map type is set to \"Google\"."
@@ -383,172 +510,115 @@ msgstr ""
 "此功能时查看统计信息可能会导致性能下降，只是有效的如果映射类型设置为 \"Google"
 "\"。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:50
+#: includes/log/all-browsers.php:50
 msgid "Browsers by type"
 msgstr "浏览器类型"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:133
+#: includes/log/all-browsers.php:133
 msgid "Browsers by platform"
 msgstr "通过平台的浏览器"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
+#: includes/log/exclusions.php:97
 msgid "Excluded hits in the last"
 msgstr "排除在最后一击中"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:36
+#: includes/log/hit-statistics.php:36
 msgid "Hits Statistics Chart"
 msgstr "点击率统计图表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
+#: includes/log/hit-statistics.php:69 includes/log/widgets/hits.php:39
 msgid "Hits in the last"
 msgstr "在最后一击中"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:36
+#: includes/log/last-search.php:30 includes/log/widgets/words.php:16
+#: includes/settings/tabs/wps-overview-display.php:36
 msgid "Latest Search Words"
 msgstr "最新的搜索词"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:62
+#: includes/log/last-search.php:62
 msgid "Latest Search Word Statistics"
 msgstr "最新搜索词的统计信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:61
+#: includes/log/last-visitor.php:61
 msgid "Recent Visitor Statistics"
 msgstr "近期访客统计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:9
+#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
 msgid "Today Visitors Map"
 msgstr "今天访客地图"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:8
+#: includes/log/widgets/summary.php:8
 msgid "Summary"
 msgstr "摘要"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:13
+#: includes/log/widgets/summary.php:13
 msgid "User(s) Online"
 msgstr "用户在线"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:45
+#: includes/log/widgets/browsers.php:45
 msgid "Top 10 Browsers"
 msgstr "排名前十的浏览器"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:34
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:49
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:26
+#: includes/log/top-referring.php:34 includes/log/top-referring.php:49
+#: includes/log/widgets/referring.php:13
+#: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "引用站点排名"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:73
+#: includes/log/widgets/about.php:16
 msgid "Rate and Review"
 msgstr "率和审查"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:77
+#: includes/log/widgets/about.php:20
 msgid "More Information"
 msgstr "更多的信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:86
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:8
+#: includes/log/widgets/about.php:29 includes/settings/tabs/wps-about.php:12
 msgid ""
 "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr "本产品包含由 MaxMind，可从 %s 创建的 GeoLite2 数据。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
+#: includes/log/search-statistics.php:77 includes/log/widgets/search.php:46
 msgid "Search engine referrals in the last"
 msgstr "在最后一次搜索引擎推荐"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:98
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:67
+#: includes/log/search-statistics.php:98 includes/log/widgets/search.php:67
 msgid "Number of referrals"
 msgstr "转介的数目"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
+#: includes/log/widgets/pages.php:13
 msgid "Top 10 Pages"
 msgstr "前 10 页"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:17
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:36
+#: includes/log/search-statistics.php:17 includes/log/search-statistics.php:36
 msgid "Search Engine Referral Statistics"
 msgstr "搜索引擎推荐统计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:4
+#: includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
 msgstr "WP 统计 V %s"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:16
+#: includes/settings/tabs/wps-about.php:20
 msgid "Visit Us Online"
 msgstr "访问我们的在线"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:20
-msgid ""
-"Come visit our great new <a href=\"http://wp-statistics.com\" target=\"_blank"
-"\">website</a> and keep up to date on the latest news about WP Statistics."
-msgstr ""
-"来拜访我们伟大新 <a href=\"http://wp-statistics.com \" target=\"_blank\">网站"
-"和保持最新的</a> WP 统计的最新消息。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:24
+#: includes/settings/tabs/wps-about.php:28
 msgid "Rate and Review at WordPress.org"
 msgstr "打分和评论在好"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
 msgstr "感谢您安装可湿性粉剂统计，我们鼓励您提交"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
 msgstr "评级和审查"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
 msgstr "在好的结束。非常感谢您的反馈 ！"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:36
-msgid ""
-"WP Statistics supports internationalization and we encourage our users to "
-"submit translations, please visit our <a href=\"http://teamwork.wp-parsi.com/"
-"projects/wp-statistics\" target=\"_blank\">translation collaboration site</"
-"a> to see the current status and <a href=\"http://wp-statistics.com/contact/"
-"\" target=\"_blank\">drop us a line</a> if you would like to help."
-msgstr ""
-"WP 统计支持国际化，我们鼓励用户提交的翻译，请访问我们 <a href=\"http://"
-"teamwork.wp-parsi.com/projects/wp-statistics\" target=\"_blank\">翻译协作站点"
-"</a> 要查看当前的状态和 <a href=\"http://wp-statistics.com/contact/\" target="
-"\"_blank\">我们一行</a> 的下降，如果你想要帮助。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:45
+#: includes/settings/tabs/wps-about.php:49
 msgid ""
 "We're sorry you're having problem with WP Statistics and we're happy to help "
 "out.  Here are a few things to do before contacting us:"
@@ -556,100 +626,45 @@ msgstr ""
 "我们很抱歉你在 WP 统计的问题，我们很高兴能帮忙。这里有一些事情要做之前与我们"
 "联系："
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:48
-msgid ""
-"Have you read the <a title=\"FAQs\" href=\"http://wp-statistics.com/?"
-"page_id=19\" target=_blank>FAQs</a>?"
-msgstr ""
-"你读过 <a title=\"FAQs\" href=\"http://wp-statistics.com/?page_id=19\" "
-"target=_blank>常见问题解答吗</a>？"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:49
-msgid ""
-"Have you read the <a title=\"Manual\" href=\"?page=wps_manual_menu\">manual</"
-"a>?"
-msgstr "你读过 <a title=\"Manual\" href=\"?page=wps_manual_menu\">手册吗</a>？"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:50
-msgid ""
-"Have you search the <a href=\"http://wordpress.org/support/plugin/wp-"
-"statistics\" target=\"_blank\">support forum</a> for a similar issue?"
-msgstr ""
-"你找到 <a href=\"http://wordpress.org/support/plugin/wp-statistics \" target="
-"\"_blank\">支持论坛</a> 为类似问题吗？"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:54
+#: includes/settings/tabs/wps-about.php:58
 msgid "And a few things to double-check:"
 msgstr "和几件事要仔细检查："
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:57
+#: includes/settings/tabs/wps-about.php:61
 msgid "How's your memory_limit in php.ini?"
 msgstr "如何是你在 php.ini 文件中的 memory_limit？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:58
+#: includes/settings/tabs/wps-about.php:62
 msgid "Have you tried disabling any other plugins you may have installed?"
 msgstr "禁用任何其他您可能已安装的插件，你试过吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:59
+#: includes/settings/tabs/wps-about.php:63
 msgid "Have you tried using the default WordPress theme?"
 msgstr "使用默认的 WordPress 主题，你试过吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:60
+#: includes/settings/tabs/wps-about.php:64
 msgid "Have you double checked the plugin settings?"
 msgstr "你双检查插件设置过吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:61
+#: includes/settings/tabs/wps-about.php:65
 msgid "Do you have all the required PHP extensions installed?"
 msgstr "你有安装的所有所需的 PHP 扩展吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
+#: includes/settings/tabs/wps-about.php:70
 msgid "Still not having any luck?"
 msgstr "仍然没有任何的运气吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:66
-msgid ""
-"Then please open a new thread on the <a href=\"http://wordpress.org/support/"
-"plugin/wp-statistics\" target=\"_blank\">WordPress.org support forum</a> and "
-"we'll respond as soon as possible."
-msgstr ""
-"然后，请打开一个新的线程上 <a href=\"http://wordpress.org/support/plugin/wp-"
-"statistics\" target=\"_blank\">好支持论坛</a>，我们会尽快回复。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:70
-msgid ""
-"Alternatively <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
-"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
-"a> support is available as well."
-msgstr ""
-"或者 <a href=\"http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA"
-"%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/\" target=\"_blank\">Farsi</"
-"a> 语支持也可。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:17
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:35
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:128
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:169
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:193
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:303
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:333
+#: includes/optimization/tabs/wps-optimization-export.php:17
+#: includes/optimization/tabs/wps-optimization-export.php:35
+#: includes/optimization/tabs/wps-optimization-purging.php:128
+#: includes/optimization/tabs/wps-optimization-purging.php:169
+#: includes/optimization/tabs/wps-optimization-purging.php:193
+#: includes/settings/tabs/wps-general.php:303
+#: includes/settings/tabs/wps-general.php:333
 msgid "Please select"
 msgstr "请选择"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:365
+#: includes/settings/tabs/wps-general.php:365
 msgid ""
 "Any shortcode supported by your installation of WordPress, include all "
 "shortcodes for WP Statistics (see the admin manual for a list of codes "
@@ -658,8 +673,7 @@ msgstr ""
 "支持的安装 WordPress，任何简码包括所有简码 WP 统计 （见管理员手册 》 的可用代"
 "码的列表） 在邮件的正文中受支持。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:368
+#: includes/settings/tabs/wps-general.php:368
 msgid ""
 "Input data codes are now deprecated and will be removed in a future version "
 "of WP Statistics, please use the appropriate shortcodes, they are included "
@@ -668,32 +682,27 @@ msgstr ""
 "输入的数据代码现在都被否决，在 WP 的统计，未来版本中将删除请使用适当的简码，"
 "他们在这里包括仅用于历史参考目的："
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:22
+#: includes/settings/tabs/wps-geoip.php:22
 msgid ""
 "IP location services provided by GeoLite2 data created by MaxMind, available "
 "from %s."
 msgstr "提供创建的 MaxMind，可从 %s 的 GeoLite2 数据的 IP 位置服务。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:23
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:32
+#: includes/settings/tabs/wps-overview-display.php:23
+#: includes/settings/tabs/wps-overview-display.php:32
 msgid "None"
 msgstr "没有一个"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:28
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:92
+#: includes/settings/tabs/wps-overview-display.php:28
+#: includes/settings/wps-settings.php:92
 msgid "About"
 msgstr "关于"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:123
+#: includes/settings/tabs/wps-overview-display.php:123
 msgid "Widgets to Display"
 msgstr "显示小部件"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:132
+#: includes/settings/tabs/wps-overview-display.php:132
 msgid ""
 "The following items are unique to each user.  If you do not select the "
 "'About' widget it will automatically be displayed in the last positon of "
@@ -702,180 +711,115 @@ msgstr ""
 "下列项目是独特的每个用户。如果您不选择关于窗口小部件它将自动显示在列 A 的最后"
 "一个位置"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:137
+#: includes/settings/tabs/wps-overview-display.php:137
 msgid "Slot"
 msgstr "插槽"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:141
+#: includes/settings/tabs/wps-overview-display.php:141
 msgid "Column A"
 msgstr "A 列"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:145
+#: includes/settings/tabs/wps-overview-display.php:145
 msgid "Column B"
 msgstr "B 列"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:151
+#: includes/settings/tabs/wps-overview-display.php:151
 msgid "Slot 1"
 msgstr "插槽 1"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:181
+#: includes/settings/tabs/wps-overview-display.php:181
 msgid "Slot 2"
 msgstr "插槽 2"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:211
+#: includes/settings/tabs/wps-overview-display.php:211
 msgid "Slot 3"
 msgstr "插槽 3"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:241
+#: includes/settings/tabs/wps-overview-display.php:241
 msgid "Slot 4"
 msgstr "插槽 4"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:271
+#: includes/settings/tabs/wps-overview-display.php:271
 msgid "Slot 5"
 msgstr "插槽 5"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:301
+#: includes/settings/tabs/wps-overview-display.php:301
 msgid "Slot 6"
 msgstr "插槽 6"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:305
+#: includes/settings/tabs/wps-overview-display.php:305
 msgid "N/A"
 msgstr "N/A"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:280
+#: widget.php:280
 msgid "Search Engine Referred"
 msgstr "搜索引擎提交"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:10
+#: schedule.php:10
 msgid "Once Weekly"
 msgstr "一次每周"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:17
+#: schedule.php:17
 msgid "Once Every 2 Weeks"
 msgstr "每隔 2 周"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/schedule.php:24
+#: schedule.php:24
 msgid "Once Every 4 Weeks"
 msgstr "每隔 4 周"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:28
+#: wp-statistics.php:39
 msgid "Complete statistics for your WordPress site."
 msgstr "完整的统计资料，为你的 WordPress 站点的。"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:70
-msgid ""
-"Online user tracking in WP Statistics is not enabled, please go to <a href="
-"\"%s\">setting page</a> and enable it."
-msgstr ""
-"在线用户跟踪 WP Statistic 中未启用，请转到 <a href=\"%s\">设置页</a> 并启用"
-"它。"
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:73
-msgid ""
-"Hit tracking in WP Statistics is not enabled, please go to <a href=\"%s"
-"\">setting page</a> and enable it."
-msgstr ""
-"在 WP 统计命中的跟踪未启用，请转到 <a href=\"%s\">设置页</a> 并启用它。"
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:76
-msgid ""
-"Visitor tracking in WP Statistics is not enabled, please go to <a href=\"%s"
-"\">setting page</a> and enable it."
-msgstr "访客在 WP 统计跟踪未启用，请转到 <a href=\"%s\">设置页</a> 并启用它。"
-
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:79
-msgid ""
-"GeoIP collection is not active, please go to <a href=\"%s\">Setting page > "
-"GeoIP</a> and enable this feature (GeoIP can detect the visitors country)"
-msgstr ""
-"GeoIP 集合未处于活动状态，请转到 <a href=\"%s\">设置页面 > GeoIP</a> 和启用此"
-"功能 （GeoIP 可以检测访问者所在的国家）"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:65
-msgid "About WP Statistics V%s"
-msgstr "有关统计数字 WP V %s"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:72
+#: includes/log/widgets/about.php:15
 msgid "Website"
 msgstr "网站"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:117
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:19
+#: includes/log/top-referring.php:117 includes/log/widgets/referring.php:19
 msgid "References"
 msgstr "引用"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:33
+#: includes/optimization/tabs/wps-optimization-resources.php:33
 msgid "PHP Memory Limit"
 msgstr "PHP 内存限制"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:38
+#: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
 msgstr "内存限制脚本允许消费，在 php.ini 文件中设置。"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:27
+#: wp-statistics.php:38
 msgid "WP Statistics"
 msgstr "WP 统计"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+#: wp-statistics.php:164
 msgid "Visit WordPress.org page"
 msgstr "访问好页面"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:29
+#: includes/log/page-statistics.php:29
 msgid "Page Trend for Post ID"
 msgstr "帖子 ID 页趋势"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:48
+#: includes/log/page-statistics.php:48
 msgid "Page Trend"
 msgstr "页的趋势"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:68
+#: includes/log/page-statistics.php:68
 msgid "Page Trending Stats"
 msgstr "页的趋势统计数据"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:44
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:55
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:66
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:77
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:88
-msgid "Number of rows in the <code>%s</code> table"
-msgstr "<code>%s</code> 中的行数 表"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:97
+#: includes/settings/tabs/wps-access-level.php:97
 msgid "Record exclusions"
 msgstr "记录排除"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:130
+#: includes/settings/tabs/wps-access-level.php:130
 msgid "Robot list"
 msgstr "机器人列表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:157
+#: includes/settings/tabs/wps-access-level.php:157
 msgid "Excluded IP address list"
 msgstr "被排除的 IP 地址列表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:160
+#: includes/settings/tabs/wps-access-level.php:160
 msgid ""
 "A list of IP addresses and subnet masks (one per line) to exclude from "
 "statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
@@ -886,205 +830,176 @@ msgstr ""
 "和 192.168.0.0/255.255.255.0 格式）。若要指定唯一的 IP 地址，请使用子网值为 "
 "32 或 255.255.255.255。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:172
+#: includes/settings/tabs/wps-access-level.php:172
 msgid "Excluded login page"
 msgstr "被排除在外的登录页"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:179
+#: includes/settings/tabs/wps-access-level.php:179
 msgid "Excluded admin pages"
 msgstr "被排除在外的管理页面"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:72
+#: includes/settings/tabs/wps-general.php:72
 msgid "Users Online"
 msgstr "用户在线"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:77
+#: includes/settings/tabs/wps-general.php:77
 msgid "User online"
 msgstr "用户在线"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:172
+#: includes/settings/tabs/wps-general.php:172
 msgid "Track all pages"
 msgstr "跟踪所有页"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:184
+#: includes/settings/tabs/wps-general.php:184
 msgid "Disable hits column in post/pages list"
 msgstr "禁用命中邮政/页列表中的列"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:195
+#: includes/settings/tabs/wps-general.php:195
 msgid "Miscellaneous"
 msgstr "杂项"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:153
+#: wp-statistics.php:164
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "点击这里访问插件上好"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+#: wp-statistics.php:167
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "单击此处打分和评论这上好的插件"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:156
+#: wp-statistics.php:167
 msgid "Rate this plugin"
 msgstr "率这个插件"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:200
+#: wp-statistics.php:211
 msgid "WP Statistics - Hits"
 msgstr "WP 统计-命中"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:588
+#: wp-statistics.php:599
 msgid "Error downloading GeoIP database from: %s - %s"
 msgstr "下载 GeoIP 数据库时出错： %s-%s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:108
-#: Plugins\wp-statistics\trunk/widget.php:277
+#: widget.php:108 widget.php:277
 msgid "Total Page Views"
 msgstr "页面访问总数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:155
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:160
-#: Plugins\wp-statistics\trunk/wp-statistics.php:248
+#: includes/settings/tabs/wps-general.php:155
+#: includes/settings/tabs/wps-general.php:160 wp-statistics.php:259
 msgid "Pages"
 msgstr "页"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:255
+#: wp-statistics.php:266
 msgid "Manual"
 msgstr "手动"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:353
+#: wp-statistics.php:364
 msgid "Download ODF file"
 msgstr "ODF 文件下载"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:354
+#: wp-statistics.php:365
 msgid "Download HTML file"
 msgstr "下载 HTML 文件"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:358
+#: wp-statistics.php:369
 msgid "Manual file not found."
 msgstr "手动文件找不到。"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:54
+#: includes/log/exclusions.php:54
 msgid "Exclusions Statistics"
 msgstr "排除统计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:37
+#: includes/settings/tabs/wps-overview-display.php:37
 msgid "Top Pages Visited"
 msgstr "顶级页面访问"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:160
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:27
+#: includes/log/top-pages.php:160 includes/log/widgets/pages.php:27
 msgid "No page title found"
 msgstr "发现没有页面标题"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:13
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:132
+#: includes/log/top-pages.php:13 includes/log/top-pages.php:132
 msgid "Top Pages"
 msgstr "顶级页面"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:20
+#: includes/log/top-pages.php:20
 msgid "Top 5 Pages Trends"
 msgstr "顶尖的 5 页趋势"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:49
+#: includes/log/top-pages.php:49
 msgid "Top 5 Page Trending Stats"
 msgstr "顶尖的 5 页趋势统计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:89
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:70
+#: includes/log/page-statistics.php:89 includes/log/top-pages.php:70
 msgid "Number of Hits"
 msgstr "点击次数"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:29
+#: manual/manual.php:29
 msgid "Manual not found: %s"
 msgstr "找不到的手册： %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/manual/manual.php:39
+#: manual/manual.php:39
 msgid "Invalid file type selected: %s"
 msgstr "选择无效的文件类型: %s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:116
+#: widget.php:116
 msgid "Search Engine referred"
 msgstr "搜索引擎引用次数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:47
+#: includes/optimization/tabs/wps-optimization-export.php:47
 msgid "Include Header Row"
 msgstr "包含头信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:52
+#: includes/optimization/tabs/wps-optimization-export.php:52
 msgid "Include a header row as the first line of the exported file."
 msgstr "将头信息作为导出文件的第一行"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:125
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "PHP Safe Mode"
 msgstr "PHP安全模式"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:130
+#: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr "PHP安全模式是否开启。GeoIP代码在安全模式下不能工作。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:106
+#: includes/settings/tabs/wps-geoip.php:106
 msgid "GeoIP collection is disabled due to the following reasons:"
 msgstr "GeoIP因为以下原因被禁用："
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:126
+#: includes/settings/tabs/wps-geoip.php:126
 msgid ""
 "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
 "mode enabled!"
 msgstr "检测到目前处于PHP safe模式。该模式下GeoIP无法运行。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:214
+#: includes/settings/tabs/wps-general.php:214
 msgid "Hide admin notices about non active features"
 msgstr "不向管理员同志未启用的特性"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:237
+#: includes/settings/tabs/wps-general.php:237
 msgid "Search Enginges"
 msgstr "搜索引擎"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:242
+#: includes/settings/tabs/wps-general.php:242
 msgid ""
 "Disabling all search engines is not allowed, doing so will result in all "
 "search engines being active."
 msgstr "不允许禁用所有搜索引擎，这样做会使所有的搜索引擎启用。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:257
+#: includes/settings/tabs/wps-general.php:257
 msgid "disable"
 msgstr "禁用"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:258
+#: includes/settings/tabs/wps-general.php:258
 msgid "Disable %s from data collection and reporting."
 msgstr "禁用来自%s的数据收集和报告。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "cURL Version"
 msgstr "cURL版本"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:151
+#: includes/optimization/tabs/wps-optimization-resources.php:151
 msgid "cURL not installed"
 msgstr "cURL未安装"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid ""
 "The PHP cURL Extension version you are running.  cURL is required for the "
 "GeoIP code, if it is not installed GeoIP will be disabled."
@@ -1092,104 +1007,84 @@ msgstr ""
 "你使用的PHP cURL扩展版本。GeoIP代码需要cURL，如果cURL没有安装，GeoIP将被禁"
 "用。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "BC Math"
 msgstr "高精度数学"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+#: includes/optimization/tabs/wps-optimization-resources.php:162
 msgid "Installed"
 msgstr "已安装"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:162
+#: includes/optimization/tabs/wps-optimization-resources.php:162
 msgid "Not installed"
 msgstr "未安装"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:114
+#: includes/settings/tabs/wps-geoip.php:114
 msgid ""
 "GeoIP collection requires the cURL PHP extension and it is not loaded on "
 "your version of PHP!"
 msgstr "GeoIP需要cURL PHP扩展，但是在您目前的PHP版本中，该扩展没有被加载。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:120
+#: includes/settings/tabs/wps-geoip.php:120
 msgid ""
 "GeoIP collection requires the BC Math PHP extension and it is not loaded on "
 "your version of PHP!"
 msgstr "GeoIP需要BC Math PHP扩展，但是在您目前的PHP版本中，该扩展没有被加载。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:26
+#: includes/functions/geoip-populate.php:26
 msgid ""
 "Unable to load the GeoIP database, make sure you have downloaded it in the "
 "settings page."
 msgstr "无法打开GeoIP数据库，请确保你已经在设置页面下载该数据库。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:182
+#: includes/optimization/tabs/wps-optimization-resources.php:182
 msgid "Database file does not exist."
 msgstr "数据库文件不存在"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:59
+#: includes/log/last-visitor.php:59
 msgid "Search for"
 msgstr "搜索"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:13
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:13
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:16
+#: includes/log/widgets/browsers.php:8 includes/log/widgets/countries.php:11
+#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:13
+#: includes/log/widgets/recent.php:9 includes/log/widgets/referring.php:13
+#: includes/log/widgets/search.php:8 includes/log/widgets/words.php:16
 msgid "More"
 msgstr "更多"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:269
+#: includes/settings/tabs/wps-general.php:269
 msgid "Include totals"
 msgstr "包含总数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:275
+#: includes/settings/tabs/wps-general.php:275
 msgid ""
 "Add a total line to charts with multiple values, like the search engine "
 "referrals"
 msgstr "用多个不用的值在图表中增加一个总行，例如像搜索引擎引用数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:100
+#: includes/settings/tabs/wps-overview-display.php:100
 msgid "Disable map"
 msgstr "禁用map"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:106
+#: includes/settings/tabs/wps-overview-display.php:106
 msgid "Disable the map display"
 msgstr "禁用map显示"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:112
+#: includes/settings/tabs/wps-overview-display.php:112
 msgid "Get country location from Google"
 msgstr "从谷歌获得国家位置信息"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:8
+#: includes/log/exclusions.php:8
 msgid ""
 "Attention: Exclusion are not currently set to be recorded, the results below "
 "may not reflect current statistics!"
 msgstr "小心：现在没有设定记录过滤信息，所以下面的结果可能不是当前的统计信息。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:118
+#: includes/log/exclusions.php:118
 msgid "Number of excluded hits"
 msgstr "过滤掉的点击数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:86
+#: includes/settings/tabs/wps-access-level.php:86
 msgid ""
 "Hint: manage_network = Super Admin Network, manage_options = Administrator, "
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
@@ -1199,14 +1094,12 @@ msgstr ""
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
 "Contributor, read = Everyone."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:99
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:151
+#: includes/settings/tabs/wps-access-level.php:99
+#: includes/settings/tabs/wps-access-level.php:151
 msgid "Enable"
 msgstr "使能"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:100
+#: includes/settings/tabs/wps-access-level.php:100
 msgid ""
 "This will record all the excluded hits in a separate table with the reasons "
 "why it was excluded but no other information.  This will generate a lot of "
@@ -1217,226 +1110,156 @@ msgstr ""
 "样虽然会产生很多数据，但是却是非常有用的，特别是当你想知道你的网站总的点击数"
 "时。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:168
+#: includes/settings/tabs/wps-access-level.php:168
 msgid "Site URL Exclusions"
 msgstr "网址过滤"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:175
+#: includes/settings/tabs/wps-access-level.php:175
 msgid "Exclude the login page for registering as a hit."
 msgstr "将注册页面的点击过滤掉。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:182
+#: includes/settings/tabs/wps-access-level.php:182
 msgid "Exclude the admin pages for registering as a hit."
 msgstr "将管理界面的那次注册点击过滤掉。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:93
-#: Plugins\wp-statistics\trunk/wp-statistics.php:243
+#: includes/settings/tabs/wps-access-level.php:93 wp-statistics.php:254
 msgid "Exclusions"
 msgstr "过滤"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:68
+#: includes/log/exclusions.php:68
 msgid "Total Exclusions: %s"
 msgstr "总共过滤数：%s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:75
+#: includes/log/exclusions.php:75
 msgid "Exclusions Statistical Chart"
 msgstr "过滤统计表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:33
+#: includes/settings/tabs/wps-access-level.php:33
 msgid "Access Levels"
 msgstr "访问等级"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:126
+#: includes/optimization/wps-optimization.php:126
 msgid "Resources/Information"
 msgstr "资源/信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:128
+#: includes/optimization/wps-optimization.php:128
 msgid "Purging"
 msgstr "清除"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:130
+#: includes/optimization/wps-optimization.php:130
 msgid "Updates"
 msgstr "更新"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:88
+#: includes/settings/wps-settings.php:88
 msgid "Access/Exclusions"
 msgstr "访问/过滤"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:91
+#: includes/settings/wps-settings.php:91
 msgid "Maintenance"
 msgstr "维护"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:126
+#: includes/settings/wps-settings.php:126
 msgid "Update"
 msgstr "更新"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:86
+#: includes/settings/wps-settings.php:86
 msgid "General"
 msgstr "通用设置"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:57
+#: includes/optimization/empty.php:57
 msgid "Error, %s not emptied!"
 msgstr "错误，%s 未清空。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:118
+#: includes/optimization/tabs/wps-optimization-purging.php:118
 msgid "Data"
 msgstr "数据"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:145
+#: includes/optimization/tabs/wps-optimization-purging.php:145
 msgid "Purge records older than"
 msgstr "清除记录条件选择"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:151
+#: includes/optimization/tabs/wps-optimization-purging.php:151
 msgid ""
 "Deleted user statistics data older than the selected number of days.  "
 "Minimum value is 30 days."
 msgstr "清除比所选日期更加久远的统计数据。日期最小值为30天。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:152
+#: includes/optimization/tabs/wps-optimization-purging.php:152
 msgid "Purge now!"
 msgstr "现在清除。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:17
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:27
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:37
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:47
-msgid ""
-"<code>%s</code> data older than <code>%s</code> days purged successfully."
-msgstr ""
-"<code>%s</code> data older than <code>%s</code> days purged successfully."
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:19
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:29
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:39
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:49
-msgid "No records found to purge from <code>%s</code>!"
-msgstr "从<code>%s</code>没有找到要清除的信息！"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:55
+#: includes/optimization/purge-data.php:55
 msgid "Please select a value over 30 days."
 msgstr "请选择一个大于30天的值"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:20
+#: includes/settings/tabs/wps-maintenance.php:20
 msgid ""
 "This will permanently delete data from the database each day, are you sure "
 "you want to enable this option?"
 msgstr "该选项会将每天数据库的信息永久删除，你确定要使能该选项吗？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:30
+#: includes/settings/tabs/wps-maintenance.php:30
 msgid "Database Maintenance"
 msgstr "数据库维护"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:35
+#: includes/settings/tabs/wps-maintenance.php:35
 msgid "Run a daily WP Cron job to prune the databases"
 msgstr "运行一个每日的程序来清理数据库"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:41
+#: includes/settings/tabs/wps-maintenance.php:41
 msgid ""
 "A WP Cron job will be run daily to prune any data older than a set number of "
 "days."
 msgstr "计划程序将会永久的删除比设定日期更加久远的数据。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:47
+#: includes/settings/tabs/wps-maintenance.php:47
 msgid "Prune data older than"
 msgstr "删除更老的数据"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:52
+#: includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
 msgstr "天"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:53
+#: includes/settings/tabs/wps-maintenance.php:53
 msgid ""
 "The number of days to keep statistics for.  Minimum value is 30 days.  "
 "Invalid values will disable the daily maintenance."
 msgstr "保留统计信息的天数。最小值为30天。不合法的值代表不使用日常维护功能。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:106
-msgid "Date: <code dir=\"ltr\">%s</code></code>"
-msgstr "日期： <code dir=\"ltr\">%s</code>"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:110
-msgid "Time: <code dir=\"ltr\">%s</code>"
-msgstr "时间： <code dir=\"ltr\">%s</code>"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:89
+#: includes/settings/wps-settings.php:89
 msgid "GeoIP"
 msgstr "基于IP的地理位置查询（GeoIP）"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:54
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:64
+#: includes/settings/tabs/wps-browscap.php:54
+#: includes/settings/tabs/wps-geoip.php:64
 msgid "Next update will be"
 msgstr "下一次更新"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:109
+#: includes/settings/tabs/wps-geoip.php:109
 msgid ""
 "GeoIP collection requires PHP %s or above, it is currently disabled due to "
 "the installed PHP version being  "
 msgstr "GeoIP需要以上%s以上的PHP版本，目前GeoIP未启用使用为当前安装的PHP版本为"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:64
+#: includes/log/widgets/search.php:8 includes/log/widgets/summary.php:64
 msgid "Search Engine Referrals"
 msgstr "搜索引擎引用次数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:88
+#: includes/log/widgets/summary.php:88
 msgid "Daily Total"
 msgstr "每日总计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+#: includes/log/widgets/summary.php:102
 msgid "Current Time and Date"
 msgstr "当前时间和日期："
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:39
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:25
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:39
+#: includes/optimization/tabs/wps-optimization-updates.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:40
 msgid "Update Now!"
 msgstr "现在更新！"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:85
-msgid ""
-"See the  %sWordPress Roles and Capabilities page%s for details on capability "
-"levels."
-msgstr "请查看%sWordPress Roles and Capabilities page%s了解等级权限。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:87
+#: includes/settings/tabs/wps-access-level.php:87
 msgid ""
 "Each of the above casscades the rights upwards in the default WordPress "
 "configuration.  So for example selecting publish_posts grants the right to "
@@ -1446,8 +1269,7 @@ msgstr ""
 "publish_posts权限授予某人，那么他将拥有以下权限：作者，编辑者，管理员和超级管"
 "理员。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:88
+#: includes/settings/tabs/wps-access-level.php:88
 msgid ""
 "If you need a more robust solution to delegate access you might want to look "
 "at %s in the WordPress plugin directory."
@@ -1455,1015 +1277,778 @@ msgstr ""
 "如果你需要一个更加稳妥的解决方案来优雅的访问，那么你可以在WordPress的插件目录"
 "看一下 %s。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:62
+#: includes/settings/tabs/wps-access-level.php:62
 msgid "Required user level to view WP Statistics"
 msgstr "查看WP Statistics信息需要的用户等级"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:77
+#: includes/settings/tabs/wps-access-level.php:77
 msgid "Required user level to manage WP Statistics"
 msgstr "管理WP Statistics所需的用户等级"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:56
+#: includes/settings/tabs/wps-geoip.php:56
 msgid "Schedule monthly update of GeoIP DB"
 msgstr "计划每月更新GeoIP数据库"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:82
+#: includes/settings/tabs/wps-geoip.php:82
 msgid ""
 "Download of the GeoIP database will be scheduled for 2 days after the first "
 "Tuesday of the month."
 msgstr "计划每月第一个周二的未来两天用来下载GeoIP数据库。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:83
+#: includes/settings/tabs/wps-geoip.php:83
 msgid ""
 "This option will also download the database if the local filesize is less "
 "than 1k (which usually means the stub that comes with the plugin is still in "
 "place)."
 msgstr "这个选项将会在本地文件不足1K的前提下依然下载数据库"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:89
+#: includes/settings/tabs/wps-geoip.php:89
 msgid "Populate missing GeoIP after update of GeoIP DB"
 msgstr "更新GeoIP数据库后丢失GeoIP信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:95
+#: includes/settings/tabs/wps-geoip.php:95
 msgid "Update any missing GeoIP data after downloading a new database."
 msgstr "更新任何因为下载新数据而丢失的GeoIP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/functions/geoip-populate.php:50
+#: includes/functions/geoip-populate.php:50
 msgid "Updated %s GeoIP records in the visitors database."
 msgstr "在访客数据库中更新%s GeoIP。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:98
+#: includes/optimization/tabs/wps-optimization-resources.php:98
 msgid "Version Info"
 msgstr "版本信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:103
+#: includes/optimization/tabs/wps-optimization-resources.php:103
 msgid "WP Statistics Version"
 msgstr "WP Statistics 版本"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:108
+#: includes/optimization/tabs/wps-optimization-resources.php:108
 msgid "The WP Statistics version you are running."
 msgstr "你运行的WP Statistics版本"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:114
+#: includes/optimization/tabs/wps-optimization-resources.php:114
 msgid "PHP Version"
 msgstr "PHP版本"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:119
+#: includes/optimization/tabs/wps-optimization-resources.php:119
 msgid "The PHP version you are running."
 msgstr "你使用的PHP版本"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "jQuery Version"
 msgstr "jQuery版本"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The jQuery version you are running."
 msgstr "你使用的jQuery版本"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:599
+#: wp-statistics.php:610
 msgid "Error could not open downloaded GeoIP database for reading: %s"
 msgstr "无法读取已下载的GeoIP数据库：%s"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:606
+#: wp-statistics.php:617
 msgid "Error could not open destination GeoIP database for writing %s"
 msgstr "错误：无法打开%s进行GeoIP数据库读写"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:622
+#: wp-statistics.php:633
 msgid "GeoIP Database updated successfully!"
 msgstr "GeoIP数据库更新成功！"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:210
+#: includes/optimization/tabs/wps-optimization-resources.php:229
 msgid "Client Info"
 msgstr "客户端信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:215
+#: includes/optimization/tabs/wps-optimization-resources.php:234
 msgid "Client IP"
 msgstr "客户端IP"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:220
+#: includes/optimization/tabs/wps-optimization-resources.php:239
 msgid "The client IP address."
 msgstr "客户端IP地址"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:226
+#: includes/optimization/tabs/wps-optimization-resources.php:245
 msgid "User Agent"
 msgstr "用户代理"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:231
+#: includes/optimization/tabs/wps-optimization-resources.php:250
 msgid "The client user agent string."
 msgstr "用户代理信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:105
+#: includes/settings/tabs/wps-access-level.php:105
 msgid "Exclude User Roles"
 msgstr "过滤用户角色"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:119
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:174
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:181
+#: includes/settings/tabs/wps-access-level.php:119
+#: includes/settings/tabs/wps-access-level.php:174
+#: includes/settings/tabs/wps-access-level.php:181
 msgid "Exclude"
 msgstr "过滤"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:120
+#: includes/settings/tabs/wps-access-level.php:120
 msgid "Exclude %s role from data collection."
 msgstr "从收集到的数据过滤%s."
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:126
+#: includes/settings/tabs/wps-access-level.php:126
 msgid "IP/Robot Exclusions"
 msgstr "IP/机器人过滤"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:143
+#: includes/settings/tabs/wps-access-level.php:143
 msgid ""
 "A list of words (one per line) to match against to detect robots.  Entries "
 "must be at least 4 characters long or they will be ignored."
 msgstr ""
 "每行的词语用于检测机器人。每个词语必须至少包含4个字符，否则会被忽略掉。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:144
+#: includes/settings/tabs/wps-access-level.php:144
 msgid "Reset to Default"
 msgstr "恢复初始值"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:161
+#: includes/settings/tabs/wps-access-level.php:161
 msgid "Add 10.0.0.0"
 msgstr "增加 10.0.0.0"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:162
+#: includes/settings/tabs/wps-access-level.php:162
 msgid "Add 172.16.0.0"
 msgstr "增加 172.16.0.0"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-access-level.php:163
+#: includes/settings/tabs/wps-access-level.php:163
 msgid "Add 192.168.0.0"
 msgstr "增加 192.168.1.0"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:264
+#: includes/settings/tabs/wps-general.php:264
 msgid "Charts"
 msgstr "图表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:38
+#: includes/settings/tabs/wps-geoip.php:38
 msgid ""
 "For get more information and location (country) from visitor, enable this "
 "feature."
 msgstr "为了得到更多关于访客的信息和地理位置（国家），请使能该特性。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/wps-settings.php:87
-#: Plugins\wp-statistics\trunk/wp-statistics.php:237
+#: includes/settings/wps-settings.php:87 wp-statistics.php:248
 msgid "Overview"
 msgstr "总览"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-database.php:25
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:21
-#: Plugins\wp-statistics\trunk/wp-statistics.php:240
+#: includes/optimization/tabs/wps-optimization-database.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:21
+#: wp-statistics.php:251
 msgid "Countries"
 msgstr "国家"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:165
-#: Plugins\wp-statistics\trunk/wp-statistics.php:242
+#: wp-statistics.php:176 wp-statistics.php:253
 msgid "Hits"
 msgstr "点击数"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:244
+#: wp-statistics.php:255
 msgid "Referers"
 msgstr "引用数"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:245
+#: wp-statistics.php:256
 msgid "Searches"
 msgstr "搜索"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:246
+#: wp-statistics.php:257
 msgid "Search Words"
 msgstr "词语搜索"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:94
+#: includes/settings/tabs/wps-general.php:94
 msgid "Second"
 msgstr "秒"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:17
+#: includes/log/all-browsers.php:17
 msgid "Browser Statistics"
 msgstr "浏览器统计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:107
+#: includes/log/all-browsers.php:107
 msgid "Platform"
 msgstr "平台"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:241
+#: includes/log/all-browsers.php:241
 msgid "%s Version"
 msgstr "%s 版本"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:17
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:8
+#: includes/log/hit-statistics.php:17 includes/log/widgets/hits.php:8
 msgid "Hit Statistics"
 msgstr "点击统计"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:57
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:21
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:33
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:21
+#: includes/log/exclusions.php:57 includes/log/hit-statistics.php:21
+#: includes/log/page-statistics.php:33 includes/log/search-statistics.php:21
 msgid "10 Days"
 msgstr "10 天"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:58
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:22
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:34
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:22
+#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:22
+#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:22
 msgid "20 Days"
 msgstr "20 天"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:59
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:23
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:23
+#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:23
+#: includes/log/page-statistics.php:35 includes/log/search-statistics.php:23
 msgid "30 Days"
 msgstr "30 天"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:60
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:24
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:36
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:24
+#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:24
+#: includes/log/page-statistics.php:36 includes/log/search-statistics.php:24
 msgid "2 Months"
 msgstr "2个月"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:61
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:25
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:37
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:25
+#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:25
+#: includes/log/page-statistics.php:37 includes/log/search-statistics.php:25
 msgid "3 Months"
 msgstr "3个月"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:62
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:26
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:38
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:26
+#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:26
+#: includes/log/page-statistics.php:38 includes/log/search-statistics.php:26
 msgid "6 Months"
 msgstr "6个月"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:63
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:27
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:39
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:27
+#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:27
+#: includes/log/page-statistics.php:39 includes/log/search-statistics.php:27
 msgid "9 Months"
 msgstr "9个月"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:64
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:28
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:40
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:28
+#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:28
+#: includes/log/page-statistics.php:40 includes/log/search-statistics.php:28
 msgid "1 Year"
 msgstr "一年"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:34
+#: includes/settings/tabs/wps-overview-display.php:34
 msgid "Hits Statistical Chart"
 msgstr "点击数统计图表"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/exclusions.php:97
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:69
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:77
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:39
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:46
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:150
+#: includes/log/exclusions.php:97 includes/log/hit-statistics.php:69
+#: includes/log/search-statistics.php:77 includes/log/widgets/hits.php:39
+#: includes/log/widgets/search.php:46
+#: includes/optimization/tabs/wps-optimization-purging.php:150
 msgid "days"
 msgstr "天"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:11
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:27
+#: includes/log/widgets/countries.php:11
+#: includes/settings/tabs/wps-overview-display.php:27
 msgid "Top 10 Countries"
 msgstr "前十个国家"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:28
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:17
+#: includes/log/top-countries.php:28 includes/log/widgets/countries.php:17
 msgid "Rank"
 msgstr "排名"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:29
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:18
+#: includes/log/top-countries.php:29 includes/log/widgets/countries.php:18
 msgid "Flag"
 msgstr "标志"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:31
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:20
+#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:20
 msgid "Visitor Count"
 msgstr "访客技术"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:35
+#: includes/settings/tabs/wps-overview-display.php:35
 msgid "Search Engine Referrers Statistical Chart"
 msgstr "搜索引擎引用统计图表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:19
+#: includes/log/top-countries.php:19
 msgid "Top Countries"
 msgstr "前几名的国家"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:14
-msgid "<code>%s</code> agent data deleted successfully."
-msgstr "<code>%s</code> 代理缓存数据删除成功。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:14
-msgid "<code>%s</code> platform data deleted successfully."
-msgstr "<code>%s</code> 平台缓存数据删除成功。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:159
+#: includes/optimization/tabs/wps-optimization-purging.php:159
 msgid "Delete User Agent Types"
 msgstr "删除用户代理类型"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:164
+#: includes/optimization/tabs/wps-optimization-purging.php:164
 msgid "Delete Agents"
 msgstr "删除代理"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:179
+#: includes/optimization/tabs/wps-optimization-purging.php:179
 msgid "All visitor data will be lost for this agent type."
 msgstr "该类型的所有访客信息将被删除。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:180
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:204
+#: includes/optimization/tabs/wps-optimization-purging.php:180
+#: includes/optimization/tabs/wps-optimization-purging.php:204
 msgid "Delete now!"
 msgstr "现在删除！"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:188
+#: includes/optimization/tabs/wps-optimization-purging.php:188
 msgid "Delete Platforms"
 msgstr "删除平台"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:203
+#: includes/optimization/tabs/wps-optimization-purging.php:203
 msgid "All visitor data will be lost for this platform type."
 msgstr "该平台的所有访客数据都将被删除。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-updates.php:16
+#: includes/optimization/tabs/wps-optimization-updates.php:16
 msgid "GeoIP Options"
 msgstr "GeoIP选项"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:133
+#: includes/settings/tabs/wps-general.php:133
 msgid "Store entire user agent string"
 msgstr "保存所有用户代理信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:139
+#: includes/settings/tabs/wps-general.php:139
 msgid "Only enabled for debugging"
 msgstr "只用于调试"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:17
+#: includes/settings/tabs/wps-geoip.php:17
 msgid "GeoIP settings"
 msgstr "GeoIP设置"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:32
+#: includes/settings/tabs/wps-geoip.php:32
 msgid "GeoIP collection"
 msgstr "GeoIP收集"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:44
+#: includes/settings/tabs/wps-geoip.php:44
 msgid "Update GeoIP Info"
 msgstr "更新GeoIP信息"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:49
+#: includes/settings/tabs/wps-geoip.php:49
 msgid "Download GeoIP Database"
 msgstr "下载GeoIP数据库"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:40
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:50
+#: includes/settings/tabs/wps-browscap.php:40
+#: includes/settings/tabs/wps-geoip.php:50
 msgid "Save changes on this page to download the update."
 msgstr "保存这个页面的更改来下载更新。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:10
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:36
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:62
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:90
+#: includes/optimization/tabs/wps-optimization-purging.php:10
+#: includes/optimization/tabs/wps-optimization-purging.php:36
+#: includes/optimization/tabs/wps-optimization-purging.php:62
+#: includes/optimization/tabs/wps-optimization-purging.php:90
 msgid "Are you sure?"
 msgstr "确定？"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:137
+#: includes/optimization/tabs/wps-optimization-purging.php:137
 msgid "Clear now!"
 msgstr "马上清除！"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:250
+#: wp-statistics.php:261
 msgid "Optimization"
 msgstr "优化"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/export.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/purge-data.php:5
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:3
-#: Plugins\wp-statistics\trunk/manual/manual.php:5
+#: includes/optimization/delete-agents.php:5
+#: includes/optimization/delete-platforms.php:5
+#: includes/optimization/empty.php:5 includes/optimization/export.php:5
+#: includes/optimization/purge-data.php:5
+#: includes/optimization/wps-optimization.php:3 manual/manual.php:5
 msgid "Access denied!"
 msgstr "拒绝访问"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:53
-msgid "<code>%s</code> table data deleted successfully."
-msgstr "<code>%s</code> 图表缓存数据删除成功。"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-agents.php:18
-#: Plugins\wp-statistics\trunk/includes/optimization/delete-platforms.php:18
-#: Plugins\wp-statistics\trunk/includes/optimization/empty.php:42
-#: Plugins\wp-statistics\trunk/includes/optimization/export.php:57
+#: includes/optimization/delete-agents.php:18
+#: includes/optimization/delete-platforms.php:18
+#: includes/optimization/empty.php:42 includes/optimization/export.php:57
 msgid "Please select the desired items."
 msgstr "请选择期望的条目"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:17
+#: includes/optimization/tabs/wps-optimization-resources.php:17
 msgid "Resources"
 msgstr "资源"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:22
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:27
+#: includes/optimization/tabs/wps-optimization-resources.php:22
+#: includes/optimization/tabs/wps-optimization-resources.php:27
 msgid "Memory usage in PHP"
 msgstr "PHP中内存使用"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:26
+#: includes/optimization/tabs/wps-optimization-resources.php:26
 msgid "Byte"
 msgstr "字节"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:48
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:59
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:70
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:81
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:92
+#: includes/optimization/tabs/wps-optimization-resources.php:48
+#: includes/optimization/tabs/wps-optimization-resources.php:59
+#: includes/optimization/tabs/wps-optimization-resources.php:70
+#: includes/optimization/tabs/wps-optimization-resources.php:81
+#: includes/optimization/tabs/wps-optimization-resources.php:92
 msgid "Row"
 msgstr "行"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:49
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:60
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:71
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:82
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-resources.php:93
+#: includes/optimization/tabs/wps-optimization-resources.php:49
+#: includes/optimization/tabs/wps-optimization-resources.php:60
+#: includes/optimization/tabs/wps-optimization-resources.php:71
+#: includes/optimization/tabs/wps-optimization-resources.php:82
+#: includes/optimization/tabs/wps-optimization-resources.php:93
 msgid "Number of rows"
 msgstr "行数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:7
-#: Plugins\wp-statistics\trunk/includes/optimization/wps-optimization.php:127
+#: includes/optimization/tabs/wps-optimization-export.php:7
+#: includes/optimization/wps-optimization.php:127
 msgid "Export"
 msgstr "导出"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:12
+#: includes/optimization/tabs/wps-optimization-export.php:12
 msgid "Export from"
 msgstr "导出来源"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:24
+#: includes/optimization/tabs/wps-optimization-export.php:24
 msgid "Select the table for the output file."
 msgstr "导出格式"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:30
+#: includes/optimization/tabs/wps-optimization-export.php:30
 msgid "Export To"
 msgstr "导出到"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:41
+#: includes/optimization/tabs/wps-optimization-export.php:41
 msgid "Select the output file type."
 msgstr "选择导出文件格式"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-export.php:53
+#: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Start Now!"
 msgstr "开始！"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:123
+#: includes/optimization/tabs/wps-optimization-purging.php:123
 msgid "Empty Table"
 msgstr "空表"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:136
+#: includes/optimization/tabs/wps-optimization-purging.php:136
 msgid "All data table will be lost."
 msgstr "所有的表数据将丢失。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:40
+#: includes/settings/tabs/wps-about.php:44
 msgid "Support"
 msgstr "帮助"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:47
+#: includes/settings/tabs/wps-about.php:74
+msgid "Farsi"
+msgstr "波斯语"
+
+#: includes/log/top-referring.php:47
 msgid "Referring sites from"
 msgstr "来自网址的引用"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-about.php:32
+#: includes/settings/tabs/wps-about.php:36
 msgid "Translations"
 msgstr "翻译"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:4
+#: includes/log/top-referring.php:4
 msgid "To be added soon"
 msgstr "功能快将加入"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:102
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:99
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:78
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:27
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:32
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:33
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:71
+#: includes/log/last-search.php:102 includes/log/last-visitor.php:99
+#: includes/log/top-referring.php:78 includes/log/widgets/recent.php:27
+#: includes/log/widgets/words.php:32
+#: includes/settings/tabs/wps-overview-display.php:33
+#: includes/settings/tabs/wps-overview-display.php:71
 msgid "Map"
 msgstr "地图"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
+#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
 msgid "Page"
 msgstr "页面"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:139
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:132
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:181
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:132
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
+#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
 msgid "From"
 msgstr "由"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:444
+#: wp-statistics.php:455
 msgid "Table plugin does not exist! Please disable and re-enable the plugin."
 msgstr "插件表并不存在！请停用插件，然后再启用它"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:280
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:285
-#: Plugins\wp-statistics\trunk/schedule.php:175
+#: includes/settings/tabs/wps-general.php:280
+#: includes/settings/tabs/wps-general.php:285 schedule.php:161
 msgid "Statistical reporting"
 msgstr "统计报告"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:14
-#: Plugins\wp-statistics\trunk/wp-statistics.php:234
+#: widget.php:14 wp-statistics.php:245
 msgid "Statistics"
 msgstr "统计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:369
-#: Plugins\wp-statistics\trunk/widget.php:38
-#: Plugins\wp-statistics\trunk/widget.php:247
-#: Plugins\wp-statistics\trunk/wp-statistics.php:299
+#: includes/settings/tabs/wps-general.php:369 widget.php:38 widget.php:247
+#: wp-statistics.php:310
 msgid "User Online"
 msgstr "在线用户"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:371
-#: Plugins\wp-statistics\trunk/widget.php:45
-#: Plugins\wp-statistics\trunk/widget.php:250
+#: includes/settings/tabs/wps-general.php:371 widget.php:45 widget.php:250
 msgid "Today Visit"
 msgstr "今日访问"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:370
-#: Plugins\wp-statistics\trunk/widget.php:52
-#: Plugins\wp-statistics\trunk/widget.php:253
+#: includes/settings/tabs/wps-general.php:370 widget.php:52 widget.php:253
 msgid "Today Visitor"
 msgstr "今日访客"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:373
-#: Plugins\wp-statistics\trunk/widget.php:59
+#: includes/settings/tabs/wps-general.php:373 widget.php:59
 msgid "Yesterday Visit"
 msgstr "昨日访问"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:372
-#: Plugins\wp-statistics\trunk/widget.php:66
-#: Plugins\wp-statistics\trunk/widget.php:259
+#: includes/settings/tabs/wps-general.php:372 widget.php:66 widget.php:259
 msgid "Yesterday Visitor"
 msgstr "昨日访客"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:73
-#: Plugins\wp-statistics\trunk/widget.php:262
+#: widget.php:73 widget.php:262
 msgid "Week Visit"
 msgstr "本周访问"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:80
-#: Plugins\wp-statistics\trunk/widget.php:265
+#: widget.php:80 widget.php:265
 msgid "Month Visit"
 msgstr "本月访问"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:87
-#: Plugins\wp-statistics\trunk/widget.php:268
+#: widget.php:87 widget.php:268
 msgid "Years Visit"
 msgstr "本年访问"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:375
-#: Plugins\wp-statistics\trunk/widget.php:94
-#: Plugins\wp-statistics\trunk/widget.php:271
+#: includes/settings/tabs/wps-general.php:375 widget.php:94 widget.php:271
 msgid "Total Visit"
 msgstr "累计访问"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:374
-#: Plugins\wp-statistics\trunk/widget.php:101
-#: Plugins\wp-statistics\trunk/widget.php:274
+#: includes/settings/tabs/wps-general.php:374 widget.php:101 widget.php:274
 msgid "Total Visitor"
 msgstr "累计访客"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:123
-#: Plugins\wp-statistics\trunk/widget.php:300
+#: widget.php:123 widget.php:300
 msgid "Total Posts"
 msgstr "总计文章"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:130
-#: Plugins\wp-statistics\trunk/widget.php:303
+#: widget.php:130 widget.php:303
 msgid "Total Pages"
 msgstr "总计页面"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:137
-#: Plugins\wp-statistics\trunk/widget.php:306
+#: widget.php:137 widget.php:306
 msgid "Total Comments"
 msgstr "总计回响"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:144
-#: Plugins\wp-statistics\trunk/widget.php:309
+#: widget.php:144 widget.php:309
 msgid "Total Spams"
 msgstr "总计垃圾"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:151
-#: Plugins\wp-statistics\trunk/widget.php:312
+#: widget.php:151 widget.php:312
 msgid "Total Users"
 msgstr "总计用户"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:158
-#: Plugins\wp-statistics\trunk/widget.php:315
+#: widget.php:158 widget.php:315
 msgid "Average Posts"
 msgstr "平均文章"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:165
-#: Plugins\wp-statistics\trunk/widget.php:318
+#: widget.php:165 widget.php:318
 msgid "Average Comments"
 msgstr "平均回响"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:172
-#: Plugins\wp-statistics\trunk/widget.php:321
+#: widget.php:172 widget.php:321
 msgid "Average Users"
 msgstr "平均用户"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:179
-#: Plugins\wp-statistics\trunk/widget.php:324
+#: widget.php:179 widget.php:324
 msgid "Last Post Date"
 msgstr "最后发表日期"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:329
+#: wp-statistics.php:340
 msgid "View Stats"
 msgstr "检阅统计数据"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:141
-#: Plugins\wp-statistics\trunk/wp-statistics.php:251
+#: wp-statistics.php:152 wp-statistics.php:262
 msgid "Settings"
 msgstr "设定"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:305
+#: wp-statistics.php:316
 msgid "Today visitor"
 msgstr "累计访客"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:311
+#: wp-statistics.php:322
 msgid "Today visit"
 msgstr "累计访问"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:317
+#: wp-statistics.php:328
 msgid "Yesterday visitor"
 msgstr "昨日访客"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:256
-#: Plugins\wp-statistics\trunk/wp-statistics.php:323
+#: widget.php:256 wp-statistics.php:334
 msgid "Yesterday visit"
 msgstr "昨日访问"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/wp-statistics.php:433
-#: Plugins\wp-statistics\trunk/wp-statistics.php:533
-#: Plugins\wp-statistics\trunk/wp-statistics.php:804
+#: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
 msgid "You do not have sufficient permissions to access this page."
 msgstr "你没有足够权限访问此页"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:23
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:106
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:240
-#: Plugins\wp-statistics\trunk/includes/log/exclusions.php:74
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/last-search.php:61
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:57
-#: Plugins\wp-statistics\trunk/includes/log/page-statistics.php:47
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:35
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:19
-#: Plugins\wp-statistics\trunk/includes/log/top-pages.php:131
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:45
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:9
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:64
-#: Plugins\wp-statistics\trunk/includes/log/widgets/google.map.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/jqv.map.php:8
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:11
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:7
-#: Plugins\wp-statistics\trunk/includes/log/widgets/words.php:14
+#: includes/log/all-browsers.php:23 includes/log/all-browsers.php:106
+#: includes/log/all-browsers.php:240 includes/log/exclusions.php:74
+#: includes/log/hit-statistics.php:35 includes/log/last-search.php:61
+#: includes/log/last-visitor.php:57 includes/log/page-statistics.php:47
+#: includes/log/search-statistics.php:35 includes/log/top-pages.php:19
+#: includes/log/top-pages.php:131 includes/log/top-referring.php:45
+#: includes/log/widgets/about.php:7 includes/log/widgets/browsers.php:7
+#: includes/log/widgets/countries.php:9 includes/log/widgets/google.map.php:8
+#: includes/log/widgets/hits.php:7 includes/log/widgets/jqv.map.php:8
+#: includes/log/widgets/pages.php:11 includes/log/widgets/recent.php:7
+#: includes/log/widgets/referring.php:11 includes/log/widgets/search.php:7
+#: includes/log/widgets/summary.php:7 includes/log/widgets/words.php:14
 msgid "Click to toggle"
 msgstr "点击切换"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:24
+#: includes/settings/tabs/wps-overview-display.php:24
 msgid "Summary Statistics"
 msgstr "统计小结"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:19
+#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
+#: includes/log/widgets/summary.php:19
 msgid "Visitor"
 msgstr "访客"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:104
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:74
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:20
+#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
+#: includes/log/widgets/summary.php:20
 msgid "Visit"
 msgstr "访问"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:24
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:69
+#: includes/log/widgets/summary.php:24 includes/log/widgets/summary.php:69
 msgid "Today"
 msgstr "今天"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:70
+#: includes/log/widgets/summary.php:30 includes/log/widgets/summary.php:70
 msgid "Yesterday"
 msgstr "昨日"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:36
+#: includes/log/widgets/summary.php:36
 msgid "Week"
 msgstr "本周"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:42
+#: includes/log/widgets/summary.php:42
 msgid "Month"
 msgstr "本月"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:48
+#: includes/log/widgets/summary.php:48
 msgid "Year"
 msgstr "本年"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/search-statistics.php:112
-#: Plugins\wp-statistics\trunk/includes/log/widgets/search.php:81
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:54
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:94
+#: includes/log/search-statistics.php:112 includes/log/widgets/search.php:81
+#: includes/log/widgets/summary.php:54 includes/log/widgets/summary.php:94
 msgid "Total"
 msgstr "总计"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/summary.php:102
+#: includes/log/widgets/summary.php:102
 msgid "(Adjustment)"
 msgstr "（调整）"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/all-browsers.php:24
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:8
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:25
-#: Plugins\wp-statistics\trunk/wp-statistics.php:238
+#: includes/log/all-browsers.php:24 includes/log/widgets/browsers.php:8
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:249
 msgid "Browsers"
 msgstr "浏览器"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/browsers.php:38
+#: includes/log/widgets/browsers.php:38
 msgid "Other"
 msgstr "其他"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/widgets/referring.php:20
+#: includes/log/widgets/referring.php:20
 msgid "Address"
 msgstr "网址"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/hit-statistics.php:90
-#: Plugins\wp-statistics\trunk/includes/log/widgets/hits.php:60
+#: includes/log/hit-statistics.php:90 includes/log/widgets/hits.php:60
 msgid "Number of visits and visitors"
 msgstr "访客或点击数量"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:86
+#: includes/settings/tabs/wps-overview-display.php:86
 msgid "Google"
 msgstr "谷歌 （Google）"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:27
-#: Plugins\wp-statistics\trunk/includes/log/widgets/recent.php:9
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:38
+#: includes/log/last-visitor.php:27 includes/log/widgets/recent.php:9
+#: includes/settings/tabs/wps-overview-display.php:38
 msgid "Recent Visitors"
 msgstr "最近访客"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/top-countries.php:30
-#: Plugins\wp-statistics\trunk/includes/log/widgets/countries.php:19
+#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:19
 msgid "Country"
 msgstr "国家"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:27
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-browscap.php:51
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:66
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:82
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:110
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:126
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:138
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:165
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:177
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:189
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:219
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:231
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:274
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:290
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:37
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:61
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-geoip.php:94
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-maintenance.php:40
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:105
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-overview-display.php:117
+#: includes/settings/tabs/wps-browscap.php:27
+#: includes/settings/tabs/wps-browscap.php:51
+#: includes/settings/tabs/wps-general.php:66
+#: includes/settings/tabs/wps-general.php:82
+#: includes/settings/tabs/wps-general.php:110
+#: includes/settings/tabs/wps-general.php:126
+#: includes/settings/tabs/wps-general.php:138
+#: includes/settings/tabs/wps-general.php:165
+#: includes/settings/tabs/wps-general.php:177
+#: includes/settings/tabs/wps-general.php:189
+#: includes/settings/tabs/wps-general.php:219
+#: includes/settings/tabs/wps-general.php:231
+#: includes/settings/tabs/wps-general.php:274
+#: includes/settings/tabs/wps-general.php:290
+#: includes/settings/tabs/wps-geoip.php:37
+#: includes/settings/tabs/wps-geoip.php:61
+#: includes/settings/tabs/wps-geoip.php:94
+#: includes/settings/tabs/wps-maintenance.php:40
+#: includes/settings/tabs/wps-overview-display.php:105
+#: includes/settings/tabs/wps-overview-display.php:117
 msgid "Active"
 msgstr "启动"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:83
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:111
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:127
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:166
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:178
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:190
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:291
+#: includes/settings/tabs/wps-general.php:83
+#: includes/settings/tabs/wps-general.php:111
+#: includes/settings/tabs/wps-general.php:127
+#: includes/settings/tabs/wps-general.php:166
+#: includes/settings/tabs/wps-general.php:178
+#: includes/settings/tabs/wps-general.php:190
+#: includes/settings/tabs/wps-general.php:291
 msgid "Enable or disable this feature"
 msgstr "启用或停用这功能"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/includes/log/top-pages.php:163
-#: Plugins\wp-statistics\trunk/includes/log/widgets/pages.php:30
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:100
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:105
+#: includes/log/top-pages.php:163 includes/log/widgets/pages.php:30
+#: includes/settings/tabs/wps-general.php:100
+#: includes/settings/tabs/wps-general.php:105
 msgid "Visits"
 msgstr "点击"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:116
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:121
-#: Plugins\wp-statistics\trunk/wp-statistics.php:247
+#: includes/settings/tabs/wps-general.php:116
+#: includes/settings/tabs/wps-general.php:121 wp-statistics.php:258
 msgid "Visitors"
 msgstr "访客"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:89
+#: includes/settings/tabs/wps-general.php:89
 msgid "Check for online users every"
 msgstr "检查在线用户间隔"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:95
+#: includes/settings/tabs/wps-general.php:95
 msgid "Time for the check accurate online user in the site. Now: %s Second"
 msgstr "检查有效在线用户的间隔。现在：每 %s 秒"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:200
+#: includes/settings/tabs/wps-general.php:200
 msgid "Show stats in menu bar"
 msgstr "在菜单中显示"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:205
+#: includes/settings/tabs/wps-general.php:205
 msgid "No"
 msgstr "否"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:206
+#: includes/settings/tabs/wps-general.php:206
 msgid "Yes"
 msgstr "是"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:208
+#: includes/settings/tabs/wps-general.php:208
 msgid "Show stats in admin menu bar"
 msgstr "在管理菜单中显示"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:145
+#: includes/settings/tabs/wps-general.php:145
 msgid "Coefficient per visitor"
 msgstr "访客系数"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:150
+#: includes/settings/tabs/wps-general.php:150
 msgid "For each visit to account for several hits. Currently %s."
 msgstr "每一个访问计算多少位访客，现时 %s "
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:322
+#: includes/settings/tabs/wps-general.php:322
 msgid "Select when receiving statistics report."
 msgstr "选择何时接收统计报告"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:334
+#: includes/settings/tabs/wps-general.php:334
 msgid "Email"
 msgstr "电子邮件"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:335
+#: includes/settings/tabs/wps-general.php:335
 msgid "SMS"
 msgstr "短讯"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:337
+#: includes/settings/tabs/wps-general.php:337
 msgid "Type Select Get Status Report."
 msgstr "选择获取状态报告信息的类型。"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:340
-msgid ""
-"Note: To send SMS text messages please install the <a href=\"%s\" target="
-"\"_blank\">Wordpress SMS</a> plugin."
-msgstr ""
-"注意：要发送SMS文字短讯，请安装 <a href=\"%s\" target=\"_blank\">Wordpress "
-"SMS</a> 插件"
-
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/settings/tabs/wps-general.php:363
+#: includes/settings/tabs/wps-general.php:363
 msgid "Enter the contents of the reports received."
 msgstr "输入收到的报告内容。"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:240
+#: widget.php:240
 msgid "Name"
 msgstr "名称"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:244
+#: widget.php:244
 msgid "Items"
 msgstr "条目"
 
-#: D:\SVN\Wordpress Plugins\wp-statistics\trunk/widget.php:283
+#: widget.php:283
 msgid "Select type of search engine"
 msgstr "选择搜寻引擎种类"
 
-#: D:\SVN\Wordpress
-#: Plugins\wp-statistics\trunk/includes/log/last-visitor.php:29
-#: Plugins\wp-statistics\trunk/includes/log/top-referring.php:36
-#: Plugins\wp-statistics\trunk/includes/optimization/tabs/wps-optimization-purging.php:134
-#: Plugins\wp-statistics\trunk/widget.php:296
+#: includes/log/last-visitor.php:29 includes/log/top-referring.php:36
+#: includes/optimization/tabs/wps-optimization-purging.php:134 widget.php:296
 msgid "All"
 msgstr "全部"
