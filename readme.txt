@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 7.4
+Stable tag: 8.0
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -12,13 +12,11 @@ Complete statistics for your WordPress site.
 == Description ==
 A comprehensive plugin for your WordPress visitor statistics, come visit us at our [website](http://wp-statistics.com) for all the latest news and information.
 
-Track statistics for your WordPress site without depending on external services.
-
-Statistics are arrogate data whenever possible to respect your users privacy.
+Track statistics for your WordPress site without depending on external services and uses arrogate data whenever possible to respect your users privacy.
 
 Now includes support for not storing IP addresses in the database!
 
-On screen statistics presented as graphs are easily viewed through the admin interface.
+On screen statistics presented as graphs are easily viewed through the WordPress admin interface.
 
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
