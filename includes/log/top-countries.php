@@ -4,14 +4,6 @@
 	});
 </script>
 <?php 
-	$search_engines = wp_statistics_searchengine_list();
-	
-	$search_result['All'] = wp_statistics_searchengine('all','total');
-
-	foreach( $search_engines as $key => $se ) {
-		$search_result[$key] = wp_statistics_searchengine($key,'total');
-	}
-
 	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
 ?>
 <div class="wrap">

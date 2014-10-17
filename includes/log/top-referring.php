@@ -8,14 +8,6 @@
 	});
 </script>
 <?php
-	$search_engines = wp_statistics_searchengine_list();
-	
-	$search_result['All'] = wp_statistics_searchengine('all','total');
-
-	foreach( $search_engines as $key => $se ) {
-		$search_result[$key] = wp_statistics_searchengine($key,'total');
-	}
-
 	if( array_key_exists('referr',$_GET) ) {
 		$referr = esc_sql( $_GET['referr'] );
 	}
