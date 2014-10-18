@@ -1,6 +1,6 @@
 <?php
 /*
-	This is the primary class for WP Statisticsrecording hits on the WordPress site.  It is extended by the Hits class and the GeoIPHits class.
+	This is the primary class for WP Statistics recording hits on the WordPress site.  It is extended by the Hits class and the GeoIPHits class.
 	
 	This class handles; visits, visitors and pages.
 */
