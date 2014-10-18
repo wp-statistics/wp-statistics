@@ -267,7 +267,14 @@
 		public function get_UserAgent() {
 		
 			// Parse the agent stirng.
-			$agent = parse_user_agent();
+			try 
+				{
+				$agent = parse_user_agent();
+				}
+			catch( Exception $e )
+				{
+				$agent = array( 'browser' => 'Unknown', 'platform' => 'Unknown', 'version' => 'Unknown' );
+				}
 			
 			// null isn't a very good default, so set it to Unknown instead.
 			if( $agent['browser'] == null ) { $agent['browser'] = "Unknown"; }

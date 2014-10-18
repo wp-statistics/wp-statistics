@@ -250,6 +250,42 @@
 					<p class="description"><?php _e('The client user agent string.', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('Browser', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php $agent = $WP_Statistics->get_UserAgent();
+					echo $agent['browser'];
+					?></strong>
+					<p class="description"><?php _e('The detected client browser.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('Version', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo $agent['version'];?></strong>
+					<p class="description"><?php _e('The detected client browser version.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('Platform', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo $agent['platform'];?></strong>
+					<p class="description"><?php _e('The detected client platform.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+			
 		</tbody>
 	</table>
 </div>
