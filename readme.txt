@@ -207,6 +207,12 @@ If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard an
 * Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.1 =
+* Added: Detected browser information to the optimization page.
+* Updated: Re-organized new browscap code to avoid PHP 5.2 or below throwing a parse error.
+* Fixed: If the client sent no user agent string a fatal error would be generated, added additional logic to handle this case.
+* Removed: Unused code in various log displays.
+
 = 8.0 =
 * Added: browscap.ini support for robot detection.
 * Added: Statistics->Optimization->Database tab now how an option to re-run the install routine in case you have had to delete tables from the database.
