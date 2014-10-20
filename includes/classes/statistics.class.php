@@ -448,7 +448,7 @@
 						return $this->historical[$id];
 					}
 					else {
-						$result = $this->db->get_var($wpdb->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type = 'uri' AND uri = %s", $id));
+						$result = $this->db->get_var($this->db->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type = 'uri' AND uri = %s", $id));
 						if( $result > $count ) { $count = $result; }
 						$this->historical[$id] = $count;
 					}
