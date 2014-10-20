@@ -207,6 +207,9 @@ If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard an
 * Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.2 =
+* Added: Support for historical data.
+
 = 8.1 =
 * Added: Detected browser information to the optimization page.
 * Updated: Re-organized new browscap code to avoid PHP 5.2 or below throwing a parse error.
