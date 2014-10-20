@@ -118,20 +118,11 @@
 
 		global $wpdb, $WP_Statistics;
 		
+		require_once( './includes/functions/purge.php' );
+			
 		$purge_days = intval( $WP_Statistics->get_option('schedule_dbmaint_days', FALSE) );
 		
-		// We always keep at least 30 days of stats, if the user has selected a lower interval, don't do anything.
-		if(  $purge_days > 30 ) {
-		
-			$table_name = $wpdb->prefix . 'statistics_visit';
-			$date_string = date( 'Y-m-d', strtotime( '-' . $purge_days . ' days')); 
-	 
-			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
-			
-			$table_name = $wpdb->prefix . 'statistics_visitor';
-
-			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
-		}
+		wp_statistics_purge_data( $purge_days );
 	}
 	add_action('wp_statistics_dbmaint_hook', 'wp_statistics_dbmaint_event');
 

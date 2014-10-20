@@ -1,4 +1,7 @@
 <?php
+	GLOBAL $wpdb;
+	$wp_prefix = $wpdb->prefix;
+
 	if( !is_super_admin() )
 		wp_die(__('Access denied!', 'wp_statistics'));
 		
@@ -11,9 +14,6 @@
 	
 	if( array_key_exists( 'hash-ips', $_GET ) ) {
 		if( $_GET['hash-ips'] == 1 ) {
-			GLOBAL $wpdb;
-			$wp_prefix = $wpdb->prefix;
-
 			// Generate a random salt
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$randomString = '';
@@ -54,9 +54,6 @@
 	
 	if( array_key_exists( 'index', $_GET ) ) {
 		if( $_GET['index'] == 1 ) {
-			GLOBAL $wpdb;
-			$wp_prefix = $wpdb->prefix;
-			
 			// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
 			$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
 			
@@ -92,6 +89,26 @@
 		}
 	}
 
+	if( array_key_exists( 'historical-submit', $_POST ) ) {
+
+		if( array_key_exists( 'wps_historical_visitors', $_POST ) )	{
+			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'] ), array( 'type' => 'visitors' ) );
+
+			if( $result == 0 ) {
+				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'], 'type' => 'visitors' ) );
+			}
+		}
+		
+		if( array_key_exists( 'wps_historical_visits', $_POST ) )	{
+			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'] ), array( 'type' => 'visits' ) );
+			
+			if( $result == 0 ) {
+				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'], 'type' => 'visits' ) );
+			}
+		}
+
+	}
+	
 $selected_tab = "";
 if( array_key_exists( 'tab', $_GET ) ) { $selected_tab = $_GET['tab']; }
 
@@ -108,6 +125,9 @@ switch( $selected_tab )
 		break;
 	case 'updates':
 		$current_tab = 4;
+		break;
+	case 'historical':
+		$current_tab = 5;
 		break;
 	default:
 		$current_tab = 0;
@@ -128,6 +148,7 @@ switch( $selected_tab )
 			<li class="ui-state-default ui-corner-top"><a href="#purging" class="ui-tabs-anchor"><span><?php _e('Purging', 'wp_statistics'); ?></span></a></li>
 			<li class="ui-state-default ui-corner-top"><a href="#database" class="ui-tabs-anchor"><span><?php _e('Database', 'wp_statistics'); ?></span></a></li>
 			<li class="ui-state-default ui-corner-top"><a href="#updates" class="ui-tabs-anchor"><span><?php _e('Updates', 'wp_statistics'); ?></span></a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#historical" class="ui-tabs-anchor"><span><?php _e('Historical', 'wp_statistics'); ?></span></a></li>
 		</ul>
 
 		<div id="resources">
@@ -150,5 +171,9 @@ switch( $selected_tab )
 		<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-updates.php' ); ?>
 		</div>
 
+		<div id="historical">
+		<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-historical.php' ); ?>
+		</div>
+		
 	</div>
 </div>

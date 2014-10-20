@@ -61,6 +61,7 @@
 					
 				case 'total':
 					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit");
+					$result += $WP_Statistics->Get_Historical_Data( 'visits' );
 					break;
 					
 				default:
@@ -81,6 +82,7 @@
 		// We need database and the global $WP_Statistics object access.
 		global $wpdb, $table_prefix, $WP_Statistics;
 		
+		$history = 0;
 		$select = '*';
 		$sqlstatement = '';
 		
@@ -122,6 +124,7 @@
 					
 				case 'total':
 					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor";
+					$history = $WP_Statistics->Get_Historical_Data( 'visitors' );
 					break;
 					
 				default:
@@ -131,8 +134,13 @@
 		}
 
 		// Execute the SQL call, if we're only counting we can use get_var(), otherwise we use query().
-		if( $countonly == true ) { $result = $wpdb->get_var( $sqlstatement ); }
-		else { $result = $wpdb->query( $sqlstatement ); }
+		if( $countonly == true ) { 
+			$result = $wpdb->get_var( $sqlstatement ); 
+			$result += $history;
+		}
+		else { 
+			$result = $wpdb->query( $sqlstatement ); 
+		}
 		
 		return $result;
 	}
@@ -143,6 +151,7 @@
 		// We need database and the global $WP_Statistics object access.
 		global $wpdb, $table_prefix, $WP_Statistics;
 		
+		$history = 0;
 		$sqlstatement = '';
 
 		// If no page URI has been passed in, get the current page URI.
@@ -152,8 +161,12 @@
 		//  Note that a single page/post ID can have multiple URI's associated with it.
 		if( $id != -1 ) {
 			$page_sql = '`id` = '  . $id;
+			$history_key = 'page';
+			$history_id = $id;
 		} else {		
 			$page_sql = "`URI` = '{$page_uri}'";
+			$history_key = 'uri';
+			$history_id = $page_uri;
 		}
 
 		// This function accepts several options for time parameter, each one has a unique SQL query string.
@@ -181,6 +194,7 @@
 				
 			case 'total':
 				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE {$page_sql}";
+				$history = $WP_Statistics->Get_Historical_Data( $history_key, $history_id );
 				break;
 				
 			default:
@@ -190,6 +204,7 @@
 
 		// Since this function only every returns a count, just use get_var().
 		$result = $wpdb->get_var( $sqlstatement );
+		$result += $history;
 		
 		// If we have an empty result, return 0 instead of a blank.
 		if( $result == '' ) { $result = 0; }
@@ -203,10 +218,13 @@
 		global $wpdb, $table_prefix;
 		
 		// Create the SQL query to use.
-		$sqlstatement = "SELECT id FROM {$table_prefix}statistics_pages WHERE `URI` = '{$uri}'";
+		$sqlstatement = "SELECT id FROM {$table_prefix}statistics_pages WHERE `URI` = '{$uri}' AND id > 0";
 
 		// Execute the query.
 		$result = $wpdb->get_var( $sqlstatement );
+		
+		// If we returned a false or some other 0 equivalent value, make sure $result is set to an integer 0.
+		if( $result == 0 ) { $result = 0; }
 		
 		return $result;
 	}

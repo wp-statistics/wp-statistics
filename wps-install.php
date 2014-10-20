@@ -63,6 +63,18 @@
 			KEY date (date),
 			KEY id (id)
 		) CHARSET=utf8");
+
+		$create_historical_table = ("CREATE TABLE {$wp_prefix}statistics_historical (
+			key bigint(20) NOT NULL,
+			type varchar(25) NOT NULL,
+			id bigint(20) NOT NULL,
+			uri varchar(255) NOT NULL,
+			value bigint(20) NOT NULL,
+			PRIMARY KEY  (ID),
+			KEY type (type),
+			UNIQUE KEY id (id),
+			UNIQUE KEY uri (uri)
+		) CHARSET=utf8");
 		
 		// This includes the dbDelta function from WordPress.
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -73,6 +85,7 @@
 		dbDelta($create_visitor_table);
 		dbDelta($create_exclusion_table);
 		dbDelta($create_pages_table);
+		dbDelta($create_historical_table);
 
 		$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
 		

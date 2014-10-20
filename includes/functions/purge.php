@@ -1,0 +1,86 @@
+﻿<?php
+	function wp_statistics_purge_data( $purge_days ) {
+		GLOBAL $wpdb, $table_prefix;
+		
+		// If it's less than 30 days, don't do anything.
+		if($purge_days > 30) {
+			// Purge the visit data.
+			$table_name = $table_prefix . 'statistics_visit';
+			$date_string = date( 'Y-m-d', strtotime( '-' . $purge_days . ' days')); 
+	 
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
+			
+			if($result) {
+				// Update the historical count with what we purged.
+				$wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `type` = \'visits\'' );
+			
+				$result_string = sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+			} else {
+				$result_string = sprintf(__('No records found to purge from %s!', 'wp_statistics'), '<code>' . $table_name . '</code>' ); 
+			}
+
+			// Purge the visitors data.
+			$table_name = $table_prefix . 'statistics_visitor';
+
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
+			
+			if($result) {
+				// Update the historical count with what we purged.
+				$wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `type` = \'visitors\'' );
+				
+				$result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+			} else {
+				$result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp_statistics'), '<code>' . $table_name . '</code>' ); 
+			}
+
+			// Purge the exclusions data.
+			$table_name = $table_prefix . 'statistics_exclusions';
+
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `date` < \'' . $date_string . '\'');
+			
+			if($result) {
+				$result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+			} else {
+				$result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp_statistics'), '<code>' . $table_name . '</code>' ); 
+			}
+
+			// Purge the pages data, this is more complex as we want to save the historical data per page.
+			$table_name = $table_prefix . 'statistics_pages';
+			$historical = 0;
+			
+			// The first thing we need to do is update the historical data by finding all the unique pages.
+			$result = $wpdb->get_results('SELECT DISTINCT uri FROM ' . $table_name . ' WHERE `date` < \'' . $date_string . '\'');
+
+			// If we have a result, let's store the historical data.		
+			if( $result ) {
+				// Loop through all the unique rows that were returned.
+				foreach( $result as $row ) {
+					// Use the unique rows to get a total count from the database of all the data from the given URIs/Pageids that we're going to delete later.
+					$historical = $wpdb->get_var( $wpdb->prepare('SELECT sum(count) FROM ' . $table_name . ' WHERE `uri` = %s AND `date` < %s', $row->uri, $date_string));
+		
+					// Do an update of the historical data.
+					$uresult = $wpdb->query($wpdb->prepare('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + %d WHERE `uri` = %s AND `type` = \'uri\'', $historical, $row->uri, $date_string));
+
+					// If we failed it's because this is the first time we've seen this URI/pageid so let's create a historical row for it.
+					if( $uresult == 0 ) {
+						$wpdb->insert( $table_prefix . "statistics_historical", array( 'value' => $historical, 'type' => 'uri', 'uri' => $row->uri, 'id' => wp_statistics_uri_to_id($row->uri) ) );
+					}
+				}
+			}
+			
+			// Now that we've done all of the required historical data storage, we can actually delete the data from the database.
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `date` < \'' . $date_string . '\'');
+			
+			if($result) {
+				$result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+			} else {
+				$result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp_statistics'), '<code>' . $table_name . '</code>' ); 
+			}
+			
+			return $result_string;
+
+		} else {
+			return __('Please select a value over 30 days.', 'wp_statistics');
+		}
+	}
+?>
