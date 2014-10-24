@@ -211,6 +211,7 @@ If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard an
 * Added: Support for historical data.
 * Fixed: Bug in the scheduled reports code that failed to process the report content correctly.
 * Fixed: Bug in schedule reports that failed to select the current schedule in the drop down.
+* Updated: Polish translations.
 
 = 8.1 =
 * Added: Detected browser information to the optimization page.

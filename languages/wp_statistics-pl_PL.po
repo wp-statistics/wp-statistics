@@ -2,22 +2,22 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-14 17:17-0500\n"
+"PO-Revision-Date: 2014-10-24 15:25+0330\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.6.10\n"
 "Project-Id-Version: Wordpress Statistics\n"
 "POT-Creation-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: pl_PL\n"
+"Language: pl\n"
 
 #: includes/log/widgets/about.php:8
 msgid "About WP Statistics Version %s"
-msgstr "O WP Statistics Wersji %s"
+msgstr "O wersji WP Statistics %s"
 
 #: includes/log/widgets/summary.php:106
 msgid "Date: %s"
@@ -29,29 +29,29 @@ msgstr "Czas: %s"
 
 #: includes/optimization/delete-agents.php:14
 msgid "%s agent data deleted successfully."
-msgstr "dane agenta %s pomyślnie usunięty."
+msgstr "Dane agenta %s pomyślnie usunięte."
 
 #: includes/optimization/delete-platforms.php:14
 msgid "%s platform data deleted successfully."
-msgstr "danych %s pomyślnie usunięty."
+msgstr "Dane platformy %s pomyślnie usunięte."
 
 #: includes/optimization/empty.php:53
 msgid "%s table data deleted successfully."
-msgstr "dane tabela %s pomyślnie usunięty."
+msgstr "Dane tabeli %s pomyślnie usunięte."
 
 #: includes/optimization/purge-data.php:17
 #: includes/optimization/purge-data.php:27
 #: includes/optimization/purge-data.php:37
 #: includes/optimization/purge-data.php:47
 msgid "%s data older than %s days purged successfully."
-msgstr "%s danych starszych niż dni %s pomyślnie usunięte."
+msgstr "%s danych starszych niż %s dni pomyślnie usuniętych."
 
 #: includes/optimization/purge-data.php:19
 #: includes/optimization/purge-data.php:29
 #: includes/optimization/purge-data.php:39
 #: includes/optimization/purge-data.php:49
 msgid "No records found to purge from %s!"
-msgstr "Żadnych rekordów do przeczyszczenia %s!"
+msgstr "Nie ma rekordów do przeczyszczenia %s!"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:44
 #: includes/optimization/tabs/wps-optimization-resources.php:55
@@ -59,31 +59,30 @@ msgstr "Żadnych rekordów do przeczyszczenia %s!"
 #: includes/optimization/tabs/wps-optimization-resources.php:77
 #: includes/optimization/tabs/wps-optimization-resources.php:88
 msgid "Number of rows in the %s table"
-msgstr "Liczba wierszy w tabela %s"
+msgstr "Liczba wierszy w tabeli %s"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:211
 msgid "browscap Cache File"
-msgstr "Browscap plik pamięci podręcznej"
+msgstr "Plik pamięci podręcznej Browscap"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:220
 msgid "browscap cache file does not exist."
-msgstr "Browscap pamięci podręcznej pliku nie istnieje."
+msgstr "Plik pamięci podręcznej Browscap nie istnieje."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:224
 msgid "The file size and date of the browscap cache file."
-msgstr "Rozmiar pliku i data browscap pliku pamięci podręcznej."
+msgstr "Rozmiar pliku i data pliku pamięci podręcznej browscap."
 
 #: includes/settings/tabs/wps-about.php:24
 msgid ""
 "Come visit our great new %s and keep up to date on the latest news about WP "
 "Statistics."
 msgstr ""
-"Przyjść odwiedzić nasz wielki nowy %s i bądź na bieżąco z aktualnościami o "
-"WP Statistics."
+"Odwiedź nasz nowy %s i bądź na bieżąco z aktualnościami o WP Statistics."
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "website"
-msgstr "Strona internetowa"
+msgstr "strona internetowa"
 
 #: includes/settings/tabs/wps-about.php:40
 msgid ""
@@ -91,13 +90,13 @@ msgid ""
 "submit translations, please visit our %s to see the current status and %s if "
 "you would like to help."
 msgstr ""
-"Statystyki WP obsługuje internacjonalizacji i zachęcamy naszych "
-"użytkowników, aby przesłać tłumaczenia, prosimy odwiedzić naszą %s aby "
-"zobaczyć aktualny stan i %s jeśli chcesz pomóc."
+"WP Statistics obsługuje internacjonalizację i zachęca naszych użytkowników, "
+"aby przesłać tłumaczenia, prosimy odwiedzić naszą %s, aby zobaczyć aktualny "
+"stan %s jeśli chcesz pomóc."
 
 #: includes/settings/tabs/wps-about.php:40
 msgid "translation collaboration site"
-msgstr "tłumaczenie witryny współpracy"
+msgstr "stronę ze współpracą tłumaczenia"
 
 #: includes/settings/tabs/wps-about.php:40
 msgid "drop us a line"
@@ -114,11 +113,11 @@ msgstr "Najczęściej zadawane pytania"
 
 #: includes/settings/tabs/wps-about.php:53
 msgid "manual"
-msgstr "Ręcznie"
+msgstr "podręcznik"
 
 #: includes/settings/tabs/wps-about.php:54
 msgid "Have you search the %s for a similar issue?"
-msgstr "Czy wyszukiwania %s dla podobny problem?"
+msgstr "Czy wyszukałeś %s podobny problem?"
 
 #: includes/settings/tabs/wps-about.php:54
 msgid "support forum"
@@ -128,9 +127,7 @@ msgstr "forum wsparcia"
 msgid ""
 "Then please open a new thread on the %s and we'll respond as soon as "
 "possible."
-msgstr ""
-"Następnie należy otworzyć nowy wątek na %s a my szybko reagować jak "
-"najszybciej."
+msgstr "Należy otworzyć nowy wątek na %s a my odpowiemy jak najszybciej."
 
 #: includes/settings/tabs/wps-about.php:70
 msgid "WordPress.org support forum"
@@ -138,15 +135,16 @@ msgstr "Forum wsparcia WordPress.org"
 
 #: includes/settings/tabs/wps-about.php:74
 msgid "Alternatively %s support is available as well."
-msgstr "Alternatywnie %s wsparcie jest dostępne także."
+msgstr "Alternatywne wsparcie %s jest dostępne."
 
 #: includes/settings/tabs/wps-access-level.php:85
 msgid "See the %s for details on capability levels."
-msgstr "Zobacz %s szczegóły na poziomach zdolności."
+msgstr ""
+"Zobacz %s szczegółowe informacje na temat poziomów dotyczących zdolności."
 
 #: includes/settings/tabs/wps-access-level.php:85
 msgid "WordPress Roles and Capabilities page"
-msgstr "Strona WordPress role i funkcje"
+msgstr "Zasady i funkcje strony WordPress"
 
 #: includes/settings/tabs/wps-general.php:67
 msgid ""
@@ -155,15 +153,15 @@ msgid ""
 "disabled if this is selected.  You will not be able to recover the IP "
 "addresses in the future to recover location information if this is enabled."
 msgstr ""
-"Ta funkcja nie będzie przechowywać adresy IP w bazie danych, ale zamiast "
-"używane unikatowej wartości mieszania. \"Store string agenta cały użytkownika"
-"\" ustawienie zostanie wyłączone, jeśli ta opcja jest zaznaczona. Nie będzie "
-"w stanie odzyskać adresy IP w przyszłości odzyskać informacje o lokalizacji, "
-"jeśli ta opcja jest włączona."
+"Ta funkcja nie będzie przechowywać adresów IP w bazie danych, ale zamiast "
+"tego stosować unikalny hash. Ustawienie \"Zachowaj cały ciąg agenta "
+"użytkownika\" zostanie wyłączone, jeśli ta opcja jest zaznaczona. Nie będzie "
+"w stanie odzyskać adresów IP w przyszłości w celu odzyskania informacji o "
+"lokalizacji, jeśli ta jest włączona."
 
 #: includes/settings/tabs/wps-general.php:340
 msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr "Uwaga: Aby wysłać SMS tekst wiadomości należy zainstalować wtyczki %s."
+msgstr "Uwaga: Aby wysłać tekst wiadomości SMS należy zainstalować wtyczkę %s."
 
 #: includes/settings/tabs/wps-general.php:340
 msgid "WordPress SMS"
@@ -174,45 +172,42 @@ msgid ""
 "ERROR: WP Statistics has detected an unsupported version of PHP, WP "
 "Statistics will not function without PHP Version "
 msgstr ""
-"BŁĄD: WP Statistics wykryła nieobsługiwaną wersja PHP, WP Statistics nie "
-"będą działać bez wersji PHP "
+"BŁĄD: WP Statistics wykrył nieobsługiwaną wersję PHP, WP Statistics nie "
+"będzie funkcjonować bez wersji PHP"
 
 #: wp-statistics.php:27
 msgid " or higher!"
-msgstr "lub wyższej!"
+msgstr " lub wyższej!"
 
 #: wp-statistics.php:81
 msgid ""
 "Online user tracking in WP Statistics is not enabled, please go to %s and "
 "enable it."
 msgstr ""
-"Użytkownika online, śledzenie statystyk WP nie jest włączona, przejdź do %s "
-"i włącz go."
+"Śledzenie aktywnych użytkowników w WP Statistics nie jest włączone, przejdź "
+"do %s i włącz go."
 
 #: wp-statistics.php:81 wp-statistics.php:84 wp-statistics.php:87
 msgid "setting page"
-msgstr "Ustawienia strony"
+msgstr "ustawienia strony"
 
 #: wp-statistics.php:84
 msgid ""
 "Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
 msgstr ""
-"Nie jest włączone śledzenie trafienie w WP Statistics, przejdź do %s i włącz "
-"go."
+"Śledzenie wejść w WP Statistics nie jest włączone, przejdź do %s i włącz go."
 
 #: wp-statistics.php:87
 msgid ""
 "Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
 "it."
 msgstr ""
-"Użytkownik śledzenia statystyk WP nie jest włączona, przejdź do %s i włącz "
-"go."
+"Śledzenie gości w WP Statistics nie jest włączone, przejdź do %s i włącz go."
 
 #: wp-statistics.php:90
 msgid ""
 "GeoIP collection is not active, please go to %s and enable this feature."
-msgstr ""
-"GeoIP kolekcja nie jest aktywny, proszę przejść do %s i umożliwiać ten cecha."
+msgstr "Biblioteka GeoIP nie jest aktywna, przejdź do %s i włącz ją."
 
 #: wp-statistics.php:90
 msgid "Setting page > GeoIP"
@@ -666,7 +661,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-about.php:58
 msgid "And a few things to double-check:"
-msgstr "I sprawdź dokładnie kilka rzeczy:"
+msgstr "I sprawdź dokładnie kilka uwag:"
 
 #: includes/settings/tabs/wps-about.php:61
 msgid "How's your memory_limit in php.ini?"
