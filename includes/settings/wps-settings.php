@@ -31,8 +31,11 @@ switch( $selected_tab )
 	case 'maintenance':
 		if( $wps_admin ) { $current_tab = 5; } else { $current_tab = 0; }
 		break;
+	case 'removal':
+		if( $wps_admin ) { $current_tab = 6; } else { $current_tab = 0; }
+		break;
 	case 'about':
-		if( $wps_admin ) { $current_tab = 6; } else { $current_tab = 1; }
+		if( $wps_admin ) { $current_tab = 7; } else { $current_tab = 1; }
 		break;
 	default:
 		$current_tab = 0;
@@ -49,24 +52,27 @@ switch( $selected_tab )
 			
 			switch( jQuery("#tabs").tabs("option", "active") ) {
 				case 0:
-					if( wps_admin == 1 ) { tab = 'general'; } else { tab = 'about'; }
+					if( $wps_admin == 1 ) { tab = 'general'; } else { tab = 'about'; }
 					break;
 				case 1:
-					if( wps_admin == 1 ) { tab = 'overview'; } else { tab = 'about'; }
+					if( $wps_admin == 1 ) { tab = 'overview'; } else { tab = 'about'; }
 					break;
 				case 2:
-					if( wps_admin == 1 ) { tab = 'access'; } else { tab = 'about'; }
+					if( $wps_admin == 1 ) { tab = 'access'; } else { tab = 'about'; }
 					break;
 				case 3:
-					if( wps_admin == 1 ) { tab = 'geoip'; } else { tab = 'about'; }
+					if( $wps_admin == 1 ) { tab = 'geoip'; } else { tab = 'about'; }
 					break;
 				case 4:
-					if( wps_admin == 1 ) { tab = 'browscap'; } else { tab = 'about'; }
+					if( $wps_admin == 1 ) { tab = 'browscap'; } else { tab = 'about'; }
 					break;
 				case 5:
-					if( wps_admin == 1 ) { tab = 'maintenance'; } else { tab = 'about'; }
+					if( $wps_admin == 1 ) { tab = 'maintenance'; } else { tab = 'about'; }
 					break;
 				case 6:
+					if( $wps_admin == 1 ) { tab = 'removal'; } else { tab = 'about'; }
+					break;
+				case 7:
 					tab = 'about';
 					break;
 			}
@@ -89,6 +95,7 @@ switch( $selected_tab )
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#geoip-settings"><span><?php _e('GeoIP', 'wp_statistics'); ?></span></a></li><?php } ?>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#browscap-settings"><span><?php _e('browscap', 'wp_statistics'); ?></span></a></li><?php } ?>
 <?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e('Maintenance', 'wp_statistics'); ?></span></a></li><?php } ?>
+<?php if( $wps_admin ) { ?>				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#removal-settings"><span><?php _e('Removal', 'wp_statistics'); ?></span></a></li><?php } ?>
 				<li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#about"><span><?php _e('About', 'wp_statistics'); ?></span></a></li>
 			</ul>
 
@@ -114,6 +121,10 @@ switch( $selected_tab )
 
 			<div id="maintenance-settings">
 			<?php if( $wps_admin ) { include( dirname( __FILE__ ) . '/tabs/wps-maintenance.php' ); } ?>
+			</div>
+
+			<div id="removal-settings">
+			<?php if( $wps_admin ) { include( dirname( __FILE__ ) . '/tabs/wps-removal.php' ); } ?>
 			</div>
 
 			<div id="about">
