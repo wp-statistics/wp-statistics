@@ -27,6 +27,17 @@
 					<p class="description"><?php _e('Memory usage in PHP', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('Last Overview page memory usage', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo number_format_i18n($WP_Statistics->get_option('last_overview_memory')); ?></strong> <?php _e('Byte', 'wp_statistics'); ?>
+					<p class="description"><?php _e('Memory usage in the overview page', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
 			
 			<tr valign="top">
 				<th scope="row">
