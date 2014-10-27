@@ -133,7 +133,7 @@
 		// If there is a new version, let's go get it.
 		if( intval($RemoteVersion) >  $LocalVersion ) {
 		
-			// Download the file from MaxMind, this places it in a temporary location.
+			// Download the file from browscap.org, this places it in a temporary location.
 			$TempFile = download_url( $download_url );
 			
 			// If we failed, through a message, otherwise proceed.
@@ -171,7 +171,7 @@
 						case '[':
 
 							// We have three sections we need to copy verbatium so don't do the standard processing for them.
-							if( $title != 'GJK_Browscap_Version' && $title != 'DefaultProperties' && $title != "*" ) 
+							if( $title != 'GJK_Browscap_Version' && $title != 'DefaultProperties' && $title != '*' && $title != '') 
 								{
 								// If we found the current section is a crawler or we didn't find a crawler setting but the parent is a crawler...
 								if( $crawler == 2 || ( $crawler == 0 && array_key_exists( $parent, $parents ) ) ) 
