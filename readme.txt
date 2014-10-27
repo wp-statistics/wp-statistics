@@ -201,6 +201,9 @@ If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 8.1.1 =
+* If you have enabled browscap.ini, please go to Statistics->Settings->browscap and download the browscap.ini file manually.
+
 = 8.0 =
 * PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
 * BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
