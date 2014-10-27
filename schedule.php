@@ -141,7 +141,7 @@
 		GLOBAL $WP_Statistics;
 		
 		// Retrieve the template from the options.
-		$string = $WP_Statistics->get_option('content_report');
+		$final_text_report = $WP_Statistics->get_option('content_report');
 		
 		// Process shortcodes in the template.  Note that V8.0 upgrade script replaced the old %option% codes with the appropriate short codes.
 		$final_text_report = do_shortcode( $final_text_report );
