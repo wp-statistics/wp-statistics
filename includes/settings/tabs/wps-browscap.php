@@ -8,6 +8,11 @@ if( $wps_nonce_valid ) {
 		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
 		$WP_Statistics->store_option($new_option, $value);
 	}
+	
+	// If we're focing the download of the browscap.ini file, make sure to flush the last download time from the options.
+	if( array_key_exists( 'wps_update_browscap', $_POST ) ) {
+		$WP_Statistics->store_option('last_browscap_dl', 0);
+	}
 }
 
 ?>
