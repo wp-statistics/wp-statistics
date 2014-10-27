@@ -15,7 +15,6 @@
 		protected $agent;
 		
 		private $result;
-		private $historical;
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';
@@ -31,7 +30,6 @@
 			$this->db = $wpdb;
 			$this->tb_prefix = $table_prefix;
 			$this->agent = $this->get_UserAgent();
-			$this->historical = array();
 
 			// Load the options from the database
 			$this->options = get_option( 'wp_statistics' ); 
@@ -414,48 +412,5 @@
 			// We should never actually get to this point, but let's make sure we return something
 			// just in case something goes terribly wrong.
 			return 'No search query found!';
-		}
-		
-		public function Get_Historical_Data($type, $id = '') {
-		
-			$count = 0;
-		
-			switch( $type ) {
-				case 'visitors':
-					if( array_key_exists( 'visitors', $this->historical ) ) {
-						return $this->historical['visitors'];
-					}
-					else {
-						$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type='visitors'");
-						if( $result > $count ) { $count = $result; }
-						$this->historical['visitors'] = $count;
-					}
-				
-					break;
-				case 'visits':
-					if( array_key_exists( 'visits', $this->historical ) ) {
-						return $this->historical['visits'];
-					}
-					else {
-						$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type='visits'");
-						if( $result > $count ) { $count = $result; }
-						$this->historical['visits'] = $count;
-					}
-				
-					break;
-				case 'uri':
-					if( array_key_exists( $id, $this->historical ) ) {
-						return $this->historical[$id];
-					}
-					else {
-						$result = $this->db->get_var($this->db->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type = 'uri' AND uri = %s", $id));
-						if( $result > $count ) { $count = $result; }
-						$this->historical[$id] = $count;
-					}
-					
-					break;
-				}
-		
-			return $count;
 		}
 	}

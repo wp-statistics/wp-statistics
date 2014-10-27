@@ -80,8 +80,6 @@
 	</div>
 </div>
 <?php
-	$WP_Statistics->update_option( 'last_overview_memory', memory_get_peak_usage(true) );
-
 	function wp_statistics_display_column_a($slot, $ISOCountryCode, $search_engines) {
 		GLOBAL $WP_Statistics;
 			

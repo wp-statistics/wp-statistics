@@ -3,7 +3,7 @@
 Plugin Name: WP Statistics
 Plugin URI: http://wp-statistics.com/
 Description: Complete statistics for your WordPress site.
-Version: 8.1.1
+Version: 8.1
 Author: Mostafa Soufi & Greg Ross
 Author URI: http://wp-statistics.com/
 Text Domain: wp_statistics
@@ -17,36 +17,21 @@ License: GPL2
 	}
 	
 	// These defines are used later for various reasons.
-	define('WP_STATISTICS_VERSION', '8.1.1');
+	define('WP_STATISTICS_VERSION', '8.1');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.3.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 
-	function wp_statistics_php_after_plugin_row() {
+	function wp_statistics_after_plugin_row() {
 		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="*"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version ', 'wp_statistics') . WP_STATISTICS_REQUIRED_PHP_VERSION . __(' or higher!', 'wp_statistics') . '&nbsp;&nbsp;</span></td></tr>';
 	}
 	
 	// Check the PHP version, if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
 	if( !version_compare( phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=" ) ) { 
-		add_action('after_plugin_row_' . plugin_basename( __FILE__ ), 'wp_statistics_php_after_plugin_row', 10, 2);
+		add_action('after_plugin_row_' . plugin_basename( __FILE__ ), 'wp_statistics_after_plugin_row', 10, 2);
 		return; 
 	} 
-
-	// If we've been flagged to remove all of the data, then do so now.
-	if( get_option( 'wp_statistics_removal' ) == 'true' ) {
-		include_once( dirname( __FILE__ ) . '/wps-uninstall.php' );
-	}
-	
-	function wp_statistics_removal_after_plugin_row() {
-		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="*"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('WP Statistics has been removed, please disable and delete it.', 'wp_statistics') . '&nbsp;&nbsp;</span></td></tr>';
-	}
-	
-	// If we've been removed, return without doing anything else.
-	if( get_option( 'wp_statistics_removal' ) == 'done' ) {
-		add_action('after_plugin_row_' . plugin_basename( __FILE__ ), 'wp_statistics_removal_after_plugin_row', 10, 2);
-		return;
-	}
 	
 	// Load the internationalization code.
 	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');

@@ -23,7 +23,6 @@
 				jQuery("#purge-data-status").html("");
 				jQuery("#purge-data-result").html(result.responseText);
 				jQuery("#purge-data-submit").removeAttr("disabled");
-				jQuery("#wps_historical_purge").show();
 			});
 		});
 

@@ -118,11 +118,20 @@
 
 		global $wpdb, $WP_Statistics;
 		
-		require_once( './includes/functions/purge.php' );
-			
 		$purge_days = intval( $WP_Statistics->get_option('schedule_dbmaint_days', FALSE) );
 		
-		wp_statistics_purge_data( $purge_days );
+		// We always keep at least 30 days of stats, if the user has selected a lower interval, don't do anything.
+		if(  $purge_days > 30 ) {
+		
+			$table_name = $wpdb->prefix . 'statistics_visit';
+			$date_string = date( 'Y-m-d', strtotime( '-' . $purge_days . ' days')); 
+	 
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
+			
+			$table_name = $wpdb->prefix . 'statistics_visitor';
+
+			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
+		}
 	}
 	add_action('wp_statistics_dbmaint_hook', 'wp_statistics_dbmaint_event');
 
@@ -132,7 +141,7 @@
 		GLOBAL $WP_Statistics;
 		
 		// Retrieve the template from the options.
-		$final_text_report = $WP_Statistics->get_option('content_report');
+		$string = $WP_Statistics->get_option('content_report');
 		
 		// Process shortcodes in the template.  Note that V8.0 upgrade script replaced the old %option% codes with the appropriate short codes.
 		$final_text_report = do_shortcode( $final_text_report );
