@@ -364,16 +364,6 @@ if( $wps_nonce_valid ) {
 				<p class="description data">
 					<?php _e('Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.', 'wp_statistics'); ?>
 				</p>
-				<p class="description data">
-					<?php _e('Input data codes are now deprecated and will be removed in a future version of WP Statistics, please use the appropriate shortcodes, they are included here only for historical purposes:', 'wp_statistics'); ?>
-					<?php _e('User Online', 'wp_statistics'); ?>: <code>%user_online%</code>
-					<?php _e('Today Visitor', 'wp_statistics'); ?>: <code>%today_visitor%</code>
-					<?php _e('Today Visit', 'wp_statistics'); ?>: <code>%today_visit%</code>
-					<?php _e('Yesterday Visitor', 'wp_statistics'); ?>: <code>%yesterday_visitor%</code>
-					<?php _e('Yesterday Visit', 'wp_statistics'); ?>: <code>%yesterday_visit%</code>
-					<?php _e('Total Visitor', 'wp_statistics'); ?>: <code>%total_visitor%</code>
-					<?php _e('Total Visit', 'wp_statistics'); ?>: <code>%total_visit%</code>
-				</p>
 			</td>
 		</tr>
 	</tbody>
