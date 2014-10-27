@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 8.1
+Stable tag: 8.1.1
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -209,9 +209,13 @@ If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard an
 == Changelog ==
 = 8.2 =
 * Added: Support for historical data.
+* Updated: Polish translations.
+
+= 8.1.1 =
+* Fixed: Bug in browscap.ini update code that could mis-identify all hits as robots.
 * Fixed: Bug in the scheduled reports code that failed to process the report content correctly.
 * Fixed: Bug in schedule reports that failed to select the current schedule in the drop down.
-* Updated: Polish translations.
+* Removed: Depricated variables from the report content description.
 
 = 8.1 =
 * Added: Detected browser information to the optimization page.
