@@ -315,7 +315,7 @@ if( $wps_nonce_valid ) {
 					uasort( $schedules, 'wp_statistics_schedule_sort' );
 					
 					foreach( $schedules as $key => $value ) {
-						echo '					<option value="' . $key . '" ' . selected($WP_Statistics->get_option('time_report'), 'hourly') . '>' . $value['display'] . '</option>';
+						echo '					<option value="' . $key . '" ' . selected($WP_Statistics->get_option('time_report'), $key) . '>' . $value['display'] . '</option>';
 					}
 ?>					
 				</select>
