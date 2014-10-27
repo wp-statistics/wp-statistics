@@ -188,6 +188,10 @@ If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard an
 
 (Disable Updates Manager)[https://wordpress.org/plugins/stops-core-theme-and-plugin-updates/] is one I found doing a quick search and lets you disable individual plugins from the update process.
 
+= Something has gone horribly wrong and my site no longer loads, how can I disable the plugin without access to the admin area? =
+
+You can manually disable plugins in WordPress by simply renaming the folder they are installed in.  Using FTP or your hosting providers file manager, go to your WordPress directory, from ther go to wp-content/plugins and rename or delete the wp-statistics folder.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
