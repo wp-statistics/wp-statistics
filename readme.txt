@@ -209,6 +209,8 @@ If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard an
 == Changelog ==
 = 8.1.1 =
 * Fixed: Bug in browscap.ini update code that could mis-identify all hits as robots.
+* Fixed: Bug in the scheduled reports code that failed to process the report content correctly.
+* Fixed: Bug in schedule reports that failed to select the current schedule in the drop down.
 * Removed: Depricated variables from the report content description.
 
 = 8.1 =
