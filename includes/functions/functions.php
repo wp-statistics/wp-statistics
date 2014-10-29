@@ -739,9 +739,17 @@
 		
 		// Check to see if the admin has told us to use Google to get the co-ordinates.
 		if($WP_Statistics->get_option('google_coordinates')) {
-		
+	
+			// Some clients can't handle mixed http/https pages so check to see if the page we're on has http
+			// enabled, if so, use https instead just in case for the Google script.
+			$protocol = "http";
+	
+			if( array_key_exists( 'HTTPS', $_SERVER ) ) {
+				if( $_SERVER['HTTPS'] == 'on' ) { $protocol += 's'; }
+			}
+	
 			// This is google's API URL we'll be calling.
-			$api_url = "http://maps.google.com/maps/api/geocode/json?address={$country}&sensor=false";
+			$api_url = "{$protocol}://maps.google.com/maps/api/geocode/json?address={$country}&sensor=false";
 			
 			// There are two ways we can get the results form google, file_get_contents() and curl_exec().
 			// However both are optional components of PHP so we need to check to see which one is available.
