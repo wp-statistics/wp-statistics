@@ -17,10 +17,10 @@ if( $wps_nonce_valid ) {
 
 		<tr valign="top">
 			<th scope="row" colspan="2">
-				<?php echo __('Uninstalling WP Statistics will not remove the data and settings, you can use this option to removal the WP Statistics data from your install before uninstalling the plugin.', 'wp_statistics'); ?>
+				<?php echo __('Uninstalling WP Statistics will not remove the data and settings, you can use this option to remove the WP Statistics data from your install before uninstalling the plugin.', 'wp_statistics'); ?>
 				<br>
 				<br>
-				<?php echo __('Once you submit this form the settings will be deleted during the page load.', 'wp_statistics'); ?>
+				<?php echo __('Once you submit this form the settings will be deleted during the page load, however WP Statistics will still show up in your Admin menu until another page load is executed.', 'wp_statistics'); ?>
 			</th>
 		</tr>
 		
