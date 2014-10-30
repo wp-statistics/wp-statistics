@@ -47,12 +47,14 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 
 = Support =
 We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:
+
 * Have you read the [FAQs](http://wordpress.org/plugins/wp-statistics/faq/)?
 * Have you read the [manual](http://plugins.svn.wordpress.org/wp-statistics/trunk/manual/WP%20Statistics%20Admin%20Manual.html)?
 * Have you search the [support forum](http://wordpress.org/support/plugin/wp-statistics) for a similar issue?
 * Have you search the Internet for any error messages you are receiving?
 
 And a few things to double-check:
+
 * How's your memory_limit in php.ini?
 * Have you tried disabling any other plugins you may have installed?
 * Have you tried using the default WordPress theme?
@@ -216,6 +218,7 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 == Changelog ==
 = 8.2 =
 * Added: Support for historical data.
+* Updated: Persian translations.
 * Updated: Polish translations.
 
 = 8.1.1 =
