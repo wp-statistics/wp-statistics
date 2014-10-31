@@ -77,7 +77,7 @@ Still not having any luck?  Open a new thread on one of the support forums and w
 * Spanish Thanks Jose
 * Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
 * Turkish [Thanks aidinMC](http://www.artadl.ir/) & [Manset27.com](http://www.manset27.com/) & [Abdullah Manaz](http://www.manaz.net/)
-* Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/)
+* Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/) & Andrea Beducci
 * German [Thanks Andreas Martin](http://www.andreasmartin.com/) and Mike
 * Russian [Thanks Oleg](http://www.bestplugins.ru/)
 * Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
@@ -218,8 +218,7 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 == Changelog ==
 = 8.2 =
 * Added: Support for historical data.
-* Updated: Persian translations.
-* Updated: Polish translations.
+* Updated: Persian, Polish, Italian translations.
 
 = 8.1.1 =
 * Fixed: Bug in browscap.ini update code that could mis-identify all hits as robots.

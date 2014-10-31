@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-14 17:16-0500\n"
+"PO-Revision-Date: 2014-10-31 17:11+0330\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.6.10\n"
 "Project-Id-Version: Wordpress Statistics\n"
 "POT-Creation-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Andrea Beducci <andreabeducci@gmail.com>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
 
@@ -1839,39 +1839,39 @@ msgstr "User Online"
 
 #: includes/settings/tabs/wps-general.php:371 widget.php:45 widget.php:250
 msgid "Today Visit"
-msgstr "Oggi Visitare"
+msgstr "Visite Oggi"
 
 #: includes/settings/tabs/wps-general.php:370 widget.php:52 widget.php:253
 msgid "Today Visitor"
-msgstr "Oggi Visitatore"
+msgstr "Visitatori Oggi"
 
 #: includes/settings/tabs/wps-general.php:373 widget.php:59
 msgid "Yesterday Visit"
-msgstr "Ieri visita"
+msgstr "Visite Ieri"
 
 #: includes/settings/tabs/wps-general.php:372 widget.php:66 widget.php:259
 msgid "Yesterday Visitor"
-msgstr "Ieri Visitatori"
+msgstr "Visitatori Ieri"
 
 #: widget.php:73 widget.php:262
 msgid "Week Visit"
-msgstr "Settimana Visitare"
+msgstr "Visite Settimana"
 
 #: widget.php:80 widget.php:265
 msgid "Month Visit"
-msgstr "Mese Visitare"
+msgstr "Visite Mese"
 
 #: widget.php:87 widget.php:268
 msgid "Years Visit"
-msgstr "Anni Visita"
+msgstr "Visite Anni"
 
 #: includes/settings/tabs/wps-general.php:375 widget.php:94 widget.php:271
 msgid "Total Visit"
-msgstr "Visita Totale"
+msgstr "Visite Totali"
 
 #: includes/settings/tabs/wps-general.php:374 widget.php:101 widget.php:274
 msgid "Total Visitor"
-msgstr "Visitatore Totale"
+msgstr "Visitatori Totali"
 
 #: widget.php:123 widget.php:300
 msgid "Total Posts"
@@ -1919,19 +1919,19 @@ msgstr "Impostazioni"
 
 #: wp-statistics.php:316
 msgid "Today visitor"
-msgstr "Visitatore di oggi"
+msgstr "Visitatori di oggi"
 
 #: wp-statistics.php:322
 msgid "Today visit"
-msgstr "Visita di oggi"
+msgstr "Visite di oggi"
 
 #: wp-statistics.php:328
 msgid "Yesterday visitor"
-msgstr "ieri visitatori"
+msgstr "Visitatori di ieri"
 
 #: widget.php:256 wp-statistics.php:334
 msgid "Yesterday visit"
-msgstr "Visita di ieri"
+msgstr "Visite di ieri"
 
 #: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
 msgid "You do not have sufficient permissions to access this page."
