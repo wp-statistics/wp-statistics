@@ -52,6 +52,7 @@ We're sorry you're having problem with WP Statistics and we're happy to help out
 * Have you read the [manual](http://plugins.svn.wordpress.org/wp-statistics/trunk/manual/WP%20Statistics%20Admin%20Manual.html)?
 * Have you search the [support forum](http://wordpress.org/support/plugin/wp-statistics) for a similar issue?
 * Have you search the Internet for any error messages you are receiving?
+* Make sure you have access to your PHP error logs.
 
 And a few things to double-check:
 
