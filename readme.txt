@@ -219,6 +219,7 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 == Changelog ==
 = 8.2 =
 * Added: Support for historical data.
+* Added: Removal option.
 * Updated: Persian, Polish, Italian translations.
 
 = 8.1.1 =
