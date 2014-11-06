@@ -4,14 +4,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics 8.1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-statistics\n"
-"POT-Creation-Date: 2014-11-02 20:48:13+00:00\n"
+"POT-Creation-Date: 2014-11-06 00:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-11-02 16:08-0500\n"
+"PO-Revision-Date: 2014-11-05 19:33-0500\n"
 "Last-Translator: WP Statistics <translate@wp-statistics.com>\n"
 "Language-Team: WP Statistics <translate@wp-statistics.com>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en\n"
 "X-Generator: Poedit 1.6.10\n"
 
@@ -1495,7 +1494,36 @@ msgstr ""
 msgid ""
 "Any shortcode supported by your installation of WordPress, include all "
 "shortcodes for WP Statistics (see the admin manual for a list of codes "
-"available) are supported in the body of the message."
+"available) are supported in the body of the message.  Here are some examples:"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:366 widget.php:38 widget.php:247
+#: wp-statistics.php:326
+msgid "User Online"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:367 widget.php:52 widget.php:253
+msgid "Today Visitor"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:368 widget.php:45 widget.php:250
+msgid "Today Visit"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:369 widget.php:66 widget.php:259
+msgid "Yesterday Visitor"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:370 widget.php:59
+msgid "Yesterday Visit"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:371 widget.php:101 widget.php:274
+msgid "Total Visitor"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:372 widget.php:94 widget.php:271
+msgid "Total Visit"
 msgstr ""
 
 #: includes/settings/tabs/wps-geoip.php:17
@@ -1826,26 +1854,6 @@ msgstr ""
 msgid "Show site stats in sidebar."
 msgstr ""
 
-#: widget.php:38 widget.php:247 wp-statistics.php:326
-msgid "User Online"
-msgstr ""
-
-#: widget.php:45 widget.php:250
-msgid "Today Visit"
-msgstr ""
-
-#: widget.php:52 widget.php:253
-msgid "Today Visitor"
-msgstr ""
-
-#: widget.php:59
-msgid "Yesterday Visit"
-msgstr ""
-
-#: widget.php:66 widget.php:259
-msgid "Yesterday Visitor"
-msgstr ""
-
 #: widget.php:73 widget.php:262
 msgid "Week Visit"
 msgstr ""
@@ -1856,14 +1864,6 @@ msgstr ""
 
 #: widget.php:87 widget.php:268
 msgid "Years Visit"
-msgstr ""
-
-#: widget.php:94 widget.php:271
-msgid "Total Visit"
-msgstr ""
-
-#: widget.php:101 widget.php:274
-msgid "Total Visitor"
 msgstr ""
 
 #: widget.php:108 widget.php:277
