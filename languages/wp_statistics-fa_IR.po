@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wordpress Statistics\n"
-"POT-Creation-Date: 2014-10-30 17:57+0330\n"
-"PO-Revision-Date: 2014-11-02 00:46+0330\n"
+"POT-Creation-Date: 2014-11-06 11:14+0330\n"
+"PO-Revision-Date: 2014-11-06 11:24+0330\n"
 "Last-Translator: \n"
 "Language-Team: Parsi Wordpress Team <mst404@gmail.com>\n"
 "Language: fa_IR\n"
@@ -1172,31 +1172,35 @@ msgstr "انجمن پشتیبانی"
 msgid "Have you search the Internet for any error messages you are receiving?"
 msgstr "آیا برای هر خطا در اینترنت جستجو کرده‌اید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:56
+msgid "Make sure you have access to your PHP error logs."
+msgstr "آیا مطمئن هستید به گزارش‌ خطاهای PHP دسترسی دارید؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:59
 msgid "And a few things to double-check:"
 msgstr "و به چند نکته دقت کنید:"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:62
 msgid "How's your memory_limit in php.ini?"
 msgstr "مقدار memory_limit در php.ini را بررسی کرده‌اید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:62
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:63
 msgid "Have you tried disabling any other plugins you may have installed?"
 msgstr "سعی کردید افزونه‌های نصب شده دیگر را غیرفعال کنید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:63
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:64
 msgid "Have you tried using the default WordPress theme?"
 msgstr "سعی کردید پوسته پیش‌فرض وردپرس را استفاده کنید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
 msgid "Have you double checked the plugin settings?"
 msgstr "آیا تنظیمات افزونه را مجدد بررسی کرده‌اید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
 msgid "Do you have all the required PHP extensions installed?"
 msgstr "آیا الزامات مربوط به اکستنشن‌های PHP را نصب کرده‌اید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
 msgid ""
 "Are you getting a blank or incomplete page displayed in your browser?  Did "
 "you view the source for the page and check for any fatal errors?"
@@ -1204,31 +1208,33 @@ msgstr ""
 "آیا یک صفحه خالی یا یک صفحه ناقص در مروگر شما مشاهده می‌شود؟ آیا سورس صفحه را "
 "مشاهده و خطای رخ داده را بررسی کرده‌اید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:68
 msgid "Have you checked your PHP and web server error logs?"
 msgstr "آیا PHP و گزارش‌ خطاهای سرور وب خود را بررسی کرده‌اید؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
 msgid "Still not having any luck?"
 msgstr "با این حال، شانشی برایتان نیست؟"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
 #, php-format
 msgid ""
 "Then please open a new thread on the %s and we'll respond as soon as "
 "possible."
-msgstr "سپس لطفا یک تاپیک جدید در %s را باز کنید و ما اسرع پاسخ دهد."
+msgstr ""
+"سپس لطفا یک تاپیک جدید در %s را باز کنید تا به سوال شما در اسرع پاسخ داده "
+"شود."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
 msgid "WordPress.org support forum"
 msgstr "انجمن پشتیبانی WordPress.org"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
 #, php-format
 msgid "Alternatively %s support is available as well."
 msgstr "انجمن پشتیبانی %s ما، راه دیگری است که همیشه در دسترس است."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
 msgid "Farsi"
 msgstr "فارسی"
 
@@ -1682,10 +1688,53 @@ msgstr "محتوای دریافت گزارش را وارد کنید."
 msgid ""
 "Any shortcode supported by your installation of WordPress, include all "
 "shortcodes for WP Statistics (see the admin manual for a list of codes "
-"available) are supported in the body of the message."
+"available) are supported in the body of the message.  Here are some examples:"
 msgstr ""
 "هر کدکوتاهی توسط وردپرس شما پشتیبانی میشود. کدهای کوتاه در افزونه آمار (لیست "
-"کدها در راهنمای کاربری موجود است) در بدنه‌ی متن پشتیبانی می‌شوند."
+"کدها در راهنمای کاربری موجود است) در بدنه‌ی متن پشتیبانی می‌شوند. نمونه‌هایی "
+"برای مثال:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:366
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:326
+msgid "User Online"
+msgstr "کاربران حاضر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:367
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:52
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:253
+msgid "Today Visitor"
+msgstr "بازدیدکننده امروز"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:368
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:250
+msgid "Today Visit"
+msgstr "بازدید امروز"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:369
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:259
+msgid "Yesterday Visitor"
+msgstr "بازدید کننده دیروز"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:370
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:59
+msgid "Yesterday Visit"
+msgstr "بازدید دیروز"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:371
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:101
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:274
+msgid "Total Visitor"
+msgstr "کل بازدیدکننده‌گان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:372
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:271
+msgid "Total Visit"
+msgstr "کل بازدیدها"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:17
 msgid "GeoIP settings"
@@ -2054,31 +2103,6 @@ msgstr "آماره"
 msgid "Show site stats in sidebar."
 msgstr "نمایش آمار سایت در ابزارک."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:38
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:247
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:326
-msgid "User Online"
-msgstr "کاربران حاضر"
-
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:45
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:250
-msgid "Today Visit"
-msgstr "بازدید امروز"
-
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:52
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:253
-msgid "Today Visitor"
-msgstr "بازدیدکننده امروز"
-
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:59
-msgid "Yesterday Visit"
-msgstr "بازدید دیروز"
-
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:66
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:259
-msgid "Yesterday Visitor"
-msgstr "بازدید کننده دیروز"
-
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:73
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:262
 msgid "Week Visit"
@@ -2093,16 +2117,6 @@ msgstr "بازدید ماه"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:268
 msgid "Years Visit"
 msgstr "بازدید سال"
-
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:94
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:271
-msgid "Total Visit"
-msgstr "کل بازدیدها"
-
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:101
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:274
-msgid "Total Visitor"
-msgstr "کل بازدیدکننده‌گان"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:108
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:277
