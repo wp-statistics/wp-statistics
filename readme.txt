@@ -220,6 +220,7 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 = 8.2 =
 * Added: Support for historical data.
 * Added: Removal option.
+* Updated: Optimized SQL statements to hopefully get rid of duplicate key error/warnings.
 * Updated: Persian, Polish, Italian translations.
 * Fixed: Duplicate date display on charts due to DST time change.
 
