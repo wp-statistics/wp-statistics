@@ -221,6 +221,7 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 * Added: Support for historical data.
 * Added: Removal option.
 * Updated: Persian, Polish, Italian translations.
+* Fixed: Duplicate date display on charts due to DST time change.
 
 = 8.1.1 =
 * Fixed: Bug in browscap.ini update code that could mis-identify all hits as robots.
