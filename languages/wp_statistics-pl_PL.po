@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-11-08 12:27+0100\n"
+"PO-Revision-Date: 2014-11-10 20:15+0330\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -91,7 +91,7 @@ msgstr "Historyczny"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:56
 msgid "Make sure you have access to your PHP error logs."
-msgstr "Upewnij się, czy masz dostęp do Twojego dziennika błędów PHP."
+msgstr "Upewniłeś się, czy masz dostęp do Twojego dziennika błędów PHP."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
@@ -127,7 +127,7 @@ msgstr "Usuń"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:35
 msgid "Remove data and settings, this action cannot be undone."
-msgstr ""
+msgstr "Usuń dane i ustawienia, ta akcja nie może być cofnięta."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:98
 msgid "Removal"
@@ -135,7 +135,7 @@ msgstr "Usunięcie"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:42
 msgid "WP Statistics has been removed, please disable and delete it."
-msgstr ""
+msgstr "WP Statistics został usunięty, proszę wyłączyć i usunąć go."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:8
 msgid "About WP Statistics Version %s"
@@ -479,7 +479,8 @@ msgstr "Gratulacje, instalacja jest już aktualna, nic nie rób."
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:55
 msgid "Have you search the Internet for any error messages you are receiving?"
 msgstr ""
-"Czy wyszukać w Internecie jakiekolwiek komunikaty o błędach, które odbierasz?"
+"Czy wyszukałeś w Internecie jakiekolwiek komunikaty o błędach, które "
+"odbierasz?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
 msgid ""
@@ -491,7 +492,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:68
 msgid "Have you checked your PHP and web server error logs?"
-msgstr "Czy można sprawdzić Twoje dzienniki błędów PHP i serwera sieci web?"
+msgstr "Czy sprawdziłeś Twoje dzienniki błędów PHP i serwera sieci web?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
 msgid "Show site stats in sidebar."
@@ -812,7 +813,7 @@ msgstr "Czy dwukrotnie sprawdziłeś ustawienia wtyczki?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
 msgid "Do you have all the required PHP extensions installed?"
-msgstr "Czy masz zainstalowane wszystkie wymagane rozszerzenia PHP?"
+msgstr "Czy zainstalowałeś wszystkie wymagane rozszerzenia PHP?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
 msgid "Still not having any luck?"
@@ -2237,7 +2238,7 @@ msgstr "Kraj"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "Browser"
-msgstr ""
+msgstr "Przeglądarka"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:32
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:56
