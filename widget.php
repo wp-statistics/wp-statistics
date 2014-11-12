@@ -221,8 +221,6 @@
 				
 				$WP_Statistics->update_option('widget', $widget_options);
 			}
-			
-			include dirname( __FILE__ ) . '/includes/settings/widget.php';
 		}
 
 		/**
