@@ -11,6 +11,8 @@ if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option
 	$wps_admin = true;
 }
 
+if( $wps_admin === false ) { $wps_admin = 0; }
+
 $selected_tab = "";
 if( array_key_exists( 'tab', $_GET ) ) { $selected_tab = $_GET['tab']; }
 
@@ -52,7 +54,7 @@ switch( $selected_tab )
 			
 			switch( jQuery("#tabs").tabs("option", "active") ) {
 				case 0:
-					if( $wps_admin == 1 ) { tab = 'general'; } else { tab = 'about'; }
+					if( $wps_admin == 1 ) { tab = 'general'; } else { tab = 'overview'; }
 					break;
 				case 1:
 					if( $wps_admin == 1 ) { tab = 'overview'; } else { tab = 'about'; }
