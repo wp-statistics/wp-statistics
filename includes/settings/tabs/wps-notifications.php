@@ -65,7 +65,7 @@ if( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('Statistical reporting', 'wp_statistics'); ?></h3></th>
+			<th scope="row" colspan="2"><h3><?php _e('Statistical Reporting', 'wp_statistics'); ?></h3></th>
 		</tr>
 		
 		<tr valign="top">
