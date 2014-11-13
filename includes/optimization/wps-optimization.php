@@ -92,18 +92,18 @@
 	if( array_key_exists( 'historical-submit', $_POST ) ) {
 
 		if( array_key_exists( 'wps_historical_visitors', $_POST ) )	{
-			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'] ), array( 'type' => 'visitors' ) );
+			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'] ), array( 'category' => 'visitors' ) );
 
 			if( $result == 0 ) {
-				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'], 'type' => 'visitors' ) );
+				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'], 'category' => 'visitors' ) );
 			}
 		}
 		
 		if( array_key_exists( 'wps_historical_visits', $_POST ) )	{
-			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'] ), array( 'type' => 'visits' ) );
+			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'] ), array( 'category' => 'visits' ) );
 			
 			if( $result == 0 ) {
-				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'], 'type' => 'visits' ) );
+				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'], 'category' => 'visits' ) );
 			}
 		}
 

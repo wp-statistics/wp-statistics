@@ -12,7 +12,7 @@
 			
 			if($result) {
 				// Update the historical count with what we purged.
-				$wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `type` = \'visits\'' );
+				$wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visits\'' );
 			
 				$result_string = sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
 			} else {
@@ -26,7 +26,7 @@
 			
 			if($result) {
 				// Update the historical count with what we purged.
-				$wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `type` = \'visitors\'' );
+				$wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visitors\'' );
 				
 				$result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
 			} else {
@@ -59,11 +59,11 @@
 					$historical = $wpdb->get_var( $wpdb->prepare('SELECT sum(count) FROM ' . $table_name . ' WHERE `uri` = %s AND `date` < %s', $row->uri, $date_string));
 		
 					// Do an update of the historical data.
-					$uresult = $wpdb->query($wpdb->prepare('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + %d WHERE `uri` = %s AND `type` = \'uri\'', $historical, $row->uri, $date_string));
+					$uresult = $wpdb->query($wpdb->prepare('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + %d WHERE `uri` = %s AND `category` = \'uri\'', $historical, $row->uri, $date_string));
 
 					// If we failed it's because this is the first time we've seen this URI/pageid so let's create a historical row for it.
 					if( $uresult == 0 ) {
-						$wpdb->insert( $table_prefix . "statistics_historical", array( 'value' => $historical, 'type' => 'uri', 'uri' => $row->uri, 'id' => wp_statistics_uri_to_id($row->uri) ) );
+						$wpdb->insert( $table_prefix . "statistics_historical", array( 'value' => $historical, 'type' => 'uri', 'uri' => $row->uri, 'page_id' => wp_statistics_uri_to_id($row->uri) ) );
 					}
 				}
 			}

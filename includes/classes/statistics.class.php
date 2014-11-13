@@ -426,7 +426,7 @@
 						return $this->historical['visitors'];
 					}
 					else {
-						$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type='visitors'");
+						$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visitors'");
 						if( $result > $count ) { $count = $result; }
 						$this->historical['visitors'] = $count;
 					}
@@ -437,7 +437,7 @@
 						return $this->historical['visits'];
 					}
 					else {
-						$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type='visits'");
+						$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visits'");
 						if( $result > $count ) { $count = $result; }
 						$this->historical['visits'] = $count;
 					}
@@ -448,7 +448,7 @@
 						return $this->historical[$id];
 					}
 					else {
-						$result = $this->db->get_var($this->db->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE type = 'uri' AND uri = %s", $id));
+						$result = $this->db->get_var($this->db->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND uri = %s", $id));
 						if( $result > $count ) { $count = $result; }
 						$this->historical[$id] = $count;
 					}

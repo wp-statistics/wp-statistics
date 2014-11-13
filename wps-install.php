@@ -65,9 +65,9 @@
 		) CHARSET=utf8");
 
 		$create_historical_table = ("CREATE TABLE {$wp_prefix}statistics_historical (
-			key bigint(20) NOT NULL,
-			type varchar(25) NOT NULL,
-			id bigint(20) NOT NULL,
+			ID bigint(20) NOT NULL AUTO_INCREMENT,
+			category varchar(25) NOT NULL,
+			page_id bigint(20) NOT NULL,
 			uri varchar(255) NOT NULL,
 			value bigint(20) NOT NULL,
 			PRIMARY KEY  (ID),
@@ -75,6 +75,15 @@
 			UNIQUE KEY id (id),
 			UNIQUE KEY uri (uri)
 		) CHARSET=utf8");
+		
+		// Before we update the historical table, check to see if it exists with the old keys
+		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_historical LIKE 'key'" );
+		
+		if( $result > 0 ) {
+			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)" );
+			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `key` `ID` bigint(20)" );
+			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `type` `category` varchar(25)" );
+		}
 		
 		// This includes the dbDelta function from WordPress.
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
