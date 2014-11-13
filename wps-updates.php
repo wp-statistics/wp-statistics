@@ -79,6 +79,19 @@
 				}
 			}
 		}
+
+		if( $WP_Statistics->get_option('geoip_report') == true ) {
+			$blogname = get_bloginfo('name');
+			$blogemail = get_bloginfo('admin_email');
+			
+			$headers[] = "From: $blogname <$blogemail>";
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/html; charset=utf-8";
+
+			if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->update_option( 'email_list', $blogemail ); }
+			
+			wp_mail( $WP_Statistics->get_option('email_list'), __('GeoIP update on', 'wp_statistics') . ' ' . $blogname, $result, $headers );
+		}
 		
 		// All of the messages displayed above are stored in a stirng, now it's time to actually output the messages.
 		return $result;
@@ -276,6 +289,19 @@
 			$result = "<div class='updated settings-error'><p><strong>" . __('browscap already at current version!', 'wp_statistics') . "</strong></p></div>";
 		}
 			
+		if( $WP_Statistics->get_option('browscap_report') == true ) {
+			$blogname = get_bloginfo('name');
+			$blogemail = get_bloginfo('admin_email');
+			
+			$headers[] = "From: $blogname <$blogemail>";
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/html; charset=utf-8";
+
+			if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->update_option( 'email_list', $blogemail ); }
+			
+			wp_mail( $WP_Statistics->get_option('email_list'), __('Browscap.ini update on', 'wp_statistics') . ' ' . $blogname, $result, $headers );
+		}
+
 		// All of the messages displayed above are stored in a stirng, now it's time to actually output the messages.
 		return $result;
 	}
