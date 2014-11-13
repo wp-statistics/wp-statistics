@@ -141,6 +141,12 @@
 				$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error downloading browscap database from: %s - %s', 'wp_statistics'), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
 			}
 			else {
+				// Keep the current version just in case by renaming it.
+				if( file_exists( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ); }
+				if( file_exists( $upload_dir['basedir'] . '/wp-statistics/cache.old' ) ) { unlink( $upload_dir['basedir'] . '/wp-statistics/cache.old' ); }
+				rename( $upload_dir['basedir'] . '/wp-statistics/browscap.ini', $upload_dir['basedir'] . '/wp-statistics/browscap.old' );
+				rename( $upload_dir['basedir'] . '/wp-statistics/cache.php', $upload_dir['basedir'] . '/wp-statistics/cache.old' );
+			
 				// Setup our file handles.
 				$infile = fopen($TempFile, 'r' );
 				$outfile = fopen($upload_dir['basedir'] . '/wp-statistics/browscap.ini', 'w');
@@ -225,8 +231,41 @@
 				// Update the options to reflect the new download.
 				$WP_Statistics->update_option('last_browscap_dl', time());
 				$WP_Statistics->update_option('update_browscap', false);
-				
+
 				$result = "<div class='updated settings-error'><p><strong>" . __('browscap database updated successfully!', 'wp_statistics') . "</strong></p></div>";
+				
+				// Do some sanity checks on the new ini/cache file
+				$ini_fs = filesize( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' );
+				$cache_fs = filesize( $upload_dir['basedir'] . '/wp-statistics/cache.php' );
+				$old_ini_fs = filesize( $upload_dir['basedir'] . '/wp-statistics/browscap.old' );
+				$fail = false;
+				
+				// Check to make sure the cache file isn't any more than 15% larger than then ini file
+				if( $cache_fs - $ini_fs > $ini_fs * 0.15 ) {
+					$fail = true;
+					$result = "<div class='updated settings-error'><p><strong>" . __('browscap database updated failed!  Cache file too large, reverting to previous browscap.ini.', 'wp_statistics') . "</strong></p></div>";
+				} else {
+					// Check to make sure we don't resolve a typical user agent as a robot.
+					$test_browser = $bc->getBrowser("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
+					$crawler = $test_browser->Crawler;
+					
+					if( $crawler == true ) {
+						$fail = true;
+						$result = "<div class='updated settings-error'><p><strong>" . __('browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini.', 'wp_statistics') . "</strong></p></div>";
+					}
+				}
+				
+				// If we failed, roll back the update, otherwise just delete the old files.
+				if( $fail == true ) {
+					unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' );
+					unlink( $upload_dir['basedir'] . '/wp-statistics/cache.php' );
+					rename( $upload_dir['basedir'] . '/wp-statistics/browscap.old', $upload_dir['basedir'] . '/wp-statistics/browscap.ini' );
+					rename( $upload_dir['basedir'] . '/wp-statistics/cache.old', $upload_dir['basedir'] . '/wp-statistics/cache.php' );
+				}
+				else {
+					unlink( $upload_dir['basedir'] . '/wp-statistics/browscap.old' );
+					unlink( $upload_dir['basedir'] . '/wp-statistics/cache.old' );
+				}
 			}
 		}
 		else {
