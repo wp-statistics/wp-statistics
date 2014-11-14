@@ -466,9 +466,12 @@ License: GPL2
 		$result['visitor'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visitor`");
 		$result['exclusions'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_exclusions`");
 		$result['pages'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_pages`");
+		$result['historical'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_historical`");
 		
-		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' && ($result['exclusions']) != '1' && ($result['pages']) != '1' )
-			wp_die('<div class="error"><p>'.__('Table plugin does not exist! Please disable and re-enable the plugin.', 'wp_statistics').'</p></div>');
+		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' && ($result['exclusions']) != '1' && ($result['pages']) != '1' ) {
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
+			wp_die('<div class="error"><p>' . sprintf(__('Plugin tables do not exist in the database! Please re-run the %s install routine %s.', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . '</p></div>');
+		}
 		
 		// Load the postbox script that provides the widget style boxes.
 		wp_enqueue_script('postbox');
@@ -580,6 +583,7 @@ License: GPL2
 		$result['visitor'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visitor`");
 		$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_exclusions`");
 		$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$table_prefix}statistics_pages`");
+		$result['historical'] = $wpdb->get_Var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_historical`");
 		
 		include_once dirname( __FILE__ ) . "/includes/optimization/wps-optimization.php";
 	}
