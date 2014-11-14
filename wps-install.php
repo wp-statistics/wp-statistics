@@ -71,8 +71,8 @@
 			uri varchar(255) NOT NULL,
 			value bigint(20) NOT NULL,
 			PRIMARY KEY  (ID),
-			KEY type (type),
-			UNIQUE KEY id (id),
+			KEY category (category),
+			UNIQUE KEY page_id (page_id),
 			UNIQUE KEY uri (uri)
 		) CHARSET=utf8");
 		
