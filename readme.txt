@@ -219,7 +219,7 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 == Changelog ==
 = 8.3 =
 * Added: Sanity checks for file size and results to browscap.ini updates, if the new cache file size is wrong or it mis-identifies a common real browser as a crawler the update will be rolled back.
-* Added: Option to e-mail a report on browscap.ini or GeoIP database updates.
+* Added: Option to e-mail a report on browscap.ini, database pruning, upgrades and GeoIP database updates.
 * Updated: Polish translations.
 * Updated: Added "Notificaitons" tab to the settings page and moved statistical report settings to it.
 * Fixed: The historical data table no longer uses reserved keywords as column names which caused issues on older versions of MySQL.
