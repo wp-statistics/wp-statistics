@@ -95,7 +95,7 @@
 			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'] ), array( 'category' => 'visitors' ) );
 
 			if( $result == 0 ) {
-				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'], 'category' => 'visitors' ) );
+				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'], 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1' ) );
 			}
 		}
 		
@@ -103,7 +103,7 @@
 			$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'] ), array( 'category' => 'visits' ) );
 			
 			if( $result == 0 ) {
-				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'], 'category' => 'visits' ) );
+				$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'], 'category' => 'visits', 'page_id' => -2, 'uri' => '-2' ) );
 			}
 		}
 
