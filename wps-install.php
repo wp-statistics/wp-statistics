@@ -232,5 +232,17 @@
 			if( file_exists( $filepath . WP_STATISTICS_MANUAL . 'odt' ) ) { unlink( $filepath . WP_STATISTICS_MANUAL . 'odt' ); }
 		}
 	
+		if( $WP_Statistics->get_option('upgrade_report') == true ) {
+			$blogname = get_bloginfo('name');
+			$blogemail = get_bloginfo('admin_email');
+			
+			$headers[] = "From: $blogname <$blogemail>";
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/html; charset=utf-8";
+
+			if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->update_option( 'email_list', $blogemail ); }
+			
+			wp_mail( $WP_Statistics->get_option('email_list'), sprintf( __('WP Statistics %s installed on', 'wp_statistics'),  WP_STATISTICS_VERSION ) . ' ' . $blogname, "Installation/upgrade complete!", $headers );
+		}
 	}
 ?>

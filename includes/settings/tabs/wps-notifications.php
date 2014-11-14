@@ -3,7 +3,7 @@ $selist = wp_statistics_searchengine_list( true );
 
 if( $wps_nonce_valid ) {
 
-	$wps_option_list = array("wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_email_list","wps_browscap_report","wps_geoip_report");
+	$wps_option_list = array("wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_email_list","wps_browscap_report","wps_geoip_report","wps_prune_report","wps_upgrade_report");
 	
 	foreach( $wps_option_list as $option ) {
 		if( array_key_exists( $option, $_POST ) ) { $value = $_POST[$option]; } else { $value = ''; }
@@ -65,7 +65,31 @@ if( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('Statistical Reporting', 'wp_statistics'); ?></h3></th>
+			<td scope="row">
+				<label for="prune-report"><?php _e('Pruning', 'wp_statistics'); ?>:</label>
+			</td>
+			
+			<td>
+				<input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo $WP_Statistics->get_option('prune_report')==true? "checked='checked'":'';?>>
+				<label for="prune-report"><?php _e('Active', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('Send a report whenever the pruning of database is run.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
+		<tr valign="top">
+			<td scope="row">
+				<label for="upgrade-report"><?php _e('Upgrade', 'wp_statistics'); ?>:</label>
+			</td>
+			
+			<td>
+				<input id="upgrade-report" type="checkbox" value="1" name="wps_upgrade_report" <?php echo $WP_Statistics->get_option('upgrade_report')==true? "checked='checked'":'';?>>
+				<label for="upgrade-report"><?php _e('Active', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('Send a report whenever the plugin is upgraded.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
+		<tr valign="top">
+			<th scope="row" colspan="2"><h3><?php _e('Statistical reporting', 'wp_statistics'); ?></h3></th>
 		</tr>
 		
 		<tr valign="top">

@@ -1,6 +1,6 @@
 ﻿<?php
 	function wp_statistics_purge_data( $purge_days ) {
-		GLOBAL $wpdb, $table_prefix;
+		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
 		
 		// If it's less than 30 days, don't do anything.
 		if($purge_days > 30) {
@@ -77,8 +77,20 @@
 				$result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp_statistics'), '<code>' . $table_name . '</code>' ); 
 			}
 			
-			return $result_string;
+			if( $WP_Statistics->get_option('prune_report') == true ) {
+				$blogname = get_bloginfo('name');
+				$blogemail = get_bloginfo('admin_email');
+				
+				$headers[] = "From: $blogname <$blogemail>";
+				$headers[] = "MIME-Version: 1.0";
+				$headers[] = "Content-type: text/html; charset=utf-8";
 
+				if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->update_option( 'email_list', $blogemail ); }
+				
+				wp_mail( $WP_Statistics->get_option('email_list'), __('Database pruned on', 'wp_statistics') . ' ' . $blogname, $result_string, $headers );
+			}
+
+			return $result_string;
 		} else {
 			return __('Please select a value over 30 days.', 'wp_statistics');
 		}

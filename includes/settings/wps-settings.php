@@ -57,28 +57,28 @@ switch( $selected_tab )
 			
 			switch( jQuery("#tabs").tabs("option", "active") ) {
 				case 0:
-					if( $wps_admin == 1 ) { tab = 'general'; } else { tab = 'overview'; }
+					if( wps_admin == 1 ) { tab = 'general'; } else { tab = 'overview'; }
 					break;
 				case 1:
-					if( $wps_admin == 1 ) { tab = 'notifications'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'notifications'; } else { tab = 'about'; }
 					break;
 				case 2:
-					if( $wps_admin == 1 ) { tab = 'overview'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'overview'; } else { tab = 'about'; }
 					break;
 				case 3:
-					if( $wps_admin == 1 ) { tab = 'access'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'access'; } else { tab = 'about'; }
 					break;
 				case 4:
-					if( $wps_admin == 1 ) { tab = 'geoip'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'geoip'; } else { tab = 'about'; }
 					break;
 				case 5:
-					if( $wps_admin == 1 ) { tab = 'browscap'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'browscap'; } else { tab = 'about'; }
 					break;
 				case 6:
-					if( $wps_admin == 1 ) { tab = 'maintenance'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'maintenance'; } else { tab = 'about'; }
 					break;
 				case 7:
-					if( $wps_admin == 1 ) { tab = 'removal'; } else { tab = 'about'; }
+					if( wps_admin == 1 ) { tab = 'removal'; } else { tab = 'about'; }
 					break;
 				case 8:
 					tab = 'about';
