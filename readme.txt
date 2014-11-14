@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 8.2
+Stable tag: 8.3
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -223,6 +223,8 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 * Updated: Polish translations.
 * Updated: Added "Notificaitons" tab to the settings page and moved statistical report settings to it.
 * Fixed: The historical data table no longer uses reserved keywords as column names which caused issues on older versions of MySQL.
+* Fixed: Unable to set visits historical count.
+* Fixed: Purging did not record visits/visitors correctly if not already set through the optimization page.
 * Fixed: JavaScript bug when a non-administrative user viewed the settings page.
 * Removed: Reference to old settings file for the widget.
 
