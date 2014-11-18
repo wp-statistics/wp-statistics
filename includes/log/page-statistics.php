@@ -18,8 +18,8 @@
 	$daysToDisplay = 20; 
 	
 	if( array_key_exists('hitdays',$_GET) ) { 
-		if( $_GET['hitdays'] > 0 ) { 
-			$daysToDisplay = $_GET['hitdays']; 
+		if( intval($_GET['hitdays']) > 0 ) { 
+			$daysToDisplay = intval($_GET['hitdays']); 
 		} 
 	}
 	
@@ -29,7 +29,7 @@
 	<h2><?php echo __('Page Trend for Post ID', 'wp_statistics') . ' ' .  $pageid . ' - ' . $title; ?></h2>
 
 	<ul class="subsubsub">
-		<?php $daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = $_GET['hitdays']; } }?>
+		<?php $daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( intval($_GET['hitdays']) > 0 ) { $daysToDisplay = intval($_GET['hitdays']); } }?>
 		<li class="all"><a <?php if($daysToDisplay == 10) { echo 'class="current"'; } ?>href="?page=wps_pages_menu&hitdays=10<?php echo $urlfields;?>"><?php _e('10 Days', 'wp_statistics'); ?></a></li>
 		| <li class="all"><a <?php if($daysToDisplay == 20) { echo 'class="current"'; } ?>href="?page=wps_pages_menu&hitdays=20<?php echo $urlfields;?>"><?php _e('20 Days', 'wp_statistics'); ?></a></li>
 		| <li class="all"><a <?php if($daysToDisplay == 30) { echo 'class="current"'; } ?>href="?page=wps_pages_menu&hitdays=30<?php echo $urlfields;?>"><?php _e('30 Days', 'wp_statistics'); ?></a></li>

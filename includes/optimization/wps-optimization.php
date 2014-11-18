@@ -6,14 +6,14 @@
 		wp_die(__('Access denied!', 'wp_statistics'));
 		
 	if( array_key_exists( 'populate', $_GET ) ) {
-		if( $_GET['populate'] == 1 ) {
+		if( intval($_GET['populate']) == 1 ) {
 			require_once( plugin_dir_path( __FILE__ ) . '../functions/geoip-populate.php' );
 			echo wp_statistics_populate_geoip_info();
 		}
 	}
 	
 	if( array_key_exists( 'hash-ips', $_GET ) ) {
-		if( $_GET['hash-ips'] == 1 ) {
+		if( intval($_GET['hash-ips']) == 1 ) {
 			// Generate a random salt
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$randomString = '';
@@ -45,7 +45,7 @@
 	}
 
 	if( array_key_exists( 'install', $_GET ) ) {
-		if( $_GET['install'] == 1 ) {
+		if( intval($_GET['install']) == 1 ) {
 			$WPS_Installed = "1.0";
 			include( plugin_dir_path( __FILE__ ) . "../../wps-install.php" );
 			echo "<div class='updated settings-error'><p><strong>" . __('Install routine complete.', 'wp_statistics') . "</strong></p></div>";		
@@ -53,7 +53,7 @@
 	}
 	
 	if( array_key_exists( 'index', $_GET ) ) {
-		if( $_GET['index'] == 1 ) {
+		if( intval($_GET['index']) == 1 ) {
 			// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
 			$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
 			
