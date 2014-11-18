@@ -8,7 +8,7 @@
 	
 	if($platform) {
 		
-		$result = $wpdb->query("DELETE FROM {$table_prefix}statistics_visitor WHERE platform = '$platform'");
+		$result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_prefix}statistics_visitor WHERE `platform` = %s", $platform));
 		
 		if($result) {
 			echo sprintf(__('%s platform data deleted successfully.', 'wp_statistics'), '<code>' . $platform . '</code>');

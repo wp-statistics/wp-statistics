@@ -67,7 +67,7 @@
 					$historical = $wpdb->get_var( $wpdb->prepare('SELECT sum(count) FROM ' . $table_name . ' WHERE `uri` = %s AND `date` < %s', $row->uri, $date_string));
 		
 					// Do an update of the historical data.
-					$uresult = $wpdb->query($wpdb->prepare('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + %d WHERE `uri` = %s AND `category` = \'uri\'', $historical, $row->uri, $date_string));
+					$uresult = $wpdb->query($wpdb->prepare('UPDATE ' . $table_prefix . 'statistics_historical SET `value` = value + %d WHERE `uri` = %s AND `category` = \'uri\'', $historical, $row->uri, $date_string));
 
 					// If we failed it's because this is the first time we've seen this URI/pageid so let's create a historical row for it.
 					if( $uresult == 0 ) {

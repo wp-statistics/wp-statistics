@@ -9,14 +9,15 @@
 </script>
 <?php
 	if( array_key_exists('referr',$_GET) ) {
-		$referr = esc_sql( $_GET['referr'] );
+		$referr = '%' . $_GET['referr'] . '%';
+		$title = $_GET['referr'];
 	}
 	else {
 		$referr = '';
 	}
 	
 	if( $referr ) {
-		$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%" . esc_sql($referr) . "%'");
+		$total = $wpdb->query($wpdb->prepare("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE %s", $referr));
 	} else {
 		$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 	}
@@ -27,7 +28,7 @@
 	<ul class="subsubsub">
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php if($referr) { ?>
-			| <li><a class="current" href="?page=wps_referers_menu&referr=<?php echo $referr; ?>"> <?php echo $referr; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+			| <li><a class="current" href="?page=wps_referers_menu&referr=<?php echo $referr; ?>"> <?php echo $title; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } ?>
 	</ul>
 	<div class="postbox-container" id="last-log">

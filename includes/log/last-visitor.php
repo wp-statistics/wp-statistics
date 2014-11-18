@@ -5,17 +5,20 @@
 <?php
 	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
 	
-	$get = array('agent', 'ip');
+	if( array_key_exists( 'agent', $_GET ) ) {
+		$_var = 'agent';
+		$_get = '%' . $_GET['agent'] . '%';
+		$title = $_GET['agent'];
+	}
 	
-	foreach($get as $gets) {
-		if( array_key_exists($gets, $_GET) ) {
-			$_var = $gets;
-			$_get = $_GET[$gets];
-		}
+	if( array_key_exists( 'ip', $_GET ) ) {
+		$_var = 'ip';
+		$_get = '%' . $_GET['ip'] . '%';
+		$title = $_GET['ip'];
 	}
 		
 	if( isset( $_get ) ) {
-		$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE '%{$_get}%'");
+		$total = $wpdb->query($wpdb->prepare("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get));
 	} else {
 		$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
 	}
@@ -39,13 +42,13 @@
 						if($Browser == null) continue;
 						
 						$i++;
-						if($_get == $Browser) { $current = 'class="current" '; } else { $current = ""; }
+						if($title == $Browser) { $current = 'class="current" '; } else { $current = ""; }
 						if( $i == $Total ) { $spacer = ""; }
 						echo "| <li><a " . $current . "href='?page=wps_visitors_menu&agent=" . $Browser . "'> " . __($Browser, 'wp_statistics') ." <span class='count'>(" . number_format_i18n(wp_statistics_useragent($Browser)) .")</span></a>" . $spacer . "</li>";
 					}
 				} elseif(isset($_var)) {
 					if(isset($_get)) { $current = 'class="current" '; } else { $current = ""; }
-					echo "| <li><a {$current} href='?page=wps_visitors_menu&{$_var}={$_get}'>{$_get} <span class='count'>({$total})</span></a></li>";
+					echo "| <li><a {$current} href='?page=wps_visitors_menu&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
 				}
 			}
 		?>
@@ -56,7 +59,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<?php if(isset($_var)) { ?>
-					<h3 class="hndle"><span><?php _e('Search for', 'wp_statistics'); ?>: <?php echo $_get; ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Search for', 'wp_statistics'); ?>: <?php echo $title; ?></span></h3>
 					<?php } else { ?>
 					<h3 class="hndle"><span><?php _e('Recent Visitor Statistics', 'wp_statistics'); ?></span></h3>
 					<?php } ?>
@@ -77,7 +80,7 @@
 
 								// Retrieve MySQL data
 								if( isset($_get) ) {
-									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE '%{$_get}%' ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
+									$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE %s ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}", $_get));
 								} else {
 									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
 								}
