@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 8.3
+Stable tag: 8.3.1
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -208,8 +208,8 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 8.1.1 =
-* If you have enabled browscap.ini, please go to Statistics->Settings->browscap and download the browscap.ini file manually.
+= 8.3.1 =
+* This is a security update release, please update as soon as possible.
 
 = 8.0 =
 * PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
