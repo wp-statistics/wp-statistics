@@ -8,7 +8,7 @@
 		$protocol = "http";
 	
 		if( array_key_exists( 'HTTPS', $_SERVER ) ) {
-			if( $_SERVER['HTTPS'] == 'on' ) { $protocol += 's'; }
+			if( $_SERVER['HTTPS'] == 'on' ) { $protocol .= 's'; }
 		}
 		
 		if($WP_Statistics->get_option('geoip') && !$WP_Statistics->get_option('disable_map') ) { ?>
