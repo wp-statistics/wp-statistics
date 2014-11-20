@@ -210,6 +210,7 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 == Upgrade Notice ==
 = 8.3.1 =
 * This is a security update release, please update as soon as possible.
+* Updated: Polish translations.
 
 = 8.0 =
 * PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!

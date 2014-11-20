@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-11-10 20:15+0330\n"
+"PO-Revision-Date: 2014-11-20 00:08+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -133,6 +133,10 @@ msgstr "Usuń dane i ustawienia, ta akcja nie może być cofnięta."
 msgid "Removal"
 msgstr "Usunięcie"
 
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:101
+msgid "Notifications"
+msgstr "Powiadomienia"
+
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:42
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "WP Statistics został usunięty, proszę wyłączyć i usunąć go."
@@ -239,7 +243,7 @@ msgstr "podręcznik"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
 msgid "Have you search the %s for a similar issue?"
-msgstr "Czy wyszukałeś %s podobny problem?"
+msgstr "Czy przeszukałeś %s, aby uzyskać podobny problem?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
 msgid "support forum"
@@ -493,6 +497,30 @@ msgstr ""
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:68
 msgid "Have you checked your PHP and web server error logs?"
 msgstr "Czy sprawdziłeś Twoje dzienniki błędów PHP i serwera sieci web?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:25
+msgid "Common Report Options"
+msgstr "Opcje raportu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:40
+msgid "Update Reports"
+msgstr "Aktualizacja raportów"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:51
+msgid "Send a report whenever the browscap.ini is updated."
+msgstr "Wyślij raport, gdy browscap.ini jest aktualizowany."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:63
+msgid "Send a report whenever the GeoIP database is updated."
+msgstr "Wyślij raport, gdy baza danych GeoIP jest aktualizowana."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:75
+msgid "Send a report whenever the pruning of database is run."
+msgstr "Wyślij raport, gdy czyszczenie bazy danych jest uruchomione."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:75
+msgid "Send a report whenever the plugin is upgraded."
+msgstr "Wyślij raport, gdy wtyczka jest uaktualniania."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
 msgid "Show site stats in sidebar."
