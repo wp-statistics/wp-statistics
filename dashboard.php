@@ -91,6 +91,20 @@
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/hits.php");
 
 		wp_statistics_generate_hits_postbox_contents(null, null, "300px", 10);
+		
+?>
+
+		<br>
+		<hr width="80%"/>
+		<br>
+
+		<div style="text-align: center;">
+		<a class="button-primary" href="admin.php?page=wp-statistics/wp-statistics.php"><?php _e('WP Statistics Overview', 'wp_statistics');?></a>
+		</div>
+		
+		<br>
+<?php		
+		
 	}
 
 	add_action( 'wp_dashboard_setup', 'wp_statistics_dashboard_widget_load' );
