@@ -78,13 +78,13 @@ if( $wps_admin ) {
 
 		<tr valign="top">
 			<th scope="row">
-				<label for="disable-map"><?php _e('Disable dashboard widget', 'wp_statistics'); ?>:</label>
+				<label for="disable-map"><?php _e('Disable dashboard widgets', 'wp_statistics'); ?>:</label>
 			</th>
 			
 			<td>
 				<input id="disable-dashboard" type="checkbox" value="1" name="wps_disable_dashboard" <?php echo $WP_Statistics->get_option('disable_dashboard')==true? "checked='checked'":'';?>>
 				<label for="disable-dashboard"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('Disable the dashboard widget.', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('Disable the dashboard widgets.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 
