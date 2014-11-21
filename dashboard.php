@@ -32,17 +32,17 @@
 		
 		// If the admin has disabled the widgets, don't display them.
 		if (!$WP_Statistics->get_option('disable_dashboard')) {
-			wp_add_dashboard_widget( 'wp-statistics-quickstats-widget', 'WP Statistics - ' . __('Quick Stats', 'wp_statistics'), 'wp_statistics_quickstats_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-browsers-widget', 'WP Statistics - '. __('Top 10 Browsers', 'wp_statistics'), 'wp_statistics_browsers_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-countries-widget', 'WP Statistics - ' . __('Top 10 Countries', 'wp_statistics'), 'wp_statistics_countries_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', 'WP Statistics - ' . __('Today\'s Visitor Map', 'wp_statistics'), 'wp_statistics_hitsmap_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-hits-widget', 'WP Statistics - ' . __('Hit Statistics', 'wp_statistics'), 'wp_statistics_hits_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-pages-widget', 'WP Statistics - ' . __('Top 10 Pages', 'wp_statistics'), 'wp_statistics_pages_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-recent-widget', 'WP Statistics - ' . __('Recent Visitors', 'wp_statistics'), 'wp_statistics_recent_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-referring-widget', 'WP Statistics - ' . __('Top Referring Sites', 'wp_statistics'), 'wp_statistics_referring_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-search-widget', 'WP Statistics - ' . __('Search Engine Referrals', 'wp_statistics'), 'wp_statistics_search_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-summary-widget', 'WP Statistics - ' . __('Summary', 'wp_statistics'), 'wp_statistics_summary_widget', $control_callback = null );
-			wp_add_dashboard_widget( 'wp-statistics-words-widget', 'WP Statistics - ' . __('Latest Search Words', 'wp_statistics'), 'wp_statistics_words_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-quickstats-widget', __('Quick Stats', 'wp_statistics'), 'wp_statistics_quickstats_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-browsers-widget', __('Top 10 Browsers', 'wp_statistics'), 'wp_statistics_browsers_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-countries-widget', __('Top 10 Countries', 'wp_statistics'), 'wp_statistics_countries_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __('Today\'s Visitor Map', 'wp_statistics'), 'wp_statistics_hitsmap_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-hits-widget', __('Hit Statistics', 'wp_statistics'), 'wp_statistics_hits_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-pages-widget', __('Top 10 Pages', 'wp_statistics'), 'wp_statistics_pages_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-recent-widget', __('Recent Visitors', 'wp_statistics'), 'wp_statistics_recent_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-referring-widget', __('Top Referring Sites', 'wp_statistics'), 'wp_statistics_referring_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-search-widget', __('Search Engine Referrals', 'wp_statistics'), 'wp_statistics_search_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-summary-widget', __('Summary', 'wp_statistics'), 'wp_statistics_summary_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-words-widget', __('Latest Search Words', 'wp_statistics'), 'wp_statistics_words_widget', $control_callback = null );
 		}
 	}
 
