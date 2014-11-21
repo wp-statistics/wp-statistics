@@ -209,15 +209,22 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 
 == Upgrade Notice ==
 = 8.3.1 =
-* This is a security update release, please update as soon as possible.
-* Updated: Polish translations.
+This is a security update release, please update as soon as possible.
 
 = 8.0 =
-* PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
-* BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
-* Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
+PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
+Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.4 =
+* Added: Dashboard widgets for all of the widgets on the overview page.
+* Added: Old dashboard widget upgraded with last 10 days of hits statistics.
+* Fixed: Fixed missing site_url on top 10 pages in the overview page.
+* Fixed: Incorrect url generated for Google map if dashboard was being forced in to https mode.
+* Updated: Polish translations.
+* Updated: Default map type now set to JQVMap for new installations.
+
 = 8.3.1 =
 * Updated: Various SQL code clean ups.
 * Updated: Varioud data validation clean ups.
