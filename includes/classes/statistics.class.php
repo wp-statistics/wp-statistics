@@ -16,6 +16,7 @@
 		
 		private $result;
 		private $historical;
+		private $user_options_loaded = false;
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';
@@ -64,11 +65,15 @@
 		}
 		
 		// This function loads the user options from WordPress.  It is NOT called during the class constructor.
-		public function load_user_options() {
+		public function load_user_options( $force = false) {
+			if( $this->user_options_loaded == true && $force != true ) { return; }
+			
 			$this->set_user_id();
 
 			// Not sure why, but get_user_meta() is returning an array or array's unless $single is set to true.
 			$this->user_options = get_user_meta( $this->user_id, 'wp_statistics', true );
+			
+			$this->user_options_loaded = true;
 		}
 		
 		// The function mimics WordPress's get_option() function but uses the array instead of individual options.

@@ -1,14 +1,18 @@
 <?php
 	function wp_statistics_dashboard_widget_load() {
-		wp_add_dashboard_widget( 'wp-statistics-dashboard-widget', 'Statistics', 'wp_statistics_dashboard_widget', $control_callback = null );
+		GLOBAL $WP_Statistics;
+
+		$WP_Statistics->load_user_options();
+		
+		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('read_capability', 'manage_option')))) { return; }
+		
+		if (!$WP_Statistics->get_option('disable_dashboard') && !$WP_Statistics->get_user_option('disable_user_dashboard')) {
+			wp_add_dashboard_widget( 'wp-statistics-dashboard-widget', 'Statistics', 'wp_statistics_dashboard_widget', $control_callback = null );
+		}
 	}
 
 	function wp_statistics_dashboard_widget() {
 		GLOBAL $WP_Statistics;
-
-		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('read_capability', 'manage_option')))) {
-			return;
-		}
 
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
 		
