@@ -1,12 +1,21 @@
 <?php
 	function wp_statistics_generate_browsers_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?> <a href="?page=wps_browsers_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
+					<?php wp_statistics_generate_browsers_postbox_content(); ?>
+					</div>
+				</div>
+<?php		
+	}
+
+	function wp_statistics_generate_browsers_postbox_content() {
+	
+		global $wpdb, $table_prefix, $WP_Statistics;
+?>
 						<script type="text/javascript">
 						jQuery(function () {
 							var browser_chart;
@@ -87,8 +96,6 @@
 						</script>
 								
 						<div id="browsers-log" style="height: <?php $height = ( count($Browsers) / 2 * 27 ) + 300; if( $height > 462 ) { $height = 462; } echo $height; ?>px;"></div>
-					</div>
-				</div>
 <?php		
 	}
 

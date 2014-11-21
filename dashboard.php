@@ -14,66 +14,6 @@
 	function wp_statistics_dashboard_widget() {
 		GLOBAL $WP_Statistics;
 
-		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
-		
-		$widget_options = $WP_Statistics->get_option('widget');
-?>		
-		<table width="100%" class="widefat table-stats" id="summary-stats">
-			<tbody>
-				<tr>
-					<th><?php _e('User(s) Online', 'wp_statistics'); ?>:</th>
-					<th colspan="2" id="th-colspan"><span><?php echo wp_statistics_useronline(); ?></span></th>
-				</tr>
-				
-				<tr>
-					<th width="60%"></th>
-					<th class="th-center"><?php _e('Visitor', 'wp_statistics'); ?></th>
-					<th class="th-center"><?php _e('Visit', 'wp_statistics'); ?></th>
-				</tr>
-				
-				<tr>
-					<th><?php _e('Today', 'wp_statistics'); ?>:</th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('today',null,true)); ?></span></th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('today')); ?></span></th>
-				</tr>
-				
-				<tr>
-					<th><?php _e('Yesterday', 'wp_statistics'); ?>:</th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('yesterday',null,true)); ?></span></th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('yesterday')); ?></span></th>
-				</tr>
-				
-				<tr>
-					<th><?php _e('Week', 'wp_statistics'); ?>:</th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('week',null,true)); ?></span></th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('week')); ?></span></th>
-				</tr>
-				
-				<tr>
-					<th><?php _e('Month', 'wp_statistics'); ?>:</th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('month',null,true)); ?></span></th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('month')); ?></span></th>
-				</tr>
-				
-				<tr>
-					<th><?php _e('Year', 'wp_statistics'); ?>:</th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('year',null,true)); ?></span></th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('year')); ?></span></th>
-				</tr>
-				
-				<tr>
-					<th><?php _e('Total', 'wp_statistics'); ?>:</th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('total',null,true)); ?></span></th>
-					<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('total')); ?></span></th>
-				</tr>
-				
-			</tbody>
-		</table>
-		
-		<br>
-		<hr width="80%"/>
-		<br>
-<?php
 		// Load the css we use for the statistics pages.
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
 		wp_enqueue_style('jqplot-css', plugin_dir_url(__FILE__) . 'assets/css/jquery.jqplot.min.css', true, '1.0.8');
@@ -92,9 +32,20 @@
 		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.pieRenderer.min.js', true, '0.8.3');
 		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/js/jqplot.enhancedLegendRenderer.min.js', true, '0.8.3');
 		
+		// Include the summary widget, we're just going to use the content for the the users online and visit/visitor totals
+		include_once( dirname( __FILE__ ) . "/includes/log/widgets/summary.php");
+
+		wp_statistics_generate_summary_postbox_content(null, false, false)
+?>		
+		<br>
+		<hr width="80%"/>
+		<br>
+<?php
+		
+		// Include the hits chart widget, we're going to display the last 10 days only as the WordPress columns are kind of small to do much else.
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/hits.php");
 
-		wp_statistics_generate_hits_postbox_contents(null, null, "300px", 10);
+		wp_statistics_generate_hits_postbox_contents("300px", 10);
 		
 ?>
 

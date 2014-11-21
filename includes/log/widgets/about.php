@@ -7,6 +7,16 @@
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php echo sprintf(__('About WP Statistics Version %s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></span></h3>
 					<div class="inside">
+					<?php wp_statistics_generate_about_postbox_content(); ?>
+					</div>
+				</div>
+<?php		
+	}
+
+	function wp_statistics_generate_about_postbox_content() {
+	
+		global $wpdb, $table_prefix, $WP_Statistics;
+?>
 						<div style="text-align: center;">
 							<a href="http://wp-statistics.com" target="_blank"><img src="<?php echo plugins_url('wp-statistics/assets/images/logo-250.png'); ?>"></a>
 						</div>
@@ -28,8 +38,6 @@
 						<div>
 							<?php echo sprintf(__('This product includes GeoLite2 data created by MaxMind, available from %s.', 'wp_statistics'), '<a href="http://www.maxmind.com" target=_blank>http://www.maxmind.com</a>'); ?>
 						</div>
-					</div>
-				</div>
 <?php		
 	}
 

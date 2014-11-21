@@ -1,7 +1,7 @@
 <?php
 	function wp_statistics_generate_countries_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $WP_Statistics;
 
 		if( $WP_Statistics->get_option('geoip') ) { 
 ?>
@@ -12,6 +12,19 @@
 					</h3>
 					<div class="inside">
 						<div class="inside">
+						<?php wp_statistics_generate_countries_postbox_content($ISOCountryCode); ?>
+						</div>
+					</div>
+				</div>
+<?php 
+		}
+	}
+
+	function wp_statistics_generate_countries_postbox_content($ISOCountryCode, $count = 10) {
+	
+		global $wpdb, $table_prefix, $WP_Statistics;
+
+?>
 							<table width="100%" class="widefat table-stats" id="last-referrer">
 								<tr>
 									<td width="10%" style='text-align: left'><?php _e('Rank', 'wp_statistics'); ?></td>
@@ -45,14 +58,10 @@
 										echo "<td style='text-align: left'>" . number_format_i18n($value) . "</td>";
 										echo "</tr>";
 										
-										if( $i == 10 ) { break; }
+										if( $i == $count ) { break; }
 									}
 								?>
 							</table>
-						</div>
-					</div>
-				</div>
 <?php 
-		}
 	}
 

@@ -7,6 +7,16 @@
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php _e('Summary', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
+					<?php wp_statistics_generate_summary_postbox_content($search_engines); ?>
+					</div>
+				</div>
+<?php
+	}
+
+	function wp_statistics_generate_summary_postbox_content($search_engines, $search = true, $time = true) {
+	
+		global $wpdb, $table_prefix, $WP_Statistics;
+?>		
 						<table width="100%" class="widefat table-stats" id="summary-stats">
 							<tbody>
 								<tr>
@@ -56,10 +66,10 @@
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('total')); ?></span></th>
 								</tr>
 								
+<?php if( $search == true ) {?>
 								<tr>
 									<th colspan="3"><br><hr></th>
 								</tr>
-
 								<tr>
 									<th colspan="3" style="text-align: center;"><?php _e('Search Engine Referrals', 'wp_statistics'); ?></th>
 								</tr>
@@ -94,6 +104,11 @@
 									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
 									<th colspan="2" id="th-colspan"><span><?php echo number_format_i18n(wp_statistics_searchengine('all')); ?></span></th>
 								</tr>
+<?php 
+	}
+
+if( $time == true ) {
+?>
 								<tr>
 									<th colspan="3"><br><hr></th>
 								</tr>
@@ -109,10 +124,9 @@
 								<tr>
 									<th colspan="3"><?php echo sprintf(__('Time: %s', 'wp_statistics'), '<code dir="ltr">' .$WP_Statistics->Current_Date_i18n(get_option('time_format')) . '</code>'); ?></th>
 								</tr>
+<?php }?>
 							</tbody>
 						</table>
-					</div>
-				</div>
 <?php
 	}
 

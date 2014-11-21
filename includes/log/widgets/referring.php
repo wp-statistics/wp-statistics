@@ -14,6 +14,17 @@
 				</h3>
 				<div class="inside">
 					<div class="inside">
+					<?php wp_statistics_generate_referring_postbox_content($result); ?>
+					</div>
+				</div>
+			</div>
+<?php
+		}
+	}
+	
+	function wp_statistics_generate_referring_postbox_content($result) {
+	
+?>
 						<table width="100%" class="widefat table-stats" id="last-referrer">
 							<tr>
 								<td width="10%"><?php _e('References', 'wp_statistics'); ?></td>
@@ -46,9 +57,5 @@
 								}
 							?>
 						</table>
-					</div>
-				</div>
-			</div>
-			<?php
-		}
-	}
+<?php
+	}	

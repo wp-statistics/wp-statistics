@@ -8,14 +8,14 @@
 					<h3 class="hndle"><span><?php _e('Hit Statistics', 'wp_statistics'); ?> <a href="?page=wps_hits_menu"> <?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside">
 <?php								
-					wp_statistics_generate_hits_postbox_contents($ISOCountryCode, $search_engines)
+					wp_statistics_generate_hits_postbox_contents()
 ?>						
 					</div>
 				</div>
 <?php		
 	}
 
-	function wp_statistics_generate_hits_postbox_contents($ISOCountryCode, $search_engines, $size="300px", $days=20) {
+	function wp_statistics_generate_hits_postbox_contents($size="300px", $days=20) {
 	
 		global $wpdb, $table_prefix, $WP_Statistics;
 ?>
