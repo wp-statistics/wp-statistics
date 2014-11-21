@@ -14,6 +14,14 @@
 	function wp_statistics_dashboard_widget() {
 		GLOBAL $WP_Statistics;
 
+		$hidden_widgets = get_user_option('metaboxhidden_dashboard');
+		if( !is_array( $hidden_widgets ) ) { $hidden_widgets = array(); }
+		
+		if( in_array( 'wp-statistics-dashboard-widget', $hidden_widgets ) ) {
+			_e('Please reload the dashboard to display the content of this widget.', 'wp_statistics');
+			return;
+		}
+		
 		// Load the css we use for the statistics pages.
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
 		wp_enqueue_style('jqplot-css', plugin_dir_url(__FILE__) . 'assets/css/jquery.jqplot.min.css', true, '1.0.8');
