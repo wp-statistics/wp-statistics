@@ -15,11 +15,11 @@
 <?php		
 	}
 
-	function wp_statistics_generate_recent_postbox_content($ISOCountryCode) {
+	function wp_statistics_generate_recent_postbox_content($ISOCountryCode, $count = 10) {
 	
 		global $wpdb, $table_prefix, $WP_Statistics;
 
-		$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, 10");
+		$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}");
 								
 		echo "<div class='log-latest'>";
 

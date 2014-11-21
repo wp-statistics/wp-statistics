@@ -61,11 +61,6 @@
 		
 		$WP_Statistics->store_user_option('overview_display', $display_array );
 
-		// Handle the user option for the dashboard widget.
-		if( array_key_exists( 'wps_disable_user_dashboard', $_POST ) ) { $value = $_POST['wps_disable_user_dashboard']; } else { $value = ''; }
-
-		$WP_Statistics->store_user_option('disable_user_dashboard', $value);
-
 	}
 
 // Only display the global options if the user is an administrator.
@@ -151,26 +146,6 @@ if( $wps_admin ) {
 
 <table class="form-table">
 	<tbody>
-		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('Dashboard Widget', 'wp_statistics'); ?></h3></th>
-		</tr>
-
-		<tr valign="top">
-			<td scope="row" colspan="3"><?php _e('The following items are unique to each user.', 'wp_statistics');?></td>
-		</tr>
-
-		<tr valign="top">
-			<th scope="row">
-				<label for="disable-map"><?php _e('Disable dashboard widget', 'wp_statistics'); ?>:</label>
-			</th>
-			
-			<td>
-				<input id="disable-user-dashboard" type="checkbox" value="1" name="wps_disable_user_dashboard" <?php echo $WP_Statistics->get_user_option('disable_user_dashboard')==true? "checked='checked'":'';?>>
-				<label for="disable-user-dashboard"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('Disable the dashboard widget.', 'wp_statistics'); ?></p>
-			</td>
-		</tr>
-
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('Overview Widgets to Display', 'wp_statistics'); ?></h3></th>
 		</tr>
