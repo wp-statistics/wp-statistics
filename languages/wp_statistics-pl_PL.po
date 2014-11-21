@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-11-20 00:08+0100\n"
+"PO-Revision-Date: 2014-11-21 09:28+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -597,7 +597,7 @@ msgid ""
 "By default WP Statistics displays an alert if any of the core features are "
 "disabled on every admin page, this option will disable these notices."
 msgstr ""
-"Domyślnie WP Statystyki wyświetla ostrzeżenie, jeśli któraś z podstawowych "
+"Domyślnie WP Statistics wyświetla ostrzeżenie, jeśli któraś z podstawowych "
 "funkcji jest wyłączona na każdej stronie administratora, opcja ta będzie "
 "wyłączyć te powiadomienia."
 
@@ -611,7 +611,7 @@ msgid ""
 "meg), if this option is enabled it will be deleted now and during upgrades "
 "in the future."
 msgstr ""
-"Domyślne WP Statystyki przechowuje podręcznik administratora w katalogu "
+"Domyślnie WP Statistics przechowuje podręcznik administratora w katalogu "
 "wtyczek (~5 meg), jeśli ta opcja jest włączona to zostanie usunięty w czasie "
 "aktualizacji i teraz w przyszłości."
 
@@ -873,7 +873,7 @@ msgstr "Żaden"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:28
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:99
 msgid "About"
-msgstr "Informacje"
+msgstr "Info"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:123
 msgid "Widgets to Display"
@@ -886,7 +886,7 @@ msgid ""
 "column A."
 msgstr ""
 "Następujące pozycje są unikalne dla każdego użytkownika. Jeśli nie "
-"wybierzesz widgetu 'Informacje' będzie automatycznie wyświetlony w ostatniej "
+"wybierzesz widgetu 'Info' będzie automatycznie wyświetlony w ostatniej "
 "pozycji kolumny A."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:137
