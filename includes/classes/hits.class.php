@@ -46,6 +46,11 @@
 			$BrowscapFile = $upload_dir['basedir'] . '/wp-statistics';
 			
 			$crawler = false;
+
+			$ua_string = "";
+			if( array_key_exists('HTTP_USER_AGENT', $_SERVER) ) {
+				$ua_string = $_SERVER['HTTP_USER_AGENT'];
+			}
 			
 			if( $this->get_option('last_browscap_dl') > 1 && $this->get_option('browscap') ) { 
 				// Get the Browser Capabilities use Browscap.
@@ -73,7 +78,7 @@
 					
 					// If the match case is less than 4 characters long, it might match too much so don't execute it.
 					if(strlen($robot) > 3) { 
-						if(stripos($_SERVER['HTTP_USER_AGENT'], $robot) !== FALSE) {
+						if(stripos($ua_string, $robot) !== FALSE) {
 							$this->exclusion_match = TRUE;
 							$this->exclusion_reason = "robot";
 							break;
@@ -103,8 +108,8 @@
 
 				// Check to see if we are being referred to ourselves.
 				if( !$this->exclusion_match ) {
-					if( $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url("/") ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
-					if( $_SERVER['HTTP_USER_AGENT'] == "WordPress/" . $wp_version . "; " . get_home_url() ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
+					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url("/") ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
+					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url() ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 
 					if( $this->get_option('exclude_loginpage') == 1 ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
