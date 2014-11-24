@@ -242,6 +242,7 @@
 		$result = $wpdb->get_results( "SELECT DISTINCT uri FROM {$table_prefix}statistics_pages", ARRAY_N );
 
 		$total = 0;
+		$uris = array();
 		
 		// Now get the total page visit count for each unique URI.
 		foreach( $result as $out ) {
