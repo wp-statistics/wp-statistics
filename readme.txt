@@ -222,6 +222,7 @@ Support for old format substitution codes in the statistics reports has been rem
 * Added: Old dashboard widget upgraded with last 10 days of hits statistics.
 * Fixed: Fixed missing site_url on top 10 pages in the overview page.
 * Fixed: Incorrect url generated for Google map if dashboard was being forced in to https mode.
+* Fixed: Properly un-escape quotation marks in report body if magic quotes is enabled.
 * Updated: Polish translations.
 * Updated: Default map type now set to JQVMap for new installations.
 
