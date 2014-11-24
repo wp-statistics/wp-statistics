@@ -324,7 +324,8 @@ License: GPL2
 			$wp_admin_bar->add_menu( array(
 				'id'		=> 	'wp-statistics-menu-useronline',
 				'parent'	=>	'wp-statistic-menu',
-				'title'		=>	__('User Online', 'wp_statistics') . ": " . wp_statistics_useronline()
+				'title'		=>	__('User Online', 'wp_statistics') . ": " . wp_statistics_useronline(),
+				'href'		=>  $AdminURL . 'admin.php?page=wps_online_menu'
 			));
 			
 			$wp_admin_bar->add_menu( array(
