@@ -266,13 +266,11 @@
 			$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $id, $title );
 		}
 
-		// If we have some results, let's sort them using usort.  If not, make sure we return an array.
-		if( count( $uris ) > 0 ) {
+		// If we have more than one result, let's sort them using usort.
+		if( count( $uris ) > 1 ) {
 			// Sort the URI's based on their hit count.
 			usort( $uris, 'wp_stats_compare_uri_hits');
-		} else {
-			$uris = array();
-		}
+		} 
 		
 		return array( $total, $uris );
 	}
