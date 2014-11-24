@@ -47,7 +47,7 @@
 				unlink( $TempFile );
 			}
 			else {
-				// If we failed to open the new file, through and error and remove the temporary file.  Otherwise actually do the unzip.
+				// If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
 				if( !$DBfh ) {
 					$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error could not open destination GeoIP database for writing %s', 'wp_statistics'), $DBFile) . "</strong></p></div>";
 					unlink( $TempFile );

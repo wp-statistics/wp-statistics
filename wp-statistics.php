@@ -132,7 +132,7 @@ License: GPL2
 	
 		// Call the online users tracking code.
 		if( $WP_Statistics->get_option('useronline') )
-			$o->Check_online();
+			$o->Check_online($h->GetLocation());
 
 		// Call the visit tracking code.
 		if( $WP_Statistics->get_option('visits') )
@@ -266,13 +266,14 @@ License: GPL2
 		if( $WP_Statistics->get_option('geoip') ) {
 			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log_countries');
 		}
-		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log_hits');
 		add_submenu_page(__FILE__, __('Exclusions', 'wp_statistics'), __('Exclusions', 'wp_statistics'), $read_cap, 'wps_exclusions_menu', 'wp_statistics_log_exclusions');
+		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log_hits');
+		add_submenu_page(__FILE__, __('Online', 'wp_statistics'), __('Online', 'wp_statistics'), $read_cap, 'wps_online_menu', 'wp_statistics_log_online');
+		add_submenu_page(__FILE__, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, 'wps_pages_menu', 'wp_statistics_log_pages');
 		add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), $read_cap, 'wps_referers_menu', 'wp_statistics_log_referers');
 		add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log_searches');
 		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log_words');
 		add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, 'wps_visitors_menu', 'wp_statistics_log_visitors');
-		add_submenu_page(__FILE__, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, 'wps_pages_menu', 'wp_statistics_log_pages');
 		add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview');
 		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
 		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $read_cap, 'wp-statistics/settings', 'wp_statistics_settings');
@@ -443,6 +444,11 @@ License: GPL2
 		wp_statistics_log('exclusions');
 	}
 	
+	function wp_statistics_log_online() {
+
+		wp_statistics_log('online');
+	}
+	
 	// This is the main statistics display function/
 	function wp_statistics_log( $log_type = "" ) {
 		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
@@ -530,6 +536,11 @@ License: GPL2
 		} else if( $log_type == 'exclusions' ) {
 
 			include_once dirname( __FILE__ ) . '/includes/log/exclusions.php';
+			
+		} else if( $log_type == 'online' ) {
+
+			include_once dirname( __FILE__ ) . '/includes/log/online.php';
+			
 			
 		} else if( $log_type == 'top-pages' ) {
 

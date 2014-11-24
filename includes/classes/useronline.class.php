@@ -46,13 +46,13 @@
 		}
 		
 		// This function add/update/delete the online users in the database.
-		public function Check_online() {
+		public function Check_online($location) {
 		
 			// If the current user exists in the database already, just update them, otherwise add them
 			if($this->Is_user()) {
-				$this->Update_user();
+				$this->Update_user($location);
 			} else {
-				$this->Add_user();
+				$this->Add_user($location);
 			}
 			
 			// Remove users that have done offline since the last check.
@@ -60,7 +60,7 @@
 		}
 		
 		// This function adds a user to the database.
-		public function Add_user() {
+		public function Add_user($location) {
 			
 			if(!$this->Is_user()) {
 			
@@ -70,11 +70,13 @@
 					array(
 						'ip'		=>	$this->ip_hash ? $this->ip_hash : $this->ip,
 						'timestamp'	=>	$this->timestamp,
+						'created'	=>	$this->timestamp,
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
 						'agent'		=>	$this->agent['browser'],
 						'platform'	=>	$this->agent['platform'],
 						'version'	=> 	$this->agent['version'],
+						'location'	=>	$location,
 					)
 				);
 			}
@@ -82,7 +84,7 @@
 		}
 		
 		// This function updates a user in the database.
-		public function Update_user() {
+		public function Update_user($location) {
 		
 			// Make sure we found the user earlier when we called Is_user().
 			if($this->result) {
@@ -100,6 +102,7 @@
 						'agent'		=>	$this->agent['browser'],
 						'platform'	=>  $this->agent['platform'],
 						'version'	=> 	$this->agent['version'],
+						'location'	=>	$location,
 					)
 				);
 			}

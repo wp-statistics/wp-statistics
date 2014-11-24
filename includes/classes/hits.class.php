@@ -287,4 +287,8 @@
 				}
 			}
 		}
+		
+		public function GetLocation() {
+			return $this->location;
+		}
 	}
