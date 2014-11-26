@@ -66,7 +66,7 @@ License: GPL2
 		include_once( dirname( __FILE__ ) . '/wps-install.php' );
 	}
 
-	// Load the update fuctions for GeoIP and browscap.ini (done in a seperate file to avoid a parse error in PHP 5.2 or below)
+	// Load the update functions for GeoIP and browscap.ini (done in a separate file to avoid a parse error in PHP 5.2 or below)
 	include_once dirname( __FILE__ ) . '/wps-updates.php';
 	
 	// Load the rest of the required files for our global functions, online user tracking and hit tracking.
