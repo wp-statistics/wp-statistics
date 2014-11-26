@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 8.3.1
+Stable tag: 8.4
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -219,12 +219,16 @@ Support for old format substitution codes in the statistics reports has been rem
 == Changelog ==
 = 8.4 =
 * Added: Dashboard widgets for all of the widgets on the overview page.
+* Added: Option to disable all dashboard widgets.
 * Added: Old dashboard widget upgraded with last 10 days of hits statistics.
+* Added: Online users page and time a user has been online.
 * Fixed: Fixed missing site_url on top 10 pages in the overview page.
 * Fixed: Incorrect url generated for Google map if dashboard was being forced in to https mode.
 * Fixed: Properly un-escape quotation marks in report body if magic quotes is enabled.
+* Fixed: URL referrer CSS style would 'push' other entires to the next line on small displays.
+* Fixed: Various PHP warnings on uninitalized variables, thanks bseddon
 * Updated: Polish translations.
-* Updated: Default map type now set to JQVMap for new installations.
+* Updated: Default map type now set to JQVMap.
 
 = 8.3.1 =
 * Updated: Various SQL code clean ups.
