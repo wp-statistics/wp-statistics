@@ -66,10 +66,10 @@
 		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/js/jqplot.enhancedLegendRenderer.min.js', true, '0.8.3');
 	}
 	
-	function wp_statistics_is_dashboard_widget_visible( $widget ) {
+	function wp_statistics_is_wp_widget_visible( $widget, $type = 'dashboard' ) {
 		GLOBAL $WP_Statistics;
 		
-		$hidden_widgets = get_user_meta($WP_Statistics->user_id,'metaboxhidden_dashboard', true);
+		$hidden_widgets = get_user_meta($WP_Statistics->user_id,'metaboxhidden_' . $type, true);
 		if( !is_array( $hidden_widgets ) ) { $hidden_widgets = array(); }
 		
 		if( in_array( $widget, $hidden_widgets ) ) {
@@ -83,7 +83,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-quickstats-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-quickstats-widget', 'dashboard' ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();

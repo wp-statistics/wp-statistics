@@ -82,6 +82,7 @@ License: GPL2
 	// Finally load the widget, dashboard, shortcode and scheduled events.
 	include_once dirname( __FILE__ ) . '/widget.php';
 	include_once dirname( __FILE__ ) . '/dashboard.php';
+	include_once dirname( __FILE__ ) . '/editor.php';
 	include_once dirname( __FILE__ ) . '/shortcode.php';
 	include_once dirname( __FILE__ ) . '/schedule.php';
 	
