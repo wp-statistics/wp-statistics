@@ -10,7 +10,7 @@ if( $wps_nonce_valid ) {
 		$WP_Statistics->store_option($new_option, $value);
 	}
 
-	$wps_option_list = array("wps_useronline","wps_visits","wps_visitors","wps_pages","wps_track_all_pages","wps_disable_column","wps_check_online","wps_menu_bar","wps_coefficient","wps_chart_totals","wps_store_ua","wps_hide_notices","wps_delete_manual","wps_hash_ips" );
+	$wps_option_list = array('wps_useronline','wps_visits','wps_visitors','wps_pages','wps_track_all_pages','wps_disable_column','wps_check_online','wps_menu_bar','wps_coefficient','wps_chart_totals','wps_store_ua','wps_hide_notices','wps_delete_manual','wps_hash_ips', 'wps_all_online' );
 	
 	// If the IP hash's are enabled, disable storing the complete user agent.
 	if( array_key_exists( 'wps_hash_ips', $_POST ) ) { $_POST['wps_store_ua'] = ''; }
@@ -96,6 +96,18 @@ if( $wps_nonce_valid ) {
 			</td>
 		</tr>
 		
+		<tr valign="top">
+			<th scope="row">
+				<label for="useronline"><?php _e('Record all user', 'wp_statistics'); ?>:</label>
+			</th>
+			
+			<td>
+				<input id="allonline" type="checkbox" value="1" name="wps_all_online" <?php echo $WP_Statistics->get_option('all_online')==true? "checked='checked'":'';?>>
+				<label for="allonline"><?php _e('Active', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('Visits', 'wp_statistics'); ?></h3></th>
 		</tr>
