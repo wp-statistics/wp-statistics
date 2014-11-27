@@ -71,7 +71,6 @@ License: GPL2
 	
 	// Load the rest of the required files for our global functions, online user tracking and hit tracking.
 	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
-	include_once dirname( __FILE__ ) . '/includes/classes/useronline.class.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
 
 	// If GeoIP is enabled and supported, extend the hits class to record the GeoIP information.
@@ -121,9 +120,6 @@ License: GPL2
 	function wp_statistics_shutdown_action() {
 		GLOBAL $WP_Statistics;
 		
-		// Create a new useronline class
-		$o = new Useronline();
-		
 		// Create a new hit class, if we're GeoIP enabled, use GeoIPHits().
 		if( class_exists( 'GeoIPHits' ) ) { 
 			$h = new GeoIPHits();
@@ -133,7 +129,7 @@ License: GPL2
 	
 		// Call the online users tracking code.
 		if( $WP_Statistics->get_option('useronline') )
-			$o->Check_online($h->GetLocation());
+			$h->Check_online();
 
 		// Call the visit tracking code.
 		if( $WP_Statistics->get_option('visits') )
@@ -147,9 +143,6 @@ License: GPL2
 		if( $WP_Statistics->get_option('pages') )
 			$h->Pages();
 
-		if( $WP_Statistics->get_option('check_online') )
-			$o->second = $WP_Statistics->get_option('check_online');
-		
 		// Check to see if the GeoIP database needs to be downloaded and do so if required.
 		if( $WP_Statistics->get_option('update_geoip') )
 			wp_statistics_download_geoip();

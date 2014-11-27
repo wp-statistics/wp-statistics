@@ -16,7 +16,9 @@
 		private $exclusion_match = FALSE;
 		private $exclusion_reason = '';
 		private $exclusion_record = FALSE;
-		
+		private $timestamp;
+		private $second;
+	
 		// Construction function.
 		public function __construct() {
 
@@ -24,6 +26,17 @@
 
 			// Call the parent constructor (WP_Statistics::__construct)
 			parent::__construct();
+			
+			// Set the timestamp value.
+			$this->timestamp = date('U');
+			
+			// Set the default seconds a user needs to visit the site before they are considered offline.
+			$this->second = 30;
+			
+			// Get the user set value for seconds to check for users online.
+			if( $this->get_option('check_online') ) {
+				$this->second = $this->get_option('check_online');
+			}
 			
 			// Check to see if the user wants us to record why we're excluding hits.
 			if( $this->get_option('record_exclusions' ) == 1 ) {
@@ -298,7 +311,94 @@
 			}
 		}
 		
-		public function GetLocation() {
-			return $this->location;
+		// This function checks to see if the current user (as defined by their IP address) has an entry in the database.
+		// Note we set the $this->result variable so we don't have to re-execute the query when we do the user update.
+		public function Is_user() {
+
+			if( $this->ip_hash != false ) {
+				$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip_hash}'");
+			}
+			else {
+				$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'");
+			}
+			
+			if($this->result) 
+				return true;
+		}
+		
+		// This function add/update/delete the online users in the database.
+		public function Check_online() {
+			// If we're a webcrawler or referral from ourselves or an excluded address don't record the user as online.
+			if( !$this->exclusion_match ) {
+		
+				// If the current user exists in the database already, just update them, otherwise add them
+				if($this->Is_user()) {
+					$this->Update_user();
+				} else {
+					$this->Add_user();
+				}
+			}
+			
+			// Remove users that have gone offline since the last check.
+			$this->Delete_user();
+		}
+		
+		// This function adds a user to the database.
+		public function Add_user() {
+			
+			if(!$this->Is_user()) {
+			
+				// Insert the user in to the database.
+				$this->db->insert(
+					$this->tb_prefix . "statistics_useronline",
+					array(
+						'ip'		=>	$this->ip_hash ? $this->ip_hash : $this->ip,
+						'timestamp'	=>	$this->timestamp,
+						'created'	=>	$this->timestamp,
+						'date'		=>	$this->Current_Date(),
+						'referred'	=>	$this->get_Referred(),
+						'agent'		=>	$this->agent['browser'],
+						'platform'	=>	$this->agent['platform'],
+						'version'	=> 	$this->agent['version'],
+						'location'	=>	$this->location,
+					)
+				);
+			}
+			
+		}
+		
+		// This function updates a user in the database.
+		public function Update_user() {
+		
+			// Make sure we found the user earlier when we called Is_user().
+			if($this->result) {
+			
+				// Update the database with the new information.
+				$this->db->update(
+					$this->tb_prefix . "statistics_useronline",
+					array(
+						'timestamp'	=>	$this->timestamp,
+						'date'		=>	$this->Current_Date(),
+						'referred'	=>	$this->get_Referred(),
+					),
+					array(
+						'ip'		=>	$this->ip_hash ? $this->ip_hash : $this->ip,
+						'agent'		=>	$this->agent['browser'],
+						'platform'	=>  $this->agent['platform'],
+						'version'	=> 	$this->agent['version'],
+						'location'	=>	$this->location,
+					)
+				);
+			}
+		}
+		
+		// This function removes expired users.
+		public function Delete_user() {
+			
+			// We want to delete users that are over the number of seconds set by the admin.
+			$timediff = $this->timestamp - $this->second;
+			
+			// Call the deletion query.
+			$this->db->query("DELETE FROM {$this->tb_prefix}statistics_useronline WHERE timestamp < '{$timediff}'");
 		}
 	}
