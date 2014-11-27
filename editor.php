@@ -40,9 +40,11 @@ function wp_statistics_add_editor_meta_box() {
 
 		add_meta_box(
 			'wp_statistics_editor_meta_box',
-			__( 'Page Trend', 'wp_statistics' ),
+			__( 'Hit Statistics', 'wp_statistics' ),
 			'wp_statistics_editor_meta_box',
-			$screen
+			$screen,
+			'normal',
+			'high'
 		);
 	}
 }
@@ -58,7 +60,7 @@ function wp_statistics_editor_meta_box( $post ) {
 	
 	wp_statistics_load_widget_css_and_scripts();
 	
-	wp_statistics_generate_page_postbox_content( null, $post->ID, 20 );
+	wp_statistics_generate_page_postbox_content( null, $post->ID, 20, 'Hits in the last 20 days' );
 }
 
 ?>
