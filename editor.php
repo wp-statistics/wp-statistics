@@ -34,6 +34,9 @@ function wp_statistics_add_editor_meta_box() {
 	// If the user does not have at least read access to the status plugin, just return without adding the widgets.
 	if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('read_capability', 'manage_option')))) { return; }
 
+	// If the admin has disabled the widgets don't display them.
+	if ($WP_Statistics->get_option('disable_editor')) { return; }
+
 	$screens = array( 'post', 'page' );
 
 	foreach ( $screens as $screen ) {
