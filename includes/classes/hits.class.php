@@ -56,8 +56,13 @@
 				// Get the Browser Capabilities use Browscap.
 				$bc = new Browscap($BrowscapFile);
 				$bc->doAutoUpdate = false; 	// We don't want to auto update.
-				$current_browser = $bc->getBrowser();
-				$crawler = $current_browser->Crawler;
+				try {
+					$current_browser = $bc->getBrowser();
+					$crawler = $current_browser->Crawler;
+				}
+				catch( Exception $e ) {
+					$crawler = false;
+				}
 			}
 			else {
 				$this->update_option('update_browscap', true);
