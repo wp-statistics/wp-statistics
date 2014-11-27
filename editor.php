@@ -56,6 +56,9 @@ function wp_statistics_editor_meta_box( $post ) {
 	// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
 	if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp_statistics_editor_meta_box', $post->post_type ) ) !== true ) { echo $is_visible; return; }
 
+	// If the post isn't published yet, don't output the stats as they take too much memory and CPU to compute for no reason.
+	if( $post->post_status != 'publish' && $post->post_status != 'private' ) { _e('This post is not yet published.', 'wp_statistics'); return; }
+	
 	include_once( dirname( __FILE__ ) . '/includes/log/widgets/page.php' );
 	
 	wp_statistics_load_widget_css_and_scripts();
