@@ -94,7 +94,7 @@
 		wp_statistics_generate_summary_postbox_content(null, false, false);
 		
 		// We can only have one hit's chart per page, so if the hits widget is visible, don't display it here.
-		if( wp_statistics_is_dashboard_widget_visible( 'wp-statistics-hits-widget' ) !== true ) {
+		if( wp_statistics_is_wp_widget_visible( 'wp-statistics-hits-widget' ) !== true ) {
 		
 ?>		
 		<br>
@@ -126,7 +126,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-browsers-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-browsers-widget', 'dashboard' ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -141,7 +141,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-countries-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-countries-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -158,7 +158,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-hitsmap-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-hitsmap-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -184,7 +184,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-hits-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-hits-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -199,7 +199,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-pages-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-pages-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -216,7 +216,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-recent-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-recent-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -233,7 +233,7 @@
 		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-referring-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-referring-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -252,7 +252,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-search-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-search-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -267,7 +267,7 @@
 		GLOBAL $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-summary-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-summary-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
@@ -282,7 +282,7 @@
 		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_dashboard_widget_visible( 'wp-statistics-words-widget' ) ) !== true ) { echo $is_visible; return; }
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-words-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
 		
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
