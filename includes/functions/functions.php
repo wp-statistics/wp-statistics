@@ -635,14 +635,24 @@
 	function wp_statistics_countposts() {
 	
 		$count_posts = wp_count_posts('post');
-		return $count_posts->publish;
+		
+		$ret = 0;
+		
+		if( is_object( $count_posts ) ) { $ret = $count_posts->publish; }
+		
+		return $ret;
 	}
 
 	// This function will return the total number of pages in WordPress.
 	function wp_statistics_countpages() {
 	
 		$count_pages = wp_count_posts('page');
-		return $count_pages->publish;
+		
+		$ret = 0;
+		
+		if( is_object($count_pages) ) { $ret = $count_pages->publish; }
+		
+		return $ret;
 	}
 
 	// This function will return the total number of comments in WordPress.
@@ -689,12 +699,14 @@
 		$get_first_post = $wpdb->get_var("SELECT post_date FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date LIMIT 1");
 		$get_total_post = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post'");
 		
-		$days_spend = intval((time() - strtotime($get_first_post) ) / (60*60*24));
+		$days_spend = intval((time() - strtotime($get_first_post) ) / 86400); // 86400 = 60 * 60 * 24 = number of seconds in a day
 		
 		if( $days == true ) {
+			if( $get_total_post == 0 ) { $get_total_post = 1; } // Avoid divide by zero errors.
 			return round( $days_spend / $get_total_post, 0 );
 		}
 		else {
+			if( $days_spend == 0 ) { $days_spend = 1; } // Avoid divide by zero errors.
 			return round($get_total_post / $days_spend, 2);
 		}
 	}
@@ -708,12 +720,14 @@
 		$get_first_comment = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments ORDER BY comment_date LIMIT 1");
 		$get_total_comment = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
 
-		$days_spend = intval((time() - strtotime($get_first_comment) ) / (60*60*24));
+		$days_spend = intval((time() - strtotime($get_first_comment) ) / 86400); // 86400 = 60 * 60 * 24 = number of seconds in a day
 		
 		if( $days == true ) {
+			if( $get_total_comment == 0 ) { $get_total_comment = 1; } // Avoid divide by zero errors.
 			return round($days_spend / $get_total_comment, 0);
 		}
 		else {
+			if( $days_spend == 0 ) { $days_spend = 1; } // Avoid divide by zero errors.
 			return round($get_total_comment / $days_spend, 2);
 		}
 	}
@@ -727,12 +741,14 @@
 		$get_first_user = $wpdb->get_var("SELECT user_registered FROM $wpdb->users ORDER BY user_registered LIMIT 1");
 		$get_total_user = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->users");
 
-		$days_spend = intval((time() - strtotime($get_first_user) ) / (60*60*24));
+		$days_spend = intval((time() - strtotime($get_first_user) ) / 86400); // 86400 = 60 * 60 * 24 = number of seconds in a day
 		
 		if( $days == true ) {
+			if( $get_total_user == 0 ) { $get_total_user = 1; } // Avoid divide by zero errors.
 			return round($days_spend / $get_total_user, 0);
 		}
 		else {
+			if( $days_spend == 0 ) { $days_spend = 1; } // Avoid divide by zero errors.
 			return round($get_total_user / $days_spend, 2);
 		}
 	}
