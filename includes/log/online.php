@@ -70,7 +70,7 @@
 												echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a> {$items->ip}";
 												echo "<br>";
 												
-												echo "Online for ";
+												echo __('Online for ', 'wp_statistics');
 												$timediff = ($items->timestamp - $items->created);
 												
 												if( $timediff > 3600 ) {

@@ -111,13 +111,15 @@ if( $wps_nonce_valid ) {
 				$store_name = 'exclude_' . str_replace(" ", "_", strtolower($role) );
 				$option_name = 'wps_' . $store_name;
 				$role_option_list .= $option_name . ',';
+				
+				$translated_role_name = translate_user_role($role);
 		?>
 		
 		<tr valign="top">
-			<th scope="row"><label for="<?php echo $option_name;?>"><?php _e($role, 'wp_statistics'); ?>:</label></th>
+			<th scope="row"><label for="<?php echo $option_name;?>"><?php echo $translated_role_name; ?>:</label></th>
 			<td>
 				<input id="<?php echo $option_name;?>" type="checkbox" value="1" name="<?php echo $option_name;?>" <?php echo $WP_Statistics->get_option($store_name)==true? "checked='checked'":'';?>><label for="<?php echo $option_name;?>"><?php _e('Exclude', 'wp_statistics'); ?></label>
-				<p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp_statistics'), $role); ?></p>
+				<p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp_statistics'), $translated_role_name); ?></p>
 			</td>
 		</tr>
 		<?php } ?>
