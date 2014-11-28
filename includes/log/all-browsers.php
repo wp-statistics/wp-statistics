@@ -20,6 +20,7 @@
 							jQuery(document).ready(function() {
 <?php								
 								$Browsers = wp_statistics_ua_list();
+								if( !is_array( $Browsers ) ) { $Browsers = array(); }
 								
 								natcasesort( $Browsers );
 								
@@ -103,7 +104,8 @@
 							jQuery(document).ready(function() {
 <?php								
 								$Platforms = wp_statistics_platform_list();
-
+								if( !is_array( $Platforms ) ) { $Platforms = array(); }
+								
 								natcasesort( $Platforms );
 								
 								echo "var platform_data = [";
@@ -237,6 +239,7 @@
 				jQuery(document).ready(function() {
 <?php								
 					$Versions = wp_statistics_agent_version_list($Browser);
+					if( !is_array( $Versions ) ) { $Versions = array(); }
 					
 					natcasesort( $Versions );
 					

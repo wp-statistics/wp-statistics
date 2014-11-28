@@ -298,7 +298,9 @@
 		global $wpdb, $table_prefix;
 		
 		$result = $wpdb->get_results("SELECT DISTINCT agent FROM {$table_prefix}statistics_visitor", ARRAY_N);
-				
+
+		$Browers = array();
+		
 		foreach( $result as $out )
 			{
 			$Browsers[] = $out[0];
@@ -323,7 +325,9 @@
 		global $wpdb, $table_prefix;
 		
 		$result = $wpdb->get_results("SELECT DISTINCT platform FROM {$table_prefix}statistics_visitor", ARRAY_N);
-				
+		
+		$Platforms = array();
+		
 		foreach( $result as $out )
 			{
 			$Platforms[] = $out[0];
@@ -348,6 +352,8 @@
 		global $wpdb, $table_prefix;
 		
 		$result = $wpdb->get_results("SELECT DISTINCT version FROM {$table_prefix}statistics_visitor WHERE agent = '$agent'", ARRAY_N);
+				
+		$Versions = array();
 				
 		foreach( $result as $out )
 			{
