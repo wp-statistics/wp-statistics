@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-11-21 09:28+0100\n"
+"PO-Revision-Date: 2014-11-28 18:05+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -136,6 +136,18 @@ msgstr "Usunięcie"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:101
 msgid "Notifications"
 msgstr "Powiadomienia"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:102
+msgid "Dashboard/Overview"
+msgstr "Panel główny/Przegląd"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:35
+msgid "Quick Stats"
+msgstr "Szybkie statystyki"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:117
+msgid "WP Statistics Overview"
+msgstr "Przegląd WP Statistics"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:42
 msgid "WP Statistics has been removed, please disable and delete it."
@@ -501,6 +513,10 @@ msgstr "Czy sprawdziłeś Twoje dzienniki błędów PHP i serwera sieci web?"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:25
 msgid "Common Report Options"
 msgstr "Opcje raportu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:39
+msgid "A comma separated list of e-mail addresses to send reports to."
+msgstr "Rozdziel przecinkami listę adresów e-mail, aby wysłać raporty."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:40
 msgid "Update Reports"
@@ -873,7 +889,7 @@ msgstr "Żaden"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:28
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:99
 msgid "About"
-msgstr "Info"
+msgstr "Informacje"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:123
 msgid "Widgets to Display"
@@ -2253,11 +2269,31 @@ msgstr "Liczba odwiedzin i odwiedzających"
 msgid "Google"
 msgstr "Google"
 
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:87
+msgid "Disable the dashboard widgets."
+msgstr "Wyłącz widgety panelu głównego."
+
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:27
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:9
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:38
 msgid "Recent Visitors"
 msgstr "Ostatni odwiedzający"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:72
+msgid "Dashboard"
+msgstr "Panel główny"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:76
+msgid "The following items are global to all users."
+msgstr "Następujące pozycje są globalne dla wszystkich użytkowników."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:81
+msgid "Disable dashboard widgets"
+msgstr "Wyłącz widgety panelu głównego"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:150
+msgid "Overview Widgets to Display"
+msgstr "Przegląd wyświetlanych widgetów"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:22
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:19
