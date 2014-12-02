@@ -119,6 +119,9 @@ License: GPL2
 	
 	function wp_statistics_shutdown_action() {
 		GLOBAL $WP_Statistics;
+
+		// If something has gone horribly wrong and $WP_Statistics isn't an object, bail out.  This seems to happen sometimes with WP Cron calls.
+		if( !is_object( $WP_Statistics ) ) { return; }
 		
 		// Create a new hit class, if we're GeoIP enabled, use GeoIPHits().
 		if( class_exists( 'GeoIPHits' ) ) { 
