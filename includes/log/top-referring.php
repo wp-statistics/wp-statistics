@@ -78,7 +78,7 @@
 											
 											echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
 											
-											echo "<div class='log-url'><a href='{$items->referred}'><div class='dashicons dashicons-admin-links'></div> ".substr($items->referred, 0, 100)."[...]</a></div>";
+											echo "<div class='log-url'><a href='" . htmlentities($items->referred,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> " . htmlentities(substr($items->referred, 0, 100),ENT_QUOTES) . "[...]</a></div>";
 										echo "</div>";
 									
 									}
@@ -109,7 +109,7 @@
 											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></div>";
 											echo "<div class='log-ip'>".__('References', 'wp_statistics').": " . number_format_i18n($value) . "</div>";
 											echo "<div class='clear'></div>";
-											echo "<div class='log-url'><a href='http://{$items}/' title='{$items}'><div class='dashicons dashicons-admin-links'></div> http://{$items}/</a></div>";
+											echo "<div class='log-url'><a href='http://" . htmlentities($items,ENT_QUOTES) . "/' title='" . htmlentities($items,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> http://" . htmlentities($items,ENT_QUOTES) . "/</a></div>";
 										echo "</div>";
 										
 									}

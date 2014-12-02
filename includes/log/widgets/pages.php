@@ -33,7 +33,7 @@
 			
 			echo "<div class='log-page-title'>{$i} - {$uri[3]}</div>";
 			echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";
-			echo "<div class='left-div'><a dir='ltr' href='{$site_url}{$uri[0]}'>".htmlentities(urldecode($uri[0]))."</a></div>";
+			echo "<div class='left-div'><a dir='ltr' href='{$site_url}{$uri[0]}'>".htmlentities(urldecode($uri[0]),ENT_QUOTES)."</a></div>";
 			echo "</div>";
 			
 			if( $i > 9 ) { break; }

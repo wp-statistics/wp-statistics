@@ -36,6 +36,6 @@
 
 
 	} else {
-		wp_die(sprintf(__('Invalid file type selected: %s', 'wp_statistics'), htmlentities($type)), false, array('back_link' => true));
+		wp_die(sprintf(__('Invalid file type selected: %s', 'wp_statistics'), htmlentities($type,ENT_QUOTES)), false, array('back_link' => true));
 	}
 ?>

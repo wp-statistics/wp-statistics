@@ -51,8 +51,8 @@
 								foreach( $get_urls as $items => $value) {
 								
 									echo "<tr>";
-									echo "<td><a href='?page=wps_referers_menu&referr={$items}'>" . number_format_i18n($value) . "</a></td>";
-									echo "<td><a href='http://{$items}' target='_blank'>{$items} " . wp_statistics_icons('dashicons-admin-links', 'link') . "</a></td>";
+									echo "<td><a href='?page=wps_referers_menu&referr=" . htmlentities($items,ENT_QUOTES) . "'>" . number_format_i18n($value) . "</a></td>";
+									echo "<td><a href='http://" . htmlentities($items,ENT_QUOTES) . "' target='_blank'>" . htmlentities($items,ENT_QUOTES) . " " . wp_statistics_icons('dashicons-admin-links', 'link') . "</a></td>";
 									echo "</tr>";
 								}
 							?>
