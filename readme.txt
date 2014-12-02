@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 8.5
+Stable tag: 8.5.1
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -220,6 +220,9 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.5.1 =
+* Fixed: Typo in last search page causing fatal error in PHP.
+
 = 8.5 =
 * Added: try/catch condition around browscap call to avoid fatal errors stopping the script.
 * Added: Page trend widget to post/page editor.
