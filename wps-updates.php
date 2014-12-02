@@ -129,9 +129,15 @@
 		// though we've told it not to autoupdate above.
 		if( $WP_Statistics->get_option('last_browscap_dl') > 1 ) { 
 			// Get the current browser so that the version information is populated.
-			$bc->getBrowser();
+			try {
+				$bc->getBrowser();
+				$LocalVersion = $bc->getSourceVersion();
+			}
+			catch( Exception $e ) {
+				$crawler = false;
+				$LocalVersion = 0; 
+			}
 			
-			$LocalVersion = $bc->getSourceVersion();
 		}
 		
 		// Get the remote version info from browscap.org.
@@ -238,6 +244,14 @@
 				// Delete the temporary file.
 				unlink( $TempFile );
 
+				// Check to see if an old (more than a minute old) lock file exists, if so delete it.
+				$cache_lock = $upload_dir['basedir'] . '/wp-statistics/cache.lock';
+				if( file_exists( $cache_lock ) ) {
+					if( time() - filemtime( $cache_lock ) > 60 ) {
+						unlink( $cache_lock );
+					}
+				}
+				
 				// Force the cache to be updated.
 				$bc->updateCache();
 
