@@ -217,6 +217,10 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.4.* =
+* Updated: Default language file.
+* Updated: Turkish translations.
+
 = 8.4 =
 * Added: Dashboard widgets for all of the widgets on the overview page.
 * Added: Option to disable all dashboard widgets.

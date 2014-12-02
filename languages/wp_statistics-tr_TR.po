@@ -1,257 +1,976 @@
-# Translation of Wordpress Statistics in Turkish
-# This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-14 17:16-0500\n"
+"Project-Id-Version: WP Statistics 8.1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-06 11:21+0330\n"
+"PO-Revision-Date: Tue Dec 02 2014 12:22:42 GMT+0200 (Tonga Standart Saati)\n"
+"Last-Translator: Abdullah Manaz <abdullahmanaz@gmail.com>\n"
+"Language-Team: WP Statistics <translate@wp-statistics.com>\n"
+"Language: Turkish\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.9\n"
-"Project-Id-Version: Wordpress Statistics\n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: tr_TR\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Loco-Target-Locale: tr_TR"
 
-#: includes/log/widgets/about.php:8
-msgid "About WP Statistics Version %s"
-msgstr "WP Statistics sürüm %s hakkında"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-agents.php:17
+msgid "No agent data found to remove!"
+msgstr "Kaldırılacak herhangi bir giriş bilgisi yok!"
 
-#: includes/log/widgets/summary.php:106
-msgid "Date: %s"
-msgstr "Tarih: %s"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-platforms.php:17
+msgid "No platform data found to remove!"
+msgstr "Kaldırılacak herhangi bir platform bilgisi yok!"
 
-#: includes/log/widgets/summary.php:110
-msgid "Time: %s"
-msgstr "Süre: %s"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-historical.php:15
+msgid "Historical Values"
+msgstr "Geçmiş Değerler"
 
-#: includes/optimization/delete-agents.php:14
-msgid "%s agent data deleted successfully."
-msgstr "%s Aracısı verileri başarıyla silindi."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-historical.php:20
+msgid ""
+"Note: As you have just purged the database you must reload this page for "
+"these numbers to be correct."
+msgstr ""
+"Not: Data temizliğini yeni yaptınız, sayfayı yenilerseniz verileri doğru "
+"görürsünüz."
 
-#: includes/optimization/delete-platforms.php:14
-msgid "%s platform data deleted successfully."
-msgstr "%s platformu verileri başarıyla silindi."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-historical.php:31
+#, php-format
+msgid "Number of historical number of visitors to the site (current value is %s)."
+msgstr "Geçmiş site ziyaretçileri sayısı (Mevcut değer %s)."
 
-#: includes/optimization/empty.php:53
-msgid "%s table data deleted successfully."
-msgstr "%s tablo verileri başarıyla silindi."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-historical.php:42
+#, php-format
+msgid "Number of historical number of visits to the site (current value is %s)."
+msgstr "Geçmiş site ziyaretleri sayısı (Mevcut değer %s)."
 
-#: includes/optimization/purge-data.php:17
-#: includes/optimization/purge-data.php:27
-#: includes/optimization/purge-data.php:37
-#: includes/optimization/purge-data.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-historical.php:48
+msgid "Update now!"
+msgstr "Şimdi Güncelle!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:33
+msgid "Last Overview page memory usage"
+msgstr "Hafıza kullanımının son durumu sayfası"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:38
+msgid "Memory usage in the overview page"
+msgstr "Son durum sayfasında hafıza kullanımı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:267
+msgid "Browser"
+msgstr "Tarayıcı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:274
+msgid "The detected client browser."
+msgstr "Belirlenen Tarayıcı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:280
+msgid "Version"
+msgstr "Versiyon"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:285
+msgid "The detected client browser version."
+msgstr "Belirlenen tarayıcı versiyonu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:296
+msgid "The detected client platform."
+msgstr "Belirlenen kullanıcı platformu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:151
+msgid "Historical"
+msgstr "Geçmiş"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:56
+msgid "Make sure you have access to your PHP error logs."
+msgstr "PHP hata kayıtlarına erişiminiz olduğundan emin olun."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:365
+msgid ""
+"Any shortcode supported by your installation of WordPress, include all "
+"shortcodes for WP Statistics (see the admin manual for a list of codes "
+"available) are supported in the body of the message.  Here are some examples:"
+msgstr ""
+"WordPress kurgunuz tarafından desteklenen kısakodlar ve WP İstatistik için "
+"kullanılan bütün kısakodları da desteklemektedir. Bu konudaki örnekler için "
+"bakınız:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-removal.php:15
+msgid "WP Statisitcs Removal"
+msgstr "WP İstatistik Kaldırma"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-removal.php:20
+msgid ""
+"Uninstalling WP Statistics will not remove the data and settings, you can "
+"use this option to remove the WP Statistics data from your install before "
+"uninstalling the plugin."
+msgstr ""
+"WP İstatistik eklentisini kaldırmanız, veri ve kurguları kaldırmaz. Verileri "
+"ve kurguları da kaldırmak istiyorsanız, eklentiyi kaldırmadan önce bu "
+"seçeneği aktif hale getiriniz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-removal.php:23
+msgid ""
+"Once you submit this form the settings will be deleted during the page load, "
+"however WP Statistics will still show up in your Admin menu until another "
+"page load is executed."
+msgstr ""
+"Bu formu bir kez girerseniz, sayfanın yenilenmesi ile birlikte kurgular "
+"silinecektir. Nitekim, WP İstatistik kaldırılıncaya kadar AnaYönetim "
+"sayfanızdaki menüde göreceksiniz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-removal.php:29
+msgid "Remove data and settings"
+msgstr "Verileri ve kurguyu da temizle"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-removal.php:34
+msgid "Remove"
+msgstr "Sil Kaldır"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-removal.php:35
+msgid "Remove data and settings, this action cannot be undone."
+msgstr "Veri ve kurgunun silinmesi işlemi geri alınamaz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:98
+msgid "Removal"
+msgstr "Kaldırma işlemi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:42
+msgid "WP Statistics has been removed, please disable and delete it."
+msgstr "WP İstatistik silinip kaldırıldı, eklentiyi pasif hale getirip siliniz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:20
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:13
+msgid "User(s) Online"
+msgstr "Üye Online"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:19
+msgid "Visitor"
+msgstr "Ziyaretci"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:20
+msgid "Visit"
+msgstr "Ziyaretler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:31
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:69
+msgid "Today"
+msgstr "Bugünkü"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:70
+msgid "Yesterday"
+msgstr "Dünkü"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:43
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:36
+msgid "Week"
+msgstr "Haftalık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:49
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:42
+msgid "Month"
+msgstr "Aylık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:55
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:48
+msgid "Year"
+msgstr "Yıllık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/search.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:54
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:94
+msgid "Total"
+msgstr "Toplam"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/geoip-populate.php:26
+msgid ""
+"Unable to load the GeoIP database, make sure you have downloaded it in the "
+"settings page."
+msgstr ""
+"GeoIP bilgilerinin yüklenmemiş, Kurgu sayfanızda yüklenmiş olduğundan emin "
+"olun."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/geoip-populate.php:50
+#, php-format
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "%s IP Coğrafyası Bilgisi Ziyaretci Kayıtlarında Güncellendi."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:31
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:42
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:75
+#, php-format
 msgid "%s data older than %s days purged successfully."
 msgstr "%s veri başarıyla temizlendi %s günden daha eski."
 
-#: includes/optimization/purge-data.php:19
-#: includes/optimization/purge-data.php:29
-#: includes/optimization/purge-data.php:39
-#: includes/optimization/purge-data.php:49
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:19
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:33
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:77
+#, php-format
 msgid "No records found to purge from %s!"
 msgstr "Kayıt %s öğesinden temizlemek için bulunamadı!"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:44
-#: includes/optimization/tabs/wps-optimization-resources.php:55
-#: includes/optimization/tabs/wps-optimization-resources.php:66
-#: includes/optimization/tabs/wps-optimization-resources.php:77
-#: includes/optimization/tabs/wps-optimization-resources.php:88
-msgid "Number of rows in the %s table"
-msgstr "%S tablodaki satırların sayısı"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/functions/purge.php:83
+msgid "Please select a value over 30 days."
+msgstr "Lütfen 30 Gün Üzerinde Bir Değer Seçin."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:211
-msgid "browscap Cache File"
-msgstr "Browscap önbellek dosyası"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:8
+msgid "Browser Statistics"
+msgstr "Tarayıcı İstatistikleri"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:220
-msgid "browscap cache file does not exist."
-msgstr "Browscap önbellek dosyası yok."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:231
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-search.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:57
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:19
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:131
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/about.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/browsers.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/countries.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/google.map.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/jqv.map.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/pages.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/recent.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/referring.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/search.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/words.php:14
+msgid "Click to toggle"
+msgstr "Geçiş yapmak için tıklayın"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:224
-msgid "The file size and date of the browscap cache file."
-msgstr "Dosya boyutu ve Tarih browscap önbellek dosyası."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:15
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/browsers.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:265
+msgid "Browsers"
+msgstr "Tarayıcılar"
 
-#: includes/settings/tabs/wps-about.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:41
+msgid "Browsers by type"
+msgstr "Tarayıcı türüne göre"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:98
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:291
+msgid "Platform"
+msgstr "Platform"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:124
+msgid "Browsers by platform"
+msgstr "Tarayıcı platformu tarafından"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/all-browsers.php:232
+#, php-format
+msgid "%s Version"
+msgstr "%s Sürümü"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:8
 msgid ""
-"Come visit our great new %s and keep up to date on the latest news about WP "
-"Statistics."
+"Attention: Exclusion are not currently set to be recorded, the results below "
+"may not reflect current statistics!"
 msgstr ""
-"Gel bizim büyük yeni %s ziyaret ve WP Statisticsleri hakkında en son "
-"haberleri güncel tutun."
+"Dikkat: İstisnalar henüz belirlenmedi ve sonuçlar mevcut istatistiklere "
+"yansımayabilir!"
 
-#: includes/settings/tabs/wps-about.php:24
-msgid "website"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:54
+msgid "Exclusions Statistics"
+msgstr "İstatistik İstisnaları"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:57
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:12
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:33
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:15
+msgid "10 Days"
+msgstr "10 Günlük"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:34
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:16
+msgid "20 Days"
+msgstr "20 Günlük"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:35
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:17
+msgid "30 Days"
+msgstr "30 Günlük"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:15
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:18
+msgid "2 Months"
+msgstr "2 Aylık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:19
+msgid "3 Months"
+msgstr "3 Aylık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:62
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:20
+msgid "6 Months"
+msgstr "6 Aylık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:63
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:21
+msgid "9 Months"
+msgstr "9 Aylık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:19
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:22
+msgid "1 Year"
+msgstr "1 Yıllık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:68
+#, php-format
+msgid "Total Exclusions: %s"
+msgstr "Toplam İstisnalar: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:75
+msgid "Exclusions Statistical Chart"
+msgstr "İstisnalar Tablosu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:97
+msgid "Excluded hits in the last"
+msgstr "Sayısı son hariç"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/search.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:151
+msgid "days"
+msgstr "gün"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/exclusions.php:118
+msgid "Number of excluded hits"
+msgstr "İstisna Ziyaret Sayı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:8
+msgid "Hit Statistics"
+msgstr "Sayfa Ziyaret İstatistikleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:27
+msgid "Hits Statistics Chart"
+msgstr "Sayısı istatistiklerini grafik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:39
+msgid "Hits in the last"
+msgstr "Son hits"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/hit-statistics.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:60
+msgid "Number of visits and visitors"
+msgstr "Ziyaret ve Ziyaretci Sayıları"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-search.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/words.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:36
+msgid "Latest Search Words"
+msgstr "En son arama kelimeleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-search.php:62
+msgid "Latest Search Word Statistics"
+msgstr "En son arama Word istatistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-search.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/google.map.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/jqv.map.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/recent.php:22
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/words.php:25
+msgid "#hash#"
+msgstr "#hash #"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-search.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/recent.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/words.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:33
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:71
+msgid "Map"
+msgstr "Harita"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-search.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:132
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:124
+msgid "Page"
+msgstr "Sayfa"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-search.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:132
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:124
+msgid "From"
+msgstr "/"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/recent.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:38
+msgid "Recent Visitors"
+msgstr "Son Ziyaretciler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:135
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:296
+msgid "All"
+msgstr "Hepsi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:59
+msgid "Search for"
+msgstr "Aranacak : "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/last-visitor.php:61
+msgid "Recent Visitor Statistics"
+msgstr "Son ziyaretçi istatistikleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:29
+msgid "Page Trend for Post ID"
+msgstr "Sayfa eğilim için posta ID"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:48
+msgid "Page Trend"
+msgstr "Sayfa Trend"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:68
+msgid "Page Trending Stats"
+msgstr "Sayfa eğilimleri istatistikleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/page-statistics.php:89
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:70
+msgid "Number of Hits"
+msgstr "Ziyaret Sayısı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:30
+msgid "Search Engine Referral Statistics"
+msgstr "Arama motoru başvuru istatistikleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/search.php:46
+msgid "Search engine referrals in the last"
+msgstr "Son arama motoru tavsiyeler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/search-statistics.php:92
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/search.php:67
+msgid "Number of referrals"
+msgstr "Başvuru sayısı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-countries.php:11
+msgid "Top Countries"
+msgstr "Başlıca Ülkeler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-countries.php:20
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/countries.php:17
+msgid "Rank"
+msgstr "Sıralama"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-countries.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/countries.php:18
+msgid "Flag"
+msgstr "Bayrak"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-countries.php:22
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/countries.php:19
+msgid "Country"
+msgstr "Ülke"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-countries.php:23
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/countries.php:20
+msgid "Visitor Count"
+msgstr "Ziyaretci Sayısı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:132
+msgid "Top Pages"
+msgstr "EnFaz Ziyaret Edilen Sayfalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:20
+msgid "Top 5 Pages Trends"
+msgstr "EnFazla Ziyaret Edilen 5 Sayfanın İndeksi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:49
+msgid "Top 5 Page Trending Stats"
+msgstr "EnFazla Ziyaret Edilen 5 Sayfanın Verileri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:160
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/pages.php:27
+msgid "No page title found"
+msgstr "Sayfa Başlığı bulunmadı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-pages.php:163
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/pages.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-historical.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:105
+msgid "Visits"
+msgstr "Ziyaretler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "Yakında Eklenecekler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/referring.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:26
+msgid "Top Referring Sites"
+msgstr "Üst yönlendiren siteler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:39
+msgid "Referring sites from"
+msgstr "Referans Verenler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/top-referring.php:109
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/referring.php:19
+msgid "References"
+msgstr "Referanslar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/about.php:8
+#, php-format
+msgid "About WP Statistics Version %s"
+msgstr "WP Statistics sürüm %s hakkında"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/about.php:15
+msgid "Website"
 msgstr "Web sitesi"
 
-#: includes/settings/tabs/wps-about.php:40
-msgid ""
-"WP Statistics supports internationalization and we encourage our users to "
-"submit translations, please visit our %s to see the current status and %s if "
-"you would like to help."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/about.php:16
+msgid "Rate and Review"
+msgstr "Oranı ve inceleme"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/about.php:20
+msgid "More Information"
+msgstr "Daha fazla bilgi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/about.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:12
+#, php-format
+msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr ""
-"Uluslararası duruma getirme WP Statisticslerini destekler ve çevirileri "
-"gönderin, lütfen yardım ederseniz geçerli durumu görmek için bizim %s ve %s "
-"ziyaret bizim kullanıcı öneririz."
+"Bu ürün, MaxMind, %s üzerinden kullanılabilir tarafından oluşturulan "
+"GeoLite2 verileri içerir."
 
-#: includes/settings/tabs/wps-about.php:40
-msgid "translation collaboration site"
-msgstr "Çeviri işbirliği sitesi"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/browsers.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/countries.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/hits.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/pages.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/recent.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/referring.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/search.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/words.php:16
+msgid "More"
+msgstr "Daha Fazla"
 
-#: includes/settings/tabs/wps-about.php:40
-msgid "drop us a line"
-msgstr "bize yazın"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/browsers.php:38
+msgid "Other"
+msgstr "Diğer"
 
-#: includes/settings/tabs/wps-about.php:52
-#: includes/settings/tabs/wps-about.php:53
-msgid "Have you read the %s?"
-msgstr "%S okudun mu?"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/browsers.php:45
+msgid "Top 10 Browsers"
+msgstr "10 top tarayıcılar"
 
-#: includes/settings/tabs/wps-about.php:52
-msgid "FAQs"
-msgstr "Sıkça sorulan sorular"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/countries.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:27
+msgid "Top 10 Countries"
+msgstr "EnÇok 10 Ülke"
 
-#: includes/settings/tabs/wps-about.php:53
-msgid "manual"
-msgstr "El ile"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/google.map.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/jqv.map.php:9
+msgid "Today Visitors Map"
+msgstr "Bugün Ziyaretçi Haritası"
 
-#: includes/settings/tabs/wps-about.php:54
-msgid "Have you search the %s for a similar issue?"
-msgstr "Arama %s için benzer bir sorun var mı?"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/pages.php:13
+msgid "Top 10 Pages"
+msgstr "En iyi 10 sayfaları"
 
-#: includes/settings/tabs/wps-about.php:54
-msgid "support forum"
-msgstr "Destek Forumu"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/referring.php:20
+msgid "Address"
+msgstr "Adres"
 
-#: includes/settings/tabs/wps-about.php:70
-msgid ""
-"Then please open a new thread on the %s and we'll respond as soon as "
-"possible."
-msgstr ""
-"O zaman lütfen %s üzerinde yeni bir konu açmak ve en kısa zamanda cevap "
-"veririz."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/search.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:64
+msgid "Search Engine Referrals"
+msgstr "Arama Motoru Referansları"
 
-#: includes/settings/tabs/wps-about.php:70
-msgid "WordPress.org support forum"
-msgstr "WordPress.org destek forumu"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:8
+msgid "Summary"
+msgstr "Özet"
 
-#: includes/settings/tabs/wps-about.php:74
-msgid "Alternatively %s support is available as well."
-msgstr "Alternatif olarak %s desteği de verilmektedir."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:88
+msgid "Daily Total"
+msgstr "Günlük Toplam"
 
-#: includes/settings/tabs/wps-access-level.php:85
-msgid "See the %s for details on capability levels."
-msgstr "Ayrıntılar için %s üzerinde yetenek düzeylerini görmek."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:102
+msgid "Current Time and Date"
+msgstr "Güncel Zaman ve Tarih"
 
-#: includes/settings/tabs/wps-access-level.php:85
-msgid "WordPress Roles and Capabilities page"
-msgstr "WordPress rolleri ve özellikleri sayfası"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:102
+msgid "(Adjustment)"
+msgstr "(Kurgu)"
 
-#: includes/settings/tabs/wps-general.php:67
-msgid ""
-"This feature will not store IP addresses in the database but instead used a "
-"unique hash.  The \"Store entire user agent string\" setting will be "
-"disabled if this is selected.  You will not be able to recover the IP "
-"addresses in the future to recover location information if this is enabled."
-msgstr ""
-"Bu özellik, IP adresleri veritabanında depolamaz ancak benzersiz bir karma "
-"değeri kullanılır. \"Store tüm kullanıcı aracısı string\" ayar devre dışı "
-"bırakılır Bu seçiliyse. Gelecekte bu etkin konum bilgileri kurtarmak için IP "
-"adresleri kurtarmanız mümkün olmayacaktır."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:106
+#, php-format
+msgid "Date: %s"
+msgstr "Tarih: %s"
 
-#: includes/settings/tabs/wps-general.php:340
-msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr "Not: Göndermek SMS metin mesajları lütfen %s eklentisi yüklemek için."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/log/widgets/summary.php:110
+#, php-format
+msgid "Time: %s"
+msgstr "Süre: %s"
 
-#: includes/settings/tabs/wps-general.php:340
-msgid "WordPress SMS"
-msgstr "WordPress SMS"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-agents.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-platforms.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/empty.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/export.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/purge-data.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.
+#: php:5
+msgid "Access denied!"
+msgstr "Giriş Yasak!"
 
-#: wp-statistics.php:27
-msgid ""
-"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
-"Statistics will not function without PHP Version "
-msgstr ""
-"Hata: Desteklenmeyen sürümü WP Statistics algıladı PHP, PHP sürümü WP "
-"Statistics çalışmaz "
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-agents.php:14
+#, php-format
+msgid "%s agent data deleted successfully."
+msgstr "%s Aracısı verileri başarıyla silindi."
 
-#: wp-statistics.php:27
-msgid " or higher!"
-msgstr "ya da daha yüksek!"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-agents.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-platforms.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/empty.php:42
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/export.php:57
+msgid "Please select the desired items."
+msgstr "İstediklerinizi Seçin."
 
-#: wp-statistics.php:81
-msgid ""
-"Online user tracking in WP Statistics is not enabled, please go to %s and "
-"enable it."
-msgstr ""
-"Online kullanıcı WP Statisticsleri izleme etkin değildir, lütfen %s öğesine "
-"gidin ve etkinleştirin."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/delete-platforms.php:14
+#, php-format
+msgid "%s platform data deleted successfully."
+msgstr "%s platformu verileri başarıyla silindi."
 
-#: wp-statistics.php:81 wp-statistics.php:84 wp-statistics.php:87
-msgid "setting page"
-msgstr "ayar sayfası"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/empty.php:53
+#, php-format
+msgid "%s table data deleted successfully."
+msgstr "%s tablo verileri başarıyla silindi."
 
-#: wp-statistics.php:84
-msgid ""
-"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
-msgstr ""
-"WP Statistics hit izleme etkin değildir, lütfen %s öğesine gidin ve "
-"etkinleştirin."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/empty.php:57
+#, php-format
+msgid "Error, %s not emptied!"
+msgstr "Hata, %s Bilgi Var!"
 
-#: wp-statistics.php:87
-msgid ""
-"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
-"it."
-msgstr ""
-"Ziyaretçi WP Statisticsleri izleme etkin değildir, lütfen %s öğesine gidin "
-"ve etkinleştirin."
-
-#: wp-statistics.php:90
-msgid ""
-"GeoIP collection is not active, please go to %s and enable this feature."
-msgstr ""
-"GeoIP toplama etkin değil, lütfen %s öğesine gidin ve bu özelliği "
-"etkinleştirin."
-
-#: wp-statistics.php:90
-msgid "Setting page > GeoIP"
-msgstr "Ayar sayfası > GeoIP"
-
-msgid "http://wp-statistics.com/"
-msgstr "http://WP-Statistics.com/"
-
-msgid "Mostafa Soufi & Greg Ross"
-msgstr "Mostafa Soufi & Greg Ross"
-
-#: includes/settings/wps-settings.php:90
-msgid "browscap"
-msgstr "Browscap"
-
-#: wp-statistics.php:706
-msgid "Error downloading browscap database from: %s - %s"
-msgstr "Browscap veritabanından yükleme hatası: %s - %s"
-
-#: wp-statistics.php:794
-msgid "browscap database updated successfully!"
-msgstr "browscap veritabanı başarıyla güncelleştirildi."
-
-#: wp-statistics.php:802
-msgid "browscap already at current version!"
-msgstr "Geçerli sürüm de zaten Browscap!"
-
-#: includes/optimization/tabs/wps-optimization-database.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
 msgstr "Veritabanı Kurulumu"
 
-#: includes/optimization/tabs/wps-optimization-database.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
 msgstr "Yüklemeyi yeniden çalıştırması"
 
-#: includes/optimization/tabs/wps-optimization-database.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
 msgstr "Şimdi yükleyin!"
 
-#: includes/optimization/tabs/wps-optimization-database.php:15
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:15
 msgid ""
 "If for some reason your installation of WP Statistics is missing the "
 "database tables or other core items, this will re-execute the install "
@@ -260,79 +979,31 @@ msgstr ""
 "Nedense WP Statistics yüklemesini veritabanı tablo veya diğer temel öğeleri "
 "eksikse, bu yükleme işlemini yeniden çalıştırır."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:163
-msgid ""
-"If the PHP BC Math Extension is installed.  BC Math is no longer required "
-"for the GeoIP code and is listed here only for historical reasons."
-msgstr ""
-"PHP BC matematik eklentisini yüklediyseniz. Bcmath Keyfi duyarlıklı "
-"matematik GeoIP kod için gerekli olmadığını ve sadece tarihsel nedenlerden "
-"dolayı burada listelenir."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "Veritabanı dizini"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:168
-msgid "File Info"
-msgstr "Dosya bilgileri"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:267
+msgid "Countries"
+msgstr "Ülkeler"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:173
-msgid "GeoIP Database"
-msgstr "GeoIP veritabanı"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "Şimdi Güncelle"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:184
-#: includes/optimization/tabs/wps-optimization-resources.php:203
-#: includes/optimization/tabs/wps-optimization-resources.php:222
-msgid ", created on "
-msgstr ", Tarihinde yaratılmıştır "
-
-#: includes/optimization/tabs/wps-optimization-resources.php:186
-msgid "The file size and date of the GeoIP database."
-msgstr "Tarih GeoIP veritabanı ve dosya boyutu."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:192
-msgid "browscap.ini File"
-msgstr "Browscap.ini dosyası"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:201
-msgid "browscap.ini file does not exist."
-msgstr "Browscap.ini dosyası yok."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:205
-msgid "The file size and date of the browscap.ini file."
-msgstr "Browscap.ini dosyasının tarihini ve dosya boyutu."
-
-#: includes/optimization/wps-optimization.php:51
-msgid "Install routine complete."
-msgstr "Rutin tam yükleyin."
-
-#: includes/settings/tabs/wps-browscap.php:17
-msgid "browscap settings"
-msgstr "Browscap ayarları"
-
-#: includes/settings/tabs/wps-browscap.php:22
-msgid "browscap usage"
-msgstr "Browscap kullanımı"
-
-#: includes/settings/tabs/wps-browscap.php:28
-msgid "The browscap database will be downloaded and used to detect robots."
-msgstr ""
-"Browscap veritabanı indirilebilir ve robotlar tespit etmek için kullanılır."
-
-#: includes/settings/tabs/wps-browscap.php:34
-msgid "Update browscap Info"
-msgstr "Browscap bilgi güncelleme"
-
-#: includes/settings/tabs/wps-browscap.php:39
-msgid "Download browscap Database"
-msgstr "Browscap veritabanı indir"
-
-#: includes/settings/tabs/wps-browscap.php:46
-msgid "Schedule weekly update of browscap DB"
-msgstr "Browscap DB ve haftalık güncelleme planı"
-
-#: includes/settings/tabs/wps-browscap.php:69
-msgid "Download of the browscap database will be scheduled for once a week."
-msgstr "Download browscap veritabanı için haftada planlanır."
-
-#: includes/optimization/tabs/wps-optimization-database.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:40
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -346,7 +1017,17 @@ msgstr ""
 "oluşturmak için ilk önce silinmelidir. \"Update Now tıklatarak\" vistitors "
 "tablo tarar, yinelenen kayıtları silmek ve dizin ekleyin."
 
-#: includes/optimization/tabs/wps-optimization-database.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:41
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visitors table."
+msgstr ""
+"Bu işlem yükler ziyaretçi tablosunda birçok satır içeren üzerinde uzun zaman "
+"alabilir."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:46
 msgid ""
 "Older installs of WP Statistics allow for duplicate entries in the visitors "
 "table in a corner case.  Newer installs protect against this with a unique "
@@ -356,39 +1037,407 @@ msgstr ""
 "yinelenen girişleri sağlar. Daha yeni yükler tablo üzerinde benzersiz dizin "
 "ile buna karşı korumak."
 
-#: includes/optimization/tabs/wps-optimization-database.php:47
-msgid ""
-"Congratulations, your installation is already up to date, nothing to do."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-database.php:47
+msgid "Congratulations, your installation is already up to date, nothing to do."
 msgstr "Tebrikler, yüklemenizin zaten tarihine kadar hiçbir durumda."
 
-#: includes/settings/tabs/wps-about.php:55
-msgid "Have you search the Internet for any error messages you are receiving?"
-msgstr "Herhangi bir hata iletisi aldığınız için internette arama var mı?"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:147
+msgid "Export"
+msgstr "Dışarı Verme"
 
-#: includes/settings/tabs/wps-about.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:12
+msgid "Export from"
+msgstr "Dışarı aktarılacak veriler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:35
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:170
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:194
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:303
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:333
+msgid "Please select"
+msgstr "Lütfen seçin"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:24
+msgid "Select the table for the output file."
+msgstr "İstenen Tabloyu Seçiniz"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:30
+msgid "Export To"
+msgstr "Dışarı aktarma dosya türü"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:41
+msgid "Select the output file type."
+msgstr "Dışarı Çıkarılacak Dosya"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:47
+msgid "Include Header Row"
+msgstr "Başlık Satırı Dahil"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:52
+msgid "Include a header row as the first line of the exported file."
+msgstr "Dışa aktarılan dosyanın ilk satırı Başlık bilgisidir."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Start Now!"
+msgstr "Şimde Başla"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-historical.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:121
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:274
+msgid "Visitors"
+msgstr "Ziyaretciler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:63
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:91
+msgid "Are you sure?"
+msgstr "Emin misiniz?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:119
+msgid "Data"
+msgstr "Bilgi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:124
+msgid "Empty Table"
+msgstr "Boşaltılacak Tablo"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:137
+msgid "All data table will be lost."
+msgstr "Bütün bilgiler kaybedilecek."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:138
+msgid "Clear now!"
+msgstr "Şimdi Temizle"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:146
+msgid "Purge records older than"
+msgstr "Kalacak veriler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:152
 msgid ""
-"Are you getting a blank or incomplete page displayed in your browser?  Did "
-"you view the source for the page and check for any fatal errors?"
+"Deleted user statistics data older than the selected number of days.  "
+"Minimum value is 30 days."
+msgstr "Belirlenen gün sayısından daha eskiler silinecek. EnAz Değer 30 Gündür."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:153
+msgid "Purge now!"
+msgstr "Şimdi Temizle"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:160
+msgid "Delete User Agent Types"
+msgstr "Kullanıcı Girişlerini Temizle"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:165
+msgid "Delete Agents"
+msgstr "Girişleri Sil"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:180
+msgid "All visitor data will be lost for this agent type."
+msgstr "Belirlenen ziyaret girişleri silinecek."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:205
+msgid "Delete now!"
+msgstr "Şimdi Sil"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:189
+msgid "Delete Platforms"
+msgstr "Platformu Sil"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-purging.php:204
+msgid "All visitor data will be lost for this platform type."
+msgstr "Girilen ziyaret platformları silinecek."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:17
+msgid "Resources"
+msgstr "Kaynaklar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:22
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:27
+msgid "Memory usage in PHP"
+msgstr "PHP Hafıza Kullanımı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:37
+msgid "Byte"
+msgstr "Bayt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:44
+msgid "PHP Memory Limit"
+msgstr "PHP bellek limiti"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:49
+msgid "The memory limit a script is allowed to consume, set in php.ini."
 msgstr ""
-"Eğer tarayıcınızda görüntülenen boş ya da tamamlanmamış bir sayfa "
-"alıyorsunuz? Sayfanın kaynağını görüntüleyin yaptım ve herhangi bir ölümcül "
-"hata olup olmadığını denetleyin."
+"Bir komut dosyası bellek sınırı tüketmek, php.ini içinde ayarlamak için izin "
+"verilir."
 
-#: includes/settings/tabs/wps-about.php:67
-msgid "Have you checked your PHP and web server error logs?"
-msgstr "PHP ve web sunucusu hata günlükleri kontrol ettiniz mi?"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:55
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:77
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:99
+#, php-format
+msgid "Number of rows in the %s table"
+msgstr "%S tablodaki satırların sayısı"
 
-#: widget.php:15
-msgid "Show site stats in sidebar."
-msgstr "Site istatistikleri kenar çubuğunda göster."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:92
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:103
+msgid "Row"
+msgstr "Satır"
 
-#: includes/log/last-search.php:97 includes/log/last-visitor.php:94
-#: includes/log/widgets/google.map.php:65 includes/log/widgets/jqv.map.php:59
-#: includes/log/widgets/recent.php:22 includes/log/widgets/words.php:25
-msgid "#hash#"
-msgstr "#hash #"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:82
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:93
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:104
+msgid "Number of rows"
+msgstr "Satır Sayısı"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:4
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:109
+msgid "Version Info"
+msgstr "Versiyon Bilgisi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:114
+msgid "WP Statistics Version"
+msgstr "WP İstatistik Versiyonu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:119
+msgid "The WP Statistics version you are running."
+msgstr "WP İstatistik Versiyonunu Kullanıyorsunuz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:125
+msgid "PHP Version"
+msgstr "PHP Versiyonu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:130
+msgid "The PHP version you are running."
+msgstr "PHP Versiyonunu Kullanıyorsunuz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "PHP Safe Mode"
+msgstr "PHP Güvenli Mod"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr "PHP Güvenli Mod aktif mi? GeoIP kodu Güvenli Modda desteklenmez. "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "jQuery Version"
+msgstr "JQuery Sorgusu Versiyonu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:152
+msgid "The jQuery version you are running."
+msgstr "JQuery Sorgusu Versiyonunu Kullanıyorsunuz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "cURL Version"
+msgstr "cURL Versiyon"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:162
+msgid "cURL not installed"
+msgstr "cURL yüklenmedi."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+msgid ""
+"The PHP cURL Extension version you are running.  cURL is required for the "
+"GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+"PHP cURL Eklenti versiyonu çalışıyor. cURL, GeoIP kodu için gereklidir. Eğer "
+"cURL yüklenmemişse, GeoIP geçersiz olacaktır."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:169
+msgid "BC Math"
+msgstr "BC Toplama"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "Installed"
+msgstr "Yüklendi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "Not installed"
+msgstr "Yüklenmedi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:174
+msgid ""
+"If the PHP BC Math Extension is installed.  BC Math is no longer required "
+"for the GeoIP code and is listed here only for historical reasons."
+msgstr ""
+"PHP BC matematik eklentisini yüklediyseniz. Bcmath Keyfi duyarlıklı "
+"matematik GeoIP kod için gerekli olmadığını ve sadece tarihsel nedenlerden "
+"dolayı burada listelenir."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:179
+msgid "File Info"
+msgstr "Dosya bilgileri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:184
+msgid "GeoIP Database"
+msgstr "GeoIP veritabanı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:193
+msgid "Database file does not exist."
+msgstr "Database dosyası yok."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:195
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:214
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:233
+msgid ", created on "
+msgstr ", Tarihinde yaratılmıştır "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:197
+msgid "The file size and date of the GeoIP database."
+msgstr "Tarih GeoIP veritabanı ve dosya boyutu."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:203
+msgid "browscap.ini File"
+msgstr "Browscap.ini dosyası"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:212
+msgid "browscap.ini file does not exist."
+msgstr "Browscap.ini dosyası yok."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:216
+msgid "The file size and date of the browscap.ini file."
+msgstr "Browscap.ini dosyasının tarihini ve dosya boyutu."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:222
+msgid "browscap Cache File"
+msgstr "Browscap önbellek dosyası"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:231
+msgid "browscap cache file does not exist."
+msgstr "Browscap önbellek dosyası yok."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:235
+msgid "The file size and date of the browscap cache file."
+msgstr "Dosya boyutu ve Tarih browscap önbellek dosyası."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:240
+msgid "Client Info"
+msgstr "Kullanıcı Bilgisi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:245
+msgid "Client IP"
+msgstr "Kullanıcı IP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:250
+msgid "The client IP address."
+msgstr "Kullanıcı IP Adresi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:256
+msgid "User Agent"
+msgstr "Kullanıcı Yöntemi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-resources.php:261
+msgid "The client user agent string."
+msgstr "Kullanıcı Yöntem Dizini"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:4
 msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
@@ -396,24 +1445,34 @@ msgstr ""
 "Bu veritabanındaki tüm IP adresleri karma değerleri ile değiştirir ve geri "
 "alma, sen olamaz mı?"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:26
-msgid ""
-"Updates any unknown location data in the database, this may take a while"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "IP Coğrafyası Seçenekleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:26
+msgid "Updates any unknown location data in the database, this may take a while"
 msgstr ""
 "Herhangi bir bilinmeyen konum verileri güncelleştirir veritabanı, bu biraz "
 "zaman alabilir"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:31
-#: includes/settings/tabs/wps-general.php:56
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:31
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:56
 msgid "IP Addresses"
 msgstr "IP adresleri"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:36
-#: includes/settings/tabs/wps-general.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:61
 msgid "Hash IP Addresses"
 msgstr "Karma IP adresleri"
 
-#: includes/optimization/tabs/wps-optimization-updates.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/tabs/wps-optimization-updates.php:41
 msgid ""
 "Replace IP addresses in the database with hash values, you will not be able "
 "to recover the IP addresses in the future to populate location information "
@@ -423,241 +1482,118 @@ msgstr ""
 "bilgileri daha sonra doldurmak için IP adreslerini kurtarmak mümkün "
 "olmayacaktır ve bu biraz zaman alabilir"
 
-#: includes/optimization/wps-optimization.php:43
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
 msgstr "IP adresleri karma değerleri ile değiştirilir."
 
-#: includes/settings/tabs/wps-access-level.php:149
-msgid "Force robot list update after upgrades"
-msgstr "Kuvvet robot liste güncelleme yükseltme sonra"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:51
+msgid "Install routine complete."
+msgstr "Rutin tam yükleyin."
 
-#: includes/settings/tabs/wps-access-level.php:152
-msgid ""
-"Force the robot list to be reset to the default after an update to WP "
-"Statistics takes place.  Note if this option is enabled any custom robots "
-"you have added to the list will be lost."
-msgstr ""
-"Kuvvet WP Statisticsleri güncelleştirme sonra varsayılana sıfırlamak için "
-"robot listesi yer alır. Not Bu seçenek, herhangi bir özel etkin, listeye "
-"eklediğiniz robotlar kaybolacak."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:146
+msgid "Resources/Information"
+msgstr "Kaynaklar / Bilgiler"
 
-#: includes/settings/tabs/wps-general.php:40
-msgid "This will delete the manual when you save the settings, are you sure?"
-msgstr ""
-"Bu ayarları kaydettiğinizde-ecek silmek belgili tanımlık elle yapılan, emin "
-"misin?"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:148
+msgid "Purging"
+msgstr "Temizleme"
 
-#: includes/settings/tabs/wps-general.php:220
-msgid ""
-"By default WP Statistics displays an alert if any of the core features are "
-"disabled on every admin page, this option will disable these notices."
-msgstr ""
-"Her Yönetici sayfasında herhangi bir çekirdek özelliği devre dışı "
-"bırakılmışsa, varsayılan WP Statistics uyarı görüntüler, bu seçenek, bu gibi "
-"bildirimleri devre dışı bırakır."
-
-#: includes/settings/tabs/wps-general.php:226
-msgid "Delete the manual"
-msgstr "Kılavuz Sil"
-
-#: includes/settings/tabs/wps-general.php:232
-msgid ""
-"By default WP Statistics stores the admin manual in the plugin directory (~5 "
-"meg), if this option is enabled it will be deleted now and during upgrades "
-"in the future."
-msgstr ""
-"Varsayılan admin WP Statistics depolar manuel plugin dizinine (~ 5 meg), bu "
-"seçenek etkinse, şimdi ve gelecekte yükseltmeler sırasında silinecektir."
-
-#: includes/optimization/tabs/wps-optimization-database.php:20
-msgid "Database Index"
-msgstr "Veritabanı dizini"
-
-#: includes/optimization/tabs/wps-optimization-database.php:41
-msgid ""
-"This operation could take a long time on installs with many rows in the "
-"visitors table."
-msgstr ""
-"Bu işlem yükler ziyaretçi tablosunda birçok satır içeren üzerinde uzun zaman "
-"alabilir."
-
-#: includes/optimization/wps-optimization.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:149
 msgid "Database"
 msgstr "Veritabanı"
 
-#: includes/settings/tabs/wps-general.php:298
-msgid "Schedule"
-msgstr "Zamanlama"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/optimization/wps-optimization.php:150
+msgid "Updates"
+msgstr "Güncelleme"
 
-#: includes/settings/tabs/wps-general.php:328
-msgid "Send reports via"
-msgstr "Raporlar yoluyla göndermek"
-
-#: includes/settings/tabs/wps-general.php:347
-msgid "E-mail addresses"
-msgstr "E-posta adresleri"
-
-#: includes/settings/tabs/wps-general.php:352
-msgid ""
-"A comma separated list of e-mail addresses to send the reports to if e-mail "
-"is selected above."
-msgstr ""
-"Bir virgülle ayrılmış e-posta yukarıda seçilen raporları göndermek için e-"
-"posta adreslerinin listesi."
-
-#: includes/settings/tabs/wps-general.php:358
-msgid "Report body"
-msgstr "Rapor gövdesi"
-
-#: includes/settings/tabs/wps-overview-display.php:75
-msgid "The following three items are global to all users."
-msgstr "Aşağıdaki üç öğeleri tüm kullanıcılar için geneldir."
-
-#: includes/settings/tabs/wps-overview-display.php:80
-msgid "Map type"
-msgstr "Harita türü"
-
-#: includes/settings/tabs/wps-overview-display.php:86
-msgid "JQVMap"
-msgstr "JQVMap"
-
-#: includes/settings/tabs/wps-overview-display.php:93
-msgid ""
-"The \"Google\" option will use Google's mapping service to plot the recent "
-"visitors (requires access to Google)."
-msgstr ""
-"\"Google\" seçeneği son ziyaretçiler arsa için (erişimi gerekir Google) "
-"Google'nın harita hizmeti kullanmak."
-
-#: includes/settings/tabs/wps-overview-display.php:94
-msgid ""
-"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
-"recent visitors (requires no extenral services)."
-msgstr ""
-"\"JQVMap\" seçeneği JQVMap eşleme Kütüphane javascript son ziyaretçiler Arsa "
-"(gerektirir herhangi bir extenral hizmet)."
-
-#: includes/settings/tabs/wps-overview-display.php:118
-msgid ""
-"This feature may cause a performance degradation when viewing statistics and "
-"is only valid if the map type is set to \"Google\"."
-msgstr ""
-"Bu özellik istatistikleri görüntülenirken performans düşmesine neden "
-"olabilir ve yalnızca \"Google için harita türü ayarlanmışsa geçerlidir\"."
-
-#: includes/log/all-browsers.php:50
-msgid "Browsers by type"
-msgstr "Tarayıcı türüne göre"
-
-#: includes/log/all-browsers.php:133
-msgid "Browsers by platform"
-msgstr "Tarayıcı platformu tarafından"
-
-#: includes/log/exclusions.php:97
-msgid "Excluded hits in the last"
-msgstr "Sayısı son hariç"
-
-#: includes/log/hit-statistics.php:36
-msgid "Hits Statistics Chart"
-msgstr "Sayısı istatistiklerini grafik"
-
-#: includes/log/hit-statistics.php:69 includes/log/widgets/hits.php:39
-msgid "Hits in the last"
-msgstr "Son hits"
-
-#: includes/log/last-search.php:30 includes/log/widgets/words.php:16
-#: includes/settings/tabs/wps-overview-display.php:36
-msgid "Latest Search Words"
-msgstr "En son arama kelimeleri"
-
-#: includes/log/last-search.php:62
-msgid "Latest Search Word Statistics"
-msgstr "En son arama Word istatistik"
-
-#: includes/log/last-visitor.php:61
-msgid "Recent Visitor Statistics"
-msgstr "Son ziyaretçi istatistikleri"
-
-#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
-msgid "Today Visitors Map"
-msgstr "Bugün Ziyaretçi Haritası"
-
-#: includes/log/widgets/summary.php:8
-msgid "Summary"
-msgstr "Özet"
-
-#: includes/log/widgets/summary.php:13
-msgid "User(s) Online"
-msgstr "Üye Online"
-
-#: includes/log/widgets/browsers.php:45
-msgid "Top 10 Browsers"
-msgstr "10 top tarayıcılar"
-
-#: includes/log/top-referring.php:34 includes/log/top-referring.php:49
-#: includes/log/widgets/referring.php:13
-#: includes/settings/tabs/wps-overview-display.php:26
-msgid "Top Referring Sites"
-msgstr "Üst yönlendiren siteler"
-
-#: includes/log/widgets/about.php:16
-msgid "Rate and Review"
-msgstr "Oranı ve inceleme"
-
-#: includes/log/widgets/about.php:20
-msgid "More Information"
-msgstr "Daha fazla bilgi"
-
-#: includes/log/widgets/about.php:29 includes/settings/tabs/wps-about.php:12
-msgid ""
-"This product includes GeoLite2 data created by MaxMind, available from %s."
-msgstr ""
-"Bu ürün, MaxMind, %s üzerinden kullanılabilir tarafından oluşturulan "
-"GeoLite2 verileri içerir."
-
-#: includes/log/search-statistics.php:77 includes/log/widgets/search.php:46
-msgid "Search engine referrals in the last"
-msgstr "Son arama motoru tavsiyeler"
-
-#: includes/log/search-statistics.php:98 includes/log/widgets/search.php:67
-msgid "Number of referrals"
-msgstr "Başvuru sayısı"
-
-#: includes/log/widgets/pages.php:13
-msgid "Top 10 Pages"
-msgstr "En iyi 10 sayfaları"
-
-#: includes/log/search-statistics.php:17 includes/log/search-statistics.php:36
-msgid "Search Engine Referral Statistics"
-msgstr "Arama motoru başvuru istatistikleri"
-
-#: includes/settings/tabs/wps-about.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:8
+#, php-format
 msgid "WP Statistics V%s"
 msgstr "WP Statistics V %s"
 
-#: includes/settings/tabs/wps-about.php:20
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:20
 msgid "Visit Us Online"
 msgstr "Bize Online ziyaret"
 
-#: includes/settings/tabs/wps-about.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:24
+#, php-format
+msgid ""
+"Come visit our great new %s and keep up to date on the latest news about WP "
+"Statistics."
+msgstr ""
+"Gel bizim büyük yeni %s ziyaret ve WP Statisticsleri hakkında en son "
+"haberleri güncel tutun."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:24
+msgid "website"
+msgstr "Web sitesi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:28
 msgid "Rate and Review at WordPress.org"
 msgstr "WordPress.org gözden geçirin ve oranı"
 
-#: includes/settings/tabs/wps-about.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
 msgstr ""
 "WP Statistics kurulumu için teşekkür ederiz, biz teşvik göndermek için size "
 "bir "
 
-#: includes/settings/tabs/wps-about.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
 msgstr "değerlendirme ve gözden geçirme"
 
-#: includes/settings/tabs/wps-about.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
 msgstr "WordPress.org üzerinden. Görüşlerinizi büyük beğeni topluyor!"
 
-#: includes/settings/tabs/wps-about.php:49
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:36
+msgid "Translations"
+msgstr "Çeviriler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:40
+#, php-format
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our %s to see the current status and %s if "
+"you would like to help."
+msgstr ""
+"Uluslararası duruma getirme WP Statisticslerini destekler ve çevirileri "
+"gönderin, lütfen yardım ederseniz geçerli durumu görmek için bizim %s ve %s "
+"ziyaret bizim kullanıcı öneririz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:40
+msgid "translation collaboration site"
+msgstr "Çeviri işbirliği sitesi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:40
+msgid "drop us a line"
+msgstr "bize yazın"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:44
+msgid "Support"
+msgstr "Destek"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:49
 msgid ""
 "We're sorry you're having problem with WP Statistics and we're happy to help "
 "out.  Here are a few things to do before contacting us:"
@@ -665,502 +1601,190 @@ msgstr ""
 "WP Statisticsleri ile sorun yaşıyorsanız ve biz yardımcı olmaktan mutluluk "
 "özür dileriz. Bize başvurmadan önce yapmak için bir kaç şey vardır:"
 
-#: includes/settings/tabs/wps-about.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:52
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:53
+#, php-format
+msgid "Have you read the %s?"
+msgstr "%S okudun mu?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:52
+msgid "FAQs"
+msgstr "Sıkça sorulan sorular"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:53
+msgid "manual"
+msgstr "El ile"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:54
+#, php-format
+msgid "Have you search the %s for a similar issue?"
+msgstr "Arama %s için benzer bir sorun var mı?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:54
+msgid "support forum"
+msgstr "Destek Forumu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:55
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr "Herhangi bir hata iletisi aldığınız için internette arama var mı?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:59
 msgid "And a few things to double-check:"
 msgstr "Ve tekrar kontrol için bir kaç şey:"
 
-#: includes/settings/tabs/wps-about.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:62
 msgid "How's your memory_limit in php.ini?"
 msgstr "Senin php.ini memory_limit nasıl?"
 
-#: includes/settings/tabs/wps-about.php:62
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:63
 msgid "Have you tried disabling any other plugins you may have installed?"
-msgstr ""
-"Yüklemiş olabilecek diğer tüm eklentileri devre dışı bırakmayı denediniz mi?"
+msgstr "Yüklemiş olabilecek diğer tüm eklentileri devre dışı bırakmayı denediniz mi?"
 
-#: includes/settings/tabs/wps-about.php:63
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:64
 msgid "Have you tried using the default WordPress theme?"
 msgstr "Varsayılan WordPress Tema kullanarak denediniz mi?"
 
-#: includes/settings/tabs/wps-about.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:65
 msgid "Have you double checked the plugin settings?"
 msgstr "Çift eklenti ayarları kontrol ettiniz mi?"
 
-#: includes/settings/tabs/wps-about.php:65
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:66
 msgid "Do you have all the required PHP extensions installed?"
 msgstr "Yüklü tüm gerekli PHP eklentileri var mı?"
 
-#: includes/settings/tabs/wps-about.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:67
+msgid ""
+"Are you getting a blank or incomplete page displayed in your browser?  Did "
+"you view the source for the page and check for any fatal errors?"
+msgstr ""
+"Eğer tarayıcınızda görüntülenen boş ya da tamamlanmamış bir sayfa "
+"alıyorsunuz? Sayfanın kaynağını görüntüleyin yaptım ve herhangi bir ölümcül "
+"hata olup olmadığını denetleyin."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:68
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "PHP ve web sunucusu hata günlükleri kontrol ettiniz mi?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:71
 msgid "Still not having any luck?"
 msgstr "Hala herhangi bir şans sahip değil mi?"
 
-#: includes/optimization/tabs/wps-optimization-export.php:17
-#: includes/optimization/tabs/wps-optimization-export.php:35
-#: includes/optimization/tabs/wps-optimization-purging.php:128
-#: includes/optimization/tabs/wps-optimization-purging.php:169
-#: includes/optimization/tabs/wps-optimization-purging.php:193
-#: includes/settings/tabs/wps-general.php:303
-#: includes/settings/tabs/wps-general.php:333
-msgid "Please select"
-msgstr "Lütfen seçin"
-
-#: includes/settings/tabs/wps-general.php:365
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:71
+#, php-format
 msgid ""
-"Any shortcode supported by your installation of WordPress, include all "
-"shortcodes for WP Statistics (see the admin manual for a list of codes "
-"available) are supported in the body of the message."
+"Then please open a new thread on the %s and we'll respond as soon as "
+"possible."
 msgstr ""
-"WordPress yüklemeniz tarafından desteklenen herhangi bir kusur içeren tüm "
-"shortcodes WP Statisticsleri (varolan kodları listesi için yönetici "
-"kılavuzuna bakın) ileti gövdesi içinde desteklenir."
-
-#: includes/settings/tabs/wps-general.php:368
-msgid ""
-"Input data codes are now deprecated and will be removed in a future version "
-"of WP Statistics, please use the appropriate shortcodes, they are included "
-"here only for historical purposes:"
-msgstr ""
-"Veri giriş kodları şimdi onaylanmaz ve WP Statisticsleri, gelecekteki bir "
-"sürümüne kaldırılacak lütfen uygun shortcodes kullanabilirsiniz, sadece "
-"tarihsel amaçlar için buraya dahil edilir:"
-
-#: includes/settings/tabs/wps-geoip.php:22
-msgid ""
-"IP location services provided by GeoLite2 data created by MaxMind, available "
-"from %s."
-msgstr ""
-"GeoLite2 veri MaxMind, %s üzerinden kullanılabilir tarafından oluşturulan "
-"tarafından sağlanan IP konum servisleri."
-
-#: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32
-msgid "None"
-msgstr "Hiçbiri"
-
-#: includes/settings/tabs/wps-overview-display.php:28
-#: includes/settings/wps-settings.php:92
-msgid "About"
-msgstr "Hakkında"
-
-#: includes/settings/tabs/wps-overview-display.php:123
-msgid "Widgets to Display"
-msgstr "Widget görüntülemek için"
-
-#: includes/settings/tabs/wps-overview-display.php:132
-msgid ""
-"The following items are unique to each user.  If you do not select the "
-"'About' widget it will automatically be displayed in the last positon of "
-"column A."
-msgstr ""
-"Aşağıdaki öğeler, her kullanıcı için benzersizdir. 'Hakkında' widget "
-"seçerseniz otomatik olarak sütun A'ya son pozisyon içinde görüntülenecektir"
-
-#: includes/settings/tabs/wps-overview-display.php:137
-msgid "Slot"
-msgstr "Yuvası"
-
-#: includes/settings/tabs/wps-overview-display.php:141
-msgid "Column A"
-msgstr "Sütun A"
-
-#: includes/settings/tabs/wps-overview-display.php:145
-msgid "Column B"
-msgstr "Sütun B"
-
-#: includes/settings/tabs/wps-overview-display.php:151
-msgid "Slot 1"
-msgstr "Yuvası 1"
-
-#: includes/settings/tabs/wps-overview-display.php:181
-msgid "Slot 2"
-msgstr "Yuvası 2"
-
-#: includes/settings/tabs/wps-overview-display.php:211
-msgid "Slot 3"
-msgstr "Yuvası 3"
-
-#: includes/settings/tabs/wps-overview-display.php:241
-msgid "Slot 4"
-msgstr "Yuvası 4"
-
-#: includes/settings/tabs/wps-overview-display.php:271
-msgid "Slot 5"
-msgstr "Yuvası 5"
-
-#: includes/settings/tabs/wps-overview-display.php:301
-msgid "Slot 6"
-msgstr "Yuvası 6"
-
-#: includes/settings/tabs/wps-overview-display.php:305
-msgid "N/A"
-msgstr "N/A"
-
-#: widget.php:280
-msgid "Search Engine Referred"
-msgstr "Anılan arama motoru"
-
-#: schedule.php:10
-msgid "Once Weekly"
-msgstr "Bir kez haftalık"
-
-#: schedule.php:17
-msgid "Once Every 2 Weeks"
-msgstr "Bir kez her 2 hafta"
-
-#: schedule.php:24
-msgid "Once Every 4 Weeks"
-msgstr "4 haftada bir kez"
-
-#: wp-statistics.php:39
-msgid "Complete statistics for your WordPress site."
-msgstr "WordPress site tam istatistikleri."
-
-#: includes/log/widgets/about.php:15
-msgid "Website"
-msgstr "Web sitesi"
-
-#: includes/log/top-referring.php:117 includes/log/widgets/referring.php:19
-msgid "References"
-msgstr "Referanslar"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:33
-msgid "PHP Memory Limit"
-msgstr "PHP bellek limiti"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:38
-msgid "The memory limit a script is allowed to consume, set in php.ini."
-msgstr ""
-"Bir komut dosyası bellek sınırı tüketmek, php.ini içinde ayarlamak için izin "
-"verilir."
-
-#: wp-statistics.php:38
-msgid "WP Statistics"
-msgstr "WP Statistics"
-
-#: wp-statistics.php:164
-msgid "Visit WordPress.org page"
-msgstr "WordPress.org sayfasını ziyaret edin"
-
-#: includes/log/page-statistics.php:29
-msgid "Page Trend for Post ID"
-msgstr "Sayfa eğilim için posta ID"
-
-#: includes/log/page-statistics.php:48
-msgid "Page Trend"
-msgstr "Sayfa Trend"
-
-#: includes/log/page-statistics.php:68
-msgid "Page Trending Stats"
-msgstr "Sayfa eğilimleri istatistikleri"
-
-#: includes/settings/tabs/wps-access-level.php:97
-msgid "Record exclusions"
-msgstr "Kayıt istisnalar"
-
-#: includes/settings/tabs/wps-access-level.php:130
-msgid "Robot list"
-msgstr "Robot listesi"
-
-#: includes/settings/tabs/wps-access-level.php:157
-msgid "Excluded IP address list"
-msgstr "Dışlanan IP adres listesi"
-
-#: includes/settings/tabs/wps-access-level.php:160
-msgid ""
-"A list of IP addresses and subnet masks (one per line) to exclude from "
-"statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
-"formats are accepted).  To specify an IP address only, use a subnet value of "
-"32 or 255.255.255.255."
-msgstr ""
-"IP adresleri ve alt ağ maskeleri (her satırda bir tane) istatistikleri "
-"koleksiyon dışlama için (hem 192.168.0.0/255.255.255.0, hem de "
-"192.168.0.0/24 biçimleri kabul edilir). Yalnızca bir IP adresi belirtmek "
-"için 32 veya 255.255.255.255 alt ağ değerini kullanın."
-
-#: includes/settings/tabs/wps-access-level.php:172
-msgid "Excluded login page"
-msgstr "Dışlanan giriş sayfası"
-
-#: includes/settings/tabs/wps-access-level.php:179
-msgid "Excluded admin pages"
-msgstr "Dışlanan yönetici sayfalar"
-
-#: includes/settings/tabs/wps-general.php:72
-msgid "Users Online"
-msgstr "Online kullanıcılar"
-
-#: includes/settings/tabs/wps-general.php:77
-msgid "User online"
-msgstr "Kullanıcılar online"
-
-#: includes/settings/tabs/wps-general.php:172
-msgid "Track all pages"
-msgstr "Tüm sayfaları izlemek"
-
-#: includes/settings/tabs/wps-general.php:184
-msgid "Disable hits column in post/pages list"
-msgstr "Mesaj/sayfa listesinde sütun sayısı devre dışı bırakma"
-
-#: includes/settings/tabs/wps-general.php:195
-msgid "Miscellaneous"
-msgstr "Çeşitli"
-
-#: wp-statistics.php:164
-msgid "Click here to visit the plugin on WordPress.org"
-msgstr "Eklenti WordPress.org ziyaret etmek için tıklayın"
-
-#: wp-statistics.php:167
-msgid "Click here to rate and review this plugin on WordPress.org"
-msgstr "Oranı ve bu eklenti WordPress.org üzerinde incelemek için tıklayınız"
-
-#: wp-statistics.php:167
-msgid "Rate this plugin"
-msgstr "Bu eklenti oranı"
-
-#: wp-statistics.php:211
-msgid "WP Statistics - Hits"
-msgstr "WP Statisticsleri - Hits"
-
-#: wp-statistics.php:599
-msgid "Error downloading GeoIP database from: %s - %s"
-msgstr "GeoIP veritabanı yükleme hatası: %s - %s"
-
-#: widget.php:108 widget.php:277
-msgid "Total Page Views"
-msgstr "Sayfa Görülme Toplamı"
-
-#: includes/settings/tabs/wps-general.php:155
-#: includes/settings/tabs/wps-general.php:160 wp-statistics.php:259
-msgid "Pages"
-msgstr "Sayfalar"
-
-#: wp-statistics.php:266
-msgid "Manual"
-msgstr "Manuel"
-
-#: wp-statistics.php:364
-msgid "Download ODF file"
-msgstr "ODF Dosyası indir"
-
-#: wp-statistics.php:365
-msgid "Download HTML file"
-msgstr "HTML Dosyası indir"
-
-#: wp-statistics.php:369
-msgid "Manual file not found."
-msgstr "Manuel Dosya bulunmadı."
-
-#: includes/log/exclusions.php:54
-msgid "Exclusions Statistics"
-msgstr "İstatistik İstisnaları"
-
-#: includes/settings/tabs/wps-overview-display.php:37
-msgid "Top Pages Visited"
-msgstr "EnÇok Ziyaret Edilen Sayfalar"
-
-#: includes/log/top-pages.php:160 includes/log/widgets/pages.php:27
-msgid "No page title found"
-msgstr "Sayfa Başlığı bulunmadı"
-
-#: includes/log/top-pages.php:13 includes/log/top-pages.php:132
-msgid "Top Pages"
-msgstr "EnFaz Ziyaret Edilen Sayfalar"
-
-#: includes/log/top-pages.php:20
-msgid "Top 5 Pages Trends"
-msgstr "EnFazla Ziyaret Edilen 5 Sayfanın İndeksi"
-
-#: includes/log/top-pages.php:49
-msgid "Top 5 Page Trending Stats"
-msgstr "EnFazla Ziyaret Edilen 5 Sayfanın Verileri"
-
-#: includes/log/page-statistics.php:89 includes/log/top-pages.php:70
-msgid "Number of Hits"
-msgstr "Ziyaret Sayısı"
-
-#: manual/manual.php:29
-msgid "Manual not found: %s"
-msgstr "Manuel bulunmadı: %s"
-
-#: manual/manual.php:39
-msgid "Invalid file type selected: %s"
-msgstr "Seçilen dosya türü geçersiz: %s"
-
-#: widget.php:116
-msgid "Search Engine referred"
-msgstr "Arama Motoru Referansı"
-
-#: includes/optimization/tabs/wps-optimization-export.php:47
-msgid "Include Header Row"
-msgstr "Başlık Satırı Dahil"
-
-#: includes/optimization/tabs/wps-optimization-export.php:52
-msgid "Include a header row as the first line of the exported file."
-msgstr "Dışa aktarılan dosyanın ilk satırı Başlık bilgisidir."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:125
-msgid "PHP Safe Mode"
-msgstr "PHP Güvenli Mod"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:130
-msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
-msgstr "PHP Güvenli Mod aktif mi? GeoIP kodu Güvenli Modda desteklenmez. "
-
-#: includes/settings/tabs/wps-geoip.php:106
-msgid "GeoIP collection is disabled due to the following reasons:"
-msgstr "GeoIP koleksiyonu şu sebepler yüzünden geçersiz kılındı:"
-
-#: includes/settings/tabs/wps-geoip.php:126
-msgid ""
-"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
-"mode enabled!"
-msgstr ""
-"PHP Güvenli Modu belirlendi! Güvenli PHP Modu geçerli kılındığında GeoIP "
-"Koleksiyonu desteklenmek."
-
-#: includes/settings/tabs/wps-general.php:214
-msgid "Hide admin notices about non active features"
-msgstr "Aktif olmayan özellikler hakkındaki yönetici notlarını Gizle."
-
-#: includes/settings/tabs/wps-general.php:237
-msgid "Search Enginges"
-msgstr "Arama Motorları"
-
-#: includes/settings/tabs/wps-general.php:242
-msgid ""
-"Disabling all search engines is not allowed, doing so will result in all "
-"search engines being active."
-msgstr ""
-"Bütün Arama Motorları Geçersiz Kılınamaz. Bunu yapmak Bütün Arama "
-"Motorlarını Aktifleştirecektir."
-
-#: includes/settings/tabs/wps-general.php:257
-msgid "disable"
-msgstr "geçersiz"
-
-#: includes/settings/tabs/wps-general.php:258
-msgid "Disable %s from data collection and reporting."
-msgstr "Data koleksiyonundan ve raporlamadan %s Geçersiz Kılınsın."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:147
-msgid "cURL Version"
-msgstr "cURL Versiyon"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:151
-msgid "cURL not installed"
-msgstr "cURL yüklenmedi."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:152
-msgid ""
-"The PHP cURL Extension version you are running.  cURL is required for the "
-"GeoIP code, if it is not installed GeoIP will be disabled."
-msgstr ""
-"PHP cURL Eklenti versiyonu çalışıyor. cURL, GeoIP kodu için gereklidir. Eğer "
-"cURL yüklenmemişse, GeoIP geçersiz olacaktır."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:158
-msgid "BC Math"
-msgstr "BC Toplama"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:162
-msgid "Installed"
-msgstr "Yüklendi"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:162
-msgid "Not installed"
-msgstr "Yüklenmedi"
-
-#: includes/settings/tabs/wps-geoip.php:114
-msgid ""
-"GeoIP collection requires the cURL PHP extension and it is not loaded on "
-"your version of PHP!"
-msgstr ""
-"GeoIP Koleksiyonu, cURL PHP Eklentisini gerektirir ve bu PHP versiyonunuzda "
-"yüklenmemiştir."
-
-#: includes/settings/tabs/wps-geoip.php:120
-msgid ""
-"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
-"your version of PHP!"
-msgstr ""
-"GeoIP Koleksiyonu, BC Math (Toplama) PHP Eklentisini gerektirir ve bu PHP "
-"versiyonunuzda yüklenmemiştir."
-
-#: includes/functions/geoip-populate.php:26
-msgid ""
-"Unable to load the GeoIP database, make sure you have downloaded it in the "
-"settings page."
-msgstr ""
-"GeoIP bilgilerinin yüklenmemiş, Kurgu sayfanızda yüklenmiş olduğundan emin "
-"olun."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:182
-msgid "Database file does not exist."
-msgstr "Database dosyası yok."
-
-#: includes/log/last-visitor.php:59
-msgid "Search for"
-msgstr "Aranacak : "
-
-#: includes/log/widgets/browsers.php:8 includes/log/widgets/countries.php:11
-#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:13
-#: includes/log/widgets/recent.php:9 includes/log/widgets/referring.php:13
-#: includes/log/widgets/search.php:8 includes/log/widgets/words.php:16
-msgid "More"
-msgstr "Daha Fazla"
-
-#: includes/settings/tabs/wps-general.php:269
-msgid "Include totals"
-msgstr "Toplam İçerik"
-
-#: includes/settings/tabs/wps-general.php:275
-msgid ""
-"Add a total line to charts with multiple values, like the search engine "
-"referrals"
-msgstr ""
-"Arama Motorları Referansları gibi, Çoklu Verilerle Kartlara Bir Toplam "
-"Satırı Ekle"
-
-#: includes/settings/tabs/wps-overview-display.php:100
-msgid "Disable map"
-msgstr "Harita Geçersiz"
-
-#: includes/settings/tabs/wps-overview-display.php:106
-msgid "Disable the map display"
-msgstr "Harita Görüntülemesi Geçersiz"
-
-#: includes/settings/tabs/wps-overview-display.php:112
-msgid "Get country location from Google"
-msgstr "Ülke bilgisini Google'dan al"
-
-#: includes/log/exclusions.php:8
-msgid ""
-"Attention: Exclusion are not currently set to be recorded, the results below "
-"may not reflect current statistics!"
-msgstr ""
-"Dikkat: İstisnalar henüz belirlenmedi ve sonuçlar mevcut istatistiklere "
-"yansımayabilir!"
-
-#: includes/log/exclusions.php:118
-msgid "Number of excluded hits"
-msgstr "İstisna Ziyaret Sayı"
-
-#: includes/settings/tabs/wps-access-level.php:86
+"O zaman lütfen %s üzerinde yeni bir konu açmak ve en kısa zamanda cevap "
+"veririz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:71
+msgid "WordPress.org support forum"
+msgstr "WordPress.org destek forumu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:75
+#, php-format
+msgid "Alternatively %s support is available as well."
+msgstr "Alternatif olarak %s desteği de verilmektedir."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-about.php:75
+msgid "Farsi"
+msgstr "Farsca"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:33
+msgid "Access Levels"
+msgstr "Giriş Seviyeleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:62
+msgid "Required user level to view WP Statistics"
+msgstr "WP İstatistiklerini Görme Yetkisi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:77
+msgid "Required user level to manage WP Statistics"
+msgstr "WP İstatistiklerini Yönetme Yetkisi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:85
+#, php-format
+msgid "See the %s for details on capability levels."
+msgstr "Ayrıntılar için %s üzerinde yetenek düzeylerini görmek."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:85
+msgid "WordPress Roles and Capabilities page"
+msgstr "WordPress rolleri ve özellikleri sayfası"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:86
 msgid ""
 "Hint: manage_network = Super Admin Network, manage_options = Administrator, "
-"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
-"Contributor, read = Everyone."
+"edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor,"
+" read = Everyone."
 msgstr ""
 "Not: manage_network = Tam Yetkili, manage_options = Yetkili, "
 "edit_others_posts = Editör, publish_posts = Yazar, edit_posts = Destekleyen, "
 "read = Herkes."
 
-#: includes/settings/tabs/wps-access-level.php:99
-#: includes/settings/tabs/wps-access-level.php:151
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:87
+msgid ""
+"Each of the above casscades the rights upwards in the default WordPress "
+"configuration.  So for example selecting publish_posts grants the right to "
+"Authors, Editors, Admins and Super Admins."
+msgstr "Temel Kurgu Yukarıdaki Gibidir.  Buna Göre Yetkileri Belirleyiniz."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:88
+#, php-format
+msgid ""
+"If you need a more robust solution to delegate access you might want to look "
+"at %s in the WordPress plugin directory."
+msgstr "Daha Sağlıklı Bilgiler İçin Eklenti Dizinine Bakınız : %s "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:93
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:270
+msgid "Exclusions"
+msgstr "İstisnalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:97
+msgid "Record exclusions"
+msgstr "Kayıt istisnalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:151
 msgid "Enable"
 msgstr "Geçerli Kıl"
 
-#: includes/settings/tabs/wps-access-level.php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:100
 msgid ""
 "This will record all the excluded hits in a separate table with the reasons "
 "why it was excluded but no other information.  This will generate a lot of "
@@ -1170,287 +1794,38 @@ msgstr ""
 "İstisna Ziyaretleriniz Ayrı Bir Tabloya Kaydedilecektir. Verileriniz "
 "Büyüyebilir Fakat Ziyaretlerinizi Görmek Açısından Faydalı Olabilir."
 
-#: includes/settings/tabs/wps-access-level.php:168
-msgid "Site URL Exclusions"
-msgstr "Site URL İstisnaları"
-
-#: includes/settings/tabs/wps-access-level.php:175
-msgid "Exclude the login page for registering as a hit."
-msgstr "Giriş Sayfasını bir Ziyaret olarak sayma, hariç tut."
-
-#: includes/settings/tabs/wps-access-level.php:182
-msgid "Exclude the admin pages for registering as a hit."
-msgstr "Yönetici sayfalarına girişi bir Ziyaret olarak algılama, hariç tut."
-
-#: includes/settings/tabs/wps-access-level.php:93 wp-statistics.php:254
-msgid "Exclusions"
-msgstr "İstisnalar"
-
-#: includes/log/exclusions.php:68
-msgid "Total Exclusions: %s"
-msgstr "Toplam İstisnalar: %s"
-
-#: includes/log/exclusions.php:75
-msgid "Exclusions Statistical Chart"
-msgstr "İstisnalar Tablosu"
-
-#: includes/settings/tabs/wps-access-level.php:33
-msgid "Access Levels"
-msgstr "Giriş Seviyeleri"
-
-#: includes/optimization/wps-optimization.php:126
-msgid "Resources/Information"
-msgstr "Kaynaklar / Bilgiler"
-
-#: includes/optimization/wps-optimization.php:128
-msgid "Purging"
-msgstr "Temizleme"
-
-#: includes/optimization/wps-optimization.php:130
-msgid "Updates"
-msgstr "Güncelleme"
-
-#: includes/settings/wps-settings.php:88
-msgid "Access/Exclusions"
-msgstr "Giriş / İstisnalar"
-
-#: includes/settings/wps-settings.php:91
-msgid "Maintenance"
-msgstr "Bakım"
-
-#: includes/settings/wps-settings.php:126
-msgid "Update"
-msgstr "Güncelle"
-
-#: includes/settings/wps-settings.php:86
-msgid "General"
-msgstr "Genel"
-
-#: includes/optimization/empty.php:57
-msgid "Error, %s not emptied!"
-msgstr "Hata, %s Bilgi Var!"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:118
-msgid "Data"
-msgstr "Bilgi"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:145
-msgid "Purge records older than"
-msgstr "Kalacak veriler"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:151
-msgid ""
-"Deleted user statistics data older than the selected number of days.  "
-"Minimum value is 30 days."
-msgstr ""
-"Belirlenen gün sayısından daha eskiler silinecek. EnAz Değer 30 Gündür."
-
-#: includes/optimization/tabs/wps-optimization-purging.php:152
-msgid "Purge now!"
-msgstr "Şimdi Temizle"
-
-#: includes/optimization/purge-data.php:55
-msgid "Please select a value over 30 days."
-msgstr "Lütfen 30 Gün Üzerinde Bir Değer Seçin."
-
-#: includes/settings/tabs/wps-maintenance.php:20
-msgid ""
-"This will permanently delete data from the database each day, are you sure "
-"you want to enable this option?"
-msgstr ""
-"Günlük Olarak Bütün Bilgiler Silinecek, Aktif Hale Getirmeye Hazır mısınız?"
-
-#: includes/settings/tabs/wps-maintenance.php:30
-msgid "Database Maintenance"
-msgstr "Veri Deposu Bakımı"
-
-#: includes/settings/tabs/wps-maintenance.php:35
-msgid "Run a daily WP Cron job to prune the databases"
-msgstr "Veri Deposuna Günlük Bakım Yap"
-
-#: includes/settings/tabs/wps-maintenance.php:41
-msgid ""
-"A WP Cron job will be run daily to prune any data older than a set number of "
-"days."
-msgstr "Belirlenen Günden Daha Eski Verilere Bakım Yap."
-
-#: includes/settings/tabs/wps-maintenance.php:47
-msgid "Prune data older than"
-msgstr "Bakım Süresi Günü"
-
-#: includes/settings/tabs/wps-maintenance.php:52
-msgid "Days"
-msgstr "Gün"
-
-#: includes/settings/tabs/wps-maintenance.php:53
-msgid ""
-"The number of days to keep statistics for.  Minimum value is 30 days.  "
-"Invalid values will disable the daily maintenance."
-msgstr "İstatistik Tutulacak Gün Sayısı. EnAz Değer 30 Gün Olmalıdır."
-
-#: includes/settings/wps-settings.php:89
-msgid "GeoIP"
-msgstr "IP Coğrafyası"
-
-#: includes/settings/tabs/wps-browscap.php:54
-#: includes/settings/tabs/wps-geoip.php:64
-msgid "Next update will be"
-msgstr "Bir Sonraki Güncelleme Tarihi"
-
-#: includes/settings/tabs/wps-geoip.php:109
-msgid ""
-"GeoIP collection requires PHP %s or above, it is currently disabled due to "
-"the installed PHP version being  "
-msgstr ""
-"IP Coğrafyası Koleksiyonu için %s veya Daha Üzeri PHP Versiyonu Gerekir."
-
-#: includes/log/widgets/search.php:8 includes/log/widgets/summary.php:64
-msgid "Search Engine Referrals"
-msgstr "Arama Motoru Referansları"
-
-#: includes/log/widgets/summary.php:88
-msgid "Daily Total"
-msgstr "Günlük Toplam"
-
-#: includes/log/widgets/summary.php:102
-msgid "Current Time and Date"
-msgstr "Güncel Zaman ve Tarih"
-
-#: includes/optimization/tabs/wps-optimization-database.php:39
-#: includes/optimization/tabs/wps-optimization-updates.php:25
-#: includes/optimization/tabs/wps-optimization-updates.php:40
-msgid "Update Now!"
-msgstr "Şimdi Güncelle"
-
-#: includes/settings/tabs/wps-access-level.php:87
-msgid ""
-"Each of the above casscades the rights upwards in the default WordPress "
-"configuration.  So for example selecting publish_posts grants the right to "
-"Authors, Editors, Admins and Super Admins."
-msgstr "Temel Kurgu Yukarıdaki Gibidir.  Buna Göre Yetkileri Belirleyiniz."
-
-#: includes/settings/tabs/wps-access-level.php:88
-msgid ""
-"If you need a more robust solution to delegate access you might want to look "
-"at %s in the WordPress plugin directory."
-msgstr "Daha Sağlıklı Bilgiler İçin Eklenti Dizinine Bakınız : %s "
-
-#: includes/settings/tabs/wps-access-level.php:62
-msgid "Required user level to view WP Statistics"
-msgstr "WP İstatistiklerini Görme Yetkisi"
-
-#: includes/settings/tabs/wps-access-level.php:77
-msgid "Required user level to manage WP Statistics"
-msgstr "WP İstatistiklerini Yönetme Yetkisi"
-
-#: includes/settings/tabs/wps-geoip.php:56
-msgid "Schedule monthly update of GeoIP DB"
-msgstr "Aylık Olarak IP Coğrafyası Bilgilerini Güncelle"
-
-#: includes/settings/tabs/wps-geoip.php:82
-msgid ""
-"Download of the GeoIP database will be scheduled for 2 days after the first "
-"Tuesday of the month."
-msgstr "Her Ayın İlk Çarşambasından Sonra 2 Gün IP Coğrafyası Bilgisini İndir"
-
-#: includes/settings/tabs/wps-geoip.php:83
-msgid ""
-"This option will also download the database if the local filesize is less "
-"than 1k (which usually means the stub that comes with the plugin is still in "
-"place)."
-msgstr "1k Altındaki Bilgileri İndirme Seçeneği"
-
-#: includes/settings/tabs/wps-geoip.php:89
-msgid "Populate missing GeoIP after update of GeoIP DB"
-msgstr "Kayıp IP Coğrafyası Bilgilerini Güncelleme Sonunda Doldur"
-
-#: includes/settings/tabs/wps-geoip.php:95
-msgid "Update any missing GeoIP data after downloading a new database."
-msgstr "Kayıp IP Coğrafyası Bilgilerini Yeni Bilgilerle Güncelle."
-
-#: includes/functions/geoip-populate.php:50
-msgid "Updated %s GeoIP records in the visitors database."
-msgstr "%s IP Coğrafyası Bilgisi Ziyaretci Kayıtlarında Güncellendi."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:98
-msgid "Version Info"
-msgstr "Versiyon Bilgisi"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:103
-msgid "WP Statistics Version"
-msgstr "WP İstatistik Versiyonu"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:108
-msgid "The WP Statistics version you are running."
-msgstr "WP İstatistik Versiyonunu Kullanıyorsunuz."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:114
-msgid "PHP Version"
-msgstr "PHP Versiyonu"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:119
-msgid "The PHP version you are running."
-msgstr "PHP Versiyonunu Kullanıyorsunuz."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:136
-msgid "jQuery Version"
-msgstr "JQuery Sorgusu Versiyonu"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:141
-msgid "The jQuery version you are running."
-msgstr "JQuery Sorgusu Versiyonunu Kullanıyorsunuz."
-
-#: wp-statistics.php:610
-msgid "Error could not open downloaded GeoIP database for reading: %s"
-msgstr "Alınan IP Coğrafyası Bilgisi Açılamadı: %s"
-
-#: wp-statistics.php:617
-msgid "Error could not open destination GeoIP database for writing %s"
-msgstr "Hedef IP Coğrafyası Bilgisi Yazılamadı %s"
-
-#: wp-statistics.php:633
-msgid "GeoIP Database updated successfully!"
-msgstr "IP Coğrafyası Bilgisi Başarıyla Güncellendi!"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:229
-msgid "Client Info"
-msgstr "Kullanıcı Bilgisi"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:234
-msgid "Client IP"
-msgstr "Kullanıcı IP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:239
-msgid "The client IP address."
-msgstr "Kullanıcı IP Adresi"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:245
-msgid "User Agent"
-msgstr "Kullanıcı Yöntemi"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:250
-msgid "The client user agent string."
-msgstr "Kullanıcı Yöntem Dizini"
-
-#: includes/settings/tabs/wps-access-level.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:105
 msgid "Exclude User Roles"
 msgstr "İstisna Kullanıcı Durumu"
 
-#: includes/settings/tabs/wps-access-level.php:119
-#: includes/settings/tabs/wps-access-level.php:174
-#: includes/settings/tabs/wps-access-level.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:119
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:174
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:181
 msgid "Exclude"
 msgstr "İstisna Yap"
 
-#: includes/settings/tabs/wps-access-level.php:120
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:120
+#, php-format
 msgid "Exclude %s role from data collection."
 msgstr "%s Durumunu İstisna Yap."
 
-#: includes/settings/tabs/wps-access-level.php:126
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:126
 msgid "IP/Robot Exclusions"
 msgstr "IP/Robot İstisnaları"
 
-#: includes/settings/tabs/wps-access-level.php:143
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:130
+msgid "Robot list"
+msgstr "Robot listesi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:143
 msgid ""
 "A list of words (one per line) to match against to detect robots.  Entries "
 "must be at least 4 characters long or they will be ignored."
@@ -1458,656 +1833,1195 @@ msgstr ""
 "Robot Aramalarına Karşı Kullanılacak Kelimeler Listesi. EnAz 4 Karakterlik "
 "Kelimeler Girmelisiniz."
 
-#: includes/settings/tabs/wps-access-level.php:144
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:144
 msgid "Reset to Default"
 msgstr "Temel Kurguya Dön"
 
-#: includes/settings/tabs/wps-access-level.php:161
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:149
+msgid "Force robot list update after upgrades"
+msgstr "Kuvvet robot liste güncelleme yükseltme sonra"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:152
+msgid ""
+"Force the robot list to be reset to the default after an update to WP "
+"Statistics takes place.  Note if this option is enabled any custom robots "
+"you have added to the list will be lost."
+msgstr ""
+"Kuvvet WP Statisticsleri güncelleştirme sonra varsayılana sıfırlamak için "
+"robot listesi yer alır. Not Bu seçenek, herhangi bir özel etkin, listeye "
+"eklediğiniz robotlar kaybolacak."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:157
+msgid "Excluded IP address list"
+msgstr "Dışlanan IP adres listesi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:160
+msgid ""
+"A list of IP addresses and subnet masks (one per line) to exclude from "
+"statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
+"formats are accepted).  To specify an IP address only, use a subnet value of "
+"32 or 255.255.255.255."
+msgstr ""
+"IP adresleri ve alt ağ maskeleri (her satırda bir tane) istatistikleri "
+"koleksiyon dışlama için (hem 192.168.0.0/255.255.255.0, hem de 192.168.0."
+"0/24 biçimleri kabul edilir). Yalnızca bir IP adresi belirtmek için 32 veya "
+"255.255.255.255 alt ağ değerini kullanın."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:161
 msgid "Add 10.0.0.0"
 msgstr "Ekle 10.0.0.0"
 
-#: includes/settings/tabs/wps-access-level.php:162
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:162
 msgid "Add 172.16.0.0"
 msgstr "Ekle 172.16.0.0"
 
-#: includes/settings/tabs/wps-access-level.php:163
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:163
 msgid "Add 192.168.0.0"
 msgstr "Ekle 192.168.0.0"
 
-#: includes/settings/tabs/wps-general.php:264
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:168
+msgid "Site URL Exclusions"
+msgstr "Site URL İstisnaları"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:172
+msgid "Excluded login page"
+msgstr "Dışlanan giriş sayfası"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:175
+msgid "Exclude the login page for registering as a hit."
+msgstr "Giriş Sayfasını bir Ziyaret olarak sayma, hariç tut."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:179
+msgid "Excluded admin pages"
+msgstr "Dışlanan yönetici sayfalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-access-level.php:182
+msgid "Exclude the admin pages for registering as a hit."
+msgstr "Yönetici sayfalarına girişi bir Ziyaret olarak algılama, hariç tut."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:22
+msgid "browscap settings"
+msgstr "Browscap ayarları"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:27
+msgid "browscap usage"
+msgstr "Browscap kullanımı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:56
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:82
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:110
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:126
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:177
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:219
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:231
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:274
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:290
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:117
+msgid "Active"
+msgstr "Aktif"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:33
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr "Browscap veritabanı indirilebilir ve robotlar tespit etmek için kullanılır."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:39
+msgid "Update browscap Info"
+msgstr "Browscap bilgi güncelleme"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:44
+msgid "Download browscap Database"
+msgstr "Browscap veritabanı indir"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:50
+msgid "Save changes on this page to download the update."
+msgstr "İndirilen Güncelleme Değişikliklerini Kaydet"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:51
+msgid "Schedule weekly update of browscap DB"
+msgstr "Browscap DB ve haftalık güncelleme planı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:64
+msgid "Next update will be"
+msgstr "Bir Sonraki Güncelleme Tarihi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-browscap.php:74
+msgid "Download of the browscap database will be scheduled for once a week."
+msgstr "Download browscap veritabanı için haftada planlanır."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:40
+msgid "This will delete the manual when you save the settings, are you sure?"
+msgstr ""
+"Bu ayarları kaydettiğinizde-ecek silmek belgili tanımlık elle yapılan, emin "
+"misin?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:67
+msgid ""
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be disabled "
+"if this is selected.  You will not be able to recover the IP addresses in "
+"the future to recover location information if this is enabled."
+msgstr ""
+"Bu özellik, IP adresleri veritabanında depolamaz ancak benzersiz bir karma "
+"değeri kullanılır. \"Store tüm kullanıcı aracısı string\" ayar devre dışı "
+"bırakılır Bu seçiliyse. Gelecekte bu etkin konum bilgileri kurtarmak için IP "
+"adresleri kurtarmanız mümkün olmayacaktır."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:72
+msgid "Users Online"
+msgstr "Online kullanıcılar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:77
+msgid "User online"
+msgstr "Kullanıcılar online"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:83
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:111
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:127
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:166
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:178
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:291
+msgid "Enable or disable this feature"
+msgstr "Geçerli veya Geçersiz Kılma"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:89
+msgid "Check for online users every"
+msgstr "Anlık Kullanıcıyı Kontrol Et"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:94
+msgid "Second"
+msgstr "Saniye"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:95
+#, php-format
+msgid "Time for the check accurate online user in the site. Now: %s Second"
+msgstr "Sitedeki Anlık Kullanıcıyı Kontrol Zamanı. Varsayılan: %s Saniye"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:133
+msgid "Store entire user agent string"
+msgstr "Kullanıcı Giriş Bilgisini Kaydet"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:139
+msgid "Only enabled for debugging"
+msgstr "Ayıklama Yöntemini Geçerli Yap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:145
+msgid "Coefficient per visitor"
+msgstr "Ziyaretci Katsayısı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:150
+#, php-format
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "Muhtelif ziyaretleri olan kayıtlı üyeler. ŞuAnda %s."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:155
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:160
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:275
+msgid "Pages"
+msgstr "Sayfalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:172
+msgid "Track all pages"
+msgstr "Tüm sayfaları izlemek"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:184
+msgid "Disable hits column in post/pages list"
+msgstr "Mesaj/sayfa listesinde sütun sayısı devre dışı bırakma"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:195
+msgid "Miscellaneous"
+msgstr "Çeşitli"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:200
+msgid "Show stats in menu bar"
+msgstr "İstatistikleri Menü Çubuğunda Göster"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:205
+msgid "No"
+msgstr "Hayır"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:206
+msgid "Yes"
+msgstr "Evet"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:208
+msgid "Show stats in admin menu bar"
+msgstr "İstatistikleri yönetici menü çubuğunda göster"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:214
+msgid "Hide admin notices about non active features"
+msgstr "Aktif olmayan özellikler hakkındaki yönetici notlarını Gizle."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:220
+msgid ""
+"By default WP Statistics displays an alert if any of the core features are "
+"disabled on every admin page, this option will disable these notices."
+msgstr ""
+"Her Yönetici sayfasında herhangi bir çekirdek özelliği devre dışı "
+"bırakılmışsa, varsayılan WP Statistics uyarı görüntüler, bu seçenek, bu gibi "
+"bildirimleri devre dışı bırakır."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:226
+msgid "Delete the manual"
+msgstr "Kılavuz Sil"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:232
+msgid ""
+"By default WP Statistics stores the admin manual in the plugin directory (~5 "
+"meg), if this option is enabled it will be deleted now and during upgrades "
+"in the future."
+msgstr ""
+"Varsayılan admin WP Statistics depolar manuel plugin dizinine (~ 5 meg), bu "
+"seçenek etkinse, şimdi ve gelecekte yükseltmeler sırasında silinecektir."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:237
+msgid "Search Enginges"
+msgstr "Arama Motorları"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:242
+msgid ""
+"Disabling all search engines is not allowed, doing so will result in all "
+"search engines being active."
+msgstr ""
+"Bütün Arama Motorları Geçersiz Kılınamaz. Bunu yapmak Bütün Arama "
+"Motorlarını Aktifleştirecektir."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:257
+msgid "disable"
+msgstr "geçersiz"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:258
+#, php-format
+msgid "Disable %s from data collection and reporting."
+msgstr "Data koleksiyonundan ve raporlamadan %s Geçersiz Kılınsın."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:264
 msgid "Charts"
 msgstr "Tablolar"
 
-#: includes/settings/tabs/wps-geoip.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:269
+msgid "Include totals"
+msgstr "Toplam İçerik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:275
+msgid ""
+"Add a total line to charts with multiple values, like the search engine "
+"referrals"
+msgstr ""
+"Arama Motorları Referansları gibi, Çoklu Verilerle Kartlara Bir Toplam "
+"Satırı Ekle"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:280
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:285
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:152
+msgid "Statistical reporting"
+msgstr "İstatistiki Raporlama"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:298
+msgid "Schedule"
+msgstr "Zamanlama"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:322
+msgid "Select when receiving statistics report."
+msgstr "İstatistik Raporlarının NeZaman Alınacağını Seç"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:328
+msgid "Send reports via"
+msgstr "Raporlar yoluyla göndermek"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:334
+msgid "Email"
+msgstr "EPosta"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:335
+msgid "SMS"
+msgstr "SMS"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:337
+msgid "Type Select Get Status Report."
+msgstr "Durum Raporu Alma Şekli"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:340
+#, php-format
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr "Not: Göndermek SMS metin mesajları lütfen %s eklentisi yüklemek için."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:340
+msgid "WordPress SMS"
+msgstr "WordPress SMS"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:347
+msgid "E-mail addresses"
+msgstr "E-posta adresleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:352
+msgid ""
+"A comma separated list of e-mail addresses to send the reports to if e-mail "
+"is selected above."
+msgstr ""
+"Bir virgülle ayrılmış e-posta yukarıda seçilen raporları göndermek için e-"
+"posta adreslerinin listesi."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:358
+msgid "Report body"
+msgstr "Rapor gövdesi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:363
+msgid "Enter the contents of the reports received."
+msgstr "Alınan raporların içeriklerini gir:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:366
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:326
+msgid "User Online"
+msgstr "ŞuAnda Kullanıcı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:367
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:52
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:253
+msgid "Today Visitor"
+msgstr "Bugünkü Ziyaretciler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:368
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:250
+msgid "Today Visit"
+msgstr "Bugünkü Ziyaret"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:369
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:259
+msgid "Yesterday Visitor"
+msgstr "Dünkü Ziyaretci"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:370
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:59
+msgid "Yesterday Visit"
+msgstr "Dünkü Ziyaret"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:371
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:101
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:274
+msgid "Total Visitor"
+msgstr "Toplam Ziyaretci"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-general.php:372
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:271
+msgid "Total Visit"
+msgstr "Toplam Ziyaret"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:17
+msgid "GeoIP settings"
+msgstr "IP Coğrafyası Kurgusu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:22
+#, php-format
+msgid ""
+"IP location services provided by GeoLite2 data created by MaxMind, available "
+"from %s."
+msgstr ""
+"GeoLite2 veri MaxMind, %s üzerinden kullanılabilir tarafından oluşturulan "
+"tarafından sağlanan IP konum servisleri."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:32
+msgid "GeoIP collection"
+msgstr "IP Coğrafyası Koleksiyonu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:38
 msgid ""
 "For get more information and location (country) from visitor, enable this "
 "feature."
 msgstr "Ziyaret ve Yer Bilgisi Hakkında Geniş Bilgi İçin Aktif Yapın."
 
-#: includes/settings/wps-settings.php:87 wp-statistics.php:248
-msgid "Overview"
-msgstr "Genel Bakış"
-
-#: includes/optimization/tabs/wps-optimization-database.php:25
-#: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:251
-msgid "Countries"
-msgstr "Ülkeler"
-
-#: wp-statistics.php:176 wp-statistics.php:253
-msgid "Hits"
-msgstr "Ziyaretler"
-
-#: wp-statistics.php:255
-msgid "Referers"
-msgstr "Referanslar"
-
-#: wp-statistics.php:256
-msgid "Searches"
-msgstr "Aramalar"
-
-#: wp-statistics.php:257
-msgid "Search Words"
-msgstr "Arama Kelimeleri"
-
-#: includes/settings/tabs/wps-general.php:94
-msgid "Second"
-msgstr "Saniye"
-
-#: includes/log/all-browsers.php:17
-msgid "Browser Statistics"
-msgstr "Tarayıcı İstatistikleri"
-
-#: includes/log/all-browsers.php:107
-msgid "Platform"
-msgstr "Platform"
-
-#: includes/log/all-browsers.php:241
-msgid "%s Version"
-msgstr "%s Sürümü"
-
-#: includes/log/hit-statistics.php:17 includes/log/widgets/hits.php:8
-msgid "Hit Statistics"
-msgstr "Sayfa Ziyaret İstatistikleri"
-
-#: includes/log/exclusions.php:57 includes/log/hit-statistics.php:21
-#: includes/log/page-statistics.php:33 includes/log/search-statistics.php:21
-msgid "10 Days"
-msgstr "10 Günlük"
-
-#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:22
-#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:22
-msgid "20 Days"
-msgstr "20 Günlük"
-
-#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:23
-#: includes/log/page-statistics.php:35 includes/log/search-statistics.php:23
-msgid "30 Days"
-msgstr "30 Günlük"
-
-#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:24
-#: includes/log/page-statistics.php:36 includes/log/search-statistics.php:24
-msgid "2 Months"
-msgstr "2 Aylık"
-
-#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:25
-#: includes/log/page-statistics.php:37 includes/log/search-statistics.php:25
-msgid "3 Months"
-msgstr "3 Aylık"
-
-#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:26
-#: includes/log/page-statistics.php:38 includes/log/search-statistics.php:26
-msgid "6 Months"
-msgstr "6 Aylık"
-
-#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:27
-#: includes/log/page-statistics.php:39 includes/log/search-statistics.php:27
-msgid "9 Months"
-msgstr "9 Aylık"
-
-#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:28
-#: includes/log/page-statistics.php:40 includes/log/search-statistics.php:28
-msgid "1 Year"
-msgstr "1 Yıllık"
-
-#: includes/settings/tabs/wps-overview-display.php:34
-msgid "Hits Statistical Chart"
-msgstr "Ziyaret İstatistik Tablou"
-
-#: includes/log/exclusions.php:97 includes/log/hit-statistics.php:69
-#: includes/log/search-statistics.php:77 includes/log/widgets/hits.php:39
-#: includes/log/widgets/search.php:46
-#: includes/optimization/tabs/wps-optimization-purging.php:150
-msgid "days"
-msgstr "gün"
-
-#: includes/log/widgets/countries.php:11
-#: includes/settings/tabs/wps-overview-display.php:27
-msgid "Top 10 Countries"
-msgstr "EnÇok 10 Ülke"
-
-#: includes/log/top-countries.php:28 includes/log/widgets/countries.php:17
-msgid "Rank"
-msgstr "Sıralama"
-
-#: includes/log/top-countries.php:29 includes/log/widgets/countries.php:18
-msgid "Flag"
-msgstr "Bayrak"
-
-#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:20
-msgid "Visitor Count"
-msgstr "Ziyaretci Sayısı"
-
-#: includes/settings/tabs/wps-overview-display.php:35
-msgid "Search Engine Referrers Statistical Chart"
-msgstr "Arama Motoru Referansları Tablosu"
-
-#: includes/log/top-countries.php:19
-msgid "Top Countries"
-msgstr "Başlıca Ülkeler"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:159
-msgid "Delete User Agent Types"
-msgstr "Kullanıcı Girişlerini Temizle"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:164
-msgid "Delete Agents"
-msgstr "Girişleri Sil"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:179
-msgid "All visitor data will be lost for this agent type."
-msgstr "Belirlenen ziyaret girişleri silinecek."
-
-#: includes/optimization/tabs/wps-optimization-purging.php:180
-#: includes/optimization/tabs/wps-optimization-purging.php:204
-msgid "Delete now!"
-msgstr "Şimdi Sil"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:188
-msgid "Delete Platforms"
-msgstr "Platformu Sil"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:203
-msgid "All visitor data will be lost for this platform type."
-msgstr "Girilen ziyaret platformları silinecek."
-
-#: includes/optimization/tabs/wps-optimization-updates.php:16
-msgid "GeoIP Options"
-msgstr "IP Coğrafyası Seçenekleri"
-
-#: includes/settings/tabs/wps-general.php:133
-msgid "Store entire user agent string"
-msgstr "Kullanıcı Giriş Bilgisini Kaydet"
-
-#: includes/settings/tabs/wps-general.php:139
-msgid "Only enabled for debugging"
-msgstr "Ayıklama Yöntemini Geçerli Yap"
-
-#: includes/settings/tabs/wps-geoip.php:17
-msgid "GeoIP settings"
-msgstr "IP Coğrafyası Kurgusu"
-
-#: includes/settings/tabs/wps-geoip.php:32
-msgid "GeoIP collection"
-msgstr "IP Coğrafyası Koleksiyonu"
-
-#: includes/settings/tabs/wps-geoip.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:44
 msgid "Update GeoIP Info"
 msgstr "IP Coğrafyası Bilgisi Güncelleme"
 
-#: includes/settings/tabs/wps-geoip.php:49
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:49
 msgid "Download GeoIP Database"
 msgstr "IP Coğrafyası Bilgisini İndir"
 
-#: includes/settings/tabs/wps-browscap.php:40
-#: includes/settings/tabs/wps-geoip.php:50
-msgid "Save changes on this page to download the update."
-msgstr "İndirilen Güncelleme Değişikliklerini Kaydet"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:56
+msgid "Schedule monthly update of GeoIP DB"
+msgstr "Aylık Olarak IP Coğrafyası Bilgilerini Güncelle"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:10
-#: includes/optimization/tabs/wps-optimization-purging.php:36
-#: includes/optimization/tabs/wps-optimization-purging.php:62
-#: includes/optimization/tabs/wps-optimization-purging.php:90
-msgid "Are you sure?"
-msgstr "Emin misiniz?"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:82
+msgid ""
+"Download of the GeoIP database will be scheduled for 2 days after the first "
+"Tuesday of the month."
+msgstr "Her Ayın İlk Çarşambasından Sonra 2 Gün IP Coğrafyası Bilgisini İndir"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:137
-msgid "Clear now!"
-msgstr "Şimdi Temizle"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:83
+msgid ""
+"This option will also download the database if the local filesize is less "
+"than 1k (which usually means the stub that comes with the plugin is still in "
+"place)."
+msgstr "1k Altındaki Bilgileri İndirme Seçeneği"
 
-#: wp-statistics.php:261
-msgid "Optimization"
-msgstr "İyileştirme"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:89
+msgid "Populate missing GeoIP after update of GeoIP DB"
+msgstr "Kayıp IP Coğrafyası Bilgilerini Güncelleme Sonunda Doldur"
 
-#: includes/optimization/delete-agents.php:5
-#: includes/optimization/delete-platforms.php:5
-#: includes/optimization/empty.php:5 includes/optimization/export.php:5
-#: includes/optimization/purge-data.php:5
-#: includes/optimization/wps-optimization.php:3 manual/manual.php:5
-msgid "Access denied!"
-msgstr "Giriş Yasak!"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:95
+msgid "Update any missing GeoIP data after downloading a new database."
+msgstr "Kayıp IP Coğrafyası Bilgilerini Yeni Bilgilerle Güncelle."
 
-#: includes/optimization/delete-agents.php:18
-#: includes/optimization/delete-platforms.php:18
-#: includes/optimization/empty.php:42 includes/optimization/export.php:57
-msgid "Please select the desired items."
-msgstr "İstediklerinizi Seçin."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:106
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "GeoIP koleksiyonu şu sebepler yüzünden geçersiz kılındı:"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:17
-msgid "Resources"
-msgstr "Kaynaklar"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:109
+#, php-format
+msgid ""
+"GeoIP collection requires PHP %s or above, it is currently disabled due to "
+"the installed PHP version being  "
+msgstr "IP Coğrafyası Koleksiyonu için %s veya Daha Üzeri PHP Versiyonu Gerekir."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:22
-#: includes/optimization/tabs/wps-optimization-resources.php:27
-msgid "Memory usage in PHP"
-msgstr "PHP Hafıza Kullanımı"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:114
+msgid ""
+"GeoIP collection requires the cURL PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP Koleksiyonu, cURL PHP Eklentisini gerektirir ve bu PHP versiyonunuzda "
+"yüklenmemiştir."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:26
-msgid "Byte"
-msgstr "Bayt"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:120
+msgid ""
+"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP Koleksiyonu, BC Math (Toplama) PHP Eklentisini gerektirir ve bu PHP "
+"versiyonunuzda yüklenmemiştir."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:48
-#: includes/optimization/tabs/wps-optimization-resources.php:59
-#: includes/optimization/tabs/wps-optimization-resources.php:70
-#: includes/optimization/tabs/wps-optimization-resources.php:81
-#: includes/optimization/tabs/wps-optimization-resources.php:92
-msgid "Row"
-msgstr "Satır"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-geoip.php:126
+msgid ""
+"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
+"mode enabled!"
+msgstr ""
+"PHP Güvenli Modu belirlendi! Güvenli PHP Modu geçerli kılındığında GeoIP "
+"Koleksiyonu desteklenmek."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:49
-#: includes/optimization/tabs/wps-optimization-resources.php:60
-#: includes/optimization/tabs/wps-optimization-resources.php:71
-#: includes/optimization/tabs/wps-optimization-resources.php:82
-#: includes/optimization/tabs/wps-optimization-resources.php:93
-msgid "Number of rows"
-msgstr "Satır Sayısı"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:20
+msgid ""
+"This will permanently delete data from the database each day, are you sure "
+"you want to enable this option?"
+msgstr "Günlük Olarak Bütün Bilgiler Silinecek, Aktif Hale Getirmeye Hazır mısınız?"
 
-#: includes/optimization/tabs/wps-optimization-export.php:7
-#: includes/optimization/wps-optimization.php:127
-msgid "Export"
-msgstr "Dışarı Verme"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:30
+msgid "Database Maintenance"
+msgstr "Veri Deposu Bakımı"
 
-#: includes/optimization/tabs/wps-optimization-export.php:12
-msgid "Export from"
-msgstr "Dışarı aktarılacak veriler"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:35
+msgid "Run a daily WP Cron job to prune the databases"
+msgstr "Veri Deposuna Günlük Bakım Yap"
 
-#: includes/optimization/tabs/wps-optimization-export.php:24
-msgid "Select the table for the output file."
-msgstr "İstenen Tabloyu Seçiniz"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:41
+msgid ""
+"A WP Cron job will be run daily to prune any data older than a set number of "
+"days."
+msgstr "Belirlenen Günden Daha Eski Verilere Bakım Yap."
 
-#: includes/optimization/tabs/wps-optimization-export.php:30
-msgid "Export To"
-msgstr "Dışarı aktarma dosya türü"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:47
+msgid "Prune data older than"
+msgstr "Bakım Süresi Günü"
 
-#: includes/optimization/tabs/wps-optimization-export.php:41
-msgid "Select the output file type."
-msgstr "Dışarı Çıkarılacak Dosya"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:52
+msgid "Days"
+msgstr "Gün"
 
-#: includes/optimization/tabs/wps-optimization-export.php:53
-msgid "Start Now!"
-msgstr "Şimde Başla"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-maintenance.php:53
+msgid ""
+"The number of days to keep statistics for.  Minimum value is 30 days.  "
+"Invalid values will disable the daily maintenance."
+msgstr "İstatistik Tutulacak Gün Sayısı. EnAz Değer 30 Gün Olmalıdır."
 
-#: includes/optimization/tabs/wps-optimization-purging.php:123
-msgid "Empty Table"
-msgstr "Boşaltılacak Tablo"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:23
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:32
+msgid "None"
+msgstr "Hiçbiri"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:136
-msgid "All data table will be lost."
-msgstr "Bütün bilgiler kaybedilecek."
-
-#: includes/settings/tabs/wps-about.php:44
-msgid "Support"
-msgstr "Destek"
-
-#: includes/settings/tabs/wps-about.php:74
-msgid "Farsi"
-msgstr "Farsca"
-
-#: includes/log/top-referring.php:47
-msgid "Referring sites from"
-msgstr "Referans Verenler"
-
-#: includes/settings/tabs/wps-about.php:36
-msgid "Translations"
-msgstr "Çeviriler"
-
-#: includes/log/top-referring.php:4
-msgid "To be added soon"
-msgstr "Yakında Eklenecekler"
-
-#: includes/log/last-search.php:102 includes/log/last-visitor.php:99
-#: includes/log/top-referring.php:78 includes/log/widgets/recent.php:27
-#: includes/log/widgets/words.php:32
-#: includes/settings/tabs/wps-overview-display.php:33
-#: includes/settings/tabs/wps-overview-display.php:71
-msgid "Map"
-msgstr "Harita"
-
-#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
-#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
-msgid "Page"
-msgstr "Sayfa"
-
-#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
-#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
-msgid "From"
-msgstr "Nereden"
-
-#: wp-statistics.php:455
-msgid "Table plugin does not exist! Please disable and re-enable the plugin."
-msgstr "Tablo eklentisi yok. Lütfen eklentiyi kaldırıp yeniden yükleyin."
-
-#: includes/settings/tabs/wps-general.php:280
-#: includes/settings/tabs/wps-general.php:285 schedule.php:161
-msgid "Statistical reporting"
-msgstr "İstatistiki Raporlama"
-
-#: widget.php:14 wp-statistics.php:245
-msgid "Statistics"
-msgstr "İstatistikler"
-
-#: includes/settings/tabs/wps-general.php:369 widget.php:38 widget.php:247
-#: wp-statistics.php:310
-msgid "User Online"
-msgstr "ŞuAnda Kullanıcı"
-
-#: includes/settings/tabs/wps-general.php:371 widget.php:45 widget.php:250
-msgid "Today Visit"
-msgstr "Bugünkü Ziyaret"
-
-#: includes/settings/tabs/wps-general.php:370 widget.php:52 widget.php:253
-msgid "Today Visitor"
-msgstr "Bugünkü Ziyaretciler"
-
-#: includes/settings/tabs/wps-general.php:373 widget.php:59
-msgid "Yesterday Visit"
-msgstr "Dünkü Ziyaret"
-
-#: includes/settings/tabs/wps-general.php:372 widget.php:66 widget.php:259
-msgid "Yesterday Visitor"
-msgstr "Dünkü Ziyaretci"
-
-#: widget.php:73 widget.php:262
-msgid "Week Visit"
-msgstr "Haftalık Ziyaret"
-
-#: widget.php:80 widget.php:265
-msgid "Month Visit"
-msgstr "Aylık Ziyaret"
-
-#: widget.php:87 widget.php:268
-msgid "Years Visit"
-msgstr "Yılık Ziyaret"
-
-#: includes/settings/tabs/wps-general.php:375 widget.php:94 widget.php:271
-msgid "Total Visit"
-msgstr "Toplam Ziyaret"
-
-#: includes/settings/tabs/wps-general.php:374 widget.php:101 widget.php:274
-msgid "Total Visitor"
-msgstr "Toplam Ziyaretci"
-
-#: widget.php:123 widget.php:300
-msgid "Total Posts"
-msgstr "Toplam Postalar"
-
-#: widget.php:130 widget.php:303
-msgid "Total Pages"
-msgstr "Toplam Sayfalar"
-
-#: widget.php:137 widget.php:306
-msgid "Total Comments"
-msgstr "Toplam Yorumlar"
-
-#: widget.php:144 widget.php:309
-msgid "Total Spams"
-msgstr "Toplam Gereksizler"
-
-#: widget.php:151 widget.php:312
-msgid "Total Users"
-msgstr "Toplam Kullanıcı"
-
-#: widget.php:158 widget.php:315
-msgid "Average Posts"
-msgstr "Ortalama Posta Sayısı"
-
-#: widget.php:165 widget.php:318
-msgid "Average Comments"
-msgstr "Ortalama Yorum Sayısı"
-
-#: widget.php:172 widget.php:321
-msgid "Average Users"
-msgstr "Ortalama Kullanıcı Sayısı"
-
-#: widget.php:179 widget.php:324
-msgid "Last Post Date"
-msgstr "Son Posta Tarihi"
-
-#: wp-statistics.php:340
-msgid "View Stats"
-msgstr "İstatistiklere Bak"
-
-#: wp-statistics.php:152 wp-statistics.php:262
-msgid "Settings"
-msgstr "Ayarlar"
-
-#: wp-statistics.php:316
-msgid "Today visitor"
-msgstr "Bugünkü Ziyaretciler"
-
-#: wp-statistics.php:322
-msgid "Today visit"
-msgstr "Bugünkü Ziyaretler"
-
-#: wp-statistics.php:328
-msgid "Yesterday visitor"
-msgstr "Dünkü Ziyaretci"
-
-#: widget.php:256 wp-statistics.php:334
-msgid "Yesterday visit"
-msgstr "Dünkü Ziyaret"
-
-#: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
-msgid "You do not have sufficient permissions to access this page."
-msgstr "Bu sayfaya girme yetkiniz yok."
-
-#: includes/log/all-browsers.php:23 includes/log/all-browsers.php:106
-#: includes/log/all-browsers.php:240 includes/log/exclusions.php:74
-#: includes/log/hit-statistics.php:35 includes/log/last-search.php:61
-#: includes/log/last-visitor.php:57 includes/log/page-statistics.php:47
-#: includes/log/search-statistics.php:35 includes/log/top-pages.php:19
-#: includes/log/top-pages.php:131 includes/log/top-referring.php:45
-#: includes/log/widgets/about.php:7 includes/log/widgets/browsers.php:7
-#: includes/log/widgets/countries.php:9 includes/log/widgets/google.map.php:8
-#: includes/log/widgets/hits.php:7 includes/log/widgets/jqv.map.php:8
-#: includes/log/widgets/pages.php:11 includes/log/widgets/recent.php:7
-#: includes/log/widgets/referring.php:11 includes/log/widgets/search.php:7
-#: includes/log/widgets/summary.php:7 includes/log/widgets/words.php:14
-msgid "Click to toggle"
-msgstr "Geçiş yapmak için tıklayın"
-
-#: includes/settings/tabs/wps-overview-display.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:24
 msgid "Summary Statistics"
 msgstr "Özet İstatistikler"
 
-#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
-#: includes/log/widgets/summary.php:19
-msgid "Visitor"
-msgstr "Ziyaretci"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:99
+msgid "About"
+msgstr "Hakkında"
 
-#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
-#: includes/log/widgets/summary.php:20
-msgid "Visit"
-msgstr "Ziyaretler"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:34
+msgid "Hits Statistical Chart"
+msgstr "Ziyaret İstatistik Tablou"
 
-#: includes/log/widgets/summary.php:24 includes/log/widgets/summary.php:69
-msgid "Today"
-msgstr "Bugünkü"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:35
+msgid "Search Engine Referrers Statistical Chart"
+msgstr "Arama Motoru Referansları Tablosu"
 
-#: includes/log/widgets/summary.php:30 includes/log/widgets/summary.php:70
-msgid "Yesterday"
-msgstr "Dünkü"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:37
+msgid "Top Pages Visited"
+msgstr "EnÇok Ziyaret Edilen Sayfalar"
 
-#: includes/log/widgets/summary.php:36
-msgid "Week"
-msgstr "Haftalık"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:75
+msgid "The following three items are global to all users."
+msgstr "Aşağıdaki üç öğeleri tüm kullanıcılar için geneldir."
 
-#: includes/log/widgets/summary.php:42
-msgid "Month"
-msgstr "Aylık"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:80
+msgid "Map type"
+msgstr "Harita türü"
 
-#: includes/log/widgets/summary.php:48
-msgid "Year"
-msgstr "Yıllık"
-
-#: includes/log/search-statistics.php:112 includes/log/widgets/search.php:81
-#: includes/log/widgets/summary.php:54 includes/log/widgets/summary.php:94
-msgid "Total"
-msgstr "Toplam"
-
-#: includes/log/widgets/summary.php:102
-msgid "(Adjustment)"
-msgstr "(Kurgu)"
-
-#: includes/log/all-browsers.php:24 includes/log/widgets/browsers.php:8
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:249
-msgid "Browsers"
-msgstr "Tarayıcılar"
-
-#: includes/log/widgets/browsers.php:38
-msgid "Other"
-msgstr "Diğer"
-
-#: includes/log/widgets/referring.php:20
-msgid "Address"
-msgstr "Adres"
-
-#: includes/log/hit-statistics.php:90 includes/log/widgets/hits.php:60
-msgid "Number of visits and visitors"
-msgstr "Ziyaret ve Ziyaretci Sayıları"
-
-#: includes/settings/tabs/wps-overview-display.php:86
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:86
 msgid "Google"
 msgstr "Google"
 
-#: includes/log/last-visitor.php:27 includes/log/widgets/recent.php:9
-#: includes/settings/tabs/wps-overview-display.php:38
-msgid "Recent Visitors"
-msgstr "Son Ziyaretciler"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:86
+msgid "JQVMap"
+msgstr "JQVMap"
 
-#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:19
-msgid "Country"
-msgstr "Ülke"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:93
+msgid ""
+"The \"Google\" option will use Google's mapping service to plot the recent "
+"visitors (requires access to Google)."
+msgstr ""
+"\"Google\" seçeneği son ziyaretçiler arsa için (erişimi gerekir Google) "
+"Google'nın harita hizmeti kullanmak."
 
-#: includes/settings/tabs/wps-browscap.php:27
-#: includes/settings/tabs/wps-browscap.php:51
-#: includes/settings/tabs/wps-general.php:66
-#: includes/settings/tabs/wps-general.php:82
-#: includes/settings/tabs/wps-general.php:110
-#: includes/settings/tabs/wps-general.php:126
-#: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:165
-#: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:189
-#: includes/settings/tabs/wps-general.php:219
-#: includes/settings/tabs/wps-general.php:231
-#: includes/settings/tabs/wps-general.php:274
-#: includes/settings/tabs/wps-general.php:290
-#: includes/settings/tabs/wps-geoip.php:37
-#: includes/settings/tabs/wps-geoip.php:61
-#: includes/settings/tabs/wps-geoip.php:94
-#: includes/settings/tabs/wps-maintenance.php:40
-#: includes/settings/tabs/wps-overview-display.php:105
-#: includes/settings/tabs/wps-overview-display.php:117
-msgid "Active"
-msgstr "Aktif"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:94
+msgid ""
+"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
+"recent visitors (requires no extenral services)."
+msgstr ""
+"\"JQVMap\" seçeneği JQVMap eşleme Kütüphane javascript son ziyaretçiler Arsa "
+"(gerektirir herhangi bir extenral hizmet)."
 
-#: includes/settings/tabs/wps-general.php:83
-#: includes/settings/tabs/wps-general.php:111
-#: includes/settings/tabs/wps-general.php:127
-#: includes/settings/tabs/wps-general.php:166
-#: includes/settings/tabs/wps-general.php:178
-#: includes/settings/tabs/wps-general.php:190
-#: includes/settings/tabs/wps-general.php:291
-msgid "Enable or disable this feature"
-msgstr "Geçerli veya Geçersiz Kılma"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:100
+msgid "Disable map"
+msgstr "Harita Geçersiz"
 
-#: includes/log/top-pages.php:163 includes/log/widgets/pages.php:30
-#: includes/settings/tabs/wps-general.php:100
-#: includes/settings/tabs/wps-general.php:105
-msgid "Visits"
-msgstr "Ziyaretler"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:106
+msgid "Disable the map display"
+msgstr "Harita Görüntülemesi Geçersiz"
 
-#: includes/settings/tabs/wps-general.php:116
-#: includes/settings/tabs/wps-general.php:121 wp-statistics.php:258
-msgid "Visitors"
-msgstr "Ziyaretciler"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:112
+msgid "Get country location from Google"
+msgstr "Ülke bilgisini Google'dan al"
 
-#: includes/settings/tabs/wps-general.php:89
-msgid "Check for online users every"
-msgstr "Anlık Kullanıcıyı Kontrol Et"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:118
+msgid ""
+"This feature may cause a performance degradation when viewing statistics and "
+"is only valid if the map type is set to \"Google\"."
+msgstr ""
+"Bu özellik istatistikleri görüntülenirken performans düşmesine neden "
+"olabilir ve yalnızca \"Google için harita türü ayarlanmışsa geçerlidir\"."
 
-#: includes/settings/tabs/wps-general.php:95
-msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "Sitedeki Anlık Kullanıcıyı Kontrol Zamanı. Varsayılan: %s Saniye"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:123
+msgid "Widgets to Display"
+msgstr "Widget görüntülemek için"
 
-#: includes/settings/tabs/wps-general.php:200
-msgid "Show stats in menu bar"
-msgstr "İstatistikleri Menü Çubuğunda Göster"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:132
+msgid ""
+"The following items are unique to each user.  If you do not select the "
+"'About' widget it will automatically be displayed in the last positon of "
+"column A."
+msgstr ""
+"Aşağıdaki öğeler, her kullanıcı için benzersizdir. 'Hakkında' widget "
+"seçerseniz otomatik olarak sütun A'ya son pozisyon içinde görüntülenecektir"
 
-#: includes/settings/tabs/wps-general.php:205
-msgid "No"
-msgstr "Hayır"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:137
+msgid "Slot"
+msgstr "Yuvası"
 
-#: includes/settings/tabs/wps-general.php:206
-msgid "Yes"
-msgstr "Evet"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:141
+msgid "Column A"
+msgstr "Sütun A"
 
-#: includes/settings/tabs/wps-general.php:208
-msgid "Show stats in admin menu bar"
-msgstr "İstatistikleri yönetici menü çubuğunda göster"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:145
+msgid "Column B"
+msgstr "Sütun B"
 
-#: includes/settings/tabs/wps-general.php:145
-msgid "Coefficient per visitor"
-msgstr "Ziyaretci Katsayısı"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:151
+msgid "Slot 1"
+msgstr "Yuvası 1"
 
-#: includes/settings/tabs/wps-general.php:150
-msgid "For each visit to account for several hits. Currently %s."
-msgstr "Muhtelif ziyaretleri olan kayıtlı üyeler. ŞuAnda %s."
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:181
+msgid "Slot 2"
+msgstr "Yuvası 2"
 
-#: includes/settings/tabs/wps-general.php:322
-msgid "Select when receiving statistics report."
-msgstr "İstatistik Raporlarının NeZaman Alınacağını Seç"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:211
+msgid "Slot 3"
+msgstr "Yuvası 3"
 
-#: includes/settings/tabs/wps-general.php:334
-msgid "Email"
-msgstr "EPosta"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:241
+msgid "Slot 4"
+msgstr "Yuvası 4"
 
-#: includes/settings/tabs/wps-general.php:335
-msgid "SMS"
-msgstr "SMS"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:271
+msgid "Slot 5"
+msgstr "Yuvası 5"
 
-#: includes/settings/tabs/wps-general.php:337
-msgid "Type Select Get Status Report."
-msgstr "Durum Raporu Alma Şekli"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:301
+msgid "Slot 6"
+msgstr "Yuvası 6"
 
-#: includes/settings/tabs/wps-general.php:363
-msgid "Enter the contents of the reports received."
-msgstr "Alınan raporların içeriklerini gir:"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/tabs/wps-overview-display.php:305
+msgid "N/A"
+msgstr "N/A"
 
-#: widget.php:240
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:92
+msgid "General"
+msgstr "Genel"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:93
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:264
+msgid "Overview"
+msgstr "Genel Bakış"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:94
+msgid "Access/Exclusions"
+msgstr "Giriş / İstisnalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:95
+msgid "GeoIP"
+msgstr "IP Coğrafyası"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:96
+msgid "browscap"
+msgstr "Browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:97
+msgid "Maintenance"
+msgstr "Bakım"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-
+#: statistics/includes/settings/wps-settings.php:137
+msgid "Update"
+msgstr "Güncelle"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.
+#: php:29
+#, php-format
+msgid "Manual not found: %s"
+msgstr "Manuel bulunmadı: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.
+#: php:39
+#, php-format
+msgid "Invalid file type selected: %s"
+msgstr "Seçilen dosya türü geçersiz: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:10
+msgid "Once Weekly"
+msgstr "Bir kez haftalık"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "Bir kez her 2 hafta"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "4 haftada bir kez"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:261
+msgid "Statistics"
+msgstr "İstatistikler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "Site istatistikleri kenar çubuğunda göster."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:262
+msgid "Week Visit"
+msgstr "Haftalık Ziyaret"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:80
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:265
+msgid "Month Visit"
+msgstr "Aylık Ziyaret"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:87
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:268
+msgid "Years Visit"
+msgstr "Yılık Ziyaret"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:108
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:277
+msgid "Total Page Views"
+msgstr "Sayfa Görülme Toplamı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:116
+msgid "Search Engine referred"
+msgstr "Arama Motoru Referansı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:123
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:300
+msgid "Total Posts"
+msgstr "Toplam Postalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:303
+msgid "Total Pages"
+msgstr "Toplam Sayfalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:137
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:306
+msgid "Total Comments"
+msgstr "Toplam Yorumlar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:144
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:309
+msgid "Total Spams"
+msgstr "Toplam Gereksizler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:151
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:312
+msgid "Total Users"
+msgstr "Toplam Kullanıcı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:158
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:315
+msgid "Average Posts"
+msgstr "Ortalama Posta Sayısı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:318
+msgid "Average Comments"
+msgstr "Ortalama Yorum Sayısı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:172
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:321
+msgid "Average Users"
+msgstr "Ortalama Kullanıcı Sayısı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:179
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:324
+msgid "Last Post Date"
+msgstr "Son Posta Tarihi"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:240
 msgid "Name"
 msgstr "İsim"
 
-#: widget.php:244
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:244
 msgid "Items"
 msgstr "Ürünler"
 
-#: widget.php:283
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:256
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:350
+msgid "Yesterday visit"
+msgstr "Dünkü Ziyaret"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:280
+msgid "Search Engine Referred"
+msgstr "Anılan arama motoru"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:283
 msgid "Select type of search engine"
 msgstr "Arama motoru türü seçin"
 
-#: includes/log/last-visitor.php:29 includes/log/top-referring.php:36
-#: includes/optimization/tabs/wps-optimization-purging.php:134 widget.php:296
-msgid "All"
-msgstr "Hepsi"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:27
+msgid ""
+"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
+"Statistics will not function without PHP Version "
+msgstr ""
+"Hata: Desteklenmeyen sürümü WP Statistics algıladı PHP, PHP sürümü WP "
+"Statistics çalışmaz "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:27
+msgid " or higher!"
+msgstr "ya da daha yüksek!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:53
+msgid "WP Statistics"
+msgstr "WP Statistics"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:54
+msgid "Complete statistics for your WordPress site."
+msgstr "WordPress site tam istatistikleri."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:97
+#, php-format
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to %s and "
+"enable it."
+msgstr ""
+"Online kullanıcı WP Statisticsleri izleme etkin değildir, lütfen %s öğesine "
+"gidin ve etkinleştirin."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:103
+msgid "setting page"
+msgstr "ayar sayfası"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:100
+#, php-format
+msgid "Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr ""
+"WP Statistics hit izleme etkin değildir, lütfen %s öğesine gidin ve "
+"etkinleştirin."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:103
+#, php-format
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
+"it."
+msgstr ""
+"Ziyaretçi WP Statisticsleri izleme etkin değildir, lütfen %s öğesine gidin "
+"ve etkinleştirin."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:106
+#, php-format
+msgid "GeoIP collection is not active, please go to %s and enable this feature."
+msgstr ""
+"GeoIP toplama etkin değil, lütfen %s öğesine gidin ve bu özelliği "
+"etkinleştirin."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:106
+msgid "Setting page > GeoIP"
+msgstr "Ayar sayfası > GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:168
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:278
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:180
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "Eklenti WordPress.org ziyaret etmek için tıklayın"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:180
+msgid "Visit WordPress.org page"
+msgstr "WordPress.org sayfasını ziyaret edin"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:183
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr "Oranı ve bu eklenti WordPress.org üzerinde incelemek için tıklayınız"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:183
+msgid "Rate this plugin"
+msgstr "Bu eklenti oranı"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:192
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:269
+msgid "Hits"
+msgstr "Ziyaretler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:227
+msgid "WP Statistics - Hits"
+msgstr "WP Statisticsleri - Hits"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:271
+msgid "Referers"
+msgstr "Referanslar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:272
+msgid "Searches"
+msgstr "Aramalar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:273
+msgid "Search Words"
+msgstr "Arama Kelimeleri"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:277
+msgid "Optimization"
+msgstr "İyileştirme"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:282
+msgid "Manual"
+msgstr "Manuel"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:332
+msgid "Today visitor"
+msgstr "Bugünkü Ziyaretciler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:338
+msgid "Today visit"
+msgstr "Bugünkü Ziyaretler"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:344
+msgid "Yesterday visitor"
+msgstr "Dünkü Ziyaretci"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:356
+msgid "View Stats"
+msgstr "İstatistiklere Bak"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:380
+msgid "Download ODF file"
+msgstr "ODF Dosyası indir"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:381
+msgid "Download HTML file"
+msgstr "HTML Dosyası indir"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:385
+msgid "Manual file not found."
+msgstr "Manuel Dosya bulunmadı."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:460
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:560
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:593
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Bu sayfaya girme yetkiniz yok."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.
+#: php:471
+msgid "Table plugin does not exist! Please disable and re-enable the plugin."
+msgstr "Tablo eklentisi yok. Lütfen eklentiyi kaldırıp yeniden yükleyin."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:
+#: 34
+#, php-format
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "GeoIP veritabanı yükleme hatası: %s - %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:
+#: 45
+#, php-format
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "Alınan IP Coğrafyası Bilgisi Açılamadı: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:
+#: 52
+#, php-format
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr "Hedef IP Coğrafyası Bilgisi Yazılamadı %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:
+#: 68
+msgid "GeoIP Database updated successfully!"
+msgstr "IP Coğrafyası Bilgisi Başarıyla Güncellendi!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:
+#: 141
+#, php-format
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "Browscap veritabanından yükleme hatası: %s - %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:
+#: 229
+msgid "browscap database updated successfully!"
+msgstr "browscap veritabanı başarıyla güncelleştirildi."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:
+#: 237
+msgid "browscap already at current version!"
+msgstr "Geçerli sürüm de zaten Browscap!"
