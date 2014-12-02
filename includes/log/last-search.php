@@ -124,7 +124,7 @@
 											
 											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 											
-											echo "<a href='" . htmlentities($items->referred,ENT_QUOTES) . "' title='" . htmlentities($items->referred,ENT_QUOTES) . "'>".wp_statistics_icons('dashicons-admin-links', 'link') . " " . htmlentites($items->referred,ENT_QUOTES) . "</a></div>";
+											echo "<a href='" . htmlentities($items->referred,ENT_QUOTES) . "' title='" . htmlentities($items->referred,ENT_QUOTES) . "'>".wp_statistics_icons('dashicons-admin-links', 'link') . " " . htmlentities($items->referred,ENT_QUOTES) . "</a></div>";
 										echo "</div>";
 									}
 								}
