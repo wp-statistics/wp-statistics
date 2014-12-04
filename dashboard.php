@@ -174,7 +174,7 @@
 			include_once( dirname( __FILE__ ) . "/includes/log/widgets/jqv.map.php");
 		}
 		else {
-			include_once( dirname( __FILE__ ) . "/includes/logwidgets/google.map.php");
+			include_once( dirname( __FILE__ ) . "/includes/log/widgets/google.map.php");
 		}
 
 		wp_statistics_generate_map_postbox_content($ISOCountryCode);
