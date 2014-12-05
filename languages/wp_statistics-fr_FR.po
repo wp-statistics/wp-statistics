@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-14 17:16-0500\n"
+"PO-Revision-Date: 2014-12-03 16:04+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.5.4\n"
 "Project-Id-Version: Wordpress Statistics\n"
 "POT-Creation-Date: \n"
 "Last-Translator: \n"
@@ -43,14 +43,15 @@ msgstr "données de la table %s supprimées avec succès."
 #: includes/optimization/purge-data.php:37
 #: includes/optimization/purge-data.php:47
 msgid "%s data older than %s days purged successfully."
-msgstr "données %s %s derniers jours purgés avec succès."
+msgstr ""
+"données de  %s plus anciennes que les %s derniers jours purgées avec succès."
 
 #: includes/optimization/purge-data.php:19
 #: includes/optimization/purge-data.php:29
 #: includes/optimization/purge-data.php:39
 #: includes/optimization/purge-data.php:49
 msgid "No records found to purge from %s!"
-msgstr "Aucun enregistrement trouvé pour purger de %s !"
+msgstr "Aucun enregistrement trouvé à purger de %s !"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:44
 #: includes/optimization/tabs/wps-optimization-resources.php:55
@@ -62,23 +63,23 @@ msgstr "Nombre de lignes dans la table %s"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:211
 msgid "browscap Cache File"
-msgstr "Browscap fichier Cache"
+msgstr "fichier cache de Browscap"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:220
 msgid "browscap cache file does not exist."
-msgstr "fichier cache Browscap n'existe pas."
+msgstr "le fichier cache Browscap n'existe pas."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:224
 msgid "The file size and date of the browscap cache file."
-msgstr "La taille du fichier et la date du fichier cache browscap."
+msgstr "La taille et la date du fichier cache browscap."
 
 #: includes/settings/tabs/wps-about.php:24
 msgid ""
 "Come visit our great new %s and keep up to date on the latest news about WP "
 "Statistics."
 msgstr ""
-"Venez visiter notre grande %s nouvelle et tenir à jour sur les dernières "
-"nouvelles sur les WP Statistics."
+"Venez visiter notre nouvelle %s  et tenez-vous à jour des dernières "
+"nouveautés de WP Statistics."
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "website"
@@ -96,7 +97,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-about.php:40
 msgid "translation collaboration site"
-msgstr "site de collaboration de traduction"
+msgstr "site de traduction collaborative"
 
 #: includes/settings/tabs/wps-about.php:40
 msgid "drop us a line"
@@ -105,7 +106,7 @@ msgstr "nous laisser un message"
 #: includes/settings/tabs/wps-about.php:52
 #: includes/settings/tabs/wps-about.php:53
 msgid "Have you read the %s?"
-msgstr "Avez-vous lu le %s ?"
+msgstr "Avez-vous lu  %s ?"
 
 #: includes/settings/tabs/wps-about.php:52
 msgid "FAQs"
@@ -113,11 +114,11 @@ msgstr "Foire aux questions"
 
 #: includes/settings/tabs/wps-about.php:53
 msgid "manual"
-msgstr "Manuelle"
+msgstr "Manuel"
 
 #: includes/settings/tabs/wps-about.php:54
 msgid "Have you search the %s for a similar issue?"
-msgstr "Vous avez à chercher le %s pour un problème semblable ?"
+msgstr "Vous avez à chercher des problèmes semblables sur %s ?"
 
 #: includes/settings/tabs/wps-about.php:54
 msgid "support forum"
@@ -128,8 +129,8 @@ msgid ""
 "Then please open a new thread on the %s and we'll respond as soon as "
 "possible."
 msgstr ""
-"Ensuite, veuillez ouvrir un nouveau fil sur le %s et nous vous répondrons "
-"dès que possible."
+"Ensuite, veuillez ouvrir un nouveau sujet sur %s et nous vous répondrons dès "
+"que possible."
 
 #: includes/settings/tabs/wps-about.php:70
 msgid "WordPress.org support forum"
@@ -137,7 +138,7 @@ msgstr "Forum de support de WordPress.org"
 
 #: includes/settings/tabs/wps-about.php:74
 msgid "Alternatively %s support is available as well."
-msgstr "Vous pouvez également soutien %s est également disponible."
+msgstr "Le support %s est également disponible."
 
 #: includes/settings/tabs/wps-access-level.php:85
 msgid "See the %s for details on capability levels."
@@ -577,7 +578,7 @@ msgstr "Tableau statistique hits"
 
 #: includes/log/hit-statistics.php:69 includes/log/widgets/hits.php:39
 msgid "Hits in the last"
-msgstr "Coups dans le dernier"
+msgstr "Visites dans les derniers"
 
 #: includes/log/last-search.php:30 includes/log/widgets/words.php:16
 #: includes/settings/tabs/wps-overview-display.php:36
@@ -1580,7 +1581,7 @@ msgstr "version %s"
 
 #: includes/log/hit-statistics.php:17 includes/log/widgets/hits.php:8
 msgid "Hit Statistics"
-msgstr "Frapper les statistiques"
+msgstr "Statistiques de visites"
 
 #: includes/log/exclusions.php:57 includes/log/hit-statistics.php:21
 #: includes/log/page-statistics.php:33 includes/log/search-statistics.php:21
