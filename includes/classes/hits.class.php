@@ -288,12 +288,17 @@
 
 					// Get the current page URI.
 					$page_uri = wp_statistics_get_uri();
+					
+					if( $this->get_option( 'strip_uri_parameters' ) ) {
+						$temp = explode( '?', $page_uri );
+						if( $temp !== false ) { $page_uri = $temp[0]; }
+					}
 
-					// If we have already been to this page today (a likely senerio), just update the count on the record.
+					// If we have already been to this page today (a likely scenario), just update the count on the record.
 					$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = '{$page_uri}'");
 
 					// If the update failed (aka the record doesn't exist), insert a new one.  Note this may drop a page hit if a race condition
-					// exists where two people load the same page a the roughly the same time.  In that case two insers would be attempted but
+					// exists where two people load the same page a the roughly the same time.  In that case two inserts would be attempted but
 					// there is a unique index requirement on the database and one of them would fail.
 					if( !$this->result ) {
 
