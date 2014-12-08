@@ -211,15 +211,17 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 = 8.5 =
 This is a security update release, please update as soon as possible.  In addition to the security fixes there are several new features, see the change log for details.
 
-= 8.3.1 =
-This is a security update release, please update as soon as possible.
-
 = 8.0 =
 PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
 BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.6 =
+* Added: Option to remove URI parameters from page tracking.
+* Fixed: Map dashboard widget fails when Google is selected as map provider.
+* Updated: French language.
+
 = 8.5.1 =
 * Fixed: Typo in last search page causing fatal error in PHP.
 
