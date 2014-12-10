@@ -50,6 +50,8 @@
 			// 		2 - IP/Subnets
 			//		3 - Self Referrals & login page
 			//		4 - User roles
+			//		5 - GeoIP rules
+			//		6 - Host name list
 			//
 			
 			// Get the upload directory from WordPRess.
@@ -153,7 +155,7 @@
 						if( $currentURL == $adminURL ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "admin page";}
 					}
 					
-					// Finally check to see if we are excluding based on the user role.
+					// Check to see if we are excluding based on the user role.
 					if( !$this->exclusion_match ) {
 						
 						if( is_user_logged_in() ) {
@@ -165,6 +167,57 @@
 									$this->exclusion_match = TRUE;
 									$this->exclusion_reason = "user role";
 									break;
+								}
+							}
+						}
+
+						// Check to see if we are excluded by the GeoIP rules.
+						if( !$this->exclusion_match ) {
+							// Grab the excluded/included countries lists, force the country codes to be in upper case to match what the GeoIP code uses.
+							$excluded_countries = explode( "\n", strtoupper($this->get_option('excluded_countries') ) );
+							$included_countries = explode( "\n", strtoupper($this->get_option('included_countries') ) );
+							
+							// Check to see if the current location is in the excluded countries list.
+							if( in_array( $this->location, $excluded_countries ) ) {
+								$this->exclusion_match = TRUE;
+								$this->exclusion_reason = "geoip";
+							} // Check to see if the current location is not the included countries list.
+							else if( !in_array( $this->location, $included_countries ) ) {
+								$this->exclusion_match = TRUE;
+								$this->exclusion_reason = "geoip";
+								break;
+							}
+
+							// Check to see if we are excluded by the host name.
+							if( !$this->exclusion_match ) {
+								$excluded_host = explode( "\n", $this->get_option('excluded_hosts') );
+								
+								// If there's nothing in the excluded host list, don't do anything.
+								if( count( $excluded_host ) > 0 ) {
+									$transient_name = 'wps_excluded_hostname_to_ip_cache';
+									
+									// Get the transient with the hostname cache.
+									$hostname_cache = get_transient( $transient_name );
+									
+									// If the transient has expired (or has never been set), create one now.
+									if( $hostname_cache === false ) {
+										// Flush the failed cache variable.
+										$hostname_cache = array();
+										
+										// Loop through the list of hosts and look them up.
+										foreach( $excluded_hosts as $host ) {
+											$hostname_cache[$host] = gethostbyname( $host );
+										}
+										
+										// Set the transient and store it for 1 hour.
+										set_transient( $transient_name, $hostname_cache, 360 );
+									}
+									
+									// Check if the current IP address matches one of the ones in the excluded hosts list.
+									if( in_array( $this->ip, $hostname_cache ) ) {
+										$this->exclusion_match = TRUE;
+										$this->exclusion_reason = "hostname";
+									}
 								}
 							}
 						}

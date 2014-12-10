@@ -212,7 +212,7 @@ if( $wps_nonce_valid ) {
 			<td>
 				<input id="strip_uri_parameters" type="checkbox" value="1" name="wps_strip_uri_parameters" <?php echo $WP_Statistics->get_option('strip_uri_parameters')==true? "checked='checked'":'';?>>
 				<label for="strip_uri_parameters"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('This will remove anything after the ? in a URL.  If you have multi page posts or other plugins that generate different content based on the uri parameters you should not activate this option or you may not track page hits correctly.', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('This will remove anything after the ? in a URL.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 <?php

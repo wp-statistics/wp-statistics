@@ -219,6 +219,8 @@ Support for old format substitution codes in the statistics reports has been rem
 == Changelog ==
 = 8.6 =
 * Added: Option to remove URI parameters from page tracking.
+* Added: GeoIP exclusion options.
+* Added: Host name exclusion options.
 * Fixed: Map dashboard widget fails when Google is selected as map provider.
 * Updated: French language.
 

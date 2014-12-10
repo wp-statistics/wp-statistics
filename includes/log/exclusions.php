@@ -12,8 +12,8 @@
 
 	$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 	
-	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role');
-	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole', 'Total' => 'total');
+	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname');
+	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole', 'Total' => 'total', 'GeoIP' => 'geoip', 'Hostname' => 'hostname');
 	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
