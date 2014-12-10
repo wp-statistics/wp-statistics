@@ -206,7 +206,10 @@
 										
 										// Loop through the list of hosts and look them up.
 										foreach( $excluded_hosts as $host ) {
-											$hostname_cache[$host] = gethostbyname( $host );
+											if( strpos( $host, '.' ) > 0 ) {
+												// We add the extra period to the end of the host name to make sure we don't append the local dns suffix to the resolution cycle.
+												$hostname_cache[$host] = gethostbyname( $host . ".");
+											}
 										}
 										
 										// Set the transient and store it for 1 hour.
