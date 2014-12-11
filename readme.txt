@@ -182,7 +182,7 @@ Do not use older versions of WP Statistics as they have know security issues and
 
 = I've decided to stay with WP Statistics 7.4 even though its a bad idea but now WordPress continuously reports there are updates available, how can I stop that? =
 
-Don't, upgrade immediatly to the latest version of WP Statistics.
+Don't, upgrade immediately to the latest version of WP Statistics.
 
 = Something has gone horribly wrong and my site no longer loads, how can I disable the plugin without access to the admin area? =
 
