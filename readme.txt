@@ -152,7 +152,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 = I've activated the plugin but the menus don't show up and nothing happens? =
 
-WP Statistics requires PHP 5.3, if it has detected an older version of PHP installed it will active but it will display an error on your plugin list just below the WP Statistics entry to let you know.
+WP Statistics requires PHP 5.3, if it has detected an older version of PHP installed it will active cleanly in WordPress but disable all functionality, you will have to upgrade to PHP 5.3 or above for it to function.  WP Statistics will display an error on your plugin list just below the WP Statistics entry to let you know.
 
 If there is no error message there may be something else wrong, your first thing to try is disabling your other plugins as they can sometimes cause conflicts.
 
@@ -215,6 +215,7 @@ Support for old format substitution codes in the statistics reports has been rem
 * Added: GeoIP exclusion options.
 * Added: Host name exclusion options.
 * Fixed: Map dashboard widget fails when Google is selected as map provider.
+* Fixed: Changing the statistical report schedule would not actually change the schedule unless you disabled and then enabled the statistical reports feature.
 * Updated: French language.
 
 = 8.5.1 =

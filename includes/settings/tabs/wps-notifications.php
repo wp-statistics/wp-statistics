@@ -3,6 +3,21 @@ $selist = wp_statistics_searchengine_list( true );
 
 if( $wps_nonce_valid ) {
 
+	// We need to handle a change in the report schedule manually, so check to see it has been set.
+	if( array_key_exists( 'wps_time_report', $_POST ) ) {
+		// If the report has been changed, we need to update the schedule.
+		if( $WP_Statistics->get_option('time_report') != $_POST['wps_time_report'] ) {
+			// Remove the old schedule if it exists.
+			if( wp_next_scheduled('report_hook') ) {
+				wp_unschedule_event(wp_next_scheduled('report_hook'), 'report_hook');
+			}
+
+			// Setup the new schedule, we could just let this fall through and let the code in schedule.php deal with it
+			// but that would require an extra page load to start the schedule so do it here instead.
+			wp_schedule_event(time(), $_POST['wps_time_report'], 'report_hook');
+		}
+	}
+
 	$wps_option_list = array("wps_stats_report","wps_time_report","wps_send_report","wps_content_report","wps_email_list","wps_browscap_report","wps_geoip_report","wps_prune_report","wps_upgrade_report");
 	
 	foreach( $wps_option_list as $option ) {
