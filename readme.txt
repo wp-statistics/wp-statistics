@@ -172,24 +172,17 @@ Services that use centralized databases, like Google Analytics, for spam and rob
 
 Since WP Statistics 8.0, PHP 5.3 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 8.0 and generates a parse error. 
 
-You have two choices:
-
-1. Upgrade your PHP to 5.3 or above (recommended)
-2. Downgrade WP Statistics to 7.4
-
 Your hosting provider should have a newer version of PHP available, sometimes you must activate it through your hosting control panel.
 
 Since the last release of PHP 5.2 is over 3 years ago (Jan 2011) and is no longer supported or receiving security fixes, if your provider does not support a newer version you should probably be moving hosting providers.
 
-Having said that if you cannot move to PHP 5.3 or above you can still use WP Statistics 7.4, which you can download (here)[https://downloads.wordpress.org/plugin/wp-statistics.7.4.zip] and install manually through the WordPress plugin installer.
-
 If you have done an upgrade and you can no longer access your site due to the parse error you will have to manually delete the wp-statistics directory from your wordpress/wp-content/plugins directory, either through your hosting providers control panel or FTP.
+
+Do not use older versions of WP Statistics as they have know security issues and will leave your site vulnerable to attack.
 
 = I've decided to stay with WP Statistics 7.4 even though its a bad idea but now WordPress continuously reports there are updates available, how can I stop that? =
 
-If you are staying on WP Statistics 7.4 WordPress will, through the Dashboard and Admin bar, let you know that a newer version is available.  However that can be annoying, there are some plugins in the WordPress directory to help though.
-
-(Disable Updates Manager)[https://wordpress.org/plugins/stops-core-theme-and-plugin-updates/] is one I found doing a quick search and lets you disable individual plugins from the update process.
+Don't, upgrade immediatly to the latest version of WP Statistics.
 
 = Something has gone horribly wrong and my site no longer loads, how can I disable the plugin without access to the admin area? =
 
