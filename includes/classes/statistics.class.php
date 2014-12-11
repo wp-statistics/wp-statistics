@@ -288,6 +288,12 @@
 			if( $agent['platform'] == null ) { $agent['platform'] = "Unknown"; }
 			if( $agent['version'] == null ) { $agent['version'] = "Unknown"; }
 			
+			// Uncommon browsers often have some extra cruft, like brackets, http:// and other strings that we can strip out.
+			$strip_strings = array('"', "'", '(', ')', ';', ':', '/', '[', ']', '{', '}', 'http' );
+			foreach( $agent as $key => $value ) {
+				$agent[$key] = str_replace( $strip_strings, '', $agent[$key] );
+			}
+			
 			return $agent;
 		}
 		
