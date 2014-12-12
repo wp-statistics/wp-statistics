@@ -185,7 +185,6 @@
 							else if( !in_array( $this->location, $included_countries ) ) {
 								$this->exclusion_match = TRUE;
 								$this->exclusion_reason = "geoip";
-								break;
 							}
 
 							// Check to see if we are excluded by the host name.
