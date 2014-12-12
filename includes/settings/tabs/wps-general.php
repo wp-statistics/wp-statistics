@@ -273,7 +273,7 @@ if( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('Search Enginges', 'wp_statistics'); ?></h3></th>
+			<th scope="row" colspan="2"><h3><?php _e('Search Engines', 'wp_statistics'); ?></h3></th>
 		</tr>
 		
 		<tr valign="top">
