@@ -175,7 +175,10 @@
 						if( !$this->exclusion_match ) {
 							// Grab the excluded/included countries lists, force the country codes to be in upper case to match what the GeoIP code uses.
 							$excluded_countries = explode( "\n", strtoupper($this->get_option('excluded_countries') ) );
-							$included_countries = explode( "\n", strtoupper($this->get_option('included_countries') ) );
+							$included_countries_string = trim( strtoupper($this->get_option('included_countries') ) ); 
+							
+							// We need to be really sure this isn't an empty string or explode will return an array with one entry instead of none.
+							if( $included_countries_string == '' ) { $included_countries = array(); } else { $included_countries = explode( "\n", $included_countries_string ); }
 							
 							// Check to see if the current location is in the excluded countries list.
 							if( in_array( $this->location, $excluded_countries ) ) {
@@ -204,7 +207,7 @@
 										$hostname_cache = array();
 										
 										// Loop through the list of hosts and look them up.
-										foreach( $excluded_hosts as $host ) {
+										foreach( $excluded_host as $host ) {
 											if( strpos( $host, '.' ) > 0 ) {
 												// We add the extra period to the end of the host name to make sure we don't append the local dns suffix to the resolution cycle.
 												$hostname_cache[$host] = gethostbyname( $host . ".");
