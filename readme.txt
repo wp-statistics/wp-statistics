@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 8.6
+Stable tag: 8.6.1
 License: GPL2
 
 Complete statistics for your WordPress site.
@@ -210,6 +210,9 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.6.1 =
+* Fixed: Spurious break statement in GeoIP exclusion code which caused a fatal error in certian cases.
+
 = 8.6 =
 * Added: Option to remove URI parameters from page tracking.
 * Added: GeoIP exclusion options.
