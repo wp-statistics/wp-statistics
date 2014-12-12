@@ -211,6 +211,7 @@ Support for old format substitution codes in the statistics reports has been rem
 
 == Changelog ==
 = 8.6.1 =
+* Added: Code to perform additional clean up of uncommon user agents.
 * Fixed: Spurious break statement in GeoIP exclusion code which caused a fatal error in certian cases.
 
 = 8.6 =
