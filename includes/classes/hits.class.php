@@ -182,7 +182,7 @@
 								$this->exclusion_match = TRUE;
 								$this->exclusion_reason = "geoip";
 							} // Check to see if the current location is not the included countries list.
-							else if( !in_array( $this->location, $included_countries ) ) {
+							else if( !in_array( $this->location, $included_countries ) && count( $included_countries ) > 0 ) {
 								$this->exclusion_match = TRUE;
 								$this->exclusion_reason = "geoip";
 							}
