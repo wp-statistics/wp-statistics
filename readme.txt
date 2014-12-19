@@ -210,6 +210,9 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.6.4 =
+* Fixed: Incorrect setting names for country include/excludes as well as hosts.
+
 = 8.6.3 =
 * Fixed: Really fix included countries code this time.
 * Fixed: Typo in excluded hosts code.
