@@ -6,7 +6,7 @@
 
 		$WP_Statistics->load_user_options();
 		
-		// We need to fudge the display settings for first time users so not all of the widgets are disaplyed, we only want to do this on
+		// We need to fudge the display settings for first time users so not all of the widgets are displayed, we only want to do this on
 		// the first time they visit the dashboard though so check to see if we've been here before.
 		if( !$WP_Statistics->get_user_option('dashboard_set') ) {
 			$WP_Statistics->update_user_option('dashboard_set', WP_STATISTICS_VERSION);
@@ -16,7 +16,7 @@
 			
 			$default_hidden = array('wp-statistics-browsers-widget','wp-statistics-countries-widget','wp-statistics-hitsmap-widget',
 									'wp-statistics-hits-widget','wp-statistics-pages-widget','wp-statistics-recent-widget','wp-statistics-referring-widget',
-									'wp-statistics-search-widget','wp-statistics-summary-widget','wp-statistics-words-widget' );
+									'wp-statistics-search-widget','wp-statistics-summary-widget','wp-statistics-words-widget', 'wp-statistics-top-visitors-widget' );
 			
 			foreach( $default_hidden as $widget ) {
 				if( !in_array( $widget, $hidden_widgets ) ) {
@@ -25,6 +25,26 @@
 			}
 			
 			update_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets );
+		}
+		else if( $WP_Statistics->get_user_option('dashboard_set') != WP_STATISTICS_VERSION ) {
+			// We also have to fudge things when we add new widgets to the code base.
+			if( version_compare( $WP_Statistics->get_user_option('dashboard_set'), '8.7', '<' ) ) {
+			
+				$WP_Statistics->update_user_option('dashboard_set', WP_STATISTICS_VERSION);
+				
+				$hidden_widgets = get_user_meta($WP_Statistics->user_id, 'metaboxhidden_dashboard', true);
+				if( !is_array( $hidden_widgets ) ) { $hidden_widgets = array(); }
+				
+				$default_hidden = array('wp-statistics-top-visitors-widget' );
+				
+				foreach( $default_hidden as $widget ) {
+					if( !in_array( $widget, $hidden_widgets ) ) {
+						$hidden_widgets[] = $widget;
+					}
+				}
+				
+				update_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets );
+			}
 		}
 		
 		// If the user does not have at least read access to the status plugin, just return without adding the widgets.
@@ -43,6 +63,7 @@
 			wp_add_dashboard_widget( 'wp-statistics-search-widget', __('Search Engine Referrals', 'wp_statistics'), 'wp_statistics_search_widget', $control_callback = null );
 			wp_add_dashboard_widget( 'wp-statistics-summary-widget', __('Summary', 'wp_statistics'), 'wp_statistics_summary_widget', $control_callback = null );
 			wp_add_dashboard_widget( 'wp-statistics-words-widget', __('Latest Search Words', 'wp_statistics'), 'wp_statistics_words_widget', $control_callback = null );
+			wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __('Top 10 Visitors Today', 'wp_statistics'), 'wp_statistics_top_visitors_widget', $control_callback = null );
 		}
 	}
 
@@ -295,5 +316,21 @@
 		wp_statistics_generate_words_postbox_content($ISOCountryCode);
 	}
 	
+	function wp_statistics_top_visitors_widget() {
+		GLOBAL $WP_Statistics;
+
+		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
+		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-top-visitors-widget', 'dashboard' ) ) !== true ) { echo $is_visible; return; }
+		
+		// Load the css we use for the statistics pages.
+		wp_statistics_load_widget_css_and_scripts();
+		
+		// Include the summary widget, we're just going to use the content for the the users online and visit/visitor totals.
+		include_once( dirname( __FILE__ ) . "/includes/functions/country-codes.php");
+		
+		include_once( dirname( __FILE__ ) . "/includes/log/widgets/top.visitors.php");
+
+		wp_statistics_generate_top_visitors_postbox_content($ISOCountryCodes, 'today', 10, true);
+	}
 	
 ?>

@@ -134,13 +134,13 @@ License: GPL2
 		if( $WP_Statistics->get_option('useronline') )
 			$h->Check_online();
 
-		// Call the visit tracking code.
-		if( $WP_Statistics->get_option('visits') )
-			$h->Visits();
-
 		// Call the visitor tracking code.
 		if( $WP_Statistics->get_option('visitors') )
 			$h->Visitors();
+
+		// Call the visit tracking code.
+		if( $WP_Statistics->get_option('visits') )
+			$h->Visits();
 
 		// Call the page tracking code.
 		if( $WP_Statistics->get_option('pages') )
@@ -270,6 +270,7 @@ License: GPL2
 		add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), $read_cap, 'wps_referers_menu', 'wp_statistics_log_referers');
 		add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log_searches');
 		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log_words');
+		add_submenu_page(__FILE__, __('Top Visitors Today', 'wp_statistics'), __('Top Visitors Today', 'wp_statistics'), $read_cap, 'wps_top_visitors_menu', 'wp_statistics_top_visitors');
 		add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, 'wps_visitors_menu', 'wp_statistics_log_visitors');
 		add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview');
 		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
@@ -447,6 +448,11 @@ License: GPL2
 		wp_statistics_log('online');
 	}
 	
+	function wp_statistics_top_visitors() {
+
+		wp_statistics_log('top-visitors');
+	}
+	
 	// This is the main statistics display function/
 	function wp_statistics_log( $log_type = "" ) {
 		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
@@ -539,6 +545,9 @@ License: GPL2
 
 			include_once dirname( __FILE__ ) . '/includes/log/online.php';
 			
+		} else if( $log_type == 'top-visitors' ) {
+
+			include_once dirname( __FILE__ ) . '/includes/log/top-visitors.php';
 			
 		} else if( $log_type == 'top-pages' ) {
 

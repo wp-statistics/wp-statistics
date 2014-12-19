@@ -147,28 +147,28 @@
 			
 				break;
 			case 3:
-			case 'top.visitors':
-				wp_statistics_generate_top_visitors_postbox($ISOCountryCode, $search_engines);
-			
-				break;
-			case 4:
 			case 'search':
 				wp_statistics_generate_search_postbox($ISOCountryCode, $search_engines);
 			
 				break;
-			case 5:
+			case 4:
 			case 'words':
 				wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines);
 			
 				break;
-			case 6:
+			case 5:
 			case 'pages':
 				wp_statistics_generate_pages_postbox($ISOCountryCode, $search_engines);
 			
 				break;
-			case 7:
+			case 6:
 			case 'recent':
 				wp_statistics_generate_recent_postbox($ISOCountryCode, $search_engines);
+			
+				break;
+			case 7:
+			case 'top.visitors':
+				wp_statistics_generate_top_visitors_postbox($ISOCountryCode, $search_engines);
 			
 				break;
 			default:
