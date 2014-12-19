@@ -29,13 +29,14 @@
 	);
 	
 	$column_b_list = array(
-		'none'		=> __('None', 'wp_statistics'),
-		'map' 		=> __('Map', 'wp_statistics'),
-		'hits' 		=> __('Hits Statistical Chart', 'wp_statistics'),
-		'search' 	=> __('Search Engine Referrers Statistical Chart', 'wp_statistics'),
-		'words' 	=> __('Latest Search Words', 'wp_statistics'),
-		'pages' 	=> __('Top Pages Visited', 'wp_statistics'),
-		'recent' 	=> __('Recent Visitors', 'wp_statistics'),
+		'none'			=> __('None', 'wp_statistics'),
+		'map' 			=> __('Map', 'wp_statistics'),
+		'hits' 			=> __('Hits Statistical Chart', 'wp_statistics'),
+		'top.visitors' 	=> __('Top 10 Visitors Today', 'wp_statistics'),
+		'search' 		=> __('Search Engine Referrers Statistical Chart', 'wp_statistics'),
+		'words' 		=> __('Latest Search Words', 'wp_statistics'),
+		'pages' 		=> __('Top Pages Visited', 'wp_statistics'),
+		'recent' 		=> __('Recent Visitors', 'wp_statistics'),
 	);
 	
 	if( $wps_nonce_valid ) {
@@ -49,12 +50,12 @@
 			$WP_Statistics->store_option($new_option, $value);
 		}
 		
-		for( $i = 1; $i < 6; $i++ ) {
+		for( $i = 1; $i < count( $column_a_list ); $i++ ) {
 			$display_array['A'][$i] = '';
 			if( array_key_exists( $_POST['wps_display']['A'][$i], $column_a_list) ) { $display_array['A'][$i] = $_POST['wps_display']['A'][$i]; }
 		}
 		
-		for( $i = 1; $i < 7; $i++) {
+		for( $i = 1; $i < count( $column_b_list ); $i++) {
 			$display_array['B'][$i] = '';
 			if( array_key_exists( $_POST['wps_display']['B'][$i], $column_b_list) ) { $display_array['B'][$i] = $_POST['wps_display']['B'][$i]; }
 		}
@@ -353,6 +354,28 @@ if( $wps_admin ) {
 					foreach( $column_b_list as $key => $value ) {
 						echo "<option value=\"$key\"";
 						if( $WP_Statistics->user_options['overview_display']['B'][6] == $key ) { echo ' SELECTED'; }
+						echo ">$value</option>";
+					}
+				?>
+				</select>
+			</td>
+		</tr>
+		
+		<tr valign="top">
+			<th scope="row">
+				<?php _e('Slot 7', 'wp_statistics'); ?>
+			</th>
+			
+			<td>
+				<?php _e('N/A', 'wp_statistics');?>
+			</td>
+			
+			<td>
+				<select name="wps_display[B][7]">
+				<?php
+					foreach( $column_b_list as $key => $value ) {
+						echo "<option value=\"$key\"";
+						if( $WP_Statistics->user_options['overview_display']['B'][7] == $key ) { echo ' SELECTED'; }
 						echo ">$value</option>";
 					}
 				?>
