@@ -309,8 +309,13 @@
 					// Store the result.
 					// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
 					// for this IP address we want to do an "INSERT IGNORE" which WordPress doesn't support.
-					$sqlstring = $this->db->prepare( 'INSERT IGNORE INTO ' . $this->tb_prefix . 'statistics_visitor (last_counter, referred, agent, platform, version, ip , location, UAString) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)', $this->Current_date('Y-m-d'), $this->get_Referred(), $this->agent['browser'], $this->agent['platform'], $this->agent['version'], $this->ip_hash ? $this->ip_hash : $this->ip, $this->location, $ua );
+					$sqlstring = $this->db->prepare( 'INSERT IGNORE INTO ' . $this->tb_prefix . 'statistics_visitor (last_counter, referred, agent, platform, version, ip, location, UAString, hits) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, 1)', $this->Current_date('Y-m-d'), $this->get_Referred(), $this->agent['browser'], $this->agent['platform'], $this->agent['version'], $this->ip_hash ? $this->ip_hash : $this->ip, $this->location, $ua );
 				
+					$this->db->query( $sqlstring );
+				}
+				else {
+					$sqlstring = $this->db->prepare( 'UPDATE ' . $this->tb_prefix . 'statistics_visitor SET `hits` = `hits` + 1 WHERE `ID` = %d', $this->result->ID );
+
 					$this->db->query( $sqlstring );
 				}
 			} else {
