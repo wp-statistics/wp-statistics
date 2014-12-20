@@ -38,6 +38,7 @@
 			ip varchar(60) NOT NULL,
 			location varchar(10),
 			hits int(11),
+			honeypot int(11),
 			PRIMARY KEY  (ID),
 			UNIQUE KEY date_ip_agent (last_counter,ip,agent (75),platform (75),version (75)),
 			KEY agent (agent),

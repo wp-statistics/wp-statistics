@@ -113,6 +113,18 @@ License: GPL2
 		}
 	}
 
+	// Add the honey trap code in the footer.
+	add_action('wp_footer', 'wp_statistics_footer_action');
+	
+	function wp_statistics_footer_action() {
+		GLOBAL $WP_Statistics;
+
+		if( $WP_Statistics->get_option( 'use_honeypot' ) && $WP_Statistics->get_option( 'honeypot_postid' ) > 0 ) {
+			$post_url = get_permalink( $WP_Statistics->get_option( 'honeypot_postid' ) );
+			echo '<a href="' . $post_url . '" style="display: none;">&nbsp;</a>';
+		}
+	}
+	
 	// We can wait until the very end of the page to process the statistics, that way the page loads and displays
 	// quickly.
 	add_action('shutdown', 'wp_statistics_shutdown_action');

@@ -12,8 +12,8 @@
 
 	$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 	
-	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname');
-	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole', 'Total' => 'total', 'GeoIP' => 'geoip', 'Hostname' => 'hostname');
+	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot');
+	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot');
 	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
@@ -21,7 +21,7 @@
 	
 		// The reasons array above is used both for display and internal purposes.  Internally the values are all lower case but the array
 		// is created with mixed case so it looks nice to the user.  Therefore we have to convert it to lower case here.
-		$thisreason = strtolower( $reason );
+		$thisreason = strtolower( $excluded_reason_tags[$reason] );
 		
 		for( $i=$daysToDisplay; $i>=0; $i--) {
 		

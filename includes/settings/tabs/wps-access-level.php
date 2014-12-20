@@ -15,7 +15,18 @@ if( $wps_nonce_valid ) {
 
 	}
 
-	$wps_option_list = array_merge( $wps_option_list, array('wps_read_capability','wps_manage_capability','wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts' ) );
+	if( array_key_exists( 'wps_create_honeypot', $_POST ) ) {
+		$my_post = array(
+		  'post_title'    => 'WP Statistics Honey Post Post [' . $WP_Statistics->Current_Date() . ']',
+		  'post_content'  => 'This is the honey pot for WP Statistics to use, do not delete.',
+		  'post_status'   => 'publish',
+		  'post_author'   => 1,
+		);
+	
+		$_POST['wps_honeypot_postid'] = wp_insert_post( $my_post );
+	}
+	
+	$wps_option_list = array_merge( $wps_option_list, array('wps_read_capability','wps_manage_capability','wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid' ) );
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
@@ -156,6 +167,14 @@ if( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top">
+			<th scope="row"><label for="robot_threshold"><?php _e('Robot visit threshold', 'wp_statistics'); ?>:</label></th>
+			<td>
+				<input id="robot_threshold" type="text" value="0" size="5" name="wps_robot_threshold" <?php echo $WP_Statistics->get_option('robot_threshold');?>>
+				<p class="description"><?php echo __('Treat visitors with more than this number of visits per day as robots.  0 = disabled.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
+		<tr valign="top">
 			<th scope="row"><?php _e('Excluded IP address list', 'wp_statistics'); ?>:</th>
 			<td>
 				<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('exclude_ip');?></textarea>
@@ -163,6 +182,23 @@ if( $wps_nonce_valid ) {
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n10.0.0.0/8' ); }" class="button"><?php _e('Add 10.0.0.0', 'wp_statistics');?></a>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n172.16.0.0/12' ); }" class="button"><?php _e('Add 172.16.0.0', 'wp_statistics');?></a>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n192.168.0.0/16' ); }" class="button"><?php _e('Add 192.168.0.0', 'wp_statistics');?></a>
+			</td>
+		</tr>
+
+		<tr valign="top">
+			<th scope="row"><?php _e('Use honey pot', 'wp_statistics'); ?>:</th>
+			<td>
+				<input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo $WP_Statistics->get_option('use_honeypot')==true? "checked='checked'":'';?>><label for="wps_use_honeypot"><?php _e('Enable', 'wp_statistics'); ?></label>
+				<p class="description"><?php echo __('Use a honey pot page to identify robots.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
+		<tr valign="top">
+			<th scope="row"><label for="honeypot_postid"><?php _e('Honey pot post id', 'wp_statistics'); ?>:</label></th>
+			<td>
+				<input id="wps_honeypot_postid" type="text" value="<?php echo $WP_Statistics->get_option('honeypot_postid');?>" size="5" name="wps_honeypot_postid">
+				<p class="description"><?php echo __('The post id to use for the honeypot page.', 'wp_statistics'); ?></p>
+				<input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"><label for="wps_create_honeypot"><?php _e('Create a new honey pot post', 'wp_statistics'); ?></label>
 			</td>
 		</tr>
 

@@ -18,12 +18,13 @@
 		private $exclusion_record = FALSE;
 		private $timestamp;
 		private $second;
+		private $current_page_id;
 	
 		// Construction function.
 		public function __construct() {
 
 			global $wp_version;
-
+					
 			// Call the parent constructor (WP_Statistics::__construct)
 			parent::__construct();
 			
@@ -46,14 +47,14 @@
 			// The follow exclusion checks are done during the class construction so we don't have to execute them twice if we're tracking visits and visitors.
 			//
 			// Order of exclusion checks is:
-			//		1 - robots
+			//		1 - Robots
 			// 		2 - IP/Subnets
 			//		3 - Self Referrals & login page
 			//		4 - User roles
 			//		5 - GeoIP rules
 			//		6 - Host name list
 			//
-			
+
 			// Get the upload directory from WordPRess.
 			$upload_dir = wp_upload_dir();
 			 
@@ -288,9 +289,20 @@
 		
 		// This function records unique visitors to the site.
 		public function Visitors() {
-	
+			global $wp_query;
+
+			// Get the pages or posts ID if it exists.
+			$this->current_page_id = $wp_query->get_queried_object_id();
+
+			if( $this->get_option( 'use_honeypot' ) && $this->get_option( 'honeypot_postid') > 0 && $this->get_option( 'honeypot_postid' ) == $this->current_page_id ) {
+				$this->exclusion_match = TRUE;
+				$this->exclusion_reason = "honeypot";
+			}
+			
 			// If we're a webcrawler or referral from ourselves or an excluded address don't record the visit.
-			if( !$this->exclusion_match ) {
+			// The exception here is if we've matched a honey page, we want to lookup the user and flag them
+			// as having been trapped in the honey pot for later exclusions.
+			if( $this->exclusion_reason == 'honeypot' || !$this->exclusion_match ) {
 
 				// Check to see if we already have an entry in the database.
 				if( $this->ip_hash != false ) {
@@ -300,55 +312,78 @@
 					$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'");
 				}
 				
+				// Check to see if this is a visit to the honey pot page, flag it when we create the new entry.
+				$honeypot = 0;
+				if( $this->exclusion_reason == 'honeypot' ) { $honeypot = 1; }
+					
 				// If we don't create a new one, otherwise update the old one.
 				if( !$this->result ) {
 
 					// If we've been told to store the entire user agent, do so.
 					if( $this->get_option('store_ua') == true ) { $ua = $_SERVER['HTTP_USER_AGENT']; } else { $ua = ''; }
-					
+
 					// Store the result.
 					// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
 					// for this IP address we want to do an "INSERT IGNORE" which WordPress doesn't support.
-					$sqlstring = $this->db->prepare( 'INSERT IGNORE INTO ' . $this->tb_prefix . 'statistics_visitor (last_counter, referred, agent, platform, version, ip, location, UAString, hits) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, 1)', $this->Current_date('Y-m-d'), $this->get_Referred(), $this->agent['browser'], $this->agent['platform'], $this->agent['version'], $this->ip_hash ? $this->ip_hash : $this->ip, $this->location, $ua );
+					$sqlstring = $this->db->prepare( 'INSERT IGNORE INTO ' . $this->tb_prefix . 'statistics_visitor (last_counter, referred, agent, platform, version, ip, location, UAString, hits, honeypot) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, 1)', $this->Current_date('Y-m-d'), $this->get_Referred(), $this->agent['browser'], $this->agent['platform'], $this->agent['version'], $this->ip_hash ? $this->ip_hash : $this->ip, $this->location, $ua, $honeypot );
 				
 					$this->db->query( $sqlstring );
 				}
 				else {
-					$sqlstring = $this->db->prepare( 'UPDATE ' . $this->tb_prefix . 'statistics_visitor SET `hits` = `hits` + 1 WHERE `ID` = %d', $this->result->ID );
-
-					$this->db->query( $sqlstring );
-				}
-			} else {
-				if( $this->exclusion_record == TRUE ) {
-					$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_exclusions SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `reason` = '{$this->exclusion_reason}'");
-
-					if( !$this->result ) {
-						$this->db->insert(
-							$this->tb_prefix . "statistics_exclusions",
-							array(
-								'date'		=>	$this->Current_date('Y-m-d'),
-								'reason'	=>	$this->exclusion_reason,
-								'count'		=> 	1
-							)
-						);
+					// Normally we've done all of our exclusion matching during the class creation, however for the robot threshold is calculated here to avoid another call the database.				
+					if( $this->get_option( 'robot_threshold' ) > 0 && $this->result->hits + 1 > $this->get_option( 'robot_threshold' ) ) {
+						$this->exclusion_match = TRUE;
+						$this->exclusion_reason = "robot_threshold";
+					}
+					else if( $this->result->honeypot == 1 ) {
+						$this->exclusion_match = TRUE;
+						$this->exclusion_reason = "honeypot";
+					}
+					else {
+					
+						$sqlstring = $this->db->prepare( 'UPDATE ' . $this->tb_prefix . 'statistics_visitor SET `hits` = `hits` + %d, `honeypot` = %d WHERE `ID` = %d', 1 - $honeypot, $honeypot, $this->result->ID );
+					
+						$this->db->query( $sqlstring );
 					}
 				}
+			} 
+			
+			if( $this->exclusion_match ) {
+				$this->RecordExclusion();
 			}
 		}
 
+		private function RecordExclusion() {
+			// If we're not storing exclusions, just return.
+			if( $this->exclusion_record != TRUE ) { return; }
+			$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_exclusions SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `reason` = '{$this->exclusion_reason}'");
+
+			if( !$this->result ) {
+				$this->db->insert(
+					$this->tb_prefix . "statistics_exclusions",
+					array(
+						'date'		=>	$this->Current_date('Y-m-d'),
+						'reason'	=>	$this->exclusion_reason,
+						'count'		=> 	1
+					)
+				);
+			}
+		}
+		
 		// This function records page hits.
 		public function Pages() {
-	
+			global $wp_query;
+
 			// If we're a webcrawler or referral from ourselves or an excluded address don't record the page hit.
 			if( !$this->exclusion_match ) {
 
 				// Don't track anything but actual pages and posts, unless we've been told to.
 				if( $this->get_option('track_all_pages') || is_page() || is_single() || is_front_page() ) {
-					global $wp_query;
-					
-					// Many of the URI's we hit will be pages or posts, get their ID if it exists.
-					$current_page_id = $wp_query->get_queried_object_id();
-
+					// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
+					if( !$this->current_page_id ) {
+						$this->current_page_id = $wp_query->get_queried_object_id();
+					}
+	
 					// Get the current page URI.
 					$page_uri = wp_statistics_get_uri();
 					
@@ -371,7 +406,7 @@
 								'uri'		=>	$page_uri,
 								'date'		=>	$this->Current_date('Y-m-d'),
 								'count'		=>	1,
-								'id'		=>	$current_page_id
+								'id'		=>	$this->current_page_id
 								)
 							);
 					}
