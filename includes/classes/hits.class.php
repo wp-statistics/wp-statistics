@@ -373,6 +373,9 @@
 						if( $temp !== false ) { $page_uri = $temp[0]; }
 					}
 
+					// Limit the URI length to 255 characters, otherwise we may overrun the SQL field size.
+					$page_uri = substr( $page_uri, 0, 255);
+					
 					// If we have already been to this page today (a likely scenario), just update the count on the record.
 					$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = '{$page_uri}'");
 
