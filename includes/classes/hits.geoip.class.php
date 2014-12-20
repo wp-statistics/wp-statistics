@@ -40,5 +40,25 @@
 			
 			// Store the location in the protected $location variable from the parent class.
 			$this->location = $location;
+			
+			// Check to see if we are excluded by the GeoIP rules.
+			if( !$this->exclusion_match ) {
+				// Grab the excluded/included countries lists, force the country codes to be in upper case to match what the GeoIP code uses.
+				$excluded_countries = explode( "\n", strtoupper($this->get_option('excluded_countries') ) );
+				$included_countries_string = trim( strtoupper($this->get_option('included_countries') ) ); 
+				
+				// We need to be really sure this isn't an empty string or explode will return an array with one entry instead of none.
+				if( $included_countries_string == '' ) { $included_countries = array(); } else { $included_countries = explode( "\n", $included_countries_string ); }
+				
+				// Check to see if the current location is in the excluded countries list.
+				if( in_array( $this->location, $excluded_countries ) ) {
+					$this->exclusion_match = TRUE;
+					$this->exclusion_reason = "geoip";
+				} // Check to see if the current location is not the included countries list.
+				else if( !in_array( $this->location, $included_countries ) && count( $included_countries ) > 0 ) {
+					$this->exclusion_match = TRUE;
+					$this->exclusion_reason = "geoip";
+				}
+			}
 		}
 	}
