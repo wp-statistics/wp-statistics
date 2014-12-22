@@ -46,7 +46,7 @@
 										
 										echo "<tr>";
 										echo "<td style='text-align: left'>$i</td>";
-										echo "<td style='text-align: left'>{$visitor->hits}</td>";
+										echo "<td style='text-align: left'>" . (int)$visitor->hits . "</td>";
 										echo "<td style='text-align: left'><img src='".plugins_url('wp-statistics/assets/images/flags/' . $item . '.png')."' title='{$ISOCountryCode[$item]}'/></td>";
 										echo "<td style='text-align: left'>{$ISOCountryCode[$item]}</td>";
 										echo "<td style='text-align: left'>{$visitor->ip}</td>";
