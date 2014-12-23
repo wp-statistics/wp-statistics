@@ -97,6 +97,7 @@
 									bringSeriesToFront: true,
 									tooltipAxes: 'xy',
 									formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
+									tooltipContentEditor: tooltipContentEditor,
 								},
 								grid: {
 								 drawGridlines: true,
@@ -106,6 +107,11 @@
 								 shadowColor: 'transparent'
 								},
 							} );
+							
+							function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
+								// display series_label, x-axis_tick, y-axis value
+								return plot.legend.labels[seriesIndex] + ", " + str;;
+							}
 							
 							jQuery(window).resize(function() {
 								JQPlotVisitChartLengendClickRedraw()
