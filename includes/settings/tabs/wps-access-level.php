@@ -17,10 +17,11 @@ if( $wps_nonce_valid ) {
 
 	if( array_key_exists( 'wps_create_honeypot', $_POST ) ) {
 		$my_post = array(
-		  'post_title'    => 'WP Statistics Honey Post Post [' . $WP_Statistics->Current_Date() . ']',
-		  'post_content'  => 'This is the honey pot for WP Statistics to use, do not delete.',
-		  'post_status'   => 'publish',
-		  'post_author'   => 1,
+			'post_type' 	=> 'page',
+			'post_title'    => __('WP Statistics Honey Page', 'wp_statistics' ) . ' [' . $WP_Statistics->Current_Date() . ']',
+			'post_content'  => __('This is the honey pot for WP Statistics to use, do not delete.', 'wp_statistics' ),
+			'post_status'   => 'publish',
+			'post_author'   => 1,
 		);
 	
 		$_POST['wps_honeypot_postid'] = wp_insert_post( $my_post );
@@ -198,7 +199,7 @@ if( $wps_nonce_valid ) {
 			<td>
 				<input id="wps_honeypot_postid" type="text" value="<?php echo $WP_Statistics->get_option('honeypot_postid');?>" size="5" name="wps_honeypot_postid">
 				<p class="description"><?php echo __('The post id to use for the honeypot page.', 'wp_statistics'); ?></p>
-				<input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"><label for="wps_create_honeypot"><?php _e('Create a new honey pot post', 'wp_statistics'); ?></label>
+				<input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"><label for="wps_create_honeypot"><?php _e('Create a new honey pot page', 'wp_statistics'); ?></label>
 			</td>
 		</tr>
 
