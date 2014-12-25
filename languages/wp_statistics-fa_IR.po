@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wordpress Statistics\n"
-"POT-Creation-Date: 2014-12-24 22:46+0330\n"
-"PO-Revision-Date: 2014-12-24 23:33+0330\n"
+"POT-Creation-Date: 2014-12-25 17:49+0330\n"
+"PO-Revision-Date: 2014-12-25 18:04+0330\n"
 "Last-Translator: \n"
 "Language-Team:  <mst404@gmail.com>\n"
 "Language: fa\n"
@@ -91,7 +91,7 @@ msgstr "10 بازدیدکنندگان برتر امروز"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:97
 msgid "Please reload the dashboard to display the content of this widget."
-msgstr ""
+msgstr "برای مشاهده محتوای ابزارک، صفحه را یکبار بارگزاری مجدد کنید."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:138
 msgid "WP Statistics Overview"
@@ -490,7 +490,7 @@ msgstr "100 بازدیدکنندگان برتر امروز"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:8
 #, php-format
 msgid "About WP Statistics Version %s"
-msgstr "درباره آمار وپ نسخه %s"
+msgstr "درباره افزونه آمار وردپرس، نسخه %s"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:25
 msgid "Website"
@@ -668,8 +668,8 @@ msgid ""
 "database tables or other core items, this will re-execute the install "
 "process."
 msgstr ""
-"اگر به هر دلیلی خود را نصب وپ آمار جداول پایگاه داده یا موارد دیگر هسته از "
-"دست رفته است این فرایند نصب دوباره اجرا خواهد شد."
+"اگر به هر دلیلی خود را نصب افزونه آمار جداول پایگاه داده یا موارد دیگر هسته "
+"از دست رفته است این فرایند نصب دوباره اجرا خواهد شد."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
@@ -1306,28 +1306,36 @@ msgstr "انجمن پشتیبانی %s ما، راه دیگری است که هم
 msgid "Farsi"
 msgstr "فارسی"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:21
+msgid "WP Statistics Honey Page"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:22
+msgid "This is the honey pot for WP Statistics to use, do not delete."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:45
 msgid "Access Levels"
 msgstr "سطح دسترسی"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:74
 msgid "Required user level to view WP Statistics"
 msgstr "سطح کاربری مورد نیاز برای مشاهده آمارگیر وردپرس"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:89
 msgid "Required user level to manage WP Statistics"
 msgstr "سطح کاربری مورد نیاز برای مدیریت آمارگیر وردپرس"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:96
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:97
 #, php-format
 msgid "See the %s for details on capability levels."
 msgstr "مشاهده جزئیات %s سطح توانایی."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:96
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:97
 msgid "WordPress Roles and Capabilities page"
 msgstr "صفحه وردپرس نقش و توانایی"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:98
 msgid ""
 "Hint: manage_network = Super Admin Network, manage_options = Administrator, "
 "edit_others_posts = Editor, publish_posts = Author, edit_posts = "
@@ -1336,7 +1344,7 @@ msgstr ""
 "نکته: manage_network = مدیر شبکه، manage_options = مدیر، edit_others_posts = "
 "ویرایشگر، publish_posts = نویسنده، edit_posts = مشارکت‌کننده، read = همه."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:98
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:99
 msgid ""
 "Each of the above casscades the rights upwards in the default WordPress "
 "configuration.  So for example selecting publish_posts grants the right to "
@@ -1345,7 +1353,7 @@ msgstr ""
 "هریک از موارد به‌صورت پیش‌فرض در وردپرس تعریف شده‌اند. به‌عنوان مثال با انتخاب "
 "publish_posts به نویسنده‌گاه، ویرایشگر‌ها، مدیر و مدیرکلی دسترسی اعطا می‌گردد."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:100
 #, php-format
 msgid ""
 "If you need a more robust solution to delegate access you might want to look "
@@ -1354,22 +1362,22 @@ msgstr ""
 "اگر نیاز به راه‌حل‌های بیشتری در رابطه با نقش‌های کاربری وردپرس داشتید، نگاهی "
 "به افزونه %s بیندازید."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:104
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:105
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:278
 msgid "Exclusions"
 msgstr "استثنائات"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:108
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:109
 msgid "Record exclusions"
 msgstr "رکوردهای استثناء"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:110
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:164
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:191
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:111
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:192
 msgid "Enable"
 msgstr "فعال"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:111
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:112
 msgid ""
 "This will record all the excluded hits in a separate table with the reasons "
 "why it was excluded but no other information.  This will generate a lot of "
@@ -1380,30 +1388,30 @@ msgstr ""
 "جدول دیگر. می‌تواند مقدار زیادی داده تولید شود، درعوض مفید خواهد بود و "
 "می‌توانید آمار دقیق بازدید و بازدیدکننده‌تان را به دست آورید."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:117
 msgid "Exclude User Roles"
 msgstr "محروم‌کردن نقش‌های کاربری"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:132
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:246
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:253
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:254
 msgid "Exclude"
 msgstr "محروم"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:134
 #, php-format
 msgid "Exclude %s role from data collection."
 msgstr "محروم کردن نقش کاربری %s از محاسبه در آمار"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:140
 msgid "IP/Robot Exclusions"
 msgstr "محرومیت‌های آی‌پی/ربات"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:143
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:144
 msgid "Robot list"
 msgstr "لیست روبات‌ها"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:156
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:157
 msgid ""
 "A list of words (one per line) to match against to detect robots.  Entries "
 "must be at least 4 characters long or they will be ignored."
@@ -1411,15 +1419,15 @@ msgstr ""
 "یک لیست از کلمات برای مقایسه و شناسایی ربات‌ها (در هر خط یک کلمه وارد شود). "
 "ورودی‌ها باید حداقل دارای 4 کارکتر باشد."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:157
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:158
 msgid "Reset to Default"
 msgstr "بازگشت به حالت پیش‌فرض"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:162
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:163
 msgid "Force robot list update after upgrades"
 msgstr "به‌روز رسانی لیست روبات‌ها پس از ارتقاء"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:166
 msgid ""
 "Force the robot list to be reset to the default after an update to WP "
 "Statistics takes place.  Note if this option is enabled any custom robots "
@@ -1428,21 +1436,21 @@ msgstr ""
 "لیست روبات‌ها بعد از به‌روز رسانی ریست می‌شود. توجه داشته باشید اگر این گزینه "
 "فعال باشد لیست سفارشی شما از دست خواهد رفت."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:170
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:171
 msgid "Robot visit threshold"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:173
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:174
 msgid ""
 "Treat visitors with more than this number of visits per day as robots.  0 = "
 "disabled."
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:178
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:179
 msgid "Excluded IP address list"
 msgstr "لیست آدرس آی‌پی‌های محروم"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:182
 msgid ""
 "A list of IP addresses and subnet masks (one per line) to exclude from "
 "statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
@@ -1453,58 +1461,58 @@ msgstr ""
 "آمارگیر (هردو فرمت 192.168.0.0/24 و 192.168.0.0/255.255.255.0 قابل قبول). "
 "برای مشخص کردن تنها یک آدرس آی‌پی نیازی نیست Subnet Mask را اضافه کنید."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:182
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:183
 msgid "Add 10.0.0.0"
 msgstr "افزودن 10.0.0.0"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:183
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:184
 msgid "Add 172.16.0.0"
 msgstr "افزودن 172.16.0.0"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:184
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:185
 msgid "Add 192.168.0.0"
 msgstr "افزودن 192.168.0.0"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:190
 msgid "Use honey pot"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:192
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:193
 msgid "Use a honey pot page to identify robots."
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:197
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:198
 msgid "Honey pot post id"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:200
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:201
 msgid "The post id to use for the honeypot page."
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:201
-msgid "Create a new honey pot post"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:202
+msgid "Create a new honey pot page"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:206
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:207
 msgid "GeoIP Exclusions"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:210
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:211
 msgid "Excluded countries list"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:213
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:214
 msgid ""
 "A list of country codes (one per line, two letters each) to exclude from "
 "statistics collection.  Use \"000\" (three zeros) to exclude unknown "
 "countries."
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:218
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:219
 msgid "Included countries list"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:221
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:222
 msgid ""
 "A list of country codes (one per line, two letters each) to include in "
 "statistics collection, if this list is not empty, only visitors from the "
@@ -1512,21 +1520,21 @@ msgid ""
 "unknown countries."
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:226
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:227
 msgid "Host Exclusions"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:230
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:231
 msgid "Excluded hosts list"
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:233
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:234
 msgid ""
 "A list of fully qualified host names (ie. server.example.com, one per line) "
 "to exclude from statistics collection."
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:235
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:236
 msgid ""
 "Note: this option will NOT perform a reverse DNS lookup on each page load "
 "but instead cache the IP address for the provided hostnames for one hour.  "
@@ -1535,23 +1543,23 @@ msgid ""
 "resulting in some hits recorded."
 msgstr ""
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:240
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:241
 msgid "Site URL Exclusions"
 msgstr "استثنائات آدرس"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:244
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:245
 msgid "Excluded login page"
 msgstr "استثنائات برگه‌ی ورود"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:248
 msgid "Exclude the login page for registering as a hit."
 msgstr "نادیده گرفتن برگه‌ی ورود برای نام‌نویسی به‌عنوان محاسبه در آمار"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:251
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:252
 msgid "Excluded admin pages"
 msgstr "استثنائات برگه‌های مدیریت"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:254
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:255
 msgid "Exclude the admin pages for registering as a hit."
 msgstr "نادیده گرفتن برگه‌های مدیریت برای نام‌نویسی به‌عنوان محاسبه در آمار"
 
@@ -1943,7 +1951,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:44
 msgid "Common Report Options"
-msgstr ""
+msgstr "تنظیمات متداول گزارش"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:49
 msgid "E-mail addresses"
@@ -1951,7 +1959,7 @@ msgstr "آدرس‌های پست‌الکترونیک"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:54
 msgid "A comma separated list of e-mail addresses to send reports to."
-msgstr ""
+msgstr "برای دریافت ایمیل گزارش، آدرس ایمیل‌های را با ویرگول لاتین جدا کنید."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:59
 msgid "Update Reports"
@@ -1976,11 +1984,11 @@ msgstr "ارسال گزارش زمانیکه پایگاه‌داده GeoIP به�
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:88
 msgid "Pruning"
-msgstr ""
+msgstr "پاک‌سازی"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:94
 msgid "Send a report whenever the pruning of database is run."
-msgstr ""
+msgstr "ارسال گزارش زمانیکه پایگاه‌داده پاک‌سازی شد."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:100
 msgid "Upgrade"
@@ -2002,7 +2010,7 @@ msgstr "زمان‌بندی"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:153
 msgid "Select how often to receive statistical report."
-msgstr ""
+msgstr "چگونگی دریافت گزارش آمار را انتخاب کنید."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:159
 msgid "Send reports via"
@@ -2018,7 +2026,7 @@ msgstr "پیامک"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:170
 msgid "Select delivery method for statistical report."
-msgstr ""
+msgstr "روش تحویل گزارش آمار را انتخاب کنید."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:173
 #, php-format

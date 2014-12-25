@@ -163,7 +163,7 @@ if( $wps_nonce_valid ) {
 				<select name="wps_send_report" id="send-report">
 					<option value="0" <?php selected($WP_Statistics->get_option('send_report'), '0'); ?>><?php _e('Please select', 'wp_statistics'); ?></option>
 					<option value="mail" <?php selected($WP_Statistics->get_option('send_report'), 'mail'); ?>><?php _e('Email', 'wp_statistics'); ?></option>
-				<?php if( is_plugin_active('wp-sms/wp-sms.php') ) { ?>
+				<?php if( is_plugin_active('wp-sms/wp-sms.php') || is_plugin_active('wp-sms-pro/wp-sms.php') ) { ?>
 					<option value="sms" <?php selected($WP_Statistics->get_option('send_report'), 'sms'); ?>><?php _e('SMS', 'wp_statistics'); ?></option>
 				<?php } ?>
 				</select>
