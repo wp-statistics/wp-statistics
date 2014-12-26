@@ -202,6 +202,9 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 8.7 =
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
+
 = 8.5 =
 This is a security update release, please update as soon as possible.  In addition to the security fixes there are several new features, see the change log for details.
 
@@ -216,7 +219,7 @@ Support for old format substitution codes in the statistics reports has been rem
 * Added: Honey pot option to detect crawlers.
 * Added: Robot threshold option.
 * Added: Hit count for visitors is now recorded and displayed.
-* Added: Top Visitors today widget and page
+* Added: Top Visitors today widget and page.
 * Fixed: GeoIP exclusion logic didn't work as the location information was not set before it was applied, moved it to the appropriate location.
 * Fixed: Incorrect setting names for country include/excludes as well as hosts.
 * Fixed: Page URI length could exceed the database storage limit and cause duplicate entry warnings, URI is now truncated before being stored.
