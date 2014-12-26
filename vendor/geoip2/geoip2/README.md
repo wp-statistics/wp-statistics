@@ -114,6 +114,24 @@ print($record->location->longitude . "\n"); // -93.2323
 
 ```
 
+### Anonymous IP Example ###
+
+```php
+<?php
+require_once 'vendor/autoload.php';
+use GeoIp2\Database\Reader;
+
+// This creates the Reader object, which should be reused across
+// lookups.
+$reader = new Reader('/usr/local/share/GeoIP/GeoIP2-Anonymous-IP.mmdb');
+
+$record = $reader->anonymousIp('128.101.101.101');
+
+if ($record->isAnonymous) { print "anon\n"; }
+print($record->ipAddress . "\n"); // '128.101.101.101'
+
+```
+
 ### Connection-Type Example ###
 
 ```php
@@ -237,9 +255,6 @@ for details on what data each end point may return.
 
 The only piece of data which is always returned is the `ipAddress`
 attribute in the `GeoIp2\Record\Traits` record.
-
-Every record class attribute has a corresponding predicate method so you can
-check to see if the attribute is set.
 
 ## Integration with GeoNames ##
 

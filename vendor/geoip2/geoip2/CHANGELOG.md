@@ -1,6 +1,23 @@
 CHANGELOG
 =========
 
+2.1.1 (2014-12-03)
+------------------
+
+* The 2.1.0 Phar builds included a shebang line, causing issues when loading
+  it as a library. This has been corrected. GitHub #33.
+
+2.1.0 (2014-10-29)
+------------------
+
+* Update ApiGen dependency to version that isn't broken on case sensitive
+  file systems.
+* Added support for the GeoIP2 Anonymous IP database. The
+  `GeoIP2\Database\Reader` class now has an `anonymousIp` method which returns
+  a `GeoIP2\Model\AnonymousIp` object.
+* Boolean attributes like those in the `GeoIP2\Record\Traits` class now return
+ `false` instead of `null` when they were not true.
+
 2.0.0 (2014-09-22)
 ------------------
 
