@@ -221,6 +221,8 @@ Support for old format substitution codes in the statistics reports has been rem
 * Fixed: Incorrect setting names for country include/excludes as well as hosts.
 * Fixed: Page URI length could exceed the database storage limit and cause duplicate entry warnings, URI is now truncated before being stored.
 * Updated: Polish and Farsi translations.
+* Updated: User agent parser to V0.3.2.
+* Updated: GeoIP library to v2.1.1.
 
 = 8.6.3 =
 * Fixed: Really fix included countries code this time.
