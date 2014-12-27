@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-12-25 20:07+0100\n"
+"PO-Revision-Date: 2014-12-26 19:50+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,7 +46,7 @@ msgid ""
 "Treat visitors with more than this number of visits per day as robots.  0 = "
 "disabled."
 msgstr ""
-"Traktuj odwiedzających z większą niż tą liczbą odwiedzin dziennie jak "
+"Traktuj odwiedzających z większą niż tę liczbę odwiedzin dziennie jak "
 "roboty. 0 = wyłączone."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:190
@@ -179,11 +179,11 @@ msgstr "Baza danych wyczyszczona"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:11
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:18
 msgid "Online Users"
-msgstr "Dostępni użytkownicy w Internecie"
+msgstr "Dostępni użytkownicy"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:73
 msgid "Online for "
-msgstr "Dostępny w Internecie dla"
+msgstr "Dostępny o "
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
@@ -299,7 +299,7 @@ msgstr "Twoja bieżąca wersja PHP"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:280
 msgid "Online"
-msgstr "Dostępni w Internecie"
+msgstr "Dostępni użytkownicy"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:495
 msgid ""
@@ -838,7 +838,7 @@ msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
 msgstr ""
-"Spowoduje to zastąpienie wszystkich adresów IP w bazie danych z wartościami "
+"Spowoduje zastąpienie wszystkich adresów IP w bazie danych z wartościami "
 "skrótu i nie może być cofnięte, czy na pewno?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:26
@@ -1687,8 +1687,8 @@ msgid ""
 "This will permanently delete data from the database each day, are you sure "
 "you want to enable this option?"
 msgstr ""
-"Spowoduje to trwałe usunięcie danych z bazy danych każdego dnia, czy na "
-"pewno chcesz włączyć tą opcję?"
+"Spowoduje trwałe usunięcie danych z bazy danych każdego dnia, czy na pewno "
+"chcesz włączyć tą opcję?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:30
 msgid "Database Maintenance"
