@@ -12,9 +12,9 @@
 		public $result = null;
 
 		protected $location = "000";
+		protected $exclusion_match = FALSE;
+		protected $exclusion_reason = '';
 
-		private $exclusion_match = FALSE;
-		private $exclusion_reason = '';
 		private $exclusion_record = FALSE;
 		private $timestamp;
 		private $second;
