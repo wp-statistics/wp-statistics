@@ -214,6 +214,9 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.7.1 =
+* Fixed: Variable scope for the exclusion match/reason updated to protected from private to allow the GeoIP code to set them.  This could cause various issues including failed uploades depending on the error reporting level set for PHP.
+
 = 8.7 =
 * Added: Charts with multiple lines now include the data set name in the tooltip.
 * Added: Honey pot option to detect crawlers.
