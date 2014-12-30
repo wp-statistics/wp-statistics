@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-12-30 11:38-0500\n"
+"PO-Revision-Date: 2014-12-30 19:03+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1310,9 +1310,9 @@ msgid ""
 "configuration.  So for example selecting publish_posts grants the right to Authors, "
 "Editors, Admins and Super Admins."
 msgstr ""
-"Ciascuno dell'Arianna sopra i diritti verso l'alto in default "
-"WordPressconfigurazione. Così per esempio selezionando publish_posts concede il "
-"diritto diAutori, curatori, amministratori e Super amministratori."
+"Ciascuno dei menu' a tendina gestiscono I diritti nelle configurazioni di "
+"WordPress. Ad esempio selezionando publish_posts fornisce I diritti a Autori, "
+"Editori, Amministratori e Super Amministratori."
 
 #: includes/settings/tabs/wps-access-level.php:88
 msgid ""
@@ -1747,7 +1747,7 @@ msgstr "Supporto"
 
 #: includes/settings/tabs/wps-about.php:74
 msgid "Farsi"
-msgstr "Fidanza"
+msgstr "Farsi"
 
 #: includes/log/top-referring.php:47
 msgid "Referring sites from"
