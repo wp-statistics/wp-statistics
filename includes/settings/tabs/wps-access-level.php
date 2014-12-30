@@ -18,7 +18,7 @@ if( $wps_nonce_valid ) {
 	if( array_key_exists( 'wps_create_honeypot', $_POST ) ) {
 		$my_post = array(
 			'post_type' 	=> 'page',
-			'post_title'    => __('WP Statistics Honey Page', 'wp_statistics' ) . ' [' . $WP_Statistics->Current_Date() . ']',
+			'post_title'    => __('WP Statistics Honey Pot Page', 'wp_statistics' ) . ' [' . $WP_Statistics->Current_Date() . ']',
 			'post_content'  => __('This is the honey pot for WP Statistics to use, do not delete.', 'wp_statistics' ),
 			'post_status'   => 'publish',
 			'post_author'   => 1,
