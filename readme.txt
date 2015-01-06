@@ -214,7 +214,7 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
-= 8.7.2 -
+= 8.7.2 =
 * Added: shareaholic-bot to robots list.
 * Fixed: Robot threshold setting was not being saved.
 * Updated: Italian translation, thanks illatooscuro.
