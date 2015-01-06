@@ -1,240 +1,546 @@
-# Translation of Wordpress Statistics in Arabic
-# This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-14 17:14-0500\n"
+"Project-Id-Version: wp-statistics\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-statistics\n"
+"POT-Creation-Date: 2014-12-26 16:38:23+00:00\n"
+"PO-Revision-Date: 2015-01-06 12:25+0300\n"
+"Last-Translator: aBuhaTim <al3zz@hotmail.com>\n"
+"Language-Team: ABU HATIM <al3zz.com@gmail.com>\n"
+"Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Poedit 1.6.9\n"
-"Project-Id-Version: Wordpress Statistics\n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ar\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
+"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content"
+"\\plugins\\wp-statistics\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-"
+"content\\plugins\\wp-statistics\n"
+
+#: dashboard.php:55
+msgid "Quick Stats"
+msgstr "إحصائيات سريعة"
+
+#: dashboard.php:56 includes/log/widgets/browsers.php:54
+msgid "Top 10 Browsers"
+msgstr "أفضل 10 متصفحات"
+
+#: dashboard.php:57 includes/log/widgets/countries.php:11
+#: includes/settings/tabs/wps-overview-display.php:27
+msgid "Top 10 Countries"
+msgstr "أعلى 10 دول"
+
+#: dashboard.php:58
+msgid "Today's Visitor Map"
+msgstr "خريطة زوار اليوم"
+
+#: dashboard.php:59 editor.php:46 includes/log/hit-statistics.php:8
+#: includes/log/widgets/hits.php:8
+msgid "Hit Statistics"
+msgstr "احصائية النقرات"
+
+#: dashboard.php:60 includes/log/widgets/pages.php:11
+msgid "Top 10 Pages"
+msgstr "أفضل 10 صفحات"
+
+#: dashboard.php:61 includes/log/last-visitor.php:30
+#: includes/log/widgets/recent.php:8
+#: includes/settings/tabs/wps-overview-display.php:39
+msgid "Recent Visitors"
+msgstr "الزيارات الأخيرة"
+
+#: dashboard.php:62 includes/log/top-referring.php:27
+#: includes/log/top-referring.php:42 includes/log/widgets/referring.php:13
+#: includes/settings/tabs/wps-overview-display.php:26
+msgid "Top Referring Sites"
+msgstr "أعلى المواقع اشارة"
+
+#: dashboard.php:63 includes/log/widgets/search.php:7
+#: includes/log/widgets/summary.php:74
+msgid "Search Engine Referrals"
+msgstr "إحالات محرك البحث"
+
+#: dashboard.php:64 includes/log/widgets/summary.php:8
+msgid "Summary"
+msgstr "ملخص"
+
+#: dashboard.php:65 includes/log/last-search.php:30
+#: includes/log/widgets/words.php:8
+#: includes/settings/tabs/wps-overview-display.php:37
+msgid "Latest Search Words"
+msgstr "أحدث كلمات البحث"
+
+#: dashboard.php:66 includes/log/widgets/top.visitors.php:8
+#: includes/settings/tabs/wps-overview-display.php:35
+msgid "Top 10 Visitors Today"
+msgstr "أفضل 10 زوار اليوم"
+
+#: dashboard.php:97
+msgid "Please reload the dashboard to display the content of this widget."
+msgstr "يرجى تحميل لوحة المعلومات لعرض محتوى هذه القطعة."
+
+#: dashboard.php:138
+msgid "WP Statistics Overview"
+msgstr "نظرة عامة لإحصائيات ووردبريس"
+
+#: editor.php:63
+msgid "This post is not yet published."
+msgstr "لم يتم نشر هذا المقال حتى الآن."
+
+#: includes/functions/geoip-populate.php:26
+msgid ""
+"Unable to load the GeoIP database, make sure you have downloaded it in the "
+"settings page."
+msgstr ""
+"غير قادر على تحميل قاعدة البيانات GeoIP، تأكد من أنك قمت بتنزيلها في صفحة "
+"الإعدادات."
+
+#: includes/functions/geoip-populate.php:50
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "تحديث السجلات %s  GeoIP في قاعدة بيانات الزوار."
+
+#: includes/functions/purge.php:21 includes/functions/purge.php:39
+#: includes/functions/purge.php:50 includes/functions/purge.php:83
+msgid "%s data older than %s days purged successfully."
+msgstr "البيانات %s مضى عليها أكثر من %s أيام طهرت فيه بنجاح."
+
+#: includes/functions/purge.php:23 includes/functions/purge.php:41
+#: includes/functions/purge.php:52 includes/functions/purge.php:85
+msgid "No records found to purge from %s!"
+msgstr "لا توجد سجلات للتخلص من %s!"
+
+#: includes/functions/purge.php:98
+msgid "Database pruned on"
+msgstr "قاعدة بيانات مجردة على"
+
+#: includes/functions/purge.php:103
+msgid "Please select a value over 30 days."
+msgstr "يرجى تحديد قيمة أكثر من 30 يوما."
+
+#: includes/log/all-browsers.php:8
+msgid "Browser Statistics"
+msgstr "إحصائيات المتصفح"
+
+#: includes/log/all-browsers.php:14 includes/log/all-browsers.php:98
+#: includes/log/all-browsers.php:233 includes/log/exclusions.php:74
+#: includes/log/hit-statistics.php:26 includes/log/last-search.php:61
+#: includes/log/last-visitor.php:60 includes/log/online.php:17
+#: includes/log/page-statistics.php:47 includes/log/search-statistics.php:29
+#: includes/log/top-pages.php:19 includes/log/top-pages.php:137
+#: includes/log/top-referring.php:38 includes/log/widgets/about.php:7
+#: includes/log/widgets/browsers.php:6 includes/log/widgets/countries.php:9
+#: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:7
+#: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:9
+#: includes/log/widgets/recent.php:6 includes/log/widgets/referring.php:11
+#: includes/log/widgets/search.php:6 includes/log/widgets/summary.php:7
+#: includes/log/widgets/top.visitors.php:7 includes/log/widgets/words.php:6
+msgid "Click to toggle"
+msgstr "انقر للتبديل"
+
+#: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:7
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:274
+msgid "Browsers"
+msgstr "المتصفحات"
+
+#: includes/log/all-browsers.php:42
+msgid "Browsers by type"
+msgstr "حسب نوع المتصفحات"
+
+#: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:34
+#: includes/optimization/tabs/wps-optimization-resources.php:302
+msgid "Platform"
+msgstr "المنصة"
+
+#: includes/log/all-browsers.php:126
+msgid "Browsers by platform"
+msgstr "حسب نوع المنصة"
+
+#: includes/log/all-browsers.php:234
+msgid "%s Version"
+msgstr "الإصدار %s"
+
+#: includes/log/exclusions.php:8
+msgid ""
+"Attention: Exclusion are not currently set to be recorded, the results below "
+"may not reflect current statistics!"
+msgstr ""
+"تنبيه: لم يتم تعيين الاستثناءات حاليا ليتم تسجيلها، قد لا تستطيع عكس نتائج "
+"الإحصائيات الحالية أدناه!"
+
+#: includes/log/exclusions.php:54
+msgid "Exclusions Statistics"
+msgstr "استثناءات الاحصائيات"
+
+#: includes/log/exclusions.php:57 includes/log/hit-statistics.php:12
+#: includes/log/page-statistics.php:33 includes/log/search-statistics.php:15
+msgid "10 Days"
+msgstr "10 أيام"
+
+#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:13
+#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:16
+msgid "20 Days"
+msgstr "20 يوم"
+
+#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:14
+#: includes/log/page-statistics.php:35 includes/log/search-statistics.php:17
+msgid "30 Days"
+msgstr "30 يو م"
+
+#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:15
+#: includes/log/page-statistics.php:36 includes/log/search-statistics.php:18
+msgid "2 Months"
+msgstr "شهرين"
+
+#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:16
+#: includes/log/page-statistics.php:37 includes/log/search-statistics.php:19
+msgid "3 Months"
+msgstr "3 أشهر"
+
+#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:17
+#: includes/log/page-statistics.php:38 includes/log/search-statistics.php:20
+msgid "6 Months"
+msgstr "6 أشهر"
+
+#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:18
+#: includes/log/page-statistics.php:39 includes/log/search-statistics.php:21
+msgid "9 Months"
+msgstr "9 أشهر"
+
+#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:19
+#: includes/log/page-statistics.php:40 includes/log/search-statistics.php:22
+msgid "1 Year"
+msgstr "سنة"
+
+#: includes/log/exclusions.php:68
+msgid "Total Exclusions: %s"
+msgstr "مجموع الاستثناءات: %s"
+
+#: includes/log/exclusions.php:75
+msgid "Exclusions Statistical Chart"
+msgstr "الرسم البياني لإحصائيات الاستثناءات"
+
+#: includes/log/exclusions.php:97
+msgid "Excluded hits in the last"
+msgstr "استبعاد النقرات في الأخير"
+
+#: includes/log/exclusions.php:97 includes/log/hit-statistics.php:60
+#: includes/log/search-statistics.php:71 includes/log/widgets/hits.php:51
+#: includes/log/widgets/search.php:55
+#: includes/optimization/tabs/wps-optimization-purging.php:151
+msgid "days"
+msgstr "أيام"
+
+#: includes/log/exclusions.php:118
+msgid "Number of excluded hits"
+msgstr "عدد الزيارات المستبعدة"
+
+#: includes/log/hit-statistics.php:27
+msgid "Hits Statistics Chart"
+msgstr "الرسم البياني لاحصائيات النقرات"
+
+#: includes/log/hit-statistics.php:60 includes/log/widgets/hits.php:51
+msgid "Hits in the last"
+msgstr "آخر النقرات"
+
+#: includes/log/hit-statistics.php:81 includes/log/widgets/hits.php:72
+msgid "Number of visits and visitors"
+msgstr "عدد الزيارات والزوار"
+
+#: includes/log/hit-statistics.php:95 includes/log/widgets/hits.php:86
+#: includes/log/widgets/summary.php:30
+msgid "Visit"
+msgstr "زيارة"
+
+#: includes/log/hit-statistics.php:95 includes/log/widgets/hits.php:86
+#: includes/log/widgets/summary.php:29
+msgid "Visitor"
+msgstr "زائر"
+
+#: includes/log/last-search.php:62
+msgid "Latest Search Word Statistics"
+msgstr "أحصائيات أحدث كلمات البحث"
+
+#: includes/log/last-search.php:97 includes/log/last-visitor.php:97
+#: includes/log/online.php:48 includes/log/widgets/google.map.php:84
+#: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:30
+#: includes/log/widgets/words.php:32
+msgid "#hash#"
+msgstr "#hash#"
+
+#: includes/log/last-search.php:102 includes/log/last-visitor.php:102
+#: includes/log/online.php:53 includes/log/top-referring.php:71
+#: includes/log/widgets/recent.php:35 includes/log/widgets/words.php:39
+#: includes/settings/tabs/wps-overview-display.php:33
+#: includes/settings/tabs/wps-overview-display.php:113
+msgid "Map"
+msgstr "خريطة"
+
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:135
+#: includes/log/online.php:105 includes/log/top-pages.php:187
+#: includes/log/top-referring.php:125
+msgid "Page"
+msgstr "صفحة"
+
+#: includes/log/last-search.php:139 includes/log/last-visitor.php:135
+#: includes/log/online.php:105 includes/log/top-pages.php:187
+#: includes/log/top-referring.php:125
+msgid "From"
+msgstr "من"
+
+#: includes/log/last-visitor.php:32 includes/log/top-referring.php:29
+#: includes/optimization/tabs/wps-optimization-purging.php:135 widget.php:294
+msgid "All"
+msgstr "الكل"
+
+#: includes/log/last-visitor.php:62
+msgid "Search for"
+msgstr "البحث عن"
+
+#: includes/log/last-visitor.php:64
+msgid "Recent Visitor Statistics"
+msgstr "آخر إحصائيات الزوار"
+
+#: includes/log/online.php:11 includes/log/online.php:18
+msgid "Online Users"
+msgstr "المستخدمين على الانترنت"
+
+#: includes/log/online.php:73
+msgid "Online for "
+msgstr "متصل لـ"
+
+#: includes/log/page-statistics.php:29
+msgid "Page Trend for Post ID"
+msgstr "صفحة الأكثر رواجاً بمعرف المشاركة"
+
+#: includes/log/page-statistics.php:48
+msgid "Page Trend"
+msgstr "الصفحة الأكثر رواجاً"
+
+#: includes/log/search-statistics.php:11 includes/log/search-statistics.php:30
+msgid "Search Engine Referral Statistics"
+msgstr "إحصائيات مرجعية محرك البحث"
+
+#: includes/log/search-statistics.php:71 includes/log/widgets/search.php:55
+msgid "Search engine referrals in the last"
+msgstr "إحالات محرك البحث في الأخير"
+
+#: includes/log/search-statistics.php:92 includes/log/widgets/search.php:76
+msgid "Number of referrals"
+msgstr "عدد الإحالات"
+
+#: includes/log/search-statistics.php:106 includes/log/widgets/search.php:90
+#: includes/log/widgets/summary.php:64 includes/log/widgets/summary.php:104
+msgid "Total"
+msgstr "المجموع"
+
+#: includes/log/top-countries.php:11
+msgid "Top Countries"
+msgstr "أفضل الدول"
+
+#: includes/log/top-countries.php:20 includes/log/widgets/countries.php:30
+#: includes/log/widgets/top.visitors.php:27
+msgid "Rank"
+msgstr "الترتيب"
+
+#: includes/log/top-countries.php:21 includes/log/widgets/countries.php:31
+#: includes/log/widgets/top.visitors.php:29
+msgid "Flag"
+msgstr "العلم"
+
+#: includes/log/top-countries.php:22 includes/log/widgets/countries.php:32
+#: includes/log/widgets/top.visitors.php:30
+msgid "Country"
+msgstr "الدولة"
+
+#: includes/log/top-countries.php:23 includes/log/widgets/countries.php:33
+msgid "Visitor Count"
+msgstr "عدد الزوار"
+
+#: includes/log/top-pages.php:13 includes/log/top-pages.php:138
+msgid "Top Pages"
+msgstr "أفضل الصفحات"
+
+#: includes/log/top-pages.php:20
+msgid "Top 5 Pages Trends"
+msgstr "الصفحات الـ5 الأكثر رواجاً"
+
+#: includes/log/top-pages.php:49
+msgid "Top 5 Page Trending Stats"
+msgstr "احصائيات الصفحات الـ5 الأكثر رواجاً"
+
+#: includes/log/top-pages.php:70 includes/log/widgets/page.php:58
+msgid "Number of Hits"
+msgstr "عدد الزيارات"
+
+#: includes/log/top-pages.php:166 includes/log/widgets/pages.php:32
+msgid "No page title found"
+msgstr "لم يتم العثور على عنوان الصفحة"
+
+#: includes/log/top-pages.php:169 includes/log/widgets/pages.php:35
+#: includes/optimization/tabs/wps-optimization-historical.php:37
+#: includes/settings/tabs/wps-general.php:122
+#: includes/settings/tabs/wps-general.php:127
+msgid "Visits"
+msgstr "الزيارات"
+
+#: includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "تضاف قريبا"
+
+#: includes/log/top-referring.php:40
+msgid "Referring sites from"
+msgstr "مواقع اشارة من"
+
+#: includes/log/top-referring.php:110 includes/log/widgets/referring.php:30
+msgid "References"
+msgstr "المراجع"
+
+#: includes/log/top-visitors.php:12
+msgid "Top 100 Visitors Today"
+msgstr "أفضل 100 زائر اليوم"
 
 #: includes/log/widgets/about.php:8
 msgid "About WP Statistics Version %s"
-msgstr "حول إحصائيات الفسفور الأبيض الإصدار %s"
+msgstr "حول  إصدار احصائيات ووردبريس %s"
 
-#: includes/log/widgets/summary.php:106
+#: includes/log/widgets/about.php:25
+msgid "Website"
+msgstr "الموقع"
+
+#: includes/log/widgets/about.php:26
+msgid "Rate and Review"
+msgstr "التقييم  والمراجعة"
+
+#: includes/log/widgets/about.php:30
+msgid "More Information"
+msgstr "مزيد من المعلومات"
+
+#: includes/log/widgets/about.php:39 includes/settings/tabs/wps-about.php:12
+msgid ""
+"This product includes GeoLite2 data created by MaxMind, available from %s."
+msgstr ""
+"يتضمن هذا المنتج البيانات GeoLite2 التي أنشأتها MaxMind، المتاحة من %s."
+
+#: includes/log/widgets/browsers.php:7 includes/log/widgets/countries.php:11
+#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:11
+#: includes/log/widgets/recent.php:8 includes/log/widgets/referring.php:13
+#: includes/log/widgets/search.php:7 includes/log/widgets/top.visitors.php:8
+#: includes/log/widgets/words.php:8
+msgid "More"
+msgstr "المزيد"
+
+#: includes/log/widgets/browsers.php:47
+msgid "Other"
+msgstr "أخرى"
+
+#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
+msgid "Today Visitors Map"
+msgstr "خريطة زوار اليوم"
+
+#: includes/log/widgets/referring.php:31
+msgid "Address"
+msgstr "العنوان"
+
+#: includes/log/widgets/summary.php:23
+msgid "User(s) Online"
+msgstr "المتصلين على الانترنت"
+
+#: includes/log/widgets/summary.php:34 includes/log/widgets/summary.php:79
+msgid "Today"
+msgstr "اليوم"
+
+#: includes/log/widgets/summary.php:40 includes/log/widgets/summary.php:80
+msgid "Yesterday"
+msgstr "الأمس"
+
+#: includes/log/widgets/summary.php:46
+msgid "Week"
+msgstr "أسبوع"
+
+#: includes/log/widgets/summary.php:52
+msgid "Month"
+msgstr "الشهر"
+
+#: includes/log/widgets/summary.php:58
+msgid "Year"
+msgstr "سنة"
+
+#: includes/log/widgets/summary.php:98
+msgid "Daily Total"
+msgstr "المجموع اليومي"
+
+#: includes/log/widgets/summary.php:117
+msgid "Current Time and Date"
+msgstr "التوقيت الحالي و التاريخ"
+
+#: includes/log/widgets/summary.php:117
+msgid "(Adjustment)"
+msgstr "(التوافق)"
+
+#: includes/log/widgets/summary.php:121
 msgid "Date: %s"
-msgstr "تاريخ: %s"
+msgstr "التاريخ: %s"
 
-#: includes/log/widgets/summary.php:110
+#: includes/log/widgets/summary.php:125
 msgid "Time: %s"
-msgstr "الوقت: %s"
+msgstr "التوقيت: %s"
+
+#: includes/log/widgets/top.visitors.php:28 wp-statistics.php:201
+#: wp-statistics.php:279
+msgid "Hits"
+msgstr "نقرات"
+
+#: includes/log/widgets/top.visitors.php:31
+msgid "IP"
+msgstr "IP"
+
+#: includes/log/widgets/top.visitors.php:33
+msgid "Agent"
+msgstr "وكيل"
+
+#: includes/log/widgets/top.visitors.php:35
+#: includes/optimization/tabs/wps-optimization-resources.php:291
+msgid "Version"
+msgstr "الإصدار"
+
+#: includes/optimization/delete-agents.php:5
+#: includes/optimization/delete-platforms.php:5
+#: includes/optimization/empty.php:5 includes/optimization/export.php:5
+#: includes/optimization/purge-data.php:6
+#: includes/optimization/wps-optimization.php:6 manual/manual.php:5
+msgid "Access denied!"
+msgstr "تم رفض الوصول!"
 
 #: includes/optimization/delete-agents.php:14
 msgid "%s agent data deleted successfully."
-msgstr "%s عامل البيانات المحذوفة بنجاح."
+msgstr "%s تم حذف بيانات الوكيل بنجاح."
+
+#: includes/optimization/delete-agents.php:17
+msgid "No agent data found to remove!"
+msgstr "لا توجد بيانات وكيل لإزالتها!"
+
+#: includes/optimization/delete-agents.php:21
+#: includes/optimization/delete-platforms.php:21
+#: includes/optimization/empty.php:42 includes/optimization/export.php:57
+msgid "Please select the desired items."
+msgstr "يرجى تحديد العناصر المطلوبة."
 
 #: includes/optimization/delete-platforms.php:14
 msgid "%s platform data deleted successfully."
-msgstr "%s منصة البيانات المحذوفة بنجاح."
+msgstr "%s تم حذف بيانات المنصة بنجاح."
+
+#: includes/optimization/delete-platforms.php:17
+msgid "No platform data found to remove!"
+msgstr "لا توجد بيانات منصة لإزالتها!"
 
 #: includes/optimization/empty.php:53
 msgid "%s table data deleted successfully."
-msgstr "بيانات الجدول %s حذف بنجاح."
+msgstr "%s تم حذف بيانات الجدول بنجاح."
 
-#: includes/optimization/purge-data.php:17
-#: includes/optimization/purge-data.php:27
-#: includes/optimization/purge-data.php:37
-#: includes/optimization/purge-data.php:47
-msgid "%s data older than %s days purged successfully."
-msgstr "%s البيانات الأقدم من الأيام %s إزالة بنجاح."
-
-#: includes/optimization/purge-data.php:19
-#: includes/optimization/purge-data.php:29
-#: includes/optimization/purge-data.php:39
-#: includes/optimization/purge-data.php:49
-msgid "No records found to purge from %s!"
-msgstr "لا توجد سجلات وجدت لتطهير من %s!"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:44
-#: includes/optimization/tabs/wps-optimization-resources.php:55
-#: includes/optimization/tabs/wps-optimization-resources.php:66
-#: includes/optimization/tabs/wps-optimization-resources.php:77
-#: includes/optimization/tabs/wps-optimization-resources.php:88
-msgid "Number of rows in the %s table"
-msgstr "عدد الصفوف في الجدول %s"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:211
-msgid "browscap Cache File"
-msgstr "برووسكاب \"ملف ذاكرة التخزين المؤقت\""
-
-#: includes/optimization/tabs/wps-optimization-resources.php:220
-msgid "browscap cache file does not exist."
-msgstr "برووسكاب ذاكرة التخزين المؤقت للملف غير موجود."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:224
-msgid "The file size and date of the browscap cache file."
-msgstr "حجم الملف وتاريخ من ملف ذاكرة التخزين المؤقت browscap."
-
-#: includes/settings/tabs/wps-about.php:24
-msgid ""
-"Come visit our great new %s and keep up to date on the latest news about WP "
-"Statistics."
-msgstr ""
-"تأتي زيارة لدينا %s جديدة كبيرة وتبقى حتى الآن على آخر الأخبار حول إحصائيات "
-"الفسفور الأبيض."
-
-#: includes/settings/tabs/wps-about.php:24
-msgid "website"
-msgstr "موقع على شبكة الإنترنت"
-
-#: includes/settings/tabs/wps-about.php:40
-msgid ""
-"WP Statistics supports internationalization and we encourage our users to "
-"submit translations, please visit our %s to see the current status and %s if "
-"you would like to help."
-msgstr ""
-"الفسفور الأبيض إحصائيات تؤيد التدويل ونحن نشجع مستخدمينا تقديم ترجمات، يرجى "
-"زيارة لنا %s لرؤية الوضع الحالي و %s إذا كنت ترغب في المساعدة."
-
-#: includes/settings/tabs/wps-about.php:40
-msgid "translation collaboration site"
-msgstr "ترجمة التعاون الموقع"
-
-#: includes/settings/tabs/wps-about.php:40
-msgid "drop us a line"
-msgstr "انخفاض خط لنا"
-
-#: includes/settings/tabs/wps-about.php:52
-#: includes/settings/tabs/wps-about.php:53
-msgid "Have you read the %s?"
-msgstr "هل قرأت %s؟"
-
-#: includes/settings/tabs/wps-about.php:52
-msgid "FAQs"
-msgstr "أسئلة وأجوبة"
-
-#: includes/settings/tabs/wps-about.php:53
-msgid "manual"
-msgstr "دليل"
-
-#: includes/settings/tabs/wps-about.php:54
-msgid "Have you search the %s for a similar issue?"
-msgstr "قد يمكنك البحث عن %s لمشكلة مشابهة؟"
-
-#: includes/settings/tabs/wps-about.php:54
-msgid "support forum"
-msgstr "منتدى الدعم"
-
-#: includes/settings/tabs/wps-about.php:70
-msgid ""
-"Then please open a new thread on the %s and we'll respond as soon as "
-"possible."
-msgstr "ثم يرجى فتح موضوع جديد في %s وسوف نرد في أقرب وقت ممكن."
-
-#: includes/settings/tabs/wps-about.php:70
-msgid "WordPress.org support forum"
-msgstr "منتدى الدعم WordPress.org"
-
-#: includes/settings/tabs/wps-about.php:74
-msgid "Alternatively %s support is available as well."
-msgstr "وبدلاً من ذلك دعم %s يتوفر كذلك."
-
-#: includes/settings/tabs/wps-access-level.php:85
-msgid "See the %s for details on capability levels."
-msgstr "انظر %s للحصول على تفاصيل بشأن مستويات القدرة."
-
-#: includes/settings/tabs/wps-access-level.php:85
-msgid "WordPress Roles and Capabilities page"
-msgstr "صفحة وورد الأدوار والقدرات"
-
-#: includes/settings/tabs/wps-general.php:67
-msgid ""
-"This feature will not store IP addresses in the database but instead used a "
-"unique hash.  The \"Store entire user agent string\" setting will be "
-"disabled if this is selected.  You will not be able to recover the IP "
-"addresses in the future to recover location information if this is enabled."
-msgstr ""
-"هذه الميزة لن يقوم بتخزين عناوين IP في قاعدة البيانات ولكن بدلاً من ذلك "
-"استخدام تجزئة فريدة من نوعها. String عامل المستخدم بأكمله \"Store\" سيتم "
-"تعطيل الإعداد في حالة تحديد هذا الخيار. لا يمكنك استرداد عناوين IP في "
-"المستقبل استرداد معلومات الموقع إذا كان هذا ممكناً."
-
-#: includes/settings/tabs/wps-general.php:340
-msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr ""
-"ملاحظة: لإرسال الرسائل القصيرة نص الرسائل الرجاء تثبيت البرنامج المساعد %s."
-
-#: includes/settings/tabs/wps-general.php:340
-msgid "WordPress SMS"
-msgstr "وورد SMS"
-
-#: wp-statistics.php:27
-msgid ""
-"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
-"Statistics will not function without PHP Version "
-msgstr ""
-"خطأ: كشف الفسفور الأبيض إحصائيات عن إصدار غير معتمد من بي إتش بي، الفسفور "
-"الأبيض إحصائيات لن تعمل دون \"إصدار بي إتش بي\" "
-
-#: wp-statistics.php:27
-msgid " or higher!"
-msgstr "أو أعلى!"
-
-#: wp-statistics.php:81
-msgid ""
-"Online user tracking in WP Statistics is not enabled, please go to %s and "
-"enable it."
-msgstr ""
-"لم يتم تمكين تعقب في إحصائيات الفسفور الأبيض المستخدم عبر الإنترنت، يرجى "
-"الذهاب إلى %s وتمكينه."
-
-#: wp-statistics.php:81 wp-statistics.php:84 wp-statistics.php:87
-msgid "setting page"
-msgstr "صفحة الإعداد"
-
-#: wp-statistics.php:84
-msgid ""
-"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
-msgstr ""
-"لم يتم تمكين تعقب ضرب في إحصائيات الفسفور الأبيض، الرجاء الذهاب إلى %s "
-"وتمكينه."
-
-#: wp-statistics.php:87
-msgid ""
-"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
-"it."
-msgstr ""
-"لم يتم تمكين الزائر تتبع في إحصائيات الفسفور الأبيض، الرجاء الذهاب إلى %s "
-"وتمكينه."
-
-#: wp-statistics.php:90
-msgid ""
-"GeoIP collection is not active, please go to %s and enable this feature."
-msgstr "جمع GeoIP غير نشط، الرجاء الذهاب إلى %s، وتمكين هذه الميزة."
-
-#: wp-statistics.php:90
-msgid "Setting page > GeoIP"
-msgstr "إعداد الصفحة > GeoIP"
-
-msgid "http://wp-statistics.com/"
-msgstr "http://wp-statistics.com/"
-
-msgid "Mostafa Soufi & Greg Ross"
-msgstr "مصطفى الصوفي & غريغ روس"
-
-#: includes/settings/wps-settings.php:90
-msgid "browscap"
-msgstr "برووسكاب"
-
-#: wp-statistics.php:706
-msgid "Error downloading browscap database from: %s - %s"
-msgstr "خطأ في تحميل قاعدة البيانات برووسكاب من: %s-%s"
-
-#: wp-statistics.php:794
-msgid "browscap database updated successfully!"
-msgstr "برووسكاب قاعدة البيانات تحديث بنجاح!"
-
-#: wp-statistics.php:802
-msgid "browscap already at current version!"
-msgstr "برووسكاب بالفعل في الإصدار الحالي!"
+#: includes/optimization/empty.php:57
+msgid "Error, %s not emptied!"
+msgstr "خطأ, %s لم يتم التفريغ!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
@@ -254,78 +560,24 @@ msgid ""
 "database tables or other core items, this will re-execute the install "
 "process."
 msgstr ""
-"إذا كان لسبب ما يفتقد التثبيت الخاص بك من الفسفور الأبيض إحصائيات جداول "
-"قاعدة البيانات أو العناصر الأساسية الأخرى، وهذا سوف إعادة تنفيذ عملية تثبيت."
+"لسبب ما اذا فقدت بيانات في قاعدة البيانات أو احد العناصر الأساسية, هذا الأمر "
+"سيعيد تنفيذ العملية مرة أخرى."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:163
-msgid ""
-"If the PHP BC Math Extension is installed.  BC Math is no longer required "
-"for the GeoIP code and is listed here only for historical reasons."
-msgstr ""
-"إذا كان يتم تثبيت \"ملحق الرياضيات\" قبل الميلاد بي. لم تعد مطلوبة للتعليمات "
-"البرمجية GeoIP الرياضيات قبل الميلاد ويتم سرد هنا فقط لأسباب تاريخية."
+#: includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "فهرس قاعدة بيانات"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:168
-msgid "File Info"
-msgstr "معلومات الملف"
+#: includes/optimization/tabs/wps-optimization-database.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:21
+#: wp-statistics.php:276
+msgid "Countries"
+msgstr "الدول"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:173
-msgid "GeoIP Database"
-msgstr "قاعدة GeoIP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:184
-#: includes/optimization/tabs/wps-optimization-resources.php:203
-#: includes/optimization/tabs/wps-optimization-resources.php:222
-msgid ", created on "
-msgstr "، التي تم إنشاؤها على "
-
-#: includes/optimization/tabs/wps-optimization-resources.php:186
-msgid "The file size and date of the GeoIP database."
-msgstr "حجم الملف وتاريخ من قاعدة GeoIP."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:192
-msgid "browscap.ini File"
-msgstr "الملف browscap.ini"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:201
-msgid "browscap.ini file does not exist."
-msgstr "عدم وجود الملف browscap.ini."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:205
-msgid "The file size and date of the browscap.ini file."
-msgstr "حجم الملف وتاريخ من الملف browscap.ini."
-
-#: includes/optimization/wps-optimization.php:51
-msgid "Install routine complete."
-msgstr "تثبيت روتين إكمال."
-
-#: includes/settings/tabs/wps-browscap.php:17
-msgid "browscap settings"
-msgstr "إعدادات برووسكاب"
-
-#: includes/settings/tabs/wps-browscap.php:22
-msgid "browscap usage"
-msgstr "استخدام برووسكاب"
-
-#: includes/settings/tabs/wps-browscap.php:28
-msgid "The browscap database will be downloaded and used to detect robots."
-msgstr "سيتم تحميل قاعدة البيانات برووسكاب والمستخدمة للكشف عن الروبوتات."
-
-#: includes/settings/tabs/wps-browscap.php:34
-msgid "Update browscap Info"
-msgstr "برووسكاب تحديث معلومات"
-
-#: includes/settings/tabs/wps-browscap.php:39
-msgid "Download browscap Database"
-msgstr "تحميل برووسكاب قاعدة البيانات"
-
-#: includes/settings/tabs/wps-browscap.php:46
-msgid "Schedule weekly update of browscap DB"
-msgstr "الجدول الأسبوعي ل browscap DB"
-
-#: includes/settings/tabs/wps-browscap.php:69
-msgid "Download of the browscap database will be scheduled for once a week."
-msgstr "ستتم جدولة التحميل من قاعدة البيانات برووسكاب لمرة واحدة في أسبوع."
+#: includes/optimization/tabs/wps-optimization-database.php:39
+#: includes/optimization/tabs/wps-optimization-updates.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "تحديث الآن!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:40
 msgid ""
@@ -335,10 +587,18 @@ msgid ""
 "entries must be deleted first.  Clicking \"Update Now\" will scan the "
 "vistitors table, delete duplicate entries and add the index."
 msgstr ""
-"السماح تثبيت أقدم من الفسفور الأبيض إحصائيات عن إدخالات مكررة في الجدول "
-"الزائرين في حالة زاوية. تثبيت أحدث حماية ضد هذا مع فهرس فريد في الجدول. "
-"لإنشاء الفهرس على تثبيت كبار السن إدخالات مكررة يجب حذف أولاً. النقر فوق "
-"\"Update Now\" سوف تفحص الجدول فيستيتورس وحذف إدخالات مكررة وإضافة الفهرس."
+"المنصب القديم لإضافة احصائيات ووردبريس تسمح للإدخالات المتكررة في جداول "
+"الزوار في بعض الحالات. بتثبيت أحدث منتج يجب تواجد الفهرس في الجداول. لإنشاء "
+"فهرس لمنتج قديم يجب أن يتم حذف الإدخالات المكررة أولاً. أنقر على \"تحديث الآن"
+"\" وسيقوم تلقائيا بفحص جدول الزوار وحذف كافة الإدخالات المكررة وإضافة الفهرس."
+
+#: includes/optimization/tabs/wps-optimization-database.php:41
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visitors table."
+msgstr ""
+"هذه العملية يمكن أن تستغرق وقتا طويلا على تثبيت مع العديد من الصفوف في جدول "
+"الزوار."
 
 #: includes/optimization/tabs/wps-optimization-database.php:46
 msgid ""
@@ -346,63 +606,393 @@ msgid ""
 "table in a corner case.  Newer installs protect against this with a unique "
 "index on the table."
 msgstr ""
-"السماح تثبيت أقدم من الفسفور الأبيض إحصائيات عن إدخالات مكررة في الجدول "
-"الزائرين في حالة زاوية. تثبيت أحدث حماية ضد هذا مع فهرس فريد في الجدول."
+"الإصدارات القديمة من منتج احصائيات ووردبريس تسمح للإدخالات المكررة في جدول "
+"الزوار في بعض الحالات. عند تثبيت إصدارات أحدث من ذلك سيتم إضافة فهرس فريد "
+"على الجدول."
 
 #: includes/optimization/tabs/wps-optimization-database.php:47
 msgid ""
 "Congratulations, your installation is already up to date, nothing to do."
-msgstr "تهانينا، التثبيت بالفعل حتى الآن، لا علاقة له."
+msgstr "تهانينا، التثبيت موجود بالفعل حتى الآن، لا شيء للقيام به."
 
-#: includes/settings/tabs/wps-about.php:55
-msgid "Have you search the Internet for any error messages you are receiving?"
-msgstr "قد يمكنك البحث في إنترنت عن أي رسائل الخطأ التي يتم تلقي؟"
+#: includes/optimization/tabs/wps-optimization-export.php:7
+#: includes/optimization/wps-optimization.php:147
+msgid "Export"
+msgstr "تصدير"
 
-#: includes/settings/tabs/wps-about.php:66
+#: includes/optimization/tabs/wps-optimization-export.php:12
+msgid "Export from"
+msgstr "التصدير من"
+
+#: includes/optimization/tabs/wps-optimization-export.php:17
+#: includes/optimization/tabs/wps-optimization-export.php:35
+#: includes/optimization/tabs/wps-optimization-purging.php:129
+#: includes/optimization/tabs/wps-optimization-purging.php:170
+#: includes/optimization/tabs/wps-optimization-purging.php:194
+#: includes/settings/tabs/wps-notifications.php:134
+#: includes/settings/tabs/wps-notifications.php:164
+msgid "Please select"
+msgstr "الرجاء تحديد"
+
+#: includes/optimization/tabs/wps-optimization-export.php:24
+msgid "Select the table for the output file."
+msgstr "حدد الجدول لملف الإخراج."
+
+#: includes/optimization/tabs/wps-optimization-export.php:30
+msgid "Export To"
+msgstr "التصدير لـ"
+
+#: includes/optimization/tabs/wps-optimization-export.php:41
+msgid "Select the output file type."
+msgstr "حدد نوع ملف الإخراج."
+
+#: includes/optimization/tabs/wps-optimization-export.php:47
+msgid "Include Header Row"
+msgstr "تضمين رأس الصف"
+
+#: includes/optimization/tabs/wps-optimization-export.php:52
+msgid "Include a header row as the first line of the exported file."
+msgstr "تضمين صف الرأس كما في السطر الأول من الملف الذي تم تصديره."
+
+#: includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Start Now!"
+msgstr "ابدأ الآن!"
+
+#: includes/optimization/tabs/wps-optimization-historical.php:15
+msgid "Historical Values"
+msgstr "القيم التاريخية"
+
+#: includes/optimization/tabs/wps-optimization-historical.php:20
 msgid ""
-"Are you getting a blank or incomplete page displayed in your browser?  Did "
-"you view the source for the page and check for any fatal errors?"
+"Note: As you have just purged the database you must reload this page for "
+"these numbers to be correct."
 msgstr ""
-"أنت تحصل على صفحة فارغة أو غير كاملة عرض في المتصفح الخاص بك؟ هل عرض المصدر "
-"للصفحة والتحقق من وجود أي أخطاء قاتلة؟"
+"ملاحظة: كلما قمت بتطهير قاعدة البيانات يجب تحميل هذه الصفحة لتكون الأرقام "
+"صحيحة."
 
-#: includes/settings/tabs/wps-about.php:67
-msgid "Have you checked your PHP and web server error logs?"
-msgstr "هل راجعت الخاص بك PHP والويب سجلات الخطأ الملقم؟"
+#: includes/optimization/tabs/wps-optimization-historical.php:26
+#: includes/settings/tabs/wps-general.php:138
+#: includes/settings/tabs/wps-general.php:143 wp-statistics.php:286
+msgid "Visitors"
+msgstr "الزوار"
 
-#: widget.php:15
-msgid "Show site stats in sidebar."
-msgstr "إظهار إحصائيات الموقع في الشريط الجانبي."
+#: includes/optimization/tabs/wps-optimization-historical.php:31
+msgid ""
+"Number of historical number of visitors to the site (current value is %s)."
+msgstr "العدد التاريخي لزوار الموقع (القيمة الحالية هي %s)."
 
-#: includes/log/last-search.php:97 includes/log/last-visitor.php:94
-#: includes/log/widgets/google.map.php:65 includes/log/widgets/jqv.map.php:59
-#: includes/log/widgets/recent.php:22 includes/log/widgets/words.php:25
-msgid "#hash#"
-msgstr "#هاش#"
+#: includes/optimization/tabs/wps-optimization-historical.php:42
+msgid ""
+"Number of historical number of visits to the site (current value is %s)."
+msgstr "العدد التاريخي لزيارات الموقع (القيمة الحالية هي %s)."
+
+#: includes/optimization/tabs/wps-optimization-historical.php:48
+msgid "Update now!"
+msgstr "تحديث الآن!"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:10
+#: includes/optimization/tabs/wps-optimization-purging.php:37
+#: includes/optimization/tabs/wps-optimization-purging.php:63
+#: includes/optimization/tabs/wps-optimization-purging.php:91
+msgid "Are you sure?"
+msgstr "هل أنت متأكد؟"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:119
+msgid "Data"
+msgstr "المعطيات"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:124
+msgid "Empty Table"
+msgstr "تفريغ الجدول"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:137
+msgid "All data table will be lost."
+msgstr "سيتم فقدان جميع البيانات الجدول."
+
+#: includes/optimization/tabs/wps-optimization-purging.php:138
+msgid "Clear now!"
+msgstr "مسح الآن!"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:146
+msgid "Purge records older than"
+msgstr "سجلات الضخ أقدم من"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:152
+msgid ""
+"Deleted user statistics data older than the selected number of days.  "
+"Minimum value is 30 days."
+msgstr ""
+"بيانات الاحصائيات المستخدم المحذوف أقدم من الرقم المحدد من الأيام. قيمة الحد "
+"الأدنى هو 30 يوما."
+
+#: includes/optimization/tabs/wps-optimization-purging.php:153
+msgid "Purge now!"
+msgstr "ضخ الآن!"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:160
+msgid "Delete User Agent Types"
+msgstr "حذف أنواع وكيل العضو"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:165
+msgid "Delete Agents"
+msgstr "حذف الوكلاء"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:180
+msgid "All visitor data will be lost for this agent type."
+msgstr "سيتم فقد جميع البيانات الزائر لهذا النوع."
+
+#: includes/optimization/tabs/wps-optimization-purging.php:181
+#: includes/optimization/tabs/wps-optimization-purging.php:205
+msgid "Delete now!"
+msgstr "حذف الآن!"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:189
+msgid "Delete Platforms"
+msgstr "حذف المنصات"
+
+#: includes/optimization/tabs/wps-optimization-purging.php:204
+msgid "All visitor data will be lost for this platform type."
+msgstr "سيتم فقد جميع البيانات الزائر لنوع هذه المنصة."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:17
+msgid "Resources"
+msgstr "الموارد"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:22
+#: includes/optimization/tabs/wps-optimization-resources.php:27
+msgid "Memory usage in PHP"
+msgstr "استخدام الذاكرة في PHP"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:26
+#: includes/optimization/tabs/wps-optimization-resources.php:37
+msgid "Byte"
+msgstr "بايت"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:33
+msgid "Last Overview page memory usage"
+msgstr "آخر نظرة عامة على استخدام صفحة الذاكرة"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:38
+msgid "Memory usage in the overview page"
+msgstr "استخدام الذاكرة في صفحة نظرة عامة"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:44
+msgid "PHP Memory Limit"
+msgstr "حدود ذاكرة PHP"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:49
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr ""
+"حدود الذاكرة تسمح للبرنامج النصي باستهلاك حد معين، قم بتعيين ملف php.ini."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:55
+#: includes/optimization/tabs/wps-optimization-resources.php:66
+#: includes/optimization/tabs/wps-optimization-resources.php:77
+#: includes/optimization/tabs/wps-optimization-resources.php:88
+#: includes/optimization/tabs/wps-optimization-resources.php:99
+#: includes/optimization/tabs/wps-optimization-resources.php:110
+msgid "Number of rows in the %s table"
+msgstr "عدد الصفوف في جدول %s"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:59
+#: includes/optimization/tabs/wps-optimization-resources.php:70
+#: includes/optimization/tabs/wps-optimization-resources.php:81
+#: includes/optimization/tabs/wps-optimization-resources.php:92
+#: includes/optimization/tabs/wps-optimization-resources.php:103
+#: includes/optimization/tabs/wps-optimization-resources.php:114
+msgid "Row"
+msgstr "صف"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:60
+#: includes/optimization/tabs/wps-optimization-resources.php:71
+#: includes/optimization/tabs/wps-optimization-resources.php:82
+#: includes/optimization/tabs/wps-optimization-resources.php:93
+#: includes/optimization/tabs/wps-optimization-resources.php:104
+#: includes/optimization/tabs/wps-optimization-resources.php:115
+msgid "Number of rows"
+msgstr "عدد الصفوف"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:120
+msgid "Version Info"
+msgstr "معلومات الإصدار"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:125
+msgid "WP Statistics Version"
+msgstr "نسخة WP Statistics"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:130
+msgid "The WP Statistics version you are running."
+msgstr "إصدار WP Statistics."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "PHP Version"
+msgstr "نسخة PHP"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "The PHP version you are running."
+msgstr "إصدار PHP."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "PHP Safe Mode"
+msgstr "الوضع الآمن PHP"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:152
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr "هل الوضع الآمن نشط. الكود GeoIP غير معتمد في الوضع الآمن."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "jQuery Version"
+msgstr "نسخة jQuery"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:163
+msgid "The jQuery version you are running."
+msgstr "إصدار jQuery."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:169
+msgid "cURL Version"
+msgstr "إصدار cURL"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "cURL not installed"
+msgstr "cURL غير مثبت"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:174
+msgid ""
+"The PHP cURL Extension version you are running.  cURL is required for the "
+"GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+"نسخة الملحق PHP cURL تعمل. الملحق cURL مطلوب لعمل كود GeoIP, وإذا لم يتم "
+"تثبيته يتم تعطيل GeoIP."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:180
+msgid "BC Math"
+msgstr "BC Math"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:184
+msgid "Installed"
+msgstr "مثبت"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:184
+msgid "Not installed"
+msgstr "غير مثبت"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:185
+msgid ""
+"If the PHP BC Math Extension is installed.  BC Math is no longer required "
+"for the GeoIP code and is listed here only for historical reasons."
+msgstr ""
+"هل تم تثبيت PHP BC Math Extension مسبقاً. الآن ملحق BC Math لم يعد مطلوبا "
+"لكود GeoIP ويتم سرده هنا فقط لأسباب تاريخية."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:190
+msgid "File Info"
+msgstr "معلومات عن الملف"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:195
+msgid "GeoIP Database"
+msgstr "قاعدة بيانات GeoIP"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:204
+msgid "Database file does not exist."
+msgstr "لا وجود لملف قاعدة البيانات."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:244
+msgid ", created on "
+msgstr "، التي تم إنشاؤها على"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:208
+msgid "The file size and date of the GeoIP database."
+msgstr "حجم الملف والتاريخ من قاعدة بيانات GeoIP."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:214
+msgid "browscap.ini File"
+msgstr "ملف browscap.ini"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:223
+msgid "browscap.ini file does not exist."
+msgstr "لا وجود لملف browscap.ini."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:227
+msgid "The file size and date of the browscap.ini file."
+msgstr "حجم الملف وتاريخ الملف browscap.ini."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:233
+msgid "browscap Cache File"
+msgstr "browscap ملف ذاكرة التخزين المؤقت"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:242
+msgid "browscap cache file does not exist."
+msgstr "لا وجود لملف ذاكرة التخزين المؤقت browscap."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:246
+msgid "The file size and date of the browscap cache file."
+msgstr "حجم الملف وتاريخ الملف المؤقت browscap."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:251
+msgid "Client Info"
+msgstr "معلومات العميل"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:256
+msgid "Client IP"
+msgstr "IP العميل"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:261
+msgid "The client IP address."
+msgstr "عنوان IP للعميل."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:267
+msgid "User Agent"
+msgstr "وكيل المستخدم"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:272
+msgid "The client user agent string."
+msgstr "سلسلة عامل المستخدم العميل."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:278
+msgid "Browser"
+msgstr "المتصفح"
+
+#: includes/optimization/tabs/wps-optimization-resources.php:285
+msgid "The detected client browser."
+msgstr "مستكشف مستعرض العميل."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:296
+msgid "The detected client browser version."
+msgstr "إصدار مستكشف مستعرض العميل."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:307
+msgid "The detected client platform."
+msgstr "مستكشف منصة العميل"
 
 #: includes/optimization/tabs/wps-optimization-updates.php:4
 msgid ""
 "This will replace all IP addresses in the database with hash values and "
 "cannot be undo, are you sure?"
 msgstr ""
-"سيؤدي ذلك إلى استبدال كافة عناوين IP في قاعدة البيانات مع القيم هاش ولا يمكن "
-"التراجع، هل أنت متأكد؟"
+"سيؤدي ذلك إلى استبدال جميع عناوين IP في قاعدة البيانات مع قيم التجزئة ولا "
+"يمكن التراجع، هل أنت متأكد؟"
+
+#: includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "خيارات GeoIP"
 
 #: includes/optimization/tabs/wps-optimization-updates.php:26
 msgid ""
 "Updates any unknown location data in the database, this may take a while"
 msgstr ""
-"تحديث أي بيانات عن مواقع مجهولة في قاعدة البيانات, هذا قد يستغرق بعض الوقت"
+"تحديث أي بيانات الموقع غير معروفة في قاعدة البيانات, هذا قد يستغرق بعض الوقت"
 
 #: includes/optimization/tabs/wps-optimization-updates.php:31
-#: includes/settings/tabs/wps-general.php:56
+#: includes/settings/tabs/wps-general.php:66
 msgid "IP Addresses"
 msgstr "عناوين IP"
 
 #: includes/optimization/tabs/wps-optimization-updates.php:36
-#: includes/settings/tabs/wps-general.php:61
+#: includes/settings/tabs/wps-general.php:71
 msgid "Hash IP Addresses"
-msgstr "هاش عناوين IP"
+msgstr "عناوين IP المجزئة"
 
 #: includes/optimization/tabs/wps-optimization-updates.php:41
 msgid ""
@@ -411,439 +1001,338 @@ msgid ""
 "afterwards and this may take a while"
 msgstr ""
 "استبدال عناوين IP في قاعدة البيانات مع قيم التجزئة، فإنك لن تكون قادرا على "
-"استرداد عناوين IP في المستقبل لتجميع معلومات الموقع بعد ذلك وهذا قد يستغرق "
-"بعض الوقت"
+"استرداد عناوين IP في المستقبل لتجميع معلومات عن الموقع بعد ذلك وهذا قد "
+"يستغرق بعض الوقت"
 
 #: includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
-msgstr "عناوين IP مع استبدال قيم التجزئة."
+msgstr "استبدال عناوين IP مع قيم التجزئة."
 
-#: includes/settings/tabs/wps-access-level.php:149
-msgid "Force robot list update after upgrades"
-msgstr "قائمة تحديث فرقة الروبوت بعد الترقيات"
+#: includes/optimization/wps-optimization.php:51
+msgid "Install routine complete."
+msgstr "التثبيت الكامل الروتيني."
 
-#: includes/settings/tabs/wps-access-level.php:152
-msgid ""
-"Force the robot list to be reset to the default after an update to WP "
-"Statistics takes place.  Note if this option is enabled any custom robots "
-"you have added to the list will be lost."
-msgstr ""
-"إجبار قائمة الروبوت لإعادة تعيين إلى الافتراضي بعد تحديث احصائيات ووردبريس "
-"لتأخذ مكان. ملاحظة إذا تم تمكين هذا الخيار أي الروبوتات المخصصة التي قمت "
-"بإضافتها إلى القائمة سوف تضيع."
+#: includes/optimization/wps-optimization.php:146
+msgid "Resources/Information"
+msgstr "الموارد/معلومات"
 
-#: includes/settings/tabs/wps-general.php:40
-msgid "This will delete the manual when you save the settings, are you sure?"
-msgstr "سيتم حذف هذا الدليل عند حفظ الإعدادات، هل أنت متأكد؟"
+#: includes/optimization/wps-optimization.php:148
+msgid "Purging"
+msgstr "تطهير"
 
-#: includes/settings/tabs/wps-general.php:220
-msgid ""
-"By default WP Statistics displays an alert if any of the core features are "
-"disabled on every admin page, this option will disable these notices."
-msgstr ""
-"افتراضيا احصائيات ووردبريس يعرض تنبيها إذا تم تعطيل أي من الميزات الأساسية "
-"في كل صفحة مشرف، هذا الخيار يقوم بتعطيل هذه الإشعارات."
-
-#: includes/settings/tabs/wps-general.php:226
-msgid "Delete the manual"
-msgstr "حذف الدليل"
-
-#: includes/settings/tabs/wps-general.php:232
-msgid ""
-"By default WP Statistics stores the admin manual in the plugin directory (~5 "
-"meg), if this option is enabled it will be deleted now and during upgrades "
-"in the future."
-msgstr ""
-"افتراضيا احصائيات ووردبريس يخزن دليل المشرف في الدليل المساعد (~ 5 ميج)، إذا "
-"تم تمكين هذا الخيار سيتم حذفه الآن وخلال الترقيات في المستقبل."
-
-#: includes/optimization/tabs/wps-optimization-database.php:20
-msgid "Database Index"
-msgstr "مؤشر قاعدة البيانات"
-
-#: includes/optimization/tabs/wps-optimization-database.php:41
-msgid ""
-"This operation could take a long time on installs with many rows in the "
-"visitors table."
-msgstr ""
-"هذه العملية يمكن أن تستغرق وقتا طويلا لتثبيت العديد من الصفوف في جدول الزوار."
-
-#: includes/optimization/wps-optimization.php:129
+#: includes/optimization/wps-optimization.php:149
 msgid "Database"
 msgstr "قاعدة البيانات"
 
-#: includes/settings/tabs/wps-general.php:298
-msgid "Schedule"
-msgstr "الجدول"
+#: includes/optimization/wps-optimization.php:150
+msgid "Updates"
+msgstr "تحديثات"
 
-#: includes/settings/tabs/wps-general.php:328
-msgid "Send reports via"
-msgstr "إرسال التقارير عبر"
-
-#: includes/settings/tabs/wps-general.php:347
-msgid "E-mail addresses"
-msgstr "عناوين البريد الإلكتروني"
-
-#: includes/settings/tabs/wps-general.php:352
-msgid ""
-"A comma separated list of e-mail addresses to send the reports to if e-mail "
-"is selected above."
-msgstr ""
-"أفصل بين قائمة عناوين البريد الإلكتروني بفاصلة في حال تحديد عناوين أعلاه."
-
-#: includes/settings/tabs/wps-general.php:358
-msgid "Report body"
-msgstr "تقرير الهيئة"
-
-#: includes/settings/tabs/wps-overview-display.php:75
-msgid "The following three items are global to all users."
-msgstr "البنود الثلاثة التالية هي عالمية لجميع المستخدمين."
-
-#: includes/settings/tabs/wps-overview-display.php:80
-msgid "Map type"
-msgstr "نوع الخريطة"
-
-#: includes/settings/tabs/wps-overview-display.php:86
-msgid "JQVMap"
-msgstr "JQVMap"
-
-#: includes/settings/tabs/wps-overview-display.php:93
-msgid ""
-"The \"Google\" option will use Google's mapping service to plot the recent "
-"visitors (requires access to Google)."
-msgstr ""
-"(يتطلب الوصول إلى جوجل) الخيار يتوجب استخدام خدمة خرائط جوجل لرسم زوار مؤخرا."
-
-#: includes/settings/tabs/wps-overview-display.php:94
-msgid ""
-"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
-"recent visitors (requires no extenral services)."
-msgstr ""
-"أن خيار \"JQVMap\" سوف يستخدم الجافا سكربت لعرض مكتبة خرائط رسم الزوار "
-"مؤخرا. (لا يتطلب أي خدمات)"
-
-#: includes/settings/tabs/wps-overview-display.php:118
-msgid ""
-"This feature may cause a performance degradation when viewing statistics and "
-"is only valid if the map type is set to \"Google\"."
-msgstr ""
-"قد تؤدي هذه الميزة تدهور الأداء عند عرض الإحصاءات وصالحة فقط إذا تم تعيين "
-"نوع الخريطة لـ\"جوجل\"."
-
-#: includes/log/all-browsers.php:50
-msgid "Browsers by type"
-msgstr "المتصفحات حسب النوع"
-
-#: includes/log/all-browsers.php:133
-msgid "Browsers by platform"
-msgstr "المتصفحات حسب المنصة"
-
-#: includes/log/exclusions.php:97
-msgid "Excluded hits in the last"
-msgstr "استبعاد الفعالية في الأخير"
-
-#: includes/log/hit-statistics.php:36
-msgid "Hits Statistics Chart"
-msgstr "الرسم البياني لاحصائيات الفعالية"
-
-#: includes/log/hit-statistics.php:69 includes/log/widgets/hits.php:39
-msgid "Hits in the last"
-msgstr "الفعالية في الأخير"
-
-#: includes/log/last-search.php:30 includes/log/widgets/words.php:16
-#: includes/settings/tabs/wps-overview-display.php:36
-msgid "Latest Search Words"
-msgstr "أحدث كلمات البحث"
-
-#: includes/log/last-search.php:62
-msgid "Latest Search Word Statistics"
-msgstr "أحدث الإحصائيات - كلمة البحث"
-
-#: includes/log/last-visitor.php:61
-msgid "Recent Visitor Statistics"
-msgstr "احصائيات الزوار الأخيرة"
-
-#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
-msgid "Today Visitors Map"
-msgstr "خريطة زوار اليوم"
-
-#: includes/log/widgets/summary.php:8
-msgid "Summary"
-msgstr "ملخص"
-
-#: includes/log/widgets/summary.php:13
-msgid "User(s) Online"
-msgstr "الأعضاء المتصلين"
-
-#: includes/log/widgets/browsers.php:45
-msgid "Top 10 Browsers"
-msgstr "أفضل 10 متصفحات"
-
-#: includes/log/top-referring.php:34 includes/log/top-referring.php:49
-#: includes/log/widgets/referring.php:13
-#: includes/settings/tabs/wps-overview-display.php:26
-msgid "Top Referring Sites"
-msgstr "أعلى المواقع اشارة"
-
-#: includes/log/widgets/about.php:16
-msgid "Rate and Review"
-msgstr "المعدل والاستعراض"
-
-#: includes/log/widgets/about.php:20
-msgid "More Information"
-msgstr "مزيد من المعلومات"
-
-#: includes/log/widgets/about.php:29 includes/settings/tabs/wps-about.php:12
-msgid ""
-"This product includes GeoLite2 data created by MaxMind, available from %s."
-msgstr ""
-"يتضمن هذا المنتج GeoLite2 البيانات التي أنشأتها MaxMind، وهي متاحة من %s."
-
-#: includes/log/search-statistics.php:77 includes/log/widgets/search.php:46
-msgid "Search engine referrals in the last"
-msgstr "إحالات محرك البحث في الماضي"
-
-#: includes/log/search-statistics.php:98 includes/log/widgets/search.php:67
-msgid "Number of referrals"
-msgstr "عدد الإحالات"
-
-#: includes/log/widgets/pages.php:13
-msgid "Top 10 Pages"
-msgstr "أفضل 10 صفحات"
-
-#: includes/log/search-statistics.php:17 includes/log/search-statistics.php:36
-msgid "Search Engine Referral Statistics"
-msgstr "احصائيات إحالات محركات البحث"
+#: includes/optimization/wps-optimization.php:151
+msgid "Historical"
+msgstr "التاريخي"
 
 #: includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
-msgstr "نسخة الإحصائيات %s"
+msgstr "WP Statistics V%s"
 
 #: includes/settings/tabs/wps-about.php:20
 msgid "Visit Us Online"
-msgstr "زيارة موقعنا على الانترنت"
+msgstr "زورونا على الإنترنت"
+
+#: includes/settings/tabs/wps-about.php:24
+msgid ""
+"Come visit our great new %s and keep up to date on the latest news about WP "
+"Statistics."
+msgstr ""
+"قم بزيارة موقعنا الجديد كلياً على %s وأبقى على إطلاع دائم حول أخبار احصائيات "
+"ووردبريس."
+
+#: includes/settings/tabs/wps-about.php:24
+msgid "website"
+msgstr "الموقع"
 
 #: includes/settings/tabs/wps-about.php:28
 msgid "Rate and Review at WordPress.org"
-msgstr "قيم وأستعرض على WordPress.org"
+msgstr "التقييم و المراجعة في WordPress.org"
 
 #: includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
-msgstr "شكرا لتثبيت إحصائيات ووردبريس، ونحن نشجعكم على تقديم"
+msgstr "كل الشكر لتثبيت احصائيات ووردبريس، ونحن نشجعكم على تقديم"
 
 #: includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
-msgstr "التقييم والاستعراض"
+msgstr "التقييم و المراجعة"
 
 #: includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
-msgstr "زيادة على WordPress.org. ملاحظاتك هي موضع تقدير!"
+msgstr "في WordPress.org. حيث أن ملاحظاتكم في موضع تقدير دائماً!"
+
+#: includes/settings/tabs/wps-about.php:36
+msgid "Translations"
+msgstr "الترجمات"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid ""
+"WP Statistics supports internationalization and we encourage our users to "
+"submit translations, please visit our %s to see the current status and %s if "
+"you would like to help."
+msgstr ""
+"احصائيات ووردبريس تدعم التدويل ونحن نشجع مستخدمينا على تقديم الترجمات، يرجى "
+"زيارة موقعنا %s لرؤية الوضع الحالي و %s إذا كنت ترغب في المساعدة."
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "translation collaboration site"
+msgstr "الموقع التعاوني للترجمة"
+
+#: includes/settings/tabs/wps-about.php:40
+msgid "drop us a line"
+msgstr "اترك لنا رسالة"
+
+#: includes/settings/tabs/wps-about.php:44
+msgid "Support"
+msgstr "دعم"
 
 #: includes/settings/tabs/wps-about.php:49
 msgid ""
 "We're sorry you're having problem with WP Statistics and we're happy to help "
 "out.  Here are a few things to do before contacting us:"
 msgstr ""
-"نحن آسفون كنت تواجه مشكلة مع احصائيات ووردبريس ونحن سعداء للمساعدة. وهنا عدد "
-"قليل من الأشياء يجب القيام به قبل الاتصال بنا:"
+"نحن آسفون إن كنت تواجه مشكلة مع احصائيات ووردبريس ونحن سعداء للمساعدة. وهنا "
+"عدد قليل من الأشياء للقيام بها قبل الاتصال بنا:"
 
-#: includes/settings/tabs/wps-about.php:58
+#: includes/settings/tabs/wps-about.php:52
+#: includes/settings/tabs/wps-about.php:53
+msgid "Have you read the %s?"
+msgstr "هل قرأت %s؟"
+
+#: includes/settings/tabs/wps-about.php:52
+msgid "FAQs"
+msgstr "أسئلة وأجوبة"
+
+#: includes/settings/tabs/wps-about.php:53
+msgid "manual"
+msgstr "الدليل"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "Have you search the %s for a similar issue?"
+msgstr "هل بحثت في %s لمشكلة مشابهة؟"
+
+#: includes/settings/tabs/wps-about.php:54
+msgid "support forum"
+msgstr "منتدى الدعم"
+
+#: includes/settings/tabs/wps-about.php:55
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr "هل بحثت في الإنترنت عن أي رسائل خطأ التي تظهر لك؟"
+
+#: includes/settings/tabs/wps-about.php:56
+msgid "Make sure you have access to your PHP error logs."
+msgstr "تأكد أن لديك الوصول إلى سجلات الخطأ PHP الخاص بك."
+
+#: includes/settings/tabs/wps-about.php:59
 msgid "And a few things to double-check:"
-msgstr "و عدد قليل من التحقق المزدوج:"
-
-#: includes/settings/tabs/wps-about.php:61
-msgid "How's your memory_limit in php.ini?"
-msgstr "كيف memory_limit الخاصة بك في ملف php.ini؟"
+msgstr "وعدد قليل من الأشياء الأخرى:"
 
 #: includes/settings/tabs/wps-about.php:62
-msgid "Have you tried disabling any other plugins you may have installed?"
-msgstr "هل حاولت تعطيل أي ملحقات أخرى عندما قمت بالتثبيت؟"
+msgid "How's your memory_limit in php.ini?"
+msgstr "كيف حال memory_limit الخاصة بك في ملف php.ini؟"
 
 #: includes/settings/tabs/wps-about.php:63
-msgid "Have you tried using the default WordPress theme?"
-msgstr "هل حاولت استخدام المظهر الافتراضي لووردبريس؟"
+msgid "Have you tried disabling any other plugins you may have installed?"
+msgstr "هل حاولت تعطيل أي إضافات أخرى التي قد تم تثبيتها؟"
 
 #: includes/settings/tabs/wps-about.php:64
-msgid "Have you double checked the plugin settings?"
-msgstr "هل قمت بمضاعفة فحص إعدادات البرنامج المساعد؟"
+msgid "Have you tried using the default WordPress theme?"
+msgstr "هل حاولت استخدام المظهر الافتراضي للوردبريس؟"
 
 #: includes/settings/tabs/wps-about.php:65
+msgid "Have you double checked the plugin settings?"
+msgstr "هل ضاعفت الفحص على إعدادات البرنامج المساعد؟"
+
+#: includes/settings/tabs/wps-about.php:66
 msgid "Do you have all the required PHP extensions installed?"
-msgstr "هل لديك جميع الملحقات المطلوبة لتثبيت PHP؟"
+msgstr "هل قمت بتثبيت جميع ملحقات PHP المطلوبة؟"
 
-#: includes/settings/tabs/wps-about.php:70
+#: includes/settings/tabs/wps-about.php:67
+msgid ""
+"Are you getting a blank or incomplete page displayed in your browser?  Did "
+"you view the source for the page and check for any fatal errors?"
+msgstr ""
+"أنت تحصل على صفحة فارغة أو غير مكتملة العرض في المستعرض الخاص بك؟ قم  بعرض "
+"المصدر للصفحة وتحقق من وجود أية أخطاء قاتلة؟"
+
+#: includes/settings/tabs/wps-about.php:68
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "هل راجعت سجل أخطاء الـPHP الخاص بك؟"
+
+#: includes/settings/tabs/wps-about.php:71
 msgid "Still not having any luck?"
-msgstr "هل ما زالت المشكلة قائمة؟"
+msgstr "لم يحالفك الحظ حتى الآن؟"
 
-#: includes/optimization/tabs/wps-optimization-export.php:17
-#: includes/optimization/tabs/wps-optimization-export.php:35
-#: includes/optimization/tabs/wps-optimization-purging.php:128
-#: includes/optimization/tabs/wps-optimization-purging.php:169
-#: includes/optimization/tabs/wps-optimization-purging.php:193
-#: includes/settings/tabs/wps-general.php:303
-#: includes/settings/tabs/wps-general.php:333
-msgid "Please select"
-msgstr "الرجاء اختيار"
-
-#: includes/settings/tabs/wps-general.php:365
+#: includes/settings/tabs/wps-about.php:71
 msgid ""
-"Any shortcode supported by your installation of WordPress, include all "
-"shortcodes for WP Statistics (see the admin manual for a list of codes "
-"available) are supported in the body of the message."
-msgstr ""
-"أي رمز قصير مدعوم في تنصيب ووردبريس، مشمولة في احصائيات ووردبريس (انظر الى "
-"دليل المشرف للحصول على قائمة الرموز المتوفرة) ومعتمدة في نص الرسالة. "
+"Then please open a new thread on the %s and we'll respond as soon as "
+"possible."
+msgstr "الرجاء فتح موضوع جديد في %s، وسنقوم بالرد في أقرب وقت ممكن."
 
-#: includes/settings/tabs/wps-general.php:368
-msgid ""
-"Input data codes are now deprecated and will be removed in a future version "
-"of WP Statistics, please use the appropriate shortcodes, they are included "
-"here only for historical purposes:"
-msgstr ""
-"رموز البيانات المهملة المدخلة سيتم ازالتها في إصدار مستقبلي من احصائيات "
-"ووردبريس، يرجى استخدام الرموز القصيرة المناسبة، يتم تضمينها هنا فقط لأغراض "
-"تاريخية:"
+#: includes/settings/tabs/wps-about.php:71
+msgid "WordPress.org support forum"
+msgstr "منتدى الدعم"
 
-#: includes/settings/tabs/wps-geoip.php:22
-msgid ""
-"IP location services provided by GeoLite2 data created by MaxMind, available "
-"from %s."
-msgstr ""
-"خدمات الموقع IP المقدمة من البيانات GeoLite2 التي أنشأتها MaxMind، وهي متاحة "
-"من %s."
+#: includes/settings/tabs/wps-about.php:75
+msgid "Alternatively %s support is available as well."
+msgstr "كما أنه يتوفر دعم للغة %s كذلك."
 
-#: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32
-msgid "None"
-msgstr "لا شيء"
+#: includes/settings/tabs/wps-about.php:75
+msgid "Farsi"
+msgstr "الفارسية"
 
-#: includes/settings/tabs/wps-overview-display.php:28
-#: includes/settings/wps-settings.php:92
-msgid "About"
-msgstr "حول"
+#: includes/settings/tabs/wps-access-level.php:21
+msgid "WP Statistics Honey Page"
+msgstr "احصائيات ووردبريس صفحة العسل"
 
-#: includes/settings/tabs/wps-overview-display.php:123
-msgid "Widgets to Display"
-msgstr "المربعات الجانبية إلى العرض"
+#: includes/settings/tabs/wps-access-level.php:22
+msgid "This is the honey pot for WP Statistics to use, do not delete."
+msgstr "هذا هو وعاء العسل لاحصائيات ووردبريس المستخدم, لا تحذف"
 
-#: includes/settings/tabs/wps-overview-display.php:132
-msgid ""
-"The following items are unique to each user.  If you do not select the "
-"'About' widget it will automatically be displayed in the last positon of "
-"column A."
-msgstr ""
-"البنود التالية هي فريدة من نوعها لكل مستخدم. إذا لم تقم بتحديد موقع المربع "
-"الجانبي 'حول' سيتم تلقائيا إظهارها في الأخير من العمود A."
+#: includes/settings/tabs/wps-access-level.php:45
+msgid "Access Levels"
+msgstr "مستويات الوصول"
 
-#: includes/settings/tabs/wps-overview-display.php:137
-msgid "Slot"
-msgstr "الشريحة"
+#: includes/settings/tabs/wps-access-level.php:74
+msgid "Required user level to view WP Statistics"
+msgstr "مطلوب مستوى المستخدم لعرض الاحصائيات"
 
-#: includes/settings/tabs/wps-overview-display.php:141
-msgid "Column A"
-msgstr "العمود A"
-
-#: includes/settings/tabs/wps-overview-display.php:145
-msgid "Column B"
-msgstr "العمود B"
-
-#: includes/settings/tabs/wps-overview-display.php:151
-msgid "Slot 1"
-msgstr "الشريحة 1"
-
-#: includes/settings/tabs/wps-overview-display.php:181
-msgid "Slot 2"
-msgstr "الشريحة 2"
-
-#: includes/settings/tabs/wps-overview-display.php:211
-msgid "Slot 3"
-msgstr "الشريحة 3"
-
-#: includes/settings/tabs/wps-overview-display.php:241
-msgid "Slot 4"
-msgstr "الشريحة 4"
-
-#: includes/settings/tabs/wps-overview-display.php:271
-msgid "Slot 5"
-msgstr "الشريحة 5"
-
-#: includes/settings/tabs/wps-overview-display.php:301
-msgid "Slot 6"
-msgstr "الشريحة 6"
-
-#: includes/settings/tabs/wps-overview-display.php:305
-msgid "N/A"
-msgstr "N/A"
-
-#: widget.php:280
-msgid "Search Engine Referred"
-msgstr "محرك البحث المشار اليه"
-
-#: schedule.php:10
-msgid "Once Weekly"
-msgstr "مرة واحدة أسبوعيا"
-
-#: schedule.php:17
-msgid "Once Every 2 Weeks"
-msgstr "مرة واحدة كل أسبوعين"
-
-#: schedule.php:24
-msgid "Once Every 4 Weeks"
-msgstr "مرة واحدة كل 4 أسابيع"
-
-#: wp-statistics.php:39
-msgid "Complete statistics for your WordPress site."
-msgstr "الإحصائيات الكاملة للموقع الخاص بك."
-
-#: includes/log/widgets/about.php:15
-msgid "Website"
-msgstr "الموقع"
-
-#: includes/log/top-referring.php:117 includes/log/widgets/referring.php:19
-msgid "References"
-msgstr "المراجع"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:33
-msgid "PHP Memory Limit"
-msgstr "حد ذاكرة PHP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:38
-msgid "The memory limit a script is allowed to consume, set in php.ini."
-msgstr "حد الذاكرة المسموحبه في السكربت, محدد في php.ini."
-
-#: wp-statistics.php:38
-msgid "WP Statistics"
-msgstr "احصائيات ووردبريس"
-
-#: wp-statistics.php:164
-msgid "Visit WordPress.org page"
-msgstr "زيارة صفحة الووردبريس"
-
-#: includes/log/page-statistics.php:29
-msgid "Page Trend for Post ID"
-msgstr "صفحة الأكثر رواجاً بمعرف المشاركة"
-
-#: includes/log/page-statistics.php:48
-msgid "Page Trend"
-msgstr "الصفحة الأكثر رواجاً"
-
-#: includes/log/page-statistics.php:68
-msgid "Page Trending Stats"
-msgstr "احصائيات الصفحة الاكثر رواجاً"
+#: includes/settings/tabs/wps-access-level.php:89
+msgid "Required user level to manage WP Statistics"
+msgstr "مطلوب مستوى المستخدم لإدارة الاحصائيات"
 
 #: includes/settings/tabs/wps-access-level.php:97
+msgid "See the %s for details on capability levels."
+msgstr "اطلع على %s لمزيد من التفاصيل على مستويات القدرة."
+
+#: includes/settings/tabs/wps-access-level.php:97
+msgid "WordPress Roles and Capabilities page"
+msgstr "أدوار وقدرات صفحة ووردبريس"
+
+#: includes/settings/tabs/wps-access-level.php:98
+msgid ""
+"Hint: manage_network = Super Admin Network, manage_options = Administrator, "
+"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
+"Contributor, read = Everyone."
+msgstr ""
+"تلميح:  manage_network = مسؤول, manage_options = مدير, edit_others_posts = "
+"محرر, publish_posts = كاتب, edit_posts = مساهم, read = الجميع"
+
+#: includes/settings/tabs/wps-access-level.php:99
+msgid ""
+"Each of the above casscades the rights upwards in the default WordPress "
+"configuration.  So for example selecting publish_posts grants the right to "
+"Authors, Editors, Admins and Super Admins."
+msgstr ""
+"كل ما سبق من الكاسكيدز هي حقوق تكوين الووردبريس الافتراضي. على سبيل المثال "
+"عند اختيار publish_posts يمنح حقوق المؤلف,المحرر,المدير,المسؤول."
+
+#: includes/settings/tabs/wps-access-level.php:100
+msgid ""
+"If you need a more robust solution to delegate access you might want to look "
+"at %s in the WordPress plugin directory."
+msgstr ""
+"إذا كنت في حاجة الى حل أكثر قوة لتفويض الوصول التي قد ترغب في النظر في %s "
+"الدليل المساعد لووردبريس."
+
+#: includes/settings/tabs/wps-access-level.php:105 wp-statistics.php:278
+msgid "Exclusions"
+msgstr "الاستثناءات"
+
+#: includes/settings/tabs/wps-access-level.php:109
 msgid "Record exclusions"
 msgstr "سجل الاستثناءات"
 
-#: includes/settings/tabs/wps-access-level.php:130
+#: includes/settings/tabs/wps-access-level.php:111
+#: includes/settings/tabs/wps-access-level.php:165
+#: includes/settings/tabs/wps-access-level.php:192
+msgid "Enable"
+msgstr "تمكين"
+
+#: includes/settings/tabs/wps-access-level.php:112
+msgid ""
+"This will record all the excluded hits in a separate table with the reasons "
+"why it was excluded but no other information.  This will generate a lot of "
+"data but is useful if you want to see the total number of hits your site "
+"gets, not just actual user visits."
+msgstr ""
+"يقوم هذا الخيار بتسجيل جميع النقرات المستبعدة في جدول منفصل مع أسباب "
+"الأستبعاد، ولكن بدون معلومات أخرى. وهذا قد يولد الكثير من البيانات ولكن هو "
+"مفيد إذا كنت تريد أن ترى العدد الكلي من المشاهدات التي يحصل عليها موقعك، "
+"وليس فقط المستخدم الفعلي للموقع."
+
+#: includes/settings/tabs/wps-access-level.php:117
+msgid "Exclude User Roles"
+msgstr "استبعاد أدوار المستخدم"
+
+#: includes/settings/tabs/wps-access-level.php:133
+#: includes/settings/tabs/wps-access-level.php:247
+#: includes/settings/tabs/wps-access-level.php:254
+msgid "Exclude"
+msgstr "منع"
+
+#: includes/settings/tabs/wps-access-level.php:134
+msgid "Exclude %s role from data collection."
+msgstr "استبعاد دور %s من جمع البيانات."
+
+#: includes/settings/tabs/wps-access-level.php:140
+msgid "IP/Robot Exclusions"
+msgstr "استثناءات IP/Robot"
+
+#: includes/settings/tabs/wps-access-level.php:144
 msgid "Robot list"
 msgstr "قائمة الروبوت"
 
 #: includes/settings/tabs/wps-access-level.php:157
+msgid ""
+"A list of words (one per line) to match against to detect robots.  Entries "
+"must be at least 4 characters long or they will be ignored."
+msgstr ""
+"قائمة من الكلمات (واحد في كل سطر) لمطابقة ضد للكشف عن الروبوتات. يجب أن تكون "
+"إدخالات 4 أحرف على الأقل أو أنها سيتم تجاهلها."
+
+#: includes/settings/tabs/wps-access-level.php:158
+msgid "Reset to Default"
+msgstr "إعادة تعيين إلى الافتراضي"
+
+#: includes/settings/tabs/wps-access-level.php:163
+msgid "Force robot list update after upgrades"
+msgstr "إجبار تحديث قائمة الربوت بعد الترقيات"
+
+#: includes/settings/tabs/wps-access-level.php:166
+msgid ""
+"Force the robot list to be reset to the default after an update to WP "
+"Statistics takes place.  Note if this option is enabled any custom robots "
+"you have added to the list will be lost."
+msgstr ""
+"إجبار قائمة الروبوت لإعادة تعيين إلى الافتراضي بعد تحديث احصائيات ووردبريس "
+"لتأخذ مكان. ملاحظة إذا تم تمكين هذا الخيار أي روبوتات تم تخصيصها في القائمة "
+"سوف تضيع."
+
+#: includes/settings/tabs/wps-access-level.php:171
+msgid "Robot visit threshold"
+msgstr "الحد الأدنى بزيارة الروبوت"
+
+#: includes/settings/tabs/wps-access-level.php:174
+msgid ""
+"Treat visitors with more than this number of visits per day as robots.  0 = "
+"disabled."
+msgstr ""
+"تعامل للزوار أكثر من هذا العدد من مرة في اليوم الواحد كما الروبوتات. 0 = "
+"تعطيل."
+
+#: includes/settings/tabs/wps-access-level.php:179
 msgid "Excluded IP address list"
 msgstr "قائمة عناوين IP المستبعدة"
 
-#: includes/settings/tabs/wps-access-level.php:160
+#: includes/settings/tabs/wps-access-level.php:182
 msgid ""
 "A list of IP addresses and subnet masks (one per line) to exclude from "
 "statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
@@ -855,197 +1344,434 @@ msgstr ""
 "192.168.0.0/255.255.255.0 ). لتحديد عنوان IP فقط، استخدم قيمة الشبكة الفرعية "
 "32 أو 255.255.255.255.255."
 
-#: includes/settings/tabs/wps-access-level.php:172
+#: includes/settings/tabs/wps-access-level.php:183
+msgid "Add 10.0.0.0"
+msgstr "إضافة 10.0.0.0"
+
+#: includes/settings/tabs/wps-access-level.php:184
+msgid "Add 172.16.0.0"
+msgstr "إضافة 172.16.0.0"
+
+#: includes/settings/tabs/wps-access-level.php:185
+msgid "Add 192.168.0.0"
+msgstr "إضافة 192.168.0.0"
+
+#: includes/settings/tabs/wps-access-level.php:190
+msgid "Use honey pot"
+msgstr "استخدام وعاء العسل"
+
+#: includes/settings/tabs/wps-access-level.php:193
+msgid "Use a honey pot page to identify robots."
+msgstr "استخدام صفحة وعاء العسل لتحديد الروبوتات."
+
+#: includes/settings/tabs/wps-access-level.php:198
+msgid "Honey pot post id"
+msgstr "معرف مقال وعاء العسل"
+
+#: includes/settings/tabs/wps-access-level.php:201
+msgid "The post id to use for the honeypot page."
+msgstr "رقم المشاركة لاستخدامها في صفحة المصيدة."
+
+#: includes/settings/tabs/wps-access-level.php:202
+msgid "Create a new honey pot page"
+msgstr "إنشاء صفحة وعاء عسل جديدة"
+
+#: includes/settings/tabs/wps-access-level.php:207
+msgid "GeoIP Exclusions"
+msgstr "استثناءات GeoIP"
+
+#: includes/settings/tabs/wps-access-level.php:211
+msgid "Excluded countries list"
+msgstr "قائمة الدول المستثناة"
+
+#: includes/settings/tabs/wps-access-level.php:214
+msgid ""
+"A list of country codes (one per line, two letters each) to exclude from "
+"statistics collection.  Use \"000\" (three zeros) to exclude unknown "
+"countries."
+msgstr ""
+"قائمة رموز البلد (واحد في كل سطر، رسالتين لكل منهما) لاستبعاد من جمع "
+"الإحصاءات. استخدام \"000\" (ثلاثة أصفار) لاستبعاد بلدان غير معروفة."
+
+#: includes/settings/tabs/wps-access-level.php:219
+msgid "Included countries list"
+msgstr "قائمة البلدان المدرجة"
+
+#: includes/settings/tabs/wps-access-level.php:222
+msgid ""
+"A list of country codes (one per line, two letters each) to include in "
+"statistics collection, if this list is not empty, only visitors from the "
+"included countries will be recorded.  Use \"000\" (three zeros) to exclude "
+"unknown countries."
+msgstr ""
+"قائمة رموز البلد (واحد في كل سطر، رسالتين لكل منهما) لتشمل في جمع الإحصاءات، "
+"إذا كانت هذه القائمة ليست فارغة، سيتم تسجيل الزوار فقط من الدول المدرجة. "
+"استخدام \"000\" (ثلاثة أصفار) لاستبعاد بلدان غير معروفة."
+
+#: includes/settings/tabs/wps-access-level.php:227
+msgid "Host Exclusions"
+msgstr "استثناءات المضيف"
+
+#: includes/settings/tabs/wps-access-level.php:231
+msgid "Excluded hosts list"
+msgstr "قائمة المضيفين المستبعدين"
+
+#: includes/settings/tabs/wps-access-level.php:234
+msgid ""
+"A list of fully qualified host names (ie. server.example.com, one per line) "
+"to exclude from statistics collection."
+msgstr ""
+"قائمة أسماء المضيف المؤهل بالكامل (أي. server.example.com، سطر واحد في "
+"المائة) لاستبعاد من جمع الإحصاءات."
+
+#: includes/settings/tabs/wps-access-level.php:236
+msgid ""
+"Note: this option will NOT perform a reverse DNS lookup on each page load "
+"but instead cache the IP address for the provided hostnames for one hour.  "
+"If you are excluding dynamically assigned hosts you may find some degree of "
+"overlap when the host changes it's IP address and when the cache is updated "
+"resulting in some hits recorded."
+msgstr ""
+"ملاحظة: هذا الخيار لإجراء بحث DNS عكسي على تحميل كل صفحة ولكن بدلا من ذلك "
+"بالتخزين المؤقت لعنوان الـIP لأسماء المضيفين المنصوص عليها هي ساعة واحدة. "
+"إذا كنت استبعدت المضيفين وقم بتعيين حيوي قد تجد بعض الدرجات من التداخل عندما "
+"يتغير عنوان IP للمضيف وذلك وعندما يتم تحديث ذاكرة التخزين المؤقت قد يؤدي في "
+"بعض الزيارات المسجلة."
+
+#: includes/settings/tabs/wps-access-level.php:241
+msgid "Site URL Exclusions"
+msgstr "رابط الموقع المستثنى"
+
+#: includes/settings/tabs/wps-access-level.php:245
 msgid "Excluded login page"
 msgstr "استبعاد صفحة تسجيل الدخول"
 
-#: includes/settings/tabs/wps-access-level.php:179
+#: includes/settings/tabs/wps-access-level.php:248
+msgid "Exclude the login page for registering as a hit."
+msgstr "استبعاد صفحة الدخول للتسجيل كنقرة."
+
+#: includes/settings/tabs/wps-access-level.php:252
 msgid "Excluded admin pages"
 msgstr "استبعاد الصفحات الإدارية"
 
-#: includes/settings/tabs/wps-general.php:72
+#: includes/settings/tabs/wps-access-level.php:255
+msgid "Exclude the admin pages for registering as a hit."
+msgstr "استبعاد الصفحات الادارية للتسجيل كنقرة."
+
+#: includes/settings/tabs/wps-browscap.php:22
+msgid "browscap settings"
+msgstr "إعدادات browscap"
+
+#: includes/settings/tabs/wps-browscap.php:27
+msgid "browscap usage"
+msgstr "استخدام browscap"
+
+#: includes/settings/tabs/wps-browscap.php:32
+#: includes/settings/tabs/wps-browscap.php:56
+#: includes/settings/tabs/wps-general.php:76
+#: includes/settings/tabs/wps-general.php:92
+#: includes/settings/tabs/wps-general.php:116
+#: includes/settings/tabs/wps-general.php:132
+#: includes/settings/tabs/wps-general.php:148
+#: includes/settings/tabs/wps-general.php:160
+#: includes/settings/tabs/wps-general.php:187
+#: includes/settings/tabs/wps-general.php:199
+#: includes/settings/tabs/wps-general.php:214
+#: includes/settings/tabs/wps-general.php:228
+#: includes/settings/tabs/wps-general.php:258
+#: includes/settings/tabs/wps-general.php:270
+#: includes/settings/tabs/wps-general.php:313
+#: includes/settings/tabs/wps-geoip.php:37
+#: includes/settings/tabs/wps-geoip.php:61
+#: includes/settings/tabs/wps-geoip.php:94
+#: includes/settings/tabs/wps-maintenance.php:40
+#: includes/settings/tabs/wps-notifications.php:69
+#: includes/settings/tabs/wps-notifications.php:81
+#: includes/settings/tabs/wps-notifications.php:93
+#: includes/settings/tabs/wps-notifications.php:105
+#: includes/settings/tabs/wps-notifications.php:121
+#: includes/settings/tabs/wps-overview-display.php:87
+#: includes/settings/tabs/wps-overview-display.php:107
+#: includes/settings/tabs/wps-overview-display.php:147
+#: includes/settings/tabs/wps-overview-display.php:159
+msgid "Active"
+msgstr "تفعيل"
+
+#: includes/settings/tabs/wps-browscap.php:33
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr "سيتم تحميل قاعدة البيانات browscap وتستخدم للكشف عن الروبوتات."
+
+#: includes/settings/tabs/wps-browscap.php:39
+msgid "Update browscap Info"
+msgstr "تحديث معلومات browscap"
+
+#: includes/settings/tabs/wps-browscap.php:44
+msgid "Download browscap Database"
+msgstr "تحميل قاعدة بيانات browscap"
+
+#: includes/settings/tabs/wps-browscap.php:45
+#: includes/settings/tabs/wps-geoip.php:50
+msgid "Save changes on this page to download the update."
+msgstr "حفظ التغييرات على هذه الصفحة لتحميل التحديث."
+
+#: includes/settings/tabs/wps-browscap.php:51
+msgid "Schedule weekly update of browscap DB"
+msgstr "جدولة التحديث الأسبوعي لـ browscap DB"
+
+#: includes/settings/tabs/wps-browscap.php:59
+#: includes/settings/tabs/wps-geoip.php:64
+msgid "Next update will be"
+msgstr "التحديث القادم سيكون في"
+
+#: includes/settings/tabs/wps-browscap.php:74
+msgid "Download of the browscap database will be scheduled for once a week."
+msgstr "سيتم تحديد موعد تحميل قاعدة بيانات browscap لمرة واحدة في الأسبوع."
+
+#: includes/settings/tabs/wps-general.php:50
+msgid "This will delete the manual when you save the settings, are you sure?"
+msgstr "سيؤدي ذلك إلى حذف الدليل عند حفظ الإعدادات، هل أنت متأكد؟"
+
+#: includes/settings/tabs/wps-general.php:77
+msgid ""
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+"هذه الميزة لتخزين عناوين IP في قاعدة البيانات ولكن بدلا من ذلك تستخدم تجزئة "
+"فريدة من نوعها. سيتم تعطيل \"مخزن سلسلة عامل المستخدم بأكمله\" إذا تم تحديد "
+"هذا. أنت لن تكون قادر على استرداد عناوين IP في المستقبل لاسترداد معلومات "
+"الموقع إذا تم تمكين هذا."
+
+#: includes/settings/tabs/wps-general.php:82
 msgid "Users Online"
 msgstr "الإعضاء المتواجدين"
 
-#: includes/settings/tabs/wps-general.php:77
+#: includes/settings/tabs/wps-general.php:87
 msgid "User online"
 msgstr "المتواجدين الآن"
 
-#: includes/settings/tabs/wps-general.php:172
-msgid "Track all pages"
-msgstr "تتبع جميع الصفحات"
+#: includes/settings/tabs/wps-general.php:93
+#: includes/settings/tabs/wps-general.php:133
+#: includes/settings/tabs/wps-general.php:149
+#: includes/settings/tabs/wps-general.php:188
+#: includes/settings/tabs/wps-general.php:200
+#: includes/settings/tabs/wps-general.php:229
+#: includes/settings/tabs/wps-notifications.php:122
+msgid "Enable or disable this feature"
+msgstr "تمكين أو تعطيل هذه الميزة"
 
-#: includes/settings/tabs/wps-general.php:184
-msgid "Disable hits column in post/pages list"
-msgstr "تعطيل عمود النقرات في قائمة المقال/الصفحات"
+#: includes/settings/tabs/wps-general.php:99
+msgid "Check for online users every"
+msgstr "تحقق من المتصلين في الموقع في كل"
 
-#: includes/settings/tabs/wps-general.php:195
-msgid "Miscellaneous"
-msgstr "متفرقات"
+#: includes/settings/tabs/wps-general.php:104
+msgid "Second"
+msgstr "ثانية"
 
-#: wp-statistics.php:164
-msgid "Click here to visit the plugin on WordPress.org"
-msgstr "انقر هنا لزيارة صفحة الإضافة على WordPress.org"
+#: includes/settings/tabs/wps-general.php:105
+msgid "Time for the check accurate online user in the site. Now: %s Second"
+msgstr "وقت التحقق من المستخدمين المتصلين في الموقع. الآن: %s ثانية"
 
-#: wp-statistics.php:167
-msgid "Click here to rate and review this plugin on WordPress.org"
-msgstr "أنقر هنا لمراجهة وتقييم الإضافة على WordPress.org"
+#: includes/settings/tabs/wps-general.php:111
+msgid "Record all user"
+msgstr "تسجيل جميع المستخدمين"
 
-#: wp-statistics.php:167
-msgid "Rate this plugin"
-msgstr "ضع تقييمك لهذه الاضافة"
-
-#: wp-statistics.php:211
-msgid "WP Statistics - Hits"
-msgstr "احصائيات ووردبريس - الزيارات"
-
-#: wp-statistics.php:599
-msgid "Error downloading GeoIP database from: %s - %s"
-msgstr "خطأ تحميل قاعدة بيانات GeoIP من: %s - %s"
-
-#: widget.php:108 widget.php:277
-msgid "Total Page Views"
-msgstr "مجموع مشاهدات الصفحة"
+#: includes/settings/tabs/wps-general.php:117
+msgid ""
+"Ignores the exclusion settings and records all users that are online "
+"(including self referrals and robots).  Should only be used for "
+"troubleshooting."
+msgstr ""
+"يتجاهل إعدادات الإقصاء ويسجل كل المستخدمين التي يتم على الانترنت (بما في ذلك "
+"الإحالة الذاتية والروبوتات). وينبغي أن تستخدم فقط لاستكشاف الأخطاء وإصلاحها."
 
 #: includes/settings/tabs/wps-general.php:155
-#: includes/settings/tabs/wps-general.php:160 wp-statistics.php:259
+msgid "Store entire user agent string"
+msgstr "تخزين كامل سلسلة عامل المستخدم"
+
+#: includes/settings/tabs/wps-general.php:161
+msgid "Only enabled for debugging"
+msgstr "تمكين فقط من أجل التصحيح"
+
+#: includes/settings/tabs/wps-general.php:167
+msgid "Coefficient per visitor"
+msgstr "درجة لكل زائر"
+
+#: includes/settings/tabs/wps-general.php:172
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "حساب توجيه النقرات لكل زائر. حالياً %s."
+
+#: includes/settings/tabs/wps-general.php:177
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:281
 msgid "Pages"
 msgstr "الصفحات"
 
-#: wp-statistics.php:266
-msgid "Manual"
-msgstr "الدليل"
+#: includes/settings/tabs/wps-general.php:194
+msgid "Track all pages"
+msgstr "تتبع جميع الصفحات"
 
-#: wp-statistics.php:364
-msgid "Download ODF file"
-msgstr "تحميل ملف ODF"
+#: includes/settings/tabs/wps-general.php:209
+msgid "Strip parameters from URI"
+msgstr "معايير الشريط من URI"
 
-#: wp-statistics.php:365
-msgid "Download HTML file"
-msgstr "تحميل ملف HTML"
+#: includes/settings/tabs/wps-general.php:215
+msgid "This will remove anything after the ? in a URL."
+msgstr "سيؤدي هذا إلى إزالة أي شيء بعد؟ في URL."
 
-#: wp-statistics.php:369
-msgid "Manual file not found."
-msgstr "لم يتم العثور على ملف الدليل."
+#: includes/settings/tabs/wps-general.php:223
+msgid "Disable hits column in post/pages list"
+msgstr "تعطيل عمود النقرات في قائمة المقال/الصفحات"
 
-#: includes/log/exclusions.php:54
-msgid "Exclusions Statistics"
-msgstr "استثناءات الاحصائيات"
+#: includes/settings/tabs/wps-general.php:234
+msgid "Miscellaneous"
+msgstr "متفرقات"
 
-#: includes/settings/tabs/wps-overview-display.php:37
-msgid "Top Pages Visited"
-msgstr "أعلى الصفحات زيارة"
+#: includes/settings/tabs/wps-general.php:239
+msgid "Show stats in menu bar"
+msgstr "إظهار الاحصائيات في شريط القوائم"
 
-#: includes/log/top-pages.php:160 includes/log/widgets/pages.php:27
-msgid "No page title found"
-msgstr "لم يتم العثور على عنوان الصفحة"
+#: includes/settings/tabs/wps-general.php:244
+msgid "No"
+msgstr "لا"
 
-#: includes/log/top-pages.php:13 includes/log/top-pages.php:132
-msgid "Top Pages"
-msgstr "أفضل الصفحات"
+#: includes/settings/tabs/wps-general.php:245
+msgid "Yes"
+msgstr "نعم"
 
-#: includes/log/top-pages.php:20
-msgid "Top 5 Pages Trends"
-msgstr "الصفحات الـ5 الأكثر رواجاً"
+#: includes/settings/tabs/wps-general.php:247
+msgid "Show stats in admin menu bar"
+msgstr "اظهار الاحصائيات في شريط القوائم الإداري"
 
-#: includes/log/top-pages.php:49
-msgid "Top 5 Page Trending Stats"
-msgstr "احصائيات الصفحات الـ5 الأكثر رواجاً"
-
-#: includes/log/page-statistics.php:89 includes/log/top-pages.php:70
-msgid "Number of Hits"
-msgstr "عدد الزيارات"
-
-#: manual/manual.php:29
-msgid "Manual not found: %s"
-msgstr "الدليل لم يعثر على: %s"
-
-#: manual/manual.php:39
-msgid "Invalid file type selected: %s"
-msgstr "نوع الملف المختار غير صالح: %s"
-
-#: widget.php:116
-msgid "Search Engine referred"
-msgstr "محرك البحث المشار"
-
-#: includes/optimization/tabs/wps-optimization-export.php:47
-msgid "Include Header Row"
-msgstr "تضمين رأس الصف"
-
-#: includes/optimization/tabs/wps-optimization-export.php:52
-msgid "Include a header row as the first line of the exported file."
-msgstr "تضمين صف الرأس كما في السطر الأول من الملف الذي تم تصديره."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:125
-msgid "PHP Safe Mode"
-msgstr "الوضع الآمن PHP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:130
-msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
-msgstr "الوضع الآمن نشط. الكود GeoIP غير معتمد في الوضع الآمن."
-
-#: includes/settings/tabs/wps-geoip.php:106
-msgid "GeoIP collection is disabled due to the following reasons:"
-msgstr "تم تعطيل مجموعة GeoIP وذلك للأسباب التالية:"
-
-#: includes/settings/tabs/wps-geoip.php:126
-msgid ""
-"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
-"mode enabled!"
-msgstr ""
-"تم الكشف عن الوضع الآمن في PHP! مجموعة GeoIP غير معتمدة عند تمكين الوضع "
-"الآمن في PHP!"
-
-#: includes/settings/tabs/wps-general.php:214
+#: includes/settings/tabs/wps-general.php:253
 msgid "Hide admin notices about non active features"
 msgstr "اخفاء إشعارات المشرف حول الميزات غير نشطة"
 
-#: includes/settings/tabs/wps-general.php:237
-msgid "Search Enginges"
-msgstr "محرك البحث"
+#: includes/settings/tabs/wps-general.php:259
+msgid ""
+"By default WP Statistics displays an alert if any of the core features are "
+"disabled on every admin page, this option will disable these notices."
+msgstr ""
+"افتراضيا احصائيات ووردبريس يعرض تنبيها إذا تم تعطيل أي من الميزات الأساسية "
+"في صفحة المشرف، وهذا الخيار لتعطيل هذه الإشعارات."
 
-#: includes/settings/tabs/wps-general.php:242
+#: includes/settings/tabs/wps-general.php:265
+msgid "Delete the manual"
+msgstr "حذف الدليل"
+
+#: includes/settings/tabs/wps-general.php:271
+msgid ""
+"By default WP Statistics stores the admin manual in the plugin directory (~5 "
+"meg), if this option is enabled it will be deleted now and during upgrades "
+"in the future."
+msgstr ""
+"افتراضيا احصائيات ووردبريس يخزن دليل المشرف في الدليل المساعد (~ 5 ميج)، إذا "
+"تم تمكين هذا الخيار سيتم حذفه الآن، وخلال الترقيات في المستقبل."
+
+#: includes/settings/tabs/wps-general.php:276
+msgid "Search Engines"
+msgstr "محركات البحث"
+
+#: includes/settings/tabs/wps-general.php:281
 msgid ""
 "Disabling all search engines is not allowed, doing so will result in all "
 "search engines being active."
 msgstr ""
 "تعطيل جميع محركات البحث غير مسموح, سيؤدي ذلك الى تنشيط جميع محركات البحث."
 
-#: includes/settings/tabs/wps-general.php:257
+#: includes/settings/tabs/wps-general.php:296
 msgid "disable"
 msgstr "تعطيل"
 
-#: includes/settings/tabs/wps-general.php:258
+#: includes/settings/tabs/wps-general.php:297
 msgid "Disable %s from data collection and reporting."
 msgstr "تعطيل %s من جمع البيانات وإعداد التقارير."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:147
-msgid "cURL Version"
-msgstr "إصدار cURL"
+#: includes/settings/tabs/wps-general.php:303
+msgid "Charts"
+msgstr "الرسوم البيانية"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:151
-msgid "cURL not installed"
-msgstr "cURL غير مثبت"
+#: includes/settings/tabs/wps-general.php:308
+msgid "Include totals"
+msgstr "تتضمن الاجماليات"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/settings/tabs/wps-general.php:314
 msgid ""
-"The PHP cURL Extension version you are running.  cURL is required for the "
-"GeoIP code, if it is not installed GeoIP will be disabled."
+"Add a total line to charts with multiple values, like the search engine "
+"referrals"
+msgstr "إضافة سطر مجموع المخططات مع قيم متعددة، مثل إحالات محرك البحث"
+
+#: includes/settings/tabs/wps-geoip.php:17
+msgid "GeoIP settings"
+msgstr "إعدادات GeoIP"
+
+#: includes/settings/tabs/wps-geoip.php:22
+msgid ""
+"IP location services provided by GeoLite2 data created by MaxMind, available "
+"from %s."
 msgstr ""
-"نسخة الملحق PHP cURL تعمل. الملحق cURL مطلوب لعمل كود GeoIP, وإذا لم يتم "
-"تثبيته يتم تعطيل GeoIP."
+"خدمات الموقع IP المقدمة من البيانات GeoLite2 التي أنشأتها MaxMind، المتاحة "
+"من %s."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:158
-msgid "BC Math"
-msgstr "BC Math"
+#: includes/settings/tabs/wps-geoip.php:32
+msgid "GeoIP collection"
+msgstr "مجموعة GeoIP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:162
-msgid "Installed"
-msgstr "مثبت"
+#: includes/settings/tabs/wps-geoip.php:38
+msgid ""
+"For get more information and location (country) from visitor, enable this "
+"feature."
+msgstr ""
+"للحصول على مزيد من المعلومات، والمكان (البلد) من الزوار، تمكين هذه الميزة."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:162
-msgid "Not installed"
-msgstr "غير مثبت"
+#: includes/settings/tabs/wps-geoip.php:44
+msgid "Update GeoIP Info"
+msgstr "تحديث معلومات GeoIP"
+
+#: includes/settings/tabs/wps-geoip.php:49
+msgid "Download GeoIP Database"
+msgstr "تحميل قاعدة بيانات GeoIP"
+
+#: includes/settings/tabs/wps-geoip.php:56
+msgid "Schedule monthly update of GeoIP DB"
+msgstr "جدولة التحديث الشهري لGeoIP DB"
+
+#: includes/settings/tabs/wps-geoip.php:82
+msgid ""
+"Download of the GeoIP database will be scheduled for 2 days after the first "
+"Tuesday of the month."
+msgstr ""
+"سيتم جدولة التحميل من قاعدة البيانات GeoIP لمدة 2 يوما بعد يوم الثلاثاء "
+"الأول من الشهر."
+
+#: includes/settings/tabs/wps-geoip.php:83
+msgid ""
+"This option will also download the database if the local filesize is less "
+"than 1k (which usually means the stub that comes with the plugin is still in "
+"place)."
+msgstr ""
+"وهذا الخيار أيضا تحميل قاعدة البيانات إذا كان حجم الملف المحلي أقل من 1K "
+"(الذي يعني عادة أن طرف البرنامج التي تأتي مع البرنامج المساعد لا يزال في "
+"مكانه)."
+
+#: includes/settings/tabs/wps-geoip.php:89
+msgid "Populate missing GeoIP after update of GeoIP DB"
+msgstr "تعبئة GeoIP في عداد المفقودين بعد التحديث من GeoIP DB"
+
+#: includes/settings/tabs/wps-geoip.php:95
+msgid "Update any missing GeoIP data after downloading a new database."
+msgstr "تحديث أي بيانات GeoIP مفقودة بعد تحميل قاعدة البيانات الجديدة."
+
+#: includes/settings/tabs/wps-geoip.php:106
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "تم تعطيل مجموعة GeoIP وذلك للأسباب التالية:"
+
+#: includes/settings/tabs/wps-geoip.php:109
+msgid ""
+"GeoIP collection requires PHP %s or above, it is currently disabled due to "
+"the installed PHP version being  "
+msgstr ""
+"جمع GeoIP يتطلب PHP %s أو أعلى، يتم تعطيله حاليا نظرا لكونها نسخة PHP مثبتة"
 
 #: includes/settings/tabs/wps-geoip.php:114
 msgid ""
@@ -1059,172 +1785,13 @@ msgid ""
 "your version of PHP!"
 msgstr "مجموعة GeoIP تتطلب الملحق BC Math PHP و هو غير مفعل على إصدار الـ PHP!"
 
-#: includes/functions/geoip-populate.php:26
+#: includes/settings/tabs/wps-geoip.php:126
 msgid ""
-"Unable to load the GeoIP database, make sure you have downloaded it in the "
-"settings page."
+"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
+"mode enabled!"
 msgstr ""
-"غير قادر على تحميل قاعدة البيانات GeoIP، تأكد من أنك قمت بتنزيلها في صفحة "
-"الإعدادات."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:182
-msgid "Database file does not exist."
-msgstr "لا وجود لملف قاعدة البيانات."
-
-#: includes/log/last-visitor.php:59
-msgid "Search for"
-msgstr "البحث عن"
-
-#: includes/log/widgets/browsers.php:8 includes/log/widgets/countries.php:11
-#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:13
-#: includes/log/widgets/recent.php:9 includes/log/widgets/referring.php:13
-#: includes/log/widgets/search.php:8 includes/log/widgets/words.php:16
-msgid "More"
-msgstr "المزيد"
-
-#: includes/settings/tabs/wps-general.php:269
-msgid "Include totals"
-msgstr "تتضمن الاجماليات"
-
-#: includes/settings/tabs/wps-general.php:275
-msgid ""
-"Add a total line to charts with multiple values, like the search engine "
-"referrals"
-msgstr "إضافة سطر مجموع المخططات مع قيم متعددة، مثل إحالات محرك البحث"
-
-#: includes/settings/tabs/wps-overview-display.php:100
-msgid "Disable map"
-msgstr "تعطيل الخريطة"
-
-#: includes/settings/tabs/wps-overview-display.php:106
-msgid "Disable the map display"
-msgstr "تعطيل عرض الخريطة"
-
-#: includes/settings/tabs/wps-overview-display.php:112
-msgid "Get country location from Google"
-msgstr "الحصول على موقع البلد من جوجل"
-
-#: includes/log/exclusions.php:8
-msgid ""
-"Attention: Exclusion are not currently set to be recorded, the results below "
-"may not reflect current statistics!"
-msgstr ""
-"تنبيه: لم يتم تعيين الاستثناءات حاليا ليتم تسجيلها، قد لا تستطيع عكس نتائج "
-"الإحصائيات الحالية أدناه!"
-
-#: includes/log/exclusions.php:118
-msgid "Number of excluded hits"
-msgstr "عدد الزيارات المستبعدة"
-
-#: includes/settings/tabs/wps-access-level.php:86
-msgid ""
-"Hint: manage_network = Super Admin Network, manage_options = Administrator, "
-"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
-"Contributor, read = Everyone."
-msgstr ""
-"تلميح:  manage_network = مسؤول, manage_options = مدير, edit_others_posts = "
-"محرر, publish_posts = كاتب, edit_posts = مساهم, read = الجميع"
-
-#: includes/settings/tabs/wps-access-level.php:99
-#: includes/settings/tabs/wps-access-level.php:151
-msgid "Enable"
-msgstr "تمكين"
-
-#: includes/settings/tabs/wps-access-level.php:100
-msgid ""
-"This will record all the excluded hits in a separate table with the reasons "
-"why it was excluded but no other information.  This will generate a lot of "
-"data but is useful if you want to see the total number of hits your site "
-"gets, not just actual user visits."
-msgstr ""
-"يقوم هذا الخيار بتسجيل جميع النقرات المستبعدة في جدول منفصل مع أسباب "
-"الأستبعاد، ولكن بدون معلومات أخرى. وهذا قد يولد الكثير من البيانات ولكن هو "
-"مفيد إذا كنت تريد أن ترى العدد الكلي من المشاهدات التي يحصل عليها موقعك، "
-"وليس فقط المستخدم الفعلي للموقع."
-
-#: includes/settings/tabs/wps-access-level.php:168
-msgid "Site URL Exclusions"
-msgstr "رابط الموقع المستثنى"
-
-#: includes/settings/tabs/wps-access-level.php:175
-msgid "Exclude the login page for registering as a hit."
-msgstr "استبعاد صفحة الدخول للتسجيل كنقرة."
-
-#: includes/settings/tabs/wps-access-level.php:182
-msgid "Exclude the admin pages for registering as a hit."
-msgstr "استبعاد الصفحات الادارية للتسجيل كنقرة."
-
-#: includes/settings/tabs/wps-access-level.php:93 wp-statistics.php:254
-msgid "Exclusions"
-msgstr "الاستثناءات"
-
-#: includes/log/exclusions.php:68
-msgid "Total Exclusions: %s"
-msgstr "مجموع الاستثناءات: %s"
-
-#: includes/log/exclusions.php:75
-msgid "Exclusions Statistical Chart"
-msgstr "الرسم البياني لإحصائيات الاستثناءات"
-
-#: includes/settings/tabs/wps-access-level.php:33
-msgid "Access Levels"
-msgstr "مستويات الوصول"
-
-#: includes/optimization/wps-optimization.php:126
-msgid "Resources/Information"
-msgstr "الموارد/معلومات"
-
-#: includes/optimization/wps-optimization.php:128
-msgid "Purging"
-msgstr "تطهير"
-
-#: includes/optimization/wps-optimization.php:130
-msgid "Updates"
-msgstr "تحديثات"
-
-#: includes/settings/wps-settings.php:88
-msgid "Access/Exclusions"
-msgstr "وصول/استثناءات"
-
-#: includes/settings/wps-settings.php:91
-msgid "Maintenance"
-msgstr "صيانة"
-
-#: includes/settings/wps-settings.php:126
-msgid "Update"
-msgstr "تحديث"
-
-#: includes/settings/wps-settings.php:86
-msgid "General"
-msgstr "عام"
-
-#: includes/optimization/empty.php:57
-msgid "Error, %s not emptied!"
-msgstr "خطأ, %s لم يتم التفريغ!"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:118
-msgid "Data"
-msgstr "المعطيات"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:145
-msgid "Purge records older than"
-msgstr "سجلات الضخ أقدم من"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:151
-msgid ""
-"Deleted user statistics data older than the selected number of days.  "
-"Minimum value is 30 days."
-msgstr ""
-"بيانات الاحصائيات المستخدم المحذوف أقدم من الرقم المحدد من الأيام. قيمة الحد "
-"الأدنى هو 30 يوما."
-
-#: includes/optimization/tabs/wps-optimization-purging.php:152
-msgid "Purge now!"
-msgstr "ضخ الآن!"
-
-#: includes/optimization/purge-data.php:55
-msgid "Please select a value over 30 days."
-msgstr "يرجى تحديد قيمة أكثر من 30 يوما."
+"تم الكشف عن الوضع الآمن في PHP! مجموعة GeoIP غير معتمدة عند تمكين الوضع "
+"الآمن في PHP!"
 
 #: includes/settings/tabs/wps-maintenance.php:20
 msgid ""
@@ -1266,838 +1833,1203 @@ msgstr ""
 "عدد الأيام للحفاظ على الإحصاءات المتعلقة. قيمة الحد الأدنى هو 30 يوما. سيتم "
 "تعطيل الصيانة اليومية في حال ادخال قيم غير صالحة."
 
-#: includes/settings/wps-settings.php:89
+#: includes/settings/tabs/wps-notifications.php:44
+msgid "Common Report Options"
+msgstr "خيارات تقرير المشترك"
+
+#: includes/settings/tabs/wps-notifications.php:49
+msgid "E-mail addresses"
+msgstr "عناوين البريد الإلكتروني"
+
+#: includes/settings/tabs/wps-notifications.php:54
+msgid "A comma separated list of e-mail addresses to send reports to."
+msgstr "أفصل قائمة عناوين البريد الإلكتروني بفاصلة لإرسال التقارير إلى."
+
+#: includes/settings/tabs/wps-notifications.php:59
+msgid "Update Reports"
+msgstr "تقارير التحديث"
+
+#: includes/settings/tabs/wps-notifications.php:64
+msgid "Browscap"
+msgstr "Browscap"
+
+#: includes/settings/tabs/wps-notifications.php:70
+msgid "Send a report whenever the browscap.ini is updated."
+msgstr "إرسال تقرير كلما يتم تحديث browscap.ini."
+
+#: includes/settings/tabs/wps-notifications.php:76
+#: includes/settings/wps-settings.php:104
 msgid "GeoIP"
 msgstr "GeoIP"
 
-#: includes/settings/tabs/wps-browscap.php:54
-#: includes/settings/tabs/wps-geoip.php:64
-msgid "Next update will be"
-msgstr "التحديث القادم سيكون في"
-
-#: includes/settings/tabs/wps-geoip.php:109
-msgid ""
-"GeoIP collection requires PHP %s or above, it is currently disabled due to "
-"the installed PHP version being  "
-msgstr ""
-"جمع GeoIP يتطلب PHP %s أو أعلى، يتم تعطيله حاليا نظرا لكونها نسخة PHP مثبتة"
-
-#: includes/log/widgets/search.php:8 includes/log/widgets/summary.php:64
-msgid "Search Engine Referrals"
-msgstr "محرك البحث الدعوات"
-
-#: includes/log/widgets/summary.php:88
-msgid "Daily Total"
-msgstr "المجموع اليومي"
-
-#: includes/log/widgets/summary.php:102
-msgid "Current Time and Date"
-msgstr "التوقيت الحالي و التاريخ"
-
-#: includes/optimization/tabs/wps-optimization-database.php:39
-#: includes/optimization/tabs/wps-optimization-updates.php:25
-#: includes/optimization/tabs/wps-optimization-updates.php:40
-msgid "Update Now!"
-msgstr "تحديث الآن!"
-
-#: includes/settings/tabs/wps-access-level.php:87
-msgid ""
-"Each of the above casscades the rights upwards in the default WordPress "
-"configuration.  So for example selecting publish_posts grants the right to "
-"Authors, Editors, Admins and Super Admins."
-msgstr ""
-"كل ما سبق من الكاسكيدز هي حقوق تكوين الووردبريس الافتراضي. على سبيل المثال "
-"عند اختيار publish_posts يمنح حقوق المؤلف,المحرر,المدير,المسؤول."
-
-#: includes/settings/tabs/wps-access-level.php:88
-msgid ""
-"If you need a more robust solution to delegate access you might want to look "
-"at %s in the WordPress plugin directory."
-msgstr ""
-"إذا كنت في حاجة الى حل أكثر قوة لتفويض الوصول التي قد ترغب في النظر في %s "
-"الدليل المساعد لووردبريس."
-
-#: includes/settings/tabs/wps-access-level.php:62
-msgid "Required user level to view WP Statistics"
-msgstr "مطلوب مستوى المستخدم لعرض الاحصائيات"
-
-#: includes/settings/tabs/wps-access-level.php:77
-msgid "Required user level to manage WP Statistics"
-msgstr "مطلوب مستوى المستخدم لإدارة الاحصائيات"
-
-#: includes/settings/tabs/wps-geoip.php:56
-msgid "Schedule monthly update of GeoIP DB"
-msgstr "جدولة التحديث الشهري لGeoIP DB"
-
-#: includes/settings/tabs/wps-geoip.php:82
-msgid ""
-"Download of the GeoIP database will be scheduled for 2 days after the first "
-"Tuesday of the month."
-msgstr ""
-"سيتم جدولة التحميل من قاعدة البيانات GeoIP لمدة 2 يوما بعد يوم الثلاثاء "
-"الأول من الشهر."
-
-#: includes/settings/tabs/wps-geoip.php:83
-msgid ""
-"This option will also download the database if the local filesize is less "
-"than 1k (which usually means the stub that comes with the plugin is still in "
-"place)."
-msgstr ""
-"وهذا الخيار أيضا تحميل قاعدة البيانات إذا كان حجم الملف المحلي أقل من 1K "
-"(الذي يعني عادة أن طرف البرنامج التي تأتي مع البرنامج المساعد لا يزال في "
-"مكانه)."
-
-#: includes/settings/tabs/wps-geoip.php:89
-msgid "Populate missing GeoIP after update of GeoIP DB"
-msgstr "تعبئة GeoIP في عداد المفقودين بعد التحديث من GeoIP DB"
-
-#: includes/settings/tabs/wps-geoip.php:95
-msgid "Update any missing GeoIP data after downloading a new database."
-msgstr "تحديث أي بيانات GeoIP مفقودة بعد تحميل قاعدة البيانات الجديدة."
-
-#: includes/functions/geoip-populate.php:50
-msgid "Updated %s GeoIP records in the visitors database."
-msgstr "تحديث السجلات %s  GeoIP في قاعدة بيانات الزوار."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:98
-msgid "Version Info"
-msgstr "معلومات الإصدار"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:103
-msgid "WP Statistics Version"
-msgstr "نسخة WP Statistics"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:108
-msgid "The WP Statistics version you are running."
-msgstr "إصدار WP Statistics."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:114
-msgid "PHP Version"
-msgstr "نسخة PHP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:119
-msgid "The PHP version you are running."
-msgstr "إصدار PHP."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:136
-msgid "jQuery Version"
-msgstr "نسخة jQuery"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:141
-msgid "The jQuery version you are running."
-msgstr "إصدار jQuery."
-
-#: wp-statistics.php:610
-msgid "Error could not open downloaded GeoIP database for reading: %s"
-msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP التي تم تحميلها للقراءة: %s"
-
-#: wp-statistics.php:617
-msgid "Error could not open destination GeoIP database for writing %s"
-msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP لجهة الكتابة %s"
-
-#: wp-statistics.php:633
-msgid "GeoIP Database updated successfully!"
-msgstr "تم تحديث قاعدة بيانات GeoIP بنجاح!"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:229
-msgid "Client Info"
-msgstr "معلومات العميل"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:234
-msgid "Client IP"
-msgstr "IP العميل"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:239
-msgid "The client IP address."
-msgstr "عنوان IP للعميل."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:245
-msgid "User Agent"
-msgstr "وكيل المستخدم"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:250
-msgid "The client user agent string."
-msgstr "سلسلة عامل المستخدم العميل."
-
-#: includes/settings/tabs/wps-access-level.php:105
-msgid "Exclude User Roles"
-msgstr "استبعاد أدوار المستخدم"
-
-#: includes/settings/tabs/wps-access-level.php:119
-#: includes/settings/tabs/wps-access-level.php:174
-#: includes/settings/tabs/wps-access-level.php:181
-msgid "Exclude"
-msgstr "منع"
-
-#: includes/settings/tabs/wps-access-level.php:120
-msgid "Exclude %s role from data collection."
-msgstr "استبعاد دور %s من جمع البيانات."
-
-#: includes/settings/tabs/wps-access-level.php:126
-msgid "IP/Robot Exclusions"
-msgstr "استثناءات IP/Robot"
-
-#: includes/settings/tabs/wps-access-level.php:143
-msgid ""
-"A list of words (one per line) to match against to detect robots.  Entries "
-"must be at least 4 characters long or they will be ignored."
-msgstr ""
-"قائمة من الكلمات (واحد في كل سطر) لمطابقة ضد للكشف عن الروبوتات. يجب أن تكون "
-"إدخالات 4 أحرف على الأقل أو أنها سيتم تجاهلها."
-
-#: includes/settings/tabs/wps-access-level.php:144
-msgid "Reset to Default"
-msgstr "إعادة تعيين إلى الافتراضي"
-
-#: includes/settings/tabs/wps-access-level.php:161
-msgid "Add 10.0.0.0"
-msgstr "إضافة 10.0.0.0"
-
-#: includes/settings/tabs/wps-access-level.php:162
-msgid "Add 172.16.0.0"
-msgstr "إضافة 172.16.0.0"
-
-#: includes/settings/tabs/wps-access-level.php:163
-msgid "Add 192.168.0.0"
-msgstr "إضافة 192.168.0.0"
-
-#: includes/settings/tabs/wps-general.php:264
-msgid "Charts"
-msgstr "الرسوم البيانية"
-
-#: includes/settings/tabs/wps-geoip.php:38
-msgid ""
-"For get more information and location (country) from visitor, enable this "
-"feature."
-msgstr ""
-"للحصول على مزيد من المعلومات، والمكان (البلد) من الزوار، تمكين هذه الميزة."
-
-#: includes/settings/wps-settings.php:87 wp-statistics.php:248
-msgid "Overview"
-msgstr "نظرة عامة"
-
-#: includes/optimization/tabs/wps-optimization-database.php:25
-#: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:251
-msgid "Countries"
-msgstr "الدول"
-
-#: wp-statistics.php:176 wp-statistics.php:253
-msgid "Hits"
-msgstr "نقرات"
-
-#: wp-statistics.php:255
-msgid "Referers"
-msgstr "المراجع"
-
-#: wp-statistics.php:256
-msgid "Searches"
-msgstr "عمليات البحث"
-
-#: wp-statistics.php:257
-msgid "Search Words"
-msgstr "كلمات البحث"
-
-#: includes/settings/tabs/wps-general.php:94
-msgid "Second"
-msgstr "ثانية"
-
-#: includes/log/all-browsers.php:17
-msgid "Browser Statistics"
-msgstr "إحصائيات المتصفح"
-
-#: includes/log/all-browsers.php:107
-msgid "Platform"
-msgstr "المنصة"
-
-#: includes/log/all-browsers.php:241
-msgid "%s Version"
-msgstr "الإصدار %s"
-
-#: includes/log/hit-statistics.php:17 includes/log/widgets/hits.php:8
-msgid "Hit Statistics"
-msgstr "احصائية النقرات"
-
-#: includes/log/exclusions.php:57 includes/log/hit-statistics.php:21
-#: includes/log/page-statistics.php:33 includes/log/search-statistics.php:21
-msgid "10 Days"
-msgstr "10 أيام"
-
-#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:22
-#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:22
-msgid "20 Days"
-msgstr "20 يوم"
-
-#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:23
-#: includes/log/page-statistics.php:35 includes/log/search-statistics.php:23
-msgid "30 Days"
-msgstr "30 يو م"
-
-#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:24
-#: includes/log/page-statistics.php:36 includes/log/search-statistics.php:24
-msgid "2 Months"
-msgstr "شهرين"
-
-#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:25
-#: includes/log/page-statistics.php:37 includes/log/search-statistics.php:25
-msgid "3 Months"
-msgstr "3 أشهر"
-
-#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:26
-#: includes/log/page-statistics.php:38 includes/log/search-statistics.php:26
-msgid "6 Months"
-msgstr "6 أشهر"
-
-#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:27
-#: includes/log/page-statistics.php:39 includes/log/search-statistics.php:27
-msgid "9 Months"
-msgstr "9 أشهر"
-
-#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:28
-#: includes/log/page-statistics.php:40 includes/log/search-statistics.php:28
-msgid "1 Year"
-msgstr "سنة"
-
-#: includes/settings/tabs/wps-overview-display.php:34
-msgid "Hits Statistical Chart"
-msgstr "الرسم البياني لعدد النقرات"
-
-#: includes/log/exclusions.php:97 includes/log/hit-statistics.php:69
-#: includes/log/search-statistics.php:77 includes/log/widgets/hits.php:39
-#: includes/log/widgets/search.php:46
-#: includes/optimization/tabs/wps-optimization-purging.php:150
-msgid "days"
-msgstr "أيام"
-
-#: includes/log/widgets/countries.php:11
-#: includes/settings/tabs/wps-overview-display.php:27
-msgid "Top 10 Countries"
-msgstr "أعلى 10 دول"
-
-#: includes/log/top-countries.php:28 includes/log/widgets/countries.php:17
-msgid "Rank"
-msgstr "الترتيب"
-
-#: includes/log/top-countries.php:29 includes/log/widgets/countries.php:18
-msgid "Flag"
-msgstr "العلم"
-
-#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:20
-msgid "Visitor Count"
-msgstr "عدد الزوار"
-
-#: includes/settings/tabs/wps-overview-display.php:35
-msgid "Search Engine Referrers Statistical Chart"
-msgstr "الرسم البياني لمحركات البحث"
-
-#: includes/log/top-countries.php:19
-msgid "Top Countries"
-msgstr "أفضل الدول"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:159
-msgid "Delete User Agent Types"
-msgstr "حذف أنواع وكيل العضو"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:164
-msgid "Delete Agents"
-msgstr "حذف الوكلاء"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:179
-msgid "All visitor data will be lost for this agent type."
-msgstr "سيتم فقد جميع البيانات الزائر لهذا النوع."
-
-#: includes/optimization/tabs/wps-optimization-purging.php:180
-#: includes/optimization/tabs/wps-optimization-purging.php:204
-msgid "Delete now!"
-msgstr "حذف الآن!"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:188
-msgid "Delete Platforms"
-msgstr "حذف المنصات"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:203
-msgid "All visitor data will be lost for this platform type."
-msgstr "سيتم فقد جميع البيانات الزائر لنوع هذه المنصة."
-
-#: includes/optimization/tabs/wps-optimization-updates.php:16
-msgid "GeoIP Options"
-msgstr "خيارات GeoIP"
-
-#: includes/settings/tabs/wps-general.php:133
-msgid "Store entire user agent string"
-msgstr "تخزين كامل سلسلة عامل المستخدم"
-
-#: includes/settings/tabs/wps-general.php:139
-msgid "Only enabled for debugging"
-msgstr "تمكين فقط من أجل التصحيح"
-
-#: includes/settings/tabs/wps-geoip.php:17
-msgid "GeoIP settings"
-msgstr "إعدادات GeoIP"
-
-#: includes/settings/tabs/wps-geoip.php:32
-msgid "GeoIP collection"
-msgstr "مجموعة GeoIP"
-
-#: includes/settings/tabs/wps-geoip.php:44
-msgid "Update GeoIP Info"
-msgstr "تحديث معلومات GeoIP"
-
-#: includes/settings/tabs/wps-geoip.php:49
-msgid "Download GeoIP Database"
-msgstr "تحميل قاعدة بيانات GeoIP"
-
-#: includes/settings/tabs/wps-browscap.php:40
-#: includes/settings/tabs/wps-geoip.php:50
-msgid "Save changes on this page to download the update."
-msgstr "حفظ التغييرات على هذه الصفحة لتحميل التحديث."
-
-#: includes/optimization/tabs/wps-optimization-purging.php:10
-#: includes/optimization/tabs/wps-optimization-purging.php:36
-#: includes/optimization/tabs/wps-optimization-purging.php:62
-#: includes/optimization/tabs/wps-optimization-purging.php:90
-msgid "Are you sure?"
-msgstr "هل أنت متأكد؟"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:137
-msgid "Clear now!"
-msgstr "مسح الآن!"
-
-#: wp-statistics.php:261
-msgid "Optimization"
-msgstr "التحسين"
-
-#: includes/optimization/delete-agents.php:5
-#: includes/optimization/delete-platforms.php:5
-#: includes/optimization/empty.php:5 includes/optimization/export.php:5
-#: includes/optimization/purge-data.php:5
-#: includes/optimization/wps-optimization.php:3 manual/manual.php:5
-msgid "Access denied!"
-msgstr "تم رفض الوصول!"
-
-#: includes/optimization/delete-agents.php:18
-#: includes/optimization/delete-platforms.php:18
-#: includes/optimization/empty.php:42 includes/optimization/export.php:57
-msgid "Please select the desired items."
-msgstr "يرجى تحديد العناصر المطلوبة."
-
-#: includes/optimization/tabs/wps-optimization-resources.php:17
-msgid "Resources"
-msgstr "الموارد"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:22
-#: includes/optimization/tabs/wps-optimization-resources.php:27
-msgid "Memory usage in PHP"
-msgstr "استخدام الذاكرة في PHP"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:26
-msgid "Byte"
-msgstr "بايت"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:48
-#: includes/optimization/tabs/wps-optimization-resources.php:59
-#: includes/optimization/tabs/wps-optimization-resources.php:70
-#: includes/optimization/tabs/wps-optimization-resources.php:81
-#: includes/optimization/tabs/wps-optimization-resources.php:92
-msgid "Row"
-msgstr "صف"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:49
-#: includes/optimization/tabs/wps-optimization-resources.php:60
-#: includes/optimization/tabs/wps-optimization-resources.php:71
-#: includes/optimization/tabs/wps-optimization-resources.php:82
-#: includes/optimization/tabs/wps-optimization-resources.php:93
-msgid "Number of rows"
-msgstr "عدد الصفوف"
-
-#: includes/optimization/tabs/wps-optimization-export.php:7
-#: includes/optimization/wps-optimization.php:127
-msgid "Export"
-msgstr "تصدير"
-
-#: includes/optimization/tabs/wps-optimization-export.php:12
-msgid "Export from"
-msgstr "التصدير من"
-
-#: includes/optimization/tabs/wps-optimization-export.php:24
-msgid "Select the table for the output file."
-msgstr "حدد الجدول لملف الإخراج."
-
-#: includes/optimization/tabs/wps-optimization-export.php:30
-msgid "Export To"
-msgstr "التصدير إلى"
-
-#: includes/optimization/tabs/wps-optimization-export.php:41
-msgid "Select the output file type."
-msgstr "حدد نوع ملف الإخراج."
-
-#: includes/optimization/tabs/wps-optimization-export.php:53
-msgid "Start Now!"
-msgstr "ابدأ الآن!"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:123
-msgid "Empty Table"
-msgstr "تفريغ الجدول"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:136
-msgid "All data table will be lost."
-msgstr "سيتم فقدان جميع البيانات الجدول."
-
-#: includes/settings/tabs/wps-about.php:44
-msgid "Support"
-msgstr "دعم"
-
-#: includes/settings/tabs/wps-about.php:74
-msgid "Farsi"
-msgstr "فارسي"
-
-#: includes/log/top-referring.php:47
-msgid "Referring sites from"
-msgstr "مواقع اشارة من"
-
-#: includes/settings/tabs/wps-about.php:36
-msgid "Translations"
-msgstr "الترجمات"
-
-#: includes/log/top-referring.php:4
-msgid "To be added soon"
-msgstr "تضاف قريبا"
-
-#: includes/log/last-search.php:102 includes/log/last-visitor.php:99
-#: includes/log/top-referring.php:78 includes/log/widgets/recent.php:27
-#: includes/log/widgets/words.php:32
-#: includes/settings/tabs/wps-overview-display.php:33
-#: includes/settings/tabs/wps-overview-display.php:71
-msgid "Map"
-msgstr "خريطة"
-
-#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
-#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
-msgid "Page"
-msgstr "صفحة"
-
-#: includes/log/last-search.php:139 includes/log/last-visitor.php:132
-#: includes/log/top-pages.php:181 includes/log/top-referring.php:132
-msgid "From"
-msgstr "من"
-
-#: wp-statistics.php:455
-msgid "Table plugin does not exist! Please disable and re-enable the plugin."
-msgstr ""
-"هناك جدول مفقود في البرنامج المساعد! الرجاء تعطيل البرنامج المساعد ومن ثم "
-"تفعيلة مرة أخرى."
-
-#: includes/settings/tabs/wps-general.php:280
-#: includes/settings/tabs/wps-general.php:285 schedule.php:161
+#: includes/settings/tabs/wps-notifications.php:82
+msgid "Send a report whenever the GeoIP database is updated."
+msgstr "إرسال تقرير كلما يتم تحديث قاعدة البيانات GeoIP."
+
+#: includes/settings/tabs/wps-notifications.php:88
+msgid "Pruning"
+msgstr "تنقيح"
+
+#: includes/settings/tabs/wps-notifications.php:94
+msgid "Send a report whenever the pruning of database is run."
+msgstr "إرسال تقرير كلما يتم تشغيل التنقيح في قاعدة البيانات."
+
+#: includes/settings/tabs/wps-notifications.php:100
+msgid "Upgrade"
+msgstr "ترقية"
+
+#: includes/settings/tabs/wps-notifications.php:106
+msgid "Send a report whenever the plugin is upgraded."
+msgstr "إرسال تقرير كلما تتم ترقية البرنامج المساعد."
+
+#: includes/settings/tabs/wps-notifications.php:111
+#: includes/settings/tabs/wps-notifications.php:116 schedule.php:152
 msgid "Statistical reporting"
 msgstr "تقارير الإحصائيات"
 
-#: widget.php:14 wp-statistics.php:245
-msgid "Statistics"
-msgstr "الاحصائيات"
+#: includes/settings/tabs/wps-notifications.php:129
+msgid "Schedule"
+msgstr "جدول"
 
-#: includes/settings/tabs/wps-general.php:369 widget.php:38 widget.php:247
-#: wp-statistics.php:310
+#: includes/settings/tabs/wps-notifications.php:153
+msgid "Select how often to receive statistical report."
+msgstr "حدد عدد المرات لتلقي تقرير إحصائي."
+
+#: includes/settings/tabs/wps-notifications.php:159
+msgid "Send reports via"
+msgstr "إرسال التقارير عن طريق"
+
+#: includes/settings/tabs/wps-notifications.php:165
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: includes/settings/tabs/wps-notifications.php:167
+msgid "SMS"
+msgstr "رسائل نصية"
+
+#: includes/settings/tabs/wps-notifications.php:170
+msgid "Select delivery method for statistical report."
+msgstr "حدد طريقة التسليم للتقرير الإحصائي."
+
+#: includes/settings/tabs/wps-notifications.php:173
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr "ملاحظة: لإرسال رسائل نصية SMS الرجاء تثبيت إضافة %s."
+
+#: includes/settings/tabs/wps-notifications.php:173
+msgid "WordPress SMS"
+msgstr "الرسائل النصية"
+
+#: includes/settings/tabs/wps-notifications.php:180
+msgid "Report body"
+msgstr "تقرير الهيئة"
+
+#: includes/settings/tabs/wps-notifications.php:185
+msgid "Enter the contents of the report."
+msgstr "أدخل محتويات التقرير."
+
+#: includes/settings/tabs/wps-notifications.php:187
+msgid ""
+"Any shortcode supported by your installation of WordPress, include all "
+"shortcodes for WP Statistics (see the admin manual for a list of codes "
+"available) are supported in the body of the message.  Here are some examples:"
+msgstr ""
+"أي رمز قصير بدعم من مثبت ووردبريس، وتشمل جميع الاكواد المختصرة  لاحصائيات "
+"ووردبريس (انظر دليل المشرف للحصول على قائمة رموز المتاحة) معتمدة في نص "
+"الرسالة. وهنا بعض الأمثلة:"
+
+#: includes/settings/tabs/wps-notifications.php:188 widget.php:38
+#: widget.php:245 wp-statistics.php:337
 msgid "User Online"
 msgstr "المتواجدين الآن"
 
-#: includes/settings/tabs/wps-general.php:371 widget.php:45 widget.php:250
-msgid "Today Visit"
-msgstr "زيارات اليوم"
-
-#: includes/settings/tabs/wps-general.php:370 widget.php:52 widget.php:253
+#: includes/settings/tabs/wps-notifications.php:189 widget.php:52
+#: widget.php:251
 msgid "Today Visitor"
 msgstr "زوار اليوم"
 
-#: includes/settings/tabs/wps-general.php:373 widget.php:59
-msgid "Yesterday Visit"
-msgstr "زيارات الأمس"
+#: includes/settings/tabs/wps-notifications.php:190 widget.php:45
+#: widget.php:248
+msgid "Today Visit"
+msgstr "زيارات اليوم"
 
-#: includes/settings/tabs/wps-general.php:372 widget.php:66 widget.php:259
+#: includes/settings/tabs/wps-notifications.php:191 widget.php:66
+#: widget.php:257
 msgid "Yesterday Visitor"
 msgstr "زوار الأمس"
 
-#: widget.php:73 widget.php:262
-msgid "Week Visit"
-msgstr "زيارات الأسبوع"
+#: includes/settings/tabs/wps-notifications.php:192 widget.php:59
+msgid "Yesterday Visit"
+msgstr "زيارات الأمس"
 
-#: widget.php:80 widget.php:265
-msgid "Month Visit"
-msgstr "زيارات الشهر"
-
-#: widget.php:87 widget.php:268
-msgid "Years Visit"
-msgstr "زيارات السنة"
-
-#: includes/settings/tabs/wps-general.php:375 widget.php:94 widget.php:271
-msgid "Total Visit"
-msgstr "مجموع الزيارات"
-
-#: includes/settings/tabs/wps-general.php:374 widget.php:101 widget.php:274
+#: includes/settings/tabs/wps-notifications.php:193 widget.php:101
+#: widget.php:272
 msgid "Total Visitor"
 msgstr "مجموع الزوار"
 
-#: widget.php:123 widget.php:300
-msgid "Total Posts"
-msgstr "إجمالي المشاركات"
+#: includes/settings/tabs/wps-notifications.php:194 widget.php:94
+#: widget.php:269
+msgid "Total Visit"
+msgstr "مجموع الزيارات"
 
-#: widget.php:130 widget.php:303
-msgid "Total Pages"
-msgstr "إجمالي الصفحات"
-
-#: widget.php:137 widget.php:306
-msgid "Total Comments"
-msgstr "إجمالي التعليقات"
-
-#: widget.php:144 widget.php:309
-msgid "Total Spams"
-msgstr "إجمالي السبام"
-
-#: widget.php:151 widget.php:312
-msgid "Total Users"
-msgstr "عدد الاعضاء"
-
-#: widget.php:158 widget.php:315
-msgid "Average Posts"
-msgstr "متوسط المشاركات"
-
-#: widget.php:165 widget.php:318
-msgid "Average Comments"
-msgstr "متوسط التعليقات"
-
-#: widget.php:172 widget.php:321
-msgid "Average Users"
-msgstr "متوسط الاعضاء"
-
-#: widget.php:179 widget.php:324
-msgid "Last Post Date"
-msgstr "تاريخ آخر مشاركة"
-
-#: wp-statistics.php:340
-msgid "View Stats"
-msgstr "عرض الإحصائيات"
-
-#: wp-statistics.php:152 wp-statistics.php:262
-msgid "Settings"
-msgstr "الإعدادات"
-
-#: wp-statistics.php:316
-msgid "Today visitor"
-msgstr "زوار اليوم"
-
-#: wp-statistics.php:322
-msgid "Today visit"
-msgstr "زيارات اليوم"
-
-#: wp-statistics.php:328
-msgid "Yesterday visitor"
-msgstr "زيارات الأمس"
-
-#: widget.php:256 wp-statistics.php:334
-msgid "Yesterday visit"
-msgstr "زيارات الأمس"
-
-#: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
-msgid "You do not have sufficient permissions to access this page."
-msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة."
-
-#: includes/log/all-browsers.php:23 includes/log/all-browsers.php:106
-#: includes/log/all-browsers.php:240 includes/log/exclusions.php:74
-#: includes/log/hit-statistics.php:35 includes/log/last-search.php:61
-#: includes/log/last-visitor.php:57 includes/log/page-statistics.php:47
-#: includes/log/search-statistics.php:35 includes/log/top-pages.php:19
-#: includes/log/top-pages.php:131 includes/log/top-referring.php:45
-#: includes/log/widgets/about.php:7 includes/log/widgets/browsers.php:7
-#: includes/log/widgets/countries.php:9 includes/log/widgets/google.map.php:8
-#: includes/log/widgets/hits.php:7 includes/log/widgets/jqv.map.php:8
-#: includes/log/widgets/pages.php:11 includes/log/widgets/recent.php:7
-#: includes/log/widgets/referring.php:11 includes/log/widgets/search.php:7
-#: includes/log/widgets/summary.php:7 includes/log/widgets/words.php:14
-msgid "Click to toggle"
-msgstr "انقر للتبديل"
+#: includes/settings/tabs/wps-overview-display.php:23
+#: includes/settings/tabs/wps-overview-display.php:32
+msgid "None"
+msgstr "لا شيء"
 
 #: includes/settings/tabs/wps-overview-display.php:24
 msgid "Summary Statistics"
 msgstr "ملخص الاحصائيات"
 
-#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
-#: includes/log/widgets/summary.php:19
-msgid "Visitor"
-msgstr "زائر"
+#: includes/settings/tabs/wps-overview-display.php:28
+#: includes/settings/wps-settings.php:108
+msgid "About"
+msgstr "حول"
 
-#: includes/log/hit-statistics.php:104 includes/log/widgets/hits.php:74
-#: includes/log/widgets/summary.php:20
-msgid "Visit"
-msgstr "زيارة"
+#: includes/settings/tabs/wps-overview-display.php:34
+msgid "Hits Statistical Chart"
+msgstr "الرسم البياني لعدد النقرات"
 
-#: includes/log/widgets/summary.php:24 includes/log/widgets/summary.php:69
-msgid "Today"
-msgstr "اليوم"
+#: includes/settings/tabs/wps-overview-display.php:36
+msgid "Search Engine Referrers Statistical Chart"
+msgstr "الرسم البياني لمحركات البحث"
 
-#: includes/log/widgets/summary.php:30 includes/log/widgets/summary.php:70
-msgid "Yesterday"
-msgstr "الأمس"
+#: includes/settings/tabs/wps-overview-display.php:38
+msgid "Top Pages Visited"
+msgstr "أعلى الصفحات زيارة"
 
-#: includes/log/widgets/summary.php:36
-msgid "Week"
-msgstr "أسبوع"
+#: includes/settings/tabs/wps-overview-display.php:73
+msgid "Dashboard"
+msgstr "لوحة القيادة"
 
-#: includes/log/widgets/summary.php:42
-msgid "Month"
-msgstr "الشهر"
+#: includes/settings/tabs/wps-overview-display.php:77
+#: includes/settings/tabs/wps-overview-display.php:97
+#: includes/settings/tabs/wps-overview-display.php:117
+msgid "The following items are global to all users."
+msgstr "العناصر التالية هي عالمية لجميع المستخدمين."
 
-#: includes/log/widgets/summary.php:48
-msgid "Year"
-msgstr "سنة"
+#: includes/settings/tabs/wps-overview-display.php:82
+msgid "Disable dashboard widgets"
+msgstr "تعطيل قطع لوحة القيادة"
 
-#: includes/log/search-statistics.php:112 includes/log/widgets/search.php:81
-#: includes/log/widgets/summary.php:54 includes/log/widgets/summary.php:94
-msgid "Total"
-msgstr "المجموع"
+#: includes/settings/tabs/wps-overview-display.php:88
+msgid "Disable the dashboard widgets."
+msgstr "تعطيل القطع للوحة القيادة"
 
-#: includes/log/widgets/summary.php:102
-msgid "(Adjustment)"
-msgstr "(التوافق)"
+#: includes/settings/tabs/wps-overview-display.php:93
+msgid "Page/Post Editor"
+msgstr "محرر الصفحة/المشاركة"
 
-#: includes/log/all-browsers.php:24 includes/log/widgets/browsers.php:8
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:249
-msgid "Browsers"
-msgstr "المتصفحات"
+#: includes/settings/tabs/wps-overview-display.php:102
+msgid "Disable post/page editor widget"
+msgstr "تعطيل قطعة محرر الصفحة/المشاركة"
 
-#: includes/log/widgets/browsers.php:38
-msgid "Other"
-msgstr "أخرى"
+#: includes/settings/tabs/wps-overview-display.php:108
+msgid "Disable the page/post editor widget."
+msgstr "تعطيل القطع لمحرر الصفحة/المشاركة"
 
-#: includes/log/widgets/referring.php:20
-msgid "Address"
-msgstr "العنوان"
+#: includes/settings/tabs/wps-overview-display.php:122
+msgid "Map type"
+msgstr "نوع الخريطة"
 
-#: includes/log/hit-statistics.php:90 includes/log/widgets/hits.php:60
-msgid "Number of visits and visitors"
-msgstr "عدد الزيارات والزوار"
-
-#: includes/settings/tabs/wps-overview-display.php:86
+#: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "جوجل"
 
-#: includes/log/last-visitor.php:27 includes/log/widgets/recent.php:9
-#: includes/settings/tabs/wps-overview-display.php:38
-msgid "Recent Visitors"
-msgstr "الزيارات الأخيرة"
+#: includes/settings/tabs/wps-overview-display.php:128
+msgid "JQVMap"
+msgstr "JQVMap"
 
-#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:19
-msgid "Country"
-msgstr "الدولة"
+#: includes/settings/tabs/wps-overview-display.php:135
+msgid ""
+"The \"Google\" option will use Google's mapping service to plot the recent "
+"visitors (requires access to Google)."
+msgstr ""
+"خيار \"جوجل\" يتوجب استخدام خدمة الخرائط جوجل لرسم زوار مؤخرا. (يتطلب الوصول "
+"إلى Google)"
 
-#: includes/settings/tabs/wps-browscap.php:27
-#: includes/settings/tabs/wps-browscap.php:51
-#: includes/settings/tabs/wps-general.php:66
-#: includes/settings/tabs/wps-general.php:82
-#: includes/settings/tabs/wps-general.php:110
-#: includes/settings/tabs/wps-general.php:126
-#: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:165
-#: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:189
-#: includes/settings/tabs/wps-general.php:219
-#: includes/settings/tabs/wps-general.php:231
-#: includes/settings/tabs/wps-general.php:274
-#: includes/settings/tabs/wps-general.php:290
-#: includes/settings/tabs/wps-geoip.php:37
-#: includes/settings/tabs/wps-geoip.php:61
-#: includes/settings/tabs/wps-geoip.php:94
-#: includes/settings/tabs/wps-maintenance.php:40
-#: includes/settings/tabs/wps-overview-display.php:105
-#: includes/settings/tabs/wps-overview-display.php:117
-msgid "Active"
-msgstr "تفعيل"
+#: includes/settings/tabs/wps-overview-display.php:136
+msgid ""
+"The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
+"recent visitors (requires no extenral services)."
+msgstr ""
+"خيار \"JQVMap\"  استخدام مكتبة خرائط JQVMap جافا سكريبت لرسم الزوار مؤخرا. "
+"(لا يتطلب أي خدمات خارجية)."
 
-#: includes/settings/tabs/wps-general.php:83
-#: includes/settings/tabs/wps-general.php:111
-#: includes/settings/tabs/wps-general.php:127
-#: includes/settings/tabs/wps-general.php:166
-#: includes/settings/tabs/wps-general.php:178
-#: includes/settings/tabs/wps-general.php:190
-#: includes/settings/tabs/wps-general.php:291
-msgid "Enable or disable this feature"
-msgstr "تمكين أو تعطيل هذه الميزة"
+#: includes/settings/tabs/wps-overview-display.php:142
+msgid "Disable map"
+msgstr "تعطيل الخريطة"
 
-#: includes/log/top-pages.php:163 includes/log/widgets/pages.php:30
-#: includes/settings/tabs/wps-general.php:100
-#: includes/settings/tabs/wps-general.php:105
-msgid "Visits"
-msgstr "مرة"
+#: includes/settings/tabs/wps-overview-display.php:148
+msgid "Disable the map display"
+msgstr "تعطيل عرض الخريطة"
 
-#: includes/settings/tabs/wps-general.php:116
-#: includes/settings/tabs/wps-general.php:121 wp-statistics.php:258
-msgid "Visitors"
-msgstr "الزوار"
+#: includes/settings/tabs/wps-overview-display.php:154
+msgid "Get country location from Google"
+msgstr "الحصول على موقع البلد من جوجل"
 
-#: includes/settings/tabs/wps-general.php:89
-msgid "Check for online users every"
-msgstr "تحقق من المتصلين في الموقع في كل"
+#: includes/settings/tabs/wps-overview-display.php:160
+msgid ""
+"This feature may cause a performance degradation when viewing statistics and "
+"is only valid if the map type is set to \"Google\"."
+msgstr ""
+"قد تؤدي هذه الميزة تدهور الأداء عند عرض الإحصاءات وصالحة فقط إذا تم تعيين "
+"نوع الخريطة لـ \"جوجل\"."
 
-#: includes/settings/tabs/wps-general.php:95
-msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "وقت التحقق من المستخدمين المتصلين في الموقع. الآن: %s ثانية"
+#: includes/settings/tabs/wps-overview-display.php:171
+msgid "Overview Widgets to Display"
+msgstr "نظرة عامة للقطع المعروضة"
 
-#: includes/settings/tabs/wps-general.php:200
-msgid "Show stats in menu bar"
-msgstr "إظهار الاحصائيات في شريط القوائم"
+#: includes/settings/tabs/wps-overview-display.php:175
+msgid ""
+"The following items are unique to each user.  If you do not select the "
+"'About' widget it will automatically be displayed in the last positon of "
+"column A."
+msgstr ""
+"العناصر التالية هي فريدة من نوعها لكل مستخدم. إذا لم تقم بتحديد قطعة 'حول' "
+"سيتم تلقائيا إظهارها في العمود الأخير من A."
 
-#: includes/settings/tabs/wps-general.php:205
-msgid "No"
-msgstr "لا"
+#: includes/settings/tabs/wps-overview-display.php:180
+msgid "Slot"
+msgstr "شريحة"
 
-#: includes/settings/tabs/wps-general.php:206
-msgid "Yes"
-msgstr "نعم"
+#: includes/settings/tabs/wps-overview-display.php:184
+msgid "Column A"
+msgstr "العمود A"
 
-#: includes/settings/tabs/wps-general.php:208
-msgid "Show stats in admin menu bar"
-msgstr "اظهار الاحصائيات في شريط القوائم الإداري"
+#: includes/settings/tabs/wps-overview-display.php:188
+msgid "Column B"
+msgstr "العمود B"
 
-#: includes/settings/tabs/wps-general.php:145
-msgid "Coefficient per visitor"
-msgstr "درجة لكل زائر"
+#: includes/settings/tabs/wps-overview-display.php:194
+msgid "Slot 1"
+msgstr "الشريحة 1"
 
-#: includes/settings/tabs/wps-general.php:150
-msgid "For each visit to account for several hits. Currently %s."
-msgstr "حساب توجيه النقرات لكل زائر. حالياً %s."
+#: includes/settings/tabs/wps-overview-display.php:224
+msgid "Slot 2"
+msgstr "الشريحة 2"
 
-#: includes/settings/tabs/wps-general.php:322
-msgid "Select when receiving statistics report."
-msgstr "حدد عند استلام إحصاءات التقرير."
+#: includes/settings/tabs/wps-overview-display.php:254
+msgid "Slot 3"
+msgstr "الشريحة 3"
 
-#: includes/settings/tabs/wps-general.php:334
-msgid "Email"
-msgstr "البريد الإلكتروني"
+#: includes/settings/tabs/wps-overview-display.php:284
+msgid "Slot 4"
+msgstr "الشريحة 4"
 
-#: includes/settings/tabs/wps-general.php:335
-msgid "SMS"
-msgstr "رسائل نصية"
+#: includes/settings/tabs/wps-overview-display.php:314
+msgid "Slot 5"
+msgstr "الشريحة 5"
 
-#: includes/settings/tabs/wps-general.php:337
-msgid "Type Select Get Status Report."
-msgstr "حدد نوع الحصول على التقرير."
+#: includes/settings/tabs/wps-overview-display.php:344
+msgid "Slot 6"
+msgstr "الشريحة 6"
 
-#: includes/settings/tabs/wps-general.php:363
-msgid "Enter the contents of the reports received."
-msgstr "أدخل محتويات التقارير الواردة."
+#: includes/settings/tabs/wps-overview-display.php:348
+#: includes/settings/tabs/wps-overview-display.php:370
+msgid "N/A"
+msgstr "N/A"
 
-#: widget.php:240
+#: includes/settings/tabs/wps-overview-display.php:366
+msgid "Slot 7"
+msgstr "الشريحة 7"
+
+#: includes/settings/tabs/wps-removal.php:15
+msgid "WP Statisitcs Removal"
+msgstr "إزالة احصائيات ووردبريس"
+
+#: includes/settings/tabs/wps-removal.php:20
+msgid ""
+"Uninstalling WP Statistics will not remove the data and settings, you can "
+"use this option to remove the WP Statistics data from your install before "
+"uninstalling the plugin."
+msgstr ""
+"إزالة احصائيات ووردبريس لن تقوم بإزالة البيانات والإعدادات، يمكنك استخدام "
+"هذا الخيار لإزالة البيانات الخاصة بك قبل إلغاء تثبيت البرنامج المساعد."
+
+#: includes/settings/tabs/wps-removal.php:23
+msgid ""
+"Once you submit this form the settings will be deleted during the page load, "
+"however WP Statistics will still show up in your Admin menu until another "
+"page load is executed."
+msgstr ""
+"بمجرد التقدم في هذا الخيار سيتم حذف الإعدادات أثناء تحميل صفحة هذا النموذج، "
+"ولكن سوف تزال تظهر احصائيات ووردبريس في قائمة المشرف الخاص بك حتى يتم تحميل "
+"الصفحة مرة أخرى."
+
+#: includes/settings/tabs/wps-removal.php:29
+msgid "Remove data and settings"
+msgstr "إزالة البيانات والإعدادات"
+
+#: includes/settings/tabs/wps-removal.php:34
+msgid "Remove"
+msgstr "إزالة"
+
+#: includes/settings/tabs/wps-removal.php:35
+msgid "Remove data and settings, this action cannot be undone."
+msgstr "إزالة البيانات والإعدادات، لا يمكنك التراجع مستقبلاً."
+
+#: includes/settings/wps-settings.php:100
+msgid "General"
+msgstr "عام"
+
+#: includes/settings/wps-settings.php:101
+msgid "Notifications"
+msgstr "الإشعارات"
+
+#: includes/settings/wps-settings.php:102
+msgid "Dashboard/Overview"
+msgstr "اللوحة/نظرة عامة"
+
+#: includes/settings/wps-settings.php:103
+msgid "Access/Exclusions"
+msgstr "وصول/استثناءات"
+
+#: includes/settings/wps-settings.php:105
+msgid "browscap"
+msgstr "browscap"
+
+#: includes/settings/wps-settings.php:106
+msgid "Maintenance"
+msgstr "صيانة"
+
+#: includes/settings/wps-settings.php:107
+msgid "Removal"
+msgstr "الإزالة"
+
+#: includes/settings/wps-settings.php:150
+msgid "Update"
+msgstr "تحديث"
+
+#: manual/manual.php:29
+msgid "Manual not found: %s"
+msgstr "الدليل لم يعثر على: %s"
+
+#: manual/manual.php:39
+msgid "Invalid file type selected: %s"
+msgstr "نوع الملف المختار غير صالح: %s"
+
+#: schedule.php:10
+msgid "Once Weekly"
+msgstr "مرة كل أسبوع"
+
+#: schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "مرة كل 2 أسابيع"
+
+#: schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "مرة كل 4 أسابيع"
+
+#: widget.php:14 wp-statistics.php:270
+msgid "Statistics"
+msgstr "الاحصائيات"
+
+#: widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "عرض احصائيات الموقع في الشريط الجانبي."
+
+#: widget.php:73 widget.php:260
+msgid "Week Visit"
+msgstr "زيارات الأسبوع"
+
+#: widget.php:80 widget.php:263
+msgid "Month Visit"
+msgstr "زيارات الشهر"
+
+#: widget.php:87 widget.php:266
+msgid "Years Visit"
+msgstr "زيارات السنة"
+
+#: widget.php:108 widget.php:275
+msgid "Total Page Views"
+msgstr "مجموع مشاهدات الصفحة"
+
+#: widget.php:116
+msgid "Search Engine referred"
+msgstr "محرك البحث المشار"
+
+#: widget.php:123 widget.php:298
+msgid "Total Posts"
+msgstr "إجمالي المشاركات"
+
+#: widget.php:130 widget.php:301
+msgid "Total Pages"
+msgstr "إجمالي الصفحات"
+
+#: widget.php:137 widget.php:304
+msgid "Total Comments"
+msgstr "إجمالي التعليقات"
+
+#: widget.php:144 widget.php:307
+msgid "Total Spams"
+msgstr "إجمالي السبام"
+
+#: widget.php:151 widget.php:310
+msgid "Total Users"
+msgstr "عدد الاعضاء"
+
+#: widget.php:158 widget.php:313
+msgid "Average Posts"
+msgstr "متوسط المشاركات"
+
+#: widget.php:165 widget.php:316
+msgid "Average Comments"
+msgstr "متوسط التعليقات"
+
+#: widget.php:172 widget.php:319
+msgid "Average Users"
+msgstr "متوسط الاعضاء"
+
+#: widget.php:179 widget.php:322
+msgid "Last Post Date"
+msgstr "تاريخ آخر مشاركة"
+
+#: widget.php:238
 msgid "Name"
 msgstr "الأسم"
 
-#: widget.php:244
+#: widget.php:242
 msgid "Items"
 msgstr "البنود"
 
-#: widget.php:283
+#: widget.php:254 wp-statistics.php:362
+msgid "Yesterday visit"
+msgstr "زيارات الأمس"
+
+#: widget.php:278
+msgid "Search Engine Referred"
+msgstr "محرك بحث المشارين"
+
+#: widget.php:281
 msgid "Select type of search engine"
 msgstr "حدد نوع من محرك البحث"
 
-#: includes/log/last-visitor.php:29 includes/log/top-referring.php:36
-#: includes/optimization/tabs/wps-optimization-purging.php:134 widget.php:296
-msgid "All"
-msgstr "الكل"
+#: wp-statistics.php:27
+msgid ""
+"ERROR: WP Statistics has detected an unsupported version of PHP, WP "
+"Statistics will not function without PHP Version "
+msgstr ""
+"خطأ: كشف احصائيات ووردبريس أن إصدار PHP لديك غير معتمد، و احصائيات ووردبريس "
+"لن تعمل دون PHP النسخة"
+
+#: wp-statistics.php:27
+msgid " or higher!"
+msgstr "أو أعلى!"
+
+#: wp-statistics.php:27
+msgid "Your current PHP version is"
+msgstr "نسخة PHP الحالي هو"
+
+#: wp-statistics.php:42
+msgid "WP Statistics has been removed, please disable and delete it."
+msgstr "تمت إزالة احصائيات ووردبريس، يرجى التعطيل والحذف."
+
+#. Plugin Name of the plugin/theme
+#: wp-statistics.php:53
+msgid "WP Statistics"
+msgstr "احصائيات ووردبريس"
+
+#. Description of the plugin/theme
+#: wp-statistics.php:54
+msgid "Complete statistics for your WordPress site."
+msgstr "إحصاءات كاملة لموقع ووردبريس الخاص بك."
+
+#: wp-statistics.php:97
+msgid ""
+"Online user tracking in WP Statistics is not enabled, please go to %s and "
+"enable it."
+msgstr ""
+"لم يتم تمكين تتبع المستخدم عبر الإنترنت في احصائيات ووردبريس، يرجى الذهاب "
+"إلى %s وتمكينه."
+
+#: wp-statistics.php:97 wp-statistics.php:100 wp-statistics.php:103
+msgid "setting page"
+msgstr "صفحة الإعدادات"
+
+#: wp-statistics.php:100
+msgid ""
+"Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr ""
+"تتبع النقرات في احصائيات ووردبريس لم يتم تمكينه، يرجى الذهاب إلى %s وتمكينه."
+
+#: wp-statistics.php:103
+msgid ""
+"Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
+"it."
+msgstr ""
+"لم يتم تمكين تتبع الزائر في احصائيات ووردبريس، يرجى الذهاب إلى %s وتمكينه."
+
+#: wp-statistics.php:106
+msgid ""
+"GeoIP collection is not active, please go to %s and enable this feature."
+msgstr "مجموعة GeoIP غير نشطه، يرجى الذهاب إلى %s وتمكين هذه الميزة."
+
+#: wp-statistics.php:106
+msgid "Setting page > GeoIP"
+msgstr "صفحة الإعدادات > GeoIP"
+
+#: wp-statistics.php:177 wp-statistics.php:289
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: wp-statistics.php:189
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "انقر هنا لزيارة صفحة الإضافة على WordPress.org"
+
+#: wp-statistics.php:189
+msgid "Visit WordPress.org page"
+msgstr "زيارة صفحة WordPress.org"
+
+#: wp-statistics.php:192
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr "أنقر هنا لمراجهة وتقييم الإضافة على WordPress.org"
+
+#: wp-statistics.php:192
+msgid "Rate this plugin"
+msgstr "ضع تقييمك لهذه الاضافة"
+
+#: wp-statistics.php:236
+msgid "WP Statistics - Hits"
+msgstr "احصائيات ووردبريس - الزيارات"
+
+#: wp-statistics.php:273
+msgid "Overview"
+msgstr "نظرة عامة"
+
+#: wp-statistics.php:280
+msgid "Online"
+msgstr "المتواجدون"
+
+#: wp-statistics.php:282
+msgid "Referers"
+msgstr "المراجع"
+
+#: wp-statistics.php:283
+msgid "Searches"
+msgstr "عمليات البحث"
+
+#: wp-statistics.php:284
+msgid "Search Words"
+msgstr "كلمات البحث"
+
+#: wp-statistics.php:285
+msgid "Top Visitors Today"
+msgstr "أعلى زوار اليوم"
+
+#: wp-statistics.php:288
+msgid "Optimization"
+msgstr "التحسين"
+
+#: wp-statistics.php:293
+msgid "Manual"
+msgstr "الدليل"
+
+#: wp-statistics.php:344
+msgid "Today visitor"
+msgstr "زوار اليوم"
+
+#: wp-statistics.php:350
+msgid "Today visit"
+msgstr "زيارات اليوم"
+
+#: wp-statistics.php:356
+msgid "Yesterday visitor"
+msgstr "زيارات الأمس"
+
+#: wp-statistics.php:368
+msgid "View Stats"
+msgstr "عرض الإحصائيات"
+
+#: wp-statistics.php:392
+msgid "Download ODF file"
+msgstr "تحميل ملف ODF"
+
+#: wp-statistics.php:393
+msgid "Download HTML file"
+msgstr "تحميل ملف HTML"
+
+#: wp-statistics.php:397
+msgid "Manual file not found."
+msgstr "لم يتم العثور على ملف الدليل."
+
+#: wp-statistics.php:482 wp-statistics.php:593 wp-statistics.php:627
+msgid "You do not have sufficient permissions to access this page."
+msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة."
+
+#: wp-statistics.php:495
+msgid ""
+"Plugin tables do not exist in the database! Please re-run the %s install "
+"routine %s."
+msgstr ""
+"جداول البرنامج المساعد لا وجود لها في قاعدة البيانات! يرجى إعادة تشغيل %s "
+"التثبيت الروتيني %s."
+
+#: wps-install.php:250
+msgid "WP Statistics %s installed on"
+msgstr "احصائيات ووردبريس  %s مثبتة على"
+
+#: wps-updates.php:34
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "خطأ تحميل قاعدة بيانات GeoIP من: %s - %s"
+
+#: wps-updates.php:45
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP التي تم تحميلها للقراءة: %s"
+
+#: wps-updates.php:52
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP لجهة الكتابة %s"
+
+#: wps-updates.php:68
+msgid "GeoIP Database updated successfully!"
+msgstr "تم تحديث قاعدة بيانات GeoIP بنجاح!"
+
+#: wps-updates.php:93
+msgid "GeoIP update on"
+msgstr "تحديث GeoIP على"
+
+#: wps-updates.php:160
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "خطأ في قاعدة بيانات browscap تحميل من: %s - %s"
+
+#: wps-updates.php:262
+msgid "browscap database updated successfully!"
+msgstr "قاعدة بيانات browscap تم تحديثها بنجاح!"
+
+#: wps-updates.php:273
+msgid ""
+"browscap database updated failed!  Cache file too large, reverting to "
+"previous browscap.ini."
+msgstr ""
+"تحديث قاعدة بيانات browscap فشل! ملف الكاش كبير جدا، تم الرجوع إلى browscap."
+"ini السابق."
+
+#: wps-updates.php:281
+msgid ""
+"browscap database updated failed!  New browscap.ini is mis-identifing user "
+"agents as crawlers, reverting to previous browscap.ini."
+msgstr ""
+"تحديث قاعدة بيانات browscap فشل! لم تتم تحديد هوية browscap.ini الجديدة لكلا "
+"من  المستخدم والزواحف، وتم الرجوع إلى browscap.ini السابق."
+
+#: wps-updates.php:303
+msgid "browscap already at current version!"
+msgstr "browscap بالفعل في النسخة الحالية!"
+
+#: wps-updates.php:316
+msgid "Browscap.ini update on"
+msgstr "تحديث Browscap.ini على"
+
+#~ msgid "Browsers by Type"
+#~ msgstr "المتصفحات حسب النوع"
+
+#~ msgid "Browser share"
+#~ msgstr "مشاركة بالمتصفح"
+
+#~ msgid "Browsers by Platform"
+#~ msgstr "المتصفحات حسب المنصة"
+
+#~ msgid "Platform share"
+#~ msgstr "مشاركة المنصة"
+
+#~ msgid "Browser version share"
+#~ msgstr "نسخة متصفح المشارك"
+
+#~ msgid "Excluded hits chart in the last"
+#~ msgstr "مشاهدة الرسم البياني للنقرات المستبعدة في المشاركة"
+
+#~ msgid "Hits chart in the last"
+#~ msgstr "الرسم البياني في هذه المشاركة"
+
+#~ msgid "Latest search words"
+#~ msgstr "آخر كلمات البحث"
+
+#~ msgid "Date: <code dir=\"ltr\">%s</code></code>"
+#~ msgstr "التاريخ: <code dir=\"rtl\">%s</code></code>"
+
+#~ msgid "Time: <code dir=\"ltr\">%s</code>"
+#~ msgstr "الوقت: <code dir=\"rtl\">%s</code></code>"
+
+#~ msgid "Graph of Browsers"
+#~ msgstr "الرسم البياني من المتصفحات"
+
+#~ msgid "Top referring sites"
+#~ msgstr "أعلى المواقع زيارة"
+
+#~ msgid "Reference"
+#~ msgstr "المرجع"
+
+#~ msgid "About plugin"
+#~ msgstr "عن الإضافة"
+
+#~ msgid "Plugin version: %s"
+#~ msgstr "إصدار الإضافة: %s"
+
+#~ msgid "Facebook"
+#~ msgstr "فيس بوك"
+
+#~ msgid "Weblog"
+#~ msgstr "مدونتنا"
+
+#~ msgid ""
+#~ "Please donate to WP Statistics. With your help WP Statistics will rule "
+#~ "the world!"
+#~ msgstr ""
+#~ "يرجى التبرع لمنتج WP Statistics, فبتبرعكم سوف نصل بمنتج WP Statistics الى "
+#~ "سيادة الووردبريس."
+
+#~ msgid "Donate"
+#~ msgstr "تبرع"
+
+#~ msgid "Hits chart in the last 20 days"
+#~ msgstr "مخطط الفعاليات في الـ20 يوماً الماضية"
+
+#~ msgid "Referrer search engine chart in the last 20 days"
+#~ msgstr "مرجعية محرك البحث التخطيطي في الـ20 يوما الماضية"
+
+#~ msgid "Number of referrer"
+#~ msgstr "عدد الإحالات"
+
+#~ msgid "Today visitors on map"
+#~ msgstr "زوار اليوم على الخريطة"
+
+#~ msgid "Page Trending Stats"
+#~ msgstr "احصائيات الصفحة الاكثر رواجاً"
+
+#~ msgid "Search Engine Referrers Statistics"
+#~ msgstr "احصائيات محركات البحث"
+
+#~ msgid "Referrer search engine chart in the last"
+#~ msgstr "الرسم البياني لمحرك بحث المرجعية في الماضي"
+
+#~ msgid "<code>%s</code> agent data deleted successfully."
+#~ msgstr "<code>%s</code> حذف بيانات الوكيل بنجاح."
+
+#~ msgid "<code>%s</code> platform data deleted successfully."
+#~ msgstr "<code>%s</code> حذف بيانات المنصة بنجاح."
+
+#~ msgid "<code>%s</code> table data deleted successfully."
+#~ msgstr "<code>%s</code> حذف بيانات الجدول بنجاح."
+
+#~ msgid ""
+#~ "<code>%s</code> data older than <code>%s</code> days purged successfully."
+#~ msgstr ""
+#~ "بيانات <code>%s</code> مضى عليها أكثر من <code>%s</code> أيام ضخ بنجاح."
+
+#~ msgid "No records found to purge from <code>%s</code>!"
+#~ msgstr "لاتوجد سجلات للضخ من <code>%s</code>!"
+
+#~ msgid "Please select."
+#~ msgstr "الرجاء اختيار."
+
+#~ msgid "GeoIP File Info"
+#~ msgstr "معلومات ملف GeoIP"
+
+#~ msgid "File Date"
+#~ msgstr "ملف التاريخ"
+
+#~ msgid "The file date of the GeoIP database."
+#~ msgstr "تاريخ الملف من قاعدة البيانات GeoIP."
+
+#~ msgid "File Size"
+#~ msgstr "حجم الملف"
+
+#~ msgid "The file size of the GeoIP database."
+#~ msgstr "حجم ملف قاعدة البيانات GeoIP."
+
+#~ msgid ""
+#~ "Get updates for the location and the countries, this may take a while"
+#~ msgstr "الحصول على تحديثات للموقع والدول، وهذا قد يستغرق بعض الوقت"
+
+#~ msgid "Number of rows in the <code>%s</code> table"
+#~ msgstr "عدد الصفوف في الجدول <code>%s</code>"
+
+#~ msgid ""
+#~ "If the PHP BC Math Extension is installed.  BC Math is required for the "
+#~ "GeoIP code, if it is not installed GeoIP will be disabled."
+#~ msgstr ""
+#~ "إذا تم تثبيت الملحق PHP BC Math.  فأن كود GeoIP مطلوب في BC Math, واذا لم "
+#~ "يتم تثبيته يتم تعطيل GeoIP."
+
+#~ msgid "Search Engine reffered"
+#~ msgstr "محركات البحث"
+
+#~ msgid "General Settings"
+#~ msgstr "إعدادات عامة"
+
+#~ msgid ""
+#~ "See the  %sWordPress Roles and Capabilities page%s for details on "
+#~ "capability levels."
+#~ msgstr ""
+#~ "انظر أدوار %s ووردبريس وقدرات الصفحة %s للتفاصيل على مستويات القدرة."
+
+#~ msgid ""
+#~ "By default WP Statistics displays an alert if any of the core features "
+#~ "are disbaled on every admin page, this option will disable these notices."
+#~ msgstr ""
+#~ "افتراضيا احصائيات ووردبريس يعرض تنبيها اذا تم تعطيل أي من الميزات "
+#~ "الأساسية على كل مشرف, فإن هذا الخيار يقوم بتعطيل الإشعارات."
+
+#~ msgid "Search Enginges"
+#~ msgstr "محرك البحث"
+
+#~ msgid "Chart type"
+#~ msgstr "نوع الرسم البياني"
+
+#~ msgid "Line"
+#~ msgstr "سطر"
+
+#~ msgid "Spline"
+#~ msgstr "شريحة"
+
+#~ msgid "Area"
+#~ msgstr "منطقة"
+
+#~ msgid "Area Spline"
+#~ msgstr "منطقة منحنية"
+
+#~ msgid "Column"
+#~ msgstr "عمود"
+
+#~ msgid "Bar"
+#~ msgstr "شريط"
+
+#~ msgid "Scatter"
+#~ msgstr "تبعثر"
+
+#~ msgid "Chart type in view stats."
+#~ msgstr "نوع الرسم البياني في مشاهدة البيانات."
+
+#~ msgid "Alternate map location"
+#~ msgstr "خريطة الموقع البديل"
+
+#~ msgid ""
+#~ "Place the map above the recent visitors area instead of at the top of the "
+#~ "page."
+#~ msgstr ""
+#~ "وضع الخريطة فوق منطقة الزوار الأخيرة بدلا من في الجزء العلوي من الصفحة."
+
+#~ msgid ""
+#~ "This feature may cause a performance degradation when viewing statistics."
+#~ msgstr "قد تسبب هذه الميزة انخفاض أداء الموقع عند عرض الإحصائيات."
+
+#~ msgid "Time send"
+#~ msgstr "وقت الارسال"
+
+#~ msgid "Hourly"
+#~ msgstr "كل ساعة"
+
+#~ msgid "Twice daily"
+#~ msgstr "مرتين يوميا"
+
+#~ msgid "daily"
+#~ msgstr "يوميا"
+
+#~ msgid "Select when receiving statistics report."
+#~ msgstr "حدد عند استلام إحصاءات التقرير."
+
+#~ msgid "Send Statistical reporting to"
+#~ msgstr "إرسال تقارير الإحصائيات إلى"
+
+#~ msgid "Type Select Get Status Report."
+#~ msgstr "حدد نوع الحصول على التقرير."
+
+#~ msgid ""
+#~ "Note: To send SMS text messages please install the <a href=\"%s\" target="
+#~ "\"_blank\">Wordpress SMS</a> plugin."
+#~ msgstr ""
+#~ "ملاحظة: لإرسال الرسائل النصية SMS الرجاء تثبيت البرنامج المساعد <a href="
+#~ "\"%s\" target=\"_blank\">Wordpress SMS</a>."
+
+#~ msgid "Send Content Report"
+#~ msgstr "أرسل المحتوى"
+
+#~ msgid "Enter the contents of the reports received."
+#~ msgstr "أدخل محتويات التقارير الواردة."
+
+#~ msgid "Input data:"
+#~ msgstr "إدخال البيانات:"
+
+#~ msgid "Show site stats in sidebar"
+#~ msgstr "إظهار إحصائيات الموقع في الشريط الجانبي"
+
+#~ msgid "Wordpress Statistics"
+#~ msgstr "احصائيات ووردبريس"
+
+#~ msgid "Complete statistics for your blog."
+#~ msgstr "الإحصائيات الكاملة للمدونة الخاصة بك."
+
+#~ msgid ""
+#~ "Facilities Wordpress Statistics not enabled! Please go to <a href=\"%s"
+#~ "\">setting page</a> and enable statistics"
+#~ msgstr ""
+#~ "إضافة Wordpress Statistics غير مفعلة! الرجاء الذهاب الى <a href=\"%s"
+#~ "\">صفحة الإعدادات</a> وقم بتفعيلها"
+
+#~ msgid ""
+#~ "GeoIP collection is not active! Please go to <a href=\"%s\">Setting page "
+#~ "> GeoIP</a> and enable this feature (GeoIP can detect the visitors "
+#~ "country)"
+#~ msgstr ""
+#~ "مجموعة GeoIP غير نشطة! يرجى الذهاب الى <a href=\"%s\">صفحة الإعدادات > "
+#~ "GeoIP</a> وقم بتمكين هذه الميزة (GeoIP يمكن الكشف عن بلد آخر)"
+
+#~ msgid "Visit plugin page"
+#~ msgstr "زيارة صفحة الأضافة"
+
+#~ msgid ""
+#~ "Table plugin does not exist! Please disable and re-enable the plugin."
+#~ msgstr ""
+#~ "هناك جدول مفقود في البرنامج المساعد! الرجاء تعطيل البرنامج المساعد ومن ثم "
+#~ "تفعيلة مرة أخرى."
+
+#~ msgid "Number of rows in the <code>%sstatistics_useronline</code> table"
+#~ msgstr "عدد الصفوف في الجدول <code>%sstatistics_useronline</code>"
+
+#~ msgid "Number of rows in the <code>%sstatistics_visitor</code> table"
+#~ msgstr "عدد الصفوف في الجدول <code>%sstatistics_visitor</code>"
+
+#~ msgid "(See more)"
+#~ msgstr "(عرض المزيد)"
+
+#~ msgid "Type date for last update"
+#~ msgstr "اكتب تاريخ آخر تحديث"
+
+#~ msgid "English"
+#~ msgstr "الانجليزية"
+
+#~ msgid "Persian"
+#~ msgstr "الفارسية"
+
+#~ msgid "Admin Levels"
+#~ msgstr "مستويات المشرف"
+
+#~ msgid "Statistical reporting settings"
+#~ msgstr "إعدادات تقارير الإحصائيات"
+
+#~ msgid "Yahoo!"
+#~ msgstr "ياهو!"
+
+#~ msgid "Bing"
+#~ msgstr "بينج"
+
+#~ msgid "Empty"
+#~ msgstr "تفريغ"
+
+#~ msgid "Chart Settings"
+#~ msgstr "إعدادات الرسم البياني"
+
+#~ msgid "Firefox"
+#~ msgstr " فَيَرفُكس"
+
+#~ msgid "IE"
+#~ msgstr "اكسبلورر"
+
+#~ msgid "Ipad"
+#~ msgstr "آيباد"
+
+#~ msgid "Android"
+#~ msgstr "آندرويد"
+
+#~ msgid "Chrome"
+#~ msgstr "كروم"
+
+#~ msgid "Safari"
+#~ msgstr "سفاري"
+
+#~ msgid "Opera"
+#~ msgstr "أوبرا"
+
+#~ msgid ""
+#~ "Please donate to the plugin. With the help of plug-ins you can quickly "
+#~ "spread."
+#~ msgstr ""
+#~ "يرجى التبرع لهذا البرنامج المساعد. وذلك لمساعدتنا في إضافة المكونات "
+#~ "الاضافية في أسرع وقت."
+
+#~ msgid "Word"
+#~ msgstr "كلمة"
+
+#~ msgid "Site"
+#~ msgstr "الموقع"
+
+#~ msgid "Unknown"
+#~ msgstr "غير معروف"
+
+#~ msgid "Province"
+#~ msgstr "الولاية"
+
+#~ msgid "Display IP Information On-screen statistics"
+#~ msgstr "عرض معلومات IP على شاشة الاحصائيات"
+
+#~ msgid ""
+#~ "Showing the flag country and Visitor province name (May be a bit slow)"
+#~ msgstr "عرض علم الدولة و محافظات الزوار (قد يكون بطئ بعض الشي)"
+
+#~ msgid "Added"
+#~ msgstr "أضيفت"
+
+#~ msgid "value"
+#~ msgstr "قيمة"
+
+#~ msgid "Was"
+#~ msgstr "وكان"
+
+#~ msgid "low value"
+#~ msgstr "تخفيض القيمة"
+
+#~ msgid "Thanks for your report!"
+#~ msgstr "شكرا على التقرير الخاص بك!"
+
+#~ msgid "Error! Please Enter all field"
+#~ msgstr "خطأ! الرجاء إدخال جميع الحقول"
+
+#~ msgid "All plugin data is deleted"
+#~ msgstr "تم حذف جميع بيانات الإضافة"
+
+#~ msgid "plugin options have been deleted"
+#~ msgstr "تم حذف خيارات الإضافة"
+
+#~ msgid "Plugin home page"
+#~ msgstr "موقع الإضافة"
+
+#~ msgid "Stats Log"
+#~ msgstr "دخول الإحصائيات"
+
+#~ msgid "Configuration"
+#~ msgstr "التكوين"
+
+#~ msgid "Enable Statistics"
+#~ msgstr "تمكين الاحصائيات"
+
+#~ msgid "Statistics are enabled."
+#~ msgstr "تم تمكين الإحصائيات."
+
+#~ msgid "Statistics are disabled!"
+#~ msgstr "الإحصائيات معطلة!"
+
+#~ msgid "General configuration"
+#~ msgstr "التكوين العام"
+
+#~ msgid "Show decimals number"
+#~ msgstr "عرض عدد عشرى"
+
+#~ msgid "Show number stats with decimal. For examle: 3,500"
+#~ msgstr "إظهار ارقام الاحصائيات بالشكل العشري. مثال: 3,500"
+
+#~ msgid "Daily referer of search engines"
+#~ msgstr "المرجعية يوميا من محركات البحث"
+
+#~ msgid "Can be calculated daily or total search engines"
+#~ msgstr "يمكنك حساب محركات البحث بشكل يومي أو كلي"
+
+#~ msgid "Increase value of the total hits by"
+#~ msgstr "زيادة قيمة إجمالي الزيارات من قبل"
+
+#~ msgid "Done"
+#~ msgstr "تم"
+
+#~ msgid "Your total visit sum with this value"
+#~ msgstr "ضع القيمة هنا لزيادة المجموع الكلي للزيارات"
+
+#~ msgid "Reduce value of the total hits by"
+#~ msgstr "خفض قيمة إجمالي الزيارات من قبل"
+
+#~ msgid "Your total visit minus with this value"
+#~ msgstr "ضع القيمة هنا لتقليص المجموع الكلي من الزيارات"
+
+#~ msgid "Number item for show Statistics"
+#~ msgstr "عدد البنود الظاهرة في الاحصائيات"
+
+#~ msgid "Default 5"
+#~ msgstr "الإفتراضي 5"
+
+#~ msgid "Number for submit item in Database and show that"
+#~ msgstr "ضع عدد البنود المراد ظهورها في الاحصائيات"
+
+#~ msgid "Default 1"
+#~ msgstr "الإفتراضي 1"
+
+#~ msgid "The CSS Class for the containing widget"
+#~ msgstr "الـ CSS ـكلاس تحتوي على قطعة"
+
+#~ msgid "If empty. class=\"widget\" will be used"
+#~ msgstr "اذا كانت فارغة class=\"القطعة\" سوف تستخدم"
+
+#~ msgid "Refresh Stats every"
+#~ msgstr "تحديث الإحصائيات كل"
+
+#~ msgid "Second(s)"
+#~ msgstr "(ثانية) ثواني"
+
+#~ msgid "Recommended"
+#~ msgstr "موصى به"
+
+#~ msgid "To reduce pressure on the server, this defaults to 10 sec"
+#~ msgstr "لتخفيف الضغط على الخادم، ضع القيمة الإفتراضية 10 ثواني"
+
+#~ msgid "Pagerank configuration"
+#~ msgstr "إعدادات البيج رانك"
+
+#~ msgid "Your url for Google pagerank check"
+#~ msgstr "رابط الفحص الخاص بك لجوجل بيج رانك"
+
+#~ msgid "If empty. you website url is used"
+#~ msgstr "اذا كانت فارغة. سيتم أستخدام رابط موقعك"
+
+#~ msgid "Your url for Alexa pagerank check"
+#~ msgstr "رابط الفحص الخاص بك لـ Alexa بيج رانك"
+
+#~ msgid "This plugin created by"
+#~ msgstr "هذه الإضافة تم إنشاؤها بواسطة"
+
+#~ msgid "from"
+#~ msgstr "من"
+
+#~ msgid "group"
+#~ msgstr "مجموعة"
+
+#~ msgid "Language"
+#~ msgstr "لغة"
+
+#~ msgid "by"
+#~ msgstr "بواسطة"
+
+#~ msgid "for translate language files. please send files for"
+#~ msgstr "لملفات ترجمة اللغة: الرجاء ارسال الملفات لـ"
+
+#~ msgid "Show Functions"
+#~ msgstr "عرض وظائف"
+
+#~ msgid "User Online Live"
+#~ msgstr "المتواجدين الآن"
+
+#~ msgid "Total Visit Live"
+#~ msgstr "مجموع الزوار الآن"
+
+#~ msgid "Total Feedburner Subscribe"
+#~ msgstr "مشتركي الخلاصات"
+
+#~ msgid "Google Pagerank"
+#~ msgstr "جوجل بيج رانك"
+
+#~ msgid "Alexa Pagerank"
+#~ msgstr "اليكسا بيج رانك"
+
+#~ msgid "Hide"
+#~ msgstr "إخفاء"
+
+#~ msgid "Your Name"
+#~ msgstr "اسمك"
+
+#~ msgid "Description Problem"
+#~ msgstr "وصف المشكلة"
+
+#~ msgid "Send Problem"
+#~ msgstr "ارسال مشكلة"
+
+#~ msgid "Delete all data, including tables and plugin options"
+#~ msgstr "حذف جميع البيانات ، بما في ذلك الجداول وخيارات البرنامج المساعد"
+
+#~ msgid "Stats weblog"
+#~ msgstr "احصائيات المدونة"

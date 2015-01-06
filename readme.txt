@@ -218,6 +218,7 @@ Support for old format substitution codes in the statistics reports has been rem
 * Added: shareaholic-bot to robots list.
 * Fixed: Robot threshold setting was not being saved.
 * Updated: Italian translation, thanks illatooscuro.
+* Updated: Arabic translation, thanks Hammad.
 * Updated: Honey pot page title now includes "Pot" in it.
 
 = 8.7.1 =
