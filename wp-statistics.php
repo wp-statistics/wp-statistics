@@ -108,8 +108,10 @@ License: GPL2
 	}
 
 	if( !$WP_Statistics->get_option('useronline') || !$WP_Statistics->get_option('visits') || !$WP_Statistics->get_option('visitors') || !$WP_Statistics->get_option('geoip') ) {
-		if( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14) == 'wp-statistics/') {
-			add_action('admin_notices', 'wp_statistics_not_enable');
+		if( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
+			if( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14) == 'wp-statistics/') {
+				add_action('admin_notices', 'wp_statistics_not_enable');
+			}
 		}
 	}
 
