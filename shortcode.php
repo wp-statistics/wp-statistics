@@ -12,7 +12,10 @@
 				stat = the statistic you want.
 				time = is the timeframe, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it.
 				provider = the search provider to get stats on.
+				format = i18n, english, none
 		*/
+		
+		$formatnumber = true;
 		
 		switch( $atts['stat'] ) {
 			case 'usersonline':
@@ -69,8 +72,22 @@
 				
 			case 'lpd':
 				$result = wp_statistics_lastpostdate();
+				$formatnumber = false;
 				break;
 			}
+			
+		if( $formatnumber ) {
+			switch( strtolower( $atts['format'] ) )	{
+				case 'i18n':
+					$result = number_format_i18n( $result );
+					
+					break;
+				case 'english':
+					$result = number_format( $result );
+					
+					break;
+			}
+		}
 			
 		return $result;
 	}

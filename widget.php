@@ -177,7 +177,7 @@
 				if($widget_options['lpd_widget']) {
 					echo "<li>";
 						echo __('Last Post Date', 'wp_statistics'). ": ";
-						echo number_format_i18n(wp_statistics_lastpostdate());
+						echo wp_statistics_lastpostdate();
 					echo "</li>";
 				}
 				echo "</ul>";
