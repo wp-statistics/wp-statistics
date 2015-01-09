@@ -36,77 +36,77 @@
 				if($widget_options['useronline_widget']) {
 					echo "<li>";
 						echo __('User Online', 'wp_statistics'). ": ";
-						echo wp_statistics_useronline();
+						echo number_format_i18n(wp_statistics_useronline());
 					echo "</li>";
 				}
 				
 				if($widget_options['tvisit_widget']) {
 					echo "<li>";
 						echo __('Today Visit', 'wp_statistics'). ": ";
-						echo wp_statistics_visit('today');
+						echo number_format_i18n(wp_statistics_visit('today'));
 					echo "</li>";
 				}
 				
 				if($widget_options['tvisitor_widget']) {
 					echo "<li>";
 						echo __('Today Visitor', 'wp_statistics'). ": ";
-						echo wp_statistics_visitor('today', null, true);
+						echo number_format_i18n(wp_statistics_visitor('today', null, true));
 					echo "</li>";
 				}
 
 				if($widget_options['yvisit_widget']) {
 					echo "<li>";
 						echo __('Yesterday Visit', 'wp_statistics'). ": ";
-						echo wp_statistics_visit('yesterday');
+						echo number_format_i18n(wp_statistics_visit('yesterday'));
 					echo "</li>";
 				}
 				
 				if($widget_options['yvisitor_widget']) {
 					echo "<li>";
 						echo __('Yesterday Visitor', 'wp_statistics'). ": ";
-						echo wp_statistics_visitor('yesterday', null, true);
+						echo number_format_i18n(wp_statistics_visitor('yesterday', null, true));
 					echo "</li>";
 				}
 
 				if($widget_options['wvisit_widget']) {
 					echo "<li>";
 						echo __('Week Visit', 'wp_statistics'). ": ";
-						echo wp_statistics_visit('week');
+						echo number_format_i18n(wp_statistics_visit('week'));
 					echo "</li>";
 				}
 
 				if($widget_options['mvisit_widget']) {
 					echo "<li>";
 						echo __('Month Visit', 'wp_statistics'). ": ";
-						echo wp_statistics_visit('month');
+						echo number_format_i18n(wp_statistics_visit('month'));
 					echo "</li>";
 				}
 
 				if($widget_options['ysvisit_widget']) {
 					echo "<li>";
 						echo __('Years Visit', 'wp_statistics'). ": ";
-						echo wp_statistics_visit('year');
+						echo number_format_i18n(wp_statistics_visit('year'));
 					echo "</li>";
 				}
 
 				if($widget_options['ttvisit_widget']) {
 					echo "<li>";
 						echo __('Total Visit', 'wp_statistics'). ": ";
-						echo wp_statistics_visit('total');
+						echo number_format_i18n(wp_statistics_visit('total'));
 					echo "</li>";
 				}
 				
 				if($widget_options['ttvisitor_widget']) {
 					echo "<li>";
 						echo __('Total Visitor', 'wp_statistics'). ": ";
-						echo wp_statistics_visitor('total', null, true);
+						echo number_format_i18n(wp_statistics_visitor('total', null, true));
 					echo "</li>";
 				}
 
 				if($widget_options['tpviews_widget']) {
 					echo "<li>";
 						echo __('Total Page Views', 'wp_statistics'). ": ";
-						echo wp_statistics_pages('total');
+						echo number_format_i18n(wp_statistics_pages('total'));
 					echo "</li>";
 				}
 
@@ -114,28 +114,28 @@
 				
 					echo "<li>";
 						echo __('Search Engine referred', 'wp_statistics'). ": ";
-						echo wp_statistics_searchengine($widget_options['select_se']);
+						echo number_format_i18n(wp_statistics_searchengine($widget_options['select_se']));
 					echo "</li>";
 				}
 				
 				if($widget_options['tp_widget']) {
 					echo "<li>";
 						echo __('Total Posts', 'wp_statistics'). ": ";
-						echo wp_statistics_countposts();
+						echo number_format_i18n(wp_statistics_countposts());
 					echo "</li>";
 				}
 
 				if($widget_options['tpg_widget']) {
 					echo "<li>";
 						echo __('Total Pages', 'wp_statistics'). ": ";
-						echo wp_statistics_countpages();
+						echo number_format_i18n(wp_statistics_countpages());
 					echo "</li>";
 				}
 
 				if($widget_options['tc_widget']) {
 					echo "<li>";
 						echo __('Total Comments', 'wp_statistics'). ": ";
-						echo wp_statistics_countcomment();
+						echo number_format_i18n(wp_statistics_countcomment());
 					echo "</li>";
 				}
 
@@ -149,35 +149,35 @@
 				if($widget_options['tu_widget']) {
 					echo "<li>";
 						echo __('Total Users', 'wp_statistics'). ": ";
-						echo wp_statistics_countusers();
+						echo number_format_i18n(wp_statistics_countusers());
 					echo "</li>";
 				}
 
 				if($widget_options['ap_widget']) {
 					echo "<li>";
 						echo __('Average Posts', 'wp_statistics'). ": ";
-						echo wp_statistics_average_post();
+						echo number_format_i18n(wp_statistics_average_post());
 					echo "</li>";
 				}
 
 				if($widget_options['ac_widget']) {
 					echo "<li>";
 						echo __('Average Comments', 'wp_statistics'). ": ";
-						echo wp_statistics_average_comment();
+						echo number_format_i18n(wp_statistics_average_comment());
 					echo "</li>";
 				}
 
 				if($widget_options['au_widget']) {
 					echo "<li>";
 						echo __('Average Users', 'wp_statistics'). ": ";
-						echo wp_statistics_average_registeruser();
+						echo number_format_i18n(wp_statistics_average_registeruser());
 					echo "</li>";
 				}
 
 				if($widget_options['lpd_widget']) {
 					echo "<li>";
 						echo __('Last Post Date', 'wp_statistics'). ": ";
-						echo wp_statistics_lastpostdate();
+						echo number_format_i18n(wp_statistics_lastpostdate());
 					echo "</li>";
 				}
 				echo "</ul>";
