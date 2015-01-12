@@ -130,7 +130,7 @@
 
 				// Check to see if we are being referred to ourselves.
 				if( !$this->exclusion_match ) {
-					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url("/") ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
+					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url(null,"/") ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url() ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 
 					if( $this->get_option('exclude_loginpage') == 1 ) {
