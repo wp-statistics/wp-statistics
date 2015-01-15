@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-12-26 19:50+0100\n"
+"PO-Revision-Date: 2015-01-15 23:16+0330\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,9 +11,13 @@ msgstr ""
 "X-Generator: Poedit 1.6.10\n"
 "Project-Id-Version: Wordpress Statistics\n"
 "POT-Creation-Date: \n"
-"Last-Translator: Radoslaw Rak <radekdb87@gmail.com>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: pl_PL\n"
+"Language: pl\n"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:21
+msgid "WP Statistics Honey Pot Page"
+msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:66
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:8
@@ -28,10 +32,6 @@ msgstr "Najlepsza 100 dzisiejszych odwiedzających"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:33
 msgid "Agent"
 msgstr "Agent"
-
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:21
-msgid "WP Statistics Honey Page"
-msgstr "Pełna strona WP Statistics"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:22
 msgid "This is the honey pot for WP Statistics to use, do not delete."
@@ -73,7 +73,7 @@ msgstr "Utwórz nową stronę pełnej puli"
 msgid "Slot 7"
 msgstr "Slot 7"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:285
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:287
 msgid "Top Visitors Today"
 msgstr "Najlepsi dzisiejsi odwiedzający"
 
@@ -297,11 +297,11 @@ msgstr "Panel główny/Przegląd"
 msgid "Your current PHP version is"
 msgstr "Twoja bieżąca wersja PHP"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:280
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:282
 msgid "Online"
 msgstr "Dostępni użytkownicy"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:495
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:497
 msgid ""
 "Plugin tables do not exist in the database! Please re-run the %s install "
 "routine %s."
@@ -1257,7 +1257,7 @@ msgstr "Limit pamięci skryptu może się zużywać, ustaw w pliku php.ini."
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:191
 msgid "Visit WordPress.org page"
 msgstr "Odwiedź stronę WordPress.org"
 
@@ -1321,19 +1321,19 @@ msgstr "Wyłącz kolumnę wejść w liście postu/stron"
 msgid "Miscellaneous"
 msgstr "Różne"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:191
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "Kliknij tutaj, aby odwiedzić wtyczkę WordPress.org"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:192
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:194
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "Kliknij tutaj, aby ocenić i opisać tę wtyczkę na WordPress.org"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:192
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:194
 msgid "Rate this plugin"
 msgstr "Oceń tę wtyczkę"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:236
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:238
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - Wejścia"
 
@@ -1348,23 +1348,23 @@ msgstr "Razem odwiedzonych stron"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:177
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:182
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:281
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:283
 msgid "Pages"
 msgstr "Strony"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:293
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:295
 msgid "Manual"
 msgstr "Podręcznik"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:392
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:394
 msgid "Download ODF file"
 msgstr "Pobierz plik ODF"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:393
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:395
 msgid "Download HTML file"
 msgstr "Pobierz plik HTML"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:397
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:399
 msgid "Manual file not found."
 msgstr "Plik podręcznika nie znaleziony."
 
@@ -1610,7 +1610,7 @@ msgid "Exclude the admin pages for registering as a hit."
 msgstr "Wyklucz strony administracji do rejestracji jako wejście."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:105
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:278
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:280
 msgid "Exclusions"
 msgstr "Wykluczenia"
 
@@ -1935,31 +1935,31 @@ msgstr ""
 "Dla uzyskania dodatkowych informacji i lokalizacji (kraju) z odwiedzającym, "
 "włącz tą funkcję."
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:273
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:275
 msgid "Overview"
 msgstr "Przegląd"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:276
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:278
 msgid "Countries"
 msgstr "Kraje"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:28
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:201
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:279
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:203
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:281
 msgid "Hits"
 msgstr "Wejścia"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:282
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:284
 msgid "Referers"
 msgstr "Strony odsyłające"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:283
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:285
 msgid "Searches"
 msgstr "Wyszukiwarki"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:284
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:286
 msgid "Search Words"
 msgstr "Wyszukiwane frazy"
 
@@ -2157,7 +2157,7 @@ msgstr "Czy na pewno?"
 msgid "Clear now!"
 msgstr "Wyczyść"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:288
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:290
 msgid "Optimization"
 msgstr "Optymizacja"
 
@@ -2297,14 +2297,14 @@ msgid "Statistical reporting"
 msgstr "Raporty statystyk"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:14
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:270
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:272
 msgid "Statistics"
 msgstr "Statystyki"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:188
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:38
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:245
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:337
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:339
 msgid "User Online"
 msgstr "Osób online"
 
@@ -2403,35 +2403,35 @@ msgstr "Średnio użytkowników"
 msgid "Last Post Date"
 msgstr "Data ostatniego wpisu"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:368
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:370
 msgid "View Stats"
 msgstr "Zobacz statystyki"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:177
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:289
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:179
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:291
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:344
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:346
 msgid "Today visitor"
 msgstr "Dzisiaj odwiedziło"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:350
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:352
 msgid "Today visit"
 msgstr "Dzisiaj odwiedzin"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:356
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:358
 msgid "Yesterday visitor"
 msgstr "Wczoraj odwiedziło"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:254
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:362
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:364
 msgid "Yesterday visit"
 msgstr "Wczoraj odwiedzin"
 
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:482
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:593
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:627
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:484
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:595
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:629
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nie posiadasz wystarczających uprawnień by wyświetlić tę stronę."
 
@@ -2516,7 +2516,7 @@ msgstr "(Wyrównanie)"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:15
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:7
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:25
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:274
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:276
 msgid "Browsers"
 msgstr "Przeglądarki"
 
@@ -2610,7 +2610,7 @@ msgstr "Odwiedzin"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:26
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:138
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:143
-#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:286
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:288
 msgid "Visitors"
 msgstr "Odzwiedzający"
 
