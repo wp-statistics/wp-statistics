@@ -156,6 +156,13 @@
 						
 						if( $currentURL == $adminURL ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "admin page";}
 					}
+
+					if( $this->get_option('exclude_feeds') == 1 ) {
+						$currentURL = $protocol . '://' . $host . $script;
+						$feedURL = get_feed_link();
+
+						if( $feedURL == substr( $currentURL, 0, strlen( $feedURL ) ) ) { { $this->exclusion_match = TRUE; $this->exclusion_reason = "feed";} }
+					}
 					
 					// Check to see if we are excluding based on the user role.
 					if( !$this->exclusion_match ) {

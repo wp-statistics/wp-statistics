@@ -27,7 +27,7 @@ if( $wps_nonce_valid ) {
 		$_POST['wps_honeypot_postid'] = wp_insert_post( $my_post );
 	}
 	
-	$wps_option_list = array_merge( $wps_option_list, array('wps_read_capability','wps_manage_capability','wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid' ) );
+	$wps_option_list = array_merge( $wps_option_list, array('wps_read_capability','wps_manage_capability','wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid','wps_exclude_feeds' ) );
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
@@ -253,6 +253,13 @@ if( $wps_nonce_valid ) {
 			<td>
 				<input id="wps-exclude-adminpage" type="checkbox" value="1" name="wps_exclude_adminpage" <?php echo $WP_Statistics->get_option('exclude_adminpage')==true? "checked='checked'":'';?>><label for="wps-exclude-adminpage"><?php _e('Exclude', 'wp_statistics'); ?></label>
 				<p class="description"><?php _e('Exclude the admin pages for registering as a hit.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+		<tr valign="top">
+			<th scope="row"><?php _e('Excluded RSS feeds', 'wp_statistics'); ?>:</th>
+			<td>
+				<input id="wps-exclude-feeds" type="checkbox" value="1" name="wps_exclude_feeds" <?php echo $WP_Statistics->get_option('exclude_feeds')==true? "checked='checked'":'';?>><label for="wps-exclude-feeds"><?php _e('Exclude', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('Exclude the RSS feeds for registering as a hit.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 	</tbody>
