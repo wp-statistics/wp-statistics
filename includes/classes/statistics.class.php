@@ -17,6 +17,7 @@
 		private $result;
 		private $historical;
 		private $user_options_loaded = false;
+		private $is_feed = false;
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';
@@ -468,5 +469,13 @@
 				}
 		
 			return $count;
+		}
+		
+		public function feed_detected() {
+			$this->is_feed = true;
+		}
+
+		public function check_feed() {
+			return $this->is_feed;
 		}
 	}

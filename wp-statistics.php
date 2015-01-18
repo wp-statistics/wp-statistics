@@ -126,6 +126,18 @@ License: GPL2
 			echo '<a href="' . $post_url . '" style="display: none;">&nbsp;</a>';
 		}
 	}
+
+	if( $WP_Statistics->get_option('exclude_feeds') ) {
+		add_filter('the_title_rss', 'wp_statistics_check_feed_title' );
+	}
+	
+	function wp_statistics_check_feed_title( $title ) {
+		GLOBAL $WP_Statistics;
+		
+		$WP_Statistics->feed_detected();
+		
+		return $title;
+	}
 	
 	// We can wait until the very end of the page to process the statistics, that way the page loads and displays
 	// quickly.

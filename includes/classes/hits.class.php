@@ -23,7 +23,7 @@
 		// Construction function.
 		public function __construct() {
 
-			global $wp_version;
+			global $wp_version, $WP_Statistics;
 					
 			// Call the parent constructor (WP_Statistics::__construct)
 			parent::__construct();
@@ -158,10 +158,9 @@
 					}
 
 					if( $this->get_option('exclude_feeds') == 1 ) {
-						$currentURL = $protocol . '://' . $host . $script;
-						$feedURL = get_feed_link();
-
-						if( $feedURL == substr( $currentURL, 0, strlen( $feedURL ) ) ) { { $this->exclusion_match = TRUE; $this->exclusion_reason = "feed";} }
+						if( is_object( $WP_Statistics ) ) { 
+							if( $WP_Statistics->check_feed() ) { { $this->exclusion_match = TRUE; $this->exclusion_reason = "feed";} }
+						}
 					}
 					
 					// Check to see if we are excluding based on the user role.
@@ -277,8 +276,8 @@
 
 			// Get the pages or posts ID if it exists.
 			$this->current_page_id = $wp_query->get_queried_object_id();
-
-			if( $this->get_option( 'use_honeypot' ) && $this->get_option( 'honeypot_postid') > 0 && $this->get_option( 'honeypot_postid' ) == $this->current_page_id ) {
+			
+			if( $this->get_option( 'use_honeypot' ) && $this->get_option( 'honeypot_postid') > 0 && $this->get_option( 'honeypot_postid' ) == $this->current_page_id && $this->current_page_id > 0 ) {
 				$this->exclusion_match = TRUE;
 				$this->exclusion_reason = "honeypot";
 			}
