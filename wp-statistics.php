@@ -269,24 +269,24 @@ License: GPL2
 		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
 		
 		// Add the top level menu.
-		add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview');
+		add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log');
 		
 		// Add the sub items.
-		add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log_overview');
-		add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, 'wps_browsers_menu', 'wp_statistics_log_browsers');
+		add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, 'wps_browsers_menu', 'wp_statistics_log');
 		if( $WP_Statistics->get_option('geoip') ) {
-			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log_countries');
+			add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log');
 		}
-		add_submenu_page(__FILE__, __('Exclusions', 'wp_statistics'), __('Exclusions', 'wp_statistics'), $read_cap, 'wps_exclusions_menu', 'wp_statistics_log_exclusions');
-		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log_hits');
-		add_submenu_page(__FILE__, __('Online', 'wp_statistics'), __('Online', 'wp_statistics'), $read_cap, 'wps_online_menu', 'wp_statistics_log_online');
-		add_submenu_page(__FILE__, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, 'wps_pages_menu', 'wp_statistics_log_pages');
-		add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), $read_cap, 'wps_referers_menu', 'wp_statistics_log_referers');
-		add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log_searches');
-		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log_words');
-		add_submenu_page(__FILE__, __('Top Visitors Today', 'wp_statistics'), __('Top Visitors Today', 'wp_statistics'), $read_cap, 'wps_top_visitors_menu', 'wp_statistics_top_visitors');
-		add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, 'wps_visitors_menu', 'wp_statistics_log_visitors');
-		add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview');
+		add_submenu_page(__FILE__, __('Exclusions', 'wp_statistics'), __('Exclusions', 'wp_statistics'), $read_cap, 'wps_exclusions_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Online', 'wp_statistics'), __('Online', 'wp_statistics'), $read_cap, 'wps_online_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, 'wps_pages_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), $read_cap, 'wps_referers_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Top Visitors Today', 'wp_statistics'), __('Top Visitors Today', 'wp_statistics'), $read_cap, 'wps_top_visitors_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, 'wps_visitors_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log');
 		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
 		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $read_cap, 'wp-statistics/settings', 'wp_statistics_settings');
 		
@@ -454,76 +454,58 @@ License: GPL2
 		}
 	}
 	
-	// WordPress cannot pass varaibles to functions called from menu items, so the next several functions
-	// are shims to wrap the log function.
-	function wp_statistics_log_overview() {
-	
-		wp_statistics_log();
-	}
-	
-	function wp_statistics_log_browsers() {
-	
-		wp_statistics_log('all-browsers');
-	}
-	
-	function wp_statistics_log_hits() {
-	
-		wp_statistics_log('hit-statistics');
-	}
-	
-	function wp_statistics_log_searches() {
-	
-		wp_statistics_log('search-statistics');
-	}
-	
-	function wp_statistics_log_visitors() {
-	
-		wp_statistics_log('last-all-visitor');
-	}
-
-	function wp_statistics_log_pages() {
-	
-		wp_statistics_log('top-pages');
-	}
-	
-	function wp_statistics_log_page() {
-		
-		wp_statistics_log('page-statistics');
-	}
-	
-	function wp_statistics_log_countries() {
-	
-		wp_statistics_log('top-countries');
-	}
-	
-	function wp_statistics_log_referers() {
-	
-		wp_statistics_log('top-referring-site');
-	}
-	
-	function wp_statistics_log_words() {
-	
-		wp_statistics_log('last-all-search');
-	}
-	
-	function wp_statistics_log_exclusions() {
-	
-		wp_statistics_log('exclusions');
-	}
-	
-	function wp_statistics_log_online() {
-
-		wp_statistics_log('online');
-	}
-	
-	function wp_statistics_top_visitors() {
-
-		wp_statistics_log('top-visitors');
-	}
-	
-	// This is the main statistics display function/
+	// This is the main statistics display function.
 	function wp_statistics_log( $log_type = "" ) {
-		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
+		GLOBAL $wpdb, $table_prefix, $WP_Statistics, $plugin_page;
+
+		switch( $plugin_page ) {
+			case 'wps_browsers_menu':
+				$log_type = 'all-browsers';
+
+				break;
+			case 'wps_countries_menu':
+				$log_type = 'top-countries';
+
+				break;
+			case 'wps_exclusions_menu':
+				$log_type = 'exclusions';
+
+				break;
+			case 'wps_hits_menu':
+				$log_type = 'hit-statistics';
+
+				break;
+			case 'wps_online_menu':
+				$log_type = 'online';
+
+				break;
+			case 'wps_pages_menu':
+				$log_type = 'page-statistics';
+
+				break;
+			case 'wps_referers_menu':
+				$log_type = 'top-referring-site';
+
+				break;
+			case 'wps_searches_menu':
+				$log_type = 'search-statistics';
+
+				break;
+			case 'wps_words_menu':
+				$log_type = 'last-all-search';
+
+				break;
+			case 'wps_top_visitors_menu':
+				$log_type = 'top-visitors';
+
+				break;
+			case 'wps_visitors_menu':
+				$log_type = 'last-all-visitor';
+
+				break;
+			default:
+				$log_type = "";
+		}
 		
 		// When we create $WP_Statistics the user has not been authenticated yet so we cannot load the user preferences
 		// during the creation of the class.  Instead load them now that the user exists.
