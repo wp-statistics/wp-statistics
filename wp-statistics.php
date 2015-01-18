@@ -296,6 +296,60 @@ License: GPL2
 		}
 	}
 	add_action('admin_menu', 'wp_statistics_menu');
+
+	// This function adds the primary menu to WordPress network.
+	function wp_statistics_networkmenu() {
+		GLOBAL $WP_Statistics;
+		
+		// Get the read/write capabilities required to view/manage the plugin as set by the user.
+		$read_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
+		
+		// Add the top level menu.
+		add_menu_page(__('Statistics', 'wp_statistics'), __('Statistics', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_network_overview');
+		
+		// Add the sub items.
+		add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_network_overview');
+		
+		foreach( wp_get_sites() as $blog ) {
+			$details = get_blog_details( $blog['blog_id'] );
+			add_submenu_page(__FILE__, $details->blogname, $details->blogname, $manage_cap, 'wp_statistics_blogid_' . $blog['blog_id'], 'wp_statistics_goto_network_blog');
+		}
+		
+		// Only add the manual entry if it hasn't been deleted.
+		if( $WP_Statistics->get_option('delete_manual') != true ) {
+			add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview');
+			add_submenu_page(__FILE__, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, 'wps_manual_menu', 'wp_statistics_manual');
+		}
+	}
+
+	if( is_multisite() ) { add_action('network_admin_menu', 'wp_statistics_networkmenu'); }
+	
+	function wp_statistics_network_overview() {
+		
+		foreach( wp_get_sites() as $blog ) {
+			$details = get_blog_details( $blog['blog_id'] );
+			$url = get_admin_url($blog_id) . "/admin.php?page=wp-statistics/wp-statistics.php";
+			
+			echo "<br><a href='" . $url . "'>" . $details->blogname . "</a><br>";
+			
+			//http://localhost/wordpress/wp-admin/admin.php?page=wp-statistics/wp-statistics.php
+		}
+		
+	}
+	
+	function wp_statistics_goto_network_blog() {
+		global $plugin_page;
+		
+		$blog_id = str_replace('wp_statistics_blogid_', '', $plugin_page );
+		
+		$details = get_blog_details( $blog_id );
+
+		// Get the admin url for the current site.
+		$url = get_admin_url($blog_id) . "/admin.php?page=wp-statistics/wp-statistics.php";
+
+		echo "<script>window.location.href = '$url';</script>";
+	}
 	
 	// This function adds the menu icon to the top level menu.  WordPress 3.8 changed the style of the menu a bit and so a different css file is loaded.
 	function wp_statistics_menu_icon() {

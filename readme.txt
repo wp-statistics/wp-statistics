@@ -214,13 +214,15 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
-= 8.7.? =
-* Added: Installation/upgrades on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
+= 8.8 =
+* Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
 * Fixed: Additional WP_DEBUG warning fixes.
 * Fixed: Incorrect parameter list in get_home_url() when checking for self referrals. 
+* Fixed: Single quotes can now be used in the report content without being escaped.
 * Updated: Italian, French, Polish, Arabic, Persian and Chinese translation.
 * Updated: Widget now formats numbers with international standards.
-* Updated: Short codes now support three number formating options; i18n, english or none.
+* Updated: Short codes now support three number formatting options; i18n, english or none.
+* Updated: Removed old throttling code for hits which is no longer required. 
 
 = 8.7.2 =
 * Added: shareaholic-bot to robots list.

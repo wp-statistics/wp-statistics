@@ -241,29 +241,25 @@
 				// Check to see if we're a returning visitor.
 				$this->result = $this->db->get_row("SELECT * FROM {$this->tb_prefix}statistics_visit ORDER BY `{$this->tb_prefix}statistics_visit`.`ID` DESC");
 				
-				// Ignore more than one hit per second.
-				if( $this->result->last_visit != $this->Current_Date('Y-m-d H:i:s') ) {
+				// If we're a returning visitor, update the current record in the database, otherwise, create a new one.
+				if( $this->result->last_counter != $this->Current_Date('Y-m-d') ) {
+					// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
+					// for this IP address we want to do an "INSERT ... ON DUPLICATE KEY" which WordPress doesn't support.
+					$sqlstring = $this->db->prepare( 'INSERT INTO ' . $this->tb_prefix . 'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' . $this->coefficient, $this->Current_Date(), $this->Current_date('Y-m-d'), $this->coefficient );
 				
-					// If we're a returning visitor, update the current record in the database, otherwise, create a new one.
-					if( $this->result->last_counter != $this->Current_Date('Y-m-d') ) {
-						// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
-						// for this IP address we want to do an "INSERT ... ON DUPLICATE KEY" which WordPress doesn't support.
-						$sqlstring = $this->db->prepare( 'INSERT INTO ' . $this->tb_prefix . 'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' . $this->coefficient, $this->Current_Date(), $this->Current_date('Y-m-d'), $this->coefficient );
-					
-						$this->db->query( $sqlstring );
-					} else {
-					
-						$this->db->update(
-							$this->tb_prefix . "statistics_visit",
-							array(
-								'last_visit'	=>	$this->Current_Date(),
-								'visit'			=>	$this->result->visit + $this->coefficient
-							),
-							array(
-								'last_counter'	=>	$this->result->last_counter
-							)
-						);
-					}
+					$this->db->query( $sqlstring );
+				} else {
+				
+					$this->db->update(
+						$this->tb_prefix . "statistics_visit",
+						array(
+							'last_visit'	=>	$this->Current_Date(),
+							'visit'			=>	$this->result->visit + $this->coefficient
+						),
+						array(
+							'last_counter'	=>	$this->result->last_counter
+						)
+					);
 				}
 			}
 		}
