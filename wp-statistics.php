@@ -323,9 +323,13 @@ License: GPL2
 		// Add the sub items.
 		add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_network_overview');
 		
+		$count = 0;
 		foreach( wp_get_sites() as $blog ) {
 			$details = get_blog_details( $blog['blog_id'] );
 			add_submenu_page(__FILE__, $details->blogname, $details->blogname, $manage_cap, 'wp_statistics_blogid_' . $blog['blog_id'], 'wp_statistics_goto_network_blog');
+			
+			$count++;
+			if( $count > 15 ) { break; }
 		}
 		
 		// Only add the manual entry if it hasn't been deleted.
