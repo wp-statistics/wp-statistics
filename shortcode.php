@@ -6,7 +6,7 @@
 		/*
 			WP Statitics shortcode is in the format of:
 			
-				[wpstatistics stat=xxx time=xxxx provider=xxxx]
+				[wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx]
 				
 			Where:
 				stat = the statistic you want.
