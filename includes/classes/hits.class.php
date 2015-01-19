@@ -227,7 +227,8 @@
 			   // 127.0.0.1/255.255.255.255 or 10.0.0.1 matches a given ip
 			   $ip_arr = explode('/', $network);
 			   
-			   if( !isset( $ip_arr[1] ) ) { $ip_arr[1] = 0; }
+			   // If no network mask has been passed in, assume 255.255.255.255 so we don't match every IP address by default.
+			   if( !isset( $ip_arr[1] ) ) { $ip_arr[1] = '255.255.255.255'; }
 			   
 			   $network_long = ip2long($ip_arr[0]);
 
