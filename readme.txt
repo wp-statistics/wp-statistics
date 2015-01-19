@@ -224,6 +224,7 @@ Support for old format substitution codes in the statistics reports has been rem
 * Updated: Widget now formats numbers with international standards.
 * Updated: Short codes now support three number formatting options; i18n, english or none.
 * Updated: Removed old throttling code for hits which is no longer required. 
+* Updated: IP address exclusions without a subnet mask now assume a single IP address instead of all IP addresses.
 
 = 8.7.2 =
 * Added: shareaholic-bot to robots list.
