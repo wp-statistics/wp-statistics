@@ -339,15 +339,70 @@ License: GPL2
 	
 	function wp_statistics_network_overview() {
 		
+?>
+	<div id="wrap">
+		<br>
+		
+		<table class="widefat wp-list-table" style="width: auto;">
+			<thead>
+				<tr>
+					<th style='text-align: left'><?php _e('Site', 'wp_statistics'); ?></th>
+					<th style='text-align: left'><?php _e('Options', 'wp_statistics'); ?></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+<?php
+		$i = 0;
+		
+		$options = array( 	__('Overview', 'wp_statistics') => 'wp-statistics/wp-statistics.php', 
+							__('Browsers', 'wp_statistics') => 'wps_browsers_menu', 
+							__('Countries', 'wp_statistics') => 'wps_countries_menu', 
+							__('Exclusions', 'wp_statistics') => 'wps_exclusions_menu', 
+							__('Hits', 'wp_statistics') => 'wps_hits_menu', 
+							__('Online', 'wp_statistics') => 'wps_online_menu', 
+							__('Pages', 'wp_statistics') => 'wps_pages_menu', 
+							__('Referrers', 'wp_statistics') => 'wps_referers_menu', 
+							__('Searches', 'wp_statistics') => 'wps_searches_menu', 
+							__('Search Words', 'wp_statistics') => 'wps_words_menu', 
+							__('Top Visitors Today', 'wp_statistics') => 'wps_top_visitors_menu', 
+							__('Visitors', 'wp_statistics') => 'wps_visitors_menu', 
+							__('Optimization', 'wp_statistics') => 'wp-statistics/optimization', 
+							__('Settings', 'wp_statistics') => 'wp-statistics/settings'
+						);
+						
 		foreach( wp_get_sites() as $blog ) {
 			$details = get_blog_details( $blog['blog_id'] );
-			$url = get_admin_url($blog_id) . "/admin.php?page=wp-statistics/wp-statistics.php";
-			
-			echo "<br><a href='" . $url . "'>" . $details->blogname . "</a><br>";
-			
-			//http://localhost/wordpress/wp-admin/admin.php?page=wp-statistics/wp-statistics.php
+			$url = get_admin_url($blog_id) . "/admin.php?page=";
+			$alternate = "";
+			if( $i % 2 == 0 ) { $alternate = ' class="alternate"'; }
+?>
+
+				<tr<?php echo $alternate; ?>>
+					<td style='text-align: left'>
+						<?php echo $details->blogname; ?>
+					</td>
+					<td style='text-align: left'>
+<?php
+				$options_len = count( $options );
+				$j = 0;
+				
+				foreach( $options as $key => $value ) {
+					echo '<a href="' . $url . $value . '">' . $key . '</a>';
+					$j ++;
+					if( $j < $options_len ) { echo ' - '; }
+				}
+?>
+					</td>
+				</tr>
+<?php		
+				$i++;
 		}
-		
+?> 
+			</tbody>
+		</table>
+	</div>
+<?php			
 	}
 	
 	function wp_statistics_goto_network_blog() {
