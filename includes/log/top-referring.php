@@ -26,9 +26,9 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Referring Sites', 'wp_statistics'); ?></h2>
 	<ul class="subsubsub">
-		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php if($referr) { ?>
-			| <li><a class="current" href="?page=wps_referers_menu&referr=<?php echo $referr; ?>"> <?php echo $title; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+			| <li><a class="current" href="?page=wps_referrers_menu&referr=<?php echo $referr; ?>"> <?php echo $title; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } ?>
 	</ul>
 	<div class="postbox-container" id="last-log">
@@ -106,7 +106,7 @@
 										$i++;
 										
 										echo "<div class='log-item'>";
-											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referers_menu&referr={$items}'>{$items}</a></div>";
+											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referrers_menu&referr={$items}'>{$items}</a></div>";
 											echo "<div class='log-ip'>".__('References', 'wp_statistics').": " . number_format_i18n($value) . "</div>";
 											echo "<div class='clear'></div>";
 											echo "<div class='log-url'><a href='http://" . htmlentities($items,ENT_QUOTES) . "/' title='" . htmlentities($items,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> http://" . htmlentities($items,ENT_QUOTES) . "/</a></div>";

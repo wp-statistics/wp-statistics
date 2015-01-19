@@ -293,7 +293,7 @@ License: GPL2
 		add_submenu_page(__FILE__, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log');
 		add_submenu_page(__FILE__, __('Online', 'wp_statistics'), __('Online', 'wp_statistics'), $read_cap, 'wps_online_menu', 'wp_statistics_log');
 		add_submenu_page(__FILE__, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, 'wps_pages_menu', 'wp_statistics_log');
-		add_submenu_page(__FILE__, __('Referers', 'wp_statistics'), __('Referers', 'wp_statistics'), $read_cap, 'wps_referers_menu', 'wp_statistics_log');
+		add_submenu_page(__FILE__, __('Referrers', 'wp_statistics'), __('Referrers', 'wp_statistics'), $read_cap, 'wps_referrers_menu', 'wp_statistics_log');
 		add_submenu_page(__FILE__, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log');
 		add_submenu_page(__FILE__, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log');
 		add_submenu_page(__FILE__, __('Top Visitors Today', 'wp_statistics'), __('Top Visitors Today', 'wp_statistics'), $read_cap, 'wps_top_visitors_menu', 'wp_statistics_log');
@@ -366,7 +366,7 @@ License: GPL2
 							__('Hits', 'wp_statistics') => 'wps_hits_menu', 
 							__('Online', 'wp_statistics') => 'wps_online_menu', 
 							__('Pages', 'wp_statistics') => 'wps_pages_menu', 
-							__('Referrers', 'wp_statistics') => 'wps_referers_menu', 
+							__('Referrers', 'wp_statistics') => 'wps_referrers_menu', 
 							__('Searches', 'wp_statistics') => 'wps_searches_menu', 
 							__('Search Words', 'wp_statistics') => 'wps_words_menu', 
 							__('Top Visitors Today', 'wp_statistics') => 'wps_top_visitors_menu', 
@@ -554,7 +554,7 @@ License: GPL2
 				$log_type = 'page-statistics';
 
 				break;
-			case 'wps_referers_menu':
+			case 'wps_referrers_menu':
 				$log_type = 'top-referring-site';
 
 				break;

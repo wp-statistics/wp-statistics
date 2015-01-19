@@ -220,6 +220,7 @@ Support for old format substitution codes in the statistics reports has been rem
 * Fixed: Additional WP_DEBUG warning fixes.
 * Fixed: Incorrect parameter list in get_home_url() when checking for self referrals. 
 * Fixed: Single quotes can now be used in the report content without being escaped.
+* Fixed: Referrers menu item was misspelled.
 * Updated: Italian, French, Polish, Arabic, Persian and Chinese translation.
 * Updated: Widget now formats numbers with international standards.
 * Updated: Short codes now support three number formatting options; i18n, english or none.
