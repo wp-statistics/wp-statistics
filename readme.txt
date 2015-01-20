@@ -217,6 +217,7 @@ Support for old format substitution codes in the statistics reports has been rem
 = 8.8 =
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
 * Added: RSS feed URL's can now be excluded.
+* Added: Option to set the country code for private IP addresses.
 * Fixed: Additional WP_DEBUG warning fixes.
 * Fixed: Incorrect parameter list in get_home_url() when checking for self referrals. 
 * Fixed: Single quotes can now be used in the report content without being escaped.

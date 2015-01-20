@@ -1,7 +1,17 @@
 <?php 
 if( $wps_nonce_valid ) {
 
-	$wps_option_list = array("wps_geoip","wps_update_geoip","wps_schedule_geoip","wps_auto_pop");
+	$wps_option_list = array('wps_geoip','wps_update_geoip','wps_schedule_geoip','wps_auto_pop','wps_private_country_code');
+	
+	// For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
+	if( array_key_exists( 'wps_private_country_code', $_POST ) ) { 
+		$_POST['wps_private_country_code'] = trim( strtoupper( $_POST['wps_private_country_code'] ) ); 
+	} 
+	else { 
+		$_POST['wps_private_country_code'] = '000'; 
+	}
+
+	if( $_POST['wps_private_country_code'] == '' ) { $_POST['wps_private_country_code'] = '000'; }
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
@@ -95,11 +105,22 @@ if( $wps_nonce_valid ) {
 				<p class="description"><?php _e('Update any missing GeoIP data after downloading a new database.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
-		<?php
+
+		<tr valign="top">
+			<th scope="row">
+				<label for="geoip-schedule"><?php _e('Country code for private IP addresses', 'wp_statistics'); ?>:</label>
+			</th>
+			
+			<td>
+				<input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo $WP_Statistics->get_option('private_country_code');?>">
+				<p class="description"><?php _e('The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use "000" (three zeros) to use "Unknown" as the country code.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+<?php
 	}
 	else
 	{
-		?>
+?>
 		<tr valign="top">
 			<th scope="row" colspan="2">
 				<?php 

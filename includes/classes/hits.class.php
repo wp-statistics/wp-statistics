@@ -43,6 +43,18 @@
 			if( $this->get_option('record_exclusions' ) == 1 ) {
 				$this->exclusion_record = TRUE;
 			}
+
+			// Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location infomraiton now.
+			if( $this->get_option( 'private_country_code' ) != '000' && $this->get_option( 'private_country_code' ) != '') {
+				$private_subnets = array( '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24' );
+				
+				foreach( $private_subnets as $psub ) {
+					if( $this->net_match( $psub, $this->ip ) ) {
+						$this->location = $this->get_option( 'private_country_code' );
+						break;
+					}
+				}
+			}
 			
 			// The follow exclusion checks are done during the class construction so we don't have to execute them twice if we're tracking visits and visitors.
 			//
