@@ -37,7 +37,7 @@
 		</tr>
 		
 		<tr valign="top">
-			<td scope="row" colspan="2"><?php echo sprintf( __('WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help.', 'wp_statistics'), '<a href="http://teamwork.wp-parsi.com/projects/wp-statistics" target="_blank">' . __('translation collaboration site', 'wp_statistics') . '</a>', '<a href="http://wp-statistics.com/contact/" target="_blank">' . __( 'drop us a line', 'wp_statistics') . '</a>');?></td>
+			<td scope="row" colspan="2"><?php echo sprintf( __('WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help.', 'wp_statistics'), '<a href="http://wp-statistics.com/gp/projects/wp_statistics" target="_blank">' . __('translation collaboration site', 'wp_statistics') . '</a>', '<a href="http://wp-statistics.com/contact/" target="_blank">' . __( 'drop us a line', 'wp_statistics') . '</a>');?></td>
 		</tr>
 		
 		<tr valign="top">

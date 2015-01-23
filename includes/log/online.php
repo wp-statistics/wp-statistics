@@ -94,6 +94,8 @@
 									}
 									
 									echo "</div>";
+								} else {
+									echo "<div class='wps-center'>".__('Currently there are no users online in the site.', 'wp_statistics')."</div>";
 								}
 							?>
 					</div>
