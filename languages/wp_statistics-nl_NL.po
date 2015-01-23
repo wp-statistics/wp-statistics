@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Wordpress Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-10-14 17:17-0500\n"
+"PO-Revision-Date: 2015-01-23 11:30+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,7 +10,7 @@ msgstr ""
 "X-Generator: Poedit 1.6.9\n"
 "Project-Id-Version: Wordpress Statistics\n"
 "POT-Creation-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Jaap Vink <jaapvink@yahoo.nl>\n"
 "Language-Team: \n"
 "Language: nl_NL\n"
 
@@ -91,8 +91,8 @@ msgid ""
 "you would like to help."
 msgstr ""
 "WP Statistics ondersteunt internationalisatie en wij moedigen onze "
-"gebruikers in te dienen van vertalingen, gelieve te bezoeken onze %s om te "
-"zien wat de huidige status en %s als u zou willen helpen."
+"gebruikers aan vertalingen te sturen, bezoek onze %s om de huidige status te "
+"bekijken en %s als u zou willen helpen."
 
 #: includes/settings/tabs/wps-about.php:40
 msgid "translation collaboration site"
@@ -100,7 +100,7 @@ msgstr "vertaling samenwerkingssite"
 
 #: includes/settings/tabs/wps-about.php:40
 msgid "drop us a line"
-msgstr "drop ons een lijn"
+msgstr "stuur ons een bericht"
 
 #: includes/settings/tabs/wps-about.php:52
 #: includes/settings/tabs/wps-about.php:53
@@ -113,7 +113,7 @@ msgstr "Veelgestelde vragen"
 
 #: includes/settings/tabs/wps-about.php:53
 msgid "manual"
-msgstr "Handmatig"
+msgstr "Handleiding"
 
 #: includes/settings/tabs/wps-about.php:54
 msgid "Have you search the %s for a similar issue?"
@@ -141,7 +141,7 @@ msgstr "U kunt ook is %s ondersteuning ook beschikbaar."
 
 #: includes/settings/tabs/wps-access-level.php:85
 msgid "See the %s for details on capability levels."
-msgstr "Zie de %s voor details op vermogen niveaus."
+msgstr "Zie de %s voor details over toegangsrechten."
 
 #: includes/settings/tabs/wps-access-level.php:85
 msgid "WordPress Roles and Capabilities page"
@@ -154,11 +154,11 @@ msgid ""
 "disabled if this is selected.  You will not be able to recover the IP "
 "addresses in the future to recover location information if this is enabled."
 msgstr ""
-"Deze functie zal niet IP-adressen in de database opgeslagen maar in plaats "
-"daarvan gebruikt een unieke hash. De \"Store hele gebruiker agent string\" "
-"instelling wordt uitgeschakeld als deze optie is geselecteerd. U zal niet "
-"zitten kundig voor herstellen van de IP-adressen in de toekomst om te "
-"herstellen van locatie-informatie als dit is ingeschakeld."
+"Deze functie zal niet IP-adressen in de database opslaan maar in plaats "
+"daarvan een unieke hash gebruiken. De \"hele gebruikers-agent-string opslaan"
+"\" instelling wordt uitgeschakeld als deze optie is geselecteerd. U kan dan "
+"de IP-adressen niet meer herleiden to locatie-informatie als dit is "
+"ingeschakeld."
 
 #: includes/settings/tabs/wps-general.php:340
 msgid "Note: To send SMS text messages please install the %s plugin."
@@ -247,11 +247,11 @@ msgstr "Database Setup"
 
 #: includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
-msgstr "Opnieuw uitvoeren installeren"
+msgstr "Herinstalleren"
 
 #: includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
-msgstr "Install Now!"
+msgstr "Installeer nu!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:15
 msgid ""
@@ -268,9 +268,8 @@ msgid ""
 "If the PHP BC Math Extension is installed.  BC Math is no longer required "
 "for the GeoIP code and is listed here only for historical reasons."
 msgstr ""
-"Als de extensie met PHP BC Math is geïnstalleerd. BC Math is niet langer "
-"vereist voor de GeoIP code en hier alleen om historische redenen wordt "
-"vermeld."
+"Is de extensie PHP BC Math is geïnstalleerd? BC Math is niet langer vereist "
+"voor de GeoIP code en wordt hier alleen om historische redenen wordt vermeld."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:168
 msgid "File Info"
@@ -330,7 +329,7 @@ msgstr "Browscap Database downloaden"
 
 #: includes/settings/tabs/wps-browscap.php:46
 msgid "Schedule weekly update of browscap DB"
-msgstr "Plant wekelijkse update van browscap DB"
+msgstr "Plan wekelijkse update van browscap DB"
 
 #: includes/settings/tabs/wps-browscap.php:69
 msgid "Download of the browscap database will be scheduled for once a week."
@@ -370,7 +369,7 @@ msgstr "Gefeliciteerd, is uw installatie al up to date, niets te maken."
 #: includes/settings/tabs/wps-about.php:55
 msgid "Have you search the Internet for any error messages you are receiving?"
 msgstr ""
-"Heb je zoeken op het Internet voor eventuele foutberichten die u ontvangt?"
+"Heb je op het internet gezocht voor eventuele foutberichten die u ontvangt?"
 
 #: includes/settings/tabs/wps-about.php:66
 msgid ""
@@ -378,7 +377,7 @@ msgid ""
 "you view the source for the page and check for any fatal errors?"
 msgstr ""
 "Krijgt u een blanco of onvolledige pagina die wordt weergegeven in uw "
-"browser? U de bron van de pagina weergeven en controleren voor eventuele "
+"browser? Heeft u de broncode van de pagina gezien gecontroleerd op eventuele "
 "fatale fouten?"
 
 #: includes/settings/tabs/wps-about.php:67
@@ -444,10 +443,9 @@ msgid ""
 "Statistics takes place.  Note if this option is enabled any custom robots "
 "you have added to the list will be lost."
 msgstr ""
-"Kracht de robot lijst om te worden teruggezet naar de standaardinstelling na "
-"een update aan WP Statistics plaatsvindt. Opmerking Als deze optie is "
-"ingeschakeld een aangepaste robots die u hebt toegevoegd aan de lijst zullen "
-"verloren gaan."
+"Forceer een reset van de robotlijst naar de standaardinstelling na een "
+"update van WP Statistics. Opmerking: als deze optie is ingeschakeld zullen "
+"de robots die u zelf hebt toegevoegd aan de lijst verloren gaan."
 
 #: includes/settings/tabs/wps-general.php:40
 msgid "This will delete the manual when you save the settings, are you sure?"
@@ -460,9 +458,9 @@ msgid ""
 "By default WP Statistics displays an alert if any of the core features are "
 "disabled on every admin page, this option will disable these notices."
 msgstr ""
-"Standaard WP Statistics een waarschuwing weergegeven als een van de "
-"kernfuncties zijn uitgeschakeld op elke adminpagina, deze optie schakelt u "
-"deze mededelingen."
+"Standaard geeft WP Statistics een waarschuwing als een kernfunctie is "
+"uitgeschakeld op elke adminpagina, met deze optie schakelt u deze "
+"mededelingen uit."
 
 #: includes/settings/tabs/wps-general.php:226
 msgid "Delete the manual"
@@ -474,9 +472,9 @@ msgid ""
 "meg), if this option is enabled it will be deleted now and during upgrades "
 "in the future."
 msgstr ""
-"Standaard WP statistiek slaat de admin handmatig in de plugin directory (~ 5 "
-"meg), als deze optie is ingeschakeld wordt deze waarde gewist nu en tijdens "
-"upgrades in de toekomst."
+"Standaard slaat WP Statistics de beheerdershandleiding op in de plugin "
+"directory (~ 5 meg). Als deze optie is ingeschakeld wordt deze verwijderd, "
+"nu en tijdens upgrades in de toekomst."
 
 #: includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
@@ -535,16 +533,16 @@ msgid ""
 "The \"Google\" option will use Google's mapping service to plot the recent "
 "visitors (requires access to Google)."
 msgstr ""
-"De \"Google\" optie zal het gebruik van Googles kaartservice op internet "
-"kunnen worden uitgezet de recente bezoekers (vereist toegang tot Google)."
+"De \"Google\" optie gebruikt Googles kaartservice om recente bezoekers weer "
+"te geven (vereist toegang tot Google)."
 
 #: includes/settings/tabs/wps-overview-display.php:94
 msgid ""
 "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the "
 "recent visitors (requires no extenral services)."
 msgstr ""
-"De \"JQVMap\" optie zal JQVMap javascript toewijzing bibliotheek uitzetten "
-"in de recente bezoekers (vereist geen extenral services) gebruiken."
+"De \"JQVMap\" optie zal de JQVMap javascript bibliotheek gebruiken om de "
+"recente bezoekers wer te geven (vereist geen extenral services) gebruiken."
 
 #: includes/settings/tabs/wps-overview-display.php:118
 msgid ""
@@ -598,7 +596,7 @@ msgstr "Samenvatting"
 
 #: includes/log/widgets/summary.php:13
 msgid "User(s) Online"
-msgstr "Gebruiker (s) Online"
+msgstr "Gebruiker(s) Online"
 
 #: includes/log/widgets/browsers.php:45
 msgid "Top 10 Browsers"
@@ -608,7 +606,7 @@ msgstr "Top 10 Browsers"
 #: includes/log/widgets/referring.php:13
 #: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
-msgstr "Top verwijzende Sites"
+msgstr "Top verwijzende sites"
 
 #: includes/log/widgets/about.php:16
 msgid "Rate and Review"
@@ -627,7 +625,7 @@ msgstr ""
 
 #: includes/log/search-statistics.php:77 includes/log/widgets/search.php:46
 msgid "Search engine referrals in the last"
-msgstr "Zoek motor verwijzingen in de laatste"
+msgstr "Zoekmachine verwijzingen in de laatste"
 
 #: includes/log/search-statistics.php:98 includes/log/widgets/search.php:67
 msgid "Number of referrals"
@@ -656,11 +654,11 @@ msgstr "Tarief en Review op WordPress.org"
 #: includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
 msgstr ""
-"Bedankt voor het installeren van WP Statistics, we raden u in te dienen een "
+"Bedankt voor het installeren van WP Statistics, we stimuleren u om een "
 
 #: includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
-msgstr "beoordeling en herziening"
+msgstr "waardering en beoordeling in te geven"
 
 #: includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
@@ -677,25 +675,23 @@ msgstr ""
 
 #: includes/settings/tabs/wps-about.php:58
 msgid "And a few things to double-check:"
-msgstr "En een paar dingen om te controleren of:"
+msgstr "En een paar dingen om te nog eens te controleren:"
 
 #: includes/settings/tabs/wps-about.php:61
 msgid "How's your memory_limit in php.ini?"
-msgstr "Hoe is uw memory_limit in php.ini?"
+msgstr "Wat is uw memory_limit in php.ini?"
 
 #: includes/settings/tabs/wps-about.php:62
 msgid "Have you tried disabling any other plugins you may have installed?"
-msgstr ""
-"Heeft u geprobeerd het uitschakelen van alle andere plugins die u hebt "
-"geïnstalleerd?"
+msgstr "Heeft u andere geinstalleerde plugins gedeactiveerd?"
 
 #: includes/settings/tabs/wps-about.php:63
 msgid "Have you tried using the default WordPress theme?"
-msgstr "Heeft u geprobeerd met behulp van de standaard wordpressthema?"
+msgstr "Heeft u het geprobeerd met behulp van het standaard WordPress-thema?"
 
 #: includes/settings/tabs/wps-about.php:64
 msgid "Have you double checked the plugin settings?"
-msgstr "Hebt u dubbele de plugin instellingen gecontroleerd?"
+msgstr "Hebt u nogmaals de plugin-instellingen gecontroleerd?"
 
 #: includes/settings/tabs/wps-about.php:65
 msgid "Do you have all the required PHP extensions installed?"
@@ -703,7 +699,7 @@ msgstr "Hebt u alle vereiste PHP extensies geïnstalleerd?"
 
 #: includes/settings/tabs/wps-about.php:70
 msgid "Still not having any luck?"
-msgstr "Nog steeds niet dat enig geluk?"
+msgstr "Nog steeds geen succes?"
 
 #: includes/optimization/tabs/wps-optimization-export.php:17
 #: includes/optimization/tabs/wps-optimization-export.php:35
@@ -731,9 +727,9 @@ msgid ""
 "of WP Statistics, please use the appropriate shortcodes, they are included "
 "here only for historical purposes:"
 msgstr ""
-"Invoergegevens codes zijn nu verouderd en zal worden verwijderd in een "
-"toekomstige versie van WP Statistics, gebruik de juiste shortcodes, ze zijn "
-"opgenomen hier alleen voor historische doeleinden:"
+"Invoergegeven-codes zijn nu verouderd en zullen worden verwijderd in een "
+"toekomstige versie van WP Statistics. Gebruik de juiste shortcodes, ze zijn "
+"hier alleen opgenomen voor historische doeleinden:"
 
 #: includes/settings/tabs/wps-geoip.php:22
 msgid ""
@@ -841,9 +837,7 @@ msgstr "PHP-geheugenlimiet"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
-msgstr ""
-"De geheugenlimiet een script is toegestaan om te consumeren, ingesteld in "
-"php.ini."
+msgstr "De geheugenlimiet voor PHP-scripts, ingesteld in php.ini."
 
 #: wp-statistics.php:38
 msgid "WP Statistics"
@@ -884,11 +878,10 @@ msgid ""
 "formats are accepted).  To specify an IP address only, use a subnet value of "
 "32 or 255.255.255.255."
 msgstr ""
-"Een lijst met IP-adressen en subnet masker (een per regel) uit te sluiten "
-"van statistieken collectie (zowel 192.168.0.0/24 als "
-"192.168.0.0/255.255.255.0 formaten worden geaccepteerd). Als u wilt opgeven "
-"alleen een IP-adres, een subnet waarde van 32 of 255.255.255.255 te "
-"gebruiken."
+"Een lijst met IP-adressen en subnet-maskers (een per regel) die van "
+"statistieken uitgesloten moeten worden (zowel 192.168.0.0/24 als "
+"192.168.0.0/255.255.255.0 formaten worden geaccepteerd). Om alleen een IP-"
+"adres te specificeren, een subnet waarde van 32 of 255.255.255.255 gebruiken."
 
 #: includes/settings/tabs/wps-access-level.php:172
 msgid "Excluded login page"
@@ -950,7 +943,7 @@ msgstr "Pagina 's"
 
 #: wp-statistics.php:266
 msgid "Manual"
-msgstr "Handmatig"
+msgstr "Handleiding"
 
 #: wp-statistics.php:364
 msgid "Download ODF file"
@@ -962,7 +955,7 @@ msgstr "Het HTML-bestand downloaden"
 
 #: wp-statistics.php:369
 msgid "Manual file not found."
-msgstr "Handmatige bestand niet gevonden."
+msgstr "Handleiding-bestand niet gevonden."
 
 #: includes/log/exclusions.php:54
 msgid "Exclusions Statistics"
@@ -1021,7 +1014,7 @@ msgstr "PHP veilige modus"
 #: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr ""
-"PHP veilige modus is actief. De GeoIP-code wordt niet ondersteund in de "
+"Is PHP veilige modus actief? De GeoIP-code wordt niet ondersteund in de "
 "veilige modus."
 
 #: includes/settings/tabs/wps-geoip.php:106
@@ -1049,8 +1042,8 @@ msgid ""
 "Disabling all search engines is not allowed, doing so will result in all "
 "search engines being active."
 msgstr ""
-"Uitschakelen van alle zoekmachines is niet toegestaan, dus doen zal "
-"resulteren in alle zoekmachines actief."
+"Uitschakelen van alle zoekmachines is niet toegestaan, het zal resulteren in "
+"een activering van alle zoekmachines."
 
 #: includes/settings/tabs/wps-general.php:257
 msgid "disable"
@@ -1058,7 +1051,7 @@ msgstr "uitschakelen"
 
 #: includes/settings/tabs/wps-general.php:258
 msgid "Disable %s from data collection and reporting."
-msgstr "Uitschakelen %s van gegevensverzameling en rapportage."
+msgstr "%s van gegevensverzameling en rapportage uitschakelen."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "cURL Version"
@@ -1073,8 +1066,8 @@ msgid ""
 "The PHP cURL Extension version you are running.  cURL is required for the "
 "GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr ""
-"De PHP cURL uitbreiding-versie u uitvoert. cURL is vereist voor de GeoIP-"
-"code, als het niet is geïnstalleerd dat geoip wordt uitgeschakeld."
+"De versie van de PHP cURL-extensie u gebruikt. cURL is vereist voor de GeoIP-"
+"code, als het niet is geïnstalleerd wordt gGoIP uitgeschakeld."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "BC Math"
@@ -1136,8 +1129,8 @@ msgid ""
 "Add a total line to charts with multiple values, like the search engine "
 "referrals"
 msgstr ""
-"Een totale lijn toevoegen aan grafieken met meerdere waarden, zoals de "
-"verwijzingen van de Motor zoek"
+"Een totale lijn  met meerdere waarden toevoegen aan grafieken, zoals de "
+"verwijzingen van de zoekmachine verwijzingen"
 
 #: includes/settings/tabs/wps-overview-display.php:100
 msgid "Disable map"
@@ -1187,8 +1180,8 @@ msgid ""
 msgstr ""
 "Dit zal alle uitgesloten hits opnemen in een aparte tabel met de redenen "
 "waarom het was uitgesloten, maar geen andere informatie. Dit zal een "
-"heleboel gegevens genereren, maar is handig als u wilt zien van het totale "
-"aantal hits uw site krijgt, niet alleen de feitelijke gebruiker bezoeken."
+"heleboel gegevens genereren, maar is handig als u het totale aantal hits uw "
+"site wilt zien, niet alleen de feitelijke gebruikerbezoeken."
 
 #: includes/settings/tabs/wps-access-level.php:168
 msgid "Site URL Exclusions"
@@ -1295,8 +1288,8 @@ msgid ""
 "A WP Cron job will be run daily to prune any data older than a set number of "
 "days."
 msgstr ""
-"Een WP-Cron job zal dagelijkse te snoeien van alle gegevens die ouder zijn "
-"dan een bepaald aantal dagen worden uitgevoerd."
+"Een WP-Cron job zal dagelijks draaien en alle gegevens die ouder zijn dan "
+"een bepaald aantal dagen verwijderen."
 
 #: includes/settings/tabs/wps-maintenance.php:47
 msgid "Prune data older than"
@@ -1311,8 +1304,8 @@ msgid ""
 "The number of days to keep statistics for.  Minimum value is 30 days.  "
 "Invalid values will disable the daily maintenance."
 msgstr ""
-"Het aantal dagen te houden statistieken voor. Minimumwaarde is 30 dagen. "
-"Ongeldige waarden zal onbruikbaar maken het dagelijks onderhoud."
+"Het aantal dagen dat de statistieken bewaard moeten blijven. Minimumwaarde "
+"is 30 dagen. Ongeldige waarden zullen het dagelijks onderhoud deactiveren."
 
 #: includes/settings/wps-settings.php:89
 msgid "GeoIP"
@@ -1333,7 +1326,7 @@ msgstr ""
 
 #: includes/log/widgets/search.php:8 includes/log/widgets/summary.php:64
 msgid "Search Engine Referrals"
-msgstr "Zoek Engine verwijzingen"
+msgstr "Zoekmachine verwijzingen"
 
 #: includes/log/widgets/summary.php:88
 msgid "Daily Total"
@@ -1355,10 +1348,10 @@ msgid ""
 "configuration.  So for example selecting publish_posts grants the right to "
 "Authors, Editors, Admins and Super Admins."
 msgstr ""
-"Elk van de bovenstaande casscades de rechten naar boven in de "
-"standaardconfiguratie voor WordPress. Dus bijvoorbeeld selecteren "
-"publish_posts verleent het recht aan auteurs, redacteurs, Admins en Super "
-"beheerders."
+"Elk van de bovenstaande cascades van rechten naar boven in de "
+"standaardconfiguratie voor WordPress. Dus bijvoorbeeld door publish_posts te "
+"selecteren wordt het recht gegeven aan auteurs, redacteurs, beheerders en "
+"superbeheerders."
 
 #: includes/settings/tabs/wps-access-level.php:88
 msgid ""
@@ -1422,7 +1415,7 @@ msgstr "WP Statistics versie"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:108
 msgid "The WP Statistics version you are running."
-msgstr "De statistieken van WP-versie die u uitvoert."
+msgstr "De versie van WP-Statistics die u gebruikt."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:114
 msgid "PHP Version"
@@ -1430,7 +1423,7 @@ msgstr "PHP versie"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:119
 msgid "The PHP version you are running."
-msgstr "De PHP-versie die u uitvoert."
+msgstr "De gebruikte PHP-versie."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "jQuery Version"
@@ -1438,17 +1431,15 @@ msgstr "jQuery versie"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The jQuery version you are running."
-msgstr "De jQuery versie die u uitvoert."
+msgstr "De gebruikte jQuery-versie."
 
 #: wp-statistics.php:610
 msgid "Error could not open downloaded GeoIP database for reading: %s"
-msgstr ""
-"Fout kon niet worden geopend gedownloade GeoIP-database voor de lezing: %s"
+msgstr "Fout. Kon de gedownloade GeoIP-database niet inlezen: %s"
 
 #: wp-statistics.php:617
 msgid "Error could not open destination GeoIP database for writing %s"
-msgstr ""
-"Fout kon niet worden geopend GeoIP doeldatabase voor het schrijven van %s"
+msgstr "Fout. Kon de GeoIP-database niet openen om te schrijven %s"
 
 #: wp-statistics.php:633
 msgid "GeoIP Database updated successfully!"
@@ -1464,7 +1455,7 @@ msgstr "Client IP"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:239
 msgid "The client IP address."
-msgstr "Het IP-adres van client."
+msgstr "Het IP-adres van de bezoeker."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:245
 msgid "User Agent"
@@ -1472,7 +1463,7 @@ msgstr "User-Agent"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:250
 msgid "The client user agent string."
-msgstr "Clienttekenreeks van de gebruikersagent."
+msgstr "User-agent van de browser."
 
 #: includes/settings/tabs/wps-access-level.php:105
 msgid "Exclude User Roles"
@@ -1497,9 +1488,9 @@ msgid ""
 "A list of words (one per line) to match against to detect robots.  Entries "
 "must be at least 4 characters long or they will be ignored."
 msgstr ""
-"Een lijst van woorden (een per regel) overeenkomen met tegen te detecteren "
-"robots. Inzendingen moeten ten minste 4 tekens lang, of ze zullen worden "
-"genegeerd."
+"Een lijst van woorden (een per regel) die met te detecteren robots "
+"overeenkomen. Woorden moeten minimaal 4 tekens lang zijn, of ze zullen "
+"worden genegeerd."
 
 #: includes/settings/tabs/wps-access-level.php:144
 msgid "Reset to Default"
@@ -1526,8 +1517,8 @@ msgid ""
 "For get more information and location (country) from visitor, enable this "
 "feature."
 msgstr ""
-"Voor meer informatie krijgen en vestiging (land) van bezoeker, deze functie "
-"inschakelen."
+"Deze functie inschakelen om meer informatie over de bezoeker en locatie "
+"(land) te krijgen."
 
 #: includes/settings/wps-settings.php:87 wp-statistics.php:248
 msgid "Overview"
@@ -1557,7 +1548,7 @@ msgstr "Zoekwoorden"
 
 #: includes/settings/tabs/wps-general.php:94
 msgid "Second"
-msgstr "Tweede"
+msgstr "Seconden"
 
 #: includes/log/all-browsers.php:17
 msgid "Browser Statistics"
@@ -1645,7 +1636,7 @@ msgstr "Bezoeker rekenen"
 
 #: includes/settings/tabs/wps-overview-display.php:35
 msgid "Search Engine Referrers Statistical Chart"
-msgstr "Zoek Engine verwijzers statistische grafiek"
+msgstr "Zoekmachine verwijzers statistische grafiek"
 
 #: includes/log/top-countries.php:19
 msgid "Top Countries"
@@ -1928,11 +1919,11 @@ msgstr "Gemiddelde gebruikers"
 
 #: widget.php:179 widget.php:324
 msgid "Last Post Date"
-msgstr "Datum laatste Post"
+msgstr "Datum laatste bericht"
 
 #: wp-statistics.php:340
 msgid "View Stats"
-msgstr "Weergave Stats"
+msgstr "Weergave Statistieken"
 
 #: wp-statistics.php:152 wp-statistics.php:262
 msgid "Settings"
@@ -1940,19 +1931,19 @@ msgstr "Instellingen"
 
 #: wp-statistics.php:316
 msgid "Today visitor"
-msgstr "Vandaag bezoeker"
+msgstr "Bezoeker vandaag"
 
 #: wp-statistics.php:322
 msgid "Today visit"
-msgstr "Vandaag bezoek"
+msgstr "Bezoek vandaag"
 
 #: wp-statistics.php:328
 msgid "Yesterday visitor"
-msgstr "Gisteren bezoeker"
+msgstr "Bezoeker gisteren"
 
 #: widget.php:256 wp-statistics.php:334
 msgid "Yesterday visit"
-msgstr "Gisteren bezoek"
+msgstr "Bezoek gisteren"
 
 #: wp-statistics.php:444 wp-statistics.php:544 wp-statistics.php:815
 msgid "You do not have sufficient permissions to access this page."
@@ -2014,7 +2005,7 @@ msgstr "Totaal"
 
 #: includes/log/widgets/summary.php:102
 msgid "(Adjustment)"
-msgstr "(Aanpassing)"
+msgstr "(Aanpassen)"
 
 #: includes/log/all-browsers.php:24 includes/log/widgets/browsers.php:8
 #: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:249
@@ -2067,7 +2058,7 @@ msgstr "Land"
 #: includes/settings/tabs/wps-overview-display.php:105
 #: includes/settings/tabs/wps-overview-display.php:117
 msgid "Active"
-msgstr "Actieve"
+msgstr "Actief"
 
 #: includes/settings/tabs/wps-general.php:83
 #: includes/settings/tabs/wps-general.php:111
@@ -2097,12 +2088,11 @@ msgstr "Controleer voor online gebruikers elke"
 #: includes/settings/tabs/wps-general.php:95
 msgid "Time for the check accurate online user in the site. Now: %s Second"
 msgstr ""
-"Tijd voor het selectievakje nauwkeurige online gebruikers in de site. Nu: %s "
-"tweede"
+"Tijd voor nauwkeurige controle online gebruikers op de site. Nu: %s seconden"
 
 #: includes/settings/tabs/wps-general.php:200
 msgid "Show stats in menu bar"
-msgstr "Stats in menubalk weergeven"
+msgstr "Statistieken in menubalk weergeven"
 
 #: includes/settings/tabs/wps-general.php:205
 msgid "No"
@@ -2114,7 +2104,7 @@ msgstr "Ja"
 
 #: includes/settings/tabs/wps-general.php:208
 msgid "Show stats in admin menu bar"
-msgstr "Stats in admin menubalk weergeven"
+msgstr "Statistieken in admin menubalk weergeven"
 
 #: includes/settings/tabs/wps-general.php:145
 msgid "Coefficient per visitor"
@@ -2122,7 +2112,7 @@ msgstr "Coëfficiënt per bezoeker"
 
 #: includes/settings/tabs/wps-general.php:150
 msgid "For each visit to account for several hits. Currently %s."
-msgstr "Voor elk bezoek aan de rekening voor meerdere hits. Momenteel %s."
+msgstr "Voor elk bezoek meerdere hits tellen. Momenteel %s."
 
 #: includes/settings/tabs/wps-general.php:322
 msgid "Select when receiving statistics report."
@@ -2142,7 +2132,7 @@ msgstr "Type Select Get statusrapport."
 
 #: includes/settings/tabs/wps-general.php:363
 msgid "Enter the contents of the reports received."
-msgstr "Geef de inhoud van de verslagen ontvangen."
+msgstr "Geef de inhoud van de ontvangen verslagen."
 
 #: widget.php:240
 msgid "Name"
@@ -2154,7 +2144,7 @@ msgstr "Artikelen"
 
 #: widget.php:283
 msgid "Select type of search engine"
-msgstr "Selecteer type van search engine"
+msgstr "Selecteer type zoekmachine"
 
 #: includes/log/last-visitor.php:29 includes/log/top-referring.php:36
 #: includes/optimization/tabs/wps-optimization-purging.php:134 widget.php:296
