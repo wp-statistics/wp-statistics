@@ -551,7 +551,7 @@ License: GPL2
 
 				break;
 			case 'wps_pages_menu':
-				$log_type = 'page-statistics';
+				$log_type = 'top-pages';
 
 				break;
 			case 'wps_referrers_menu':
