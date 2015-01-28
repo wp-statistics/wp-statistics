@@ -1,892 +1,2400 @@
+# Translation of WP Statistics in Bengali
+# This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-statistics\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-28 19:03+0330\n"
-"PO-Revision-Date: 2014-10-14 17:15-0500\n"
-"Last-Translator: Mostafa Soufi <mst404@gmail.com>\n"
-"Language-Team: \n"
-"Language: en\n"
+"PO-Revision-Date: 2015-01-27 19:13-0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: gettext;gettext_noop;_e;__\n"
-"X-Poedit-Basepath: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-content"
-"\\plugins\\wp-statistics\n"
-"X-Generator: Poedit 1.6.9\n"
-"X-Poedit-SearchPath-0: F:\\Program Files\\xampp\\htdocs\\wordpress\\wp-"
-"content\\plugins\\wp-statistics\n"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/schedule.php:32
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:103
-#, fuzzy
-msgid "Statistical reporting"
-msgstr "সরাসরি পরিসংখ্যান কনফিগার"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:4
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:6
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:58
-msgid "Statistics"
-msgstr "পরিসংখ্যান"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:5
-msgid "Show site stats in sidebar"
-msgstr "স্টাটস সাইডবারে দেখাও"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:19
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:80
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:14
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:14
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:159
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:9
-msgid "User Online"
-msgstr "এখন দেখছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:26
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:161
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:12
-msgid "Today Visit"
-msgstr "আজ দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:33
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:160
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:15
-#, fuzzy
-msgid "Today Visitor"
-msgstr "আজ দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:40
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:163
-msgid "Yesterday Visit"
-msgstr "গতকাল দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:47
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:162
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:21
-#, fuzzy
-msgid "Yesterday Visitor"
-msgstr "গতকাল দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:54
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:24
-msgid "Week Visit"
-msgstr "এ সপ্তাহে দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:61
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:27
-msgid "Month Visit"
-msgstr "এ মাসে দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:68
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:30
-msgid "Years Visit"
-msgstr "এ বছরে দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:75
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:33
-msgid "Total Visit"
-msgstr "মোট দেখা হয়েছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:82
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:164
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:36
-#, fuzzy
-msgid "Total Visitor"
-msgstr "মোট দেখা হয়েছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:90
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:39
-msgid "Search Engine reffered"
-msgstr "সার্চ ইঞ্জিন রেফার করেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:105
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:57
-msgid "Total Posts"
-msgstr "মোট পোষ্ট"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:112
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:60
-msgid "Total Pages"
-msgstr "মোট পাতা"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:119
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:63
-msgid "Total Comments"
-msgstr "মোট মন্তব্য"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:126
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:66
-msgid "Total Spams"
-msgstr "মোট স্প্যাম"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:133
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:69
-msgid "Total Users"
-msgstr "মোট ব্যবহারকারী"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:140
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:72
-msgid "Average Posts"
-msgstr "গড় পোষ্ট"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:147
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:75
-msgid "Average Comments"
-msgstr "গড় মন্তব্য"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:154
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:78
-msgid "Average Users"
-msgstr "গড় ব্যবহারকারী"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/widget.php:161
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:81
-msgid "Last Post Date"
-msgstr "শেষ পোষ্টের তারিখ"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:60
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:105
-msgid "View Stats"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:61
-msgid "Settings"
-msgstr "সেটিসং"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:85
-#, fuzzy
-msgid "Today visitor"
-msgstr "আজ দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:90
-#, fuzzy
-msgid "Today visit"
-msgstr "আজ দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:95
-#, fuzzy
-msgid "Yesterday visitor"
-msgstr "গতকাল দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:18
-msgid "Yesterday visit"
-msgstr "গতকাল দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:134
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:151
-msgid "You do not have sufficient permissions to access this page."
-msgstr "আপনার এই পেজ দেখার মত পর্যাপ্ত অনুমতি নেই।"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:8
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:69
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:165
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:209
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:244
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:334
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:374
-msgid "Click to toggle"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:9
-#, fuzzy
-msgid "Summary Statistics"
-msgstr "পরিসংখ্যান"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:305
-msgid "Visitor"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:21
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:315
-#, fuzzy
-msgid "Visit"
-msgstr "এ সপ্তাহে দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:25
-#, fuzzy
-msgid "Today"
-msgstr "আজ দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:31
-#, fuzzy
-msgid "Yesterday"
-msgstr "গতকাল দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:37
-msgid "Week"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:43
-#, fuzzy
-msgid "Month"
-msgstr "এ মাসে দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:49
-msgid "Year"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:55
-#, fuzzy
-msgid "Total"
-msgstr "মোট দেখা হয়েছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:62
-#, php-format
-msgid ""
-"Today date: <code dir=\"ltr\">%s</code>, Time: <code dir=\"ltr\">%s</code>"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:64
-msgid "(Adjustment)"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:70
-msgid "Browsers"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:101
-msgid "Graph of Browsers"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:143
-msgid "Browser share"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:145
-msgid "Firefox"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:146
-msgid "IE"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:147
-msgid "Ipad"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:148
-msgid "Android"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:149
-msgid "Chrome"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:150
-msgid "Safari"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:151
-msgid "Other"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:166
-msgid "Top referring sites"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:171
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:342
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:386
-#, fuzzy
-msgid "Reference"
-msgstr "রেফার করেছে যে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:172
-msgid "Address"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:210
-#, fuzzy
-msgid "About plugin"
-msgstr "প্লাগইন নিস্ক্রিয়"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:213
-#, fuzzy, php-format
-msgid "Plugin version: %s"
-msgstr "প্লাগইন ভাষান্তর"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:214
-msgid "Translation plugin languages"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:215
-msgid "Support plugin"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:216
-msgid "Weblog"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:221
-msgid ""
-"Please donate to the plugin. With the help of plug-ins you can quickly "
-"spread."
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:224
-msgid "Donate"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:245
-#, fuzzy
-msgid "Statistical Chart"
-msgstr "পরিসংখ্যান"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:260
-msgid "Chart hit in the last 20 days"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:279
-msgid "Number of visits and visitors"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:335
-msgid "Latest search words"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:339
-msgid "Word"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:340
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:384
-msgid "Date"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:341
-msgid "Site"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:354
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:44
-msgid "Google"
-msgstr "গুগল"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:356
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:47
-msgid "Yahoo!"
-msgstr "ইয়াহু!"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:358
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:50
-msgid "Bing"
-msgstr "বিং"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:363
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:400
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:408
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:420
-msgid "Unknown"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:375
-#, fuzzy
-msgid "Recent Visitors"
-msgstr "এ সপ্তাহে দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:379
-msgid "IP"
-msgstr "আইপি"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:381
-msgid "Country"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:382
-msgid "Province"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:385
-msgid "Browser"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:9
-#, fuzzy
-msgid "General Settings"
-msgstr "সেটিসং"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:19
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:31
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:43
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:92
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:108
-msgid "Active"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:20
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:32
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:44
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:109
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.7.4\n"
+"Project-Id-Version: WP Statistics\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: bn_BD\n"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:93
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:149
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:188
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:200
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:229
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:122
 msgid "Enable or disable this feature"
-msgstr ""
+msgstr "সক্রিয় অথবা এই বৈশিষ্ট্য নিষ্ক্রিয় করা"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:26
-#, fuzzy
-msgid "Visits"
-msgstr "এ সপ্তাহে দেখেছে"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:38
-msgid "Visitors"
-msgstr ""
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:99
 msgid "Check for online users every"
 msgstr "অনলাইনের ব্যবহারকারী চেক করবে"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:55
-#, fuzzy
-msgid "Secound"
-msgstr "সেকেন্ড"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:104
+msgid "Second"
+msgstr "দ্বিতীয়"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:56
-#, fuzzy, php-format
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:105
 msgid "Time for the check accurate online user in the site. Now: %s Second"
 msgstr "এই সাইটের সঠিক অনলাইন দর্শক চেক করার জন্য । ডিফল্ট: ৬০ সেকেন্ড"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:62
-msgid "Show stats in menu bar"
-msgstr "স্টাটস মেনুবারে দেখাও"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:111
+msgid "Record all user"
+msgstr "সব ব্যবহারকারী রেকর্ড"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:67
-msgid "No"
-msgstr "না"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:117
+msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
+msgstr "বর্জন সেটিংস উপেক্ষা করে এবং অনলাইন (স্ব রেফারেলগুলি এবং রোবট সহ) যে সব ব্যবহারকারীদের তথ্য সংগ্রহ করা হয়. শুধুমাত্র সমস্যাসমাধানের জন্য ব্যবহার করা উচিত."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:68
-msgid "Yes"
-msgstr "হ্যা"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:155
+msgid "Store entire user agent string"
+msgstr "সম্পূর্ণ ইউজার এজেন্ট স্ট্রিং সঞ্চয়"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:70
-msgid "Show stats in admin menu bar"
-msgstr "স্টাটস অ্যাডমিনের মেনুবারে দেখাও"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:161
+msgid "Only enabled for debugging"
+msgstr "শুধুমাত্র ডিবাগিং জন্য সক্রিয়"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:76
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:167
 msgid "Coefficient per visitor"
 msgstr "দর্শকের সুদক্ষতা"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:81
-#, fuzzy, php-format
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:172
 msgid "For each visit to account for several hits. Currently %s."
 msgstr "দর্শনাথীর প্রতি হিট গননা করা হবে"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:87
-msgid "Display IP Information On-screen statistics"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:177
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:182
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:295
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:368
+msgid "Pages"
+msgstr "পেজ"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:93
-msgid "Showing the flag country and Visitor province name (May be a bit slow)"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:194
+msgid "Track all pages"
+msgstr "সমস্ত পৃষ্ঠা ট্র্যাক"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:98
-msgid "Statistical reporting settings"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:209
+msgid "Strip parameters from URI"
+msgstr "কোনো URI থেকে স্ট্রিপ পরামিতি"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:116
-#, fuzzy
-msgid "Time send"
-msgstr "সময়"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:215
+msgid "This will remove anything after the ? in a URL."
+msgstr "এই পরে কিছু মুছে ফেলা হবে? একটি URL- এ."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:121
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:137
-#, fuzzy
-msgid "Please select."
-msgstr "মান দিন‍!"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:223
+msgid "Disable hits column in post/pages list"
+msgstr "নিষ্ক্রিয় পোস্ট / পেজ তালিকা কলাম হিট"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:122
-msgid "Hourly"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:234
+msgid "Miscellaneous"
+msgstr "বিবিধ"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:123
-msgid "Twice daily"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:239
+msgid "Show stats in menu bar"
+msgstr "স্টাটস মেনুবারে দেখাও"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:124
-msgid "daily"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:244
+msgid "No"
+msgstr "না"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:126
-msgid "Select when receiving statistics report."
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:245
+msgid "Yes"
+msgstr "হ্যা"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:132
-msgid "Send Statistical reporting to"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:247
+msgid "Show stats in admin menu bar"
+msgstr "স্টাটস অ্যাডমিনের মেনুবারে দেখাও"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:253
+msgid "Hide admin notices about non active features"
+msgstr "অ সক্রিয় বৈশিষ্ট্য সম্পর্কে অ্যাডমিন নোটিশ লুকান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:259
+msgid "By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices."
+msgstr "মূল বৈশিষ্ট্য কোনো প্রত্যেক অ্যাডমিন পৃষ্ঠার যদি অক্ষম হয় ডিফল্ট ডাব্লু পরিসংখ্যান একটি সতর্কতা প্রদর্শন করা হয়, এই বিকল্প এই নোটিশ নিষ্ক্রিয় করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:265
+msgid "Delete the manual"
+msgstr "ম্যানুয়াল মুছে দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:271
+msgid "By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future."
+msgstr "ডিফল্ট ডাব্লু পরিসংখ্যান প্লাগইন ডিরেক্টরি অ্যাডমিন ম্যানুয়াল (~ 5 মেগ) সঞ্চয় করে, এই বিকল্প সক্রিয় করা হলে এটি এখন এবং ভবিষ্যতে আপগ্রেড করার সময় মুছে ফেলা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:276
+msgid "Search Engines"
+msgstr "অনুসন্ধান ইঞ্জিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:281
+msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
+msgstr "সব সার্চ ইঞ্জিন নিষ্ক্রিয় সব সার্চ ইঞ্জিন সক্রিয় হচ্ছে স্থাপিত হবে, তাই করছেন, অনুমোদিত নয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:296
+msgid "disable"
+msgstr "অক্ষম"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:297
+msgid "Disable %s from data collection and reporting."
+msgstr "তথ্য সংগ্রহ এবং প্রতিবেদন থেকে% এর নিষ্ক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:303
+msgid "Charts"
+msgstr "চার্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:308
+msgid "Include totals"
+msgstr "সমগ্র অন্তর্ভুক্ত করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:314
+msgid "Add a total line to charts with multiple values, like the search engine referrals"
+msgstr "সার্চ ইঞ্জিন রেফারেলগুলি মত, একাধিক মান চার্ট মোট লাইন যোগ করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:27
+msgid "GeoIP settings"
+msgstr "GeoIP সেটিংস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:32
+msgid "IP location services provided by GeoLite2 data created by MaxMind, available from %s."
+msgstr "% এর থেকে উপলব্ধ MaxMind দ্বারা নির্মিত GeoLite2 তথ্য, দ্বারা উপলব্ধ আইপি অবস্থান সেবা."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:42
+msgid "GeoIP collection"
+msgstr "GeoIP সংগ্রহ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:48
+msgid "For get more information and location (country) from visitor, enable this feature."
+msgstr "পরিদর্শক থেকে আরো তথ্য এবং অবস্থান (দেশ) পেতে, এই বৈশিষ্ট্য সক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:54
+msgid "Update GeoIP Info"
+msgstr "আপডেট GeoIP তথ্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:59
+msgid "Download GeoIP Database"
+msgstr "GeoIP ডাটাবেস ডাউনলোড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:66
+msgid "Schedule monthly update of GeoIP DB"
+msgstr "GeoIP ডিবি মাসিক আপডেট সময়সূচী"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:92
+msgid "Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month."
+msgstr "GeoIP ডাটাবেস ডাউনলোড করুন মাসের প্রথম মঙ্গলবার পরে 2 দিন জন্য নির্ধারিত করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:93
+msgid "This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place)."
+msgstr "স্থানীয় filesize (সাধারণত প্লাগ জায়গা এখনও সঙ্গে যে আসে শহরের উপর অসম্পূর্ণ নিবন্ধ যার মানে) কম 1k হয়, তাহলে এই অপশনটি ডাটাবেস ডাউনলোড হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:99
+msgid "Populate missing GeoIP after update of GeoIP DB"
+msgstr "GeoIP ডিবি আপডেটের পরে অনুপস্থিত GeoIP পূরণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:105
+msgid "Update any missing GeoIP data after downloading a new database."
+msgstr "একটি নতুন ডাটাবেস ডাউনলোড করার পর কোনো অনুপস্থিত GeoIP তথ্য আপডেট করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:111
+msgid "Country code for private IP addresses"
+msgstr "প্রাইভেট আইপি ঠিকানার জন্য কান্ট্রি কোড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:116
+msgid "The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use \"000\" (three zeros) to use \"Unknown\" as the country code."
+msgstr "ব্যক্তিগত (অ routable) আইপি ঠিকানার জন্য আন্তর্জাতিক মান দুই অক্ষর বিশিষ্ট কোড (অর্থাৎ. মার্কিন = মার্কিন যুক্তরাষ্ট্র, সিএ = কানাডা, ইত্যাদি) (অর্থাৎ. 10.0.0.1, 192.158.1.1, 127.0.0.1, ইত্যাদি). দেশের কোড হিসাবে &quot;অজানা&quot; ব্যবহার &quot;000&quot; (তিন শূন্য) ব্যবহার করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:127
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "GeoIP সংগ্রহ নিম্নলিখিত কারণে নিষ্ক্রিয় করা হয়েছে:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:130
+msgid "GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  "
+msgstr "GeoIP সংগ্রহ এটি বর্তমানে কারণে ইনস্টল পিএইচপি সংস্করণ হচ্ছে নিষ্ক্রিয় করা হয়, অথবা উপরে পিএইচপি% এর প্রয়োজন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:135
+msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
+msgstr "GeoIP সংগ্রহ কার্ল PHP এক্সটেনশন প্রয়োজন এবং এটা পিএইচপি আপনার সংস্করণ লোড করা হয় না!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:141
+msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
+msgstr "GeoIP সংগ্রহ বিসি ম্যাথ PHP এক্সটেনশন প্রয়োজন এবং এটা পিএইচপি আপনার সংস্করণ লোড করা হয় না!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:147
+msgid "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe mode enabled!"
+msgstr "পিএইচপি নিরাপদ মোড সনাক্ত! GeoIP সংগ্রহ পিএইচপি এর নিরাপদ মোড সক্রিয় করা সমর্থন করে না করা হয়!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:20
+msgid "This will permanently delete data from the database each day, are you sure you want to enable this option?"
+msgstr "এই স্থায়ীভাবে আপনি এই অপশনটি সক্রিয় করতে চান আপনি নিশ্চিত, প্রতিটি দিন ডাটাবেস থেকে তথ্য মুছে ফেলা হবে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:30
+msgid "Database Maintenance"
+msgstr "ডাটাবেস রক্ষণাবেক্ষণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:35
+msgid "Run a daily WP Cron job to prune the databases"
+msgstr "উপাত্ত আলুবোখারা একটি দৈনিক ডাব্লু Cron কাজ চালান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:41
+msgid "A WP Cron job will be run daily to prune any data older than a set number of days."
+msgstr "একটি ডাব্লু Cron কাজ দিনের একটি সেট নম্বর চেয়ে পুরোনো তথ্য আলুবোখারা দৈনিক চালানো হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:47
+msgid "Prune data older than"
+msgstr "আলুবোখারা তথ্য আর পুরোনো"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:52
+msgid "Days"
+msgstr "দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:53
+msgid "The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance."
+msgstr "দিনের সংখ্যা জন্য পরিসংখ্যান রাখা. নূন্যতম মূল্য 30 দিন. অবৈধ মান দৈনিক রক্ষণাবেক্ষণ নিষ্ক্রিয় করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:44
+msgid "Common Report Options"
+msgstr "প্রচলিত বেশি অপশন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:49
+msgid "E-mail addresses"
+msgstr "ই-মেইল ঠিকানা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:54
+msgid "A comma separated list of e-mail addresses to send reports to."
+msgstr "ই-মেইল ঠিকানা একটি কমা দিয়ে পৃথক করা তালিকা রিপোর্ট পাঠাতে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:59
+msgid "Update Reports"
+msgstr "আপডেট প্রতিবেদন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:64
+msgid "Browscap"
+msgstr "Browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:70
+msgid "Send a report whenever the browscap.ini is updated."
+msgstr "Browscap.ini আপডেট যখনই একটি রিপোর্ট পাঠান."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:76
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:104
+msgid "GeoIP"
+msgstr "GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:82
+msgid "Send a report whenever the GeoIP database is updated."
+msgstr "GeoIP ডাটাবেস আপডেট করা হয়, যখনই একটি রিপোর্ট পাঠান."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:88
+msgid "Pruning"
+msgstr "কেঁটে সাফ করা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:94
+msgid "Send a report whenever the pruning of database is run."
+msgstr "ডাটাবেস কেঁটে সাফ করা সঞ্চালন করা হয় যখনই একটি রিপোর্ট পাঠান."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:100
+msgid "Upgrade"
+msgstr "আপগ্রেড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:106
+msgid "Send a report whenever the plugin is upgraded."
+msgstr "প্লাগ আপগ্রেড করা হবে যখনই একটা রিপোর্ট পাঠান."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:111
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:152
+msgid "Statistical reporting"
+msgstr "সরাসরি পরিসংখ্যান কনফিগার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:129
+msgid "Schedule"
+msgstr "সময়সূচি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:153
+msgid "Select how often to receive statistical report."
+msgstr "পরিসংখ্যান রিপোর্ট প্রাপ্ত কিভাবে প্রায়ই নির্বাচন করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:159
+msgid "Send reports via"
+msgstr "এর মাধ্যমে রিপোর্ট পাঠান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:165
 msgid "Email"
-msgstr ""
+msgstr "ইমেল"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:167
 msgid "SMS"
-msgstr ""
+msgstr "এসএমএস"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:141
-msgid "Type Select Get Status Report."
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:170
+msgid "Select delivery method for statistical report."
+msgstr "পরিসংখ্যান প্রতিবেদনের জন্য নির্বাচন ডেলিভারি পদ্ধতি."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:144
-#, php-format
-msgid ""
-"Note: To send SMS text messages please install the <a href=\"%s\" target="
-"\"_blank\">Wordpress SMS</a> plugin."
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:173
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr "দ্রষ্টব্য: এসএমএস টেক্সট বার্তা%s এর প্লাগইন ইনস্টল করুন পাঠান."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:151
-msgid "Send Content Report"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:173
+msgid "WordPress SMS"
+msgstr "ওয়ার্ডপ্রেস এসএমএস"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:156
-msgid "Enter the contents of the reports received."
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:180
+msgid "Report body"
+msgstr "রিপোর্ট শরীর"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/settings.php:158
-msgid "Input data:"
-msgstr ""
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:185
+msgid "Enter the contents of the report."
+msgstr "রিপোর্টের বিষয়বস্তু লিখুন."
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:2
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:187
+msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:"
+msgstr "আপনার ওয়ার্ডপ্রেস এর ইনস্টলেশন দ্বারা সমর্থিত যে কোনো সর্টকোড, ডাব্লু পরিসংখ্যান সব shortcodes (উপলব্ধ কোড একটি তালিকা জন্য প্রশাসক ম্যানুয়াল দেখুন) বার্তা শরীরের সমর্থিত অন্তর্ভুক্ত. এখানে কিছু উদাহরণ:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:188
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:245
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:464
+msgid "User Online"
+msgstr "এখন দেখছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:52
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:251
+msgid "Today Visitor"
+msgstr "আজ দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:248
+msgid "Today Visit"
+msgstr "আজ দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:191
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:257
+msgid "Yesterday Visitor"
+msgstr "গতকাল দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:192
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:59
+msgid "Yesterday Visit"
+msgstr "গতকাল দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:193
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:101
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:272
+msgid "Total Visitor"
+msgstr "মোট দেখা হয়েছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:194
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:269
+msgid "Total Visit"
+msgstr "মোট দেখা হয়েছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:23
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:32
+msgid "None"
+msgstr "না"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:24
+msgid "Summary Statistics"
+msgstr "পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:108
+msgid "About"
+msgstr "প্রায়"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:34
+msgid "Hits Statistical Chart"
+msgstr "পরিসংখ্যান চার্ট হিট সংখ্যা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:36
+msgid "Search Engine Referrers Statistical Chart"
+msgstr "সার্চ ইঞ্জিন উল্লেখ পরিসংখ্যান চার্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:38
+msgid "Top Pages Visited"
+msgstr "শীর্ষ পেজ দেখা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:73
+msgid "Dashboard"
+msgstr "ড্যাশবোর্ড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:77
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:117
+msgid "The following items are global to all users."
+msgstr "নিম্নলিখিত আইটেম সব ব্যবহারকারীদের জন্য বিশ্বব্যাপী."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:82
+msgid "Disable dashboard widgets"
+msgstr "ড্যাশবোর্ড উইজেট নিষ্ক্রিয় করা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:88
+msgid "Disable the dashboard widgets."
+msgstr "ড্যাশবোর্ড উইজেট নিষ্ক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:93
+msgid "Page/Post Editor"
+msgstr "পৃষ্ঠা / পোস্ট সম্পাদক"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:102
+msgid "Disable post/page editor widget"
+msgstr "নিষ্ক্রিয় পোস্ট / পৃষ্ঠা সম্পাদক উইজেট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:108
+msgid "Disable the page/post editor widget."
+msgstr "পৃষ্ঠা / পোস্ট সম্পাদক উইজেট নিষ্ক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:122
+msgid "Map type"
+msgstr "মানচিত্র টাইপ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:128
+msgid "Google"
+msgstr "গুগল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:128
+msgid "JQVMap"
+msgstr "JQVMap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:135
+msgid "The \"Google\" option will use Google's mapping service to plot the recent visitors (requires access to Google)."
+msgstr "সাম্প্রতিক দর্শক প্লটে বিভক্ত গুগল ম্যাপিং সেবা ব্যবহার করা হবে &quot;গুগল&quot; বিকল্প (গুগল এক্সেস প্রয়োজন)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:136
+msgid "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services)."
+msgstr "&quot;JQVMap&quot; বিকল্প সাম্প্রতিক দর্শক (কোন extenral পরিষেবা প্রয়োজন) প্লটে বিভক্ত করতে দয়া করে জাভাস্ক্রিপ্ট ম্যাপিং লাইব্রেরি JQVMap ব্যবহার করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:142
+msgid "Disable map"
+msgstr "নিষ্ক্রিয় মানচিত্র"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:148
+msgid "Disable the map display"
+msgstr "মানচিত্র প্রদর্শন নিষ্ক্রিয় করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:154
+msgid "Get country location from Google"
+msgstr "গুগল থেকে দেশের অবস্থান পান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:160
+msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
+msgstr "পরিসংখ্যান দেখছেন এবং মানচিত্র টাইপ &quot;গুগল&quot; সেট করা হয় কেবল বৈধ হলে এই বৈশিষ্ট্য একটি কার্যকারিতা অবনতি হতে পারে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:171
+msgid "Overview Widgets to Display"
+msgstr "সংক্ষিপ্ত বিবরণ উইজেট প্রদর্শন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:175
+msgid "The following items are unique to each user.  If you do not select the 'About' widget it will automatically be displayed in the last positon of column A."
+msgstr "নিম্নলিখিত আইটেম প্রত্যেক ব্যবহারকারীর জন্য পৃথক হবে. আপনি &#39;আমার&#39; নির্বাচন করবেন না এটি স্বয়ংক্রিয়ভাবে কলাম এ শেষ ফার্দিনান্দ প্রদর্শিত হবে উইজেট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:180
+msgid "Slot"
+msgstr "ছেঁদা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:184
+msgid "Column A"
+msgstr "কলাম A"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:188
+msgid "Column B"
+msgstr "কলাম B"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:194
+msgid "Slot 1"
+msgstr "স্লট 1"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:224
+msgid "Slot 2"
+msgstr "স্লট 2"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:254
+msgid "Slot 3"
+msgstr "স্লট 3"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:284
+msgid "Slot 4"
+msgstr "স্লট 4"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:314
+msgid "Slot 5"
+msgstr "স্লট 5"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:344
+msgid "Slot 6"
+msgstr "স্লট 6"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:348
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:370
+msgid "N/A"
+msgstr "N / A"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:366
+msgid "Slot 7"
+msgstr "স্লট 7"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:15
+msgid "WP Statisitcs Removal"
+msgstr "ডাব্লু Statisitcs অপসারণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:20
+msgid "Uninstalling WP Statistics will not remove the data and settings, you can use this option to remove the WP Statistics data from your install before uninstalling the plugin."
+msgstr "আনইনস্টল ডাব্লু পরিসংখ্যান তথ্য এবং সেটিংস মুছে ফেলা হবে, আপনি প্লাগইন আনইনস্টল করার আগে আপনার ইনস্টল থেকে ডাব্লু পরিসংখ্যান তথ্য মুছে ফেলার জন্য এই অপশনটি ব্যবহার করতে পারেন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:23
+msgid "Once you submit this form the settings will be deleted during the page load, however WP Statistics will still show up in your Admin menu until another page load is executed."
+msgstr "আপনি সেটিংস পৃষ্ঠা লোড করার সময় মুছে ফেলা হবে এই ফর্মটি আবার জমা একবার অন্য পৃষ্ঠা লোড মৃত্যুদন্ড কার্যকর না হওয়া পর্যন্ত, তবে ডাব্লু পরিসংখ্যান এখনও আপনার অ্যাডমিন মেনু প্রদর্শন করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:29
+msgid "Remove data and settings"
+msgstr "তথ্য এবং সেটিংস মুছে ফেলুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:34
+msgid "Remove"
+msgstr "অপসারণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:35
+msgid "Remove data and settings, this action cannot be undone."
+msgstr "তথ্য এবং সেটিংস মুছে ফেলুন, এই কর্ম পূর্বাবস্থায় ফেরানো যাবে না."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:100
+msgid "General"
+msgstr "সাধারণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:101
+msgid "Notifications"
+msgstr "বিজ্ঞপ্তি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:102
+msgid "Dashboard/Overview"
+msgstr "ড্যাশবোর্ড / সংক্ষিপ্ত বিবরণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:103
+msgid "Access/Exclusions"
+msgstr "প্রবেশ / বর্জন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:105
+msgid "browscap"
+msgstr "Browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:106
+msgid "Maintenance"
+msgstr "রক্ষণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:107
+msgid "Removal"
+msgstr "অপসারণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:150
+msgid "Update"
+msgstr "আপডেট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.php:29
+msgid "Manual not found: %s"
+msgstr "ম্যানুয়াল পাওয়া যায় না:% এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.php:39
+msgid "Invalid file type selected: %s"
+msgstr "অবৈধ ফাইল টাইপ নির্বাচন করুন:%s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:10
+msgid "Once Weekly"
+msgstr "সাপ্তাহিক একবার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "প্রতি 2 সপ্তাহে একবার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "প্রতি 4 সপ্তাহ পরে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:284
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:321
+msgid "Statistics"
+msgstr "পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "দেখান সাইটের সাইডবারে পরিসংখ্যান."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:260
+msgid "Week Visit"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:80
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:263
+msgid "Month Visit"
+msgstr "এ মাসে দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:87
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:266
+msgid "Years Visit"
+msgstr "এ বছরে দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:108
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:275
+msgid "Total Page Views"
+msgstr "মোট পৃষ্ঠা দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:116
+msgid "Search Engine referred"
+msgstr "সার্চ ইঞ্জিন উল্লেখ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:123
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:298
+msgid "Total Posts"
+msgstr "মোট পোষ্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:301
+msgid "Total Pages"
+msgstr "মোট পাতা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:137
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:304
+msgid "Total Comments"
+msgstr "মোট মন্তব্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:144
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:307
+msgid "Total Spams"
+msgstr "মোট স্প্যাম"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:151
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:310
+msgid "Total Users"
+msgstr "মোট ব্যবহারকারী"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:158
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:313
+msgid "Average Posts"
+msgstr "গড় পোষ্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:316
+msgid "Average Comments"
+msgstr "গড় মন্তব্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:172
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:319
+msgid "Average Users"
+msgstr "গড় ব্যবহারকারী"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:179
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:322
+msgid "Last Post Date"
+msgstr "শেষ পোষ্টের তারিখ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:238
 msgid "Name"
 msgstr "নাম"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:242
 msgid "Items"
 msgstr "আইটেম"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:42
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:254
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:489
+msgid "Yesterday visit"
+msgstr "গতকাল দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:278
+msgid "Search Engine Referred"
+msgstr "সার্চ ইঞ্জিন রেফার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:281
 msgid "Select type of search engine"
 msgstr "সার্চ ইঞ্জিন নির্বাচন করুন"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:53
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:27
+msgid "ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version "
+msgstr "ত্রুটি: ডাব্লু পরিসংখ্যান পিএইচপি এর একটি অসমর্থিত সংস্করণ সনাক্ত করেছে, ডাব্লু পরিসংখ্যান পিএইচপি সংস্করণ ছাড়া কাজ করবে না"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:27
+msgid " or higher!"
+msgstr "বা উচ্চতর!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:27
+msgid "Your current PHP version is"
+msgstr "আপনার বর্তমান পিএইচপি সংস্করণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:42
+msgid "WP Statistics has been removed, please disable and delete it."
+msgstr "ডাব্লু পরিসংখ্যান সরিয়ে ফেলা হয়েছে, নিষ্ক্রিয় এটা দয়া করে মুছে দিন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:53
+msgid "WP Statistics"
+msgstr "ডাব্লু পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:54
+msgid "Complete statistics for your WordPress site."
+msgstr "আপনার ওয়ার্ডপ্রেস সাইটের জন্য সম্পূর্ণ পরিসংখ্যান."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:97
+msgid "Online user tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr "ডাব্লু পরিসংখ্যান অনলাইন ব্যবহারকারী ট্র্যাকিং সক্রিয় করা হয় না,%s- যান এবং এটি সক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:103
+msgid "setting page"
+msgstr "সেটিং পাতা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:100
+msgid "Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr "সক্রিয় করা হয় না ডাব্লু পরিসংখ্যান ট্র্যাকিং হিট,%s- যান এবং এটি সক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:103
+msgid "Visitor tracking in WP Statistics is not enabled, please go to %s and enable it."
+msgstr "ডাব্লু পরিসংখ্যান ট্র্যাকিং পরিদর্শক সক্রিয় করা হয় না,%s- যান এবং এটি সক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:106
+msgid "GeoIP collection is not active, please go to %s and enable this feature."
+msgstr "GeoIP সংগ্রহ সক্রিয় নয়,%s- যান এবং এই বৈশিষ্ট্য সক্রিয় করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:106
+msgid "Setting page > GeoIP"
+msgstr "সেট পাতা&gt; GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:191
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:303
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:375
+msgid "Settings"
+msgstr "সেটিসং"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:203
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "WordPress.org প্লাগইন জন্য এখানে ক্লিক করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:203
+msgid "Visit WordPress.org page"
+msgstr "WordPress.org পৃষ্ঠা দেখুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:206
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr "হার করতে এখানে ক্লিক করুন এবং WordPress.org উপর এই প্লাগ পর্যালোচনা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:206
+msgid "Rate this plugin"
+msgstr "এই প্লাগ রেট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:250
+msgid "WP Statistics - Hits"
+msgstr "ডাব্লু পরিসংখ্যান - হিট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:287
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:324
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:362
+msgid "Overview"
+msgstr "সংক্ষিপ্ত বিবরণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:294
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:367
+msgid "Online"
+msgstr "অনলাইন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:296
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:369
+msgid "Referrers"
+msgstr "উল্লেখ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:297
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:370
+msgid "Searches"
+msgstr "অনুসন্ধান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:298
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:371
+msgid "Search Words"
+msgstr "অনুসন্ধান শব্দ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:299
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:372
+msgid "Top Visitors Today"
+msgstr "শীর্ষ দর্শক আজ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:302
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:374
+msgid "Optimization"
+msgstr "অপ্টিমাইজেশান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:307
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:338
+msgid "Manual"
+msgstr "ম্যানুয়াল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:353
+msgid "Site"
+msgstr "সাইট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:354
+msgid "Options"
+msgstr "বিকল্প"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:471
+msgid "Today visitor"
+msgstr "আজ দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:477
+msgid "Today visit"
+msgstr "আজ দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:483
+msgid "Yesterday visitor"
+msgstr "গতকাল দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:495
+msgid "View Stats"
+msgstr "দেখুন পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:519
+msgid "Download ODF file"
+msgstr "যেমন ODF ফাইল ডাউনলোড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:520
+msgid "Download HTML file"
+msgstr "ডাউনলোড করুন HTML ফাইল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:524
+msgid "Manual file not found."
+msgstr "ম্যানুয়াল ফাইল পাওয়া যায় না."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:591
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:702
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:736
+msgid "You do not have sufficient permissions to access this page."
+msgstr "আপনার এই পেজ দেখার মত পর্যাপ্ত অনুমতি নেই।"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:604
+msgid "Plugin tables do not exist in the database! Please re-run the %s install routine %s."
+msgstr "প্লাগইন টেবিল ডাটাবেসের মধ্যে উপস্থিত না! এর রুটিন% এর ইনস্টল% পুনরায় চালনা করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-install.php:250
+msgid "WP Statistics %s installed on"
+msgstr "ডাব্লু পরিসংখ্যান%s এর উপর ইনস্টল করা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:34
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "ত্রুটি ডাউনলোড GeoIP ডাটাবেস থেকে:% এর -% এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:45
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "ত্রুটি পড়ার জন্য ডাউনলোড GeoIP ডাটাবেস খুলতে পারে না:%s এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:52
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr "% এর লেখার জন্য ত্রুটি পারে না খোলা গন্তব্য GeoIP ডাটাবেস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:68
+msgid "GeoIP Database updated successfully!"
+msgstr "GeoIP ডাটাবেস সফলভাবে আপডেট!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:93
+msgid "GeoIP update on"
+msgstr "আপডেট GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:160
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "থেকে Browscap ডাটাবেস ডাউনলোড ত্রুটি:%s এর -% এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:262
+msgid "browscap database updated successfully!"
+msgstr "Browscap ডাটাবেস সফলভাবে আপডেট!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:273
+msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
+msgstr "Browscap ডাটাবেস ব্যর্থ আপডেট করা হয়েছে! ক্যাশে ফাইল পূর্ববর্তী Browscap.ini প্রত্যাবর্তন, খুব বড়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:281
+msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
+msgstr "Browscap ডাটাবেস ব্যর্থ আপডেট করা হয়েছে! নতুন Browscap.ini পূর্ববর্তী Browscap.ini প্রত্যাবর্তন, ক্রলার হিসাবে ব্যবহারকারী এজেন্ট অন্যায় identifing করা হয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:303
+msgid "browscap already at current version!"
+msgstr "বর্তমান সংস্করণ ইতিমধ্যে Browscap!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:316
+msgid "Browscap.ini update on"
+msgstr "উপর Browscap.ini আপডেট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:55
+msgid "Quick Stats"
+msgstr "দ্রুত পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:56
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:54
+msgid "Top 10 Browsers"
+msgstr "শীর্ষ 10 ব্রাউজার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:57
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:27
+msgid "Top 10 Countries"
+msgstr "শীর্ষ 10 দেশ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:58
+msgid "Today's Visitor Map"
+msgstr "আজকের ছবি মানচিত্র"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:8
+msgid "Hit Statistics"
+msgstr "হিট পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:11
+msgid "Top 10 Pages"
+msgstr "শীর্ষ 10 পেজ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:39
+msgid "Recent Visitors"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:62
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:42
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:26
+msgid "Top Referring Sites"
+msgstr "শীর্ষ উল্লেখ সাইট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:63
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:74
+msgid "Search Engine Referrals"
+msgstr "সার্চ ইঞ্জিন রেফারাল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:8
+msgid "Summary"
+msgstr "সংক্ষিপ্ত"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:65
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:37
+msgid "Latest Search Words"
+msgstr "সাম্প্রতিক অনুসন্ধান শব্দ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:35
+msgid "Top 10 Visitors Today"
+msgstr "শীর্ষ 10 দর্শক আজ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:97
+msgid "Please reload the dashboard to display the content of this widget."
+msgstr "এই উইজেট সামগ্রী প্রদর্শন করার জন্য ড্যাশবোর্ড পুনরায় লোড করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:138
+msgid "WP Statistics Overview"
+msgstr "ডাব্লু পরিসংখ্যান সংক্ষিপ্ত বিবরণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:63
+msgid "This post is not yet published."
+msgstr "এই পোস্টে এখনো প্রকাশিত হয় না."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:26
+msgid "Unable to load the GeoIP database, make sure you have downloaded it in the settings page."
+msgstr "GeoIP ডাটাবেস লোড করতে অক্ষম, আপনি সেটিংস পৃষ্ঠায় এটি ডাউনলোড করা আছে কি না."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:50
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "দর্শক ডাটাবেসের মধ্যে আপডেট করা হয়েছে%s এর GeoIP রেকর্ড."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:83
+msgid "%s data older than %s days purged successfully."
+msgstr "পুরোনো% এর দিন% এর তথ্য সফলভাবে পার্জ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:23
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:52
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:85
+msgid "No records found to purge from %s!"
+msgstr "কোন রেকর্ড% এর থেকে মুক্ত করতে পাওয়া যায় নি!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:98
+msgid "Database pruned on"
+msgstr "ডাটাবেস pruned"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:103
+msgid "Please select a value over 30 days."
+msgstr "30 দিন ধরে একটি মান নির্বাচন করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:8
+msgid "Browser Statistics"
+msgstr "ব্রাউজার পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:98
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:233
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:19
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:137
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:6
+msgid "Click to toggle"
+msgstr "টগল করার জন্য ক্লিক করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:15
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:288
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:363
+msgid "Browsers"
+msgstr "ব্রাউজার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:42
+msgid "Browsers by type"
+msgstr "টাইপ দ্বারা ব্রাউজার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:34
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:302
+msgid "Platform"
+msgstr "প্ল্যাটফর্ম"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:126
+msgid "Browsers by platform"
+msgstr "প্ল্যাটফর্ম দ্বারা ব্রাউজার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:234
+msgid "%s Version"
+msgstr "% এর সংস্করণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:8
+msgid "Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!"
+msgstr "দৃষ্টি আকর্ষণ: অব্যাহতির বর্তমানে রেকর্ড করা সেট করা হয় না, ফলাফল নীচের বর্তমান পরিসংখ্যান প্রতিফলিত নাও হতে পারে!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:54
+msgid "Exclusions Statistics"
+msgstr "বর্জন করুন পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:57
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:12
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:33
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:15
+msgid "10 Days"
+msgstr "10 দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:34
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:16
+msgid "20 Days"
+msgstr "20 দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:35
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:17
+msgid "30 Days"
+msgstr "30 দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:15
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:18
+msgid "2 Months"
+msgstr "2 মাস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:19
+msgid "3 Months"
+msgstr "3 মাস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:62
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:20
+msgid "6 Months"
+msgstr "6 মাস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:63
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:21
+msgid "9 Months"
+msgstr "9 মাস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:19
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:22
+msgid "1 Year"
+msgstr "1 বছর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:68
+msgid "Total Exclusions: %s"
+msgstr "মোট বর্জন:% এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:75
+msgid "Exclusions Statistical Chart"
+msgstr "বর্জন পরিসংখ্যান চার্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:97
+msgid "Excluded hits in the last"
+msgstr "গত বাদ হিট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:51
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:55
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:151
+msgid "days"
+msgstr "দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:118
+msgid "Number of excluded hits"
+msgstr "বাদ হিট সংখ্যা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:27
+msgid "Hits Statistics Chart"
+msgstr "হিট পরিসংখ্যান চার্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:51
+msgid "Hits in the last"
+msgstr "শেষ হিট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:72
+msgid "Number of visits and visitors"
+msgstr "পরিদর্শন এবং দর্শক সংখ্যা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:86
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:30
+msgid "Visit"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:86
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:29
+msgid "Visitor"
+msgstr "পরিদর্শক"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:62
+msgid "Latest Search Word Statistics"
+msgstr "সাম্প্রতিক অনুসন্ধান শব্দ পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:84
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:32
+msgid "#hash#"
+msgstr "# হ্যাশ #"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:53
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:35
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:33
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:113
+msgid "Map"
+msgstr "মানচিত্র"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:135
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:187
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:125
+msgid "Page"
+msgstr "পৃষ্ঠা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:135
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:187
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:125
+msgid "From"
+msgstr "থেকে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:135
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:294
 msgid "All"
 msgstr "সকল"
 
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:84
-msgid "Type date for last update"
-msgstr "সর্বশেষ হালনাগাদের তারিখ দিন"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:86
-msgid "English"
-msgstr "ইংরেজী"
-
-#: F:\Program
-#: Files\xampp\htdocs\wordpress\wp-content\plugins\wp-statistics/includes/setting/widget.php:89
-msgid "Persian"
-msgstr "পারসি"
-
-#~ msgid "Added"
-#~ msgstr "যুক্ত হয়েছে"
-
-#~ msgid "value"
-#~ msgstr "মান"
-
-#~ msgid "Was"
-#~ msgstr "হয়েছিলো"
-
-#~ msgid "low value"
-#~ msgstr "কম মান"
-
-#~ msgid "Access is Denied!"
-#~ msgstr "প্রবেশ নিষেধ!"
-
-#~ msgid "Thanks for your report!"
-#~ msgstr "আপনার রিপোর্টের জন্য ধন্যবাদ!"
-
-#~ msgid "Error! Please Enter all field"
-#~ msgstr "ত্রুটি! দয়া করে সকল ফিল্ডে তথ্য দিন"
-
-#~ msgid "deleted!"
-#~ msgstr "মুছে ফেলেছে!"
-
-#~ msgid "All plugin data is deleted"
-#~ msgstr "প্লাগইনের সকল তথ্য মুছে ফেলা হয়েছে"
-
-#~ msgid "plugin options have been deleted"
-#~ msgstr "প্লাগইন অপশন মুছে ফেলা হয়েছে"
-
-#~ msgid "WP-Statistics"
-#~ msgstr "ওয়ার্ডপ্রেস-পরিসংখ্যান"
-
-#~ msgid "Plugin home page"
-#~ msgstr "প্লাগইন নীড়পাতা"
-
-#~ msgid ""
-#~ "WP-Statistics not enabled! Please go to <a href=\"%s\">setting page</a> "
-#~ "and enable statistics"
-#~ msgstr ""
-#~ "ওয়ার্ডপ্রেস-পরিসংখ্যান সক্রিয় নয়! <a href=\"%s\">পেজে সেটিং</a> এ গিয়ে "
-#~ "পরিসংখ্যান সক্রিয় করুন"
-
-#~ msgid "Stats Log"
-#~ msgstr "স্টাটস লগ"
-
-#~ msgid "Users Online"
-#~ msgstr "ব্যবহারকারী অনলাইনে"
-
-#~ msgid "Are you sure?"
-#~ msgstr "আপনি কি নিশ্চিত?"
-
-#~ msgid "Configuration"
-#~ msgstr "কনফিগার"
-
-#~ msgid "Enable Statistics"
-#~ msgstr "পরিসংখ্যান সক্রিয়"
-
-#~ msgid "Statistics are enabled."
-#~ msgstr "পরিসংখ্যান সক্রিয় হয়েছে"
-
-#~ msgid "Statistics are disabled!"
-#~ msgstr "পরিসংখ্যান নিক্রিয় হয়েছে!"
-
-#~ msgid "General configuration"
-#~ msgstr "সাধারণ কনফিগার"
-
-#~ msgid "Show decimals number"
-#~ msgstr "ডেসিমেল নম্বর দেখাও"
-
-#~ msgid "Show number stats with decimal. For examle: 3,500"
-#~ msgstr "নম্বরগুলো ভগ্নাংশসহ দেখাও। উদাহারন: ৩,৫০০"
-
-#~ msgid "Daily referer of search engines"
-#~ msgstr "প্রতিদিনের সার্চইঞ্জিনের রেফার"
-
-#~ msgid "Can be calculated daily or total search engines"
-#~ msgstr "প্রতিদিনের বা মোট সার্চ ইঞ্জিন ধরে হিসাব করুন"
-
-#~ msgid "Increase value of the total hits by"
-#~ msgstr "মোট হিট থেকে মান বাড়িয়ে দিন"
-
-#~ msgid "Done"
-#~ msgstr "সম্পন্ন হয়েছে"
-
-#~ msgid "Your total visit sum with this value"
-#~ msgstr "আপনার মোট দেখার সাথে এই মান যোগ করুন"
-
-#~ msgid "Reduce value of the total hits by"
-#~ msgstr "মোট হিট থেকে মান কমিয়ে দিন"
-
-#~ msgid "Your total visit minus with this value"
-#~ msgstr "আপনার মোট দেখার সাথে এই মান বিয়োগ করুন"
-
-#~ msgid "Number item for show Statistics"
-#~ msgstr "পরিসংখ্যানে কত আইটেম দেখাবে"
-
-#~ msgid "Default 5"
-#~ msgstr "ডিফল্ট ৫"
-
-#~ msgid "Number for submit item in Database and show that"
-#~ msgstr "ডাটাবেজে কত আইটেম সাবমিট করা হয়েছে তা দেখাও"
-
-#~ msgid "Default 1"
-#~ msgstr "ডিফল্ট ১"
-
-#~ msgid "Refresh Stats every"
-#~ msgstr "স্টাটস রিফ্রেস হবে প্রতি"
-
-#~ msgid "Second(s)"
-#~ msgstr "সেকেন্ড"
-
-#~ msgid "Recommended"
-#~ msgstr "সুপারিশকৃত"
-
-#~ msgid "To reduce pressure on the server, this defaults to 10 sec"
-#~ msgstr "সার্ভারে চাপ কমানোর জন্য ডিফল্ট হচ্ছে ১০ সেকেন্ড"
-
-#~ msgid "Pagerank configuration"
-#~ msgstr "পেজর‍্যংক কনফিগার"
-
-#~ msgid "Your url for Google pagerank check"
-#~ msgstr "গুগল পেজর‍্যাংকে আপনার ইউআরএল"
-
-#~ msgid "If empty. you website url is used"
-#~ msgstr "যদি শুন্য হয়। আপনার ওয়েবসাইট ব্যবহৃত হচ্ছে"
-
-#~ msgid "Your url for Alexa pagerank check"
-#~ msgstr "অ্যারেক্সা পেজর‍্যাংকে আপনার ইউআরএল"
-
-#~ msgid "Update"
-#~ msgstr "হালনাগাত"
-
-#~ msgid "This plugin created by"
-#~ msgstr "প্লাগইনটি তৈরী করেছেন"
-
-#~ msgid "from"
-#~ msgstr "হতে"
-
-#~ msgid "group"
-#~ msgstr "গ্রুপ"
-
-#~ msgid "Language"
-#~ msgstr "ভাষা"
-
-#~ msgid "by"
-#~ msgstr "করেছে"
-
-#~ msgid "for translate language files. please send files for"
-#~ msgstr "ভাষাস্তরের ফাইল। দয়া করে ফাইলটি সেন্ট করুন"
-
-#~ msgid "Show Functions"
-#~ msgstr "কর্য দেখাও"
-
-#~ msgid "Report Problem"
-#~ msgstr "রিপোর্ট সমস্যা"
-
-#~ msgid "User Online Live"
-#~ msgstr "এখন ব্যবহারকারী আছে"
-
-#~ msgid "Total Visit Live"
-#~ msgstr "এখন মোট দেখছে"
-
-#~ msgid "Total Feedburner Subscribe"
-#~ msgstr "মোট ফিডবার্নার গ্রাহক"
-
-#~ msgid "Google Pagerank"
-#~ msgstr "গুগল পেজর‍্যাংক"
-
-#~ msgid "Alexa Pagerank"
-#~ msgstr "এ্যালেক্সা পেজর‍্যাংক"
-
-#~ msgid "Hide"
-#~ msgstr "লুকানো"
-
-#~ msgid "Your Name"
-#~ msgstr "আপনার নাম"
-
-#~ msgid "Description Problem"
-#~ msgstr "বর্ণনা সমস্যা"
-
-#~ msgid "Send Problem"
-#~ msgstr "সমস্যা পাঠান"
-
-#~ msgid "Unistall plugin"
-#~ msgstr "প্লাগইন আনইনষ্টল"
-
-#~ msgid "Delete all data, including tables and plugin options"
-#~ msgstr "সমস্যা তথ্য মুছে ফেলুন, টেবিল এবং প্লাগইন অপমন সগ"
-
-#~ msgid "Uninstall"
-#~ msgstr "আনইনস্টল"
-
-#~ msgid "Stats weblog"
-#~ msgstr "স্টাটস ওয়েবলগ"
-
-#~ msgid "Agent"
-#~ msgstr "এজেন্ট"
-
-#~ msgid "Referrer"
-#~ msgstr "রেফারার"
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:62
+msgid "Search for"
+msgstr "জন্য অনুসন্ধান করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:64
+msgid "Recent Visitor Statistics"
+msgstr "সাম্প্রতিক ভিজিটর পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:18
+msgid "Online Users"
+msgstr "অনলাইন ব্যবহারকারী"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:73
+msgid "Online for "
+msgstr "অনলাইন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:29
+msgid "Page Trend for Post ID"
+msgstr "পোস্ট আইডি পাতা ট্রেন্ড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:48
+msgid "Page Trend"
+msgstr "পাতা ট্রেন্ড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:30
+msgid "Search Engine Referral Statistics"
+msgstr "সার্চ ইঞ্জিন রেফারেল পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:55
+msgid "Search engine referrals in the last"
+msgstr "গত সার্চ ইঞ্জিন রেফারেলগুলি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:92
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:76
+msgid "Number of referrals"
+msgstr "রেফারেলগুলি সংখ্যা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:90
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:104
+msgid "Total"
+msgstr "মোট দেখা হয়েছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:11
+msgid "Top Countries"
+msgstr "শীর্ষ দেশ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:20
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:27
+msgid "Rank"
+msgstr "মর্যাদাক্রম"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:31
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:29
+msgid "Flag"
+msgstr "পতাকা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:22
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:30
+msgid "Country"
+msgstr "দেশ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:23
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:33
+msgid "Visitor Count"
+msgstr "ভিজিটর কাউন্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:138
+msgid "Top Pages"
+msgstr "শীর্ষ পেজ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:20
+msgid "Top 5 Pages Trends"
+msgstr "শীর্ষ 5 পেজ ট্রেন্ডস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:49
+msgid "Top 5 Page Trending Stats"
+msgstr "শীর্ষ 5 পাতা থেকে পাতা প্রবণতা পরিসংখ্যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/page.php:58
+msgid "Number of Hits"
+msgstr "হিট সংখ্যা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:166
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:32
+msgid "No page title found"
+msgstr "পাওয়া কোন পাতা শিরোনাম"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:169
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:35
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:122
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:127
+msgid "Visits"
+msgstr "এ সপ্তাহে দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "শীঘ্রই যোগ করা হবে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:40
+msgid "Referring sites from"
+msgstr "থেকে উল্লেখ সাইট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:110
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:30
+msgid "References"
+msgstr "তথ্যসূত্র"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:12
+msgid "Top 100 Visitors Today"
+msgstr "শীর্ষ 100 দর্শক আজ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:8
+msgid "About WP Statistics Version %s"
+msgstr "ডাব্লু পরিসংখ্যান সংস্করণ% এর সম্পর্কে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:25
+msgid "Website"
+msgstr "ওয়েবসাইট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:26
+msgid "Rate and Review"
+msgstr "হার এবং পর্যালোচনা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:30
+msgid "More Information"
+msgstr "আরো তথ্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:12
+msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
+msgstr "এই পণ্য% এর থেকে উপলব্ধ MaxMind দ্বারা নির্মিত GeoLite2 তথ্য অন্তর্ভুক্ত করা হয়েছে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:8
+msgid "More"
+msgstr "অধিক"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:47
+msgid "Other"
+msgstr "অন্যান্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:9
+msgid "Today Visitors Map"
+msgstr "আজ দর্শকরা ম্যাপ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:31
+msgid "Address"
+msgstr "ঠিকানা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:23
+msgid "User(s) Online"
+msgstr "সদস্য (s) অনলাইন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:34
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:79
+msgid "Today"
+msgstr "আজ দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:80
+msgid "Yesterday"
+msgstr "গতকাল দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:46
+msgid "Week"
+msgstr "সপ্তাহ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:52
+msgid "Month"
+msgstr "এ মাসে দেখেছে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:58
+msgid "Year"
+msgstr "বছর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:98
+msgid "Daily Total"
+msgstr "দৈনিক মোট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:117
+msgid "Current Time and Date"
+msgstr "বর্তমান সময় ও তারিখ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:117
+msgid "(Adjustment)"
+msgstr "(নিয়ন্ত্রণ)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:121
+msgid "Date: %s"
+msgstr "তারিখ:%s এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:125
+msgid "Time: %s"
+msgstr "সময়:%s এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:215
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:293
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:366
+msgid "Hits"
+msgstr "হিট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:31
+msgid "IP"
+msgstr "আইপি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:33
+msgid "Agent"
+msgstr "প্রতিনিধি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:35
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:291
+msgid "Version"
+msgstr "সংস্করণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/export.php:5
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/purge-data.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:6
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/manual/manual.php:5
+msgid "Access denied!"
+msgstr "অ্যাক্সেস অস্বীকৃত!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:14
+msgid "%s agent data deleted successfully."
+msgstr "% এর এজেন্ট তথ্য সফলভাবে মোছা হয়েছে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:17
+msgid "No agent data found to remove!"
+msgstr "পাওয়া কোন এজেন্ট তথ্য মুছে ফেলার জন্য!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:42
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/export.php:57
+msgid "Please select the desired items."
+msgstr "পছন্দসই আইটেম নির্বাচন করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:14
+msgid "%s platform data deleted successfully."
+msgstr "% এর প্ল্যাটফর্ম তথ্য সফলভাবে মোছা হয়েছে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:17
+msgid "No platform data found to remove!"
+msgstr "পাওয়া কোন প্ল্যাটফর্ম তথ্য মুছে ফেলার জন্য!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:53
+msgid "%s table data deleted successfully."
+msgstr "% এর টেবিল তথ্য সফলভাবে মোছা হয়েছে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:57
+msgid "Error, %s not emptied!"
+msgstr "ত্রুটি,% emptied না!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
+msgid "Database Setup"
+msgstr "ডাটাবেস সেটআপ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:10
+msgid "Re-run Install"
+msgstr "পুনরায় চালানোর ইনস্টল করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:14
+msgid "Install Now!"
+msgstr "এখন ইনস্টল করুন!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:15
+msgid "If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process."
+msgstr "কিছু কারণে ডাব্লু পরিসংখ্যান আপনার ইনস্টলেশন ডাটাবেস টেবিল বা অন্যান্য কোর আইটেম অনুপস্থিত, এই ইনস্টল প্রক্রিয়া পুনরায় চালানো হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "ডাটাবেস সূচক"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:290
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:364
+msgid "Countries"
+msgstr "দেশ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "এখন আপডেট করুন!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:40
+msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistitors table, delete duplicate entries and add the index."
+msgstr "ডাব্লু পরিসংখ্যান পুরাতন ইনস্টলেশনের কোণার ক্ষেত্রে দর্শক টেবিল ডুপ্লিকেট এন্ট্রি জন্য অনুমতি দেয়. নবীনতর ইনস্টলেশনের টেবিলের উপর একটি অনন্য সূচক সঙ্গে এই বিরুদ্ধে রক্ষা করা. পুরোনো সূচক তৈরি করতে ডুপ্লিকেট এন্ট্রি প্রথম মুছে ফেলা হবে ইনস্টল করা হবে. ক্লিক করে &quot;এখনই আপডেট করুন&quot;, vistitors টেবিল স্ক্যান ডুপ্লিকেট এন্ট্রি মুছে দিন এবং সূচক যোগ করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:41
+msgid "This operation could take a long time on installs with many rows in the visitors table."
+msgstr "এই অপারেশন দর্শক টেবিল অনেক সারি সঙ্গে ইনস্টলেশনের উপর একটি দীর্ঘ সময় লাগতে পারে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:46
+msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table."
+msgstr "ডাব্লু পরিসংখ্যান পুরাতন ইনস্টলেশনের কোণার ক্ষেত্রে দর্শক টেবিল ডুপ্লিকেট এন্ট্রি জন্য অনুমতি দেয়. নবীনতর ইনস্টলেশনের টেবিলের উপর একটি অনন্য সূচক সঙ্গে এই বিরুদ্ধে রক্ষা করা."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:47
+msgid "Congratulations, your installation is already up to date, nothing to do."
+msgstr "অভিনন্দন, আপনার ইনস্টলেশন ইতিমধ্যেই আপ টু ডেট, কিছুই করতে হয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:147
+msgid "Export"
+msgstr "রপ্তানি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:12
+msgid "Export from"
+msgstr "রপ্তানি থেকে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:35
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:170
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:194
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:134
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:164
+msgid "Please select"
+msgstr "নির্বাচন করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:24
+msgid "Select the table for the output file."
+msgstr "আউটপুট ফাইল জন্য টেবিল নির্বাচন করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:30
+msgid "Export To"
+msgstr "এক্সপোর্ট করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:41
+msgid "Select the output file type."
+msgstr "আউটপুট ফাইল টাইপ নির্বাচন করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:47
+msgid "Include Header Row"
+msgstr "শিরোলেখ সারি অন্তর্ভুক্ত করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:52
+msgid "Include a header row as the first line of the exported file."
+msgstr "রপ্তানি করা ফাইলের প্রথম লাইন হিসাবে একটি হেডার সারি অন্তর্ভুক্ত করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Start Now!"
+msgstr "এখন শুরু করুন!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:15
+msgid "Historical Values"
+msgstr "ঐতিহাসিক মূল্যবোধ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:20
+msgid "Note: As you have just purged the database you must reload this page for these numbers to be correct."
+msgstr "দ্রষ্টব্য: আপনি যদি শুধু ডাটাবেস পার্জ আছে এই সংখ্যার সঠিক হতে জন্য আপনি এই পৃষ্ঠাটি পুনরায় লোড করতে হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:143
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:300
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:373
+msgid "Visitors"
+msgstr "দর্শকরা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:31
+msgid "Number of historical number of visitors to the site (current value is %s)."
+msgstr "সাইটের দর্শকদের ঐতিহাসিক সংখ্যা সংখ্যা (বর্তমান মূল্য% এর হয়)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:42
+msgid "Number of historical number of visits to the site (current value is %s)."
+msgstr "সাইট ভিজিট ঐতিহাসিক সংখ্যা সংখ্যা (বর্তমান মূল্য% এর হয়)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:48
+msgid "Update now!"
+msgstr "এখন আপডেট করুন!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:63
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:91
+msgid "Are you sure?"
+msgstr "আপনি কি নিশ্চিত?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:119
+msgid "Data"
+msgstr "উপাত্ত"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:124
+msgid "Empty Table"
+msgstr "খালি টেবিল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:137
+msgid "All data table will be lost."
+msgstr "সমস্ত তথ্য টেবিল হারিয়ে যাবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:138
+msgid "Clear now!"
+msgstr "এখন সাফ!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:146
+msgid "Purge records older than"
+msgstr "রেচক পদার্থ রেকর্ড আর পুরোনো"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:152
+msgid "Deleted user statistics data older than the selected number of days.  Minimum value is 30 days."
+msgstr "দিনের নির্বাচিত সংখ্যা আর পুরোনো মুছে ফেলা ব্যবহারকারী পরিসংখ্যান তথ্য. নূন্যতম মূল্য 30 দিন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:153
+msgid "Purge now!"
+msgstr "এখন অভিযোগমোচন!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:160
+msgid "Delete User Agent Types"
+msgstr "ব্যবহারকারী এজেন্ট ধরন মুছে দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:165
+msgid "Delete Agents"
+msgstr "এজেন্ট মুছে দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:180
+msgid "All visitor data will be lost for this agent type."
+msgstr "সমস্ত পরিদর্শক তথ্য এই এজেন্ট টাইপ জন্য হারিয়ে যাবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:205
+msgid "Delete now!"
+msgstr "এখন মুছে দিন!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:189
+msgid "Delete Platforms"
+msgstr "প্ল্যাটফর্ম মুছে দিন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:204
+msgid "All visitor data will be lost for this platform type."
+msgstr "সমস্ত পরিদর্শক তথ্য এই প্ল্যাটফর্ম টাইপ জন্য হারিয়ে যাবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:17
+msgid "Resources"
+msgstr "সম্পদ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:22
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:27
+msgid "Memory usage in PHP"
+msgstr "পিএইচপি মেমরি ব্যবহার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:37
+msgid "Byte"
+msgstr "বাইট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:33
+msgid "Last Overview page memory usage"
+msgstr "গত সংক্ষিপ্ত বিবরণ পৃষ্ঠা মেমরি ব্যবহার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:38
+msgid "Memory usage in the overview page"
+msgstr "সংক্ষিপ্ত বিবরণ পৃষ্ঠা মেমরি ব্যবহার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:44
+msgid "PHP Memory Limit"
+msgstr "পিএইচপি মেমরি সীমা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:49
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr "মেমরি সীমা একটি স্ক্রিপ্ট php.ini সেট, গ্রাস করার অনুমতি দেওয়া হয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:55
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:77
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:110
+msgid "Number of rows in the %s table"
+msgstr "% এর টেবিল মধ্যে সারি সংখ্যা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:70
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:92
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:103
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:114
+msgid "Row"
+msgstr "সারি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:82
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:93
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:104
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:115
+msgid "Number of rows"
+msgstr "সারি সংখ্যা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:120
+msgid "Version Info"
+msgstr "সংস্করণ তথ্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:125
+msgid "WP Statistics Version"
+msgstr "ডাব্লু পরিসংখ্যান সংস্করণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:130
+msgid "The WP Statistics version you are running."
+msgstr "ডাব্লু পরিসংখ্যান সংস্করণ আপনি চলমান."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "PHP Version"
+msgstr "পিএইচপি সংস্করণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "The PHP version you are running."
+msgstr "পিএইচপি সংস্করণ আপনি চলমান হয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "PHP Safe Mode"
+msgstr "পিএইচপি সেফ মোড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:152
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr "পিএইচপি সেফ মোড সক্রিয়. GeoIP কোড সেফ মোড সমর্থিত হয় না."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "jQuery Version"
+msgstr "jQuery সংস্করণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+msgid "The jQuery version you are running."
+msgstr "jQuery সংস্করণ আপনি চলমান হয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:169
+msgid "cURL Version"
+msgstr "কার্ল সংস্করণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "cURL not installed"
+msgstr "ইনস্টল করা না কার্ল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:174
+msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr "পিএইচপি curl এক্সটেনশন সংস্করণ আপনি চলমান. এটা GeoIP নিষ্ক্রিয় করা হবে ইনস্টল না করা হলে কার্ল, GeoIP কোড প্রয়োজন বোধ করা হয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:180
+msgid "BC Math"
+msgstr "খ্রিস্টপূর্ব ম্যাথ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
+msgid "Installed"
+msgstr "ইনস্টল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
+msgid "Not installed"
+msgstr "ইনস্টল করা না"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:185
+msgid "If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons."
+msgstr "যদি পিএইচপি বিসি ম্যাথ এক্সটেনশন ইনস্টল করা হয়. খ্রিস্টপূর্ব ম্যাথ আর GeoIP কোড জন্য প্রয়োজন বোধ করা হয় এবং শুধুমাত্র ঐতিহাসিক কারণে এখানে তালিকাভুক্ত করা হয়."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:190
+msgid "File Info"
+msgstr "তথ্য ফাইল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
+msgid "GeoIP Database"
+msgstr "GeoIP ডাটাবেস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:204
+msgid "Database file does not exist."
+msgstr "ডাটাবেস ফাইল বিদ্যমান নেই."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:206
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:225
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:244
+msgid ", created on "
+msgstr ", তৈরি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:208
+msgid "The file size and date of the GeoIP database."
+msgstr "ফাইল সাইজ এবং GeoIP ডাটাবেসের তারিখ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:214
+msgid "browscap.ini File"
+msgstr "Browscap.ini ফাইল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:223
+msgid "browscap.ini file does not exist."
+msgstr "Browscap.ini ফাইল বিদ্যমান নেই."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:227
+msgid "The file size and date of the browscap.ini file."
+msgstr "ফাইল সাইজ এবং Browscap.ini ফাইল তারিখ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:233
+msgid "browscap Cache File"
+msgstr "Browscap ক্যাশে ফাইল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:242
+msgid "browscap cache file does not exist."
+msgstr "Browscap ক্যাশে ফাইল বিদ্যমান নেই."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:246
+msgid "The file size and date of the browscap cache file."
+msgstr "ফাইল সাইজ এবং Browscap ক্যাশে ফাইল তারিখ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:251
+msgid "Client Info"
+msgstr "ক্লায়েন্ট তথ্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:256
+msgid "Client IP"
+msgstr "ক্লায়েন্ট আইপি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:261
+msgid "The client IP address."
+msgstr "ক্লায়েন্ট IP ঠিকানা."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:267
+msgid "User Agent"
+msgstr "ব্যবহারকারী এজেন্ট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:272
+msgid "The client user agent string."
+msgstr "ক্লায়েন্ট ইউজার এজেন্ট স্ট্রিং."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:278
+msgid "Browser"
+msgstr "ব্রাউজার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:285
+msgid "The detected client browser."
+msgstr "সনাক্ত ক্লায়েন্ট ব্রাউজার."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
+msgid "The detected client browser version."
+msgstr "সনাক্ত ক্লায়েন্ট ব্রাউজার সংস্করণ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:307
+msgid "The detected client platform."
+msgstr "সনাক্ত ক্লায়েন্ট প্ল্যাটফর্ম."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
+msgid "This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?"
+msgstr "এই হ্যাশ ভ্যালুর সঙ্গে ডাটাবেসের মধ্যে সমস্ত IP ঠিকানা প্রতিস্থাপন করবে এবং পূর্বাবস্থা করা যাবে না, আপনি কি নিশ্চিত?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "GeoIP বিকল্প"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:26
+msgid "Updates any unknown location data in the database, this may take a while"
+msgstr "ডাটাবেসের মধ্যে কোনো অজানা অবস্থান তথ্য আপডেট, এই সময় নিতে পারে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:31
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:66
+msgid "IP Addresses"
+msgstr "আইপি ঠিকানা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:71
+msgid "Hash IP Addresses"
+msgstr "হ্যাশ আইপি ঠিকানা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:41
+msgid "Replace IP addresses in the database with hash values, you will not be able to recover the IP addresses in the future to populate location information afterwards and this may take a while"
+msgstr "হ্যাশ ভ্যালুর সঙ্গে ডাটাবেসের মধ্যে IP ঠিকানা, প্রতিস্থাপন, আপনি পরে অবস্থান তথ্য পূরণ করতে ভবিষ্যতে IP ঠিকানা পুনরুদ্ধার করতে সক্ষম হবে না এবং এই সময় নিতে পারে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:43
+msgid "IP Addresses replaced with hash values."
+msgstr "আইপি ঠিকানা হ্যাশ ভ্যালুর সঙ্গে প্রতিস্থাপিত."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:51
+msgid "Install routine complete."
+msgstr "রুটিন সম্পূর্ণ ইনস্টল করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:146
+msgid "Resources/Information"
+msgstr "সম্পদ / তথ্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:148
+msgid "Purging"
+msgstr "শুদ্ধিকরণ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:149
+msgid "Database"
+msgstr "ডাটাবেস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:150
+msgid "Updates"
+msgstr "আপডেট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:151
+msgid "Historical"
+msgstr "ঐতিহাসিক"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:8
+msgid "WP Statistics V%s"
+msgstr "ডাব্লু পরিসংখ্যান ভী% এর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:20
+msgid "Visit Us Online"
+msgstr "আমাদের অনলাইন যান"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
+msgid "Come visit our great new %s and keep up to date on the latest news about WP Statistics."
+msgstr "আমাদের মহান নতুন% এর যান এবং ডাব্লু পরিসংখ্যান সম্পর্কে সর্বশেষ খবর উপর আপ টু ডেট রাখা আসা."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
+msgid "website"
+msgstr "ওয়েবসাইট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:28
+msgid "Rate and Review at WordPress.org"
+msgstr "WordPress.org এ হার এবং পর্যালোচনা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
+msgid "Thanks for installing WP Statistics, we encourage you to submit a "
+msgstr "ডাব্লু পরিসংখ্যান ইনস্টল করার জন্য ধন্যবাদ, আমরা একটি জমা দিতে উত্সাহিত"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
+msgid "rating and review"
+msgstr "রেটিং ও পর্যালোচনা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
+msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
+msgstr "উপর WordPress.org এ. আপনার মতামত ব্যাপকভাবে প্রশংসা করা হয়!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:36
+msgid "Translations"
+msgstr "অনুবাদের"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+msgid "WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help."
+msgstr "আপনি সাহায্য করতে চান তাহলে ডাব্লু পরিসংখ্যান আন্তর্জাতিকীকরণ সমর্থন করে এবং আমরা অনুবাদের জমা দিতে আমাদের ব্যবহারকারীদের উৎসাহিত, বর্তমান অবস্থা এবং%s এর দেখতে আমাদের% এর অনুগ্রহ করে পরিদর্শন করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+msgid "translation collaboration site"
+msgstr "অনুবাদ সহযোগিতা সাইট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+msgid "drop us a line"
+msgstr "আমাদের একটি লাইন ড্রপ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:44
+msgid "Support"
+msgstr "সহায়তা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:49
+msgid "We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:"
+msgstr "আমরা আপনাকে ডাব্লু পরিসংখ্যান সঙ্গে সমস্যা হচ্ছে দুঃখিত এবং আমরা সাহায্য খুশি. এখানে আমাদের সাথে যোগাযোগ করার আগে কি কিছু বিষয় আছে:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:52
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
+msgid "Have you read the %s?"
+msgstr "আপনি যখন% এর পড়া আছে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:52
+msgid "FAQs"
+msgstr "প্রায়শই জিজ্ঞাসিত প্রশ্নাবলী"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
+msgid "manual"
+msgstr "ম্যানুয়াল"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
+msgid "Have you search the %s for a similar issue?"
+msgstr "আপনি যদি অনুরূপ সমস্যার জন্য% এর অনুসন্ধান আছে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
+msgid "support forum"
+msgstr "সহায়তা ফোরাম"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:55
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr "আপনি গ্রহণ করা হয় কোনো ত্রুটি বার্তা জন্য ইন্টারনেট অনুসন্ধান আছে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:56
+msgid "Make sure you have access to your PHP error logs."
+msgstr "আপনি আপনার পিএইচপি ত্রুটির লগ এক্সেস আছে নিশ্চিত করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:59
+msgid "And a few things to double-check:"
+msgstr "একটি ডবল চেক করতে কয়েকটি বিষয়:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:62
+msgid "How's your memory_limit in php.ini?"
+msgstr "কিভাবে php.ini আপনার memory_limit আছে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:63
+msgid "Have you tried disabling any other plugins you may have installed?"
+msgstr "আপনি ইনস্টল করতে পারেন অন্য কোন প্লাগিন নিষ্ক্রিয় চেষ্টা করছেন?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:64
+msgid "Have you tried using the default WordPress theme?"
+msgstr "আপনি ডিফল্ট ওয়ার্ডপ্রেস থিম ব্যবহার করে চেষ্টা করেছি?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
+msgid "Have you double checked the plugin settings?"
+msgstr "আপনি ডবল প্লাগ সেটিংস চেক আছে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
+msgid "Do you have all the required PHP extensions installed?"
+msgstr "আপনি সব প্রয়োজনীয় পিএইচপি এক্সটেনশন ইনস্টল করা আছে না?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
+msgid "Are you getting a blank or incomplete page displayed in your browser?  Did you view the source for the page and check for any fatal errors?"
+msgstr "যদি আপনার ব্রাউজার সাপোর্ট প্রদর্শিত একটি ফাঁকা বা অসম্পূর্ণ পাতা পাচ্ছেন? আপনি পৃষ্ঠার জন্য সোর্স দেখতে এবং কোন মারাত্মক ত্রুটির জন্য পরীক্ষা কি?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:68
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "আপনি আপনার পিএইচপি এবং ওয়েব সার্ভার ত্রুটির লগ চেক করা আছে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
+msgid "Still not having any luck?"
+msgstr "এখনও কোনো দৈব না?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
+msgid "Then please open a new thread on the %s and we'll respond as soon as possible."
+msgstr "তারপর%s এর উপর একটি নতুন থ্রেড খোলার জন্য দয়া করে এবং আমরা যত তাড়াতাড়ি সম্ভব সাড়া পাবেন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
+msgid "WordPress.org support forum"
+msgstr "WordPress.org সহায়তা ফোরাম"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
+msgid "Alternatively %s support is available as well."
+msgstr "অন্যথায়% এর সমর্থন উপলব্ধ হিসাবে ভাল."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
+msgid "Farsi"
+msgstr "ফার্সি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:21
+msgid "WP Statistics Honey Pot Page"
+msgstr "ডাব্লু পরিসংখ্যান মধু পট পাতা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:22
+msgid "This is the honey pot for WP Statistics to use, do not delete."
+msgstr "এই মুছে দিন না, ব্যবহার করা ডাব্লু পরিসংখ্যান মধু পাত্র."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:45
+msgid "Access Levels"
+msgstr "প্রবেশ স্তর"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:74
+msgid "Required user level to view WP Statistics"
+msgstr "ইউজার স্তর ডাব্লু পরিসংখ্যান দেখতে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:89
+msgid "Required user level to manage WP Statistics"
+msgstr "ইউজার স্তর ডাব্লু পরিসংখ্যান পরিচালনা করা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:97
+msgid "See the %s for details on capability levels."
+msgstr "ক্ষমতা মাত্রা বিস্তারিত তথ্যের জন্য,%s দেখুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:97
+msgid "WordPress Roles and Capabilities page"
+msgstr "ওয়ার্ডপ্রেস ভূমিকা এবং ক্ষমতা পাতা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:98
+msgid "Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone."
+msgstr "ইঙ্গিত: manage_network = সুপার অ্যাডমিন নেটওয়ার্ক, manage_options = প্রশাসক, edit_others_posts = সম্পাদক, publish_posts = লেখক, edit_posts = অবদানকারী, = প্রত্যেকেরই."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:99
+msgid "Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins."
+msgstr "ডিফল্ট ওয়ার্ডপ্রেস কনফিগারেশন অধিকার ঊর্ধ্বে উপরে casscades প্রত্যেকটি. সুতরাং উদাহরণস্বরূপ নির্বাচন publish_posts জন্য লেখক, সম্পাদক, প্রশাসকদের এবং সুপার প্রশাসকদের অধিকার দান করেন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:100
+msgid "If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory."
+msgstr "আপনি অ্যাক্সেস প্রতিনিধি আরো একটি শক্তসমর্থ সমাধান প্রয়োজন, তাহলে আপনি ওয়ার্ডপ্রেস প্লাগইন ডিরেক্টরির মধ্যে% এর তাকান করতে চাইবেন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:292
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:365
+msgid "Exclusions"
+msgstr "বর্জন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:109
+msgid "Record exclusions"
+msgstr "রেকর্ড বহিষ্কার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:111
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:192
+msgid "Enable"
+msgstr "সক্রিয়"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:112
+msgid "This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.  This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits."
+msgstr "এটি বাদ দেওয়া হয়েছিল কারণ কিন্তু অন্য কোন তথ্য দিয়ে একটি পৃথক টেবিল সব বাদ হিট রেকর্ড করা হবে. এই তথ্য অনেক উৎপন্ন কিন্তু আপনি আপনার সাইটে পায় হিট মোট সংখ্যা, ঠিক না প্রকৃত ব্যবহারকারী ভিজিট দেখতে চান দরকারী হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:117
+msgid "Exclude User Roles"
+msgstr "ব্যবহারকারী ভূমিকা অপসারণের"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:254
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:261
+msgid "Exclude"
+msgstr "বহিষ্কৃত করা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:134
+msgid "Exclude %s role from data collection."
+msgstr "তথ্য সংগ্রহ থেকে% এর ভূমিকা অগ্রাহ্য করা."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:140
+msgid "IP/Robot Exclusions"
+msgstr "আইপি / রোবট বর্জন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:144
+msgid "Robot list"
+msgstr "রোবট তালিকা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:157
+msgid "A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored."
+msgstr "রোবট সনাক্ত করতে বিরুদ্ধে শব্দের একটি তালিকা (প্রতি লাইনে একটি) মেলে. থেকে অন্তত 4 অক্ষর দীর্ঘ হতে পারে অথবা তারা উপেক্ষা করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:158
+msgid "Reset to Default"
+msgstr "ডিফল্ট রিসেট"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:163
+msgid "Force robot list update after upgrades"
+msgstr "ফোর্স রোবট তালিকা আপডেট আপগ্রেড করার পরে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:166
+msgid "Force the robot list to be reset to the default after an update to WP Statistics takes place.  Note if this option is enabled any custom robots you have added to the list will be lost."
+msgstr "ডাব্লু পরিসংখ্যান একটি আপডেট করার পরে সঞ্চালিত ডিফল্ট করা রিসেট করার রোবট তালিকা বল. এই অপশনটি হারিয়ে যাবে আপনি তালিকায় যুক্ত হয়েছে কোনো কাস্টম রোবট সক্রিয় করা থাকলে উল্লেখ্য."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:171
+msgid "Robot visit threshold"
+msgstr "রোবট দর্শন থ্রেশহোল্ড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:174
+msgid "Treat visitors with more than this number of visits per day as robots.  0 = disabled."
+msgstr "রোবট হিসাবে প্রতিদিন ভিজিট এই সংখ্যার চেয়ে আরো সঙ্গে দর্শক আচরণ. 0 = অক্ষম."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:179
+msgid "Excluded IP address list"
+msgstr "বহিষ্কৃত আইপি ঠিকানা তালিকা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:182
+msgid "A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255."
+msgstr "আইপি ঠিকানা এবং সাবনেট মাস্ক (প্রতি লাইনে একটি) একটি তালিকা পরিসংখ্যান সংগ্রহ থেকে অগ্রাহ্য (উভয় যেমন 192.168.0.0/24 এবং 192.168.0.0/255.255.255.0 ফরম্যাটের গ্রহণ করা হয়). শুধুমাত্র একটি IP ঠিকানা উল্লেখ করার জন্য, 32 বা 255.255.255.255 একটি সাবনেট মান ব্যবহার করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:183
+msgid "Add 10.0.0.0"
+msgstr "10.0.0.0 যোগ করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:184
+msgid "Add 172.16.0.0"
+msgstr "172.16.0.0 যোগ করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:185
+msgid "Add 192.168.0.0"
+msgstr "192.168.0.0 যোগ করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:190
+msgid "Use honey pot"
+msgstr "মধু পাত্র ব্যবহার করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:193
+msgid "Use a honey pot page to identify robots."
+msgstr "রোবট সনাক্ত করার জন্য একটি মধু পাত্র পাতা ব্যবহার করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:198
+msgid "Honey pot post id"
+msgstr "মধু পাত্র পোস্ট আইডি"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:201
+msgid "The post id to use for the honeypot page."
+msgstr "পোস্ট আইডি honeypot পৃষ্ঠার জন্য ব্যবহার করার জন্য."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:202
+msgid "Create a new honey pot page"
+msgstr "একটি নতুন মধু পাত্র পাতা তৈরি করুন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:207
+msgid "GeoIP Exclusions"
+msgstr "GeoIP বর্জন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:211
+msgid "Excluded countries list"
+msgstr "বহিষ্কৃত দেশের তালিকা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:214
+msgid "A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use \"000\" (three zeros) to exclude unknown countries."
+msgstr "দেশের কোড (প্রতি লাইনে এক, দুই অক্ষর প্রতিটি) একটি তালিকা পরিসংখ্যান সংগ্রহ থেকে বাদ দিতে. অজানা দেশে অগ্রাহ্য &quot;000&quot; (তিন শূন্য) ব্যবহার করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:219
+msgid "Included countries list"
+msgstr "অন্তর্ভুক্ত দেশের তালিকা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:222
+msgid "A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use \"000\" (three zeros) to exclude unknown countries."
+msgstr "দেশের কোড (প্রতি লাইনে এক, দুই অক্ষর প্রতিটি) একটি তালিকা এই তালিকা খালি না হয়, অন্তর্ভুক্ত দেশ থেকে শুধুমাত্র দর্শক রেকর্ড করা হবে, পরিসংখ্যান সংগ্রহে অন্তর্ভুক্ত. অজানা দেশে অগ্রাহ্য &quot;000&quot; (তিন শূন্য) ব্যবহার করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:227
+msgid "Host Exclusions"
+msgstr "হোস্ট বর্জন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:231
+msgid "Excluded hosts list"
+msgstr "বহিষ্কৃত হোস্ট তালিকা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:234
+msgid "A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection."
+msgstr "সম্পূর্ণরূপে যোগ্যতাসম্পন্ন হোস্ট নাম (অর্থাৎ. Server.example.com, এক প্রতি লাইন) একটি তালিকা পরিসংখ্যান সংগ্রহ থেকে বাদ দিতে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:236
+msgid "Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it's IP address and when the cache is updated resulting in some hits recorded."
+msgstr "দ্রষ্টব্য: এই বিকল্প এক ঘন্টার জন্য দেওয়া হোস্ট-নেম IP ঠিকানা প্রতিটি পৃষ্ঠার লোড নেভিগেশন একটি বিপরীত DNS- র লুকআপ সঞ্চালন কিন্তু এর পরিবর্তে ক্যাশে করা হবে না. আপনি পরিবর্তনশীল নির্ধারিত হোস্ট ব্যতীত হয় হোস্ট এটা IP ঠিকানা পরিবর্তন করে যখন এবং ক্যাশে রেকর্ড কিছু হিট ফলে আপডেট করা হয় যখন আপনি আবৃত কিছু ডিগ্রী পেতে পারে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:241
+msgid "Site URL Exclusions"
+msgstr "সাইট URL টি বর্জন"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:245
+msgid "Excluded login page"
+msgstr "বহিষ্কৃত লগইন পাতা"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:248
+msgid "Exclude the login page for registering as a hit."
+msgstr "একটি আঘাত হিসেবে নিবন্ধন করার জন্য লগইন পৃষ্ঠায় অপসারণের."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:252
+msgid "Excluded admin pages"
+msgstr "বহিষ্কৃত অ্যাডমিন পেজ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:255
+msgid "Exclude the admin pages for registering as a hit."
+msgstr "একটি আঘাত হিসেবে নিবন্ধন করার জন্য অ্যাডমিন পেজ অপসারণের."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:259
+msgid "Excluded RSS feeds"
+msgstr "বহিষ্কৃত আরএসএস ফিড"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:262
+msgid "Exclude the RSS feeds for registering as a hit."
+msgstr "আরএসএস একটি আঘাত হিসেবে নিবন্ধন করার জন্য ফিড অপসারণের."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:22
+msgid "browscap settings"
+msgstr "Browscap সেটিংস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:27
+msgid "browscap usage"
+msgstr "Browscap ব্যবহার"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:32
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:56
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:76
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:92
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:132
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:148
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:160
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:187
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:199
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:214
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:228
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:258
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:270
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:313
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:104
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:69
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:93
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:121
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:87
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:107
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:147
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:159
+msgid "Active"
+msgstr "সক্রিয়"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:33
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr "Browscap ডাটাবেস ডাউনলোড এবং রোবট সনাক্ত করতে ব্যবহার করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:39
+msgid "Update browscap Info"
+msgstr "আপডেট Browscap তথ্য"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:44
+msgid "Download browscap Database"
+msgstr "ডাউনলোড Browscap ডাটাবেস"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:60
+msgid "Save changes on this page to download the update."
+msgstr "আপডেট ডাউনলোড করতে এই পৃষ্ঠায় পরিবর্তনগুলি সংরক্ষণ করুন."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:51
+msgid "Schedule weekly update of browscap DB"
+msgstr "Browscap ডিবি সাপ্তাহিক আপডেট সময়সূচী"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:59
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:74
+msgid "Next update will be"
+msgstr "পরবর্তী আপডেট করা হবে"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:74
+msgid "Download of the browscap database will be scheduled for once a week."
+msgstr "Browscap ডাটাবেস ডাউনলোড করুন একবার এক সপ্তাহের জন্য নির্ধারিত করা হবে."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:50
+msgid "This will delete the manual when you save the settings, are you sure?"
+msgstr "আপনি সেটিংস সংরক্ষণ করুন যখন এই আপনি নিশ্চিত, ম্যানুয়াল মুছে ফেলা হবে?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:77
+msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
+msgstr "এই বৈশিষ্ট্য ডাটাবেসের মধ্যে IP ঠিকানা সংরক্ষণ কিন্তু এর পরিবর্তে একটি অনন্য হ্যাশ ব্যবহার করা হবে না. এই নির্বাচিত হয় যদি &quot;সমগ্র ইউজার এজেন্ট স্ট্রিং সঞ্চয়&quot; সেটিং অক্ষম করা হবে. আপনি এটি যদি সক্রিয় থাকে অবস্থান তথ্য পুনরুদ্ধার ভবিষ্যতে IP ঠিকানা পুনরুদ্ধার করতে সক্ষম হবে না."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:82
+msgid "Users Online"
+msgstr "অনলাইন ব্যবহারকারী"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:87
+msgid "User online"
+msgstr "ব্যবহারকারী অনলাইন"
