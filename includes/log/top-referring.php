@@ -17,9 +17,9 @@
 	}
 	
 	if( $referr ) {
-		$total = $wpdb->query($wpdb->prepare("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE %s", $referr));
+		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE %s", $referr));
 	} else {
-		$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
+		$total = $wpdb->get_var("SELECT COUNT(*) FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 	}
 ?>
 <div class="wrap">
