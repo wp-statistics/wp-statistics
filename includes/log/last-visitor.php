@@ -17,13 +17,14 @@
 		$title = $_GET['ip'];
 	}
 		
+	$total_visitor = $wpdb->get_var("SELECT COUNT(*) FROM `{$table_prefix}statistics_visitor`");
+
 	if( isset( $_get ) ) {
-		$total = $wpdb->query($wpdb->prepare("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get));
+		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get));
 	} else {
-		$total = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
+		$total = $total_visitor;
 	}
 	
-	$total_visitor = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor`");
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
