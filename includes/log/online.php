@@ -40,6 +40,8 @@
 									echo "<div class='log-latest'>";
 									$count = 0;
 									
+									$dash_icon = wp_statistics_icons('dashicons-visibility', 'visibility');
+									
 									foreach($result as $items) {
 										$count++;
 
