@@ -288,7 +288,9 @@
 			global $wp_query;
 
 			// Get the pages or posts ID if it exists.
-			$this->current_page_id = $wp_query->get_queried_object_id();
+			if( is_object( $wp_query ) ) {
+				$this->current_page_id = $wp_query->get_queried_object_id();
+			}
 			
 			if( $this->get_option( 'use_honeypot' ) && $this->get_option( 'honeypot_postid') > 0 && $this->get_option( 'honeypot_postid' ) == $this->current_page_id && $this->current_page_id > 0 ) {
 				$this->exclusion_match = TRUE;
