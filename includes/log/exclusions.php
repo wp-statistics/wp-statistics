@@ -14,6 +14,7 @@
 	
 	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot','Feeds');
 	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed');
+	$excluded_reason_translate = array( 'Robot' => __('Robot', 'wp_statistics'), 'Browscap' => __('Browscap', 'wp_statistics'), 'IP Match' => __('IP Match', 'wp_statistics'), 'Self Referral' => __('Self Referral', 'wp_statistics'), 'Login Page' => __('Login Page', 'wp_statistics'), 'Admin Page' => __('Admin Page', 'wp_statistics'), 'User Role' => __('User Role', 'wp_statistics'), 'Total' => __('Total', 'wp_statistics'), 'GeoIP' => __('GeoIP', 'wp_statistics'), 'Hostname' => __('Hostname', 'wp_statistics'), 'Robot Threshold' => __('Robot Threshold', 'wp_statistics'), 'Honey Pot' => __('Honey Pot', 'wp_statistics'), 'Feeds' => __('Feeds', 'wp_statistics') );
 	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
@@ -129,7 +130,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: [<?php foreach( $excluded_reasons as $reason ) { echo "'" . __( $reason, 'wp_statistics' ) . "', "; } ?>],
+									labels: [<?php foreach( $excluded_reasons as $reason ) { echo "'" . $excluded_reason_translate[$reason] . "', "; } ?>],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{

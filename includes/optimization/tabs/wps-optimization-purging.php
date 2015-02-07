@@ -173,7 +173,7 @@
 							
 							foreach($agents as $agent) {
 								$aid = preg_replace( "/[^a-zA-Z]/", "", $agent );
-								echo "<option value='$agent' id='agent-" . $aid . "-id'>" . __($agent, 'wp_statistics') . "</option>";
+								echo "<option value='$agent' id='agent-" . $aid . "-id'>" . $agent . "</option>";
 							}
 						?>
 					</select>
@@ -197,7 +197,7 @@
 							
 							foreach($platforms as $platform) {
 								$pid = preg_replace( "/[^a-zA-Z]/", "", $platform );
-								echo "<option value='$platform' id='platform-" . $pid . "-id'>" . __($platform, 'wp_statistics') . "</option>";
+								echo "<option value='$platform' id='platform-" . $pid . "-id'>" . $platform . "</option>";
 							}
 						?>
 					</select>

@@ -29,7 +29,7 @@
 								foreach( $Browsers as $Browser )
 									{
 									$count = wp_statistics_useragent( $Browser );
-									echo "['" . substr( __( $Browser, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									echo "['" . substr( $Browser, 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
 									}
 
 								echo "];\n";
@@ -113,7 +113,7 @@
 								foreach( $Platforms as $Platform )
 									{
 									$count = wp_statistics_platform( $Platform );
-									echo "['" . substr( __( $Platform, 'wp_statistics' ), 0, 15) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									echo "['" . substr( $Platform, 0, 15) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
 									}
 
 								echo "];\n";
@@ -248,7 +248,7 @@
 					foreach( $Versions as $Version )
 						{
 						$count = wp_statistics_agent_version( $Browser, $Version );
-						echo "['" . __( $Version, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+						echo "['" . $Version . " (" . number_format_i18n($count) . ")'," . $count . "], ";
 						}
 
 					echo "];\n";
@@ -257,7 +257,7 @@
 ?>
 				<?php echo $Browser_tag;?>_chart = jQuery.jqplot('version-<?php echo $Browser_tag;?>-log', [<?php echo $Browser_tag;?>_version_data], { 
 						title: {
-							text: '<b><?php echo __($Browser, 'wp_statistics'); ?></b>',
+							text: '<b><?php echo $Browser; ?></b>',
 							fontSize: '12px',
 							fontFamily: 'Tahoma',
 							textColor: '#000000',

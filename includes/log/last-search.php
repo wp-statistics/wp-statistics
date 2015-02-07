@@ -43,14 +43,16 @@
 				{
 				$tag = '';
 				$name = 'All';
+				$translate = __('All');
 				}
 			else
 				{
 				$tag = $search_engines[$key]['tag'];
 				$name = $search_engines[$key]['name'];
+				$translate = $search_engines[$key]['translated'];
 				}
 			
-			echo "<li><a href='?page=wps_words_menu&referred={$tag}'>" . __($name, 'wp_statistics') . " <span class='count'>({$value})</span></a>{$separator}</li>";
+			echo "<li><a href='?page=wps_words_menu&referred={$tag}'>" . $translate . " <span class='count'>({$value})</span></a>{$separator}</li>";
 		}
 ?>
 	</ul>

@@ -1,7 +1,9 @@
 <?php
 
-	function wp_statistics_generate_page_postbox_content($pageuri, $pageid, $days = 20, $chart_title = 'Page Trending Stats') {
+	function wp_statistics_generate_page_postbox_content($pageuri, $pageid, $days = 20, $chart_title = null ) {
 		GLOBAL $WP_Statistics;
+		
+		if( $chart_title == null ) { $chart_title = __('Page Trending Stats', 'wp_statistics'); }
 		
 		if( $pageuri && !$pageid ) { $pageid = wp_statistics_uri_to_id( $pageuri ); }
 		

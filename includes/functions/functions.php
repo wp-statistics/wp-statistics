@@ -379,6 +379,7 @@
 	//
 	// Each sub array is made up of the following items:
 	//		name 		 = The proper name of the search engine
+	//		translated   = The proper name translated to the local language
 	//		tag 		 = a short one word, all lower case, representation of the search engine
 	//		sqlpattern   = either a single SQL style search pattern OR an array or search patterns to match the hostname in a URL against
 	//		regexpattern = either a single regex style search pattern OR an array or search patterns to match the hostname in a URL against
@@ -389,13 +390,13 @@
 		GLOBAL $WP_Statistics;
 		
 		$default = $engines = array (
-			'baidu' => array( 'name' => 'Baidu', 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
-			'bing' => array( 'name' => 'Bing', 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' => 'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
-			'clearch' => array( 'name' => 'clearch.org', 'tag' => 'clearch', 'sqlpattern' => '%clearch.org%', 'regexpattern' => 'clearch\.org', 'querykey' => 'q', 'image' => 'clearch.png' ),
-			'duckduckgo' => array( 'name' => 'DuckDuckGo', 'tag' => 'duckduckgo', 'sqlpattern' => array('%duckduckgo.com%', '%ddg.gg%'), 'regexpattern' => array('duckduckgo\.com','ddg\.gg'), 'querykey' => 'q', 'image' => 'duckduckgo.png' ),
-			'google' => array( 'name' => 'Google', 'tag' => 'google', 'sqlpattern' => '%google.%', 'regexpattern' => 'google\.', 'querykey' => 'q', 'image' => 'google.png' ),
-			'yahoo' => array( 'name' => 'Yahoo!', 'tag' => 'yahoo', 'sqlpattern' => '%yahoo.com%', 'regexpattern' => 'yahoo\.com', 'querykey' => 'p', 'image' => 'yahoo.png' ),
-			'yandex' => array( 'name' => 'Yandex', 'tag' => 'yandex', 'sqlpattern' => '%yandex.ru%', 'regexpattern' => 'yandex\.ru', 'querykey' => 'text', 'image' => 'yandex.png' )
+			'baidu' => array( 'name' => 'Baidu', 'translated' => __('Baidu', 'wp_statistics'), 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
+			'bing' => array( 'name' => 'Bing', 'translated' => __('Bing', 'wp_statistics'), 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' => 'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
+			'clearch' => array( 'name' => 'clearch.org', 'translated' => __('clearch.org', 'wp_statistics'), 'tag' => 'clearch', 'sqlpattern' => '%clearch.org%', 'regexpattern' => 'clearch\.org', 'querykey' => 'q', 'image' => 'clearch.png' ),
+			'duckduckgo' => array( 'name' => 'DuckDuckGo', 'translated' => __('DuckDuckGo', 'wp_statistics'), 'tag' => 'duckduckgo', 'sqlpattern' => array('%duckduckgo.com%', '%ddg.gg%'), 'regexpattern' => array('duckduckgo\.com','ddg\.gg'), 'querykey' => 'q', 'image' => 'duckduckgo.png' ),
+			'google' => array( 'name' => 'Google', 'translated' => __('Google', 'wp_statistics'), 'tag' => 'google', 'sqlpattern' => '%google.%', 'regexpattern' => 'google\.', 'querykey' => 'q', 'image' => 'google.png' ),
+			'yahoo' => array( 'name' => 'Yahoo!', 'translated' => __('Yahoo!', 'wp_statistics'), 'tag' => 'yahoo', 'sqlpattern' => '%yahoo.com%', 'regexpattern' => 'yahoo\.com', 'querykey' => 'p', 'image' => 'yahoo.png' ),
+			'yandex' => array( 'name' => 'Yandex', 'translated' => __('Yandex', 'wp_statistics'), 'tag' => 'yandex', 'sqlpattern' => '%yandex.ru%', 'regexpattern' => 'yandex\.ru', 'querykey' => 'text', 'image' => 'yandex.png' )
 		);
 		
 		if( $all == false ) {
