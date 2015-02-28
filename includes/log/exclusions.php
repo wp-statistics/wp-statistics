@@ -27,7 +27,7 @@
 		for( $i=$daysToDisplay; $i>=0; $i--) {
 		
 			// We're looping through the days backwards, so let's fine out what date we want to look at.
-			$thisdate = date('Y-m-d', strtotime('-'.$i." day") );
+			$thisdate = $WP_Statistics->current_date('Y-m-d', '-'.$i );
 		
 			// Create the SQL query string to get the data.
 			$query = "SELECT count FROM {$wpdb->prefix}statistics_exclusions WHERE reason = '{$thisreason}' AND date = '{$thisdate}'";

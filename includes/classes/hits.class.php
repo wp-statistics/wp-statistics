@@ -29,7 +29,7 @@
 			parent::__construct();
 			
 			// Set the timestamp value.
-			$this->timestamp = date('U');
+			$this->timestamp = $this->current_date('U');
 			
 			// Set the default seconds a user needs to visit the site before they are considered offline.
 			$this->second = 30;

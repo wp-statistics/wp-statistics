@@ -11,11 +11,6 @@ Domain Path: /languages/
 License: GPL2
 */
 
-	// Set the default timezone.
-	if( get_option('timezone_string') ) {
-		date_default_timezone_set( get_option('timezone_string') );
-	}
-	
 	// These defines are used later for various reasons.
 	define('WP_STATISTICS_VERSION', '8.8');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
