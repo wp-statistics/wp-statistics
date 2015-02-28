@@ -6,7 +6,7 @@
 		if($purge_days > 30) {
 			// Purge the visit data.
 			$table_name = $table_prefix . 'statistics_visit';
-			$date_string = date( 'Y-m-d', strtotime( '-' . $purge_days . ' days')); 
+			$date_string = $WP_Statistics->current_date( 'Y-m-d', '-' . $purge_days); 
 	 
 			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
 			
