@@ -43,19 +43,19 @@
 								</tr>
 								
 								<tr>
-									<th><?php _e('Week', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Last 7 Days (Week)', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('week',null,true)); ?></span></th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('week')); ?></span></th>
 								</tr>
 								
 								<tr>
-									<th><?php _e('Month', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Last 30 Days (Month)', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('month',null,true)); ?></span></th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('month')); ?></span></th>
 								</tr>
 								
 								<tr>
-									<th><?php _e('Year', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Last 365 Days (Year)', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('year',null,true)); ?></span></th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('year')); ?></span></th>
 								</tr>
