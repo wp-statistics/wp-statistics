@@ -95,7 +95,7 @@
 ?>
 							visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach( $excluded_reasons as $reason ) { echo "excluded_data_line_" . $excluded_reason_tags[$reason] . ", "; } ?>], {
 								title: {
-									text: '<b><?php echo __('Excluded hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?></b>',
+									text: '<b><?php echo htmlentities(__('Excluded hits in the last', 'wp_statistics'), ENT_QUOTES) . ' ' . $daysToDisplay . ' ' . htmlentities(__('days', 'wp_statistics'), ENT_QUOTES); ?></b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -116,7 +116,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php _e('Number of excluded hits', 'wp_statistics'); ?>',
+											label: '<?php echo htmlentities(__('Number of excluded hits', 'wp_statistics'), ENT_QUOTES); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,

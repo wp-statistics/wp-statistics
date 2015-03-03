@@ -44,14 +44,14 @@
 									if( $count > 9 ) { break; }
 								}
 
-								echo "['" . __('Other', 'wp_statistics') . " (" . number_format_i18n($total - $topten) . ")'," . ( $total - $topten ) . "], ";
+								echo "['" . htmlentities(__('Other', 'wp_statistics'), ENT_QUOTES) . " (" . number_format_i18n($total - $topten) . ")'," . ( $total - $topten ) . "], ";
 
 								echo "];\n";
 ?>
 
 								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
 									title: {
-										text: '<b><?php echo __('Top 10 Browsers', 'wp_statistics'); ?></b>',
+										text: '<b><?php echo htmlentities(__('Top 10 Browsers', 'wp_statistics'), ENT_QUOTES); ?></b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',
