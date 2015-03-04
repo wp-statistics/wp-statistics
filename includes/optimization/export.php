@@ -20,8 +20,6 @@
 		
 		$file_name = WPS_EXPORT_FILE_NAME . '-' . $WP_Statistics->Current_Date('Y-m-d-H-i');
 		
-		$result = $wpdb->get_results("SELECT * FROM {$table_prefix}statistics_{$table}", ARRAY_A);
-		
 		switch($type) {
 			case 'excel':
 				$exporter = new ExportDataExcel('browser', "{$file_name}.xls");
@@ -42,13 +40,38 @@
 
 		$exporter->initialize();
 		
+		// We need to limit the number of results we retrieve to ensure we don't run out of memory
+		$query_base = "SELECT * FROM {$table_prefix}statistics_{$table}";
+		$query = $query_base . ' LIMIT 0,1000';
+
+		$i = 1;
+		$more_results = true;
+		$result = $wpdb->get_results($query, ARRAY_A);
+
 		if( $headers ) {
 			foreach( $result[0] as $key => $col ) { $columns[] = $key; }
 			$exporter->addRow($columns);
 		}
 		
-		foreach($result as $row) {
-			$exporter->addRow($row);
+		
+		while( $more_results ) {
+			foreach($result as $row) {
+				$exporter->addRow($row);
+				
+				// Make sure we've flushed the output buffer so we don't run out of memory on large exports.
+				ob_flush();
+				flush();
+			}
+			
+			unset( $result );
+			$wpdb->flush();
+			
+			$query = $query_base . ' LIMIT ' . ($i * 1000) . ',1000';
+			$result = $wpdb->get_results($query, ARRAY_A);
+			
+			if( count( $result ) == 0 ) { $more_results = false; }
+			
+			$i++;
 		}
 		
 		$exporter->finalize();
