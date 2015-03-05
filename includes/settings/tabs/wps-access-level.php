@@ -268,7 +268,7 @@ if( $wps_nonce_valid ) {
 				<textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('excluded_urls');?></textarea>
 				<p class="description"><?php echo __('A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection.', 'wp_statistics'); ?></p>
 				<br>
-				<p class="description"><?php echo __('Note: this option will NOT handle url parameters (anything after the ?), only to the script name.', 'wp_statistics'); ?></p>
+				<p class="description"><?php echo __('Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 

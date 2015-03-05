@@ -194,10 +194,13 @@
 						$excluded_urls = explode( "\n", $this->get_option('excluded_urls') );
 						
 						foreach( $excluded_urls as $url ) {
-							if( stripos( $script, trim($url) ) === 0 ) {
-								$this->exclusion_match = TRUE;
-								$this->exclusion_reason = "excluded url";
-								break;
+							$this_url = trim( $url );
+							if( strlen($this_url) > 2 ) {
+								if( stripos( $script, $this_url ) === 0 ) {
+									$this->exclusion_match = TRUE;
+									$this->exclusion_reason = "excluded url";
+									break;
+								}
 							}
 						}
 					}
