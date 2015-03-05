@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics 8.8\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/wp-statistics\n"
-"POT-Creation-Date: 2015-02-07 00:50:04+00:00\n"
+"POT-Creation-Date: 2015-03-05 15:52:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-02-06 19:51-0500\n"
+"PO-Revision-Date: 2015-03-05 13:54-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "X-Generator: Poedit 1.7.4\n"
@@ -149,7 +149,7 @@ msgid "Browser Statistics"
 msgstr ""
 
 #: includes/log/all-browsers.php:14 includes/log/all-browsers.php:98
-#: includes/log/all-browsers.php:233 includes/log/exclusions.php:75
+#: includes/log/all-browsers.php:233 includes/log/exclusions.php:76
 #: includes/log/hit-statistics.php:26 includes/log/last-search.php:63
 #: includes/log/last-visitor.php:61 includes/log/online.php:17
 #: includes/log/page-statistics.php:47 includes/log/search-statistics.php:29
@@ -165,8 +165,8 @@ msgid "Click to toggle"
 msgstr ""
 
 #: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:7
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:288
-#: wp-statistics.php:363
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:283
+#: wp-statistics.php:358
 msgid "Browsers"
 msgstr ""
 
@@ -193,127 +193,131 @@ msgid ""
 "may not reflect current statistics!"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Robot"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 #: includes/settings/tabs/wps-notifications.php:64
 msgid "Browscap"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "IP Match"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Self Referral"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Login Page"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Admin Page"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "User Role"
 msgstr ""
 
-#: includes/log/exclusions.php:17 includes/log/search-statistics.php:106
+#: includes/log/exclusions.php:18 includes/log/search-statistics.php:106
 #: includes/log/widgets/search.php:90 includes/log/widgets/summary.php:64
 #: includes/log/widgets/summary.php:104
 msgid "Total"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 #: includes/settings/tabs/wps-notifications.php:76
 #: includes/settings/wps-settings.php:104
 msgid "GeoIP"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Hostname"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Robot Threshold"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Honey Pot"
 msgstr ""
 
-#: includes/log/exclusions.php:17
+#: includes/log/exclusions.php:18
 msgid "Feeds"
 msgstr ""
 
-#: includes/log/exclusions.php:55
+#: includes/log/exclusions.php:18
+msgid "Excluded URL"
+msgstr ""
+
+#: includes/log/exclusions.php:56
 msgid "Exclusions Statistics"
 msgstr ""
 
-#: includes/log/exclusions.php:58 includes/log/hit-statistics.php:12
+#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:12
 #: includes/log/page-statistics.php:33 includes/log/search-statistics.php:15
 msgid "10 Days"
 msgstr ""
 
-#: includes/log/exclusions.php:59 includes/log/hit-statistics.php:13
+#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:13
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:16
 msgid "20 Days"
 msgstr ""
 
-#: includes/log/exclusions.php:60 includes/log/hit-statistics.php:14
+#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:14
 #: includes/log/page-statistics.php:35 includes/log/search-statistics.php:17
 msgid "30 Days"
 msgstr ""
 
-#: includes/log/exclusions.php:61 includes/log/hit-statistics.php:15
+#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:15
 #: includes/log/page-statistics.php:36 includes/log/search-statistics.php:18
 msgid "2 Months"
 msgstr ""
 
-#: includes/log/exclusions.php:62 includes/log/hit-statistics.php:16
+#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:16
 #: includes/log/page-statistics.php:37 includes/log/search-statistics.php:19
 msgid "3 Months"
 msgstr ""
 
-#: includes/log/exclusions.php:63 includes/log/hit-statistics.php:17
+#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:17
 #: includes/log/page-statistics.php:38 includes/log/search-statistics.php:20
 msgid "6 Months"
 msgstr ""
 
-#: includes/log/exclusions.php:64 includes/log/hit-statistics.php:18
+#: includes/log/exclusions.php:65 includes/log/hit-statistics.php:18
 #: includes/log/page-statistics.php:39 includes/log/search-statistics.php:21
 msgid "9 Months"
 msgstr ""
 
-#: includes/log/exclusions.php:65 includes/log/hit-statistics.php:19
+#: includes/log/exclusions.php:66 includes/log/hit-statistics.php:19
 #: includes/log/page-statistics.php:40 includes/log/search-statistics.php:22
 msgid "1 Year"
 msgstr ""
 
-#: includes/log/exclusions.php:69
+#: includes/log/exclusions.php:70
 msgid "Total Exclusions: %s"
 msgstr ""
 
-#: includes/log/exclusions.php:76
+#: includes/log/exclusions.php:77
 msgid "Exclusions Statistical Chart"
 msgstr ""
 
-#: includes/log/exclusions.php:98
+#: includes/log/exclusions.php:99
 msgid "Excluded hits in the last"
 msgstr ""
 
-#: includes/log/exclusions.php:98 includes/log/hit-statistics.php:60
+#: includes/log/exclusions.php:99 includes/log/hit-statistics.php:60
 #: includes/log/search-statistics.php:71 includes/log/widgets/hits.php:51
 #: includes/log/widgets/search.php:55
 #: includes/optimization/tabs/wps-optimization-purging.php:151
 msgid "days"
 msgstr ""
 
-#: includes/log/exclusions.php:119
+#: includes/log/exclusions.php:120
 msgid "Number of excluded hits"
 msgstr ""
 
@@ -540,15 +544,15 @@ msgid "Yesterday"
 msgstr ""
 
 #: includes/log/widgets/summary.php:46
-msgid "Week"
+msgid "Last 7 Days (Week)"
 msgstr ""
 
 #: includes/log/widgets/summary.php:52
-msgid "Month"
+msgid "Last 30 Days (Month)"
 msgstr ""
 
 #: includes/log/widgets/summary.php:58
-msgid "Year"
+msgid "Last 365 Days (Year)"
 msgstr ""
 
 #: includes/log/widgets/summary.php:98
@@ -571,8 +575,8 @@ msgstr ""
 msgid "Time: %s"
 msgstr ""
 
-#: includes/log/widgets/top.visitors.php:28 wp-statistics.php:215
-#: wp-statistics.php:293 wp-statistics.php:366
+#: includes/log/widgets/top.visitors.php:28 wp-statistics.php:210
+#: wp-statistics.php:288 wp-statistics.php:361
 msgid "Hits"
 msgstr ""
 
@@ -607,7 +611,7 @@ msgstr ""
 
 #: includes/optimization/delete-agents.php:21
 #: includes/optimization/delete-platforms.php:21
-#: includes/optimization/empty.php:42 includes/optimization/export.php:57
+#: includes/optimization/empty.php:42 includes/optimization/export.php:80
 msgid "Please select the desired items."
 msgstr ""
 
@@ -652,7 +656,7 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:290 wp-statistics.php:364
+#: wp-statistics.php:285 wp-statistics.php:359
 msgid "Countries"
 msgstr ""
 
@@ -744,8 +748,8 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:143 wp-statistics.php:300
-#: wp-statistics.php:373
+#: includes/settings/tabs/wps-general.php:143 wp-statistics.php:295
+#: wp-statistics.php:368
 msgid "Visitors"
 msgstr ""
 
@@ -1288,8 +1292,8 @@ msgid ""
 "at %s in the WordPress plugin directory."
 msgstr ""
 
-#: includes/settings/tabs/wps-access-level.php:105 wp-statistics.php:292
-#: wp-statistics.php:365
+#: includes/settings/tabs/wps-access-level.php:105 wp-statistics.php:287
+#: wp-statistics.php:360
 msgid "Exclusions"
 msgstr ""
 
@@ -1487,6 +1491,22 @@ msgstr ""
 msgid "Exclude the RSS feeds for registering as a hit."
 msgstr ""
 
+#: includes/settings/tabs/wps-access-level.php:266
+msgid "Excluded URLs list"
+msgstr ""
+
+#: includes/settings/tabs/wps-access-level.php:269
+msgid ""
+"A list of local urls (ie. /wordpress/about, one per line) to exclude from "
+"statistics collection."
+msgstr ""
+
+#: includes/settings/tabs/wps-access-level.php:271
+msgid ""
+"Note: this option will NOT handle url parameters (anything after the ?), "
+"only to the script name.  Entries less than two characters will be ignored."
+msgstr ""
+
 #: includes/settings/tabs/wps-browscap.php:22
 msgid "browscap settings"
 msgstr ""
@@ -1626,8 +1646,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr ""
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:295
-#: wp-statistics.php:368
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:290
+#: wp-statistics.php:363
 msgid "Pages"
 msgstr ""
 
@@ -1940,7 +1960,7 @@ msgid ""
 msgstr ""
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:245 wp-statistics.php:464
+#: widget.php:245 wp-statistics.php:459
 msgid "User Online"
 msgstr ""
 
@@ -2205,7 +2225,7 @@ msgstr ""
 msgid "Once Every 4 Weeks"
 msgstr ""
 
-#: widget.php:14 wp-statistics.php:284 wp-statistics.php:321
+#: widget.php:14 wp-statistics.php:279 wp-statistics.php:316
 msgid "Statistics"
 msgstr ""
 
@@ -2277,7 +2297,7 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
-#: widget.php:254 wp-statistics.php:489
+#: widget.php:254 wp-statistics.php:484
 msgid "Yesterday visit"
 msgstr ""
 
@@ -2289,161 +2309,161 @@ msgstr ""
 msgid "Select type of search engine"
 msgstr ""
 
-#: wp-statistics.php:27
+#: wp-statistics.php:22
 msgid ""
 "ERROR: WP Statistics has detected an unsupported version of PHP, WP "
 "Statistics will not function without PHP Version "
 msgstr ""
 
-#: wp-statistics.php:27
+#: wp-statistics.php:22
 msgid " or higher!"
 msgstr ""
 
-#: wp-statistics.php:27
+#: wp-statistics.php:22
 msgid "Your current PHP version is"
 msgstr ""
 
-#: wp-statistics.php:42
+#: wp-statistics.php:37
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-#: wp-statistics.php:53
+#: wp-statistics.php:48
 msgid "WP Statistics"
 msgstr ""
 
 #. Description of the plugin/theme
-#: wp-statistics.php:54
+#: wp-statistics.php:49
 msgid "Complete statistics for your WordPress site."
 msgstr ""
 
-#: wp-statistics.php:97
+#: wp-statistics.php:92
 msgid ""
 "Online user tracking in WP Statistics is not enabled, please go to %s and "
 "enable it."
 msgstr ""
 
-#: wp-statistics.php:97 wp-statistics.php:100 wp-statistics.php:103
+#: wp-statistics.php:92 wp-statistics.php:95 wp-statistics.php:98
 msgid "setting page"
 msgstr ""
 
-#: wp-statistics.php:100
+#: wp-statistics.php:95
 msgid ""
 "Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
 msgstr ""
 
-#: wp-statistics.php:103
+#: wp-statistics.php:98
 msgid ""
 "Visitor tracking in WP Statistics is not enabled, please go to %s and enable "
 "it."
 msgstr ""
 
-#: wp-statistics.php:106
+#: wp-statistics.php:101
 msgid ""
 "GeoIP collection is not active, please go to %s and enable this feature."
 msgstr ""
 
-#: wp-statistics.php:106
+#: wp-statistics.php:101
 msgid "Setting page > GeoIP"
 msgstr ""
 
-#: wp-statistics.php:191 wp-statistics.php:303 wp-statistics.php:375
+#: wp-statistics.php:186 wp-statistics.php:298 wp-statistics.php:370
 msgid "Settings"
 msgstr ""
 
-#: wp-statistics.php:203
+#: wp-statistics.php:198
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: wp-statistics.php:203
+#: wp-statistics.php:198
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: wp-statistics.php:206
+#: wp-statistics.php:201
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: wp-statistics.php:206
+#: wp-statistics.php:201
 msgid "Rate this plugin"
 msgstr ""
 
-#: wp-statistics.php:250
+#: wp-statistics.php:245
 msgid "WP Statistics - Hits"
 msgstr ""
 
-#: wp-statistics.php:287 wp-statistics.php:324 wp-statistics.php:362
+#: wp-statistics.php:282 wp-statistics.php:319 wp-statistics.php:357
 msgid "Overview"
 msgstr ""
 
-#: wp-statistics.php:294 wp-statistics.php:367
+#: wp-statistics.php:289 wp-statistics.php:362
 msgid "Online"
 msgstr ""
 
-#: wp-statistics.php:296 wp-statistics.php:369
+#: wp-statistics.php:291 wp-statistics.php:364
 msgid "Referrers"
 msgstr ""
 
-#: wp-statistics.php:297 wp-statistics.php:370
+#: wp-statistics.php:292 wp-statistics.php:365
 msgid "Searches"
 msgstr ""
 
-#: wp-statistics.php:298 wp-statistics.php:371
+#: wp-statistics.php:293 wp-statistics.php:366
 msgid "Search Words"
 msgstr ""
 
-#: wp-statistics.php:299 wp-statistics.php:372
+#: wp-statistics.php:294 wp-statistics.php:367
 msgid "Top Visitors Today"
 msgstr ""
 
-#: wp-statistics.php:302 wp-statistics.php:374
+#: wp-statistics.php:297 wp-statistics.php:369
 msgid "Optimization"
 msgstr ""
 
-#: wp-statistics.php:307 wp-statistics.php:338
+#: wp-statistics.php:302 wp-statistics.php:333
 msgid "Manual"
 msgstr ""
 
-#: wp-statistics.php:353
+#: wp-statistics.php:348
 msgid "Site"
 msgstr ""
 
-#: wp-statistics.php:354
+#: wp-statistics.php:349
 msgid "Options"
 msgstr ""
 
-#: wp-statistics.php:471
+#: wp-statistics.php:466
 msgid "Today visitor"
 msgstr ""
 
-#: wp-statistics.php:477
+#: wp-statistics.php:472
 msgid "Today visit"
 msgstr ""
 
-#: wp-statistics.php:483
+#: wp-statistics.php:478
 msgid "Yesterday visitor"
 msgstr ""
 
-#: wp-statistics.php:495
+#: wp-statistics.php:490
 msgid "View Stats"
 msgstr ""
 
-#: wp-statistics.php:519
+#: wp-statistics.php:514
 msgid "Download ODF file"
 msgstr ""
 
-#: wp-statistics.php:520
+#: wp-statistics.php:515
 msgid "Download HTML file"
 msgstr ""
 
-#: wp-statistics.php:524
+#: wp-statistics.php:519
 msgid "Manual file not found."
 msgstr ""
 
-#: wp-statistics.php:591 wp-statistics.php:702 wp-statistics.php:736
+#: wp-statistics.php:586 wp-statistics.php:697 wp-statistics.php:731
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: wp-statistics.php:604
+#: wp-statistics.php:599
 msgid ""
 "Plugin tables do not exist in the database! Please re-run the %s install "
 "routine %s."
