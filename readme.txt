@@ -214,6 +214,19 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 9.0 =
+* Added: URL exclusions option.
+* Updated: Performance improvements in the last visitors page.
+* Updated: Performance improvements in the referrers page.
+* Updated: Added missing dash_icon call in online users page.
+* Updated: Make sure the $wp_object global variable is an object before using it, just in case, in the hits code.
+* Updated: Removed variables from i18n functions for better translation support.
+* Updated: Removed requirement for date_default_timezone_set() which conflicted with some other plugins.
+* Updated: Make sure to html encode data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array.
+* Updated: Change summary widget to be clearer about time frames.
+* Fixed: Export code to handle large tables.
+* Fixed: Exclusion display for some 'reasons' always being 0.
+
 = 8.8 =
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
 * Added: RSS feed URL's can now be excluded.
