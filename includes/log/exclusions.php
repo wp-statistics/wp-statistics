@@ -12,9 +12,10 @@
 
 	$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 	
-	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot','Feeds');
-	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed');
-	$excluded_reason_translate = array( 'Robot' => htmlentities(__('Robot', 'wp_statistics'), ENT_QUOTES), 'Browscap' => htmlentities(__('Browscap', 'wp_statistics'), ENT_QUOTES), 'IP Match' => htmlentities(__('IP Match', 'wp_statistics'), ENT_QUOTES), 'Self Referral' => htmlentities(__('Self Referral', 'wp_statistics'), ENT_QUOTES), 'Login Page' => htmlentities(__('Login Page', 'wp_statistics'), ENT_QUOTES), 'Admin Page' => htmlentities(__('Admin Page', 'wp_statistics'), ENT_QUOTES), 'User Role' => htmlentities(__('User Role', 'wp_statistics'), ENT_QUOTES), 'Total' => htmlentities(__('Total', 'wp_statistics'), ENT_QUOTES), 'GeoIP' => htmlentities(__('GeoIP', 'wp_statistics'), ENT_QUOTES), 'Hostname' => htmlentities(__('Hostname', 'wp_statistics'), ENT_QUOTES), 'Robot Threshold' => htmlentities(__('Robot Threshold', 'wp_statistics'), ENT_QUOTES), 'Honey Pot' => htmlentities(__('Honey Pot', 'wp_statistics'), ENT_QUOTES), 'Feeds' => htmlentities(__('Feeds', 'wp_statistics') ) );
+	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot','Feeds', 'Excluded URL');
+	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded_url');
+	$excluded_reason_db   = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ip match','Self Referral' => 'self referral','Login Page' => 'login page','Admin Page' => 'admin page','User Role' => 'user role','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded url');
+	$excluded_reason_translate = array( 'Robot' => htmlentities(__('Robot', 'wp_statistics'), ENT_QUOTES), 'Browscap' => htmlentities(__('Browscap', 'wp_statistics'), ENT_QUOTES), 'IP Match' => htmlentities(__('IP Match', 'wp_statistics'), ENT_QUOTES), 'Self Referral' => htmlentities(__('Self Referral', 'wp_statistics'), ENT_QUOTES), 'Login Page' => htmlentities(__('Login Page', 'wp_statistics'), ENT_QUOTES), 'Admin Page' => htmlentities(__('Admin Page', 'wp_statistics'), ENT_QUOTES), 'User Role' => htmlentities(__('User Role', 'wp_statistics'), ENT_QUOTES), 'Total' => htmlentities(__('Total', 'wp_statistics'), ENT_QUOTES), 'GeoIP' => htmlentities(__('GeoIP', 'wp_statistics'), ENT_QUOTES), 'Hostname' => htmlentities(__('Hostname', 'wp_statistics'), ENT_QUOTES), 'Robot Threshold' => htmlentities(__('Robot Threshold', 'wp_statistics'), ENT_QUOTES), 'Honey Pot' => htmlentities(__('Honey Pot', 'wp_statistics'), ENT_QUOTES), 'Feeds' => htmlentities(__('Feeds', 'wp_statistics') ), 'Excluded URL' => htmlentities(__('Excluded URL', 'wp_statistics') ));
 	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
@@ -22,7 +23,7 @@
 	
 		// The reasons array above is used both for display and internal purposes.  Internally the values are all lower case but the array
 		// is created with mixed case so it looks nice to the user.  Therefore we have to convert it to lower case here.
-		$thisreason = strtolower( $excluded_reason_tags[$reason] );
+		$thisreason = $excluded_reason_db[$reason];
 		
 		for( $i=$daysToDisplay; $i>=0; $i--) {
 		
@@ -31,7 +32,7 @@
 		
 			// Create the SQL query string to get the data.
 			$query = "SELECT count FROM {$wpdb->prefix}statistics_exclusions WHERE reason = '{$thisreason}' AND date = '{$thisdate}'";
-			
+
 			// Execute the query.
 			$excluded_results[$reason][$i] = $wpdb->get_var( $query );
 			

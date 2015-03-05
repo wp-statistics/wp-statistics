@@ -153,10 +153,13 @@
 						$currentURL = $protocol . '://' . $host . $script;
 						$loginURL = wp_login_url();
 						
-						if( $currentURL == $loginURL ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "login page";}
+						if( $currentURL == $loginURL ) { 
+							$this->exclusion_match = TRUE; 
+							$this->exclusion_reason = "login page";
+						}
 					}
 
-					if( $this->get_option('exclude_adminpage') == 1 ) {
+					if( $this->get_option('exclude_adminpage') == 1 && !$this->exclusion_match ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -166,12 +169,36 @@
 						
 						$currentURL = substr( $currentURL, 0, strlen( $adminURL ) );
 						
-						if( $currentURL == $adminURL ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "admin page";}
+						if( $currentURL == $adminURL ) { 
+							$this->exclusion_match = TRUE; 
+							$this->exclusion_reason = "admin page";
+						}
 					}
 
-					if( $this->get_option('exclude_feeds') == 1 ) {
+					if( $this->get_option('exclude_feeds') == 1 && !$this->exclusion_match ) {
 						if( is_object( $WP_Statistics ) ) { 
-							if( $WP_Statistics->check_feed() ) { { $this->exclusion_match = TRUE; $this->exclusion_reason = "feed";} }
+							if( $WP_Statistics->check_feed() ) { 
+								$this->exclusion_match = TRUE; 
+								$this->exclusion_reason = "feed";
+							}
+						}
+					}
+					
+					if( $this->get_option('excluded_urls') && !$this->exclusion_match ) {
+						$script   = $_SERVER['REQUEST_URI'];
+						$delimiter = strpos( $script, '?' );
+						if( $delimiter > 0 ) {
+							$script = substr( $script, 0, $delimiter ); 
+						}
+
+						$excluded_urls = explode( "\n", $this->get_option('excluded_urls') );
+						
+						foreach( $excluded_urls as $url ) {
+							if( stripos( $script, trim($url) ) === 0 ) {
+								$this->exclusion_match = TRUE;
+								$this->exclusion_reason = "excluded url";
+								break;
+							}
 						}
 					}
 					
