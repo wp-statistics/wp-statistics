@@ -220,6 +220,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixed: Export code to handle large tables.
 * Fixed: Exclusion display for some 'reasons' always being 0.
 * Removed: Replaced use of global $table_prefix with $wpdb->prefix.
+* Updated: Persian translation.
 
 = 8.8 =
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
