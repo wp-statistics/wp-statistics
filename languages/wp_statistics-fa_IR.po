@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics\n"
 "POT-Creation-Date: 2015-03-06 00:06+0330\n"
-"PO-Revision-Date: 2015-03-06 18:30+0330\n"
+"PO-Revision-Date: 2015-03-06 18:39+0330\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -95,7 +95,7 @@ msgstr "برای مشاهده محتوای ابزارک، صفحه را یکبا
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:138
 msgid "WP Statistics Overview"
-msgstr "افزونه آمار وردپرس در یک نگاه"
+msgstr " آمار وردپرس در یک نگاه"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:63
 msgid "This post is not yet published."
@@ -2694,7 +2694,7 @@ msgstr "امتیاز به افزونه"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:245
 msgid "WP Statistics - Hits"
-msgstr "افزونه آمار وردپرس - بازدیدها"
+msgstr "آمار وردپرس - بازدید"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:282
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:319
