@@ -202,20 +202,13 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 8.7 =
-BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
-
-= 8.5 =
-This is a security update release, please update as soon as possible.  In addition to the security fixes there are several new features, see the change log for details.
-
-= 8.0 =
-PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
-BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
-Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
+= 9.0 =
+This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
 = 9.0 =
 * Added: URL exclusions option.
+* Updated: The visits code now uses a SQL UPDATE instead of WP's update() to avoid a race condition.
 * Updated: Performance improvements in the last visitors page.
 * Updated: Performance improvements in the referrers page.
 * Updated: Added missing dash_icon call in online users page.
