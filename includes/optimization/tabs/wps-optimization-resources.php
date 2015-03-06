@@ -52,7 +52,7 @@
 
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'useronline' . '</code>'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $wpdb->prefix . 'statistics_' . 'useronline' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -63,7 +63,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'visit' . '</code>'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $wpdb->prefix . 'statistics_' . 'visit' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -74,7 +74,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'visitor' . '</code>'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $wpdb->prefix . 'statistics_' . 'visitor' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -85,7 +85,7 @@
 			
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'exclusions' . '</code>'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $wpdb->prefix . 'statistics_' . 'exclusions' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -96,7 +96,7 @@
 
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'pages' . '</code>'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $wpdb->prefix . 'statistics_' . 'pages' . '</code>'); ?>:
 				</th>
 				
 				<td>
@@ -107,7 +107,7 @@
 
 			<tr valign="top">
 				<th scope="row">
-					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $table_prefix . 'statistics_' . 'historical' . '</code>'); ?>:
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $wpdb->prefix . 'statistics_' . 'historical' . '</code>'); ?>:
 				</th>
 				
 				<td>

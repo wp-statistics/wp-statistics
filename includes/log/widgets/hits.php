@@ -1,7 +1,7 @@
 <?php
 	function wp_statistics_generate_hits_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -17,7 +17,7 @@
 
 	function wp_statistics_generate_hits_postbox_content($size="300px", $days=20) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>
 						<script type="text/javascript">
 						var visit_chart;

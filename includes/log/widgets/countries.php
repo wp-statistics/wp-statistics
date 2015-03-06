@@ -22,7 +22,7 @@
 
 	function wp_statistics_generate_countries_postbox_content($ISOCountryCode, $count = 10) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 
 ?>
 							<table width="100%" class="widefat table-stats" id="last-referrer">
@@ -36,11 +36,11 @@
 								<?php
 									$Countries = array();
 									
-									$result = $wpdb->get_results("SELECT DISTINCT `location` FROM `{$table_prefix}statistics_visitor`");
+									$result = $wpdb->get_results("SELECT DISTINCT `location` FROM `{$wpdb->prefix}statistics_visitor`");
 									
 									foreach( $result as $item )
 										{
-										$Countries[$item->location] = $wpdb->get_var("SELECT count(location) FROM `{$table_prefix}statistics_visitor` WHERE location='" . $item->location . "'" );
+										$Countries[$item->location] = $wpdb->get_var("SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location='" . $item->location . "'" );
 										}
 										
 									arsort($Countries);

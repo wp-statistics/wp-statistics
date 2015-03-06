@@ -41,7 +41,7 @@
 		$exporter->initialize();
 		
 		// We need to limit the number of results we retrieve to ensure we don't run out of memory
-		$query_base = "SELECT * FROM {$table_prefix}statistics_{$table}";
+		$query_base = "SELECT * FROM {$wpdb->prefix}statistics_{$table}";
 		$query = $query_base . ' LIMIT 0,1000';
 
 		$i = 1;

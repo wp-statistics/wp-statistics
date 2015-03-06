@@ -14,7 +14,7 @@
 
 	function wp_statistics_generate_search_postbox_content($search_engines, $size = "300px", $days = 20) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>
 						<script type="text/javascript">
 						var referral_chart;

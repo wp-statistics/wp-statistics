@@ -14,7 +14,7 @@
 
 	function wp_statistics_generate_browsers_postbox_content() {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>
 						<script type="text/javascript">
 						jQuery(function () {

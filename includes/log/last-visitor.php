@@ -17,10 +17,10 @@
 		$title = $_GET['ip'];
 	}
 		
-	$total_visitor = $wpdb->get_var("SELECT COUNT(*) FROM `{$table_prefix}statistics_visitor`");
+	$total_visitor = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor`");
 
 	if( isset( $_get ) ) {
-		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get));
+		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get));
 	} else {
 		$total = $total_visitor;
 	}
@@ -81,9 +81,9 @@
 
 								// Retrieve MySQL data
 								if( isset($_get) ) {
-									$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `{$_var}` LIKE %s ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}", $_get));
+									$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `{$_var}` LIKE %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}", $_get));
 								} else {
-									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
+									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
 								}
 								
 								// Check to see if User Agent logging is enabled.

@@ -20,7 +20,7 @@
 							<?php
 								include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
 								
-								$result = $wpdb->get_results( "SELECT * FROM {$table_prefix}statistics_useronline;" );
+								$result = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}statistics_useronline;" );
 								$total = count( $result );
 								
 								if( $total > 0 ) {

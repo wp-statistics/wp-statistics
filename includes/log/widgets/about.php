@@ -1,7 +1,7 @@
 <?php
 	function wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -15,7 +15,7 @@
 
 	function wp_statistics_generate_about_postbox_content() {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>
 						<div style="text-align: center;">
 							<a href="http://wp-statistics.com" target="_blank"><img src="<?php echo plugins_url('wp-statistics/assets/images/logo-250.png'); ?>"></a>

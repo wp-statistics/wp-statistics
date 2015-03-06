@@ -29,14 +29,14 @@
 		// Construction function.
 		public function __construct() {
 		
-			global $wpdb, $table_prefix;
+			global $wpdb;
 			
 			if( get_option('timezone_string') ) {
 				$this->tz_offset = timezone_offset_get( timezone_open( get_option('timezone_string') ), new DateTime() );
 			}
 			
 			$this->db = $wpdb;
-			$this->tb_prefix = $table_prefix;
+			$this->tb_prefix = $wpdb->prefix;
 			$this->agent = $this->get_UserAgent();
 			$this->historical = array();
 

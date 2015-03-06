@@ -522,7 +522,7 @@ License: GPL2
 	
 	// This is the main statistics display function.
 	function wp_statistics_log( $log_type = "" ) {
-		GLOBAL $wpdb, $table_prefix, $WP_Statistics, $plugin_page;
+		GLOBAL $wpdb, $WP_Statistics, $plugin_page;
 
 		switch( $plugin_page ) {
 			case 'wps_browsers_menu':
@@ -587,12 +587,12 @@ License: GPL2
 		}
 		
 		// We want to make sure the tables actually exist before we blindly start access them.
-		$result['useronline'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_useronline`");
-		$result['visit'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visit`");
-		$result['visitor'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_visitor`");
-		$result['exclusions'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_exclusions`");
-		$result['pages'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_pages`");
-		$result['historical'] = $wpdb->query("CHECK TABLE `{$table_prefix}statistics_historical`");
+		$result['useronline'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_useronline`");
+		$result['visit'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_visit`");
+		$result['visitor'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_visitor`");
+		$result['exclusions'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_exclusions`");
+		$result['pages'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_pages`");
+		$result['historical'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_historical`");
 		
 		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' && ($result['exclusions']) != '1' && ($result['pages']) != '1' ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
@@ -690,7 +690,7 @@ License: GPL2
 	// This function loads the optimization page code.
 	function wp_statistics_optimization() {
 
-		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
+		GLOBAL $wpdb, $WP_Statistics;
 		
 		// Check the current user has the rights to be here.
 		if (!current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
@@ -712,12 +712,12 @@ License: GPL2
 			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
 
 		// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.
-		$result['useronline'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_useronline`");
-		$result['visit'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visit`");
-		$result['visitor'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_visitor`");
-		$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_exclusions`");
-		$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$table_prefix}statistics_pages`");
-		$result['historical'] = $wpdb->get_Var("SELECT COUNT(ID) FROM `{$table_prefix}statistics_historical`");
+		$result['useronline'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_useronline`");
+		$result['visit'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_visit`");
+		$result['visitor'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_visitor`");
+		$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_exclusions`");
+		$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$wpdb->prefix}statistics_pages`");
+		$result['historical'] = $wpdb->get_Var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_historical`");
 		
 		include_once dirname( __FILE__ ) . "/includes/optimization/wps-optimization.php";
 	}

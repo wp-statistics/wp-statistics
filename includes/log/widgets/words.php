@@ -16,12 +16,12 @@
 
 	function wp_statistics_generate_words_postbox_content($ISOCountryCode, $count = 10) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 
 		// Retrieve MySQL data for the search words.
 		$search_query = wp_statistics_searchword_query('all');
 
-		$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}");
+		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}");
 		
 		if( sizeof($result) > 0 ) {
 			echo "<div class='log-latest'>";

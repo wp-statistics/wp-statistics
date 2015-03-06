@@ -86,7 +86,7 @@
 										$search_query = wp_statistics_searchword_query('all');
 									}
 									
-									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
+									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
 									
 									include_once( dirname( __FILE__ ) . "/../functions/country-codes.php");
 									

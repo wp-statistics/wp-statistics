@@ -251,7 +251,7 @@
 	}
 	
 	function wp_statistics_referring_widget() {
-		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
+		GLOBAL $wpdb, $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
 		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-referring-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }
@@ -262,7 +262,7 @@
 		// Include the hits chart widget, we're going to display the last 10 days only as the WordPress columns are kind of small to do much else.
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/referring.php");
 
-		$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
+		$result = $wpdb->get_results("SELECT `referred` FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
 		
 		if( sizeof( $result ) > 0 ) {
 			wp_statistics_generate_referring_postbox_content($result);
@@ -300,7 +300,7 @@
 	}
 	
 	function wp_statistics_words_widget() {
-		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
+		GLOBAL $wpdb, $WP_Statistics;
 
 		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
 		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-words-widget', 'dashboard'  ) ) !== true ) { echo $is_visible; return; }

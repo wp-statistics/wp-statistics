@@ -17,7 +17,7 @@
 	
 	function wp_statistics_generate_map_postbox_content($ISOCountryCode) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 		
 		// Some clients can't handle mixed http/https pages so check to see if the page we're on has http
 		// enabled, if so, use https instead just in case for the Google script.
@@ -30,7 +30,7 @@
 					<script src="<?php echo $protocol; ?>://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 					<div id="map_canvas">Google Map</div>
 					
-					<?php $result = $wpdb->get_row("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE last_counter = '{$WP_Statistics->Current_Date('Y-m-d')}'"); ?>
+					<?php $result = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE last_counter = '{$WP_Statistics->Current_Date('Y-m-d')}'"); ?>
 					<script type="text/javascript">
 						jQuery(document).ready(function(){
 							var map_options = {
@@ -51,7 +51,7 @@
 							var h = [];
 							
 							<?php
-								$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE last_counter = '{$WP_Statistics->Current_Date('Y-m-d')}'");
+								$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE last_counter = '{$WP_Statistics->Current_Date('Y-m-d')}'");
 								$final_result = array();
 								
 								if( $result ) {

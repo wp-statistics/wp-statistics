@@ -1,7 +1,7 @@
 <?php
 	function wp_statistics_generate_summary_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>		
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -15,7 +15,7 @@
 
 	function wp_statistics_generate_summary_postbox_content($search_engines, $search = true, $time = true) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>		
 						<table width="100%" class="widefat table-stats" id="summary-stats">
 							<tbody>

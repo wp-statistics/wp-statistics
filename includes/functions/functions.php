@@ -9,22 +9,22 @@
 	// This function returns the current users online.
 	function wp_statistics_useronline() {
 		
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
-		return $wpdb->query("SELECT * FROM {$table_prefix}statistics_useronline");
+		return $wpdb->query("SELECT * FROM {$wpdb->prefix}statistics_useronline");
 	}
 	
 	// This function get the visit statistics for a given time frame.
 	function wp_statistics_visit($time, $daily = null) {
 	
 		// We need database and the global $WP_Statistics object access.
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 		
 		// If we've been asked to do a daily count, it's a slightly different SQL query, so handle it separately.
 		if( $daily == true ) {
 		
 			// Fetch the results from the database.
-			$result = $wpdb->get_row("SELECT * FROM {$table_prefix}statistics_visit WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}'");
+			$result = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}'");
 			
 			// If we have a result, return it, otherwise force a 0 to be returned instead of the logical FALSE that would otherwise be the case.
 			if( $result) {
@@ -40,32 +40,32 @@
 		
 			switch($time) {
 				case 'today':
-					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'yesterday':
-					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}'");
 					break;
 					
 				case 'week':
-					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'month':
-					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'year':
-					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
 					break;
 					
 				case 'total':
-					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$wpdb->prefix}statistics_visit");
 					$result += $WP_Statistics->Get_Historical_Data( 'visits' );
 					break;
 					
 				default:
-					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$table_prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
+					$result = $wpdb->get_var("SELECT SUM(visit) FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'");
 					break;
 			}
 		}
@@ -80,7 +80,7 @@
 	function wp_statistics_visitor($time, $daily = null, $countonly = false) {
 	
 		// We need database and the global $WP_Statistics object access.
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 		
 		$history = 0;
 		$select = '*';
@@ -93,7 +93,7 @@
 		if( $daily == true ) {
 		
 			// Fetch the results from the database.
-			$result = $wpdb->query( "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}'");
+			$result = $wpdb->query( "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}'");
 			
 			return $result;
 				
@@ -103,32 +103,32 @@
 			// They're pretty self explanatory.
 			switch($time) {
 				case 'today':
-					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}'";
+					$sqlstatement = "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'yesterday':
-					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}'";
+					$sqlstatement = "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}'";
 					break;
 					
 				case 'week':
-					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
+					$sqlstatement = "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'month':
-					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
+					$sqlstatement = "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'year':
-					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -365)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
+					$sqlstatement = "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -365)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
 					break;
 					
 				case 'total':
-					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor";
+					$sqlstatement = "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor";
 					$history = $WP_Statistics->Get_Historical_Data( 'visitors' );
 					break;
 					
 				default:
-					$sqlstatement = "SELECT {$select} FROM {$table_prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
+					$sqlstatement = "SELECT {$select} FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}'";
 					break;
 			}
 		}
@@ -149,7 +149,7 @@
 	function wp_statistics_pages($time, $page_uri = '', $id = -1) {
 
 		// We need database and the global $WP_Statistics object access.
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 		
 		$history = 0;
 		$sqlstatement = '';
@@ -173,32 +173,32 @@
 		// They're pretty self explanatory.
 		switch($time) {
 			case 'today':
-				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
 				break;
 				
 			case 'yesterday':
-				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$page_sql}";
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$page_sql}";
 				break;
 				
 			case 'week':
-				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
 				break;
 				
 			case 'month':
-				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
 				break;
 				
 			case 'year':
-				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -365)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN '{$WP_Statistics->Current_Date('Y-m-d', -365)}' AND '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$page_sql}";
 				break;
 				
 			case 'total':
-				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE {$page_sql}";
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE {$page_sql}";
 				$history = $WP_Statistics->Get_Historical_Data( $history_key, $history_id );
 				break;
 				
 			default:
-				$sqlstatement = "SELECT SUM(count) FROM {$table_prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$page_sql}";
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$page_sql}";
 				break;
 		}
 
@@ -215,10 +215,10 @@
 	// This function converts a page URI to a page/post ID.  It does this by looking up in the pages database
 	// the URI and getting the associated ID.  This will only work if the page has been visited at least once.
 	function wp_statistics_uri_to_id( $uri ) {
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
 		// Create the SQL query to use.
-		$sqlstatement = "SELECT id FROM {$table_prefix}statistics_pages WHERE `URI` = '{$uri}' AND id > 0";
+		$sqlstatement = "SELECT id FROM {$wpdb->prefix}statistics_pages WHERE `URI` = '{$uri}' AND id > 0";
 
 		// Execute the query.
 		$result = $wpdb->get_var( $sqlstatement );
@@ -236,10 +236,10 @@
 		
 	// This function returns a multi-dimensional array, with the total number of pages and an array or URI's sorted in order with their URI, count, id and title.
 	function wp_statistics_get_top_pages() {
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
 		// Get every unique URI from the pages database.
-		$result = $wpdb->get_results( "SELECT DISTINCT uri FROM {$table_prefix}statistics_pages", ARRAY_N );
+		$result = $wpdb->get_results( "SELECT DISTINCT uri FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
 
 		$total = 0;
 		$uris = array();
@@ -295,9 +295,9 @@
 	// This function returns all unique user agents in the database.
 	function wp_statistics_ua_list() {
 	
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
-		$result = $wpdb->get_results("SELECT DISTINCT agent FROM {$table_prefix}statistics_visitor", ARRAY_N);
+		$result = $wpdb->get_results("SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor", ARRAY_N);
 
 		$Browers = array();
 		
@@ -312,9 +312,9 @@
 	// This function returns the count of a given user agent in the database.
 	function wp_statistics_useragent($agent) {
 	
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
-		$result = $wpdb->get_var("SELECT COUNT(agent) FROM {$table_prefix}statistics_visitor WHERE `agent` = '$agent'");
+		$result = $wpdb->get_var("SELECT COUNT(agent) FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = '$agent'");
 		
 		return $result;
 	}
@@ -322,9 +322,9 @@
 	// This function returns all unique platform types from the database.
 	function wp_statistics_platform_list() {
 	
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
-		$result = $wpdb->get_results("SELECT DISTINCT platform FROM {$table_prefix}statistics_visitor", ARRAY_N);
+		$result = $wpdb->get_results("SELECT DISTINCT platform FROM {$wpdb->prefix}statistics_visitor", ARRAY_N);
 		
 		$Platforms = array();
 		
@@ -339,9 +339,9 @@
 	// This function returns the count of a given platform in the database.
 	function wp_statistics_platform($platform) {
 	
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
-		$result = $wpdb->get_var("SELECT COUNT(platform) FROM {$table_prefix}statistics_visitor WHERE `platform` = '$platform'");
+		$result = $wpdb->get_var("SELECT COUNT(platform) FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = '$platform'");
 		
 		return $result;
 	}
@@ -349,9 +349,9 @@
 	// This function returns all unique versions for a given agent from the database.
 	function wp_statistics_agent_version_list($agent) {
 	
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
-		$result = $wpdb->get_results("SELECT DISTINCT version FROM {$table_prefix}statistics_visitor WHERE agent = '$agent'", ARRAY_N);
+		$result = $wpdb->get_results("SELECT DISTINCT version FROM {$wpdb->prefix}statistics_visitor WHERE agent = '$agent'", ARRAY_N);
 				
 		$Versions = array();
 				
@@ -366,9 +366,9 @@
 	// This function returns the statistcs for a given agent/version pair from the database.
 	function wp_statistics_agent_version($agent, $version) {
 	
-		global $wpdb, $table_prefix;
+		global $wpdb;
 		
-		$result = $wpdb->get_var("SELECT COUNT(version) FROM {$table_prefix}statistics_visitor WHERE agent = '$agent' AND version = '$version'");
+		$result = $wpdb->get_var("SELECT COUNT(version) FROM {$wpdb->prefix}statistics_visitor WHERE agent = '$agent' AND version = '$version'");
 		
 		return $result;
 	}
@@ -537,7 +537,7 @@
 	// This function will return the statistics for a given search engine.
 	function wp_statistics_searchengine($search_engine = 'all', $time = 'total') {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 
 		// Get a complete list of search engines
 		$search_query = wp_statistics_searchengine_query($search_engine);
@@ -546,36 +546,36 @@
 		// They're pretty self explanatory.
 		switch($time) {
 			case 'today':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
 				break;
 				
 			case 'yesterday':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
 				
 				break;
 				
 			case 'week':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
 				
 				break;
 				
 			case 'month':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
 				
 				break;
 				
 			case 'year':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
 				
 				break;
 				
 			case 'total':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query}");
 				
 				break;
 				
 			default:
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
 				
 				break;
 		}
@@ -586,7 +586,7 @@
 	// This function will return the statistics for a given search engine for a given time frame.
 	function wp_statistics_searchword($search_engine = 'all', $time = 'total') {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 
 		// Get a complete list of search engines
 		$search_query = wp_statistics_searchword_query($search_engine);
@@ -595,36 +595,36 @@
 		// They're pretty self explanatory.
 		switch($time) {
 			case 'today':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
 				break;
 				
 			case 'yesterday':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
 				
 				break;
 				
 			case 'week':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
 				
 				break;
 				
 			case 'month':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
 				
 				break;
 				
 			case 'year':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
 				
 				break;
 				
 			case 'total':
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query}");
 				
 				break;
 				
 			default:
-				$result = $wpdb->query("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
 				
 				break;
 		}

@@ -1,7 +1,7 @@
 <?php
 	function wp_statistics_generate_top_visitors_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -17,7 +17,7 @@
 
 	function wp_statistics_generate_top_visitors_postbox_content($ISOCountryCode, $day='today', $count=10, $compact=false) {
 	
-		global $wpdb, $table_prefix, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 		
 		if( $day == 'today' ) { $sql_time = $WP_Statistics->Current_Date('Y-m-d'); } else { $sql_time = date( 'Y-m-d', strtotime( $day ) ); } 
 		
@@ -37,7 +37,7 @@
 								</tr>
 								
 								<?php
-									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE last_counter = '{$sql_time}' ORDER BY hits DESC");
+									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE last_counter = '{$sql_time}' ORDER BY hits DESC");
 									
 									foreach( $result as $visitor) {
 										$i++;

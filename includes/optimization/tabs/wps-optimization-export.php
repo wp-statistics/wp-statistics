@@ -15,11 +15,11 @@
 				<td>
 					<select id="table-to-export" name="table-to-export">
 						<option value="0"><?php _e('Please select', 'wp_statistics'); ?></option>
-						<option value="useronline"><?php echo $table_prefix . 'statistics_useronline'; ?></option>
-						<option value="visit"><?php echo $table_prefix . 'statistics_visit'; ?></option>
-						<option value="visitor"><?php echo $table_prefix . 'statistics_visitor'; ?></option>
-						<option value="exclusions"><?php echo $table_prefix . 'statistics_exclusions'; ?></option>
-						<option value="pages"><?php echo $table_prefix . 'statistics_pages'; ?></option>
+						<option value="useronline"><?php echo $wpdb->prefix . 'statistics_useronline'; ?></option>
+						<option value="visit"><?php echo $wpdb->prefix . 'statistics_visit'; ?></option>
+						<option value="visitor"><?php echo $wpdb->prefix . 'statistics_visitor'; ?></option>
+						<option value="exclusions"><?php echo $wpdb->prefix . 'statistics_exclusions'; ?></option>
+						<option value="pages"><?php echo $wpdb->prefix . 'statistics_pages'; ?></option>
 					</select>
 					<p class="description"><?php _e('Select the table for the output file.', 'wp_statistics'); ?></p>
 				</td>
