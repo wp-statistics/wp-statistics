@@ -118,8 +118,8 @@
 
 		global $wpdb, $WP_Statistics;
 		
-		require_once( './includes/functions/purge.php' );
-			
+		require_once( plugin_dir_path( __FILE__ ) . '/includes/functions/purge.php' );
+
 		$purge_days = intval( $WP_Statistics->get_option('schedule_dbmaint_days', FALSE) );
 		
 		wp_statistics_purge_data( $purge_days );
