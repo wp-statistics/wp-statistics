@@ -372,7 +372,7 @@ License: GPL2
 						
 		foreach( wp_get_sites() as $blog ) {
 			$details = get_blog_details( $blog['blog_id'] );
-			$url = get_admin_url($blog_id) . "/admin.php?page=";
+			$url = get_admin_url($blog['blog_id'], '/') . "admin.php?page=";;
 			$alternate = "";
 			if( $i % 2 == 0 ) { $alternate = ' class="alternate"'; }
 ?>
