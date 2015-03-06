@@ -220,7 +220,7 @@
 			);
 
 		// Replace the items in the template.
-		$final_report = preg_replace('/%(.*?)%/ime', "\$template_vars['$1']", $report_content);
+		$final_report = preg_replace_callback('/%(.*?)%/ime', function($m) { return $template_vars[$m[1]]; }, $report_content);
 
 		// Store the updated report content.
 		$WP_Statistics->store_option('content_report', $final_report);
