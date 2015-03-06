@@ -298,17 +298,9 @@
 				
 					$this->db->query( $sqlstring );
 				} else {
-				
-					$this->db->update(
-						$this->tb_prefix . "statistics_visit",
-						array(
-							'last_visit'	=>	$this->Current_Date(),
-							'visit'			=>	$this->result->visit + $this->coefficient
-						),
-						array(
-							'last_counter'	=>	$this->result->last_counter
-						)
-					);
+					$sqlstring = $this->db->prepare( 'UPDATE ' . $this->tb_prefix . 'statistics_visit SET `visit` = `visit` + %d, `last_visit` = %s WHERE `last_counter` = %s', $this->coefficient, $this->Current_Date(), $this->result->last_counter );
+
+					$this->db->query( $sqlstring );
 				}
 			}
 		}
