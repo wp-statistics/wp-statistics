@@ -400,7 +400,7 @@
 				// Don't track anything but actual pages and posts, unless we've been told to.
 				if( $this->get_option('track_all_pages') || is_page() || is_single() || is_front_page() ) {
 					// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
-					if( !$this->current_page_id ) {
+					if( !$this->current_page_id && is_object( $wp_query ) ) {
 						$this->current_page_id = $wp_query->get_queried_object_id();
 					}
 	
