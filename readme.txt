@@ -213,14 +213,18 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Performance improvements in the referrers page.
 * Updated: Added missing dash_icon call in online users page.
 * Updated: Make sure the $wp_object global variable is an object before using it, just in case, in the hits code.
+* Updated: Make sure the $wp_query global variable is an object before using it, just in case, in the hits code.
 * Updated: Removed variables from i18n functions for better translation support.
 * Updated: Removed requirement for date_default_timezone_set() which conflicted with some other plugins.
 * Updated: Make sure to html encode data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array.
 * Updated: Change summary widget to be clearer about time frames.
+* Updated: Replace depracated preg_replace (with /e) with preg_replace_callback.  Thanks gbonvehi.
+* Updated: Use full path to ensure the require_once finds the purge file in the scheduled db maintenance script.
+* Updated: Persian translation.
 * Fixed: Export code to handle large tables.
 * Fixed: Exclusion display for some 'reasons' always being 0.
 * Removed: Replaced use of global $table_prefix with $wpdb->prefix.
-* Updated: Persian translation.
+* Removed: Use of deprecated $blog_id.  Thanks gbonvehi.
 
 = 8.8 =
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
