@@ -91,7 +91,7 @@ Still not having any luck? Open a new thread on one of the support forums and we
 * Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
 * Dutch thanks Friso van Wieringen.
 
-Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://teamwork.wp-parsi.com/projects/wp-statistics/) today!
+Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
