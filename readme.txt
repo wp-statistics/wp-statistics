@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.1.1
-Stable tag: 8.8
+Stable tag: 8.8.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -225,6 +225,9 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixed: Exclusion display for some 'reasons' always being 0.
 * Removed: Replaced use of global $table_prefix with $wpdb->prefix.
 * Removed: Use of deprecated $blog_id.  Thanks gbonvehi.
+
+= 8.8.1 =
+* Updated license to GPL3.
 
 = 8.8 =
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
