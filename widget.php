@@ -286,7 +286,7 @@
 			echo '		<input type="radio" id="select_' .$se['tag'] . '" name="select_se" value="' . $se['tag'] . '" ';
 			checked($se['tag'], $widget_options['select_se']);
 			echo "/>\n";
-			echo '		<label for="' . $se['name'] . '">' . $se['translated'] . "</label>\n";
+			echo '		<label for="' . $se['name'] . '">' . __($se['name'], 'wp_statistics') . "</label>\n";
 			echo "\n";
 		}
 ?>

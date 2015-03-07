@@ -17,9 +17,9 @@
 	}
 	
 	if( $referr ) {
-		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s", $referr));
+		$total = $wpdb->query($wpdb->prepare("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE %s", $referr));
 	} else {
-		$total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
+		$total = $wpdb->query("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 	}
 ?>
 <div class="wrap">
@@ -60,7 +60,7 @@
 								
 								if( $referr ) {
 								
-									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE '%{$referr}%' AND referred <> '' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
+									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE `referred` LIKE '%{$referr}%' AND referred <> '' ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
 									
 									foreach($result as $items) {
 								
@@ -84,7 +84,7 @@
 									}
 								} else {
 								
-									$result = $wpdb->get_results("SELECT `referred` FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
+									$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 									
 									$urls = array();
 									foreach( $result as $items ) {

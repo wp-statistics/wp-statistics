@@ -27,7 +27,7 @@ if( $wps_nonce_valid ) {
 		$_POST['wps_honeypot_postid'] = wp_insert_post( $my_post );
 	}
 	
-	$wps_option_list = array_merge( $wps_option_list, array('wps_read_capability','wps_manage_capability','wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid','wps_exclude_feeds','wps_excluded_urls' ) );
+	$wps_option_list = array_merge( $wps_option_list, array('wps_read_capability','wps_manage_capability','wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid','wps_exclude_feeds' ) );
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
@@ -262,15 +262,5 @@ if( $wps_nonce_valid ) {
 				<p class="description"><?php _e('Exclude the RSS feeds for registering as a hit.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
-		<tr valign="top">
-			<th scope="row"><?php _e('Excluded URLs list', 'wp_statistics'); ?>:</th>
-			<td>
-				<textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('excluded_urls');?></textarea>
-				<p class="description"><?php echo __('A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection.', 'wp_statistics'); ?></p>
-				<br>
-				<p class="description"><?php echo __('Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored.', 'wp_statistics'); ?></p>
-			</td>
-		</tr>
-
 	</tbody>
 </table>

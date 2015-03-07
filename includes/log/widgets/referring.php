@@ -1,9 +1,9 @@
 <?php
 	function wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $WP_Statistics;
+		global $wpdb, $table_prefix, $WP_Statistics;
 
-		$result = $wpdb->get_results("SELECT `referred` FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
+		$result = $wpdb->get_results("SELECT `referred` FROM `{$table_prefix}statistics_visitor` WHERE referred <> ''");
 		
 		if( sizeof( $result ) > 0 ) {
 			?>

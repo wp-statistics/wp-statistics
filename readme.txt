@@ -3,9 +3,9 @@ Contributors: mostafa.s1990, GregRoss
 Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 4.1.1
+Tested up to: 4.1
 Stable tag: 8.8
-License: GPL3
+License: GPL2
 
 Complete statistics for your WordPress site.
 
@@ -91,7 +91,7 @@ Still not having any luck? Open a new thread on one of the support forums and we
 * Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
 * Dutch thanks Friso van Wieringen.
 
-Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
+Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://teamwork.wp-parsi.com/projects/wp-statistics/) today!
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -202,30 +202,18 @@ You can manually disable plugins in WordPress by simply renaming the folder they
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 9.0 =
-This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
+= 8.7 =
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
+
+= 8.5 =
+This is a security update release, please update as soon as possible.  In addition to the security fixes there are several new features, see the change log for details.
+
+= 8.0 =
+PHP 5.3 is now required for WP Statistics!  DO NOT UPGRADE TO 8.0 IF YOU ARE RUNNING AN OLDER VERSION!
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.
+Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
-= 9.0 =
-* Added: URL exclusions option.
-* Updated: The visits code now uses a SQL UPDATE instead of WP's update() to avoid a race condition.
-* Updated: Performance improvements in the last visitors page.
-* Updated: Performance improvements in the referrers page.
-* Updated: Added missing dash_icon call in online users page.
-* Updated: Make sure the $wp_object global variable is an object before using it, just in case, in the hits code.
-* Updated: Make sure the $wp_query global variable is an object before using it, just in case, in the hits code.
-* Updated: Removed variables from i18n functions for better translation support.
-* Updated: Removed requirement for date_default_timezone_set() which conflicted with some other plugins.
-* Updated: Make sure to html encode data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array.
-* Updated: Change summary widget to be clearer about time frames.
-* Updated: Replace depracated preg_replace (with /e) with preg_replace_callback.  Thanks gbonvehi.
-* Updated: Use full path to ensure the require_once finds the purge file in the scheduled db maintenance script.
-* Updated: Persian translation.
-* Fixed: Export code to handle large tables.
-* Fixed: Exclusion display for some 'reasons' always being 0.
-* Removed: Replaced use of global $table_prefix with $wpdb->prefix.
-* Removed: Use of deprecated $blog_id.  Thanks gbonvehi.
-
 = 8.8 =
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
 * Added: RSS feed URL's can now be excluded.

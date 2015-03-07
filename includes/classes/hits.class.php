@@ -29,7 +29,7 @@
 			parent::__construct();
 			
 			// Set the timestamp value.
-			$this->timestamp = $this->current_date('U');
+			$this->timestamp = date('U');
 			
 			// Set the default seconds a user needs to visit the site before they are considered offline.
 			$this->second = 30;
@@ -153,13 +153,10 @@
 						$currentURL = $protocol . '://' . $host . $script;
 						$loginURL = wp_login_url();
 						
-						if( $currentURL == $loginURL ) { 
-							$this->exclusion_match = TRUE; 
-							$this->exclusion_reason = "login page";
-						}
+						if( $currentURL == $loginURL ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "login page";}
 					}
 
-					if( $this->get_option('exclude_adminpage') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_adminpage') == 1 ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -169,39 +166,12 @@
 						
 						$currentURL = substr( $currentURL, 0, strlen( $adminURL ) );
 						
-						if( $currentURL == $adminURL ) { 
-							$this->exclusion_match = TRUE; 
-							$this->exclusion_reason = "admin page";
-						}
+						if( $currentURL == $adminURL ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "admin page";}
 					}
 
-					if( $this->get_option('exclude_feeds') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_feeds') == 1 ) {
 						if( is_object( $WP_Statistics ) ) { 
-							if( $WP_Statistics->check_feed() ) { 
-								$this->exclusion_match = TRUE; 
-								$this->exclusion_reason = "feed";
-							}
-						}
-					}
-					
-					if( $this->get_option('excluded_urls') && !$this->exclusion_match ) {
-						$script   = $_SERVER['REQUEST_URI'];
-						$delimiter = strpos( $script, '?' );
-						if( $delimiter > 0 ) {
-							$script = substr( $script, 0, $delimiter ); 
-						}
-
-						$excluded_urls = explode( "\n", $this->get_option('excluded_urls') );
-						
-						foreach( $excluded_urls as $url ) {
-							$this_url = trim( $url );
-							if( strlen($this_url) > 2 ) {
-								if( stripos( $script, $this_url ) === 0 ) {
-									$this->exclusion_match = TRUE;
-									$this->exclusion_reason = "excluded url";
-									break;
-								}
-							}
+							if( $WP_Statistics->check_feed() ) { { $this->exclusion_match = TRUE; $this->exclusion_reason = "feed";} }
 						}
 					}
 					
@@ -298,9 +268,17 @@
 				
 					$this->db->query( $sqlstring );
 				} else {
-					$sqlstring = $this->db->prepare( 'UPDATE ' . $this->tb_prefix . 'statistics_visit SET `visit` = `visit` + %d, `last_visit` = %s WHERE `last_counter` = %s', $this->coefficient, $this->Current_Date(), $this->result->last_counter );
-
-					$this->db->query( $sqlstring );
+				
+					$this->db->update(
+						$this->tb_prefix . "statistics_visit",
+						array(
+							'last_visit'	=>	$this->Current_Date(),
+							'visit'			=>	$this->result->visit + $this->coefficient
+						),
+						array(
+							'last_counter'	=>	$this->result->last_counter
+						)
+					);
 				}
 			}
 		}
@@ -310,9 +288,7 @@
 			global $wp_query;
 
 			// Get the pages or posts ID if it exists.
-			if( is_object( $wp_query ) ) {
-				$this->current_page_id = $wp_query->get_queried_object_id();
-			}
+			$this->current_page_id = $wp_query->get_queried_object_id();
 			
 			if( $this->get_option( 'use_honeypot' ) && $this->get_option( 'honeypot_postid') > 0 && $this->get_option( 'honeypot_postid' ) == $this->current_page_id && $this->current_page_id > 0 ) {
 				$this->exclusion_match = TRUE;
@@ -400,7 +376,7 @@
 				// Don't track anything but actual pages and posts, unless we've been told to.
 				if( $this->get_option('track_all_pages') || is_page() || is_single() || is_front_page() ) {
 					// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
-					if( !$this->current_page_id && is_object( $wp_query ) ) {
+					if( !$this->current_page_id ) {
 						$this->current_page_id = $wp_query->get_queried_object_id();
 					}
 	

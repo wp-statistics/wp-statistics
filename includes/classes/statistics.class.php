@@ -18,7 +18,6 @@
 		private $historical;
 		private $user_options_loaded = false;
 		private $is_feed = false;
-		private $tz_offset = 0;
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';
@@ -29,14 +28,10 @@
 		// Construction function.
 		public function __construct() {
 		
-			global $wpdb;
-			
-			if( get_option('timezone_string') ) {
-				$this->tz_offset = timezone_offset_get( timezone_open( get_option('timezone_string') ), new DateTime() );
-			}
+			global $wpdb, $table_prefix;
 			
 			$this->db = $wpdb;
-			$this->tb_prefix = $wpdb->prefix;
+			$this->tb_prefix = $table_prefix;
 			$this->agent = $this->get_UserAgent();
 			$this->historical = array();
 
@@ -192,7 +187,7 @@
 					$this->tb_prefix . "statistics_useronline",
 					array(
 						'ip'		=>	$this->get_IP(),
-						'timestamp'	=>	$this->Current_Date('U'),
+						'timestamp'	=>	date('U'),
 						'date'		=>	$this->Current_Date(),
 						'referred'	=>	$this->get_Referred(),
 						'agent'		=>	$this->agent['browser'],
@@ -318,18 +313,13 @@
 			return $referr;
 		}
 		
-		// This function returns a date string in the desired format with a passed in timestamp.
-		public function Local_Date($format, $timestamp ) {
-			return date( $format, $timestamp + $this->tz_offset );
-		}
-		
 		// This function returns a date string in the desired format.
 		public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null) {
 		
 			if( $strtotime ) {
-				return date($format, strtotime("{$strtotime} day") + $this->tz_offset );
+				return date($format, strtotime("{$strtotime} day") ) ;
 			} else {
-				return date($format, time() + $this->tz_offset);
+				return date($format) ;
 			}
 		}
 		
@@ -337,9 +327,9 @@
 		public function Current_Date_i18n($format = 'Y-m-d H:i:s', $strtotime = null, $day=' day') {
 		
 			if( $strtotime ) {
-				return date_i18n($format, strtotime("{$strtotime}{$day}") + $this->tz_offset );
+				return date_i18n($format, strtotime("{$strtotime}{$day}") ) ;
 			} else {
-				return date_i18n($format, time() + $this->tz_offset);
+				return date_i18n($format) ;
 			}
 		}
 

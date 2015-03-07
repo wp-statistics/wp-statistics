@@ -57,7 +57,7 @@
 ?>
 							visit_chart = jQuery.jqplot('visits-stats', [visit_data_line, visitor_data_line], {
 								title: {
-									text: '<b><?php echo htmlentities(__('Hits in the last', 'wp_statistics'), ENT_QUOTES) . ' ' . $daysToDisplay . ' ' . htmlentities(__('days', 'wp_statistics'), ENT_QUOTES); ?></b>',
+									text: '<b><?php echo __('Hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?></b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -78,7 +78,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo htmlentities(__('Number of visits and visitors', 'wp_statistics'), ENT_QUOTES); ?>',
+											label: '<?php _e('Number of visits and visitors', 'wp_statistics'); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -92,7 +92,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: ['<?php echo htmlentities(__('Visit', 'wp_statistics'), ENT_QUOTES); ?>', '<?php echo htmlentities(__('Visitor', 'wp_statistics'), ENT_QUOTES); ?>'],
+									labels: ['<?php _e('Visit', 'wp_statistics'); ?>', '<?php _e('Visitor', 'wp_statistics'); ?>'],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{

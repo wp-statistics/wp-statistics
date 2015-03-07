@@ -127,11 +127,11 @@
 				<td>
 					<select id="empty-table" name="empty-table">
 						<option value="0"><?php _e('Please select', 'wp_statistics'); ?></option>
-						<option value="useronline"><?php echo $wpdb->prefix . 'statistics_useronline'; ?></option>
-						<option value="visit"><?php echo $wpdb->prefix . 'statistics_visit'; ?></option>
-						<option value="visitor"><?php echo $wpdb->prefix . 'statistics_visitor'; ?></option>
-						<option value="exclusions"><?php echo $wpdb->prefix . 'statistics_exclusions'; ?></option>
-						<option value="pages"><?php echo $wpdb->prefix . 'statistics_pages'; ?></option>
+						<option value="useronline"><?php echo $table_prefix . 'statistics_useronline'; ?></option>
+						<option value="visit"><?php echo $table_prefix . 'statistics_visit'; ?></option>
+						<option value="visitor"><?php echo $table_prefix . 'statistics_visitor'; ?></option>
+						<option value="exclusions"><?php echo $table_prefix . 'statistics_exclusions'; ?></option>
+						<option value="pages"><?php echo $table_prefix . 'statistics_pages'; ?></option>
 						<option value="all"><?php echo __('All','wp_statistics'); ?></option>
 					</select>
 					<p class="description"><?php _e('All data table will be lost.', 'wp_statistics'); ?></p>
@@ -173,7 +173,7 @@
 							
 							foreach($agents as $agent) {
 								$aid = preg_replace( "/[^a-zA-Z]/", "", $agent );
-								echo "<option value='$agent' id='agent-" . $aid . "-id'>" . $agent . "</option>";
+								echo "<option value='$agent' id='agent-" . $aid . "-id'>" . __($agent, 'wp_statistics') . "</option>";
 							}
 						?>
 					</select>
@@ -197,7 +197,7 @@
 							
 							foreach($platforms as $platform) {
 								$pid = preg_replace( "/[^a-zA-Z]/", "", $platform );
-								echo "<option value='$platform' id='platform-" . $pid . "-id'>" . $platform . "</option>";
+								echo "<option value='$platform' id='platform-" . $pid . "-id'>" . __($platform, 'wp_statistics') . "</option>";
 							}
 						?>
 					</select>

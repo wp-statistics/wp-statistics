@@ -68,7 +68,7 @@
 ?>
 							visit_chart = jQuery.jqplot('search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
 								title: {
-									text: '<b><?php echo htmlentities(__('Search engine referrals in the last', 'wp_statistics'), ENT_QUOTES) . ' ' . $daysToDisplay . ' ' . htmlentities(__('days', 'wp_statistics'), ENT_QUOTES); ?></b>',
+									text: '<b><?php echo __('Search engine referrals in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics'); ?></b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -89,7 +89,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo htmlentities(__('Number of referrals', 'wp_statistics'), ENT_QUOTES); ?>',
+											label: '<?php _e('Number of referrals', 'wp_statistics'); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -103,7 +103,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: [<?php foreach( $search_engines as $se ) { echo "'" . htmlentities($se['translated'], ENT_QUOTES) . "', "; } if( $total_stats == 1 ) { echo "'" . htmlentities(__('Total', 'wp_statistics'), ENT_QUOTES) . "'"; }?>],
+									labels: [<?php foreach( $search_engines as $se ) { echo "'" . __( $se['name'], 'wp_statistics' ) . "', "; } if( $total_stats == 1 ) { echo "'" . __('Total', 'wp_statistics') . "'"; }?>],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{

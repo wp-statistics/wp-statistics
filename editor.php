@@ -66,7 +66,7 @@ function wp_statistics_editor_meta_box( $post ) {
 	
 	wp_statistics_load_widget_css_and_scripts();
 	
-	wp_statistics_generate_page_postbox_content( null, $post->ID, 20, __('Hits in the last 20 days', 'wp_statistics') );
+	wp_statistics_generate_page_postbox_content( null, $post->ID, 20, 'Hits in the last 20 days' );
 }
 
 ?>

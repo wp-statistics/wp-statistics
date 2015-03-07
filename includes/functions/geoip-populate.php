@@ -13,8 +13,10 @@
 	function wp_statistics_populate_geoip_info() {
 		global $wpdb;
 		
+		$table_prefix = $wpdb->prefix;
+		
 		// Find all rows in the table that currently don't have GeoIP info or have an unknown ('000') location.
-		$result = $wpdb->get_results("SELECT id,ip FROM `{$wpdb->prefix}statistics_visitor` WHERE location = '' or location = '000' or location IS NULL");
+		$result = $wpdb->get_results("SELECT id,ip FROM `{$table_prefix}statistics_visitor` WHERE location = '' or location = '000' or location IS NULL");
 		
 		// Try create a new reader instance.
 		try {
@@ -41,7 +43,7 @@
 				}
 
 				// Update the row in the database.
-				$wpdb->update( $wpdb->prefix . "statistics_visitor", array( 'location' => $location ), array( 'id' => $item->id) );
+				$wpdb->update( $table_prefix . "statistics_visitor", array( 'location' => $location ), array( 'id' => $item->id) );
 			}
 		}
 		

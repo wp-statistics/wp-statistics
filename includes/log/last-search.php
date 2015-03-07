@@ -43,16 +43,14 @@
 				{
 				$tag = '';
 				$name = 'All';
-				$translate = __('All');
 				}
 			else
 				{
 				$tag = $search_engines[$key]['tag'];
 				$name = $search_engines[$key]['name'];
-				$translate = $search_engines[$key]['translated'];
 				}
 			
-			echo "<li><a href='?page=wps_words_menu&referred={$tag}'>" . $translate . " <span class='count'>({$value})</span></a>{$separator}</li>";
+			echo "<li><a href='?page=wps_words_menu&referred={$tag}'>" . __($name, 'wp_statistics') . " <span class='count'>({$value})</span></a>{$separator}</li>";
 		}
 ?>
 	</ul>
@@ -86,7 +84,7 @@
 										$search_query = wp_statistics_searchword_query('all');
 									}
 									
-									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
+									$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
 									
 									include_once( dirname( __FILE__ ) . "/../functions/country-codes.php");
 									

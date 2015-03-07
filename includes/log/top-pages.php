@@ -46,7 +46,7 @@
 
 							pages_jqchart = jQuery.jqplot('jqpage-stats', [pages_data_line1, pages_data_line2, pages_data_line3, pages_data_line4, pages_data_line5], {
 								title: {
-									text: '<b><?php echo htmlentities(__('Top 5 Page Trending Stats', 'wp_statistics'), ENT_QUOTES); ?></b>',
+									text: '<b><?php echo __('Top 5 Page Trending Stats', 'wp_statistics'); ?></b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -67,7 +67,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo htmlentities(__('Number of Hits', 'wp_statistics'), ENT_QUOTES); ?>',
+											label: '<?php _e('Number of Hits', 'wp_statistics'); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -163,7 +163,7 @@
 										if( $count >= $start ) {
 											echo "<div class='log-item'>";
 
-											if( $uri[3] == '' ) { $uri[3] = '[' . htmlentities(__('No page title found', 'wp_statistics'), ENT_QUOTES) . ']'; }
+											if( $uri[3] == '' ) { $uri[3] = '[' . __('No page title found', 'wp_statistics') . ']'; }
 											
 											echo "<div class='log-page-title'>{$count} - {$uri[3]}</div>";
 											echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";

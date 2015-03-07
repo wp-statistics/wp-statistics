@@ -14,7 +14,7 @@
 
 	function wp_statistics_generate_browsers_postbox_content() {
 	
-		global $wpdb, $WP_Statistics;
+		global $wpdb, $table_prefix, $WP_Statistics;
 ?>
 						<script type="text/javascript">
 						jQuery(function () {
@@ -44,14 +44,14 @@
 									if( $count > 9 ) { break; }
 								}
 
-								echo "['" . htmlentities(__('Other', 'wp_statistics'), ENT_QUOTES) . " (" . number_format_i18n($total - $topten) . ")'," . ( $total - $topten ) . "], ";
+								echo "['" . __('Other', 'wp_statistics') . " (" . number_format_i18n($total - $topten) . ")'," . ( $total - $topten ) . "], ";
 
 								echo "];\n";
 ?>
 
 								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
 									title: {
-										text: '<b><?php echo htmlentities(__('Top 10 Browsers', 'wp_statistics'), ENT_QUOTES); ?></b>',
+										text: '<b><?php echo __('Top 10 Browsers', 'wp_statistics'); ?></b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',

@@ -1,18 +1,18 @@
 ﻿<?php
 	function wp_statistics_purge_data( $purge_days ) {
-		GLOBAL $wpdb, $WP_Statistics;
+		GLOBAL $wpdb, $table_prefix, $WP_Statistics;
 		
 		// If it's less than 30 days, don't do anything.
 		if($purge_days > 30) {
 			// Purge the visit data.
-			$table_name = $wpdb->prefix . 'statistics_visit';
-			$date_string = $WP_Statistics->current_date( 'Y-m-d', '-' . $purge_days); 
+			$table_name = $table_prefix . 'statistics_visit';
+			$date_string = date( 'Y-m-d', strtotime( '-' . $purge_days . ' days')); 
 	 
 			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
 			
 			if($result) {
 				// Update the historical count with what we purged.
-				$historical_result = $wpdb->query('UPDATE ' . $wpdb->prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visits\'' );
+				$historical_result = $wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visits\'' );
 
 				if( $historical_result == 0 ) {
 					$wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $result, 'category' => 'visits', 'page_id' => -2, 'uri' => '-2' ) );
@@ -24,13 +24,13 @@
 			}
 
 			// Purge the visitors data.
-			$table_name = $wpdb->prefix . 'statistics_visitor';
+			$table_name = $table_prefix . 'statistics_visitor';
 
 			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `last_counter` < \'' . $date_string . '\'');
 			
 			if($result) {
 				// Update the historical count with what we purged.
-				$historical_result = $wpdb->query('UPDATE ' . $wpdb->prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visitors\'' );
+				$historical_result = $wpdb->query('UPDATE ' . $table_prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visitors\'' );
 				
 				if( $historical_result == 0 ) {
 					$wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $result, 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1' ) );
@@ -42,7 +42,7 @@
 			}
 
 			// Purge the exclusions data.
-			$table_name = $wpdb->prefix . 'statistics_exclusions';
+			$table_name = $table_prefix . 'statistics_exclusions';
 
 			$result = $wpdb->query('DELETE FROM ' . $table_name . ' WHERE `date` < \'' . $date_string . '\'');
 			
@@ -53,7 +53,7 @@
 			}
 
 			// Purge the pages data, this is more complex as we want to save the historical data per page.
-			$table_name = $wpdb->prefix . 'statistics_pages';
+			$table_name = $table_prefix . 'statistics_pages';
 			$historical = 0;
 			
 			// The first thing we need to do is update the historical data by finding all the unique pages.
@@ -67,11 +67,11 @@
 					$historical = $wpdb->get_var( $wpdb->prepare('SELECT sum(count) FROM ' . $table_name . ' WHERE `uri` = %s AND `date` < %s', $row->uri, $date_string));
 		
 					// Do an update of the historical data.
-					$uresult = $wpdb->query($wpdb->prepare('UPDATE ' . $wpdb->prefix . 'statistics_historical SET `value` = value + %d WHERE `uri` = %s AND `category` = \'uri\'', $historical, $row->uri, $date_string));
+					$uresult = $wpdb->query($wpdb->prepare('UPDATE ' . $table_prefix . 'statistics_historical SET `value` = value + %d WHERE `uri` = %s AND `category` = \'uri\'', $historical, $row->uri, $date_string));
 
 					// If we failed it's because this is the first time we've seen this URI/pageid so let's create a historical row for it.
 					if( $uresult == 0 ) {
-						$wpdb->insert( $wpdb->prefix . "statistics_historical", array( 'value' => $historical, 'type' => 'uri', 'uri' => $row->uri, 'page_id' => wp_statistics_uri_to_id($row->uri) ) );
+						$wpdb->insert( $table_prefix . "statistics_historical", array( 'value' => $historical, 'type' => 'uri', 'uri' => $row->uri, 'page_id' => wp_statistics_uri_to_id($row->uri) ) );
 					}
 				}
 			}

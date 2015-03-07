@@ -16,12 +16,12 @@
 
 	function wp_statistics_generate_words_postbox_content($ISOCountryCode, $count = 10) {
 	
-		global $wpdb, $WP_Statistics;
+		global $wpdb, $table_prefix, $WP_Statistics;
 
 		// Retrieve MySQL data for the search words.
 		$search_query = wp_statistics_searchword_query('all');
 
-		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}");
+		$result = $wpdb->get_results("SELECT * FROM `{$table_prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$table_prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}");
 		
 		if( sizeof($result) > 0 ) {
 			echo "<div class='log-latest'>";
@@ -43,7 +43,7 @@
 					}
 					
 					$this_search_engine = $WP_Statistics->Search_Engine_Info($items->referred);
-					echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".$this_search_engine['translated']."'/></a>";
+					echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
 					
 					if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
 						$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";

@@ -1,7 +1,7 @@
 <?php
 	function wp_statistics_generate_summary_postbox($ISOCountryCode, $search_engines) {
 	
-		global $wpdb, $WP_Statistics;
+		global $wpdb, $table_prefix, $WP_Statistics;
 ?>		
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -15,7 +15,7 @@
 
 	function wp_statistics_generate_summary_postbox_content($search_engines, $search = true, $time = true) {
 	
-		global $wpdb, $WP_Statistics;
+		global $wpdb, $table_prefix, $WP_Statistics;
 ?>		
 						<table width="100%" class="widefat table-stats" id="summary-stats">
 							<tbody>
@@ -43,19 +43,19 @@
 								</tr>
 								
 								<tr>
-									<th><?php _e('Last 7 Days (Week)', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Week', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('week',null,true)); ?></span></th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('week')); ?></span></th>
 								</tr>
 								
 								<tr>
-									<th><?php _e('Last 30 Days (Month)', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Month', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('month',null,true)); ?></span></th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('month')); ?></span></th>
 								</tr>
 								
 								<tr>
-									<th><?php _e('Last 365 Days (Year)', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Year', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('year',null,true)); ?></span></th>
 									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('year')); ?></span></th>
 								</tr>

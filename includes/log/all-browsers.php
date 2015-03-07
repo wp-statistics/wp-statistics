@@ -29,7 +29,7 @@
 								foreach( $Browsers as $Browser )
 									{
 									$count = wp_statistics_useragent( $Browser );
-									echo "['" . substr( $Browser, 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									echo "['" . substr( __( $Browser, 'wp_statistics' ), 0, 15 ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
 									}
 
 								echo "];\n";
@@ -39,7 +39,7 @@
 
 								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
 									title: {
-										text: '<b><?php echo htmlentities(__('Browsers by type', 'wp_statistics'), ENT_QUOTES); ?></b>',
+										text: '<b><?php echo __('Browsers by type', 'wp_statistics'); ?></b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',
@@ -113,7 +113,7 @@
 								foreach( $Platforms as $Platform )
 									{
 									$count = wp_statistics_platform( $Platform );
-									echo "['" . substr( $Platform, 0, 15) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									echo "['" . substr( __( $Platform, 'wp_statistics' ), 0, 15) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
 									}
 
 								echo "];\n";
@@ -123,7 +123,7 @@
 
 								platform_chart = jQuery.jqplot('platform-log', [platform_data], { 
 									title: {
-										text: '<b><?php echo htmlentities(__('Browsers by platform', 'wp_statistics'), ENT_QUOTES); ?></b>',
+										text: '<b><?php echo __('Browsers by platform', 'wp_statistics'); ?></b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',
@@ -248,7 +248,7 @@
 					foreach( $Versions as $Version )
 						{
 						$count = wp_statistics_agent_version( $Browser, $Version );
-						echo "['" . $Version . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+						echo "['" . __( $Version, 'wp_statistics' ) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
 						}
 
 					echo "];\n";
@@ -257,7 +257,7 @@
 ?>
 				<?php echo $Browser_tag;?>_chart = jQuery.jqplot('version-<?php echo $Browser_tag;?>-log', [<?php echo $Browser_tag;?>_version_data], { 
 						title: {
-							text: '<b><?php echo $Browser; ?></b>',
+							text: '<b><?php echo __($Browser, 'wp_statistics'); ?></b>',
 							fontSize: '12px',
 							fontFamily: 'Tahoma',
 							textColor: '#000000',

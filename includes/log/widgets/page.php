@@ -1,9 +1,7 @@
 <?php
 
-	function wp_statistics_generate_page_postbox_content($pageuri, $pageid, $days = 20, $chart_title = null ) {
+	function wp_statistics_generate_page_postbox_content($pageuri, $pageid, $days = 20, $chart_title = 'Page Trending Stats') {
 		GLOBAL $WP_Statistics;
-		
-		if( $chart_title == null ) { $chart_title = __('Page Trending Stats', 'wp_statistics'); }
 		
 		if( $pageuri && !$pageid ) { $pageid = wp_statistics_uri_to_id( $pageuri ); }
 		
@@ -36,7 +34,7 @@
 ?>
 							pages_jqchart = jQuery.jqplot('page-stats', [page_data_line], {
 								title: {
-									text: '<b><?php echo htmlentities(__($chart_title, 'wp_statistics'), ENT_QUOTES); ?></b>',
+									text: '<b><?php echo __($chart_title, 'wp_statistics'); ?></b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -57,7 +55,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo htmlentities(__('Number of Hits', 'wp_statistics'), ENT_QUOTES); ?>',
+											label: '<?php _e('Number of Hits', 'wp_statistics'); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
