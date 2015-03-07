@@ -5,7 +5,7 @@ Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday
 Requires at least: 3.0
 Tested up to: 4.1.1
 Stable tag: 8.8
-License: GPL2
+License: GPL3
 
 Complete statistics for your WordPress site.
 
