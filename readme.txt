@@ -3,9 +3,9 @@ Contributors: mostafa.s1990, GregRoss
 Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 4.1
-Stable tag: 8.8
-License: GPL2
+Tested up to: 4.1.1
+Stable tag: 8.8.1
+License: GPL3
 
 Complete statistics for your WordPress site.
 
@@ -91,7 +91,7 @@ Still not having any luck? Open a new thread on one of the support forums and we
 * Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
 * Dutch thanks Friso van Wieringen.
 
-Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://teamwork.wp-parsi.com/projects/wp-statistics/) today!
+Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -214,6 +214,9 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 Support for old format substitution codes in the statistics reports has been removed, the upgrade now converts them to short codes but you should verify the report content after upgrading.
 
 == Changelog ==
+= 8.8.1 =
+* Updated license to GPL3.
+
 = 8.8 =
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
 * Added: RSS feed URL's can now be excluded.
