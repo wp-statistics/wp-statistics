@@ -147,7 +147,7 @@
 									$styleErrors = "paginationErrors";
 									$styleSelect = "paginationSelect";
 
-									$Pagination = new Pagination($total, $pagesPerSection, $options, false, $stylePageOff, $stylePageOn, $styleErrors, $styleSelect);
+									$Pagination = new WP_Statistics_Pagination($total, $pagesPerSection, $options, false, $stylePageOff, $stylePageOn, $styleErrors, $styleSelect);
 									
 									$start = $Pagination->getEntryStart();
 									$end = $Pagination->getEntryEnd();

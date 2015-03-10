@@ -17,9 +17,9 @@
 *
 ******************************************************************************************/
 
-if(!class_exists("Pagination")):	// Prevent multiple class definitions
+if(!class_exists("WP_Statistics_Pagination")):	// Prevent multiple class definitions
 
-class Pagination
+class WP_Statistics_Pagination
 {
 	/*******************************************************
 	  PROPERTIES / DATA MEMBERS
