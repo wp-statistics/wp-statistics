@@ -70,12 +70,34 @@
 		wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_hook'); 
 	}
 
-	// Remove the database maintenance schedule if it does exist and it should shouldn't.
+	// Remove the database maintenance schedule if it does exist and it shouldn't.
 	if( wp_next_scheduled('wp_statistics_dbmaint_hook') && (!$WP_Statistics->get_option('schedule_dbmaint') ) ) {
 	
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook'); 
 	}
 
+	// Remove the add visit row schedule if it does exist and it shouldn't.
+	if( wp_next_scheduled('wp_statistics_add_visit_hook') && (!$WP_Statistics->get_option('visits') ) ) {
+	
+		wp_unschedule_event(wp_next_scheduled('wp_statistics_add_visit_hook'), 'wp_statistics_add_visit_hook'); 
+	}
+
+	// Add the add visit table row schedule if it does exist and it should.
+	if( !wp_next_scheduled('wp_statistics_add_visit_hook') && $WP_Statistics->get_option('visits')) {
+
+		wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook'); 
+	}
+	
+	// This function adds a record for tomorrow to the visit table to avoid a race condition.
+	function wp_statistics_add_visit_event() {
+		GLOBAL $wpdb, $WP_Statistics;
+
+		$sqlstring = $wpdb->prepare( 'INSERT INTO ' . $wpdb->prefix . 'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d)', $WP_Statistics->Current_Date(null, '+1'), $WP_Statistics->Current_date('Y-m-d', '+1'), 0 );
+
+		$wpdb->query( $sqlstring );
+	}
+	add_action('wp_statistics_add_visit_hook', 'wp_statistics_add_visit_event');
+	
 	// This function updates the GeoIP database from MaxMind.
 	function wp_statistics_geoip_event() {
 	
