@@ -17,7 +17,7 @@ if( $wps_nonce_valid ) {
 		$WP_Statistics->store_option($new_option, $value);
 	}
 
-	$wps_option_list = array('wps_useronline','wps_visits','wps_visitors','wps_pages','wps_track_all_pages','wps_disable_column','wps_check_online','wps_menu_bar','wps_coefficient','wps_chart_totals','wps_store_ua','wps_hide_notices','wps_delete_manual','wps_hash_ips', 'wps_all_online', 'wps_strip_uri_parameters' );
+	$wps_option_list = array('wps_useronline','wps_visits','wps_visitors','wps_pages','wps_track_all_pages','wps_disable_column','wps_check_online','wps_menu_bar','wps_coefficient','wps_chart_totals','wps_store_ua','wps_hide_notices','wps_delete_manual','wps_hash_ips', 'wps_all_online', 'wps_strip_uri_parameters', 'wps_override_language' );
 	
 	// If the IP hash's are enabled, disable storing the complete user agent.
 	if( array_key_exists( 'wps_hash_ips', $_POST ) ) { $_POST['wps_store_ua'] = ''; }
@@ -312,6 +312,22 @@ if( $wps_nonce_valid ) {
 				<input id="chart-totals" type="checkbox" value="1" name="wps_chart_totals" <?php echo $WP_Statistics->get_option('chart_totals')==true? "checked='checked'":'';?>>
 				<label for="chart-totals"><?php _e('Active', 'wp_statistics'); ?></label>
 				<p class="description"><?php _e('Add a total line to charts with multiple values, like the search engine referrals', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+		
+		<tr valign="top">
+			<th scope="row" colspan="2"><h3><?php _e('Languages', 'wp_statistics'); ?></h3></th>
+		</tr>
+
+		<tr valign="top">
+			<th scope="row">
+				<label for="chart-totals"><?php _e('Force English', 'wp_statistics'); ?>:</label>
+			</th>
+			
+			<td>
+				<input id="override-language" type="checkbox" value="1" name="wps_override_language" <?php echo $WP_Statistics->get_option('override_language')==true? "checked='checked'":'';?>>
+				<label for="override-language"><?php _e('Active', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 		

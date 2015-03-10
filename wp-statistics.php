@@ -18,6 +18,20 @@ License: GPL2
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 
+	// Load the internationalization code.
+	function wp_statistics_init() {
+		GLOBAL $WP_Statistics;
+		
+		if( ! $WP_Statistics->get_option('override_language', false) ) {
+			load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+			__('WP Statistics', 'wp_statistics');
+			__('Complete statistics for your WordPress site.', 'wp_statistics');
+		}
+	}
+
+	// Add actions
+	add_action('init', 'wp_statistics_init');
+
 	function wp_statistics_php_after_plugin_row() {
 		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="10"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version ', 'wp_statistics') . WP_STATISTICS_REQUIRED_PHP_VERSION . __(' or higher!', 'wp_statistics') . '  ' . __('Your current PHP version is','wp_statistics') . ' ' . phpversion() . '.&nbsp;&nbsp;</span></td></tr>';
 	}
@@ -43,11 +57,6 @@ License: GPL2
 		return;
 	}
 	
-	// Load the internationalization code.
-	load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
-	__('WP Statistics', 'wp_statistics');
-	__('Complete statistics for your WordPress site.', 'wp_statistics');
-
 	// Load the user agent parsing code first, the WP_Statistics class depends on it.  Then load the WP_Statistics class.
 	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
