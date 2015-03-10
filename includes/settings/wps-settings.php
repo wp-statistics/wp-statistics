@@ -143,11 +143,6 @@ switch( $selected_tab )
 			<div id="about">
 			<?php include( dirname( __FILE__ ) . '/tabs/wps-about.php' ); ?>
 			</div>
-
-		</div>
-
-		<div class="submit">
-			<input id="wps_update_button" type="submit" class="button button-primary" name="Submit" value="<?php _e('Update', 'wp_statistics'); ?>" />
 		</div>
 	</form>
 </div>

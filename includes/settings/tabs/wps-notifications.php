@@ -197,3 +197,5 @@ if( $wps_nonce_valid ) {
 		</tr>
 	</tbody>
 </table>
+
+<?php submit_button(__('Update', 'wp_statistics'), 'primary', 'submit'); ?>
