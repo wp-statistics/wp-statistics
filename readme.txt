@@ -222,6 +222,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Use full path to ensure the require_once finds the purge file in the scheduled db maintenance script.
 * Updated: Persian translation.
 * Updated: Renamed pagination class to avoid name collisions with other plugins.
+* Updated: Date display in recent visitors and search words now uses the WordPress date format setting.
 * Fixed: Export code to handle large tables.
 * Fixed: Exclusion display for some 'reasons' always being 0.
 * Removed: Replaced use of global $table_prefix with $wpdb->prefix.
