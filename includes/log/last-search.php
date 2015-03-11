@@ -43,7 +43,7 @@
 				{
 				$tag = '';
 				$name = 'All';
-				$translate = __('All');
+				$translate = __('All', 'wp_statistics');
 				}
 			else
 				{
