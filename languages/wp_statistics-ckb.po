@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-10 20:41:31+0000\n"
+"PO-Revision-Date: 2015-03-11 11:38:26+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,15 +12,15 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:330
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr ""
+msgstr "وەرگێرانەکان بەکارمەهێنە و لە جیاتی ئەوە ئینگلیزی وەکو زمانی بنچینەیی بۆ WP Statistics  بەکاربهێنە (پێویستی بە بارکردنی دوو پەڕ هەیە)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:324
 msgid "Force English"
-msgstr ""
+msgstr "ئئنگلیزی بەزۆر"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:319
 msgid "Languages"
-msgstr ""
+msgstr "زمانەکان"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:271
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
@@ -154,23 +154,23 @@ msgstr "تۆمارکردنی گشت بەکارهێنەر"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
-msgstr ""
+msgstr "ڕێکخستنی دەرکردەکان و تۆمارەکانی هەموو بەکارهێنەرانی سەرهێڵ پشتگوێ بخە ( بەلەخۆگرتنی ئاراستەکردنی خۆیی و ڕۆبۆتەکان). پێویستە تەنها بۆ دیاریکردنی کێشە بەکاربهێندرێت."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:155
 msgid "Store entire user agent string"
-msgstr ""
+msgstr "تەواوی زنجیرەی بەکارهێنەری بریکار پاشەکەوت بکە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:161
 msgid "Only enabled for debugging"
-msgstr ""
+msgstr "تەنها چالاک بکرێت بۆ هەڵەدۆزین"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:167
 msgid "Coefficient per visitor"
-msgstr ""
+msgstr "هاوچوستی بۆ هەر سەردانکارێک"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:172
 msgid "For each visit to account for several hits. Currently %s."
-msgstr ""
+msgstr "بۆ هەر سەردانێک بۆ هەژمارکردنی ژمارەیەک هەڵدانەوە. لە ئێستادا %s."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:177
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:182
@@ -181,27 +181,27 @@ msgstr "پەڕەكان"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:194
 msgid "Track all pages"
-msgstr ""
+msgstr "شوێن پێی هەموو پەڕەکان بکە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:209
 msgid "Strip parameters from URI"
-msgstr ""
+msgstr "لابردنی پارامێتەرەکان لە بەستەرەکە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:215
 msgid "This will remove anything after the ? in a URL."
-msgstr ""
+msgstr "ئەمە هەموو شتێک دەسڕێتەوە لە دوای ؟ لە بەستەرێکدا"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
-msgstr ""
+msgstr "ستونی هەڵدانەوەکان لە لیستی بابەت\\پەڕەکان ناچالاک بکە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:234
 msgid "Miscellaneous"
-msgstr ""
+msgstr "هەمەجۆر"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:239
 msgid "Show stats in menu bar"
-msgstr ""
+msgstr "ئامارەكان لە لیست ئامراز پێشان بدە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:244
 msgid "No"
@@ -213,7 +213,7 @@ msgstr "بەڵێ"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:247
 msgid "Show stats in admin menu bar"
-msgstr "ئامارەكان لە لیست ئامراز پێشان بدە"
+msgstr "ئامارەكان لە لیست ئامرازی بەڕێوەبەر پێشان بدە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:253
 msgid "Hide admin notices about non active features"
