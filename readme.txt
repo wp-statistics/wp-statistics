@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.1.1
-Stable tag: 8.8.1
+Stable tag: 9.0
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -220,6 +220,9 @@ This release updates some core code to do with timezones, hence the change to ve
 == Changelog ==
 = 9.0 =
 * Added: URL exclusions option.
+* Added: Swedish translation, thanks ronneborn.
+* Added: Kurdish (Sorani) translation, thanks sardar4it.
+* Added: Daily wp cron job to create an entry in the visits table for the next day to avoid a race condition.
 * Updated: The visits code now uses a SQL UPDATE instead of WP's update() to avoid a race condition.
 * Updated: Performance improvements in the last visitors page.
 * Updated: Performance improvements in the referrers page.
@@ -230,11 +233,12 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Removed requirement for date_default_timezone_set() which conflicted with some other plugins.
 * Updated: Make sure to html encode data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array.
 * Updated: Change summary widget to be clearer about time frames.
-* Updated: Replace depracated preg_replace (with /e) with preg_replace_callback.  Thanks gbonvehi.
+* Updated: Replace deprecated preg_replace (with /e) with preg_replace_callback.  Thanks gbonvehi.
 * Updated: Use full path to ensure the require_once finds the purge file in the scheduled db maintenance script.
 * Updated: Persian translation.
 * Updated: Renamed pagination class to avoid name collisions with other plugins.
 * Updated: Date display in recent visitors and search words now uses the WordPress date format setting.
+* Updated: Upgrade email is now send at the end of the page load as wp_mail() hasn't been created during the upgrade script.
 * Fixed: Export code to handle large tables.
 * Fixed: Exclusion display for some 'reasons' always being 0.
 * Removed: Replaced use of global $table_prefix with $wpdb->prefix.

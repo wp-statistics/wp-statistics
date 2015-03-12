@@ -3,7 +3,7 @@
 Plugin Name: WP Statistics
 Plugin URI: http://wp-statistics.com/
 Description: Complete statistics for your WordPress site.
-Version: 8.8.1
+Version: 9.0
 Author: Mostafa Soufi & Greg Ross
 Author URI: http://wp-statistics.com/
 Text Domain: wp_statistics
@@ -12,7 +12,7 @@ License: GPL2
 */
 
 	// These defines are used later for various reasons.
-	define('WP_STATISTICS_VERSION', '8.8.1');
+	define('WP_STATISTICS_VERSION', '9.0');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.3.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
@@ -183,6 +183,22 @@ License: GPL2
 		// Check to see if the browscap database needs to be downloaded and do so if required.
 		if( $WP_Statistics->get_option('update_browscap') )
 			wp_statistics_download_browscap();
+		
+		if( $WP_Statistics->get_option('send_upgrade_email') ) {
+			$WP_Statistics->update_option( 'send_upgrade_email', false );
+			
+			$blogname = get_bloginfo('name');
+			$blogemail = get_bloginfo('admin_email');
+			
+			$headers[] = "From: $blogname <$blogemail>";
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/html; charset=utf-8";
+
+			if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->update_option( 'email_list', $blogemail ); }
+			
+			wp_mail( $WP_Statistics->get_option('email_list'), sprintf( __('WP Statistics %s installed on', 'wp_statistics'),  WP_STATISTICS_VERSION ) . ' ' . $blogname, "Installation/upgrade complete!", $headers );
+		}
+
 	}
 
 	// Add a settings link to the plugin list.
