@@ -189,6 +189,18 @@ Don't, upgrade immediately to the latest version of WP Statistics.
 
 You can manually disable plugins in WordPress by simply renaming the folder they are installed in.  Using FTP or your hosting providers file manager, go to your WordPress directory, from ther go to wp-content/plugins and rename or delete the wp-statistics folder.
 
+= I'm getting an error in my PHP log like: Fatal error: Call to undefined method Composer\Autoload\ClassLoader::set() =
+
+We use several libraries and use a utility called Composer to manage the dependencies between them.  We try and keep our Composer library up to date but not all plugins do and sometimes we find conflicts with other plugins.  Try disabling your other plugins until the error goes away and then contact that plugin developer to update their Composer files.
+
+= The search words and search engine referrals are zero or very low, what's wrong? =
+
+Search Engine Referrals and Words are highly dependent on the search engine providing the information to us and that often is not the case.  Unfortunately there is nothing we can do about this, we report on everything we receive.
+
+= Why did my visits suddenly jump way up today? =
+
+There can be many reasons for this, but the most common reason is a botnet has decided to visit your site and we have been unable to filter it out.  You usually see your visits spike for a few days and then they give up.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
