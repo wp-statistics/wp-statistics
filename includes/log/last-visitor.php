@@ -1,5 +1,6 @@
 <script type="text/javascript">
-	postboxes.add_postbox_toggles(pagenow);
+	jQuery(document).ready(function(){
+		postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
 <?php
