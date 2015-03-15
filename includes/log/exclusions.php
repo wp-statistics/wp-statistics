@@ -15,7 +15,7 @@
 	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot','Feeds', 'Excluded URL');
 	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded_url');
 	$excluded_reason_db   = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ip match','Self Referral' => 'self referral','Login Page' => 'login page','Admin Page' => 'admin page','User Role' => 'user role','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded url');
-	$excluded_reason_translate = array( 'Robot' => htmlentities(__('Robot', 'wp_statistics'), ENT_QUOTES), 'Browscap' => htmlentities(__('Browscap', 'wp_statistics'), ENT_QUOTES), 'IP Match' => htmlentities(__('IP Match', 'wp_statistics'), ENT_QUOTES), 'Self Referral' => htmlentities(__('Self Referral', 'wp_statistics'), ENT_QUOTES), 'Login Page' => htmlentities(__('Login Page', 'wp_statistics'), ENT_QUOTES), 'Admin Page' => htmlentities(__('Admin Page', 'wp_statistics'), ENT_QUOTES), 'User Role' => htmlentities(__('User Role', 'wp_statistics'), ENT_QUOTES), 'Total' => htmlentities(__('Total', 'wp_statistics'), ENT_QUOTES), 'GeoIP' => htmlentities(__('GeoIP', 'wp_statistics'), ENT_QUOTES), 'Hostname' => htmlentities(__('Hostname', 'wp_statistics'), ENT_QUOTES), 'Robot Threshold' => htmlentities(__('Robot Threshold', 'wp_statistics'), ENT_QUOTES), 'Honey Pot' => htmlentities(__('Honey Pot', 'wp_statistics'), ENT_QUOTES), 'Feeds' => htmlentities(__('Feeds', 'wp_statistics') ), 'Excluded URL' => htmlentities(__('Excluded URL', 'wp_statistics') ));
+	$excluded_reason_translate = array( 'Robot' => addslashes(__('Robot', 'wp_statistics')), 'Browscap' => addslashes(__('Browscap', 'wp_statistics')), 'IP Match' => addslashes(__('IP Match', 'wp_statistics')), 'Self Referral' => addslashes(__('Self Referral', 'wp_statistics')), 'Login Page' => addslashes(__('Login Page', 'wp_statistics')), 'Admin Page' => addslashes(__('Admin Page', 'wp_statistics')), 'User Role' => addslashes(__('User Role', 'wp_statistics')), 'Total' => addslashes(__('Total', 'wp_statistics')), 'GeoIP' => addslashes(__('GeoIP', 'wp_statistics')), 'Hostname' => addslashes(__('Hostname', 'wp_statistics')), 'Robot Threshold' => addslashes(__('Robot Threshold', 'wp_statistics')), 'Honey Pot' => addslashes(__('Honey Pot', 'wp_statistics')), 'Feeds' => addslashes(__('Feeds', 'wp_statistics') ), 'Excluded URL' => addslashes(__('Excluded URL', 'wp_statistics') ));
 	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
@@ -96,7 +96,7 @@
 ?>
 							visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach( $excluded_reasons as $reason ) { echo "excluded_data_line_" . $excluded_reason_tags[$reason] . ", "; } ?>], {
 								title: {
-									text: '<b><?php echo htmlentities(__('Excluded hits in the last', 'wp_statistics'), ENT_QUOTES) . ' ' . $daysToDisplay . ' ' . htmlentities(__('days', 'wp_statistics'), ENT_QUOTES); ?></b>',
+									text: '<b><?php echo addslashes(__('Excluded hits in the last', 'wp_statistics')) . ' ' . $daysToDisplay . ' ' . addslashes(__('days', 'wp_statistics')); ?></b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -117,7 +117,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo htmlentities(__('Number of excluded hits', 'wp_statistics'), ENT_QUOTES); ?>',
+											label: '<?php echo addslashes(__('Number of excluded hits', 'wp_statistics')); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,

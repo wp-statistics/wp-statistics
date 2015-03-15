@@ -36,7 +36,7 @@
 ?>
 							pages_jqchart = jQuery.jqplot('page-stats', [page_data_line], {
 								title: {
-									text: '<b><?php echo htmlentities(__($chart_title, 'wp_statistics'), ENT_QUOTES); ?></b>',
+									text: '<b><?php echo addslashes(__($chart_title, 'wp_statistics')); ?></b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -57,7 +57,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo htmlentities(__('Number of Hits', 'wp_statistics'), ENT_QUOTES); ?>',
+											label: '<?php echo addslashes(__('Number of Hits', 'wp_statistics')); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,

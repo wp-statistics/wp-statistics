@@ -57,7 +57,7 @@
 			// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
 			$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
 			
-			if( $result != 2 ) {
+			if( $result != 5 ) {
 				// We have to loop through all the rows in the visitors table to check for duplicates that may have been created in error.
 				$result = $wpdb->get_results( "SELECT ID, last_counter, ip FROM {$wp_prefix}statistics_visitor ORDER BY last_counter, ip" );
 				
@@ -85,6 +85,40 @@
 
 				// We might have an old index left over from 7.1-7.3 so lets make sure to delete it.
 				$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+			}
+		}
+	}
+
+	if( array_key_exists( 'visits', $_GET ) ) {
+		if( intval($_GET['visits']) == 1 ) {
+			// Check the number of index's on the visits table, if it's only 5 we need to check for duplicate entries and remove them
+			$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visit WHERE Key_name = 'unique_date'");
+
+			// Note, the result will be the number of fields contained in the index, so in our case 1.
+			if( $result != 1 ) {
+				// We have to loop through all the rows in the visitors table to check for duplicates that may have been created in error.
+				$result = $wpdb->get_results( "SELECT ID, last_counter FROM {$wp_prefix}statistics_visit ORDER BY last_counter" );
+				
+				// Setup the initial values.
+				$lastrow = array( 'last_counter' => '' );
+				$deleterows = array();
+				
+				// Ok, now iterate over the results.
+				foreach( $result as $row ) {
+					// if the last_counter (the date) and IP is the same as the last row, add the row to be deleted.
+					if( $row->last_counter == $lastrow['last_counter'] ) { $deleterows[] .=  $row->ID;}
+					
+					// Update the lastrow data.
+					$lastrow['last_counter'] = $row->last_counter;
+				}
+				
+				// Now do the acutal deletions.
+				foreach( $deleterows as $row ) {
+					$wpdb->delete( $wp_prefix . 'statistics_visit', array( 'ID' => $row ) );
+				}
+				
+				// The table should be ready to be updated now with the new index, so let's do it.
+				$result = $wpdb->get_results( "ALTER TABLE " . $wp_prefix . 'statistics_visit' . " ADD UNIQUE `unique_date` ( `last_counter` )" );
 			}
 		}
 	}

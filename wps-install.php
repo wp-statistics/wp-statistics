@@ -24,7 +24,8 @@
 			last_visit datetime NOT NULL,
 			last_counter date NOT NULL,
 			visit int(10) NOT NULL,
-			PRIMARY KEY  (ID)
+			PRIMARY KEY  (ID),
+			UNIQUE KEY unique_date (last_counter),
 		) CHARSET=utf8");
 		
 		$create_visitor_table = ("CREATE TABLE {$wp_prefix}statistics_visitor (
