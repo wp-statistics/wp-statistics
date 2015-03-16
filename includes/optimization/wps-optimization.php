@@ -100,16 +100,26 @@
 				$result = $wpdb->get_results( "SELECT ID, last_counter FROM {$wp_prefix}statistics_visit ORDER BY last_counter" );
 				
 				// Setup the initial values.
-				$lastrow = array( 'last_counter' => '' );
+				$lastrow = array( 'last_counter' => '', 'visit' => 0, 'id' => 0 );
 				$deleterows = array();
 				
 				// Ok, now iterate over the results.
 				foreach( $result as $row ) {
 					// if the last_counter (the date) and IP is the same as the last row, add the row to be deleted.
-					if( $row->last_counter == $lastrow['last_counter'] ) { $deleterows[] .=  $row->ID;}
+					if( $row->last_counter == $lastrow['last_counter'] ) { 
+						// Check to see which row has a greater number of hits and keep it.
+						if( $row->visit > $lastrow['visit'] ) {
+							$deleterows[] .=  $row->ID;
+						}
+						else {
+							$deleterows[] .= $lastrow['id'];
+						}
+					}
 					
 					// Update the lastrow data.
 					$lastrow['last_counter'] = $row->last_counter;
+					$lastrow['id'] = $row->ID;
+					$lastrow['visit'] = $row->visit;
 				}
 				
 				// Now do the acutal deletions.
