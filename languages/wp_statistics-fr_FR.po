@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-01-23 13:22:35+0000\n"
+"PO-Revision-Date: 2015-03-14 11:57:33+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,119 +12,119 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:330
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr ""
+msgstr "N&apos;utilisez pas les traductions, utilisez plut&ocirc;t les valeurs par d&eacute;faut en anglais pour les statistiques WP (n&eacute;cessite deux chargement de la page)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:324
 msgid "Force English"
-msgstr ""
+msgstr "Forcer l&apos;anglais"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:319
 msgid "Languages"
-msgstr ""
+msgstr "Langues"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:271
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
-msgstr ""
+msgstr "Remarque: cette option ne g&eacute;rera les param&egrave;tres URL (tout ce qui est apr&egrave;s le ?), seulement pour le nom du script. les entr&eacute;es de moins deux caract&egrave;res seront ignor&eacute;s."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:269
 msgid "A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection."
-msgstr ""
+msgstr "Une liste d&apos;URL locales (ex. /wordpress/about, un par ligne) &agrave; exclure de la collecte des statistiques."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:266
 msgid "Excluded URLs list"
-msgstr ""
+msgstr "Liste des URL Exclus"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Excluded URL"
-msgstr ""
+msgstr "URL Exclus"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:58
 msgid "Last 365 Days (Year)"
-msgstr ""
+msgstr "365 derniers jours (Année)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:52
 msgid "Last 30 Days (Month)"
-msgstr ""
+msgstr "30 derniers jours (un mois)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:46
 msgid "Last 7 Days (Week)"
-msgstr ""
+msgstr "7 derniers jours (Semaine)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:398
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:399
 msgid "Yandex"
-msgstr ""
+msgstr "Yandex"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:395
 msgid "clearch.org"
-msgstr ""
+msgstr "clearch.org"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:396
 msgid "DuckDuckGo"
-msgstr ""
+msgstr "DuckDuckGo"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:394
 msgid "Bing"
-msgstr ""
+msgstr "Bing"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:393
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:69
 msgid "Hits in the last 20 days"
-msgstr ""
+msgstr "Résultats des 20 derniers jours"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Feeds"
-msgstr ""
+msgstr "Feeds"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "User Role"
-msgstr ""
+msgstr "Rôle de l&#39;utilisateur"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Login Page"
-msgstr ""
+msgstr "Page de Connexion"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Admin Page"
-msgstr ""
+msgstr "Page d'Admin"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Self Referral"
-msgstr ""
+msgstr "Auto-orientation"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "IP Match"
-msgstr ""
+msgstr "Concordance IP"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Robot"
-msgstr ""
+msgstr "Robot"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:100
 msgid "Currently there are no users online in the site."
-msgstr ""
+msgstr "Actuellement, il n&#39;y a aucun utilisateur en ligne sur le site."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Robot Threshold"
-msgstr ""
+msgstr "Seuil de Robot"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Honey Pot"
-msgstr ""
+msgstr "Pot de miel"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/page.php:6
 msgid "Page Trending Stats"
-msgstr ""
+msgstr "Page Statistiques Tendances"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Hostname"
-msgstr ""
+msgstr "Nom de l&#39;hôte"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:93
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:133

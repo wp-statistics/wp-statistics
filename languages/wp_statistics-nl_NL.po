@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-06 08:52:10+0000\n"
+"PO-Revision-Date: 2015-03-16 07:34:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,15 +12,15 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:330
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr ""
+msgstr "Gebruik de vertalingen niet. Gebruik in plaats daarvan de standaard Engelse teksten voor WP Statistics (vereist het herladen van twee pagina's)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:324
 msgid "Force English"
-msgstr ""
+msgstr "Forceer Engels"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:319
 msgid "Languages"
-msgstr ""
+msgstr "Talen"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:271
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
@@ -108,7 +108,7 @@ msgstr "Robot"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:100
 msgid "Currently there are no users online in the site."
-msgstr "Er zijn momenteel geen gebruikers online op de site."
+msgstr "Er zijn momenteel geen bezoekers online op de site."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Robot Threshold"
@@ -138,7 +138,7 @@ msgstr "In- of uitschakelen van deze functie"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:99
 msgid "Check for online users every"
-msgstr "Controleer voor online gebruikers elke"
+msgstr "Controleer voor online bezoekers elke"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:104
 msgid "Second"
@@ -146,15 +146,15 @@ msgstr "Seconden"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:105
 msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "Tijd voor nauwkeurige controle gebruikers online op de site. Nu: %s seconden"
+msgstr "Tijd voor nauwkeurige controle van bezoekers op de site. Nu: %s seconden"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
-msgstr "Registreer alle gebruikers"
+msgstr "Registreer alle bezoekers"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
-msgstr "Dit negeert de uitsluitingsinstellingen en registreert alle gebruikers die online zijn (waaronder zelf-verwijzingen en robots). Het is aanbevolen om dit alleen te gebruiken voor het oplossen van problemen."
+msgstr "Dit negeert de uitsluitingsinstellingen en registreert alle bezoekers die online zijn (waaronder zelf-verwijzingen en robots). Het is aanbevolen om dit alleen te gebruiken voor het oplossen van problemen."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:155
 msgid "Store entire user agent string"
@@ -237,7 +237,7 @@ msgstr "Zoekmachines"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:281
 msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
-msgstr "Uitschakelen van alle zoekmachines is niet toegestaan, het zal resulteren in een activering van alle zoekmachines."
+msgstr "Uitschakelen van alle zoekmachines is niet toegestaan. Het resulteert in een activering van alle zoekmachines."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:296
 msgid "disable"
@@ -536,7 +536,7 @@ msgstr "Dashboard"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:97
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:117
 msgid "The following items are global to all users."
-msgstr "De volgende items gelden voor alle gebruikers."
+msgstr "De volgende items gelden voor alle bezoekers."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:82
 msgid "Disable dashboard widgets"
@@ -781,7 +781,7 @@ msgstr "Totale Spams"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:151
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:310
 msgid "Total Users"
-msgstr "Totaal aantal gebruikers"
+msgstr "Totaal aantal bezoekers"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:158
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:313
@@ -796,7 +796,7 @@ msgstr "Gemiddelde reacties"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:172
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:319
 msgid "Average Users"
-msgstr "Gemiddelde gebruikers"
+msgstr "Gemiddelde bezoekers"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:179
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:322
@@ -1123,7 +1123,7 @@ msgstr "Kan niet de GeoIP-database laden, zorg ervoor dat u het hebt gedownload 
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:48
 msgid "Updated %s GeoIP records in the visitors database."
-msgstr "Bijgewerkt %s-GeoIP records in de database van de bezoekers."
+msgstr "%s-GeoIP records bijgewerkt in de bezoekers-database."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:21
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:39
@@ -1313,13 +1313,13 @@ msgstr "Aantal bezoeken en bezoekers"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:86
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:30
 msgid "Visit"
-msgstr "Bezoek"
+msgstr "Bezoeken"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:95
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:86
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:29
 msgid "Visitor"
-msgstr "Bezoeker"
+msgstr "Bezoekers"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:64
 msgid "Latest Search Word Statistics"
@@ -1381,7 +1381,7 @@ msgstr "Recente bezoekersstatistieken"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:11
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:18
 msgid "Online Users"
-msgstr "Gebruikers online"
+msgstr "Bezoekers online"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:75
 msgid "Online for "
@@ -1443,7 +1443,7 @@ msgstr "Land"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:23
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:33
 msgid "Visitor Count"
-msgstr "Bezoeker rekenen"
+msgstr "Aantal bezoekers"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:13
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:138
@@ -1503,7 +1503,7 @@ msgstr "Website"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:26
 msgid "Rate and Review"
-msgstr "Tarief en herziening"
+msgstr "Oordeel en review"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:30
 msgid "More Information"
@@ -1533,7 +1533,7 @@ msgstr "Andere"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:9
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:9
 msgid "Today Visitors Map"
-msgstr "Vandaag bezoekers brengen in kaart"
+msgstr "Overzicht bezoekers vandaag"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:31
 msgid "Address"
@@ -1897,7 +1897,7 @@ msgstr "PHP veilige modus"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
-msgstr "Is PHP veilige modus actief? De GeoIP-code wordt niet ondersteund in de veilige modus."
+msgstr "Is de veilige modus van PHP actief? De GeoIP-code wordt niet ondersteund in de veilige modus."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "jQuery Version"

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-01-23 13:23:18+0000\n"
+"PO-Revision-Date: 2015-03-16 12:13:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,15 +12,15 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:330
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr ""
+msgstr "Ne használja a beállított fordítást, helyette az angol legyen a WP Statisztika alapértelmezett nyelve (két oldal betöltése szükséges)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:324
 msgid "Force English"
-msgstr ""
+msgstr "Angol nyelv kényszerítése"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:319
 msgid "Languages"
-msgstr ""
+msgstr "Nyelvek"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:271
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
@@ -32,83 +32,83 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:266
 msgid "Excluded URLs list"
-msgstr ""
+msgstr "Blokkolt URL-ek listája"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Excluded URL"
-msgstr ""
+msgstr "Blokkolt URL"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:58
 msgid "Last 365 Days (Year)"
-msgstr ""
+msgstr "Az utolsó 365 nap (év)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:52
 msgid "Last 30 Days (Month)"
-msgstr ""
+msgstr "Utolsó 30 nap (hónap)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:46
 msgid "Last 7 Days (Week)"
-msgstr ""
+msgstr "Utolsó 7 nap (hét)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:398
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:399
 msgid "Yandex"
-msgstr ""
+msgstr "Yandex"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:395
 msgid "clearch.org"
-msgstr ""
+msgstr "clearch.org"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:396
 msgid "DuckDuckGo"
-msgstr ""
+msgstr "DuckDuckGo"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:394
 msgid "Bing"
-msgstr ""
+msgstr "Bing"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:393
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:69
 msgid "Hits in the last 20 days"
-msgstr ""
+msgstr "Találatok az elmúlt 20 napban"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Feeds"
-msgstr ""
+msgstr "Hírcsatornák"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "User Role"
-msgstr ""
+msgstr "Felhasználói szerepkör"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Login Page"
-msgstr ""
+msgstr "Bejelentkező oldal"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Admin Page"
-msgstr ""
+msgstr "Admin oldal"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Self Referral"
-msgstr ""
+msgstr "Önhivatkozás"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "IP Match"
-msgstr ""
+msgstr "IP egyezés"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Robot"
-msgstr ""
+msgstr "Robot"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:100
 msgid "Currently there are no users online in the site."
-msgstr ""
+msgstr "Jelenleg nincs aktív felhasználó az oldalon."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Robot Threshold"
@@ -124,7 +124,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:18
 msgid "Hostname"
-msgstr ""
+msgstr "Hostname"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:93
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:133
@@ -150,11 +150,11 @@ msgstr "Itt az ideje a pontos jelenlévő felhasználók ellenőrzésére az old
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
-msgstr ""
+msgstr "Rögzíti az összes felhasználó"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
-msgstr ""
+msgstr "Figyelmen kívül hagyja a blokkolási beállításokat és rögzíti az összes online felhasználót (beleértve az önhivatkozásokat és robotokat). Csak hibaelhárításra érdemes használni."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:155
 msgid "Store entire user agent string"
@@ -233,7 +233,7 @@ msgstr "Mellett hiba WP Statistics tárolja az admin kézi a plugin könyvtárba
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:276
 msgid "Search Engines"
-msgstr ""
+msgstr "Keresőmotorok"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:281
 msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
@@ -396,7 +396,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:88
 msgid "Pruning"
-msgstr ""
+msgstr "Fametszés"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:94
 msgid "Send a report whenever the pruning of database is run."
@@ -404,11 +404,11 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:100
 msgid "Upgrade"
-msgstr ""
+msgstr "Frissítés"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:106
 msgid "Send a report whenever the plugin is upgraded."
-msgstr ""
+msgstr "Jelentést küld, ha a plugint frissítették."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:111
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:116
@@ -422,7 +422,7 @@ msgstr "Menetrend"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:153
 msgid "Select how often to receive statistical report."
-msgstr ""
+msgstr "Válaszd ki, hogy milyen gyakran kérsz statisztikai jelentést."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:159
 msgid "Send reports via"
@@ -438,7 +438,7 @@ msgstr "SMS"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:170
 msgid "Select delivery method for statistical report."
-msgstr ""
+msgstr "Válassz ki egy kézbesítési módot a statisztikai jelentésekről."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "Note: To send SMS text messages please install the %s plugin."
@@ -454,7 +454,7 @@ msgstr "Jelentés törzsében"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:185
 msgid "Enter the contents of the report."
-msgstr ""
+msgstr "Írd be a jelentés tartalmát."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:187
 msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:"
@@ -514,7 +514,7 @@ msgstr "Statisztikák összegzése"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:28
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:108
 msgid "About"
-msgstr "Körülbelül"
+msgstr "Rólunk"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:34
 msgid "Hits Statistical Chart"
@@ -530,29 +530,29 @@ msgstr "Legtöbbet meglátogatott oldalak"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:73
 msgid "Dashboard"
-msgstr ""
+msgstr "Vezérlőpult"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:77
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:97
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:117
 msgid "The following items are global to all users."
-msgstr ""
+msgstr "A következő elemek minden felhasználó számára globálisak."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:82
 msgid "Disable dashboard widgets"
-msgstr ""
+msgstr "Vezérlőpult widgetek kikapcsolása"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:88
 msgid "Disable the dashboard widgets."
-msgstr ""
+msgstr " A vezérlőpult widgetek kikapcsolása."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:93
 msgid "Page/Post Editor"
-msgstr ""
+msgstr "Oldal/ Bejegyzés szerkesztő"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:102
 msgid "Disable post/page editor widget"
-msgstr ""
+msgstr "Bejegyzés/ oldal szerkesztő widget kikapcsolása"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:108
 msgid "Disable the page/post editor widget."
@@ -605,39 +605,39 @@ msgstr "A következő elemek egyedülálló-hoz mindegyik felhasználó. Ha nem 
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:180
 msgid "Slot"
-msgstr "Slot"
+msgstr "Cella"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:184
 msgid "Column A"
-msgstr "Oszlop"
+msgstr "Oszlop A"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:188
 msgid "Column B"
-msgstr "B oszlop"
+msgstr "Oszlop B"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:194
 msgid "Slot 1"
-msgstr "Slot 1"
+msgstr "Cella 1"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:224
 msgid "Slot 2"
-msgstr "Slot 2"
+msgstr "Cella 2"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:254
 msgid "Slot 3"
-msgstr "Slot 3"
+msgstr "Cella 3"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:284
 msgid "Slot 4"
-msgstr "Slot 4"
+msgstr "Cella 4"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:314
 msgid "Slot 5"
-msgstr "Slot 5"
+msgstr "Cella 5"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:344
 msgid "Slot 6"
-msgstr "Slot 6"
+msgstr "Cella 6"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:348
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:370
@@ -646,7 +646,7 @@ msgstr "NINCS ADAT"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:366
 msgid "Slot 7"
-msgstr ""
+msgstr "Cella 7"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
@@ -666,7 +666,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:34
 msgid "Remove"
-msgstr ""
+msgstr "Eltávolít"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:35
 msgid "Remove data and settings, this action cannot be undone."
@@ -678,11 +678,11 @@ msgstr "Általános"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:101
 msgid "Notifications"
-msgstr ""
+msgstr "Értesítések"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:102
 msgid "Dashboard/Overview"
-msgstr ""
+msgstr "Vezérlőpult/ áttekintés"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:103
 msgid "Access/Exclusions"
@@ -698,7 +698,7 @@ msgstr "Karbantartás"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:107
 msgid "Removal"
-msgstr ""
+msgstr "Eltávolítás"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:150
 msgid "Update"
@@ -732,7 +732,7 @@ msgstr "Statisztikák"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
 msgid "Show site stats in sidebar."
-msgstr "Telek statisztika megjelenítése tálaló."
+msgstr "Megjeleníti az oldal statisztikáit a sidebaron."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:73
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:260
@@ -834,11 +834,11 @@ msgstr "vagy magasabb!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:36
 msgid "Your current PHP version is"
-msgstr ""
+msgstr "Az aktuális PHP verzió"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:51
 msgid "WP Statistics has been removed, please disable and delete it."
-msgstr ""
+msgstr "WP Statistics törölve lett, kérjük, kapcsolja ki és törölje."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:27
 msgid "WP Statistics"
@@ -856,7 +856,7 @@ msgstr "Követés-ban WP Statistics online felhasználó nem engedélyezett, ké
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:104
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:107
 msgid "setting page"
-msgstr "elintézés oldal"
+msgstr "beállítás oldal"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:104
 msgid "Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
@@ -872,7 +872,7 @@ msgstr "GeoIP gyűjtemény nincs aktív, legyen szíves megy (% s), és képess�
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:110
 msgid "Setting page > GeoIP"
-msgstr "Elintézés oldal > GeoIP"
+msgstr "Beállítás oldal > GeoIP"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:195
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:307
@@ -882,7 +882,7 @@ msgstr "Beállítások"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:207
 msgid "Click here to visit the plugin on WordPress.org"
-msgstr "Kattintson ide, hogy látogassa meg a plugin a WordPress.org"
+msgstr "Kattintson ide a bővítmény megtekintéséhez a WordPress.org-on"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:207
 msgid "Visit WordPress.org page"
@@ -890,11 +890,11 @@ msgstr "WordPress.org oldal megtekintése"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:210
 msgid "Click here to rate and review this plugin on WordPress.org"
-msgstr "Kattintson ide, és tekintse át ezt a plugint a WordPress.org"
+msgstr "Kattintson ide a bővítményértékeléséhez és áttekintéséhez a WordPress.org-on."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:210
 msgid "Rate this plugin"
-msgstr "Bővítmény sebessége"
+msgstr "Bővítmény értékelése"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:254
 msgid "WP Statistics - Hits"
@@ -909,27 +909,27 @@ msgstr "Áttekintés"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:298
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:371
 msgid "Online"
-msgstr ""
+msgstr "Elérhető"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:300
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:373
 msgid "Referrers"
-msgstr ""
+msgstr "Hivatkozók"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:301
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:374
 msgid "Searches"
-msgstr "Kereső-robotok"
+msgstr "Keresések"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:302
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:375
 msgid "Search Words"
-msgstr "Kulcsszavak"
+msgstr "Kereső szavak"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:303
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:376
 msgid "Top Visitors Today"
-msgstr ""
+msgstr "Top mai látogatók"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:306
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:378
@@ -947,7 +947,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:358
 msgid "Options"
-msgstr ""
+msgstr "Opciók"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:475
 msgid "Today visitor"
@@ -959,7 +959,7 @@ msgstr "Mai látogatás"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:487
 msgid "Yesterday visitor"
-msgstr "Tegnapi Látogató"
+msgstr "Tegnapi látogató"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
 msgid "View Stats"
@@ -989,7 +989,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-install.php:250
 msgid "WP Statistics %s installed on"
-msgstr ""
+msgstr "WP Statisztika %s telepítve a(z)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:34
 msgid "Error downloading GeoIP database from: %s - %s"
@@ -1021,11 +1021,11 @@ msgstr "browscap adatbázis sikeresen frissítve!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:273
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
-msgstr ""
+msgstr "browscap adatbázis frissítve nem sikerült! A cache fájl túl nagy, visszaállítjuk az előző browscap.ini-re."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:281
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
-msgstr ""
+msgstr "browscap adatbázis frissítése nem sikerült! Új browscap.ini a mis-identifing felhasználói alkalmazások, mint bejárók, visszatérve az előző browscap.ini."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:303
 msgid "browscap already at current version!"
@@ -1033,11 +1033,11 @@ msgstr "browscap már az aktuális verzió!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:316
 msgid "Browscap.ini update on"
-msgstr ""
+msgstr "Browscap.ini frissítés"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:55
 msgid "Quick Stats"
-msgstr ""
+msgstr "Gyors statisztikák"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:56
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:54
@@ -1052,7 +1052,7 @@ msgstr "A 10 leggyakoribb ország"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:58
 msgid "Today's Visitor Map"
-msgstr ""
+msgstr "Mai látogatói térkép"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:59
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:46
@@ -1103,19 +1103,19 @@ msgstr "Utolsó keresett szavak"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:8
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:35
 msgid "Top 10 Visitors Today"
-msgstr ""
+msgstr "Mai top 10 látogató"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:97
 msgid "Please reload the dashboard to display the content of this widget."
-msgstr ""
+msgstr "Kérjük, frissítse be újra a vezérlőpultot, hogy megjelenjen a tartalom ezen widgeten."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:138
 msgid "WP Statistics Overview"
-msgstr ""
+msgstr "WP Statisztikák áttekintése"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:63
 msgid "This post is not yet published."
-msgstr ""
+msgstr "Ezt a bejegyzést még nem tették közzé."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:24
 msgid "Unable to load the GeoIP database, make sure you have downloaded it in the settings page."
@@ -1280,7 +1280,7 @@ msgstr "Kizárások statisztikai diagram"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:99
 msgid "Excluded hits in the last"
-msgstr "Kizárt az utolsó találatok"
+msgstr "Kizárt találatok az utolsó"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:99
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:60
@@ -1323,7 +1323,7 @@ msgstr "Látogató"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:64
 msgid "Latest Search Word Statistics"
-msgstr "Legújabb keresési szót statisztika"
+msgstr "Legutolsó keresési szavak statisztikája"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:99
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:98
@@ -1333,7 +1333,7 @@ msgstr "Legújabb keresési szót statisztika"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:30
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:32
 msgid "#hash#"
-msgstr "#hash #"
+msgstr "#hash#"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:104
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:103
@@ -1491,7 +1491,7 @@ msgstr "Referenciák"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:12
 msgid "Top 100 Visitors Today"
-msgstr ""
+msgstr "Top 100 mai látogató"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:8
 msgid "About WP Statistics Version %s"
@@ -1503,7 +1503,7 @@ msgstr "Honlap"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:26
 msgid "Rate and Review"
-msgstr "Árfolyam és felülvizsgálat"
+msgstr "Értékelés és megtekintés"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:30
 msgid "More Information"
@@ -1512,7 +1512,7 @@ msgstr "További információ"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:39
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
-msgstr "A termék tartalmaz GeoLite2 adatok készítette MaxMind, elérhető: %s."
+msgstr "Ez a termék tartalmaz GeoLite2 adatokat, amit a MaxMind készített, elérhető: %s."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:7
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
@@ -1533,7 +1533,7 @@ msgstr "Egyéb"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/google.map.php:9
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:9
 msgid "Today Visitors Map"
-msgstr "Ma a látogatók Térkép"
+msgstr "Mai látogatók térképe"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:31
 msgid "Address"
@@ -1541,7 +1541,7 @@ msgstr "Cím"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:23
 msgid "User(s) Online"
-msgstr "Online még:"
+msgstr "Online felhasználók"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:34
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:79
@@ -1591,7 +1591,7 @@ msgstr ""
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:35
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:291
 msgid "Version"
-msgstr ""
+msgstr "Verzió"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-agents.php:5
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:5
@@ -1624,7 +1624,7 @@ msgstr "a(z) %s platform adatok sikeresen törölve."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/delete-platforms.php:17
 msgid "No platform data found to remove!"
-msgstr ""
+msgstr "Nincs eltávolítható platform adat!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/empty.php:53
 msgid "%s table data deleted successfully."
@@ -1644,7 +1644,7 @@ msgstr "Futtassa újra a telepítés"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
-msgstr "Telepíti most!"
+msgstr "Telepítés most!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:15
 msgid "If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process."
@@ -1681,7 +1681,7 @@ msgstr "Régi installálók WP Statistics ismétlődő bejegyzések a látogató
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:47
 msgid "Congratulations, your installation is already up to date, nothing to do."
-msgstr "Gratulálunk a bevezetés van már naprakész, semmi köze."
+msgstr "Gratulálunk a telepítés befejeződött, nincs további teendője."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:7
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:147
@@ -1716,7 +1716,7 @@ msgstr "A kimeti fájl típúsának kiválasztása."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:47
 msgid "Include Header Row"
-msgstr "Közé tartozik a fejlécsor"
+msgstr "Fejléc sor beleérve"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:52
 msgid "Include a header row as the first line of the exported file."
@@ -1728,7 +1728,7 @@ msgstr "Indítás most!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:15
 msgid "Historical Values"
-msgstr ""
+msgstr "Történeti értékek"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:20
 msgid "Note: As you have just purged the database you must reload this page for these numbers to be correct."
@@ -1752,14 +1752,14 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:48
 msgid "Update now!"
-msgstr ""
+msgstr "Frissítse most!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:10
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:37
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:63
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:91
 msgid "Are you sure?"
-msgstr "Biztos?"
+msgstr "Biztos benne?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:119
 msgid "Data"
@@ -1834,7 +1834,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "Memory usage in the overview page"
-msgstr ""
+msgstr "Memóriahasználat az áttekintő oldalon"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:44
 msgid "PHP Memory Limit"
@@ -1955,7 +1955,7 @@ msgstr ", létre "
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:208
 msgid "The file size and date of the GeoIP database."
-msgstr "A reszelő méret és a dátum a GeoIP-adatbázis."
+msgstr "A fájl méreet és a dátuma a GeoIP adatbázisnak."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:214
 msgid "browscap.ini File"
@@ -2003,19 +2003,19 @@ msgstr "Az ügyfél felhasználói ügynök karakterlánca."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "Browser"
-msgstr ""
+msgstr "Böngésző"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:285
 msgid "The detected client browser."
-msgstr ""
+msgstr "Az észlelt kliens böngésző."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser version."
-msgstr ""
+msgstr "Az észlelt kliens böngésző verzió."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:307
 msgid "The detected client platform."
-msgstr ""
+msgstr "Az észlelt kliens platform."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
 msgid "This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?"
@@ -2069,7 +2069,7 @@ msgstr "Frissítések"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:151
 msgid "Historical"
-msgstr ""
+msgstr "Történeti"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
@@ -2081,27 +2081,27 @@ msgstr "Látogasson el hozzánk Online"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
 msgid "Come visit our great new %s and keep up to date on the latest news about WP Statistics."
-msgstr "Jöjjön el a mi nagyszerű új %s, és tartsa naprakészen a legújabb hírek a WP Statistics."
+msgstr "Látogasson el a mi új %s-unkra, és legyen naprakész a WP Statistics legújabb híreiről."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
 msgid "website"
-msgstr "Honlap"
+msgstr "honlap"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:28
 msgid "Rate and Review at WordPress.org"
-msgstr "A WordPress.org értékelése és"
+msgstr "A WordPress.org értékelése és megtekintése"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
-msgstr "Köszönet részére beiktatás WP Statistics, azt javasoljuk, hogy nyújtson be egy "
+msgstr "Köszönjük, hogy telepítette a WP Statisztikákat, azt javasoljuk, hogy küldjön be egy "
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "rating and review"
-msgstr "értékelése és felülvizsgálata"
+msgstr "értékelést és áttekintést"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
-msgstr "mint a WordPress.org. Az Ön visszajelzése nagyon méltányol!"
+msgstr "a WordPress.org-on. Az Ön visszajelzését előre is köszönjük!"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:36
 msgid "Translations"
@@ -2109,7 +2109,7 @@ msgstr "Fordítások"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
 msgid "WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help."
-msgstr "WP Statistics támogatja a honosítást és bátorítjuk felhasználóinkat, hogy fordítás benyújtására, kérjük, látogasson el a jelenlegi állapotának megtekintéséhez a(z) %s és %s, ha azt szeretné, hogy segítsen."
+msgstr "WP Statistics támogatja a honosítást és bátorítjuk felhasználóinkat, hogy nyújtsanak be fordítási javaslatokat. Kérjük, látogasson el a jelenlegi a %s és %s, ha szeretnél segítseni nekünk."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
 msgid "translation collaboration site"
@@ -2117,7 +2117,7 @@ msgstr "fordítási együttműködés webhely"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
 msgid "drop us a line"
-msgstr "nekünk egy csepp sor"
+msgstr "írjon egy sort nekünk"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:44
 msgid "Support"
@@ -2125,16 +2125,16 @@ msgstr "Támogatás"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:49
 msgid "We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:"
-msgstr "Elnézést, a ' birtoklás probléma-val WP Statistics, és örülünk, hogy segítsen. Itt van egy pár dolgot, mielőtt kapcsolatba lépne velünk csinálni:"
+msgstr "Sajnáljuk, hogy problémába ütközött a WP Statisticssal, és örülünk, hogy segíthetünk. Itt van egy pár dolgot, mielőtt kapcsolatba lépne velünk:"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:52
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
 msgid "Have you read the %s?"
-msgstr "Olvastad a %s?"
+msgstr "Olvasd el ezt: %s?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:52
 msgid "FAQs"
-msgstr "Gyakran ismételt kérdések"
+msgstr "Gyakran Ismételt Kérdések"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
 msgid "manual"
@@ -2142,7 +2142,7 @@ msgstr "kézikönyv"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
 msgid "Have you search the %s for a similar issue?"
-msgstr "Van egy hasonló kérdést a(z) %s kereshet?"
+msgstr "Hasonló kérdéseket a problémával kapcsolatban a %s-on is kereshetsz."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:54
 msgid "support forum"
@@ -2150,7 +2150,7 @@ msgstr "Fórum"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:55
 msgid "Have you search the Internet for any error messages you are receiving?"
-msgstr "Már keresni az interneten valamilyen hibaüzenetet kapsz?"
+msgstr "Keress az interneten, ha valamilyen hibaüzenetet kapsz."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:56
 msgid "Make sure you have access to your PHP error logs."
@@ -2158,55 +2158,55 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:59
 msgid "And a few things to double-check:"
-msgstr "És néhány dolog, hogy ellenőrizze:"
+msgstr "Az alábbi pár dolgot ellenőrizze:"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:62
 msgid "How's your memory_limit in php.ini?"
-msgstr "Hogyan történik a memory_limit-ban php.ini?"
+msgstr "Mennyi a memory_limit a php.ini fájlban?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:63
 msgid "Have you tried disabling any other plugins you may have installed?"
-msgstr "Volna Ön próbált megbénít akármi más dugó telepítésekor?"
+msgstr "Próbálta már kikapcsolni bármelyik másik bővítményt, amit telepített?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:64
 msgid "Have you tried using the default WordPress theme?"
-msgstr "Volna Ön próbált használ az alapértelmezett WordPress téma?"
+msgstr "Próbálta már az alapértelmezett WordPress témát beállítani?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
 msgid "Have you double checked the plugin settings?"
-msgstr "Dupla ellenőrizte a plugin beállításait?"
+msgstr "Kétszer is ellenőrozte a bővítmény beállításait?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
 msgid "Do you have all the required PHP extensions installed?"
-msgstr "Van-e minden a szükséges PHP kiterjesztés beiktatott?"
+msgstr "Minden szükséges PHP kiterjesztést telepített?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
 msgid "Are you getting a blank or incomplete page displayed in your browser?  Did you view the source for the page and check for any fatal errors?"
-msgstr "Van szerzés egy üres vagy hiányosan kitöltött oldal jelenik meg a böngészőben? Ön megtekintheti az oldal forrását és ellenőrizze a végzetes hibákat?"
+msgstr "Egy üres vagy hiányosan kitöltött oldal jelenik meg a böngészőjében? Megnézte az oldal forrását és ellenőrizze a végzetes hibákat?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:68
 msgid "Have you checked your PHP and web server error logs?"
-msgstr "Kereste már a PHP és a web szerver hiba naplók?"
+msgstr "Ellenőrizte a PHP és a web szerver hiba naplóját?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
 msgid "Still not having any luck?"
-msgstr "Még mindig nem birtoklás akármi szerencse?"
+msgstr "Még mindig nincs megoldva?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
 msgid "Then please open a new thread on the %s and we'll respond as soon as possible."
-msgstr "Akkor legyen szíves nyit egy új szál a %s, és mi fog reagálni a lehető leghamarabb."
+msgstr "Kérjük nyisson egy új beszélgetést itt: %s, és mi válaszolni fogunk amilyen hamar csak tudunk."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:71
 msgid "WordPress.org support forum"
-msgstr "WordPress.org Fórum"
+msgstr "WordPress.org fórum"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
 msgid "Alternatively %s support is available as well."
-msgstr "Alternatív megoldásként %s támogatás is rendelkezésre áll."
+msgstr "Alternatív %s támogatás is rendelkezésre áll."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
 msgid "Farsi"
-msgstr "Fórum"
+msgstr "Farsi"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:21
 msgid "WP Statistics Honey Pot Page"
@@ -2277,7 +2277,7 @@ msgstr "Zárja ki a felhasználói szerepkörök"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:254
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:261
 msgid "Exclude"
-msgstr "Kizárás"
+msgstr "Blokkolás"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:134
 msgid "Exclude %s role from data collection."
@@ -2309,7 +2309,7 @@ msgstr "Erő a robot lista alaphelyzetbe kell állítani az alapértelmezett WP 
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:171
 msgid "Robot visit threshold"
-msgstr ""
+msgstr "Robot látogatási küszöb"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:174
 msgid "Treat visitors with more than this number of visits per day as robots.  0 = disabled."
@@ -2317,7 +2317,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:179
 msgid "Excluded IP address list"
-msgstr "Kizárt IP-címlista"
+msgstr "Blokkolt IP-cím lista"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:182
 msgid "A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255."
@@ -2357,31 +2357,31 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:207
 msgid "GeoIP Exclusions"
-msgstr ""
+msgstr "GeoIP blokkolások"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:211
 msgid "Excluded countries list"
-msgstr ""
+msgstr "Blokkolt országok listája"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:214
 msgid "A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use \"000\" (three zeros) to exclude unknown countries."
-msgstr ""
+msgstr "Blokkolt országkódok listája (soronként csak két betű) a statisztikák adatgyűjtéshez. Használd a &quot;000&quot; (három nullát) hogy az ismeretlen országokat blokkold."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:219
 msgid "Included countries list"
-msgstr ""
+msgstr "Beleszámított országok listája"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:222
 msgid "A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use \"000\" (three zeros) to exclude unknown countries."
-msgstr ""
+msgstr "Engedélyezett országkódok listája (soronként csak két betű) a statisztikai adatgyűjtéshez, ha ez a lista nem üres, csak az engedélyezett országok látogatói kerülnek rögzítésre. Használd a &quot;000&quot; (három nullát), hogy az ismeretlen országokat letiltsd."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:227
 msgid "Host Exclusions"
-msgstr ""
+msgstr "Host blokkolások"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:231
 msgid "Excluded hosts list"
-msgstr ""
+msgstr "Blokkolt hostok listája"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:234
 msgid "A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection."
@@ -2397,27 +2397,27 @@ msgstr "Webhely URL-kivételek"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:245
 msgid "Excluded login page"
-msgstr "Kizárt logika oldal"
+msgstr "Blokkolt login oldal"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:248
 msgid "Exclude the login page for registering as a hit."
-msgstr "Zárja ki a logika oldal részére beiktat mint egy megüt."
+msgstr "Blokkolja a login oldal találatként való regisztrálását."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:252
 msgid "Excluded admin pages"
-msgstr "Kizárt admin oldalak"
+msgstr "Blokkolt admin oldalak"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:255
 msgid "Exclude the admin pages for registering as a hit."
-msgstr "Zárja ki az admin oldalak részére beiktat mint egy megüt."
+msgstr "Zárja ki az admin oldalak találatként való regisztrálását."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:259
 msgid "Excluded RSS feeds"
-msgstr ""
+msgstr "Blokkolt RSS hírcsatornák"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:262
 msgid "Exclude the RSS feeds for registering as a hit."
-msgstr ""
+msgstr "Blokkolja az RSS csatornák találatként való regisztrálását. "
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:22
 msgid "browscap settings"
@@ -2457,11 +2457,11 @@ msgstr "browscap használat"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:147
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:159
 msgid "Active"
-msgstr "Aktiválás"
+msgstr "Aktív"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:33
 msgid "The browscap database will be downloaded and used to detect robots."
-msgstr "Az browscap adatbázis lesz letöltött és hozzászokott kinyomoz robotok."
+msgstr "Az browscap adatbázis le lesz töltötve és hozzászokott kinyomoz robotok."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:39
 msgid "Update browscap Info"
@@ -2469,12 +2469,12 @@ msgstr "Frissítés browscap Info"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:44
 msgid "Download browscap Database"
-msgstr "Letöltés browscap adatbázis"
+msgstr "Letölti a browscap adatbázist"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:45
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:60
 msgid "Save changes on this page to download the update."
-msgstr "A frissítés letöltéséhez Mentsük a módosításokat ezen az oldalon."
+msgstr " Kérjük mentse el módosításait ezen az oldalon a frissítéshez."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:51
 msgid "Schedule weekly update of browscap DB"
