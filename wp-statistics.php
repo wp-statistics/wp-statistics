@@ -22,7 +22,15 @@ License: GPL2
 	function wp_statistics_init() {
 		GLOBAL $WP_Statistics;
 		
-		if( ! $WP_Statistics->get_option('override_language', false) ) {
+		$override = false;
+		
+		if( is_object( $WP_Statistics ) ) {
+			if( $WP_Statistics->get_option('override_language', false) ) {
+				$override = true;
+			}
+		}
+		
+		if( !$override ) {
 			load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 			__('WP Statistics', 'wp_statistics');
 			__('Complete statistics for your WordPress site.', 'wp_statistics');
