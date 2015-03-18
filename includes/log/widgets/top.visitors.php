@@ -39,6 +39,8 @@
 								<?php
 									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE last_counter = '{$sql_time}' ORDER BY hits DESC");
 									
+									$i = 0;
+									
 									foreach( $result as $visitor) {
 										$i++;
 										
