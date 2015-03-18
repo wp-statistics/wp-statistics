@@ -90,6 +90,7 @@
 			
 		$display = $WP_Statistics->get_user_option('overview_display');
 			
+		if( !array_key_exists( $slot, $display['A'] ) ) { $display['A'][$slot] = $slot; }
 		if( $display['A'][$slot] == '' ) { $display['A'][$slot] = $slot; }
 		
 		$ret = 0;
@@ -133,6 +134,7 @@
 			
 		$display = $WP_Statistics->get_user_option('overview_display');
 			
+		if( !array_key_exists( $slot, $display['B'] ) ) { $display['B'][$slot] = $slot; }
 		if( $display['B'][$slot] == '' ) { $display['B'][$slot] = $slot; }
 		
 		switch( $display['B'][$slot] ) {
