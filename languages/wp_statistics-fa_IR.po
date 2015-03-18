@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-10 20:36:09+0000\n"
+"PO-Revision-Date: 2015-03-18 00:51:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2045,7 +2045,7 @@ msgstr "جایگزین کردن مقادیر هش به جای آدرس آی‌پ
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
-msgstr "آدرس آی‌پی با مقادیر خش جایگزینه می‌شود."
+msgstr "آدرس آی‌پی با مقادیر هش جایگزین می‌شود."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:51
 msgid "Install routine complete."

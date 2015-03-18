@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-16 09:05:27+0000\n"
+"PO-Revision-Date: 2015-03-17 07:08:07+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,15 +40,15 @@ msgstr "بەستەری دەرکراو"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:58
 msgid "Last 365 Days (Year)"
-msgstr "(دوایین ٣٦٥ ڕۆژ (ساڵ"
+msgstr "٣٦٥ ڕۆژ ڕابردوو(ساڵ)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:52
 msgid "Last 30 Days (Month)"
-msgstr "(دوایین ٣٠ رۆژ (مانگ"
+msgstr "٣٠ ڕۆژ ڕابردوو (مانگ)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:46
 msgid "Last 7 Days (Week)"
-msgstr "(دوایین ٧ رۆژ (هەفتە"
+msgstr "٧ ڕۆژی ڕابردوو(هەفتە)"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:398
 msgid "Yahoo!"
@@ -617,27 +617,27 @@ msgstr "ئاسۆیی B"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:194
 msgid "Slot 1"
-msgstr "ئاسۆیی 1"
+msgstr "ئاسۆیی ١"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:224
 msgid "Slot 2"
-msgstr "ئاسۆیی 2"
+msgstr "ئاسۆیی ٢"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:254
 msgid "Slot 3"
-msgstr "ئاسۆیی 3"
+msgstr "ئاسۆیی ٣"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:284
 msgid "Slot 4"
-msgstr "ئاسۆیی 4"
+msgstr "ئاسۆیی ٤"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:314
 msgid "Slot 5"
-msgstr "ئاسۆیی 5"
+msgstr "ئاسۆیی ٥"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:344
 msgid "Slot 6"
-msgstr "ئاسۆیی 6"
+msgstr "ئاسۆیی ٦"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:348
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:370
@@ -1042,13 +1042,13 @@ msgstr "ئاماری خێرا"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:56
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:54
 msgid "Top 10 Browsers"
-msgstr "١٠ وێبگەڕی باش"
+msgstr "١٠ وێبگەڕی لووتکە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:57
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:27
 msgid "Top 10 Countries"
-msgstr "١٠ وەڵاتی باشتر"
+msgstr "١٠ وەڵاتی لووتکە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:58
 msgid "Today's Visitor Map"
@@ -1448,7 +1448,7 @@ msgstr "ژمارەی میوان"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:13
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:138
 msgid "Top Pages"
-msgstr "باشتریب پەرەکان"
+msgstr "پەڕەکانی لووتکە"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:20
 msgid "Top 5 Pages Trends"
@@ -2389,7 +2389,7 @@ msgstr "لیستێک لە ناونیشانەکانی خۆماڵی (بۆ وێنە
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:236
 msgid "Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it's IP address and when the cache is updated resulting in some hits recorded."
-msgstr ""
+msgstr "ئاگاداربە:ئەم بڕگە  dns پێچەوانە لە هەر  نوێکردنی پەڕە بۆ هەر ipێک  کە لە سەر شەکرەی هەر  سێرڤێرێک لە کاتژمێر بەکاردێت . گەر ئێوە بەرگیری بکەن لە هەر هۆستێکی تایبەتلەوانەیە کە ءیوە پەیدا بکەن پلەی هاوئاهەنگی لە نێوانگۆڕانی هۆست کە بە ناونیشانی ئایپی و  بەڕۆژ بوونی ئاکامی سەردانەکان لە  بوونی شەکرە لە وێبگەر."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:241
 msgid "Site URL Exclusions"
