@@ -68,7 +68,7 @@
 ?>
 							visit_chart = jQuery.jqplot('search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
 								title: {
-									text: '<b><?php echo addslashes(__('Search engine referrals in the last', 'wp_statistics')) . ' ' . $daysToDisplay . ' ' . addslashes(__('days', 'wp_statistics')); ?></b>',
+									text: '<b>' + <?php echo json_encode(__('Search engine referrals in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics')); ?> + '</b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',

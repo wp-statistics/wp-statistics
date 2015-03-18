@@ -57,7 +57,7 @@
 ?>
 							visit_chart = jQuery.jqplot('visits-stats', [visit_data_line, visitor_data_line], {
 								title: {
-									text: '<b><?php echo addslashes(__('Hits in the last', 'wp_statistics')) . ' ' . $daysToDisplay . ' ' . addslashes(__('days', 'wp_statistics')); ?></b>',
+									text: '<b>' + <?php echo json_encode(__('Hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics')); ?> + '</b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -78,7 +78,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo addslashes(__('Number of visits and visitors', 'wp_statistics')); ?>',
+											label: <?php echo json_encode(__('Number of visits and visitors', 'wp_statistics')); ?>,
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -92,7 +92,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: ['<?php echo addslashes(__('Visit', 'wp_statistics')); ?>', '<?php echo addslashes(__('Visitor', 'wp_statistics')); ?>'],
+									labels: ['<?php echo json_encode(__('Visit', 'wp_statistics')); ?>', '<?php echo json_encode(__('Visitor', 'wp_statistics')); ?>'],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{

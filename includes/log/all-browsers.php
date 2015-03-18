@@ -39,7 +39,7 @@
 
 								browser_chart = jQuery.jqplot('browsers-log', [browser_data], { 
 									title: {
-										text: '<b><?php echo addslashes(__('Browsers by type', 'wp_statistics')); ?></b>',
+										text: '<b>' + <?php echo json_encode(__('Browsers by type', 'wp_statistics')); ?> + '</b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',
@@ -123,7 +123,7 @@
 
 								platform_chart = jQuery.jqplot('platform-log', [platform_data], { 
 									title: {
-										text: '<b><?php echo addslashes(__('Browsers by platform', 'wp_statistics')); ?></b>',
+										text: '<b>' + <?php echo json_encode(__('Browsers by platform', 'wp_statistics')); ?> + '</b>',
 										fontSize: '12px',
 										fontFamily: 'Tahoma',
 										textColor: '#000000',

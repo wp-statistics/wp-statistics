@@ -15,7 +15,7 @@
 	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot','Feeds', 'Excluded URL');
 	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded_url');
 	$excluded_reason_db   = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ip match','Self Referral' => 'self referral','Login Page' => 'login page','Admin Page' => 'admin page','User Role' => 'user role','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded url');
-	$excluded_reason_translate = array( 'Robot' => addslashes(__('Robot', 'wp_statistics')), 'Browscap' => addslashes(__('Browscap', 'wp_statistics')), 'IP Match' => addslashes(__('IP Match', 'wp_statistics')), 'Self Referral' => addslashes(__('Self Referral', 'wp_statistics')), 'Login Page' => addslashes(__('Login Page', 'wp_statistics')), 'Admin Page' => addslashes(__('Admin Page', 'wp_statistics')), 'User Role' => addslashes(__('User Role', 'wp_statistics')), 'Total' => addslashes(__('Total', 'wp_statistics')), 'GeoIP' => addslashes(__('GeoIP', 'wp_statistics')), 'Hostname' => addslashes(__('Hostname', 'wp_statistics')), 'Robot Threshold' => addslashes(__('Robot Threshold', 'wp_statistics')), 'Honey Pot' => addslashes(__('Honey Pot', 'wp_statistics')), 'Feeds' => addslashes(__('Feeds', 'wp_statistics') ), 'Excluded URL' => addslashes(__('Excluded URL', 'wp_statistics') ));
+	$excluded_reason_translate = array( 'Robot' => json_encode(__('Robot', 'wp_statistics')), 'Browscap' => json_encode(__('Browscap', 'wp_statistics')), 'IP Match' => json_encode(__('IP Match', 'wp_statistics')), 'Self Referral' => json_encode(__('Self Referral', 'wp_statistics')), 'Login Page' => json_encode(__('Login Page', 'wp_statistics')), 'Admin Page' => json_encode(__('Admin Page', 'wp_statistics')), 'User Role' => json_encode(__('User Role', 'wp_statistics')), 'Total' => json_encode(__('Total', 'wp_statistics')), 'GeoIP' => json_encode(__('GeoIP', 'wp_statistics')), 'Hostname' => json_encode(__('Hostname', 'wp_statistics')), 'Robot Threshold' => json_encode(__('Robot Threshold', 'wp_statistics')), 'Honey Pot' => json_encode(__('Honey Pot', 'wp_statistics')), 'Feeds' => json_encode(__('Feeds', 'wp_statistics') ), 'Excluded URL' => json_encode(__('Excluded URL', 'wp_statistics') ));
 	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
@@ -96,7 +96,7 @@
 ?>
 							visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach( $excluded_reasons as $reason ) { echo "excluded_data_line_" . $excluded_reason_tags[$reason] . ", "; } ?>], {
 								title: {
-									text: '<b><?php echo addslashes(__('Excluded hits in the last', 'wp_statistics')) . ' ' . $daysToDisplay . ' ' . addslashes(__('days', 'wp_statistics')); ?></b>',
+									text: '<b>' + <?php echo json_encode(__('Excluded hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics')); ?> + '</b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -117,7 +117,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo addslashes(__('Number of excluded hits', 'wp_statistics')); ?>',
+											label: <?php echo json_encode(__('Number of excluded hits', 'wp_statistics')); ?>,
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,

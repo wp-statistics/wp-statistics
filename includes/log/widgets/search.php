@@ -52,7 +52,7 @@
 ?>
 							referral_chart = jQuery.jqplot('search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
 								title: {
-									text: '<b><?php echo addslashes(__('Search engine referrals in the last', 'wp_statistics')) . ' ' . $days . ' ' . addslashes(__('days', 'wp_statistics')); ?></b>',
+									text: '<b>' + <?php echo json_encode(__('Search engine referrals in the last', 'wp_statistics') . ' ' . $days . ' ' . __('days', 'wp_statistics')); ?> + '</b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -73,7 +73,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo addslashes(__('Number of referrals', 'wp_statistics')); ?>',
+											label: <?php echo json_encode(__('Number of referrals', 'wp_statistics')); ?>,
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -87,7 +87,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: [<?php foreach( $search_engines as $se ) { echo "'" . addslashes($se['translated']) . "', "; } if( $total_stats == 1 ) { echo "'" . addslashes(__('Total', 'wp_statistics')) . "'"; }?>],
+									labels: [<?php foreach( $search_engines as $se ) { echo json_encode($se['translated']) . ", "; } if( $total_stats == 1 ) { echo "'" . json_encode(__('Total', 'wp_statistics')) . "'"; }?>],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{
