@@ -214,10 +214,23 @@ There can be many reasons for this, but the most common reason is a botnet has d
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.1 =
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.0 =
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.1 =
+* Added: Unique index requirement on visits table to avoid race condition creating duplicate entires.
+* Added: Option to the optimization page to remove duplicates and add new  unique index to visits table on existing installs.
+* Updated: Translations, thanks to all of our translators!
+* Updated: Cleanup of some WP Debug warnings.
+* Fixed: JavaScript postboxes call was currupted on some pages causing a javascript error.
+* Fixed: Change html encode to jason_ecnode for data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array.
+* Fixed: Verify $WP_Statistics is an object before using it, which was causing a fatal error on some installs.
+* Removed: Redudnent e modifier in preg_replace_callback to avoid php warning message.
+
 = 9.0 =
 * Added: URL exclusions option.
 * Added: Swedish translation, thanks ronneborn.
