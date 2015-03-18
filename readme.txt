@@ -227,7 +227,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Translations, thanks to all of our translators!
 * Updated: Cleanup of some WP Debug warnings.
 * Fixed: JavaScript postboxes call was currupted on some pages causing a javascript error.
-* Fixed: Change html encode to jason_ecnode for data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array.
+* Fixed: Change html encode to jason_ecnode for data to be used in javascript to avoid single quotes as part of the translation breaking the javascript array, this change now fixes extended character display in the JavaScript charts.
 * Fixed: Verify $WP_Statistics is an object before using it, which was causing a fatal error on some installs.
 * Removed: Redudnent e modifier in preg_replace_callback to avoid php warning message.
 
