@@ -90,6 +90,7 @@
 			
 		$display = $WP_Statistics->get_user_option('overview_display');
 			
+		if( !is_array( $display['A'] ) ) { $display['A'][$slot] = $slot; }
 		if( !array_key_exists( $slot, $display['A'] ) ) { $display['A'][$slot] = $slot; }
 		if( $display['A'][$slot] == '' ) { $display['A'][$slot] = $slot; }
 		
@@ -133,7 +134,8 @@
 		GLOBAL $WP_Statistics;
 			
 		$display = $WP_Statistics->get_user_option('overview_display');
-			
+		
+		if( !is_array( $display['B'] ) ) { $display['B'][$slot] = $slot; }
 		if( !array_key_exists( $slot, $display['B'] ) ) { $display['B'][$slot] = $slot; }
 		if( $display['B'][$slot] == '' ) { $display['B'][$slot] = $slot; }
 		
