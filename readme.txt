@@ -221,6 +221,9 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.1.1 =
+*Fixed: Verify the $display settings return an array before using it as an array to avoid warning on overview page.
+
 = 9.1 =
 * Added: Unique index requirement on visits table to avoid race condition creating duplicate entires.
 * Added: Option to the optimization page to remove duplicates and add new  unique index to visits table on existing installs.
