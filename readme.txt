@@ -227,6 +227,9 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.1.* =
+* Added quick link to summary stats.
+
 = 9.1.2 =
 * Fixed: Removed spurious comma in SQL creation script for Visits table, thanks kitchin.
 
