@@ -231,12 +231,15 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added quick link to summary stats.
 
 = 9.1.2 =
+* Release Date: March 20, 2015
 * Fixed: Removed spurious comma in SQL creation script for Visits table, thanks kitchin.
 
 = 9.1.1 =
+* Release Date: March 19, 2015
 * Fixed: Verify the $display settings return an array before using it as an array to avoid warning on overview page.
 
 = 9.1 =
+* Release Date: March 18, 2015
 * Added: Unique index requirement on visits table to avoid race condition creating duplicate entires.
 * Added: Option to the optimization page to remove duplicates and add new  unique index to visits table on existing installs.
 * Updated: Translations, thanks to all of our translators!
@@ -247,6 +250,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Redudnent e modifier in preg_replace_callback to avoid php warning message.
 
 = 9.0 =
+* Release Date: March 12, 2015
 * Added: URL exclusions option.
 * Added: Swedish translation, thanks ronneborn.
 * Added: Kurdish (Sorani) translation, thanks sardar4it.
@@ -273,9 +277,11 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Use of deprecated $blog_id.  Thanks gbonvehi.
 
 = 8.8.1 =
+* Release Date: March 9, 2015
 * Updated license to GPL3.
 
 = 8.8 =
+* Release Date: January 31, 2015
 * Added: Installation/upgrades/removals on WordPress multi-sites now upgrade all sites in the network if the installing user has the appropriate rights.
 * Added: RSS feed URL's can now be excluded.
 * Added: Option to set the country code for private IP addresses.
@@ -290,6 +296,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: IP address exclusions without a subnet mask now assume a single IP address instead of all IP addresses.
 
 = 8.7.2 =
+* Release Date: January 6, 2015
 * Added: shareaholic-bot to robots list.
 * Fixed: Robot threshold setting was not being saved.
 * Updated: Italian translation, thanks illatooscuro.
@@ -297,9 +304,11 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Honey pot page title now includes "Pot" in it.
 
 = 8.7.1 =
+* Release Date: December 28, 2014
 * Fixed: Variable scope for the exclusion match/reason updated to protected from private to allow the GeoIP code to set them.  This could cause various issues including failed uploades depending on the error reporting level set for PHP.
 
 = 8.7 =
+* Release Date: December 27, 2014
 * Added: Charts with multiple lines now include the data set name in the tooltip.
 * Added: Honey pot option to detect crawlers.
 * Added: Robot threshold option.
@@ -313,17 +322,21 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: GeoIP library to v2.1.1.
 
 = 8.6.3 =
+* Release Date: December 11, 2014
 * Fixed: Really fix included countries code this time.
 * Fixed: Typo in excluded hosts code.
 
 = 8.6.2 =
+* Release Date: December 11, 2014
 * Fixed: New included countries code incorrectly identified all countries as excluded.
 
 = 8.6.1 =
+* Release Date: December 11, 2014
 * Added: Code to perform additional clean up of uncommon user agents.
 * Fixed: Spurious break statement in GeoIP exclusion code which caused a fatal error in certian cases.
 
 = 8.6 =
+* Release Date: December 11, 2014
 * Added: Option to remove URI parameters from page tracking.
 * Added: GeoIP exclusion options.
 * Added: Host name exclusion options.
@@ -332,9 +345,11 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: French language.
 
 = 8.5.1 =
+* Release Date: December 2, 2014
 * Fixed: Typo in last search page causing fatal error in PHP.
 
 = 8.5 =
+* Release Date: December 2, 2014
 * Added: try/catch condition around browscap call to avoid fatal errors stopping the script.
 * Added: Page trend widget to post/page editor.
 * Added: Aland Islands Flag icon.
@@ -351,6 +366,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Use built in WordPress function to translate user roles instead of custom strings in our PO file, thanks bios4.
 
 = 8.4 =
+* Release Date: November 26, 2014
 * Added: Dashboard widgets for all of the widgets on the overview page.
 * Added: Option to disable all dashboard widgets.
 * Added: Old dashboard widget upgraded with last 10 days of hits statistics.
@@ -364,11 +380,13 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Default map type now set to JQVMap.
 
 = 8.3.1 =
+* Release Date: November 19, 2014
 * Updated: Various SQL code clean ups.
 * Updated: Varioud data validation clean ups.
 * Updated: Various data output encoding updates, thanks Marc.
 
 = 8.3 =
+* Release Date: November 14, 2014
 * Added: Sanity checks for file size and results to browscap.ini updates, if the new cache file size is wrong or it mis-identifies a common real browser as a crawler the update will be rolled back.
 * Added: Option to e-mail a report on browscap.ini, database pruning, upgrades and GeoIP database updates.
 * Updated: Polish translations.
@@ -380,6 +398,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Reference to old settings file for the widget.
 
 = 8.2 =
+* Release Date: November 6, 2014
 * Added: Support for historical data.
 * Added: Removal option.
 * Updated: Optimized SQL statements to hopefully get rid of duplicate key error/warnings.
@@ -387,18 +406,21 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixed: Duplicate date display on charts due to DST time change.
 
 = 8.1.1 =
+* Release Date: October 26, 2014
 * Fixed: Bug in browscap.ini update code that could mis-identify all hits as robots.
 * Fixed: Bug in the scheduled reports code that failed to process the report content correctly.
 * Fixed: Bug in schedule reports that failed to select the current schedule in the drop down.
 * Removed: Depricated variables from the report content description.
 
 = 8.1 =
+* Release Date: October 18, 2014
 * Added: Detected browser information to the optimization page.
 * Updated: Re-organized new browscap code to avoid PHP 5.2 or below throwing a parse error.
 * Fixed: If the client sent no user agent string a fatal error would be generated, added additional logic to handle this case.
 * Removed: Unused code in various log displays.
 
 = 8.0 =
+* Release Date: October 16, 2014
 * Added: browscap.ini support for robot detection.
 * Added: Statistics->Optimization->Database tab now how an option to re-run the install routine in case you have had to delete tables from the database.
 * Added: PHP version check, WP Statistics now requires PHP 5.3 and will no longer execute without it.
@@ -416,6 +438,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Support for old format substitution codes in the statistics reports, upgrade now converts them to short codes.
 
 = 7.4 =
+* Release Date: September 19, 2014
 * Added: Link URL for referred.
 * Updated: Widget code now adhears to WordPress standards.
 * Updated: Persian, Arabic and German (thanks Mike) translations.
@@ -426,6 +449,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Screenshots are no longer included in the distribution.
 
 = 7.3 =
+* Release Date: September 8, 2014
 * Added: Option to delete the admin manual.
 * Added: Option to force the robots list to be updated during an upgrade.
 * Added: Beta code for not storing IP addresses in the database.
@@ -437,6 +461,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Tested with WordPress 4.0.
 
 = 7.2 =
+* Release Date: August 22, 2014
 * Added: Total visitors by country to the push pins on the overview map.
 * Added: Statistical reports can now be sent to a custom list of e-mail addresses instead of just the administrator.
 * Added: JQVMap option for the overview map.
@@ -449,6 +474,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Persian (fa_IR) language.
 
 = 7.1 =
+* Release Date: August 13, 2014
 * Added: clearch.org search provider, disabled by default.
 * Added: Database tab to optimization page to manually add unique index on the visitors table removed in 7.0.3.
 * Updated: Additional WP_DEBUG message fixes.
@@ -456,9 +482,11 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Charts now properly resize when the browser window does.
 
 = 7.0.4 =
+* Release Date: August 9, 2014
 * Fixed: Typo in table definition of visitor table's UAString field.
 
 = 7.0.3 =
+* Release Date: August 8, 2014
 * Added: Extra check that the co-efficient setting is valid.
 * Updated: Format of the dbDetla scripts to match the guidelines from WordPress, thanks kitchin.
 * Updated: Handled some WP_DEBUG warning messages, thanks kitchin.
@@ -470,14 +498,17 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Database upgrade code to add the unique index on the visitors table due to issues with multiple users.  Will add back in a future release as a user selectable option.
 
 = 7.0.2 =
+* Release Date: August 7, 2014
 * Fixed: Database prefix not being used when creating/updating tables correctly.
 * Fixed: New installs caused an error in the new upgrade code as the visitor table did not exist yet.
 * Fixed: Replaced use of deprecated $table_prefix global during install/update.
 
 = 7.0.1 =
+* Release Date: August 5, 2014
 * Fixed: Error during new installations due to $wpdb object not being available.
 
 = 7.0 =
+* Release Date: August 5, 2014
 * Added: New robots to the robots list: aiHitBot, AntivirusPro, BeetleBot, Blekkobot, cbot, clumboot, coccoc, crowsnest.tv, dbot, dotbot, downloadbot, EasouSpider, Exabot, facebook.com, FriendFeedBot, gimme60bot, GroupHigh, IstellaBot, Kraken, LinkpadBot, MojeekBot, NetcraftSurveyAgent, p4Bot, PaperLiBot, Pimonster, scrapy.org, SearchmetricsBot, SemanticBot, SemrushBot, SiteExplorer, Socialradarbot, SpiderLing, uMBot-LN, Vagabondo, vBSEO, WASALive-Bot, WebMasterAid, WeSEE, XoviBot, YoudaoBot,
 * Added: Overview page can now be customized for what is displayed on a per user basis.
 * Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP Statistics.
@@ -509,6 +540,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Unused function objectToArray().
 
 = 6.1 =
+* Release Date: June 29, 2014
 * Added: Display of the current memory_limit setting from php.ini in the optimization page.
 * Added: New index on visitor table for new installs to avoid duplicate entries being created.  A future update will add this index to existing installs but will need additional testing before it is implemented.
 * Added: Seychelles flag.
@@ -520,6 +552,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Persian (fa_IR) language.
 
 = 6.0 =
+* Release Date: June 11, 2014
 * Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
 * Added: Admin manual, online viewing as well as downloadable version.
 * Added: Links for “Settings”, “WordPress Plugin Page” and “Rate” pages to the plugin list for WP Statistics.
@@ -533,6 +566,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: shortcode and functions reference from readme.txt, now in admin manual.
 
 = 5.4 =
+* Release Date: May 31, 2014
 * Fixed: GeoIP dependency code to ignore safe mode check in PHP 5.4 or newer.
 * Fixed: GeoIP dependency code to properly detect safe mode with PHP 5.3 or older.
 * Fixed: Browser information not recorded if GeoIP was not enabled.
@@ -542,6 +576,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Chinese (zh_CN) language.
 
 = 5.3 =
+* Release Date: April 17, 2014
 * Added: New robot's to the robots list: BOT for JCE, Leikibot, LoadTimeBot, NerdyBot, niki-bot, PagesInventory, sees.co, SurveyBot, trendictionbot, Twitterbot, Wotbox, ZemlyaCrawl
 * Added: Check for PHP's Safe Mode as the GeoIP code does not function with it enabled.
 * Added: Option to disable administrative notices of inactive features.
@@ -551,6 +586,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixed: Download of the GeoIP database could cause a fatal error message at the end of a page if it was triggered outside the admin area.
 
 = 5.2 =
+* Release Date: March 10, 2014
 * Added: Additional checks for BC Math and cURL which are required for the GeoIP code.
 * Updated: GeoIP database handling if it is missing or invalid.
 * Updated: GeoIP database is now stored in uploads/wp-statistics directory so it does not get overwritten during upgrades. 
@@ -558,11 +594,13 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Polish (pl_PL) language.
 
 = 5.1 =
+* Release Date: March 3, 2014
 * Fixes: Small bug in referral url.
 * Fixes: Problem export table.
 * Updated: Arabic (ar) language.
 
 = 5.0 =
+* Release Date: March 2, 2014
 * Added: Show last visitor in Google Map.
 * Added: Search visitor by IP in log pages.
 * Added: Total line to charts with multiple values, like the search engine referrals.
@@ -576,11 +614,13 @@ This release updates some core code to do with timezones, hence the change to ve
 * Removed: Parameter from `wp_statistics_lastpostdate()` function and return date type became dynamic.
 
 = 4.8.1 =
+* Release Date: February 4, 2014
 * Fixes: Small bug in the `Current_Date`.
 * Fixes: Small bug in the `exclusions.php` file.
 * Updated: Polish (pl_PL) language.
 
 = 4.8 =
+* Release Date: February 4, 2014
 * Added: Converting Gregorian date to Persian When enabled [wp-parsidate](http://wordpress.org/plugins/wp-parsidate/) plugin.
 * Added: New feature, option to record the number and type of excluded hits to your site.
 * Added: New exclusion types for login and admin pages.
@@ -589,6 +629,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Polish (pl_PL) language.
 
 = 4.7 =
+* Release Date: February 2, 2014
 * Added: Responsive Stats page for smaller-screen devices.
 * Added: Dashicons icon for plugin page.
 * Added: Tabs option in setting page.
@@ -601,9 +642,11 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Brazil (pt_BR) language.
 
 = 4.6.1 =
+* Release Date: January 24, 2014
 * Fixes: a Small bug in to get rid of one of the reported warnings from debug mode.
 
 = 4.6 =
+* Release Date: January 20, 2014
 * Added: In the optimization page you can now empty all tables at once.
 * Added: In the optimization page you can now purge statistics over a given number of days old.
 * Added: Daily scheduled job to purge statistics over a given number of days old.
@@ -615,6 +658,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixes: Bug in hits code when GeoIP was disabled, IP address would not be recorded.
 
 = 4.5 =
+* Release Date: January 18, 2014
 * Added: Support for more search engines: DuckDuckGo, Baidu and Yandex.
 * Added: Support for Google local sites like google.ca, google.fr, etc.
 * Added: Anchor links in the optimization and settings page to the main sections.
@@ -625,6 +669,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixes: Bug in widget code that didn't allow you to edit the settings after adding the widget to your site.
 
 = 4.4 =
+* Release Date: January 16, 2014
 * Added: option to set the required capability level to view statistics in the admin interface.
 * Added: option to set the required capability level to manage statistics in the admin interface.
 * Fixes: 'See More' links on the overview page now update highlight the current page in the admin menu instead of the overview page. 
@@ -633,11 +678,13 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixes: Unschedule of report event if reporting is disabled.
 
 = 4.3.1 =
+* Release Date: January 13, 2014
 * Fixes: Critical bug that caused only a single visitor to be recorded.
 * Added: Version information to the optimization page.
 [Thanks Greg Ross](http://profiles.wordpress.org/gregross)
 
 = 4.3 =
+* Release Date: January 12, 2014
 * Added: Definable robots list to exclude based upon the user agent string from the client.
 * Added: IP address and subnet exclusion support.
 * Added: Client IP and user agent information to the optimization page.
@@ -645,6 +692,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixes: A bug when the GeoIP code was disabled with optimization page.
 
 = 4.2 =
+* Release Date: December 31, 2013
 * Added: Statistical menus.
 * Fixes: Small bug in the geoip version.
 * Language: Serbian (sr_RS) was updated.
@@ -652,11 +700,13 @@ This release updates some core code to do with timezones, hence the change to ve
 * Language: French (fr_FR) was updated.
 
 = 4.1 =
+* Release Date: December 23, 2013
 * Language: Arabic (ar) was updated
 * Fixes: small bug in moved the GeoIP database.
 * Updated: update to the spiders list.
 
 = 4.0 =
+* Release Date: December 21, 2013
 * Added: GeoIP location support for visitors country.
 * Added: Download option in settings for GeoIP database.
 * Added: Populate location entries with unknown or missing location information to the optimization page.
@@ -678,6 +728,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Highcharts JS 3.0.1 to JS 3.0.7 version.
 
 = 3.2 =
+* Release Date: August 7, 2013
 * Added: Optimization plugin page.
 * Added: Export data to excel, xml, csv and tsv files.
 * Added: Delete table data.
@@ -686,6 +737,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Language: updated.
 
 = 3.1.4 =
+* Release Date: July 18, 2013
 * Added: Chart Type in the settings plugin.
 * Added: Search Engine referrer chart in the view stats page.
 * Added: Search Engine stats in Summary Statistics.
@@ -695,10 +747,12 @@ This release updates some core code to do with timezones, hence the change to ve
 * Language: updated.
 
 = 3.1.3 =
+* Release Date: June 9, 2013
 * Optimized: View statistics.
 * Added: Chinese (Taiwan) language.
 
 = 3.1.2 =
+* Release Date: June 4, 2013
 * Added: Top referring sites with full details.
 * Resolved: Loads the plugin's translated strings problem.
 * Resolved: View the main site in top referring sites.
@@ -710,11 +764,13 @@ This release updates some core code to do with timezones, hence the change to ve
 * Language: updated.
 
 = 3.1.1 =
+* Release Date: April 11, 2013
 * Bug Fix: Security problem. (Thanks Mohammad Teimori) for report bug.
 * Optimized: Statistics screen in resolution 1024x768.
 * Language: Persian was updated.
 
 = 3.1.0 =
+* Release Date: April 3, 2013
 * Bug Fix: Statistics Menu bar.
 * Bug Fix: Referral link of the last visitors.
 * Added: Latest all search words with full details.
@@ -725,6 +781,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Remove: IP Information in setting page.
 
 = 3.0.2 =
+* Release Date: February 5, 2013
 * Added: Hungarian language.
 * Added: Insert value in useronline table by Primary_Values function.
 * Added: Opera browser in get_UserAgent function.
@@ -733,9 +790,11 @@ This release updates some core code to do with timezones, hence the change to ve
 * Changed: Statistics class to WP_Statistics because Resemblance name.
 
 = 3.0.1 =
+* Release Date: February 3, 2013
 * Bug Fix: Table plugin problem.
 
 = 3.0 =
+* Release Date: February 3, 2013
 * Bug Fix: problem in calculating Statistics.
 * Optimized: and speed up the process.
 * Optimized: Overall reconstruction and coding plug with a new structure.
@@ -749,41 +808,50 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added: Send stats to Email/[SMS](http://wordpress.org/extend/plugins/wp-sms/)
 
 = 2.3.3 =
+* Release Date: December 18, 2012
 * Serbian language was solved.
 * Server variables were optimized by m.emami.
 * Turkish translation was complete.
 
 = 2.3.2 =
+* Release Date: October 24, 2012
 * Added Indonesia language.
 * Turkish language file corrected by MBOZ.
 
 = 2.3.1 =
+* Release Date: October 12, 2012
 * Added Polish language.
 * Added Support forum link in menu.
 * Fix problem error in delete plugin.
 
 = 2.3.0 =
+* Release Date: Not released
 * Added Serbian language.
 
 = 2.2.9 =
+* Release Date: September 20, 2012
 * Added Bengali language.
 
 = 2.2.8 =
+* Release Date: July 27, 2012
 * Added Russian language.
 * Fix problem in count views.
 * Added more filter for check spider.
 * Optimize plugin.
 
 = 2.2.7 =
+* Release Date: May 20, 2012
 * Fix problem in widget class.
 * Redundancy in Arabic translation.
 * Fix problem in [countposts] shortcode.
 * Optimized Style Reports.
 
 = 2.2.6 =
+* Release Date: April 19, 2012
 * Fix a small problem.
 
 = 2.2.5 =
+* Release Date: April 18, 2012
 * The security problem was solved. Please be sure to update!
 * Redundancy in French translation.
 * Add CSS Class for the containing widget. (Thanks Luai Mohammed).
@@ -791,6 +859,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Using wordpress jQuery in setting page.
 
 = 2.2.4 =
+* Release Date: March 12, 2012
 * Added Turkish language.
 * Added Italian language.
 * Added German language.
@@ -807,20 +876,24 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added Coefficient statistics for each user.
 
 = 2.2.3 =
+* Release Date: February 3, 2012
 * Optimized Counting.
 * Added Arabic language.
 * Draging problem was solved in Widgets
 * css problem was solved in sidebar
 
 = 2.2.2 =
+* Release Date: January 11, 2012
 * Solving show functions in setting page.
 * Solving month visit in widget.
 * Added Spanish language.
 
 = 2.2.1 =
+* Release Date: December 27, 2011
 * Solving drap uploader problem in media-new.php.
 
 = 2.2.0 =
+* Release Date: December 26, 2011
 * Added statistics to admin bar wordpress 3.3.
 * Added Uninstall for remove data and table from database.
 * Added all statistics item in widget and Their choice.
@@ -830,29 +903,37 @@ This release updates some core code to do with timezones, hence the change to ve
 * Solving scroll problem in statistics page.
 
 = 2.1.6 =
+* Release Date: October 21, 2011
 * Added Russian language.
 
 = 2.1.5 =
+* Release Date: October 29, 2011
 * Added French language.
 * Rounds a float Averages.
 
 = 2.1.4 =
+* Release Date: October 21, 2011
 * Added Romanian language.
 
 = 2.1.3 =
+* Release Date: October 14, 2011
 * Active plugin in setting page was solved.
 
 = 2.1.2 =
+* Release Date: October 12, 2011
 * Added default language file.
 * Added Portuguese language.
 
 = 2.1.1 =
+* Release Date: September 27, 2011
 * Complete files
 
 = 2.1 =
+* Release Date: September 25, 2011
 * Edit string
 
 = 2.0 =
+* Release Date: September 20, 2011
 * Support from Database
 * Added Setting Page
 * Added decimals number
@@ -873,4 +954,5 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added wordpress shortcode
 
 = 1.0 =
+* Release Date: March 20, 2011
 * Start plugin
