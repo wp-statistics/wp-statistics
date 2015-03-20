@@ -131,7 +131,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: [<?php foreach( $excluded_reasons as $reason ) { echo "'" . $excluded_reason_translate[$reason] . "', "; } ?>],
+									labels: [<?php foreach( $excluded_reasons as $reason ) { echo $excluded_reason_translate[$reason] . ", "; } ?>],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{
