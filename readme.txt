@@ -214,6 +214,12 @@ There can be many reasons for this, but the most common reason is a botnet has d
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.1.2 =
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
+= 9.1.1 =
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.1 =
 BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -221,8 +227,11 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.1.2 =
+* Fixed: Removed spurious comma in SQL creation script for Visits table, thanks kitchin.
+
 = 9.1.1 =
-*Fixed: Verify the $display settings return an array before using it as an array to avoid warning on overview page.
+* Fixed: Verify the $display settings return an array before using it as an array to avoid warning on overview page.
 
 = 9.1 =
 * Added: Unique index requirement on visits table to avoid race condition creating duplicate entires.
