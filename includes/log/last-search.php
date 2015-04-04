@@ -107,7 +107,7 @@
 										
 										echo "<div class='log-item'>";
 											echo "<div class='log-referred'>".$WP_Statistics->Search_Engine_QueryString($items->referred)."</div>";
-											echo "<div class='log-ip'>" . $WP_Statistics->Local_Date(get_option('date_format'), strtotime($items->last_counter)) . " - {$ip_string}</div>";
+											echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($items->last_counter)) . " - {$ip_string}</div>";
 											echo "<div class='clear'></div>";
 											echo "<div class='log-url'>";
 											echo $map_string;
