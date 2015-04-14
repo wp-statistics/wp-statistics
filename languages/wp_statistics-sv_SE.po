@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-19 15:48:12+0000\n"
+"PO-Revision-Date: 2015-03-21 08:55:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -193,7 +193,7 @@ msgstr "Detta kommer att ta bort allt efter? i en URL."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
-msgstr ""
+msgstr "Inaktivera träffar kolumn i inlägget / sidor listan"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:234
 msgid "Miscellaneous"
@@ -253,7 +253,7 @@ msgstr "Topplista"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:308
 msgid "Include totals"
-msgstr ""
+msgstr "Inkludera totalt"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:314
 msgid "Add a total line to charts with multiple values, like the search engine referrals"
@@ -269,7 +269,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:42
 msgid "GeoIP collection"
-msgstr ""
+msgstr "GeoIP samling"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:48
 msgid "For get more information and location (country) from visitor, enable this feature."
@@ -345,7 +345,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:41
 msgid "A WP Cron job will be run daily to prune any data older than a set number of days."
-msgstr ""
+msgstr "En WP Cron jobb kommer att köras dagligen för att beskära några data äldre än ett visst antal dagar."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:47
 msgid "Prune data older than"
@@ -353,7 +353,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
-msgstr ""
+msgstr "Dagar"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:53
 msgid "The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance."
@@ -365,7 +365,7 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:49
 msgid "E-mail addresses"
-msgstr ""
+msgstr "E-postadresser"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:54
 msgid "A comma separated list of e-mail addresses to send reports to."
@@ -434,19 +434,19 @@ msgstr "E-post"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:167
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:170
 msgid "Select delivery method for statistical report."
-msgstr ""
+msgstr "Välj leveransmetod för statistisk rapport."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr ""
+msgstr "Obs: Om du vill skicka SMS du installera%s plugin."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "WordPress SMS"
-msgstr ""
+msgstr "WordPress SMS"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:180
 msgid "Report body"
@@ -2457,7 +2457,7 @@ msgstr ""
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:147
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:159
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:33
 msgid "The browscap database will be downloaded and used to detect robots."
@@ -2478,29 +2478,29 @@ msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:51
 msgid "Schedule weekly update of browscap DB"
-msgstr ""
+msgstr "Schema veckovis uppdatering av browscap DB"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:59
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-geoip.php:74
 msgid "Next update will be"
-msgstr ""
+msgstr "Nästa uppdatering kommer att vara"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-browscap.php:74
 msgid "Download of the browscap database will be scheduled for once a week."
-msgstr ""
+msgstr "Nedladdningen av browscap databas kommer att planeras till en gång i veckan."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:50
 msgid "This will delete the manual when you save the settings, are you sure?"
-msgstr ""
+msgstr "Detta kommer att ta bort den manuella när du sparar inställningarna, är du säker?"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:77
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
-msgstr ""
+msgstr "Den här funktionen kommer inte att lagra IP-adresser i databasen utan använde en unik hash. Den &quot;Lagra hela user agent string&quot; inställningen inaktiveras om detta är valt. Du kommer inte att kunna återställa IP-adresserna i framtiden att återvinna platsinformation om det är aktiverat."
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:82
 msgid "Users Online"
-msgstr ""
+msgstr "Användare online"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:87
 msgid "User online"
-msgstr ""
+msgstr "Användare online"

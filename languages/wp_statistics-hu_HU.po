@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-16 12:13:46+0000\n"
+"PO-Revision-Date: 2015-03-22 16:16:47+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -943,7 +943,7 @@ msgstr "Kézikönyv"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:357
 msgid "Site"
-msgstr ""
+msgstr "Oldal"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:358
 msgid "Options"
@@ -1381,7 +1381,7 @@ msgstr "Legutóbbi látogatói statisztika"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:11
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:18
 msgid "Online Users"
-msgstr ""
+msgstr "Jelenlévő felhasználók"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:75
 msgid "Online for "
@@ -1398,7 +1398,7 @@ msgstr "Oldal Trend"
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:11
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:30
 msgid "Search Engine Referral Statistics"
-msgstr "Search Engine Referral statisztika"
+msgstr ""
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:71
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:55
@@ -1541,7 +1541,7 @@ msgstr "Cím"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:23
 msgid "User(s) Online"
-msgstr "Online felhasználók"
+msgstr "Jelenlévő felhasználók"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:34
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:79
@@ -1582,7 +1582,7 @@ msgstr "Találatok"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:31
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:33
 msgid "Agent"

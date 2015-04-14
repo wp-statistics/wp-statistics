@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-03-17 07:08:07+0000\n"
+"PO-Revision-Date: 2015-04-01 07:32:29+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -446,7 +446,7 @@ msgstr "خاڵ: بۆناردنی کورتە پەیام تکایە زیادکرا
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "WordPress SMS"
-msgstr "کورتەپەیامی وۆردپرێش"
+msgstr "کورتەپەیامی وۆردپرێس"
 
 #: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:180
 msgid "Report body"
