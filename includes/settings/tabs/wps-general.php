@@ -100,7 +100,7 @@ if( $wps_nonce_valid ) {
 			</th>
 			
 			<td>
-				<input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo $WP_Statistics->get_option('check_online'); ?>"/>
+				<input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo htmlentities($WP_Statistics->get_option('check_online'), ENT_QUOTES ); ?>"/>
 				<?php _e('Second', 'wp_statistics'); ?>
 				<p class="description"><?php echo sprintf(__('Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics'), $WP_Statistics->get_option('check_online')); ?></p>
 			</td>
@@ -168,7 +168,7 @@ if( $wps_nonce_valid ) {
 			</th>
 			
 			<td>
-				<input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo $WP_Statistics->get_option('coefficient'); ?>"/>
+				<input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo htmlentities($WP_Statistics->get_option('coefficient'), ENT_QUOTES ); ?>"/>
 				<p class="description"><?php echo sprintf(__('For each visit to account for several hits. Currently %s.', 'wp_statistics'), $WP_Statistics->get_option('coefficient')); ?></p>
 			</td>
 		</tr>

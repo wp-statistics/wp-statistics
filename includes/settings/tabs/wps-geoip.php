@@ -112,7 +112,7 @@ if( $wps_nonce_valid ) {
 			</th>
 			
 			<td>
-				<input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo $WP_Statistics->get_option('private_country_code');?>">
+				<input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo htmlentities( $WP_Statistics->get_option('private_country_code', ENT_QUOTES ) );?>">
 				<p class="description"><?php _e('The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use "000" (three zeros) to use "Unknown" as the country code.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>

@@ -214,6 +214,9 @@ There can be many reasons for this, but the most common reason is a botnet has d
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.1.3 =
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.1.2 =
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -227,8 +230,12 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
-= 9.1.* =
-* Added quick link to summary stats.
+= 9.1.3 =
+* Release Date: April 14, 2015
+* Added: Quick link to summary stats.
+* Added: Escaped text fields in the settings page with htmlentities() to protect against rouge administrators hijacking other admin sessions, thanks Kaustubh.
+* Fixed: Exclusions page had duplicate quotation marks in some JavaScript fields causing errors.
+* Fixed: Display of last_counter that is already set to the correct date and doesn't need to be adjusted for timezone.
 
 = 9.1.2 =
 * Release Date: March 20, 2015

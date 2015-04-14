@@ -50,7 +50,7 @@ if( $wps_nonce_valid ) {
 			</td>
 			
 			<td>
-				<input type="text" id="email_list" name="wps_email_list" size="30" value="<?php if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->store_option('email_list', get_bloginfo('admin_email')); } echo $WP_Statistics->get_option('email_list'); ?>"/>
+				<input type="text" id="email_list" name="wps_email_list" size="30" value="<?php if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->store_option('email_list', get_bloginfo('admin_email')); } echo htmlentities( $WP_Statistics->get_option('email_list'), ENT_QUOTES ); ?>"/>
 				<p class="description"><?php _e('A comma separated list of e-mail addresses to send reports to.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>

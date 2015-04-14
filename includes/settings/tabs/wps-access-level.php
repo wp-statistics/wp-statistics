@@ -153,7 +153,7 @@ if( $wps_nonce_valid ) {
 						update_option( 'wps_robotlist', $robotlist );
 					}
 
-					echo $robotlist;?></textarea>
+					echo htmlentities( $robotlist, ENT_QUOTES );?></textarea>
 				<p class="description"><?php echo __('A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored.', 'wp_statistics'); ?></p>
 				<a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo implode('\n', $wps_robotarray);?>';" class="button"><?php _e('Reset to Default', 'wp_statistics');?></a>
 			</td>
@@ -178,7 +178,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded IP address list', 'wp_statistics'); ?>:</th>
 			<td>
-				<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('exclude_ip');?></textarea>
+				<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('exclude_ip', ENT_QUOTES ) );?></textarea>
 				<p class="description"><?php echo __('A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255.', 'wp_statistics'); ?></p>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n10.0.0.0/8' ); }" class="button"><?php _e('Add 10.0.0.0', 'wp_statistics');?></a>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n172.16.0.0/12' ); }" class="button"><?php _e('Add 172.16.0.0', 'wp_statistics');?></a>
@@ -197,7 +197,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><label for="honeypot_postid"><?php _e('Honey pot post id', 'wp_statistics'); ?>:</label></th>
 			<td>
-				<input id="wps_honeypot_postid" type="text" value="<?php echo $WP_Statistics->get_option('honeypot_postid');?>" size="5" name="wps_honeypot_postid">
+				<input id="wps_honeypot_postid" type="text" value="<?php echo htmlentities( $WP_Statistics->get_option('honeypot_postid'), ENT_QUOTES );?>" size="5" name="wps_honeypot_postid">
 				<p class="description"><?php echo __('The post id to use for the honeypot page.', 'wp_statistics'); ?></p>
 				<input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"><label for="wps_create_honeypot"><?php _e('Create a new honey pot page', 'wp_statistics'); ?></label>
 			</td>
@@ -210,7 +210,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded countries list', 'wp_statistics'); ?>:</th>
 			<td>
-				<textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="10" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('excluded_countries');?></textarea>
+				<textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="10" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('excluded_countries'), ENT_QUOTES );?></textarea>
 				<p class="description"><?php echo __('A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use "000" (three zeros) to exclude unknown countries.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
@@ -218,7 +218,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><?php _e('Included countries list', 'wp_statistics'); ?>:</th>
 			<td>
-				<textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="10" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('included_countries');?></textarea>
+				<textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="10" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('included_countries'), ENT_QUOTES );?></textarea>
 				<p class="description"><?php echo __('A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use "000" (three zeros) to exclude unknown countries.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
@@ -230,7 +230,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded hosts list', 'wp_statistics'); ?>:</th>
 			<td>
-				<textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('excluded_hosts');?></textarea>
+				<textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('excluded_hosts'), ENT_QUOTES );?></textarea>
 				<p class="description"><?php echo __('A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection.', 'wp_statistics'); ?></p>
 				<br>
 				<p class="description"><?php echo __('Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it\'s IP address and when the cache is updated resulting in some hits recorded.', 'wp_statistics'); ?></p>
@@ -265,7 +265,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded URLs list', 'wp_statistics'); ?>:</th>
 			<td>
-				<textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo $WP_Statistics->get_option('excluded_urls');?></textarea>
+				<textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('excluded_urls'), ENT_QUOTES );?></textarea>
 				<p class="description"><?php echo __('A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection.', 'wp_statistics'); ?></p>
 				<br>
 				<p class="description"><?php echo __('Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored.', 'wp_statistics'); ?></p>

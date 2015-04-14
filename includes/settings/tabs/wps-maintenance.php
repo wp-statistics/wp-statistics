@@ -48,7 +48,7 @@ if( $wps_nonce_valid ) {
 			</th>
 			
 			<td>
-				<input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo $WP_Statistics->get_option('schedule_dbmaint_days', 365); ?>"/>
+				<input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo htmlentities( $WP_Statistics->get_option('schedule_dbmaint_days', "365"), ENT_QUOTES ); ?>"/>
 				<?php _e('Days', 'wp_statistics'); ?>
 				<p class="description"><?php echo __('The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance.', 'wp_statistics'); ?></p>
 			</td>
