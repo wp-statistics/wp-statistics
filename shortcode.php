@@ -15,7 +15,7 @@
 				format = i18n, english, none
 		*/
 		
-		$formatnumber = true;
+		$formatnumber = array_key_exists( 'format', $atts );
 		
 		switch( $atts['stat'] ) {
 			case 'usersonline':
