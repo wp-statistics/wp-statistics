@@ -259,7 +259,12 @@
 				$title = $post->post_title;
 			}
 			else {
-				$title = '';
+				if( $out[0] == '/' ) {
+					$title = get_bloginfo();
+				}
+				else {
+					$title = '';
+				}
 			}
 
 			// Add the current post to the array.
