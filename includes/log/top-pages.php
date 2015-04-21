@@ -6,11 +6,14 @@
 <?php
 	list( $total, $uris ) = wp_statistics_get_top_pages();
 
-	$daysToDisplay = 20;
+	$daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( $_GET['hitdays'] > 0 ) { $daysToDisplay = intval($_GET['hitdays']); } }
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Pages', 'wp_statistics'); ?></h2>
+
+	<?php wp_statistics_date_range_selector( 'wps_pages_menu', $daysToDisplay ); ?>
+
 	<div class="postbox-container" id="last-log">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
@@ -42,6 +45,8 @@
 									if( $count > 4 ) { break; }
 								}
 								
+								$tickInterval = $daysToDisplay / 20;
+								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
 
 							pages_jqchart = jQuery.jqplot('jqpage-stats', [pages_data_line1, pages_data_line2, pages_data_line3, pages_data_line4, pages_data_line5], {
@@ -55,7 +60,7 @@
 									xaxis: {
 											min: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '-'.$daysToDisplay);?>',
 											max: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '');?>',
-											tickInterval: '1 day',
+											tickInterval: '<?php echo $tickInterval?> day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 											tickOptions: { 

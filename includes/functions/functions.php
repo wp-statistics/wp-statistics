@@ -866,3 +866,32 @@
 		
 		return $enabled;
 	}
+	
+	function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '' ) {
+		
+		if( count( $range ) == 0 ) { 
+			$range = array( 10, 20, 30, 60, 90, 180, 270, 365 ); 
+			$desc  = array( __('10 Days', 'wp_statistics'), __('20 Days', 'wp_statistics'), __('30 Days', 'wp_statistics'), __('2 Months', 'wp_statistics'), __('3 Months', 'wp_statistics'), __('6 Months', 'wp_statistics'), __('9 Months', 'wp_statistics'), __('1 Year', 'wp_statistics'));
+		}
+		
+		if( count( $desc ) == 0 ) {
+			$desc = $range;
+		}
+		
+		$rcount = count( $range );
+		
+		echo '	<ul class="subsubsub">' . "\r\n";
+		
+		for( $i = 0; $i < $rcount; $i ++ ) {
+			echo '		<li class="all"><a ';
+			
+			if( $current == $range[$i] ) { echo 'class="current" '; }
+			
+			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . $extrafields . '">' . $desc[$i] . '</a></li>' . "\r\n";
+			
+			if( $i < $rcount - 1 ) {
+				echo '		| ' . "\r\n";
+			}
+		}
+		echo '	</ul>' . "\r\n";
+	}
