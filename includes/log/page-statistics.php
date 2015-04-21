@@ -16,14 +16,10 @@
 	if( $pageuri ) { $urlfields .= "&page-uri={$pageuri}"; }
 	
 	$daysToDisplay = 20; 
+	if( array_key_exists('hitdays',$_GET) ) { $daysToDisplay = intval($_GET['hitdays']); }
 	
-	if( array_key_exists('hitdays',$_GET) ) { 
-		if( intval($_GET['hitdays']) > 0 ) { 
-			$daysToDisplay = intval($_GET['hitdays']); 
-		} 
-	}
-	
-	$daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( intval($_GET['hitdays']) > 0 ) { $daysToDisplay = intval($_GET['hitdays']); } }
+	if( array_key_exists('rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } else { $rangestart = ''; }
+	if( array_key_exists('rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = ''; }
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
@@ -38,7 +34,7 @@
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php _e('Page Trend', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
-						<?php include_once( dirname( __FILE__ ) . '/widgets/page.php'); wp_statistics_generate_page_postbox_content( $pageuri, $pageid, $daysToDisplay ); ?>
+						<?php include_once( dirname( __FILE__ ) . '/widgets/page.php'); wp_statistics_generate_page_postbox_content( $pageuri, $pageid, $daysToDisplay, null, $rangestart, $rangeend ); ?>
 					</div>
 				</div>
 			</div>

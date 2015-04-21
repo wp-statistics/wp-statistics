@@ -868,6 +868,11 @@
 	}
 	
 	function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '' ) {
+		GLOBAL $WP_Statistics;
+		
+		wp_enqueue_script('jquery-ui-datepicker');
+		wp_register_style("jquery-ui-smoothness-css", $WP_Statistics->plugin_url . "assets/css/jquery-ui-smoothness.css");
+		wp_enqueue_style("jquery-ui-smoothness-css");
 		
 		if( count( $range ) == 0 ) { 
 			$range = array( 10, 20, 30, 60, 90, 180, 270, 365 ); 
@@ -880,18 +885,72 @@
 		
 		$rcount = count( $range );
 		
-		echo '	<ul class="subsubsub">' . "\r\n";
+		echo '<form method="get"><ul class="subsubsub">' . "\r\n";
 		
 		for( $i = 0; $i < $rcount; $i ++ ) {
 			echo '		<li class="all"><a ';
 			
 			if( $current == $range[$i] ) { echo 'class="current" '; }
 			
-			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . $extrafields . '">' . $desc[$i] . '</a></li>' . "\r\n";
+			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . $extrafields . '">' . $desc[$i] . '</a></li>';
 			
 			if( $i < $rcount - 1 ) {
-				echo '		| ' . "\r\n";
+				echo ' | ';
+			}
+			
+			echo "\r\n";
+		}
+		
+		echo ' | ';
+		
+		echo '<input type="hidden" name="hitdays" value="-1"><input type="hidden" name="page" value="' . $page . '">';
+		
+		parse_str( $extrafields, $parse );
+		
+		foreach( $parse as $key => $value ) {
+			echo '<input type="hidden" name="' . $key . '" value="' . $value . '">';
+		}
+		
+		$rangestart = '';
+		$rangeend = '';
+		
+		$bold = false;
+		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; $bold = true;}
+		if( array_key_exists( 'rangeend', $_GET ) ) { $rangeend = $_GET['rangeend'];  $bold = true;}
+			
+		if( $bold ) { 
+			echo ' <b>' . __('Range', 'wp_statistics' ) . ':</b> ';
+		}
+		else {
+			echo ' ' . __('Range', 'wp_statistics' ) . ': ';
+		}
+		echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart. '"> to <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '"> <input type="submit" value="Go" class="button-primary">' . "\r\n";
+		
+		echo '</ul><form>' . "\r\n";
+		
+		echo '<script>jQuery(function() { jQuery( "#datestartpicker" ).datepicker(); jQuery( "#dateendpicker" ).datepicker(); });</script>' . "\r\n";
+	}
+	
+	function wp_statistics_date_range_calculator( $days, $start, $end ) {
+		$daysToDisplay = $days;
+		$rangestart = $start;
+		$rangeend = $end;
+		
+		if( $daysToDisplay == -1 ) {
+			$rangestart_utime = strtotime( $rangestart );
+			$rangeend_utime = strtotime( $rangeend );
+			$daysToDisplay = (int)( ( $rangeend_utime - $rangestart_utime ) / 24 / 60 / 60 );
+			
+			if( $rangestart_utime == FALSE || $rangeend_utime == FALSE ) {
+				$daysToDisplay = 20;
+				$rangeend_utime = time();
+				$rangestart_utime = $rangeend_utime - ( $daysToDisplay * 24 * 60 * 60 );
 			}
 		}
-		echo '	</ul>' . "\r\n";
+		else {
+			$rangeend_utime = time();
+			$rangestart_utime = $rangeend_utime - ( $daysToDisplay * 24 * 60 * 60 );
+		}
+		
+		return array( $daysToDisplay, $rangestart_utime, $rangeend_utime );
 	}

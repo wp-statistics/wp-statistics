@@ -5,7 +5,14 @@
 </script>
 <?php
 	$search_engines = wp_statistics_searchengine_list();
-	$daysToDisplay = 20; if( array_key_exists('hitdays',$_GET) ) { if( intval($_GET['hitdays']) > 0 ) { $daysToDisplay = intval($_GET['hitdays']); } }
+
+	$daysToDisplay = 20; 
+	if( array_key_exists('hitdays',$_GET) ) { $daysToDisplay = intval($_GET['hitdays']); }
+
+	if( array_key_exists('rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } else { $rangestart = ''; }
+	if( array_key_exists('rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = ''; }
+
+	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
@@ -37,7 +44,7 @@
 										$stat = wp_statistics_searchengine($se['tag'], '-'.$i);
 										$total_daily[$i] += $stat;
 										
-										echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $stat . "], ";
+										echo "['" . $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$i, $rangeend_utime) . "'," . $stat . "], ";
 										
 									}
 
@@ -48,7 +55,7 @@
 									echo "var searches_data_line_total = [";
 
 									for( $i=$daysToDisplay; $i>=0; $i--) {
-										echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-'.$i) . "'," . $total_daily[$i] . "], ";
+										echo "['" . $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$i, $rangeend_utime) . "'," . $total_daily[$i] . "], ";
 									}
 									
 									echo "];\n";
@@ -66,8 +73,8 @@
 									},
 								axes: {
 									xaxis: {
-											min: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '-'.$daysToDisplay);?>',
-											max: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '');?>',
+											min: '<?php echo $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$daysToDisplay, $rangeend_utime);?>',
+											max: '<?php echo $WP_Statistics->Real_Current_Date('Y-m-d', '-0', $rangeend_utime);?>',
 											tickInterval: '<?php echo $tickInterval?> day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,

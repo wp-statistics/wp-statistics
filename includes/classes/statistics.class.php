@@ -22,6 +22,7 @@
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';
+		public $plugin_url = '';
 		public $user_id = 0;
 		public $options = array();
 		public $user_options = array();
@@ -51,6 +52,7 @@
 			
 			// This is a bit of a hack, we strip off the "includes/classes" at the end of the current class file's path.
 			$this->plugin_dir = substr( dirname( __FILE__ ), 0, -17 );
+			$this->plugin_url = substr( plugin_dir_url( __FILE__ ), 0, -17 );
 			
 			$this->get_IP();
 			
@@ -324,15 +326,35 @@
 		}
 		
 		// This function returns a date string in the desired format.
-		public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null) {
+		public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null, $relative = null) {
 		
 			if( $strtotime ) {
-				return date($format, strtotime("{$strtotime} day") + $this->tz_offset );
+				if( $relative ) {
+					return date($format, strtotime("{$strtotime} day", $relative) + $this->tz_offset );
+				}
+				else {
+					return date($format, strtotime("{$strtotime} day") + $this->tz_offset );
+				}
 			} else {
 				return date($format, time() + $this->tz_offset);
 			}
 		}
 		
+		// This function returns a date string in the desired format.
+		public function Real_Current_Date($format = 'Y-m-d H:i:s', $strtotime = null, $relative = null) {
+		
+			if( $strtotime ) {
+				if( $relative ) {
+					return date($format, strtotime("{$strtotime} day", $relative) );
+				}
+				else {
+					return date($format, strtotime("{$strtotime} day") );
+				}
+			} else {
+				return date($format, time());
+			}
+		}
+
 		// This function returns an internationalized date string in the desired format.
 		public function Current_Date_i18n($format = 'Y-m-d H:i:s', $strtotime = null, $day=' day') {
 		
