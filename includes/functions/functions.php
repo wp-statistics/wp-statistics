@@ -885,14 +885,21 @@
 		
 		$rcount = count( $range );
 		
+		$rangestart = '';
+		$rangeend = '';
+		
+		$bold = true;
+		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } 
+		if( array_key_exists( 'rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; }
+
 		echo '<form method="get"><ul class="subsubsub">' . "\r\n";
 		
 		for( $i = 0; $i < $rcount; $i ++ ) {
 			echo '		<li class="all"><a ';
 			
-			if( $current == $range[$i] ) { echo 'class="current" '; }
+			if( $current == $range[$i] ) { echo 'class="current" '; $bold = false;}
 			
-			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . $extrafields . '">' . $desc[$i] . '</a></li>';
+			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . '&rangestart=' . $rangestart . '&rangeend=' . $rangeend . $extrafields . '">' . $desc[$i] . '</a></li>';
 			
 			if( $i < $rcount - 1 ) {
 				echo ' | ';
@@ -910,21 +917,16 @@
 		foreach( $parse as $key => $value ) {
 			echo '<input type="hidden" name="' . $key . '" value="' . $value . '">';
 		}
-		
-		$rangestart = '';
-		$rangeend = '';
-		
-		$bold = false;
-		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; $bold = true;}
-		if( array_key_exists( 'rangeend', $_GET ) ) { $rangeend = $_GET['rangeend'];  $bold = true;}
 			
 		if( $bold ) { 
 			echo ' <b>' . __('Range', 'wp_statistics' ) . ':</b> ';
 		}
 		else {
 			echo ' ' . __('Range', 'wp_statistics' ) . ': ';
+			$rangeend = $WP_Statistics->Real_Current_Date('m/d/Y');
+			$rangestart = $WP_Statistics->Real_Current_Date('m/d/Y','-'.$current);
 		}
-		echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart. '"> to <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '"> <input type="submit" value="Go" class="button-primary">' . "\r\n";
+		echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart. '" placeholder="' . __('MM/DD/YYYY', 'wp_statistics') .'"> to <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __('MM/DD/YYYY', 'wp_statistics') .'"> <input type="submit" value="Go" class="button-primary">' . "\r\n";
 		
 		echo '</ul><form>' . "\r\n";
 		
@@ -935,7 +937,7 @@
 		$daysToDisplay = $days;
 		$rangestart = $start;
 		$rangeend = $end;
-		
+
 		if( $daysToDisplay == -1 ) {
 			$rangestart_utime = strtotime( $rangestart );
 			$rangeend_utime = strtotime( $rangeend );
