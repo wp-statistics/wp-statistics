@@ -34,50 +34,38 @@
 								
 								<tr>
 									<th><?php _e('Today', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('today',null,true)); ?></span></a></th>
-									<th class="th-center">
-										<a href="admin.php?page=wps_hits_menu&hitdays=1"><span><?php echo number_format_i18n(wp_statistics_visit('today')); ?></span></a>
-									</th>
+									<th class="th-center"><a href="admin.php?page=wps_visitors_menu&hitdays=1"><span><?php echo number_format_i18n(wp_statistics_visitor('today',null,true)); ?></span></a></th>
+									<th class="th-center"><a href="admin.php?page=wps_hits_menu&hitdays=1"><span><?php echo number_format_i18n(wp_statistics_visit('today')); ?></span></a></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Yesterday', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('yesterday',null,true)); ?></span></th>
-									<th class="th-center">
-										<a href="admin.php?page=wps_hits_menu&hitdays=1"><span><?php echo number_format_i18n(wp_statistics_visit('yesterday')); ?></span></a>
-									</th>
+									<th class="th-center"><a href="admin.php?page=wps_visitors_menu&hitdays=1"><span><?php echo number_format_i18n(wp_statistics_visitor('yesterday',null,true)); ?></span></a></th>
+									<th class="th-center"><a href="admin.php?page=wps_hits_menu&hitdays=1"><span><?php echo number_format_i18n(wp_statistics_visit('yesterday')); ?></span></a></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Last 7 Days (Week)', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('week',null,true)); ?></span></th>
-									<th class="th-center">
-										<a href="admin.php?page=wps_hits_menu&hitdays=7"><span><?php echo number_format_i18n(wp_statistics_visit('week')); ?></span></a>
-									</th>
+									<th class="th-center"><a href="admin.php?page=wps_visitors_menu&hitdays=7"><span><?php echo number_format_i18n(wp_statistics_visitor('week',null,true)); ?></span></a></th>
+									<th class="th-center"><a href="admin.php?page=wps_hits_menu&hitdays=7"><span><?php echo number_format_i18n(wp_statistics_visit('week')); ?></span></a></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Last 30 Days (Month)', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('month',null,true)); ?></span></th>
-									<th class="th-center">
-										<a href="admin.php?page=wps_hits_menu&hitdays=30"><span><?php echo number_format_i18n(wp_statistics_visit('month')); ?></span></a>
-									</th>
+									<th class="th-center"><a href="admin.php?page=wps_visitors_menu&hitdays=30"><span><?php echo number_format_i18n(wp_statistics_visitor('month',null,true)); ?></span></a></th>
+									<th class="th-center"><a href="admin.php?page=wps_hits_menu&hitdays=30"><span><?php echo number_format_i18n(wp_statistics_visit('month')); ?></span></a></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Last 365 Days (Year)', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('year',null,true)); ?></span></th>
-									<th class="th-center">
-										<a href="admin.php?page=wps_hits_menu&hitdays=365"><span><?php echo number_format_i18n(wp_statistics_visit('year')); ?></span></a>
-									</th>
+									<th class="th-center"><a href="admin.php?page=wps_visitors_menu&hitdays=365"><span><?php echo number_format_i18n(wp_statistics_visitor('year',null,true)); ?></span></a></th>
+									<th class="th-center"><a href="admin.php?page=wps_hits_menu&hitdays=365"><span><?php echo number_format_i18n(wp_statistics_visit('year')); ?></span></a></th>
 								</tr>
 								
 								<tr>
 									<th><?php _e('Total', 'wp_statistics'); ?>:</th>
-									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('total',null,true)); ?></span></th>
-									<th class="th-center">
-										<a href="admin.php?page=wps_hits_menu&hitdays=365"><span><?php echo number_format_i18n(wp_statistics_visit('total')); ?></span></a>
-									</th>
+									<th class="th-center"><a href="admin.php?page=wps_visitors_menu&hitdays=365"><span><?php echo number_format_i18n(wp_statistics_visitor('total',null,true)); ?></span></a></th>
+									<th class="th-center"><a href="admin.php?page=wps_hits_menu&hitdays=365"><span><?php echo number_format_i18n(wp_statistics_visit('total')); ?></span></a></th>
 								</tr>
 								
 <?php if( $search == true ) {?>
