@@ -78,7 +78,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo htmlentities(__('Number of Hits', 'wp_statistics'), ENT_QUOTES); ?>',
+											label: <?php echo json_encode(__('Number of Hits', 'wp_statistics')); ?>,
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -92,7 +92,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: [ 'Rank #1', 'Rank #2', 'Rank #3', 'Rank #4', 'Rank #5'],
+									labels: [ <?php echo json_encode(__('Rank #1', 'wp_statistics'));?>, <?php echo json_encode(__('Rank #2', 'wp_statistics'));?>, <?php echo json_encode(__('Rank #3', 'wp_statistics'));?>, <?php echo json_encode(__('Rank #4', 'wp_statistics'));?>, <?php echo json_encode(__('Rank #5', 'wp_statistics'));?> ],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{
