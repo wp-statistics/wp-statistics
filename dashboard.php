@@ -330,7 +330,7 @@
 		
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/top.visitors.php");
 
-		wp_statistics_generate_top_visitors_postbox_content($ISOCountryCodes, 'today', 10, true);
+		wp_statistics_generate_top_visitors_postbox_content($ISOCountryCode, 'today', 10, true);
 	}
 	
 ?>
