@@ -4,7 +4,7 @@ Donate link: http://mostafa-soufi.ir/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 9.1.3
+Stable tag: 9.2
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -234,9 +234,10 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.2 =
-* Release Date: TBD
+* Release Date: April 26, 2015
 * Added: Date range selector for charts now supports arbitrary date ranges with JavaScript date selector.
 * Added: If the site is using the blogroll for the homepage, use the blog title as the page name instead of leaving it blank.
+* Updated: How country codes are loaded for dashboard, widgets and pages.
 * Fixed: Incorrect URL in the admin manual.
 * Fixed: WP_DEBUG warning if formatting was not specified in the short code.
 
