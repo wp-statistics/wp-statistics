@@ -88,8 +88,8 @@
 									}
 									
 									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
-									
-									include_once( dirname( __FILE__ ) . "/../functions/country-codes.php");
+
+									$ISOCountryCode = $WP_Statistics->get_country_codes();
 									
 									$dash_icon = wp_statistics_icons('dashicons-location-alt', 'map');
 									

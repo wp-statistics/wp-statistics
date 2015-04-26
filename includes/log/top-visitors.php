@@ -4,7 +4,7 @@
 	});
 </script>
 <?php 
-	include_once( dirname( __FILE__ ) . '/../functions/country-codes.php' ); 
+	$ISOCountryCode = $WP_Statistics->get_country_codes();
 	include_once( dirname( __FILE__ ) . '/widgets/top.visitors.php' );
 ?>
 <div class="wrap">

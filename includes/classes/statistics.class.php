@@ -19,6 +19,7 @@
 		private $user_options_loaded = false;
 		private $is_feed = false;
 		private $tz_offset = 0;
+		private $country_codes = false;
 		
 		public $coefficient = 1;
 		public $plugin_dir = '';
@@ -509,5 +510,15 @@
 
 		public function check_feed() {
 			return $this->is_feed;
+		}
+		
+		public function get_country_codes() {
+			if( $this->country_codes == false ) {
+				$ISOCountryCode = array();
+				include( $this->plugin_dir . "/includes/functions/country-codes.php");
+				$this->country_codes = $ISOCountryCode;
+			}
+			
+			return $this->country_codes;
 		}
 	}

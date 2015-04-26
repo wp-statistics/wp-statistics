@@ -167,7 +167,7 @@
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
 		
-		include_once( dirname( __FILE__ ) . "/includes/functions/country-codes.php");
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
 
 		// Include the country widget.
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/countries.php");
@@ -184,7 +184,7 @@
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
 		
-		include_once( dirname( __FILE__ ) . "/includes/functions/country-codes.php");
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
 
 		// Include the map widget.
 		if( $WP_Statistics->get_option( 'map_type' ) == 'jqvmap' ) {
@@ -245,7 +245,7 @@
 		// Include the hits chart widget, we're going to display the last 10 days only as the WordPress columns are kind of small to do much else.
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/recent.php");
 
-		include_once( dirname( __FILE__ ) . "/includes/functions/country-codes.php");
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
 
 		wp_statistics_generate_recent_postbox_content($ISOCountryCode);
 	}
@@ -308,7 +308,7 @@
 		// Load the css we use for the statistics pages.
 		wp_statistics_load_widget_css_and_scripts();
 		
-		include_once( dirname( __FILE__ ) . "/includes/functions/country-codes.php");
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
 
 		// Include the hits chart widget, we're going to display the last 10 days only as the WordPress columns are kind of small to do much else.
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/words.php");
@@ -326,7 +326,7 @@
 		wp_statistics_load_widget_css_and_scripts();
 		
 		// Include the summary widget, we're just going to use the content for the the users online and visit/visitor totals.
-		include_once( dirname( __FILE__ ) . "/includes/functions/country-codes.php");
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
 		
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/top.visitors.php");
 

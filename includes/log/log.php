@@ -5,7 +5,7 @@
 </script>
 <?php 
 	
-	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php");
+	$ISOCountryCode = $WP_Statistics->get_country_codes();
 	
 	// Load the widgets.
 	include_once( dirname( __FILE__ ) . "/widgets/about.php");

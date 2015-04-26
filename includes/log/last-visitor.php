@@ -4,7 +4,7 @@
 	});
 </script>
 <?php
-	include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
+	$ISOCountryCode = $WP_Statistics->get_country_codes();
 	
 	$_var = 'agent';
 	$_get = '%';

@@ -18,7 +18,7 @@
 					<h3 class="hndle"><span><?php _e('Online Users', 'wp_statistics'); ?></span></h3>
 					<div class="inside">
 							<?php
-								include_once( dirname( __FILE__ ) . "/../functions/country-codes.php" ); 
+								$ISOCountryCode = $WP_Statistics->get_country_codes();
 								
 								$result = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}statistics_useronline;" );
 								$total = count( $result );
