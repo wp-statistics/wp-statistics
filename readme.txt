@@ -201,6 +201,30 @@ Search Engine Referrals and Words are highly dependent on the search engine prov
 
 There can be many reasons for this, but the most common reason is a botnet has decided to visit your site and we have been unable to filter it out.  You usually see your visits spike for a few days and then they give up.
 
+= What’s the difference between Visits and Visitors? =
+
+Visits is the number of page hits your site has received.
+
+Visitors is the number of unique users that have visited your site.
+
+Visits should always be greater than Visitors (though there are a few times when this won’t be true on very low usage sites due to how the exclusion code works).
+
+The average number of pages a visitor views on your site is Visits/Visitors.
+
+= My overview screen is blank, what's wrong? =
+
+This is usually caused by a PHP fatal error, check the page source and PHP logs.
+
+The most common fatal error is an out of memory error. Check the Statistics->Optimization page and see how much memory is currently assigned to PHP and how much the overview is using.
+
+If it is a memory issue you have two choices:
+ - Increase PHP's memory allocation
+ - Delete some of your historical data.
+
+See http://php.net/manual/en/ini.core.php#ini.memory-limit for information about PHP's memory limit.
+
+To remove historical data you can use the Statistics->Optimization->Purging->Purge records older than.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
