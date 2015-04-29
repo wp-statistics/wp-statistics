@@ -35,13 +35,12 @@ License: GPL2
 			__('WP Statistics', 'wp_statistics');
 			__('Complete statistics for your WordPress site.', 'wp_statistics');
 		}
-		
-		wp_statistics_shortcake();
 	}
 
 	// Add actions
 	add_action('init', 'wp_statistics_init');
-
+	add_action('admin_init', 'wp_statistics_shortcake' );
+	
 	function wp_statistics_php_after_plugin_row() {
 		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="10"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version ', 'wp_statistics') . WP_STATISTICS_REQUIRED_PHP_VERSION . __(' or higher!', 'wp_statistics') . '  ' . __('Your current PHP version is','wp_statistics') . ' ' . phpversion() . '.&nbsp;&nbsp;</span></td></tr>';
 	}

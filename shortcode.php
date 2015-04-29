@@ -15,6 +15,8 @@
 				format = i18n, english, none
 		*/
 		
+		if( ! is_array( $atts ) ) { return; }
+		
 		$formatnumber = array_key_exists( 'format', $atts );
 		
 		switch( $atts['stat'] ) {
