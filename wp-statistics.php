@@ -35,6 +35,8 @@ License: GPL2
 			__('WP Statistics', 'wp_statistics');
 			__('Complete statistics for your WordPress site.', 'wp_statistics');
 		}
+		
+		wp_statistics_shortcake();
 	}
 
 	// Add actions

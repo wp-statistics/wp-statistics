@@ -91,4 +91,83 @@
 			
 		return $result;
 	}
+	
+	function wp_statistics_shortcake() {
+	// ShortCake support if loaded.		
+	if( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
+		$se_list = wp_statistics_searchengine_list();
+		
+		$se_options = array( '' => 'None' );
+		
+		foreach( $se_list as $se ) {
+			$se_options[$se['tag']] = $se['translated'];
+		}
+		
+		shortcode_ui_register_for_shortcode(
+			'wpstatistics',
+			array(
+
+				// Display label. String. Required.
+				'label' => 'WP Statistics',
+
+				// Icon/image for shortcode. Optional. src or dashicons-$icon. Defaults to carrot.
+				'listItemImage' => '<img src="' . plugin_dir_url(__FILE__) . 'assets/images/logo-250.png" width="128" height="128">',
+
+				// Available shortcode attributes and default values. Required. Array.
+				// Attribute model expects 'attr', 'type' and 'label'
+				// Supported field types: text, checkbox, textarea, radio, select, email, url, number, and date.
+				'attrs' => array(
+					array(
+						'label'       => __('Statistic', 'wp_statistics'),
+						'attr'        => 'stat',
+						'type'        => 'select',
+						'description' => __('Select the statistic you wish to display.', 'wp_statistics'),
+						'options'	  => array( 
+												'usersonline' => __('Users Online', 'wp_statistiscs'),
+												'visits' => __('Visits', 'wp_statistiscs'),
+												'visitors' => __('Visitors', 'wp_statistiscs'),
+												'pagevisits' => __('Page Visits', 'wp_statistiscs'),
+												'searches' => __('Searches', 'wp_statistiscs'),
+												'postcount' => __('Post Count', 'wp_statistiscs'),
+												'pagecount' => __('Page Count', 'wp_statistiscs'),
+												'commentcount' => __('Comment Count', 'wp_statistiscs'),
+												'spamcount' => __('Spam Count', 'wp_statistiscs'),
+												'usercount' => __('User Count', 'wp_statistiscs'),
+												'postaverage' => __('Post Average', 'wp_statistiscs'),
+												'commentaverage' => __('Comment Average', 'wp_statistiscs'),
+												'useraverage' => __('User Average', 'wp_statistiscs'),
+												'lpd' => __('Last Post Date', 'wp_statistiscs'),
+												),
+					),
+					array(
+						'label' 	  => __('Time Frame', 'wp_statistics'),
+						'attr'  	  => 'time',
+						'type'  	  => 'url',
+						'description' => __('The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it.', 'wp_statistics'),
+						'meta'  	  => array('size'=>'10'),
+					),
+					array(
+						'label'       => __('Search Provider', 'wp_statistics'),
+						'attr'        => 'provider',
+						'type'        => 'select',
+						'description' => __('The search provider to get statistics on.', 'wp_statistics'),
+						'options'     => $se_options,
+					),
+					array(
+						'label'       => __('Number Format', 'wp_statistics'),
+						'attr'        => 'format',
+						'type'        => 'select',
+						'description' => __('The format to display numbers in: i18n, english, none.', 'wp_statistics'),
+						'options'	  => array( 
+												'none' => __('None', 'wp_statistics'),
+												'english' => __('English', 'wp_statistics'),
+												'i18n' => __('International', 'wp_statistics'),
+											),
+					),
+				),
+			)
+		);
+	}
+		
+	}
 ?>
