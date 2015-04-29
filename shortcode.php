@@ -124,6 +124,7 @@
 						'attr'        => 'stat',
 						'type'        => 'select',
 						'description' => __('Select the statistic you wish to display.', 'wp_statistics'),
+						'value'       => 'usersonline',
 						'options'	  => array( 
 												'usersonline' => __('Users Online', 'wp_statistiscs'),
 												'visits' => __('Visits', 'wp_statistiscs'),
@@ -160,6 +161,7 @@
 						'attr'        => 'format',
 						'type'        => 'select',
 						'description' => __('The format to display numbers in: i18n, english, none.', 'wp_statistics'),
+						'value'       => 'none',
 						'options'	  => array( 
 												'none' => __('None', 'wp_statistics'),
 												'english' => __('English', 'wp_statistics'),
