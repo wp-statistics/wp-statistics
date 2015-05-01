@@ -97,6 +97,7 @@ License: GPL2
 	include_once dirname( __FILE__ ) . '/editor.php';
 	include_once dirname( __FILE__ ) . '/shortcode.php';
 	include_once dirname( __FILE__ ) . '/schedule.php';
+	include_once dirname( __FILE__ ) . '/ajax.php';
 	
 	// This function outputs error messages in the admin interface if the primary components of WP Statistics are enabled.
 	function wp_statistics_not_enable() {
@@ -330,6 +331,7 @@ License: GPL2
 		add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log');
 		add_submenu_page(__FILE__, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
 		add_submenu_page(__FILE__, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $read_cap, 'wp-statistics/settings', 'wp_statistics_settings');
+		add_submenu_page(__FILE__, __('Donate', 'wp_statistics'), __('Donate', 'wp_statistics'), $read_cap, 'wp-statistics/donate', 'wp_statistics_donate');
 		
 		// Only add the manual entry if it hasn't been deleted.
 		if( $WP_Statistics->get_option('delete_manual') != true ) {
@@ -451,6 +453,12 @@ License: GPL2
 		echo "<script>window.location.href = '$url';</script>";
 	}
 	
+	function wp_statistics_donate() {
+		$url = get_admin_url() . "/admin.php?page=wp-statistics/settings&tab=about";
+
+		echo "<script>window.open('http://wp-statistics.com/donate','_blank'); window.location.href = '$url';</script>";
+	}
+
 	// This function adds the menu icon to the top level menu.  WordPress 3.8 changed the style of the menu a bit and so a different css file is loaded.
 	function wp_statistics_menu_icon() {
 	

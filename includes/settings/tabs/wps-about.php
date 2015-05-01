@@ -17,6 +17,14 @@
 		</tr>
 
 		<tr valign="top">
+			<td scope="row" colspan="2"><h2><?php _e('Donate', 'wp_statistics'); ?></h2></td>
+		</tr>
+		
+		<tr valign="top">
+			<td scope="row" colspan="2"><?php echo sprintf( __('Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!', 'wp_statistics'), '<a href="http://wp-statistics.com/donate" target="_blank">' . __('donation', 'wp_statistics') . '</a>');?></td>
+		</tr>
+		
+		<tr valign="top">
 			<td scope="row" colspan="2"><h2><?php _e('Visit Us Online', 'wp_statistics'); ?></h2></td>
 		</tr>
 		
