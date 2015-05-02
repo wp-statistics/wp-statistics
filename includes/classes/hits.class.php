@@ -87,7 +87,12 @@
 				$bc->doAutoUpdate = false; 	// We don't want to auto update.
 				try {
 					$current_browser = $bc->getBrowser();
-					$crawler = $current_browser->Crawler;
+					if( is_object( $current_browser ) ) {
+						$crawler = $current_browser->Crawler;
+					}
+					else {
+						$crawler = false; 
+					}
 				}
 				catch( Exception $e ) {
 					$crawler = false;
