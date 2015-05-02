@@ -222,15 +222,16 @@
 }
 #about-links a {
 }
-#donate-button {
-    float: left;
-    padding: 7px 0 0;
-    text-align: center;
-    width: 100%;
-}
 .left-div {
     float: left;
 }
 .right-div {
     float: right;
+}
+#donate-text {
+    float: left;
+}
+#donate-button {
+    float: right;
+    margin: 12px 0 0;
 }

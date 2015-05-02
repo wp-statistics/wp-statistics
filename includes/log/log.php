@@ -54,9 +54,8 @@
 
 	$nag_html = '';
 	if( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {
-		$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div style="float: left;"><p>' . __('Have you thought about donating to WP Statistics?', 'wp_statistics') . '</p></div><div style="float: right; vertical-align: middle;"><a class="button-primary" id="wps_close_nag">' . __('Close', 'wp_statistics') . '</a></div></div>';
+		$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text"><p>' . __('Have you thought about donating to WP Statistics?', 'wp_statistics') . ' <a href="http://wp-statistics.com/donate/" target="_blank">'.__('Donate Now!', 'wp_statistics').'</a></p></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __('Close', 'wp_statistics') . '</a></div></div>';
 	}
-	
 ?>
 <div class="wrap">
 	<?php echo $nag_html; ?>

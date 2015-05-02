@@ -28,3 +28,9 @@
     direction: rtl;
     font-family: tahoma;
 }
+#donate-text {
+    float: right;
+}
+#donate-button {
+    float: left;
+}
