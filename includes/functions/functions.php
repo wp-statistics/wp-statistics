@@ -885,8 +885,8 @@
 		
 		$rcount = count( $range );
 		
-		$rangestart = '';
-		$rangeend = '';
+		$rangestart = $WP_Statistics->Real_Current_Date('m/d/Y', '-' . $current);
+		$rangeend = $WP_Statistics->Real_Current_Date('m/d/Y');
 		
 		$bold = true;
 		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } 
