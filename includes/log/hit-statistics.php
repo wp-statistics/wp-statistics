@@ -30,10 +30,14 @@
 						var visit_chart;
 						jQuery(document).ready(function() {
 <?php								
+								$visit_total = 0;
+								$visitor_total = 0;
+								
 								echo "var visit_data_line = [";
 								
 								for( $i=$daysToDisplay; $i>=0; $i--) {
 									$stat = wp_statistics_visit('-'.$i, true);
+									$visit_total += $stat;
 									
 									echo "['" . $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$i, $rangeend_utime) . "'," . $stat . "], ";
 									
@@ -45,6 +49,7 @@
 								
 								for( $i=$daysToDisplay; $i>=0; $i--) {
 									$stat = wp_statistics_visitor('-'.$i, true);
+									$visitor_total += $stat;
 									
 									echo "['" . $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$i, $rangeend_utime) . "'," . $stat . "], ";
 									
@@ -149,4 +154,39 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
+		<div class="metabox-holder">
+			<div class="meta-box-sortables">
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
+					<h3 class="hndle"><span><?php _e('Hits Statistics Summary', 'wp_statistics'); ?></span></h3>
+					<div class="inside">
+						<table width="auto" class="widefat table-stats" id="summary-stats">
+							<tbody>
+								<tr>
+									<th></th>
+									<th class="th-center"><?php _e('Visit', 'wp_statistics'); ?></th>
+									<th class="th-center"><?php _e('Visitor', 'wp_statistics'); ?></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('Chart Total', 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php echo number_format_i18n($visit_total); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n($visitor_total); ?></span></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('All Time Total', 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visit('total')); ?></span></th>
+									<th class="th-center"><span><?php echo number_format_i18n(wp_statistics_visitor('total',null,true)); ?></span></th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
