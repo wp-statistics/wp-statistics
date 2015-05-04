@@ -54,6 +54,8 @@
 		}
 	}
 	
+	$excuded_all_time = $wpdb->get_var( "SELECT SUM(count) FROM {$wpdb->prefix}statistics_exclusions" );
+	
 	// If the chart totals is enabled, cheat a little and just add another reason category to the list so it get's generated later.
 	if( $total_stats == 1 ) { $excluded_reasons[] = 'Total'; }
 ?>
@@ -63,9 +65,6 @@
 
 	<?php wp_statistics_date_range_selector( 'wps_exclusions_menu', $daysToDisplay ); ?>
 
-	<br><br>
-	<h3><?php echo sprintf(__('Total Exclusions: %s', 'wp_statistics'), $excluded_total); ?></h3>
-	
 	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
@@ -183,4 +182,36 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
+		<div class="metabox-holder">
+			<div class="meta-box-sortables">
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
+					<h3 class="hndle"><span><?php _e('Hits Statistics Summary', 'wp_statistics'); ?></span></h3>
+					<div class="inside">
+						<table width="auto" class="widefat table-stats" id="summary-stats">
+							<tbody>
+								<tr>
+									<th></th>
+									<th class="th-center"><?php _e('Exclusions', 'wp_statistics'); ?></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('Chart Total', 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php echo number_format_i18n($excluded_total); ?></span></th>
+								</tr>
+								
+								<tr>
+									<th><?php _e('All Time Total', 'wp_statistics'); ?>:</th>
+									<th class="th-center"><span><?php echo number_format_i18n($excuded_all_time); ?></span></th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
