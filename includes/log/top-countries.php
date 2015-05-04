@@ -3,9 +3,22 @@
 		postboxes.add_postbox_toggles(pagenow);
 	});
 </script>
+<?php
+	$daysToDisplay = 20; 
+	if( array_key_exists('hitdays',$_GET) ) { $daysToDisplay = intval($_GET['hitdays']); }
+
+	if( array_key_exists('rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } else { $rangestart = ''; }
+	if( array_key_exists('rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = ''; }
+
+	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
+
+?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Countries', 'wp_statistics'); ?></h2>
+
+	<?php wp_statistics_date_range_selector( 'wps_countries_menu', $daysToDisplay ); ?>
+
 	<div class="postbox-container" id="last-log" style="width: 100%;">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
@@ -25,9 +38,12 @@
 									
 									$result = $wpdb->get_results("SELECT DISTINCT `location` FROM `{$wpdb->prefix}statistics_visitor`");
 									
+									$rangestartdate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangestart_utime );
+									$rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime );
+									
 									foreach( $result as $item )
 										{
-										$Countries[$item->location] = $wpdb->get_var("SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location='" . $item->location . "'" );
+										$Countries[$item->location] = $wpdb->get_var("SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location='{$item->location}' AND `last_counter` BETWEEN '{$rangestartdate}' AND '{$rangeenddate}'" );
 										}
 										
 									arsort($Countries);
