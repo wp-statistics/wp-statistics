@@ -261,6 +261,18 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.3 =
+* Release Date: TBD
+* Added: Shortcode UI (aka ShortCake) support.
+* Added: Donation menu and dismissble banner on the overview page.
+* Added: Superfeedr and feedzirra to the robots list.
+* Added: Summary postbox on hit statistics page.
+* Added: Summary postbox on exclusions page.
+* Added: Date range selector on top countries page.
+* Updated: Moved all ajax and pseudo ajax calls to use the standard WordPress ajax and init routines instead of using wp-load.php.
+* Fixed: Typo in varaible name for one of the dashboard widgets.
+* Fixed: PHP error when the $browser object wasn't an object when we checked the crawler property.
+
 = 9.2 =
 * Release Date: April 26, 2015
 * Added: Date range selector for charts now supports arbitrary date ranges with JavaScript date selector.
