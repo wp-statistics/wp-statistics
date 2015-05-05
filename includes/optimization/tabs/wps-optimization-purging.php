@@ -12,18 +12,24 @@
 			if(!agree)
 				return false;
 				
-			var data = new Array();
-			data['purge-days'] = action;
-			
 			jQuery("#purge-data-submit").attr("disabled", "disabled");
 			jQuery("#purge-data-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 			
-			jQuery.post("<?php echo parse_url(plugins_url('../purge-data.php', __FILE__), PHP_URL_PATH ); ?>", {purge_days:data['purge-days']})
+			var data = {
+				'action': 'wp_statistics_purge_data',
+				'purge-days': action,
+			};
+			
+			jQuery.ajax({ url: ajaxurl,
+					 type: 'post',
+					 data: data,
+					 datatype: 'json',
+			})
 				.always(function(result){
-				jQuery("#purge-data-status").html("");
-				jQuery("#purge-data-result").html(result.responseText);
-				jQuery("#purge-data-submit").removeAttr("disabled");
-				jQuery("#wps_historical_purge").show();
+					jQuery("#purge-data-status").html("");
+					jQuery("#purge-data-result").html(result);
+					jQuery("#purge-data-submit").removeAttr("disabled");
+					jQuery("#wps_historical_purge").show();
 			});
 		});
 
@@ -39,17 +45,23 @@
 			if(!agree)
 				return false;
 				
-			var data = new Array();
-			data['table-name'] = jQuery("#empty-table").val();
-			
 			jQuery("#empty-table-submit").attr("disabled", "disabled");
 			jQuery("#empty-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 			
-			jQuery.post("<?php echo parse_url(plugins_url('../empty.php', __FILE__), PHP_URL_PATH ); ?>", {table_name:data['table-name']})
+			var data = {
+				'action': 'wp_statistics_empty_table',
+				'table-name': action,
+			};
+			
+			jQuery.ajax({ url: ajaxurl,
+					 type: 'post',
+					 data: data,
+					 datatype: 'json',
+			})
 				.always(function(result){
-				jQuery("#empty-status").html("");
-				jQuery("#empty-result").html(result.responseText);
-				jQuery("#empty-table-submit").removeAttr("disabled");
+					jQuery("#empty-status").html("");
+					jQuery("#empty-result").html(result);
+					jQuery("#empty-table-submit").removeAttr("disabled");
 			});
 		});
 
@@ -65,16 +77,22 @@
 			if(!agree)
 				return false;
 				
-			var data = new Array();
-			data['agent-name'] = jQuery("#delete-agent").val();
-			
 			jQuery("#delete-agents-submit").attr("disabled", "disabled");
 			jQuery("#delete-agents-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 	
-			jQuery.post("<?php echo parse_url(plugins_url('../delete-agents.php', __FILE__), PHP_URL_PATH ); ?>", {agent_name:data['agent-name']})
+			var data = {
+				'action': 'wp_statistics_delete_agents',
+				'agent-name': action,
+			};
+			
+			jQuery.ajax({ url: ajaxurl,
+					 type: 'post',
+					 data: data,
+					 datatype: 'json',
+			})
 				.always(function(result){
 					jQuery("#delete-agents-status").html("");
-					jQuery("#delete-agents-result").html(result.responseText);
+					jQuery("#delete-agents-result").html(result);
 					jQuery("#delete-agents-submit").removeAttr("disabled");
 					aid = data['agent-name'].replace(/[^a-zA-Z]/g, "");
 					jQuery("#agent-" + aid + "-id").remove();
@@ -93,19 +111,25 @@
 			if(!agree)
 				return false;
 				
-			var data = new Array();
-			data['platform-name'] = jQuery("#delete-platform").val();
-			
 			jQuery("#delete-platforms-submit").attr("disabled", "disabled");
 			jQuery("#delete-platforms-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
 	
-			jQuery.post("<?php echo parse_url(plugins_url('../delete-platforms.php', __FILE__), PHP_URL_PATH ); ?>", {platform_name:data['platform-name']})
+			var data = {
+				'action': 'wp_statistics_delete_platforms',
+				'platform-name': action,
+			};
+			
+			jQuery.ajax({ url: ajaxurl,
+					 type: 'post',
+					 data: data,
+					 datatype: 'json',
+			})
 				.always(function(result){
-				jQuery("#delete-platforms-status").html("");
-				jQuery("#delete-platforms-result").html(result.responseText);
-				jQuery("#delete-platforms-submit").removeAttr("disabled");
-				pid = data['platform-name'].replace(/[^a-zA-Z]/g, "");
-				jQuery("#platform-" + pid + "-id").remove();
+					jQuery("#delete-platforms-status").html("");
+					jQuery("#delete-platforms-result").html(result);
+					jQuery("#delete-platforms-submit").removeAttr("disabled");
+					pid = data['platform-name'].replace(/[^a-zA-Z]/g, "");
+					jQuery("#platform-" + pid + "-id").remove();
 			});
 		});		
 

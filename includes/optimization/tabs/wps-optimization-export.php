@@ -1,6 +1,7 @@
 <div class="wrap">
 	
-	<form method="post" action="<?php echo plugins_url('../export.php', __FILE__); ?>">
+	<form method="post">
+	<input type="hidden" name="wps_export" value="true">
 	<table class="form-table">
 		<tbody>
 			<tr valign="top">

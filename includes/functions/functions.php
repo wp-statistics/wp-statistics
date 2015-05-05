@@ -956,3 +956,17 @@
 		
 		return array( $daysToDisplay, $rangestart_utime, $rangeend_utime );
 	}
+	
+	function wp_statitiscs_empty_table( $table_name = FALSE ) {
+		global $wpdb;
+		
+		if( $table_name ) {
+			$result = $wpdb->query('DELETE FROM ' . $table_name);
+			
+			if($result) {
+				return sprintf(__('%s table data deleted successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>');
+			}
+		}
+
+		return sprintf(__('Error, %s not emptied!', 'wp_statistics'), $table_name ); 
+	}	

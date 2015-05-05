@@ -22,6 +22,7 @@ License: GPL2
 	function wp_statistics_init() {
 		GLOBAL $WP_Statistics;
 		
+		// Users can override loading the default language code, check to see if they have.
 		$override = false;
 		
 		if( is_object( $WP_Statistics ) ) {
@@ -30,17 +31,34 @@ License: GPL2
 			}
 		}
 		
+		// If not, go ahead and load the translations.
 		if( !$override ) {
 			load_plugin_textdomain('wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 			__('WP Statistics', 'wp_statistics');
 			__('Complete statistics for your WordPress site.', 'wp_statistics');
 		}
+		
+		// Check to see if we're exporting data, if so, do so now. 
+		// Note this will set the headers to download the export file and then stop running WordPress.
+		if( array_key_exists( 'wps_export', $_POST ) ) {
+			include_once dirname( __FILE__ ) . '/includes/functions/export.php';
+			wp_statistics_export_data();
+		}
+
+		// Check to see if we're downloading the manual, if so, do so now. 
+		// Note this will set the headers to download the manual and then stop running WordPress.
+		if( array_key_exists( 'wps_download_manual', $_GET ) ) {
+			include_once dirname( __FILE__ ) . '/includes/functions/manual.php';
+			wp_statistics_download_manual();
+		}
 	}
 
-	// Add actions
-	add_action('init', 'wp_statistics_init');
+	// Add init actions.  For the main init we're going to set our priority to 9 to execute before most plugins so we can export data before and set the headers without 
+	// worrying about bugs in other plugins that output text and don't allow us to set the headers.
+	add_action('init', 'wp_statistics_init', 9);
 	add_action('admin_init', 'wp_statistics_shortcake' );
 	
+	// This adds a row after WP Statistics in the plugin page IF an incompatible version of PHP is running.
 	function wp_statistics_php_after_plugin_row() {
 		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="10"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version ', 'wp_statistics') . WP_STATISTICS_REQUIRED_PHP_VERSION . __(' or higher!', 'wp_statistics') . '  ' . __('Your current PHP version is','wp_statistics') . ' ' . phpversion() . '.&nbsp;&nbsp;</span></td></tr>';
 	}
@@ -55,7 +73,8 @@ License: GPL2
 	if( get_option( 'wp_statistics_removal' ) == 'true' ) {
 		include_once( dirname( __FILE__ ) . '/wps-uninstall.php' );
 	}
-	
+
+	// This adds a row after WP Statistics in the plugin page IF we've been removed via the settings page.
 	function wp_statistics_removal_after_plugin_row() {
 		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="*"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('WP Statistics has been removed, please disable and delete it.', 'wp_statistics') . '&nbsp;&nbsp;</span></td></tr>';
 	}
@@ -121,6 +140,7 @@ License: GPL2
 		}
 	}
 
+	// Display the admin notices if we should.
 	if( !$WP_Statistics->get_option('useronline') || !$WP_Statistics->get_option('visits') || !$WP_Statistics->get_option('visitors') || !$WP_Statistics->get_option('geoip') ) {
 		if( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
 			if( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14) == 'wp-statistics/') {
@@ -141,6 +161,7 @@ License: GPL2
 		}
 	}
 
+	// If we've been told to exclude the feeds from the statistics add a detection hook when WordPress generates the RSS feed.
 	if( $WP_Statistics->get_option('exclude_feeds') ) {
 		add_filter('the_title_rss', 'wp_statistics_check_feed_title' );
 	}
@@ -553,8 +574,8 @@ License: GPL2
 			echo '</script>' . "\n";
 
 			echo '<br>';
-			echo '<a href="' .  plugin_dir_url(__FILE__) . 'manual/manual.php?type=odt' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/ODT.png' . '" height="32" width="32" alt="' . __('Download ODF file', 'wp_statistics') . '"></a>&nbsp;';
-			echo '<a href="' .  plugin_dir_url(__FILE__) . 'manual/manual.php?type=html' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/HTML.png' . '" height="32" width="32" alt="' . __('Download HTML file', 'wp_statistics') . '"></a><br>';
+			echo '<a href="admin.php?page=wps_manual_menu&wps_download_manual=true&type=odt' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/ODT.png' . '" height="32" width="32" alt="' . __('Download ODF file', 'wp_statistics') . '"></a>&nbsp;';
+			echo '<a href="admin.php?page=wps_manual_menu&wps_download_manual=true&type=html' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/HTML.png' . '" height="32" width="32" alt="' . __('Download HTML file', 'wp_statistics') . '"></a><br>';
 			
 			echo '<iframe src="' .  plugin_dir_url(__FILE__) . WP_STATISTICS_MANUAL . 'html' . '" width="100%" frameborder="0" scrolling="no" id="wps_inline_docs" onload="AdjustiFrameHeight(\'wps_inline_docs\', 50);"></iframe>';
 		} else {

@@ -225,6 +225,10 @@ See http://php.net/manual/en/ini.core.php#ini.memory-limit for information about
 
 To remove historical data you can use the Statistics->Optimization->Purging->Purge records older than.
 
+= Not all referrals are showing up in the search words list, why? =
+
+Unfortunate we're completely dependent on the search engine sending use the search parameters as part of the referrer header, which they do not always do.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
