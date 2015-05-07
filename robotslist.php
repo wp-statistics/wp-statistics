@@ -12,6 +12,7 @@ $wps_robotarray = array(
 	'AltaVista',
 	'AntivirusPro',
 	'appie',
+	'Applebot',
 	'archive.org_bot',
 	'Ask Jeeves',
 	'ASPSeek',
