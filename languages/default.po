@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics 9.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/wp-statistics\n"
-"POT-Creation-Date: 2015-05-05 23:07:57+00:00\n"
+"POT-Creation-Date: 2015-05-07 14:04:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-05-05 19:10-0500\n"
+"PO-Revision-Date: 2015-05-07 10:16-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "X-Generator: Poedit 1.7.5\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Please select the desired items."
 msgstr ""
 
-#: ajax.php:41 ajax.php:71 ajax.php:125 ajax.php:150
+#: ajax.php:41 ajax.php:71 ajax.php:125 ajax.php:150 ajax.php:180
 #: includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr ""
@@ -36,6 +36,10 @@ msgstr ""
 
 #: ajax.php:65
 msgid "No platform data found to remove!"
+msgstr ""
+
+#: ajax.php:174 includes/functions/purge-hits.php:32
+msgid "Number of hits must be greater than or equal to 10!"
 msgstr ""
 
 #: dashboard.php:55
@@ -207,6 +211,14 @@ msgstr ""
 msgid "Updated %s GeoIP records in the visitors database."
 msgstr ""
 
+#: includes/functions/purge-hits.php:25
+msgid "%s records purged successfully."
+msgstr ""
+
+#: includes/functions/purge-hits.php:28
+msgid "No visitors found to purge."
+msgstr ""
+
 #: includes/functions/purge.php:21 includes/functions/purge.php:39
 #: includes/functions/purge.php:50 includes/functions/purge.php:83
 msgid "%s data older than %s days purged successfully."
@@ -351,7 +363,7 @@ msgstr ""
 #: includes/log/exclusions.php:95 includes/log/hit-statistics.php:65
 #: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:51
 #: includes/log/widgets/search.php:55
-#: includes/optimization/tabs/wps-optimization-purging.php:175
+#: includes/optimization/tabs/wps-optimization-purging.php:207
 msgid "days"
 msgstr ""
 
@@ -401,7 +413,7 @@ msgstr ""
 
 #: includes/log/last-search.php:47 includes/log/last-visitor.php:38
 #: includes/log/top-referring.php:29
-#: includes/optimization/tabs/wps-optimization-purging.php:159 widget.php:294
+#: includes/optimization/tabs/wps-optimization-purging.php:191 widget.php:294
 msgid "All"
 msgstr ""
 
@@ -782,9 +794,9 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-export.php:18
 #: includes/optimization/tabs/wps-optimization-export.php:36
-#: includes/optimization/tabs/wps-optimization-purging.php:153
-#: includes/optimization/tabs/wps-optimization-purging.php:194
-#: includes/optimization/tabs/wps-optimization-purging.php:218
+#: includes/optimization/tabs/wps-optimization-purging.php:185
+#: includes/optimization/tabs/wps-optimization-purging.php:241
+#: includes/optimization/tabs/wps-optimization-purging.php:265
 #: includes/settings/tabs/wps-notifications.php:134
 #: includes/settings/tabs/wps-notifications.php:164
 msgid "Please select"
@@ -848,62 +860,81 @@ msgstr ""
 #: includes/optimization/tabs/wps-optimization-purging.php:10
 #: includes/optimization/tabs/wps-optimization-purging.php:43
 #: includes/optimization/tabs/wps-optimization-purging.php:75
-#: includes/optimization/tabs/wps-optimization-purging.php:109
+#: includes/optimization/tabs/wps-optimization-purging.php:107
+#: includes/optimization/tabs/wps-optimization-purging.php:141
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:143
+#: includes/optimization/tabs/wps-optimization-purging.php:175
 msgid "Data"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:148
+#: includes/optimization/tabs/wps-optimization-purging.php:180
 msgid "Empty Table"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:161
+#: includes/optimization/tabs/wps-optimization-purging.php:193
 msgid "All data table will be lost."
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:162
+#: includes/optimization/tabs/wps-optimization-purging.php:194
 msgid "Clear now!"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:170
+#: includes/optimization/tabs/wps-optimization-purging.php:202
 msgid "Purge records older than"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:176
+#: includes/optimization/tabs/wps-optimization-purging.php:208
 msgid ""
 "Deleted user statistics data older than the selected number of days.  "
 "Minimum value is 30 days."
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:177
+#: includes/optimization/tabs/wps-optimization-purging.php:209
+#: includes/optimization/tabs/wps-optimization-purging.php:224
 msgid "Purge now!"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:184
+#: includes/optimization/tabs/wps-optimization-purging.php:217
+msgid "Purge visitors with more than"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-purging.php:222
+msgid "hits"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-purging.php:223
+msgid ""
+"Deleted user statistics data where the user has more than the defined number "
+"of hits in a day.  This can be useful to clear up old data when your site "
+"has been hit by a bot.  This will remove the visitor and their hits to the "
+"site, however it will not remove individual page hits as that data is not "
+"recorded on a per use basis.  Minimum value is 10 hits."
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-purging.php:231
 msgid "Delete User Agent Types"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:189
+#: includes/optimization/tabs/wps-optimization-purging.php:236
 msgid "Delete Agents"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:204
+#: includes/optimization/tabs/wps-optimization-purging.php:251
 msgid "All visitor data will be lost for this agent type."
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:205
-#: includes/optimization/tabs/wps-optimization-purging.php:229
+#: includes/optimization/tabs/wps-optimization-purging.php:252
+#: includes/optimization/tabs/wps-optimization-purging.php:276
 msgid "Delete now!"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:213
+#: includes/optimization/tabs/wps-optimization-purging.php:260
 msgid "Delete Platforms"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-purging.php:228
+#: includes/optimization/tabs/wps-optimization-purging.php:275
 msgid "All visitor data will be lost for this platform type."
 msgstr ""
 
