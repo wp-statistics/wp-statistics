@@ -129,7 +129,7 @@ function wp_statistics_empty_table_action_callback() {
 }
 add_action( 'wp_ajax_wp_statistics_empty_table', 'wp_statistics_empty_table_action_callback' );
 
-// Setup an AJAX action to purege old data in the optimization page.
+// Setup an AJAX action to purge old data in the optimization page.
 function wp_statistics_purge_data_action_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
@@ -153,3 +153,33 @@ function wp_statistics_purge_data_action_callback() {
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 add_action( 'wp_ajax_wp_statistics_purge_data', 'wp_statistics_purge_data_action_callback' );
+
+// Setup an AJAX action to purge visitors with more than a defined number of hits.
+function wp_statistics_purge_visitor_hits_action_callback() {
+	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
+
+	require($WP_Statistics->plugin_dir . '/includes/functions/purge-hits.php');
+	
+	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
+
+	if( current_user_can( $manage_cap ) ) {
+		$purge_hits = 10;
+
+		if( array_key_exists( 'purge-hits', $_POST ) ) { 
+			// Get the number of days to purge data before.
+			$purge_hits = intval($_POST['purge-hits']);
+		}
+		
+		if( $purge_hits < 10 ) { 
+			_e('Number of hits must be greater than or equal to 10!', 'wp_statistics');
+		}
+		else {
+			echo wp_statistics_purge_visitor_hits( $purge_hits );
+		}
+	} else {
+		_e('Access denied!', 'wp_statistics');
+	}
+	
+	wp_die(); // this is required to terminate immediately and return a proper response
+}
+add_action( 'wp_ajax_wp_statistics_purge_visitor_hits', 'wp_statistics_purge_visitor_hits_action_callback' );

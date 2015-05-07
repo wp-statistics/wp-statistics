@@ -33,6 +33,38 @@
 			});
 		});
 
+		jQuery("#purge-visitor-hits-submit").click(function(){
+		
+			var action = jQuery('#purge-visitor-hits').val();
+			
+			if(action == 0)
+				return false;
+				
+			var agree = confirm('<?php _e('Are you sure?', 'wp_statistics'); ?>');
+
+			if(!agree)
+				return false;
+				
+			jQuery("#purge-visitor-hits-submit").attr("disabled", "disabled");
+			jQuery("#purge-visitor-hits-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+			
+			var data = {
+				'action': 'wp_statistics_purge_visitor_hits',
+				'purge-hits': action,
+			};
+			
+			jQuery.ajax({ url: ajaxurl,
+					 type: 'post',
+					 data: data,
+					 datatype: 'json',
+			})
+				.always(function(result){
+					jQuery("#purge-visitor-hits-status").html("");
+					jQuery("#purge-visitor-hits-result").html(result);
+					jQuery("#purge-visitor-hits-submit").removeAttr("disabled");
+			});
+		});
+
 		jQuery("#empty-table-submit").click(function(){
 		
 			var action = jQuery('#empty-table').val();
@@ -177,6 +209,21 @@
 					<input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp_statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
 					<span id="purge-data-status"></span>
 					<div id="purge-data-result"></div>
+				</td>
+			</tr>
+
+			<tr>
+				<th scope="row">
+					<label for="purge-visitor-hits"><?php _e('Purge visitors with more than', 'wp_statistics'); ?>:</label>
+				</th>
+
+				<td>
+					<input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
+					<label for="purge-visitor-hits"><?php _e('hits', 'wp_statistics'); ?></label>
+					<p class="description"><?php _e('Deleted user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits.', 'wp_statistics'); ?></p>
+					<input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp_statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
+					<span id="purge-visitor-hits-status"></span>
+					<div id="purge-visitor-hits-result"></div>
 				</td>
 			</tr>
 

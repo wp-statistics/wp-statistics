@@ -242,6 +242,9 @@ Unfortunate we're completely dependent on the search engine sending use the sear
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.3 = 
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.2 = 
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -269,6 +272,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added: Summary postbox on hit statistics page.
 * Added: Summary postbox on exclusions page.
 * Added: Date range selector on top countries page.
+* Added: Purge data based on visitor's hit count on the optimization page.
 * Updated: Moved all ajax and pseudo ajax calls to use the standard WordPress ajax and init routines instead of using wp-load.php.
 * Fixed: Typo in varaible name for one of the dashboard widgets.
 * Fixed: PHP error when the $browser object wasn't an object when we checked the crawler property.
