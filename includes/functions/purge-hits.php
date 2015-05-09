@@ -32,6 +32,19 @@
 			$result_string = __('Number of hits must be greater than or equal to 10!', 'wp_statistics');
 		}
 
+		if( $WP_Statistics->get_option('prune_report') == true ) {
+			$blogname = get_bloginfo('name');
+			$blogemail = get_bloginfo('admin_email');
+			
+			$headers[] = "From: $blogname <$blogemail>";
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/html; charset=utf-8";
+
+			if( $WP_Statistics->get_option('email_list') == '' ) { $WP_Statistics->update_option( 'email_list', $blogemail ); }
+			
+			wp_mail( $WP_Statistics->get_option('email_list'), __('Database pruned on', 'wp_statistics') . ' ' . $blogname, $result_string, $headers );
+		}
+
 		return $result_string;
 	}
 ?>

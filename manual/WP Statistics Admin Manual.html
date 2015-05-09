@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.4.2.2 (Windows)"/>
 	<meta name="created" content="2014-06-03T18:16:55.146000000"/>
-	<meta name="changed" content="2015-05-07T15:15:00.545000000"/>
+	<meta name="changed" content="2015-05-09T13:19:54.434000000"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-bottom: 0.25cm; line-height: 120% }
@@ -2519,6 +2519,37 @@ the database is pruned of older data.</p>
 		<td width="428" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
 			<p>The number of days to keep statistics for. Minimum value is 30
 			days. This means a number above 30 must be entered here.</p>
+			<p><br/>
+
+			</p>
+			<p>Invalid values will disable the daily maintenance.</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="266" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>Run a daily WP Cron job to prune the databases 
+			</p>
+		</td>
+		<td width="105" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>On/Off</p>
+		</td>
+		<td width="428" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p>Enable/disable the running of a daily job to prune the database
+			of visitors with more than a dfined number of hits per day.  These
+			hits will be removed and not added to the historical database.</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="266" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>Prune visitors with more than 
+			</p>
+		</td>
+		<td width="105" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>Number</p>
+		</td>
+		<td width="428" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
+			<p>The number of hits to remove statistics for. Minimum value is
+			10 hits.</p>
 			<p><br/>
 
 			</p>
