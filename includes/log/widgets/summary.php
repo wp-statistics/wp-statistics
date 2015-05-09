@@ -77,7 +77,7 @@ if( $WP_Statistics->get_option('visitors') || $WP_Statistics->get_option('visits
 <?php 
 	}
 	
-if( $search == true && $WP_Statistics->get_option('visitos' )) {
+if( $search == true && $WP_Statistics->get_option('visitors' )) {
 	
 		if( $WP_Statistics->get_option('visitors') || $WP_Statistics->get_option('visits') || $WP_Statistics->get_option('useronline') ) {
 ?>
