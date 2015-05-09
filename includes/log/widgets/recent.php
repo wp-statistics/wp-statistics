@@ -1,6 +1,8 @@
 <?php
 	function wp_statistics_generate_recent_postbox($ISOCountryCode, $search_engines) {
-	
+		GLOBAL $WP_Statistics;
+		
+		if( $WP_Statistics->get_option( 'visitors' ) ) {
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -13,6 +15,7 @@
 					</div>
 				</div>
 <?php		
+		}
 	}
 
 	function wp_statistics_generate_recent_postbox_content($ISOCountryCode, $count = 10) {

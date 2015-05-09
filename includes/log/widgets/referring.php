@@ -3,9 +3,12 @@
 	
 		global $wpdb, $WP_Statistics;
 
-		$result = $wpdb->get_results("SELECT `referred` FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
+		global $wpdb, $WP_Statistics;
 		
-		if( sizeof( $result ) > 0 ) {
+		if( $WP_Statistics->get_option( 'visitors' ) ) {
+			$result = $wpdb->get_results("SELECT `referred` FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
+			
+			if( sizeof( $result ) > 0 ) {
 			?>
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -19,6 +22,7 @@
 				</div>
 			</div>
 <?php
+			}
 		}
 	}
 	

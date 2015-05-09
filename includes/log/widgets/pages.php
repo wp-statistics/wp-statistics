@@ -1,6 +1,9 @@
 <?php
 	function wp_statistics_generate_pages_postbox($ISOCountryCode, $search_engines) {
-	
+		GLOBAL $WP_Statistics;
+		
+		if( ! $WP_Statistics->get_option('pages') ) { return; }
+		
 		list( $total, $uris ) = wp_statistics_get_top_pages();
 				
 		if( $total > 0 ) {

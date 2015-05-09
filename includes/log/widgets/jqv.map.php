@@ -3,7 +3,7 @@
 	
 		global $wpdb, $WP_Statistics;
 		
-		if($WP_Statistics->get_option('geoip') && !$WP_Statistics->get_option('disable_map') ) { ?>
+		if($WP_Statistics->get_option('geoip') && !$WP_Statistics->get_option('disable_map') && $WP_Statistics->get_option('visitos' ) ) { ?>
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 				<h3 class="hndle"><span><?php _e('Today Visitors Map', 'wp_statistics'); ?></span></h3>
