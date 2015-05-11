@@ -308,7 +308,7 @@
 		
 		// This function will return the referrer link for the current user.
 		public function get_Referred($default_referr = false) {
-		
+			
 			$referr = '';
 			
 			if( isset($_SERVER['HTTP_REFERER']) ) { $referr = $_SERVER['HTTP_REFERER']; }
@@ -317,6 +317,26 @@
 			$referr = esc_sql(strip_tags($referr) );
 			
 			if( !$referr ) { $referr = get_bloginfo('url'); }
+			
+			if( $this->get_option( 'addsearchwords', false ) ) {
+				// Check to see if this is a search engine referrer
+				$SEInfo = $this->Search_Engine_Info( $referr );
+				
+				if( ! is_array( $SEInfo ) ) {
+					// If we're a known SE, check the query string
+					if( $SEInfo['tag'] != '' ) {
+						$result = $this->Search_Engine_QueryString( $referr );
+						
+						// If there were no search words, let's add the page title
+						if( $result == '' ) {
+							$result = wp_title('', false);
+							if( $result != '' ) {
+								$referr .= '&' . $SEInfo['querykey'] . '=' . urlencode( '~"' . $result . '"' );
+							}
+						}
+					}
+				}
+			}
 			
 			return $referr;
 		}
@@ -416,7 +436,7 @@
 		
 			// If no URL was passed in, get the current referrer for the session.
 			if(!$url) {
-				$url = isset($_SERVER['HTTP_REFERER']) ? $this->get_Referred() : false;
+				$url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
 			}
 			
 			// If there is no URL and no referrer, always return false.

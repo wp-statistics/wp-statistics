@@ -17,7 +17,7 @@ if( $wps_nonce_valid ) {
 		$WP_Statistics->store_option($new_option, $value);
 	}
 
-	$wps_option_list = array('wps_useronline','wps_visits','wps_visitors','wps_pages','wps_track_all_pages','wps_disable_column','wps_check_online','wps_menu_bar','wps_coefficient','wps_chart_totals','wps_store_ua','wps_hide_notices','wps_delete_manual','wps_hash_ips', 'wps_all_online', 'wps_strip_uri_parameters', 'wps_override_language' );
+	$wps_option_list = array('wps_useronline','wps_visits','wps_visitors','wps_pages','wps_track_all_pages','wps_disable_column','wps_check_online','wps_menu_bar','wps_coefficient','wps_chart_totals','wps_store_ua','wps_hide_notices','wps_delete_manual','wps_hash_ips', 'wps_all_online', 'wps_strip_uri_parameters', 'wps_override_language','wps_addsearchwords' );
 	
 	// If the IP hash's are enabled, disable storing the complete user agent.
 	if( array_key_exists( 'wps_hash_ips', $_POST ) ) { $_POST['wps_store_ua'] = ''; }
@@ -276,6 +276,18 @@ if( $wps_nonce_valid ) {
 			<th scope="row" colspan="2"><h3><?php _e('Search Engines', 'wp_statistics'); ?></h3></th>
 		</tr>
 		
+		<tr valign="top">
+			<th scope="row">
+				<label for="hide_notices"><?php _e('Add page title to empty search words', 'wp_statistics'); ?>:</label>
+			</th>
+			
+			<td>
+				<input id="addsearchwords" type="checkbox" value="1" name="wps_addsearchwords" <?php echo $WP_Statistics->get_option('addsearchwords')==true? "checked='checked'":'';?>>
+				<label for="addsearchwords"><?php _e('Active', 'wp_statistics'); ?></label>
+				<p class="description"><?php _e('If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by "~:" as the search query to help identify what the user may have been searching for.', 'wp_statistics'); ?></p>
+			</td>
+		</tr>
+
 		<tr valign="top">
 			<th scope="row" colspan="2">
 				<p class="description"><?php _e('Disabling all search engines is not allowed, doing so will result in all search engines being active.', 'wp_statistics');?></p>

@@ -274,6 +274,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added: Date range selector on top countries page.
 * Added: Purge data based on visitor's hit count on the optimization page.
 * Added: Option to purge data based on visitor's hit count on a daily basis.
+* Added: Option to record the page title for search referrals that do not contain a query value.
 * Updated: Moved all ajax and pseudo ajax calls to use the standard WordPress ajax and init routines instead of using wp-load.php.
 * Updated: Widgets and pages will only be displayed if the associated statistics is being collected, for example the search engine referrals will only be displayed if the visitor tracking option is enabled.
 * Fixed: Typo in varaible name for one of the dashboard widgets.
