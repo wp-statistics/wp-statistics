@@ -10,6 +10,14 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: includes/settings/tabs/wps-general.php:281
+msgid "Add page title to empty search words"
+msgstr ""
+
+#: includes/settings/tabs/wps-general.php:287
+msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
+msgstr ""
+
 #: includes/settings/tabs/wps-maintenance.php:77
 msgid "The number of hits required to delete the visitor.  Invalid values will disable the daily maintenance (must be 10 or greater)."
 msgstr ""
@@ -214,15 +222,15 @@ msgstr "از"
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
-#: includes/settings/tabs/wps-general.php:330
+#: includes/settings/tabs/wps-general.php:342
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
 msgstr "اگر نمیخواهید افزونه برای شما ترجمه شود و از زبان پیش‌فرض انگلیسی استفاده شود. (نیازمند بارگزاری صفحه است)"
 
-#: includes/settings/tabs/wps-general.php:324
+#: includes/settings/tabs/wps-general.php:336
 msgid "Force English"
 msgstr "اجبار به انگلیسی"
 
-#: includes/settings/tabs/wps-general.php:319
+#: includes/settings/tabs/wps-general.php:331
 msgid "Languages"
 msgstr "زبان‌ها"
 
@@ -242,15 +250,15 @@ msgstr "لیست استثنائات آدرس‌ها"
 msgid "Excluded URL"
 msgstr "آدرس‌های محاسبه نشده"
 
-#: includes/log/widgets/summary.php:60
+#: includes/log/widgets/summary.php:66
 msgid "Last 365 Days (Year)"
 msgstr "365 روز گذشته (سال)"
 
-#: includes/log/widgets/summary.php:54
+#: includes/log/widgets/summary.php:60
 msgid "Last 30 Days (Month)"
 msgstr "30 روز گذشته (ماه)"
 
-#: includes/log/widgets/summary.php:48
+#: includes/log/widgets/summary.php:54
 msgid "Last 7 Days (Week)"
 msgstr "7 روز گذشته (هفته)"
 
@@ -322,7 +330,7 @@ msgstr "روبات"
 msgid "Honey Pot"
 msgstr "Honey Pot"
 
-#: includes/log/widgets/page.php:6
+#: includes/log/widgets/page.php:8
 msgid "Page Trending Stats"
 msgstr "روند آمار برگه‌ها"
 
@@ -377,7 +385,7 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "ضریب محاسبه هر بازدید کننده را در آمار مشخص می‌کند. درحال حاضر %s است."
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:346
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:344
 #: wp-statistics.php:420
 msgid "Pages"
 msgstr "برگه‌ها"
@@ -438,27 +446,27 @@ msgstr "به طور پیش‌فرض فایل راهنمای کاربری افز�
 msgid "Search Engines"
 msgstr "موتورهای جستجو"
 
-#: includes/settings/tabs/wps-general.php:281
+#: includes/settings/tabs/wps-general.php:293
 msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
 msgstr "از کار انداختن موتورهای جستجویی که نیازی به آنها نیست، این عمل در نتیجه کل موتورهای جستجو تأثیر می‌گذارد."
 
-#: includes/settings/tabs/wps-general.php:296
+#: includes/settings/tabs/wps-general.php:308
 msgid "disable"
 msgstr "غیرفعال"
 
-#: includes/settings/tabs/wps-general.php:297
+#: includes/settings/tabs/wps-general.php:309
 msgid "Disable %s from data collection and reporting."
 msgstr "غیرفعال کردن %s از جمع آوری داده‌ها و گزارش."
 
-#: includes/settings/tabs/wps-general.php:303
+#: includes/settings/tabs/wps-general.php:315
 msgid "Charts"
 msgstr "نمودار"
 
-#: includes/settings/tabs/wps-general.php:308
+#: includes/settings/tabs/wps-general.php:320
 msgid "Include totals"
 msgstr "جمع کل"
 
-#: includes/settings/tabs/wps-general.php:314
+#: includes/settings/tabs/wps-general.php:326
 msgid "Add a total line to charts with multiple values, like the search engine referrals"
 msgstr "اضافه شدن جمع کل به نمودار آمار ورودی از موتورهای جستجو"
 
@@ -897,7 +905,7 @@ msgstr "حذف"
 
 #: includes/settings/tabs/wps-access-level.php:278
 #: includes/settings/tabs/wps-browscap.php:81
-#: includes/settings/tabs/wps-general.php:337
+#: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-geoip.php:158
 #: includes/settings/tabs/wps-maintenance.php:84
 #: includes/settings/tabs/wps-notifications.php:201
@@ -1018,11 +1026,13 @@ msgstr "نسخه جاری PHP شما"
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "افزونه آمار وردپرس حذف شد، لطفاً افزونه را غیرفعال و پاک کنید."
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "آمار وردپرس"
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
@@ -1080,23 +1090,23 @@ msgstr "آمار وردپرس - بازدید"
 msgid "Overview"
 msgstr "مرور کلی"
 
-#: wp-statistics.php:345 wp-statistics.php:419
+#: wp-statistics.php:343 wp-statistics.php:419
 msgid "Online"
 msgstr "آنلاین"
 
-#: wp-statistics.php:347 wp-statistics.php:421
+#: wp-statistics.php:345 wp-statistics.php:421
 msgid "Referrers"
 msgstr "ارجاع‌دهنده‌ها"
 
-#: shortcode.php:133 wp-statistics.php:348 wp-statistics.php:422
+#: shortcode.php:133 wp-statistics.php:346 wp-statistics.php:422
 msgid "Searches"
 msgstr "جستجوها"
 
-#: wp-statistics.php:349 wp-statistics.php:423
+#: wp-statistics.php:347 wp-statistics.php:423
 msgid "Search Words"
 msgstr "کلمات جستجو شده"
 
-#: wp-statistics.php:350 wp-statistics.php:424
+#: wp-statistics.php:348 wp-statistics.php:424
 msgid "Top Visitors Today"
 msgstr "برترین بازدیدکنندگان"
 
@@ -1200,7 +1210,9 @@ msgstr "browscap در حال حاضر در نسخه فعلی!"
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini به روز رسانی شد"
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr ""
@@ -1213,7 +1225,7 @@ msgstr ""
 msgid "Quick Stats"
 msgstr "بازدید دریک نگاه"
 
-#: dashboard.php:56 includes/log/widgets/browsers.php:54
+#: dashboard.php:56 includes/log/widgets/browsers.php:58
 msgid "Top 10 Browsers"
 msgstr "10 مرورگر برتر"
 
@@ -1227,28 +1239,28 @@ msgid "Today's Visitor Map"
 msgstr "بازدیدکنندگان امروز"
 
 #: dashboard.php:59 editor.php:46 includes/log/hit-statistics.php:8
-#: includes/log/widgets/hits.php:8
+#: includes/log/widgets/hits.php:10
 msgid "Hit Statistics"
 msgstr "آمار بازدیدها"
 
-#: dashboard.php:60 includes/log/widgets/pages.php:11
+#: dashboard.php:60 includes/log/widgets/pages.php:14
 msgid "Top 10 Pages"
 msgstr "10 برگه برتر"
 
 #: dashboard.php:61 includes/log/last-visitor.php:36
-#: includes/log/widgets/recent.php:8
+#: includes/log/widgets/recent.php:10
 #: includes/settings/tabs/wps-overview-display.php:39
 msgid "Recent Visitors"
 msgstr "آخرین بازدیدکنندگان"
 
 #: dashboard.php:62 includes/log/top-referring.php:27
-#: includes/log/top-referring.php:42 includes/log/widgets/referring.php:13
+#: includes/log/top-referring.php:42 includes/log/widgets/referring.php:16
 #: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "برترین ارجاع دهنده‌ها"
 
-#: dashboard.php:63 includes/log/widgets/search.php:7
-#: includes/log/widgets/summary.php:76
+#: dashboard.php:63 includes/log/widgets/search.php:10
+#: includes/log/widgets/summary.php:89
 msgid "Search Engine Referrals"
 msgstr "ورودی‌ موتورهای جستجوگر"
 
@@ -1257,12 +1269,12 @@ msgid "Summary"
 msgstr "خلاصه"
 
 #: dashboard.php:65 includes/log/last-search.php:31
-#: includes/log/widgets/words.php:8
+#: includes/log/widgets/words.php:11
 #: includes/settings/tabs/wps-overview-display.php:37
 msgid "Latest Search Words"
 msgstr "آخرین کلمات جستجو شده"
 
-#: dashboard.php:66 includes/log/widgets/top.visitors.php:8
+#: dashboard.php:66 includes/log/widgets/top.visitors.php:10
 #: includes/settings/tabs/wps-overview-display.php:35
 msgid "Top 10 Visitors Today"
 msgstr "10 بازدیدکنندگان برتر امروز"
@@ -1317,16 +1329,16 @@ msgstr "آمار مرورگرها"
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
 #: includes/log/top-pages.php:28 includes/log/top-pages.php:148
 #: includes/log/top-referring.php:38 includes/log/widgets/about.php:7
-#: includes/log/widgets/browsers.php:6 includes/log/widgets/countries.php:9
-#: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:7
-#: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:9
-#: includes/log/widgets/recent.php:6 includes/log/widgets/referring.php:11
-#: includes/log/widgets/search.php:6 includes/log/widgets/summary.php:7
-#: includes/log/widgets/top.visitors.php:7 includes/log/widgets/words.php:6
+#: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
+#: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
+#: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
+#: includes/log/widgets/recent.php:8 includes/log/widgets/referring.php:14
+#: includes/log/widgets/search.php:9 includes/log/widgets/summary.php:7
+#: includes/log/widgets/top.visitors.php:9 includes/log/widgets/words.php:9
 msgid "Click to toggle"
 msgstr "برای باز و بستن کلیک کنید"
 
-#: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:7
+#: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
 #: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:339
 #: wp-statistics.php:415
 msgid "Browsers"
@@ -1336,7 +1348,7 @@ msgstr "مرورگرها"
 msgid "Browsers by type"
 msgstr "مرورگرها براساس نوع"
 
-#: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:34
+#: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:37
 #: includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Platform"
 msgstr "سَکو"
@@ -1398,8 +1410,8 @@ msgid "Excluded hits in the last"
 msgstr "بازدید آخرین استثنائات"
 
 #: includes/log/exclusions.php:95 includes/log/hit-statistics.php:65
-#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:51
-#: includes/log/widgets/search.php:55
+#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:61
+#: includes/log/widgets/search.php:59
 #: includes/optimization/tabs/wps-optimization-purging.php:207
 msgid "days"
 msgstr "روز گذشته"
@@ -1412,21 +1424,21 @@ msgstr "تعداد بازدید استثنائات"
 msgid "Hits Statistics Chart"
 msgstr "نمودار آمار بازدیدها"
 
-#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:51
+#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:61
 msgid "Hits in the last"
 msgstr "آخرین بازدیدها در"
 
-#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:72
+#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:82
 msgid "Number of visits and visitors"
 msgstr "تعداد بازدید و بازدید کننده"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:169
-#: includes/log/widgets/hits.php:86 includes/log/widgets/summary.php:32
+#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:38
 msgid "Visit"
 msgstr "بازدید"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:170
-#: includes/log/widgets/hits.php:86 includes/log/widgets/summary.php:31
+#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:37
 msgid "Visitor"
 msgstr "بازدیدکننده"
 
@@ -1436,14 +1448,14 @@ msgstr "آخرین آمار کلمات جستجو شده"
 
 #: includes/log/last-search.php:100 includes/log/last-visitor.php:101
 #: includes/log/online.php:50 includes/log/widgets/google.map.php:84
-#: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:30
-#: includes/log/widgets/words.php:32
+#: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:33
+#: includes/log/widgets/words.php:36
 msgid "#hash#"
 msgstr "#hash#"
 
 #: includes/log/last-search.php:105 includes/log/last-visitor.php:106
 #: includes/log/online.php:55 includes/log/top-referring.php:71
-#: includes/log/widgets/recent.php:35 includes/log/widgets/words.php:39
+#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:43
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
 msgid "Map"
@@ -1491,17 +1503,17 @@ msgstr "برگه تمایل"
 msgid "Search Engine Referral Statistics"
 msgstr "آمار ورودی از موتورهای جستجو"
 
-#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:55
+#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:59
 msgid "Search engine referrals in the last"
 msgstr "آخرین ورودی‌‌ها از موتورهای جستجوگر"
 
-#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:76
+#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:80
 msgid "Number of referrals"
 msgstr "تعداد ورودی‌ها"
 
 #: includes/log/exclusions.php:24 includes/log/search-statistics.php:104
-#: includes/log/widgets/search.php:90 includes/log/widgets/summary.php:66
-#: includes/log/widgets/summary.php:106
+#: includes/log/widgets/search.php:94 includes/log/widgets/summary.php:72
+#: includes/log/widgets/summary.php:119
 msgid "Total"
 msgstr "کل"
 
@@ -1510,17 +1522,17 @@ msgid "Top Countries"
 msgstr "برترین کشورها"
 
 #: includes/log/top-countries.php:30 includes/log/widgets/countries.php:30
-#: includes/log/widgets/top.visitors.php:27
+#: includes/log/widgets/top.visitors.php:30
 msgid "Rank"
 msgstr "رتبه"
 
 #: includes/log/top-countries.php:31 includes/log/widgets/countries.php:31
-#: includes/log/widgets/top.visitors.php:29
+#: includes/log/widgets/top.visitors.php:32
 msgid "Flag"
 msgstr "پرچم"
 
 #: includes/log/top-countries.php:32 includes/log/widgets/countries.php:32
-#: includes/log/widgets/top.visitors.php:30
+#: includes/log/widgets/top.visitors.php:33
 msgid "Country"
 msgstr "کشور"
 
@@ -1540,15 +1552,15 @@ msgstr "برترین 5 برگه"
 msgid "Top 5 Page Trending Stats"
 msgstr "برترین بازدید 5 برگه"
 
-#: includes/log/top-pages.php:81 includes/log/widgets/page.php:61
+#: includes/log/top-pages.php:81 includes/log/widgets/page.php:63
 msgid "Number of Hits"
 msgstr "تعداد بازدید"
 
-#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:32
+#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:35
 msgid "No page title found"
 msgstr "عنوان برگه یافت نشد"
 
-#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:35
+#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
 #: includes/settings/tabs/wps-general.php:127 shortcode.php:130
@@ -1563,7 +1575,7 @@ msgstr "به زودی اضافه می شود"
 msgid "Referring sites from"
 msgstr "سایت های ارجاع دهنده از"
 
-#: includes/log/top-referring.php:110 includes/log/widgets/referring.php:30
+#: includes/log/top-referring.php:110 includes/log/widgets/referring.php:34
 msgid "References"
 msgstr "ارجاع"
 
@@ -1591,15 +1603,15 @@ msgstr "اطلاعات بیشتر"
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr "این محصول شامل داده‌های GeoLite2 می‌باشد که توسط MaxMind، ایجاد شده و در %s قابل دسترس می‌باشد."
 
-#: includes/log/widgets/browsers.php:7 includes/log/widgets/countries.php:11
-#: includes/log/widgets/hits.php:8 includes/log/widgets/pages.php:11
-#: includes/log/widgets/recent.php:8 includes/log/widgets/referring.php:13
-#: includes/log/widgets/search.php:7 includes/log/widgets/top.visitors.php:8
-#: includes/log/widgets/words.php:8
+#: includes/log/widgets/browsers.php:10 includes/log/widgets/countries.php:11
+#: includes/log/widgets/hits.php:10 includes/log/widgets/pages.php:14
+#: includes/log/widgets/recent.php:10 includes/log/widgets/referring.php:16
+#: includes/log/widgets/search.php:10 includes/log/widgets/top.visitors.php:10
+#: includes/log/widgets/words.php:11
 msgid "More"
 msgstr "بیشتر"
 
-#: includes/log/widgets/browsers.php:47
+#: includes/log/widgets/browsers.php:51
 msgid "Other"
 msgstr "دیگر"
 
@@ -1607,57 +1619,57 @@ msgstr "دیگر"
 msgid "Today Visitors Map"
 msgstr "بازدیدکنندگان امروز برروی نقشه"
 
-#: includes/log/widgets/referring.php:31
+#: includes/log/widgets/referring.php:35
 msgid "Address"
 msgstr "آدرس"
 
-#: includes/log/widgets/summary.php:23
+#: includes/log/widgets/summary.php:26
 msgid "User(s) Online"
 msgstr "کاربر(های) حاضر"
 
-#: includes/log/widgets/summary.php:36 includes/log/widgets/summary.php:81
+#: includes/log/widgets/summary.php:42 includes/log/widgets/summary.php:94
 msgid "Today"
 msgstr "امروز"
 
-#: includes/log/widgets/summary.php:42 includes/log/widgets/summary.php:82
+#: includes/log/widgets/summary.php:48 includes/log/widgets/summary.php:95
 msgid "Yesterday"
 msgstr "دیروز"
 
-#: includes/log/widgets/summary.php:100
+#: includes/log/widgets/summary.php:113
 msgid "Daily Total"
 msgstr "کل امروز"
 
-#: includes/log/widgets/summary.php:119
+#: includes/log/widgets/summary.php:132
 msgid "Current Time and Date"
 msgstr "تاریخ و زمان امروز"
 
-#: includes/log/widgets/summary.php:119
+#: includes/log/widgets/summary.php:132
 msgid "(Adjustment)"
 msgstr "(تنظیم)"
 
-#: includes/log/widgets/summary.php:123
+#: includes/log/widgets/summary.php:136
 msgid "Date: %s"
 msgstr "تاریخ: %s"
 
-#: includes/log/widgets/summary.php:127
+#: includes/log/widgets/summary.php:140
 msgid "Time: %s"
 msgstr "زمان: %s"
 
-#: includes/log/widgets/top.visitors.php:28
+#: includes/log/widgets/top.visitors.php:31
 #: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:266
-#: wp-statistics.php:344 wp-statistics.php:418
+#: wp-statistics.php:342 wp-statistics.php:418
 msgid "Hits"
 msgstr "بازدیدها"
 
-#: includes/log/widgets/top.visitors.php:31
+#: includes/log/widgets/top.visitors.php:34
 msgid "IP"
 msgstr "آی‌پی"
 
-#: includes/log/widgets/top.visitors.php:33
+#: includes/log/widgets/top.visitors.php:36
 msgid "Agent"
 msgstr "عامل کاربر"
 
-#: includes/log/widgets/top.visitors.php:35
+#: includes/log/widgets/top.visitors.php:38
 #: includes/optimization/tabs/wps-optimization-resources.php:291
 msgid "Version"
 msgstr "نگارش"
@@ -1717,7 +1729,7 @@ msgstr "شاخص پایگاه‌داده"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:341 wp-statistics.php:416
+#: wp-statistics.php:340 wp-statistics.php:416
 msgid "Countries"
 msgstr "کشورها"
 
@@ -1799,7 +1811,7 @@ msgstr "نکته: همانطوری که پایگاه‌داده را پاک سا
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
 #: includes/settings/tabs/wps-general.php:143 shortcode.php:131
-#: wp-statistics.php:351 wp-statistics.php:425
+#: wp-statistics.php:349 wp-statistics.php:425
 msgid "Visitors"
 msgstr "بازدیدکنندگان"
 
@@ -2312,7 +2324,7 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "اگر نیاز به راه‌حل‌های بیشتری در رابطه با نقش‌های کاربری وردپرس داشتید، نگاهی به افزونه %s بیندازید."
 
 #: includes/log/exclusions.php:197
-#: includes/settings/tabs/wps-access-level.php:105 wp-statistics.php:343
+#: includes/settings/tabs/wps-access-level.php:105 wp-statistics.php:341
 #: wp-statistics.php:417
 msgid "Exclusions"
 msgstr "استثنائات"
@@ -2504,8 +2516,9 @@ msgstr "استفاده از browscap"
 #: includes/settings/tabs/wps-general.php:228
 #: includes/settings/tabs/wps-general.php:258
 #: includes/settings/tabs/wps-general.php:270
-#: includes/settings/tabs/wps-general.php:313
-#: includes/settings/tabs/wps-general.php:329
+#: includes/settings/tabs/wps-general.php:286
+#: includes/settings/tabs/wps-general.php:325
+#: includes/settings/tabs/wps-general.php:341
 #: includes/settings/tabs/wps-geoip.php:47
 #: includes/settings/tabs/wps-geoip.php:71
 #: includes/settings/tabs/wps-geoip.php:104
