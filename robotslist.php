@@ -96,6 +96,7 @@ $wps_robotarray = array(
 	'SemanticBot',
 	'SemrushBot',
 	'SeznamBot',
+	'sfFeedReader',
 	'shareaholic-bot',
 	'SiteExplorer',
 	'Slurp',

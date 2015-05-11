@@ -268,7 +268,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Release Date: TBD
 * Added: Shortcode UI (aka ShortCake) support.
 * Added: Donation menu and dismissble banner on the overview page.
-* Added: Applebot, Superfeedr, jetmon and feedzirra to the robots list.
+* Added: Applebot, Superfeedr, jetmon, sfFeedReader and feedzirra to the robots list.
 * Added: Summary postbox on hit statistics page.
 * Added: Summary postbox on exclusions page.
 * Added: Date range selector on top countries page.
