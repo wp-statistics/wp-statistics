@@ -57,6 +57,7 @@ $wps_robotarray = array(
 	'InfoSeek',
 	'inktomi',
 	'IstellaBot',
+	'jetmon',
 	'Kraken',
 	'Leikibot',
 	'linkdexbot',
