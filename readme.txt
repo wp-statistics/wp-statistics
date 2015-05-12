@@ -277,8 +277,9 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added: Option to record the page title for search referrals that do not contain a query value.
 * Updated: Moved all ajax and pseudo ajax calls to use the standard WordPress ajax and init routines instead of using wp-load.php.
 * Updated: Widgets and pages will only be displayed if the associated statistics is being collected, for example the search engine referrals will only be displayed if the visitor tracking option is enabled.
-* Fixed: Typo in varaible name for one of the dashboard widgets.
+* Fixed: Typo in variable name for one of the dashboard widgets.
 * Fixed: PHP error when the $browser object wasn't an object when we checked the crawler property.
+* Fixed: Incorrect parameter for get_option() on two option in the settings page.
 
 = 9.2 =
 * Release Date: April 26, 2015

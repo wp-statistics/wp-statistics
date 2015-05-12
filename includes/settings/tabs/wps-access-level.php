@@ -148,7 +148,7 @@ if( $wps_nonce_valid ) {
 
 					include_once(dirname( __FILE__ ) . '/../../../robotslist.php');
 					
-					if( $robotlist == "" ) { 
+					if( $robotlist == '' ) { 
 						$robotlist = $wps_robotlist; 
 						update_option( 'wps_robotlist', $robotlist );
 					}
@@ -178,7 +178,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded IP address list', 'wp_statistics'); ?>:</th>
 			<td>
-				<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('exclude_ip', ENT_QUOTES ) );?></textarea>
+				<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('exclude_ip'), ENT_QUOTES );?></textarea>
 				<p class="description"><?php echo __('A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255.', 'wp_statistics'); ?></p>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n10.0.0.0/8' ); }" class="button"><?php _e('Add 10.0.0.0', 'wp_statistics');?></a>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n172.16.0.0/12' ); }" class="button"><?php _e('Add 172.16.0.0', 'wp_statistics');?></a>
