@@ -18,8 +18,8 @@ License: GPL2
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 
-	// Load the internationalization code.
-	function wp_statistics_init() {
+	// Load the translation code.
+	function wp_statistics_language() {
 		GLOBAL $WP_Statistics;
 		
 		// Users can override loading the default language code, check to see if they have.
@@ -37,6 +37,14 @@ License: GPL2
 			__('WP Statistics', 'wp_statistics');
 			__('Complete statistics for your WordPress site.', 'wp_statistics');
 		}
+	}
+
+	// Add translation action.  We have to load the translation code before the init otherwise the widgets won't get translated properly.
+	add_action('plugins_loaded', 'wp_statistics_language');
+	
+	// Load the init code.
+	function wp_statistics_init() {
+		GLOBAL $WP_Statistics;
 		
 		// Check to see if we're exporting data, if so, do so now. 
 		// Note this will set the headers to download the export file and then stop running WordPress.
