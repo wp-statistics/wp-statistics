@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-04-22 00:35:36+0000\n"
+"PO-Revision-Date: 2015-05-13 08:16:05+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-maintenance.php:71
 msgid "Prune visitors with more than"
-msgstr ""
+msgstr "Eltávolított látogatók több mint"
 
 #: includes/settings/tabs/wps-maintenance.php:65
 msgid "A WP Cron job will be run daily to prune any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
@@ -36,7 +36,7 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-purging.php:222
 msgid "hits"
-msgstr ""
+msgstr "találatok"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:223
 msgid "Deleted user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits."
@@ -48,15 +48,15 @@ msgstr ""
 
 #: includes/functions/purge-hits.php:25
 msgid "%s records purged successfully."
-msgstr ""
+msgstr "%s bejegyzés kitisztítása sikeres."
 
 #: ajax.php:174 includes/functions/purge-hits.php:32
 msgid "Number of hits must be greater than or equal to 10!"
-msgstr ""
+msgstr "Találatok számának nagyobbnak vagy egyenlőnek  kell lennie, mint 10!"
 
 #: shortcode.php:132
 msgid "Page Visits"
-msgstr ""
+msgstr "Oldallátogatások"
 
 #: shortcode.php:135
 msgid "Page Count"
@@ -64,27 +64,27 @@ msgstr ""
 
 #: shortcode.php:136
 msgid "Comment Count"
-msgstr ""
+msgstr "Hozzászólás számláló"
 
 #: shortcode.php:137
 msgid "Spam Count"
-msgstr ""
+msgstr "Spam számláló"
 
 #: shortcode.php:138
 msgid "User Count"
-msgstr ""
+msgstr "Felhasználó számláló"
 
 #: shortcode.php:139
 msgid "Post Average"
-msgstr ""
+msgstr "Hozzászólás átlag"
 
 #: shortcode.php:140
 msgid "Comment Average"
-msgstr ""
+msgstr "Megjegyzés átlag"
 
 #: shortcode.php:141
 msgid "User Average"
-msgstr ""
+msgstr "Felhasználói átlag"
 
 #: shortcode.php:149
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it."
@@ -92,7 +92,7 @@ msgstr ""
 
 #: shortcode.php:153
 msgid "Search Provider"
-msgstr ""
+msgstr "Keresési szolgáltató"
 
 #: shortcode.php:156
 msgid "The search provider to get statistics on."
@@ -100,7 +100,7 @@ msgstr ""
 
 #: shortcode.php:160
 msgid "Number Format"
-msgstr ""
+msgstr "Szám formátum"
 
 #: shortcode.php:163
 msgid "The format to display numbers in: i18n, english, none."
@@ -108,19 +108,19 @@ msgstr ""
 
 #: shortcode.php:167
 msgid "English"
-msgstr ""
+msgstr "Angol"
 
 #: shortcode.php:168
 msgid "International"
-msgstr ""
+msgstr "Nemzetközi"
 
 #: includes/log/exclusions.php:191 includes/log/hit-statistics.php:163
 msgid "Hits Statistics Summary"
-msgstr ""
+msgstr "Összesített találati statisztika"
 
 #: includes/log/exclusions.php:201 includes/log/hit-statistics.php:174
 msgid "Chart Total"
-msgstr ""
+msgstr "Teljes diagram"
 
 #: includes/log/exclusions.php:206 includes/log/hit-statistics.php:180
 msgid "All Time Total"
@@ -128,11 +128,11 @@ msgstr ""
 
 #: includes/log/log.php:57
 msgid "Have you thought about donating to WP Statistics?"
-msgstr ""
+msgstr "Gondolt már arra, hogy adományozzon a WP Statisztikának?"
 
 #: includes/settings/tabs/wps-about.php:20 wp-statistics.php:355
 msgid "Donate"
-msgstr ""
+msgstr "Adományoz"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!"
@@ -140,11 +140,11 @@ msgstr ""
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "donation"
-msgstr ""
+msgstr "adomány"
 
 #: includes/log/log.php:57
 msgid "Donate Now!"
-msgstr ""
+msgstr "Adományozzon most!"
 
 #: includes/log/log.php:57
 msgid "Close"
@@ -156,15 +156,15 @@ msgstr ""
 
 #: shortcode.php:123
 msgid "Statistic"
-msgstr ""
+msgstr "Statisztikai"
 
 #: shortcode.php:134
 msgid "Post Count"
-msgstr ""
+msgstr "Bejegyzés számláló"
 
 #: shortcode.php:146
 msgid "Time Frame"
-msgstr ""
+msgstr "Időkeret"
 
 #: includes/functions/functions.php:929
 msgid "to"
@@ -212,7 +212,7 @@ msgstr ""
 
 #: includes/log/last-visitor.php:68
 msgid "Filtered by"
-msgstr ""
+msgstr "Szűrés"
 
 #: includes/functions/functions.php:922 includes/functions/functions.php:925
 msgid "Range"
@@ -1215,11 +1215,11 @@ msgstr "Browscap.ini frissítés"
 #. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
-msgstr "http://WP-Statistics.com/"
+msgstr "http://wp-statistics.com/"
 
 #. Author of the plugin/theme
 msgid "Mostafa Soufi & Greg Ross"
-msgstr "Szabó pisti & Greg Ross"
+msgstr "Mostafa Soufi és Greg Ross"
 
 #: dashboard.php:55
 msgid "Quick Stats"

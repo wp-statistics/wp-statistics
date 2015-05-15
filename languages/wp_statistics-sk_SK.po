@@ -2534,7 +2534,7 @@ msgstr "browscap použitie"
 #: includes/settings/tabs/wps-overview-display.php:147
 #: includes/settings/tabs/wps-overview-display.php:159
 msgid "Active"
-msgstr "Aktívne"
+msgstr ""
 
 #: includes/settings/tabs/wps-browscap.php:33
 msgid "The browscap database will be downloaded and used to detect robots."
