@@ -280,6 +280,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Fixed: Typo in variable name for one of the dashboard widgets.
 * Fixed: PHP error when the $browser object wasn't an object when we checked the crawler property.
 * Fixed: Incorrect parameter for get_option() on two option in the settings page.
+* Fixed: Widget's didn't translate correctly.
 
 = 9.2 =
 * Release Date: April 26, 2015
