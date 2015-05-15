@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 9.2
+Stable tag: 9.3.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -242,6 +242,9 @@ Unfortunate we're completely dependent on the search engine sending use the sear
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.3.1 = 
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.3 = 
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -264,6 +267,10 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.3 =
+* Release Date: May 15, 2015
+* Fixed: Typo in options name that caused the visitors map to never be displayed.
+
 = 9.3 =
 * Release Date: May 15, 2015
 * Added: Shortcode UI (aka ShortCake) support.
