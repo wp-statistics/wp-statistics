@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 9.2
+Stable tag: 9.3
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -265,7 +265,7 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.3 =
-* Release Date: TBD
+* Release Date: May 15, 2015
 * Added: Shortcode UI (aka ShortCake) support.
 * Added: Donation menu and dismissble banner on the overview page.
 * Added: Applebot, Superfeedr, jetmon, sfFeedReader and feedzirra to the robots list.
