@@ -267,6 +267,10 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.4 =
+* Release Date: TBD
+* Added: Date selector to top visitors page.
+
 = 9.3.1 =
 * Release Date: May 15, 2015
 * Fixed: Typo in options name that caused the visitors map to never be displayed.
