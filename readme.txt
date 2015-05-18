@@ -14,35 +14,27 @@ A comprehensive plugin for your WordPress visitor statistics, come visit us at o
 
 Track statistics for your WordPress site without depending on external services and uses arrogate data whenever possible to respect your users privacy.
 
-Now includes support for not storing IP addresses in the database!
-
 On screen statistics presented as graphs are easily viewed through the WordPress admin interface.
 
 This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
 
 = Features =
-* User online, see how many people are currently viewing your site
-* Visits, see how many hits your site gets each day
-* Visitors, see who's visiting your site
-* Page tracking, see which pages are viewed most often
+* Online users, visits, visitors and page statistics
 * Search Engines, see search queries and redirects from popular search engines like Google, Bing, DuckDuckGo, Yahoo, Yandex and Baidu
+* Overview and detail pages for all kinds of data, including; browser versions, country stats, hits, exclusions, referrers, searches, search words and visitors
 * GeoIP location by Country
-* Support for not storing IP addresses in the database.
+* Support for hashing IP addresses in the database to protect your users privacy
 * Interactive map of visitors location
 * E-mail reports of statistics
 * Set access level for view and manage roles based on WordPress roles
-* Exclude user roles from statistics collection
-* Exclude robots from statistics collection
-* Exclude IP subnets from statistics collection
-* Exclude login/admin pages from statistics collection
+* Exclude users from statistics collection based on various criteria, including; user roles, common robots, IP subnets, page URL, login page, RSS pages, admin pages, Country, number of visits per day, hostname
 * Record statistics on exclusions
 * Automatic updates to the GeoIP database
 * Automatically prune the databases of old data
 * Export the data to Excel, XML, CSV or TSV files
-* Overview and detail pages for all kinds of data, including; browser versions, country stats, hits, exclusions, referrers, searches, search words and visitors
 * Widget to provide information to your users
 * Shortcodes for many different types of data in both widgets and posts/pages
-* Dashboard widget for the admin area
+* Dashboard widgets for the admin area
 * Comprehensive Admin Manual
 
 = Support =
