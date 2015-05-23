@@ -64,7 +64,6 @@ License: GPL2
 	// Add init actions.  For the main init we're going to set our priority to 9 to execute before most plugins so we can export data before and set the headers without 
 	// worrying about bugs in other plugins that output text and don't allow us to set the headers.
 	add_action('init', 'wp_statistics_init', 9);
-	add_action('admin_init', 'wp_statistics_shortcake' );
 	
 	// This adds a row after WP Statistics in the plugin page IF an incompatible version of PHP is running.
 	function wp_statistics_php_after_plugin_row() {

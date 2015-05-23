@@ -94,6 +94,8 @@
 		return $result;
 	}
 	
+	add_action('admin_init', 'wp_statistics_shortcake' );
+	
 	function wp_statistics_shortcake() {
 	// ShortCake support if loaded.		
 	if( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
