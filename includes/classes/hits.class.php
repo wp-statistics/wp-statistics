@@ -189,6 +189,13 @@
 						}
 					}
 					
+					if( $this->get_option('exclude_404s') == 1 && !$this->exclusion_match ) {
+						if( is_404() ) { 
+							$this->exclusion_match = TRUE; 
+							$this->exclusion_reason = "404";
+						}
+					}
+					
 					if( $this->get_option('excluded_urls') && !$this->exclusion_match ) {
 						$script   = $_SERVER['REQUEST_URI'];
 						$delimiter = strpos( $script, '?' );
