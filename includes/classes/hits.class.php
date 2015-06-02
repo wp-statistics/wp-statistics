@@ -124,6 +124,14 @@
 						}
 					}
 				}
+				
+				// Finally check to see if we have corrupt header information.
+				if( !$this->exclusion_match && $this->get_option('corrupt_browser_info') ) {
+					if( $ua_string == '' || $this->ip == '' ) {
+						$this->exclusion_match = TRUE;
+						$this->exclusion_reason = "robot";
+					}
+				}
 			}
 			
 			// If we didn't match a robot, check ip subnets.
