@@ -24,7 +24,12 @@
 		$DBFile = $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb';
 
 		// Check to see if the subdirectory we're going to upload to exists, if not create it.
-		if( !file_exists($upload_dir['basedir'] . '/wp-statistics') ) { mkdir($upload_dir['basedir'] . '/wp-statistics'); }
+		if( !file_exists($upload_dir['basedir'] . '/wp-statistics') ) { 
+			if( !@mkdir($upload_dir['basedir'] . '/wp-statistics') ) {
+				$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s', 'wp_statistics'), $upload_dir['basedir'] ) . "</strong></p></div>";
+				return $result;
+			}				
+		}
 		
 		// Download the file from MaxMind, this places it in a temporary location.
 		$TempFile = download_url( $download_url );
