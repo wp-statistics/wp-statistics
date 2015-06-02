@@ -502,10 +502,13 @@ License: GPL2
 	
 	// This function adds the admin bar menu if the user has selected it.
 	function wp_statistics_menubar() {
-	
-		global $wp_admin_bar, $wp_version;
+		GLOBAL $wp_admin_bar, $wp_version, $WP_Statistics;
+
+		// Find out if the user can read or manage statistics.
+		$read = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') ) );
+		$manage = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') ) );
 		
-		if ( is_super_admin() || is_admin_bar_showing() ) {
+		if( is_admin_bar_showing() && ( $read || $manage ) ) {
 
 			$AdminURL = get_admin_url();
 		
