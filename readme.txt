@@ -264,7 +264,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added: Date selector to top visitors page.
 * Added: Option to exclude WordPress's "Not Found" page from the statistics.
 * Added: Option to treat corrupt http header information as bots (missing IP addresses or user agents).
-* Added: New robots to list; 007ac9, 5bot, advbot, alphabot, anyevent, blexbot, bubing, cliqzbot, dl2bot, duckduckgo, findxbot, glbot, linkapediabot, ltx71, mediabot, medialbot, monobot, owler, pageanalyzer, porkbun, pr-cy, pwbot, r4bot, revip, riddler, rogerbot, sistrix, u2bot, uni5download, unrulymedia, wsowner, wsr-agent, x100bot and xzybot
+* Added: New robots to list; 007ac9, 5bot, advbot, alphabot, anyevent, blexbot, bubing, cliqzbot, dl2bot, duckduckgo, EveryoneSocialBot, findxbot, glbot, linkapediabot, ltx71, mediabot, medialbot, monobot, OrangeBot, owler, pageanalyzer, porkbun, pr-cy, pwbot, r4bot, revip, riddler, rogerbot, sistrix, SputnikBot, u2bot, uni5download, unrulymedia, wsowner, wsr-agent, x100bot and xzybot
 * Fixed: Make sure the admin bar only appears for users that have read/manage permissions in WP Statistics.
 * Updated: Split the access and exclusions tabs in settings.
 
