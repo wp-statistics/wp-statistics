@@ -221,6 +221,14 @@ To remove historical data you can use the Statistics->Optimization->Purging->Pur
 
 Unfortunate we're completely dependent on the search engine sending use the search parameters as part of the referrer header, which they do not always do.
 
+= Does WP Statistics work with caching plugins? =
+
+Probably not, most caching plugins don't execute the standard WordPress loop for a page it has already cached (by design of course) which means the WP Statistics code never runs for that page.
+
+This means WP Statistics can't record the page hit or visitor information, which defeats the purpose of WP Statistics.
+
+We do not recommend using a caching plugin along with WP Statistics.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
