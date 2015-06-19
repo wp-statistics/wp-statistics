@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-04-29 07:30:23+0000\n"
+"PO-Revision-Date: 2015-05-30 12:12:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,167 +10,195 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: includes/settings/tabs/wps-exclusions.php:148
+msgid "Treat corrupt browser info as a bot"
+msgstr ""
+
+#: includes/log/exclusions.php:24
+msgid "404 Pages"
+msgstr ""
+
+#: includes/log/top-visitors.php:26
+msgid "Date"
+msgstr ""
+
+#: includes/settings/tabs/wps-exclusions.php:151
+msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
+msgstr ""
+
+#: includes/settings/tabs/wps-exclusions.php:215
+msgid "Excluded 404 pages"
+msgstr ""
+
+#: includes/settings/tabs/wps-exclusions.php:218
+msgid "Exclude any URL that returns a \"404 - Not Found\" message."
+msgstr ""
+
+#: wps-updates.php:29
+msgid "Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s"
+msgstr ""
+
 #: includes/settings/tabs/wps-general.php:281
 msgid "Add page title to empty search words"
-msgstr ""
+msgstr "إضافة عنوان الصفحة على كلمات بحث فارغة"
 
 #: includes/settings/tabs/wps-general.php:287
 msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
-msgstr ""
+msgstr "إذا تم التعرف على محرك بحث باسم المرجع لكنه لا يشمل استعلام البحث هذا الخيار يوجب استبدال عنوان الصفحة في الاقتباس الذي يسبقه \"~:\" كما طلب البحث للمساعدة في تحديد ما قد تم البحث عنه من قبل المستخدم."
 
 #: includes/settings/tabs/wps-maintenance.php:77
 msgid "The number of hits required to delete the visitor.  Invalid values will disable the daily maintenance (must be 10 or greater)."
-msgstr ""
+msgstr "عدد الزيارات المطلوبة لحذف الزائر. وقيم غير صالحة تعطل الصيانة اليومية (يجب أن يكون 10 أو أكثر)."
 
 #: includes/settings/tabs/wps-maintenance.php:71
 msgid "Prune visitors with more than"
-msgstr ""
+msgstr "الزوار المشذبين مع أكثر من"
 
 #: includes/settings/tabs/wps-maintenance.php:65
 msgid "A WP Cron job will be run daily to prune any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
-msgstr ""
+msgstr "سيتم تشغيل مهمة ووردبريس مجدولة يوميا لتشذيب أي بيانات مستخدمين في الإحصائيات حيث أن المستخدم لديه أكثر من عدد محدد من الزيارات في يوم واحد (وتعرف أيضا باسم بوت)."
 
 #: includes/optimization/tabs/wps-optimization-purging.php:217
 msgid "Purge visitors with more than"
-msgstr ""
+msgstr "الزوار المطهرين مع أكثر من"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:222
 msgid "hits"
-msgstr ""
+msgstr "مشاهدات"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:223
 msgid "Deleted user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits."
-msgstr ""
+msgstr "حذف بيانات إحصائيات المستخدم حيث أن المستخدم لديه أكثر من عدد محدد من الزيارات في يوم واحد. هذا يمكن أن يكون مفيد لتوضيح البيانات القديمة عندما يتم زيارة موقعك من خلال بوت. سيؤدي ذلك إلى إزالة الزوار ونقراتهم في الموقع، على كل حال هذا لن يزيل النقرات الفردية للصفحة كما لم يتم تسجيل تلك البيانات على أساس كل استخدام. قيمة الحد الأدنى هو 10 نقرات."
 
 #: includes/functions/purge-hits.php:28
 msgid "No visitors found to purge."
-msgstr ""
+msgstr "لم يتم إيجاد زوار في التطهير."
 
 #: includes/functions/purge-hits.php:25
 msgid "%s records purged successfully."
-msgstr ""
+msgstr "%s سجلات طهرت بنجاح."
 
 #: ajax.php:174 includes/functions/purge-hits.php:32
 msgid "Number of hits must be greater than or equal to 10!"
-msgstr ""
+msgstr "عدد الزيارات يجب أن يكون أكبر من أو يساوي 10!"
 
-#: shortcode.php:132
+#: shortcode.php:134
 msgid "Page Visits"
-msgstr ""
-
-#: shortcode.php:135
-msgid "Page Count"
-msgstr ""
-
-#: shortcode.php:136
-msgid "Comment Count"
-msgstr ""
+msgstr "عدد زيارات هذه الصفحة"
 
 #: shortcode.php:137
-msgid "Spam Count"
-msgstr ""
+msgid "Page Count"
+msgstr "عدد الصفحة"
 
 #: shortcode.php:138
-msgid "User Count"
-msgstr ""
+msgid "Comment Count"
+msgstr "عدد التعليق"
 
 #: shortcode.php:139
-msgid "Post Average"
-msgstr ""
+msgid "Spam Count"
+msgstr "عدد السبام"
 
 #: shortcode.php:140
-msgid "Comment Average"
-msgstr ""
+msgid "User Count"
+msgstr "عدد المستخدم"
 
 #: shortcode.php:141
+msgid "Post Average"
+msgstr "متوسط المشاركة"
+
+#: shortcode.php:142
+msgid "Comment Average"
+msgstr "متوسط التعليق"
+
+#: shortcode.php:143
 msgid "User Average"
-msgstr ""
+msgstr "متوسط المستخدم"
 
-#: shortcode.php:149
+#: shortcode.php:151
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it."
-msgstr ""
+msgstr "الإطار الزمني للحصول على إحصائية لـ ، strtotime() (http://php.net/manual/en/datetime.formats.php) سيتم استخدامها لحساب ذلك."
 
-#: shortcode.php:153
+#: shortcode.php:155
 msgid "Search Provider"
-msgstr ""
+msgstr "محرك البحث"
 
-#: shortcode.php:156
+#: shortcode.php:158
 msgid "The search provider to get statistics on."
-msgstr ""
+msgstr "مزود البحث للحصول على إحصائيات عن."
 
-#: shortcode.php:160
+#: shortcode.php:162
 msgid "Number Format"
-msgstr ""
+msgstr "صيغة الرقم"
 
-#: shortcode.php:163
+#: shortcode.php:165
 msgid "The format to display numbers in: i18n, english, none."
-msgstr ""
+msgstr "صيغة الأرقام للعرض في: I18N، الانجليزية، لا شيء."
 
-#: shortcode.php:167
+#: shortcode.php:169
 msgid "English"
-msgstr ""
+msgstr "الإنجليزية"
 
-#: shortcode.php:168
+#: shortcode.php:170
 msgid "International"
-msgstr ""
+msgstr "دولي"
 
 #: includes/log/exclusions.php:191 includes/log/hit-statistics.php:163
 msgid "Hits Statistics Summary"
-msgstr ""
+msgstr "موجز إحصائيات المشاهدات"
 
 #: includes/log/exclusions.php:201 includes/log/hit-statistics.php:174
 msgid "Chart Total"
-msgstr ""
+msgstr "إجمالي الرسم البياني"
 
 #: includes/log/exclusions.php:206 includes/log/hit-statistics.php:180
 msgid "All Time Total"
-msgstr ""
+msgstr "مجموع كل الوقت"
 
 #: includes/log/log.php:57
 msgid "Have you thought about donating to WP Statistics?"
-msgstr ""
+msgstr "هل فكرت في التبرع لإحصائيات ووردبريس؟"
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:355
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:362
 msgid "Donate"
-msgstr ""
+msgstr "التبرع"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!"
-msgstr ""
+msgstr "صف لنا مدى إستمتاعك في منتج إحصائيات ووردبريس؟ واضغط صفحة %s وبيّن لنا بعض الحب!"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "donation"
-msgstr ""
+msgstr "التبرعات"
 
 #: includes/log/log.php:57
 msgid "Donate Now!"
-msgstr ""
+msgstr "تبرع الآن!"
 
 #: includes/log/log.php:57
 msgid "Close"
-msgstr ""
+msgstr "إغلاق"
 
-#: shortcode.php:126
+#: shortcode.php:128
 msgid "Select the statistic you wish to display."
-msgstr ""
+msgstr "حدد الإحصائية التي ترغب في عرضها."
 
-#: shortcode.php:123
+#: shortcode.php:125
 msgid "Statistic"
-msgstr ""
+msgstr "إحصائية"
 
-#: shortcode.php:134
+#: shortcode.php:136
 msgid "Post Count"
-msgstr ""
+msgstr "عدد المقال"
 
-#: shortcode.php:146
+#: shortcode.php:148
 msgid "Time Frame"
-msgstr ""
+msgstr "الإطار الزمني"
 
 #: includes/functions/functions.php:929
 msgid "to"
 msgstr "إلى"
 
-#: includes/functions/functions.php:929
+#: includes/functions/functions.php:929 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "إذهب"
 
@@ -218,7 +246,7 @@ msgstr "تمت تصفيتها من قبل"
 msgid "Range"
 msgstr "المدى"
 
-#: includes/functions/functions.php:929
+#: includes/functions/functions.php:929 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -234,15 +262,15 @@ msgstr "إجبار اللغة الإنجليزية"
 msgid "Languages"
 msgstr "اللغات"
 
-#: includes/settings/tabs/wps-access-level.php:271
+#: includes/settings/tabs/wps-exclusions.php:227
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
 msgstr "ملاحظة: هذا الخيار لن يتعامل مع معايير عنوان URL، (أي شيء بعد علامة؟) إلا اسم البرنامج النصي . سيتم تجاهل إدخالات أقل من حرفين."
 
-#: includes/settings/tabs/wps-access-level.php:269
+#: includes/settings/tabs/wps-exclusions.php:225
 msgid "A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection."
 msgstr "قائمة عناوين المواقع المحلية (اتصل بنا,حول, واحد في كل سطر) للإستبعاد من جمع الإحصائيات."
 
-#: includes/settings/tabs/wps-access-level.php:266
+#: includes/settings/tabs/wps-exclusions.php:222
 msgid "Excluded URLs list"
 msgstr "قائمة عناوين المواقع المستبعدة"
 
@@ -385,8 +413,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "حساب توجيه النقرات لكل زائر. حالياً %s."
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:344
-#: wp-statistics.php:420
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:351
+#: wp-statistics.php:427
 msgid "Pages"
 msgstr "الصفحات"
 
@@ -598,7 +626,7 @@ msgstr "إرسال تقرير كلما يتم تحديث browscap.ini."
 
 #: includes/log/exclusions.php:24
 #: includes/settings/tabs/wps-notifications.php:76
-#: includes/settings/wps-settings.php:104
+#: includes/settings/wps-settings.php:111
 msgid "GeoIP"
 msgstr "GeoIP"
 
@@ -672,7 +700,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr "أي رمز قصير بدعم من مثبت ووردبريس، وتشمل جميع الاكواد المختصرة  لاحصائيات ووردبريس (انظر دليل المشرف للحصول على قائمة رموز المتاحة) معتمدة في نص الرسالة. وهنا بعض الأمثلة:"
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:245 wp-statistics.php:522
+#: widget.php:245 wp-statistics.php:532
 msgid "User Online"
 msgstr "المتواجدين الآن"
 
@@ -706,7 +734,7 @@ msgid "Total Visit"
 msgstr "مجموع الزيارات"
 
 #: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:166
+#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:168
 msgid "None"
 msgstr "لا شيء"
 
@@ -715,7 +743,7 @@ msgid "Summary Statistics"
 msgstr "ملخص الاحصائيات"
 
 #: includes/settings/tabs/wps-overview-display.php:28
-#: includes/settings/wps-settings.php:108
+#: includes/settings/wps-settings.php:115
 msgid "About"
 msgstr "حول"
 
@@ -875,36 +903,33 @@ msgstr "إزالة"
 msgid "Remove data and settings, this action cannot be undone."
 msgstr "إزالة البيانات والإعدادات، لا يمكنك التراجع مستقبلاً."
 
-#: includes/settings/wps-settings.php:100
+#: includes/settings/wps-settings.php:106
 msgid "General"
 msgstr "عام"
 
-#: includes/settings/wps-settings.php:101
+#: includes/settings/wps-settings.php:107
 msgid "Notifications"
 msgstr "الإشعارات"
 
-#: includes/settings/wps-settings.php:102
+#: includes/settings/wps-settings.php:108
 msgid "Dashboard/Overview"
 msgstr "اللوحة/نظرة عامة"
 
-#: includes/settings/wps-settings.php:103
-msgid "Access/Exclusions"
-msgstr "وصول/استثناءات"
-
-#: includes/settings/wps-settings.php:105
+#: includes/settings/wps-settings.php:112
 msgid "browscap"
 msgstr "browscap"
 
-#: includes/settings/wps-settings.php:106
+#: includes/settings/wps-settings.php:113
 msgid "Maintenance"
 msgstr "صيانة"
 
-#: includes/settings/wps-settings.php:107
+#: includes/settings/wps-settings.php:114
 msgid "Removal"
 msgstr "الإزالة"
 
-#: includes/settings/tabs/wps-access-level.php:278
+#: includes/settings/tabs/wps-access-level.php:85
 #: includes/settings/tabs/wps-browscap.php:81
+#: includes/settings/tabs/wps-exclusions.php:234
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-geoip.php:158
 #: includes/settings/tabs/wps-maintenance.php:84
@@ -926,7 +951,7 @@ msgstr "مرة كل 2 أسابيع"
 msgid "Once Every 4 Weeks"
 msgstr "مرة كل 4 أسابيع"
 
-#: widget.php:14 wp-statistics.php:335 wp-statistics.php:373
+#: widget.php:14 wp-statistics.php:342 wp-statistics.php:380
 msgid "Statistics"
 msgstr "الاحصائيات"
 
@@ -986,7 +1011,7 @@ msgstr "متوسط التعليقات"
 msgid "Average Users"
 msgstr "متوسط الاعضاء"
 
-#: shortcode.php:142 widget.php:179 widget.php:322
+#: shortcode.php:144 widget.php:179 widget.php:322
 msgid "Last Post Date"
 msgstr "تاريخ آخر مشاركة"
 
@@ -998,7 +1023,7 @@ msgstr "الأسم"
 msgid "Items"
 msgstr "البنود"
 
-#: widget.php:254 wp-statistics.php:547
+#: widget.php:254 wp-statistics.php:557
 msgid "Yesterday visit"
 msgstr "زيارات الأمس"
 
@@ -1010,216 +1035,216 @@ msgstr "محرك بحث المشارين"
 msgid "Select type of search engine"
 msgstr "حدد نوع من محرك البحث"
 
-#: wp-statistics.php:63
+#: wp-statistics.php:70
 msgid "ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version "
 msgstr "خطأ: كشف احصائيات ووردبريس أن إصدار PHP لديك غير معتمد، و احصائيات ووردبريس لن تعمل دون PHP النسخة"
 
-#: wp-statistics.php:63
+#: wp-statistics.php:70
 msgid " or higher!"
 msgstr "أو أعلى!"
 
-#: wp-statistics.php:63
+#: wp-statistics.php:70
 msgid "Your current PHP version is"
 msgstr "نسخة PHP الحالي هو"
 
-#: wp-statistics.php:79
+#: wp-statistics.php:86
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "تمت إزالة احصائيات ووردبريس، يرجى التعطيل والحذف."
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "احصائيات ووردبريس"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
 msgstr "إحصاءات كاملة لموقع ووردبريس الخاص بك."
 
-#: wp-statistics.php:130
+#: wp-statistics.php:137
 msgid "Online user tracking in WP Statistics is not enabled, please go to %s and enable it."
 msgstr "لم يتم تمكين تتبع المستخدم عبر الإنترنت في احصائيات ووردبريس، يرجى الذهاب إلى %s وتمكينه."
 
-#: wp-statistics.php:130 wp-statistics.php:133 wp-statistics.php:136
+#: wp-statistics.php:137 wp-statistics.php:140 wp-statistics.php:143
 msgid "setting page"
 msgstr "صفحة الإعدادات"
 
-#: wp-statistics.php:133
+#: wp-statistics.php:140
 msgid "Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
 msgstr "تتبع النقرات في احصائيات ووردبريس لم يتم تمكينه، يرجى الذهاب إلى %s وتمكينه."
 
-#: wp-statistics.php:136
+#: wp-statistics.php:143
 msgid "Visitor tracking in WP Statistics is not enabled, please go to %s and enable it."
 msgstr "لم يتم تمكين تتبع الزائر في احصائيات ووردبريس، يرجى الذهاب إلى %s وتمكينه."
 
-#: wp-statistics.php:139
+#: wp-statistics.php:146
 msgid "GeoIP collection is not active, please go to %s and enable this feature."
 msgstr "مجموعة GeoIP غير نشطه، يرجى الذهاب إلى %s وتمكين هذه الميزة."
 
-#: wp-statistics.php:139
+#: wp-statistics.php:146
 msgid "Setting page > GeoIP"
 msgstr "صفحة الإعدادات > GeoIP"
 
-#: wp-statistics.php:242 wp-statistics.php:354 wp-statistics.php:427
+#: wp-statistics.php:249 wp-statistics.php:361 wp-statistics.php:434
 msgid "Settings"
 msgstr "الإعدادات"
 
-#: wp-statistics.php:254
+#: wp-statistics.php:261
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "انقر هنا لزيارة صفحة الإضافة على WordPress.org"
 
-#: wp-statistics.php:254
+#: wp-statistics.php:261
 msgid "Visit WordPress.org page"
 msgstr "زيارة صفحة WordPress.org"
 
-#: wp-statistics.php:257
+#: wp-statistics.php:264
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "أنقر هنا لمراجهة وتقييم الإضافة على WordPress.org"
 
-#: wp-statistics.php:257
+#: wp-statistics.php:264
 msgid "Rate this plugin"
 msgstr "ضع تقييمك لهذه الاضافة"
 
-#: wp-statistics.php:301
+#: wp-statistics.php:308
 msgid "WP Statistics - Hits"
 msgstr "احصائيات ووردبريس - الزيارات"
 
-#: wp-statistics.php:338 wp-statistics.php:376 wp-statistics.php:414
+#: wp-statistics.php:345 wp-statistics.php:383 wp-statistics.php:421
 msgid "Overview"
 msgstr "نظرة عامة"
 
-#: wp-statistics.php:343 wp-statistics.php:419
+#: wp-statistics.php:350 wp-statistics.php:426
 msgid "Online"
 msgstr "المتواجدون"
 
-#: wp-statistics.php:345 wp-statistics.php:421
+#: wp-statistics.php:352 wp-statistics.php:428
 msgid "Referrers"
 msgstr "الدعوات"
 
-#: shortcode.php:133 wp-statistics.php:346 wp-statistics.php:422
+#: shortcode.php:135 wp-statistics.php:353 wp-statistics.php:429
 msgid "Searches"
 msgstr "عمليات البحث"
 
-#: wp-statistics.php:347 wp-statistics.php:423
+#: wp-statistics.php:354 wp-statistics.php:430
 msgid "Search Words"
 msgstr "كلمات البحث"
 
-#: wp-statistics.php:348 wp-statistics.php:424
+#: wp-statistics.php:355 wp-statistics.php:431
 msgid "Top Visitors Today"
 msgstr "أعلى زوار اليوم"
 
-#: wp-statistics.php:353 wp-statistics.php:426
+#: wp-statistics.php:360 wp-statistics.php:433
 msgid "Optimization"
 msgstr "التحسين"
 
-#: wp-statistics.php:359 wp-statistics.php:390
+#: wp-statistics.php:366 wp-statistics.php:397
 msgid "Manual"
 msgstr "الدليل"
 
-#: wp-statistics.php:405
+#: wp-statistics.php:412
 msgid "Site"
 msgstr "موقع"
 
-#: wp-statistics.php:406
+#: wp-statistics.php:413
 msgid "Options"
 msgstr "خيارات"
 
-#: wp-statistics.php:529
+#: wp-statistics.php:539
 msgid "Today visitor"
 msgstr "زوار اليوم"
 
-#: wp-statistics.php:535
+#: wp-statistics.php:545
 msgid "Today visit"
 msgstr "زيارات اليوم"
 
-#: wp-statistics.php:541
+#: wp-statistics.php:551
 msgid "Yesterday visitor"
 msgstr "زيارات الأمس"
 
-#: wp-statistics.php:553
+#: wp-statistics.php:563
 msgid "View Stats"
 msgstr "عرض الإحصائيات"
 
-#: wp-statistics.php:577
+#: wp-statistics.php:587
 msgid "Download ODF file"
 msgstr "تحميل ملف ODF"
 
-#: wp-statistics.php:578
+#: wp-statistics.php:588
 msgid "Download HTML file"
 msgstr "تحميل ملف HTML"
 
-#: wp-statistics.php:582
+#: wp-statistics.php:592
 msgid "Manual file not found."
 msgstr "لم يتم العثور على ملف الدليل."
 
-#: wp-statistics.php:649 wp-statistics.php:760 wp-statistics.php:794
+#: wp-statistics.php:659 wp-statistics.php:770 wp-statistics.php:804
 msgid "You do not have sufficient permissions to access this page."
 msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة."
 
-#: wp-statistics.php:662
+#: wp-statistics.php:672
 msgid "Plugin tables do not exist in the database! Please re-run the %s install routine %s."
 msgstr "جداول البرنامج المساعد لا وجود لها في قاعدة البيانات! يرجى إعادة تشغيل %s التثبيت الروتيني %s."
 
-#: wp-statistics.php:230
+#: wp-statistics.php:237
 msgid "WP Statistics %s installed on"
 msgstr "احصائيات ووردبريس  %s مثبتة على"
 
-#: wps-updates.php:34
+#: wps-updates.php:39
 msgid "Error downloading GeoIP database from: %s - %s"
 msgstr "خطأ تحميل قاعدة بيانات GeoIP من: %s - %s"
 
-#: wps-updates.php:45
+#: wps-updates.php:50
 msgid "Error could not open downloaded GeoIP database for reading: %s"
 msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP التي تم تحميلها للقراءة: %s"
 
-#: wps-updates.php:52
+#: wps-updates.php:57
 msgid "Error could not open destination GeoIP database for writing %s"
 msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP لجهة الكتابة %s"
 
-#: wps-updates.php:68
+#: wps-updates.php:73
 msgid "GeoIP Database updated successfully!"
 msgstr "تم تحديث قاعدة بيانات GeoIP بنجاح!"
 
-#: wps-updates.php:93
+#: wps-updates.php:98
 msgid "GeoIP update on"
 msgstr "تحديث GeoIP على"
 
-#: wps-updates.php:160
+#: wps-updates.php:165
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "خطأ في قاعدة بيانات browscap تحميل من: %s - %s"
 
-#: wps-updates.php:262
+#: wps-updates.php:267
 msgid "browscap database updated successfully!"
 msgstr "قاعدة بيانات browscap تم تحديثها بنجاح!"
 
-#: wps-updates.php:273
+#: wps-updates.php:277
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
 msgstr "تحديث قاعدة بيانات browscap فشل! ملف الكاش كبير جدا، تم الرجوع إلى browscap.ini السابق."
 
-#: wps-updates.php:281
+#: wps-updates.php:285
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
 msgstr "تحديث قاعدة بيانات browscap فشل! لم تتم تحديد هوية browscap.ini الجديدة لكلا من  المستخدم والزواحف، وتم الرجوع إلى browscap.ini السابق."
 
-#: wps-updates.php:303
+#: wps-updates.php:307
 msgid "browscap already at current version!"
 msgstr "browscap بالفعل في النسخة الحالية!"
 
-#: wps-updates.php:316
+#: wps-updates.php:320
 msgid "Browscap.ini update on"
 msgstr "تحديث Browscap.ini على"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.2)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
-msgstr ""
+msgstr "http://wp-statistics.com/"
 
 #. Author of the plugin/theme
 msgid "Mostafa Soufi & Greg Ross"
-msgstr ""
+msgstr "مصطفى الصوفي وجريج روس"
 
 #: dashboard.php:55
 msgid "Quick Stats"
@@ -1339,8 +1364,8 @@ msgid "Click to toggle"
 msgstr "انقر للتبديل"
 
 #: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:339
-#: wp-statistics.php:415
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:346
+#: wp-statistics.php:422
 msgid "Browsers"
 msgstr "المتصفحات"
 
@@ -1563,7 +1588,7 @@ msgstr "لم يتم العثور على عنوان الصفحة"
 #: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
-#: includes/settings/tabs/wps-general.php:127 shortcode.php:130
+#: includes/settings/tabs/wps-general.php:127 shortcode.php:132
 msgid "Visits"
 msgstr "الزيارات"
 
@@ -1656,8 +1681,8 @@ msgid "Time: %s"
 msgstr "التوقيت: %s"
 
 #: includes/log/widgets/top.visitors.php:31
-#: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:266
-#: wp-statistics.php:342 wp-statistics.php:418
+#: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:273
+#: wp-statistics.php:349 wp-statistics.php:425
 msgid "Hits"
 msgstr "نقرات"
 
@@ -1729,7 +1754,7 @@ msgstr "فهرس قاعدة بيانات"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:340 wp-statistics.php:416
+#: wp-statistics.php:347 wp-statistics.php:423
 msgid "Countries"
 msgstr "الدول"
 
@@ -1810,8 +1835,8 @@ msgstr "ملاحظة: كلما قمت بتطهير قاعدة البيانات �
 
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:143 shortcode.php:131
-#: wp-statistics.php:349 wp-statistics.php:425
+#: includes/settings/tabs/wps-general.php:143 shortcode.php:133
+#: wp-statistics.php:356 wp-statistics.php:432
 msgid "Visitors"
 msgstr "الزوار"
 
@@ -2283,214 +2308,217 @@ msgstr "كما أنه يتوفر دعم للغة %s كذلك."
 msgid "Farsi"
 msgstr "الفارسية"
 
-#: includes/settings/tabs/wps-access-level.php:21
+#: includes/settings/tabs/wps-exclusions.php:21
 msgid "WP Statistics Honey Pot Page"
 msgstr "الفسفور الابيض الاحصائيات عاء العسل الصفحة"
 
-#: includes/settings/tabs/wps-access-level.php:22
+#: includes/settings/tabs/wps-exclusions.php:22
 msgid "This is the honey pot for WP Statistics to use, do not delete."
 msgstr "هذا هو وعاء العسل لاحصائيات ووردبريس المستخدم, لا تحذف"
 
-#: includes/settings/tabs/wps-access-level.php:45
+#: includes/settings/tabs/wps-access-level.php:23
+#: includes/settings/wps-settings.php:109
 msgid "Access Levels"
 msgstr "مستويات الوصول"
 
-#: includes/settings/tabs/wps-access-level.php:74
+#: includes/settings/tabs/wps-access-level.php:52
 msgid "Required user level to view WP Statistics"
 msgstr "مطلوب مستوى المستخدم لعرض الاحصائيات"
 
-#: includes/settings/tabs/wps-access-level.php:89
+#: includes/settings/tabs/wps-access-level.php:67
 msgid "Required user level to manage WP Statistics"
 msgstr "مطلوب مستوى المستخدم لإدارة الاحصائيات"
 
-#: includes/settings/tabs/wps-access-level.php:97
+#: includes/settings/tabs/wps-access-level.php:75
 msgid "See the %s for details on capability levels."
 msgstr "اطلع على %s لمزيد من التفاصيل على مستويات القدرة."
 
-#: includes/settings/tabs/wps-access-level.php:97
+#: includes/settings/tabs/wps-access-level.php:75
 msgid "WordPress Roles and Capabilities page"
 msgstr "أدوار وقدرات صفحة ووردبريس"
 
-#: includes/settings/tabs/wps-access-level.php:98
+#: includes/settings/tabs/wps-access-level.php:76
 msgid "Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone."
 msgstr "تلميح:  manage_network = مسؤول, manage_options = مدير, edit_others_posts = محرر, publish_posts = كاتب, edit_posts = مساهم, read = الجميع"
 
-#: includes/settings/tabs/wps-access-level.php:99
+#: includes/settings/tabs/wps-access-level.php:77
 msgid "Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins."
 msgstr "كل ما سبق من الكاسكيدز هي حقوق تكوين الووردبريس الافتراضي. على سبيل المثال عند اختيار publish_posts يمنح حقوق المؤلف,المحرر,المدير,المسؤول."
 
-#: includes/settings/tabs/wps-access-level.php:100
+#: includes/settings/tabs/wps-access-level.php:78
 msgid "If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory."
 msgstr "إذا كنت في حاجة الى حل أكثر قوة لتفويض الوصول التي قد ترغب في النظر في %s الدليل المساعد لووردبريس."
 
-#: includes/log/exclusions.php:197
-#: includes/settings/tabs/wps-access-level.php:105 wp-statistics.php:341
-#: wp-statistics.php:417
+#: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
+#: includes/settings/wps-settings.php:110 wp-statistics.php:348
+#: wp-statistics.php:424
 msgid "Exclusions"
 msgstr "الاستثناءات"
 
-#: includes/settings/tabs/wps-access-level.php:109
+#: includes/settings/tabs/wps-exclusions.php:50
 msgid "Record exclusions"
 msgstr "سجل الاستثناءات"
 
-#: includes/settings/tabs/wps-access-level.php:111
-#: includes/settings/tabs/wps-access-level.php:165
-#: includes/settings/tabs/wps-access-level.php:192
+#: includes/settings/tabs/wps-exclusions.php:52
+#: includes/settings/tabs/wps-exclusions.php:106
+#: includes/settings/tabs/wps-exclusions.php:133
+#: includes/settings/tabs/wps-exclusions.php:150
 msgid "Enable"
 msgstr "تمكين"
 
-#: includes/settings/tabs/wps-access-level.php:112
+#: includes/settings/tabs/wps-exclusions.php:53
 msgid "This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.  This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits."
 msgstr "يقوم هذا الخيار بتسجيل جميع النقرات المستبعدة في جدول منفصل مع أسباب الأستبعاد، ولكن بدون معلومات أخرى. وهذا قد يولد الكثير من البيانات ولكن هو مفيد إذا كنت تريد أن ترى العدد الكلي من المشاهدات التي يحصل عليها موقعك، وليس فقط المستخدم الفعلي للموقع."
 
-#: includes/settings/tabs/wps-access-level.php:117
+#: includes/settings/tabs/wps-exclusions.php:58
 msgid "Exclude User Roles"
 msgstr "استبعاد أدوار المستخدم"
 
-#: includes/settings/tabs/wps-access-level.php:133
-#: includes/settings/tabs/wps-access-level.php:247
-#: includes/settings/tabs/wps-access-level.php:254
-#: includes/settings/tabs/wps-access-level.php:261
+#: includes/settings/tabs/wps-exclusions.php:74
+#: includes/settings/tabs/wps-exclusions.php:196
+#: includes/settings/tabs/wps-exclusions.php:203
+#: includes/settings/tabs/wps-exclusions.php:210
+#: includes/settings/tabs/wps-exclusions.php:217
 msgid "Exclude"
 msgstr "منع"
 
-#: includes/settings/tabs/wps-access-level.php:134
+#: includes/settings/tabs/wps-exclusions.php:75
 msgid "Exclude %s role from data collection."
 msgstr "استبعاد دور %s من جمع البيانات."
 
-#: includes/settings/tabs/wps-access-level.php:140
+#: includes/settings/tabs/wps-exclusions.php:81
 msgid "IP/Robot Exclusions"
 msgstr "استثناءات IP/Robot"
 
-#: includes/settings/tabs/wps-access-level.php:144
+#: includes/settings/tabs/wps-exclusions.php:85
 msgid "Robot list"
 msgstr "قائمة الروبوت"
 
-#: includes/settings/tabs/wps-access-level.php:157
+#: includes/settings/tabs/wps-exclusions.php:98
 msgid "A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored."
 msgstr "قائمة من الكلمات (واحد في كل سطر) لمطابقة ضد للكشف عن الروبوتات. يجب أن تكون إدخالات 4 أحرف على الأقل أو أنها سيتم تجاهلها."
 
-#: includes/settings/tabs/wps-access-level.php:158
+#: includes/settings/tabs/wps-exclusions.php:99
 msgid "Reset to Default"
 msgstr "إعادة تعيين إلى الافتراضي"
 
-#: includes/settings/tabs/wps-access-level.php:163
+#: includes/settings/tabs/wps-exclusions.php:104
 msgid "Force robot list update after upgrades"
 msgstr "إجبار تحديث قائمة الربوت بعد الترقيات"
 
-#: includes/settings/tabs/wps-access-level.php:166
+#: includes/settings/tabs/wps-exclusions.php:107
 msgid "Force the robot list to be reset to the default after an update to WP Statistics takes place.  Note if this option is enabled any custom robots you have added to the list will be lost."
 msgstr "إجبار قائمة الروبوت لإعادة تعيين إلى الافتراضي بعد تحديث احصائيات ووردبريس لتأخذ مكان. ملاحظة إذا تم تمكين هذا الخيار أي روبوتات تم تخصيصها في القائمة سوف تضيع."
 
-#: includes/settings/tabs/wps-access-level.php:171
+#: includes/settings/tabs/wps-exclusions.php:112
 msgid "Robot visit threshold"
 msgstr "الحد الأدنى بزيارة الروبوت"
 
-#: includes/settings/tabs/wps-access-level.php:174
+#: includes/settings/tabs/wps-exclusions.php:115
 msgid "Treat visitors with more than this number of visits per day as robots.  0 = disabled."
 msgstr "تعامل للزوار أكثر من هذا العدد من مرة في اليوم الواحد كما الروبوتات. 0 = تعطيل."
 
-#: includes/settings/tabs/wps-access-level.php:179
+#: includes/settings/tabs/wps-exclusions.php:120
 msgid "Excluded IP address list"
 msgstr "قائمة عناوين IP المستبعدة"
 
-#: includes/settings/tabs/wps-access-level.php:182
+#: includes/settings/tabs/wps-exclusions.php:123
 msgid "A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255."
 msgstr "قائمة عناوين IP وأقنعة الشبكة الفرعية (واحد في كل سطر) لاستبعاد من جميع الإحصائيات (وتقبل الأشكال كل من 192.168.0.0/24 و 192.168.0.0/255.255.255.0 ). لتحديد عنوان IP فقط، استخدم قيمة الشبكة الفرعية 32 أو 255.255.255.255.255."
 
-#: includes/settings/tabs/wps-access-level.php:183
+#: includes/settings/tabs/wps-exclusions.php:124
 msgid "Add 10.0.0.0"
 msgstr "إضافة 10.0.0.0"
 
-#: includes/settings/tabs/wps-access-level.php:184
+#: includes/settings/tabs/wps-exclusions.php:125
 msgid "Add 172.16.0.0"
 msgstr "إضافة 172.16.0.0"
 
-#: includes/settings/tabs/wps-access-level.php:185
+#: includes/settings/tabs/wps-exclusions.php:126
 msgid "Add 192.168.0.0"
 msgstr "إضافة 192.168.0.0"
 
-#: includes/settings/tabs/wps-access-level.php:190
+#: includes/settings/tabs/wps-exclusions.php:131
 msgid "Use honey pot"
 msgstr "استخدام وعاء العسل"
 
-#: includes/settings/tabs/wps-access-level.php:193
+#: includes/settings/tabs/wps-exclusions.php:134
 msgid "Use a honey pot page to identify robots."
 msgstr "استخدام صفحة وعاء العسل لتحديد الروبوتات."
 
-#: includes/settings/tabs/wps-access-level.php:198
+#: includes/settings/tabs/wps-exclusions.php:139
 msgid "Honey pot post id"
 msgstr "معرف مقال وعاء العسل"
 
-#: includes/settings/tabs/wps-access-level.php:201
+#: includes/settings/tabs/wps-exclusions.php:142
 msgid "The post id to use for the honeypot page."
 msgstr "رقم المشاركة لاستخدامها في صفحة المصيدة."
 
-#: includes/settings/tabs/wps-access-level.php:202
+#: includes/settings/tabs/wps-exclusions.php:143
 msgid "Create a new honey pot page"
 msgstr "إنشاء صفحة وعاء عسل جديدة"
 
-#: includes/settings/tabs/wps-access-level.php:207
+#: includes/settings/tabs/wps-exclusions.php:156
 msgid "GeoIP Exclusions"
 msgstr "استثناءات GeoIP"
 
-#: includes/settings/tabs/wps-access-level.php:211
+#: includes/settings/tabs/wps-exclusions.php:160
 msgid "Excluded countries list"
 msgstr "قائمة الدول المستثناة"
 
-#: includes/settings/tabs/wps-access-level.php:214
+#: includes/settings/tabs/wps-exclusions.php:163
 msgid "A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use \"000\" (three zeros) to exclude unknown countries."
 msgstr "قائمة رموز البلد (واحد في كل سطر، رسالتين لكل منهما) لاستبعاد من جمع الإحصاءات. استخدام \"000\" (ثلاثة أصفار) لاستبعاد بلدان غير معروفة."
 
-#: includes/settings/tabs/wps-access-level.php:219
+#: includes/settings/tabs/wps-exclusions.php:168
 msgid "Included countries list"
 msgstr "قائمة البلدان المدرجة"
 
-#: includes/settings/tabs/wps-access-level.php:222
+#: includes/settings/tabs/wps-exclusions.php:171
 msgid "A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use \"000\" (three zeros) to exclude unknown countries."
 msgstr "قائمة رموز البلد (واحد في كل سطر، رسالتين لكل منهما) لتشمل في جمع الإحصاءات، إذا كانت هذه القائمة ليست فارغة، سيتم تسجيل الزوار فقط من الدول المدرجة. استخدام \"000\" (ثلاثة أصفار) لاستبعاد بلدان غير معروفة."
 
-#: includes/settings/tabs/wps-access-level.php:227
+#: includes/settings/tabs/wps-exclusions.php:176
 msgid "Host Exclusions"
 msgstr "استثناءات المضيف"
 
-#: includes/settings/tabs/wps-access-level.php:231
+#: includes/settings/tabs/wps-exclusions.php:180
 msgid "Excluded hosts list"
 msgstr "قائمة المضيفين المستبعدين"
 
-#: includes/settings/tabs/wps-access-level.php:234
+#: includes/settings/tabs/wps-exclusions.php:183
 msgid "A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection."
 msgstr "قائمة أسماء المضيف المؤهل بالكامل (أي. server.example.com، سطر واحد في المائة) لاستبعاد من جمع الإحصاءات."
 
-#: includes/settings/tabs/wps-access-level.php:236
+#: includes/settings/tabs/wps-exclusions.php:185
 msgid "Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it's IP address and when the cache is updated resulting in some hits recorded."
 msgstr "ملاحظة: هذا الخيار لإجراء بحث DNS عكسي على تحميل كل صفحة ولكن بدلا من ذلك بالتخزين المؤقت لعنوان الـIP لأسماء المضيفين المنصوص عليها هي ساعة واحدة. إذا كنت استبعدت المضيفين وقم بتعيين حيوي قد تجد بعض الدرجات من التداخل عندما يتغير عنوان IP للمضيف وذلك وعندما يتم تحديث ذاكرة التخزين المؤقت قد يؤدي في بعض الزيارات المسجلة."
 
-#: includes/settings/tabs/wps-access-level.php:241
+#: includes/settings/tabs/wps-exclusions.php:190
 msgid "Site URL Exclusions"
 msgstr "رابط الموقع المستثنى"
 
-#: includes/settings/tabs/wps-access-level.php:245
+#: includes/settings/tabs/wps-exclusions.php:194
 msgid "Excluded login page"
 msgstr "استبعاد صفحة تسجيل الدخول"
 
-#: includes/settings/tabs/wps-access-level.php:248
+#: includes/settings/tabs/wps-exclusions.php:197
 msgid "Exclude the login page for registering as a hit."
 msgstr "استبعاد صفحة الدخول للتسجيل كنقرة."
 
-#: includes/settings/tabs/wps-access-level.php:252
+#: includes/settings/tabs/wps-exclusions.php:201
 msgid "Excluded admin pages"
 msgstr "استبعاد الصفحات الإدارية"
 
-#: includes/settings/tabs/wps-access-level.php:255
+#: includes/settings/tabs/wps-exclusions.php:204
 msgid "Exclude the admin pages for registering as a hit."
 msgstr "استبعاد الصفحات الادارية للتسجيل كنقرة."
 
-#: includes/settings/tabs/wps-access-level.php:259
+#: includes/settings/tabs/wps-exclusions.php:208
 msgid "Excluded RSS feeds"
 msgstr "آر إس إس مستبعدة"
 
-#: includes/settings/tabs/wps-access-level.php:262
+#: includes/settings/tabs/wps-exclusions.php:211
 msgid "Exclude the RSS feeds for registering as a hit."
 msgstr "استبعاد آر إس إس لتسجيل كما ضرب."
 
@@ -2574,7 +2602,7 @@ msgstr "سيؤدي ذلك إلى حذف الدليل عند حفظ الإعدا�
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
 msgstr "هذه الميزة لتخزين عناوين IP في قاعدة البيانات ولكن بدلا من ذلك تستخدم تجزئة فريدة من نوعها. سيتم تعطيل \"مخزن سلسلة عامل المستخدم بأكمله\" إذا تم تحديد هذا. أنت لن تكون قادر على استرداد عناوين IP في المستقبل لاسترداد معلومات الموقع إذا تم تمكين هذا."
 
-#: includes/settings/tabs/wps-general.php:82 shortcode.php:129
+#: includes/settings/tabs/wps-general.php:82 shortcode.php:131
 msgid "Users Online"
 msgstr "الإعضاء المتواجدين"
 
