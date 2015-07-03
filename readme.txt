@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 9.3.1
+Stable tag: 9.4
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -242,6 +242,9 @@ We do not recommend using a caching plugin along with WP Statistics.
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.4 = 
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.3.1 = 
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -268,7 +271,7 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.4 =
-* Release Date: TBD
+* Release Date: July 3, 2015
 * Added: Date selector to top visitors page.
 * Added: Option to exclude WordPress's "Not Found" page from the statistics.
 * Added: Option to treat corrupt http header information as bots (missing IP addresses or user agents).
