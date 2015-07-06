@@ -3,7 +3,7 @@
 /**
  * Parses a user agent string into its important parts
  *
- * Version 0.3.2
+ * Version 0.3.6
  *
  ****************************************************************************
  * The MIT License
@@ -57,11 +57,11 @@ function parse_user_agent( $u_agent = null ) {
 
 	if( preg_match('/\((.*?)\)/im', $u_agent, $parent_matches) ) {
 
-		preg_match_all('/(?P<platform>BB\d+;|Android|CrOS|iPhone|iPad|Linux|Macintosh|Windows(\ Phone)?|Silk|linux-gnu|BlackBerry|PlayBook|(New\ )?Nintendo\ (WiiU?|3DS)|Xbox(\ One)?)
+		preg_match_all('/(?P<platform>BB\d+;|Android|CrOS|Tizen|iPhone|iPad|Linux|Macintosh|Windows(\ Phone)?|Silk|linux-gnu|BlackBerry|PlayBook|(New\ )?Nintendo\ (WiiU?|3DS)|Xbox(\ One)?)
 				(?:\ [^;]*)?
 				(?:;|$)/imx', $parent_matches[1], $result, PREG_PATTERN_ORDER);
 
-		$priority           = array( 'Android', 'Xbox One', 'Xbox' );
+		$priority           = array( 'Xbox One', 'Xbox', 'Windows Phone', 'Tizen', 'Android' );
 		$result['platform'] = array_unique($result['platform']);
 		if( count($result['platform']) > 1 ) {
 			if( $keys = array_intersect($priority, $result['platform']) ) {
@@ -80,8 +80,8 @@ function parse_user_agent( $u_agent = null ) {
 		$platform = 'Chrome OS';
 	}
 
-	preg_match_all('%(?P<browser>Camino|Kindle(\ Fire\ Build)?|Firefox|Iceweasel|Safari|MSIE|Trident|AppleWebKit|Chrome|
-			IEMobile|Opera|OPR|Silk|Midori|Edge|
+	preg_match_all('%(?P<browser>Camino|Kindle(\ Fire\ Build)?|Firefox|Iceweasel|Safari|MSIE|Trident|AppleWebKit|TizenBrowser|Chrome|
+			Vivaldi|IEMobile|Opera|OPR|Silk|Midori|Edge|CriOS|
 			Baiduspider|Googlebot|YandexBot|bingbot|Lynx|Version|Wget|curl|
 			NintendoBrowser|PLAYSTATION\ (\d|Vita)+)
 			(?:\)?;?)
@@ -156,7 +156,10 @@ function parse_user_agent( $u_agent = null ) {
 		} else {
 			$version = $rv_result ?: $result['version'][$key];
 		}
-	} elseif( $find('Chrome', $key) ) {
+	} elseif( $find('Vivaldi', $key) ) {
+		$browser = 'Vivaldi';
+		$version = $result['version'][$key];
+	} elseif( $find('Chrome', $key) || $find('CriOS', $key) ) {
 		$browser = 'Chrome';
 		$version = $result['version'][$key];
 	} elseif( $browser == 'AppleWebKit' ) {
@@ -169,6 +172,8 @@ function parse_user_agent( $u_agent = null ) {
 			$browser = 'BlackBerry Browser';
 		} elseif( $find('Safari', $key) ) {
 			$browser = 'Safari';
+		} elseif( $find('TizenBrowser', $key) ) {
+			$browser = 'TizenBrowser';
 		}
 
 		$find('Version', $key);
@@ -182,5 +187,4 @@ function parse_user_agent( $u_agent = null ) {
 	}
 
 	return array( 'platform' => $platform ?: null, 'browser' => $browser ?: null, 'version' => $version ?: null );
-
 }
