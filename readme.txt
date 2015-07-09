@@ -279,7 +279,7 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.4.1 =
-* Release Date: TBD
+* Release Date: July 9, 2015
 * Fixed: SQL injection security issue for users with access to the admin pages.
 * Fixed: Bug in code to save new "Treat corrupt browser info as a bot" setting.
 * Fixed: Bug in scheduled data pruge code that would not append the correct table prefix.
