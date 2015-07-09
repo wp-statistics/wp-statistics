@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 9.4
+Stable tag: 9.4.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -247,6 +247,7 @@ Do you have eAccelerator installed?  If so this is a known issue with eAccelerat
 
 == Upgrade Notice ==
 = 9.4.1 = 
+This is a security release, please upgrade immediately.
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
 = 9.4 = 
@@ -279,6 +280,7 @@ This release updates some core code to do with timezones, hence the change to ve
 == Changelog ==
 = 9.4.1 =
 * Release Date: TBD
+* Fixed: SQL injection security issue for users with access to the admin pages.
 * Fixed: Bug in code to save new "Treat corrupt browser info as a bot" setting.
 * Fixed: Bug in scheduled data pruge code that would not append the correct table prefix.
 * Updated: Admin manual.
