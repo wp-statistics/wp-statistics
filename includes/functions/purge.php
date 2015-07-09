@@ -15,7 +15,7 @@
 				$historical_result = $wpdb->query('UPDATE ' . $wpdb->prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visits\'' );
 
 				if( $historical_result == 0 ) {
-					$wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $result, 'category' => 'visits', 'page_id' => -2, 'uri' => '-2' ) );
+					$wpdb->insert( $wpdb->prefix . "statistics_historical", array( 'value' => $result, 'category' => 'visits', 'page_id' => -2, 'uri' => '-2' ) );
 				}
 			
 				$result_string = sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
@@ -33,7 +33,7 @@
 				$historical_result = $wpdb->query('UPDATE ' . $wpdb->prefix . 'statistics_historical SET value = value + ' . $result . ' WHERE `category` = \'visitors\'' );
 				
 				if( $historical_result == 0 ) {
-					$wpdb->insert( $wp_prefix . "statistics_historical", array( 'value' => $result, 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1' ) );
+					$wpdb->insert( $wpdb->prefix . "statistics_historical", array( 'value' => $result, 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1' ) );
 				}
 			
 				$result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');

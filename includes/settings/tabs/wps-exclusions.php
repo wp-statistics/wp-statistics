@@ -27,7 +27,7 @@ if( $wps_nonce_valid ) {
 		$_POST['wps_honeypot_postid'] = wp_insert_post( $my_post );
 	}
 	
-	$wps_option_list = array_merge( $wps_option_list, array('wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid','wps_exclude_feeds','wps_excluded_urls','wps_exclude_404s' ) );
+	$wps_option_list = array_merge( $wps_option_list, array('wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid','wps_exclude_feeds','wps_excluded_urls','wps_exclude_404s', 'wps_corrupt_browser_info' ) );
 	
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
@@ -147,7 +147,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><label for="corrupt_browser_info"><?php _e('Treat corrupt browser info as a bot', 'wp_statistics'); ?>:</label></th>
 			<td>
-				<input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo $WP_Statistics->get_option('use_honeypot')==true? "checked='checked'":'';?>><label for="wps_corrupt_browser_info"><?php _e('Enable', 'wp_statistics'); ?></label>
+				<input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo $WP_Statistics->get_option('corrupt_browser_info')==true? "checked='checked'":'';?>><label for="wps_corrupt_browser_info"><?php _e('Enable', 'wp_statistics'); ?></label>
 				<p class="description"><?php echo __('Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>

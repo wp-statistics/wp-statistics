@@ -229,6 +229,10 @@ This means WP Statistics can't record the page hit or visitor information, which
 
 We do not recommend using a caching plugin along with WP Statistics.
 
+= I get an error message like "PHP Fatal error: Function name must be a string in /../parse-user-agent.php" =
+
+Do you have eAccelerator installed?  If so this is a known issue with eAccelerator and PHP's "anonymous" functions, which are used in the user agent parsing library.  As no new versions of eAccelerator have been released for over 3 years, you should look to replace it or disable it.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
@@ -242,6 +246,9 @@ We do not recommend using a caching plugin along with WP Statistics.
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.4.1 = 
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.4 = 
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
 
@@ -270,6 +277,12 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.4.1 =
+* Release Date: TBD
+* Fixed: Bug in code to save new "Treat corrupt browser info as a bot" setting.
+* Fixed: Bug in scheduled data pruge code that would not append the correct table prefix.
+* Updated: Admin manual.
+
 = 9.4 =
 * Release Date: July 3, 2015
 * Added: Date selector to top visitors page.
