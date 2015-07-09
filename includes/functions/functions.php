@@ -157,6 +157,8 @@
 		// If no page URI has been passed in, get the current page URI.
 		if( $page_uri == '' ) { $page_uri = wp_statistics_get_uri(); }
 		
+		$page_uri_sql = esc_sql( $page_uri );
+		
 		// If a page/post ID has been passed, use it to select the rows, otherwise use the URI.
 		//  Note that a single page/post ID can have multiple URI's associated with it.
 		if( $id != -1 ) {
@@ -164,7 +166,7 @@
 			$history_key = 'page';
 			$history_id = $id;
 		} else {		
-			$page_sql = "`URI` = '{$page_uri}'";
+			$page_sql = "`URI` = '{$page_uri_sql}'";
 			$history_key = 'uri';
 			$history_id = $page_uri;
 		}
