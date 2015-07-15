@@ -81,6 +81,7 @@ Still not having any luck? Open a new thread on one of the support forums and we
 * Hungarian [Thanks ZSIMI](http://www.zsimi.hu/)
 * Chinese (Taiwan) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
 * Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
+* Ukrainian [Ivanka Skakun](http://www.everycloudtech.com/)
 * Dutch thanks Friso van Wieringen.
 
 Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
