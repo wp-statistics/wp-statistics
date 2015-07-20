@@ -222,6 +222,10 @@ License: GPL2
 		if( $WP_Statistics->get_option('update_browscap') )
 			wp_statistics_download_browscap();
 		
+		// Check to see if the referrerspam database needs to be downloaded and do so if required.
+		if( $WP_Statistics->get_option('update_referrerspam') )
+			wp_statistics_download_referrerspam();
+		
 		if( $WP_Statistics->get_option('send_upgrade_email') ) {
 			$WP_Statistics->update_option( 'send_upgrade_email', false );
 			

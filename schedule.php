@@ -64,6 +64,18 @@
 		wp_unschedule_event(wp_next_scheduled('wp_statistics_browscap_hook'), 'wp_statistics_browscap_hook'); 
 	}
 
+	// Add the referrerspam update schedule if it doesn't exist and it should be.
+	if( !wp_next_scheduled('wp_statistics_referrerspam_hook') && $WP_Statistics->get_option('schedule_referrerspam') ) {
+	
+		wp_schedule_event(time(), 'weekly', 'wp_statistics_referrerspam_hook'); 
+	}
+
+	// Remove the referrerspam update schedule if it does exist and it should shouldn't.
+	if( wp_next_scheduled('wp_statistics_referrerspam_hook') && !$WP_Statistics->get_option('schedule_referrerspam') ) {
+	
+		wp_unschedule_event(wp_next_scheduled('wp_statistics_referrerspam_hook'), 'wp_statistics_referrerspam_hook'); 
+	}
+
 	// Add the database maintenance schedule if it doesn't exist and it should be.
 	if( !wp_next_scheduled('wp_statistics_dbmaint_hook') && $WP_Statistics->get_option('schedule_dbmaint') ) {
 	
@@ -146,6 +158,16 @@
 		$WP_Statistics->update_option('update_browscap',TRUE);
 	}
 	add_action('wp_statistics_browscap_hook', 'wp_statistics_browscap_event');
+
+	// This function updates the browscap database.
+	function wp_statistics_referrerspam_event() {
+	
+		GLOBAL $WP_Statistics;
+	
+		// Check for a new referrerspam once a week
+		$WP_Statistics->update_option('update_referrerspam',TRUE);
+	}
+	add_action('wp_statistics_referrerspam_hook', 'wp_statistics_referrerspam_event');
 
 	// This function will purge old records on a schedule based on age.
 	function wp_statistics_dbmaint_event() {

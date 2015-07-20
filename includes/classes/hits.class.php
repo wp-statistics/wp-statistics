@@ -61,7 +61,7 @@
 			// Order of exclusion checks is:
 			//		1 - Robots
 			// 		2 - IP/Subnets
-			//		3 - Self Referrals & login page
+			//		3 - Self Referrals, Referrer Spam & login page
 			//		4 - User roles
 			//		5 - Host name list
 			//
@@ -188,6 +188,27 @@
 						}
 					}
 
+					if( $this->get_option('referrerspam') == 1 && !$this->exclusion_match ) {
+						$referrer = $this->get_Referred();
+						
+						// Pull the referrer spam list from the database.
+						$referrerspamlist = explode( "\n", $this->get_option('referrerspamlist') );
+
+						// Check to see if we match any of the robots.
+						foreach($referrerspamlist as $item) {
+							$item = trim($item);
+							
+							// If the match case is less than 4 characters long, it might match too much so don't execute it.
+							if(strlen($item) > 3) { 
+								if(stripos($referrer, $item) !== FALSE) {
+									$this->exclusion_match = TRUE;
+									$this->exclusion_reason = "referrer_spam";
+									break;
+								}
+							}
+						}
+					}
+					
 					if( $this->get_option('exclude_feeds') == 1 && !$this->exclusion_match ) {
 						if( is_object( $WP_Statistics ) ) { 
 							if( $WP_Statistics->check_feed() ) { 

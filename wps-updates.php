@@ -323,3 +323,25 @@
 		// All of the messages displayed above are stored in a stirng, now it's time to actually output the messages.
 		return $result;
 	}
+
+	// This function downloads the referrerspam database from https://github.com/piwik/referrer-spam-blacklist.
+	function wp_statistics_download_referrerspam() {
+
+		GLOBAL $WP_Statistics;
+
+		// If referrerspam is disabled, bail out.
+		if( $WP_Statistics->get_option('referrerspam') == false ) { return '';}
+		
+		// This is the location of the file to download.
+		$download_url = 'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
+
+		// Download the file from MaxMind, this places it in a temporary location.
+		$referrerspamlist = file_get_contents( $download_url );
+		if( $referrerspamlist === FALSE ) { $referrerspamlist = ''; }
+
+		if( $referrerspamlist != '' || $WP_Statistics->get_option('referrerspamlist') != '' ) {
+			$WP_Statistics->update_option('referrerspamlist', $referrerspamlist);
+		}
+
+		$WP_Statistics->update_option('update_referrerspam', false);
+	}
