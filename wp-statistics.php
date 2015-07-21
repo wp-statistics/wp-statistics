@@ -664,14 +664,9 @@ License: GPL2
 		}
 		
 		// We want to make sure the tables actually exist before we blindly start access them.
-		$result['useronline'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_useronline`");
-		$result['visit'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_visit`");
-		$result['visitor'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_visitor`");
-		$result['exclusions'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_exclusions`");
-		$result['pages'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_pages`");
-		$result['historical'] = $wpdb->query("CHECK TABLE `{$wpdb->prefix}statistics_historical`");
-		
-		if( ($result['useronline']) && ($result['visit']) && ($result['visitor']) != '1' && ($result['exclusions']) != '1' && ($result['pages']) != '1' ) {
+		$result = $wpdb->query("SHOW TABLES LIKE '{$wpdb->prefix}statistics_%'" );
+	
+		if( $result != 6 ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
 			wp_die('<div class="error"><p>' . sprintf(__('Plugin tables do not exist in the database! Please re-run the %s install routine %s.', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . '</p></div>');
 		}
