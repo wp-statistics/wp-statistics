@@ -93,7 +93,7 @@ License: GPL2
 	}
 	
 	// Load the user agent parsing code first, the WP_Statistics class depends on it.  Then load the WP_Statistics class.
-	include_once dirname( __FILE__ ) . '/includes/functions/parse-user-agent.php';
+	include_once dirname( __FILE__ ) . '/vendor/donatj/phpuseragentparser/Source/UserAgentParser.php';
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
 	
 	// This is our global WP_Statitsics class that is used throughout the plugin.
