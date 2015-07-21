@@ -286,6 +286,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Release Date: TBD
 * Added: Referrer Spam exclusions using the Piwik Referrer Spam Blacklist (see Statistics->Settings->Externals to enable).
 * Updated: Combined the GeoIP and browscap tabs in settings in to the Externals tab.
+* Updated: GeoIP library to V 2.3.1.
 
 = 9.4.1 =
 * Release Date: July 9, 2015
