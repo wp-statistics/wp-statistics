@@ -247,6 +247,9 @@ Do you have eAccelerator installed?  If so this is a known issue with eAccelerat
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.5 =
+If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+
 = 9.4.1 = 
 This is a security release, please upgrade immediately.
 If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
@@ -279,6 +282,11 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.5 =
+* Release Date: TBD
+* Added: Referrer Spam exclusions using the Piwik Referrer Spam Blacklist (see Statistics->Settings->Externals to enable).
+* Updated: Combined the GeoIP and browscap tabs in settings in to the Externals tab.
+
 = 9.4.1 =
 * Release Date: July 9, 2015
 * Fixed: SQL injection security issue for users with access to the admin pages.
