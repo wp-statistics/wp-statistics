@@ -248,7 +248,7 @@ Do you have eAccelerator installed?  If so this is a known issue with eAccelerat
 
 == Upgrade Notice ==
 = 9.5 =
-If upgrading from pre-9.0, please make sure to backup your database before installing.  Once installed, please go to Statistics->Optimization->Database and add the visits index.
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
 
 = 9.4.1 = 
 This is a security release, please upgrade immediately.
