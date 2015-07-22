@@ -285,6 +285,9 @@ This release updates some core code to do with timezones, hence the change to ve
 = 9.5 =
 * Release Date: TBD
 * Added: Referrer Spam exclusions using the Piwik Referrer Spam Blacklist (see Statistics->Settings->Externals to enable).
+* Added: Code to remove 'AString' column if it exists in the visitors table during upgrades (bug in a older previous version of WP Statistics erroneously created it).
+* Fixed: Duplicate key name warning during upgrades for 'date_ip_agent' index.
+* Fixed: Warning on 'date_ip' index does not exist when trying to drop it during upgrades.
 * Updated: Combined the GeoIP and browscap tabs in settings in to the Externals tab.
 * Updated: GeoIP library to V 2.3.1.
 
