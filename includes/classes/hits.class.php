@@ -389,6 +389,32 @@
 					$sqlstring = $this->db->prepare( 'INSERT IGNORE INTO ' . $this->tb_prefix . 'statistics_visitor (last_counter, referred, agent, platform, version, ip, location, UAString, hits, honeypot) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, 1, %s )', $this->Current_date('Y-m-d'), $this->get_Referred(), $this->agent['browser'], $this->agent['platform'], $this->agent['version'], $this->ip_hash ? $this->ip_hash : $this->ip, $this->location, $ua, $honeypot );
 				
 					$this->db->query( $sqlstring );
+					
+					// Now parse the referrer and store the results in the search table if the database has been converted.
+					if( $this->get_option('search_converted') ) {
+						$search_engines = wp_statistics_searchengine_list();
+						$referred =  $this->get_Referred();
+						
+						// Parse the URL in to it's component parts.
+						$parts = parse_url($referred);
+
+						// Loop through the SE list until we find which search engine matches.
+						foreach( $search_engines as $key => $value ) {
+							$search_regex = wp_statistics_searchengine_regex($key);
+							
+							preg_match( '/' . $search_regex . '/', $parts['host'], $matches);
+							
+							if( isset($matches[1]) ) {
+								$data['last_counter'] = $this->Current_date('Y-m-d');
+								$data['engine'] = $key;
+								$data['words'] = $WP_Statistics->Search_Engine_QueryString( $referred );
+								
+								if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
+
+								$this->db->insert( $this->db->prefix . 'statistics_search', $data );
+							}
+						}
+					}
 				}
 				else {
 					// Normally we've done all of our exclusion matching during the class creation, however for the robot threshold is calculated here to avoid another call the database.				
