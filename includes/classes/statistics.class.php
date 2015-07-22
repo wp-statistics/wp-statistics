@@ -434,6 +434,26 @@
 			return array('name' => 'Unknown', 'tag' => '', 'sqlpattern' => '', 'regexpattern' => '', 'querykey' => 'q', 'image' => 'unknown.png' );
 		}
 		
+		// This function returns an array of information about a given search engine based on the url passed in.
+		// It is used in several places to get the SE icon or the sql query to select an individual SE from the database.
+		public function Search_Engine_Info_By_Engine($engine = false) {
+				
+			// If there is no URL and no referrer, always return false.
+			if($engine == false) {
+				return false;
+			}
+			
+			// Get the list of search engines we currently support.
+			$search_engines = wp_statistics_searchengine_list();
+
+			if( array_key_exists( $engine, $search_engines ) ) {
+				return $search_engines[$engine];
+			}
+			
+			// If no SE matched, return some defaults.
+			return array('name' => 'Unknown', 'tag' => '', 'sqlpattern' => '', 'regexpattern' => '', 'querykey' => 'q', 'image' => 'unknown.png' );
+		}
+		
 		// This function will parse a URL from a referrer and return the search query words used.
 		public function Search_Engine_QueryString($url = false) {
 		

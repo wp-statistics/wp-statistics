@@ -86,6 +86,8 @@
 			last_counter date NOT NULL,
 			engine varchar(64) NOT NULL,
 			words varchar(255),
+			ip varchar(60) NOT NULL,
+			location varchar(10),
 			PRIMARY KEY  (ID),
 			KEY last_counter (last_counter),
 			KEY engine (engine)

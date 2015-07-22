@@ -86,8 +86,17 @@
 									} else {
 										$search_query = wp_statistics_searchword_query('all');
 									}
+
+									// Determine if we're using the old or new method of storing search engine info and build the appropriate table name.
+									$tablename = $wpdb->prefix . 'statistics_';
 									
-									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
+									if( $WP_Statistics->get_option('search_converted') ) {
+										$tablename .= 'search';
+									} else {
+										$tablename .= 'visitor';
+									}
+									
+									$result = $wpdb->get_results("SELECT * FROM `{$tablename}` WHERE {$search_query} ORDER BY `{$tablename}`.`ID` DESC  LIMIT {$start}, {$end}");
 
 									$ISOCountryCode = $WP_Statistics->get_country_codes();
 									
@@ -104,30 +113,31 @@
 											$ip_string = "<a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a>"; 
 											$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>{$dash_icon}</a>";
 										}
+
+										if( $WP_Statistics->get_option('search_converted') ) {
+											$this_search_engine = $WP_Statistics->Search_Engine_Info_By_Engine($items->engine);
+											$engine = $items->engine;
+											$words = $items->words;
+										} else {
+											$this_search_engine = $WP_Statistics->Search_Engine_Info($items->referred);
+											$engine = $this_search_engine['tag'];
+											$words = $WP_Statistics->Search_Engine_QueryString($items->referred);
+										}
 										
 										echo "<div class='log-item'>";
-											echo "<div class='log-referred'>".$WP_Statistics->Search_Engine_QueryString($items->referred)."</div>";
-											echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($items->last_counter)) . " - {$ip_string}</div>";
-											echo "<div class='clear'></div>";
-											echo "<div class='log-url'>";
-											echo $map_string;
-											
-											if($WP_Statistics->get_option('geoip')) {
-												echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
-											}
-											
-											$this_search_engine = $WP_Statistics->Search_Engine_Info($items->referred);
-											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
-											
-											if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
-												$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
-											} else {
-												$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
-											}
-											
-											echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
-											
-											echo "<a href='" . htmlentities($items->referred,ENT_QUOTES) . "' title='" . htmlentities($items->referred,ENT_QUOTES) . "'>".wp_statistics_icons('dashicons-admin-links', 'link') . " " . htmlentities($items->referred,ENT_QUOTES) . "</a></div>";
+										echo "<div class='log-referred'>".$words."</div>";
+										echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($items->last_counter)) . " - {$ip_string}</div>";
+										echo "<div class='clear'></div>";
+										echo "<div class='log-url'>";
+										echo $map_string;
+										
+										if($WP_Statistics->get_option('geoip')) {
+											echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+										}
+										
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$engine}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
+										
+										echo "</div>";
 										echo "</div>";
 									}
 								}

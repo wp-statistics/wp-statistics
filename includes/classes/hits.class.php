@@ -408,6 +408,8 @@
 								$data['last_counter'] = $this->Current_date('Y-m-d');
 								$data['engine'] = $key;
 								$data['words'] = $WP_Statistics->Search_Engine_QueryString( $referred );
+								$data['ip'] = $this->ip_hash ? $this->ip_hash : $this->ip;
+								$data['location'] = $this->location;
 								
 								if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
 

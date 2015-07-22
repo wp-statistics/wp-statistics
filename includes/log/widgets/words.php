@@ -25,7 +25,16 @@
 		// Retrieve MySQL data for the search words.
 		$search_query = wp_statistics_searchword_query('all');
 
-		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query} ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}");
+		// Determine if we're using the old or new method of storing search engine info and build the appropriate table name.
+		$tablename = $wpdb->prefix . 'statistics_';
+		
+		if( $WP_Statistics->get_option('search_converted') ) {
+			$tablename .= 'search';
+		} else {
+			$tablename .= 'visitor';
+		}
+
+		$result = $wpdb->get_results("SELECT * FROM `{$tablename}` WHERE {$search_query} ORDER BY `{$tablename}`.`ID` DESC  LIMIT 0, {$count}");
 		
 		if( sizeof($result) > 0 ) {
 			echo "<div class='log-latest'>";
