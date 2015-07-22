@@ -145,6 +145,34 @@
 
 	}
 	
+	if( array_key_exists( 'search', $_GET ) ) {
+
+		// Make sure we get all the search engines, even the ones the disabled ones.
+		$se_list = wp_statistics_searchengine_list( true );
+		$total = 0;
+		
+		foreach( $se_list as $key => $se ) {
+
+			$sql = wp_statistics_searchengine_query( $key );
+			$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$sql}" );
+			
+			foreach( $result as $row ) {
+				$data['last_counter'] = $row->last_counter;
+				$data['engine'] = $se->tag;
+				$data['words'] = $WP_Statistics->Search_Engine_QueryString( $row->referred );
+				
+				if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
+
+				$wpdb->insert( $wpdb->prefix . 'statistics_search', $data );
+				$total++;
+			}
+		}
+
+		$WP_Statistics->update_option('search_converted', 1);
+		echo "<div class='updated settings-error'><p><strong>" . sprintf( __('Search table conversion complete, %i rows added.', 'wp_statistics'), $total ) . "</strong></p></div>";		
+
+	}
+
 $selected_tab = "";
 if( array_key_exists( 'tab', $_GET ) ) { $selected_tab = $_GET['tab']; }
 

@@ -288,6 +288,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added: Code to remove 'AString' column if it exists in the visitors table during upgrades (bug in a older previous version of WP Statistics erroneously created it).
 * Fixed: Duplicate key name warning during upgrades for 'date_ip_agent' index.
 * Fixed: Warning on 'date_ip' index does not exist when trying to drop it during upgrades.
+* Updated: Storing of search engine/words data is now in it's own table for better performance.
 * Updated: Combined the GeoIP and browscap tabs in settings in to the Externals tab.
 * Updated: GeoIP library to V 2.3.1.
 

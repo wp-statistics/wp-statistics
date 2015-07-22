@@ -665,9 +665,9 @@ License: GPL2
 		
 		// We want to make sure the tables actually exist before we blindly start access them.
 		$dbname = DB_NAME;
-		$result = $wpdb->query("SHOW TABLES WHERE Tables_in_{$dbname} = '{$wpdb->prefix}statistics_visitor' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_visit' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_exclusions' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_historical' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_pages' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_useronline'" );
+		$result = $wpdb->query("SHOW TABLES WHERE Tables_in_{$dbname} = '{$wpdb->prefix}statistics_visitor' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_visit' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_exclusions' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_historical' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_pages' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_useronline' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_search'" );
 	
-		if( $result != 6 ) {
+		if( $result != 7 ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
 			wp_die('<div class="error"><p>' . sprintf(__('Plugin tables do not exist in the database! Please re-run the %s install routine %s.', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . '</p></div>');
 		}

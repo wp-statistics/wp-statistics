@@ -81,6 +81,38 @@
 				</td>
 
 			</tr>
+
+			<tr valign="top">
+				<th scope="row" colspan="2"><h3><?php _e('Search Table', 'wp_statistics'); ?></h3></th>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<label for="index-submit"><?php _e('Convert', 'wp_statistics'); ?>:</label>
+				</th>
+				<td>
+<?php 
+		GLOBAL $WP_Statistics;
+		
+		// Note, the result will be the number of fields contained in the index, so in our case 1.
+		if( $WP_Statistics->get_option('search_converted') != 1 ) {
+?>			
+					<input id="visits-submit" class="button button-primary" type="button" value="<?php _e('Convert Now!', 'wp_statistics'); ?>" name="search-submit" onclick="location.href=document.URL+'&search=1&tab=database'">
+					<p class="description"><?php _e('Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used.', 'wp_statistics'); ?></p>
+					<p class="description"><?php _e('This operation could take a long time on installs with many rows in the visitors table.', 'wp_statistics'); ?></p>
+<?php
+		}
+		else {
+?>
+					<p class="description"><?php _e('Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion.', 'wp_statistics'); ?></p>
+					<p class="description"><?php _e('Congratulations, your installation is already up to date, nothing to do.', 'wp_statistics'); ?></p>
+<?php
+		}
+?>
+				</td>
+
+			</tr>
+
 		</tbody>
 	</table>
 </div>

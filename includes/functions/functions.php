@@ -420,39 +420,55 @@
 
 	// This function will return the SQL WHERE clause for getting the search words for a given search engine.
 	function wp_statistics_searchword_query ($search_engine = 'all') {
+		GLOBAL $WP_Statistics;
 	
 		// Get a complete list of search engines
 		$searchengine_list = wp_statistics_searchengine_list();
 		$search_query = '';
 		
-		// Are we getting results for all search engines or a specific one?
-		if( strtolower($search_engine) == 'all' ) {
-			// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
-			// NOTE:  This SQL query can be *VERY* long.
-			foreach( $searchengine_list as $se ) {
-				// The SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
-				if( is_array( $se['sqlpattern'] ) ) {
-					foreach( $se['sqlpattern'] as $subse ) {
-						$search_query .= "(`referred` LIKE '{$subse}{$se['querykey']}=%' AND `referred` NOT LIKE '{$subse}{$se['querykey']}=&%' AND `referred` NOT LIKE '{$subse}{$se['querykey']}=') OR ";
-					}
-				} else {
-					$search_query .= "(`referred` LIKE '{$se['sqlpattern']}{$se['querykey']}=%' AND `referred` NOT LIKE '{$se['sqlpattern']}{$se['querykey']}=&%' AND `referred` NOT LIKE '{$se['sqlpattern']}{$se['querykey']}=')  OR ";
+		if( $WP_Statistics->get_option('search_converted') ) {
+			// Are we getting results for all search engines or a specific one?
+			if( strtolower($search_engine) == 'all' ) {
+				// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
+				foreach( $searchengine_list as $key => $se ) {
+					$search_query .= "( `engine` = '{$key}' AND `words` <> '' ) OR ";
 				}
-			}
-			
-			// Trim off the last ' OR ' for the loop above.
-			$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
-		} else {
-			// For just one?  Ok, the SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
-			if( is_array( $searchengine_list[$search_engine]['sqlpattern'] ) ) {
-				foreach( $searchengine_list[$search_engine]['sqlpattern'] as $se ) {
-					$search_query .= "(`referred` LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=%' AND `referred` NOT LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=&%' AND `referred` NOT LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=') OR ";
-				}
-
+				
 				// Trim off the last ' OR ' for the loop above.
 				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
 			} else {
-				$search_query .= "(`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=%' AND `referred` NOT LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=&%' AND `referred` NOT LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=')";
+				$search_query .= "`engine` = '{$search_engine}' AND `words` <> ''";
+			}
+		} else {
+			// Are we getting results for all search engines or a specific one?
+			if( strtolower($search_engine) == 'all' ) {
+				// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
+				// NOTE:  This SQL query can be *VERY* long.
+				foreach( $searchengine_list as $se ) {
+					// The SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
+					if( is_array( $se['sqlpattern'] ) ) {
+						foreach( $se['sqlpattern'] as $subse ) {
+							$search_query .= "(`referred` LIKE '{$subse}{$se['querykey']}=%' AND `referred` NOT LIKE '{$subse}{$se['querykey']}=&%' AND `referred` NOT LIKE '{$subse}{$se['querykey']}=') OR ";
+						}
+					} else {
+						$search_query .= "(`referred` LIKE '{$se['sqlpattern']}{$se['querykey']}=%' AND `referred` NOT LIKE '{$se['sqlpattern']}{$se['querykey']}=&%' AND `referred` NOT LIKE '{$se['sqlpattern']}{$se['querykey']}=')  OR ";
+					}
+				}
+				
+				// Trim off the last ' OR ' for the loop above.
+				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+			} else {
+				// For just one?  Ok, the SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
+				if( is_array( $searchengine_list[$search_engine]['sqlpattern'] ) ) {
+					foreach( $searchengine_list[$search_engine]['sqlpattern'] as $se ) {
+						$search_query .= "(`referred` LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=%' AND `referred` NOT LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=&%' AND `referred` NOT LIKE '{$se}{$searchengine_list[$search_engine]['querykey']}=') OR ";
+					}
+
+					// Trim off the last ' OR ' for the loop above.
+					$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+				} else {
+					$search_query .= "(`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=%' AND `referred` NOT LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=&%' AND `referred` NOT LIKE '{$searchengine_list[$search_engine]['sqlpattern']}{$searchengine_list[$search_engine]['querykey']}=')";
+				}
 			}
 		}
 		
@@ -461,40 +477,56 @@
 
 	// This function will return the SQL WHERE clause for getting the search engine.
 	function wp_statistics_searchengine_query ($search_engine = 'all') {
-
+		GLOBAL $WP_Statistics;
+	
 		// Get a complete list of search engines
 		$searchengine_list = wp_statistics_searchengine_list();
 		$search_query = '';
-		
-		// Are we getting results for all search engines or a specific one?
-		if( strtolower($search_engine) == 'all' ) {
-			// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
-			// NOTE:  This SQL query can be long.
-			foreach( $searchengine_list as $se ) {
-				// The SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
-				if( is_array( $se['sqlpattern'] ) ) {
-					foreach( $se['sqlpattern'] as $subse ) {
-						$search_query .= "`referred` LIKE '{$subse}' OR ";
-					}
-				} else {
-					$search_query .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
-				}
-			}
-			
-			// Trim off the last ' OR ' for the loop above.
-			$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
-		} else {
-			// For just one?  Ok, the SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
-			if( is_array( $searchengine_list[$search_engine]['sqlpattern'] ) ) {
-				foreach( $searchengine_list[$search_engine]['sqlpattern'] as $se ) {
-					$search_query .= "`referred` LIKE '{$se}' OR ";
-				}
 
+		if( $WP_Statistics->get_option('search_converted') ) {
+			// Are we getting results for all search engines or a specific one?
+			if( strtolower($search_engine) == 'all' ) {
+				// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
+				foreach( $searchengine_list as $key => $se ) {
+					$search_query .= "`engine` = '{$key}' OR ";
+				}
+				
 				// Trim off the last ' OR ' for the loop above.
 				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+			} else {
+				$search_query .= "`engine` = '{$search_engine}'";
 			}
-			else {
-				$search_query .= "`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}'";
+		} else {
+			// Are we getting results for all search engines or a specific one?
+			if( strtolower($search_engine) == 'all' ) {
+				// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
+				// NOTE:  This SQL query can be long.
+				foreach( $searchengine_list as $se ) {
+					// The SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
+					if( is_array( $se['sqlpattern'] ) ) {
+						foreach( $se['sqlpattern'] as $subse ) {
+							$search_query .= "`referred` LIKE '{$subse}' OR ";
+						}
+					} else {
+						$search_query .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
+					}
+				}
+				
+				// Trim off the last ' OR ' for the loop above.
+				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+			} else {
+				// For just one?  Ok, the SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
+				if( is_array( $searchengine_list[$search_engine]['sqlpattern'] ) ) {
+					foreach( $searchengine_list[$search_engine]['sqlpattern'] as $se ) {
+						$search_query .= "`referred` LIKE '{$se}' OR ";
+					}
+
+					// Trim off the last ' OR ' for the loop above.
+					$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
+				}
+				else {
+					$search_query .= "`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}'";
+				}
 			}
 		}
 		
@@ -546,6 +578,15 @@
 	
 		global $wpdb, $WP_Statistics;
 
+		// Determine if we're using the old or new method of storing search engine info and build the appropriate table name.
+		$tablename = $wpdb->prefix . 'statistics_';
+		
+		if( $WP_Statistics->get_option('search_converted') ) {
+			$tablename .= 'search';
+		} else {
+			$tablename .= 'visitor';
+		}
+
 		// Get a complete list of search engines
 		$search_query = wp_statistics_searchengine_query($search_engine);
 
@@ -553,36 +594,36 @@
 		// They're pretty self explanatory.
 		switch($time) {
 			case 'today':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
 				break;
 				
 			case 'yesterday':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
 				
 				break;
 				
 			case 'week':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
 				
 				break;
 				
 			case 'month':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
 				
 				break;
 				
 			case 'year':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
 				
 				break;
 				
 			case 'total':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE {$search_query}");
 				
 				break;
 				
 			default:
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
 				
 				break;
 		}
@@ -595,6 +636,15 @@
 	
 		global $wpdb, $WP_Statistics;
 
+		// Determine if we're using the old or new method of storing search engine info and build the appropriate table name.
+		$tablename = $wpdb->prefix . 'statistics_';
+		
+		if( $WP_Statistics->get_option('search_converted') ) {
+			$tablename .= 'search';
+		} else {
+			$tablename .= 'visitor';
+		}
+
 		// Get a complete list of search engines
 		$search_query = wp_statistics_searchword_query($search_engine);
 
@@ -602,36 +652,36 @@
 		// They're pretty self explanatory.
 		switch($time) {
 			case 'today':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND {$search_query}");
 				break;
 				
 			case 'yesterday':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -1)}' AND {$search_query}");
 				
 				break;
 				
 			case 'week':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -7)}' AND {$search_query}");
 				
 				break;
 				
 			case 'month':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -30)}' AND {$search_query}");
 				
 				break;
 				
 			case 'year':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', -360)}' AND {$search_query}");
 				
 				break;
 				
 			case 'total':
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE {$search_query}");
 				
 				break;
 				
 			default:
-				$result = $wpdb->query("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
+				$result = $wpdb->query("SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$search_query}");
 				
 				break;
 		}

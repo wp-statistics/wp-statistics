@@ -81,6 +81,16 @@
 			UNIQUE KEY uri (uri)
 		) CHARSET=utf8");
 		
+		$create_search_table = ("CREATE TABLE {$wp_prefix}statistics_search (
+			ID bigint(20) NOT NULL AUTO_INCREMENT,
+			last_counter date NOT NULL,
+			engine varchar(64) NOT NULL,
+			words varchar(255),
+			PRIMARY KEY  (ID),
+			KEY last_counter (last_counter),
+			KEY engine (engine)
+		) CHARSET=utf8");
+
 		// Before we update the historical table, check to see if it exists with the old keys
 		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_historical LIKE 'key'" );
 		
@@ -100,6 +110,7 @@
 		dbDelta($create_exclusion_table);
 		dbDelta($create_pages_table);
 		dbDelta($create_historical_table);
+		dbDelta($create_search_table);
 
 		// Check to see if the date_ip index still exists, if so get rid of it.
 		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
