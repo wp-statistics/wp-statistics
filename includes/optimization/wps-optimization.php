@@ -158,7 +158,7 @@
 			
 			foreach( $result as $row ) {
 				$data['last_counter'] = $row->last_counter;
-				$data['engine'] = $se->tag;
+				$data['engine'] = $key;
 				$data['words'] = $WP_Statistics->Search_Engine_QueryString( $row->referred );
 				
 				if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
@@ -169,7 +169,7 @@
 		}
 
 		$WP_Statistics->update_option('search_converted', 1);
-		echo "<div class='updated settings-error'><p><strong>" . sprintf( __('Search table conversion complete, %i rows added.', 'wp_statistics'), $total ) . "</strong></p></div>";		
+		echo "<div class='updated settings-error'><p><strong>" . sprintf( __('Search table conversion complete, %d rows added.', 'wp_statistics'), $total ) . "</strong></p></div>";		
 
 	}
 
