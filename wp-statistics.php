@@ -664,7 +664,8 @@ License: GPL2
 		}
 		
 		// We want to make sure the tables actually exist before we blindly start access them.
-		$result = $wpdb->query("SHOW TABLES WHERE Tables_in_{DB_NAME} = '{$wpdb->prefix}statistics_visitor' OR Tables_in_{DB_NAME} = '{$wpdb->prefix}statistics_visit' OR Tables_in_{DB_NAME} = '{$wpdb->prefix}statistics_exclusions' OR Tables_in_{DB_NAME} = '{$wpdb->prefix}statistics_historical' OR Tables_in_{DB_NAME} = '{$wpdb->prefix}statistics_pages' OR Tables_in_{DB_NAME} = '{$wpdb->prefix}statistics_useronline'" );
+		$dbname = DB_NAME;
+		$result = $wpdb->query("SHOW TABLES WHERE Tables_in_{$dbname} = '{$wpdb->prefix}statistics_visitor' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_visit' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_exclusions' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_historical' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_pages' OR Tables_in_{$dbname} = '{$wpdb->prefix}statistics_useronline'" );
 	
 		if( $result != 6 ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
