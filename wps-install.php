@@ -41,7 +41,7 @@
 			hits int(11),
 			honeypot int(11),
 			PRIMARY KEY  (ID),
-			UNIQUE KEY date_ip_agent (last_counter,ip,agent (75),platform (75),version (75)),
+			UNIQUE KEY date_ip_agent (last_counter,ip,agent(75),platform(75),version(75)),
 			KEY agent (agent),
 			KEY platform (platform),
 			KEY version (version),
@@ -101,7 +101,20 @@
 		dbDelta($create_pages_table);
 		dbDelta($create_historical_table);
 
-		$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+		// Check to see if the date_ip index still exists, if so get rid of it.
+		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
+
+		// Note, the result will be the number of fields contained in the index.
+		if( $result > 1 ) {
+			$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+		}
+		
+		// One final database change, drop the 'AString' column from visitors if it exists as it's a typo from an old version.
+		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_visitor LIKE 'AString'" );
+		
+		if( $result > 0 ) {
+			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` DROP `AString`" );
+		}
 		
 		// Store the new version information.
 		update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
