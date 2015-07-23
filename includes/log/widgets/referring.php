@@ -3,12 +3,7 @@
 	
 		global $wpdb, $WP_Statistics;
 
-		global $wpdb, $WP_Statistics;
-		
 		if( $WP_Statistics->get_option( 'visitors' ) ) {
-			$result = $wpdb->get_results("SELECT `referred` FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
-			
-			if( sizeof( $result ) > 0 ) {
 			?>
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
@@ -17,17 +12,45 @@
 				</h3>
 				<div class="inside">
 					<div class="inside">
-					<?php wp_statistics_generate_referring_postbox_content($result); ?>
+					<?php wp_statistics_generate_referring_postbox_content(); ?>
 					</div>
 				</div>
 			</div>
 <?php
-			}
 		}
 	}
 	
-	function wp_statistics_generate_referring_postbox_content($result, $count = 10) {
+	function wp_statistics_generate_referring_postbox_content($count = 10) {
 	
+		global $wpdb, $WP_Statistics;
+		
+		if( $WP_Statistics->get_option('search_converted') ) {
+			$result = $wpdb->get_results( "SELECT DISTINCT host FROM {$wpdb->prefix}statistics_search" );
+			
+			foreach( $result as $item ) {
+				$get_urls[$item->host] = $wpdb->get_var( "SELECT count(*) FROM {$wpdb->prefix}statistics_search WHERE host = '{$item->host}'" );
+			}
+			
+		} else {
+			$result = $wpdb->get_results( "SELECT referrer FROM {$wpdb->prefix}statistics_visitors WHERE referrer <> ''" );
+			
+			$urls = array();
+			foreach( $result as $item ) {
+			
+				$url = parse_url($item->referred);
+				
+				if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
+					continue;
+					
+				$urls[] = $url['host'];
+			}
+			
+			$get_urls = array_count_values($urls);
+		}
+	
+		arsort( $get_urls );
+		$get_urls = array_slice($get_urls, 0, $count);
+
 ?>
 						<table width="100%" class="widefat table-stats" id="last-referrer">
 							<tr>
@@ -36,22 +59,7 @@
 							</tr>
 							
 							<?php
-								
-								$urls = array();
-								foreach( $result as $items ) {
-								
-									$url = parse_url($items->referred);
-									
-									if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
-										continue;
-										
-									$urls[] = $url['host'];
-								}
-								
-								$get_urls = array_count_values($urls);
-								arsort( $get_urls );
-								$get_urls = array_slice($get_urls, 0, $count);
-								
+							
 								foreach( $get_urls as $items => $value) {
 								
 									echo "<tr>";

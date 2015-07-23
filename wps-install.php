@@ -85,11 +85,13 @@
 			ID bigint(20) NOT NULL AUTO_INCREMENT,
 			last_counter date NOT NULL,
 			engine varchar(64) NOT NULL,
+			host varchar(255),
 			words varchar(255),
 			visitor bigint(20),
 			PRIMARY KEY  (ID),
 			KEY last_counter (last_counter),
-			KEY engine (engine)
+			KEY engine (engine),
+			KEY host (host)
 		) CHARSET=utf8");
 
 		// Before we update the historical table, check to see if it exists with the old keys
@@ -140,6 +142,9 @@
 			// If this is a first time install, we just need to setup the primary values in the tables.
 		
 			$WP_Statistics->Primary_Values();
+			
+			// By default, on new installs, use the new search table.
+			$WP_Statistics->update_option('search_converted', 1);
 			
 		} else {
 

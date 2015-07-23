@@ -9,27 +9,77 @@
 </script>
 <?php
 	if( array_key_exists('referr',$_GET) ) {
-		$referr = '%' . $_GET['referr'] . '%';
+		$referr = $_GET['referr'];
 		$title = $_GET['referr'];
 	}
 	else {
 		$referr = '';
 	}
 	
-	if( $referr ) {
-		$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s", $referr));
+	$get_urls = array();
+	$total = 0;
+		
+	if( $WP_Statistics->get_option('search_converted') ) {
+		if( $referr ) {
+			$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC", $referr ));
+			$total = count( $result );
+		} else {
+			$result = $wpdb->get_results( "SELECT DISTINCT host FROM {$wpdb->prefix}statistics_search" );
+	
+			foreach( $result as $item ) {
+				$get_urls[$item->host] = $wpdb->get_var( "SELECT count(*) FROM {$wpdb->prefix}statistics_search WHERE host = '{$item->host}'" );
+			}
+			$total = count( $get_urls );
+		}
 	} else {
-		$total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
+			
+		if( $referr ) {
+			$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s' AND referred <> '' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%' ) );
+	
+			$total = count( $result );
+		} else {
+			$result = $wpdb->get_results( "SELECT referrer FROM {$wpdb->prefix}statistics_visitors WHERE referrer <> ''" );
+			
+			$urls = array();
+			foreach( $result as $item ) {
+			
+				$url = parse_url($item->referred);
+				
+				if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
+					continue;
+					
+				$urls[] = $url['host'];
+			}
+			
+			$get_urls = array_count_values($urls);
+
+			$total = count( $get_urls );
+		}
 	}
+
+	// Initiate pagination object with appropriate arguments
+	$pagesPerSection = 10;
+	$options = array(25, "All");
+	$stylePageOff = "pageOff";
+	$stylePageOn = "pageOn";
+	$styleErrors = "paginationErrors";
+	$styleSelect = "paginationSelect";
+
+	$Pagination = new WP_Statistics_Pagination($total, $pagesPerSection, $options, false, $stylePageOff, $stylePageOn, $styleErrors, $styleSelect);
+	
+	$start = $Pagination->getEntryStart();
+	$end = $Pagination->getEntryEnd();
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Referring Sites', 'wp_statistics'); ?></h2>
 	<ul class="subsubsub">
-		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php if($referr) { ?>
+		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?></a></li>
 			| <li><a class="current" href="?page=wps_referrers_menu&referr=<?php echo $referr; ?>"> <?php echo $title; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
-		<?php } ?>
+		<?php } else { ?>
+		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+		<?php }?>
 	</ul>
 	<div class="postbox-container" id="last-log">
 		<div class="metabox-holder">
@@ -43,25 +93,9 @@
 					<?php } ?>
 					<div class="inside">
 							<?php
-								// Instantiate pagination object with appropriate arguments
-								$pagesPerSection = 10;
-								$options = array(25, "All");
-								$stylePageOff = "pageOff";
-								$stylePageOn = "pageOn";
-								$styleErrors = "paginationErrors";
-								$styleSelect = "paginationSelect";
-
-								$Pagination = new WP_Statistics_Pagination($total, $pagesPerSection, $options, false, $stylePageOff, $stylePageOn, $styleErrors, $styleSelect);
-								
-								$start = $Pagination->getEntryStart();
-								$end = $Pagination->getEntryEnd();
 								
 								echo "<div class='log-latest'>";
-								
 								if( $referr ) {
-								
-									$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE '%{$referr}%' AND referred <> '' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}");
-									
 									foreach($result as $items) {
 								
 										echo "<div class='log-item'>";
@@ -84,19 +118,6 @@
 									}
 								} else {
 								
-									$result = $wpdb->get_results("SELECT `referred` FROM `{$wpdb->prefix}statistics_visitor` WHERE referred <> ''");
-									
-									$urls = array();
-									foreach( $result as $items ) {
-									
-										$url = parse_url($items->referred);
-										
-										if( empty($url['host']) )
-											continue;
-											
-										$urls[] = $url['host'];
-									}
-									$get_urls = array_count_values($urls);
 									arsort( $get_urls );
 									$get_urls = array_slice($get_urls, $start, $end);
 									

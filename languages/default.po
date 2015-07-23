@@ -4,14 +4,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics 9.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
-"POT-Creation-Date: 2015-07-21 12:24:44+00:00\n"
+"POT-Creation-Date: 2015-07-23 16:03:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-07-21 08:32-0500\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 1.7.5\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: ajax.php:31
 msgid "%s agent data deleted successfully."
@@ -145,59 +144,59 @@ msgstr ""
 msgid "Yandex"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "10 Days"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "20 Days"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "30 Days"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "2 Months"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "3 Months"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "6 Months"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "9 Months"
 msgstr ""
 
-#: includes/functions/functions.php:881
+#: includes/functions/functions.php:931
 msgid "1 Year"
 msgstr ""
 
-#: includes/functions/functions.php:924 includes/functions/functions.php:927
+#: includes/functions/functions.php:974 includes/functions/functions.php:977
 msgid "Range"
 msgstr ""
 
-#: includes/functions/functions.php:931 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr ""
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:981
 msgid "to"
 msgstr ""
 
-#: includes/functions/functions.php:931 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr ""
 
-#: includes/functions/functions.php:969
+#: includes/functions/functions.php:1019
 msgid "%s table data deleted successfully."
 msgstr ""
 
-#: includes/functions/functions.php:973
+#: includes/functions/functions.php:1023
 msgid "Error, %s not emptied!"
 msgstr ""
 
@@ -429,28 +428,28 @@ msgstr ""
 msgid "Latest Search Word Statistics"
 msgstr ""
 
-#: includes/log/last-search.php:100 includes/log/last-visitor.php:101
+#: includes/log/last-search.php:110 includes/log/last-visitor.php:101
 #: includes/log/online.php:50 includes/log/widgets/google.map.php:84
 #: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:33
-#: includes/log/widgets/words.php:36
+#: includes/log/widgets/words.php:46
 msgid "#hash#"
 msgstr ""
 
-#: includes/log/last-search.php:105 includes/log/last-visitor.php:106
+#: includes/log/last-search.php:115 includes/log/last-visitor.php:106
 #: includes/log/online.php:55 includes/log/top-referring.php:71
-#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:43
+#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
 msgid "Map"
 msgstr ""
 
-#: includes/log/last-search.php:142 includes/log/last-visitor.php:139
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
 #: includes/log/top-referring.php:125
 msgid "Page"
 msgstr ""
 
-#: includes/log/last-search.php:142 includes/log/last-visitor.php:139
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
 #: includes/log/top-referring.php:125
 msgid "From"
@@ -752,6 +751,7 @@ msgid ""
 msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-database.php:41
+#: includes/optimization/tabs/wps-optimization-database.php:102
 msgid ""
 "This operation could take a long time on installs with many rows in the "
 "visitors table."
@@ -766,6 +766,7 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-database.php:47
 #: includes/optimization/tabs/wps-optimization-database.php:77
+#: includes/optimization/tabs/wps-optimization-database.php:108
 msgid ""
 "Congratulations, your installation is already up to date, nothing to do."
 msgstr ""
@@ -796,8 +797,36 @@ msgid ""
 "index on the table."
 msgstr ""
 
+#: includes/optimization/tabs/wps-optimization-database.php:86
+msgid "Search Table"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:91
+msgid "Convert"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:100
+msgid "Convert Now!"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:101
+msgid ""
+"Older installs of WP Statistics store details of searches in the visitors "
+"table which can become a performance issue on large datasets.  A new table "
+"has been created to hold this information in a more scalable fashion, "
+"however the old data must first be converted to the new format before it can "
+"be used."
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:107
+msgid ""
+"Older installs of WP Statistics store details of searches in the visitors "
+"table which can become a performance issue on large datasets.  A new table "
+"has been created to hold this information in a more scalable fashion."
+msgstr ""
+
 #: includes/optimization/tabs/wps-optimization-export.php:8
-#: includes/optimization/wps-optimization.php:183
+#: includes/optimization/wps-optimization.php:212
 msgid "Export"
 msgstr ""
 
@@ -1198,23 +1227,27 @@ msgstr ""
 msgid "Install routine complete."
 msgstr ""
 
-#: includes/optimization/wps-optimization.php:182
+#: includes/optimization/wps-optimization.php:173
+msgid "Search table conversion complete, %d rows added."
+msgstr ""
+
+#: includes/optimization/wps-optimization.php:211
 msgid "Resources/Information"
 msgstr ""
 
-#: includes/optimization/wps-optimization.php:184
+#: includes/optimization/wps-optimization.php:213
 msgid "Purging"
 msgstr ""
 
-#: includes/optimization/wps-optimization.php:185
+#: includes/optimization/wps-optimization.php:214
 msgid "Database"
 msgstr ""
 
-#: includes/optimization/wps-optimization.php:186
+#: includes/optimization/wps-optimization.php:215
 msgid "Updates"
 msgstr ""
 
-#: includes/optimization/wps-optimization.php:187
+#: includes/optimization/wps-optimization.php:216
 msgid "Historical"
 msgstr ""
 
@@ -2625,11 +2658,13 @@ msgstr ""
 msgid "Select type of search engine"
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
@@ -2775,11 +2810,11 @@ msgstr ""
 msgid "Manual file not found."
 msgstr ""
 
-#: wp-statistics.php:663 wp-statistics.php:774 wp-statistics.php:808
+#: wp-statistics.php:663 wp-statistics.php:770 wp-statistics.php:804
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: wp-statistics.php:676
+#: wp-statistics.php:672
 msgid ""
 "Plugin tables do not exist in the database! Please re-run the %s install "
 "routine %s."
@@ -2839,7 +2874,9 @@ msgstr ""
 msgid "Browscap.ini update on"
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr ""

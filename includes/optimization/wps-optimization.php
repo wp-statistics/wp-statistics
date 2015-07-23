@@ -157,8 +157,11 @@
 			$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$sql}" );
 			
 			foreach( $result as $row ) {
+				$parts = parse_url( $row->referred );
+				
 				$data['last_counter'] = $row->last_counter;
 				$data['engine'] = $key;
+				$data['host'] = $parts['host'];
 				$data['words'] = $WP_Statistics->Search_Engine_QueryString( $row->referred );
 				$data['visitor'] = $row->ID;
 				

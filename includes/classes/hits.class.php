@@ -410,6 +410,7 @@
 								$data['last_counter'] = $this->Current_date('Y-m-d');
 								$data['engine'] = $key;
 								$data['words'] = $WP_Statistics->Search_Engine_QueryString( $referred );
+								$data['host'] = $parts['host'];
 								$data['visitor'] = $this->db->insert_id ;
 								
 								if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
