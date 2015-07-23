@@ -117,11 +117,9 @@
 
 										if( $WP_Statistics->get_option('search_converted') ) {
 											$this_search_engine = $WP_Statistics->Search_Engine_Info_By_Engine($items->engine);
-											$engine = $items->engine;
 											$words = $items->words;
 										} else {
 											$this_search_engine = $WP_Statistics->Search_Engine_Info($items->referred);
-											$engine = $this_search_engine['tag'];
 											$words = $WP_Statistics->Search_Engine_QueryString($items->referred);
 										}
 										
@@ -136,9 +134,17 @@
 											echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 										}
 										
-										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$engine}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-search&referred={$this_search_engine['tag']}'><img src='".plugins_url('wp-statistics/assets/images/' . $this_search_engine['image'])."' class='log-tools' title='".__($this_search_engine['name'], 'wp_statistics')."'/></a>";
 										
-										echo "</div>";
+										if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
+											$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
+										} else {
+											$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
+										}
+										
+										echo "<a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+										
+										echo "<a href='" . htmlentities($items->referred,ENT_QUOTES) . "' title='" . htmlentities($items->referred,ENT_QUOTES) . "'>".wp_statistics_icons('dashicons-admin-links', 'link') . " " . htmlentities($items->referred,ENT_QUOTES) . "</a></div>";
 										echo "</div>";
 									}
 								}
