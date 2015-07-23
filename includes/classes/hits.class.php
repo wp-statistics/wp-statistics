@@ -348,7 +348,7 @@
 		
 		// This function records unique visitors to the site.
 		public function Visitors() {
-			global $wp_query;
+			global $wp_query, $WP_Statistics;
 
 			// Get the pages or posts ID if it exists.
 			if( is_object( $wp_query ) ) {
@@ -391,7 +391,9 @@
 					$this->db->query( $sqlstring );
 					
 					// Now parse the referrer and store the results in the search table if the database has been converted.
-					if( $this->get_option('search_converted') ) {
+					// Also make sure we actually inserted a row on the INSERT IGNORE above or we'll create duplicate entries.
+					if( $this->get_option('search_converted') && $this->db->insert_id ) {
+					
 						$search_engines = wp_statistics_searchengine_list();
 						$referred =  $this->get_Referred();
 						
@@ -408,8 +410,7 @@
 								$data['last_counter'] = $this->Current_date('Y-m-d');
 								$data['engine'] = $key;
 								$data['words'] = $WP_Statistics->Search_Engine_QueryString( $referred );
-								$data['ip'] = $this->ip_hash ? $this->ip_hash : $this->ip;
-								$data['location'] = $this->location;
+								$data['visitor'] = $this->db->insert_id ;
 								
 								if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
 

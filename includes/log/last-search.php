@@ -91,13 +91,14 @@
 									$tablename = $wpdb->prefix . 'statistics_';
 									
 									if( $WP_Statistics->get_option('search_converted') ) {
+										$tabletwo = $tablename . 'visitor';
 										$tablename .= 'search';
+										$result = $wpdb->get_results("SELECT * FROM `{$tablename}` INNER JOIN `{$tabletwo}` on {$tablename}.`visitor` = {$tabletwo}.`ID` WHERE {$search_query} ORDER BY `{$tablename}`.`ID` DESC  LIMIT {$start}, {$end}");
 									} else {
 										$tablename .= 'visitor';
+										$result = $wpdb->get_results("SELECT * FROM `{$tablename}` WHERE {$search_query} ORDER BY `{$tablename}`.`ID` DESC  LIMIT {$start}, {$end}");
 									}
 									
-									$result = $wpdb->get_results("SELECT * FROM `{$tablename}` WHERE {$search_query} ORDER BY `{$tablename}`.`ID` DESC  LIMIT {$start}, {$end}");
-
 									$ISOCountryCode = $WP_Statistics->get_country_codes();
 									
 									$dash_icon = wp_statistics_icons('dashicons-location-alt', 'map');

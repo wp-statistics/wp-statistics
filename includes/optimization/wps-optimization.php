@@ -160,8 +160,7 @@
 				$data['last_counter'] = $row->last_counter;
 				$data['engine'] = $key;
 				$data['words'] = $WP_Statistics->Search_Engine_QueryString( $row->referred );
-				$data['ip'] = $row->ip;
-				$data['location'] = $row->location;
+				$data['visitor'] = $row->ID;
 				
 				if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
 
