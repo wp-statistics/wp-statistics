@@ -148,7 +148,7 @@
 	if( array_key_exists( 'search', $_GET ) ) {
 
 		// Make sure we get all the search engines, even the ones the disabled ones.
-		$se_list = wp_statistics_searchengine_list( true );
+		$se_list = wp_statistics_searchengine_list();
 		$total = 0;
 		
 		foreach( $se_list as $key => $se ) {
