@@ -32,7 +32,7 @@
 			}
 			
 		} else {
-			$result = $wpdb->get_results( "SELECT referrer FROM {$wpdb->prefix}statistics_visitors WHERE referrer <> ''" );
+			$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> ''" );
 			
 			$urls = array();
 			foreach( $result as $item ) {
