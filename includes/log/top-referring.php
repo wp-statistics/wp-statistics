@@ -21,18 +21,17 @@
 		
 	if( $WP_Statistics->get_option('search_converted') ) {
 		if( $referr ) {
-			$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC", $referr ));
-			$total = count( $result );
+			$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_search` WHERE `host` = %s", $referr ));
 		} else {
 			$result = $wpdb->get_results( "SELECT DISTINCT host FROM {$wpdb->prefix}statistics_search" );
 	
 			foreach( $result as $item ) {
 				$get_urls[$item->host] = $wpdb->get_var( "SELECT count(*) FROM {$wpdb->prefix}statistics_search WHERE host = '{$item->host}'" );
 			}
+			
 			$total = count( $get_urls );
 		}
 	} else {
-			
 		if( $referr ) {
 			$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s' AND referred <> '' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%' ) );
 	
@@ -93,31 +92,34 @@
 					<?php } ?>
 					<div class="inside">
 							<?php
-								
 								echo "<div class='log-latest'>";
+
+								if( $WP_Statistics->get_option('search_converted') ) {
+									$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC LIMIT %d, %d", $referr, $start, $end ) );
+								}
+								
 								if( $referr ) {
-									foreach($result as $items) {
+									foreach($result as $item) {
 								
 										echo "<div class='log-item'>";
-											echo "<div class='log-referred'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&ip={$items->ip}'>".wp_statistics_icons('dashicons-visibility', 'visibility')."{$items->ip}</a></div>";
-											echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($items->last_counter)) . " - <a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a></div>";
-											echo "<div class='clear'></div>";
-											echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'><div class='dashicons dashicons-location-alt'></div></a>";
-											
-											if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
-												$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
-											} else {
-												$agent = "<div class='dashicons dashicons-editor-help'></div>";
-											}
-											
-											echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$items->agent}'>{$agent}</a></div>";
-											
-											echo "<div class='log-url'><a href='" . htmlentities($items->referred,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> " . htmlentities(substr($items->referred, 0, 100),ENT_QUOTES) . "[...]</a></div>";
+										echo "<div class='log-referred'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&ip={$item->ip}'>".wp_statistics_icons('dashicons-visibility', 'visibility')."{$item->ip}</a></div>";
+										echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($item->last_counter)) . " - <a href='http://www.geoiptool.com/en/?IP={$item->ip}' target='_blank'>{$item->ip}</a></div>";
+										echo "<div class='clear'></div>";
+										echo "<a class='show-map' title='".__('Map', 'wp_statistics')."'><div class='dashicons dashicons-location-alt'></div></a>";
+										
+										if( array_search( strtolower( $item->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
+											$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$item->agent.".png' class='log-tools' title='{$item->agent}'/>";
+										} else {
+											$agent = "<div class='dashicons dashicons-editor-help'></div>";
+										}
+										
+										echo "<div class='log-agent'><a href='?page=wp-statistics/wp-statistics.php&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
+										
+										echo "<a href='" . htmlentities($item->referred,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> " . htmlentities(substr($item->referred, 0, 100),ENT_QUOTES) . "[...]</a></div>";
 										echo "</div>";
 									
 									}
 								} else {
-								
 									arsort( $get_urls );
 									$get_urls = array_slice($get_urls, $start, $end);
 									
@@ -127,10 +129,10 @@
 										$i++;
 										
 										echo "<div class='log-item'>";
-											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referrers_menu&referr={$items}'>{$items}</a></div>";
-											echo "<div class='log-ip'>".__('References', 'wp_statistics').": " . number_format_i18n($value) . "</div>";
-											echo "<div class='clear'></div>";
-											echo "<div class='log-url'><a href='http://" . htmlentities($items,ENT_QUOTES) . "/' title='" . htmlentities($items,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> http://" . htmlentities($items,ENT_QUOTES) . "/</a></div>";
+										echo "<div class='log-referred'>{$i} - <a href='?page=wps_referrers_menu&referr={$items}'>{$items}</a></div>";
+										echo "<div class='log-ip'>".__('References', 'wp_statistics').": " . number_format_i18n($value) . "</div>";
+										echo "<div class='clear'></div>";
+										echo "<div class='log-url'><a href='http://" . htmlentities($items,ENT_QUOTES) . "/' title='" . htmlentities($items,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> http://" . htmlentities($items,ENT_QUOTES) . "/</a></div>";
 										echo "</div>";
 										
 									}
