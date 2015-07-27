@@ -16,6 +16,11 @@
 		*/
 		
 		if( ! is_array( $atts ) ) { return; }
+		if( !array_key_exists( 'stat', $atts ) ) { return; }
+		
+		if( !array_key_exists( 'time', $atts ) ) { $atts['time'] = null; }
+		if( !array_key_exists( 'provider', $atts ) ) { $atts['provider'] = null; }
+		if( !array_key_exists( 'format', $atts ) ) { $atts['format'] = null; }
 		
 		$formatnumber = array_key_exists( 'format', $atts );
 		
