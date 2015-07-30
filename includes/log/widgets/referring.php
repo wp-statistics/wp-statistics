@@ -24,6 +24,8 @@
 	
 		global $wpdb, $WP_Statistics;
 		
+		$get_urls = array();
+		
 		if( $WP_Statistics->get_option('search_converted') ) {
 			$result = $wpdb->get_results( "SELECT DISTINCT host FROM {$wpdb->prefix}statistics_search" );
 			
