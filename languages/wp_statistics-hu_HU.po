@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-05-13 08:16:05+0000\n"
+"PO-Revision-Date: 2015-07-30 14:59:04+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,29 +10,93 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: includes/settings/tabs/wps-exclusions.php:148
-msgid "Treat corrupt browser info as a bot"
+#: includes/optimization/wps-optimization.php:173
+msgid "Search table conversion complete, %d rows added."
+msgstr "Keresés táblázat átalakítás befejeződött,%d sor hozzáadva"
+
+#: includes/optimization/tabs/wps-optimization-database.php:107
+msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
+msgstr "Régebbi WP Statisztika telepítések keresések részletei tárolják a látogatói táblázatban, amely ronthatja a teljesítményt nagy adatbázis esetén. Egy új táblázat jött létre hogy ezeket az információkat jobban skálázható módon tárolja."
+
+#: includes/optimization/tabs/wps-optimization-database.php:86
+msgid "Search Table"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:91
+msgid "Convert"
+msgstr "Konvertálás"
+
+#: includes/optimization/tabs/wps-optimization-database.php:100
+msgid "Convert Now!"
+msgstr "Konvertálás indítása"
+
+#: includes/optimization/tabs/wps-optimization-database.php:101
+msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
 msgstr ""
 
 #: includes/log/exclusions.php:24
-msgid "404 Pages"
+msgid "Referrer Spam"
 msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:277
+msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
+msgstr "A Piwik Referrer Spam Blacklist adatbázis letöltésének ütemezése heti egy alkalommal."
+
+#: includes/settings/wps-settings.php:105
+msgid "Externals"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:219
+msgid "Piwik Referrer Spam Blacklist settings"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:254
+msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:247
+msgid "Download Piwik Referrer Spam Blacklist Database"
+msgstr "Piwik Hivatkozó Spam Blacklist adatbázis letöltése"
+
+#: includes/settings/tabs/wps-externals.php:242
+msgid "Update Piwik Referrer Spam Blacklist Info"
+msgstr "Piwik Hivatkozó Spam Blacklist frissítése"
+
+#: includes/settings/tabs/wps-externals.php:236
+msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
+msgstr "A Piwik Referrer Spam Blacklist adatbázis le lesz töltve és használva lesz hivatkozó spam észlelésére"
+
+#: includes/settings/tabs/wps-externals.php:224
+msgid "Referrer spam blacklist is provided by Piwik, available from %s."
+msgstr "A hivatkozó spam feketelistát a Piwik biztosítja, elérhető innen:%s."
+
+#: includes/settings/tabs/wps-externals.php:230
+msgid "Piwik Referrer Spam Blacklist usage"
+msgstr ""
+
+#: includes/settings/tabs/wps-exclusions.php:148
+msgid "Treat corrupt browser info as a bot"
+msgstr "Nem megfelelő böngésző információ esetén bot-ként kezelés"
+
+#: includes/log/exclusions.php:24
+msgid "404 Pages"
+msgstr "404 Oldalak"
 
 #: includes/log/top-visitors.php:26
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 #: includes/settings/tabs/wps-exclusions.php:151
 msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
-msgstr ""
+msgstr "Nem megfelelő böngésző információ (hiányzó IP-cím vagy üres user agent) esetén a látogató kezelése robotként"
 
 #: includes/settings/tabs/wps-exclusions.php:215
 msgid "Excluded 404 pages"
-msgstr ""
+msgstr "Kizárt 404 oldalak"
 
 #: includes/settings/tabs/wps-exclusions.php:218
 msgid "Exclude any URL that returns a \"404 - Not Found\" message."
-msgstr ""
+msgstr "Minden URL kizárása, ami &quot;404 - Not Found&quot; üzenetet ad."
 
 #: wps-updates.php:29
 msgid "Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s"
@@ -72,7 +136,7 @@ msgstr ""
 
 #: includes/functions/purge-hits.php:28
 msgid "No visitors found to purge."
-msgstr ""
+msgstr "Nem található látogató amit meg kell tisztítani"
 
 #: includes/functions/purge-hits.php:25
 msgid "%s records purged successfully."
@@ -148,17 +212,17 @@ msgstr "Összesített találati statisztika"
 
 #: includes/log/exclusions.php:201 includes/log/hit-statistics.php:174
 msgid "Chart Total"
-msgstr "Teljes diagram"
+msgstr "Kiválasztott időtartam"
 
 #: includes/log/exclusions.php:206 includes/log/hit-statistics.php:180
 msgid "All Time Total"
-msgstr ""
+msgstr "Összesen"
 
 #: includes/log/log.php:57
 msgid "Have you thought about donating to WP Statistics?"
 msgstr "Gondolt már arra, hogy adományozzon a WP Statisztikának?"
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:362
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:366
 msgid "Donate"
 msgstr "Adományoz"
 
@@ -176,11 +240,11 @@ msgstr "Adományozzon most!"
 
 #: includes/log/log.php:57
 msgid "Close"
-msgstr ""
+msgstr "Bezárás"
 
 #: shortcode.php:128
 msgid "Select the statistic you wish to display."
-msgstr ""
+msgstr "Válassza ki a megjeleníteni kívánt statisztikát."
 
 #: shortcode.php:125
 msgid "Statistic"
@@ -194,11 +258,11 @@ msgstr "Bejegyzés számláló"
 msgid "Time Frame"
 msgstr "Időkeret"
 
-#: includes/functions/functions.php:929
+#: includes/functions/functions.php:981
 msgid "to"
 msgstr ""
 
-#: includes/functions/functions.php:929 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr ""
 
@@ -232,7 +296,7 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-database.php:71
 msgid "This operation could take a long time on installs with many rows in the visits table."
-msgstr ""
+msgstr "Ez a művelet sokáig tarthat olyan telepítés esetében, ahol sok sor van a látogatások táblázatban."
 
 #: includes/optimization/tabs/wps-optimization-database.php:76
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table."
@@ -242,17 +306,17 @@ msgstr ""
 msgid "Filtered by"
 msgstr "Szűrés"
 
-#: includes/functions/functions.php:922 includes/functions/functions.php:925
+#: includes/functions/functions.php:974 includes/functions/functions.php:977
 msgid "Range"
-msgstr ""
+msgstr "Tartomány"
 
-#: includes/functions/functions.php:929 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
-msgstr "MM/DD/YYYY"
+msgstr "HH/NN/ÉÉÉÉ"
 
 #: includes/settings/tabs/wps-general.php:342
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr "Ne használja a beállított fordítást, helyette az angol legyen a WP Statisztika alapértelmezett nyelve (két oldal betöltése szükséges)"
+msgstr "Ne használja a beállított fordítást, helyette az angol legyen a WP Statisztika alapértelmezett nyelve (két oldalbetöltés szükséges)"
 
 #: includes/settings/tabs/wps-general.php:336
 msgid "Force English"
@@ -268,7 +332,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-exclusions.php:225
 msgid "A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection."
-msgstr ""
+msgstr "Azon helyi URL-ek listája, melyeket a statisztikai gyűjtésből kizár (Pl.: /wordpress/about, soronként egy)"
 
 #: includes/settings/tabs/wps-exclusions.php:222
 msgid "Excluded URLs list"
@@ -290,27 +354,27 @@ msgstr "Utolsó 30 nap (hónap)"
 msgid "Last 7 Days (Week)"
 msgstr "Utolsó 7 nap (hét)"
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:405
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:406
 msgid "Yandex"
 msgstr "Yandex"
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:402
 msgid "clearch.org"
 msgstr "clearch.org"
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:403
 msgid "DuckDuckGo"
 msgstr "DuckDuckGo"
 
-#: includes/functions/functions.php:399
+#: includes/functions/functions.php:401
 msgid "Bing"
 msgstr "Bing"
 
-#: includes/functions/functions.php:398
+#: includes/functions/functions.php:400
 msgid "Baidu"
 msgstr "Baidu"
 
@@ -413,8 +477,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "Egy azonosított felhasználó minden egyes találatának egységesítése. Jelenleg %s."
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:351
-#: wp-statistics.php:427
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:355
+#: wp-statistics.php:431
 msgid "Pages"
 msgstr "Oldal"
 
@@ -424,11 +488,11 @@ msgstr "Nyomon követi az összes oldalak"
 
 #: includes/settings/tabs/wps-general.php:209
 msgid "Strip parameters from URI"
-msgstr ""
+msgstr "Az URI-ból paraméterek kivágása"
 
 #: includes/settings/tabs/wps-general.php:215
 msgid "This will remove anything after the ? in a URL."
-msgstr ""
+msgstr "Ez mindent eltávolít az URL-ben lévő \"?\" után."
 
 #: includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
@@ -464,7 +528,7 @@ msgstr "Mellett hiba WP Statistics figyelmeztetést jelenít meg, ha az alapvet�
 
 #: includes/settings/tabs/wps-general.php:265
 msgid "Delete the manual"
-msgstr "A manuális törlése"
+msgstr "A használati utasítás törlése"
 
 #: includes/settings/tabs/wps-general.php:271
 msgid "By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future."
@@ -498,81 +562,81 @@ msgstr "Összegek szerepeltethetők"
 msgid "Add a total line to charts with multiple values, like the search engine referrals"
 msgstr "Adjunk hozzá egy teljes sort térképek több értéket, mint a search engine áttételek"
 
-#: includes/settings/tabs/wps-geoip.php:27
+#: includes/settings/tabs/wps-externals.php:32
 msgid "GeoIP settings"
 msgstr "GeoIP beállítások"
 
-#: includes/settings/tabs/wps-geoip.php:32
+#: includes/settings/tabs/wps-externals.php:37
 msgid "IP location services provided by GeoLite2 data created by MaxMind, available from %s."
-msgstr "IP helymeghatározó szolgáltatások által GeoLite2 adatok készítette MaxMind, elérhető: %s."
+msgstr "Az IP helymeghatározó szolgáltatásokat a GeoLite2 adat biztosítja, készítette a MaxMind, elérhető: %s."
 
-#: includes/settings/tabs/wps-geoip.php:42
+#: includes/settings/tabs/wps-externals.php:47
 msgid "GeoIP collection"
-msgstr "GeoIP gyűjtemény"
+msgstr "GeoIP gyűjtés"
 
-#: includes/settings/tabs/wps-geoip.php:48
+#: includes/settings/tabs/wps-externals.php:53
 msgid "For get more information and location (country) from visitor, enable this feature."
-msgstr "A get további információkért és a hely (ország), a látogató, képessé tesz ez vonás."
+msgstr "Ha szeretne a látogatóról több információt és helyinformációt (ország) kapni, engedélyezze ezt a funkciót"
 
-#: includes/settings/tabs/wps-geoip.php:54
+#: includes/settings/tabs/wps-externals.php:59
 msgid "Update GeoIP Info"
 msgstr "GeoIP információ frissítése"
 
-#: includes/settings/tabs/wps-geoip.php:59
+#: includes/settings/tabs/wps-externals.php:64
 msgid "Download GeoIP Database"
 msgstr "GeoIP adatbázis letöltése"
 
-#: includes/settings/tabs/wps-geoip.php:66
+#: includes/settings/tabs/wps-externals.php:71
 msgid "Schedule monthly update of GeoIP DB"
-msgstr "GeoIP db havi frissítés ütemezése"
+msgstr "GeoIP adatbázis havi frissítés ütemezése"
 
-#: includes/settings/tabs/wps-geoip.php:92
+#: includes/settings/tabs/wps-externals.php:97
 msgid "Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month."
-msgstr "Letöltés GeoIP adatbázis részére 2 napok után minden hónap első keddjén ütemezi."
+msgstr "GeoIP adatbázis letöltés ütemezése minden hónap első keddi napja után 2 nappal."
 
-#: includes/settings/tabs/wps-geoip.php:93
+#: includes/settings/tabs/wps-externals.php:98
 msgid "This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place)."
-msgstr "Ez a beállítás is töltse le az adatbázist, ha a helyi filesize, kevesebb, mint 1k (ami általában azt jelenti, a percet, amit jön-val a plugin még mindig a helyén)."
+msgstr "Ez a beállítás is letölti az adatbázist, ha a helyi file méret kevesebb, mint 1k (ami általában azt jelenti, hogy a csonk amivel a bővítménnyel jön, még mindig a helyén van)"
 
-#: includes/settings/tabs/wps-geoip.php:99
+#: includes/settings/tabs/wps-externals.php:104
 msgid "Populate missing GeoIP after update of GeoIP DB"
-msgstr "Feltölti a hiányzó GeoIP GeoIP db frissítés után"
+msgstr "Hiányzó GeoIP betöltése a GeoIP adatbázis frissítése után"
 
-#: includes/settings/tabs/wps-geoip.php:105
+#: includes/settings/tabs/wps-externals.php:110
 msgid "Update any missing GeoIP data after downloading a new database."
-msgstr "Minden hiányzó GeoIP adatok frissítése után letöltő egy új adatbázist."
+msgstr "Bármely hiányzó GeoIP adat frissítése új adatbázis letöltése után."
 
-#: includes/settings/tabs/wps-geoip.php:111
+#: includes/settings/tabs/wps-externals.php:116
 msgid "Country code for private IP addresses"
-msgstr ""
+msgstr "privát IP-címek ország kódja"
 
-#: includes/settings/tabs/wps-geoip.php:116
+#: includes/settings/tabs/wps-externals.php:121
 msgid "The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use \"000\" (three zeros) to use \"Unknown\" as the country code."
-msgstr ""
+msgstr "A nemzetközi szabvány szerinti kétbetűs országkód (Pl.: US = Egyesült Államok, HU = Magyarország, stb) magán (nem átirányítható) IP-címeknek (pl. 10.0.0.1, 192.158.1.1, 127.0.0.1, stb). Használd a &quot;000&quot; (három nullát) &quot;Ismeretlen&quot;, ország kód jelzéshez."
 
-#: includes/settings/tabs/wps-geoip.php:127
+#: includes/settings/tabs/wps-externals.php:132
 msgid "GeoIP collection is disabled due to the following reasons:"
 msgstr "GeoIP-gyűjtés le van tiltva, az alábbi okokból:"
 
-#: includes/settings/tabs/wps-geoip.php:130
+#: includes/settings/tabs/wps-externals.php:135
 msgid "GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  "
-msgstr "GeoIP gyűjtemény megkövetel PHP (% s), vagy a fenti, ez jelenleg meghibásodott miatt a telepített PHP változat "
+msgstr "GeoIP gyűjtéshez szükséges PHP (%s) vagy a újabb, ezért jelenleg kikapcsolva, mert a telepített PHP verzió"
 
-#: includes/settings/tabs/wps-geoip.php:135
+#: includes/settings/tabs/wps-externals.php:140
 msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
-msgstr "Gyűjtemény GeoIP PHP cURL kiterjesztése szükséges, és nincs betöltve, PHP-verzió!"
+msgstr "GeoIP gyűjtéshez cURL PHP kiterjesztés szükséges, és az nincs betöltve az Ön PHP-verziójában!"
 
-#: includes/settings/tabs/wps-geoip.php:141
+#: includes/settings/tabs/wps-externals.php:146
 msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
-msgstr "GeoIP gyűjtemény igényel a BC matematikai PHP kiterjesztés, és nincs betöltve, PHP-verzió!"
+msgstr "GeoIP gyűjtéshez a BC Math PHP kiterjesztés szükséges, és az nincs betöltve az Ön PHP-verziójában!"
 
-#: includes/settings/tabs/wps-geoip.php:147
+#: includes/settings/tabs/wps-externals.php:152
 msgid "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe mode enabled!"
-msgstr "PHP safe mód! Gyűjtemény GeoIP PHP safe mód engedélyezve van nem támogatott!"
+msgstr "PHP safe mód-ot észletünk! GeoIP gyűjtés nem támogatott ha a PHP safe mód engedélyezve van!"
 
 #: includes/settings/tabs/wps-maintenance.php:20
 msgid "This will permanently delete data from the database each day, are you sure you want to enable this option?"
-msgstr "Ez véglegesen törli adatok az adatbázisból minden nap, Ön biztos benne, hogy engedélyezze ezt a beállítást?"
+msgstr "Ez véglegesen törli az adatokat az adatbázisból minden nap, biztos benne, hogy engedélyezi ezt a beállítást?"
 
 #: includes/settings/tabs/wps-maintenance.php:30
 msgid "Database Maintenance"
@@ -581,15 +645,15 @@ msgstr "Adatbázis karbantartás"
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:59
 msgid "Run a daily WP Cron job to prune the databases"
-msgstr "Fuss egy napi WP-banya munka-adatbázisok szilva"
+msgstr "Napi WP Cron job futtatása az adatbázisok adatbázisok tisztításához"
 
 #: includes/settings/tabs/wps-maintenance.php:41
 msgid "A WP Cron job will be run daily to prune any data older than a set number of days."
-msgstr "A WP-banya munka napi szilva megadott számú napnál régebbi adatokat kell futtatni."
+msgstr "A WP Cron job futtatása naponta, hogy a megadott számú napnál régebbi adatokat töröljük."
 
 #: includes/settings/tabs/wps-maintenance.php:47
 msgid "Prune data older than"
-msgstr "Szilva adatait, régebbi, mint"
+msgstr "Adatok törlése, ami régebbi, mint"
 
 #: includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
@@ -609,38 +673,37 @@ msgstr "E-mail címek"
 
 #: includes/settings/tabs/wps-notifications.php:54
 msgid "A comma separated list of e-mail addresses to send reports to."
-msgstr ""
+msgstr "E-mail címek vesszővel elválasztott listája, ahová a jelentéseket küldjük."
 
 #: includes/settings/tabs/wps-notifications.php:59
 msgid "Update Reports"
-msgstr ""
+msgstr "Jelentések frissítése"
 
 #: includes/log/exclusions.php:24
 #: includes/settings/tabs/wps-notifications.php:64
 msgid "Browscap"
-msgstr ""
+msgstr "Browscap"
 
 #: includes/settings/tabs/wps-notifications.php:70
 msgid "Send a report whenever the browscap.ini is updated."
-msgstr ""
+msgstr "Jelentést küld, ha a browscap.ini frissül."
 
 #: includes/log/exclusions.php:24
 #: includes/settings/tabs/wps-notifications.php:76
-#: includes/settings/wps-settings.php:111
 msgid "GeoIP"
 msgstr "GeoIP"
 
 #: includes/settings/tabs/wps-notifications.php:82
 msgid "Send a report whenever the GeoIP database is updated."
-msgstr ""
+msgstr "Jelentést küld, ha a GeoIP adatbázis frissül."
 
 #: includes/settings/tabs/wps-notifications.php:88
 msgid "Pruning"
-msgstr "Fametszés"
+msgstr "Tisztítás"
 
 #: includes/settings/tabs/wps-notifications.php:94
 msgid "Send a report whenever the pruning of database is run."
-msgstr ""
+msgstr "Jelentést küld, ha adatbázis tisztítás fut."
 
 #: includes/settings/tabs/wps-notifications.php:100
 msgid "Upgrade"
@@ -651,7 +714,7 @@ msgid "Send a report whenever the plugin is upgraded."
 msgstr "Jelentést küld, ha a plugint frissítették."
 
 #: includes/settings/tabs/wps-notifications.php:111
-#: includes/settings/tabs/wps-notifications.php:116 schedule.php:199
+#: includes/settings/tabs/wps-notifications.php:116 schedule.php:221
 msgid "Statistical reporting"
 msgstr "Statisztikai adatszolgáltatás"
 
@@ -681,7 +744,7 @@ msgstr "Válassz ki egy kézbesítési módot a statisztikai jelentésekről."
 
 #: includes/settings/tabs/wps-notifications.php:173
 msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr "Megjegyzés: Küld SMS szöveg üzenet kérjük telepítse a %s plugin."
+msgstr "Megjegyzés: SMS küldéshez kérjük telepítse a %s plugint."
 
 #: includes/settings/tabs/wps-notifications.php:173
 msgid "WordPress SMS"
@@ -697,10 +760,10 @@ msgstr "Írd be a jelentés tartalmát."
 
 #: includes/settings/tabs/wps-notifications.php:187
 msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:"
-msgstr ""
+msgstr "Bármilyen rövid kód (shortcode) támogatott a WordPress levél törzsében, beleértve az összes WP Statisztika rövid kódot (rendelkezésre álló kódokat ld. admin kézikönyv). Íme néhány példa:"
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:245 wp-statistics.php:532
+#: widget.php:245 wp-statistics.php:536
 msgid "User Online"
 msgstr "Jelenlévő felhasználó"
 
@@ -743,7 +806,7 @@ msgid "Summary Statistics"
 msgstr "Statisztikák összegzése"
 
 #: includes/settings/tabs/wps-overview-display.php:28
-#: includes/settings/wps-settings.php:115
+#: includes/settings/wps-settings.php:108
 msgid "About"
 msgstr "Rólunk"
 
@@ -787,13 +850,13 @@ msgstr "Bejegyzés/ oldal szerkesztő widget kikapcsolása"
 
 #: includes/settings/tabs/wps-overview-display.php:108
 msgid "Disable the page/post editor widget."
-msgstr ""
+msgstr "Oldal / Hozzászólás-szerkesztő widget tiltása."
 
 #: includes/settings/tabs/wps-overview-display.php:122
 msgid "Map type"
 msgstr "Típusa"
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:404
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "Google"
@@ -816,15 +879,15 @@ msgstr "Térkép kikapcsolása"
 
 #: includes/settings/tabs/wps-overview-display.php:148
 msgid "Disable the map display"
-msgstr "Térkép megjelenítésének a kikapcsolása"
+msgstr "A térkép megjelenítésének kikapcsolása"
 
 #: includes/settings/tabs/wps-overview-display.php:154
 msgid "Get country location from Google"
-msgstr "Kap ország helyét a Google-tól"
+msgstr "Ország lekérdezése a Google-tól"
 
 #: includes/settings/tabs/wps-overview-display.php:160
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
-msgstr "Ez a funkció egy teljesítménycsökkenést okozhat, amikor statisztika, és csak akkor érvényes, ha a Térkép típus van készlet-hoz \"Google\"."
+msgstr "Ez a funkció teljesítménycsökkenést okozhat statisztika nézés közben és csak akkor érvényes, ha a térkép tipusa \"Google\""
 
 #: includes/settings/tabs/wps-overview-display.php:171
 msgid "Overview Widgets to Display"
@@ -840,52 +903,52 @@ msgstr "Cella"
 
 #: includes/settings/tabs/wps-overview-display.php:184
 msgid "Column A"
-msgstr "Oszlop A"
+msgstr "A Oszlop"
 
 #: includes/settings/tabs/wps-overview-display.php:188
 msgid "Column B"
-msgstr "Oszlop B"
+msgstr "B Oszlop"
 
 #: includes/settings/tabs/wps-overview-display.php:194
 msgid "Slot 1"
-msgstr "Cella 1"
+msgstr "1. Cella"
 
 #: includes/settings/tabs/wps-overview-display.php:224
 msgid "Slot 2"
-msgstr "Cella 2"
+msgstr "2. Cella"
 
 #: includes/settings/tabs/wps-overview-display.php:254
 msgid "Slot 3"
-msgstr "Cella 3"
+msgstr "3. Cella"
 
 #: includes/settings/tabs/wps-overview-display.php:284
 msgid "Slot 4"
-msgstr "Cella 4"
+msgstr "4. Cella"
 
 #: includes/settings/tabs/wps-overview-display.php:314
 msgid "Slot 5"
-msgstr "Cella 5"
+msgstr "5. Cella"
 
 #: includes/settings/tabs/wps-overview-display.php:344
 msgid "Slot 6"
-msgstr "Cella 6"
+msgstr "6. Cella"
 
 #: includes/settings/tabs/wps-overview-display.php:348
 #: includes/settings/tabs/wps-overview-display.php:370
 msgid "N/A"
-msgstr "NINCS ADAT"
+msgstr "NEM ELÉRHETŐ"
 
 #: includes/settings/tabs/wps-overview-display.php:366
 msgid "Slot 7"
-msgstr "Cella 7"
+msgstr "7. Cella"
 
 #: includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
-msgstr ""
+msgstr "WP Statisitcs eltávolítása"
 
 #: includes/settings/tabs/wps-removal.php:20
 msgid "Uninstalling WP Statistics will not remove the data and settings, you can use this option to remove the WP Statistics data from your install before uninstalling the plugin."
-msgstr ""
+msgstr "A WP Statisztika eltávolítása nem távolítja el az adatokat és beállításokat, akkor használd ezt a lehetőséget, ha el akarod távolítani a tárolt adatokat a Bővítmény eltávolítása előtt."
 
 #: includes/settings/tabs/wps-removal.php:23
 msgid "Once you submit this form the settings will be deleted during the page load, however WP Statistics will still show up in your Admin menu until another page load is executed."
@@ -893,45 +956,40 @@ msgstr ""
 
 #: includes/settings/tabs/wps-removal.php:29
 msgid "Remove data and settings"
-msgstr ""
+msgstr "Adatok és beállítások eltávolítása"
 
 #: includes/settings/tabs/wps-removal.php:34
 msgid "Remove"
-msgstr "Eltávolít"
+msgstr "Eltávolítás"
 
 #: includes/settings/tabs/wps-removal.php:35
 msgid "Remove data and settings, this action cannot be undone."
-msgstr ""
+msgstr "Adatok és beállítások eltávolítása, ez a művelet nem vonható vissza."
 
-#: includes/settings/wps-settings.php:106
+#: includes/settings/wps-settings.php:100
 msgid "General"
 msgstr "Általános"
 
-#: includes/settings/wps-settings.php:107
+#: includes/settings/wps-settings.php:101
 msgid "Notifications"
 msgstr "Értesítések"
 
-#: includes/settings/wps-settings.php:108
+#: includes/settings/wps-settings.php:102
 msgid "Dashboard/Overview"
 msgstr "Vezérlőpult/ áttekintés"
 
-#: includes/settings/wps-settings.php:112
-msgid "browscap"
-msgstr "browscap"
-
-#: includes/settings/wps-settings.php:113
+#: includes/settings/wps-settings.php:106
 msgid "Maintenance"
 msgstr "Karbantartás"
 
-#: includes/settings/wps-settings.php:114
+#: includes/settings/wps-settings.php:107
 msgid "Removal"
 msgstr "Eltávolítás"
 
 #: includes/settings/tabs/wps-access-level.php:85
-#: includes/settings/tabs/wps-browscap.php:81
 #: includes/settings/tabs/wps-exclusions.php:234
+#: includes/settings/tabs/wps-externals.php:284
 #: includes/settings/tabs/wps-general.php:349
-#: includes/settings/tabs/wps-geoip.php:158
 #: includes/settings/tabs/wps-maintenance.php:84
 #: includes/settings/tabs/wps-notifications.php:201
 #: includes/settings/tabs/wps-overview-display.php:388
@@ -951,7 +1009,7 @@ msgstr "2 hetente egyszer"
 msgid "Once Every 4 Weeks"
 msgstr "4 hetente egyszer"
 
-#: widget.php:14 wp-statistics.php:342 wp-statistics.php:380
+#: widget.php:14 wp-statistics.php:346 wp-statistics.php:384
 msgid "Statistics"
 msgstr "Statisztikák"
 
@@ -977,7 +1035,7 @@ msgstr "Összes oldal megtekintése"
 
 #: widget.php:116
 msgid "Search Engine referred"
-msgstr "Említett kereső"
+msgstr "Keresőmotor hivatkozás"
 
 #: widget.php:123 widget.php:298
 msgid "Total Posts"
@@ -1023,17 +1081,17 @@ msgstr "Név"
 msgid "Items"
 msgstr "Tételek"
 
-#: widget.php:254 wp-statistics.php:557
+#: widget.php:254 wp-statistics.php:561
 msgid "Yesterday visit"
 msgstr "Tegnapi látogatás"
 
 #: widget.php:278
 msgid "Search Engine Referred"
-msgstr "Említett kereső"
+msgstr "Keresőmotor hivatkozás"
 
 #: widget.php:281
 msgid "Select type of search engine"
-msgstr "Kereső motor típusának kiválasztása"
+msgstr "Keresőmotor típusának kiválasztása"
 
 #: wp-statistics.php:70
 msgid "ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version "
@@ -1049,15 +1107,15 @@ msgstr "Az aktuális PHP verzió"
 
 #: wp-statistics.php:86
 msgid "WP Statistics has been removed, please disable and delete it."
-msgstr "WP Statistics törölve lett, kérjük, kapcsolja ki és törölje."
+msgstr "WP Statistics el lett távolítva, kérjük, kapcsolja ki és törölje."
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "WP Statisztika"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
@@ -1073,113 +1131,113 @@ msgstr "beállítás oldal"
 
 #: wp-statistics.php:140
 msgid "Hit tracking in WP Statistics is not enabled, please go to %s and enable it."
-msgstr "Hit-WP Statistics követés nincs engedélyezve, kérjük %s megy, és lehetővé teszi."
+msgstr "Találatok követése a WP Statistics-ban nincs engedélyezve, bekapcsoláshoz menjen az %s oldalra."
 
 #: wp-statistics.php:143
 msgid "Visitor tracking in WP Statistics is not enabled, please go to %s and enable it."
-msgstr "Látogató követés-ban WP Statistics nincs engedélyezve, legyen szíves megy (% s), és lehetővé teszi."
+msgstr "Látogató követés a WP Statistics-ban nincs engedélyezve, bekapcsoláshoz menjen a (%s) oldalra."
 
 #: wp-statistics.php:146
 msgid "GeoIP collection is not active, please go to %s and enable this feature."
-msgstr "GeoIP gyűjtemény nincs aktív, legyen szíves megy (% s), és képessé tesz ez vonás."
+msgstr "GeoIP gyűjtés nem aktív, engedélyezéshez menjen a  %s fülre."
 
 #: wp-statistics.php:146
 msgid "Setting page > GeoIP"
 msgstr "Beállítás oldal > GeoIP"
 
-#: wp-statistics.php:249 wp-statistics.php:361 wp-statistics.php:434
+#: wp-statistics.php:253 wp-statistics.php:365 wp-statistics.php:438
 msgid "Settings"
 msgstr "Beállítások"
 
-#: wp-statistics.php:261
+#: wp-statistics.php:265
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "Kattintson ide a bővítmény megtekintéséhez a WordPress.org-on"
 
-#: wp-statistics.php:261
+#: wp-statistics.php:265
 msgid "Visit WordPress.org page"
 msgstr "WordPress.org oldal megtekintése"
 
-#: wp-statistics.php:264
+#: wp-statistics.php:268
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "Kattintson ide a bővítményértékeléséhez és áttekintéséhez a WordPress.org-on."
 
-#: wp-statistics.php:264
+#: wp-statistics.php:268
 msgid "Rate this plugin"
 msgstr "Bővítmény értékelése"
 
-#: wp-statistics.php:308
+#: wp-statistics.php:312
 msgid "WP Statistics - Hits"
 msgstr "WP Statisztika - találatok"
 
-#: wp-statistics.php:345 wp-statistics.php:383 wp-statistics.php:421
+#: wp-statistics.php:349 wp-statistics.php:387 wp-statistics.php:425
 msgid "Overview"
 msgstr "Áttekintés"
 
-#: wp-statistics.php:350 wp-statistics.php:426
+#: wp-statistics.php:354 wp-statistics.php:430
 msgid "Online"
 msgstr "Elérhető"
 
-#: wp-statistics.php:352 wp-statistics.php:428
+#: wp-statistics.php:356 wp-statistics.php:432
 msgid "Referrers"
 msgstr "Hivatkozók"
 
-#: shortcode.php:135 wp-statistics.php:353 wp-statistics.php:429
+#: shortcode.php:135 wp-statistics.php:357 wp-statistics.php:433
 msgid "Searches"
 msgstr "Keresések"
 
-#: wp-statistics.php:354 wp-statistics.php:430
+#: wp-statistics.php:358 wp-statistics.php:434
 msgid "Search Words"
 msgstr "Kereső szavak"
 
-#: wp-statistics.php:355 wp-statistics.php:431
+#: wp-statistics.php:359 wp-statistics.php:435
 msgid "Top Visitors Today"
 msgstr "Top mai látogatók"
 
-#: wp-statistics.php:360 wp-statistics.php:433
+#: wp-statistics.php:364 wp-statistics.php:437
 msgid "Optimization"
 msgstr "Optimalizálás"
 
-#: wp-statistics.php:366 wp-statistics.php:397
+#: wp-statistics.php:370 wp-statistics.php:401
 msgid "Manual"
 msgstr "Kézikönyv"
 
-#: wp-statistics.php:412
+#: wp-statistics.php:416
 msgid "Site"
 msgstr "Oldal"
 
-#: wp-statistics.php:413
+#: wp-statistics.php:417
 msgid "Options"
 msgstr "Opciók"
 
-#: wp-statistics.php:539
+#: wp-statistics.php:543
 msgid "Today visitor"
 msgstr "Mai Látogató"
 
-#: wp-statistics.php:545
+#: wp-statistics.php:549
 msgid "Today visit"
 msgstr "Mai látogatás"
 
-#: wp-statistics.php:551
+#: wp-statistics.php:555
 msgid "Yesterday visitor"
 msgstr "Tegnapi látogató"
 
-#: wp-statistics.php:563
+#: wp-statistics.php:567
 msgid "View Stats"
 msgstr "Statisztikák megtekintése"
 
-#: wp-statistics.php:587
+#: wp-statistics.php:591
 msgid "Download ODF file"
 msgstr "ODF fájl letöltése"
 
-#: wp-statistics.php:588
+#: wp-statistics.php:592
 msgid "Download HTML file"
 msgstr "HTML fájl letöltése"
 
-#: wp-statistics.php:592
+#: wp-statistics.php:596
 msgid "Manual file not found."
 msgstr "Kézikönyv nem található."
 
-#: wp-statistics.php:659 wp-statistics.php:770 wp-statistics.php:804
+#: wp-statistics.php:663 wp-statistics.php:770 wp-statistics.php:804
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nincs megfelelő jogosultság az oldal megtekintéséhez."
 
@@ -1187,7 +1245,7 @@ msgstr "Nincs megfelelő jogosultság az oldal megtekintéséhez."
 msgid "Plugin tables do not exist in the database! Please re-run the %s install routine %s."
 msgstr ""
 
-#: wp-statistics.php:237
+#: wp-statistics.php:241
 msgid "WP Statistics %s installed on"
 msgstr "WP Statisztika %s telepítve a(z)"
 
@@ -1209,7 +1267,7 @@ msgstr "A GeoIP adatbázis frissítése sikeresen megtörtént!"
 
 #: wps-updates.php:98
 msgid "GeoIP update on"
-msgstr ""
+msgstr "Geoip frissítés:"
 
 #: wps-updates.php:165
 msgid "Error downloading browscap database from: %s - %s"
@@ -1235,9 +1293,9 @@ msgstr "browscap már az aktuális verzió!"
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini frissítés"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr "http://wp-statistics.com/"
@@ -1340,7 +1398,7 @@ msgstr ""
 
 #: includes/functions/purge.php:103
 msgid "Please select a value over 30 days."
-msgstr "Kérjük, válasszon egy értéket több mint 30 nap."
+msgstr "Kérjük, válasszon 30 napnál magasabb értéket."
 
 #: includes/log/all-browsers.php:8
 msgid "Browser Statistics"
@@ -1364,8 +1422,8 @@ msgid "Click to toggle"
 msgstr "Bővebben kikapcsolás/bekapcsolás"
 
 #: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:346
-#: wp-statistics.php:422
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:350
+#: wp-statistics.php:426
 msgid "Browsers"
 msgstr "Böngészők"
 
@@ -1384,45 +1442,45 @@ msgstr "Böngésző platform"
 
 #: includes/log/all-browsers.php:234
 msgid "%s Version"
-msgstr "%s Verzió"
+msgstr "%s verzió"
 
 #: includes/log/exclusions.php:8
 msgid "Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!"
-msgstr "Figyelem: Kizárás nem aktuális beállítása kell elszámolni, az alábbi eredményeket nem tükrözi a jelenlegi statisztikák!"
+msgstr "Figyelem: Kizárások jelenleg nem kerülnek rögzítésre, lehet, hogy az alábbi eredmény nem tükrözi a jelenlegi statisztikát!"
 
 #: includes/log/exclusions.php:64
 msgid "Exclusions Statistics"
-msgstr "Statisztika kizárások"
+msgstr "Kizárás statisztika"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "10 Days"
 msgstr "10 nap"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "20 Days"
 msgstr "20 nap"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "30 Days"
 msgstr "30 nap"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "2 Months"
 msgstr "2 hónap"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "3 Months"
 msgstr "3 hónap"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "6 Months"
 msgstr "6 hónap"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "9 Months"
 msgstr "9 hónap"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "1 Year"
 msgstr "1 év"
 
@@ -1471,28 +1529,28 @@ msgstr "Látogató"
 msgid "Latest Search Word Statistics"
 msgstr "Legutolsó keresési szavak statisztikája"
 
-#: includes/log/last-search.php:100 includes/log/last-visitor.php:101
+#: includes/log/last-search.php:110 includes/log/last-visitor.php:101
 #: includes/log/online.php:50 includes/log/widgets/google.map.php:84
 #: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:33
-#: includes/log/widgets/words.php:36
+#: includes/log/widgets/words.php:46
 msgid "#hash#"
 msgstr "#hash#"
 
-#: includes/log/last-search.php:105 includes/log/last-visitor.php:106
+#: includes/log/last-search.php:115 includes/log/last-visitor.php:106
 #: includes/log/online.php:55 includes/log/top-referring.php:71
-#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:43
+#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
 msgid "Map"
 msgstr "Térkép"
 
-#: includes/log/last-search.php:142 includes/log/last-visitor.php:139
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
 #: includes/log/top-referring.php:125
 msgid "Page"
 msgstr "Oldal"
 
-#: includes/log/last-search.php:142 includes/log/last-visitor.php:139
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
 #: includes/log/top-referring.php:125
 msgid "From"
@@ -1526,11 +1584,11 @@ msgstr "Oldal Trend"
 
 #: includes/log/search-statistics.php:19 includes/log/search-statistics.php:28
 msgid "Search Engine Referral Statistics"
-msgstr ""
+msgstr "Keresőmotor Hivatkozás Statisztika"
 
 #: includes/log/search-statistics.php:69 includes/log/widgets/search.php:59
 msgid "Search engine referrals in the last"
-msgstr "Search engine áttétel az utolsó"
+msgstr "Keresőmotor hivatkozások az utolsó"
 
 #: includes/log/search-statistics.php:90 includes/log/widgets/search.php:80
 msgid "Number of referrals"
@@ -1549,7 +1607,7 @@ msgstr "Leggyakoribb országok"
 #: includes/log/top-countries.php:30 includes/log/widgets/countries.php:30
 #: includes/log/widgets/top.visitors.php:30
 msgid "Rank"
-msgstr "Sor"
+msgstr "Helyezés"
 
 #: includes/log/top-countries.php:31 includes/log/widgets/countries.php:31
 #: includes/log/widgets/top.visitors.php:32
@@ -1626,7 +1684,7 @@ msgstr "További információ"
 
 #: includes/log/widgets/about.php:39 includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
-msgstr "Ez a termék tartalmaz GeoLite2 adatokat, amit a MaxMind készített, elérhető: %s."
+msgstr "Ez a termék tartalmaz GeoLite2 adatokat, amit a MaxMind készített, elérhetősége: %s."
 
 #: includes/log/widgets/browsers.php:10 includes/log/widgets/countries.php:11
 #: includes/log/widgets/hits.php:10 includes/log/widgets/pages.php:14
@@ -1681,8 +1739,8 @@ msgid "Time: %s"
 msgstr "Idő: %s"
 
 #: includes/log/widgets/top.visitors.php:31
-#: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:273
-#: wp-statistics.php:349 wp-statistics.php:425
+#: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:277
+#: wp-statistics.php:353 wp-statistics.php:429
 msgid "Hits"
 msgstr "Találatok"
 
@@ -1692,7 +1750,7 @@ msgstr "IP"
 
 #: includes/log/widgets/top.visitors.php:36
 msgid "Agent"
-msgstr ""
+msgstr "Agent"
 
 #: includes/log/widgets/top.visitors.php:38
 #: includes/optimization/tabs/wps-optimization-resources.php:291
@@ -1706,15 +1764,15 @@ msgstr "Hozzáférés megtagadva!"
 
 #: ajax.php:31
 msgid "%s agent data deleted successfully."
-msgstr "a(z) %s minőségben adatait sikeresen törölve."
+msgstr "%s agent adatai sikeresen törölve."
 
 #: ajax.php:34
 msgid "No agent data found to remove!"
-msgstr ""
+msgstr "Nincs eltávolítható agent adat!"
 
 #: ajax.php:38 ajax.php:68 ajax.php:116 ajax.php:122
 msgid "Please select the desired items."
-msgstr "Kérjük, kiválasztani a kívánt elemeket."
+msgstr "Kérjük válassza ki a kívánt elemeket."
 
 #: ajax.php:62
 msgid "%s platform data deleted successfully."
@@ -1724,13 +1782,13 @@ msgstr "a(z) %s platform adatok sikeresen törölve."
 msgid "No platform data found to remove!"
 msgstr "Nincs eltávolítható platform adat!"
 
-#: includes/functions/functions.php:967
+#: includes/functions/functions.php:1019
 msgid "%s table data deleted successfully."
 msgstr "%s tábla adatai sikeresen törölve."
 
-#: includes/functions/functions.php:971
+#: includes/functions/functions.php:1023
 msgid "Error, %s not emptied!"
-msgstr "Hiba a(z) %s nem ürítette ki!"
+msgstr "Hiba, %s nincs ürítve!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
@@ -1738,7 +1796,7 @@ msgstr "Adatbázis-beállítások"
 
 #: includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
-msgstr "Futtassa újra a telepítés"
+msgstr "Újratelepítés"
 
 #: includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
@@ -1746,15 +1804,15 @@ msgstr "Telepítés most!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:15
 msgid "If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process."
-msgstr "Ha valamilyen oknál fogva a bevezetés-ból WP Statistics hiányzik az adatbázis táblákat vagy más magtok elemeket, ez újra végrehajtja a telepítést."
+msgstr "Ha valamilyen oknál fogva a WP Statistics hiányolja az adatbázis táblákat vagy más alap összetevőt, ez újra elindítja a telepítési folyamatot."
 
 #: includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
-msgstr "Index adatbázis"
+msgstr "Adatbázis index"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:347 wp-statistics.php:423
+#: wp-statistics.php:351 wp-statistics.php:427
 msgid "Countries"
 msgstr "Országok"
 
@@ -1770,8 +1828,9 @@ msgid "Older installs of WP Statistics allow for duplicate entries in the visito
 msgstr "Régi installálók WP Statistics ismétlődő bejegyzések a látogatók tábla sarok esetben teszi lehetővé. Újabb telepíti véd ez a táblázat egyedi indexet. Létrehozni az index a régi installálók ismétlődő bejegyzéseket kell törölni először. Kattintson a \"Update Now\" a vistitors táblázat scan, törölje ismétlődő bejegyzéseket, és hozzá az index."
 
 #: includes/optimization/tabs/wps-optimization-database.php:41
+#: includes/optimization/tabs/wps-optimization-database.php:102
 msgid "This operation could take a long time on installs with many rows in the visitors table."
-msgstr "Ez a művelet hosszú időbe is telepíthető, sok a látogatók tábla sorait."
+msgstr "Ez a művelet hosszú ideig eltarthat, ha sok sora van a látogatók táblának."
 
 #: includes/optimization/tabs/wps-optimization-database.php:46
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table."
@@ -1779,17 +1838,18 @@ msgstr "Régi installálók WP Statistics ismétlődő bejegyzések a látogató
 
 #: includes/optimization/tabs/wps-optimization-database.php:47
 #: includes/optimization/tabs/wps-optimization-database.php:77
+#: includes/optimization/tabs/wps-optimization-database.php:108
 msgid "Congratulations, your installation is already up to date, nothing to do."
 msgstr "Gratulálunk a telepítés befejeződött, nincs további teendője."
 
 #: includes/optimization/tabs/wps-optimization-export.php:8
-#: includes/optimization/wps-optimization.php:183
+#: includes/optimization/wps-optimization.php:212
 msgid "Export"
 msgstr "Exportálás"
 
 #: includes/optimization/tabs/wps-optimization-export.php:13
 msgid "Export from"
-msgstr "Exportálás"
+msgstr "Adatbázis exportálás"
 
 #: includes/optimization/tabs/wps-optimization-export.php:18
 #: includes/optimization/tabs/wps-optimization-export.php:36
@@ -1799,27 +1859,27 @@ msgstr "Exportálás"
 #: includes/settings/tabs/wps-notifications.php:134
 #: includes/settings/tabs/wps-notifications.php:164
 msgid "Please select"
-msgstr "Kérjük, válassza ki"
+msgstr "Kérjük válasszon"
 
 #: includes/optimization/tabs/wps-optimization-export.php:25
 msgid "Select the table for the output file."
-msgstr "A kimeti fájl táblázatának kiválasztása."
+msgstr "Vállasza ki a táblát amit exportálni szeretne."
 
 #: includes/optimization/tabs/wps-optimization-export.php:31
 msgid "Export To"
-msgstr "Exportálás formátuma"
+msgstr "Export formátuma"
 
 #: includes/optimization/tabs/wps-optimization-export.php:42
 msgid "Select the output file type."
-msgstr "A kimeti fájl típúsának kiválasztása."
+msgstr "Válassza ki a kimeti fájl típusát."
 
 #: includes/optimization/tabs/wps-optimization-export.php:48
 msgid "Include Header Row"
-msgstr "Fejléc sor beleérve"
+msgstr "Fejléc sor"
 
 #: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Include a header row as the first line of the exported file."
-msgstr "Az exportált fájl első sora a fejlécsor közé."
+msgstr "Fejléc a kimeneti fájl első sorában"
 
 #: includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
@@ -1831,12 +1891,12 @@ msgstr "Történeti értékek"
 
 #: includes/optimization/tabs/wps-optimization-historical.php:20
 msgid "Note: As you have just purged the database you must reload this page for these numbers to be correct."
-msgstr ""
+msgstr "Megjegyzés: mivel az imént tisztította meg az adatbázist, újra be kell töltenie ezt az oldalt, ezek a számok helyesen jelenjenek meg."
 
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
 #: includes/settings/tabs/wps-general.php:143 shortcode.php:133
-#: wp-statistics.php:356 wp-statistics.php:432
+#: wp-statistics.php:360 wp-statistics.php:436
 msgid "Visitors"
 msgstr "Megtekintések"
 
@@ -1891,7 +1951,7 @@ msgstr "Tisztítás most!"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:231
 msgid "Delete User Agent Types"
-msgstr "A felhasználó által használt eszköz típusok törlése"
+msgstr "User Agent típusok törlése"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:236
 msgid "Delete Agents"
@@ -1930,7 +1990,7 @@ msgstr "Byte"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:33
 msgid "Last Overview page memory usage"
-msgstr ""
+msgstr "Utolsó Áttekintés oldal memóriahasználata"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "Memory usage in the overview page"
@@ -1942,7 +2002,7 @@ msgstr "PHP memória limit"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:49
 msgid "The memory limit a script is allowed to consume, set in php.ini."
-msgstr "A memória korlátoz egy script szabad fogyasztani, a php.ini-ben."
+msgstr "Egy script által használható memória korlátozása, beállítva a php.ini-ben."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:55
 #: includes/optimization/tabs/wps-optimization-resources.php:66
@@ -1977,7 +2037,7 @@ msgstr "Verzió információ"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "WP Statistics Version"
-msgstr "WP Statisztika verzió"
+msgstr "WP Statistics verzió"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "The WP Statistics version you are running."
@@ -1997,7 +2057,7 @@ msgstr "PHP Safe Mode"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
-msgstr "PHP Safe Mode tevékenykedik. A GeoIP kódot biztonságos üzemmódban nem támogatott."
+msgstr "PHP Safe Mode aktív. A GeoIP kód biztonságos üzemmódban nem támogatott."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "jQuery Version"
@@ -2033,7 +2093,7 @@ msgstr "Nincs telepítve"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:185
 msgid "If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons."
-msgstr "Ha a PHP BC matematikai kiterjesztés telepítve van. BCMath nem hosszabb szükséges a GeoIP-kódot, és itt szerepel, csak történelmi okokból."
+msgstr "Ha a PHP BC matematikai kiterjesztés telepítve van. BCMath már nem előfeltétele a GeoIP-kódnak, és itt csak történelmi okokból szerepel a bejegyzés."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:190
 msgid "File Info"
@@ -2051,11 +2111,11 @@ msgstr "Adatbázis fájl nem létezik."
 #: includes/optimization/tabs/wps-optimization-resources.php:225
 #: includes/optimization/tabs/wps-optimization-resources.php:244
 msgid ", created on "
-msgstr ", létre "
+msgstr ", létre hozva"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:208
 msgid "The file size and date of the GeoIP database."
-msgstr "A fájl méreet és a dátuma a GeoIP adatbázisnak."
+msgstr "a GeoIP adatbázis fájl mérete és dátuma "
 
 #: includes/optimization/tabs/wps-optimization-resources.php:214
 msgid "browscap.ini File"
@@ -2079,7 +2139,7 @@ msgstr "browscap gyorsítótár-fájl nem létezik."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:246
 msgid "The file size and date of the browscap cache file."
-msgstr "A fájl méretét és a browscap fájl."
+msgstr "A browscap gyorsítótár-fájl mérete és dátuma."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:251
 msgid "Client Info"
@@ -2095,11 +2155,11 @@ msgstr "Az ügyfél IP-címe."
 
 #: includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "User Agent"
-msgstr "Felhasználó ügynök"
+msgstr "User Agent"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client user agent string."
-msgstr "Az ügyfél felhasználói ügynök karakterlánca."
+msgstr "A kliens User Agent beállítása"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "Browser"
@@ -2127,7 +2187,7 @@ msgstr "GeoIP opciók"
 
 #: includes/optimization/tabs/wps-optimization-updates.php:26
 msgid "Updates any unknown location data in the database, this may take a while"
-msgstr "Minden ismeretlen hely adatait frissíti az adatbázisban ez eltarthat egy ideig"
+msgstr "Minden ismeretlen hely adatait frissíti az adatbázisban, ez eltarthat egy ideig"
 
 #: includes/optimization/tabs/wps-optimization-updates.php:31
 #: includes/settings/tabs/wps-general.php:66
@@ -2151,23 +2211,23 @@ msgstr "IP-címek helyett vagdalék érték."
 msgid "Install routine complete."
 msgstr "Felszerel rutin teljes."
 
-#: includes/optimization/wps-optimization.php:182
+#: includes/optimization/wps-optimization.php:211
 msgid "Resources/Information"
 msgstr "Erőforrás/információ"
 
-#: includes/optimization/wps-optimization.php:184
+#: includes/optimization/wps-optimization.php:213
 msgid "Purging"
 msgstr "Tisztítás"
 
-#: includes/optimization/wps-optimization.php:185
+#: includes/optimization/wps-optimization.php:214
 msgid "Database"
 msgstr "Adatbázis"
 
-#: includes/optimization/wps-optimization.php:186
+#: includes/optimization/wps-optimization.php:215
 msgid "Updates"
 msgstr "Frissítések"
 
-#: includes/optimization/wps-optimization.php:187
+#: includes/optimization/wps-optimization.php:216
 msgid "Historical"
 msgstr "Történeti"
 
@@ -2225,7 +2285,7 @@ msgstr "Támogatás"
 
 #: includes/settings/tabs/wps-about.php:57
 msgid "We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:"
-msgstr "Sajnáljuk, hogy problémába ütközött a WP Statisticssal, és örülünk, hogy segíthetünk. Itt van egy pár dolgot, mielőtt kapcsolatba lépne velünk:"
+msgstr "Sajnáljuk, hogy problémába ütközött a WP Statisticssal, és örülünk, hogy segíthetünk. Itt van pár dolog, mielőtt kapcsolatba lépne velünk:"
 
 #: includes/settings/tabs/wps-about.php:60
 #: includes/settings/tabs/wps-about.php:61
@@ -2254,7 +2314,7 @@ msgstr "Keress az interneten, ha valamilyen hibaüzenetet kapsz."
 
 #: includes/settings/tabs/wps-about.php:64
 msgid "Make sure you have access to your PHP error logs."
-msgstr ""
+msgstr "Győződjön meg róla, hogy van hozzáférése a PHP hibanaplóhoz."
 
 #: includes/settings/tabs/wps-about.php:67
 msgid "And a few things to double-check:"
@@ -2317,7 +2377,7 @@ msgid "This is the honey pot for WP Statistics to use, do not delete."
 msgstr ""
 
 #: includes/settings/tabs/wps-access-level.php:23
-#: includes/settings/wps-settings.php:109
+#: includes/settings/wps-settings.php:103
 msgid "Access Levels"
 msgstr "Hozzáférési szintek"
 
@@ -2350,8 +2410,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "Ha szüksége van a meghatalmazást erőteljesebb megoldást érdemes nézni a WordPress plugin könyvtárban (% s)."
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:110 wp-statistics.php:348
-#: wp-statistics.php:424
+#: includes/settings/wps-settings.php:104 wp-statistics.php:352
+#: wp-statistics.php:428
 msgid "Exclusions"
 msgstr "Kizárások"
 
@@ -2416,7 +2476,7 @@ msgstr "Robot látogatási küszöb"
 
 #: includes/settings/tabs/wps-exclusions.php:115
 msgid "Treat visitors with more than this number of visits per day as robots.  0 = disabled."
-msgstr ""
+msgstr "Azon látogatók robotként kezelése, akiknek a napi látogatásuk magasabb, mint ez a szám (0 = kikapcsolva.)"
 
 #: includes/settings/tabs/wps-exclusions.php:120
 msgid "Excluded IP address list"
@@ -2448,7 +2508,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-exclusions.php:139
 msgid "Honey pot post id"
-msgstr ""
+msgstr "Honey pot post id"
 
 #: includes/settings/tabs/wps-exclusions.php:142
 msgid "The post id to use for the honeypot page."
@@ -2456,7 +2516,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-exclusions.php:143
 msgid "Create a new honey pot page"
-msgstr ""
+msgstr "Új honey pot oldal létrehozása"
 
 #: includes/settings/tabs/wps-exclusions.php:156
 msgid "GeoIP Exclusions"
@@ -2488,7 +2548,7 @@ msgstr "Blokkolt hostok listája"
 
 #: includes/settings/tabs/wps-exclusions.php:183
 msgid "A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection."
-msgstr ""
+msgstr "Azon teljes host nevek listája, ahol kizárja a statisztikai adatok gyűjtését. (pl.: server.example.com, soronként egy)"
 
 #: includes/settings/tabs/wps-exclusions.php:185
 msgid "Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it's IP address and when the cache is updated resulting in some hits recorded."
@@ -2522,16 +2582,21 @@ msgstr "Blokkolt RSS hírcsatornák"
 msgid "Exclude the RSS feeds for registering as a hit."
 msgstr "Blokkolja az RSS csatornák találatként való regisztrálását. "
 
-#: includes/settings/tabs/wps-browscap.php:22
+#: includes/settings/tabs/wps-externals.php:162
 msgid "browscap settings"
 msgstr "browscap beállítások"
 
-#: includes/settings/tabs/wps-browscap.php:27
+#: includes/settings/tabs/wps-externals.php:167
 msgid "browscap usage"
 msgstr "browscap használat"
 
-#: includes/settings/tabs/wps-browscap.php:32
-#: includes/settings/tabs/wps-browscap.php:56
+#: includes/settings/tabs/wps-externals.php:52
+#: includes/settings/tabs/wps-externals.php:76
+#: includes/settings/tabs/wps-externals.php:109
+#: includes/settings/tabs/wps-externals.php:172
+#: includes/settings/tabs/wps-externals.php:196
+#: includes/settings/tabs/wps-externals.php:235
+#: includes/settings/tabs/wps-externals.php:259
 #: includes/settings/tabs/wps-general.php:76
 #: includes/settings/tabs/wps-general.php:92
 #: includes/settings/tabs/wps-general.php:116
@@ -2547,9 +2612,6 @@ msgstr "browscap használat"
 #: includes/settings/tabs/wps-general.php:286
 #: includes/settings/tabs/wps-general.php:325
 #: includes/settings/tabs/wps-general.php:341
-#: includes/settings/tabs/wps-geoip.php:47
-#: includes/settings/tabs/wps-geoip.php:71
-#: includes/settings/tabs/wps-geoip.php:104
 #: includes/settings/tabs/wps-maintenance.php:40
 #: includes/settings/tabs/wps-maintenance.php:64
 #: includes/settings/tabs/wps-notifications.php:69
@@ -2564,39 +2626,41 @@ msgstr "browscap használat"
 msgid "Active"
 msgstr "Aktív"
 
-#: includes/settings/tabs/wps-browscap.php:33
+#: includes/settings/tabs/wps-externals.php:173
 msgid "The browscap database will be downloaded and used to detect robots."
-msgstr "Az browscap adatbázis le lesz töltötve és hozzászokott kinyomoz robotok."
+msgstr "A browscap adatbázis le lesz töltve és robotok detektálására lesz használva."
 
-#: includes/settings/tabs/wps-browscap.php:39
+#: includes/settings/tabs/wps-externals.php:179
 msgid "Update browscap Info"
 msgstr "Frissítés browscap Info"
 
-#: includes/settings/tabs/wps-browscap.php:44
+#: includes/settings/tabs/wps-externals.php:184
 msgid "Download browscap Database"
 msgstr "Letölti a browscap adatbázist"
 
-#: includes/settings/tabs/wps-browscap.php:45
-#: includes/settings/tabs/wps-geoip.php:60
+#: includes/settings/tabs/wps-externals.php:65
+#: includes/settings/tabs/wps-externals.php:185
+#: includes/settings/tabs/wps-externals.php:248
 msgid "Save changes on this page to download the update."
 msgstr " Kérjük mentse el módosításait ezen az oldalon a frissítéshez."
 
-#: includes/settings/tabs/wps-browscap.php:51
+#: includes/settings/tabs/wps-externals.php:191
 msgid "Schedule weekly update of browscap DB"
 msgstr "Browscap DB heti frissítés ütemezése"
 
-#: includes/settings/tabs/wps-browscap.php:59
-#: includes/settings/tabs/wps-geoip.php:74
+#: includes/settings/tabs/wps-externals.php:79
+#: includes/settings/tabs/wps-externals.php:199
+#: includes/settings/tabs/wps-externals.php:262
 msgid "Next update will be"
 msgstr "Következő frissítés lesz"
 
-#: includes/settings/tabs/wps-browscap.php:74
+#: includes/settings/tabs/wps-externals.php:214
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr "Hetente egyszer a browscap adatbázis letölthető lesz ütemezve."
 
 #: includes/settings/tabs/wps-general.php:50
 msgid "This will delete the manual when you save the settings, are you sure?"
-msgstr "Ez törli a kézikönyv, a beállítások mentésekor, biztos?"
+msgstr "Ez letörli a kézikönyvet a beállítások mentésekor, biztos benne?"
 
 #: includes/settings/tabs/wps-general.php:77
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."

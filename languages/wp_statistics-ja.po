@@ -10,6 +10,70 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: includes/optimization/wps-optimization.php:173
+msgid "Search table conversion complete, %d rows added."
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:107
+msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:86
+msgid "Search Table"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:91
+msgid "Convert"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:100
+msgid "Convert Now!"
+msgstr ""
+
+#: includes/optimization/tabs/wps-optimization-database.php:101
+msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
+msgstr ""
+
+#: includes/log/exclusions.php:24
+msgid "Referrer Spam"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:277
+msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
+msgstr ""
+
+#: includes/settings/wps-settings.php:105
+msgid "Externals"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:219
+msgid "Piwik Referrer Spam Blacklist settings"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:254
+msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:247
+msgid "Download Piwik Referrer Spam Blacklist Database"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:242
+msgid "Update Piwik Referrer Spam Blacklist Info"
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:236
+msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:224
+msgid "Referrer spam blacklist is provided by Piwik, available from %s."
+msgstr ""
+
+#: includes/settings/tabs/wps-externals.php:230
+msgid "Piwik Referrer Spam Blacklist usage"
+msgstr ""
+
 #: includes/settings/tabs/wps-exclusions.php:148
 msgid "Treat corrupt browser info as a bot"
 msgstr "破損しているブラウザ情報をボットとして扱います"
@@ -158,7 +222,7 @@ msgstr "全時間の合計"
 msgid "Have you thought about donating to WP Statistics?"
 msgstr "WP Statisticsへの寄付について考えたことはありますか?"
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:362
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:366
 msgid "Donate"
 msgstr "寄付します"
 
@@ -194,11 +258,11 @@ msgstr "投稿数"
 msgid "Time Frame"
 msgstr "時間範囲"
 
-#: includes/functions/functions.php:929
+#: includes/functions/functions.php:981
 msgid "to"
 msgstr "へ"
 
-#: includes/functions/functions.php:929 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "行きます"
 
@@ -242,11 +306,11 @@ msgstr "WP Statisticsの古いインストールは境界状態で訪問テー�
 msgid "Filtered by"
 msgstr "によってフィルタ"
 
-#: includes/functions/functions.php:922 includes/functions/functions.php:925
+#: includes/functions/functions.php:974 includes/functions/functions.php:977
 msgid "Range"
 msgstr "範囲"
 
-#: includes/functions/functions.php:929 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -290,27 +354,27 @@ msgstr "最近の30日 (月)"
 msgid "Last 7 Days (Week)"
 msgstr "最近の7日間 (1週間)"
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:405
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:406
 msgid "Yandex"
 msgstr "Yandex"
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:402
 msgid "clearch.org"
 msgstr "clearch.org"
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:403
 msgid "DuckDuckGo"
 msgstr "DuckDuckGo"
 
-#: includes/functions/functions.php:399
+#: includes/functions/functions.php:401
 msgid "Bing"
 msgstr "Bing"
 
-#: includes/functions/functions.php:398
+#: includes/functions/functions.php:400
 msgid "Baidu"
 msgstr "百度"
 
@@ -413,8 +477,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "それぞれの訪問について複数のヒットを考慮する。現在値は%s。"
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:351
-#: wp-statistics.php:427
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:355
+#: wp-statistics.php:431
 msgid "Pages"
 msgstr "ページ"
 
@@ -498,75 +562,75 @@ msgstr "合計を含めます"
 msgid "Add a total line to charts with multiple values, like the search engine referrals"
 msgstr "検索エンジンへの参照のように、複数の値を持つチャートについて全行を追加します。"
 
-#: includes/settings/tabs/wps-geoip.php:27
+#: includes/settings/tabs/wps-externals.php:32
 msgid "GeoIP settings"
 msgstr "GeoIPの設定"
 
-#: includes/settings/tabs/wps-geoip.php:32
+#: includes/settings/tabs/wps-externals.php:37
 msgid "IP location services provided by GeoLite2 data created by MaxMind, available from %s."
 msgstr "MaxMindによって作成されたGeoLite2データによって提供されるIPロケーションサービス, %sから入手可能"
 
-#: includes/settings/tabs/wps-geoip.php:42
+#: includes/settings/tabs/wps-externals.php:47
 msgid "GeoIP collection"
 msgstr "GeoIPコレクション"
 
-#: includes/settings/tabs/wps-geoip.php:48
+#: includes/settings/tabs/wps-externals.php:53
 msgid "For get more information and location (country) from visitor, enable this feature."
 msgstr "訪問者からより多くの情報と場所(国)を取得するために、この機能を有効にしてください。"
 
-#: includes/settings/tabs/wps-geoip.php:54
+#: includes/settings/tabs/wps-externals.php:59
 msgid "Update GeoIP Info"
 msgstr "GeoIP情報を更新"
 
-#: includes/settings/tabs/wps-geoip.php:59
+#: includes/settings/tabs/wps-externals.php:64
 msgid "Download GeoIP Database"
 msgstr "GeoIPデータベースをダウンロード"
 
-#: includes/settings/tabs/wps-geoip.php:66
+#: includes/settings/tabs/wps-externals.php:71
 msgid "Schedule monthly update of GeoIP DB"
 msgstr "GeoIP DBの毎月更新をスケジュールします"
 
-#: includes/settings/tabs/wps-geoip.php:92
+#: includes/settings/tabs/wps-externals.php:97
 msgid "Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month."
 msgstr "GeoIPデータベースのダウンロードは月の最初の火曜日の2日後にスケジュールされます。"
 
-#: includes/settings/tabs/wps-geoip.php:93
+#: includes/settings/tabs/wps-externals.php:98
 msgid "This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place)."
 msgstr "このオプションは、ローカルのファイルサイズが1K以下である場合(これは通常プラグイン付属のスタブが所定の位置にまだあることを意味します)にもデータベースをダウンロードします。"
 
-#: includes/settings/tabs/wps-geoip.php:99
+#: includes/settings/tabs/wps-externals.php:104
 msgid "Populate missing GeoIP after update of GeoIP DB"
 msgstr "GeoIP DBの更新後に不足のGeoIPを移入します。"
 
-#: includes/settings/tabs/wps-geoip.php:105
+#: includes/settings/tabs/wps-externals.php:110
 msgid "Update any missing GeoIP data after downloading a new database."
 msgstr "新しいデータベースをダウンロードした後、不足のGeoIPデータを更新します。"
 
-#: includes/settings/tabs/wps-geoip.php:111
+#: includes/settings/tabs/wps-externals.php:116
 msgid "Country code for private IP addresses"
 msgstr "プライベートIPアドレスの国コード"
 
-#: includes/settings/tabs/wps-geoip.php:116
+#: includes/settings/tabs/wps-externals.php:121
 msgid "The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use \"000\" (three zeros) to use \"Unknown\" as the country code."
 msgstr "(ルーティング不可の)プライベートIPアドレス(すなわち10.0.0.1, 192.158.1.1, 127.0.0.1など)に使う国際標準2文字国コード(すなわちUS = 米国、CA = カナダなど)。国コードとして”Unknown”を使用するには、\"000\"(ゼロ3つ)を使用します。"
 
-#: includes/settings/tabs/wps-geoip.php:127
+#: includes/settings/tabs/wps-externals.php:132
 msgid "GeoIP collection is disabled due to the following reasons:"
 msgstr "GeoIPコレクションは、以下の理由により無効になっています："
 
-#: includes/settings/tabs/wps-geoip.php:130
+#: includes/settings/tabs/wps-externals.php:135
 msgid "GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  "
 msgstr "GeoIPコレクションは、PHP %s かそれ以降が必要です。インストールされているPHPのバージョンのため現在無効になっています。"
 
-#: includes/settings/tabs/wps-geoip.php:135
+#: includes/settings/tabs/wps-externals.php:140
 msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
 msgstr "GeoIPコレクションには、cURL PHP拡張モジュールが必要ですが、あなたがお使いのPHPにはロードされていません!"
 
-#: includes/settings/tabs/wps-geoip.php:141
+#: includes/settings/tabs/wps-externals.php:146
 msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
 msgstr "GeoIPコレクションにはBC Math PHP拡張モジュールが必要ですが、あなたがお使いのPHPにはロードされていません!"
 
-#: includes/settings/tabs/wps-geoip.php:147
+#: includes/settings/tabs/wps-externals.php:152
 msgid "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe mode enabled!"
 msgstr "PHPセーフモードが検出されました! GeoIPコレクションはセーフモードが有効なPHPをサポートしません!"
 
@@ -626,7 +690,6 @@ msgstr "browscap.iniが更新されるたびにレポートを送信します。
 
 #: includes/log/exclusions.php:24
 #: includes/settings/tabs/wps-notifications.php:76
-#: includes/settings/wps-settings.php:111
 msgid "GeoIP"
 msgstr "GeoIP"
 
@@ -651,7 +714,7 @@ msgid "Send a report whenever the plugin is upgraded."
 msgstr "プラグインを更新するたびにレポートを送信します。"
 
 #: includes/settings/tabs/wps-notifications.php:111
-#: includes/settings/tabs/wps-notifications.php:116 schedule.php:199
+#: includes/settings/tabs/wps-notifications.php:116 schedule.php:221
 msgid "Statistical reporting"
 msgstr "統計レポート"
 
@@ -700,7 +763,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr "WP Statisticsのためのショートコード(使用可能なコードのリストについては、管理マニュアルを参照してください)全てを含む、インストールされているWordPressでサポートされている全てのショートコードが、メッセージの本文でサポートされています ​​。ここではいくつかの例を示します。"
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:245 wp-statistics.php:532
+#: widget.php:245 wp-statistics.php:536
 msgid "User Online"
 msgstr "オンラインユーザー"
 
@@ -743,7 +806,7 @@ msgid "Summary Statistics"
 msgstr "統計概要"
 
 #: includes/settings/tabs/wps-overview-display.php:28
-#: includes/settings/wps-settings.php:115
+#: includes/settings/wps-settings.php:108
 msgid "About"
 msgstr "約"
 
@@ -793,7 +856,7 @@ msgstr "ページ/投稿エディタウィジェットを無効にします。"
 msgid "Map type"
 msgstr "マップタイプ"
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:404
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "グーグル"
@@ -903,35 +966,30 @@ msgstr "削除"
 msgid "Remove data and settings, this action cannot be undone."
 msgstr "データと設定を削除し、このアクションは元に戻すことはできません。"
 
-#: includes/settings/wps-settings.php:106
+#: includes/settings/wps-settings.php:100
 msgid "General"
 msgstr "一般"
 
-#: includes/settings/wps-settings.php:107
+#: includes/settings/wps-settings.php:101
 msgid "Notifications"
 msgstr "お知らせ"
 
-#: includes/settings/wps-settings.php:108
+#: includes/settings/wps-settings.php:102
 msgid "Dashboard/Overview"
 msgstr "ダッシュボード/概要"
 
-#: includes/settings/wps-settings.php:112
-msgid "browscap"
-msgstr "browscap"
-
-#: includes/settings/wps-settings.php:113
+#: includes/settings/wps-settings.php:106
 msgid "Maintenance"
 msgstr "保守"
 
-#: includes/settings/wps-settings.php:114
+#: includes/settings/wps-settings.php:107
 msgid "Removal"
 msgstr "削除"
 
 #: includes/settings/tabs/wps-access-level.php:85
-#: includes/settings/tabs/wps-browscap.php:81
 #: includes/settings/tabs/wps-exclusions.php:234
+#: includes/settings/tabs/wps-externals.php:284
 #: includes/settings/tabs/wps-general.php:349
-#: includes/settings/tabs/wps-geoip.php:158
 #: includes/settings/tabs/wps-maintenance.php:84
 #: includes/settings/tabs/wps-notifications.php:201
 #: includes/settings/tabs/wps-overview-display.php:388
@@ -951,7 +1009,7 @@ msgstr "2週間毎に1回"
 msgid "Once Every 4 Weeks"
 msgstr "4週間毎に1回"
 
-#: widget.php:14 wp-statistics.php:342 wp-statistics.php:380
+#: widget.php:14 wp-statistics.php:346 wp-statistics.php:384
 msgid "Statistics"
 msgstr "統計"
 
@@ -1023,7 +1081,7 @@ msgstr "名"
 msgid "Items"
 msgstr "アイテム"
 
-#: widget.php:254 wp-statistics.php:557
+#: widget.php:254 wp-statistics.php:561
 msgid "Yesterday visit"
 msgstr "昨日の訪問数"
 
@@ -1051,13 +1109,13 @@ msgstr "現在のPHPバージョンは"
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "WP Statisticsは削除されています。無効にして削除してください。"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
@@ -1087,99 +1145,99 @@ msgstr "GeoIPコレクションが有効ではありません。%sに移動し�
 msgid "Setting page > GeoIP"
 msgstr "設定ページ > GeoIP"
 
-#: wp-statistics.php:249 wp-statistics.php:361 wp-statistics.php:434
+#: wp-statistics.php:253 wp-statistics.php:365 wp-statistics.php:438
 msgid "Settings"
 msgstr "設定"
 
-#: wp-statistics.php:261
+#: wp-statistics.php:265
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "ここをクリックして、WordPress.orgのプラグインを訪問してください"
 
-#: wp-statistics.php:261
+#: wp-statistics.php:265
 msgid "Visit WordPress.org page"
 msgstr "WordPress.orgページを訪問します"
 
-#: wp-statistics.php:264
+#: wp-statistics.php:268
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "ここをクリックして、WordPress.orgでこのプラグインの評価とレビューをしてください。"
 
-#: wp-statistics.php:264
+#: wp-statistics.php:268
 msgid "Rate this plugin"
 msgstr "このプラグインを評価する"
 
-#: wp-statistics.php:308
+#: wp-statistics.php:312
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - ヒット"
 
-#: wp-statistics.php:345 wp-statistics.php:383 wp-statistics.php:421
+#: wp-statistics.php:349 wp-statistics.php:387 wp-statistics.php:425
 msgid "Overview"
 msgstr "概要"
 
-#: wp-statistics.php:350 wp-statistics.php:426
+#: wp-statistics.php:354 wp-statistics.php:430
 msgid "Online"
 msgstr "オンライン"
 
-#: wp-statistics.php:352 wp-statistics.php:428
+#: wp-statistics.php:356 wp-statistics.php:432
 msgid "Referrers"
 msgstr "参照元"
 
-#: shortcode.php:135 wp-statistics.php:353 wp-statistics.php:429
+#: shortcode.php:135 wp-statistics.php:357 wp-statistics.php:433
 msgid "Searches"
 msgstr "検索"
 
-#: wp-statistics.php:354 wp-statistics.php:430
+#: wp-statistics.php:358 wp-statistics.php:434
 msgid "Search Words"
 msgstr "検索ワード"
 
-#: wp-statistics.php:355 wp-statistics.php:431
+#: wp-statistics.php:359 wp-statistics.php:435
 msgid "Top Visitors Today"
 msgstr "今日のトップ訪問者"
 
-#: wp-statistics.php:360 wp-statistics.php:433
+#: wp-statistics.php:364 wp-statistics.php:437
 msgid "Optimization"
 msgstr "最適化"
 
-#: wp-statistics.php:366 wp-statistics.php:397
+#: wp-statistics.php:370 wp-statistics.php:401
 msgid "Manual"
 msgstr "マニュアル"
 
-#: wp-statistics.php:412
+#: wp-statistics.php:416
 msgid "Site"
 msgstr "サイト"
 
-#: wp-statistics.php:413
+#: wp-statistics.php:417
 msgid "Options"
 msgstr "オプション"
 
-#: wp-statistics.php:539
+#: wp-statistics.php:543
 msgid "Today visitor"
 msgstr "今日の訪問者"
 
-#: wp-statistics.php:545
+#: wp-statistics.php:549
 msgid "Today visit"
 msgstr "今日の訪問"
 
-#: wp-statistics.php:551
+#: wp-statistics.php:555
 msgid "Yesterday visitor"
 msgstr "昨日の訪問者"
 
-#: wp-statistics.php:563
+#: wp-statistics.php:567
 msgid "View Stats"
 msgstr "統計を見る"
 
-#: wp-statistics.php:587
+#: wp-statistics.php:591
 msgid "Download ODF file"
 msgstr "ODFファイルをダウンロード"
 
-#: wp-statistics.php:588
+#: wp-statistics.php:592
 msgid "Download HTML file"
 msgstr "HTMLファイルをダウンロード"
 
-#: wp-statistics.php:592
+#: wp-statistics.php:596
 msgid "Manual file not found."
 msgstr "マニュアルファイルが見つかりません。"
 
-#: wp-statistics.php:659 wp-statistics.php:770 wp-statistics.php:804
+#: wp-statistics.php:663 wp-statistics.php:770 wp-statistics.php:804
 msgid "You do not have sufficient permissions to access this page."
 msgstr "あなたがこのページにアクセスするための十分な権限がありません。"
 
@@ -1187,7 +1245,7 @@ msgstr "あなたがこのページにアクセスするための十分な権限
 msgid "Plugin tables do not exist in the database! Please re-run the %s install routine %s."
 msgstr "プラグインのテーブルがデータベースに存在しません! %sを再実行してルーチン%sをインストールしてください。"
 
-#: wp-statistics.php:237
+#: wp-statistics.php:241
 msgid "WP Statistics %s installed on"
 msgstr "WPの統計は、%s上に設置されています"
 
@@ -1235,9 +1293,9 @@ msgstr "browscapは既に最新バージョンです!"
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini更新"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.3.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.4.1)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr "http://wp-statistics.com/"
@@ -1364,8 +1422,8 @@ msgid "Click to toggle"
 msgstr "クリックして切り替えます"
 
 #: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:346
-#: wp-statistics.php:422
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:350
+#: wp-statistics.php:426
 msgid "Browsers"
 msgstr "ブラウザ"
 
@@ -1394,35 +1452,35 @@ msgstr "注意: 現在、除外を記録するように設定されていませ�
 msgid "Exclusions Statistics"
 msgstr "除外統計"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "10 Days"
 msgstr "10日"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "20 Days"
 msgstr "20日"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "30 Days"
 msgstr "30日"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "2 Months"
 msgstr "2ヶ月"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "3 Months"
 msgstr "3ヶ月"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "6 Months"
 msgstr "6ヶ月"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "9 Months"
 msgstr "9ヶ月"
 
-#: includes/functions/functions.php:879
+#: includes/functions/functions.php:931
 msgid "1 Year"
 msgstr "1年"
 
@@ -1471,28 +1529,28 @@ msgstr "訪問者"
 msgid "Latest Search Word Statistics"
 msgstr "最近の検索ワード統計"
 
-#: includes/log/last-search.php:100 includes/log/last-visitor.php:101
+#: includes/log/last-search.php:110 includes/log/last-visitor.php:101
 #: includes/log/online.php:50 includes/log/widgets/google.map.php:84
 #: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:33
-#: includes/log/widgets/words.php:36
+#: includes/log/widgets/words.php:46
 msgid "#hash#"
 msgstr "#ハッシュ#"
 
-#: includes/log/last-search.php:105 includes/log/last-visitor.php:106
+#: includes/log/last-search.php:115 includes/log/last-visitor.php:106
 #: includes/log/online.php:55 includes/log/top-referring.php:71
-#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:43
+#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
 msgid "Map"
 msgstr "マップ"
 
-#: includes/log/last-search.php:142 includes/log/last-visitor.php:139
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
 #: includes/log/top-referring.php:125
 msgid "Page"
 msgstr "ページ"
 
-#: includes/log/last-search.php:142 includes/log/last-visitor.php:139
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
 #: includes/log/top-referring.php:125
 msgid "From"
@@ -1681,8 +1739,8 @@ msgid "Time: %s"
 msgstr "時間: %sの"
 
 #: includes/log/widgets/top.visitors.php:31
-#: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:273
-#: wp-statistics.php:349 wp-statistics.php:425
+#: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:277
+#: wp-statistics.php:353 wp-statistics.php:429
 msgid "Hits"
 msgstr "ヒット数"
 
@@ -1724,11 +1782,11 @@ msgstr "%sのプラットフォームのデータが正常に削除されまし�
 msgid "No platform data found to remove!"
 msgstr "削除すべきプラットフォームのデータはありません!"
 
-#: includes/functions/functions.php:967
+#: includes/functions/functions.php:1019
 msgid "%s table data deleted successfully."
 msgstr "%sのテーブルデータが正常に削除されました。"
 
-#: includes/functions/functions.php:971
+#: includes/functions/functions.php:1023
 msgid "Error, %s not emptied!"
 msgstr "エラー %sが空ではありません!"
 
@@ -1754,7 +1812,7 @@ msgstr "データベースのインデックス"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:347 wp-statistics.php:423
+#: wp-statistics.php:351 wp-statistics.php:427
 msgid "Countries"
 msgstr "国"
 
@@ -1770,6 +1828,7 @@ msgid "Older installs of WP Statistics allow for duplicate entries in the visito
 msgstr "古いWP Statisticsは境界ケースで訪問者テーブルに重複エントリを許容します。新しいものは、テーブルの一意索引によりこれを防止します。古いものに索引を作成するには、最初に重複したエントリを削除する必要があります。\"今すぐ更新\"をクリックすると、訪問者テーブルをスキャンし、重複したエントリを削除し、索引を追加します。"
 
 #: includes/optimization/tabs/wps-optimization-database.php:41
+#: includes/optimization/tabs/wps-optimization-database.php:102
 msgid "This operation could take a long time on installs with many rows in the visitors table."
 msgstr "訪問者テーブルに多くの行がある場合、この操作によりインストールに長い時間がかかることがあります。"
 
@@ -1779,11 +1838,12 @@ msgstr "古いWP Statisticsは境界ケースで訪問者テーブルに重複�
 
 #: includes/optimization/tabs/wps-optimization-database.php:47
 #: includes/optimization/tabs/wps-optimization-database.php:77
+#: includes/optimization/tabs/wps-optimization-database.php:108
 msgid "Congratulations, your installation is already up to date, nothing to do."
 msgstr "おめでとうございます、あなたのインストールは既に最新になり、すべきことは何もありません。"
 
 #: includes/optimization/tabs/wps-optimization-export.php:8
-#: includes/optimization/wps-optimization.php:183
+#: includes/optimization/wps-optimization.php:212
 msgid "Export"
 msgstr "エクスポート"
 
@@ -1836,7 +1896,7 @@ msgstr "注: データベースからパージしたばかりなので、番号�
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
 #: includes/settings/tabs/wps-general.php:143 shortcode.php:133
-#: wp-statistics.php:356 wp-statistics.php:432
+#: wp-statistics.php:360 wp-statistics.php:436
 msgid "Visitors"
 msgstr "訪問者"
 
@@ -2151,23 +2211,23 @@ msgstr "IPアドレスをハッシュ値に置き換えます。"
 msgid "Install routine complete."
 msgstr "イ​​ンストールルーチンが完了しました。"
 
-#: includes/optimization/wps-optimization.php:182
+#: includes/optimization/wps-optimization.php:211
 msgid "Resources/Information"
 msgstr "リソース/情報"
 
-#: includes/optimization/wps-optimization.php:184
+#: includes/optimization/wps-optimization.php:213
 msgid "Purging"
 msgstr "削除"
 
-#: includes/optimization/wps-optimization.php:185
+#: includes/optimization/wps-optimization.php:214
 msgid "Database"
 msgstr "データベース"
 
-#: includes/optimization/wps-optimization.php:186
+#: includes/optimization/wps-optimization.php:215
 msgid "Updates"
 msgstr "更新"
 
-#: includes/optimization/wps-optimization.php:187
+#: includes/optimization/wps-optimization.php:216
 msgid "Historical"
 msgstr "履歴"
 
@@ -2317,7 +2377,7 @@ msgid "This is the honey pot for WP Statistics to use, do not delete."
 msgstr "これはWP Statisticsで利用するハニーポットです。削除しないでください。"
 
 #: includes/settings/tabs/wps-access-level.php:23
-#: includes/settings/wps-settings.php:109
+#: includes/settings/wps-settings.php:103
 msgid "Access Levels"
 msgstr "アクセスレベル"
 
@@ -2350,8 +2410,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "あなたがアクセス権を委任するより堅牢なソリューションが必要な場合は、WordPressのプラグインディレクトリ内の%sで見たいと思うかもしれません。"
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:110 wp-statistics.php:348
-#: wp-statistics.php:424
+#: includes/settings/wps-settings.php:104 wp-statistics.php:352
+#: wp-statistics.php:428
 msgid "Exclusions"
 msgstr "除外"
 
@@ -2522,16 +2582,21 @@ msgstr "RSSフィードの除外"
 msgid "Exclude the RSS feeds for registering as a hit."
 msgstr "RSSフィードをヒットの登録から除外します。"
 
-#: includes/settings/tabs/wps-browscap.php:22
+#: includes/settings/tabs/wps-externals.php:162
 msgid "browscap settings"
 msgstr "browscap設定"
 
-#: includes/settings/tabs/wps-browscap.php:27
+#: includes/settings/tabs/wps-externals.php:167
 msgid "browscap usage"
 msgstr "browscap利用"
 
-#: includes/settings/tabs/wps-browscap.php:32
-#: includes/settings/tabs/wps-browscap.php:56
+#: includes/settings/tabs/wps-externals.php:52
+#: includes/settings/tabs/wps-externals.php:76
+#: includes/settings/tabs/wps-externals.php:109
+#: includes/settings/tabs/wps-externals.php:172
+#: includes/settings/tabs/wps-externals.php:196
+#: includes/settings/tabs/wps-externals.php:235
+#: includes/settings/tabs/wps-externals.php:259
 #: includes/settings/tabs/wps-general.php:76
 #: includes/settings/tabs/wps-general.php:92
 #: includes/settings/tabs/wps-general.php:116
@@ -2547,9 +2612,6 @@ msgstr "browscap利用"
 #: includes/settings/tabs/wps-general.php:286
 #: includes/settings/tabs/wps-general.php:325
 #: includes/settings/tabs/wps-general.php:341
-#: includes/settings/tabs/wps-geoip.php:47
-#: includes/settings/tabs/wps-geoip.php:71
-#: includes/settings/tabs/wps-geoip.php:104
 #: includes/settings/tabs/wps-maintenance.php:40
 #: includes/settings/tabs/wps-maintenance.php:64
 #: includes/settings/tabs/wps-notifications.php:69
@@ -2564,33 +2626,35 @@ msgstr "browscap利用"
 msgid "Active"
 msgstr "有効"
 
-#: includes/settings/tabs/wps-browscap.php:33
+#: includes/settings/tabs/wps-externals.php:173
 msgid "The browscap database will be downloaded and used to detect robots."
 msgstr "browscapデータベースがダウンロードされ、ロボットを検出するために使用されます。"
 
-#: includes/settings/tabs/wps-browscap.php:39
+#: includes/settings/tabs/wps-externals.php:179
 msgid "Update browscap Info"
 msgstr "browscap情報を更新"
 
-#: includes/settings/tabs/wps-browscap.php:44
+#: includes/settings/tabs/wps-externals.php:184
 msgid "Download browscap Database"
 msgstr "browscapデータベースのダウンロード"
 
-#: includes/settings/tabs/wps-browscap.php:45
-#: includes/settings/tabs/wps-geoip.php:60
+#: includes/settings/tabs/wps-externals.php:65
+#: includes/settings/tabs/wps-externals.php:185
+#: includes/settings/tabs/wps-externals.php:248
 msgid "Save changes on this page to download the update."
 msgstr "更新をダウンロードするには、このページの変更を保存します。"
 
-#: includes/settings/tabs/wps-browscap.php:51
+#: includes/settings/tabs/wps-externals.php:191
 msgid "Schedule weekly update of browscap DB"
 msgstr "browscap DBを毎週更新する"
 
-#: includes/settings/tabs/wps-browscap.php:59
-#: includes/settings/tabs/wps-geoip.php:74
+#: includes/settings/tabs/wps-externals.php:79
+#: includes/settings/tabs/wps-externals.php:199
+#: includes/settings/tabs/wps-externals.php:262
 msgid "Next update will be"
 msgstr "次の更新は"
 
-#: includes/settings/tabs/wps-browscap.php:74
+#: includes/settings/tabs/wps-externals.php:214
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr "browscapデータベースのダウンロードが、毎週一回にスケジュールされます。"
 
