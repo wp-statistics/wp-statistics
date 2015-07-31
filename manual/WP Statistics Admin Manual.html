@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.4.4.3 (Windows)"/>
 	<meta name="created" content="2014-06-03T18:16:55.146000000"/>
-	<meta name="changed" content="2015-07-21T08:21:44.831000000"/>
+	<meta name="changed" content="2015-07-31T17:58:48.778000000"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-bottom: 0.25cm; line-height: 120% }
@@ -3371,10 +3371,17 @@ without having to manipulate the WordPress options table or the WP
 Statistics code.</p>
 <p>This should only be done as a last resort.</p>
 <h3 class="western">Database Index</h3>
-<p>This only needs to be done on older installs and if the index
-already exists this page will inform you there is nothing to do.</p>
-<p>Otherwise you will be presented with a button to add the index to
-the table.</p>
+<p>There are two indexes that older installs of WP Statistics do not
+have on the tables in the database.  Adding these during the setup
+process can cause timeout's and so they are available to be added
+manually by the administrator.</p>
+<p>If you do not have these indexes you will be presented with a
+button to add each index to the table.</p>
+<h3 class="western">Search Table</h3>
+<p>WP Statistics 9.5 added a new table and code to better handle
+referrers and search words, however converting older installs
+requires a manual upgrade, presented here if required.  
+</p>
 <h2 class="western"><br/>
 <br/>
 
@@ -4576,7 +4583,7 @@ the external functions can be found in:</p>
 </p>
 <div title="footer">
 	<p style="margin-top: 0.5cm; margin-bottom: 0cm; line-height: 100%">		Page
-	<sdfield type=PAGE subtype=RANDOM format=PAGE>76</sdfield> of <sdfield type=DOCSTAT subtype=PAGE format=PAGE>76</sdfield></p>
+	<sdfield type=PAGE subtype=RANDOM format=PAGE>29</sdfield> of <sdfield type=DOCSTAT subtype=PAGE format=PAGE>71</sdfield></p>
 </div>
 </body>
 </html>
