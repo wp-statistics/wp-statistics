@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, GregRoss
 Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 4.2
-Stable tag: 9.4.1
+Tested up to: 4.2.3
+Stable tag: 9.5
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -283,7 +283,7 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.5 =
-* Release Date: TBD
+* Release Date: August 3, 2015
 * Added: Referrer Spam exclusions using the Piwik Referrer Spam Blacklist (see Statistics->Settings->Externals to enable).
 * Added: Code to remove 'AString' column if it exists in the visitors table during upgrades (bug in a older previous version of WP Statistics erroneously created it).
 * Fixed: Duplicate key name warning during upgrades for 'date_ip_agent' index.
