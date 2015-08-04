@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-07-05 15:47:10+0000\n"
+"PO-Revision-Date: 2015-08-04 12:07:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,67 +12,67 @@ msgstr ""
 
 #: includes/optimization/wps-optimization.php:173
 msgid "Search table conversion complete, %d rows added."
-msgstr ""
+msgstr "بحث تحويل الجدول المكتمل، الصفوف %d أضيفت."
 
 #: includes/optimization/tabs/wps-optimization-database.php:107
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
-msgstr ""
+msgstr "التثبيت القديمة من احصائيات ووردبريس تخزن تفاصيل البحث في جدول آخر التي يمكن أن تصبح مشكلة على أداء مجموعات البيانات الكبيرة. تم إنشاء جدول جديد لإجراء هذه المعلومات بطريقة أفضل للتحجيم."
 
 #: includes/optimization/tabs/wps-optimization-database.php:86
 msgid "Search Table"
-msgstr ""
+msgstr "جدول البحث"
 
 #: includes/optimization/tabs/wps-optimization-database.php:91
 msgid "Convert"
-msgstr ""
+msgstr "التحويل"
 
 #: includes/optimization/tabs/wps-optimization-database.php:100
 msgid "Convert Now!"
-msgstr ""
+msgstr "تحويل الآن!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:101
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
-msgstr ""
+msgstr "التثبيت القديمة من احصائيات ووردبريس تخزن تفاصيل البحث في جدول آخر التي يمكن أن تصبح مشكلة على أداء مجموعات البيانات الكبيرة. تم إنشاء جدول جديد لإجراء هذه المعلومات بطريقة أفضل للتدرج، ولكن يجب أولا تحويل البيانات القديمة إلى الشكل الجديد قبل أن تتمكن من استخدامها."
 
 #: includes/log/exclusions.php:24
 msgid "Referrer Spam"
-msgstr ""
+msgstr "إحالات البريد المزعج"
 
 #: includes/settings/tabs/wps-externals.php:277
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
-msgstr ""
+msgstr "سيتم جدولة التحميل من قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها بالقائمة السوداء لمرة واحدة في الأسبوع."
 
 #: includes/settings/wps-settings.php:105
 msgid "Externals"
-msgstr ""
+msgstr "الجهات الخارجية"
 
 #: includes/settings/tabs/wps-externals.php:219
 msgid "Piwik Referrer Spam Blacklist settings"
-msgstr ""
+msgstr "إعدادات القائمة السوداء Piwik لإحالات الرسائل الغير مرغوب فيها"
 
 #: includes/settings/tabs/wps-externals.php:254
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
-msgstr ""
+msgstr "جدولة التحديث الأسبوعي لـ Piwik لإحالات الرسائل الغير مرغوب فيها بقاعدة بيانات القائمة السوداء"
 
 #: includes/settings/tabs/wps-externals.php:247
 msgid "Download Piwik Referrer Spam Blacklist Database"
-msgstr ""
+msgstr "تحميل قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها من القائمة السوداء"
 
 #: includes/settings/tabs/wps-externals.php:242
 msgid "Update Piwik Referrer Spam Blacklist Info"
-msgstr ""
+msgstr "تحديث Piwik لإحالات الرسائل الغير مرغوب فيها بمعلومات القائمة السوداء"
 
 #: includes/settings/tabs/wps-externals.php:236
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
-msgstr ""
+msgstr "سيتم تحميل قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها بالقائمة السوداء واستخدامها للكشف عن مرجعية البريد المزعج."
 
 #: includes/settings/tabs/wps-externals.php:224
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
-msgstr ""
+msgstr "يتم توفير إحالات الرسائل الغير مرغوب فيها بالقائمة السوداء من قبل Piwik، وهي متاحة من %s."
 
 #: includes/settings/tabs/wps-externals.php:230
 msgid "Piwik Referrer Spam Blacklist usage"
-msgstr ""
+msgstr "المرجع Piwik للرسائل الغير المرغوب فيها باستخدام القائمة السوداء"
 
 #: includes/settings/tabs/wps-exclusions.php:148
 msgid "Treat corrupt browser info as a bot"
