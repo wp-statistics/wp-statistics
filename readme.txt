@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.2.3
-Stable tag: 9.5
+Stable tag: 9.5.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -247,6 +247,9 @@ Do you have eAccelerator installed?  If so this is a known issue with eAccelerat
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.5.1 =
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
+
 = 9.5 =
 BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
 
@@ -282,6 +285,11 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.5.1 =
+* Release Date: August 4, 2015
+* Fixed: Issue with verifying the WP Statistics tables exist on databases with hyphens in their names.
+* Updated: Arabic translation.
+
 = 9.5 =
 * Release Date: August 3, 2015
 * Added: Referrer Spam exclusions using the Piwik Referrer Spam Blacklist (see Statistics->Settings->Externals to enable).
