@@ -143,7 +143,7 @@ License: GPL2
 				echo '<div class="update-nag"><p>'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
 			
 			if(!$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported())
-				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=geoip">' . __( 'Setting page > GeoIP', 'wp_statistics') . '</a>').'</p></div>';
+				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=externals">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
 		}
 	}
 
