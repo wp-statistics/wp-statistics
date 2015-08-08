@@ -63,7 +63,7 @@
 	<ul class="subsubsub">
 		<?php if($referr) { ?>
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?></a></li>
-			| <li><a class="current" href="?page=wps_referrers_menu&referr=<?php echo $referr; ?>"> <?php echo $title; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+			| <li><a class="current" href="?page=wps_referrers_menu&referr=<?php echo htmlentities($referr, ENT_QUOTES); ?>"> <?php echo $title; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php }?>
@@ -74,7 +74,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<?php if($referr) { ?>
-						<h3 class="hndle"><span><?php _e('Referring sites from', 'wp_statistics'); ?>: <?php echo $referr; ?></span></h3>
+						<h3 class="hndle"><span><?php _e('Referring sites from', 'wp_statistics'); ?>: <?php echo htmlentities($referr, ENT_QUOTES); ?></span></h3>
 					<?php } else { ?>
 						<h3 class="hndle"><span><?php _e('Top Referring Sites', 'wp_statistics'); ?></span></h3>
 					<?php } ?>
