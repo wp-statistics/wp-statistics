@@ -669,7 +669,25 @@ License: GPL2
 	
 		if( $result != 7 ) {
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
-			wp_die('<div class="error"><p>' . sprintf(__('Plugin tables do not exist in the database! Please re-run the %s install routine %s.', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . '</p></div>');
+
+			$missing_tables = array();
+			
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_visitor'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visit'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_visit'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_exclusions'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_exclusions'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_historical'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_useronline'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_useronline'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_pages'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_pages'; }
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_search'" );
+			if( $result != 1 ) { $missing_tables[] = $wpdb->prefix . 'statistics_search'; }
+
+			wp_die('<div class="error"><p>' . sprintf(__('The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: ', 'wp_statistics'),'<a href="' . $get_bloginfo_url . '">','</a>') . implode(', ', $missing_tables) . '</p></div>');
 		}
 		
 		// Load the postbox script that provides the widget style boxes.

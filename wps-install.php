@@ -48,6 +48,26 @@
 			KEY location (location)
 		) CHARSET=utf8");
 		
+		$create_visitor_table_old = ("CREATE TABLE {$wp_prefix}statistics_visitor (
+			ID int(11) NOT NULL AUTO_INCREMENT,
+			last_counter date NOT NULL,
+			referred text NOT NULL,
+			agent varchar(255) NOT NULL,
+			platform varchar(255),
+			version varchar(255),
+			UAString varchar(255),
+			ip varchar(60) NOT NULL,
+			location varchar(10),
+			hits int(11),
+			honeypot int(11),
+			PRIMARY KEY  (ID),
+			UNIQUE KEY date_ip_agent (last_counter,ip,agent (75),platform (75),version (75)),
+			KEY agent (agent),
+			KEY platform (platform),
+			KEY version (version),
+			KEY location (location)
+		) CHARSET=utf8");
+
 		$create_exclusion_table = ("CREATE TABLE {$wp_prefix}statistics_exclusions (
 			ID int(11) NOT NULL AUTO_INCREMENT,
 			date date NOT NULL,
@@ -114,7 +134,17 @@
 		dbDelta($create_pages_table);
 		dbDelta($create_historical_table);
 		dbDelta($create_search_table);
+		
+		// Some old versions (in the 5.0.x line) of MySQL have issue with the compound index on the visitor table
+		// so let's make sure it was created, if not, use the older format to create the table manually instead of
+		// using the dbDelta() call.
+		$dbname = DB_NAME;
+		$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'" );
 
+		if( $result != 1 ) {
+			$wpdb->query( $create_visitor_table_old );
+		}
+		
 		// Check to see if the date_ip index still exists, if so get rid of it.
 		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
 
