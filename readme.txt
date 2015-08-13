@@ -234,6 +234,14 @@ We do not recommend using a caching plugin along with WP Statistics.
 
 Do you have eAccelerator installed?  If so this is a known issue with eAccelerator and PHP's "anonymous" functions, which are used in the user agent parsing library.  As no new versions of eAccelerator have been released for over 3 years, you should look to replace it or disable it.
 
+= I've installed WP Statistics for the first time on a site and when I go to the statistics pages I get an error saying like "The following plugin table(s) do not exist in the database" =
+
+This is because something has gone wrong during the installation.  
+
+At the end of the message will be a list of tables that are missing, you can use the provided link to re-run the installation routine.  If that does not resolve the issue and the visitors table is the only table listed, you may want to check your MySQL version.  Some older versions of MySQL (in the 5.0.x series) have issues with complex compound indexes, which we use on the visitors table.  If this is the case, check with your hosting provider and see if they can upgrade to a newer version of MySQL.
+
+If you still have issues open a new thread on the support forum and we'll try and resolve it for you.
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
@@ -288,6 +296,11 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.5.3 =
+* Release Date: TBD
+* Added: more robust error reporting if a plugin table is missing.
+* Fixed: the install script for older versions of MySQL (5.0.x).
+
 = 9.5.2 =
 * Release Date: August 8, 2015
 * Fixed: XSS issue with top-referrers page, thanks Swift Security (http://swiftsecurity.swte.ch/).
