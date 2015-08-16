@@ -298,8 +298,10 @@ This release updates some core code to do with timezones, hence the change to ve
 == Changelog ==
 = 9.5.3 =
 * Release Date: TBD
-* Added: more robust error reporting if a plugin table is missing.
-* Fixed: the install script for older versions of MySQL (5.0.x).
+* Added: More robust error reporting if a plugin table is missing.
+* Added: Support to export the search table.
+* Fixed: The install script for older versions of MySQL (5.0.x).
+* Fixed: Export script no longer generates errors when exporting an empty table.
 
 = 9.5.2 =
 * Release Date: August 8, 2015

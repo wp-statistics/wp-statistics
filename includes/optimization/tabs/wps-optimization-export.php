@@ -21,6 +21,7 @@
 						<option value="visitor"><?php echo $wpdb->prefix . 'statistics_visitor'; ?></option>
 						<option value="exclusions"><?php echo $wpdb->prefix . 'statistics_exclusions'; ?></option>
 						<option value="pages"><?php echo $wpdb->prefix . 'statistics_pages'; ?></option>
+						<option value="search"><?php echo $wpdb->prefix . 'statistics_search'; ?></option>
 					</select>
 					<p class="description"><?php _e('Select the table for the output file.', 'wp_statistics'); ?></p>
 				</td>

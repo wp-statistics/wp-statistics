@@ -10,7 +10,7 @@
 			$headers = $_POST['export-headers'];
 			
 			// Validate the table name the user passed to us.
-			if( !( $table == "useronline" || $table == "visit" || $table == "visitor" || $table == "exclusions" || $table == "pages" ) ) { $table = FALSE; } 
+			if( !( $table == "useronline" || $table == "visit" || $table == "visitor" || $table == "exclusions" || $table == "pages" || $table == "search" ) ) { $table = FALSE; } 
 			
 			// Validate the file type the user passed to us.
 			if( !( $type == "excel" || $type == "xml" || $type == "csv" || $type == "tsv" ) ) { $table = FALSE; } 
@@ -49,6 +49,9 @@
 				$more_results = true;
 				$result = $wpdb->get_results($query, ARRAY_A);
 
+				// If we didn't get any rows, don't output anything.
+				if( count( $result < 1 ) ) { echo "No data in table!"; exit; }
+				
 				if( $headers ) {
 					foreach( $result[0] as $key => $col ) { $columns[] = $key; }
 					$exporter->addRow($columns);
