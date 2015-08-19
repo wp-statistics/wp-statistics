@@ -255,6 +255,9 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.5.3 =
+BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
+
 = 9.5.2 =
 BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
 
@@ -297,11 +300,13 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.5.3 =
-* Release Date: TBD
+* Release Date: August 19, 2015
 * Added: More robust error reporting if a plugin table is missing.
 * Added: Support to export the search table.
 * Fixed: The install script for older versions of MySQL (5.0.x).
 * Fixed: Export script no longer generates errors when exporting an empty table.
+* Fixed: WP_Debug error on $crawler when it was an object but didn't have the right properties (aka wasn't the right object).
+* Fixed: Sidebar widget works again in WordPress 4.3.
 
 = 9.5.2 =
 * Release Date: August 8, 2015
