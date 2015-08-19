@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-04-22 00:38:50+0000\n"
+"PO-Revision-Date: 2015-08-17 11:56:26+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -160,15 +160,15 @@ msgstr ""
 
 #: shortcode.php:143
 msgid "Comment Count"
-msgstr ""
+msgstr "Comentario Número de"
 
 #: shortcode.php:144
 msgid "Spam Count"
-msgstr ""
+msgstr "Número de spam"
 
 #: shortcode.php:145
 msgid "User Count"
-msgstr ""
+msgstr "Número de usuario"
 
 #: shortcode.php:146
 msgid "Post Average"
