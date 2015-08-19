@@ -221,6 +221,8 @@
 				
 				$WP_Statistics->update_option('widget', $widget_options);
 			}
+			
+			return array();
 		}
 
 		/**

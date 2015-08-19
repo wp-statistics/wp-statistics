@@ -87,7 +87,8 @@
 				$bc->doAutoUpdate = false; 	// We don't want to auto update.
 				try {
 					$current_browser = $bc->getBrowser();
-					if( is_object( $current_browser ) ) {
+					// Make sure we got an object back and it has the Crawler property before accessing it.
+					if( is_object( $current_browser ) && property_exists( $current_browser, 'Crawler') ) {
 						$crawler = $current_browser->Crawler;
 					}
 					else {
