@@ -241,13 +241,15 @@
 			// to be returned from the widget update function, let's look to see if we need to update any 
 			// occurances in the options table.
 			$widget_options = get_option( 'widget_wpstatistics_widget' );
-			foreach( $widget_options as $key => $value ) {
-				// We want to update all null array keys that are integers.
-				if( $value === null && is_int( $key ) ) { $widget_options[$key] = array(); }
-			}
+			if( is_array( $widget_options ) ) {
+				foreach( $widget_options as $key => $value ) {
+					// We want to update all null array keys that are integers.
+					if( $value === null && is_int( $key ) ) { $widget_options[$key] = array(); }
+				}
 
-			// Store the widget options back to the database.
-			update_option( 'widget_wpstatistics_widget', $widget_options );
+				// Store the widget options back to the database.
+				update_option( 'widget_wpstatistics_widget', $widget_options );
+			}
 		}
 
 		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
