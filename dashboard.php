@@ -262,9 +262,7 @@
 		// Include the hits chart widget, we're going to display the last 10 days only as the WordPress columns are kind of small to do much else.
 		include_once( dirname( __FILE__ ) . "/includes/log/widgets/referring.php");
 
-		if( sizeof( $result ) > 0 ) {
-			wp_statistics_generate_referring_postbox_content();
-		}
+		wp_statistics_generate_referring_postbox_content();
 	}
 	
 	function wp_statistics_search_widget() {
