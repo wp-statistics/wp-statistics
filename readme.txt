@@ -299,6 +299,10 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.5.4 =
+* Release Date: TBD
+* Fixed: Display of the dashboard referrers widget.
+
 = 9.5.3 =
 * Release Date: August 19, 2015
 * Added: More robust error reporting if a plugin table is missing.
