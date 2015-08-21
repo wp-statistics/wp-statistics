@@ -138,21 +138,20 @@ License: GPL2
 
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
 			
-			if( !$WP_Statistics->get_option('useronline') )
-				echo '<div class="update-nag">'.sprintf(__('Online user tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
+			$itemstoenable = array();
+			if( !$WP_Statistics->get_option('useronline') ) { $itemstoenable[] = __('online user tracking', 'wp_statistics'); }
+			if( !$WP_Statistics->get_option('visits') ) { $itemstoenable[] = __('hit tracking', 'wp_statistics'); }
+			if( !$WP_Statistics->get_option('visitors') ) { $itemstoenable[] = __('visitor tracking', 'wp_statistics'); }
+			if( !$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported()) { $itemstoenable[] = __('geoip collection', 'wp_statistics'); }
 
-			if( !$WP_Statistics->get_option('visits') )
-				echo '<div class="update-nag">'.sprintf(__('Hit tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
+			if( count( $itemstoenable ) > 0 )
+				echo '<div class="update-nag">'.sprintf(__('The following features are disabled, please go to %s and enable them: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'settings page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $itemstoenable)).'</div>';
 
-			if( !$WP_Statistics->get_option('visitors') )
-				echo '<div class="update-nag">'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
-			
-			if(!$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported())
-				echo '<div class="update-nag">'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=externals">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
-			
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization";
-			if(!$WP_Statistics->get_option('search_converted') && wp_statistics_geoip_supported())
-				echo '<div class="update-nag">'.sprintf(__('Search table not enabled, please go to %s and convert to the new search table format.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=database">' . __( 'optimization page', 'wp_statistics') . '</a>').'</div>';
+
+			$dbupdatestodo = array();
+			
+			if(!$WP_Statistics->get_option('search_converted')) { $dbupdatestodo[] = __('search table', 'wp_statistics'); }
 
 			// Check to see if there are any database changes the user hasn't done yet.
 			$dbupdates = $WP_Statistics->get_option('pending_db_updates', false);
@@ -163,9 +162,13 @@ License: GPL2
 			
 				foreach( $dbupdates as $key => $update ) {
 					if( $update == true ) {
-						echo '<div class="update-nag">'.sprintf(__('Database updates are required, please go to %s and update the %s.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=database">' . __( 'optimization page', 'wp_statistics') . '</a>', $dbstrings[$key] ).'</div>';
+						$dbupdatestodo[] = $dbstrings[$key];
 					}
 				}
+	
+			if( count( $dbupdatestodo ) > 0 ) 
+				echo '<div class="update-nag">'.sprintf(__('Database updates are required, please go to %s and update the following: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'settings page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $dbupdatestodo)).'</div>';
+
 			}
 		}
 	}
