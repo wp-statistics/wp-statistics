@@ -128,31 +128,52 @@ License: GPL2
 	// This function outputs error messages in the admin interface if the primary components of WP Statistics are enabled.
 	function wp_statistics_not_enable() {
 		GLOBAL $WP_Statistics;
-		
+
 		// If the user had told us to be quite, do so.
 		if( !$WP_Statistics->get_option('hide_notices') ) {
+
+			// Check to make sure the current user can manage WP Statistics, if not there's no point displaying the warnings.
+			$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
+			if( ! current_user_can( $manage_cap ) ) { return; }
+
 			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
 			
 			if( !$WP_Statistics->get_option('useronline') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Online user tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+				echo '<div class="update-nag">'.sprintf(__('Online user tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
 
 			if( !$WP_Statistics->get_option('visits') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Hit tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+				echo '<div class="update-nag">'.sprintf(__('Hit tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
 
 			if( !$WP_Statistics->get_option('visitors') )
-				echo '<div class="update-nag"><p>'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+				echo '<div class="update-nag">'.sprintf(__('Visitor tracking in WP Statistics is not enabled, please go to %s and enable it.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
 			
 			if(!$WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported())
-				echo '<div class="update-nag"><p>'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=externals">' . __( 'setting page', 'wp_statistics') . '</a>').'</p></div>';
+				echo '<div class="update-nag">'.sprintf(__('GeoIP collection is not active, please go to %s and enable this feature.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=externals">' . __( 'setting page', 'wp_statistics') . '</a>').'</div>';
+			
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization";
+			if(!$WP_Statistics->get_option('search_converted') && wp_statistics_geoip_supported())
+				echo '<div class="update-nag">'.sprintf(__('Search table not enabled, please go to %s and convert to the new search table format.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=database">' . __( 'optimization page', 'wp_statistics') . '</a>').'</div>';
+
+			// Check to see if there are any database changes the user hasn't done yet.
+			$dbupdates = $WP_Statistics->get_option('pending_db_updates', false);
+
+			// The database updates are stored in an array so loop thorugh it and output some notices.
+			if( is_array( $dbupdates ) ) { 
+				$dbstrings = array( 'date_ip_agent' => __('countries database index', 'wp_statistics'), 'unique_date' => __('visit database index', 'wp_statistics') );
+			
+				foreach( $dbupdates as $key => $update ) {
+					if( $update == true ) {
+						echo '<div class="update-nag">'.sprintf(__('Database updates are required, please go to %s and update the %s.', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '&tab=database">' . __( 'optimization page', 'wp_statistics') . '</a>', $dbstrings[$key] ).'</div>';
+					}
+				}
+			}
 		}
 	}
 
 	// Display the admin notices if we should.
-	if( !$WP_Statistics->get_option('useronline') || !$WP_Statistics->get_option('visits') || !$WP_Statistics->get_option('visitors') || !$WP_Statistics->get_option('geoip') ) {
-		if( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
-			if( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14) == 'wp-statistics/') {
-				add_action('admin_notices', 'wp_statistics_not_enable');
-			}
+	if( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
+		if( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14) == 'wp-statistics/') {
+			add_action('admin_notices', 'wp_statistics_not_enable');
 		}
 	}
 

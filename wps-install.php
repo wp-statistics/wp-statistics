@@ -164,6 +164,27 @@
 		update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
 		update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
 
+		// Now check to see what database updates may be required and record them for a user notice later.
+		$dbupdates = array();
+		
+		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
+		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'");
+
+		// Note, the result will be the number of fields contained in the index, so in our case 5.
+		if( $result != 5 ) {
+			$dbupdates['date_ip_agent'] = true;
+		}
+		
+		// Check the number of index's on the visits table, if it's only 5 we need to check for duplicate entries and remove them
+		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visit WHERE Key_name = 'unique_date'");
+
+		// Note, the result will be the number of fields contained in the index, so in our case 1.
+		if( $result != 1 ) {
+			$dbupdates['unique_date'] = true;
+		}
+
+		$WP_Statistics->update_option( 'pending_db_updates', $dbupdates );
+
 		// Get the robots list, we'll use this for both upgrades and new installs.
 		include_once('robotslist.php');
 

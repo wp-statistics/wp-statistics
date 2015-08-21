@@ -85,6 +85,11 @@
 
 				// We might have an old index left over from 7.1-7.3 so lets make sure to delete it.
 				$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+
+				// Record in the options that we've done this update.
+				$dbupdates = $WP_Statistics->get_option('pending_db_updates');
+				$dbupdates['date_ip_agent'] = false;
+				$wp_statistics->update_option('pending_db_updates', $dbupdates);
 			}
 		}
 	}
@@ -121,6 +126,11 @@
 				
 				// The table should be ready to be updated now with the new index, so let's do it.
 				$result = $wpdb->get_results( "ALTER TABLE " . $wp_prefix . 'statistics_visit' . " ADD UNIQUE `unique_date` ( `last_counter` )" );
+
+				// Record in the options that we've done this update.
+				$dbupdates = $WP_Statistics->get_option('pending_db_updates');
+				$dbupdates['unique_date'] = false;
+				$wp_statistics->update_option('pending_db_updates', $dbupdates);
 			}
 		}
 	}
