@@ -150,25 +150,35 @@
 		// Make sure we get all the search engines, even the ones the disabled ones.
 		$se_list = wp_statistics_searchengine_list();
 		$total = 0;
-		
+		$limitsize = 10000;
+
 		foreach( $se_list as $key => $se ) {
 
 			$sql = wp_statistics_searchengine_query( $key );
-			$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$sql}" );
-			
-			foreach( $result as $row ) {
-				$parts = parse_url( $row->referred );
+			$rowcount = $wpdb->get_var( "SELECT count(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE {$sql}" );
+			$offset = 0;
+		
+			while( $rowcount > 0 ) {
+		
+				$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$sql} LIMIT {$offset}, {$limitsize}" );
 				
-				$data['last_counter'] = $row->last_counter;
-				$data['engine'] = $key;
-				$data['host'] = $parts['host'];
-				$data['words'] = $WP_Statistics->Search_Engine_QueryString( $row->referred );
-				$data['visitor'] = $row->ID;
-				
-				if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
+				foreach( $result as $row ) {
+					$parts = parse_url( $row->referred );
+					
+					$data['last_counter'] = $row->last_counter;
+					$data['engine'] = $key;
+					$data['host'] = $parts['host'];
+					$data['words'] = $WP_Statistics->Search_Engine_QueryString( $row->referred );
+					$data['visitor'] = $row->ID;
+					
+					if( $data['words'] == 'No search query found!' ) { $data['words'] = ''; }
 
-				$wpdb->insert( $wpdb->prefix . 'statistics_search', $data );
-				$total++;
+					$wpdb->insert( $wpdb->prefix . 'statistics_search', $data );
+					$total++;
+				}
+				
+				$rowcount -= $limitsize;
+				$offset += $limitsize;
 			}
 		}
 
