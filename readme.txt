@@ -301,7 +301,12 @@ This release updates some core code to do with timezones, hence the change to ve
 == Changelog ==
 = 9.5.4 =
 * Release Date: TBD
+* Added: New admin notices for if the database requires updates.
 * Fixed: Display of the dashboard referrers widget.
+* Fixed: incorrect table name when dropping the old 'AString' field.
+* Updated: Purging code now includes the search table.
+* Updated: Search conversion code to limit the number of records retreived to 10000 and then loop through them to ensure we don't run out of memory during the conversion process.
+* Updated: Cleaned up the admin notices code.
 
 = 9.5.3 =
 * Release Date: August 19, 2015
