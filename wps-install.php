@@ -157,7 +157,7 @@
 		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_visitor LIKE 'AString'" );
 		
 		if( $result > 0 ) {
-			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` DROP `AString`" );
+			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_visitor` DROP `AString`" );
 		}
 		
 		// Store the new version information.
