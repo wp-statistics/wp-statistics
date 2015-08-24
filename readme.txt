@@ -304,6 +304,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Added: New admin notices for if the database requires updates.
 * Fixed: Display of the dashboard referrers widget.
 * Fixed: incorrect table name when dropping the old 'AString' field.
+* Fixed: Error message if the global $wp_roles hadn't been set when we accessed it.
 * Updated: Purging code now includes the search table.
 * Updated: Search conversion code to limit the number of records retreived to 10000 and then loop through them to ensure we don't run out of memory during the conversion process.
 * Updated: Cleaned up the admin notices code.
