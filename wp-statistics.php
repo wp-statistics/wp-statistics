@@ -346,6 +346,8 @@ License: GPL2
 
 		$role_list = $wp_roles->get_names();
 
+		if( !is_array( $wp_roles ) || !is_array( $wp_roles->roles) ) { return 'manage_options'; }
+		
 		foreach( $wp_roles->roles as $role ) {
 		
 			$cap_list = $role['capabilities'];
