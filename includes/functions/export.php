@@ -13,7 +13,7 @@
 			if( !( $table == "useronline" || $table == "visit" || $table == "visitor" || $table == "exclusions" || $table == "pages" || $table == "search" ) ) { $table = FALSE; } 
 			
 			// Validate the file type the user passed to us.
-			if( !( $type == "excel" || $type == "xml" || $type == "csv" || $type == "tsv" ) ) { $table = FALSE; } 
+			if( !( $type == "xml" || $type == "csv" || $type == "tsv" ) ) { $table = FALSE; } 
 			
 			if($table && $type) {
 			
@@ -22,21 +22,18 @@
 				$file_name = WPS_EXPORT_FILE_NAME . '-' . $WP_Statistics->Current_Date('Y-m-d-H-i');
 				
 				switch($type) {
-					case 'excel':
-						$exporter = new ExportDataExcel('browser', "{$file_name}.xls");
-					break;
-					
 					case 'xml':
 						$exporter = new ExportDataExcel('browser', "{$file_name}.xml");
-					break;
-					
+						
+						break;
 					case 'csv':
 						$exporter = new ExportDataCSV('browser', "{$file_name}.csv");
-					break;
-					
+						
+						break;
 					case 'tsv':
 						$exporter = new ExportDataTSV('browser', "{$file_name}.tsv");
-					break;
+						
+						break;
 				}
 
 				$exporter->initialize();
