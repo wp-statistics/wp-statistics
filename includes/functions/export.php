@@ -50,7 +50,7 @@
 				$result = $wpdb->get_results($query, ARRAY_A);
 
 				// If we didn't get any rows, don't output anything.
-				if( count( $result < 1 ) ) { echo "No data in table!"; exit; }
+				if( count( $result ) < 1 ) { echo "No data in table!"; exit; }
 				
 				if( $headers ) {
 					foreach( $result[0] as $key => $col ) { $columns[] = $key; }
