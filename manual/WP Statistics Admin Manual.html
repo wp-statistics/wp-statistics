@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 5.0.0.5 (Windows)"/>
 	<meta name="created" content="2014-06-03T18:16:55.146000000"/>
-	<meta name="changed" content="2015-08-14T09:51:40.743000000"/>
+	<meta name="changed" content="2015-08-27T12:41:08.269000000"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-bottom: 0.25cm; line-height: 120% }
@@ -29,7 +29,7 @@
 <body lang="en-CA" dir="ltr">
 <div title="header">
 	<p style="margin-bottom: 0.5cm; line-height: 100%; text-decoration: none">
-	WP Statistics Administrators Manual		Version 9.5</p>
+	WP Statistics Administrators Manual		Version 9.6</p>
 </div>
 <p style="margin-bottom: 0cm; line-height: 100%"><br/>
 
@@ -93,7 +93,7 @@ Manual</p>
 
 </p>
 <p align="center" style="margin-bottom: 0cm; line-height: 100%">Version
-9.5</p>
+9.6</p>
 <h1 class="western" style="page-break-before: always"><a name="__RefHeading__105_1031655526"></a>
 </h1>
 <div id="Table of Contents1" dir="ltr">
@@ -260,8 +260,8 @@ Features</h1>
 <p style="line-height: 100%">Automatically prune the databases
 	of old data</p>
 	<li/>
-<p style="line-height: 100%">Export the data to Excel, XML,
-	CSV or TSV files</p>
+<p style="line-height: 100%">Export the data to XML, CSV or
+	TSV files</p>
 	<li/>
 <p style="line-height: 100%">Overview and detail pages for all
 	kinds of data, including; browser versions, country stats, hits,
@@ -597,6 +597,30 @@ issue with eAccelerator and PHP's &quot;anonymous&quot; functions,
 which are used in the user agent parsing library.  As no new versions
 of eAccelerator have been released for over 3 years, you should look
 to replace it or disable it.<br/>
+<br/>
+<br/>
+
+</p>
+<h2 class="western">I've installed WP Statistics for the first time
+on a site and when I go to the statistics pages I get an error saying
+like &quot;The following plugin table(s) do not exist in the
+database&quot;</h2>
+<p><br/>
+This is because something has gone wrong during the
+installation.  <br/>
+<br/>
+At the end of the message will be a list
+of tables that are missing, you can use the provided link to re-run
+the installation routine.  If that does not resolve the issue and the
+visitors table is the only table listed, you may want to check your
+MySQL version.  Some older versions of MySQL (in the 5.0.x series)
+have issues with complex compound indexes, which we use on the
+visitors table.  If this is the case, check with your hosting
+provider and see if they can upgrade to a newer version of MySQL.<br/>
+<br/>
+If
+you still have issues open a new thread on the support forum and
+we'll try and resolve it for you.<br/>
 <br/>
 <br/>
 
@@ -3184,17 +3208,11 @@ the data or need to migrate to another statistics plug-in.</p>
 			<p>Export To:</p>
 		</td>
 		<td width="105" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
-			<p>Excel, XML, CSV, TSV</p>
+			<p>XML, CSV, TSV</p>
 		</td>
 		<td width="428" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm">
 			<p>The format to export to.  
 			</p>
-			<p><br/>
-
-			</p>
-			<p>Excel will export an XML formatted XLS file (you may see a
-			warning from Excel about the file not being in the correct format,
-			you can ignore it).</p>
 			<p><br/>
 
 			</p>
