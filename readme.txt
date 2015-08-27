@@ -31,7 +31,7 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Record statistics on exclusions
 * Automatic updates to the GeoIP database
 * Automatically prune the databases of old data
-* Export the data to Excel, XML, CSV or TSV files
+* Export the data to XML, CSV or TSV files
 * Widget to provide information to your users
 * Shortcodes for many different types of data in both widgets and posts/pages
 * Dashboard widgets for the admin area
@@ -255,6 +255,9 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.6 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
 = 9.5.3 =
 BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure of the database.  This release creates a new table for search engine/words for performance improvements, however you must convert your data to the new format via the Statistics->Optimization->Database tab.
 
@@ -299,12 +302,13 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
-= 9.5.4 =
+= 9.6 =
 * Release Date: TBD
 * Added: New admin notices for if the database requires updates.
 * Fixed: Display of the dashboard referrers widget.
 * Fixed: incorrect table name when dropping the old 'AString' field.
 * Fixed: Error message if the global $wp_roles hadn't been set when we accessed it.
+* Fixed: When exporting, no data was exported.
 * Updated: Purging code now includes the search table.
 * Updated: Search conversion code to limit the number of records retreived to 10000 and then loop through them to ensure we don't run out of memory during the conversion process.
 * Updated: Cleaned up the admin notices code.
