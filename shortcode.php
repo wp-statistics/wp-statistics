@@ -6,13 +6,14 @@
 		/*
 			WP Statitics shortcode is in the format of:
 			
-				[wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx]
+				[wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx id=xxx]
 				
 			Where:
 				stat = the statistic you want.
 				time = is the timeframe, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it.
 				provider = the search provider to get stats on.
-				format = i18n, english, none
+				format = i18n, english, none.
+				id = the page/post id to get stats on.
 		*/
 		
 		if( ! is_array( $atts ) ) { return; }
@@ -21,6 +22,7 @@
 		if( !array_key_exists( 'time', $atts ) ) { $atts['time'] = null; }
 		if( !array_key_exists( 'provider', $atts ) ) { $atts['provider'] = null; }
 		if( !array_key_exists( 'format', $atts ) ) { $atts['format'] = null; }
+		if( !array_key_exists( 'id', $atts ) ) { $atts['id'] = null; }
 		
 		$formatnumber = array_key_exists( 'format', $atts );
 		
@@ -38,7 +40,7 @@
 				break;
 				
 			case 'pagevisits':
-				$result = wp_statistics_pages($atts['time']);
+				$result = wp_statistics_pages($atts['time'], null, $atts['id']);
 				break;
 				
 			case 'searches':
@@ -153,7 +155,7 @@
 						'label' 	  => __('Time Frame', 'wp_statistics'),
 						'attr'  	  => 'time',
 						'type'  	  => 'url',
-						'description' => __('The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it.', 'wp_statistics'),
+						'description' => __('The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use "total" to get all recorded dates.', 'wp_statistics'),
 						'meta'  	  => array('size'=>'10'),
 					),
 					array(
@@ -174,6 +176,13 @@
 												'english' => __('English', 'wp_statistics'),
 												'i18n' => __('International', 'wp_statistics'),
 											),
+					),
+					array(
+						'label'       => __('Post/Page ID', 'wp_statistics'),
+						'attr'        => 'id',
+						'type'        => 'number',
+						'description' => __('The post/page id to get page statistics on.', 'wp_statistics'),
+						'meta'  	  => array('size'=>'5'),
 					),
 				),
 			)

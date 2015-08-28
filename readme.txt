@@ -305,6 +305,7 @@ This release updates some core code to do with timezones, hence the change to ve
 = 9.6 =
 * Release Date: TBD
 * Added: New admin notices for if the database requires updates.
+* Added: Page/post id field to pagestats shortcode.
 * Fixed: Display of the dashboard referrers widget.
 * Fixed: incorrect table name when dropping the old 'AString' field.
 * Fixed: Error message if the global $wp_roles hadn't been set when we accessed it.
