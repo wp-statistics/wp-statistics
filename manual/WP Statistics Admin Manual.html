@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 5.0.0.5 (Windows)"/>
 	<meta name="created" content="2014-06-03T18:16:55.146000000"/>
-	<meta name="changed" content="2015-08-27T12:41:08.269000000"/>
+	<meta name="changed" content="2015-08-28T08:53:11.400000000"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-bottom: 0.25cm; line-height: 120% }
@@ -4042,8 +4042,8 @@ Shortcodes</h1>
 in either a post and page body as well as an HTML widget. 
 </p>
 <p>The general shortcode format is:</p>
-<p>	[wpstatistics stat=xxx time=xxxx provider=xxxx
-format=xxxxxx]<br/>
+<p>	[wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx
+id=xxx]<br/>
 <br/>
 Where:</p>
 <table width="100%" cellpadding="5" cellspacing="0">
@@ -4104,7 +4104,7 @@ Where:</p>
 		</td>
 		<td width="68%" style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0.1cm">
 			<p>The search provider to get stats on
-			(bing/duckduckgo/google/yahoo/yandex).</p>
+			(ask/bing/clearch/duckduckgo/google/yahoo/yandex).</p>
 		</td>
 	</tr>
 	<tr valign="top">
@@ -4118,8 +4118,22 @@ Where:</p>
 			without any formating)</p>
 		</td>
 	</tr>
+	<tr valign="top">
+		<td width="32%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p>Id</p>
+		</td>
+		<td width="68%" style="border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0cm; padding-right: 0.1cm">
+			<p>The page/post ID to get statistics on.  Only used on
+			pagevisits.</p>
+		</td>
+	</tr>
 </table>
-<p>The &ldquo;stat&rdquo; field can be any of the following:</p>
+<p><br/>
+<br/>
+
+</p>
+<p style="page-break-before: always">The &ldquo;stat&rdquo; field can
+be any of the following:</p>
 <table width="100%" cellpadding="5" cellspacing="0">
 	<col width="82*">
 	<col width="174*">

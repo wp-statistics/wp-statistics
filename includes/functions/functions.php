@@ -397,6 +397,7 @@
 		GLOBAL $WP_Statistics;
 		
 		$default = $engines = array (
+			'ask' => array( 'name' => 'Ask.com', 'translated' => __('Ask.com', 'wp_statistics'), 'tag' => 'ask', 'sqlpattern' => '%ask.com%', 'regexpattern' => 'ask\.com', 'querykey' => 'q', 'image' => 'ask.png' ),
 			'baidu' => array( 'name' => 'Baidu', 'translated' => __('Baidu', 'wp_statistics'), 'tag' => 'baidu', 'sqlpattern' => '%baidu.com%', 'regexpattern' => 'baidu\.com', 'querykey' => 'wd', 'image' => 'baidu.png' ),
 			'bing' => array( 'name' => 'Bing', 'translated' => __('Bing', 'wp_statistics'), 'tag' => 'bing', 'sqlpattern' => '%bing.com%', 'regexpattern' => 'bing\.com', 'querykey' => 'q', 'image' => 'bing.png' ), 
 			'clearch' => array( 'name' => 'clearch.org', 'translated' => __('clearch.org', 'wp_statistics'), 'tag' => 'clearch', 'sqlpattern' => '%clearch.org%', 'regexpattern' => 'clearch\.org', 'querykey' => 'q', 'image' => 'clearch.png' ),
