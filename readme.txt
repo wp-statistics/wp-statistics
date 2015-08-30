@@ -314,7 +314,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Purging code now includes the search table.
 * Updated: Search conversion code to limit the number of records retreived to 10000 and then loop through them to ensure we don't run out of memory during the conversion process.
 * Updated: Cleaned up the admin notices code.
-* Updated: Persian translation. (Thanks Ali Zeinali)
+* Updated: Persian translation. (Thanks Ali Zeinali)[https://wp-statistics.com/login/]
 
 = 9.5.3 =
 * Release Date: August 19, 2015
