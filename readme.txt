@@ -37,6 +37,11 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 * Dashboard widgets for the admin area
 * Comprehensive Admin Manual
 
+= Translations =
+WP Statistics has been translated in to many languages, for the current list and contributors, please visit the [translators](https://wp-statistics.com/translators/) page on [wp-statistics.com](https://wp-statistics.com/).
+
+Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
+
 = Support =
 We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:
 
@@ -60,31 +65,6 @@ Still not having any luck? Open a new thread on one of the support forums and we
 
 * [English Support Forum](http://wordpress.org/support/plugin/wp-statistics)
 * [Persian Support Forum](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
-
-= Translations =
-* English
-* Persian
-* Portuguese [Thanks](http://www.musicalmente.info/)
-* Romanian [Thanks Luke Tyler](http://www.nobelcom.com/)
-* French Thanks Anice Gnampa. Additional translations by Nicolas Baudet, eldidi and apeedn
-* Russian [Thanks Igor Dubilej](http://www.iflexion.com/)
-* Spanish Thanks Jose
-* Arabic [Thanks Hammad Shammari](http://www.facebook.com/aboHatim)
-* Turkish [Thanks aidinMC](http://www.artadl.ir/) & [Manset27.com](http://www.manset27.com/) & [Abdullah Manaz](http://www.manaz.net/)
-* Italian [Thanks Tony Bellardi](http://www.tonybellardi.com/) & Andrea Beducci
-* German [Thanks Andreas Martin](http://www.andreasmartin.com/) and Mike
-* Russian [Thanks Oleg](http://www.bestplugins.ru/)
-* Bengali [Thanks Mehdi Akram](http://www.shamokaldarpon.com/)
-* Serbian [Thanks Radovan Georgijevic](http://www.georgijevic.info/) & [Thanks Ogi Djuraskovic](http://firstsiteguide.com/)
-* Polish Thanks Radosław Rak and Tomasz Stulka.
-* Indonesian [Thanks Agit Amrullah](http://www.facebook.com/agitowblinkerz/)
-* Hungarian [Thanks ZSIMI](http://www.zsimi.hu/)
-* Chinese (Taiwan) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
-* Chinese (China) [Thanks Toine Cheung](https://twitter.com/ToineCheung)
-* Ukrainian [Ivanka Skakun](http://www.everycloudtech.com/)
-* Dutch thanks Friso van Wieringen.
-
-Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -314,7 +294,7 @@ This release updates some core code to do with timezones, hence the change to ve
 * Updated: Purging code now includes the search table.
 * Updated: Search conversion code to limit the number of records retreived to 10000 and then loop through them to ensure we don't run out of memory during the conversion process.
 * Updated: Cleaned up the admin notices code.
-* Updated: Persian translation. (Thanks Ali Zeinali)[https://wp-statistics.com/login/]
+* Updated: Persian translation. Thanks Ali Zeinali.
 
 = 9.5.3 =
 * Release Date: August 19, 2015
