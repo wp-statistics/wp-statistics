@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-05-01 12:30:08+0000\n"
+"PO-Revision-Date: 2015-09-03 12:39:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,51 +10,67 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: shortcode.php:184
+msgid "The post/page id to get page statistics on."
+msgstr "ID posta/strony do wygenerowania statystyk."
+
+#: shortcode.php:181
+msgid "Post/Page ID"
+msgstr "ID posta/strony"
+
+#: includes/functions/functions.php:400
+msgid "Ask.com"
+msgstr "Ask.com"
+
+#: shortcode.php:158
+msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
+msgstr ""
+
 #: wp-statistics.php:144
 msgid "visitor tracking"
-msgstr ""
+msgstr "śledzenie odwiedzających"
 
 #: wp-statistics.php:145
 msgid "geoip collection"
-msgstr ""
+msgstr "kolekcja geoip"
 
 #: wp-statistics.php:161
 msgid "visit database index"
-msgstr ""
+msgstr "indeks w bazie wizyt"
 
 #: wp-statistics.php:170
 msgid "Database updates are required, please go to %s and update the following: %s"
-msgstr ""
+msgstr "Aktualizacje bazy danych są wymagane, przejdź do %s i zaktualizuj: %s"
 
 #: wp-statistics.php:161
 msgid "countries database index"
-msgstr ""
+msgstr "indeks w bazie krajów"
 
 #: wp-statistics.php:154
 msgid "search table"
-msgstr ""
+msgstr "tabela wyszukiwania"
 
 #: wp-statistics.php:148 wp-statistics.php:170
 msgid "settings page"
-msgstr ""
+msgstr "strona z ustawieniami"
 
 #: wp-statistics.php:148 wp-statistics.php:170
 msgid ","
-msgstr ""
+msgstr ","
 
 #: wp-statistics.php:148
 msgid "The following features are disabled, please go to %s and enable them: %s"
-msgstr ""
+msgstr "Następujące funkcje są wyłączone, przejdź do %s i włącz je: %s"
 
 #: wp-statistics.php:143
 msgid "hit tracking"
-msgstr ""
+msgstr "śledzenie trafień"
 
 #: wp-statistics.php:142
 msgid "online user tracking"
-msgstr ""
+msgstr "śledzenie użytkowników online"
 
-#: wp-statistics.php:714
+#: wp-statistics.php:716
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr ""
 
@@ -194,63 +210,59 @@ msgstr ""
 msgid "Number of hits must be greater than or equal to 10!"
 msgstr ""
 
-#: shortcode.php:139
+#: shortcode.php:141
 msgid "Page Visits"
 msgstr ""
 
-#: shortcode.php:142
+#: shortcode.php:144
 msgid "Page Count"
 msgstr ""
 
-#: shortcode.php:143
+#: shortcode.php:145
 msgid "Comment Count"
 msgstr ""
 
-#: shortcode.php:144
+#: shortcode.php:146
 msgid "Spam Count"
 msgstr ""
 
-#: shortcode.php:145
+#: shortcode.php:147
 msgid "User Count"
 msgstr ""
 
-#: shortcode.php:146
+#: shortcode.php:148
 msgid "Post Average"
 msgstr ""
 
-#: shortcode.php:147
+#: shortcode.php:149
 msgid "Comment Average"
 msgstr ""
 
-#: shortcode.php:148
+#: shortcode.php:150
 msgid "User Average"
 msgstr ""
 
-#: shortcode.php:156
-msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it."
-msgstr ""
-
-#: shortcode.php:160
+#: shortcode.php:162
 msgid "Search Provider"
 msgstr ""
 
-#: shortcode.php:163
+#: shortcode.php:165
 msgid "The search provider to get statistics on."
 msgstr ""
 
-#: shortcode.php:167
+#: shortcode.php:169
 msgid "Number Format"
 msgstr ""
 
-#: shortcode.php:170
+#: shortcode.php:172
 msgid "The format to display numbers in: i18n, english, none."
 msgstr ""
 
-#: shortcode.php:174
+#: shortcode.php:176
 msgid "English"
 msgstr ""
 
-#: shortcode.php:175
+#: shortcode.php:177
 msgid "International"
 msgstr ""
 
@@ -270,7 +282,7 @@ msgstr ""
 msgid "Have you thought about donating to WP Statistics?"
 msgstr ""
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:390
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:392
 msgid "Donate"
 msgstr ""
 
@@ -290,27 +302,27 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: shortcode.php:133
+#: shortcode.php:135
 msgid "Select the statistic you wish to display."
 msgstr ""
 
-#: shortcode.php:130
+#: shortcode.php:132
 msgid "Statistic"
 msgstr ""
 
-#: shortcode.php:141
+#: shortcode.php:143
 msgid "Post Count"
 msgstr ""
 
-#: shortcode.php:153
+#: shortcode.php:155
 msgid "Time Frame"
 msgstr ""
 
-#: includes/functions/functions.php:981
+#: includes/functions/functions.php:982
 msgid "to"
 msgstr ""
 
-#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr ""
 
@@ -354,11 +366,11 @@ msgstr ""
 msgid "Filtered by"
 msgstr ""
 
-#: includes/functions/functions.php:974 includes/functions/functions.php:977
+#: includes/functions/functions.php:975 includes/functions/functions.php:978
 msgid "Range"
 msgstr ""
 
-#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -402,27 +414,27 @@ msgstr ""
 msgid "Last 7 Days (Week)"
 msgstr ""
 
-#: includes/functions/functions.php:405
+#: includes/functions/functions.php:406
 msgid "Yahoo!"
 msgstr ""
 
-#: includes/functions/functions.php:406
+#: includes/functions/functions.php:407
 msgid "Yandex"
 msgstr ""
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:403
 msgid "clearch.org"
 msgstr ""
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:404
 msgid "DuckDuckGo"
 msgstr ""
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:402
 msgid "Bing"
 msgstr ""
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:401
 msgid "Baidu"
 msgstr ""
 
@@ -525,8 +537,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "Dla każdej odwiedziny z jednego konta. Aktualnie %s."
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:379
-#: wp-statistics.php:455
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:381
+#: wp-statistics.php:457
 msgid "Pages"
 msgstr "Strony"
 
@@ -811,7 +823,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr "Dowolny krótki kod obsługiwany przez Twoją instalację WordPressa, obejmuje wszystkie krótkie kody dla WP Statistics (zobacz podręcznik administratora uzyskując listę dostępnych kodów), które są obsługiwane w treści wiadomości. Oto kilka przykładów:"
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:247 wp-statistics.php:560
+#: widget.php:247 wp-statistics.php:562
 msgid "User Online"
 msgstr "Osób online"
 
@@ -845,7 +857,7 @@ msgid "Total Visit"
 msgstr "Razem odwiedzin"
 
 #: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:173
+#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:175
 msgid "None"
 msgstr "Żaden"
 
@@ -904,7 +916,7 @@ msgstr "Wyłącz widget edytora strony/wpisu."
 msgid "Map type"
 msgstr "Typ mapy"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:405
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "Google"
@@ -1057,7 +1069,7 @@ msgstr "Raz na 2 tygodnie"
 msgid "Once Every 4 Weeks"
 msgstr "Raz na 4 tygodnie"
 
-#: widget.php:14 wp-statistics.php:370 wp-statistics.php:408
+#: widget.php:14 wp-statistics.php:372 wp-statistics.php:410
 msgid "Statistics"
 msgstr "Statystyki"
 
@@ -1117,7 +1129,7 @@ msgstr "Średnio komentarzy"
 msgid "Average Users"
 msgstr "Średnio użytkowników"
 
-#: shortcode.php:149 widget.php:179 widget.php:324
+#: shortcode.php:151 widget.php:179 widget.php:324
 msgid "Last Post Date"
 msgstr "Data ostatniego wpisu"
 
@@ -1129,7 +1141,7 @@ msgstr "Nazwa"
 msgid "Items"
 msgstr "Wpisów"
 
-#: widget.php:256 wp-statistics.php:585
+#: widget.php:256 wp-statistics.php:587
 msgid "Yesterday visit"
 msgstr "Wczoraj odwiedzin"
 
@@ -1157,17 +1169,19 @@ msgstr "Twoja bieżąca wersja PHP"
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "WP Statistics został usunięty, proszę wyłączyć i usunąć go."
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
 msgstr "Uzupełnij statystyki dla Twojej strony WordPress."
 
-#: wp-statistics.php:277 wp-statistics.php:389 wp-statistics.php:462
+#: wp-statistics.php:277 wp-statistics.php:391 wp-statistics.php:464
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -1191,75 +1205,75 @@ msgstr "Oceń tę wtyczkę"
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - Wejścia"
 
-#: wp-statistics.php:373 wp-statistics.php:411 wp-statistics.php:449
+#: wp-statistics.php:375 wp-statistics.php:413 wp-statistics.php:451
 msgid "Overview"
 msgstr "Przegląd"
 
-#: wp-statistics.php:378 wp-statistics.php:454
+#: wp-statistics.php:380 wp-statistics.php:456
 msgid "Online"
 msgstr "Dostępni użytkownicy"
 
-#: wp-statistics.php:380 wp-statistics.php:456
+#: wp-statistics.php:382 wp-statistics.php:458
 msgid "Referrers"
 msgstr "Referenci"
 
-#: shortcode.php:140 wp-statistics.php:381 wp-statistics.php:457
+#: shortcode.php:142 wp-statistics.php:383 wp-statistics.php:459
 msgid "Searches"
 msgstr "Wyszukiwarki"
 
-#: wp-statistics.php:382 wp-statistics.php:458
+#: wp-statistics.php:384 wp-statistics.php:460
 msgid "Search Words"
 msgstr "Wyszukiwane frazy"
 
-#: wp-statistics.php:383 wp-statistics.php:459
+#: wp-statistics.php:385 wp-statistics.php:461
 msgid "Top Visitors Today"
 msgstr "Najlepsi dzisiejsi odwiedzający"
 
-#: wp-statistics.php:388 wp-statistics.php:461
+#: wp-statistics.php:390 wp-statistics.php:463
 msgid "Optimization"
 msgstr "Optymizacja"
 
-#: wp-statistics.php:394 wp-statistics.php:425
+#: wp-statistics.php:396 wp-statistics.php:427
 msgid "Manual"
 msgstr "Podręcznik"
 
-#: wp-statistics.php:440
+#: wp-statistics.php:442
 msgid "Site"
 msgstr "Teren"
 
-#: wp-statistics.php:441
+#: wp-statistics.php:443
 msgid "Options"
 msgstr "Opcje"
 
-#: wp-statistics.php:567
+#: wp-statistics.php:569
 msgid "Today visitor"
 msgstr "Dzisiaj odwiedziło"
 
-#: wp-statistics.php:573
+#: wp-statistics.php:575
 msgid "Today visit"
 msgstr "Dzisiaj odwiedzin"
 
-#: wp-statistics.php:579
+#: wp-statistics.php:581
 msgid "Yesterday visitor"
 msgstr "Wczoraj odwiedziło"
 
-#: wp-statistics.php:591
+#: wp-statistics.php:593
 msgid "View Stats"
 msgstr "Zobacz statystyki"
 
-#: wp-statistics.php:615
+#: wp-statistics.php:617
 msgid "Download ODF file"
 msgstr "Pobierz plik ODF"
 
-#: wp-statistics.php:616
+#: wp-statistics.php:618
 msgid "Download HTML file"
 msgstr "Pobierz plik HTML"
 
-#: wp-statistics.php:620
+#: wp-statistics.php:622
 msgid "Manual file not found."
 msgstr "Plik podręcznika nie znaleziony."
 
-#: wp-statistics.php:687 wp-statistics.php:812 wp-statistics.php:846
+#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:848
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nie posiadasz wystarczających uprawnień by wyświetlić tę stronę."
 
@@ -1311,7 +1325,9 @@ msgstr "browscap już w aktualnej wersji!"
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini zaktualizował się"
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr ""
@@ -1440,8 +1456,8 @@ msgid "Click to toggle"
 msgstr "Kliknij, aby przełączyć"
 
 #: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:374
-#: wp-statistics.php:450
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
+#: wp-statistics.php:452
 msgid "Browsers"
 msgstr "Przeglądarki"
 
@@ -1470,35 +1486,35 @@ msgstr "Uwaga: Wykluczenia nie są obecnie ustawione na zapisywanie, poniższe w
 msgid "Exclusions Statistics"
 msgstr "Statytyki wykluczeń"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "10 Days"
 msgstr "10 dni"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "20 Days"
 msgstr "20 dni"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "30 Days"
 msgstr "30 dni"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "2 Months"
 msgstr "2 miesiące"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "3 Months"
 msgstr "3 miesiące"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "6 Months"
 msgstr "6 miesięcy"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "9 Months"
 msgstr "9 miesięcy"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "1 Year"
 msgstr "Rok"
 
@@ -1664,7 +1680,7 @@ msgstr "Tytuł strony nie znaleziony"
 #: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
-#: includes/settings/tabs/wps-general.php:127 shortcode.php:137
+#: includes/settings/tabs/wps-general.php:127 shortcode.php:139
 msgid "Visits"
 msgstr "Odwiedzin"
 
@@ -1758,7 +1774,7 @@ msgstr "Czas: %s"
 
 #: includes/log/widgets/top.visitors.php:31
 #: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:301
-#: wp-statistics.php:377 wp-statistics.php:453
+#: wp-statistics.php:379 wp-statistics.php:455
 msgid "Hits"
 msgstr "Wejścia"
 
@@ -1800,11 +1816,11 @@ msgstr "Dane platformy %s pomyślnie usunięte."
 msgid "No platform data found to remove!"
 msgstr "Nie znaleziono danych platform, aby usunąć!"
 
-#: includes/functions/functions.php:1019
+#: includes/functions/functions.php:1020
 msgid "%s table data deleted successfully."
 msgstr "Dane tabeli %s pomyślnie usunięte."
 
-#: includes/functions/functions.php:1023
+#: includes/functions/functions.php:1024
 msgid "Error, %s not emptied!"
 msgstr "Błąd, %s nie opróźniono!"
 
@@ -1830,7 +1846,7 @@ msgstr "Indeks bazy danych"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:375 wp-statistics.php:451
+#: wp-statistics.php:377 wp-statistics.php:453
 msgid "Countries"
 msgstr "Kraje"
 
@@ -1887,19 +1903,19 @@ msgstr "Wybierż tablę dla pliku wyjściowego."
 msgid "Export To"
 msgstr "Eksportuj do"
 
-#: includes/optimization/tabs/wps-optimization-export.php:43
+#: includes/optimization/tabs/wps-optimization-export.php:42
 msgid "Select the output file type."
 msgstr "Wybierz typ liku wyjściowego."
 
-#: includes/optimization/tabs/wps-optimization-export.php:49
+#: includes/optimization/tabs/wps-optimization-export.php:48
 msgid "Include Header Row"
 msgstr "Dołącz wierz nagłówka"
 
-#: includes/optimization/tabs/wps-optimization-export.php:54
+#: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Include a header row as the first line of the exported file."
 msgstr "Dołącz wiersz nagłówka w pierwszym wierszu eksportowanego pliku."
 
-#: includes/optimization/tabs/wps-optimization-export.php:55
+#: includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
 msgstr "Rozpocznij"
 
@@ -1913,8 +1929,8 @@ msgstr "Uwaga: Ponieważ właśnie usunięto bazę danych, należy załadować t
 
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:143 shortcode.php:138
-#: wp-statistics.php:384 wp-statistics.php:460
+#: includes/settings/tabs/wps-general.php:143 shortcode.php:140
+#: wp-statistics.php:386 wp-statistics.php:462
 msgid "Visitors"
 msgstr "Odzwiedzający"
 
@@ -2428,8 +2444,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "Jeśli potrzebujesz bardziej niezawodne rozwiązanie do delegowania dostępu, możesz zajrzeć do %s w katalogu wtyczek WordPress."
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:104 wp-statistics.php:376
-#: wp-statistics.php:452
+#: includes/settings/wps-settings.php:104 wp-statistics.php:378
+#: wp-statistics.php:454
 msgid "Exclusions"
 msgstr "Wykluczenia"
 
@@ -2684,7 +2700,7 @@ msgstr "Spowoduje to usunięcie instrukcji po zapisaniu ustawień, czy na pewno?
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
 msgstr "Ta funkcja nie będzie przechowywać adresów IP w bazie danych, ale zamiast tego stosować unikalny hash. Ustawienie \"Przechowuj cały ciąg agenta użytkownika\" zostanie wyłączone, jeśli ta opcja jest zaznaczona. Nie będzie w stanie odzyskać adresów IP w przyszłości w celu odzyskania informacji o lokalizacji, jeśli ta jest włączona."
 
-#: includes/settings/tabs/wps-general.php:82 shortcode.php:136
+#: includes/settings/tabs/wps-general.php:82 shortcode.php:138
 msgid "Users Online"
 msgstr "Aktywni użytkownicy"
 

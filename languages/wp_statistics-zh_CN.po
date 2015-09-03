@@ -10,6 +10,22 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: shortcode.php:184
+msgid "The post/page id to get page statistics on."
+msgstr ""
+
+#: shortcode.php:181
+msgid "Post/Page ID"
+msgstr ""
+
+#: includes/functions/functions.php:400
+msgid "Ask.com"
+msgstr ""
+
+#: shortcode.php:158
+msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
+msgstr ""
+
 #: wp-statistics.php:144
 msgid "visitor tracking"
 msgstr ""
@@ -54,7 +70,7 @@ msgstr ""
 msgid "online user tracking"
 msgstr ""
 
-#: wp-statistics.php:714
+#: wp-statistics.php:716
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr ""
 
@@ -194,63 +210,59 @@ msgstr ""
 msgid "Number of hits must be greater than or equal to 10!"
 msgstr ""
 
-#: shortcode.php:139
+#: shortcode.php:141
 msgid "Page Visits"
 msgstr ""
 
-#: shortcode.php:142
+#: shortcode.php:144
 msgid "Page Count"
 msgstr ""
 
-#: shortcode.php:143
+#: shortcode.php:145
 msgid "Comment Count"
 msgstr ""
 
-#: shortcode.php:144
+#: shortcode.php:146
 msgid "Spam Count"
 msgstr ""
 
-#: shortcode.php:145
+#: shortcode.php:147
 msgid "User Count"
 msgstr ""
 
-#: shortcode.php:146
+#: shortcode.php:148
 msgid "Post Average"
 msgstr ""
 
-#: shortcode.php:147
+#: shortcode.php:149
 msgid "Comment Average"
 msgstr ""
 
-#: shortcode.php:148
+#: shortcode.php:150
 msgid "User Average"
 msgstr ""
 
-#: shortcode.php:156
-msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it."
-msgstr ""
-
-#: shortcode.php:160
+#: shortcode.php:162
 msgid "Search Provider"
 msgstr ""
 
-#: shortcode.php:163
+#: shortcode.php:165
 msgid "The search provider to get statistics on."
 msgstr ""
 
-#: shortcode.php:167
+#: shortcode.php:169
 msgid "Number Format"
 msgstr ""
 
-#: shortcode.php:170
+#: shortcode.php:172
 msgid "The format to display numbers in: i18n, english, none."
 msgstr ""
 
-#: shortcode.php:174
+#: shortcode.php:176
 msgid "English"
 msgstr ""
 
-#: shortcode.php:175
+#: shortcode.php:177
 msgid "International"
 msgstr ""
 
@@ -270,7 +282,7 @@ msgstr ""
 msgid "Have you thought about donating to WP Statistics?"
 msgstr ""
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:390
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:392
 msgid "Donate"
 msgstr ""
 
@@ -290,27 +302,27 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: shortcode.php:133
+#: shortcode.php:135
 msgid "Select the statistic you wish to display."
 msgstr ""
 
-#: shortcode.php:130
+#: shortcode.php:132
 msgid "Statistic"
 msgstr ""
 
-#: shortcode.php:141
+#: shortcode.php:143
 msgid "Post Count"
 msgstr ""
 
-#: shortcode.php:153
+#: shortcode.php:155
 msgid "Time Frame"
 msgstr ""
 
-#: includes/functions/functions.php:981
+#: includes/functions/functions.php:982
 msgid "to"
 msgstr ""
 
-#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr ""
 
@@ -354,11 +366,11 @@ msgstr ""
 msgid "Filtered by"
 msgstr ""
 
-#: includes/functions/functions.php:974 includes/functions/functions.php:977
+#: includes/functions/functions.php:975 includes/functions/functions.php:978
 msgid "Range"
 msgstr ""
 
-#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -402,27 +414,27 @@ msgstr ""
 msgid "Last 7 Days (Week)"
 msgstr ""
 
-#: includes/functions/functions.php:405
+#: includes/functions/functions.php:406
 msgid "Yahoo!"
 msgstr ""
 
-#: includes/functions/functions.php:406
+#: includes/functions/functions.php:407
 msgid "Yandex"
 msgstr ""
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:403
 msgid "clearch.org"
 msgstr ""
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:404
 msgid "DuckDuckGo"
 msgstr ""
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:402
 msgid "Bing"
 msgstr ""
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:401
 msgid "Baidu"
 msgstr ""
 
@@ -525,8 +537,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "每一个访问计算多少位访客，现时 %s "
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:379
-#: wp-statistics.php:455
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:381
+#: wp-statistics.php:457
 msgid "Pages"
 msgstr "页"
 
@@ -811,7 +823,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr ""
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:247 wp-statistics.php:560
+#: widget.php:247 wp-statistics.php:562
 msgid "User Online"
 msgstr "在线用户"
 
@@ -845,7 +857,7 @@ msgid "Total Visit"
 msgstr "累计访问"
 
 #: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:173
+#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:175
 msgid "None"
 msgstr "没有一个"
 
@@ -904,7 +916,7 @@ msgstr ""
 msgid "Map type"
 msgstr "映射类型"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:405
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "谷歌 （Google）"
@@ -1057,7 +1069,7 @@ msgstr "每隔 2 周"
 msgid "Once Every 4 Weeks"
 msgstr "每隔 4 周"
 
-#: widget.php:14 wp-statistics.php:370 wp-statistics.php:408
+#: widget.php:14 wp-statistics.php:372 wp-statistics.php:410
 msgid "Statistics"
 msgstr "统计"
 
@@ -1117,7 +1129,7 @@ msgstr "平均回响"
 msgid "Average Users"
 msgstr "平均用户"
 
-#: shortcode.php:149 widget.php:179 widget.php:324
+#: shortcode.php:151 widget.php:179 widget.php:324
 msgid "Last Post Date"
 msgstr "最后发表日期"
 
@@ -1129,7 +1141,7 @@ msgstr "名称"
 msgid "Items"
 msgstr "条目"
 
-#: widget.php:256 wp-statistics.php:585
+#: widget.php:256 wp-statistics.php:587
 msgid "Yesterday visit"
 msgstr "昨日访问"
 
@@ -1157,17 +1169,19 @@ msgstr ""
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "WP 统计"
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
 msgstr "完整的统计资料，为你的 WordPress 站点的。"
 
-#: wp-statistics.php:277 wp-statistics.php:389 wp-statistics.php:462
+#: wp-statistics.php:277 wp-statistics.php:391 wp-statistics.php:464
 msgid "Settings"
 msgstr "设定"
 
@@ -1191,75 +1205,75 @@ msgstr "率这个插件"
 msgid "WP Statistics - Hits"
 msgstr "WP 统计-命中"
 
-#: wp-statistics.php:373 wp-statistics.php:411 wp-statistics.php:449
+#: wp-statistics.php:375 wp-statistics.php:413 wp-statistics.php:451
 msgid "Overview"
 msgstr "总览"
 
-#: wp-statistics.php:378 wp-statistics.php:454
+#: wp-statistics.php:380 wp-statistics.php:456
 msgid "Online"
 msgstr ""
 
-#: wp-statistics.php:380 wp-statistics.php:456
+#: wp-statistics.php:382 wp-statistics.php:458
 msgid "Referrers"
 msgstr ""
 
-#: shortcode.php:140 wp-statistics.php:381 wp-statistics.php:457
+#: shortcode.php:142 wp-statistics.php:383 wp-statistics.php:459
 msgid "Searches"
 msgstr "搜索"
 
-#: wp-statistics.php:382 wp-statistics.php:458
+#: wp-statistics.php:384 wp-statistics.php:460
 msgid "Search Words"
 msgstr "词语搜索"
 
-#: wp-statistics.php:383 wp-statistics.php:459
+#: wp-statistics.php:385 wp-statistics.php:461
 msgid "Top Visitors Today"
 msgstr ""
 
-#: wp-statistics.php:388 wp-statistics.php:461
+#: wp-statistics.php:390 wp-statistics.php:463
 msgid "Optimization"
 msgstr "优化"
 
-#: wp-statistics.php:394 wp-statistics.php:425
+#: wp-statistics.php:396 wp-statistics.php:427
 msgid "Manual"
 msgstr "手动"
 
-#: wp-statistics.php:440
+#: wp-statistics.php:442
 msgid "Site"
 msgstr ""
 
-#: wp-statistics.php:441
+#: wp-statistics.php:443
 msgid "Options"
 msgstr ""
 
-#: wp-statistics.php:567
+#: wp-statistics.php:569
 msgid "Today visitor"
 msgstr "累计访客"
 
-#: wp-statistics.php:573
+#: wp-statistics.php:575
 msgid "Today visit"
 msgstr "累计访问"
 
-#: wp-statistics.php:579
+#: wp-statistics.php:581
 msgid "Yesterday visitor"
 msgstr "昨日访客"
 
-#: wp-statistics.php:591
+#: wp-statistics.php:593
 msgid "View Stats"
 msgstr "检阅统计数据"
 
-#: wp-statistics.php:615
+#: wp-statistics.php:617
 msgid "Download ODF file"
 msgstr "ODF 文件下载"
 
-#: wp-statistics.php:616
+#: wp-statistics.php:618
 msgid "Download HTML file"
 msgstr "下载 HTML 文件"
 
-#: wp-statistics.php:620
+#: wp-statistics.php:622
 msgid "Manual file not found."
 msgstr "手动文件找不到。"
 
-#: wp-statistics.php:687 wp-statistics.php:812 wp-statistics.php:846
+#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:848
 msgid "You do not have sufficient permissions to access this page."
 msgstr "你没有足够权限访问此页"
 
@@ -1311,7 +1325,9 @@ msgstr "已经在当前版本的 browscap！"
 msgid "Browscap.ini update on"
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr ""
@@ -1440,8 +1456,8 @@ msgid "Click to toggle"
 msgstr "点击切换"
 
 #: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:374
-#: wp-statistics.php:450
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
+#: wp-statistics.php:452
 msgid "Browsers"
 msgstr "浏览器"
 
@@ -1470,35 +1486,35 @@ msgstr "小心：现在没有设定记录过滤信息，所以下面的结果可
 msgid "Exclusions Statistics"
 msgstr "排除统计"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "10 Days"
 msgstr "10 天"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "20 Days"
 msgstr "20 天"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "30 Days"
 msgstr "30 天"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "2 Months"
 msgstr "2个月"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "3 Months"
 msgstr "3个月"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "6 Months"
 msgstr "6个月"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "9 Months"
 msgstr "9个月"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "1 Year"
 msgstr "一年"
 
@@ -1664,7 +1680,7 @@ msgstr "发现没有页面标题"
 #: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
-#: includes/settings/tabs/wps-general.php:127 shortcode.php:137
+#: includes/settings/tabs/wps-general.php:127 shortcode.php:139
 msgid "Visits"
 msgstr "点击"
 
@@ -1758,7 +1774,7 @@ msgstr "时间： %s"
 
 #: includes/log/widgets/top.visitors.php:31
 #: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:301
-#: wp-statistics.php:377 wp-statistics.php:453
+#: wp-statistics.php:379 wp-statistics.php:455
 msgid "Hits"
 msgstr "点击数"
 
@@ -1800,11 +1816,11 @@ msgstr "%s 平台数据已成功删除。"
 msgid "No platform data found to remove!"
 msgstr ""
 
-#: includes/functions/functions.php:1019
+#: includes/functions/functions.php:1020
 msgid "%s table data deleted successfully."
 msgstr "%s 已成功删除的表数据。"
 
-#: includes/functions/functions.php:1023
+#: includes/functions/functions.php:1024
 msgid "Error, %s not emptied!"
 msgstr "错误，%s 未清空。"
 
@@ -1830,7 +1846,7 @@ msgstr "数据库索引"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:375 wp-statistics.php:451
+#: wp-statistics.php:377 wp-statistics.php:453
 msgid "Countries"
 msgstr "国家"
 
@@ -1887,19 +1903,19 @@ msgstr "导出格式"
 msgid "Export To"
 msgstr "导出到"
 
-#: includes/optimization/tabs/wps-optimization-export.php:43
+#: includes/optimization/tabs/wps-optimization-export.php:42
 msgid "Select the output file type."
 msgstr "选择导出文件格式"
 
-#: includes/optimization/tabs/wps-optimization-export.php:49
+#: includes/optimization/tabs/wps-optimization-export.php:48
 msgid "Include Header Row"
 msgstr "包含头信息"
 
-#: includes/optimization/tabs/wps-optimization-export.php:54
+#: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Include a header row as the first line of the exported file."
 msgstr "将头信息作为导出文件的第一行"
 
-#: includes/optimization/tabs/wps-optimization-export.php:55
+#: includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
 msgstr "开始！"
 
@@ -1913,8 +1929,8 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:143 shortcode.php:138
-#: wp-statistics.php:384 wp-statistics.php:460
+#: includes/settings/tabs/wps-general.php:143 shortcode.php:140
+#: wp-statistics.php:386 wp-statistics.php:462
 msgid "Visitors"
 msgstr "访客"
 
@@ -2428,8 +2444,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "如果你需要一个更加稳妥的解决方案来优雅的访问，那么你可以在WordPress的插件目录看一下 %s。"
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:104 wp-statistics.php:376
-#: wp-statistics.php:452
+#: includes/settings/wps-settings.php:104 wp-statistics.php:378
+#: wp-statistics.php:454
 msgid "Exclusions"
 msgstr "过滤"
 
@@ -2684,7 +2700,7 @@ msgstr "这将删除手册 》，当您保存设置时，你确定吗？"
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
 msgstr "此功能不会将 IP 地址存储在数据库中，但相反用唯一的哈希。\"Store 整个用户代理 string\"设置将被禁用，如果选择了此选项。你将不能恢复的 IP 地址在将来恢复位置的信息，如果启用此选项。"
 
-#: includes/settings/tabs/wps-general.php:82 shortcode.php:136
+#: includes/settings/tabs/wps-general.php:82 shortcode.php:138
 msgid "Users Online"
 msgstr "用户在线"
 

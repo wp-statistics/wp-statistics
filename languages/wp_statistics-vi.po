@@ -10,6 +10,22 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: shortcode.php:184
+msgid "The post/page id to get page statistics on."
+msgstr ""
+
+#: shortcode.php:181
+msgid "Post/Page ID"
+msgstr ""
+
+#: includes/functions/functions.php:400
+msgid "Ask.com"
+msgstr ""
+
+#: shortcode.php:158
+msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
+msgstr ""
+
 #: wp-statistics.php:144
 msgid "visitor tracking"
 msgstr ""
@@ -54,7 +70,7 @@ msgstr ""
 msgid "online user tracking"
 msgstr ""
 
-#: wp-statistics.php:714
+#: wp-statistics.php:716
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr ""
 
@@ -194,63 +210,59 @@ msgstr ""
 msgid "Number of hits must be greater than or equal to 10!"
 msgstr ""
 
-#: shortcode.php:139
+#: shortcode.php:141
 msgid "Page Visits"
 msgstr ""
 
-#: shortcode.php:142
+#: shortcode.php:144
 msgid "Page Count"
 msgstr ""
 
-#: shortcode.php:143
+#: shortcode.php:145
 msgid "Comment Count"
 msgstr ""
 
-#: shortcode.php:144
+#: shortcode.php:146
 msgid "Spam Count"
 msgstr ""
 
-#: shortcode.php:145
+#: shortcode.php:147
 msgid "User Count"
 msgstr ""
 
-#: shortcode.php:146
+#: shortcode.php:148
 msgid "Post Average"
 msgstr ""
 
-#: shortcode.php:147
+#: shortcode.php:149
 msgid "Comment Average"
 msgstr ""
 
-#: shortcode.php:148
+#: shortcode.php:150
 msgid "User Average"
 msgstr ""
 
-#: shortcode.php:156
-msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it."
-msgstr ""
-
-#: shortcode.php:160
+#: shortcode.php:162
 msgid "Search Provider"
 msgstr ""
 
-#: shortcode.php:163
+#: shortcode.php:165
 msgid "The search provider to get statistics on."
 msgstr ""
 
-#: shortcode.php:167
+#: shortcode.php:169
 msgid "Number Format"
 msgstr ""
 
-#: shortcode.php:170
+#: shortcode.php:172
 msgid "The format to display numbers in: i18n, english, none."
 msgstr ""
 
-#: shortcode.php:174
+#: shortcode.php:176
 msgid "English"
 msgstr ""
 
-#: shortcode.php:175
+#: shortcode.php:177
 msgid "International"
 msgstr ""
 
@@ -270,7 +282,7 @@ msgstr ""
 msgid "Have you thought about donating to WP Statistics?"
 msgstr ""
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:390
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:392
 msgid "Donate"
 msgstr ""
 
@@ -290,27 +302,27 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: shortcode.php:133
+#: shortcode.php:135
 msgid "Select the statistic you wish to display."
 msgstr ""
 
-#: shortcode.php:130
+#: shortcode.php:132
 msgid "Statistic"
 msgstr ""
 
-#: shortcode.php:141
+#: shortcode.php:143
 msgid "Post Count"
 msgstr ""
 
-#: shortcode.php:153
+#: shortcode.php:155
 msgid "Time Frame"
 msgstr ""
 
-#: includes/functions/functions.php:981
+#: includes/functions/functions.php:982
 msgid "to"
 msgstr ""
 
-#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr ""
 
@@ -354,11 +366,11 @@ msgstr ""
 msgid "Filtered by"
 msgstr ""
 
-#: includes/functions/functions.php:974 includes/functions/functions.php:977
+#: includes/functions/functions.php:975 includes/functions/functions.php:978
 msgid "Range"
 msgstr ""
 
-#: includes/functions/functions.php:981 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -402,27 +414,27 @@ msgstr ""
 msgid "Last 7 Days (Week)"
 msgstr ""
 
-#: includes/functions/functions.php:405
+#: includes/functions/functions.php:406
 msgid "Yahoo!"
 msgstr ""
 
-#: includes/functions/functions.php:406
+#: includes/functions/functions.php:407
 msgid "Yandex"
 msgstr ""
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:403
 msgid "clearch.org"
 msgstr ""
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:404
 msgid "DuckDuckGo"
 msgstr ""
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:402
 msgid "Bing"
 msgstr ""
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:401
 msgid "Baidu"
 msgstr ""
 
@@ -525,8 +537,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "Cho mỗi truy cập vào tài khoản cho một số lượt truy cập. Hiện nay %s."
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:379
-#: wp-statistics.php:455
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:381
+#: wp-statistics.php:457
 msgid "Pages"
 msgstr "Trang"
 
@@ -811,7 +823,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr ""
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:247 wp-statistics.php:560
+#: widget.php:247 wp-statistics.php:562
 msgid "User Online"
 msgstr "Người online"
 
@@ -845,7 +857,7 @@ msgid "Total Visit"
 msgstr "Tất cả chuyến thăm"
 
 #: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:173
+#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:175
 msgid "None"
 msgstr "Không có"
 
@@ -904,7 +916,7 @@ msgstr ""
 msgid "Map type"
 msgstr "Loại bản đồ"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:405
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "Google"
@@ -1057,7 +1069,7 @@ msgstr "Một lần mỗi 2 tuần"
 msgid "Once Every 4 Weeks"
 msgstr "Một lần mỗi tuần 4"
 
-#: widget.php:14 wp-statistics.php:370 wp-statistics.php:408
+#: widget.php:14 wp-statistics.php:372 wp-statistics.php:410
 msgid "Statistics"
 msgstr "Thống kê"
 
@@ -1117,7 +1129,7 @@ msgstr "Ý kiến trung bình"
 msgid "Average Users"
 msgstr "Người dùng trung bình"
 
-#: shortcode.php:149 widget.php:179 widget.php:324
+#: shortcode.php:151 widget.php:179 widget.php:324
 msgid "Last Post Date"
 msgstr "Cuối ngày đăng"
 
@@ -1129,7 +1141,7 @@ msgstr "Tên"
 msgid "Items"
 msgstr "Mục"
 
-#: widget.php:256 wp-statistics.php:585
+#: widget.php:256 wp-statistics.php:587
 msgid "Yesterday visit"
 msgstr "Lượt truy cập hôm qua"
 
@@ -1157,17 +1169,19 @@ msgstr ""
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "Thống kê WP"
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
 msgstr "Hoàn thành các thống kê cho trang web WordPress của bạn."
 
-#: wp-statistics.php:277 wp-statistics.php:389 wp-statistics.php:462
+#: wp-statistics.php:277 wp-statistics.php:391 wp-statistics.php:464
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -1191,75 +1205,75 @@ msgstr "Tỷ lệ này plugin"
 msgid "WP Statistics - Hits"
 msgstr "Thống kê WP - lượt truy cập"
 
-#: wp-statistics.php:373 wp-statistics.php:411 wp-statistics.php:449
+#: wp-statistics.php:375 wp-statistics.php:413 wp-statistics.php:451
 msgid "Overview"
 msgstr "Tổng quan"
 
-#: wp-statistics.php:378 wp-statistics.php:454
+#: wp-statistics.php:380 wp-statistics.php:456
 msgid "Online"
 msgstr ""
 
-#: wp-statistics.php:380 wp-statistics.php:456
+#: wp-statistics.php:382 wp-statistics.php:458
 msgid "Referrers"
 msgstr ""
 
-#: shortcode.php:140 wp-statistics.php:381 wp-statistics.php:457
+#: shortcode.php:142 wp-statistics.php:383 wp-statistics.php:459
 msgid "Searches"
 msgstr "Lượt tìm kiếm"
 
-#: wp-statistics.php:382 wp-statistics.php:458
+#: wp-statistics.php:384 wp-statistics.php:460
 msgid "Search Words"
 msgstr "Từ được tìm kiếm"
 
-#: wp-statistics.php:383 wp-statistics.php:459
+#: wp-statistics.php:385 wp-statistics.php:461
 msgid "Top Visitors Today"
 msgstr ""
 
-#: wp-statistics.php:388 wp-statistics.php:461
+#: wp-statistics.php:390 wp-statistics.php:463
 msgid "Optimization"
 msgstr "Tối ưu hóa"
 
-#: wp-statistics.php:394 wp-statistics.php:425
+#: wp-statistics.php:396 wp-statistics.php:427
 msgid "Manual"
 msgstr "Hướng dẫn sử dụng"
 
-#: wp-statistics.php:440
+#: wp-statistics.php:442
 msgid "Site"
 msgstr ""
 
-#: wp-statistics.php:441
+#: wp-statistics.php:443
 msgid "Options"
 msgstr ""
 
-#: wp-statistics.php:567
+#: wp-statistics.php:569
 msgid "Today visitor"
 msgstr "Số người truy câp hôm nay"
 
-#: wp-statistics.php:573
+#: wp-statistics.php:575
 msgid "Today visit"
 msgstr "Lượt truy cập hôm nay"
 
-#: wp-statistics.php:579
+#: wp-statistics.php:581
 msgid "Yesterday visitor"
 msgstr "Số người truy cập hôm qua"
 
-#: wp-statistics.php:591
+#: wp-statistics.php:593
 msgid "View Stats"
 msgstr "Xem số liệu thống kê"
 
-#: wp-statistics.php:615
+#: wp-statistics.php:617
 msgid "Download ODF file"
 msgstr "Tải về tập tin ODF"
 
-#: wp-statistics.php:616
+#: wp-statistics.php:618
 msgid "Download HTML file"
 msgstr "Tải xuống tệp HTML"
 
-#: wp-statistics.php:620
+#: wp-statistics.php:622
 msgid "Manual file not found."
 msgstr "Hướng dẫn sử dụng tập tin không tìm thấy."
 
-#: wp-statistics.php:687 wp-statistics.php:812 wp-statistics.php:846
+#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:848
 msgid "You do not have sufficient permissions to access this page."
 msgstr ".Bạn không có quyền truy cập trang này"
 
@@ -1311,7 +1325,9 @@ msgstr "browscap đã có tại phiên bản hiện tại!"
 msgid "Browscap.ini update on"
 msgstr ""
 
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
+#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr "http://WP-Statistics.com/"
@@ -1440,8 +1456,8 @@ msgid "Click to toggle"
 msgstr "Nhấn vào đây để chuyển đổi"
 
 #: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:374
-#: wp-statistics.php:450
+#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
+#: wp-statistics.php:452
 msgid "Browsers"
 msgstr "Trình duyệt"
 
@@ -1470,35 +1486,35 @@ msgstr "Chú ý: Loại trừ không hiện đang được thiết lập để �
 msgid "Exclusions Statistics"
 msgstr "Loại trừ số liệu thống kê"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "10 Days"
 msgstr "10 ngày"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "20 Days"
 msgstr "20 ngày"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "30 Days"
 msgstr "30 ngày"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "2 Months"
 msgstr "2 tháng"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "3 Months"
 msgstr "3 tháng"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "6 Months"
 msgstr "6 tháng"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "9 Months"
 msgstr "9 tháng"
 
-#: includes/functions/functions.php:931
+#: includes/functions/functions.php:932
 msgid "1 Year"
 msgstr "1 năm"
 
@@ -1664,7 +1680,7 @@ msgstr "Tiêu đề trang không tìm thấy"
 #: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
-#: includes/settings/tabs/wps-general.php:127 shortcode.php:137
+#: includes/settings/tabs/wps-general.php:127 shortcode.php:139
 msgid "Visits"
 msgstr "Các lượt truy cập"
 
@@ -1758,7 +1774,7 @@ msgstr "Thời gian: %s"
 
 #: includes/log/widgets/top.visitors.php:31
 #: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:301
-#: wp-statistics.php:377 wp-statistics.php:453
+#: wp-statistics.php:379 wp-statistics.php:455
 msgid "Hits"
 msgstr "Lượt đếm"
 
@@ -1800,11 +1816,11 @@ msgstr "%s nền tảng dữ liệu đã xóa thành công."
 msgid "No platform data found to remove!"
 msgstr ""
 
-#: includes/functions/functions.php:1019
+#: includes/functions/functions.php:1020
 msgid "%s table data deleted successfully."
 msgstr "%s bảng dữ liệu đã xóa thành công."
 
-#: includes/functions/functions.php:1023
+#: includes/functions/functions.php:1024
 msgid "Error, %s not emptied!"
 msgstr "Lỗi, %s không trống"
 
@@ -1830,7 +1846,7 @@ msgstr "Cơ sở dữ liệu chỉ mục"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:375 wp-statistics.php:451
+#: wp-statistics.php:377 wp-statistics.php:453
 msgid "Countries"
 msgstr "Quốc gia"
 
@@ -1887,19 +1903,19 @@ msgstr "Chọn bảng cho các tập tin đầu ra."
 msgid "Export To"
 msgstr "Xuất khẩu để"
 
-#: includes/optimization/tabs/wps-optimization-export.php:43
+#: includes/optimization/tabs/wps-optimization-export.php:42
 msgid "Select the output file type."
 msgstr "Chọn loại tệp đầu ra."
 
-#: includes/optimization/tabs/wps-optimization-export.php:49
+#: includes/optimization/tabs/wps-optimization-export.php:48
 msgid "Include Header Row"
 msgstr "Bao gồm hàng tiêu đề"
 
-#: includes/optimization/tabs/wps-optimization-export.php:54
+#: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Include a header row as the first line of the exported file."
 msgstr "Bao gồm một dòng tiêu đề như là dòng đầu tiên của tập tin xuất khẩu."
 
-#: includes/optimization/tabs/wps-optimization-export.php:55
+#: includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
 msgstr "Bắt đầu bây giờ!"
 
@@ -1913,8 +1929,8 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
-#: includes/settings/tabs/wps-general.php:143 shortcode.php:138
-#: wp-statistics.php:384 wp-statistics.php:460
+#: includes/settings/tabs/wps-general.php:143 shortcode.php:140
+#: wp-statistics.php:386 wp-statistics.php:462
 msgid "Visitors"
 msgstr "Lượng người truy cập"
 
@@ -2428,8 +2444,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "Nếu bạn cần một giải pháp mạnh mẽ hơn để đại biểu truy cập bạn có thể muốn nhìn vào %s trong thư mục plugin WordPress."
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:104 wp-statistics.php:376
-#: wp-statistics.php:452
+#: includes/settings/wps-settings.php:104 wp-statistics.php:378
+#: wp-statistics.php:454
 msgid "Exclusions"
 msgstr "Ngoại trừ"
 
@@ -2684,7 +2700,7 @@ msgstr "Điều này sẽ xóa sổ tay khi bạn lưu cài đặt, bạn có ch
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
 msgstr "Tính năng này sẽ không lưu trữ địa chỉ IP trong cơ sở dữ liệu nhưng thay vào đó sử dụng một băm duy nhất. \"Store người dùng toàn bộ đại lý string\" cài đặt sẽ bị vô hiệu nếu điều này được chọn. Bạn sẽ không thể phục hồi các địa chỉ IP trong tương lai để phục hồi thông tin vị trí nếu điều này được kích hoạt."
 
-#: includes/settings/tabs/wps-general.php:82 shortcode.php:136
+#: includes/settings/tabs/wps-general.php:82 shortcode.php:138
 msgid "Users Online"
 msgstr "Người dùng trực tuyến"
 
