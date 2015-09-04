@@ -1,5 +1,5 @@
 <?php
-	GLOBAL $wpdb;
+	GLOBAL $wpdb, $WP_Statistics;
 	$wp_prefix = $wpdb->prefix;
 
 	if( !is_super_admin() )
@@ -89,7 +89,7 @@
 				// Record in the options that we've done this update.
 				$dbupdates = $WP_Statistics->get_option('pending_db_updates');
 				$dbupdates['date_ip_agent'] = false;
-				$wp_statistics->update_option('pending_db_updates', $dbupdates);
+				$WP_Statistics->update_option('pending_db_updates', $dbupdates);
 			}
 		}
 	}
@@ -130,7 +130,7 @@
 				// Record in the options that we've done this update.
 				$dbupdates = $WP_Statistics->get_option('pending_db_updates');
 				$dbupdates['unique_date'] = false;
-				$wp_statistics->update_option('pending_db_updates', $dbupdates);
+				$WP_Statistics->update_option('pending_db_updates', $dbupdates);
 			}
 		}
 	}
