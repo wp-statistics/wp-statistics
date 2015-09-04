@@ -27,24 +27,24 @@ if( $wps_nonce_valid ) {
 <table class="form-table">
 	<tbody>
 		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('Database Maintenance', 'wp_statistics'); ?></h3></th>
+			<th scope="row" colspan="2"><h3><?php _e('Purge Old Data Daily', 'wp_statistics'); ?></h3></th>
 		</tr>
 
 		<tr valign="top">
 			<th scope="row">
-				<label for="wps_schedule_dbmaint"><?php _e('Run a daily WP Cron job to prune the databases', 'wp_statistics'); ?>:</label>
+				<label for="wps_schedule_dbmaint"><?php _e('Enabled', 'wp_statistics'); ?>:</label>
 			</th>
 			
 			<td>
 				<input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo $WP_Statistics->get_option('schedule_dbmaint')==true? "checked='checked'":'';?> onclick='DBMaintWarning();'>
 				<label for="wps_schedule_dbmaint"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('A WP Cron job will be run daily to prune any data older than a set number of days.', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('A WP Cron job will be run daily to purge any data older than a set number of days.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 
 		<tr valign="top">
 			<th scope="row">
-				<label for="wps_schedule_dbmaint_days"><?php _e('Prune data older than', 'wp_statistics'); ?>:</label>
+				<label for="wps_schedule_dbmaint_days"><?php _e('Purge data older than', 'wp_statistics'); ?>:</label>
 			</th>
 			
 			<td>
@@ -55,26 +55,30 @@ if( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top">
+			<th scope="row" colspan="2"><h3><?php _e('Purge High Hit Count Visitors Daily', 'wp_statistics'); ?></h3></th>
+		</tr>
+		
+		<tr valign="top">
 			<th scope="row">
-				<label for="wps_schedule_dbmaint_visitor"><?php _e('Run a daily WP Cron job to prune the databases', 'wp_statistics'); ?>:</label>
+				<label for="wps_schedule_dbmaint_visitor"><?php _e('Enabled', 'wp_statistics'); ?>:</label>
 			</th>
 			
 			<td>
 				<input id="wps_schedule_dbmaint_visitor" type="checkbox" name="wps_schedule_dbmaint_visitor" <?php echo $WP_Statistics->get_option('schedule_dbmaint_visitor')==true? "checked='checked'":'';?> onclick='DBMaintWarning();'>
 				<label for="wps_schedule_dbmaint_visitor"><?php _e('Active', 'wp_statistics'); ?></label>
-				<p class="description"><?php _e('A WP Cron job will be run daily to prune any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot).', 'wp_statistics'); ?></p>
+				<p class="description"><?php _e('A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot).', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 
 		<tr valign="top">
 			<th scope="row">
-				<label for="wps_schedule_dbmaint_visitor_hits"><?php _e('Prune visitors with more than', 'wp_statistics'); ?>:</label>
+				<label for="wps_schedule_dbmaint_visitor_hits"><?php _e('Purge visitors with more than', 'wp_statistics'); ?>:</label>
 			</th>
 			
 			<td>
 				<input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo htmlentities( $WP_Statistics->get_option('schedule_dbmaint_visitor_hits', '50'), ENT_QUOTES ); ?>"/>
 				<?php _e('Hits', 'wp_statistics'); ?>
-				<p class="description"><?php echo __('The number of hits required to delete the visitor.  Invalid values will disable the daily maintenance (must be 10 or greater).', 'wp_statistics'); ?></p>
+				<p class="description"><?php echo __('The number of hits required to delete the visitor.  Minimum value is 10 hits.  Invalid values will disable the daily maintenance.', 'wp_statistics'); ?></p>
 			</td>
 		</tr>
 
