@@ -19,41 +19,27 @@
 	$get_urls = array();
 	$total = 0;
 		
-	if( $WP_Statistics->get_option('search_converted') ) {
-		if( $referr ) {
-			$total = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_search` WHERE `host` = %s", $referr ));
-		} else {
-			$result = $wpdb->get_results( "SELECT DISTINCT host FROM {$wpdb->prefix}statistics_search" );
-	
-			foreach( $result as $item ) {
-				$get_urls[$item->host] = $wpdb->get_var( "SELECT count(*) FROM {$wpdb->prefix}statistics_search WHERE host = '{$item->host}'" );
-			}
-			
-			$total = count( $get_urls );
-		}
-	} else {
-		if( $referr ) {
-			$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s' AND referred <> '' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%' ) );
-	
-			$total = count( $result );
-		} else {
-			$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> ''" );
-			
-			$urls = array();
-			foreach( $result as $item ) {
-			
-				$url = parse_url($item->referred);
-				
-				if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
-					continue;
-					
-				$urls[] = $url['host'];
-			}
-			
-			$get_urls = array_count_values($urls);
+	if( $referr ) {
+		$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s' AND referred <> '' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%' ) );
 
-			$total = count( $get_urls );
+		$total = count( $result );
+	} else {
+		$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> ''" );
+		
+		$urls = array();
+		foreach( $result as $item ) {
+		
+			$url = parse_url($item->referred);
+			
+			if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
+				continue;
+				
+			$urls[] = $url['host'];
 		}
+		
+		$get_urls = array_count_values($urls);
+
+		$total = count( $get_urls );
 	}
 
 ?>
