@@ -235,6 +235,9 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.6.1 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
 = 9.6 =
 Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
 
@@ -282,6 +285,11 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.6.1 =
+* Release Date: September 4, 2015
+* Fixed: Error with undeclared global $WP_Statistics when updating the database.
+* Added: Re-validation of the current database updates required when loading the optimization page.
+
 = 9.6 =
 * Release Date: September 3, 2015
 * Added: New admin notices for if the database requires updates.
