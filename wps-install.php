@@ -165,7 +165,7 @@
 		update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
 
 		// Now check to see what database updates may be required and record them for a user notice later.
-		$dbupdates = array();
+		$dbupdates = array( 'date_ip_agent' => false, 'unique_date' => false );
 		
 		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
 		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'");
