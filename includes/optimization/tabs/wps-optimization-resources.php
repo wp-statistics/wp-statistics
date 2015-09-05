@@ -117,6 +117,17 @@
 			</tr>
 
 			<tr valign="top">
+				<th scope="row">
+					<?php echo sprintf(__('Number of rows in the %s table', 'wp_statistics'), '<code>' . $wpdb->prefix . 'statistics_' . 'search' . '</code>'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php echo number_format_i18n($result['search']); ?></strong> <?php _e('Row', 'wp_statistics'); ?>
+					<p class="description"><?php _e('Number of rows', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('Version Info', 'wp_statistics'); ?></h3></th>
 			</tr>
 			

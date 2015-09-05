@@ -835,6 +835,7 @@ License: GPL2
 		$result['exclusions'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_exclusions`");
 		$result['pages'] = $wpdb->get_var("SELECT COUNT(uri) FROM `{$wpdb->prefix}statistics_pages`");
 		$result['historical'] = $wpdb->get_Var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_historical`");
+		$result['search'] = $wpdb->get_Var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_search`");
 		
 		include_once dirname( __FILE__ ) . "/includes/optimization/wps-optimization.php";
 	}
