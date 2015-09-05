@@ -488,7 +488,8 @@
 					$page_uri = substr( $page_uri, 0, 255);
 					
 					// If we have already been to this page today (a likely scenario), just update the count on the record.
-					$this->result = $this->db->query("UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = '{$page_uri}'");
+					$sql = $this->db->prepare( "UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date('Y-m-d')}' AND `uri` = %s", $page_uri );
+					$this->result = $this->db->query($sql);
 
 					// If the update failed (aka the record doesn't exist), insert a new one.  Note this may drop a page hit if a race condition
 					// exists where two people load the same page a the roughly the same time.  In that case two inserts would be attempted but
