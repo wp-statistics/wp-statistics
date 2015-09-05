@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.3
-Stable tag: 9.6.1
+Stable tag: 9.6.2
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -235,6 +235,10 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.6.2 =
+This is a security release, please upgrade immediately.
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
 = 9.6.1 =
 Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
 
@@ -285,6 +289,15 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.6.2 =
+* Release Date: September 5, 2015
+* Added: Search table to the empty table list.
+* Added: Search table size to the optimization page.
+* Added: Updated SQL calls to the pages table to use $wpdb->prepare() to protect against SQL inject attacks.
+* Fixed: Check of $wp_roles type as it is an object and not an array which caused only admins to be able to view the statistics.
+* Fixed: Top referring only displayed search engines.
+* Updated: Layout of the maintenance tab.
+
 = 9.6.1 =
 * Release Date: September 4, 2015
 * Fixed: Error with undeclared global $WP_Statistics when updating the database.
