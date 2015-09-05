@@ -102,12 +102,16 @@ function wp_statistics_empty_table_action_callback() {
 				case 'pages':
 					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_pages');
 					break;
+				case 'search':
+					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_search');
+					break;
 				case 'all':
 					$result_string = wp_statitiscs_empty_table($wpdb->prefix . 'statistics_useronline');
 					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_visit');
 					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_visitor');
 					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_exclusions');
 					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_pages');
+					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_search');
 
 					echo $result_string;
 					
