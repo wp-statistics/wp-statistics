@@ -147,7 +147,7 @@ License: GPL2
 			if( count( $itemstoenable ) > 0 )
 				echo '<div class="update-nag">'.sprintf(__('The following features are disabled, please go to %s and enable them: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'settings page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $itemstoenable)).'</div>';
 
-			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization";
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
 
 			$dbupdatestodo = array();
 			
@@ -167,7 +167,7 @@ License: GPL2
 				}
 	
 			if( count( $dbupdatestodo ) > 0 ) 
-				echo '<div class="update-nag">'.sprintf(__('Database updates are required, please go to %s and update the following: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'settings page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $dbupdatestodo)).'</div>';
+				echo '<div class="update-nag">'.sprintf(__('Database updates are required, please go to %s and update the following: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'optimization page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $dbupdatestodo)).'</div>';
 
 			}
 		}
