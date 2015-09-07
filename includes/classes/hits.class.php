@@ -40,7 +40,7 @@
 			}
 			
 			// Check to see if the user wants us to record why we're excluding hits.
-			if( $this->get_option('record_exclusions' ) == 1 ) {
+			if( $this->get_option('record_exclusions' ) ) {
 				$this->exclusion_record = TRUE;
 			}
 
@@ -159,7 +159,7 @@
 					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url(null,"/") ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 					if( $ua_string == "WordPress/" . $wp_version . "; " . get_home_url() ) { $this->exclusion_match = TRUE; $this->exclusion_reason = "self referral"; }
 
-					if( $this->get_option('exclude_loginpage') == 1 ) {
+					if( $this->get_option('exclude_loginpage') ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -173,7 +173,7 @@
 						}
 					}
 
-					if( $this->get_option('exclude_adminpage') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_adminpage') && !$this->exclusion_match ) {
 						$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')  === FALSE ? 'http' : 'https';
 						$host     = $_SERVER['HTTP_HOST'];
 						$script   = $_SERVER['SCRIPT_NAME'];
@@ -189,9 +189,9 @@
 						}
 					}
 
-					if( $this->get_option('referrerspam') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('referrerspam') && !$this->exclusion_match ) {
 						$referrer = $this->get_Referred();
-						
+
 						// Pull the referrer spam list from the database.
 						$referrerspamlist = explode( "\n", $this->get_option('referrerspamlist') );
 
@@ -210,7 +210,7 @@
 						}
 					}
 					
-					if( $this->get_option('exclude_feeds') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_feeds') && !$this->exclusion_match ) {
 						if( is_object( $WP_Statistics ) ) { 
 							if( $WP_Statistics->check_feed() ) { 
 								$this->exclusion_match = TRUE; 
@@ -219,7 +219,7 @@
 						}
 					}
 					
-					if( $this->get_option('exclude_404s') == 1 && !$this->exclusion_match ) {
+					if( $this->get_option('exclude_404s') && !$this->exclusion_match ) {
 						if( is_404() ) { 
 							$this->exclusion_match = TRUE; 
 							$this->exclusion_reason = "404";
@@ -427,7 +427,7 @@
 						$this->exclusion_match = TRUE;
 						$this->exclusion_reason = "robot_threshold";
 					}
-					else if( $this->result->honeypot == 1 ) {
+					else if( $this->result->honeypot ) {
 						$this->exclusion_match = TRUE;
 						$this->exclusion_reason = "honeypot";
 					}
