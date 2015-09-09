@@ -235,6 +235,9 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.6.3 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
 = 9.6.2 =
 This is a security release, please upgrade immediately.
 Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
@@ -289,6 +292,14 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.6.3 =
+* Release Date: TBD
+* Updated: The database update nag link to the optimization page instead of the settings page.
+* Updated: Handle the case where the downloads haven't happened yet.
+* Fixed: In some cases the extenrals tab would show the wrong date for the next scheduled update.
+* Fixed: In some cases the Piwik and other features may not be enabled even when the checkboxes were selected.
+* Fixed: If no page id was passed in on the pagestats shortcode the wrong default for page id would be used and no stats would be displayed.
+
 = 9.6.2 =
 * Release Date: September 5, 2015
 * Added: Search table to the empty table list.
