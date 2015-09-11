@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.3
-Stable tag: 9.6.2
+Stable tag: 9.6.3
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -293,7 +293,7 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.6.3 =
-* Release Date: TBD
+* Release Date: September 11, 2015
 * Updated: The database update nag link to the optimization page instead of the settings page.
 * Updated: Handle the case where the downloads haven't happened yet.
 * Fixed: In some cases the extenrals tab would show the wrong date for the next scheduled update.
