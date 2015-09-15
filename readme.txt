@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.3
-Stable tag: 9.6.3
+Stable tag: 9.6.4
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -296,7 +296,7 @@ This release updates some core code to do with timezones, hence the change to ve
 
 == Changelog ==
 = 9.6.4 =
-* Release Date: TBD
+* Release Date: September 15, 2015
 * Updated: Support new browscap.ini file format.
 
 = 9.6.3 =
