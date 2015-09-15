@@ -114,7 +114,7 @@
 		if( $WP_Statistics->get_option('browscap') == false ) { return '';}
 	
 		// This is the location of the file to download.
-		$download_url = 'http://browscap.org/stream?q=PHP_BrowsCapINI';
+		$download_url = 'http://browscap.org/stream?q=Full_PHP_BrowsCapINI';
 		$download_version = 'http://browscap.org/version-number';
 
 		// Get the upload directory from WordPress.
@@ -209,7 +209,7 @@
 									// Write out the section with just the parent/crawler setting saved.
 									fwrite( $outfile, "[" . $title . "]\n" );
 									fwrite( $outfile, 'Parent="' . $parent . '"' . "\n");
-									fwrite( $outfile, "Crawler=true\n" );
+									fwrite( $outfile, "Crawler=\"true\"\n" );
 									}
 								}
 								
@@ -232,7 +232,7 @@
 						// Otherwise its a real setting line.
 						default:
 							// If the setting is for the crawler let's inidicate we found it and it's true.  We can also set the parents array.
-							if( $buffer == 'Crawler=true' ) { $crawler = 2; $parents[$title] = true;}
+							if( $buffer == 'Crawler="true"' ) { $crawler = 2; $parents[$title] = true;}
 							
 							// If the setting for the parent then set it now.
 							if( substr( $buffer, 0, 7 ) == 'Parent=' ) { $parent = substr( $buffer, 8, -1 ); }
