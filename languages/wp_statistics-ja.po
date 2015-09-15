@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-06-28 13:18:50+0000\n"
+"PO-Revision-Date: 2015-09-06 11:23:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,133 +10,162 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: includes/settings/tabs/wps-maintenance.php:35
+#: includes/settings/tabs/wps-maintenance.php:63
+msgid "Enabled"
+msgstr "有効"
+
+#: includes/settings/tabs/wps-maintenance.php:30
+msgid "Purge Old Data Daily"
+msgstr "古いデータを消去する"
+
+#: includes/settings/tabs/wps-maintenance.php:41
+msgid "A WP Cron job will be run daily to purge any data older than a set number of days."
+msgstr "WP cronを毎日実行し, 設定された日数よりも古いデータをすべて消去します。"
+
+#: includes/settings/tabs/wps-maintenance.php:47
+msgid "Purge data older than"
+msgstr "これより古いデータを消去"
+
+#: includes/settings/tabs/wps-maintenance.php:58
+msgid "Purge High Hit Count Visitors Daily"
+msgstr "ヒット数が多すぎる訪問者を除去する"
+
+#: includes/settings/tabs/wps-maintenance.php:69
+msgid "A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
+msgstr "WP Cronを毎日実行し, 1日のヒット数が設定された数よりも多いユーザー(おそらくボットです)の統計データを除去します."
+
+#: includes/settings/tabs/wps-maintenance.php:81
+msgid "The number of hits required to delete the visitor.  Minimum value is 10 hits.  Invalid values will disable the daily maintenance."
+msgstr "訪問者を消去するために必要なヒット数. 最小値は10回です. 無効な値は, 毎日のメンテナンスを行わないようにします."
+
 #: shortcode.php:184
 msgid "The post/page id to get page statistics on."
-msgstr ""
+msgstr "ページの統計情報を取得する投稿/ページID。"
 
 #: shortcode.php:181
 msgid "Post/Page ID"
-msgstr ""
+msgstr "投稿/ページID"
 
 #: includes/functions/functions.php:400
 msgid "Ask.com"
-msgstr ""
+msgstr "Ask.com"
 
 #: shortcode.php:158
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
-msgstr ""
+msgstr "統計を取得する時間を計算するために, 関数strtotime() (http://php.net/manual/en/datetime.formats.php) が使用されます. 記録された日付すべてを取得するには「合計」を使用してください."
 
 #: wp-statistics.php:144
 msgid "visitor tracking"
-msgstr ""
+msgstr "訪問者追跡"
 
 #: wp-statistics.php:145
 msgid "geoip collection"
-msgstr ""
+msgstr "geoipのコレクション"
 
 #: wp-statistics.php:161
 msgid "visit database index"
-msgstr ""
+msgstr "訪問データベース索引"
 
 #: wp-statistics.php:170
 msgid "Database updates are required, please go to %s and update the following: %s"
-msgstr ""
+msgstr "データベースの更新が必要です. %sに移動し, 次のアップデートを実行してください: %s"
 
 #: wp-statistics.php:161
 msgid "countries database index"
-msgstr ""
+msgstr "国データベース索引"
 
 #: wp-statistics.php:154
 msgid "search table"
-msgstr ""
+msgstr "検索テーブル"
 
 #: wp-statistics.php:148 wp-statistics.php:170
 msgid "settings page"
-msgstr ""
+msgstr "設定ページ"
 
 #: wp-statistics.php:148 wp-statistics.php:170
 msgid ","
-msgstr ""
+msgstr ", "
 
 #: wp-statistics.php:148
 msgid "The following features are disabled, please go to %s and enable them: %s"
-msgstr ""
+msgstr "次の機能が無効になっています. %sに移動して, それらを有効にしてください: %s"
 
 #: wp-statistics.php:143
 msgid "hit tracking"
-msgstr ""
+msgstr "ヒットの追跡"
 
 #: wp-statistics.php:142
 msgid "online user tracking"
-msgstr ""
+msgstr "オンラインユーザ追跡"
 
 #: wp-statistics.php:716
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
-msgstr ""
+msgstr "次のプラグインテーブルがデータベースに存在しません. %sを再実行して%sをインストールしてください."
 
 #: includes/optimization/wps-optimization.php:196
 msgid "Search table conversion complete, %d rows added."
-msgstr ""
+msgstr "検索テーブル変換が完了しました. %d行が追加されました."
+
+#: includes/optimization/tabs/wps-optimization-database.php:113
+msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
+msgstr "古いWP Statisticsは検索の詳細情報を訪問者テーブルに保存しており, 大規模データではパフォーマンス上の問題が生じることがあります. よりスケーラブルな方法でこの情報を保存する新しいテーブルが作成されました."
+
+#: includes/optimization/tabs/wps-optimization-database.php:94
+msgid "Search Table"
+msgstr "検索テーブル"
+
+#: includes/optimization/tabs/wps-optimization-database.php:99
+msgid "Convert"
+msgstr "変換"
+
+#: includes/optimization/tabs/wps-optimization-database.php:106
+msgid "Convert Now!"
+msgstr "今すぐ変換!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:107
-msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
-msgstr ""
-
-#: includes/optimization/tabs/wps-optimization-database.php:86
-msgid "Search Table"
-msgstr ""
-
-#: includes/optimization/tabs/wps-optimization-database.php:91
-msgid "Convert"
-msgstr ""
-
-#: includes/optimization/tabs/wps-optimization-database.php:100
-msgid "Convert Now!"
-msgstr ""
-
-#: includes/optimization/tabs/wps-optimization-database.php:101
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
-msgstr ""
+msgstr "古いWP Statisticsは検索の詳細情報を訪問者テーブルに保存しており, 大規模データではパフォーマンス上の問題が生じることがあります. よりスケーラブルな方法でこの情報を保存する新しいテーブルが作成されましたが, 過去のデータを利用できるように最初に変換しなければなりません."
 
 #: includes/log/exclusions.php:24
 msgid "Referrer Spam"
-msgstr ""
+msgstr "リファラースパム"
 
 #: includes/settings/tabs/wps-externals.php:277
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
-msgstr ""
+msgstr "Piwikリファラースパムブラックリストデータベースのダウンロードは, 週に一度スケジュールされます."
 
 #: includes/settings/wps-settings.php:105
 msgid "Externals"
-msgstr ""
+msgstr "外部"
 
 #: includes/settings/tabs/wps-externals.php:219
 msgid "Piwik Referrer Spam Blacklist settings"
-msgstr ""
+msgstr "Piwikリファラースパムブラックリストの設定"
 
 #: includes/settings/tabs/wps-externals.php:254
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
-msgstr ""
+msgstr "PiwikリファラースパムブラックリストDBの毎週更新のスケジュールを設定"
 
 #: includes/settings/tabs/wps-externals.php:247
 msgid "Download Piwik Referrer Spam Blacklist Database"
-msgstr ""
+msgstr "Piwikリファラースパムブラックリストデータベースをダウンロード"
 
 #: includes/settings/tabs/wps-externals.php:242
 msgid "Update Piwik Referrer Spam Blacklist Info"
-msgstr ""
+msgstr "Piwikリファラースパムのブラックリスト情報を更新"
 
 #: includes/settings/tabs/wps-externals.php:236
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
-msgstr ""
+msgstr "Piwikリファラースパムのブラックリストデータベースがダウンロードされ, リファラースパムを検出するために使用されます."
 
 #: includes/settings/tabs/wps-externals.php:224
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
-msgstr ""
+msgstr "リファラースパムのブラックリストはPiwikによって提供され, %sで入手可能です."
 
 #: includes/settings/tabs/wps-externals.php:230
 msgid "Piwik Referrer Spam Blacklist usage"
-msgstr ""
+msgstr "Piwikリファラースパムブラックリストの使用"
 
 #: includes/settings/tabs/wps-exclusions.php:148
 msgid "Treat corrupt browser info as a bot"
@@ -174,27 +203,16 @@ msgstr "空の検索語にページタイトルを追加します。"
 msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
 msgstr "検索エンジンが参照元であるにも関わらず検索問い合わせが含まれていない場合、このオプションは、ユーザーが探しているかもしれないものを識別するために役立つようにページタイトルを\"~:\"で始まる引用で置き換えます。"
 
-#: includes/settings/tabs/wps-maintenance.php:77
-msgid "The number of hits required to delete the visitor.  Invalid values will disable the daily maintenance (must be 10 or greater)."
-msgstr "訪問者を削除するのに必要なヒット数。無効な値は、日常のメンテナンスを（10以上である必要があります）を無効にします。"
-
-#: includes/settings/tabs/wps-maintenance.php:71
-msgid "Prune visitors with more than"
-msgstr "以上の訪問者を整理する"
-
-#: includes/settings/tabs/wps-maintenance.php:65
-msgid "A WP Cron job will be run daily to prune any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
-msgstr "WP cronジョブは、定義された数よりも多くのヒット数を持つユーザの統計データを整理するために毎日実行されます（彼らはおそらくボットです）。"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:217
+#: includes/optimization/tabs/wps-optimization-purging.php:218
+#: includes/settings/tabs/wps-maintenance.php:75
 msgid "Purge visitors with more than"
-msgstr "以上の訪問者を除去"
+msgstr "これ以上の訪問者を除去"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:222
+#: includes/optimization/tabs/wps-optimization-purging.php:223
 msgid "hits"
 msgstr "ヒット"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:223
+#: includes/optimization/tabs/wps-optimization-purging.php:224
 msgid "Deleted user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits."
 msgstr "一日に定義された数よりも多くヒットしたために削除されたユーザの統計データ。これはあなたのサイトがボットにアクセスされたときに古いデータをクリアするのに役立ちます。これは、訪問者とそのサイトへのヒットを削除しますが、個々のページのヒットは利用毎には記録されないので削除しません。最小値は10ヒットです。"
 
@@ -206,7 +224,7 @@ msgstr "パージすべきユーザは見つかりませんでした。"
 msgid "%s records purged successfully."
 msgstr "%s のレコードが正常にパージされました。"
 
-#: ajax.php:174 includes/functions/purge-hits.php:32
+#: ajax.php:178 includes/functions/purge-hits.php:32
 msgid "Number of hits must be greater than or equal to 10!"
 msgstr "ヒット数は10以上でなければなりません!"
 
@@ -288,7 +306,7 @@ msgstr "寄付します"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!"
-msgstr "あなたがWP Statisticsをどのくらい楽しんでいるか私たちに教えてもらえませんか？私たちの%sのページによってドロップすると、私たちにいくつかの愛を示します！"
+msgstr "あなたがWP Statisticsにどれくらい喜んでいるか私たちに教えてもらえませんか? 私たちの%sページで援助して, 私たちに愛の手を!"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "donation"
@@ -320,11 +338,11 @@ msgstr "時間範囲"
 
 #: includes/functions/functions.php:982
 msgid "to"
-msgstr "へ"
+msgstr "〜"
 
 #: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "Go"
-msgstr "行きます"
+msgstr "行く"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #5"
@@ -346,19 +364,19 @@ msgstr "ランキング#1"
 msgid "Rank #2"
 msgstr "ランキング#2"
 
-#: includes/optimization/tabs/wps-optimization-database.php:56
+#: includes/optimization/tabs/wps-optimization-database.php:60
 msgid "Visits Table"
 msgstr "訪問数の表"
 
-#: includes/optimization/tabs/wps-optimization-database.php:70
+#: includes/optimization/tabs/wps-optimization-database.php:75
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistits table, delete duplicate entries and add the index."
-msgstr "WP Statisticsの古いインストールは境界状態で訪問者テーブルに重複エントリを許容します。新しいインストールでは、テーブルに一意の索引を作成しこれを防止します。古いインストールに索引を作成するには、最初に重複エントリを削除する必要があります。「今すぐ更新」をクリックすると、訪問者テーブルをスキャンし、重複エントリを削除し、索引を追加します。"
+msgstr "古いWP Statisticsは境界状態で訪問者テーブルに重複エントリを許容します。新しいインストールでは、テーブルに一意の索引を作成しこれを防止します。古いインストールに索引を作成するには、最初に重複エントリを削除する必要があります。「今すぐ更新」をクリックすると、訪問者テーブルをスキャンし、重複エントリを削除し、索引を追加します。"
 
-#: includes/optimization/tabs/wps-optimization-database.php:71
+#: includes/optimization/tabs/wps-optimization-database.php:76
 msgid "This operation could take a long time on installs with many rows in the visits table."
 msgstr "インストール済みの訪問テーブル内に多くの行がある場合、この操作には長い時間がかかることがあります。"
 
-#: includes/optimization/tabs/wps-optimization-database.php:76
+#: includes/optimization/tabs/wps-optimization-database.php:82
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table."
 msgstr "WP Statisticsの古いインストールは境界状態で訪問テーブルに重複エントリを許容します。新しいインストールは、テーブルに一意の索引を作成しこれを防止します。"
 
@@ -680,7 +698,7 @@ msgstr "GeoIPコレクションは、以下の理由により無効になって�
 
 #: includes/settings/tabs/wps-externals.php:135
 msgid "GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  "
-msgstr "GeoIPコレクションは、PHP %s かそれ以降が必要です。インストールされているPHPのバージョンのため現在無効になっています。"
+msgstr "GeoIPコレクションはPHP %s かそれ以降が必要です. インストールされているPHPのバージョンのため現在無効になっています."
 
 #: includes/settings/tabs/wps-externals.php:140
 msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
@@ -688,7 +706,7 @@ msgstr "GeoIPコレクションには、cURL PHP拡張モジュールが必要�
 
 #: includes/settings/tabs/wps-externals.php:146
 msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
-msgstr "GeoIPコレクションにはBC Math PHP拡張モジュールが必要ですが、あなたがお使いのPHPにはロードされていません!"
+msgstr "GeoIPコレクションにはBC Math PHP拡張モジュールが必要ですが, あなたがお使いのPHPにはロードされていません!"
 
 #: includes/settings/tabs/wps-externals.php:152
 msgid "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe mode enabled!"
@@ -697,23 +715,6 @@ msgstr "PHPセーフモードが検出されました! GeoIPコレクション�
 #: includes/settings/tabs/wps-maintenance.php:20
 msgid "This will permanently delete data from the database each day, are you sure you want to enable this option?"
 msgstr "これは恒久的に毎日のデータベースからデータを削除します。このオプションを有効にしてもよろしいですか?"
-
-#: includes/settings/tabs/wps-maintenance.php:30
-msgid "Database Maintenance"
-msgstr "データベースのメ​​ンテナンス"
-
-#: includes/settings/tabs/wps-maintenance.php:35
-#: includes/settings/tabs/wps-maintenance.php:59
-msgid "Run a daily WP Cron job to prune the databases"
-msgstr "データベースを整理するために毎日WP cronジョブを実行します。"
-
-#: includes/settings/tabs/wps-maintenance.php:41
-msgid "A WP Cron job will be run daily to prune any data older than a set number of days."
-msgstr "WP cronジョブは、設定された日数よりも古いすべてのデータを整理するために毎日実行されます。"
-
-#: includes/settings/tabs/wps-maintenance.php:47
-msgid "Prune data older than"
-msgstr "より古いデータを整理する"
 
 #: includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
@@ -820,7 +821,7 @@ msgstr "レポートの内容を入力してください。"
 
 #: includes/settings/tabs/wps-notifications.php:187
 msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:"
-msgstr "WP Statisticsのためのショートコード(使用可能なコードのリストについては、管理マニュアルを参照してください)全てを含む、インストールされているWordPressでサポートされている全てのショートコードが、メッセージの本文でサポートされています ​​。ここではいくつかの例を示します。"
+msgstr "WP Statisticsのためのショートコード(使用可能なコードのリストについては, 管理マニュアルを参照してください)全てを含む, インストールされているWordPressでサポートされている全てのショートコードが, メッセージの本文でサポートされています​. ここではいくつかの例を示します."
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
 #: widget.php:247 wp-statistics.php:562
@@ -868,7 +869,7 @@ msgstr "統計概要"
 #: includes/settings/tabs/wps-overview-display.php:28
 #: includes/settings/wps-settings.php:108
 msgid "About"
-msgstr "約"
+msgstr "アバウト"
 
 #: includes/settings/tabs/wps-overview-display.php:34
 msgid "Hits Statistical Chart"
@@ -943,11 +944,11 @@ msgstr "地図表示を無効にします"
 
 #: includes/settings/tabs/wps-overview-display.php:154
 msgid "Get country location from Google"
-msgstr "グーグルから国の場所を取得します"
+msgstr "国の位置をGoogleから取得"
 
 #: includes/settings/tabs/wps-overview-display.php:160
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
-msgstr "統計情報を表示し、マップタイプが\"Google\"に設定されている場合にのみ有効である場合、この機能は、パフォーマンスの低下を引き起こす可能性があります。"
+msgstr "この機能は統計情報を表示する際にパフォーマンスの低下を引き起こす可能性があり, マップタイプが\"Google\"に設定されている場合にのみ有効です."
 
 #: includes/settings/tabs/wps-overview-display.php:171
 msgid "Overview Widgets to Display"
@@ -1050,7 +1051,7 @@ msgstr "削除"
 #: includes/settings/tabs/wps-exclusions.php:234
 #: includes/settings/tabs/wps-externals.php:284
 #: includes/settings/tabs/wps-general.php:349
-#: includes/settings/tabs/wps-maintenance.php:84
+#: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
 #: includes/settings/tabs/wps-overview-display.php:388
 #: includes/settings/tabs/wps-removal.php:42
@@ -1155,7 +1156,7 @@ msgstr "検索エンジンの種類を選択"
 
 #: wp-statistics.php:70
 msgid "ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version "
-msgstr "ERROR：WP Statisticsは、PHPのサポートされていないバージョンを検出しました。WP StatisticsはPHPのこのバージョンでは機能しません"
+msgstr "ERROR：WP Statisticsは, PHPのサポートされていないバージョンを検出しました. WP StatisticsはPHPのこのバージョンでは機能しません."
 
 #: wp-statistics.php:70
 msgid " or higher!"
@@ -1169,13 +1170,11 @@ msgstr "現在のPHPバージョンは"
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "WP Statisticsは削除されています。無効にして削除してください。"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-statistics.php:37
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Description of the plugin/theme
 #: wp-statistics.php:38
 msgid "Complete statistics for your WordPress site."
@@ -1273,7 +1272,7 @@ msgstr "HTMLファイルをダウンロード"
 msgid "Manual file not found."
 msgstr "マニュアルファイルが見つかりません。"
 
-#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:848
+#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:849
 msgid "You do not have sufficient permissions to access this page."
 msgstr "あなたがこのページにアクセスするための十分な権限がありません。"
 
@@ -1325,9 +1324,7 @@ msgstr "browscapは既に最新バージョンです!"
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini更新"
 
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
-#. #-#-#-#-#  plugin.pot (WP Statistics 9.5.3)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wp-statistics.com/"
 msgstr "http://wp-statistics.com/"
@@ -1368,8 +1365,8 @@ msgstr "トップ10ページ"
 msgid "Recent Visitors"
 msgstr "最近の訪問者"
 
-#: dashboard.php:62 includes/log/top-referring.php:62
-#: includes/log/top-referring.php:79 includes/log/widgets/referring.php:11
+#: dashboard.php:62 includes/log/top-referring.php:48
+#: includes/log/top-referring.php:65 includes/log/widgets/referring.php:11
 #: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "トップ参照サイト"
@@ -1445,7 +1442,7 @@ msgstr "ブラウザの統計"
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
 #: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:75 includes/log/widgets/about.php:7
+#: includes/log/top-referring.php:61 includes/log/widgets/about.php:7
 #: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
 #: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
 #: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
@@ -1463,16 +1460,16 @@ msgstr "ブラウザ"
 
 #: includes/log/all-browsers.php:42
 msgid "Browsers by type"
-msgstr "タイプ別のブラウザ"
+msgstr "ブラウザのタイプ別"
 
 #: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:37
-#: includes/optimization/tabs/wps-optimization-resources.php:302
+#: includes/optimization/tabs/wps-optimization-resources.php:313
 msgid "Platform"
 msgstr "プラットフォーム"
 
 #: includes/log/all-browsers.php:126
 msgid "Browsers by platform"
-msgstr "プラットフォーム別のブラウザ"
+msgstr "プラットフォーム別"
 
 #: includes/log/all-browsers.php:234
 msgid "%s Version"
@@ -1529,7 +1526,7 @@ msgstr "最近除外されたヒット"
 #: includes/log/exclusions.php:95 includes/log/hit-statistics.php:65
 #: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:61
 #: includes/log/widgets/search.php:59
-#: includes/optimization/tabs/wps-optimization-purging.php:207
+#: includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
 msgstr "日"
 
@@ -1571,7 +1568,7 @@ msgid "#hash#"
 msgstr "#ハッシュ#"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
-#: includes/log/online.php:55 includes/log/top-referring.php:110
+#: includes/log/online.php:55 includes/log/top-referring.php:96
 #: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
@@ -1580,19 +1577,19 @@ msgstr "マップ"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:151
+#: includes/log/top-referring.php:137
 msgid "Page"
 msgstr "ページ"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:151
+#: includes/log/top-referring.php:137
 msgid "From"
 msgstr "から"
 
 #: includes/log/last-search.php:47 includes/log/last-visitor.php:38
-#: includes/log/top-referring.php:65 includes/log/top-referring.php:68
-#: includes/optimization/tabs/wps-optimization-purging.php:191 widget.php:296
+#: includes/log/top-referring.php:51 includes/log/top-referring.php:54
+#: includes/optimization/tabs/wps-optimization-purging.php:192 widget.php:296
 msgid "All"
 msgstr "すべて"
 
@@ -1688,11 +1685,11 @@ msgstr "訪問"
 msgid "To be added soon"
 msgstr "近日追加します"
 
-#: includes/log/top-referring.php:77
+#: includes/log/top-referring.php:63
 msgid "Referring sites from"
 msgstr "参照サイト"
 
-#: includes/log/top-referring.php:135 includes/log/widgets/referring.php:59
+#: includes/log/top-referring.php:121 includes/log/widgets/referring.php:50
 msgid "References"
 msgstr "参照"
 
@@ -1736,7 +1733,7 @@ msgstr "その他"
 msgid "Today Visitors Map"
 msgstr "今日の訪問者マップ"
 
-#: includes/log/widgets/referring.php:60
+#: includes/log/widgets/referring.php:51
 msgid "Address"
 msgstr "アドレス"
 
@@ -1773,7 +1770,7 @@ msgid "Time: %s"
 msgstr "時間: %sの"
 
 #: includes/log/widgets/top.visitors.php:31
-#: includes/settings/tabs/wps-maintenance.php:76 wp-statistics.php:301
+#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:301
 #: wp-statistics.php:379 wp-statistics.php:455
 msgid "Hits"
 msgstr "ヒット数"
@@ -1787,11 +1784,11 @@ msgid "Agent"
 msgstr "エージェント"
 
 #: includes/log/widgets/top.visitors.php:38
-#: includes/optimization/tabs/wps-optimization-resources.php:291
+#: includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Version"
 msgstr "バージョン"
 
-#: ajax.php:41 ajax.php:71 ajax.php:125 ajax.php:150 ajax.php:180
+#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184
 #: includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "アクセスが拒否されました!"
@@ -1804,7 +1801,7 @@ msgstr "%sのエージェントデータが正常に削除されました。"
 msgid "No agent data found to remove!"
 msgstr "削除すべきエージェントのデータはありません!"
 
-#: ajax.php:38 ajax.php:68 ajax.php:116 ajax.php:122
+#: ajax.php:38 ajax.php:68 ajax.php:120 ajax.php:126
 msgid "Please select the desired items."
 msgstr "希望の項目を選択してください。"
 
@@ -1850,29 +1847,29 @@ msgstr "データベースのインデックス"
 msgid "Countries"
 msgstr "国"
 
-#: includes/optimization/tabs/wps-optimization-database.php:39
-#: includes/optimization/tabs/wps-optimization-database.php:69
+#: includes/optimization/tabs/wps-optimization-database.php:42
+#: includes/optimization/tabs/wps-optimization-database.php:74
 #: includes/optimization/tabs/wps-optimization-updates.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:40
 msgid "Update Now!"
 msgstr "今すぐ更新!"
 
-#: includes/optimization/tabs/wps-optimization-database.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:43
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistitors table, delete duplicate entries and add the index."
 msgstr "古いWP Statisticsは境界ケースで訪問者テーブルに重複エントリを許容します。新しいものは、テーブルの一意索引によりこれを防止します。古いものに索引を作成するには、最初に重複したエントリを削除する必要があります。\"今すぐ更新\"をクリックすると、訪問者テーブルをスキャンし、重複したエントリを削除し、索引を追加します。"
 
-#: includes/optimization/tabs/wps-optimization-database.php:41
-#: includes/optimization/tabs/wps-optimization-database.php:102
+#: includes/optimization/tabs/wps-optimization-database.php:44
+#: includes/optimization/tabs/wps-optimization-database.php:108
 msgid "This operation could take a long time on installs with many rows in the visitors table."
 msgstr "訪問者テーブルに多くの行がある場合、この操作によりインストールに長い時間がかかることがあります。"
 
-#: includes/optimization/tabs/wps-optimization-database.php:46
+#: includes/optimization/tabs/wps-optimization-database.php:50
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table."
-msgstr "古いWP Statisticsは境界ケースで訪問者テーブルに重複エントリを許容します。新しいものは、テーブルの一意索引によりこれを防止します。"
+msgstr "古いWP Statisticsは境界ケースで訪問者テーブルに重複エントリを許容します. 新しいバージョンでは, テーブルの一意索引によりこれを防止します."
 
-#: includes/optimization/tabs/wps-optimization-database.php:47
-#: includes/optimization/tabs/wps-optimization-database.php:77
-#: includes/optimization/tabs/wps-optimization-database.php:108
+#: includes/optimization/tabs/wps-optimization-database.php:51
+#: includes/optimization/tabs/wps-optimization-database.php:83
+#: includes/optimization/tabs/wps-optimization-database.php:114
 msgid "Congratulations, your installation is already up to date, nothing to do."
 msgstr "おめでとうございます、あなたのインストールは既に最新になり、すべきことは何もありません。"
 
@@ -1883,13 +1880,13 @@ msgstr "エクスポート"
 
 #: includes/optimization/tabs/wps-optimization-export.php:13
 msgid "Export from"
-msgstr "からのエクスポート"
+msgstr "エクスポート対象"
 
 #: includes/optimization/tabs/wps-optimization-export.php:18
 #: includes/optimization/tabs/wps-optimization-export.php:37
 #: includes/optimization/tabs/wps-optimization-purging.php:185
-#: includes/optimization/tabs/wps-optimization-purging.php:241
-#: includes/optimization/tabs/wps-optimization-purging.php:265
+#: includes/optimization/tabs/wps-optimization-purging.php:242
+#: includes/optimization/tabs/wps-optimization-purging.php:266
 #: includes/settings/tabs/wps-notifications.php:134
 #: includes/settings/tabs/wps-notifications.php:164
 msgid "Please select"
@@ -1897,11 +1894,11 @@ msgstr "選択してください"
 
 #: includes/optimization/tabs/wps-optimization-export.php:26
 msgid "Select the table for the output file."
-msgstr "ファイルに出力するテーブルを選択します。"
+msgstr "ファイルに出力するテーブルを選択します."
 
 #: includes/optimization/tabs/wps-optimization-export.php:32
 msgid "Export To"
-msgstr "にエクスポート"
+msgstr "エクスポート先"
 
 #: includes/optimization/tabs/wps-optimization-export.php:42
 msgid "Select the output file type."
@@ -1909,11 +1906,11 @@ msgstr "出力ファイルの種類を選択します。"
 
 #: includes/optimization/tabs/wps-optimization-export.php:48
 msgid "Include Header Row"
-msgstr "ヘッダー行を含めます"
+msgstr "ヘッダー行を含める"
 
 #: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Include a header row as the first line of the exported file."
-msgstr "ヘッダー行をエクスポートするファイルの最初の行として含めます。"
+msgstr "ヘッダー行をエクスポートするファイルの最初の行として含めます."
 
 #: includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
@@ -1960,51 +1957,51 @@ msgstr "データ"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:180
 msgid "Empty Table"
-msgstr "空のテーブル"
-
-#: includes/optimization/tabs/wps-optimization-purging.php:193
-msgid "All data table will be lost."
-msgstr "すべてのデータテーブルが失われます。"
+msgstr "テーブルを空にする"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:194
+msgid "All data table will be lost."
+msgstr "すべてのテーブルデータが失われます."
+
+#: includes/optimization/tabs/wps-optimization-purging.php:195
 msgid "Clear now!"
 msgstr "今すぐクリア!"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:202
+#: includes/optimization/tabs/wps-optimization-purging.php:203
 msgid "Purge records older than"
 msgstr "よりも古いレコードを削除します"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:208
+#: includes/optimization/tabs/wps-optimization-purging.php:209
 msgid "Deleted user statistics data older than the selected number of days.  Minimum value is 30 days."
 msgstr "選択された日数よりも古いユーザー統計データを削除しました。最小値は30日です。"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:209
-#: includes/optimization/tabs/wps-optimization-purging.php:224
+#: includes/optimization/tabs/wps-optimization-purging.php:210
+#: includes/optimization/tabs/wps-optimization-purging.php:225
 msgid "Purge now!"
 msgstr "今すぐパージ!"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:231
+#: includes/optimization/tabs/wps-optimization-purging.php:232
 msgid "Delete User Agent Types"
 msgstr "ユーザーエージェントの種類を削除"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:236
+#: includes/optimization/tabs/wps-optimization-purging.php:237
 msgid "Delete Agents"
 msgstr "エージェントの削除"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:251
+#: includes/optimization/tabs/wps-optimization-purging.php:252
 msgid "All visitor data will be lost for this agent type."
 msgstr "このエージェントの全訪問者データは失われます。"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:252
-#: includes/optimization/tabs/wps-optimization-purging.php:276
+#: includes/optimization/tabs/wps-optimization-purging.php:253
+#: includes/optimization/tabs/wps-optimization-purging.php:277
 msgid "Delete now!"
 msgstr "今すぐ削除!"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:260
+#: includes/optimization/tabs/wps-optimization-purging.php:261
 msgid "Delete Platforms"
 msgstr "プラットフォームを削除"
 
-#: includes/optimization/tabs/wps-optimization-purging.php:275
+#: includes/optimization/tabs/wps-optimization-purging.php:276
 msgid "All visitor data will be lost for this platform type."
 msgstr "このプラットフォームの全訪問者データは失われます。"
 
@@ -2044,6 +2041,7 @@ msgstr "スクリプトが消費できるメモリの制限、php.iniで設定�
 #: includes/optimization/tabs/wps-optimization-resources.php:88
 #: includes/optimization/tabs/wps-optimization-resources.php:99
 #: includes/optimization/tabs/wps-optimization-resources.php:110
+#: includes/optimization/tabs/wps-optimization-resources.php:121
 msgid "Number of rows in the %s table"
 msgstr "%sのテーブルの行数"
 
@@ -2053,6 +2051,7 @@ msgstr "%sのテーブルの行数"
 #: includes/optimization/tabs/wps-optimization-resources.php:92
 #: includes/optimization/tabs/wps-optimization-resources.php:103
 #: includes/optimization/tabs/wps-optimization-resources.php:114
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "Row"
 msgstr "行"
 
@@ -2062,152 +2061,153 @@ msgstr "行"
 #: includes/optimization/tabs/wps-optimization-resources.php:93
 #: includes/optimization/tabs/wps-optimization-resources.php:104
 #: includes/optimization/tabs/wps-optimization-resources.php:115
+#: includes/optimization/tabs/wps-optimization-resources.php:126
 msgid "Number of rows"
 msgstr "行数"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:120
+#: includes/optimization/tabs/wps-optimization-resources.php:131
 msgid "Version Info"
 msgstr "バージョン情報"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:125
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "WP Statistics Version"
 msgstr "WP Statisticsのバージョン"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:130
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The WP Statistics version you are running."
-msgstr "実行中のWP Statisticsのバージョン。"
+msgstr "実行中のWP Statisticsのバージョン."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "PHP Version"
 msgstr "PHPのバージョン"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "The PHP version you are running."
-msgstr "実行中のPHPのバージョン。"
+msgstr "実行中のPHPのバージョン."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "PHP Safe Mode"
 msgstr "PHPセーフモード"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
-msgstr "PHPセーフモードが有効になっています。GeoIPのコードはセーフモードをサポートしていません。"
+msgstr "PHPセーフモードが有効かどうか示します. GeoIPのコードはセーフモードをサポートしていません."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:169
 msgid "jQuery Version"
 msgstr "jQueryのバージョン"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:174
 msgid "The jQuery version you are running."
-msgstr "実行中のjQueryのバージョン。"
+msgstr "実行中のjQueryのバージョン."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:169
+#: includes/optimization/tabs/wps-optimization-resources.php:180
 msgid "cURL Version"
 msgstr "cURLのバージョン"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:173
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "cURL not installed"
 msgstr "cURLがインストールされていません"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:174
+#: includes/optimization/tabs/wps-optimization-resources.php:185
 msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
-msgstr "実行中のPHP cURL拡張のバージョン。GeoIPのコードにはcURLが必要です。インストールされていない場合、GeoIPは無効化されます。"
+msgstr "実行中のPHP cURL拡張のバージョン. GeoIPのコードにはcURLが必要です. インストールされていない場合, GeoIPは無効化されます."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:180
+#: includes/optimization/tabs/wps-optimization-resources.php:191
 msgid "BC Math"
 msgstr "BC Math"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "Installed"
 msgstr "インストール済み"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "Not installed"
 msgstr "未インストール"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:185
+#: includes/optimization/tabs/wps-optimization-resources.php:196
 msgid "If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons."
 msgstr "PHPのBC Math拡張機能のインストール有無。もはやBC MathはGeoIPのコードに必要ではなく、歴史的な理由からここにリストされています。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:190
+#: includes/optimization/tabs/wps-optimization-resources.php:201
 msgid "File Info"
 msgstr "ファイル情報"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:206
 msgid "GeoIP Database"
 msgstr "GeoIPデータベース"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:204
+#: includes/optimization/tabs/wps-optimization-resources.php:215
 msgid "Database file does not exist."
 msgstr "データベースファイルが存在しません。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:206
-#: includes/optimization/tabs/wps-optimization-resources.php:225
-#: includes/optimization/tabs/wps-optimization-resources.php:244
+#: includes/optimization/tabs/wps-optimization-resources.php:217
+#: includes/optimization/tabs/wps-optimization-resources.php:236
+#: includes/optimization/tabs/wps-optimization-resources.php:255
 msgid ", created on "
 msgstr "作成日"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:208
+#: includes/optimization/tabs/wps-optimization-resources.php:219
 msgid "The file size and date of the GeoIP database."
 msgstr "GeoIPデータベースのファイルサイズと日付。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:214
+#: includes/optimization/tabs/wps-optimization-resources.php:225
 msgid "browscap.ini File"
 msgstr "browscap.iniファイル"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:223
+#: includes/optimization/tabs/wps-optimization-resources.php:234
 msgid "browscap.ini file does not exist."
 msgstr "browscap.iniファイルが存在しません。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:227
+#: includes/optimization/tabs/wps-optimization-resources.php:238
 msgid "The file size and date of the browscap.ini file."
 msgstr "browscap.iniファイルのサイズと日付。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:233
+#: includes/optimization/tabs/wps-optimization-resources.php:244
 msgid "browscap Cache File"
 msgstr "browscapキャッシュファイル"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:242
+#: includes/optimization/tabs/wps-optimization-resources.php:253
 msgid "browscap cache file does not exist."
 msgstr "browscapキャッシュファイルが存在しません。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:246
+#: includes/optimization/tabs/wps-optimization-resources.php:257
 msgid "The file size and date of the browscap cache file."
 msgstr "browscapキャッシュファイルのサイズと日付。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:251
+#: includes/optimization/tabs/wps-optimization-resources.php:262
 msgid "Client Info"
 msgstr "クライアント情報"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:256
+#: includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "Client IP"
 msgstr "クライアントのIP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:261
+#: includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client IP address."
 msgstr "クライアントのIPアドレス。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:267
+#: includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "User Agent"
 msgstr "ユーザーエージェント"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:272
+#: includes/optimization/tabs/wps-optimization-resources.php:283
 msgid "The client user agent string."
 msgstr "クライアントのユーザーエージェント文字列。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:278
+#: includes/optimization/tabs/wps-optimization-resources.php:289
 msgid "Browser"
 msgstr "ブラウザ"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:285
+#: includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser."
 msgstr "検出されたクライアントのブラウザ。"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:296
-msgid "The detected client browser version."
-msgstr "検出されたクライアントブラウザのバージョン。"
-
 #: includes/optimization/tabs/wps-optimization-resources.php:307
+msgid "The detected client browser version."
+msgstr "検出されたクライアントブラウザのバージョン."
+
+#: includes/optimization/tabs/wps-optimization-resources.php:318
 msgid "The detected client platform."
 msgstr "検出されたクライアントのプラットフォーム。"
 
@@ -2303,7 +2303,7 @@ msgstr "翻訳"
 
 #: includes/settings/tabs/wps-about.php:48
 msgid "WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help."
-msgstr "WP Statisticsは国際化をサポートしており、私たちはユーザーに翻訳の提出をお願いしています。助けて良いとお考えなら、私達の%sを参照して現在の状態と%sを見てください。"
+msgstr "WP Statisticsは国際化をサポートしており, 私たちはユーザーに翻訳の提出をお願いしています. 現在の状態を確認するために私達の%sをご訪問いただき, 助けてもよいとお考えなら%s."
 
 #: includes/settings/tabs/wps-about.php:48
 msgid "translation collaboration site"
@@ -2311,7 +2311,7 @@ msgstr "翻訳協力サイト"
 
 #: includes/settings/tabs/wps-about.php:48
 msgid "drop us a line"
-msgstr ""
+msgstr "私たちにご連絡ください"
 
 #: includes/settings/tabs/wps-about.php:52
 msgid "Support"
@@ -2319,7 +2319,7 @@ msgstr "サポート"
 
 #: includes/settings/tabs/wps-about.php:57
 msgid "We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:"
-msgstr "申し訳ありませんがあなたのWP Statisticsは問題があり、お助けてしたいと思います。私たちに連絡していただく前にいくつか行っていただきたいことがあります: "
+msgstr "申し訳ありませんがあなたのWP Statisticsは問題があるようですので, お助けしたいと思います. 私たちに連絡していただく前にいくつか行っていただきたいことがあります: "
 
 #: includes/settings/tabs/wps-about.php:60
 #: includes/settings/tabs/wps-about.php:61
@@ -2396,7 +2396,7 @@ msgstr "WordPress.orgのサポートフォーラム"
 
 #: includes/settings/tabs/wps-about.php:83
 msgid "Alternatively %s support is available as well."
-msgstr "あるいは、%sのサポートも利用できます。"
+msgstr "あるいは, %sのサポートも利用できます."
 
 #: includes/settings/tabs/wps-about.php:83
 msgid "Farsi"
@@ -2462,7 +2462,7 @@ msgstr "有効にします"
 
 #: includes/settings/tabs/wps-exclusions.php:53
 msgid "This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.  This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits."
-msgstr "これは、すべての除外ヒットを除外された理由だけと共に別のテーブルに記録します。これは、大量のデータを生成しますが、単に実際のユーザーの訪問だけでなく、あなたのサイトが取得したヒットの合計数を表示したければ便利でしょう。"
+msgstr "これは, すべての除外ヒットを除外された理由だけと共に別のテーブルに記録します. これは, 大量のデータを生成しますが, 単に実際のユーザーの訪問だけでなく, あなたのサイトが取得したヒットの合計数を表示したければ便利でしょう."
 
 #: includes/settings/tabs/wps-exclusions.php:58
 msgid "Exclude User Roles"
@@ -2647,7 +2647,7 @@ msgstr "browscap利用"
 #: includes/settings/tabs/wps-general.php:325
 #: includes/settings/tabs/wps-general.php:341
 #: includes/settings/tabs/wps-maintenance.php:40
-#: includes/settings/tabs/wps-maintenance.php:64
+#: includes/settings/tabs/wps-maintenance.php:68
 #: includes/settings/tabs/wps-notifications.php:69
 #: includes/settings/tabs/wps-notifications.php:81
 #: includes/settings/tabs/wps-notifications.php:93
