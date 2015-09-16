@@ -1,5 +1,5 @@
 <?php
-	include_once dirname( __FILE__ ) . '/includes/classes/Browscap.php';
+	include_once dirname( __FILE__ ) . '/vendor/browscap/browscap-php/src/phpbrowscap/Browscap.php';
 
 	use phpbrowscap\Browscap;
 

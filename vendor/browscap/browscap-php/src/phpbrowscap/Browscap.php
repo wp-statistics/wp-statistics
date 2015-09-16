@@ -41,9 +41,9 @@ class Browscap
     /**
      * Current version of the class.
      */
-    const VERSION = '2.0.4';
+    const VERSION = '2.0.5';
 
-    const CACHE_FILE_VERSION = '2.0.4';
+    const CACHE_FILE_VERSION = '2.0.5';
 
     /**
      * Different ways to access remote and local files.
@@ -121,7 +121,7 @@ class Browscap
      *
      * @var string
      */
-    public $userAgent = 'Browser Capabilities Project - PHP Browscap/%v %m';
+    public $userAgent = 'http://browscap.org/ - PHP Browscap/%v %m';
 
     /**
      * Flag to enable only lowercase indexes in the result.
@@ -251,6 +251,37 @@ class Browscap
     }
 
     /**
+     * @return bool
+     */
+    public function shouldCacheBeUpdated()
+    {
+        // Load the cache at the first request
+        if ($this->_cacheLoaded) {
+            return false;
+        }
+
+        $cache_file = $this->cacheDir . $this->cacheFilename;
+        $ini_file   = $this->cacheDir . $this->iniFilename;
+
+        // Set the interval only if needed
+        if ($this->doAutoUpdate && file_exists($ini_file)) {
+            $interval = time() - filemtime($ini_file);
+        } else {
+            $interval = 0;
+        }
+
+        $shouldBeUpdated = true;
+
+        if (file_exists($cache_file) && file_exists($ini_file) && ($interval <= $this->updateInterval)) {
+            if ($this->_loadCache($cache_file)) {
+                $shouldBeUpdated = false;
+            }
+        }
+
+        return $shouldBeUpdated;
+    }
+
+    /**
      * XXX parse
      *
      * Gets the information about the browser by User Agent
@@ -264,47 +295,29 @@ class Browscap
      */
     public function getBrowser($user_agent = null, $return_array = false)
     {
-        // Load the cache at the first request
-        if (!$this->_cacheLoaded) {
-            $cache_file = $this->cacheDir . $this->cacheFilename;
-            $ini_file   = $this->cacheDir . $this->iniFilename;
+        if ($this->shouldCacheBeUpdated()) {
+            try {
+                $this->updateCache();
+            } catch (Exception $e) {
+                $ini_file = $this->cacheDir . $this->iniFilename;
 
-            // Set the interval only if needed
-            if ($this->doAutoUpdate && file_exists($ini_file)) {
-                $interval = time() - filemtime($ini_file);
-            } else {
-                $interval = 0;
-            }
-
-            $update_cache = true;
-
-            if (file_exists($cache_file) && file_exists($ini_file) && ($interval <= $this->updateInterval)) {
-                if ($this->_loadCache($cache_file)) {
-                    $update_cache = false;
-                }
-            }
-
-            if ($update_cache) {
-                try {
-                    $this->updateCache();
-                } catch (Exception $e) {
-                    if (file_exists($ini_file)) {
-                        // Adjust the filemtime to the $errorInterval
-                        touch($ini_file, time() - $this->updateInterval + $this->errorInterval);
-                    } elseif ($this->silent) {
-                        // Return an array if silent mode is active and the ini db doesn't exsist
-                        return array();
-                    }
-
-                    if (!$this->silent) {
-                        throw $e;
-                    }
+                if (file_exists($ini_file)) {
+                    // Adjust the filemtime to the $errorInterval
+                    touch($ini_file, time() - $this->updateInterval + $this->errorInterval);
+                } elseif ($this->silent) {
+                    // Return an array if silent mode is active and the ini db doesn't exsist
+                    return array();
                 }
 
-                if (!$this->_loadCache($cache_file)) {
-                    throw new Exception('Cannot load this cache version - the cache format is not compatible.');
+                if (!$this->silent) {
+                    throw $e;
                 }
             }
+        }
+
+        $cache_file = $this->cacheDir . $this->cacheFilename;
+        if (!$this->_cacheLoaded && !$this->_loadCache($cache_file)) {
+            throw new Exception('Cannot load cache file - the cache format is not compatible.');
         }
 
         // Automatically detect the useragent
@@ -513,8 +526,12 @@ class Browscap
     {
         $lockfile = $this->cacheDir . 'cache.lock';
 
-        if (file_exists($lockfile) || !touch($lockfile)) {
-            throw new Exception('temporary file already exists');
+        $lockRes = fopen($lockfile, 'w+');
+        if (false === $lockRes) {
+            throw new Exception(sprintf('error opening lockfile %s', $lockfile));
+        }
+        if (false === flock($lockRes, LOCK_EX | LOCK_NB)) {
+            throw new Exception(sprintf('error locking lockfile %s', $lockfile));
         }
 
         $ini_path   = $this->cacheDir . $this->iniFilename;
@@ -522,7 +539,7 @@ class Browscap
 
         // Choose the right url
         if ($this->_getUpdateMethod() == self::UPDATE_LOCAL) {
-            $url = $this->localFile;
+            $url = realpath($this->localFile);
         } else {
             $url = $this->remoteIniUrl;
         }
@@ -557,7 +574,10 @@ class Browscap
         $user_agents_keys = array_flip($tmp_user_agents);
         $properties_keys  = array_flip($this->_properties);
 
-        $tmp_patterns = array();
+        $tmp_patterns      = array();
+        $this->_browsers   = array();
+        $this->_userAgents = array();
+        $this->_patterns   = array();
 
         foreach ($tmp_user_agents as $i => $user_agent) {
 
@@ -592,13 +612,12 @@ class Browscap
             };
 
             $browser = array();
-            foreach ($browsers[$user_agent] as $key => $value) {
-                if (!isset($properties_keys[$key])) {
+            foreach ($browsers[$user_agent] as $propertyName => $propertyValue) {
+                if (!isset($properties_keys[$propertyName])) {
                     continue;
                 }
 
-                $key           = $properties_keys[$key];
-                $browser[$key] = $value;
+                $browser[$properties_keys[$propertyName]] = $propertyValue;
             }
 
             $this->_browsers[] = $browser;
@@ -622,18 +641,22 @@ class Browscap
             }
         }
 
-        // Get the whole PHP code
-        $cache = $this->_buildCache();
+        // Write out new cache file
         $dir   = dirname($cache_path);
 
         // "tempnam" did not work with VFSStream for tests
         $tmpFile = $dir . '/temp_' . md5(time() . basename($cache_path));
 
         // asume that all will be ok
-        if (false === file_put_contents($tmpFile, $cache)) {
-            // writing to the temparary file failed
-            throw new Exception('wrting to temporary file failed');
+        if (false === ($fileRes = fopen($tmpFile, 'w+'))) {
+            // opening the temparary file failed
+            throw new Exception('opening temporary file failed');
         }
+        if (false === $this->_buildCache($fileRes)) {
+            // writing to the temparary file failed
+            throw new Exception('writing to temporary file failed');
+        }
+        fclose($fileRes);
 
         if (false === rename($tmpFile, $cache_path)) {
             // renaming file failed, remove temp file
@@ -642,7 +665,10 @@ class Browscap
             throw new Exception('could not rename temporary file to the cache file');
         }
 
+        @flock($lockRes, LOCK_UN);
+        @fclose($lockRes);
         @unlink($lockfile);
+        $this->_cacheLoaded = false;
 
         return true;
     }
@@ -814,28 +840,61 @@ class Browscap
     }
 
     /**
-     * Parses the array to cache and creates the PHP string to write to disk
+     * Parses the array to cache and writes the resulting PHP string to disk
      *
-     * @return string the PHP string to save into the cache file
+     * @param ressource $fileRes File ressource to write to
+     *
+     * @return boolean False on write error, true otherwise
      */
-    protected function _buildCache()
+    protected function _buildCache($fileRes)
     {
-        $cacheTpl = "<?php\n\$source_version=%s;\n\$cache_version=%s;\n\$properties=%s;\n\$browsers=%s;\n\$userAgents=%s;\n\$patterns=%s;\n";
-
-        $propertiesArray = $this->_array2string($this->_properties);
-        $patternsArray   = $this->_array2string($this->_patterns);
-        $userAgentsArray = $this->_array2string($this->_userAgents);
-        $browsersArray   = $this->_array2string($this->_browsers);
-
-        return sprintf(
-            $cacheTpl,
+        if (false === fwrite($fileRes, sprintf(
+            "<?php\n\$source_version=%s;\n\$cache_version=%s",
             "'" . $this->_source_version . "'",
-            "'" . self::CACHE_FILE_VERSION . "'",
-            $propertiesArray,
-            $browsersArray,
-            $userAgentsArray,
-            $patternsArray
-        );
+            "'" . self::CACHE_FILE_VERSION . "'"
+        ))) {
+            // write error
+            return false;
+        }
+
+        if (false === fwrite($fileRes, ";\n\$properties=")) {
+            // write error
+            return false;
+        }
+        if (false === $this->_array2string($this->_properties, $fileRes)) {
+            // write error
+            return false;
+        }
+        if (false === fwrite($fileRes, ";\n\$browsers=")) {
+            // write error
+            return false;
+        }
+        if (false === $this->_array2string($this->_browsers, $fileRes)) {
+            // write error
+            return false;
+        }
+        if (false === fwrite($fileRes, ";\n\$userAgents=")) {
+            // write error
+            return false;
+        }
+        if (false === $this->_array2string($this->_userAgents, $fileRes)) {
+            // write error
+            return false;
+        }
+        if (false === fwrite($fileRes, ";\n\$patterns=")) {
+            // write error
+            return false;
+        }
+        if (false === $this->_array2string($this->_patterns, $fileRes)) {
+            // write error
+            return false;
+        }
+        if (false === fwrite($fileRes, ";\n")) {
+            // write error
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -866,6 +925,11 @@ class Browscap
      */
     protected function _getRemoteIniFile($url, $path)
     {
+        // local and remote file are the same, no update possible
+        if ($url == $path) {
+            return false;
+        }
+
         // Check version
         if (file_exists($path) && filesize($path)) {
             $local_tmstp = filemtime($path);
@@ -876,7 +940,7 @@ class Browscap
                 $remote_tmstp = $this->_getRemoteMTime();
             }
 
-            if ($remote_tmstp < $local_tmstp) {
+            if ($remote_tmstp <= $local_tmstp) {
                 // No update needed, return
                 touch($path);
 
@@ -884,45 +948,63 @@ class Browscap
             }
         }
 
-        if ($url != $path) {
-            // Check if it's possible to write to the .ini file.
-            if (is_file($path)) {
-                if (!is_writable($path)) {
-                    throw new Exception(
-                        'Could not write to "' . $path . '" (check the permissions of the current/old ini file).'
-                    );
-                }
+        // Check if it's possible to write to the .ini file.
+        if (is_file($path)) {
+            if (!is_writable($path)) {
+                throw new Exception(
+                    'Could not write to "' . $path . '" (check the permissions of the current/old ini file).'
+                );
+            }
+        } else {
+            // Test writability by creating a file only if one already doesn't exist, so we can safely delete it after
+            // the test.
+            $test_file = fopen($path, 'a');
+            if ($test_file) {
+                fclose($test_file);
+                unlink($path);
             } else {
-                // Test writability by creating a file only if one already doesn't exist, so we can safely delete it after the test.
-                $test_file = fopen($path, 'a');
-                if ($test_file) {
-                    fclose($test_file);
-                    unlink($path);
-                } else {
-                    throw new Exception(
-                        'Could not write to "' . $path . '" (check the permissions of the cache directory).'
-                    );
-                }
-            }
-
-            // Get updated .ini file
-            $browscap = $this->_getRemoteData($url);
-            $browscap = explode("\n", $browscap);
-            $pattern  = self::REGEX_DELIMITER . '(' . self::VALUES_TO_QUOTE . ')="?([^"]*)"?$' . self::REGEX_DELIMITER;
-
-            // Ok, lets read the file
-            $content = '';
-            foreach ($browscap as $subject) {
-                $subject = trim($subject);
-                $content .= preg_replace($pattern, '$1="$2"', $subject) . "\n";
-            }
-
-            if (!file_put_contents($path, $content)) {
-                throw new Exception("Could not write .ini content to $path");
+                throw new Exception(
+                    'Could not write to "' . $path . '" (check the permissions of the cache directory).'
+                );
             }
         }
 
+        // Get updated .ini file
+        $content = $this->_getRemoteData($url);
+
+        if (!is_string($content) || strlen($content) < 1) {
+            throw new Exception('Could not load .ini content from "' . $url . '"');
+        }
+
+        if (false !== strpos('rate limit', $content)) {
+            throw new Exception(
+                'Could not load .ini content from "' . $url . '" because the rate limit is exeeded for your IP'
+            );
+        }
+
+        // replace opening and closing php and asp tags
+        $content = $this->sanitizeContent($content);
+
+        if (!file_put_contents($path, $content)) {
+            throw new Exception('Could not write .ini content to "' . $path . '"');
+
+        }
+
         return true;
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return mixed
+     */
+    protected function sanitizeContent($content)
+    {
+        // replace everything between opening and closing php and asp tags
+        $content = preg_replace('/<[?%].*[?%]>/', '', $content);
+
+        // replace opening and closing php and asp tags
+        return str_replace(array('<?', '<%', '?>', '%>'), '', $content);
     }
 
     /**
@@ -965,13 +1047,16 @@ class Browscap
      * convert strings to numbers.
      *
      * @param array $array the array to parse and convert
+     * @param ressource $fileRes Ressource to write the parsed string to
      *
-     * @return string the array parsed into a PHP string
+     * @return boolean False on write error, true otherwise
      */
-    protected function _array2string($array)
+    protected function _array2string($array, $fileRes)
     {
-        $strings = array();
-
+        if (false === fwrite($fileRes, "array(\n")) {
+            // write error
+            return false;
+        }
         foreach ($array as $key => $value) {
             if (is_int($key)) {
                 $key = '';
@@ -989,10 +1074,17 @@ class Browscap
                 $value = "'" . str_replace("'", "\'", $value) . "'";
             }
 
-            $strings[] = $key . $value;
+            if (false === fwrite($fileRes, $key . $value . ",\n")) {
+                // write error
+                return false;
+            }
+        }
+        if (false === fwrite($fileRes, "\n)")) {
+            // write error
+            return false;
         }
 
-        return "array(\n" . implode(",\n", $strings) . "\n)";
+        return true;
     }
 
     /**

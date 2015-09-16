@@ -89,6 +89,16 @@
 		"browser": "Chrome",
 		"version": "30.0.1599.17"
 	},
+	"Mozilla\/5.0 (Windows NT 6.4; WOW64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/36.0.1985.143 Safari\/537.36 Edge\/12.0": {
+		"platform": "Windows",
+		"browser": "Edge",
+		"version": "12.0"
+	},
+	"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36 Edge\/12.10240": {
+		"platform": "Windows",
+		"browser": "Edge",
+		"version": "12.10240"
+	},
 	"Mozilla\/5.0 (X11; U; Linux i386; en-US; rv:1.7.5) Gecko\/20041109 Firefox\/1.0": {
 		"platform": "Linux",
 		"browser": "Firefox",
@@ -238,11 +248,6 @@
 		"platform": "Windows",
 		"browser": "MSIE",
 		"version": "11.0"
-	},
-	"Mozilla\/5.0 (Windows NT 6.4; WOW64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/36.0.1985.143 Safari\/537.36 Edge\/12.0": {
-		"platform": "Windows",
-		"browser": "MSIE",
-		"version": "12.0"
 	},
 	"Opera\/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; Edition MacAppStore; en) Presto\/2.10.229 Version\/11.61": {
 		"platform": "Macintosh",
@@ -459,6 +464,11 @@
 		"browser": "NintendoBrowser",
 		"version": "1.7552.EU"
 	},
+	"Bunjalloo\/0.7.6(Nintendo DS;U;en)": {
+		"platform": "Nintendo DS",
+		"browser": "Bunjalloo",
+		"version": "0.7.6"
+	},
 	"Opera\/9.00 (Nintendo Wii; U; ; 1038-58; Wii Shop Channel\/1.0; en)": {
 		"platform": "Nintendo Wii",
 		"browser": "Opera",
@@ -514,6 +524,11 @@
 		"browser": "TizenBrowser",
 		"version": "2"
 	},
+	"Mozilla\/5.0 (Windows Phone 10.0;  Android 4.2.1; Nokia; Lumia 520) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Mobile Safari\/537.36 Edge\/12.10130": {
+		"platform": "Windows Phone",
+		"browser": "Edge",
+		"version": "12.10130"
+	},
 	"Mozilla\/4.0 (compatible; MSIE 7.0; Windows Phone OS 7.0; Trident\/3.1; IEMobile\/7.0) Asus;Galaxy6": {
 		"platform": "Windows Phone",
 		"browser": "IEMobile",
@@ -548,6 +563,11 @@
 		"platform": "Windows Phone",
 		"browser": "IEMobile",
 		"version": "10.0"
+	},
+	"Mozilla\/5.0 (Mobile; Windows Phone 8.1; Android 4.0; ARM; Trident\/7.0; Touch; rv:11.0; IEMobile\/11.0; NOKIA; Lumia 520) like iPhone OS 7_0_3 Mac OS X AppleWebKit\/537 (KHTML, like Gecko) Mobile Safari\/537": {
+		"platform": "Windows Phone",
+		"browser": "IEMobile",
+		"version": "11.0"
 	},
 	"Mozilla\/5.0 (Mobile; Windows Phone 8.1; Android 4.0; ARM; Trident\/7.0; Touch; rv:11.0; IEMobile\/11.0; NOKIA; Lumia 920; Vodafone ES) like iPhone OS 7_0_3 Mac OS X AppleWebkit\/537 (KHTML, like Gecko) Mobile Safari\/537": {
 		"platform": "Windows Phone",
