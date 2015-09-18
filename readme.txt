@@ -235,6 +235,9 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.7 =
+Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
 = 9.6.4 =
 Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
 
@@ -295,6 +298,14 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.7 =
+* Release Date: September 18, 2015
+* Updated: Updated support libraries, including browscap (2.0.5) and GeoIP (webservices).
+* Updated: The hits column in the post/pages list no longer requires manage permissions but instead view permission.
+* Fixed: New browscap.ini format was causing fatal errors in certain circumstances.
+* Fixed: Missing close tag on the summary widget's users online link.
+* Fixed: When purging data an incorrect column name was used when updating the historical table.
+
 = 9.6.4 =
 * Release Date: September 15, 2015
 * Updated: Support new browscap.ini file format.
