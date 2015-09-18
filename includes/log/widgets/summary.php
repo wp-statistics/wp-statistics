@@ -25,7 +25,7 @@
 								<tr>
 									<th><?php _e('User(s) Online', 'wp_statistics'); ?>:</th>
 									<th colspan="2" id="th-colspan">
-										<span><a href="admin.php?page=wps_online_menu"><?php echo wp_statistics_useronline(); ?><a></span> 
+										<span><a href="admin.php?page=wps_online_menu"><?php echo wp_statistics_useronline(); ?></a></span> 
 									</th>
 								</tr>
 <?php }
