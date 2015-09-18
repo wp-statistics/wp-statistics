@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-04-22 00:39:59+0000\n"
+"PO-Revision-Date: 2015-09-17 08:16:31+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,19 +13,19 @@ msgstr ""
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
-msgstr ""
+msgstr "Diaktifkan"
 
 #: includes/settings/tabs/wps-maintenance.php:30
 msgid "Purge Old Data Daily"
-msgstr ""
+msgstr "Hapus data lama per hari"
 
 #: includes/settings/tabs/wps-maintenance.php:41
 msgid "A WP Cron job will be run daily to purge any data older than a set number of days."
-msgstr ""
+msgstr "WP Cron Job akan dijalankan setiap hari untuk membersihkan data lebih tua dari jumlah hari yang ditetapkan."
 
 #: includes/settings/tabs/wps-maintenance.php:47
 msgid "Purge data older than"
-msgstr ""
+msgstr "Hapus data lebih lama dari"
 
 #: includes/settings/tabs/wps-maintenance.php:58
 msgid "Purge High Hit Count Visitors Daily"
@@ -69,19 +69,19 @@ msgstr ""
 
 #: wp-statistics.php:170
 msgid "Database updates are required, please go to %s and update the following: %s"
-msgstr ""
+msgstr "Perbarui database yang diperlukan, kunjungi %s dan perbarui:%s"
 
 #: wp-statistics.php:161
 msgid "countries database index"
-msgstr ""
+msgstr "indeks database negara"
 
 #: wp-statistics.php:154
 msgid "search table"
-msgstr ""
+msgstr "tabel pencarian"
 
 #: wp-statistics.php:148 wp-statistics.php:170
 msgid "settings page"
-msgstr ""
+msgstr "halaman pengaturan"
 
 #: wp-statistics.php:148 wp-statistics.php:170
 msgid ","
@@ -105,23 +105,23 @@ msgstr ""
 
 #: includes/optimization/wps-optimization.php:196
 msgid "Search table conversion complete, %d rows added."
-msgstr ""
+msgstr "Pencarian konversi tabel selesai,%d baris ditambahkan."
 
 #: includes/optimization/tabs/wps-optimization-database.php:113
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
-msgstr ""
+msgstr "Instalasi WP Statistics versi lama menyimpan hasil pencarian di tabel pengunjung an bisa mengakibatkan masalah performa pada data berukuran besar. Sebuah tabel baru telah dibuat untuk menyimpan informasi ini secara lebih rapi."
 
 #: includes/optimization/tabs/wps-optimization-database.php:94
 msgid "Search Table"
-msgstr ""
+msgstr "Cari Tabel"
 
 #: includes/optimization/tabs/wps-optimization-database.php:99
 msgid "Convert"
-msgstr ""
+msgstr "Konversi"
 
 #: includes/optimization/tabs/wps-optimization-database.php:106
 msgid "Convert Now!"
-msgstr ""
+msgstr "Lakukan konversi sekarang!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:107
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
@@ -177,7 +177,7 @@ msgstr ""
 
 #: includes/log/top-visitors.php:26
 msgid "Date"
-msgstr ""
+msgstr "Tanggal"
 
 #: includes/settings/tabs/wps-exclusions.php:151
 msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
@@ -222,31 +222,31 @@ msgstr ""
 
 #: includes/functions/purge-hits.php:25
 msgid "%s records purged successfully."
-msgstr ""
+msgstr "%s catatan berhasil dibersihkan."
 
 #: ajax.php:178 includes/functions/purge-hits.php:32
 msgid "Number of hits must be greater than or equal to 10!"
-msgstr ""
+msgstr "Jumlah kunjungan harus lebih besar dari atau sama dengan 10!"
 
 #: shortcode.php:141
 msgid "Page Visits"
-msgstr ""
+msgstr "Jumlah Kunjungan Halaman"
 
 #: shortcode.php:144
 msgid "Page Count"
-msgstr ""
+msgstr "Jumlah Halaman"
 
 #: shortcode.php:145
 msgid "Comment Count"
-msgstr ""
+msgstr "Jumlah Komentar"
 
 #: shortcode.php:146
 msgid "Spam Count"
-msgstr ""
+msgstr "Jumlah Spam"
 
 #: shortcode.php:147
 msgid "User Count"
-msgstr ""
+msgstr "Jumlah Pengguna"
 
 #: shortcode.php:148
 msgid "Post Average"
@@ -262,7 +262,7 @@ msgstr ""
 
 #: shortcode.php:162
 msgid "Search Provider"
-msgstr ""
+msgstr "Penyedia Layanan Pencarian"
 
 #: shortcode.php:165
 msgid "The search provider to get statistics on."
@@ -270,7 +270,7 @@ msgstr ""
 
 #: shortcode.php:169
 msgid "Number Format"
-msgstr ""
+msgstr "Format Angka"
 
 #: shortcode.php:172
 msgid "The format to display numbers in: i18n, english, none."
@@ -282,11 +282,11 @@ msgstr ""
 
 #: shortcode.php:177
 msgid "International"
-msgstr ""
+msgstr "Internasional"
 
 #: includes/log/exclusions.php:191 includes/log/hit-statistics.php:163
 msgid "Hits Statistics Summary"
-msgstr ""
+msgstr "Ringkasan Statistik Hits"
 
 #: includes/log/exclusions.php:201 includes/log/hit-statistics.php:174
 msgid "Chart Total"
@@ -306,67 +306,67 @@ msgstr ""
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!"
-msgstr ""
+msgstr "Ingin menunjukkan kepada kami betapa Anda menikmati WP Statistics? Mampir halaman %s kami dan tunjukkan cinta Anda!"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "donation"
-msgstr ""
+msgstr "donasi"
 
 #: includes/log/log.php:57
 msgid "Donate Now!"
-msgstr ""
+msgstr "Kirim Donasi Sekarang!"
 
 #: includes/log/log.php:57
 msgid "Close"
-msgstr ""
+msgstr "Tutup"
 
 #: shortcode.php:135
 msgid "Select the statistic you wish to display."
-msgstr ""
+msgstr "Pilih statistik yang ingin ditampilkan."
 
 #: shortcode.php:132
 msgid "Statistic"
-msgstr ""
+msgstr "Statistik"
 
 #: shortcode.php:143
 msgid "Post Count"
-msgstr ""
+msgstr "Jumlah Posting"
 
 #: shortcode.php:155
 msgid "Time Frame"
-msgstr ""
+msgstr "Rentang Waktu"
 
 #: includes/functions/functions.php:982
 msgid "to"
-msgstr ""
+msgstr "sampai"
 
 #: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "Go"
-msgstr ""
+msgstr "Mulai"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #5"
-msgstr ""
+msgstr "Peringkat 5"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #4"
-msgstr ""
+msgstr "Peringkat 4"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #3"
-msgstr ""
+msgstr "Peringkat 3"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #1"
-msgstr ""
+msgstr "Peringkat 1"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #2"
-msgstr ""
+msgstr "Peringkat 2"
 
 #: includes/optimization/tabs/wps-optimization-database.php:60
 msgid "Visits Table"
-msgstr ""
+msgstr "Tabel Kunjungan"
 
 #: includes/optimization/tabs/wps-optimization-database.php:75
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistits table, delete duplicate entries and add the index."
@@ -382,11 +382,11 @@ msgstr ""
 
 #: includes/log/last-visitor.php:68
 msgid "Filtered by"
-msgstr ""
+msgstr "Disaring berdasarkan"
 
 #: includes/functions/functions.php:975 includes/functions/functions.php:978
 msgid "Range"
-msgstr ""
+msgstr "Rentang"
 
 #: includes/functions/functions.php:982 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
@@ -398,11 +398,11 @@ msgstr ""
 
 #: includes/settings/tabs/wps-general.php:336
 msgid "Force English"
-msgstr ""
+msgstr "Gunakan bahasa Inggris"
 
 #: includes/settings/tabs/wps-general.php:331
 msgid "Languages"
-msgstr ""
+msgstr "Bahasa"
 
 #: includes/settings/tabs/wps-exclusions.php:227
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
@@ -422,43 +422,43 @@ msgstr ""
 
 #: includes/log/widgets/summary.php:66
 msgid "Last 365 Days (Year)"
-msgstr ""
+msgstr "365 Hari Terakhir (Tahun)"
 
 #: includes/log/widgets/summary.php:60
 msgid "Last 30 Days (Month)"
-msgstr ""
+msgstr "30 Hari Terakhir (Bulan)"
 
 #: includes/log/widgets/summary.php:54
 msgid "Last 7 Days (Week)"
-msgstr ""
+msgstr "7 Hari Terakhir (Minggu)"
 
 #: includes/functions/functions.php:406
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: includes/functions/functions.php:407
 msgid "Yandex"
-msgstr ""
+msgstr "Yandex"
 
 #: includes/functions/functions.php:403
 msgid "clearch.org"
-msgstr ""
+msgstr "clearch.org"
 
 #: includes/functions/functions.php:404
 msgid "DuckDuckGo"
-msgstr ""
+msgstr "DuckDuckGo"
 
 #: includes/functions/functions.php:402
 msgid "Bing"
-msgstr ""
+msgstr "Bing"
 
 #: includes/functions/functions.php:401
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: editor.php:69
 msgid "Hits in the last 20 days"
-msgstr ""
+msgstr "Hits dalam 20 hari terakhir"
 
 #: includes/log/exclusions.php:24
 msgid "Feeds"
@@ -470,11 +470,11 @@ msgstr ""
 
 #: includes/log/exclusions.php:24
 msgid "Login Page"
-msgstr ""
+msgstr "Halaman Login"
 
 #: includes/log/exclusions.php:24
 msgid "Admin Page"
-msgstr ""
+msgstr "Halaman Admin"
 
 #: includes/log/exclusions.php:24
 msgid "Self Referral"
@@ -482,15 +482,15 @@ msgstr ""
 
 #: includes/log/exclusions.php:24
 msgid "IP Match"
-msgstr ""
+msgstr "Pencocokan IP"
 
 #: includes/log/exclusions.php:24
 msgid "Robot"
-msgstr ""
+msgstr "Robot"
 
 #: includes/log/online.php:100
 msgid "Currently there are no users online in the site."
-msgstr ""
+msgstr "Saat ini tidak ada pengguna yang online."
 
 #: includes/log/exclusions.php:24
 msgid "Robot Threshold"
@@ -524,15 +524,15 @@ msgstr "Mengecek user online setiap"
 
 #: includes/settings/tabs/wps-general.php:104
 msgid "Second"
-msgstr "Kedua"
+msgstr "Detik"
 
 #: includes/settings/tabs/wps-general.php:105
 msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "Waktu untuk check akurat online pengguna di situs. Sekarang: %s kedua"
+msgstr "Waktu untuk cek akurat pengguna online di situs. Sekarang: %s detik"
 
 #: includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
-msgstr ""
+msgstr "Rekam semua pengguna"
 
 #: includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
@@ -566,11 +566,11 @@ msgstr "Melacak semua halaman"
 
 #: includes/settings/tabs/wps-general.php:209
 msgid "Strip parameters from URI"
-msgstr ""
+msgstr "Buang parameter dari URI"
 
 #: includes/settings/tabs/wps-general.php:215
 msgid "This will remove anything after the ? in a URL."
-msgstr ""
+msgstr "Anda akan menghapus semua setelah ? dalam URL."
 
 #: includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
@@ -578,11 +578,11 @@ msgstr "Menonaktifkan hits kolom di daftar posting/halaman"
 
 #: includes/settings/tabs/wps-general.php:234
 msgid "Miscellaneous"
-msgstr "Miscellaneous"
+msgstr "Lain-lain"
 
 #: includes/settings/tabs/wps-general.php:239
 msgid "Show stats in menu bar"
-msgstr "Menampilkan statistik pada menu bar"
+msgstr "Tampilkan statistik pada menu bar"
 
 #: includes/settings/tabs/wps-general.php:244
 msgid "No"
@@ -598,7 +598,7 @@ msgstr "Menampilkan statistik pada halaman admin"
 
 #: includes/settings/tabs/wps-general.php:253
 msgid "Hide admin notices about non active features"
-msgstr "Menyembunyikan admin pemberitahuan tentang fitur bebas aktif"
+msgstr "Sembunyikan pemberitahuan untuk admin tentang fitur yang tidak aktif"
 
 #: includes/settings/tabs/wps-general.php:259
 msgid "By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices."
@@ -606,7 +606,7 @@ msgstr "Secara default WP Statistics menampilkan peringatan jika salah satu fitu
 
 #: includes/settings/tabs/wps-general.php:265
 msgid "Delete the manual"
-msgstr "Menghapus manual"
+msgstr "Hapus manual"
 
 #: includes/settings/tabs/wps-general.php:271
 msgid "By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future."
@@ -618,7 +618,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-general.php:293
 msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
-msgstr "Menonaktifkan semua mesin pencari tidak diperbolehkan, melakukan begitu akan mengakibatkan semua mesin pencari yang aktif."
+msgstr "Menonaktifkan semua mesin pencari tidak diperbolehkan. Apabila dilakukan, semua mesin pencari akan aktif."
 
 #: includes/settings/tabs/wps-general.php:308
 msgid "disable"
