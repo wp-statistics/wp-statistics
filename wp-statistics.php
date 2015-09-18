@@ -314,9 +314,9 @@ License: GPL2
 	function wp_statistics_load_edit_init() {
 		GLOBAL $WP_Statistics;
 		
-		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
+		$read_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
 		
-		if( current_user_can( $manage_cap ) && $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
+		if( current_user_can( $read_cap ) && $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
 			$post_types = (array)get_post_types( array( 'show_ui' => true ), 'object' );
 			
 			foreach( $post_types as $type ) {
