@@ -82,7 +82,7 @@
 
 					// If we failed it's because this is the first time we've seen this URI/pageid so let's create a historical row for it.
 					if( $uresult == 0 ) {
-						$wpdb->insert( $wpdb->prefix . "statistics_historical", array( 'value' => $historical, 'type' => 'uri', 'uri' => $row->uri, 'page_id' => wp_statistics_uri_to_id($row->uri) ) );
+						$wpdb->insert( $wpdb->prefix . "statistics_historical", array( 'value' => $historical, 'category' => 'uri', 'uri' => $row->uri, 'page_id' => wp_statistics_uri_to_id($row->uri) ) );
 					}
 				}
 			}
