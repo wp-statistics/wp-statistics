@@ -938,8 +938,8 @@
 		
 		$rcount = count( $range );
 		
-		$rangestart = $WP_Statistics->Real_Current_Date('m/d/Y', '-' . $current);
-		$rangeend = $WP_Statistics->Real_Current_Date('m/d/Y');
+		$rangestart = $WP_Statistics->Current_Date('m/d/Y', '-' . $current);
+		$rangeend = $WP_Statistics->Current_Date('m/d/Y');
 		
 		$bold = true;
 		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } 
@@ -976,8 +976,8 @@
 		}
 		else {
 			echo ' ' . __('Range', 'wp_statistics' ) . ': ';
-			$rangeend = $WP_Statistics->Real_Current_Date('m/d/Y');
-			$rangestart = $WP_Statistics->Real_Current_Date('m/d/Y','-'.$current);
+			$rangeend = $WP_Statistics->Current_Date('m/d/Y');
+			$rangestart = $WP_Statistics->Current_Date('m/d/Y','-'.$current);
 		}
 		echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart. '" placeholder="' . __('MM/DD/YYYY', 'wp_statistics') .'"> '.__('to', 'wp_statistics').' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __('MM/DD/YYYY', 'wp_statistics') .'"> <input type="submit" value="'.__('Go', 'wp_statistics').'" class="button-primary">' . "\r\n";
 		
@@ -987,23 +987,25 @@
 	}
 	
 	function wp_statistics_date_range_calculator( $days, $start, $end ) {
+		GLOBAL $WP_Statistics;
+		
 		$daysToDisplay = $days;
 		$rangestart = $start;
 		$rangeend = $end;
 
 		if( $daysToDisplay == -1 ) {
-			$rangestart_utime = strtotime( $rangestart );
-			$rangeend_utime = strtotime( $rangeend );
+			$rangestart_utime = $WP_Statistics->strtotimetz( $rangestart );
+			$rangeend_utime = $WP_Statistics->strtotimetz( $rangeend );
 			$daysToDisplay = (int)( ( $rangeend_utime - $rangestart_utime ) / 24 / 60 / 60 );
 			
 			if( $rangestart_utime == FALSE || $rangeend_utime == FALSE ) {
 				$daysToDisplay = 20;
-				$rangeend_utime = time();
+				$rangeend_utime = $WP_Statistics->timetz();
 				$rangestart_utime = $rangeend_utime - ( $daysToDisplay * 24 * 60 * 60 );
 			}
 		}
 		else {
-			$rangeend_utime = time();
+			$rangeend_utime = $WP_Statistics->timetz();
 			$rangestart_utime = $rangeend_utime - ( $daysToDisplay * 24 * 60 * 60 );
 		}
 		

@@ -17,7 +17,7 @@
 	
 	$current = 0;
 
-	$statsdate = $WP_Statistics->Real_Current_Date('m/d/Y', '-' . $current);
+	$statsdate = $WP_Statistics->Current_Date('m/d/Y', '-' . $current);
 	
 	if( array_key_exists( 'statsdate', $_GET ) ) { $statsdate = $_GET['statsdate']; } 
 

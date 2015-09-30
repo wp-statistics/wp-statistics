@@ -36,6 +36,8 @@
 			
 			if( get_option('timezone_string') ) {
 				$this->tz_offset = timezone_offset_get( timezone_open( get_option('timezone_string') ), new DateTime() );
+			} else if( get_option('gmt_offset') ) {
+				$this->tz_offset = get_option('gmt_offset') * 60 * 60;
 			}
 			
 			$this->db = $wpdb;
@@ -387,6 +389,14 @@
 			} else {
 				return date_i18n($format, time() + $this->tz_offset);
 			}
+		}
+		
+		public function strtotimetz( $timestring ) {
+			return strtotime( $timestring ) + $this->tz_offset;
+		}
+		
+		public function timetz() {
+			return time() + $this->tz_offset;
 		}
 
 		// This function checks to see if a search engine exists in the current list of search engines.
