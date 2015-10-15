@@ -10,7 +10,7 @@
 		// Setup our protected, private and public variables.		
 		protected $db;
 		protected $tb_prefix;
-		protected $ip;
+		protected $ip = false;
 		protected $ip_hash = false;
 		protected $agent;
 		
@@ -244,6 +244,9 @@
 		// This function returns the current IP address of the remote client.
 		public function get_IP() {
 		
+			// Check to see if we've already retrieved the IP address and if so return the last result.
+			if( $this->ip !== FALSE ) { return $this->ip; }
+		
 			// By default we use the remote address the server has.
 			$temp_ip = $_SERVER['REMOTE_ADDR'];
 		
@@ -276,6 +279,9 @@
 				// If the headers are invalid, use the server variable which should be good always.
 				$temp_ip = $_SERVER['REMOTE_ADDR'];
 			}
+
+			// If the ip address is blank, use 127.0.0.1 (aka localhost).
+			if( $temp_ip == '' ) { $temp_ip = '127.0.0.1'; }
 			
 			$this->ip = $temp_ip;
 			
