@@ -74,7 +74,7 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: [ '<?php echo  $pageid . ' - ' . $title; ?>' ],
+									labels: [ '<?php echo (int) $pageid . ' - ' . $title; ?>' ],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{

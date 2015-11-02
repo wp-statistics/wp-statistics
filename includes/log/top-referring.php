@@ -49,7 +49,7 @@
 	<ul class="subsubsub">
 		<?php if($referr) { ?>
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?></a></li>
-			| <li><a class="current" href="?page=wps_referrers_menu&referr=<?php echo htmlentities($referr, ENT_QUOTES); ?>"> <?php echo $title; ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+			| <li><a class="current" href="?page=wps_referrers_menu&referr=<?php echo htmlentities($referr, ENT_QUOTES); ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php }?>

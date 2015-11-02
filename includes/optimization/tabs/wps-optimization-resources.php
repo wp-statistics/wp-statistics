@@ -279,7 +279,7 @@
 				</th>
 				
 				<td>
-					<strong><?php echo $_SERVER['HTTP_USER_AGENT']; ?></strong>
+					<strong><?php echo htmlentities( $_SERVER['HTTP_USER_AGENT'], ENT_QUOTES ); ?></strong>
 					<p class="description"><?php _e('The client user agent string.', 'wp_statistics'); ?></p>
 				</td>
 			</tr>

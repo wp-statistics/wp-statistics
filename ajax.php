@@ -59,7 +59,7 @@ function wp_statistics_delete_platforms_action_callback() {
 			$result = $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = %s", $platform));
 			
 			if($result) {
-				echo sprintf(__('%s platform data deleted successfully.', 'wp_statistics'), '<code>' . $platform . '</code>');
+				echo sprintf(__('%s platform data deleted successfully.', 'wp_statistics'), '<code>' . htmlentities( $platform, ENT_QUOTES ) . '</code>');
 			}
 			else {
 				_e('No platform data found to remove!', 'wp_statistics');

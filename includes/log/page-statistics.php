@@ -5,7 +5,7 @@
 </script>
 <?php
 	if( array_key_exists( 'page-uri', $_GET ) ) { $pageuri = $_GET['page-uri']; } else { $pageuri = null; }
-	if( array_key_exists( 'page-id', $_GET ) ) { $pageid = $_GET['page-id']; } else { $pageid = null; }
+	if( array_key_exists( 'page-id', $_GET ) ) { $pageid = (int) $_GET['page-id']; } else { $pageid = null; }
 
 	if( $pageuri && !$pageid ) { $pageid = wp_statistics_uri_to_id( $pageuri ); }
 	
