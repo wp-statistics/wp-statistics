@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.3
-Stable tag: 9.6.5
+Stable tag: 9.6.6
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -235,6 +235,9 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
+= 9.6.6 =
+Security update release, please update Immediately.  Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
+
 = 9.6.5 =
 Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
 
@@ -298,6 +301,12 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
+= 9.6.6 =
+* Release Date: November 1, 2015
+* Updated: Use timezone corrected dates for date pickers.
+* Updated the get_ip code to return 127.0.0.1 if no IP address is found (can happen when a user runs WordPress from a command line function, like when setting up a scheduled cron job).
+* Fixed: Several security related updates, thanks CodeV.
+
 = 9.6.5 =
 * Release Date: September 18, 2015
 * Updated: Updated support libraries, including browscap (2.0.5) and GeoIP (webservices).
