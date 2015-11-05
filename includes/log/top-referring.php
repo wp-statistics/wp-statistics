@@ -8,6 +8,17 @@
 	});
 </script>
 <?php
+	$daysToDisplay = 20; 
+	if( array_key_exists('hitdays',$_GET) ) { $daysToDisplay = intval($_GET['hitdays']); }
+
+	if( array_key_exists('rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } else { $rangestart = ''; }
+	if( array_key_exists('rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = ''; }
+
+	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
+
+	$rangestartdate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangestart_utime );
+	$rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime );
+
 	if( array_key_exists('referr',$_GET) ) {
 		$referr = $_GET['referr'];
 		$title = $_GET['referr'];
@@ -20,11 +31,11 @@
 	$total = 0;
 		
 	if( $referr ) {
-		$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s' AND referred <> '' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%' ) );
+		$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s' AND referred <> '' AND `last_counter` BETWEEN '{$rangestartdate}' AND '{$rangeenddate}' ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%' ) );
 
 		$total = count( $result );
 	} else {
-		$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> ''" );
+		$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' AND `last_counter` BETWEEN '{$rangestartdate}' AND '{$rangeenddate}'" );
 		
 		$urls = array();
 		foreach( $result as $item ) {
@@ -46,6 +57,11 @@
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Referring Sites', 'wp_statistics'); ?></h2>
+
+	<div><?php wp_statistics_date_range_selector( 'wps_referrers_menu', $daysToDisplay ); ?></div>
+	
+	<div class="clear"/>
+	
 	<ul class="subsubsub">
 		<?php if($referr) { ?>
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?></a></li>
@@ -83,7 +99,7 @@
 									$end = $Pagination->getEntryEnd();
 									
 									if( $WP_Statistics->get_option('search_converted') ) {
-										$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC LIMIT %d, %d", $referr, $start, $end ) );
+										$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s AND {$wpdb->prefix}statistics_visitor.`last_counter` BETWEEN '{$rangestartdate}' AND '{$rangeenddate}' ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC LIMIT %d, %d", $referr, $start, $end ) );
 									}
 									
 									if( $referr ) {
