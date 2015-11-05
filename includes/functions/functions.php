@@ -300,11 +300,15 @@
 	}
 	
 	// This function returns all unique user agents in the database.
-	function wp_statistics_ua_list() {
+	function wp_statistics_ua_list( $rangestartdate = null, $rangeenddate = null ) {
 	
 		global $wpdb;
 		
-		$result = $wpdb->get_results("SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor", ARRAY_N);
+		if( $rangestartdate != null && $rangeenddate != null ) {
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor AND `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N);
+		} else {
+			$result = $wpdb->get_results( "SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor", ARRAY_N);
+		}
 
 		$Browers = array();
 		
@@ -317,21 +321,29 @@
 	}
 	
 	// This function returns the count of a given user agent in the database.
-	function wp_statistics_useragent($agent) {
+	function wp_statistics_useragent( $agent, $rangestartdate = null, $rangeenddate = null ) {
 	
 		global $wpdb;
 		
-		$result = $wpdb->get_var("SELECT COUNT(agent) FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = '$agent'");
+		if( $rangestartdate != null && $rangeenddate != null ) {
+			$result = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(agent) FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate ) );
+		} else {
+			$result = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(agent) FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = %s", $agent ) );
+		}
 		
 		return $result;
 	}
 
 	// This function returns all unique platform types from the database.
-	function wp_statistics_platform_list() {
+	function wp_statistics_platform_list( $rangestartdate = null, $rangeenddate = null ) {
 	
 		global $wpdb;
 		
-		$result = $wpdb->get_results("SELECT DISTINCT platform FROM {$wpdb->prefix}statistics_visitor", ARRAY_N);
+		if( $rangestartdate != null && $rangeenddate != null ) {
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT platform FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N);
+		} else {
+			$result = $wpdb->get_results("SELECT DISTINCT platform FROM {$wpdb->prefix}statistics_visitor", ARRAY_N);
+		}
 		
 		$Platforms = array();
 		
@@ -344,21 +356,29 @@
 	}
 
 	// This function returns the count of a given platform in the database.
-	function wp_statistics_platform($platform) {
+	function wp_statistics_platform( $platform, $rangestartdate = null, $rangeenddate = null ) {
 	
 		global $wpdb;
 		
-		$result = $wpdb->get_var("SELECT COUNT(platform) FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = '$platform'");
+		if( $rangestartdate != null && $rangeenddate != null ) {
+			$result = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(platform) FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = %s AND `last_counter` BETWEEN %s AND %s", $platform, $rangestartdate, $rangeenddate ) );
+		} else {
+			$result = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(platform) FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = %s", $platform ) );
+		}
 		
 		return $result;
 	}
 	
 	// This function returns all unique versions for a given agent from the database.
-	function wp_statistics_agent_version_list($agent) {
+	function wp_statistics_agent_version_list( $agent, $rangestartdate = null, $rangeenddate = null ) {
 	
 		global $wpdb;
 		
-		$result = $wpdb->get_results("SELECT DISTINCT version FROM {$wpdb->prefix}statistics_visitor WHERE agent = '$agent'", ARRAY_N);
+		if( $rangestartdate != null && $rangeenddate != null ) {
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT version FROM {$wpdb->prefix}statistics_visitor WHERE agent = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate ), ARRAY_N );
+		} else {
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT version FROM {$wpdb->prefix}statistics_visitor WHERE agent = %s", $agent ), ARRAY_N );
+		}
 				
 		$Versions = array();
 				
@@ -371,11 +391,15 @@
 	}
 
 	// This function returns the statistcs for a given agent/version pair from the database.
-	function wp_statistics_agent_version($agent, $version) {
+	function wp_statistics_agent_version($agent, $version, $rangestartdate = null, $rangeenddate = null ) {
 	
 		global $wpdb;
 		
-		$result = $wpdb->get_var("SELECT COUNT(version) FROM {$wpdb->prefix}statistics_visitor WHERE agent = '$agent' AND version = '$version'");
+		if( $rangestartdate != null && $rangeenddate != null ) {
+			$result = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(version) FROM {$wpdb->prefix}statistics_visitor WHERE agent = %s AND version = %s AND `last_counter` BETWEEN %s AND %s", $agent, $version, $rangestartdate, $rangeenddate ) );
+		} else {
+			$result = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(version) FROM {$wpdb->prefix}statistics_visitor WHERE agent = %s AND version = %s", $agent, $version ) );
+		}
 		
 		return $result;
 	}
