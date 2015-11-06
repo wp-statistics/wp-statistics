@@ -40,7 +40,7 @@
 									
 									foreach( $result as $item )
 										{
-										$Countries[$item->location] = $wpdb->get_var("SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location='" . $item->location . "'" );
+										$Countries[$item->location] = $wpdb->get_var( $wpdb->prepare( "SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location=%s", $item->location ) );
 										}
 										
 									arsort($Countries);

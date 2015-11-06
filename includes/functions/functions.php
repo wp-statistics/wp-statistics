@@ -743,7 +743,7 @@
 	
 		global $wpdb;
 		
-		$countcomms = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
+		$countcomms = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = '1'");
 		
 		return $countcomms;
 	}
@@ -766,7 +766,7 @@
 	
 		global $wpdb, $WP_Statistics;
 		
-		$db_date = $wpdb->get_var("SELECT post_date FROM $wpdb->posts WHERE post_type='post' AND post_status='publish' ORDER BY ID DESC LIMIT 1");
+		$db_date = $wpdb->get_var("SELECT post_date FROM {$wpdb->posts} WHERE post_type='post' AND post_status='publish' ORDER BY ID DESC LIMIT 1");
 		
 		$date_format = get_option('date_format');
 		
@@ -779,8 +779,8 @@
 	
 		global $wpdb;
 		
-		$get_first_post = $wpdb->get_var("SELECT post_date FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date LIMIT 1");
-		$get_total_post = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'post'");
+		$get_first_post = $wpdb->get_var("SELECT post_date FROM {$wpdb->posts} WHERE post_status = 'publish' ORDER BY post_date LIMIT 1");
+		$get_total_post = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_type = 'post'");
 		
 		$days_spend = intval((time() - strtotime($get_first_post) ) / 86400); // 86400 = 60 * 60 * 24 = number of seconds in a day
 		
@@ -800,8 +800,8 @@
 	
 		global $wpdb;
 		
-		$get_first_comment = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments ORDER BY comment_date LIMIT 1");
-		$get_total_comment = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
+		$get_first_comment = $wpdb->get_var("SELECT comment_date FROM {$wpdb->comments} ORDER BY comment_date LIMIT 1");
+		$get_total_comment = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = '1'");
 
 		$days_spend = intval((time() - strtotime($get_first_comment) ) / 86400); // 86400 = 60 * 60 * 24 = number of seconds in a day
 		
@@ -821,8 +821,8 @@
 	
 		global $wpdb;
 		
-		$get_first_user = $wpdb->get_var("SELECT user_registered FROM $wpdb->users ORDER BY user_registered LIMIT 1");
-		$get_total_user = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->users");
+		$get_first_user = $wpdb->get_var("SELECT user_registered FROM {$wpdb->users} ORDER BY user_registered LIMIT 1");
+		$get_total_user = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->users}");
 
 		$days_spend = intval((time() - strtotime($get_first_user) ) / 86400); // 86400 = 60 * 60 * 24 = number of seconds in a day
 		

@@ -5,7 +5,7 @@
 		// If it's less than 10 hits, don't do anything.
 		if( $purge_hits > 9 ) {
 			// Purge the visitor's with more than the defined hits.
-			$result = $wpdb->get_results('SELECT * FROM ' . $wpdb->prefix . 'statistics_visitor WHERE `hits` > \'' . $purge_hits . '\'');
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `hits` > %s", $purge_hits ) );
 			
 			$to_delete = array();
 			
@@ -17,9 +17,9 @@
 			if( count( $to_delete ) > 0 ) {
 				foreach( $to_delete as $item ) {
 					// First update the daily hit count.
-					$wpdb->query( "UPDATE {$wpdb->prefix}statistics_visit SET `visit` = `visit` - {$item[2]} WHERE `last_counter` = '{$item[1]}';" );
+					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}statistics_visit SET `visit` = `visit` - %d WHERE `last_counter` = %s;", $item[2], $item[1] ) );
 					// Next remove the visitor.  Note we can't do both in a single query, looks like $wpdb doesn't like executing them together.
-					$wpdb->query( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `id` = '{$item[0]}';" );
+					$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `id` = %s;", $item[0] ) );
 				}
 				
 				$result_string = sprintf(__('%s records purged successfully.', 'wp_statistics'), '<code>' . count( $to_delete ) . '</code>');

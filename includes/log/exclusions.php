@@ -37,7 +37,7 @@
 			$thisdate = $WP_Statistics->real_current_date('Y-m-d', '-'.$i, $rangeend_utime );
 		
 			// Create the SQL query string to get the data.
-			$query = "SELECT count FROM {$wpdb->prefix}statistics_exclusions WHERE reason = '{$thisreason}' AND date = '{$thisdate}'";
+			$query = $wpdb->prepare( "SELECT count FROM {$wpdb->prefix}statistics_exclusions WHERE reason = %s AND date = %s", $thisreason, $thisdate );
 
 			// Execute the query.
 			$excluded_results[$reason][$i] = $wpdb->get_var( $query );

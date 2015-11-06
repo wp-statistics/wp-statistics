@@ -43,7 +43,7 @@
 									
 									foreach( $result as $item )
 										{
-										$Countries[$item->location] = $wpdb->get_var("SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location='{$item->location}' AND `last_counter` BETWEEN '{$rangestartdate}' AND '{$rangeenddate}'" );
+										$Countries[$item->location] = $wpdb->get_var( $wpdb->prepare( "SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location=%s AND `last_counter` BETWEEN %s AND %s", $item->location, $rangestartdate, $rangeenddate ) );
 										}
 										
 									arsort($Countries);
