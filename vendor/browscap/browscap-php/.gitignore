@@ -4,3 +4,10 @@ vendor/
 .settings
 .project
 composer.phar
+composer.lock
+resources/
+PHP_BrowscapINI
+ergebnis.txt
+tests/data/*
+!tests/data/testdata.ini
+!tests/data/buildCache/
