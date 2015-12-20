@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: wp-statistics.php:170
+msgid "optimization page"
+msgstr ""
+
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
@@ -47,7 +51,7 @@ msgstr ""
 msgid "Post/Page ID"
 msgstr ""
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:424
 msgid "Ask.com"
 msgstr ""
 
@@ -79,7 +83,7 @@ msgstr ""
 msgid "search table"
 msgstr ""
 
-#: wp-statistics.php:148 wp-statistics.php:170
+#: wp-statistics.php:148
 msgid "settings page"
 msgstr ""
 
@@ -131,7 +135,7 @@ msgstr ""
 msgid "Referrer Spam"
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:277
+#: includes/settings/tabs/wps-externals.php:279
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
 msgstr ""
 
@@ -139,31 +143,31 @@ msgstr ""
 msgid "Externals"
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:219
+#: includes/settings/tabs/wps-externals.php:220
 msgid "Piwik Referrer Spam Blacklist settings"
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:254
+#: includes/settings/tabs/wps-externals.php:255
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:247
+#: includes/settings/tabs/wps-externals.php:248
 msgid "Download Piwik Referrer Spam Blacklist Database"
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:242
+#: includes/settings/tabs/wps-externals.php:243
 msgid "Update Piwik Referrer Spam Blacklist Info"
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:237
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:224
+#: includes/settings/tabs/wps-externals.php:225
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:230
+#: includes/settings/tabs/wps-externals.php:231
 msgid "Piwik Referrer Spam Blacklist usage"
 msgstr ""
 
@@ -336,11 +340,11 @@ msgstr ""
 msgid "Time Frame"
 msgstr ""
 
-#: includes/functions/functions.php:982
+#: includes/functions/functions.php:1006
 msgid "to"
 msgstr ""
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr ""
 
@@ -384,11 +388,11 @@ msgstr ""
 msgid "Filtered by"
 msgstr ""
 
-#: includes/functions/functions.php:975 includes/functions/functions.php:978
+#: includes/functions/functions.php:999 includes/functions/functions.php:1002
 msgid "Range"
 msgstr ""
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -432,27 +436,27 @@ msgstr "٣٠ ڕۆژ ڕابردوو (مانگ)"
 msgid "Last 7 Days (Week)"
 msgstr "٧ ڕۆژی ڕابردوو(هەفتە)"
 
-#: includes/functions/functions.php:406
+#: includes/functions/functions.php:430
 msgid "Yahoo!"
 msgstr "یاهو"
 
-#: includes/functions/functions.php:407
+#: includes/functions/functions.php:431
 msgid "Yandex"
 msgstr "یاندیکس"
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:427
 msgid "clearch.org"
 msgstr "clearch.org"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:428
 msgid "DuckDuckGo"
 msgstr "دەک دەک گۆو"
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:426
 msgid "Bing"
 msgstr "بینگ"
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:425
 msgid "Baidu"
 msgstr "بەیدوو"
 
@@ -917,7 +921,7 @@ msgstr "ناچالاککردنی ئامرازی(ویدجێت) سەردانی پ�
 msgid "Map type"
 msgstr "جۆری نەخشە"
 
-#: includes/functions/functions.php:405
+#: includes/functions/functions.php:429
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "گووگڵ"
@@ -1049,7 +1053,7 @@ msgstr "سڕینەوە"
 
 #: includes/settings/tabs/wps-access-level.php:85
 #: includes/settings/tabs/wps-exclusions.php:234
-#: includes/settings/tabs/wps-externals.php:284
+#: includes/settings/tabs/wps-externals.php:286
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
@@ -1304,23 +1308,23 @@ msgstr "GeoIP بەڕۆژ بوو لە"
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "داگرتنی بنکەی دراوە لە browscapهەڵە لە: %s - %s"
 
-#: wps-updates.php:267
+#: wps-updates.php:274
 msgid "browscap database updated successfully!"
 msgstr "browscap بنکەی بە سەرکەوتوویی بەڕۆژ بوو."
 
-#: wps-updates.php:277
+#: wps-updates.php:284
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
 msgstr "بنکەدراوەی browscap بۆ بەڕۆژ بوون سەرکەوتوو نەبووە! پەڕگەی باشکەوتکردن قەبارەی گەورەیە! بڕۆ بۆ browscap.ini پێشتر."
 
-#: wps-updates.php:285
+#: wps-updates.php:292
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
 msgstr "بنکەدراوەی browscap بۆ بەڕۆژ بوون سەرکەوتوو نەبووە! browscap.iniنوێ هەڵەیە identifing بریکاری بەکارهێنەر بەمانای وێبخشۆک بڕۆ بۆ browscap.ini پێشتر."
 
-#: wps-updates.php:307
+#: wps-updates.php:314
 msgid "browscap already at current version!"
 msgstr "browscap لە ئێستا ئامادەیە بۆ ئەم وەشانە!"
 
-#: wps-updates.php:320
+#: wps-updates.php:327
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini بەڕۆژکرا"
 
@@ -1365,8 +1369,8 @@ msgstr "بەرزترین ١٠ پەرە"
 msgid "Recent Visitors"
 msgstr "دوایین میوانەکان"
 
-#: dashboard.php:62 includes/log/top-referring.php:48
-#: includes/log/top-referring.php:65 includes/log/widgets/referring.php:11
+#: dashboard.php:62 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 includes/log/widgets/referring.php:11
 #: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "زۆرترین ماڵپەڕی هاتن"
@@ -1431,18 +1435,18 @@ msgstr "بنکەی دراوە پاکسازی لە"
 msgid "Please select a value over 30 days."
 msgstr "تکایە زۆرتر لە ٣٠ ڕۆژ هەڵبژێرن"
 
-#: includes/log/all-browsers.php:8
+#: includes/log/all-browsers.php:21
 msgid "Browser Statistics"
 msgstr "ئاماری وێبگەرەکان"
 
-#: includes/log/all-browsers.php:14 includes/log/all-browsers.php:98
-#: includes/log/all-browsers.php:233 includes/log/exclusions.php:72
+#: includes/log/all-browsers.php:29 includes/log/all-browsers.php:113
+#: includes/log/all-browsers.php:248 includes/log/exclusions.php:72
 #: includes/log/exclusions.php:190 includes/log/hit-statistics.php:26
 #: includes/log/hit-statistics.php:162 includes/log/last-search.php:64
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
 #: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:61 includes/log/widgets/about.php:7
+#: includes/log/top-referring.php:77 includes/log/widgets/about.php:7
 #: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
 #: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
 #: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
@@ -1452,26 +1456,26 @@ msgstr "ئاماری وێبگەرەکان"
 msgid "Click to toggle"
 msgstr "بۆ بەستن و داخستن کرتە بکە"
 
-#: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
+#: includes/log/all-browsers.php:30 includes/log/widgets/browsers.php:10
 #: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
 #: wp-statistics.php:452
 msgid "Browsers"
 msgstr "وێبگەڕەکان"
 
-#: includes/log/all-browsers.php:42
+#: includes/log/all-browsers.php:57
 msgid "Browsers by type"
 msgstr "وێبگڕەکان لە سەر بنەمای جۆری"
 
-#: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:37
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:37
 #: includes/optimization/tabs/wps-optimization-resources.php:313
 msgid "Platform"
 msgstr "سەکۆ"
 
-#: includes/log/all-browsers.php:126
+#: includes/log/all-browsers.php:141
 msgid "Browsers by platform"
 msgstr "وێبگەڕەکان لە سەر بنەمای سەکۆ"
 
-#: includes/log/all-browsers.php:234
+#: includes/log/all-browsers.php:249
 msgid "%s Version"
 msgstr "%s وەشان"
 
@@ -1483,35 +1487,35 @@ msgstr "خاڵ: تائێستا جیاکاری بۆ ریکۆردەکان جیاک
 msgid "Exclusions Statistics"
 msgstr "ئاماری جیاکاریەکان"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "10 Days"
 msgstr "١٠ ڕۆژی ڕابردوو"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "20 Days"
 msgstr "٢٠ ڕۆژی ڕابردوو"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "30 Days"
 msgstr "٣٠ ڕۆژی ڕابردوو"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "2 Months"
 msgstr "٢ مانگی ڕابردوو"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "3 Months"
 msgstr "٣ مانگی ڕابردوو"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "6 Months"
 msgstr "٦مانگی ڕابردوو"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "9 Months"
 msgstr "٩ مانگی ڕابردوو"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "1 Year"
 msgstr "١ ساڵی ڕابردوو"
 
@@ -1568,7 +1572,7 @@ msgid "#hash#"
 msgstr "#hash#"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
-#: includes/log/online.php:55 includes/log/top-referring.php:96
+#: includes/log/online.php:55 includes/log/top-referring.php:112
 #: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
@@ -1577,18 +1581,18 @@ msgstr "نەخشە"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "Page"
 msgstr "پەڕە"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "From"
 msgstr "لە"
 
 #: includes/log/last-search.php:47 includes/log/last-visitor.php:38
-#: includes/log/top-referring.php:51 includes/log/top-referring.php:54
+#: includes/log/top-referring.php:67 includes/log/top-referring.php:70
 #: includes/optimization/tabs/wps-optimization-purging.php:192 widget.php:296
 msgid "All"
 msgstr "گشتی"
@@ -1685,11 +1689,11 @@ msgstr "سەردانەکان"
 msgid "To be added soon"
 msgstr "بە خێرایی زیاد دەبێت"
 
-#: includes/log/top-referring.php:63
+#: includes/log/top-referring.php:79
 msgid "Referring sites from"
 msgstr "ماڵپەرەکانی هاتن  لە"
 
-#: includes/log/top-referring.php:121 includes/log/widgets/referring.php:50
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:50
 msgid "References"
 msgstr "سەرچاوە"
 
@@ -1813,11 +1817,11 @@ msgstr "ازانیارەکانی سەکۆ %s بە سەرکەوتوویی سڕا�
 msgid "No platform data found to remove!"
 msgstr "سەکۆی وێبگەڕ بۆ سڕینەوە پەیدا نەبوو."
 
-#: includes/functions/functions.php:1020
+#: includes/functions/functions.php:1046
 msgid "%s table data deleted successfully."
 msgstr "داتای خەشتی %s بە سەرکەوتوویی سڕایەوە"
 
-#: includes/functions/functions.php:1024
+#: includes/functions/functions.php:1050
 msgid "Error, %s not emptied!"
 msgstr "هەڵە! %s بەتاڵ نییە!"
 
@@ -2629,8 +2633,8 @@ msgstr "سودوەرگرتن لە browscap"
 #: includes/settings/tabs/wps-externals.php:109
 #: includes/settings/tabs/wps-externals.php:172
 #: includes/settings/tabs/wps-externals.php:196
-#: includes/settings/tabs/wps-externals.php:235
-#: includes/settings/tabs/wps-externals.php:259
+#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:260
 #: includes/settings/tabs/wps-general.php:76
 #: includes/settings/tabs/wps-general.php:92
 #: includes/settings/tabs/wps-general.php:116
@@ -2674,7 +2678,7 @@ msgstr "داگرتنی browscapبنکەدراوە"
 
 #: includes/settings/tabs/wps-externals.php:65
 #: includes/settings/tabs/wps-externals.php:185
-#: includes/settings/tabs/wps-externals.php:248
+#: includes/settings/tabs/wps-externals.php:249
 msgid "Save changes on this page to download the update."
 msgstr "پاشکەوتی گۆڕانکاری لەم پەرگە و داگرتنی بەڕۆژکراوەکان"
 
@@ -2684,11 +2688,11 @@ msgstr "ببەرنامەی بەڕۆژ کردنی هەفتانە browscap دسی 
 
 #: includes/settings/tabs/wps-externals.php:79
 #: includes/settings/tabs/wps-externals.php:199
-#: includes/settings/tabs/wps-externals.php:262
+#: includes/settings/tabs/wps-externals.php:263
 msgid "Next update will be"
 msgstr "بەڕۆژ بوونی داهاتوو هەیە."
 
-#: includes/settings/tabs/wps-externals.php:214
+#: includes/settings/tabs/wps-externals.php:215
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr "داگرتنی بنکەدراوەی browscap بۆبارێک لە حەفتە"
 

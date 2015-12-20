@@ -2,13 +2,17 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-09-17 23:29:00+0000\n"
+"PO-Revision-Date: 2015-09-22 10:19:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
+
+#: wp-statistics.php:170
+msgid "optimization page"
+msgstr ""
 
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:63
@@ -47,7 +51,7 @@ msgstr "ID сообщения/страницы для вывода статис�
 msgid "Post/Page ID"
 msgstr "ID сообщение/страницы"
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:424
 msgid "Ask.com"
 msgstr "Ask.com"
 
@@ -79,7 +83,7 @@ msgstr ""
 msgid "search table"
 msgstr ""
 
-#: wp-statistics.php:148 wp-statistics.php:170
+#: wp-statistics.php:148
 msgid "settings page"
 msgstr ""
 
@@ -131,7 +135,7 @@ msgstr "Прежние версии Wp Statistics хранили произво�
 msgid "Referrer Spam"
 msgstr ""
 
-#: includes/settings/tabs/wps-externals.php:277
+#: includes/settings/tabs/wps-externals.php:279
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
 msgstr "Еженедельно загружать черные списки спам-реферреров от Piwik."
 
@@ -139,33 +143,33 @@ msgstr "Еженедельно загружать черные списки сп
 msgid "Externals"
 msgstr "Внешнее"
 
-#: includes/settings/tabs/wps-externals.php:219
+#: includes/settings/tabs/wps-externals.php:220
 msgid "Piwik Referrer Spam Blacklist settings"
 msgstr "Настройки черного списка спам-реферреров от Piwik."
 
-#: includes/settings/tabs/wps-externals.php:254
+#: includes/settings/tabs/wps-externals.php:255
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
-msgstr "Еженедельное обновление черного списка спам-рефереров"
+msgstr "Еженедельно обновлять черный список спам-реферров"
 
-#: includes/settings/tabs/wps-externals.php:247
+#: includes/settings/tabs/wps-externals.php:248
 msgid "Download Piwik Referrer Spam Blacklist Database"
-msgstr ""
+msgstr "Обновит базу данных спам-реферров Piwik"
 
-#: includes/settings/tabs/wps-externals.php:242
+#: includes/settings/tabs/wps-externals.php:243
 msgid "Update Piwik Referrer Spam Blacklist Info"
-msgstr ""
+msgstr "Обновить черный список спам-реферров Piwik"
 
-#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:237
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
-msgstr ""
+msgstr "Будет загружена и использована база данных спам-реферров от Piwik, для обнаружения спама."
 
-#: includes/settings/tabs/wps-externals.php:224
+#: includes/settings/tabs/wps-externals.php:225
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
-msgstr ""
+msgstr "Черный список спам-реферреров предоставлен Piwik и доступен %s."
 
-#: includes/settings/tabs/wps-externals.php:230
+#: includes/settings/tabs/wps-externals.php:231
 msgid "Piwik Referrer Spam Blacklist usage"
-msgstr ""
+msgstr "Использовать черный список спам-реферров Piwik"
 
 #: includes/settings/tabs/wps-exclusions.php:148
 msgid "Treat corrupt browser info as a bot"
@@ -197,11 +201,11 @@ msgstr "Ошибка при создании директории базы да�
 
 #: includes/settings/tabs/wps-general.php:281
 msgid "Add page title to empty search words"
-msgstr ""
+msgstr "Добавлять заголовок страница для пустых поисковых фраз"
 
 #: includes/settings/tabs/wps-general.php:287
 msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
-msgstr ""
+msgstr "Если поисковая система зафиксировала переход, но не указала поисковый запрос, эта опция заменит поисковый запрос на заголовок страницы с \"~:\". Это позволяет предположить, что искал пользователь."
 
 #: includes/optimization/tabs/wps-optimization-purging.php:218
 #: includes/settings/tabs/wps-maintenance.php:75
@@ -336,11 +340,11 @@ msgstr ""
 msgid "Time Frame"
 msgstr ""
 
-#: includes/functions/functions.php:982
+#: includes/functions/functions.php:1006
 msgid "to"
 msgstr "для"
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "Перейти"
 
@@ -384,25 +388,25 @@ msgstr "Прежние версии WP Statistics позволяли дубли�
 msgid "Filtered by"
 msgstr "Отфильтровано по"
 
-#: includes/functions/functions.php:975 includes/functions/functions.php:978
+#: includes/functions/functions.php:999 includes/functions/functions.php:1002
 msgid "Range"
 msgstr "Диапазон"
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "ММ/ДД/ГГГГ"
 
 #: includes/settings/tabs/wps-general.php:342
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr ""
+msgstr "Отключит переводы и будет показывать только английский вариант WP Statistics (обновите страницу два раза, чтобы переключить язык)"
 
 #: includes/settings/tabs/wps-general.php:336
 msgid "Force English"
-msgstr ""
+msgstr "Принудительный использовать английский"
 
 #: includes/settings/tabs/wps-general.php:331
 msgid "Languages"
-msgstr ""
+msgstr "Языки"
 
 #: includes/settings/tabs/wps-exclusions.php:227
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
@@ -432,27 +436,27 @@ msgstr "Последние 30 дней (месяц)"
 msgid "Last 7 Days (Week)"
 msgstr "Последние 7 дней (неделя)"
 
-#: includes/functions/functions.php:406
+#: includes/functions/functions.php:430
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: includes/functions/functions.php:407
+#: includes/functions/functions.php:431
 msgid "Yandex"
 msgstr "Яндекс"
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:427
 msgid "clearch.org"
 msgstr "clearch.org"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:428
 msgid "DuckDuckGo"
 msgstr "DuckDuckGo"
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:426
 msgid "Bing"
 msgstr "Bing"
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:425
 msgid "Baidu"
 msgstr "Baidu"
 
@@ -524,27 +528,27 @@ msgstr "Отметить каждого юзера онлайн"
 
 #: includes/settings/tabs/wps-general.php:104
 msgid "Second"
-msgstr "Второй"
+msgstr "секунд(ы)"
 
 #: includes/settings/tabs/wps-general.php:105
 msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "Время проверки нахождения пользователя на сайте. Сейчас: %s секунд"
+msgstr "Периодичность проверки пользователей на сайте. Сейчас: %s секунд(ы)"
 
 #: includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
-msgstr "Записать всех пользователей"
+msgstr "Регистрировать всех пользователей"
 
 #: includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
-msgstr "Игнорировать настройки исключения и регистрировать всех пользователей, которые находятся в сети (в том числе рефералов и роботов). Следует использовать только для устранения неполадок."
+msgstr "Игнорировать настройки исключения и регистрировать всех пользователей, которые находятся на сайте (в том числе рефералов и роботов). Следует использовать только для устранения неполадок."
 
 #: includes/settings/tabs/wps-general.php:155
 msgid "Store entire user agent string"
-msgstr "Сохранять данные user-agent'a"
+msgstr "Сохранять строку UserAgent"
 
 #: includes/settings/tabs/wps-general.php:161
 msgid "Only enabled for debugging"
-msgstr "Включено только для отладки"
+msgstr "Включайте только для отладки"
 
 #: includes/settings/tabs/wps-general.php:167
 msgid "Coefficient per visitor"
@@ -552,29 +556,29 @@ msgstr "Коэффициент на посетителя"
 
 #: includes/settings/tabs/wps-general.php:172
 msgid "For each visit to account for several hits. Currently %s."
-msgstr "Для каждого визита за несколько посещений. Сейчас %s."
+msgstr "Для каждого посещения за несколько просмотров. Сейчас %s."
 
 #: includes/settings/tabs/wps-general.php:177
 #: includes/settings/tabs/wps-general.php:182 wp-statistics.php:381
 #: wp-statistics.php:457
 msgid "Pages"
-msgstr "Страниц"
+msgstr "Страницы"
 
 #: includes/settings/tabs/wps-general.php:194
 msgid "Track all pages"
-msgstr "Отслеживание всех страниц"
+msgstr "Отслеживать все страницы"
 
 #: includes/settings/tabs/wps-general.php:209
 msgid "Strip parameters from URI"
-msgstr "Обрезать параметры из URL"
+msgstr "Удалять параметры из URL"
 
 #: includes/settings/tabs/wps-general.php:215
 msgid "This will remove anything after the ? in a URL."
-msgstr "Удалять все после знака \"?\" в URL."
+msgstr "Удалять все, после знака ? в URL."
 
 #: includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
-msgstr "Отключить столбец посещений в списке записей/страниц"
+msgstr "Скрыть столбец посещений в списке записей/страниц"
 
 #: includes/settings/tabs/wps-general.php:234
 msgid "Miscellaneous"
@@ -598,11 +602,11 @@ msgstr "Показывать статистику в админ-баре"
 
 #: includes/settings/tabs/wps-general.php:253
 msgid "Hide admin notices about non active features"
-msgstr "Скрыть уведомления администратора о неактивных компонентах"
+msgstr "Скрыть уведомления администратору о неактивных компонентах"
 
 #: includes/settings/tabs/wps-general.php:259
 msgid "By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices."
-msgstr "По умолчанию WP Statistics отображает предупреждение, если любая из основных функций отключена на каждой странице администратора. Этот параметр отключит эти уведомления."
+msgstr "По умолчанию WP Statistics отображает предупреждение на каждой странице администратора, если любая из основных функций отключена . Этот параметр отключит эти уведомления."
 
 #: includes/settings/tabs/wps-general.php:265
 msgid "Delete the manual"
@@ -614,11 +618,11 @@ msgstr "По умолчанию WP Statistics хранит руководств�
 
 #: includes/settings/tabs/wps-general.php:276
 msgid "Search Engines"
-msgstr "Поисковики"
+msgstr "Поисковые системы"
 
 #: includes/settings/tabs/wps-general.php:293
 msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
-msgstr "Отключение всех поисковых системах не допускается, так как это оставит все поисковые системы активными."
+msgstr "Отключение всех поисковых системах не допускается, поэтому это оставит все поисковые системы активными."
 
 #: includes/settings/tabs/wps-general.php:308
 msgid "disable"
@@ -626,7 +630,7 @@ msgstr "отключить"
 
 #: includes/settings/tabs/wps-general.php:309
 msgid "Disable %s from data collection and reporting."
-msgstr "Отключите %s от сбора данных и отчетности."
+msgstr "Отключит сбор данных и ответ от %s."
 
 #: includes/settings/tabs/wps-general.php:315
 msgid "Charts"
@@ -634,53 +638,51 @@ msgstr "Графики"
 
 #: includes/settings/tabs/wps-general.php:320
 msgid "Include totals"
-msgstr "Включить итоги"
+msgstr "Включить общие данные"
 
 #: includes/settings/tabs/wps-general.php:326
 msgid "Add a total line to charts with multiple values, like the search engine referrals"
-msgstr "Добавить общая линия диаграммы с несколькими значениями, как двигатель поиска рефералов"
+msgstr "Добавить в диаграмму линию с общими данными и несколькими значениями, например переходы из поисковых систем"
 
 #: includes/settings/tabs/wps-externals.php:32
 msgid "GeoIP settings"
-msgstr "Параметры GeoIP"
+msgstr "Настройки GeoIP"
 
 #: includes/settings/tabs/wps-externals.php:37
 msgid "IP location services provided by GeoLite2 data created by MaxMind, available from %s."
-msgstr "IP место службы, предоставляемые GeoLite2 данных, созданных MaxMind, доступные из %s."
+msgstr "Данные предоставлены GeoLite2 от MaxMind, доступны %s."
 
 #: includes/settings/tabs/wps-externals.php:47
 msgid "GeoIP collection"
-msgstr "Коллекция GeoIP"
+msgstr "Сбор GeoIP данных"
 
 #: includes/settings/tabs/wps-externals.php:53
 msgid "For get more information and location (country) from visitor, enable this feature."
-msgstr "Для получения дополнительной информации и местоположения (страны) от посетителя, включите эту функцию."
+msgstr "Для получения дополнительной информации и местоположения (страны) о посетителе, включите эту функцию."
 
 #: includes/settings/tabs/wps-externals.php:59
 msgid "Update GeoIP Info"
-msgstr "Обновление GeoIP информация"
+msgstr "Обновить данные GeoIP"
 
 #: includes/settings/tabs/wps-externals.php:64
 msgid "Download GeoIP Database"
-msgstr "Скачать GeoIP базы данных"
+msgstr "Скачать базу данных GeoIP"
 
 #: includes/settings/tabs/wps-externals.php:71
 msgid "Schedule monthly update of GeoIP DB"
-msgstr "Расписание ежемесячное обновление GeoIP дБ"
+msgstr "Ежемесячно обновлять базу данных GeoIP"
 
 #: includes/settings/tabs/wps-externals.php:97
 msgid "Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month."
-msgstr "Скачать GeoIP базы данных будет назначено на 2 дня после первого вторника месяца."
+msgstr "Загружать базу данных GeoIP через 2 дня, после первого вторника месяца."
 
 #: includes/settings/tabs/wps-externals.php:98
 msgid "This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place)."
-msgstr "Этот параметр также скачать базы данных, если местные размер файла меньше, чем 1k, (который обычно означает, что до сих пор на месте заглушки, которая поставляется с плагином)."
+msgstr "Также эта опция загрузить базу данных, если ее размер на диске менее 1кб"
 
 #: includes/settings/tabs/wps-externals.php:104
 msgid "Populate missing GeoIP after update of GeoIP DB"
-msgstr ""
-"Заполнить недостающие GeoIP после обновление GeoIP дБ\n"
-"Обновить неизвестные данные GeoIP, после его обновления"
+msgstr "Обновить неизвестные данные GeoIP, после его обновления"
 
 #: includes/settings/tabs/wps-externals.php:110
 msgid "Update any missing GeoIP data after downloading a new database."
@@ -919,7 +921,7 @@ msgstr ""
 msgid "Map type"
 msgstr "Тип карты"
 
-#: includes/functions/functions.php:405
+#: includes/functions/functions.php:429
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "Google"
@@ -1051,7 +1053,7 @@ msgstr ""
 
 #: includes/settings/tabs/wps-access-level.php:85
 #: includes/settings/tabs/wps-exclusions.php:234
-#: includes/settings/tabs/wps-externals.php:284
+#: includes/settings/tabs/wps-externals.php:286
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
@@ -1306,23 +1308,23 @@ msgstr ""
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "Ошибка при загрузке базы данных browscap от: %s - %s"
 
-#: wps-updates.php:267
+#: wps-updates.php:274
 msgid "browscap database updated successfully!"
 msgstr "browscap база данных успешно обновлена!"
 
-#: wps-updates.php:277
+#: wps-updates.php:284
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
 msgstr ""
 
-#: wps-updates.php:285
+#: wps-updates.php:292
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
 msgstr ""
 
-#: wps-updates.php:307
+#: wps-updates.php:314
 msgid "browscap already at current version!"
 msgstr "browscap уже на текущей версии!"
 
-#: wps-updates.php:320
+#: wps-updates.php:327
 msgid "Browscap.ini update on"
 msgstr ""
 
@@ -1367,8 +1369,8 @@ msgstr "Топ 10 страниц"
 msgid "Recent Visitors"
 msgstr "Недавние посетители"
 
-#: dashboard.php:62 includes/log/top-referring.php:48
-#: includes/log/top-referring.php:65 includes/log/widgets/referring.php:11
+#: dashboard.php:62 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 includes/log/widgets/referring.php:11
 #: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "Топ ссылающихся на вас сайтов"
@@ -1433,18 +1435,18 @@ msgstr "База данных уменьшена на"
 msgid "Please select a value over 30 days."
 msgstr "Пожалуйста, выберите значение более 30 дней."
 
-#: includes/log/all-browsers.php:8
+#: includes/log/all-browsers.php:21
 msgid "Browser Statistics"
 msgstr "Статистика браузеров"
 
-#: includes/log/all-browsers.php:14 includes/log/all-browsers.php:98
-#: includes/log/all-browsers.php:233 includes/log/exclusions.php:72
+#: includes/log/all-browsers.php:29 includes/log/all-browsers.php:113
+#: includes/log/all-browsers.php:248 includes/log/exclusions.php:72
 #: includes/log/exclusions.php:190 includes/log/hit-statistics.php:26
 #: includes/log/hit-statistics.php:162 includes/log/last-search.php:64
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
 #: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:61 includes/log/widgets/about.php:7
+#: includes/log/top-referring.php:77 includes/log/widgets/about.php:7
 #: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
 #: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
 #: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
@@ -1454,26 +1456,26 @@ msgstr "Статистика браузеров"
 msgid "Click to toggle"
 msgstr "Нажмите для переключения"
 
-#: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
+#: includes/log/all-browsers.php:30 includes/log/widgets/browsers.php:10
 #: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
 #: wp-statistics.php:452
 msgid "Browsers"
 msgstr "Браузеры"
 
-#: includes/log/all-browsers.php:42
+#: includes/log/all-browsers.php:57
 msgid "Browsers by type"
 msgstr "Браузеры по типу"
 
-#: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:37
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:37
 #: includes/optimization/tabs/wps-optimization-resources.php:313
 msgid "Platform"
 msgstr "Платформа"
 
-#: includes/log/all-browsers.php:126
+#: includes/log/all-browsers.php:141
 msgid "Browsers by platform"
 msgstr "Браузеры по платформе"
 
-#: includes/log/all-browsers.php:234
+#: includes/log/all-browsers.php:249
 msgid "%s Version"
 msgstr "Версии %s"
 
@@ -1485,35 +1487,35 @@ msgstr "Внимание: исключения не записываются в 
 msgid "Exclusions Statistics"
 msgstr "Статистика исключений"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "10 Days"
 msgstr "10 дней"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "20 Days"
 msgstr "20 дней"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "30 Days"
 msgstr "30 дней"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "2 Months"
 msgstr "2 месяца"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "3 Months"
 msgstr "3 месяца"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "6 Months"
 msgstr "6 месяцев"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "9 Months"
 msgstr "9 месяцев"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "1 Year"
 msgstr "1 год"
 
@@ -1570,7 +1572,7 @@ msgid "#hash#"
 msgstr "#hash #"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
-#: includes/log/online.php:55 includes/log/top-referring.php:96
+#: includes/log/online.php:55 includes/log/top-referring.php:112
 #: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
@@ -1579,18 +1581,18 @@ msgstr "Карта"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "Page"
 msgstr "Страница"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "From"
 msgstr "От"
 
 #: includes/log/last-search.php:47 includes/log/last-visitor.php:38
-#: includes/log/top-referring.php:51 includes/log/top-referring.php:54
+#: includes/log/top-referring.php:67 includes/log/top-referring.php:70
 #: includes/optimization/tabs/wps-optimization-purging.php:192 widget.php:296
 msgid "All"
 msgstr "Все"
@@ -1687,11 +1689,11 @@ msgstr "Посещений"
 msgid "To be added soon"
 msgstr "Скоро будут добавлены"
 
-#: includes/log/top-referring.php:63
+#: includes/log/top-referring.php:79
 msgid "Referring sites from"
 msgstr ""
 
-#: includes/log/top-referring.php:121 includes/log/widgets/referring.php:50
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:50
 msgid "References"
 msgstr "Ссылается"
 
@@ -1815,11 +1817,11 @@ msgstr "Платформа данных %s успешно удалена."
 msgid "No platform data found to remove!"
 msgstr "Не найдено данных для удаления!"
 
-#: includes/functions/functions.php:1020
+#: includes/functions/functions.php:1046
 msgid "%s table data deleted successfully."
 msgstr "Данные таблицы %s успешно удалены."
 
-#: includes/functions/functions.php:1024
+#: includes/functions/functions.php:1050
 msgid "Error, %s not emptied!"
 msgstr "Ошибка, %s не очищена!"
 
@@ -2624,15 +2626,15 @@ msgstr "Настройки browscap"
 
 #: includes/settings/tabs/wps-externals.php:167
 msgid "browscap usage"
-msgstr "browscap использование"
+msgstr "Использовать browscap"
 
 #: includes/settings/tabs/wps-externals.php:52
 #: includes/settings/tabs/wps-externals.php:76
 #: includes/settings/tabs/wps-externals.php:109
 #: includes/settings/tabs/wps-externals.php:172
 #: includes/settings/tabs/wps-externals.php:196
-#: includes/settings/tabs/wps-externals.php:235
-#: includes/settings/tabs/wps-externals.php:259
+#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:260
 #: includes/settings/tabs/wps-general.php:76
 #: includes/settings/tabs/wps-general.php:92
 #: includes/settings/tabs/wps-general.php:116
@@ -2660,39 +2662,39 @@ msgstr "browscap использование"
 #: includes/settings/tabs/wps-overview-display.php:147
 #: includes/settings/tabs/wps-overview-display.php:159
 msgid "Active"
-msgstr "Активные"
+msgstr "Активно"
 
 #: includes/settings/tabs/wps-externals.php:173
 msgid "The browscap database will be downloaded and used to detect robots."
-msgstr "База данных browscap будет загружено и используются для обнаружения роботов."
+msgstr "Будет загружена и использована база данных browscap для детектирования роботов."
 
 #: includes/settings/tabs/wps-externals.php:179
 msgid "Update browscap Info"
-msgstr "Обновление browscap информация"
+msgstr "Обновить данные browscap"
 
 #: includes/settings/tabs/wps-externals.php:184
 msgid "Download browscap Database"
-msgstr "Скачать browscap базы данных"
+msgstr "Скачать базу данных browscap"
 
 #: includes/settings/tabs/wps-externals.php:65
 #: includes/settings/tabs/wps-externals.php:185
-#: includes/settings/tabs/wps-externals.php:248
+#: includes/settings/tabs/wps-externals.php:249
 msgid "Save changes on this page to download the update."
 msgstr "Сохраните изменения на этой странице для загрузки обновления."
 
 #: includes/settings/tabs/wps-externals.php:191
 msgid "Schedule weekly update of browscap DB"
-msgstr "Еженедельное обновление расписания browscap DB"
+msgstr "Еженедельно обновлять базу данных browscap"
 
 #: includes/settings/tabs/wps-externals.php:79
 #: includes/settings/tabs/wps-externals.php:199
-#: includes/settings/tabs/wps-externals.php:262
+#: includes/settings/tabs/wps-externals.php:263
 msgid "Next update will be"
 msgstr "Следующее обновление будет"
 
-#: includes/settings/tabs/wps-externals.php:214
+#: includes/settings/tabs/wps-externals.php:215
 msgid "Download of the browscap database will be scheduled for once a week."
-msgstr "Скачать базы данных browscap будет планироваться за один раз в неделю."
+msgstr "Автоматически обновлять базу данных browscap каждую неделю."
 
 #: includes/settings/tabs/wps-general.php:50
 msgid "This will delete the manual when you save the settings, are you sure?"

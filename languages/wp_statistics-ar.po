@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-08-29 13:01:06+0000\n"
+"PO-Revision-Date: 2015-11-03 08:59:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,34 +10,38 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: wp-statistics.php:170
+msgid "optimization page"
+msgstr ""
+
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
-msgstr ""
+msgstr "تمكين"
 
 #: includes/settings/tabs/wps-maintenance.php:30
 msgid "Purge Old Data Daily"
-msgstr ""
+msgstr "تطهير البيانات اليومية القديمة"
 
 #: includes/settings/tabs/wps-maintenance.php:41
 msgid "A WP Cron job will be run daily to purge any data older than a set number of days."
-msgstr ""
+msgstr "سيتم تشغيل المهام المجدولة لووردبريس يوميا لتطهير أي بيانات قديمة من عدد محدد من الأيام."
 
 #: includes/settings/tabs/wps-maintenance.php:47
 msgid "Purge data older than"
-msgstr ""
+msgstr "تطهير البيانات الأقدم من"
 
 #: includes/settings/tabs/wps-maintenance.php:58
 msgid "Purge High Hit Count Visitors Daily"
-msgstr ""
+msgstr "تطهير النقرات العالية لعدد الزوار اليومي"
 
 #: includes/settings/tabs/wps-maintenance.php:69
 msgid "A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
-msgstr ""
+msgstr "سيتم تشغيل مهام ووردبريس المجدولة يوميا لتطهير أي إحصائيات بيانات مستخدمين حيث أن المستخدم لديه أكثر من عدد محدد من الزيارات في اليوم الواحد (الملقب أنها ربما تكون بوت)."
 
 #: includes/settings/tabs/wps-maintenance.php:81
 msgid "The number of hits required to delete the visitor.  Minimum value is 10 hits.  Invalid values will disable the daily maintenance."
-msgstr ""
+msgstr "عدد الزيارات المطلوبة لحذف الزائر. قيمة الحد الأدنى هو 10 نقرات. والقيم الغير صالحة ستعطل في وضع الصيانة اليومي."
 
 #: shortcode.php:184
 msgid "The post/page id to get page statistics on."
@@ -47,7 +51,7 @@ msgstr "رقم المقال/الصفحة للحصول على احصائياته�
 msgid "Post/Page ID"
 msgstr "رقم المقال/الصفحة"
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:424
 msgid "Ask.com"
 msgstr "Ask.com"
 
@@ -79,7 +83,7 @@ msgstr "دول فهرس قاعدة البيانات"
 msgid "search table"
 msgstr "جدول البحث"
 
-#: wp-statistics.php:148 wp-statistics.php:170
+#: wp-statistics.php:148
 msgid "settings page"
 msgstr "صفحة الإعدادات"
 
@@ -131,7 +135,7 @@ msgstr "التثبيت القديمة من احصائيات ووردبريس ت�
 msgid "Referrer Spam"
 msgstr "إحالات البريد المزعج"
 
-#: includes/settings/tabs/wps-externals.php:277
+#: includes/settings/tabs/wps-externals.php:279
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
 msgstr "سيتم جدولة التحميل من قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها بالقائمة السوداء لمرة واحدة في الأسبوع."
 
@@ -139,31 +143,31 @@ msgstr "سيتم جدولة التحميل من قاعدة البيانات Piwi
 msgid "Externals"
 msgstr "الجهات الخارجية"
 
-#: includes/settings/tabs/wps-externals.php:219
+#: includes/settings/tabs/wps-externals.php:220
 msgid "Piwik Referrer Spam Blacklist settings"
 msgstr "إعدادات القائمة السوداء Piwik لإحالات الرسائل الغير مرغوب فيها"
 
-#: includes/settings/tabs/wps-externals.php:254
+#: includes/settings/tabs/wps-externals.php:255
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
 msgstr "جدولة التحديث الأسبوعي لـ Piwik لإحالات الرسائل الغير مرغوب فيها بقاعدة بيانات القائمة السوداء"
 
-#: includes/settings/tabs/wps-externals.php:247
+#: includes/settings/tabs/wps-externals.php:248
 msgid "Download Piwik Referrer Spam Blacklist Database"
 msgstr "تحميل قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها من القائمة السوداء"
 
-#: includes/settings/tabs/wps-externals.php:242
+#: includes/settings/tabs/wps-externals.php:243
 msgid "Update Piwik Referrer Spam Blacklist Info"
 msgstr "تحديث Piwik لإحالات الرسائل الغير مرغوب فيها بمعلومات القائمة السوداء"
 
-#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:237
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
 msgstr "سيتم تحميل قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها بالقائمة السوداء واستخدامها للكشف عن مرجعية البريد المزعج."
 
-#: includes/settings/tabs/wps-externals.php:224
+#: includes/settings/tabs/wps-externals.php:225
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
 msgstr "يتم توفير إحالات الرسائل الغير مرغوب فيها بالقائمة السوداء من قبل Piwik، وهي متاحة من %s."
 
-#: includes/settings/tabs/wps-externals.php:230
+#: includes/settings/tabs/wps-externals.php:231
 msgid "Piwik Referrer Spam Blacklist usage"
 msgstr "المرجع Piwik للرسائل الغير المرغوب فيها باستخدام القائمة السوداء"
 
@@ -336,11 +340,11 @@ msgstr "عدد المقال"
 msgid "Time Frame"
 msgstr "الإطار الزمني"
 
-#: includes/functions/functions.php:982
+#: includes/functions/functions.php:1006
 msgid "to"
 msgstr "إلى"
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "إذهب"
 
@@ -384,11 +388,11 @@ msgstr "التثبيتات القديمة من احصائيات ووردبريس
 msgid "Filtered by"
 msgstr "تمت تصفيتها من قبل"
 
-#: includes/functions/functions.php:975 includes/functions/functions.php:978
+#: includes/functions/functions.php:999 includes/functions/functions.php:1002
 msgid "Range"
 msgstr "المدى"
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -432,27 +436,27 @@ msgstr "آخر 30 يوم (شهر)"
 msgid "Last 7 Days (Week)"
 msgstr "آخر 7 أيام (أسبوع)"
 
-#: includes/functions/functions.php:406
+#: includes/functions/functions.php:430
 msgid "Yahoo!"
 msgstr "ياهو!"
 
-#: includes/functions/functions.php:407
+#: includes/functions/functions.php:431
 msgid "Yandex"
 msgstr "ياندكس"
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:427
 msgid "clearch.org"
 msgstr "clearch.org"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:428
 msgid "DuckDuckGo"
 msgstr "دك دك غو"
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:426
 msgid "Bing"
 msgstr "بينج"
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:425
 msgid "Baidu"
 msgstr "بايدو"
 
@@ -917,7 +921,7 @@ msgstr "تعطيل القطع لمحرر الصفحة/المشاركة"
 msgid "Map type"
 msgstr "نوع الخريطة"
 
-#: includes/functions/functions.php:405
+#: includes/functions/functions.php:429
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "جوجل"
@@ -1049,7 +1053,7 @@ msgstr "الإزالة"
 
 #: includes/settings/tabs/wps-access-level.php:85
 #: includes/settings/tabs/wps-exclusions.php:234
-#: includes/settings/tabs/wps-externals.php:284
+#: includes/settings/tabs/wps-externals.php:286
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
@@ -1304,23 +1308,23 @@ msgstr "تحديث GeoIP على"
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "خطأ في قاعدة بيانات browscap تحميل من: %s - %s"
 
-#: wps-updates.php:267
+#: wps-updates.php:274
 msgid "browscap database updated successfully!"
 msgstr "قاعدة بيانات browscap تم تحديثها بنجاح!"
 
-#: wps-updates.php:277
+#: wps-updates.php:284
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
 msgstr "تحديث قاعدة بيانات browscap فشل! ملف الكاش كبير جدا، تم الرجوع إلى browscap.ini السابق."
 
-#: wps-updates.php:285
+#: wps-updates.php:292
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
 msgstr "تحديث قاعدة بيانات browscap فشل! لم تتم تحديد هوية browscap.ini الجديدة لكلا من  المستخدم والزواحف، وتم الرجوع إلى browscap.ini السابق."
 
-#: wps-updates.php:307
+#: wps-updates.php:314
 msgid "browscap already at current version!"
 msgstr "browscap بالفعل في النسخة الحالية!"
 
-#: wps-updates.php:320
+#: wps-updates.php:327
 msgid "Browscap.ini update on"
 msgstr "تحديث Browscap.ini على"
 
@@ -1365,8 +1369,8 @@ msgstr "أفضل 10 صفحات"
 msgid "Recent Visitors"
 msgstr "الزيارات الأخيرة"
 
-#: dashboard.php:62 includes/log/top-referring.php:48
-#: includes/log/top-referring.php:65 includes/log/widgets/referring.php:11
+#: dashboard.php:62 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 includes/log/widgets/referring.php:11
 #: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "أعلى المواقع اشارة"
@@ -1431,18 +1435,18 @@ msgstr "قاعدة بيانات مجردة على"
 msgid "Please select a value over 30 days."
 msgstr "يرجى تحديد قيمة أكثر من 30 يوما."
 
-#: includes/log/all-browsers.php:8
+#: includes/log/all-browsers.php:21
 msgid "Browser Statistics"
 msgstr "إحصائيات المتصفح"
 
-#: includes/log/all-browsers.php:14 includes/log/all-browsers.php:98
-#: includes/log/all-browsers.php:233 includes/log/exclusions.php:72
+#: includes/log/all-browsers.php:29 includes/log/all-browsers.php:113
+#: includes/log/all-browsers.php:248 includes/log/exclusions.php:72
 #: includes/log/exclusions.php:190 includes/log/hit-statistics.php:26
 #: includes/log/hit-statistics.php:162 includes/log/last-search.php:64
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
 #: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:61 includes/log/widgets/about.php:7
+#: includes/log/top-referring.php:77 includes/log/widgets/about.php:7
 #: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
 #: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
 #: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
@@ -1452,26 +1456,26 @@ msgstr "إحصائيات المتصفح"
 msgid "Click to toggle"
 msgstr "انقر للتبديل"
 
-#: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
+#: includes/log/all-browsers.php:30 includes/log/widgets/browsers.php:10
 #: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
 #: wp-statistics.php:452
 msgid "Browsers"
 msgstr "المتصفحات"
 
-#: includes/log/all-browsers.php:42
+#: includes/log/all-browsers.php:57
 msgid "Browsers by type"
 msgstr "حسب نوع المتصفحات"
 
-#: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:37
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:37
 #: includes/optimization/tabs/wps-optimization-resources.php:313
 msgid "Platform"
 msgstr "المنصة"
 
-#: includes/log/all-browsers.php:126
+#: includes/log/all-browsers.php:141
 msgid "Browsers by platform"
 msgstr "حسب نوع المنصة"
 
-#: includes/log/all-browsers.php:234
+#: includes/log/all-browsers.php:249
 msgid "%s Version"
 msgstr "الإصدار %s"
 
@@ -1483,35 +1487,35 @@ msgstr "تنبيه: لم يتم تعيين الاستثناءات حاليا ل�
 msgid "Exclusions Statistics"
 msgstr "استثناءات الاحصائيات"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "10 Days"
 msgstr "10 أيام"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "20 Days"
 msgstr "20 يوم"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "30 Days"
 msgstr "30 يو م"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "2 Months"
 msgstr "شهرين"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "3 Months"
 msgstr "3 أشهر"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "6 Months"
 msgstr "6 أشهر"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "9 Months"
 msgstr "9 أشهر"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "1 Year"
 msgstr "سنة"
 
@@ -1568,7 +1572,7 @@ msgid "#hash#"
 msgstr "#hash#"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
-#: includes/log/online.php:55 includes/log/top-referring.php:96
+#: includes/log/online.php:55 includes/log/top-referring.php:112
 #: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
@@ -1577,18 +1581,18 @@ msgstr "خريطة"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "Page"
 msgstr "صفحة"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "From"
 msgstr "من"
 
 #: includes/log/last-search.php:47 includes/log/last-visitor.php:38
-#: includes/log/top-referring.php:51 includes/log/top-referring.php:54
+#: includes/log/top-referring.php:67 includes/log/top-referring.php:70
 #: includes/optimization/tabs/wps-optimization-purging.php:192 widget.php:296
 msgid "All"
 msgstr "الكل"
@@ -1685,11 +1689,11 @@ msgstr "الزيارات"
 msgid "To be added soon"
 msgstr "تضاف قريبا"
 
-#: includes/log/top-referring.php:63
+#: includes/log/top-referring.php:79
 msgid "Referring sites from"
 msgstr "مواقع اشارة من"
 
-#: includes/log/top-referring.php:121 includes/log/widgets/referring.php:50
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:50
 msgid "References"
 msgstr "المراجع"
 
@@ -1813,11 +1817,11 @@ msgstr "%s تم حذف بيانات المنصة بنجاح."
 msgid "No platform data found to remove!"
 msgstr "لا توجد بيانات منصة لإزالتها!"
 
-#: includes/functions/functions.php:1020
+#: includes/functions/functions.php:1046
 msgid "%s table data deleted successfully."
 msgstr "%s تم حذف بيانات الجدول بنجاح."
 
-#: includes/functions/functions.php:1024
+#: includes/functions/functions.php:1050
 msgid "Error, %s not emptied!"
 msgstr "خطأ, %s لم يتم التفريغ!"
 
@@ -2629,8 +2633,8 @@ msgstr "استخدام browscap"
 #: includes/settings/tabs/wps-externals.php:109
 #: includes/settings/tabs/wps-externals.php:172
 #: includes/settings/tabs/wps-externals.php:196
-#: includes/settings/tabs/wps-externals.php:235
-#: includes/settings/tabs/wps-externals.php:259
+#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:260
 #: includes/settings/tabs/wps-general.php:76
 #: includes/settings/tabs/wps-general.php:92
 #: includes/settings/tabs/wps-general.php:116
@@ -2674,7 +2678,7 @@ msgstr "تحميل قاعدة بيانات browscap"
 
 #: includes/settings/tabs/wps-externals.php:65
 #: includes/settings/tabs/wps-externals.php:185
-#: includes/settings/tabs/wps-externals.php:248
+#: includes/settings/tabs/wps-externals.php:249
 msgid "Save changes on this page to download the update."
 msgstr "حفظ التغييرات على هذه الصفحة لتحميل التحديث."
 
@@ -2684,11 +2688,11 @@ msgstr "جدولة التحديث الأسبوعي لـ browscap DB"
 
 #: includes/settings/tabs/wps-externals.php:79
 #: includes/settings/tabs/wps-externals.php:199
-#: includes/settings/tabs/wps-externals.php:262
+#: includes/settings/tabs/wps-externals.php:263
 msgid "Next update will be"
 msgstr "التحديث القادم سيكون في"
 
-#: includes/settings/tabs/wps-externals.php:214
+#: includes/settings/tabs/wps-externals.php:215
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr "سيتم تحديد موعد تحميل قاعدة بيانات browscap لمرة واحدة في الأسبوع."
 

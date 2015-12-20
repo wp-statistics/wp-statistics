@@ -235,7 +235,7 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 9.6.7 =
+= 9.7 =
 Have you updated your database indexes and search table?  If not please go to Statistics->Optimization->Database after you have installed the update and run the updates.
 
 = 9.6.6 =
@@ -304,11 +304,14 @@ BACKUP YOUR DATABASE BEFORE INSTALLING!  This release alters the table structure
 This release updates some core code to do with timezones, hence the change to version 9.0, if you see any issues with timezones, please let us know.  In addition, you may see an increase in your visits count as a race condition that dropped some visits has been resolved.
 
 == Changelog ==
-= 9.6.7 =
+= 9.7 =
 * Release Date: December 20, 2015
 * Added: A date range to the referrers page.
 * Added: A Date range selector to browsers page.
 * Updated: General SQL cleanups.
+* Updated: browscap library to 2.1.1.
+* Updated: GeoIP library to 2.3.3.
+* Updated: phpUserAgent library to 0.5
 
 = 9.6.6 =
 * Release Date: November 1, 2015

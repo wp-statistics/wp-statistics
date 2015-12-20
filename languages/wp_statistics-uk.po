@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: WP Statistics\n"
 
+#: wp-statistics.php:170
+msgid "optimization page"
+msgstr ""
+
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
@@ -47,7 +51,7 @@ msgstr "ID повідомлення/сторінки для отримання �
 msgid "Post/Page ID"
 msgstr "ID повідомлення/сторінки для статистики на сторінці. "
 
-#: includes/functions/functions.php:400
+#: includes/functions/functions.php:424
 msgid "Ask.com"
 msgstr "Ask.com"
 
@@ -79,7 +83,7 @@ msgstr " Індекс бази даних країн"
 msgid "search table"
 msgstr "Таблиця пошуку"
 
-#: wp-statistics.php:148 wp-statistics.php:170
+#: wp-statistics.php:148
 msgid "settings page"
 msgstr "сторінка налаштувань"
 
@@ -131,7 +135,7 @@ msgstr "Старі установки WP Statistics зберігають інф�
 msgid "Referrer Spam"
 msgstr "Referrer Spam"
 
-#: includes/settings/tabs/wps-externals.php:277
+#: includes/settings/tabs/wps-externals.php:279
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
 msgstr "Завантаження бази даних Piwik Referrer Spam Blacklist заплановано один раз на тиждень."
 
@@ -139,31 +143,31 @@ msgstr "Завантаження бази даних Piwik Referrer Spam Blackli
 msgid "Externals"
 msgstr "Зовнішні специфікації"
 
-#: includes/settings/tabs/wps-externals.php:219
+#: includes/settings/tabs/wps-externals.php:220
 msgid "Piwik Referrer Spam Blacklist settings"
 msgstr "Налаштування Piwik Referrer Spam Blacklist "
 
-#: includes/settings/tabs/wps-externals.php:254
+#: includes/settings/tabs/wps-externals.php:255
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
 msgstr "Графік щотижневих оновлень Piwik Referrer Spam Blacklist DB"
 
-#: includes/settings/tabs/wps-externals.php:247
+#: includes/settings/tabs/wps-externals.php:248
 msgid "Download Piwik Referrer Spam Blacklist Database"
 msgstr "Хавантажити базу даних Piwik Referrer Spam Blacklist "
 
-#: includes/settings/tabs/wps-externals.php:242
+#: includes/settings/tabs/wps-externals.php:243
 msgid "Update Piwik Referrer Spam Blacklist Info"
 msgstr "Оновити інформацію Piwik Referrer Spam Blacklist"
 
-#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:237
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
 msgstr "База даних Piwik Referrer Spam Blacklist буде завантажена та буде використовуватись для виявлення спаму. "
 
-#: includes/settings/tabs/wps-externals.php:224
+#: includes/settings/tabs/wps-externals.php:225
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
 msgstr "Referrer spam blacklist від Piwik, доступний з %s."
 
-#: includes/settings/tabs/wps-externals.php:230
+#: includes/settings/tabs/wps-externals.php:231
 msgid "Piwik Referrer Spam Blacklist usage"
 msgstr "Використання Piwik Referrer Spam Blacklist "
 
@@ -336,11 +340,11 @@ msgstr "Кількість публікацій"
 msgid "Time Frame"
 msgstr "Інтервал часу"
 
-#: includes/functions/functions.php:982
+#: includes/functions/functions.php:1006
 msgid "to"
 msgstr "до"
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "перейти"
 
@@ -384,11 +388,11 @@ msgstr "Старі установки WP Statistics дублювали запи�
 msgid "Filtered by"
 msgstr "Відфільтровано по"
 
-#: includes/functions/functions.php:975 includes/functions/functions.php:978
+#: includes/functions/functions.php:999 includes/functions/functions.php:1002
 msgid "Range"
 msgstr "Діапазон"
 
-#: includes/functions/functions.php:982 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "ММ/ДД/РРРР"
 
@@ -432,27 +436,27 @@ msgstr "Останні 30 днів (місяць)"
 msgid "Last 7 Days (Week)"
 msgstr "Останні 7 днів (тиждень)"
 
-#: includes/functions/functions.php:406
+#: includes/functions/functions.php:430
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: includes/functions/functions.php:407
+#: includes/functions/functions.php:431
 msgid "Yandex"
 msgstr "Yandex"
 
-#: includes/functions/functions.php:403
+#: includes/functions/functions.php:427
 msgid "clearch.org"
 msgstr "clearch.org"
 
-#: includes/functions/functions.php:404
+#: includes/functions/functions.php:428
 msgid "DuckDuckGo"
 msgstr "DuckDuckGo"
 
-#: includes/functions/functions.php:402
+#: includes/functions/functions.php:426
 msgid "Bing"
 msgstr "Bing"
 
-#: includes/functions/functions.php:401
+#: includes/functions/functions.php:425
 msgid "Baidu"
 msgstr "Baidu"
 
@@ -917,7 +921,7 @@ msgstr "Відключити цей віджет-редактор сторінк
 msgid "Map type"
 msgstr "Тип карти"
 
-#: includes/functions/functions.php:405
+#: includes/functions/functions.php:429
 #: includes/settings/tabs/wps-overview-display.php:128
 msgid "Google"
 msgstr "Google"
@@ -1049,7 +1053,7 @@ msgstr "Видалення"
 
 #: includes/settings/tabs/wps-access-level.php:85
 #: includes/settings/tabs/wps-exclusions.php:234
-#: includes/settings/tabs/wps-externals.php:284
+#: includes/settings/tabs/wps-externals.php:286
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
@@ -1304,23 +1308,23 @@ msgstr "GeoIP оновлена на"
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "Помилка під час завантаження browscap бази даних із: %s - %s"
 
-#: wps-updates.php:267
+#: wps-updates.php:274
 msgid "browscap database updated successfully!"
 msgstr "browscap база даних успішно оновлена!"
 
-#: wps-updates.php:277
+#: wps-updates.php:284
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
 msgstr "Оновлення browscap бази даних не вдалося!  Кеш-файл занадто великий, повернено до попереднього browscap.ini."
 
-#: wps-updates.php:285
+#: wps-updates.php:292
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
 msgstr "Оновлення browscap бази даних не вдалося!  Новий browscap.ini помилково розпізнає користувачів як сканерів, повернено до попереднього browscap.ini."
 
-#: wps-updates.php:307
+#: wps-updates.php:314
 msgid "browscap already at current version!"
 msgstr "browscap вже в поточній версії!"
 
-#: wps-updates.php:320
+#: wps-updates.php:327
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini оновлено на"
 
@@ -1365,8 +1369,8 @@ msgstr "Топ 10 сторінок"
 msgid "Recent Visitors"
 msgstr "Нещодавні відвідувачі"
 
-#: dashboard.php:62 includes/log/top-referring.php:48
-#: includes/log/top-referring.php:65 includes/log/widgets/referring.php:11
+#: dashboard.php:62 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 includes/log/widgets/referring.php:11
 #: includes/settings/tabs/wps-overview-display.php:26
 msgid "Top Referring Sites"
 msgstr "Топ реферних сайтів"
@@ -1431,18 +1435,18 @@ msgstr "База даних, відсічена на"
 msgid "Please select a value over 30 days."
 msgstr "Будь ласка, виберіть значення протягом 30 днів."
 
-#: includes/log/all-browsers.php:8
+#: includes/log/all-browsers.php:21
 msgid "Browser Statistics"
 msgstr "Статистика браузерів"
 
-#: includes/log/all-browsers.php:14 includes/log/all-browsers.php:98
-#: includes/log/all-browsers.php:233 includes/log/exclusions.php:72
+#: includes/log/all-browsers.php:29 includes/log/all-browsers.php:113
+#: includes/log/all-browsers.php:248 includes/log/exclusions.php:72
 #: includes/log/exclusions.php:190 includes/log/hit-statistics.php:26
 #: includes/log/hit-statistics.php:162 includes/log/last-search.php:64
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
 #: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:61 includes/log/widgets/about.php:7
+#: includes/log/top-referring.php:77 includes/log/widgets/about.php:7
 #: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
 #: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
 #: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
@@ -1452,26 +1456,26 @@ msgstr "Статистика браузерів"
 msgid "Click to toggle"
 msgstr "Натисніть для  переміщення"
 
-#: includes/log/all-browsers.php:15 includes/log/widgets/browsers.php:10
+#: includes/log/all-browsers.php:30 includes/log/widgets/browsers.php:10
 #: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
 #: wp-statistics.php:452
 msgid "Browsers"
 msgstr "Браузери"
 
-#: includes/log/all-browsers.php:42
+#: includes/log/all-browsers.php:57
 msgid "Browsers by type"
 msgstr "Браузери за типом"
 
-#: includes/log/all-browsers.php:99 includes/log/widgets/top.visitors.php:37
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:37
 #: includes/optimization/tabs/wps-optimization-resources.php:313
 msgid "Platform"
 msgstr "Платформа"
 
-#: includes/log/all-browsers.php:126
+#: includes/log/all-browsers.php:141
 msgid "Browsers by platform"
 msgstr "Браузери за платформою"
 
-#: includes/log/all-browsers.php:234
+#: includes/log/all-browsers.php:249
 msgid "%s Version"
 msgstr "Версія %s"
 
@@ -1483,35 +1487,35 @@ msgstr "Увага: Виключення наразі не записуютьс�
 msgid "Exclusions Statistics"
 msgstr "Виключення в статистиці"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "10 Days"
 msgstr "10 днів"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "20 Days"
 msgstr "20 днів"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "30 Days"
 msgstr "30 днів"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "2 Months"
 msgstr "2 місяці"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "3 Months"
 msgstr "3 місяці"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "6 Months"
 msgstr "6 місяців"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "9 Months"
 msgstr "9 місяців"
 
-#: includes/functions/functions.php:932
+#: includes/functions/functions.php:956
 msgid "1 Year"
 msgstr "1 рік"
 
@@ -1568,7 +1572,7 @@ msgid "#hash#"
 msgstr "#хеш#"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
-#: includes/log/online.php:55 includes/log/top-referring.php:96
+#: includes/log/online.php:55 includes/log/top-referring.php:112
 #: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
 #: includes/settings/tabs/wps-overview-display.php:33
 #: includes/settings/tabs/wps-overview-display.php:113
@@ -1577,18 +1581,18 @@ msgstr "Карта"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "Page"
 msgstr "Сторінка"
 
 #: includes/log/last-search.php:159 includes/log/last-visitor.php:139
 #: includes/log/online.php:109 includes/log/top-pages.php:198
-#: includes/log/top-referring.php:137
+#: includes/log/top-referring.php:153
 msgid "From"
 msgstr "Від"
 
 #: includes/log/last-search.php:47 includes/log/last-visitor.php:38
-#: includes/log/top-referring.php:51 includes/log/top-referring.php:54
+#: includes/log/top-referring.php:67 includes/log/top-referring.php:70
 #: includes/optimization/tabs/wps-optimization-purging.php:192 widget.php:296
 msgid "All"
 msgstr "Все"
@@ -1685,11 +1689,11 @@ msgstr "Відвідування"
 msgid "To be added soon"
 msgstr "Скоро будуть додані"
 
-#: includes/log/top-referring.php:63
+#: includes/log/top-referring.php:79
 msgid "Referring sites from"
 msgstr "Реферні сайти від"
 
-#: includes/log/top-referring.php:121 includes/log/widgets/referring.php:50
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:50
 msgid "References"
 msgstr "Посилання"
 
@@ -1813,11 +1817,11 @@ msgstr "%s даних платформи видалені успішно."
 msgid "No platform data found to remove!"
 msgstr "Даних платформи для видалення не знайдено!"
 
-#: includes/functions/functions.php:1020
+#: includes/functions/functions.php:1046
 msgid "%s table data deleted successfully."
 msgstr "%s даних таблиці успішно видалено."
 
-#: includes/functions/functions.php:1024
+#: includes/functions/functions.php:1050
 msgid "Error, %s not emptied!"
 msgstr "Помилка %s не очищено!"
 
@@ -2629,8 +2633,8 @@ msgstr "browscap використання"
 #: includes/settings/tabs/wps-externals.php:109
 #: includes/settings/tabs/wps-externals.php:172
 #: includes/settings/tabs/wps-externals.php:196
-#: includes/settings/tabs/wps-externals.php:235
-#: includes/settings/tabs/wps-externals.php:259
+#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:260
 #: includes/settings/tabs/wps-general.php:76
 #: includes/settings/tabs/wps-general.php:92
 #: includes/settings/tabs/wps-general.php:116
@@ -2674,7 +2678,7 @@ msgstr "Завантажити базу даних browscap "
 
 #: includes/settings/tabs/wps-externals.php:65
 #: includes/settings/tabs/wps-externals.php:185
-#: includes/settings/tabs/wps-externals.php:248
+#: includes/settings/tabs/wps-externals.php:249
 msgid "Save changes on this page to download the update."
 msgstr "Зберегти зміни на цій сторінці для завантаження оновлень."
 
@@ -2684,11 +2688,11 @@ msgstr "Запланувати щотижневе оновлення для БД
 
 #: includes/settings/tabs/wps-externals.php:79
 #: includes/settings/tabs/wps-externals.php:199
-#: includes/settings/tabs/wps-externals.php:262
+#: includes/settings/tabs/wps-externals.php:263
 msgid "Next update will be"
 msgstr "Наступне оновлення буде"
 
-#: includes/settings/tabs/wps-externals.php:214
+#: includes/settings/tabs/wps-externals.php:215
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr "Завантаження бази даних browscap заплановано один раз на тиждень."
 
