@@ -10,10 +10,8 @@
 					<h3 class="hndle">
 						<span><?php _e('Top 10 Countries', 'wp_statistics'); ?> <a href="?page=wps_countries_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
-					<div class="inside">
-						<div class="inside" id="countries_postbox">
+					<div class="inside" id="countries_postbox">
 						<?php if( ! $dyanmic ) { wp_statistics_generate_countries_postbox_content($ISOCountryCode); } ?>
-						</div>
 					</div>
 				</div>
 <?php 
