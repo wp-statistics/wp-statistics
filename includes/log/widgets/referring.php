@@ -1,5 +1,5 @@
 <?php
-	function wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines) {
+	function wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines, $dynamic = false) {
 	
 		global $wpdb, $WP_Statistics;
 
@@ -11,8 +11,8 @@
 					<span><?php _e('Top Referring Sites', 'wp_statistics'); ?></span> <a href="?page=wps_referrers_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a>
 				</h3>
 				<div class="inside">
-					<div class="inside">
-					<?php wp_statistics_generate_referring_postbox_content(); ?>
+					<div class="inside" id="referring_postbox">
+					<?php if( ! $dynamic ) { wp_statistics_generate_referring_postbox_content(); }?>
 					</div>
 				</div>
 			</div>

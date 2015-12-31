@@ -1,12 +1,12 @@
 <?php
-	function wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines) {
+	function wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines, $dyanmic = false) {
 	
 		global $wpdb, $WP_Statistics;
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle"><span><?php echo sprintf(__('About WP Statistics Version %s', 'wp_statistics'), WP_STATISTICS_VERSION); ?></span></h3>
-					<div class="inside">
+					<div class="inside" id="about_postbox">
 					<?php wp_statistics_generate_about_postbox_content(); ?>
 					</div>
 				</div>

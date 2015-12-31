@@ -120,28 +120,32 @@
 		switch( $display['A'][$slot] ) {
 			case 1:
 			case 'summary':
-				wp_statistics_generate_summary_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_summary_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
 				
 				break;
 			case 2:
 			case 'browsers':
-				wp_statistics_generate_browsers_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_browsers_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
 			
 				break;
 			case 3:
 			case 'referring':
-				wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
 			
 				break;
 			case 4:
 			case 'countries':
-				wp_statistics_generate_countries_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_countries_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
 			
 				break;
 			case 5:
 			case 'about':
-				wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines);
-		
+				wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines, false);
+
 				$ret = 1;
 				
 				break;
@@ -163,41 +167,73 @@
 		switch( $display['B'][$slot] ) {
 			case 1:
 			case 'map':
-				wp_statistics_generate_map_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_map_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
 				
 				break;
 			case 2:
 			case 'hits':
-				wp_statistics_generate_hits_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_hits_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
 			
 				break;
 			case 3:
 			case 'search':
-				wp_statistics_generate_search_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_search_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
 			
 				break;
 			case 4:
 			case 'words':
-				wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
 			
 				break;
 			case 5:
 			case 'pages':
-				wp_statistics_generate_pages_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_pages_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
 			
 				break;
 			case 6:
 			case 'recent':
-				wp_statistics_generate_recent_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_recent_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
 			
 				break;
 			case 7:
 			case 'top.visitors':
-				wp_statistics_generate_top_visitors_postbox($ISOCountryCode, $search_engines);
+				wp_statistics_generate_top_visitors_postbox($ISOCountryCode, $search_engines, true);
+				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
 			
 				break;
 			default:
 			
 		}
+	}
+	
+	function wp_statistics_generate_widget_load_javascript( $widget, $container_id = null ) {
+		if( null == $container_id ) {
+			$container_id = str_replace( '.', '_', $widget . '_postbox' );
+		}
+?>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		var data = {
+			'action': 'wp_statistics_get_widget_contents',
+			'widget': '<?php echo $widget; ?>',
+		};
+		
+		jQuery.ajax({ url: ajaxurl,
+				 type: 'post',
+				 data: data,
+				 datatype: 'json',
+		})
+			.always(function(result){
+				jQuery("#<?php echo $container_id;?>").html("").html(result);
+		});
+	});
+</script>
+<?php
 	}
 ?>

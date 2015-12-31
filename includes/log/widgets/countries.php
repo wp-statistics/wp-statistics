@@ -1,5 +1,5 @@
 <?php
-	function wp_statistics_generate_countries_postbox($ISOCountryCode, $search_engines) {
+	function wp_statistics_generate_countries_postbox($ISOCountryCode, $search_engines, $dyanmic = false) {
 	
 		global $WP_Statistics;
 
@@ -11,8 +11,8 @@
 						<span><?php _e('Top 10 Countries', 'wp_statistics'); ?> <a href="?page=wps_countries_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside">
-						<div class="inside">
-						<?php wp_statistics_generate_countries_postbox_content($ISOCountryCode); ?>
+						<div class="inside" id="countries_postbox">
+						<?php if( ! $dyanmic ) { wp_statistics_generate_countries_postbox_content($ISOCountryCode); } ?>
 						</div>
 					</div>
 				</div>

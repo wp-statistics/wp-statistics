@@ -1,5 +1,5 @@
 <?php
-	function wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines) {
+	function wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines, $dynamic = false) {
 	
 		global $wpdb, $WP_Statistics;
 		
@@ -10,8 +10,8 @@
 					<h3 class="hndle">
 						<span><?php _e('Latest Search Words', 'wp_statistics'); ?> <a href="?page=wps_words_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
-					<div class="inside">
-					<?php wp_statistics_generate_words_postbox_content($ISOCountryCode); ?>
+					<div class="inside" id="words_postbox">
+					<?php if( ! $dynamic ) { wp_statistics_generate_words_postbox_content($ISOCountryCode); }?>
 					</div>
 				</div>
 <?php		
