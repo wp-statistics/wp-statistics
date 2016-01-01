@@ -374,7 +374,6 @@ License: GPL2
 		
 		// Add the sub items.
 		$WP_Statistics->menu_slugs['overview'] = add_submenu_page(__FILE__, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, __FILE__, 'wp_statistics_log');
-		add_action('load-' . $WP_Statistics->menu_slugs['overview'], 'wp_statistics_load_overview_page');
 		
 		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['browsers'] = add_submenu_page(__FILE__, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, 'wps_browsers_menu', 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('geoip') && $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['countries'] = add_submenu_page(__FILE__, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log'); }
@@ -418,7 +417,6 @@ License: GPL2
 		add_meta_box( 'wps_browsers_postbox', __( 'Browsers', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'browsers' ) );
 		add_meta_box( 'wps_referring_postbox', __( 'Top Referring Sites', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'referring' ) );
 		add_meta_box( 'wps_countries_postbox', __( 'Top 10 Countries', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'countries' ) );
-
 	}
 	
 	// This function adds the primary menu to WordPress network.

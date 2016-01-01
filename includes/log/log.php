@@ -1,29 +1,3 @@
-<script type="text/javascript">
-	jQuery(document).ready(function(){
-
-		// close postboxes that should be closed
-		jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-		
-		// postboxes setup
-		postboxes.add_postbox_toggles('<?php echo $WP_Statistics->menu_slugs['overview']; ?>');
-
-		jQuery('#wps_close_nag').click( function(){
-			var data = {
-				'action': 'wp_statistics_close_donation_nag',
-				'query': '',
-			};
-
-			jQuery.ajax({ url: ajaxurl,
-					 type: 'get',
-					 data: data,
-					 datatype: 'json',
-			});
-			
-			jQuery('#wps_nag').hide();
-		});
-
-	});
-</script>
 <?php 
 	$nag_html = '';
 	if( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {
@@ -47,16 +21,13 @@
 	<h2><?php echo get_admin_page_title(); ?></h2>
 	<?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
 	<?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
+	
 	<div class="metabox-holder meta-box-sortables ui-sortable" id="right-log">
-
 			<?php do_meta_boxes( $WP_Statistics->menu_slugs['overview'], 'side', '' ); ?>
-
 	</div>
 	
 	<div class="metabox-holder meta-box-sortables ui-sortable" id="left-log">
-
 			<?php do_meta_boxes( $WP_Statistics->menu_slugs['overview'], 'normal', '' ); ?>
-			
 	</div>
 </div>
 <?php
@@ -69,9 +40,23 @@
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
+		wp_statistics_get_widget_contents( '<?php echo $widget; ?>', '<?php echo $container_id; ?>' );
+	});
+</script>
+<?php
+	}
+	
+	GLOBAL $wp_version;
+	
+	$new_buttons = '</button><button class="handlediv button-link noclick" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link noclick" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
+	$new_button = '</button><button class="handlediv button-link noclick" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
+	
+?>
+<script type="text/javascript">
+	function wp_statistics_get_widget_contents( widget, container_id ) {
 		var data = {
 			'action': 'wp_statistics_get_widget_contents',
-			'widget': '<?php echo $widget; ?>',
+			'widget': widget,
 		};
 		
 		jQuery.ajax({ url: ajaxurl,
@@ -80,10 +65,69 @@
 				 datatype: 'json',
 		})
 			.always(function(result){
-				jQuery("#<?php echo $container_id;?>").html("").html(result);
+				jQuery("#" + container_id).html("").html(result);
 		});
+	}
+	
+	function wp_statistics_refresh_widget() {
+		var widget = this.id.replace( 'wps_', '' );
+		widget = widget.replace( '_refresh_button', '' );
+		container_id = widget.replace( '.', '_' ) + '_postbox';
+		
+		jQuery("#" + container_id).html("<?php _e( 'Reloading...', 'wp_statistics' );?>");
+		
+		wp_statistics_get_widget_contents( widget, container_id );
+		
+		return false;
+	}
+	
+	jQuery(document).ready(function(){
+
+		// Add the "more" and "refresh" buttons.
+		jQuery('.postbox').each( function () {
+			var temp = jQuery( this );
+			var temp_id = temp.attr( 'id' );
+			var temp_html = temp.html();
+			if( temp_id == 'wps_summary_postbox' || temp_id == 'wps_map_postbox' || temp_id == 'wps_about_postbox' ) {
+				if( temp_id != 'wps_about_postbox' ) {
+					new_text = '<?php echo $new_button;?>';
+					new_text = new_text.replace( '{{refreshid}}', temp_id.replace( '_postbox', '_refresh_button' ) );
+					
+					temp_html = temp_html.replace( '</button>', new_text );
+				}
+			} else {
+				new_text = '<?php echo $new_buttons;?>';
+				new_text = new_text.replace( '{{refreshid}}', temp_id.replace( '_postbox', '_refresh_button' ) );
+				new_text = new_text.replace( '{{moreid}}', temp_id.replace( '_postbox', '_more_button' ) );
+				
+				temp_html = temp_html.replace( '</button>', new_text );
+			}
+			
+			temp.html( temp_html );
+		});
+		
+		// close postboxes that should be closed
+		jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+		
+		// postboxes setup
+		postboxes.add_postbox_toggles('<?php echo $WP_Statistics->menu_slugs['overview']; ?>');
+
+		jQuery('.noclick').unbind('click').on('click', wp_statistics_refresh_widget );
+
+		jQuery('#wps_close_nag').click( function(){
+			var data = {
+				'action': 'wp_statistics_close_donation_nag',
+				'query': '',
+			};
+
+			jQuery.ajax({ url: ajaxurl,
+					 type: 'get',
+					 data: data,
+					 datatype: 'json',
+			});
+			
+			jQuery('#wps_nag').hide();
+		});
+
 	});
 </script>
-<?php
-	}
-?>

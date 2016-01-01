@@ -909,15 +909,17 @@
 	}
 	
 	// This function handle's the dashicons in the overview page.
-	function wp_statistics_icons($dashicons, $icon_name) {
+	function wp_statistics_icons($dashicons, $icon_name = null) {
 		
 		global $wp_version;
 		
+		if( null == $icon_name ) { $icon_name = $dashicons; }
+		
 		// Since versions of WordPress before 3.8 didn't have dashicons, don't use them in those versions.
 		if( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
-			return "<div class='dashicons {$dashicons}'></div>";
+			return '<span class="dashicons ' . $dashicons . '"></span>';
 		} else {
-			return "<img src='".plugins_url('wp-statistics/assets/images/')."{$icon_name}.png'/>";
+			return '<img src="' . plugins_url('wp-statistics/assets/images/') . $icon_name . '.png"/>';
 		}
 	}
 	
