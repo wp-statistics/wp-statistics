@@ -28,6 +28,7 @@
 		public $user_id = 0;
 		public $options = array();
 		public $user_options = array();
+		public $menu_slugs = array();
 
 		// Construction function.
 		public function __construct() {

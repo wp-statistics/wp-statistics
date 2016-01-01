@@ -192,7 +192,7 @@ add_action( 'wp_ajax_wp_statistics_purge_visitor_hits', 'wp_statistics_purge_vis
 function wp_statistics_get_widget_contents_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-	$widgets = array( 'browsers', 'map', 'countries', 'hits', 'pages', 'recent', 'referring', 'search', 'summary', 'top.visitors', 'words' );
+	$widgets = array( 'about', 'browsers', 'map', 'countries', 'hits', 'pages', 'recent', 'referring', 'search', 'summary', 'top.visitors', 'words' );
 
 	$view_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
 
@@ -268,8 +268,13 @@ function wp_statistics_get_widget_contents_callback() {
 				wp_statistics_generate_top_visitors_postbox_content($ISOCountryCode);
 			
 				break;
-			default:
+			case 'about':
+				wp_statistics_generate_about_postbox_content($ISOCountryCode);
 			
+				break;
+			
+			default:
+				_e( 'ERROR: Widget not found!', 'wp_statistics' );
 		}		
 	} else {
 		_e('Access denied!', 'wp_statistics');

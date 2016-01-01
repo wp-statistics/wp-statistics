@@ -1,6 +1,11 @@
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		postboxes.add_postbox_toggles(pagenow);
+
+		// close postboxes that should be closed
+		jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+		
+		// postboxes setup
+		postboxes.add_postbox_toggles('<?php echo $WP_Statistics->menu_slugs['overview']; ?>');
 
 		jQuery('#wps_close_nag').click( function(){
 			var data = {
@@ -20,198 +25,43 @@
 	});
 </script>
 <?php 
-	
-	$ISOCountryCode = $WP_Statistics->get_country_codes();
-	
-	// Load the widgets.
-	include_once( dirname( __FILE__ ) . "/widgets/about.php");
-	include_once( dirname( __FILE__ ) . "/widgets/browsers.php");
-
-	if( $WP_Statistics->get_option( 'map_type' ) == 'jqvmap' ) {
-		include_once( dirname( __FILE__ ) . "/widgets/jqv.map.php");
-	}
-	else {
-		include_once( dirname( __FILE__ ) . "/widgets/google.map.php");
-	}
-	
-	include_once( dirname( __FILE__ ) . "/widgets/countries.php");
-	include_once( dirname( __FILE__ ) . "/widgets/hits.php");
-	include_once( dirname( __FILE__ ) . "/widgets/pages.php");
-	include_once( dirname( __FILE__ ) . "/widgets/recent.php");
-	include_once( dirname( __FILE__ ) . "/widgets/referring.php");
-	include_once( dirname( __FILE__ ) . "/widgets/search.php");
-	include_once( dirname( __FILE__ ) . "/widgets/summary.php");
-	include_once( dirname( __FILE__ ) . "/widgets/top.visitors.php" );
-	include_once( dirname( __FILE__ ) . "/widgets/words.php");
-
-	$search_engines = wp_statistics_searchengine_list();
-	
-	$search_result['All'] = wp_statistics_searchengine('all','total');
-	
-	foreach( $search_engines as $key => $se ) {
-		$search_result[$key] = wp_statistics_searchengine($key,'total');
-	}
-
 	$nag_html = '';
 	if( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {
 		$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text"><p>' . __('Have you thought about donating to WP Statistics?', 'wp_statistics') . ' <a href="http://wp-statistics.com/donate/" target="_blank">'.__('Donate Now!', 'wp_statistics').'</a></p></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __('Close', 'wp_statistics') . '</a></div></div>';
+	}
+
+	// Add the about box here as metaboxes added on the actual page load cannot be closed.
+	add_meta_box( 'wps_about_postbox', sprintf(__('About WP Statistics Version %s', 'wp_statistics'), WP_STATISTICS_VERSION), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' =>'about' ) );
+	
+	function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
+		$widget = $args['args']['widget'];
+		$container_id = str_replace( '.', '_', $widget . '_postbox' );
+		
+		echo '<div id="' . $container_id . '"></div>';
+		wp_statistics_generate_widget_load_javascript( $widget, $container_id );
 	}
 ?>
 <div class="wrap">
 	<?php echo $nag_html; ?>
 	<?php screen_icon('options-general'); ?>
 	<h2><?php echo get_admin_page_title(); ?></h2>
-	<div class="postbox-container" id="right-log">
-		<div class="metabox-holder">
-			<div class="meta-box-sortables">
+	<?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
+	<?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
+	<div class="metabox-holder meta-box-sortables ui-sortable" id="right-log">
 
-			<?php $ret  = wp_statistics_display_column_a(1, $ISOCountryCode, $search_engines); ?>
+			<?php do_meta_boxes( $WP_Statistics->menu_slugs['overview'], 'side', '' ); ?>
 
-			<?php $ret += wp_statistics_display_column_a(2, $ISOCountryCode, $search_engines); ?>
-
-			<?php $ret += wp_statistics_display_column_a(3, $ISOCountryCode, $search_engines); ?>
-
-			<?php $ret += wp_statistics_display_column_a(4, $ISOCountryCode, $search_engines); ?>
-
-			<?php $ret += wp_statistics_display_column_a(5, $ISOCountryCode, $search_engines); ?>
-			
-			<?php if( $ret == 0 ) { wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines); } ?>
-
-			</div>
-		</div>
 	</div>
 	
-	<div class="postbox-container" id="left-log">
-		<div class="metabox-holder">
-			<div class="meta-box-sortables">
+	<div class="metabox-holder meta-box-sortables ui-sortable" id="left-log">
 
-			<?php wp_statistics_display_column_b(1, $ISOCountryCode, $search_engines); ?>
-
-			<?php wp_statistics_display_column_b(2, $ISOCountryCode, $search_engines); ?>
-
-			<?php wp_statistics_display_column_b(3, $ISOCountryCode, $search_engines); ?>
-
-			<?php wp_statistics_display_column_b(4, $ISOCountryCode, $search_engines); ?>
-
-			<?php wp_statistics_display_column_b(5, $ISOCountryCode, $search_engines); ?>
+			<?php do_meta_boxes( $WP_Statistics->menu_slugs['overview'], 'normal', '' ); ?>
 			
-			<?php wp_statistics_display_column_b(6, $ISOCountryCode, $search_engines); ?>
-			
-			<?php wp_statistics_display_column_b(7, $ISOCountryCode, $search_engines); ?>
-			
-			</div>
-		</div>
 	</div>
 </div>
 <?php
 	$WP_Statistics->update_option( 'last_overview_memory', memory_get_peak_usage(true) );
 
-	function wp_statistics_display_column_a($slot, $ISOCountryCode, $search_engines) {
-		GLOBAL $WP_Statistics;
-			
-		$display = $WP_Statistics->get_user_option('overview_display');
-			
-		if( !is_array( $display['A'] ) ) { $display['A'][$slot] = $slot; }
-		if( !array_key_exists( $slot, $display['A'] ) ) { $display['A'][$slot] = $slot; }
-		if( $display['A'][$slot] == '' ) { $display['A'][$slot] = $slot; }
-		
-		$ret = 0;
-		
-		switch( $display['A'][$slot] ) {
-			case 1:
-			case 'summary':
-				wp_statistics_generate_summary_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
-				
-				break;
-			case 2:
-			case 'browsers':
-				wp_statistics_generate_browsers_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
-			
-				break;
-			case 3:
-			case 'referring':
-				wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
-			
-				break;
-			case 4:
-			case 'countries':
-				wp_statistics_generate_countries_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['A'][$slot] );
-			
-				break;
-			case 5:
-			case 'about':
-				wp_statistics_generate_about_postbox($ISOCountryCode, $search_engines, false);
-
-				$ret = 1;
-				
-				break;
-			default:
-		}
-
-		return $ret;
-	}
-
-	function wp_statistics_display_column_b($slot, $ISOCountryCode, $search_engines) {
-		GLOBAL $WP_Statistics;
-			
-		$display = $WP_Statistics->get_user_option('overview_display');
-		
-		if( !is_array( $display['B'] ) ) { $display['B'][$slot] = $slot; }
-		if( !array_key_exists( $slot, $display['B'] ) ) { $display['B'][$slot] = $slot; }
-		if( $display['B'][$slot] == '' ) { $display['B'][$slot] = $slot; }
-		
-		switch( $display['B'][$slot] ) {
-			case 1:
-			case 'map':
-				wp_statistics_generate_map_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
-				
-				break;
-			case 2:
-			case 'hits':
-				wp_statistics_generate_hits_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
-			
-				break;
-			case 3:
-			case 'search':
-				wp_statistics_generate_search_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
-			
-				break;
-			case 4:
-			case 'words':
-				wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
-			
-				break;
-			case 5:
-			case 'pages':
-				wp_statistics_generate_pages_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
-			
-				break;
-			case 6:
-			case 'recent':
-				wp_statistics_generate_recent_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
-			
-				break;
-			case 7:
-			case 'top.visitors':
-				wp_statistics_generate_top_visitors_postbox($ISOCountryCode, $search_engines, true);
-				wp_statistics_generate_widget_load_javascript( $display['B'][$slot] );
-			
-				break;
-			default:
-			
-		}
-	}
-	
 	function wp_statistics_generate_widget_load_javascript( $widget, $container_id = null ) {
 		if( null == $container_id ) {
 			$container_id = str_replace( '.', '_', $widget . '_postbox' );
