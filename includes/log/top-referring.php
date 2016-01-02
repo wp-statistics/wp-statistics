@@ -31,7 +31,7 @@
 	$total = 0;
 		
 	if( $referr ) {
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s' AND referred <> '' AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%', $rangestartdate, $rangeenddate ) );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s AND referred <> '' AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%', $rangestartdate, $rangeenddate ) );
 
 		$total = count( $result );
 	} else {
