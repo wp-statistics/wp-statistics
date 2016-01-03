@@ -766,7 +766,7 @@
 	
 		global $wpdb, $WP_Statistics;
 		
-		$db_date = $wpdb->get_var("SELECT post_date FROM {$wpdb->posts} WHERE post_type='post' AND post_status='publish' ORDER BY ID DESC LIMIT 1");
+		$db_date = $wpdb->get_var("SELECT post_date FROM {$wpdb->posts} WHERE post_type='post' AND post_status='publish' ORDER BY post_date DESC LIMIT 1");
 		
 		$date_format = get_option('date_format');
 		
