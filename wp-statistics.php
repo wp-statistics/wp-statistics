@@ -780,6 +780,9 @@ License: GPL2
 		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.pieRenderer.min.js', true, '0.8.3');
 		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/js/jqplot.enhancedLegendRenderer.min.js', true, '0.8.3');
 
+		// Load our custom widgets handling javascript.
+		wp_enqueue_script('wp_statistics_log', plugin_dir_url(__FILE__) . 'assets/js/log.js');
+		
 		// Load the pagination code.
 		include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 
