@@ -58,16 +58,16 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Referring Sites', 'wp_statistics'); ?></h2>
 
-	<div><?php wp_statistics_date_range_selector( 'wps_referrers_menu', $daysToDisplay ); ?></div>
+	<div><?php wp_statistics_date_range_selector( WP_STATISTICS_REFERRERS_PAGE, $daysToDisplay ); ?></div>
 	
 	<div class="clear"/>
 	
 	<ul class="subsubsub">
 		<?php if($referr) { ?>
-		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?></a></li>
-			| <li><a class="current" href="?page=wps_referrers_menu&referr=<?php echo htmlentities($referr, ENT_QUOTES); ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>"><?php _e('All', 'wp_statistics'); ?></a></li>
+			| <li><a class="current" href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>&referr=<?php echo htmlentities($referr, ENT_QUOTES); ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
-		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=wps_referrers_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php }?>
 	</ul>
 	<div class="postbox-container" id="last-log">
@@ -133,7 +133,7 @@
 											$i++;
 											
 											echo "<div class='log-item'>";
-											echo "<div class='log-referred'>{$i} - <a href='?page=wps_referrers_menu&referr={$items}'>{$items}</a></div>";
+											echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr={$items}'>{$items}</a></div>";
 											echo "<div class='log-ip'>".__('References', 'wp_statistics').": " . number_format_i18n($value) . "</div>";
 											echo "<div class='clear'></div>";
 											echo "<div class='log-url'><a href='http://" . htmlentities($items,ENT_QUOTES) . "/' title='" . htmlentities($items,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> http://" . htmlentities($items,ENT_QUOTES) . "/</a></div>";

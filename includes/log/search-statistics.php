@@ -18,7 +18,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Search Engine Referral Statistics', 'wp_statistics'); ?></h2>
 
-	<?php wp_statistics_date_range_selector( 'wps_searches_menu', $daysToDisplay ); ?>
+	<?php wp_statistics_date_range_selector( WP_STATISTICS_SEARCHES_PAGE, $daysToDisplay ); ?>
 
 	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
 		<div class="metabox-holder">

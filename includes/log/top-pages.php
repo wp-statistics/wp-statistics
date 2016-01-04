@@ -18,7 +18,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Pages', 'wp_statistics'); ?></h2>
 
-	<?php wp_statistics_date_range_selector( 'wps_pages_menu', $daysToDisplay ); ?>
+	<?php wp_statistics_date_range_selector( WP_STATISTICS_PAGES_PAGE, $daysToDisplay ); ?>
 
 	<div class="postbox-container" id="last-log">
 		<div class="metabox-holder">
@@ -177,7 +177,7 @@
 											if( $uri[3] == '' ) { $uri[3] = '[' . htmlentities(__('No page title found', 'wp_statistics'), ENT_QUOTES) . ']'; }
 											
 											echo "<div class='log-page-title'>{$count} - {$uri[3]}</div>";
-											echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=wps_pages_menu&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";
+											echo "<div class='right-div'>".__('Visits', 'wp_statistics').": <a href='?page=" . WP_STATISTICS_PAGES_PAGE . "&page-uri={$uri[0]}'>" . number_format_i18n($uri[1]) . "</a></div>";
 											echo "<div class='left-div'><a dir='ltr' href='" . htmlentities($site_url . $uri[0],ENT_QUOTES ) . "'>" . htmlentities(urldecode($uri[0]),ENT_QUOTES) . "</a></div>";
 											echo "</div>";
 										}

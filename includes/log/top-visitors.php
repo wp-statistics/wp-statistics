@@ -25,7 +25,7 @@
 		
 	echo ' ' . __('Date', 'wp_statistics' ) . ': ';
 
-	echo '<input type="hidden" name="page" value="wps_top_visitors_menu">' . "\r\n";
+	echo '<input type="hidden" name="page" value="' . WP_STATISTICS_TOP_VISITORS_PAGE . '">' . "\r\n";
 	echo '<input type="text" size="10" name="statsdate" id="statsdate" value="' . htmlentities( $statsdate, ENT_QUOTES ) . '" placeholder="' . __('MM/DD/YYYY', 'wp_statistics') .'"> <input type="submit" value="'.__('Go', 'wp_statistics').'" class="button-primary">' . "\r\n";
 
 	echo '</form>' . "\r\n";

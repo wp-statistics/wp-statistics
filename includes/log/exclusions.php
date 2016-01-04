@@ -63,7 +63,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Exclusions Statistics', 'wp_statistics'); ?></h2>
 
-	<?php wp_statistics_date_range_selector( 'wps_exclusions_menu', $daysToDisplay ); ?>
+	<?php wp_statistics_date_range_selector( WP_STATISTICS_EXCLUSIONS_PAGE, $daysToDisplay ); ?>
 
 	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
 		<div class="metabox-holder">

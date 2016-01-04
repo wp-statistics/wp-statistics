@@ -20,7 +20,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Browser Statistics', 'wp_statistics'); ?></h2>
 
-	<div><?php wp_statistics_date_range_selector( 'wps_browsers_menu', $daysToDisplay ); ?></div>
+	<div><?php wp_statistics_date_range_selector( WP_STATISTICS_BROWSERS_PAGE, $daysToDisplay ); ?></div>
 	
 	<div class="postbox-container" style="width: 48%; float: left; margin-right:20px">
 		<div class="metabox-holder">

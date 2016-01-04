@@ -17,7 +17,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Countries', 'wp_statistics'); ?></h2>
 
-	<?php wp_statistics_date_range_selector( 'wps_countries_menu', $daysToDisplay ); ?>
+	<?php wp_statistics_date_range_selector( WP_STATISTICS_COUNTRIES_PAGE, $daysToDisplay ); ?>
 
 	<div class="postbox-container" id="last-log" style="width: 100%;">
 		<div class="metabox-holder">

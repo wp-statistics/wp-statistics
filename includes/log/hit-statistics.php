@@ -16,7 +16,7 @@
 
 		list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
 	
-		wp_statistics_date_range_selector( 'wps_hits_menu', $daysToDisplay );
+		wp_statistics_date_range_selector( WP_STATISTICS_HITS_PAGE, $daysToDisplay );
 	?>
 
 	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">

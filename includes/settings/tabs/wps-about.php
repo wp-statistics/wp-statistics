@@ -58,7 +58,7 @@
 
 				<ul style="list-style-type: disc; list-style-position: inside; padding-left: 25px;">
 					<li><?php echo sprintf( __('Have you read the %s?', 'wp_statistics' ), '<a title="' . __('FAQs', 'wp_statistics') . '" href="http://wp-statistics.com/?page_id=19" target="_blank">' . __('FAQs', 'wp_statistics'). '</a>');?></li>
-					<li><?php echo sprintf( __('Have you read the %s?', 'wp_statistics' ), '<a title="' . __('manual', 'wp_statistics') . '" href="?page=wps_manual_menu">' . __('manual', 'wp_statistics') . '</a>');?></li>
+					<li><?php echo sprintf( __('Have you read the %s?', 'wp_statistics' ), '<a title="' . __('manual', 'wp_statistics') . '" href="?page=' . WP_STATISTICS_MANUAL_PAGE . '">' . __('manual', 'wp_statistics') . '</a>');?></li>
 					<li><?php echo sprintf( __('Have you search the %s for a similar issue?', 'wp_statistics' ), '<a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">' . __('support forum', 'wp_statistics') . '</a>');?></li>
 					<li><?php _e('Have you search the Internet for any error messages you are receiving?', 'wp_statistics' );?></li>
 					<li><?php _e('Make sure you have access to your PHP error logs.', 'wp_statistics' );?></li>

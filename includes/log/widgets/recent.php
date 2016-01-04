@@ -7,7 +7,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<h3 class="hndle">
-						<span><?php _e('Recent Visitors', 'wp_statistics'); ?> <a href="?page=wps_visitors_menu"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
+						<span><?php _e('Recent Visitors', 'wp_statistics'); ?> <a href="?page=<?php echo WP_STATISTICS_VISITORS_PAGE; ?>"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
 					</h3>
 					<div class="inside" id="recent_postbox">
 					<?php if( ! $dynamic ) { wp_statistics_generate_recent_postbox_content($ISOCountryCode); } ?>
@@ -33,7 +33,7 @@
 				$map_string = "";
 			} 
 			else { 
-				$ip_string = "<a href='?page=wps_visitors_menu&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>"; 
+				$ip_string = "<a href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>"; 
 				$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 			}
 			

@@ -27,7 +27,7 @@
 <?php
 							if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
 ?>
-							| <p><a href="?page=wp-statistics/settings&tab=about"><?php _e('More Information', 'wp_statistics'); ?></a></p>
+							| <p><a href="?page=<?php echo WP_STATISTICS_SETTINGS_PAGE; ?>&tab=about"><?php _e('More Information', 'wp_statistics'); ?></a></p>
 <?php
 							}
 ?>

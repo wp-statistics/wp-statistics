@@ -53,7 +53,7 @@
 				$translate = $search_engines[$key]['translated'];
 				}
 			
-			echo "<li><a href='?page=wps_words_menu&referred={$tag}'>" . $translate . " <span class='count'>({$value})</span></a></li>{$separator}";
+			echo "<li><a href='?page=" . WP_STATISTICS_WORDS_PAGE . "&referred={$tag}'>" . $translate . " <span class='count'>({$value})</span></a></li>{$separator}";
 		}
 ?>
 	</ul>

@@ -7,7 +7,7 @@
 ?>
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Top 10 Visitors Today', 'wp_statistics'); ?> <a href="?page=wps_top_visitors_menu"> <?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
+					<h3 class="hndle"><span><?php _e('Top 10 Visitors Today', 'wp_statistics'); ?> <a href="?page=<?php echo WP_STATISTICS_TOP_VISITORS_PAGE; ?>"> <?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span></h3>
 					<div class="inside" id="top_visitors_postbox">
 						<?php if( ! $dynamic ) { wp_statistics_generate_top_visitors_postbox_content($ISOCountryCode); } ?>						
 					</div>

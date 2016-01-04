@@ -35,7 +35,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Recent Visitors', 'wp_statistics'); ?></h2>
 	<ul class="subsubsub">
-		<li class="all"><a <?php if($_get == '%') { echo 'class="current"'; } ?>href="?page=wps_visitors_menu"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
+		<li class="all"><a <?php if($_get == '%') { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_VISITORS_PAGE; ?>"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
 		<?php
 			if( isset( $_var ) ) {
 				$spacer = " | ";
@@ -51,11 +51,11 @@
 						$i++;
 						if($title == $Browser) { $current = 'class="current" '; } else { $current = ""; }
 						if( $i == $Total ) { $spacer = ""; }
-						echo $spacer . "<li><a " . $current . "href='?page=wps_visitors_menu&agent=" . $Browser . "'> " . __($Browser, 'wp_statistics') ." <span class='count'>(" . number_format_i18n(wp_statistics_useragent($Browser)) .")</span></a></li>";
+						echo $spacer . "<li><a " . $current . "href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&agent=" . $Browser . "'> " . __($Browser, 'wp_statistics') ." <span class='count'>(" . number_format_i18n(wp_statistics_useragent($Browser)) .")</span></a></li>";
 					}
 				} else {
 					if($_get != '%') { $current = 'class="current" '; } else { $current = ""; }
-					echo $spacer . "<li><a {$current} href='?page=wps_visitors_menu&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
+					echo $spacer . "<li><a {$current} href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
 				}
 			}
 		?>
@@ -102,7 +102,7 @@
 										$map_string = "";
 									} 
 									else { 
-										$ip_string = "<a href='?page=wps_visitors_menu&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>"; 
+										$ip_string = "<a href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>"; 
 										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 									}
 
@@ -123,7 +123,7 @@
 										$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
 									}
 									
-									echo "<a href='?page=wps_visitors_menu&agent={$items->agent}'>{$agent}</a>";
+									echo "<a href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&agent={$items->agent}'>{$agent}</a>";
 									
 									echo "<a href='" . htmlentities($items->referred,ENT_QUOTES) . "' title='" . htmlentities($items->referred,ENT_QUOTES) . "'>" . wp_statistics_icons('dashicons-admin-links', 'link') . " " . htmlentities($items->referred,ENT_QUOTES) . "</a></div>";
 									echo "</div>";

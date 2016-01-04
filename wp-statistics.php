@@ -17,7 +17,23 @@ License: GPL2
 	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.3.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
-	define('WP_STATISTICS_OVERVIEW_PAGE', 'wp_statistics_overview_page' );
+	
+	define('WP_STATISTICS_OVERVIEW_PAGE', 'wps_overview_page' );
+	define('WP_STATISTICS_BROWSERS_PAGE', 'wps_browsers_page' );
+	define('WP_STATISTICS_COUNTRIES_PAGE', 'wps_countries_page' );
+	define('WP_STATISTICS_EXCLUSIONS_PAGE', 'wps_exclusions_page' );
+	define('WP_STATISTICS_HITS_PAGE', 'wps_hits_page' );
+	define('WP_STATISTICS_ONLINE_PAGE', 'wps_online_page' );
+	define('WP_STATISTICS_PAGES_PAGE', 'wps_pages_page' );
+	define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page' );
+	define('WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page' );
+	define('WP_STATISTICS_WORDS_PAGE', 'wps_words_page' );
+	define('WP_STATISTICS_TOP_VISITORS_PAGE', 'wps_top_visitors_page' );
+	define('WP_STATISTICS_VISITORS_PAGE', 'wps_visitors_page' );
+	define('WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page' );
+	define('WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page' );
+	define('WP_STATISTICS_DONATE_PAGE', 'wps_donate_page' );
+	define('WP_STATISTICS_MANUAL_PAGE', 'wps_manual_page' );
 
 	// Load the translation code.
 	function wp_statistics_language() {
@@ -137,7 +153,7 @@ License: GPL2
 			$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
 			if( ! current_user_can( $manage_cap ) ) { return; }
 
-			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/settings";
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_STATISTICS_SETTINGS_PAGE;
 			
 			$itemstoenable = array();
 			if( !$WP_Statistics->get_option('useronline') ) { $itemstoenable[] = __('online user tracking', 'wp_statistics'); }
@@ -148,7 +164,7 @@ License: GPL2
 			if( count( $itemstoenable ) > 0 )
 				echo '<div class="update-nag">'.sprintf(__('The following features are disabled, please go to %s and enable them: %s', 'wp_statistics'), '<a href="' . $get_bloginfo_url . '">' . __( 'settings page', 'wp_statistics') . '</a>', implode(__(',', 'wp_statistics'), $itemstoenable)).'</div>';
 
-			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_STATISTICS_OPTIMIZATION_PAGE . "&tab=database";
 
 			$dbupdatestodo = array();
 			
@@ -275,7 +291,7 @@ License: GPL2
 		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('manage_capability', 'manage_options') );
 		
 		if( current_user_can( $manage_cap ) ) {
-			array_unshift( $links, '<a href="' . admin_url( 'admin.php?page=wp-statistics/settings' ) . '">' . __( 'Settings', 'wp_statistics' ) . '</a>' );
+			array_unshift( $links, '<a href="' . admin_url( 'admin.php?page=' . WP_STATISTICS_SETTINGS_PAGE ) . '">' . __( 'Settings', 'wp_statistics' ) . '</a>' );
 		}
 		
 		return $links;
@@ -307,7 +323,7 @@ License: GPL2
 	// Render the custom column on the post/pages lists.
 	function wp_statistics_render_column( $column_name, $post_id ) {
 		if( $column_name == 'wp-statistics' ) {
-			echo "<a href='" . get_admin_url() . "admin.php?page=wps_pages_menu&page-id={$post_id}'>" . wp_statistics_pages( 'total', "", $post_id ) . "</a>";
+			echo "<a href='" . get_admin_url() . "admin.php?page=" . WP_STATISTICS_PAGES_PAGE . "&page-id={$post_id}'>" . wp_statistics_pages( 'total', "", $post_id ) . "</a>";
 		}
 	}
 	
@@ -375,27 +391,27 @@ License: GPL2
 		// Add the sub items.
 		$WP_Statistics->menu_slugs['overview'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Overview', 'wp_statistics'), __('Overview', 'wp_statistics'), $read_cap, WP_STATISTICS_OVERVIEW_PAGE, 'wp_statistics_log');
 		
-		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['browsers'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, 'wps_browsers_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('geoip') && $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['countries'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, 'wps_countries_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('record_exclusions') ) { $WP_Statistics->menu_slugs['exclusions'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Exclusions', 'wp_statistics'), __('Exclusions', 'wp_statistics'), $read_cap, 'wps_exclusions_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('visits') ) { $WP_Statistics->menu_slugs['hits'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, 'wps_hits_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('useronline') ) { $WP_Statistics->menu_slugs['online'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Online', 'wp_statistics'), __('Online', 'wp_statistics'), $read_cap, 'wps_online_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['pages'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, 'wps_pages_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['referrers'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Referrers', 'wp_statistics'), __('Referrers', 'wp_statistics'), $read_cap, 'wps_referrers_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['searches'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, 'wps_searches_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['words'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, 'wps_words_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['top.visotors'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Top Visitors Today', 'wp_statistics'), __('Top Visitors Today', 'wp_statistics'), $read_cap, 'wps_top_visitors_menu', 'wp_statistics_log'); }
-		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['visitors'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, 'wps_visitors_menu', 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['browsers'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Browsers', 'wp_statistics'), __('Browsers', 'wp_statistics'), $read_cap, WP_STATISTICS_BROWSERS_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('geoip') && $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['countries'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Countries', 'wp_statistics'), __('Countries', 'wp_statistics'), $read_cap, WP_STATISTICS_COUNTRIES_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('record_exclusions') ) { $WP_Statistics->menu_slugs['exclusions'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Exclusions', 'wp_statistics'), __('Exclusions', 'wp_statistics'), $read_cap, WP_STATISTICS_EXCLUSIONS_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('visits') ) { $WP_Statistics->menu_slugs['hits'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, WP_STATISTICS_HITS_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('useronline') ) { $WP_Statistics->menu_slugs['online'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Online', 'wp_statistics'), __('Online', 'wp_statistics'), $read_cap, WP_STATISTICS_ONLINE_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['pages'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, WP_STATISTICS_PAGES_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['referrers'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Referrers', 'wp_statistics'), __('Referrers', 'wp_statistics'), $read_cap, WP_STATISTICS_REFERRERS_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['searches'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, WP_STATISTICS_SEARCHES_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['words'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, WP_STATISTICS_WORDS_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['top.visotors'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Top Visitors Today', 'wp_statistics'), __('Top Visitors Today', 'wp_statistics'), $read_cap, WP_STATISTICS_TOP_VISITORS_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['visitors'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Visitors', 'wp_statistics'), __('Visitors', 'wp_statistics'), $read_cap, WP_STATISTICS_VISITORS_PAGE, 'wp_statistics_log'); }
 
 		$WP_Statistics->menu_slugs['break'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log');
 
-		$WP_Statistics->menu_slugs['optimize'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, 'wp-statistics/optimization', 'wp_statistics_optimization');
-		$WP_Statistics->menu_slugs['settings'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $read_cap, 'wp-statistics/settings', 'wp_statistics_settings');
-		$WP_Statistics->menu_slugs['donate'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Donate', 'wp_statistics'), __('Donate', 'wp_statistics'), $read_cap, 'wp-statistics/donate', 'wp_statistics_donate');
+		$WP_Statistics->menu_slugs['optimize'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Optimization', 'wp_statistics'), __('Optimization', 'wp_statistics'), $manage_cap, WP_STATISTICS_OPTIMIZATION_PAGE, 'wp_statistics_optimization');
+		$WP_Statistics->menu_slugs['settings'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Settings', 'wp_statistics'), __('Settings', 'wp_statistics'), $read_cap, WP_STATISTICS_SETTINGS_PAGE, 'wp_statistics_settings');
+		$WP_Statistics->menu_slugs['donate'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Donate', 'wp_statistics'), __('Donate', 'wp_statistics'), $read_cap, WP_STATISTICS_DONATE_PAGE, 'wp_statistics_donate');
 		
 		// Only add the manual entry if it hasn't been deleted.
 		if( $WP_Statistics->get_option('delete_manual') != true ) {
-			$WP_Statistics->menu_slugs['manual'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, 'wps_manual_menu', 'wp_statistics_manual');
+			$WP_Statistics->menu_slugs['manual'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, WP_STATISTICS_MANUAL_PAGE, 'wp_statistics_manual');
 		}
 
 		// Add action to load the meta boxes to the overview page.
@@ -448,7 +464,7 @@ License: GPL2
 		// Only add the manual entry if it hasn't been deleted.
 		if( $WP_Statistics->get_option('delete_manual') != true ) {
 			add_submenu_page(__FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview');
-			add_submenu_page(__FILE__, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, 'wps_manual_menu', 'wp_statistics_manual');
+			add_submenu_page(__FILE__, __('Manual', 'wp_statistics'), __('Manual', 'wp_statistics'), $manage_cap, WP_STATISTICS_MANUAL_PAGE, 'wp_statistics_manual');
 		}
 	}
 
@@ -473,19 +489,19 @@ License: GPL2
 		$i = 0;
 		
 		$options = array( 	__('Overview', 'wp_statistics') => WP_STATISTICS_OVERVIEW_PAGE, 
-							__('Browsers', 'wp_statistics') => 'wps_browsers_menu', 
-							__('Countries', 'wp_statistics') => 'wps_countries_menu', 
-							__('Exclusions', 'wp_statistics') => 'wps_exclusions_menu', 
-							__('Hits', 'wp_statistics') => 'wps_hits_menu', 
-							__('Online', 'wp_statistics') => 'wps_online_menu', 
-							__('Pages', 'wp_statistics') => 'wps_pages_menu', 
-							__('Referrers', 'wp_statistics') => 'wps_referrers_menu', 
-							__('Searches', 'wp_statistics') => 'wps_searches_menu', 
-							__('Search Words', 'wp_statistics') => 'wps_words_menu', 
-							__('Top Visitors Today', 'wp_statistics') => 'wps_top_visitors_menu', 
-							__('Visitors', 'wp_statistics') => 'wps_visitors_menu', 
-							__('Optimization', 'wp_statistics') => 'wp-statistics/optimization', 
-							__('Settings', 'wp_statistics') => 'wp-statistics/settings'
+							__('Browsers', 'wp_statistics') => WP_STATISTICS_BROWSERS_PAGE, 
+							__('Countries', 'wp_statistics') => WP_STATISTICS_COUNTRIES_PAGE, 
+							__('Exclusions', 'wp_statistics') => WP_STATISTICS_EXCLUSIONS_PAGE, 
+							__('Hits', 'wp_statistics') => WP_STATISTICS_HITS_PAGE, 
+							__('Online', 'wp_statistics') => WP_STATISTICS_ONLINE_PAGE, 
+							__('Pages', 'wp_statistics') => WP_STATISTICS_PAGES_PAGE, 
+							__('Referrers', 'wp_statistics') => WP_STATISTICS_REFERRERS_PAGE, 
+							__('Searches', 'wp_statistics') => WP_STATISTICS_SEARCHES_PAGE, 
+							__('Search Words', 'wp_statistics') => WP_STATISTICS_WORDS_PAGE, 
+							__('Top Visitors Today', 'wp_statistics') => WP_STATISTICS_TOP_VISITORS_PAGE, 
+							__('Visitors', 'wp_statistics') => WP_STATISTICS_VISITORS_PAGE, 
+							__('Optimization', 'wp_statistics') => WP_STATISTICS_OPTIMIZATION_PAGE, 
+							__('Settings', 'wp_statistics') => WP_STATISTICS_SETTINGS_PAGE
 						);
 						
 		foreach( wp_get_sites() as $blog ) {
@@ -536,7 +552,7 @@ License: GPL2
 	}
 	
 	function wp_statistics_donate() {
-		$url = get_admin_url() . "/admin.php?page=wp-statistics/settings&tab=about";
+		$url = get_admin_url() . "/admin.php?page=" . WP_STATISTICS_SETTINGS_PAGE . "&tab=about";
 
 		echo "<script>window.open('http://wp-statistics.com/donate','_blank'); window.location.href = '$url';</script>";
 	}
@@ -584,7 +600,7 @@ License: GPL2
 				'id'		=> 	'wp-statistics-menu-useronline',
 				'parent'	=>	'wp-statistic-menu',
 				'title'		=>	__('User Online', 'wp_statistics') . ": " . wp_statistics_useronline(),
-				'href'		=>  $AdminURL . 'admin.php?page=wps_online_menu'
+				'href'		=>  $AdminURL . 'admin.php?page=' . WP_STATISTICS_ONLINE_PAGE
 			));
 			
 			$wp_admin_bar->add_menu( array(
@@ -638,8 +654,8 @@ License: GPL2
 			echo '</script>' . "\n";
 
 			echo '<br>';
-			echo '<a href="admin.php?page=wps_manual_menu&wps_download_manual=true&type=odt' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/ODT.png' . '" height="32" width="32" alt="' . __('Download ODF file', 'wp_statistics') . '"></a>&nbsp;';
-			echo '<a href="admin.php?page=wps_manual_menu&wps_download_manual=true&type=html' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/HTML.png' . '" height="32" width="32" alt="' . __('Download HTML file', 'wp_statistics') . '"></a><br>';
+			echo '<a href="admin.php?page=' . WP_STATISTICS_MANUAL_PAGE . '&wps_download_manual=true&type=odt' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/ODT.png' . '" height="32" width="32" alt="' . __('Download ODF file', 'wp_statistics') . '"></a>&nbsp;';
+			echo '<a href="admin.php?page=' . WP_STATISTICS_MANUAL_PAGE . '&wps_download_manual=true&type=html' . '" target="_blank"><img src="' . plugin_dir_url(__FILE__) . 'assets/images/HTML.png' . '" height="32" width="32" alt="' . __('Download HTML file', 'wp_statistics') . '"></a><br>';
 			
 			echo '<iframe src="' .  plugin_dir_url(__FILE__) . WP_STATISTICS_MANUAL . 'html' . '" width="100%" frameborder="0" scrolling="no" id="wps_inline_docs" onload="AdjustiFrameHeight(\'wps_inline_docs\', 50);"></iframe>';
 		} else {
@@ -652,47 +668,47 @@ License: GPL2
 		GLOBAL $wpdb, $WP_Statistics, $plugin_page;
 
 		switch( $plugin_page ) {
-			case 'wps_browsers_menu':
+			case WP_STATISTICS_BROWSERS_PAGE:
 				$log_type = 'all-browsers';
 
 				break;
-			case 'wps_countries_menu':
+			case WP_STATISTICS_COUNTRIES_PAGE:
 				$log_type = 'top-countries';
 
 				break;
-			case 'wps_exclusions_menu':
+			case WP_STATISTICS_EXCLUSIONS_PAGE:
 				$log_type = 'exclusions';
 
 				break;
-			case 'wps_hits_menu':
+			case WP_STATISTICS_HITS_PAGE:
 				$log_type = 'hit-statistics';
 
 				break;
-			case 'wps_online_menu':
+			case WP_STATISTICS_ONLINE_PAGE:
 				$log_type = 'online';
 
 				break;
-			case 'wps_pages_menu':
+			case WP_STATISTICS_PAGES_PAGE:
 				$log_type = 'top-pages';
 
 				break;
-			case 'wps_referrers_menu':
+			case WP_STATISTICS_REFERRERS_PAGE:
 				$log_type = 'top-referring-site';
 
 				break;
-			case 'wps_searches_menu':
+			case WP_STATISTICS_SEARCHES_PAGE:
 				$log_type = 'search-statistics';
 
 				break;
-			case 'wps_words_menu':
+			case WP_STATISTICS_WORDS_PAGE:
 				$log_type = 'last-all-search';
 
 				break;
-			case 'wps_top_visitors_menu':
+			case WP_STATISTICS_TOP_VISITORS_PAGE:
 				$log_type = 'top-visitors';
 
 				break;
-			case 'wps_visitors_menu':
+			case WP_STATISTICS_VISITORS_PAGE:
 				$log_type = 'last-all-visitor';
 
 				break;
@@ -718,7 +734,7 @@ License: GPL2
 		$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visit' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_exclusions' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_pages' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_useronline' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_search'" );
 	
 		if( $result != 7 ) {
-			$get_bloginfo_url = get_admin_url() . "admin.php?page=wp-statistics/optimization&tab=database";
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_STATISTICS_OPTIMIZATION_PAGE . "&tab=database";
 
 			$missing_tables = array();
 			
