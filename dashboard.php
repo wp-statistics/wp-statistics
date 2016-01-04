@@ -135,7 +135,7 @@
 		<br>
 
 		<div style="text-align: center;">
-		<a class="button-primary" href="admin.php?page=wp-statistics/wp-statistics.php"><?php _e('WP Statistics Overview', 'wp_statistics');?></a>
+		<a class="button-primary" href="admin.php?page=<?php echo WP_STATISTICS_OVERVIEW_PAGE; ?>"><?php _e('WP Statistics Overview', 'wp_statistics');?></a>
 		</div>
 		
 		<br>
