@@ -48,8 +48,24 @@
 	
 	GLOBAL $wp_version;
 	
-	$new_buttons = '</button><button class="handlediv button-link noclick" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link noclick" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
-	$new_button = '</button><button class="handlediv button-link noclick" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
+	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
+	$new_button = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
+	
+	$admin_url = get_admin_url() . "/admin.php?page=";
+
+	$page_urls = array();
+	
+	$page_urls['wps_browsers_more_button'] 		= $admin_url . WP_STATISTICS_BROWSERS_PAGE;
+	$page_urls['wps_countries_more_button'] 	= $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
+	$page_urls['wps_exclusions_more_button'] 	= $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE; 
+	$page_urls['wps_hits_more_button'] 			= $admin_url . WP_STATISTICS_HITS_PAGE; 
+	$page_urls['wps_online_more_button'] 		= $admin_url . WP_STATISTICS_ONLINE_PAGE; 
+	$page_urls['wps_pages_more_button'] 		= $admin_url . WP_STATISTICS_PAGES_PAGE; 
+	$page_urls['wps_referring_more_button'] 	= $admin_url . WP_STATISTICS_REFERRERS_PAGE; 
+	$page_urls['wps_search_more_button'] 		= $admin_url . WP_STATISTICS_SEARCHES_PAGE; 
+	$page_urls['wps_words_more_button'] 		= $admin_url . WP_STATISTICS_WORDS_PAGE; 
+	$page_urls['wps_top_visitors_more_button'] 	= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE; 
+	$page_urls['wps_visitors_more_button'] 		= $admin_url . WP_STATISTICS_VISITORS_PAGE; 
 	
 ?>
 <script type="text/javascript">
@@ -77,6 +93,17 @@
 		jQuery("#" + container_id).html("<?php _e( 'Reloading...', 'wp_statistics' );?>");
 		
 		wp_statistics_get_widget_contents( widget, container_id );
+		
+		return false;
+	}
+	
+	function wp_statistics_goto_more() {
+		var widget = this.id;
+		var destinations = <?php echo json_encode( $page_urls ); ?>; 
+		
+		if( destinations[widget] !== undefined ) {
+			window.location.href = destinations[widget];
+		}
 		
 		return false;
 	}
@@ -112,7 +139,8 @@
 		// postboxes setup
 		postboxes.add_postbox_toggles('<?php echo $WP_Statistics->menu_slugs['overview']; ?>');
 
-		jQuery('.noclick').unbind('click').on('click', wp_statistics_refresh_widget );
+		jQuery('.wps-refresh').unbind('click').on('click', wp_statistics_refresh_widget );
+		jQuery('.wps-more').unbind('click').on('click', wp_statistics_goto_more );
 
 		jQuery('#wps_close_nag').click( function(){
 			var data = {
