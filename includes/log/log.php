@@ -1,4 +1,6 @@
 <?php 
+	$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .  plugins_url('wp-statistics/assets/images/')  . 'ajax-loading.gif" alt="' .  __( 'Reloading...', 'wp_statistics' ) . '"></div>';
+	
 	$nag_html = '';
 	if( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {
 		$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text"><p>' . __('Have you thought about donating to WP Statistics?', 'wp_statistics') . ' <a href="http://wp-statistics.com/donate/" target="_blank">'.__('Donate Now!', 'wp_statistics').'</a></p></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __('Close', 'wp_statistics') . '</a></div></div>';
@@ -8,10 +10,11 @@
 	add_meta_box( 'wps_about_postbox', sprintf(__('About WP Statistics Version %s', 'wp_statistics'), WP_STATISTICS_VERSION), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' =>'about' ) );
 	
 	function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
+		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .  plugins_url('wp-statistics/assets/images/')  . 'ajax-loading.gif" alt="' .  __( 'Loading...', 'wp_statistics' ) . '"></div>';
 		$widget = $args['args']['widget'];
 		$container_id = str_replace( '.', '_', $widget . '_postbox' );
 		
-		echo '<div id="' . $container_id . '"></div>';
+		echo '<div id="' . $container_id . '">' . $loading_img .'</div>';
 		wp_statistics_generate_widget_load_javascript( $widget, $container_id );
 	}
 ?>
@@ -90,7 +93,7 @@
 		widget = widget.replace( '_refresh_button', '' );
 		container_id = widget.replace( '.', '_' ) + '_postbox';
 		
-		jQuery("#" + container_id).html("<?php _e( 'Reloading...', 'wp_statistics' );?>");
+		jQuery("#" + container_id).html('<?php echo $loading_img; ?>');
 		
 		wp_statistics_get_widget_contents( widget, container_id );
 		
