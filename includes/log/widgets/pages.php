@@ -1,26 +1,4 @@
 <?php
-	function wp_statistics_generate_pages_postbox($ISOCountryCode, $search_engines, $dynamic = false) {
-		GLOBAL $WP_Statistics;
-		
-		if( ! $WP_Statistics->get_option('pages') ) { return; }
-		
-		list( $total, $uris ) = wp_statistics_get_top_pages();
-				
-		if( $total > 0 ) {
-?>
-				<div class="postbox">
-					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle">
-						<span><?php _e('Top 10 Pages', 'wp_statistics'); ?> <a href="?page=<?php echo WP_STATISTICS_PAGES_PAGE; ?>"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
-					</h3>
-					<div class="inside" id="pages_postbox">
-							<?php if( ! $dynamic ) { wp_statistics_generate_pages_postbox_content($total, $uris); } ?>
-					</div>
-				</div>
-<?php		
-		}
-	}
-
 	function wp_statistics_generate_pages_postbox_content($total, $uris) {
 	
 		echo "<div class='log-latest'>";

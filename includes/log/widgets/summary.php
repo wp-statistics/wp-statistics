@@ -1,18 +1,4 @@
 <?php
-	function wp_statistics_generate_summary_postbox($ISOCountryCode, $search_engines, $dynamic = false) {
-	
-		global $wpdb, $WP_Statistics;
-?>		
-				<div class="postbox">
-					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle"><span><?php _e('Summary', 'wp_statistics'); ?></span></h3>
-					<div class="inside" id="summary_postbox">
-					<?php if( !$dynamic ) { wp_statistics_generate_summary_postbox_content($search_engines); } ?>
-					</div>
-				</div>
-<?php
-	}
-
 	function wp_statistics_generate_summary_postbox_content($search_engines, $search = true, $time = true) {
 	
 		global $wpdb, $WP_Statistics;

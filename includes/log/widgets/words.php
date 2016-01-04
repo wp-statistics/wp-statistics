@@ -1,23 +1,4 @@
 <?php
-	function wp_statistics_generate_words_postbox($ISOCountryCode, $search_engines, $dynamic = false) {
-	
-		global $wpdb, $WP_Statistics;
-		
-		if( $WP_Statistics->get_option( 'visitors' ) ) {
-?>
-				<div class="postbox">
-					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-					<h3 class="hndle">
-						<span><?php _e('Latest Search Words', 'wp_statistics'); ?> <a href="?page=<?php echo WP_STATISTICS_WORDS_PAGE; ?>"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a></span>
-					</h3>
-					<div class="inside" id="words_postbox">
-					<?php if( ! $dynamic ) { wp_statistics_generate_words_postbox_content($ISOCountryCode); }?>
-					</div>
-				</div>
-<?php		
-		}
-	}
-
 	function wp_statistics_generate_words_postbox_content($ISOCountryCode, $count = 10) {
 	
 		global $wpdb, $WP_Statistics;

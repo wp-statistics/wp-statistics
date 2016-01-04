@@ -1,23 +1,4 @@
 <?php
-	function wp_statistics_generate_referring_postbox($ISOCountryCode, $search_engines, $dynamic = false) {
-	
-		global $wpdb, $WP_Statistics;
-
-		if( $WP_Statistics->get_option( 'visitors' ) ) {
-			?>
-			<div class="postbox">
-				<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
-				<h3 class="hndle">
-					<span><?php _e('Top Referring Sites', 'wp_statistics'); ?></span> <a href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>"><?php echo wp_statistics_icons('dashicons-visibility', 'visibility'); ?><?php _e('More', 'wp_statistics'); ?></a>
-				</h3>
-				<div class="inside">
-					<?php if( ! $dynamic ) { wp_statistics_generate_referring_postbox_content(); }?>
-				</div>
-			</div>
-<?php
-		}
-	}
-	
 	function wp_statistics_generate_referring_postbox_content($count = 10) {
 	
 		global $wpdb, $WP_Statistics;
