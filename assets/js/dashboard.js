@@ -24,9 +24,11 @@ function wp_statistics_get_widget_contents( widget, container_id ) {
 }
 
 function wp_statistics_refresh_widget() {
-	var widget = this.id.replace( 'wps_', '' );
-	widget = widget.replace( '_refresh_button', '' );
-	container_id = widget.replace( '.', '_' ) + '_postbox';
+	var container_id = this.id.replace( '_refresh_button', '' );
+	container_id = container_id.replace( '-widget', '-div' );
+	
+	var widget = container_id.replace( 'wp-statistics-', '' );
+	widget = widget.replace( '-widget', '' );
 
 	container = jQuery("#" + container_id);
 	container.html(wp_statistics_loading_image);

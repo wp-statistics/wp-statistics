@@ -49,8 +49,6 @@
 <?php
 	}
 	
-	GLOBAL $wp_version;
-	
 	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
 	$new_button = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
 	
@@ -73,6 +71,7 @@
 ?>
 <script type="text/javascript">
 	var wp_statistics_destinations = <?php echo json_encode( $page_urls ); ?>; 
+	var wp_statistics_loading_image = '<?php echo $loading_img; ?>'
 	
 	jQuery(document).ready(function(){
 
