@@ -53,18 +53,18 @@
 		
 		// If the admin has disabled the widgets, don't display them.
 		if (!$WP_Statistics->get_option('disable_dashboard')) {
-			wp_add_dashboard_widget( 'wp-statistics-quickstats-widget', __('Quick Stats', 'wp_statistics'), 'wp_statistics_quickstats_widget', $control_callback = null );
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-browsers-widget', __('Top 10 Browsers', 'wp_statistics'), 'wp_statistics_browsers_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-countries-widget', __('Top 10 Countries', 'wp_statistics'), 'wp_statistics_countries_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __('Today\'s Visitor Map', 'wp_statistics'), 'wp_statistics_hitsmap_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('visits') ) { wp_add_dashboard_widget( 'wp-statistics-hits-widget', __('Hit Statistics', 'wp_statistics'), 'wp_statistics_hits_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('pages') ) { wp_add_dashboard_widget( 'wp-statistics-pages-widget', __('Top 10 Pages', 'wp_statistics'), 'wp_statistics_pages_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-recent-widget', __('Recent Visitors', 'wp_statistics'), 'wp_statistics_recent_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-referring-widget', __('Top Referring Sites', 'wp_statistics'), 'wp_statistics_referring_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-search-widget', __('Search Engine Referrals', 'wp_statistics'), 'wp_statistics_search_widget', $control_callback = null ); }
-			wp_add_dashboard_widget( 'wp-statistics-summary-widget', __('Summary', 'wp_statistics'), 'wp_statistics_summary_widget', $control_callback = null );
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-words-widget', __('Latest Search Words', 'wp_statistics'), 'wp_statistics_words_widget', $control_callback = null ); }
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __('Top 10 Visitors Today', 'wp_statistics'), 'wp_statistics_top_visitors_widget', $control_callback = null ); }
+			wp_add_dashboard_widget( 'wp-statistics-quickstats-widget', __('Quick Stats', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'quickstats' ) );
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-browsers-widget', __('Top 10 Browsers', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'browsers' ) ); }
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-countries-widget', __('Top 10 Countries', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'visitors' ) ); }
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __('Today\'s Visitor Map', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'visitors' ) ); }
+			if( $WP_Statistics->get_option('visits') ) { wp_add_dashboard_widget( 'wp-statistics-hits-widget', __('Hit Statistics', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hits' ) ); }
+			if( $WP_Statistics->get_option('pages') ) { wp_add_dashboard_widget( 'wp-statistics-pages-widget', __('Top 10 Pages', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'pages' ) ); }
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-recent-widget', __('Recent Visitors', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'recent' ) ); }
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-referring-widget', __('Top Referring Sites', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'referring' ) ); }
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-search-widget', __('Search Engine Referrals', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'search' ) ); }
+			wp_add_dashboard_widget( 'wp-statistics-summary-widget', __('Summary', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'summary' ) );
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-words-widget', __('Latest Search Words', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'words' ) ); }
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __('Top 10 Visitors Today', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'top_visitors' ) ); }
 		}
 	}
 
@@ -91,7 +91,18 @@
 		wp_enqueue_script('wp_statistics_dashboard', plugin_dir_url(__FILE__) . 'assets/js/dashboard.js');
 	}
 	
+	function wp_statistics_generate_dashboard_postbox_contents( $post, $args ) {
+		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .  plugins_url('wp-statistics/assets/images/')  . 'ajax-loading.gif" alt="' .  __( 'Loading...', 'wp_statistics' ) . '"></div>';
+		$widget = $args['args']['widget'];
+		$container_id = 'wp-statistics-' . str_replace( '.', '-', $widget ) . '-div';
+		
+		echo '<div id="' . $container_id . '">' . $loading_img .'</div>';
+		wp_statistics_generate_widget_load_javascript( $widget, $container_id );
+	}
+
+	
 	function wp_statistics_dashboard_inline_javascript() {
+		wp_statistics_load_widget_css_and_scripts();
 		
 		$screen = get_current_screen();
 
@@ -108,17 +119,17 @@
 
 		$page_urls = array();
 		
-		$page_urls['wps_browsers_more_button'] 		= $admin_url . WP_STATISTICS_BROWSERS_PAGE;
-		$page_urls['wps_countries_more_button'] 	= $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
-		$page_urls['wps_exclusions_more_button'] 	= $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE; 
-		$page_urls['wps_hits_more_button'] 			= $admin_url . WP_STATISTICS_HITS_PAGE; 
-		$page_urls['wps_online_more_button'] 		= $admin_url . WP_STATISTICS_ONLINE_PAGE; 
-		$page_urls['wps_pages_more_button'] 		= $admin_url . WP_STATISTICS_PAGES_PAGE; 
-		$page_urls['wps_referring_more_button'] 	= $admin_url . WP_STATISTICS_REFERRERS_PAGE; 
-		$page_urls['wps_search_more_button'] 		= $admin_url . WP_STATISTICS_SEARCHES_PAGE; 
-		$page_urls['wps_words_more_button'] 		= $admin_url . WP_STATISTICS_WORDS_PAGE; 
-		$page_urls['wps_top_visitors_more_button'] 	= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE; 
-		$page_urls['wps_visitors_more_button'] 		= $admin_url . WP_STATISTICS_VISITORS_PAGE; 
+		$page_urls['wp-statistics-browsers-widget_more_button'] 		= $admin_url . WP_STATISTICS_BROWSERS_PAGE;
+		$page_urls['wp-statistics-countries-widget_more_button'] 		= $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
+		$page_urls['wp-statistics-exclusions-widget_more_button'] 		= $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE; 
+		$page_urls['wp-statistics-hits-widget_more_button'] 			= $admin_url . WP_STATISTICS_HITS_PAGE; 
+		$page_urls['wp-statistics-online-widget_more_button'] 			= $admin_url . WP_STATISTICS_ONLINE_PAGE; 
+		$page_urls['wp-statistics-pages-widget_more_button'] 			= $admin_url . WP_STATISTICS_PAGES_PAGE; 
+		$page_urls['wp-statistics-referring-widget_more_button'] 		= $admin_url . WP_STATISTICS_REFERRERS_PAGE; 
+		$page_urls['wp-statistics-search-widget_more_button'] 			= $admin_url . WP_STATISTICS_SEARCHES_PAGE; 
+		$page_urls['wp-statistics-words-widget_more_button'] 			= $admin_url . WP_STATISTICS_WORDS_PAGE; 
+		$page_urls['wp-statistics-top_visitors-widget_more_button'] 	= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE; 
+		$page_urls['wp-statistics-visitors-widget_more_button'] 		= $admin_url . WP_STATISTICS_VISITORS_PAGE; 
 
 ?>
 <script type="text/javascript">
@@ -187,50 +198,6 @@
 		return true;
 	}
 	
-	function wp_statistics_quickstats_widget() {
-		GLOBAL $WP_Statistics;
-
-		// If the widget isn't visible, don't output the stats as they take too much memory and CPU to compute for no reason.
-		if( ( $is_visible = wp_statistics_is_wp_widget_visible( 'wp-statistics-quickstats-widget', 'dashboard' ) ) !== true ) { echo $is_visible; return; }
-		
-		// Load the css we use for the statistics pages.
-		wp_statistics_load_widget_css_and_scripts();
-		
-		// Include the summary widget, we're just going to use the content for the the users online and visit/visitor totals
-		include_once( dirname( __FILE__ ) . "/includes/log/widgets/summary.php");
-
-		echo '<div id="wp-statistics-quickstats-div">';
-		wp_statistics_generate_summary_postbox_content(null, false, false);
-		echo '</div>';
-		
-		// We can only have one hit's chart per page, so if the hits widget is visible, don't display it here.
-		if( wp_statistics_is_wp_widget_visible( 'wp-statistics-hits-widget' ) !== true ) {
-		
-?>		
-		<br>
-		<hr width="80%"/>
-		<br>
-<?php
-		
-			// Include the hits chart widget, we're going to display the last 10 days only as the WordPress columns are kind of small to do much else.
-			include_once( dirname( __FILE__ ) . "/includes/log/widgets/hits.php");
-
-			wp_statistics_generate_hits_postbox_content("300px", 10);
-		}
-?>
-
-		<br>
-		<hr width="80%"/>
-		<br>
-
-		<div style="text-align: center;">
-		<a class="button-primary" href="admin.php?page=<?php echo WP_STATISTICS_OVERVIEW_PAGE; ?>"><?php _e('WP Statistics Overview', 'wp_statistics');?></a>
-		</div>
-		
-		<br>
-<?php		
-		
-	}
 
 	function wp_statistics_browsers_widget() {
 		GLOBAL $WP_Statistics;

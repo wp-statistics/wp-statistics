@@ -192,7 +192,7 @@ add_action( 'wp_ajax_wp_statistics_purge_visitor_hits', 'wp_statistics_purge_vis
 function wp_statistics_get_widget_contents_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-	$widgets = array( 'about', 'browsers', 'map', 'countries', 'hits', 'pages', 'recent', 'referring', 'search', 'summary', 'top.visitors', 'words' );
+	$widgets = array( 'about', 'browsers', 'map', 'countries', 'hits', 'pages', 'quickstats', 'recent', 'referring', 'search', 'summary', 'top.visitors', 'words' );
 
 	$view_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
 
@@ -226,6 +226,11 @@ function wp_statistics_get_widget_contents_callback() {
 				wp_statistics_generate_summary_postbox_content($search_engines);
 				
 				break;
+			case 'quickstats':
+				wp_statistics_generate_quickstats_postbox_content($search_engines);
+				
+				break;
+			
 			case 'browsers':
 				wp_statistics_generate_browsers_postbox_content();
 			
@@ -272,7 +277,6 @@ function wp_statistics_get_widget_contents_callback() {
 				wp_statistics_generate_about_postbox_content($ISOCountryCode);
 			
 				break;
-			
 			default:
 				_e( 'ERROR: Widget not found!', 'wp_statistics' );
 		}		

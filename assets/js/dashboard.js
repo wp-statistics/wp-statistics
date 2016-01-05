@@ -28,7 +28,7 @@ function wp_statistics_refresh_widget() {
 	container_id = container_id.replace( '-widget', '-div' );
 	
 	var widget = container_id.replace( 'wp-statistics-', '' );
-	widget = widget.replace( '-widget', '' );
+	widget = widget.replace( '-div', '' );
 
 	container = jQuery("#" + container_id);
 	container.html(wp_statistics_loading_image);
@@ -39,12 +39,13 @@ function wp_statistics_refresh_widget() {
 }
 
 function wp_statistics_refresh_on_toggle_widget() {
-	if( this.value.substring(0, 4) != 'wps_' ) {
+	if( this.value.substring(0, 14) != 'wp-statistics-' ) {
 		return;
 	}
 	
-	var container_id = this.value.replace( 'wps_', '' );
-	var widget = container_id.replace( '_postbox', '' );
+	var container_id = this.value.replace( '-widget', '-div' );
+	var widget = container_id.replace( 'wp-statistics-', '' );
+	widget = widget.replace( '-div', '' );
 
 	wp_statistics_get_widget_contents( widget, container_id );
 }

@@ -36,19 +36,6 @@
 <?php
 	$WP_Statistics->update_option( 'last_overview_memory', memory_get_peak_usage(true) );
 
-	function wp_statistics_generate_widget_load_javascript( $widget, $container_id = null ) {
-		if( null == $container_id ) {
-			$container_id = str_replace( '.', '_', $widget . '_postbox' );
-		}
-?>
-<script type="text/javascript">
-	jQuery(document).ready(function() {
-		wp_statistics_get_widget_contents( '<?php echo $widget; ?>', '<?php echo $container_id; ?>' );
-	});
-</script>
-<?php
-	}
-	
 	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
 	$new_button = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
 	

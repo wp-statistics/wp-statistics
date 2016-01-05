@@ -946,6 +946,7 @@
 		return $enabled;
 	}
 	
+	// This function creates the date range selector 'widget' used in the various statistics pages.
 	function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '' ) {
 		GLOBAL $WP_Statistics;
 		
@@ -1012,6 +1013,7 @@
 		echo '<script>jQuery(function() { jQuery( "#datestartpicker" ).datepicker(); jQuery( "#dateendpicker" ).datepicker(); });</script>' . "\r\n";
 	}
 	
+	// This function is used to calculate the number of days and thier respective unix timestamps.
 	function wp_statistics_date_range_calculator( $days, $start, $end ) {
 		GLOBAL $WP_Statistics;
 		
@@ -1038,6 +1040,7 @@
 		return array( $daysToDisplay, $rangestart_utime, $rangeend_utime );
 	}
 	
+	// This function will empty a table based on the table name.
 	function wp_statitiscs_empty_table( $table_name = FALSE ) {
 		global $wpdb;
 		
@@ -1051,3 +1054,19 @@
 
 		return sprintf(__('Error, %s not emptied!', 'wp_statistics'), $table_name ); 
 	}	
+
+	// This function creates a small JavaScript snipit that will load the contents of a overview or dashboard widget.
+	function wp_statistics_generate_widget_load_javascript( $widget, $container_id = null ) {
+		if( null == $container_id ) {
+			$container_id = str_replace( '.', '_', $widget . '_postbox' );
+		}
+?>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		wp_statistics_get_widget_contents( '<?php echo $widget; ?>', '<?php echo $container_id; ?>' );
+	});
+</script>
+<?php
+	}
+	
+	
