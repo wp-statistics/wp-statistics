@@ -309,7 +309,15 @@ This release updates some core code to do with timezones, hence the change to ve
 == Changelog ==
 = 9.8 =
 * Release Date: TBD
+* Added: Widgets now support reloading on overview and dashboard screen.
 * Updated: Overview screen now loads widgets dynamically to reduce memory usage.
+* Updated: Dashboard widgets now load dynamically.
+* Updated: Enabling dashboard widgets now no longer require a page load to display the contents.
+* Updated: Replaced the old eye icon and "more..." link on the right of the title on the overview widgets with a new icon on the right beside the open/close icon.
+* Fixed: Removed extraneous single quote in SQL statement on referrers page, thanks jhertel.
+* Fixed: Order of parameters in referrers page when viewing individual referrers was incorrect and resulted in a blank list.
+* Fixed: UpdatedSQL for last post date detection to order by post_date instead of ID as someone could enter a date in the past for their publish date.  Thanks PC1271 for the fix.
+* Removed: Widget selection and ordering from the settings page, the "Screen Options" tab can now be used on the enabled/disable widgets and drag and drop will remember their location.
 
 = 9.7 =
 * Release Date: December 30, 2015
