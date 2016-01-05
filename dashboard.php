@@ -69,6 +69,8 @@
 	}
 
 	function wp_statistics_load_widget_css_and_scripts() {
+		GLOBAL $WP_Statistics;
+		
 		// Load the css we use for the statistics pages.
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
 		wp_enqueue_style('jqplot-css', plugin_dir_url(__FILE__) . 'assets/css/jquery.jqplot.min.css', true, '1.0.8');
@@ -87,6 +89,12 @@
 		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.pieRenderer.min.js', true, '0.8.3');
 		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/js/jqplot.enhancedLegendRenderer.min.js', true, '0.8.3');
 
+		if( $WP_Statistics->get_option('map_type') == 'jqvmap' ) {
+			wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap.css', true, '1.1');
+			wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap.min.js', true, '1.1');
+			wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.1');
+		}
+	
 		// Load our custom widgets handling javascript.
 		wp_enqueue_script('wp_statistics_dashboard', plugin_dir_url(__FILE__) . 'assets/js/dashboard.js');
 	}
