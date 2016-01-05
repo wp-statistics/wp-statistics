@@ -110,13 +110,13 @@
 
 	
 	function wp_statistics_dashboard_inline_javascript() {
-		wp_statistics_load_widget_css_and_scripts();
-		
 		$screen = get_current_screen();
 
 		if( 'dashboard' != $screen->id ) {
 			return;
 		}
+		
+		wp_statistics_load_widget_css_and_scripts();
 		
 		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .  plugins_url('wp-statistics/assets/images/')  . 'ajax-loading.gif" alt="' .  __( 'Reloading...', 'wp_statistics' ) . '"></div>';
 		
