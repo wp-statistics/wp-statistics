@@ -197,7 +197,7 @@ function wp_statistics_get_widget_contents_callback() {
 	$view_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
 
 	if( current_user_can( $view_cap ) ) {
-		$widget = 'summary';
+		$widget = '';
 		
 		if( array_key_exists( 'widget', $_POST ) ) { 
 			// Get the widget we're going to display.
