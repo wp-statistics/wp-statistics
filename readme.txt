@@ -84,9 +84,6 @@ Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.
 
 Also, if your running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will come up as unknown always.
 
-= I was using V3.2 and now that I've upgraded my visitors and visits have gone way down? =
-The webcrawler detection code has been fixed and will now exclude them from your stats, don't worry, it now reflects a more accurate view of actual visitors to your site.
-
 = GeoIP is enabled but no hits are being counted? =
 The GeoIP code requires several things to function, PHP 5.3 or above, the bcmath extension, the cURL extension and PHP cannot be running in safe mode.  All of these conditions are checked for but there may be additional items required.  Check your PHP log files and see if there are any fatal errors listed.
 
@@ -100,7 +97,7 @@ Be very careful to set the subnet mask correctly on the subnet list, it is very 
 Make sure you have WordPress configured correctly for SMTP and also check your WP Cron is working correctly.  You can use [Cron View](http://wordpress.org/plugins/cron-view) to examine your WP Cron table and see if there are any issues.
 
 = Does WP Statistics support multi-site? =
-WP Statistics hasn't been tested with multi-site and there have been some issues reported with getting it enabled correctly on all sites in a network.
+WP Statistics doesn't officially support multi-site however it does have limited functionally associated with it and should function without issue.  However no support is provided at this time.
 
 = Does WP Statistics report on post hits? =
 Yes, version 6.0 has introduced page hit statistics!
