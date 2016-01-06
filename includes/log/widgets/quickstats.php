@@ -138,17 +138,5 @@ if( $time == true ) {
 			include_once( dirname( __FILE__ ) . "/hits.php");
 
 			wp_statistics_generate_hits_postbox_content("300px", 10);
-?>
-
-						<br>
-						<hr width="80%"/>
-						<br>
-
-						<div style="text-align: center;">
-						<a class="button-primary" href="admin.php?page=<?php echo WP_STATISTICS_OVERVIEW_PAGE; ?>"><?php _e('WP Statistics Overview', 'wp_statistics');?></a>
-						</div>
-						
-						<br>
-<?php
 	}
 

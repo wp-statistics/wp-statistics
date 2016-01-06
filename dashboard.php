@@ -138,6 +138,7 @@
 		$page_urls['wp-statistics-words-widget_more_button'] 			= $admin_url . WP_STATISTICS_WORDS_PAGE; 
 		$page_urls['wp-statistics-top_visitors-widget_more_button'] 	= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE; 
 		$page_urls['wp-statistics-visitors-widget_more_button'] 		= $admin_url . WP_STATISTICS_VISITORS_PAGE; 
+		$page_urls['wp-statistics-quickstats-widget_more_button'] 		= $admin_url . WP_STATISTICS_OVERVIEW_PAGE; 
 
 ?>
 <script type="text/javascript">
@@ -169,7 +170,7 @@
 
 			var temp_html = temp.html();
 			
-			if( temp_id == 'wp-statistics-summary-widget' || temp_id == 'wp-statistics-quickstats-widget' ) {
+			if( temp_id == 'wp-statistics-summary-widget' ) {
 				new_text = '<?php echo $new_button;?>';
 				new_text = new_text.replace( '{{refreshid}}', temp_id + '_refresh_button' );
 				
