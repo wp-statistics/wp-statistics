@@ -82,14 +82,33 @@ License: GPL2
 	// worrying about bugs in other plugins that output text and don't allow us to set the headers.
 	add_action('init', 'wp_statistics_init', 9);
 	
-	// This adds a row after WP Statistics in the plugin page IF an incompatible version of PHP is running.
-	function wp_statistics_php_after_plugin_row() {
-		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="10"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version ', 'wp_statistics') . WP_STATISTICS_REQUIRED_PHP_VERSION . __(' or higher!', 'wp_statistics') . '  ' . __('Your current PHP version is','wp_statistics') . ' ' . phpversion() . '.&nbsp;&nbsp;</span></td></tr>';
+	function wp_statistics_unsupported_version_admin_notice() {
+		global $wp_version;
+		
+		$screen = get_current_screen();
+		
+		if( 'plugins' !== $screen->id ) {
+			return;
+		}
+	?>
+		<div class="error">
+			<p style="max-width:800px;"><b><?php _e( 'WP Statistics Disabled', 'wp_statistics');?></b> <?php _e('&#151; You are running an unsupported version of PHP.', 'glotpress' ); ?></p>
+
+			<p style="max-width:800px;"><?php 
+			
+			echo sprintf( __( 'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!', 'wp_statistics'), phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION );
+			echo '</p><p>';
+			echo __( 'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.' );
+			?></p>
+		</div>
+		
+	<?php
 	}
 	
 	// Check the PHP version, if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
 	if( !version_compare( phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=" ) ) { 
-		add_action('after_plugin_row_' . plugin_basename( __FILE__ ), 'wp_statistics_php_after_plugin_row', 10, 2);
+		add_action( 'admin_notices', 'wp_statistics_unsupported_version_admin_notice', 10, 2 );
+
 		return; 
 	} 
 
