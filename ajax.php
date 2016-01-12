@@ -192,7 +192,7 @@ add_action( 'wp_ajax_wp_statistics_purge_visitor_hits', 'wp_statistics_purge_vis
 function wp_statistics_get_widget_contents_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-	$widgets = array( 'about', 'browsers', 'map', 'countries', 'hits', 'hitsmap', 'pages', 'quickstats', 'recent', 'referring', 'search', 'summary', 'top.visitors', 'words' );
+	$widgets = array( 'about', 'browsers', 'map', 'countries', 'hits', 'hitsmap', 'page', 'pages', 'quickstats', 'recent', 'referring', 'search', 'summary', 'top.visitors', 'words' );
 
 	$view_cap = wp_statistics_validate_capability( $WP_Statistics->get_option('read_capability', 'manage_options') );
 
@@ -259,6 +259,11 @@ function wp_statistics_get_widget_contents_callback() {
 			case 'words':
 				wp_statistics_generate_words_postbox_content($ISOCountryCode);
 			
+				break;
+			case 'page':
+				$pageid = (int)$_POST['page-id'];
+				wp_statistics_generate_page_postbox_content( null, $pageid );
+				
 				break;
 			case 'pages':
 				list( $total, $uris ) = wp_statistics_get_top_pages();

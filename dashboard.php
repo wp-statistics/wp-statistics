@@ -95,8 +95,14 @@
 			wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.1');
 		}
 	
+		$screen = get_current_screen();
+
 		// Load our custom widgets handling javascript.
-		wp_enqueue_script('wp_statistics_dashboard', plugin_dir_url(__FILE__) . 'assets/js/dashboard.js');
+		if( 'post' == $screen->id || 'page' == $screen->id) {
+			wp_enqueue_script('wp_statistics_editor', plugin_dir_url(__FILE__) . 'assets/js/editor.js');
+		} else {
+			wp_enqueue_script('wp_statistics_dashboard', plugin_dir_url(__FILE__) . 'assets/js/dashboard.js');
+		}
 	}
 	
 	function wp_statistics_generate_dashboard_postbox_contents( $post, $args ) {
