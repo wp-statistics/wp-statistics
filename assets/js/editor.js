@@ -37,7 +37,7 @@ function wp_statistics_refresh_widget() {
 }
 
 function wp_statistics_refresh_on_toggle_widget() {
-	if( this.value != 'wp_statistics_editor_meta_box-hide' ) {
+	if( this.value != 'wp_statistics_editor_meta_box' ) {
 		return;
 	}
 	
