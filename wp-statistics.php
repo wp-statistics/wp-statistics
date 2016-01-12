@@ -369,7 +369,7 @@ License: GPL2
 		
 		$id = $post->ID;
 	
-		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp_statistics') . ': <b>' . wp_statistics_pages( 'total', '', $id ) . '</b></div>';
+		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp_statistics') . ": <b><a href='" . get_admin_url() . "admin.php?page=" . WP_STATISTICS_PAGES_PAGE . "&page-id={$id}'>" . wp_statistics_pages( 'total', "", $id ) . "</a></b></div>";
 	}
 	if( $WP_Statistics->get_option('pages') && !$WP_Statistics->get_option('disable_column') ) {
 		add_action( 'post_submitbox_misc_actions', 'wp_statistics_post_init' );
