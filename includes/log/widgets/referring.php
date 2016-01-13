@@ -2,22 +2,28 @@
 	function wp_statistics_generate_referring_postbox_content($count = 10) {
 	
 		global $wpdb, $WP_Statistics;
-		
+
 		$get_urls = array();
-		
-		$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> ''" );
-		
 		$urls = array();
-		foreach( $result as $item ) {
+		$start = 0;
 		
-			$url = parse_url($item->referred);
+		do {
+			$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' LIMIT {$start}, 10000" );
 			
-			if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
-				continue;
-				
-			$urls[] = $url['host'];
-		}
+			$start += count( $result );
 		
+			foreach( $result as $item ) {
+			
+				$url = parse_url($item->referred);
+				
+				if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
+					continue;
+					
+				$urls[] = $url['host'];
+			}
+		
+		} while( 10000 == count( $result ) );
+
 		$get_urls = array_count_values($urls);
 	
 		arsort( $get_urls );
