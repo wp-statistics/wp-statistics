@@ -2,17 +2,49 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-11-03 08:59:55+0000\n"
+"PO-Revision-Date: 2016-01-06 14:28:56+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-beta\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: wp-statistics.php:170
+#: wp-statistics.php:95
+msgid "&#151; You are running an unsupported version of PHP."
+msgstr "&#151; أنت تقوم بتشغيل إصدار PHP غير معتمد."
+
+#: wp-statistics.php:95
+msgid "WP Statistics Disabled"
+msgstr "إحصائيات ووردبريس معطلة"
+
+#: wp-statistics.php:99
+msgid "WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!"
+msgstr "إحصائيات ووردبريس وجدت إصدار PHP %s غير معتمد, الإضافة تتطلب إصدار PHP %s أو أعلى!"
+
+#: wp-statistics.php:101
+msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
+msgstr "يرجى الاتصال بموفر خدمة الاستضافة للترقية إلى إصدار معتمد أو عطل إحصائيات ووردبريس لإزالة هذه الرسالة."
+
+#: ajax.php:281
+msgid "ERROR: Widget not found!"
+msgstr "خطأ: القطعة غير موجود!"
+
+#: dashboard.php:103 includes/log/log.php:13
+msgid "Loading..."
+msgstr "تحميل..."
+
+#: dashboard.php:121 includes/log/log.php:2
+msgid "Reloading..."
+msgstr "إعادة تحميل ..."
+
+#: includes/log/top-visitors.php:41 wp-statistics.php:447
+msgid "Top Visitors"
+msgstr "كبار الزوار"
+
+#: wp-statistics.php:206
 msgid "optimization page"
-msgstr ""
+msgstr "صفحة التحسين"
 
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:63
@@ -59,51 +91,51 @@ msgstr "Ask.com"
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
 msgstr "الجدول الزمني للحصول على إحصائية لـ, strtotime() (http://php.net/manual/en/datetime.formats.php) سيتم استخدامها لحساب ذلك. استخدام \"المجموع\" للحصول على كل التواريخ المسجلة."
 
-#: wp-statistics.php:144
+#: wp-statistics.php:180
 msgid "visitor tracking"
 msgstr "تتبع الزوار"
 
-#: wp-statistics.php:145
+#: wp-statistics.php:181
 msgid "geoip collection"
 msgstr "مجموعة geoip"
 
-#: wp-statistics.php:161
+#: wp-statistics.php:197
 msgid "visit database index"
 msgstr "زيارة فهرس قاعدة البيانات"
 
-#: wp-statistics.php:170
+#: wp-statistics.php:206
 msgid "Database updates are required, please go to %s and update the following: %s"
 msgstr "يجب تحديث قاعدة البيانات، يرجى الذهاب إلى %s وتحديث التالي: %s"
 
-#: wp-statistics.php:161
+#: wp-statistics.php:197
 msgid "countries database index"
 msgstr "دول فهرس قاعدة البيانات"
 
-#: wp-statistics.php:154
+#: wp-statistics.php:190
 msgid "search table"
 msgstr "جدول البحث"
 
-#: wp-statistics.php:148
+#: wp-statistics.php:184
 msgid "settings page"
 msgstr "صفحة الإعدادات"
 
-#: wp-statistics.php:148 wp-statistics.php:170
+#: wp-statistics.php:184 wp-statistics.php:206
 msgid ","
 msgstr "،"
 
-#: wp-statistics.php:148
+#: wp-statistics.php:184
 msgid "The following features are disabled, please go to %s and enable them: %s"
 msgstr "الميزات التالية معطلة، يرجى الذهاب إلى %s وتمكينها: %s"
 
-#: wp-statistics.php:143
+#: wp-statistics.php:179
 msgid "hit tracking"
 msgstr "تتبع النقرات"
 
-#: wp-statistics.php:142
+#: wp-statistics.php:178
 msgid "online user tracking"
 msgstr "تتبع المستخدم المتصل"
 
-#: wp-statistics.php:716
+#: wp-statistics.php:775
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr "جدول الإضافة التالية غير موجود في قاعدة البيانات, يرجى إعادة تشغيل %s للتثبيت الروتيني %s:"
 
@@ -300,11 +332,11 @@ msgstr "إجمالي الرسم البياني"
 msgid "All Time Total"
 msgstr "مجموع كل الوقت"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Have you thought about donating to WP Statistics?"
 msgstr "هل فكرت في التبرع لإحصائيات ووردبريس؟"
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:392
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:429
 msgid "Donate"
 msgstr "التبرع"
 
@@ -316,11 +348,11 @@ msgstr "صف لنا مدى إستمتاعك في منتج إحصائيات وو�
 msgid "donation"
 msgstr "التبرعات"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Donate Now!"
 msgstr "تبرع الآن!"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Close"
 msgstr "إغلاق"
 
@@ -340,11 +372,11 @@ msgstr "عدد المقال"
 msgid "Time Frame"
 msgstr "الإطار الزمني"
 
-#: includes/functions/functions.php:1006
+#: includes/functions/functions.php:1009
 msgid "to"
 msgstr "إلى"
 
-#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1009 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "إذهب"
 
@@ -388,11 +420,11 @@ msgstr "التثبيتات القديمة من احصائيات ووردبريس
 msgid "Filtered by"
 msgstr "تمت تصفيتها من قبل"
 
-#: includes/functions/functions.php:999 includes/functions/functions.php:1002
+#: includes/functions/functions.php:1002 includes/functions/functions.php:1005
 msgid "Range"
 msgstr "المدى"
 
-#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1009 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/YYYY"
 
@@ -424,15 +456,15 @@ msgstr "قائمة عناوين المواقع المستبعدة"
 msgid "Excluded URL"
 msgstr "العناوين المستبعدة"
 
-#: includes/log/widgets/summary.php:66
+#: includes/log/widgets/quickstats.php:52 includes/log/widgets/summary.php:52
 msgid "Last 365 Days (Year)"
 msgstr "مشاركة 365 يوم (السنة)"
 
-#: includes/log/widgets/summary.php:60
+#: includes/log/widgets/quickstats.php:46 includes/log/widgets/summary.php:46
 msgid "Last 30 Days (Month)"
 msgstr "آخر 30 يوم (شهر)"
 
-#: includes/log/widgets/summary.php:54
+#: includes/log/widgets/quickstats.php:40 includes/log/widgets/summary.php:40
 msgid "Last 7 Days (Week)"
 msgstr "آخر 7 أيام (أسبوع)"
 
@@ -559,8 +591,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "حساب توجيه النقرات لكل زائر. حالياً %s."
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:381
-#: wp-statistics.php:457
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:418
+#: wp-statistics.php:516
 msgid "Pages"
 msgstr "الصفحات"
 
@@ -828,7 +860,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr "أي رمز قصير بدعم من مثبت ووردبريس، وتشمل جميع الاكواد المختصرة  لاحصائيات ووردبريس (انظر دليل المشرف للحصول على قائمة رموز المتاحة) معتمدة في نص الرسالة. وهنا بعض الأمثلة:"
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:247 wp-statistics.php:562
+#: widget.php:247 wp-statistics.php:621
 msgid "User Online"
 msgstr "المتواجدين الآن"
 
@@ -861,151 +893,80 @@ msgstr "مجموع الزوار"
 msgid "Total Visit"
 msgstr "مجموع الزيارات"
 
-#: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:175
+#: shortcode.php:175
 msgid "None"
 msgstr "لا شيء"
 
-#: includes/settings/tabs/wps-overview-display.php:24
-msgid "Summary Statistics"
-msgstr "ملخص الاحصائيات"
-
-#: includes/settings/tabs/wps-overview-display.php:28
 #: includes/settings/wps-settings.php:108
 msgid "About"
 msgstr "حول"
 
-#: includes/settings/tabs/wps-overview-display.php:34
-msgid "Hits Statistical Chart"
-msgstr "الرسم البياني لعدد النقرات"
-
-#: includes/settings/tabs/wps-overview-display.php:36
-msgid "Search Engine Referrers Statistical Chart"
-msgstr "الرسم البياني لمحركات البحث"
-
-#: includes/settings/tabs/wps-overview-display.php:38
-msgid "Top Pages Visited"
-msgstr "أعلى الصفحات زيارة"
-
-#: includes/settings/tabs/wps-overview-display.php:73
+#: includes/settings/tabs/wps-overview-display.php:20
 msgid "Dashboard"
 msgstr "لوحة القيادة"
 
-#: includes/settings/tabs/wps-overview-display.php:77
-#: includes/settings/tabs/wps-overview-display.php:97
-#: includes/settings/tabs/wps-overview-display.php:117
+#: includes/settings/tabs/wps-overview-display.php:24
+#: includes/settings/tabs/wps-overview-display.php:44
+#: includes/settings/tabs/wps-overview-display.php:64
 msgid "The following items are global to all users."
 msgstr "العناصر التالية هي عالمية لجميع المستخدمين."
 
-#: includes/settings/tabs/wps-overview-display.php:82
+#: includes/settings/tabs/wps-overview-display.php:29
 msgid "Disable dashboard widgets"
 msgstr "تعطيل قطع لوحة القيادة"
 
-#: includes/settings/tabs/wps-overview-display.php:88
+#: includes/settings/tabs/wps-overview-display.php:35
 msgid "Disable the dashboard widgets."
 msgstr "تعطيل القطع للوحة القيادة"
 
-#: includes/settings/tabs/wps-overview-display.php:93
+#: includes/settings/tabs/wps-overview-display.php:40
 msgid "Page/Post Editor"
 msgstr "محرر الصفحة/المشاركة"
 
-#: includes/settings/tabs/wps-overview-display.php:102
+#: includes/settings/tabs/wps-overview-display.php:49
 msgid "Disable post/page editor widget"
 msgstr "تعطيل قطعة محرر الصفحة/المشاركة"
 
-#: includes/settings/tabs/wps-overview-display.php:108
+#: includes/settings/tabs/wps-overview-display.php:55
 msgid "Disable the page/post editor widget."
 msgstr "تعطيل القطع لمحرر الصفحة/المشاركة"
 
-#: includes/settings/tabs/wps-overview-display.php:122
+#: includes/settings/tabs/wps-overview-display.php:69
 msgid "Map type"
 msgstr "نوع الخريطة"
 
 #: includes/functions/functions.php:429
-#: includes/settings/tabs/wps-overview-display.php:128
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "Google"
 msgstr "جوجل"
 
-#: includes/settings/tabs/wps-overview-display.php:128
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "JQVMap"
 msgstr "JQVMap"
 
-#: includes/settings/tabs/wps-overview-display.php:135
+#: includes/settings/tabs/wps-overview-display.php:82
 msgid "The \"Google\" option will use Google's mapping service to plot the recent visitors (requires access to Google)."
 msgstr "خيار \"جوجل\" يتوجب استخدام خدمة الخرائط جوجل لرسم زوار مؤخرا. (يتطلب الوصول إلى Google)"
 
-#: includes/settings/tabs/wps-overview-display.php:136
+#: includes/settings/tabs/wps-overview-display.php:83
 msgid "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services)."
 msgstr "خيار \"JQVMap\"  استخدام مكتبة خرائط JQVMap جافا سكريبت لرسم الزوار مؤخرا. (لا يتطلب أي خدمات خارجية)."
 
-#: includes/settings/tabs/wps-overview-display.php:142
+#: includes/settings/tabs/wps-overview-display.php:89
 msgid "Disable map"
 msgstr "تعطيل الخريطة"
 
-#: includes/settings/tabs/wps-overview-display.php:148
+#: includes/settings/tabs/wps-overview-display.php:95
 msgid "Disable the map display"
 msgstr "تعطيل عرض الخريطة"
 
-#: includes/settings/tabs/wps-overview-display.php:154
+#: includes/settings/tabs/wps-overview-display.php:101
 msgid "Get country location from Google"
 msgstr "الحصول على موقع البلد من جوجل"
 
-#: includes/settings/tabs/wps-overview-display.php:160
+#: includes/settings/tabs/wps-overview-display.php:107
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
 msgstr "قد تؤدي هذه الميزة تدهور الأداء عند عرض الإحصاءات وصالحة فقط إذا تم تعيين نوع الخريطة لـ \"جوجل\"."
-
-#: includes/settings/tabs/wps-overview-display.php:171
-msgid "Overview Widgets to Display"
-msgstr "نظرة عامة للقطع المعروضة"
-
-#: includes/settings/tabs/wps-overview-display.php:175
-msgid "The following items are unique to each user.  If you do not select the 'About' widget it will automatically be displayed in the last positon of column A."
-msgstr "العناصر التالية هي فريدة من نوعها لكل مستخدم. إذا لم تقم بتحديد قطعة 'حول' سيتم تلقائيا إظهارها في العمود الأخير من A."
-
-#: includes/settings/tabs/wps-overview-display.php:180
-msgid "Slot"
-msgstr "شريحة"
-
-#: includes/settings/tabs/wps-overview-display.php:184
-msgid "Column A"
-msgstr "العمود A"
-
-#: includes/settings/tabs/wps-overview-display.php:188
-msgid "Column B"
-msgstr "العمود B"
-
-#: includes/settings/tabs/wps-overview-display.php:194
-msgid "Slot 1"
-msgstr "الشريحة 1"
-
-#: includes/settings/tabs/wps-overview-display.php:224
-msgid "Slot 2"
-msgstr "الشريحة 2"
-
-#: includes/settings/tabs/wps-overview-display.php:254
-msgid "Slot 3"
-msgstr "الشريحة 3"
-
-#: includes/settings/tabs/wps-overview-display.php:284
-msgid "Slot 4"
-msgstr "الشريحة 4"
-
-#: includes/settings/tabs/wps-overview-display.php:314
-msgid "Slot 5"
-msgstr "الشريحة 5"
-
-#: includes/settings/tabs/wps-overview-display.php:344
-msgid "Slot 6"
-msgstr "الشريحة 6"
-
-#: includes/settings/tabs/wps-overview-display.php:348
-#: includes/settings/tabs/wps-overview-display.php:370
-msgid "N/A"
-msgstr "N/A"
-
-#: includes/settings/tabs/wps-overview-display.php:366
-msgid "Slot 7"
-msgstr "الشريحة 7"
 
 #: includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
@@ -1057,7 +1018,7 @@ msgstr "الإزالة"
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
-#: includes/settings/tabs/wps-overview-display.php:388
+#: includes/settings/tabs/wps-overview-display.php:116
 #: includes/settings/tabs/wps-removal.php:42
 msgid "Update"
 msgstr "تحديث"
@@ -1074,7 +1035,7 @@ msgstr "مرة كل 2 أسابيع"
 msgid "Once Every 4 Weeks"
 msgstr "مرة كل 4 أسابيع"
 
-#: widget.php:14 wp-statistics.php:372 wp-statistics.php:410
+#: widget.php:14 wp-statistics.php:408 wp-statistics.php:469
 msgid "Statistics"
 msgstr "الاحصائيات"
 
@@ -1146,7 +1107,7 @@ msgstr "الأسم"
 msgid "Items"
 msgstr "البنود"
 
-#: widget.php:256 wp-statistics.php:587
+#: widget.php:256 wp-statistics.php:646
 msgid "Yesterday visit"
 msgstr "زيارات الأمس"
 
@@ -1158,129 +1119,117 @@ msgstr "محرك بحث المشارين"
 msgid "Select type of search engine"
 msgstr "حدد نوع من محرك البحث"
 
-#: wp-statistics.php:70
-msgid "ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version "
-msgstr "خطأ: كشف احصائيات ووردبريس أن إصدار PHP لديك غير معتمد، و احصائيات ووردبريس لن تعمل دون PHP النسخة"
-
-#: wp-statistics.php:70
-msgid " or higher!"
-msgstr "أو أعلى!"
-
-#: wp-statistics.php:70
-msgid "Your current PHP version is"
-msgstr "نسخة PHP الحالي هو"
-
-#: wp-statistics.php:86
+#: wp-statistics.php:122
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "تمت إزالة احصائيات ووردبريس، يرجى التعطيل والحذف."
 
 #. Plugin Name of the plugin/theme
-#: wp-statistics.php:37
+#: wp-statistics.php:54
 msgid "WP Statistics"
 msgstr "احصائيات ووردبريس"
 
 #. Description of the plugin/theme
-#: wp-statistics.php:38
+#: wp-statistics.php:55
 msgid "Complete statistics for your WordPress site."
 msgstr "إحصاءات كاملة لموقع ووردبريس الخاص بك."
 
-#: wp-statistics.php:277 wp-statistics.php:391 wp-statistics.php:464
+#: wp-statistics.php:313 wp-statistics.php:428 wp-statistics.php:523
 msgid "Settings"
 msgstr "الإعدادات"
 
-#: wp-statistics.php:289
+#: wp-statistics.php:325
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "انقر هنا لزيارة صفحة الإضافة على WordPress.org"
 
-#: wp-statistics.php:289
+#: wp-statistics.php:325
 msgid "Visit WordPress.org page"
 msgstr "زيارة صفحة WordPress.org"
 
-#: wp-statistics.php:292
+#: wp-statistics.php:328
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "أنقر هنا لمراجهة وتقييم الإضافة على WordPress.org"
 
-#: wp-statistics.php:292
+#: wp-statistics.php:328
 msgid "Rate this plugin"
 msgstr "ضع تقييمك لهذه الاضافة"
 
-#: wp-statistics.php:336
+#: wp-statistics.php:372
 msgid "WP Statistics - Hits"
 msgstr "احصائيات ووردبريس - الزيارات"
 
-#: wp-statistics.php:375 wp-statistics.php:413 wp-statistics.php:451
+#: wp-statistics.php:411 wp-statistics.php:472 wp-statistics.php:510
 msgid "Overview"
 msgstr "نظرة عامة"
 
-#: wp-statistics.php:380 wp-statistics.php:456
+#: wp-statistics.php:417 wp-statistics.php:515
 msgid "Online"
 msgstr "المتواجدون"
 
-#: wp-statistics.php:382 wp-statistics.php:458
+#: wp-statistics.php:419 wp-statistics.php:517
 msgid "Referrers"
 msgstr "الدعوات"
 
-#: shortcode.php:142 wp-statistics.php:383 wp-statistics.php:459
+#: shortcode.php:142 wp-statistics.php:420 wp-statistics.php:518
 msgid "Searches"
 msgstr "عمليات البحث"
 
-#: wp-statistics.php:384 wp-statistics.php:460
+#: wp-statistics.php:421 wp-statistics.php:519
 msgid "Search Words"
 msgstr "كلمات البحث"
 
-#: wp-statistics.php:385 wp-statistics.php:461
+#: wp-statistics.php:422 wp-statistics.php:520
 msgid "Top Visitors Today"
 msgstr "أعلى زوار اليوم"
 
-#: wp-statistics.php:390 wp-statistics.php:463
+#: wp-statistics.php:427 wp-statistics.php:522
 msgid "Optimization"
 msgstr "التحسين"
 
-#: wp-statistics.php:396 wp-statistics.php:427
+#: wp-statistics.php:433 wp-statistics.php:486
 msgid "Manual"
 msgstr "الدليل"
 
-#: wp-statistics.php:442
+#: wp-statistics.php:501
 msgid "Site"
 msgstr "موقع"
 
-#: wp-statistics.php:443
+#: wp-statistics.php:502
 msgid "Options"
 msgstr "خيارات"
 
-#: wp-statistics.php:569
+#: wp-statistics.php:628
 msgid "Today visitor"
 msgstr "زوار اليوم"
 
-#: wp-statistics.php:575
+#: wp-statistics.php:634
 msgid "Today visit"
 msgstr "زيارات اليوم"
 
-#: wp-statistics.php:581
+#: wp-statistics.php:640
 msgid "Yesterday visitor"
 msgstr "زيارات الأمس"
 
-#: wp-statistics.php:593
+#: wp-statistics.php:652
 msgid "View Stats"
 msgstr "عرض الإحصائيات"
 
-#: wp-statistics.php:617
+#: wp-statistics.php:676
 msgid "Download ODF file"
 msgstr "تحميل ملف ODF"
 
-#: wp-statistics.php:618
+#: wp-statistics.php:677
 msgid "Download HTML file"
 msgstr "تحميل ملف HTML"
 
-#: wp-statistics.php:622
+#: wp-statistics.php:681
 msgid "Manual file not found."
 msgstr "لم يتم العثور على ملف الدليل."
 
-#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:849
+#: wp-statistics.php:748 wp-statistics.php:878 wp-statistics.php:913
 msgid "You do not have sufficient permissions to access this page."
 msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة."
 
-#: wp-statistics.php:265
+#: wp-statistics.php:301
 msgid "WP Statistics %s installed on"
 msgstr "احصائيات ووردبريس  %s مثبتة على"
 
@@ -1337,71 +1286,56 @@ msgstr "http://wp-statistics.com/"
 msgid "Mostafa Soufi & Greg Ross"
 msgstr "مصطفى الصوفي وجريج روس"
 
-#: dashboard.php:55
+#: dashboard.php:56
 msgid "Quick Stats"
 msgstr "إحصائيات سريعة"
 
-#: dashboard.php:56 includes/log/widgets/browsers.php:58
+#: dashboard.php:57 includes/log/widgets/browsers.php:41
 msgid "Top 10 Browsers"
 msgstr "أفضل 10 متصفحات"
 
-#: dashboard.php:57 includes/log/widgets/countries.php:11
-#: includes/settings/tabs/wps-overview-display.php:27
+#: dashboard.php:58 wp-statistics.php:457
 msgid "Top 10 Countries"
 msgstr "أعلى 10 دول"
 
-#: dashboard.php:58
+#: dashboard.php:59
 msgid "Today's Visitor Map"
 msgstr "خريطة زوار اليوم"
 
-#: dashboard.php:59 editor.php:46 includes/log/hit-statistics.php:8
-#: includes/log/widgets/hits.php:10
+#: dashboard.php:60 editor.php:46 includes/log/hit-statistics.php:8
+#: wp-statistics.php:446
 msgid "Hit Statistics"
 msgstr "احصائية النقرات"
 
-#: dashboard.php:60 includes/log/widgets/pages.php:14
+#: dashboard.php:61 wp-statistics.php:450
 msgid "Top 10 Pages"
 msgstr "أفضل 10 صفحات"
 
-#: dashboard.php:61 includes/log/last-visitor.php:36
-#: includes/log/widgets/recent.php:10
-#: includes/settings/tabs/wps-overview-display.php:39
+#: dashboard.php:62 includes/log/last-visitor.php:36 wp-statistics.php:451
 msgid "Recent Visitors"
 msgstr "الزيارات الأخيرة"
 
-#: dashboard.php:62 includes/log/top-referring.php:59
-#: includes/log/top-referring.php:81 includes/log/widgets/referring.php:11
-#: includes/settings/tabs/wps-overview-display.php:26
+#: dashboard.php:63 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 wp-statistics.php:456
 msgid "Top Referring Sites"
 msgstr "أعلى المواقع اشارة"
 
-#: dashboard.php:63 includes/log/widgets/search.php:10
-#: includes/log/widgets/summary.php:89
+#: dashboard.php:64 includes/log/widgets/quickstats.php:75
+#: includes/log/widgets/summary.php:75 wp-statistics.php:448
 msgid "Search Engine Referrals"
 msgstr "إحالات محرك البحث"
 
-#: dashboard.php:64 includes/log/widgets/summary.php:8
+#: dashboard.php:65 wp-statistics.php:454
 msgid "Summary"
 msgstr "ملخص"
 
-#: dashboard.php:65 includes/log/last-search.php:31
-#: includes/log/widgets/words.php:11
-#: includes/settings/tabs/wps-overview-display.php:37
+#: dashboard.php:66 includes/log/last-search.php:31 wp-statistics.php:449
 msgid "Latest Search Words"
 msgstr "أحدث كلمات البحث"
 
-#: dashboard.php:66 includes/log/widgets/top.visitors.php:10
-#: includes/settings/tabs/wps-overview-display.php:35
+#: dashboard.php:67
 msgid "Top 10 Visitors Today"
 msgstr "أفضل 10 زوار اليوم"
-
-#: dashboard.php:97
-msgid "Please reload the dashboard to display the content of this widget."
-msgstr "يرجى تحميل لوحة المعلومات لعرض محتوى هذه القطعة."
-
-#: dashboard.php:138
-msgid "WP Statistics Overview"
-msgstr "نظرة عامة لإحصائيات ووردبريس"
 
 #: editor.php:63
 msgid "This post is not yet published."
@@ -1445,20 +1379,14 @@ msgstr "إحصائيات المتصفح"
 #: includes/log/hit-statistics.php:162 includes/log/last-search.php:64
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
-#: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:77 includes/log/widgets/about.php:7
-#: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
-#: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
-#: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
-#: includes/log/widgets/recent.php:8 includes/log/widgets/referring.php:9
-#: includes/log/widgets/search.php:9 includes/log/widgets/summary.php:7
-#: includes/log/widgets/top.visitors.php:9 includes/log/widgets/words.php:9
+#: includes/log/top-countries.php:26 includes/log/top-pages.php:28
+#: includes/log/top-pages.php:148 includes/log/top-referring.php:77
+#: includes/log/top-visitors.php:40
 msgid "Click to toggle"
 msgstr "انقر للتبديل"
 
-#: includes/log/all-browsers.php:30 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
-#: wp-statistics.php:452
+#: includes/log/all-browsers.php:30 wp-statistics.php:413 wp-statistics.php:455
+#: wp-statistics.php:511
 msgid "Browsers"
 msgstr "المتصفحات"
 
@@ -1466,8 +1394,8 @@ msgstr "المتصفحات"
 msgid "Browsers by type"
 msgstr "حسب نوع المتصفحات"
 
-#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:37
-#: includes/optimization/tabs/wps-optimization-resources.php:313
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:18
+#: includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Platform"
 msgstr "المنصة"
 
@@ -1487,35 +1415,35 @@ msgstr "تنبيه: لم يتم تعيين الاستثناءات حاليا ل�
 msgid "Exclusions Statistics"
 msgstr "استثناءات الاحصائيات"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "10 Days"
 msgstr "10 أيام"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "20 Days"
 msgstr "20 يوم"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "30 Days"
 msgstr "30 يو م"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "2 Months"
 msgstr "شهرين"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "3 Months"
 msgstr "3 أشهر"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "6 Months"
 msgstr "6 أشهر"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "9 Months"
 msgstr "9 أشهر"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "1 Year"
 msgstr "سنة"
 
@@ -1528,8 +1456,8 @@ msgid "Excluded hits in the last"
 msgstr "استبعاد النقرات في الأخير"
 
 #: includes/log/exclusions.php:95 includes/log/hit-statistics.php:65
-#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:61
-#: includes/log/widgets/search.php:59
+#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:42
+#: includes/log/widgets/search.php:42
 #: includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
 msgstr "أيام"
@@ -1542,21 +1470,23 @@ msgstr "عدد الزيارات المستبعدة"
 msgid "Hits Statistics Chart"
 msgstr "الرسم البياني لاحصائيات النقرات"
 
-#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:61
+#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:42
 msgid "Hits in the last"
 msgstr "آخر النقرات"
 
-#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:82
+#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:63
 msgid "Number of visits and visitors"
 msgstr "عدد الزيارات والزوار"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:169
-#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:38
+#: includes/log/widgets/hits.php:77 includes/log/widgets/quickstats.php:24
+#: includes/log/widgets/summary.php:24
 msgid "Visit"
 msgstr "زيارة"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:170
-#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:37
+#: includes/log/widgets/hits.php:77 includes/log/widgets/quickstats.php:23
+#: includes/log/widgets/summary.php:23
 msgid "Visitor"
 msgstr "زائر"
 
@@ -1565,17 +1495,16 @@ msgid "Latest Search Word Statistics"
 msgstr "أحصائيات أحدث كلمات البحث"
 
 #: includes/log/last-search.php:110 includes/log/last-visitor.php:101
-#: includes/log/online.php:50 includes/log/widgets/google.map.php:84
-#: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:33
-#: includes/log/widgets/words.php:46
+#: includes/log/online.php:50 includes/log/widgets/google.map.php:68
+#: includes/log/widgets/jqv.map.php:55 includes/log/widgets/recent.php:14
+#: includes/log/widgets/words.php:27
 msgid "#hash#"
 msgstr "#hash#"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
 #: includes/log/online.php:55 includes/log/top-referring.php:112
-#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
-#: includes/settings/tabs/wps-overview-display.php:33
-#: includes/settings/tabs/wps-overview-display.php:113
+#: includes/log/widgets/recent.php:19 includes/log/widgets/words.php:42
+#: includes/settings/tabs/wps-overview-display.php:60
 msgid "Map"
 msgstr "خريطة"
 
@@ -1621,40 +1550,41 @@ msgstr "الصفحة الأكثر رواجاً"
 msgid "Search Engine Referral Statistics"
 msgstr "إحصائيات مرجعية محرك البحث"
 
-#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:59
+#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:42
 msgid "Search engine referrals in the last"
 msgstr "إحالات محرك البحث في الأخير"
 
-#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:80
+#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:63
 msgid "Number of referrals"
 msgstr "عدد الإحالات"
 
 #: includes/log/exclusions.php:24 includes/log/search-statistics.php:104
-#: includes/log/widgets/search.php:94 includes/log/widgets/summary.php:72
-#: includes/log/widgets/summary.php:119
+#: includes/log/widgets/quickstats.php:58
+#: includes/log/widgets/quickstats.php:105 includes/log/widgets/search.php:77
+#: includes/log/widgets/summary.php:58 includes/log/widgets/summary.php:105
 msgid "Total"
 msgstr "المجموع"
 
-#: includes/log/top-countries.php:18
+#: includes/log/top-countries.php:18 includes/log/top-countries.php:27
 msgid "Top Countries"
 msgstr "أفضل الدول"
 
-#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:30
-#: includes/log/widgets/top.visitors.php:30
+#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:9
+#: includes/log/widgets/top.visitors.php:11
 msgid "Rank"
 msgstr "الترتيب"
 
-#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:31
-#: includes/log/widgets/top.visitors.php:32
+#: includes/log/top-countries.php:32 includes/log/widgets/countries.php:10
+#: includes/log/widgets/top.visitors.php:13
 msgid "Flag"
 msgstr "العلم"
 
-#: includes/log/top-countries.php:32 includes/log/widgets/countries.php:32
-#: includes/log/widgets/top.visitors.php:33
+#: includes/log/top-countries.php:33 includes/log/widgets/countries.php:11
+#: includes/log/widgets/top.visitors.php:14
 msgid "Country"
 msgstr "الدولة"
 
-#: includes/log/top-countries.php:33 includes/log/widgets/countries.php:33
+#: includes/log/top-countries.php:34 includes/log/widgets/countries.php:12
 msgid "Visitor Count"
 msgstr "عدد الزوار"
 
@@ -1674,11 +1604,11 @@ msgstr "احصائيات الصفحات الـ5 الأكثر رواجاً"
 msgid "Number of Hits"
 msgstr "عدد الزيارات"
 
-#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:35
+#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:13
 msgid "No page title found"
 msgstr "لم يتم العثور على عنوان الصفحة"
 
-#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
+#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:16
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
 #: includes/settings/tabs/wps-general.php:127 shortcode.php:139
@@ -1693,7 +1623,7 @@ msgstr "تضاف قريبا"
 msgid "Referring sites from"
 msgstr "مواقع اشارة من"
 
-#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:50
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:29
 msgid "References"
 msgstr "المراجع"
 
@@ -1701,98 +1631,94 @@ msgstr "المراجع"
 msgid "Top 100 Visitors Today"
 msgstr "أفضل 100 زائر اليوم"
 
-#: includes/log/widgets/about.php:8
+#: includes/log/log.php:10
 msgid "About WP Statistics Version %s"
 msgstr "حول  إصدار احصائيات ووردبريس %s"
 
-#: includes/log/widgets/about.php:25
+#: includes/log/widgets/about.php:11
 msgid "Website"
 msgstr "الموقع"
 
-#: includes/log/widgets/about.php:26
+#: includes/log/widgets/about.php:12
 msgid "Rate and Review"
 msgstr "التقييم  والمراجعة"
 
-#: includes/log/widgets/about.php:30
+#: includes/log/widgets/about.php:16
 msgid "More Information"
 msgstr "مزيد من المعلومات"
 
-#: includes/log/widgets/about.php:39 includes/settings/tabs/wps-about.php:12
+#: includes/log/widgets/about.php:25 includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr "يتضمن هذا المنتج البيانات GeoLite2 التي أنشأتها MaxMind، المتاحة من %s."
 
-#: includes/log/widgets/browsers.php:10 includes/log/widgets/countries.php:11
-#: includes/log/widgets/hits.php:10 includes/log/widgets/pages.php:14
-#: includes/log/widgets/recent.php:10 includes/log/widgets/referring.php:11
-#: includes/log/widgets/search.php:10 includes/log/widgets/top.visitors.php:10
-#: includes/log/widgets/words.php:11
-msgid "More"
-msgstr "المزيد"
-
-#: includes/log/widgets/browsers.php:51
+#: includes/log/widgets/browsers.php:34
 msgid "Other"
 msgstr "أخرى"
 
-#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
+#: wp-statistics.php:445
 msgid "Today Visitors Map"
 msgstr "خريطة زوار اليوم"
 
-#: includes/log/widgets/referring.php:51
+#: includes/log/widgets/referring.php:30
 msgid "Address"
 msgstr "العنوان"
 
-#: includes/log/widgets/summary.php:26
+#: includes/log/widgets/quickstats.php:12 includes/log/widgets/summary.php:12
 msgid "User(s) Online"
 msgstr "المتصلين على الانترنت"
 
-#: includes/log/widgets/summary.php:42 includes/log/widgets/summary.php:94
+#: includes/log/widgets/quickstats.php:28
+#: includes/log/widgets/quickstats.php:80 includes/log/widgets/summary.php:28
+#: includes/log/widgets/summary.php:80
 msgid "Today"
 msgstr "اليوم"
 
-#: includes/log/widgets/summary.php:48 includes/log/widgets/summary.php:95
+#: includes/log/widgets/quickstats.php:34
+#: includes/log/widgets/quickstats.php:81 includes/log/widgets/summary.php:34
+#: includes/log/widgets/summary.php:81
 msgid "Yesterday"
 msgstr "الأمس"
 
-#: includes/log/widgets/summary.php:113
+#: includes/log/widgets/quickstats.php:99 includes/log/widgets/summary.php:99
 msgid "Daily Total"
 msgstr "المجموع اليومي"
 
-#: includes/log/widgets/summary.php:132
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "Current Time and Date"
 msgstr "التوقيت الحالي و التاريخ"
 
-#: includes/log/widgets/summary.php:132
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "(Adjustment)"
 msgstr "(التوافق)"
 
-#: includes/log/widgets/summary.php:136
+#: includes/log/widgets/quickstats.php:122 includes/log/widgets/summary.php:122
 msgid "Date: %s"
 msgstr "التاريخ: %s"
 
-#: includes/log/widgets/summary.php:140
+#: includes/log/widgets/quickstats.php:126 includes/log/widgets/summary.php:126
 msgid "Time: %s"
 msgstr "التوقيت: %s"
 
-#: includes/log/widgets/top.visitors.php:31
-#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:301
-#: wp-statistics.php:379 wp-statistics.php:455
+#: includes/log/widgets/top.visitors.php:12
+#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:337
+#: wp-statistics.php:416 wp-statistics.php:514
 msgid "Hits"
 msgstr "نقرات"
 
-#: includes/log/widgets/top.visitors.php:34
+#: includes/log/widgets/top.visitors.php:15
 msgid "IP"
 msgstr "IP"
 
-#: includes/log/widgets/top.visitors.php:36
+#: includes/log/widgets/top.visitors.php:17
 msgid "Agent"
 msgstr "وكيل"
 
-#: includes/log/widgets/top.visitors.php:38
-#: includes/optimization/tabs/wps-optimization-resources.php:302
+#: includes/log/widgets/top.visitors.php:19
+#: includes/optimization/tabs/wps-optimization-resources.php:291
 msgid "Version"
 msgstr "الإصدار"
 
-#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184
+#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184 ajax.php:284
 #: includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "تم رفض الوصول!"
@@ -1817,11 +1743,11 @@ msgstr "%s تم حذف بيانات المنصة بنجاح."
 msgid "No platform data found to remove!"
 msgstr "لا توجد بيانات منصة لإزالتها!"
 
-#: includes/functions/functions.php:1046
+#: includes/functions/functions.php:1051
 msgid "%s table data deleted successfully."
 msgstr "%s تم حذف بيانات الجدول بنجاح."
 
-#: includes/functions/functions.php:1050
+#: includes/functions/functions.php:1055
 msgid "Error, %s not emptied!"
 msgstr "خطأ, %s لم يتم التفريغ!"
 
@@ -1847,7 +1773,7 @@ msgstr "فهرس قاعدة بيانات"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:377 wp-statistics.php:453
+#: wp-statistics.php:414 wp-statistics.php:512
 msgid "Countries"
 msgstr "الدول"
 
@@ -1931,7 +1857,7 @@ msgstr "ملاحظة: كلما قمت بتطهير قاعدة البيانات �
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
 #: includes/settings/tabs/wps-general.php:143 shortcode.php:140
-#: wp-statistics.php:386 wp-statistics.php:462
+#: wp-statistics.php:423 wp-statistics.php:521
 msgid "Visitors"
 msgstr "الزوار"
 
@@ -2019,199 +1945,190 @@ msgid "Memory usage in PHP"
 msgstr "استخدام الذاكرة في PHP"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:26
-#: includes/optimization/tabs/wps-optimization-resources.php:37
 msgid "Byte"
 msgstr "بايت"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:33
-msgid "Last Overview page memory usage"
-msgstr "آخر نظرة عامة على استخدام صفحة الذاكرة"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:38
-msgid "Memory usage in the overview page"
-msgstr "استخدام الذاكرة في صفحة نظرة عامة"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:44
 msgid "PHP Memory Limit"
 msgstr "حدود ذاكرة PHP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:49
+#: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
 msgstr "حدود الذاكرة تسمح للبرنامج النصي باستهلاك حد معين، قم بتعيين ملف php.ini."
 
+#: includes/optimization/tabs/wps-optimization-resources.php:44
 #: includes/optimization/tabs/wps-optimization-resources.php:55
 #: includes/optimization/tabs/wps-optimization-resources.php:66
 #: includes/optimization/tabs/wps-optimization-resources.php:77
 #: includes/optimization/tabs/wps-optimization-resources.php:88
 #: includes/optimization/tabs/wps-optimization-resources.php:99
 #: includes/optimization/tabs/wps-optimization-resources.php:110
-#: includes/optimization/tabs/wps-optimization-resources.php:121
 msgid "Number of rows in the %s table"
 msgstr "عدد الصفوف في جدول %s"
 
+#: includes/optimization/tabs/wps-optimization-resources.php:48
 #: includes/optimization/tabs/wps-optimization-resources.php:59
 #: includes/optimization/tabs/wps-optimization-resources.php:70
 #: includes/optimization/tabs/wps-optimization-resources.php:81
 #: includes/optimization/tabs/wps-optimization-resources.php:92
 #: includes/optimization/tabs/wps-optimization-resources.php:103
 #: includes/optimization/tabs/wps-optimization-resources.php:114
-#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "Row"
 msgstr "صف"
 
+#: includes/optimization/tabs/wps-optimization-resources.php:49
 #: includes/optimization/tabs/wps-optimization-resources.php:60
 #: includes/optimization/tabs/wps-optimization-resources.php:71
 #: includes/optimization/tabs/wps-optimization-resources.php:82
 #: includes/optimization/tabs/wps-optimization-resources.php:93
 #: includes/optimization/tabs/wps-optimization-resources.php:104
 #: includes/optimization/tabs/wps-optimization-resources.php:115
-#: includes/optimization/tabs/wps-optimization-resources.php:126
 msgid "Number of rows"
 msgstr "عدد الصفوف"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:131
+#: includes/optimization/tabs/wps-optimization-resources.php:120
 msgid "Version Info"
 msgstr "معلومات الإصدار"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "WP Statistics Version"
 msgstr "نسخة WP Statistics"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "The WP Statistics version you are running."
 msgstr "إصدار WP Statistics."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "PHP Version"
 msgstr "نسخة PHP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The PHP version you are running."
 msgstr "إصدار PHP."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "PHP Safe Mode"
 msgstr "الوضع الآمن PHP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr "هل الوضع الآمن نشط. الكود GeoIP غير معتمد في الوضع الآمن."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:169
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "jQuery Version"
 msgstr "نسخة jQuery"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:174
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid "The jQuery version you are running."
 msgstr "إصدار jQuery."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:180
+#: includes/optimization/tabs/wps-optimization-resources.php:169
 msgid "cURL Version"
 msgstr "إصدار cURL"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:173
 msgid "cURL not installed"
 msgstr "cURL غير مثبت"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:185
+#: includes/optimization/tabs/wps-optimization-resources.php:174
 msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr "نسخة الملحق PHP cURL تعمل. الملحق cURL مطلوب لعمل كود GeoIP, وإذا لم يتم تثبيته يتم تعطيل GeoIP."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:191
+#: includes/optimization/tabs/wps-optimization-resources.php:180
 msgid "BC Math"
 msgstr "BC Math"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Installed"
 msgstr "مثبت"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Not installed"
 msgstr "غير مثبت"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:196
+#: includes/optimization/tabs/wps-optimization-resources.php:185
 msgid "If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons."
 msgstr "هل تم تثبيت PHP BC Math Extension مسبقاً. الآن ملحق BC Math لم يعد مطلوبا لكود GeoIP ويتم سرده هنا فقط لأسباب تاريخية."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:201
+#: includes/optimization/tabs/wps-optimization-resources.php:190
 msgid "File Info"
 msgstr "معلومات عن الملف"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "GeoIP Database"
 msgstr "قاعدة بيانات GeoIP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:215
+#: includes/optimization/tabs/wps-optimization-resources.php:204
 msgid "Database file does not exist."
 msgstr "لا وجود لملف قاعدة البيانات."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:217
-#: includes/optimization/tabs/wps-optimization-resources.php:236
-#: includes/optimization/tabs/wps-optimization-resources.php:255
+#: includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:244
 msgid ", created on "
 msgstr "، التي تم إنشاؤها على"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:219
+#: includes/optimization/tabs/wps-optimization-resources.php:208
 msgid "The file size and date of the GeoIP database."
 msgstr "حجم الملف والتاريخ من قاعدة بيانات GeoIP."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:214
 msgid "browscap.ini File"
 msgstr "ملف browscap.ini"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:234
+#: includes/optimization/tabs/wps-optimization-resources.php:223
 msgid "browscap.ini file does not exist."
 msgstr "لا وجود لملف browscap.ini."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:238
+#: includes/optimization/tabs/wps-optimization-resources.php:227
 msgid "The file size and date of the browscap.ini file."
 msgstr "حجم الملف وتاريخ الملف browscap.ini."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:244
+#: includes/optimization/tabs/wps-optimization-resources.php:233
 msgid "browscap Cache File"
 msgstr "browscap ملف ذاكرة التخزين المؤقت"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:253
+#: includes/optimization/tabs/wps-optimization-resources.php:242
 msgid "browscap cache file does not exist."
 msgstr "لا وجود لملف ذاكرة التخزين المؤقت browscap."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:257
+#: includes/optimization/tabs/wps-optimization-resources.php:246
 msgid "The file size and date of the browscap cache file."
 msgstr "حجم الملف وتاريخ الملف المؤقت browscap."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:262
+#: includes/optimization/tabs/wps-optimization-resources.php:251
 msgid "Client Info"
 msgstr "معلومات العميل"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:267
+#: includes/optimization/tabs/wps-optimization-resources.php:256
 msgid "Client IP"
 msgstr "IP العميل"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:272
+#: includes/optimization/tabs/wps-optimization-resources.php:261
 msgid "The client IP address."
 msgstr "عنوان IP للعميل."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:278
+#: includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "User Agent"
 msgstr "وكيل المستخدم"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:283
+#: includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client user agent string."
 msgstr "سلسلة عامل المستخدم العميل."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:289
+#: includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "Browser"
 msgstr "المتصفح"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:296
+#: includes/optimization/tabs/wps-optimization-resources.php:285
 msgid "The detected client browser."
 msgstr "مستكشف مستعرض العميل."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:307
+#: includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser version."
 msgstr "إصدار مستكشف مستعرض العميل."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:318
+#: includes/optimization/tabs/wps-optimization-resources.php:307
 msgid "The detected client platform."
 msgstr "مستكشف منصة العميل"
 
@@ -2448,8 +2365,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "إذا كنت في حاجة الى حل أكثر قوة لتفويض الوصول التي قد ترغب في النظر في %s الدليل المساعد لووردبريس."
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:104 wp-statistics.php:378
-#: wp-statistics.php:454
+#: includes/settings/wps-settings.php:104 wp-statistics.php:415
+#: wp-statistics.php:513
 msgid "Exclusions"
 msgstr "الاستثناءات"
 
@@ -2657,10 +2574,10 @@ msgstr "استخدام browscap"
 #: includes/settings/tabs/wps-notifications.php:93
 #: includes/settings/tabs/wps-notifications.php:105
 #: includes/settings/tabs/wps-notifications.php:121
-#: includes/settings/tabs/wps-overview-display.php:87
-#: includes/settings/tabs/wps-overview-display.php:107
-#: includes/settings/tabs/wps-overview-display.php:147
-#: includes/settings/tabs/wps-overview-display.php:159
+#: includes/settings/tabs/wps-overview-display.php:34
+#: includes/settings/tabs/wps-overview-display.php:54
+#: includes/settings/tabs/wps-overview-display.php:94
+#: includes/settings/tabs/wps-overview-display.php:106
 msgid "Active"
 msgstr "تفعيل"
 

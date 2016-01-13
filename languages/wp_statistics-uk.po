@@ -7,10 +7,42 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-beta\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: wp-statistics.php:170
+#: wp-statistics.php:95
+msgid "&#151; You are running an unsupported version of PHP."
+msgstr ""
+
+#: wp-statistics.php:95
+msgid "WP Statistics Disabled"
+msgstr ""
+
+#: wp-statistics.php:99
+msgid "WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!"
+msgstr ""
+
+#: wp-statistics.php:101
+msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
+msgstr ""
+
+#: ajax.php:281
+msgid "ERROR: Widget not found!"
+msgstr ""
+
+#: dashboard.php:103 includes/log/log.php:13
+msgid "Loading..."
+msgstr ""
+
+#: dashboard.php:121 includes/log/log.php:2
+msgid "Reloading..."
+msgstr ""
+
+#: includes/log/top-visitors.php:41 wp-statistics.php:447
+msgid "Top Visitors"
+msgstr ""
+
+#: wp-statistics.php:206
 msgid "optimization page"
 msgstr ""
 
@@ -59,51 +91,51 @@ msgstr "Ask.com"
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
 msgstr "Строк отримання статистики, strtotime() (http://php.net/manual/en/datetime.formats.php) використовуватиметься для її розрахунку. Використовуйте \"total\", щоб отримати всі записані дати."
 
-#: wp-statistics.php:144
+#: wp-statistics.php:180
 msgid "visitor tracking"
 msgstr "відстеження відвідувачів"
 
-#: wp-statistics.php:145
+#: wp-statistics.php:181
 msgid "geoip collection"
 msgstr "Колекція geoip "
 
-#: wp-statistics.php:161
+#: wp-statistics.php:197
 msgid "visit database index"
 msgstr "Індекс бази даних щодо відвідувань"
 
-#: wp-statistics.php:170
+#: wp-statistics.php:206
 msgid "Database updates are required, please go to %s and update the following: %s"
 msgstr "Потрібно оновлення баз даних , перейдіть до %s і оновіть наступне: %s"
 
-#: wp-statistics.php:161
+#: wp-statistics.php:197
 msgid "countries database index"
 msgstr " Індекс бази даних країн"
 
-#: wp-statistics.php:154
+#: wp-statistics.php:190
 msgid "search table"
 msgstr "Таблиця пошуку"
 
-#: wp-statistics.php:148
+#: wp-statistics.php:184
 msgid "settings page"
 msgstr "сторінка налаштувань"
 
-#: wp-statistics.php:148 wp-statistics.php:170
+#: wp-statistics.php:184 wp-statistics.php:206
 msgid ","
 msgstr ","
 
-#: wp-statistics.php:148
+#: wp-statistics.php:184
 msgid "The following features are disabled, please go to %s and enable them: %s"
 msgstr "Наступні функції відключені, перейдіть до %s і включіть їх:%s"
 
-#: wp-statistics.php:143
+#: wp-statistics.php:179
 msgid "hit tracking"
 msgstr "Відстеження переглядів"
 
-#: wp-statistics.php:142
+#: wp-statistics.php:178
 msgid "online user tracking"
 msgstr "Відстеження користувачів онлайн"
 
-#: wp-statistics.php:716
+#: wp-statistics.php:775
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr ""
 
@@ -300,11 +332,11 @@ msgstr "Сумарний Графік"
 msgid "All Time Total"
 msgstr "Увесь сумарний час"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Have you thought about donating to WP Statistics?"
 msgstr "Чи замислювалися ви про пожертвування для WP Statistics?"
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:392
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:429
 msgid "Donate"
 msgstr "Пожертвувати"
 
@@ -316,11 +348,11 @@ msgstr "Хочете поділитися з нами, наскільки вам
 msgid "donation"
 msgstr "пожертвування"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Donate Now!"
 msgstr "Пожертвувати зараз!"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Close"
 msgstr "Закрити"
 
@@ -340,11 +372,11 @@ msgstr "Кількість публікацій"
 msgid "Time Frame"
 msgstr "Інтервал часу"
 
-#: includes/functions/functions.php:1006
+#: includes/functions/functions.php:1009
 msgid "to"
 msgstr "до"
 
-#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1009 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "перейти"
 
@@ -388,11 +420,11 @@ msgstr "Старі установки WP Statistics дублювали запи�
 msgid "Filtered by"
 msgstr "Відфільтровано по"
 
-#: includes/functions/functions.php:999 includes/functions/functions.php:1002
+#: includes/functions/functions.php:1002 includes/functions/functions.php:1005
 msgid "Range"
 msgstr "Діапазон"
 
-#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1009 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "ММ/ДД/РРРР"
 
@@ -424,15 +456,15 @@ msgstr "Список вилучених URL-адрес"
 msgid "Excluded URL"
 msgstr "Вилучена URL-адреса"
 
-#: includes/log/widgets/summary.php:66
+#: includes/log/widgets/quickstats.php:52 includes/log/widgets/summary.php:52
 msgid "Last 365 Days (Year)"
 msgstr "Останні 365 днів (рік)"
 
-#: includes/log/widgets/summary.php:60
+#: includes/log/widgets/quickstats.php:46 includes/log/widgets/summary.php:46
 msgid "Last 30 Days (Month)"
 msgstr "Останні 30 днів (місяць)"
 
-#: includes/log/widgets/summary.php:54
+#: includes/log/widgets/quickstats.php:40 includes/log/widgets/summary.php:40
 msgid "Last 7 Days (Week)"
 msgstr "Останні 7 днів (тиждень)"
 
@@ -559,8 +591,8 @@ msgid "For each visit to account for several hits. Currently %s."
 msgstr "На кожен візит  декілька переглядів. В даний час %s"
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:381
-#: wp-statistics.php:457
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:418
+#: wp-statistics.php:516
 msgid "Pages"
 msgstr "Сторінки"
 
@@ -828,7 +860,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr "Будь-який шорткод, що підтримується вашою установкою WordPress, включає  всі шорткоди для WP Statistics (див інструкцію адміністратора для списку доступних кодів), підтримувані в тілі повідомлення. Ось деякі приклади:"
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:247 wp-statistics.php:562
+#: widget.php:247 wp-statistics.php:621
 msgid "User Online"
 msgstr "Користувач онлайн"
 
@@ -861,151 +893,80 @@ msgstr "Всього відвідувачів"
 msgid "Total Visit"
 msgstr "Всього відвідувань"
 
-#: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:175
+#: shortcode.php:175
 msgid "None"
 msgstr "Жодного"
 
-#: includes/settings/tabs/wps-overview-display.php:24
-msgid "Summary Statistics"
-msgstr "Підсумкова статистика"
-
-#: includes/settings/tabs/wps-overview-display.php:28
 #: includes/settings/wps-settings.php:108
 msgid "About"
 msgstr "Про"
 
-#: includes/settings/tabs/wps-overview-display.php:34
-msgid "Hits Statistical Chart"
-msgstr "Статистичний графік переглядів"
-
-#: includes/settings/tabs/wps-overview-display.php:36
-msgid "Search Engine Referrers Statistical Chart"
-msgstr "Статистичний графік пошукових реферів"
-
-#: includes/settings/tabs/wps-overview-display.php:38
-msgid "Top Pages Visited"
-msgstr "Сторінки з кращим відвідуванням"
-
-#: includes/settings/tabs/wps-overview-display.php:73
+#: includes/settings/tabs/wps-overview-display.php:20
 msgid "Dashboard"
 msgstr "Приладова панель"
 
-#: includes/settings/tabs/wps-overview-display.php:77
-#: includes/settings/tabs/wps-overview-display.php:97
-#: includes/settings/tabs/wps-overview-display.php:117
+#: includes/settings/tabs/wps-overview-display.php:24
+#: includes/settings/tabs/wps-overview-display.php:44
+#: includes/settings/tabs/wps-overview-display.php:64
 msgid "The following items are global to all users."
 msgstr "Наступні пункти застосовуються для всіх користувачів."
 
-#: includes/settings/tabs/wps-overview-display.php:82
+#: includes/settings/tabs/wps-overview-display.php:29
 msgid "Disable dashboard widgets"
 msgstr "Відключити віджети приладової панелі"
 
-#: includes/settings/tabs/wps-overview-display.php:88
+#: includes/settings/tabs/wps-overview-display.php:35
 msgid "Disable the dashboard widgets."
 msgstr "Відключити ці віджети приладової панелі"
 
-#: includes/settings/tabs/wps-overview-display.php:93
+#: includes/settings/tabs/wps-overview-display.php:40
 msgid "Page/Post Editor"
 msgstr "Редактор сторінки/публікації"
 
-#: includes/settings/tabs/wps-overview-display.php:102
+#: includes/settings/tabs/wps-overview-display.php:49
 msgid "Disable post/page editor widget"
 msgstr "Відключити віджет-редактор сторінки/публікації"
 
-#: includes/settings/tabs/wps-overview-display.php:108
+#: includes/settings/tabs/wps-overview-display.php:55
 msgid "Disable the page/post editor widget."
 msgstr "Відключити цей віджет-редактор сторінки/публікації"
 
-#: includes/settings/tabs/wps-overview-display.php:122
+#: includes/settings/tabs/wps-overview-display.php:69
 msgid "Map type"
 msgstr "Тип карти"
 
 #: includes/functions/functions.php:429
-#: includes/settings/tabs/wps-overview-display.php:128
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "Google"
 msgstr "Google"
 
-#: includes/settings/tabs/wps-overview-display.php:128
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "JQVMap"
 msgstr "Google"
 
-#: includes/settings/tabs/wps-overview-display.php:135
+#: includes/settings/tabs/wps-overview-display.php:82
 msgid "The \"Google\" option will use Google's mapping service to plot the recent visitors (requires access to Google)."
 msgstr "Опція \"Google\" буде використовувати картографічний сервіс Google для побудови графіку недавніх відвідувачів (потрібен доступ до Google)."
 
-#: includes/settings/tabs/wps-overview-display.php:136
+#: includes/settings/tabs/wps-overview-display.php:83
 msgid "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services)."
 msgstr "Опція \"JQVMap\"\" буде використовувати картографічну бібліотеку JQVMap javascript для побудови графіку недавніх відвідувачів (не потребує  зовнішніх служб)."
 
-#: includes/settings/tabs/wps-overview-display.php:142
+#: includes/settings/tabs/wps-overview-display.php:89
 msgid "Disable map"
 msgstr "Відключити карту"
 
-#: includes/settings/tabs/wps-overview-display.php:148
+#: includes/settings/tabs/wps-overview-display.php:95
 msgid "Disable the map display"
 msgstr "Відключити картове відображення"
 
-#: includes/settings/tabs/wps-overview-display.php:154
+#: includes/settings/tabs/wps-overview-display.php:101
 msgid "Get country location from Google"
 msgstr "Отримати розташування країни в Google"
 
-#: includes/settings/tabs/wps-overview-display.php:160
+#: includes/settings/tabs/wps-overview-display.php:107
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
 msgstr "Ця функція може привести до зниження продуктивності при перегляді статистики і тільки якщо тип карти встановлено на «Google»."
-
-#: includes/settings/tabs/wps-overview-display.php:171
-msgid "Overview Widgets to Display"
-msgstr "Огляд Віджетів для відображення"
-
-#: includes/settings/tabs/wps-overview-display.php:175
-msgid "The following items are unique to each user.  If you do not select the 'About' widget it will automatically be displayed in the last positon of column A."
-msgstr "Наступні пункти є унікальними для кожного користувача. Якщо ви не виберете Віджет \"Про програму\", він буде автоматично відображатися в останній позиції колонки А."
-
-#: includes/settings/tabs/wps-overview-display.php:180
-msgid "Slot"
-msgstr "Слот"
-
-#: includes/settings/tabs/wps-overview-display.php:184
-msgid "Column A"
-msgstr "Колонка А"
-
-#: includes/settings/tabs/wps-overview-display.php:188
-msgid "Column B"
-msgstr "Колонка B"
-
-#: includes/settings/tabs/wps-overview-display.php:194
-msgid "Slot 1"
-msgstr "Слот 1"
-
-#: includes/settings/tabs/wps-overview-display.php:224
-msgid "Slot 2"
-msgstr "Слот 2"
-
-#: includes/settings/tabs/wps-overview-display.php:254
-msgid "Slot 3"
-msgstr "Слот 3"
-
-#: includes/settings/tabs/wps-overview-display.php:284
-msgid "Slot 4"
-msgstr "Слот 4"
-
-#: includes/settings/tabs/wps-overview-display.php:314
-msgid "Slot 5"
-msgstr "Слот 5"
-
-#: includes/settings/tabs/wps-overview-display.php:344
-msgid "Slot 6"
-msgstr "Слот 6"
-
-#: includes/settings/tabs/wps-overview-display.php:348
-#: includes/settings/tabs/wps-overview-display.php:370
-msgid "N/A"
-msgstr "N/A"
-
-#: includes/settings/tabs/wps-overview-display.php:366
-msgid "Slot 7"
-msgstr "Слот 7"
 
 #: includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
@@ -1057,7 +1018,7 @@ msgstr "Видалення"
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
-#: includes/settings/tabs/wps-overview-display.php:388
+#: includes/settings/tabs/wps-overview-display.php:116
 #: includes/settings/tabs/wps-removal.php:42
 msgid "Update"
 msgstr "Оновлення"
@@ -1074,7 +1035,7 @@ msgstr "Один раз кожні 2 тижні"
 msgid "Once Every 4 Weeks"
 msgstr "Один раз на 4 тижні"
 
-#: widget.php:14 wp-statistics.php:372 wp-statistics.php:410
+#: widget.php:14 wp-statistics.php:408 wp-statistics.php:469
 msgid "Statistics"
 msgstr "Статистика"
 
@@ -1146,7 +1107,7 @@ msgstr "Ім'я"
 msgid "Items"
 msgstr "Об'єкти"
 
-#: widget.php:256 wp-statistics.php:587
+#: widget.php:256 wp-statistics.php:646
 msgid "Yesterday visit"
 msgstr "Вчорашнє відвідування"
 
@@ -1158,129 +1119,117 @@ msgstr "Направлений пошуковик"
 msgid "Select type of search engine"
 msgstr "Вибрати тип пошуковика"
 
-#: wp-statistics.php:70
-msgid "ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version "
-msgstr "Помилка: WP Statistics виявила непідтримувану версію PHP, WP Statistics не функціонуватиме без PHP версії"
-
-#: wp-statistics.php:70
-msgid " or higher!"
-msgstr "або вище!"
-
-#: wp-statistics.php:70
-msgid "Your current PHP version is"
-msgstr "Ваша поточна версія PHP"
-
-#: wp-statistics.php:86
+#: wp-statistics.php:122
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "WP Statistics видалено, будь ласка відключіть і видаліть його."
 
 #. Plugin Name of the plugin/theme
-#: wp-statistics.php:37
+#: wp-statistics.php:54
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
 #. Description of the plugin/theme
-#: wp-statistics.php:38
+#: wp-statistics.php:55
 msgid "Complete statistics for your WordPress site."
 msgstr "Повна статистика для вашого сайту WordPress."
 
-#: wp-statistics.php:277 wp-statistics.php:391 wp-statistics.php:464
+#: wp-statistics.php:313 wp-statistics.php:428 wp-statistics.php:523
 msgid "Settings"
 msgstr "Налаштування"
 
-#: wp-statistics.php:289
+#: wp-statistics.php:325
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "Натисніть тут, щоб відвідати плагін на WordPress.org"
 
-#: wp-statistics.php:289
+#: wp-statistics.php:325
 msgid "Visit WordPress.org page"
 msgstr "Відвідайте плагін на WordPress.org"
 
-#: wp-statistics.php:292
+#: wp-statistics.php:328
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "Натисніть тут, щоб оцінити і переглянути цей плагін на WordPress.org"
 
-#: wp-statistics.php:292
+#: wp-statistics.php:328
 msgid "Rate this plugin"
 msgstr "Оцінити цей плагін"
 
-#: wp-statistics.php:336
+#: wp-statistics.php:372
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - перегляди"
 
-#: wp-statistics.php:375 wp-statistics.php:413 wp-statistics.php:451
+#: wp-statistics.php:411 wp-statistics.php:472 wp-statistics.php:510
 msgid "Overview"
 msgstr "Перегляд"
 
-#: wp-statistics.php:380 wp-statistics.php:456
+#: wp-statistics.php:417 wp-statistics.php:515
 msgid "Online"
 msgstr "Онлайн"
 
-#: wp-statistics.php:382 wp-statistics.php:458
+#: wp-statistics.php:419 wp-statistics.php:517
 msgid "Referrers"
 msgstr "Рефери"
 
-#: shortcode.php:142 wp-statistics.php:383 wp-statistics.php:459
+#: shortcode.php:142 wp-statistics.php:420 wp-statistics.php:518
 msgid "Searches"
 msgstr "Пошуки"
 
-#: wp-statistics.php:384 wp-statistics.php:460
+#: wp-statistics.php:421 wp-statistics.php:519
 msgid "Search Words"
 msgstr "Пошукові слова"
 
-#: wp-statistics.php:385 wp-statistics.php:461
+#: wp-statistics.php:422 wp-statistics.php:520
 msgid "Top Visitors Today"
 msgstr "Топ відвідувачі за сьогодні"
 
-#: wp-statistics.php:390 wp-statistics.php:463
+#: wp-statistics.php:427 wp-statistics.php:522
 msgid "Optimization"
 msgstr "Оптимізація"
 
-#: wp-statistics.php:396 wp-statistics.php:427
+#: wp-statistics.php:433 wp-statistics.php:486
 msgid "Manual"
 msgstr "Інструкція"
 
-#: wp-statistics.php:442
+#: wp-statistics.php:501
 msgid "Site"
 msgstr "Сайт"
 
-#: wp-statistics.php:443
+#: wp-statistics.php:502
 msgid "Options"
 msgstr "Опції"
 
-#: wp-statistics.php:569
+#: wp-statistics.php:628
 msgid "Today visitor"
 msgstr "Сьогодняшній відвідувач"
 
-#: wp-statistics.php:575
+#: wp-statistics.php:634
 msgid "Today visit"
 msgstr "Сьогоднішнє відвідування"
 
-#: wp-statistics.php:581
+#: wp-statistics.php:640
 msgid "Yesterday visitor"
 msgstr "Вчорашній відвідувач"
 
-#: wp-statistics.php:593
+#: wp-statistics.php:652
 msgid "View Stats"
 msgstr "Переглянути статистику"
 
-#: wp-statistics.php:617
+#: wp-statistics.php:676
 msgid "Download ODF file"
 msgstr "Завантажити файл ODF "
 
-#: wp-statistics.php:618
+#: wp-statistics.php:677
 msgid "Download HTML file"
 msgstr "Завантажити файл HTML "
 
-#: wp-statistics.php:622
+#: wp-statistics.php:681
 msgid "Manual file not found."
 msgstr "Інструкцію не знайдено."
 
-#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:849
+#: wp-statistics.php:748 wp-statistics.php:878 wp-statistics.php:913
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Ви не маєте достатніх прав для доступу до цієї сторінки."
 
-#: wp-statistics.php:265
+#: wp-statistics.php:301
 msgid "WP Statistics %s installed on"
 msgstr "WP Statistics %s установлений на"
 
@@ -1337,71 +1286,56 @@ msgstr "http://wp-statistics.com/"
 msgid "Mostafa Soufi & Greg Ross"
 msgstr "Mostafa Soufi та Greg Ross"
 
-#: dashboard.php:55
+#: dashboard.php:56
 msgid "Quick Stats"
 msgstr "Швидка статистика"
 
-#: dashboard.php:56 includes/log/widgets/browsers.php:58
+#: dashboard.php:57 includes/log/widgets/browsers.php:41
 msgid "Top 10 Browsers"
 msgstr "Топ 10 браузерів"
 
-#: dashboard.php:57 includes/log/widgets/countries.php:11
-#: includes/settings/tabs/wps-overview-display.php:27
+#: dashboard.php:58 wp-statistics.php:457
 msgid "Top 10 Countries"
 msgstr "Топ 10 країн"
 
-#: dashboard.php:58
+#: dashboard.php:59
 msgid "Today's Visitor Map"
 msgstr "Карта сьогодняшніх відвідувачів"
 
-#: dashboard.php:59 editor.php:46 includes/log/hit-statistics.php:8
-#: includes/log/widgets/hits.php:10
+#: dashboard.php:60 editor.php:46 includes/log/hit-statistics.php:8
+#: wp-statistics.php:446
 msgid "Hit Statistics"
 msgstr "Статистика переглядів"
 
-#: dashboard.php:60 includes/log/widgets/pages.php:14
+#: dashboard.php:61 wp-statistics.php:450
 msgid "Top 10 Pages"
 msgstr "Топ 10 сторінок"
 
-#: dashboard.php:61 includes/log/last-visitor.php:36
-#: includes/log/widgets/recent.php:10
-#: includes/settings/tabs/wps-overview-display.php:39
+#: dashboard.php:62 includes/log/last-visitor.php:36 wp-statistics.php:451
 msgid "Recent Visitors"
 msgstr "Нещодавні відвідувачі"
 
-#: dashboard.php:62 includes/log/top-referring.php:59
-#: includes/log/top-referring.php:81 includes/log/widgets/referring.php:11
-#: includes/settings/tabs/wps-overview-display.php:26
+#: dashboard.php:63 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 wp-statistics.php:456
 msgid "Top Referring Sites"
 msgstr "Топ реферних сайтів"
 
-#: dashboard.php:63 includes/log/widgets/search.php:10
-#: includes/log/widgets/summary.php:89
+#: dashboard.php:64 includes/log/widgets/quickstats.php:75
+#: includes/log/widgets/summary.php:75 wp-statistics.php:448
 msgid "Search Engine Referrals"
 msgstr "Пошукові реферали"
 
-#: dashboard.php:64 includes/log/widgets/summary.php:8
+#: dashboard.php:65 wp-statistics.php:454
 msgid "Summary"
 msgstr "Підсумок"
 
-#: dashboard.php:65 includes/log/last-search.php:31
-#: includes/log/widgets/words.php:11
-#: includes/settings/tabs/wps-overview-display.php:37
+#: dashboard.php:66 includes/log/last-search.php:31 wp-statistics.php:449
 msgid "Latest Search Words"
 msgstr "Останні пошукові слова"
 
-#: dashboard.php:66 includes/log/widgets/top.visitors.php:10
-#: includes/settings/tabs/wps-overview-display.php:35
+#: dashboard.php:67
 msgid "Top 10 Visitors Today"
 msgstr "Топ 10 відвідувачів за сьогодні"
-
-#: dashboard.php:97
-msgid "Please reload the dashboard to display the content of this widget."
-msgstr "Будь ласка, перезавантажте приладову панель, щоб відобразити вміст цього віджета."
-
-#: dashboard.php:138
-msgid "WP Statistics Overview"
-msgstr "WP Statistics - перегляд"
 
 #: editor.php:63
 msgid "This post is not yet published."
@@ -1445,20 +1379,14 @@ msgstr "Статистика браузерів"
 #: includes/log/hit-statistics.php:162 includes/log/last-search.php:64
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
-#: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:77 includes/log/widgets/about.php:7
-#: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
-#: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
-#: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
-#: includes/log/widgets/recent.php:8 includes/log/widgets/referring.php:9
-#: includes/log/widgets/search.php:9 includes/log/widgets/summary.php:7
-#: includes/log/widgets/top.visitors.php:9 includes/log/widgets/words.php:9
+#: includes/log/top-countries.php:26 includes/log/top-pages.php:28
+#: includes/log/top-pages.php:148 includes/log/top-referring.php:77
+#: includes/log/top-visitors.php:40
 msgid "Click to toggle"
 msgstr "Натисніть для  переміщення"
 
-#: includes/log/all-browsers.php:30 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
-#: wp-statistics.php:452
+#: includes/log/all-browsers.php:30 wp-statistics.php:413 wp-statistics.php:455
+#: wp-statistics.php:511
 msgid "Browsers"
 msgstr "Браузери"
 
@@ -1466,8 +1394,8 @@ msgstr "Браузери"
 msgid "Browsers by type"
 msgstr "Браузери за типом"
 
-#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:37
-#: includes/optimization/tabs/wps-optimization-resources.php:313
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:18
+#: includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Platform"
 msgstr "Платформа"
 
@@ -1487,35 +1415,35 @@ msgstr "Увага: Виключення наразі не записуютьс�
 msgid "Exclusions Statistics"
 msgstr "Виключення в статистиці"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "10 Days"
 msgstr "10 днів"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "20 Days"
 msgstr "20 днів"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "30 Days"
 msgstr "30 днів"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "2 Months"
 msgstr "2 місяці"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "3 Months"
 msgstr "3 місяці"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "6 Months"
 msgstr "6 місяців"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "9 Months"
 msgstr "9 місяців"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "1 Year"
 msgstr "1 рік"
 
@@ -1528,8 +1456,8 @@ msgid "Excluded hits in the last"
 msgstr "Виключено переглядів за останні"
 
 #: includes/log/exclusions.php:95 includes/log/hit-statistics.php:65
-#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:61
-#: includes/log/widgets/search.php:59
+#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:42
+#: includes/log/widgets/search.php:42
 #: includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
 msgstr "днів"
@@ -1542,21 +1470,23 @@ msgstr "Кількість виключених переглядів"
 msgid "Hits Statistics Chart"
 msgstr "Графік переглядів"
 
-#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:61
+#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:42
 msgid "Hits in the last"
 msgstr "Переглядів за останні"
 
-#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:82
+#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:63
 msgid "Number of visits and visitors"
 msgstr "Кількість відвідувань та відвідувачів"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:169
-#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:38
+#: includes/log/widgets/hits.php:77 includes/log/widgets/quickstats.php:24
+#: includes/log/widgets/summary.php:24
 msgid "Visit"
 msgstr "Відвідування"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:170
-#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:37
+#: includes/log/widgets/hits.php:77 includes/log/widgets/quickstats.php:23
+#: includes/log/widgets/summary.php:23
 msgid "Visitor"
 msgstr "Відвідувач"
 
@@ -1565,17 +1495,16 @@ msgid "Latest Search Word Statistics"
 msgstr "Статистика останніх пошукових слів"
 
 #: includes/log/last-search.php:110 includes/log/last-visitor.php:101
-#: includes/log/online.php:50 includes/log/widgets/google.map.php:84
-#: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:33
-#: includes/log/widgets/words.php:46
+#: includes/log/online.php:50 includes/log/widgets/google.map.php:68
+#: includes/log/widgets/jqv.map.php:55 includes/log/widgets/recent.php:14
+#: includes/log/widgets/words.php:27
 msgid "#hash#"
 msgstr "#хеш#"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
 #: includes/log/online.php:55 includes/log/top-referring.php:112
-#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
-#: includes/settings/tabs/wps-overview-display.php:33
-#: includes/settings/tabs/wps-overview-display.php:113
+#: includes/log/widgets/recent.php:19 includes/log/widgets/words.php:42
+#: includes/settings/tabs/wps-overview-display.php:60
 msgid "Map"
 msgstr "Карта"
 
@@ -1621,40 +1550,41 @@ msgstr "Тренд сторінки"
 msgid "Search Engine Referral Statistics"
 msgstr "Статистика пошукових реферів"
 
-#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:59
+#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:42
 msgid "Search engine referrals in the last"
 msgstr "Пошукові реферали за останні"
 
-#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:80
+#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:63
 msgid "Number of referrals"
 msgstr "Кількість рефералів"
 
 #: includes/log/exclusions.php:24 includes/log/search-statistics.php:104
-#: includes/log/widgets/search.php:94 includes/log/widgets/summary.php:72
-#: includes/log/widgets/summary.php:119
+#: includes/log/widgets/quickstats.php:58
+#: includes/log/widgets/quickstats.php:105 includes/log/widgets/search.php:77
+#: includes/log/widgets/summary.php:58 includes/log/widgets/summary.php:105
 msgid "Total"
 msgstr "Всього "
 
-#: includes/log/top-countries.php:18
+#: includes/log/top-countries.php:18 includes/log/top-countries.php:27
 msgid "Top Countries"
 msgstr "Топ країни"
 
-#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:30
-#: includes/log/widgets/top.visitors.php:30
+#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:9
+#: includes/log/widgets/top.visitors.php:11
 msgid "Rank"
 msgstr "Ранг"
 
-#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:31
-#: includes/log/widgets/top.visitors.php:32
+#: includes/log/top-countries.php:32 includes/log/widgets/countries.php:10
+#: includes/log/widgets/top.visitors.php:13
 msgid "Flag"
 msgstr "Флаг"
 
-#: includes/log/top-countries.php:32 includes/log/widgets/countries.php:32
-#: includes/log/widgets/top.visitors.php:33
+#: includes/log/top-countries.php:33 includes/log/widgets/countries.php:11
+#: includes/log/widgets/top.visitors.php:14
 msgid "Country"
 msgstr "Країна"
 
-#: includes/log/top-countries.php:33 includes/log/widgets/countries.php:33
+#: includes/log/top-countries.php:34 includes/log/widgets/countries.php:12
 msgid "Visitor Count"
 msgstr "Кількість відвідувачів"
 
@@ -1674,11 +1604,11 @@ msgstr "Статистика топ 5 трендоваих сторінок"
 msgid "Number of Hits"
 msgstr "Кількість переглядів "
 
-#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:35
+#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:13
 msgid "No page title found"
 msgstr "Не знайдено назви сторінки"
 
-#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
+#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:16
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
 #: includes/settings/tabs/wps-general.php:127 shortcode.php:139
@@ -1693,7 +1623,7 @@ msgstr "Скоро будуть додані"
 msgid "Referring sites from"
 msgstr "Реферні сайти від"
 
-#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:50
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:29
 msgid "References"
 msgstr "Посилання"
 
@@ -1701,98 +1631,94 @@ msgstr "Посилання"
 msgid "Top 100 Visitors Today"
 msgstr "Топ 100 відвідувачів за сьогодні"
 
-#: includes/log/widgets/about.php:8
+#: includes/log/log.php:10
 msgid "About WP Statistics Version %s"
 msgstr "Про WP Statistics версію %s"
 
-#: includes/log/widgets/about.php:25
+#: includes/log/widgets/about.php:11
 msgid "Website"
 msgstr "Веб-сайт"
 
-#: includes/log/widgets/about.php:26
+#: includes/log/widgets/about.php:12
 msgid "Rate and Review"
 msgstr "Оцінювання та перегляд"
 
-#: includes/log/widgets/about.php:30
+#: includes/log/widgets/about.php:16
 msgid "More Information"
 msgstr "Більше інформації"
 
-#: includes/log/widgets/about.php:39 includes/settings/tabs/wps-about.php:12
+#: includes/log/widgets/about.php:25 includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr "Цей продукт містить GeoLite2 дані, створені MaxMind, доступні з %s."
 
-#: includes/log/widgets/browsers.php:10 includes/log/widgets/countries.php:11
-#: includes/log/widgets/hits.php:10 includes/log/widgets/pages.php:14
-#: includes/log/widgets/recent.php:10 includes/log/widgets/referring.php:11
-#: includes/log/widgets/search.php:10 includes/log/widgets/top.visitors.php:10
-#: includes/log/widgets/words.php:11
-msgid "More"
-msgstr "Більше"
-
-#: includes/log/widgets/browsers.php:51
+#: includes/log/widgets/browsers.php:34
 msgid "Other"
 msgstr "Інший"
 
-#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
+#: wp-statistics.php:445
 msgid "Today Visitors Map"
 msgstr "Карта сьогодняшніх відвідувачів"
 
-#: includes/log/widgets/referring.php:51
+#: includes/log/widgets/referring.php:30
 msgid "Address"
 msgstr "Адреса"
 
-#: includes/log/widgets/summary.php:26
+#: includes/log/widgets/quickstats.php:12 includes/log/widgets/summary.php:12
 msgid "User(s) Online"
 msgstr "Користувач (ів) онлайн"
 
-#: includes/log/widgets/summary.php:42 includes/log/widgets/summary.php:94
+#: includes/log/widgets/quickstats.php:28
+#: includes/log/widgets/quickstats.php:80 includes/log/widgets/summary.php:28
+#: includes/log/widgets/summary.php:80
 msgid "Today"
 msgstr "Сьогодні"
 
-#: includes/log/widgets/summary.php:48 includes/log/widgets/summary.php:95
+#: includes/log/widgets/quickstats.php:34
+#: includes/log/widgets/quickstats.php:81 includes/log/widgets/summary.php:34
+#: includes/log/widgets/summary.php:81
 msgid "Yesterday"
 msgstr "Учора"
 
-#: includes/log/widgets/summary.php:113
+#: includes/log/widgets/quickstats.php:99 includes/log/widgets/summary.php:99
 msgid "Daily Total"
 msgstr "Всього за день"
 
-#: includes/log/widgets/summary.php:132
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "Current Time and Date"
 msgstr "Поточний час та дата"
 
-#: includes/log/widgets/summary.php:132
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "(Adjustment)"
 msgstr "(Корегування)"
 
-#: includes/log/widgets/summary.php:136
+#: includes/log/widgets/quickstats.php:122 includes/log/widgets/summary.php:122
 msgid "Date: %s"
 msgstr "Дата: %s"
 
-#: includes/log/widgets/summary.php:140
+#: includes/log/widgets/quickstats.php:126 includes/log/widgets/summary.php:126
 msgid "Time: %s"
 msgstr "Час: %s"
 
-#: includes/log/widgets/top.visitors.php:31
-#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:301
-#: wp-statistics.php:379 wp-statistics.php:455
+#: includes/log/widgets/top.visitors.php:12
+#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:337
+#: wp-statistics.php:416 wp-statistics.php:514
 msgid "Hits"
 msgstr "Перегляди"
 
-#: includes/log/widgets/top.visitors.php:34
+#: includes/log/widgets/top.visitors.php:15
 msgid "IP"
 msgstr "IP"
 
-#: includes/log/widgets/top.visitors.php:36
+#: includes/log/widgets/top.visitors.php:17
 msgid "Agent"
 msgstr "Агент"
 
-#: includes/log/widgets/top.visitors.php:38
-#: includes/optimization/tabs/wps-optimization-resources.php:302
+#: includes/log/widgets/top.visitors.php:19
+#: includes/optimization/tabs/wps-optimization-resources.php:291
 msgid "Version"
 msgstr "Версія"
 
-#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184
+#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184 ajax.php:284
 #: includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "В доступі відмовлено!"
@@ -1817,11 +1743,11 @@ msgstr "%s даних платформи видалені успішно."
 msgid "No platform data found to remove!"
 msgstr "Даних платформи для видалення не знайдено!"
 
-#: includes/functions/functions.php:1046
+#: includes/functions/functions.php:1051
 msgid "%s table data deleted successfully."
 msgstr "%s даних таблиці успішно видалено."
 
-#: includes/functions/functions.php:1050
+#: includes/functions/functions.php:1055
 msgid "Error, %s not emptied!"
 msgstr "Помилка %s не очищено!"
 
@@ -1847,7 +1773,7 @@ msgstr "Індекс бази даних"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:377 wp-statistics.php:453
+#: wp-statistics.php:414 wp-statistics.php:512
 msgid "Countries"
 msgstr "Країни"
 
@@ -1931,7 +1857,7 @@ msgstr "Примітка: оскільки ви тільки що очистил
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
 #: includes/settings/tabs/wps-general.php:143 shortcode.php:140
-#: wp-statistics.php:386 wp-statistics.php:462
+#: wp-statistics.php:423 wp-statistics.php:521
 msgid "Visitors"
 msgstr "Відвідувачі"
 
@@ -2019,199 +1945,190 @@ msgid "Memory usage in PHP"
 msgstr "Використано пам'яті в PHP"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:26
-#: includes/optimization/tabs/wps-optimization-resources.php:37
 msgid "Byte"
 msgstr "Байт"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:33
-msgid "Last Overview page memory usage"
-msgstr "Останній переггляд сторінки використання пам'яті"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:38
-msgid "Memory usage in the overview page"
-msgstr "Використання пам'яті на сторінці перегляду"
-
-#: includes/optimization/tabs/wps-optimization-resources.php:44
 msgid "PHP Memory Limit"
 msgstr "PHP Обмеження пам'яті"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:49
+#: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
 msgstr "Обмежена пам'ять, яку скрипт може споживати, встановлена в php.ini."
 
+#: includes/optimization/tabs/wps-optimization-resources.php:44
 #: includes/optimization/tabs/wps-optimization-resources.php:55
 #: includes/optimization/tabs/wps-optimization-resources.php:66
 #: includes/optimization/tabs/wps-optimization-resources.php:77
 #: includes/optimization/tabs/wps-optimization-resources.php:88
 #: includes/optimization/tabs/wps-optimization-resources.php:99
 #: includes/optimization/tabs/wps-optimization-resources.php:110
-#: includes/optimization/tabs/wps-optimization-resources.php:121
 msgid "Number of rows in the %s table"
 msgstr "Кількість рядків у таблиці %s"
 
+#: includes/optimization/tabs/wps-optimization-resources.php:48
 #: includes/optimization/tabs/wps-optimization-resources.php:59
 #: includes/optimization/tabs/wps-optimization-resources.php:70
 #: includes/optimization/tabs/wps-optimization-resources.php:81
 #: includes/optimization/tabs/wps-optimization-resources.php:92
 #: includes/optimization/tabs/wps-optimization-resources.php:103
 #: includes/optimization/tabs/wps-optimization-resources.php:114
-#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "Row"
 msgstr "Рядок"
 
+#: includes/optimization/tabs/wps-optimization-resources.php:49
 #: includes/optimization/tabs/wps-optimization-resources.php:60
 #: includes/optimization/tabs/wps-optimization-resources.php:71
 #: includes/optimization/tabs/wps-optimization-resources.php:82
 #: includes/optimization/tabs/wps-optimization-resources.php:93
 #: includes/optimization/tabs/wps-optimization-resources.php:104
 #: includes/optimization/tabs/wps-optimization-resources.php:115
-#: includes/optimization/tabs/wps-optimization-resources.php:126
 msgid "Number of rows"
 msgstr "Кількість рядків"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:131
+#: includes/optimization/tabs/wps-optimization-resources.php:120
 msgid "Version Info"
 msgstr "Інформація про версію"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "WP Statistics Version"
 msgstr "Версія WP Statistics"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "The WP Statistics version you are running."
 msgstr "Версія WP Statistics, якою ви користуєтесь"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "PHP Version"
 msgstr "Версія PHP "
 
-#: includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The PHP version you are running."
 msgstr "Версія PHP , якою ви користуєтесь"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "PHP Safe Mode"
 msgstr "Безпечний режим PHP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr "Безпечний режим PHP активовано? Код GeoIP  не підтримується в безпечному режимі."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:169
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "jQuery Version"
 msgstr "Версія jQuery "
 
-#: includes/optimization/tabs/wps-optimization-resources.php:174
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid "The jQuery version you are running."
 msgstr "Версія jQuery , якою ви користуєтесь"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:180
+#: includes/optimization/tabs/wps-optimization-resources.php:169
 msgid "cURL Version"
 msgstr "Версія cURL "
 
-#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:173
 msgid "cURL not installed"
 msgstr "cURL не встановлено"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:185
+#: includes/optimization/tabs/wps-optimization-resources.php:174
 msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr "Версія розширення PHP cURL не встановлено. cURL  вимагається для коду GeoIP , якщо він не встановлений, GeoIP буде відключено."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:191
+#: includes/optimization/tabs/wps-optimization-resources.php:180
 msgid "BC Math"
 msgstr "BC Math"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Installed"
 msgstr "Встановлено"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Not installed"
 msgstr "Не встановлено"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:196
+#: includes/optimization/tabs/wps-optimization-resources.php:185
 msgid "If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons."
 msgstr "Якщо розширення PHP BC Math встановлено. BC Math більше не потрібен для коду GeoIP  і тримається в записах тільки для архіву."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:201
+#: includes/optimization/tabs/wps-optimization-resources.php:190
 msgid "File Info"
 msgstr "Інформація файлу"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "GeoIP Database"
 msgstr "GeoIP база даних"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:215
+#: includes/optimization/tabs/wps-optimization-resources.php:204
 msgid "Database file does not exist."
 msgstr "Файлу бази даних не існує."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:217
-#: includes/optimization/tabs/wps-optimization-resources.php:236
-#: includes/optimization/tabs/wps-optimization-resources.php:255
+#: includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:244
 msgid ", created on "
 msgstr ", створено на"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:219
+#: includes/optimization/tabs/wps-optimization-resources.php:208
 msgid "The file size and date of the GeoIP database."
 msgstr "Розмір файлу і дата GeoIP бази даних."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:214
 msgid "browscap.ini File"
 msgstr "browscap.ini файл"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:234
+#: includes/optimization/tabs/wps-optimization-resources.php:223
 msgid "browscap.ini file does not exist."
 msgstr "browscap.ini файл не існує."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:238
+#: includes/optimization/tabs/wps-optimization-resources.php:227
 msgid "The file size and date of the browscap.ini file."
 msgstr "Розмір і дата файлу browscap.ini."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:244
+#: includes/optimization/tabs/wps-optimization-resources.php:233
 msgid "browscap Cache File"
 msgstr "browscap кеш-файл"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:253
+#: includes/optimization/tabs/wps-optimization-resources.php:242
 msgid "browscap cache file does not exist."
 msgstr "browscap кеш-файл не існує."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:257
+#: includes/optimization/tabs/wps-optimization-resources.php:246
 msgid "The file size and date of the browscap cache file."
 msgstr "Розмір і дата browscap кеш-файлу."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:262
+#: includes/optimization/tabs/wps-optimization-resources.php:251
 msgid "Client Info"
 msgstr "Клієнтська інформація"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:267
+#: includes/optimization/tabs/wps-optimization-resources.php:256
 msgid "Client IP"
 msgstr "Клієнтське IP"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:272
+#: includes/optimization/tabs/wps-optimization-resources.php:261
 msgid "The client IP address."
 msgstr "IP адреса клієнта."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:278
+#: includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "User Agent"
 msgstr "Агент користувача"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:283
+#: includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client user agent string."
 msgstr "рядок агента користувача."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:289
+#: includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "Browser"
 msgstr "Браузер"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:296
+#: includes/optimization/tabs/wps-optimization-resources.php:285
 msgid "The detected client browser."
 msgstr "Виявлений браузер користувача."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:307
+#: includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser version."
 msgstr "Виявлена версія браузера користувача."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:318
+#: includes/optimization/tabs/wps-optimization-resources.php:307
 msgid "The detected client platform."
 msgstr "Виявлена клієнтська платформа."
 
@@ -2448,8 +2365,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "Якщо вам потрібне більш стійке рішення для делегування доступу, перегляньте %s в каталозі плагіну в WordPress."
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:104 wp-statistics.php:378
-#: wp-statistics.php:454
+#: includes/settings/wps-settings.php:104 wp-statistics.php:415
+#: wp-statistics.php:513
 msgid "Exclusions"
 msgstr "Вилучення"
 
@@ -2657,10 +2574,10 @@ msgstr "browscap використання"
 #: includes/settings/tabs/wps-notifications.php:93
 #: includes/settings/tabs/wps-notifications.php:105
 #: includes/settings/tabs/wps-notifications.php:121
-#: includes/settings/tabs/wps-overview-display.php:87
-#: includes/settings/tabs/wps-overview-display.php:107
-#: includes/settings/tabs/wps-overview-display.php:147
-#: includes/settings/tabs/wps-overview-display.php:159
+#: includes/settings/tabs/wps-overview-display.php:34
+#: includes/settings/tabs/wps-overview-display.php:54
+#: includes/settings/tabs/wps-overview-display.php:94
+#: includes/settings/tabs/wps-overview-display.php:106
 msgid "Active"
 msgstr "Активний"
 
