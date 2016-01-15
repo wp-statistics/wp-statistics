@@ -2,515 +2,547 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-01-23 13:05:40+0000\n"
+"PO-Revision-Date: 2016-01-06 17:13:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-beta\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: wp-statistics.php:170
+#: wp-statistics.php:95
+msgid "&#151; You are running an unsupported version of PHP."
+msgstr "Ваша верзија ПХП-а није подржана"
+
+#: wp-statistics.php:95
+msgid "WP Statistics Disabled"
+msgstr "Статистика искључена"
+
+#: wp-statistics.php:99
+msgid "WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!"
+msgstr "Статистика је открила ПХП верзију %s која није подржана, Статистици је потребна ПХП верзија %s или више!"
+
+#: wp-statistics.php:101
+msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
+msgstr "Молимо контактирајте вашег хостинг провајдера за надоградњу на подржану верзију или онемогућите ВП Статистика како бисте уклонили ову поруку."
+
+#: ajax.php:281
+msgid "ERROR: Widget not found!"
+msgstr "ГРЕШКА: Виџет није пронађен!"
+
+#: dashboard.php:103 includes/log/log.php:13
+msgid "Loading..."
+msgstr "Учитавање ..."
+
+#: dashboard.php:121 includes/log/log.php:2
+msgid "Reloading..."
+msgstr "Поновно учитавање..."
+
+#: includes/log/top-visitors.php:41 wp-statistics.php:447
+msgid "Top Visitors"
+msgstr "Топ Посетиоци"
+
+#: wp-statistics.php:206
 msgid "optimization page"
-msgstr ""
+msgstr "Страница оптимизације"
 
 #: includes/settings/tabs/wps-maintenance.php:35
 #: includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
-msgstr ""
+msgstr "Омогућено"
 
 #: includes/settings/tabs/wps-maintenance.php:30
 msgid "Purge Old Data Daily"
-msgstr ""
+msgstr "Дневно чишћење старих података"
 
 #: includes/settings/tabs/wps-maintenance.php:41
 msgid "A WP Cron job will be run daily to purge any data older than a set number of days."
-msgstr ""
+msgstr "УП Црон ће се покретати свакодневно да би се ослободили свих података који су старији од одређеног броја дана."
 
 #: includes/settings/tabs/wps-maintenance.php:47
 msgid "Purge data older than"
-msgstr ""
+msgstr "Обриши податке старије од"
 
 #: includes/settings/tabs/wps-maintenance.php:58
 msgid "Purge High Hit Count Visitors Daily"
-msgstr ""
+msgstr "Обриши велики број посетилаца дневно"
 
 #: includes/settings/tabs/wps-maintenance.php:69
 msgid "A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
-msgstr ""
+msgstr "УП Црон ће се покретати свакодневно да би се ослободили свих статистичких података корисника где корисник има више од дефинисаног броја погодака у једном дану (тј. вероватно су бот)."
 
 #: includes/settings/tabs/wps-maintenance.php:81
 msgid "The number of hits required to delete the visitor.  Minimum value is 10 hits.  Invalid values will disable the daily maintenance."
-msgstr ""
+msgstr "Број прегледа потребних за брисање посетиоца. Минимална вредност је 10 погодака. Неважеће вредности ће онемогућити дневно одржавање."
 
 #: shortcode.php:184
 msgid "The post/page id to get page statistics on."
-msgstr ""
+msgstr "ИД чланка / странице на којој желите статистику"
 
 #: shortcode.php:181
 msgid "Post/Page ID"
-msgstr ""
+msgstr "ИД чланака / странице"
 
 #: includes/functions/functions.php:424
 msgid "Ask.com"
-msgstr ""
+msgstr "Ask.com"
 
 #: shortcode.php:158
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
-msgstr ""
+msgstr "Временски оквир да бисте добили статистику за, strtotime() (http://php.net/manual/en/datetime.formats.php) ће се користити за израчунавање. Користите \\\"total\\\"; да би сте добили све снимљене датуме."
 
-#: wp-statistics.php:144
+#: wp-statistics.php:180
 msgid "visitor tracking"
-msgstr ""
+msgstr "праћење посетилаца"
 
-#: wp-statistics.php:145
+#: wp-statistics.php:181
 msgid "geoip collection"
-msgstr ""
+msgstr "ГеоИП колекција"
 
-#: wp-statistics.php:161
+#: wp-statistics.php:197
 msgid "visit database index"
-msgstr ""
+msgstr "Посета индекса база података"
 
-#: wp-statistics.php:170
+#: wp-statistics.php:206
 msgid "Database updates are required, please go to %s and update the following: %s"
-msgstr ""
+msgstr "Потребна је исправке Датабазе, посетите%s и ажурирајте следеће:%s"
 
-#: wp-statistics.php:161
+#: wp-statistics.php:197
 msgid "countries database index"
-msgstr ""
+msgstr "Индекс земаља база података"
 
-#: wp-statistics.php:154
+#: wp-statistics.php:190
 msgid "search table"
-msgstr ""
+msgstr "Претрага табела"
 
-#: wp-statistics.php:148
+#: wp-statistics.php:184
 msgid "settings page"
-msgstr ""
+msgstr "Страница поставки"
 
-#: wp-statistics.php:148 wp-statistics.php:170
+#: wp-statistics.php:184 wp-statistics.php:206
 msgid ","
-msgstr ""
+msgstr ","
 
-#: wp-statistics.php:148
+#: wp-statistics.php:184
 msgid "The following features are disabled, please go to %s and enable them: %s"
-msgstr ""
+msgstr "Следеће функције су искључене, посетите%s и омогући те их:%s"
 
-#: wp-statistics.php:143
+#: wp-statistics.php:179
 msgid "hit tracking"
-msgstr ""
+msgstr "Праћење посета"
 
-#: wp-statistics.php:142
+#: wp-statistics.php:178
 msgid "online user tracking"
-msgstr ""
+msgstr "Праћење онлајн корисника"
 
-#: wp-statistics.php:716
+#: wp-statistics.php:775
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
-msgstr ""
+msgstr "Следећа табела/е додатака не постоји у бази података, поново покрените%s процес инсталације%s:"
 
 #: includes/optimization/wps-optimization.php:196
 msgid "Search table conversion complete, %d rows added."
-msgstr ""
+msgstr "Конверзија претраге завршена, додаје%d редова."
 
 #: includes/optimization/tabs/wps-optimization-database.php:113
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
-msgstr ""
+msgstr "Старије инсталације ВП Статистике чувају детаље претрага у Табели посетилаца која временом може постати проблем због количине података. Нова табела је направљена да чува ову информације на бољи начин."
 
 #: includes/optimization/tabs/wps-optimization-database.php:94
 msgid "Search Table"
-msgstr ""
+msgstr "Табела претраге"
 
 #: includes/optimization/tabs/wps-optimization-database.php:99
 msgid "Convert"
-msgstr ""
+msgstr "Претворити"
 
 #: includes/optimization/tabs/wps-optimization-database.php:106
 msgid "Convert Now!"
-msgstr ""
+msgstr "Претвори Сада!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:107
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
-msgstr ""
+msgstr "Старије инсталације ВП Статистике чувају детаље претрага у Табели посетилаца која временом може постати проблем због количине података. Нова табела је направљена да чува ову информације на бољи начин., међутим стари подаци се прво морају претворити у нови формат пре него што се могу користити."
 
 #: includes/log/exclusions.php:24
 msgid "Referrer Spam"
-msgstr ""
+msgstr "Референтни спам"
 
 #: includes/settings/tabs/wps-externals.php:279
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
-msgstr ""
+msgstr "Преузимање  Пивик спам Црне листе базе података ће бити заказано за једном недељно."
 
 #: includes/settings/wps-settings.php:105
 msgid "Externals"
-msgstr ""
+msgstr "Спољни"
 
 #: includes/settings/tabs/wps-externals.php:220
 msgid "Piwik Referrer Spam Blacklist settings"
-msgstr ""
+msgstr "Подешавања Пивик Спам Црне листе"
 
 #: includes/settings/tabs/wps-externals.php:255
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
-msgstr ""
+msgstr "Планирајте недељни упдате базе Пивик Спам Црнелисте"
 
 #: includes/settings/tabs/wps-externals.php:248
 msgid "Download Piwik Referrer Spam Blacklist Database"
-msgstr ""
+msgstr "Скините базу Пивик Спам Црнелисте "
 
 #: includes/settings/tabs/wps-externals.php:243
 msgid "Update Piwik Referrer Spam Blacklist Info"
-msgstr ""
+msgstr "Освежите информације Пивик спам Црне листе"
 
 #: includes/settings/tabs/wps-externals.php:237
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
-msgstr ""
+msgstr "Пивик Стринг Пријава База база података ће бити преузета и користи за откривање реферрер спам."
 
 #: includes/settings/tabs/wps-externals.php:225
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
-msgstr ""
+msgstr "Стринг Спам Блацклист је обезбеђена од стране Пивик, доступан од%s."
 
 #: includes/settings/tabs/wps-externals.php:231
 msgid "Piwik Referrer Spam Blacklist usage"
-msgstr ""
+msgstr "Пивик Стринг Спам Блацклист употреба"
 
 #: includes/settings/tabs/wps-exclusions.php:148
 msgid "Treat corrupt browser info as a bot"
-msgstr ""
+msgstr "Tретирај корумпиране бровсер информације као да су бот"
 
 #: includes/log/exclusions.php:24
 msgid "404 Pages"
-msgstr ""
+msgstr "404 страница"
 
 #: includes/log/top-visitors.php:26
 msgid "Date"
-msgstr ""
+msgstr "Датум"
 
 #: includes/settings/tabs/wps-exclusions.php:151
 msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
-msgstr ""
+msgstr "Третирај било ког посетиоца са корумпираном информације о претраживачу (нема ИП адресу или празан усер агент стринг), као робот."
 
 #: includes/settings/tabs/wps-exclusions.php:215
 msgid "Excluded 404 pages"
-msgstr ""
+msgstr "Искључена 404 страница"
 
 #: includes/settings/tabs/wps-exclusions.php:218
 msgid "Exclude any URL that returns a \"404 - Not Found\" message."
-msgstr ""
+msgstr "Искључи све адресе које враћају \\\"404 - Not Found\\\" поруку."
 
 #: wps-updates.php:29
 msgid "Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s"
-msgstr ""
+msgstr "Грешка при прављењу ГеоИП базе података директоријума, проверите да ли ваш веб сервер има дозволу за креирање директоријума у%s"
 
 #: includes/settings/tabs/wps-general.php:281
 msgid "Add page title to empty search words"
-msgstr ""
+msgstr "Додај наслов странице у празне речи за претрагу"
 
 #: includes/settings/tabs/wps-general.php:287
 msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
-msgstr ""
+msgstr "Ако претраживач је идентификован као реферрер, али не укључује упит за претрагу ова опција ће заменити наслов странице у наводницима претходи \\\"~:\\\" као упит за помоћ у идентификацији шта корисник може бити у потрази за."
 
 #: includes/optimization/tabs/wps-optimization-purging.php:218
 #: includes/settings/tabs/wps-maintenance.php:75
 msgid "Purge visitors with more than"
-msgstr ""
+msgstr "Бриши посетиоце са више од"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:223
 msgid "hits"
-msgstr ""
+msgstr "Посете"
 
 #: includes/optimization/tabs/wps-optimization-purging.php:224
 msgid "Deleted user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits."
-msgstr ""
+msgstr "Обрисана Статистика корисничких података где корисник има више од дефинисаног броја погодака у једном дану. Ово може бити корисно да обришете старе податке када је ваш сајт погодио бот. Ово ће уклонити посетиоца и њихове хитове на сајту, међутим, то неће уклонити појединачне посете странице. Минимална вредност је 10 погодака."
 
 #: includes/functions/purge-hits.php:28
 msgid "No visitors found to purge."
-msgstr ""
+msgstr "Нема посетилаца за брисање."
 
 #: includes/functions/purge-hits.php:25
 msgid "%s records purged successfully."
-msgstr ""
+msgstr "%s уноса успешно обрисан"
 
 #: ajax.php:178 includes/functions/purge-hits.php:32
 msgid "Number of hits must be greater than or equal to 10!"
-msgstr ""
+msgstr "Број погодака мора бити већи или једнак 10!"
 
 #: shortcode.php:141
 msgid "Page Visits"
-msgstr ""
+msgstr "Посета странице"
 
 #: shortcode.php:144
 msgid "Page Count"
-msgstr ""
+msgstr "Број страница"
 
 #: shortcode.php:145
 msgid "Comment Count"
-msgstr ""
+msgstr "Број коментара"
 
 #: shortcode.php:146
 msgid "Spam Count"
-msgstr ""
+msgstr "Број спам порука"
 
 #: shortcode.php:147
 msgid "User Count"
-msgstr ""
+msgstr "Број корисника"
 
 #: shortcode.php:148
 msgid "Post Average"
-msgstr ""
+msgstr "Просечно порука"
 
 #: shortcode.php:149
 msgid "Comment Average"
-msgstr ""
+msgstr "Просечно коментара"
 
 #: shortcode.php:150
 msgid "User Average"
-msgstr ""
+msgstr "Просечно корисника"
 
 #: shortcode.php:162
 msgid "Search Provider"
-msgstr ""
+msgstr "Провајдер претраге"
 
 #: shortcode.php:165
 msgid "The search provider to get statistics on."
-msgstr ""
+msgstr "Статистика за провајдера претраге"
 
 #: shortcode.php:169
 msgid "Number Format"
-msgstr ""
+msgstr "Формат броја"
 
 #: shortcode.php:172
 msgid "The format to display numbers in: i18n, english, none."
-msgstr ""
+msgstr "Формат за приказ бројева у: и18н, енглески, нико."
 
 #: shortcode.php:176
 msgid "English"
-msgstr ""
+msgstr "Енглески"
 
 #: shortcode.php:177
 msgid "International"
-msgstr ""
+msgstr "Међународни"
 
 #: includes/log/exclusions.php:191 includes/log/hit-statistics.php:163
 msgid "Hits Statistics Summary"
-msgstr ""
+msgstr "Статистика погодака"
 
 #: includes/log/exclusions.php:201 includes/log/hit-statistics.php:174
 msgid "Chart Total"
-msgstr ""
+msgstr "Графикон Укупно"
 
 #: includes/log/exclusions.php:206 includes/log/hit-statistics.php:180
 msgid "All Time Total"
-msgstr ""
+msgstr "Све време Укупно"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Have you thought about donating to WP Statistics?"
-msgstr ""
+msgstr "Да ли сте размишљали о донацији за ВП статистику?"
 
-#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:392
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:429
 msgid "Donate"
-msgstr ""
+msgstr "Донирајте"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!"
-msgstr ""
+msgstr "Колико уживате у ВП Статистици? Свратите %s и покажите нам мало љубави!"
 
 #: includes/settings/tabs/wps-about.php:24
 msgid "donation"
-msgstr ""
+msgstr "донација"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Donate Now!"
-msgstr ""
+msgstr "Донирајте сада!"
 
-#: includes/log/log.php:57
+#: includes/log/log.php:6
 msgid "Close"
-msgstr ""
+msgstr "Затворено"
 
 #: shortcode.php:135
 msgid "Select the statistic you wish to display."
-msgstr ""
+msgstr "Изаберите статистику коју желите да прикажете."
 
 #: shortcode.php:132
 msgid "Statistic"
-msgstr ""
+msgstr "Статистички"
 
 #: shortcode.php:143
 msgid "Post Count"
-msgstr ""
+msgstr "Број чланака"
 
 #: shortcode.php:155
 msgid "Time Frame"
-msgstr ""
+msgstr "Временски оквир"
 
-#: includes/functions/functions.php:1006
+#: includes/functions/functions.php:1009
 msgid "to"
-msgstr ""
+msgstr "на"
 
-#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1009 includes/log/top-visitors.php:29
 msgid "Go"
-msgstr ""
+msgstr "Иди"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #5"
-msgstr ""
+msgstr "Место # 5"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #4"
-msgstr ""
+msgstr "Место # 4"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #3"
-msgstr ""
+msgstr "Место # 3"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #1"
-msgstr ""
+msgstr "Место # 1"
 
 #: includes/log/top-pages.php:95
 msgid "Rank #2"
-msgstr ""
+msgstr "Место # 2"
 
 #: includes/optimization/tabs/wps-optimization-database.php:60
 msgid "Visits Table"
-msgstr ""
+msgstr "Табела посета "
 
 #: includes/optimization/tabs/wps-optimization-database.php:75
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistits table, delete duplicate entries and add the index."
-msgstr ""
+msgstr "Старија инсталација ВП статистике дозвољава дуплиране ставке у табели посета. Новија инсталација штити од тога са јединственим индексом. Да би добили индекс у старијим верзијама дупли уноси морају бити избрисани. Кликом \\\"Update Now\\\" ће скенирати табелу са посетама, обрисати дуплиране ставке и додати индекс."
 
 #: includes/optimization/tabs/wps-optimization-database.php:76
 msgid "This operation could take a long time on installs with many rows in the visits table."
-msgstr ""
+msgstr "Ова операција може узети много времена за инсталацију ако постоји много уноса у табели посета."
 
 #: includes/optimization/tabs/wps-optimization-database.php:82
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table."
-msgstr ""
+msgstr "Старија инсталација ВП статистике дозвољава дуплиране ставке у табели посета. Новија инсталација штити од тога са јединственим индексом."
 
 #: includes/log/last-visitor.php:68
 msgid "Filtered by"
-msgstr ""
+msgstr "Филтрира"
 
-#: includes/functions/functions.php:999 includes/functions/functions.php:1002
+#: includes/functions/functions.php:1002 includes/functions/functions.php:1005
 msgid "Range"
-msgstr ""
+msgstr "Домет"
 
-#: includes/functions/functions.php:1006 includes/log/top-visitors.php:29
+#: includes/functions/functions.php:1009 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
-msgstr ""
+msgstr "ММ / ДД / ГГГГ"
 
 #: includes/settings/tabs/wps-general.php:342
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr ""
+msgstr "Не користите преводе и уместо тога користе енглеске основе за Вордпрес статистику (захтева две странице за учитавање)"
 
 #: includes/settings/tabs/wps-general.php:336
 msgid "Force English"
-msgstr ""
+msgstr "Обавезан енглески"
 
 #: includes/settings/tabs/wps-general.php:331
 msgid "Languages"
-msgstr ""
+msgstr "Језици"
 
 #: includes/settings/tabs/wps-exclusions.php:227
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
-msgstr ""
+msgstr "Напомена: Ова опција неће руковати урл параметре, само на име скрипта (све после?). Уноси мање од два карактера ће бити игнорисани."
 
 #: includes/settings/tabs/wps-exclusions.php:225
 msgid "A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection."
-msgstr ""
+msgstr "Списак локалних урлс (тј. / ВордПресс / о, један по линији) да искључи из статистике колекције."
 
 #: includes/settings/tabs/wps-exclusions.php:222
 msgid "Excluded URLs list"
-msgstr ""
+msgstr "Листа изузетих УРЛ-ова"
 
 #: includes/log/exclusions.php:24
 msgid "Excluded URL"
-msgstr ""
+msgstr "Изузета УРЛ адреса"
 
-#: includes/log/widgets/summary.php:66
+#: includes/log/widgets/quickstats.php:52 includes/log/widgets/summary.php:52
 msgid "Last 365 Days (Year)"
-msgstr ""
+msgstr "Последњих 365 дана (Год)"
 
-#: includes/log/widgets/summary.php:60
+#: includes/log/widgets/quickstats.php:46 includes/log/widgets/summary.php:46
 msgid "Last 30 Days (Month)"
-msgstr ""
+msgstr "Последњих 30 дана (месец)"
 
-#: includes/log/widgets/summary.php:54
+#: includes/log/widgets/quickstats.php:40 includes/log/widgets/summary.php:40
 msgid "Last 7 Days (Week)"
-msgstr ""
+msgstr "Последњих 7 дана (недеља)"
 
 #: includes/functions/functions.php:430
 msgid "Yahoo!"
-msgstr ""
+msgstr "Yahoo!"
 
 #: includes/functions/functions.php:431
 msgid "Yandex"
-msgstr ""
+msgstr "Yandex"
 
 #: includes/functions/functions.php:427
 msgid "clearch.org"
-msgstr ""
+msgstr "clearch.org"
 
 #: includes/functions/functions.php:428
 msgid "DuckDuckGo"
-msgstr ""
+msgstr "DuckDuckGo"
 
 #: includes/functions/functions.php:426
 msgid "Bing"
-msgstr ""
+msgstr "Bing"
 
 #: includes/functions/functions.php:425
 msgid "Baidu"
-msgstr ""
+msgstr "Baidu"
 
 #: editor.php:69
 msgid "Hits in the last 20 days"
-msgstr ""
+msgstr "Посета у последњих 20 дана"
 
 #: includes/log/exclusions.php:24
 msgid "Feeds"
-msgstr ""
+msgstr "Фидови"
 
 #: includes/log/exclusions.php:24
 msgid "User Role"
-msgstr ""
+msgstr "Улога корисника"
 
 #: includes/log/exclusions.php:24
 msgid "Login Page"
-msgstr ""
+msgstr "Страница за пријаву"
 
 #: includes/log/exclusions.php:24
 msgid "Admin Page"
-msgstr ""
+msgstr "Администраторска страница"
 
 #: includes/log/exclusions.php:24
 msgid "Self Referral"
-msgstr ""
+msgstr "Само упућивање"
 
 #: includes/log/exclusions.php:24
 msgid "IP Match"
-msgstr ""
+msgstr "Поклапање ИП"
 
 #: includes/log/exclusions.php:24
 msgid "Robot"
-msgstr ""
+msgstr "Робот"
 
 #: includes/log/online.php:100
 msgid "Currently there are no users online in the site."
-msgstr ""
+msgstr "Тренутно нема активних корисника на сајту."
 
 #: includes/log/exclusions.php:24
 msgid "Robot Threshold"
-msgstr ""
+msgstr "Робот праг"
 
 #: includes/log/exclusions.php:24
 msgid "Honey Pot"
-msgstr ""
+msgstr "Ћуп са медом"
 
 #: includes/log/widgets/page.php:8
 msgid "Page Trending Stats"
-msgstr ""
+msgstr "Странице у тренду"
 
 #: includes/log/exclusions.php:24
 msgid "Hostname"
-msgstr ""
+msgstr "Hostname"
 
 #: includes/settings/tabs/wps-general.php:93
 #: includes/settings/tabs/wps-general.php:133
@@ -520,97 +552,97 @@ msgstr ""
 #: includes/settings/tabs/wps-general.php:229
 #: includes/settings/tabs/wps-notifications.php:122
 msgid "Enable or disable this feature"
-msgstr "Aktiviraj ili deaktiviraj ovu opciju"
+msgstr "Активирај или деактивирај ову опцију"
 
 #: includes/settings/tabs/wps-general.php:99
 msgid "Check for online users every"
-msgstr "Proveri online korisnike svake"
+msgstr "Провери активне кориснике сваке"
 
 #: includes/settings/tabs/wps-general.php:104
 msgid "Second"
-msgstr "Sekunde"
+msgstr "Секунде"
 
 #: includes/settings/tabs/wps-general.php:105
 msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "Vreme za proveru tačnog broja online korisnika na site-u. Trenutno % sekundi"
+msgstr "Време за проверу тачног броја активних корисника на сајту. Тренутно %s секунди"
 
 #: includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
-msgstr ""
+msgstr "Снимите све корисника"
 
 #: includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
-msgstr ""
+msgstr "Игнорише поставке искључење и бележи све кориснике који су на мрежи (укључујући самостално упућивање и роботе). Треба користити само за решавање проблема."
 
 #: includes/settings/tabs/wps-general.php:155
 msgid "Store entire user agent string"
-msgstr "Sačuvaj ceo niz korisničkog agenta "
+msgstr "Сачувај цео низ корисничког агента"
 
 #: includes/settings/tabs/wps-general.php:161
 msgid "Only enabled for debugging"
-msgstr "Aktivirano samo za otklanjanje grešaka"
+msgstr "Активирано само за отклањање грешака"
 
 #: includes/settings/tabs/wps-general.php:167
 msgid "Coefficient per visitor"
-msgstr "Koeficijent po posetiocu"
+msgstr "Коефицијент по посетиоцу"
 
 #: includes/settings/tabs/wps-general.php:172
 msgid "For each visit to account for several hits. Currently %s."
-msgstr "Za svakog posetioca broji se po nekoliko zahteva. Trenutno %s."
+msgstr "За сваког посетиоца броји се по неколико захтева. Тренутно %s."
 
 #: includes/settings/tabs/wps-general.php:177
-#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:381
-#: wp-statistics.php:457
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:418
+#: wp-statistics.php:516
 msgid "Pages"
-msgstr "Stranice"
+msgstr "Странице"
 
 #: includes/settings/tabs/wps-general.php:194
 msgid "Track all pages"
-msgstr "Prati sve stranice"
+msgstr "Прати све странице"
 
 #: includes/settings/tabs/wps-general.php:209
 msgid "Strip parameters from URI"
-msgstr ""
+msgstr "Параметри из УРИ"
 
 #: includes/settings/tabs/wps-general.php:215
 msgid "This will remove anything after the ? in a URL."
-msgstr ""
+msgstr "Ово ће уклонити све после \\\" ? \\\" у УРЛ адреси."
 
 #: includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
-msgstr "Deaktiviraj zahteve kolumne na postovima/stranicama"
+msgstr "Деактивирија захтеве колоне на чланцима и страницама"
 
 #: includes/settings/tabs/wps-general.php:234
 msgid "Miscellaneous"
-msgstr "Razno"
+msgstr "Разно"
 
 #: includes/settings/tabs/wps-general.php:239
 msgid "Show stats in menu bar"
-msgstr "Prikaži statistiku na traci sa menijem"
+msgstr "Прикажи статистику у менију"
 
 #: includes/settings/tabs/wps-general.php:244
 msgid "No"
-msgstr "Ne"
+msgstr "Не"
 
 #: includes/settings/tabs/wps-general.php:245
 msgid "Yes"
-msgstr "Da"
+msgstr "Да"
 
 #: includes/settings/tabs/wps-general.php:247
 msgid "Show stats in admin menu bar"
-msgstr "Prikaži statistiku na traci sa menijem za administratore"
+msgstr "Прикажи статистику на траци са менијем за администраторе"
 
 #: includes/settings/tabs/wps-general.php:253
 msgid "Hide admin notices about non active features"
-msgstr "Sakrij administratorske beleške o neaktivnim funkcionalnostima"
+msgstr "Сакриј администраторске белешке о неактивним функционалностима"
 
 #: includes/settings/tabs/wps-general.php:259
 msgid "By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices."
-msgstr "Po standardu, WP Statistics prikazuje upozorenje ako je bilo koja suštinska karakteristika deaktivirana na svakoj administratorskoj stranici. Ova opcija će deaktivirati ta obaveštenja."
+msgstr "По стандарду, WP Statistics приказује упозорење ако је било која суштинска карактеристика деактивирана на свакој администраторској страници. Ова опција ће деактивирати та обавештења."
 
 #: includes/settings/tabs/wps-general.php:265
 msgid "Delete the manual"
-msgstr "Obriši uputstvo"
+msgstr "Обриши упутство"
 
 #: includes/settings/tabs/wps-general.php:271
 msgid "By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future."
@@ -828,7 +860,7 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr ""
 
 #: includes/settings/tabs/wps-notifications.php:188 widget.php:38
-#: widget.php:247 wp-statistics.php:562
+#: widget.php:247 wp-statistics.php:621
 msgid "User Online"
 msgstr "Online korisnici"
 
@@ -861,151 +893,80 @@ msgstr "Ukupno posetilaca"
 msgid "Total Visit"
 msgstr "Ukupna poseta"
 
-#: includes/settings/tabs/wps-overview-display.php:23
-#: includes/settings/tabs/wps-overview-display.php:32 shortcode.php:175
+#: shortcode.php:175
 msgid "None"
 msgstr "Nijedan"
 
-#: includes/settings/tabs/wps-overview-display.php:24
-msgid "Summary Statistics"
-msgstr "Pregled statistike"
-
-#: includes/settings/tabs/wps-overview-display.php:28
 #: includes/settings/wps-settings.php:108
 msgid "About"
 msgstr "O"
 
-#: includes/settings/tabs/wps-overview-display.php:34
-msgid "Hits Statistical Chart"
-msgstr "Grafikon statistike zahteva"
-
-#: includes/settings/tabs/wps-overview-display.php:36
-msgid "Search Engine Referrers Statistical Chart"
-msgstr " Grafikon statistike uputa pretraživača"
-
-#: includes/settings/tabs/wps-overview-display.php:38
-msgid "Top Pages Visited"
-msgstr "Najposećenije stranice"
-
-#: includes/settings/tabs/wps-overview-display.php:73
+#: includes/settings/tabs/wps-overview-display.php:20
 msgid "Dashboard"
 msgstr ""
 
-#: includes/settings/tabs/wps-overview-display.php:77
-#: includes/settings/tabs/wps-overview-display.php:97
-#: includes/settings/tabs/wps-overview-display.php:117
+#: includes/settings/tabs/wps-overview-display.php:24
+#: includes/settings/tabs/wps-overview-display.php:44
+#: includes/settings/tabs/wps-overview-display.php:64
 msgid "The following items are global to all users."
 msgstr ""
 
-#: includes/settings/tabs/wps-overview-display.php:82
+#: includes/settings/tabs/wps-overview-display.php:29
 msgid "Disable dashboard widgets"
 msgstr ""
 
-#: includes/settings/tabs/wps-overview-display.php:88
+#: includes/settings/tabs/wps-overview-display.php:35
 msgid "Disable the dashboard widgets."
 msgstr ""
 
-#: includes/settings/tabs/wps-overview-display.php:93
+#: includes/settings/tabs/wps-overview-display.php:40
 msgid "Page/Post Editor"
 msgstr ""
 
-#: includes/settings/tabs/wps-overview-display.php:102
+#: includes/settings/tabs/wps-overview-display.php:49
 msgid "Disable post/page editor widget"
 msgstr ""
 
-#: includes/settings/tabs/wps-overview-display.php:108
+#: includes/settings/tabs/wps-overview-display.php:55
 msgid "Disable the page/post editor widget."
 msgstr ""
 
-#: includes/settings/tabs/wps-overview-display.php:122
+#: includes/settings/tabs/wps-overview-display.php:69
 msgid "Map type"
 msgstr "Vrsta mape"
 
 #: includes/functions/functions.php:429
-#: includes/settings/tabs/wps-overview-display.php:128
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "Google"
 msgstr "Google"
 
-#: includes/settings/tabs/wps-overview-display.php:128
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "JQVMap"
 msgstr "JQVMap"
 
-#: includes/settings/tabs/wps-overview-display.php:135
+#: includes/settings/tabs/wps-overview-display.php:82
 msgid "The \"Google\" option will use Google's mapping service to plot the recent visitors (requires access to Google)."
 msgstr "Opcija \"Google\" koristiće Google mape za prikazivanje nedavnih posetilaca (zahteva Google pristup). "
 
-#: includes/settings/tabs/wps-overview-display.php:136
+#: includes/settings/tabs/wps-overview-display.php:83
 msgid "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services)."
 msgstr "Opcija \"JQVMap\" koristiće JQVMap javascript mapiranje biblioteke za prikazivanje nedavnih posetilaca (ne zahteva eksterne servise)."
 
-#: includes/settings/tabs/wps-overview-display.php:142
+#: includes/settings/tabs/wps-overview-display.php:89
 msgid "Disable map"
 msgstr "Deaktiviraj mapu"
 
-#: includes/settings/tabs/wps-overview-display.php:148
+#: includes/settings/tabs/wps-overview-display.php:95
 msgid "Disable the map display"
 msgstr "Deaktiviraj prikaz mape"
 
-#: includes/settings/tabs/wps-overview-display.php:154
+#: includes/settings/tabs/wps-overview-display.php:101
 msgid "Get country location from Google"
 msgstr "Izlistaj lokaciju države sa Google mape"
 
-#: includes/settings/tabs/wps-overview-display.php:160
+#: includes/settings/tabs/wps-overview-display.php:107
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
 msgstr "Ova funkcionalnost može izazvati pogoršanje performansi za vreme pregleda statistika. Validna je samo ako je vrsta mape podešena na \"Google\"."
-
-#: includes/settings/tabs/wps-overview-display.php:171
-msgid "Overview Widgets to Display"
-msgstr ""
-
-#: includes/settings/tabs/wps-overview-display.php:175
-msgid "The following items are unique to each user.  If you do not select the 'About' widget it will automatically be displayed in the last positon of column A."
-msgstr "Sledeće stavke  jedinstvene su za svakog korisnika. Ako ne odaberete ‘O’ widget, automatski će biti  prikazan na poslednjem mestu A kolone. "
-
-#: includes/settings/tabs/wps-overview-display.php:180
-msgid "Slot"
-msgstr "Slot"
-
-#: includes/settings/tabs/wps-overview-display.php:184
-msgid "Column A"
-msgstr "Kolona A"
-
-#: includes/settings/tabs/wps-overview-display.php:188
-msgid "Column B"
-msgstr "Kolona B"
-
-#: includes/settings/tabs/wps-overview-display.php:194
-msgid "Slot 1"
-msgstr "Slot 1"
-
-#: includes/settings/tabs/wps-overview-display.php:224
-msgid "Slot 2"
-msgstr "Slot 2"
-
-#: includes/settings/tabs/wps-overview-display.php:254
-msgid "Slot 3"
-msgstr "Slot 3"
-
-#: includes/settings/tabs/wps-overview-display.php:284
-msgid "Slot 4"
-msgstr "Slot 4"
-
-#: includes/settings/tabs/wps-overview-display.php:314
-msgid "Slot 5"
-msgstr "Slot 5"
-
-#: includes/settings/tabs/wps-overview-display.php:344
-msgid "Slot 6"
-msgstr "Slot 6"
-
-#: includes/settings/tabs/wps-overview-display.php:348
-#: includes/settings/tabs/wps-overview-display.php:370
-msgid "N/A"
-msgstr "N/A"
-
-#: includes/settings/tabs/wps-overview-display.php:366
-msgid "Slot 7"
-msgstr ""
 
 #: includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
@@ -1057,7 +1018,7 @@ msgstr ""
 #: includes/settings/tabs/wps-general.php:349
 #: includes/settings/tabs/wps-maintenance.php:88
 #: includes/settings/tabs/wps-notifications.php:201
-#: includes/settings/tabs/wps-overview-display.php:388
+#: includes/settings/tabs/wps-overview-display.php:116
 #: includes/settings/tabs/wps-removal.php:42
 msgid "Update"
 msgstr "Ažuriraj"
@@ -1074,7 +1035,7 @@ msgstr "Jednom u 2 nedelje"
 msgid "Once Every 4 Weeks"
 msgstr "Jednom u 4 nedelje"
 
-#: widget.php:14 wp-statistics.php:372 wp-statistics.php:410
+#: widget.php:14 wp-statistics.php:408 wp-statistics.php:469
 msgid "Statistics"
 msgstr "Statistike"
 
@@ -1146,7 +1107,7 @@ msgstr "Naziv"
 msgid "Items"
 msgstr "Stavke"
 
-#: widget.php:256 wp-statistics.php:587
+#: widget.php:256 wp-statistics.php:646
 msgid "Yesterday visit"
 msgstr "Jučerašnja poseta"
 
@@ -1158,129 +1119,117 @@ msgstr "Uputi pretraživača"
 msgid "Select type of search engine"
 msgstr "Odaberite vrstu pretraživača"
 
-#: wp-statistics.php:70
-msgid "ERROR: WP Statistics has detected an unsupported version of PHP, WP Statistics will not function without PHP Version "
-msgstr "ГРЕШКА:.Статистика је открио неподржано верзију ПХП, ВП Статистике неће функционисати без ПХП верзија "
-
-#: wp-statistics.php:70
-msgid " or higher!"
-msgstr " или више!"
-
-#: wp-statistics.php:70
-msgid "Your current PHP version is"
-msgstr ""
-
-#: wp-statistics.php:86
+#: wp-statistics.php:122
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-#: wp-statistics.php:37
+#: wp-statistics.php:54
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
 #. Description of the plugin/theme
-#: wp-statistics.php:38
+#: wp-statistics.php:55
 msgid "Complete statistics for your WordPress site."
 msgstr "Kompletirajte statistiku za svoj WordPress site."
 
-#: wp-statistics.php:277 wp-statistics.php:391 wp-statistics.php:464
+#: wp-statistics.php:313 wp-statistics.php:428 wp-statistics.php:523
 msgid "Settings"
 msgstr "Podešavanja"
 
-#: wp-statistics.php:289
+#: wp-statistics.php:325
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "Kliknite ovde da biste posetili plugin na WordPress.org"
 
-#: wp-statistics.php:289
+#: wp-statistics.php:325
 msgid "Visit WordPress.org page"
 msgstr "Posetite stranicu WordPress.org "
 
-#: wp-statistics.php:292
+#: wp-statistics.php:328
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "Kliknite ovde da biste ocenili i komentarisali ovaj plugin na WordPress.org"
 
-#: wp-statistics.php:292
+#: wp-statistics.php:328
 msgid "Rate this plugin"
 msgstr "Ocenite ovaj plugin"
 
-#: wp-statistics.php:336
+#: wp-statistics.php:372
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - Zahtevi"
 
-#: wp-statistics.php:375 wp-statistics.php:413 wp-statistics.php:451
+#: wp-statistics.php:411 wp-statistics.php:472 wp-statistics.php:510
 msgid "Overview"
 msgstr "Pregled"
 
-#: wp-statistics.php:380 wp-statistics.php:456
+#: wp-statistics.php:417 wp-statistics.php:515
 msgid "Online"
 msgstr ""
 
-#: wp-statistics.php:382 wp-statistics.php:458
+#: wp-statistics.php:419 wp-statistics.php:517
 msgid "Referrers"
 msgstr ""
 
-#: shortcode.php:142 wp-statistics.php:383 wp-statistics.php:459
+#: shortcode.php:142 wp-statistics.php:420 wp-statistics.php:518
 msgid "Searches"
 msgstr "Pretrage"
 
-#: wp-statistics.php:384 wp-statistics.php:460
+#: wp-statistics.php:421 wp-statistics.php:519
 msgid "Search Words"
 msgstr "Reči za pretragu"
 
-#: wp-statistics.php:385 wp-statistics.php:461
+#: wp-statistics.php:422 wp-statistics.php:520
 msgid "Top Visitors Today"
 msgstr ""
 
-#: wp-statistics.php:390 wp-statistics.php:463
+#: wp-statistics.php:427 wp-statistics.php:522
 msgid "Optimization"
 msgstr "Optimizacija"
 
-#: wp-statistics.php:396 wp-statistics.php:427
+#: wp-statistics.php:433 wp-statistics.php:486
 msgid "Manual"
 msgstr "Uputstvo"
 
-#: wp-statistics.php:442
+#: wp-statistics.php:501
 msgid "Site"
 msgstr ""
 
-#: wp-statistics.php:443
+#: wp-statistics.php:502
 msgid "Options"
 msgstr ""
 
-#: wp-statistics.php:569
+#: wp-statistics.php:628
 msgid "Today visitor"
 msgstr "Broj posetilaca danas"
 
-#: wp-statistics.php:575
+#: wp-statistics.php:634
 msgid "Today visit"
 msgstr "Broj poseta danas"
 
-#: wp-statistics.php:581
+#: wp-statistics.php:640
 msgid "Yesterday visitor"
 msgstr "Broj poseta juče"
 
-#: wp-statistics.php:593
+#: wp-statistics.php:652
 msgid "View Stats"
 msgstr "Vidi statistiku"
 
-#: wp-statistics.php:617
+#: wp-statistics.php:676
 msgid "Download ODF file"
 msgstr "Preuzmi ODF datoteku"
 
-#: wp-statistics.php:618
+#: wp-statistics.php:677
 msgid "Download HTML file"
 msgstr "Preuzmi HTML datoteku"
 
-#: wp-statistics.php:622
+#: wp-statistics.php:681
 msgid "Manual file not found."
 msgstr "Datoteka sa uputstvom nije pronađena"
 
-#: wp-statistics.php:689 wp-statistics.php:814 wp-statistics.php:849
+#: wp-statistics.php:748 wp-statistics.php:878 wp-statistics.php:913
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nemate odgovarajuće dozvole za pristup ovoj stranici"
 
-#: wp-statistics.php:265
+#: wp-statistics.php:301
 msgid "WP Statistics %s installed on"
 msgstr ""
 
@@ -1337,70 +1286,55 @@ msgstr "хттп://вп-статистицс.цом/"
 msgid "Mostafa Soufi & Greg Ross"
 msgstr "Мостафа Соуфи & Грег Росс"
 
-#: dashboard.php:55
+#: dashboard.php:56
 msgid "Quick Stats"
 msgstr ""
 
-#: dashboard.php:56 includes/log/widgets/browsers.php:58
+#: dashboard.php:57 includes/log/widgets/browsers.php:41
 msgid "Top 10 Browsers"
 msgstr "10 vrhunskih pretraživača"
 
-#: dashboard.php:57 includes/log/widgets/countries.php:11
-#: includes/settings/tabs/wps-overview-display.php:27
+#: dashboard.php:58 wp-statistics.php:457
 msgid "Top 10 Countries"
 msgstr "Prvih 10 zemalja"
 
-#: dashboard.php:58
+#: dashboard.php:59
 msgid "Today's Visitor Map"
 msgstr ""
 
-#: dashboard.php:59 editor.php:46 includes/log/hit-statistics.php:8
-#: includes/log/widgets/hits.php:10
+#: dashboard.php:60 editor.php:46 includes/log/hit-statistics.php:8
+#: wp-statistics.php:446
 msgid "Hit Statistics"
 msgstr "Statistika zahteva"
 
-#: dashboard.php:60 includes/log/widgets/pages.php:14
+#: dashboard.php:61 wp-statistics.php:450
 msgid "Top 10 Pages"
 msgstr "Prvih 10 stranica"
 
-#: dashboard.php:61 includes/log/last-visitor.php:36
-#: includes/log/widgets/recent.php:10
-#: includes/settings/tabs/wps-overview-display.php:39
+#: dashboard.php:62 includes/log/last-visitor.php:36 wp-statistics.php:451
 msgid "Recent Visitors"
 msgstr "Nedavni posetioci"
 
-#: dashboard.php:62 includes/log/top-referring.php:59
-#: includes/log/top-referring.php:81 includes/log/widgets/referring.php:11
-#: includes/settings/tabs/wps-overview-display.php:26
+#: dashboard.php:63 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 wp-statistics.php:456
 msgid "Top Referring Sites"
 msgstr "Site-ovi sa najvećim brojem uputa"
 
-#: dashboard.php:63 includes/log/widgets/search.php:10
-#: includes/log/widgets/summary.php:89
+#: dashboard.php:64 includes/log/widgets/quickstats.php:75
+#: includes/log/widgets/summary.php:75 wp-statistics.php:448
 msgid "Search Engine Referrals"
 msgstr "Uputi pretraživača"
 
-#: dashboard.php:64 includes/log/widgets/summary.php:8
+#: dashboard.php:65 wp-statistics.php:454
 msgid "Summary"
 msgstr "Kratak pregled"
 
-#: dashboard.php:65 includes/log/last-search.php:31
-#: includes/log/widgets/words.php:11
-#: includes/settings/tabs/wps-overview-display.php:37
+#: dashboard.php:66 includes/log/last-search.php:31 wp-statistics.php:449
 msgid "Latest Search Words"
 msgstr "Poslednje reči u pretrazi"
 
-#: dashboard.php:66 includes/log/widgets/top.visitors.php:10
-#: includes/settings/tabs/wps-overview-display.php:35
+#: dashboard.php:67
 msgid "Top 10 Visitors Today"
-msgstr ""
-
-#: dashboard.php:97
-msgid "Please reload the dashboard to display the content of this widget."
-msgstr ""
-
-#: dashboard.php:138
-msgid "WP Statistics Overview"
 msgstr ""
 
 #: editor.php:63
@@ -1445,20 +1379,14 @@ msgstr "Statistika pretraživača"
 #: includes/log/hit-statistics.php:162 includes/log/last-search.php:64
 #: includes/log/last-visitor.php:67 includes/log/online.php:17
 #: includes/log/page-statistics.php:34 includes/log/search-statistics.php:27
-#: includes/log/top-pages.php:28 includes/log/top-pages.php:148
-#: includes/log/top-referring.php:77 includes/log/widgets/about.php:7
-#: includes/log/widgets/browsers.php:9 includes/log/widgets/countries.php:9
-#: includes/log/widgets/google.map.php:8 includes/log/widgets/hits.php:9
-#: includes/log/widgets/jqv.map.php:8 includes/log/widgets/pages.php:12
-#: includes/log/widgets/recent.php:8 includes/log/widgets/referring.php:9
-#: includes/log/widgets/search.php:9 includes/log/widgets/summary.php:7
-#: includes/log/widgets/top.visitors.php:9 includes/log/widgets/words.php:9
+#: includes/log/top-countries.php:26 includes/log/top-pages.php:28
+#: includes/log/top-pages.php:148 includes/log/top-referring.php:77
+#: includes/log/top-visitors.php:40
 msgid "Click to toggle"
 msgstr "Klikni za aktiviranje/deaktiviranje"
 
-#: includes/log/all-browsers.php:30 includes/log/widgets/browsers.php:10
-#: includes/settings/tabs/wps-overview-display.php:25 wp-statistics.php:376
-#: wp-statistics.php:452
+#: includes/log/all-browsers.php:30 wp-statistics.php:413 wp-statistics.php:455
+#: wp-statistics.php:511
 msgid "Browsers"
 msgstr "Pretraživači"
 
@@ -1466,8 +1394,8 @@ msgstr "Pretraživači"
 msgid "Browsers by type"
 msgstr "Pretraživači po vrsti"
 
-#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:37
-#: includes/optimization/tabs/wps-optimization-resources.php:313
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:18
+#: includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Platform"
 msgstr "Platforma"
 
@@ -1487,35 +1415,35 @@ msgstr "Pažnja: Trenutno se izuzeci ne beleže, rezultati koji slede možda ne 
 msgid "Exclusions Statistics"
 msgstr "Statistika izuzetaka"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "10 Days"
 msgstr "10 dana"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "20 Days"
 msgstr "20 dana"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "30 Days"
 msgstr "30 dana"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "2 Months"
 msgstr "2 meseca"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "3 Months"
 msgstr "3 meseca"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "6 Months"
 msgstr "6 meseci"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "9 Months"
 msgstr "9 meseci"
 
-#: includes/functions/functions.php:956
+#: includes/functions/functions.php:959
 msgid "1 Year"
 msgstr "1 godina"
 
@@ -1528,8 +1456,8 @@ msgid "Excluded hits in the last"
 msgstr "Broj izuzetih zahteva u poslednjih:"
 
 #: includes/log/exclusions.php:95 includes/log/hit-statistics.php:65
-#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:61
-#: includes/log/widgets/search.php:59
+#: includes/log/search-statistics.php:69 includes/log/widgets/hits.php:42
+#: includes/log/widgets/search.php:42
 #: includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
 msgstr "dana"
@@ -1542,21 +1470,23 @@ msgstr "Broj isključenih zahteva"
 msgid "Hits Statistics Chart"
 msgstr "Statistička karta zahteva"
 
-#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:61
+#: includes/log/hit-statistics.php:65 includes/log/widgets/hits.php:42
 msgid "Hits in the last"
 msgstr "Broja zahteva u poslednjih"
 
-#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:82
+#: includes/log/hit-statistics.php:86 includes/log/widgets/hits.php:63
 msgid "Number of visits and visitors"
 msgstr "Broj poseta i posetilaca"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:169
-#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:38
+#: includes/log/widgets/hits.php:77 includes/log/widgets/quickstats.php:24
+#: includes/log/widgets/summary.php:24
 msgid "Visit"
 msgstr "Poseta"
 
 #: includes/log/hit-statistics.php:100 includes/log/hit-statistics.php:170
-#: includes/log/widgets/hits.php:96 includes/log/widgets/summary.php:37
+#: includes/log/widgets/hits.php:77 includes/log/widgets/quickstats.php:23
+#: includes/log/widgets/summary.php:23
 msgid "Visitor"
 msgstr "Posetilac"
 
@@ -1565,17 +1495,16 @@ msgid "Latest Search Word Statistics"
 msgstr "Statistika pretrage poslednjih reči"
 
 #: includes/log/last-search.php:110 includes/log/last-visitor.php:101
-#: includes/log/online.php:50 includes/log/widgets/google.map.php:84
-#: includes/log/widgets/jqv.map.php:71 includes/log/widgets/recent.php:33
-#: includes/log/widgets/words.php:46
+#: includes/log/online.php:50 includes/log/widgets/google.map.php:68
+#: includes/log/widgets/jqv.map.php:55 includes/log/widgets/recent.php:14
+#: includes/log/widgets/words.php:27
 msgid "#hash#"
 msgstr "#hash#"
 
 #: includes/log/last-search.php:115 includes/log/last-visitor.php:106
 #: includes/log/online.php:55 includes/log/top-referring.php:112
-#: includes/log/widgets/recent.php:38 includes/log/widgets/words.php:61
-#: includes/settings/tabs/wps-overview-display.php:33
-#: includes/settings/tabs/wps-overview-display.php:113
+#: includes/log/widgets/recent.php:19 includes/log/widgets/words.php:42
+#: includes/settings/tabs/wps-overview-display.php:60
 msgid "Map"
 msgstr "Mapa"
 
@@ -1621,40 +1550,41 @@ msgstr "Trend stranice"
 msgid "Search Engine Referral Statistics"
 msgstr "Statistika upućivanja pretraživača"
 
-#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:59
+#: includes/log/search-statistics.php:69 includes/log/widgets/search.php:42
 msgid "Search engine referrals in the last"
 msgstr "Upućivanje pretraživača u poslednjih"
 
-#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:80
+#: includes/log/search-statistics.php:90 includes/log/widgets/search.php:63
 msgid "Number of referrals"
 msgstr "Broj uputa"
 
 #: includes/log/exclusions.php:24 includes/log/search-statistics.php:104
-#: includes/log/widgets/search.php:94 includes/log/widgets/summary.php:72
-#: includes/log/widgets/summary.php:119
+#: includes/log/widgets/quickstats.php:58
+#: includes/log/widgets/quickstats.php:105 includes/log/widgets/search.php:77
+#: includes/log/widgets/summary.php:58 includes/log/widgets/summary.php:105
 msgid "Total"
 msgstr "Ukupno"
 
-#: includes/log/top-countries.php:18
+#: includes/log/top-countries.php:18 includes/log/top-countries.php:27
 msgid "Top Countries"
 msgstr "Najveći broj iz država"
 
-#: includes/log/top-countries.php:30 includes/log/widgets/countries.php:30
-#: includes/log/widgets/top.visitors.php:30
+#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:9
+#: includes/log/widgets/top.visitors.php:11
 msgid "Rank"
 msgstr "Rang"
 
-#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:31
-#: includes/log/widgets/top.visitors.php:32
+#: includes/log/top-countries.php:32 includes/log/widgets/countries.php:10
+#: includes/log/widgets/top.visitors.php:13
 msgid "Flag"
 msgstr "Zastava"
 
-#: includes/log/top-countries.php:32 includes/log/widgets/countries.php:32
-#: includes/log/widgets/top.visitors.php:33
+#: includes/log/top-countries.php:33 includes/log/widgets/countries.php:11
+#: includes/log/widgets/top.visitors.php:14
 msgid "Country"
 msgstr "Država"
 
-#: includes/log/top-countries.php:33 includes/log/widgets/countries.php:33
+#: includes/log/top-countries.php:34 includes/log/widgets/countries.php:12
 msgid "Visitor Count"
 msgstr "Broj posetilaca"
 
@@ -1674,11 +1604,11 @@ msgstr "Statistika trendova na prvih 5 stranica"
 msgid "Number of Hits"
 msgstr "Broj zahteva"
 
-#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:35
+#: includes/log/top-pages.php:177 includes/log/widgets/pages.php:13
 msgid "No page title found"
 msgstr "Nije pronađen naslov stranice "
 
-#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:38
+#: includes/log/top-pages.php:180 includes/log/widgets/pages.php:16
 #: includes/optimization/tabs/wps-optimization-historical.php:37
 #: includes/settings/tabs/wps-general.php:122
 #: includes/settings/tabs/wps-general.php:127 shortcode.php:139
@@ -1693,7 +1623,7 @@ msgstr "Uskoro će biti dodati"
 msgid "Referring sites from"
 msgstr "Upućuje site-ove sa"
 
-#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:50
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:29
 msgid "References"
 msgstr "Reference"
 
@@ -1701,98 +1631,94 @@ msgstr "Reference"
 msgid "Top 100 Visitors Today"
 msgstr ""
 
-#: includes/log/widgets/about.php:8
+#: includes/log/log.php:10
 msgid "About WP Statistics Version %s"
 msgstr "О ВП Статистика версион %s"
 
-#: includes/log/widgets/about.php:25
+#: includes/log/widgets/about.php:11
 msgid "Website"
 msgstr "Website"
 
-#: includes/log/widgets/about.php:26
+#: includes/log/widgets/about.php:12
 msgid "Rate and Review"
 msgstr "Ocenite i napišite pregled"
 
-#: includes/log/widgets/about.php:30
+#: includes/log/widgets/about.php:16
 msgid "More Information"
 msgstr "Više informacija"
 
-#: includes/log/widgets/about.php:39 includes/settings/tabs/wps-about.php:12
+#: includes/log/widgets/about.php:25 includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr "Ovaj proizvod sadrži GeoLite2 podatke koje je kreirao MaxMind, raspoložive sa %s."
 
-#: includes/log/widgets/browsers.php:10 includes/log/widgets/countries.php:11
-#: includes/log/widgets/hits.php:10 includes/log/widgets/pages.php:14
-#: includes/log/widgets/recent.php:10 includes/log/widgets/referring.php:11
-#: includes/log/widgets/search.php:10 includes/log/widgets/top.visitors.php:10
-#: includes/log/widgets/words.php:11
-msgid "More"
-msgstr "Više"
-
-#: includes/log/widgets/browsers.php:51
+#: includes/log/widgets/browsers.php:34
 msgid "Other"
 msgstr "Ostali"
 
-#: includes/log/widgets/google.map.php:9 includes/log/widgets/jqv.map.php:9
+#: wp-statistics.php:445
 msgid "Today Visitors Map"
 msgstr "Mapa današnjih posetilaca"
 
-#: includes/log/widgets/referring.php:51
+#: includes/log/widgets/referring.php:30
 msgid "Address"
 msgstr "Adresa"
 
-#: includes/log/widgets/summary.php:26
+#: includes/log/widgets/quickstats.php:12 includes/log/widgets/summary.php:12
 msgid "User(s) Online"
 msgstr "Online(s) korisnika"
 
-#: includes/log/widgets/summary.php:42 includes/log/widgets/summary.php:94
+#: includes/log/widgets/quickstats.php:28
+#: includes/log/widgets/quickstats.php:80 includes/log/widgets/summary.php:28
+#: includes/log/widgets/summary.php:80
 msgid "Today"
 msgstr "Danas"
 
-#: includes/log/widgets/summary.php:48 includes/log/widgets/summary.php:95
+#: includes/log/widgets/quickstats.php:34
+#: includes/log/widgets/quickstats.php:81 includes/log/widgets/summary.php:34
+#: includes/log/widgets/summary.php:81
 msgid "Yesterday"
 msgstr "Juče"
 
-#: includes/log/widgets/summary.php:113
+#: includes/log/widgets/quickstats.php:99 includes/log/widgets/summary.php:99
 msgid "Daily Total"
 msgstr "Ukupno dnevno"
 
-#: includes/log/widgets/summary.php:132
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "Current Time and Date"
 msgstr "Trenutno vreme i datum"
 
-#: includes/log/widgets/summary.php:132
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "(Adjustment)"
 msgstr "(Prilagođavanje)"
 
-#: includes/log/widgets/summary.php:136
+#: includes/log/widgets/quickstats.php:122 includes/log/widgets/summary.php:122
 msgid "Date: %s"
 msgstr "Датум: %s"
 
-#: includes/log/widgets/summary.php:140
+#: includes/log/widgets/quickstats.php:126 includes/log/widgets/summary.php:126
 msgid "Time: %s"
 msgstr "Тиме: %s подаци"
 
-#: includes/log/widgets/top.visitors.php:31
-#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:301
-#: wp-statistics.php:379 wp-statistics.php:455
+#: includes/log/widgets/top.visitors.php:12
+#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:337
+#: wp-statistics.php:416 wp-statistics.php:514
 msgid "Hits"
 msgstr "Zahtevi"
 
-#: includes/log/widgets/top.visitors.php:34
+#: includes/log/widgets/top.visitors.php:15
 msgid "IP"
 msgstr ""
 
-#: includes/log/widgets/top.visitors.php:36
+#: includes/log/widgets/top.visitors.php:17
 msgid "Agent"
 msgstr ""
 
-#: includes/log/widgets/top.visitors.php:38
-#: includes/optimization/tabs/wps-optimization-resources.php:302
+#: includes/log/widgets/top.visitors.php:19
+#: includes/optimization/tabs/wps-optimization-resources.php:291
 msgid "Version"
 msgstr ""
 
-#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184
+#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184 ajax.php:284
 #: includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "Pristup odbijen"
@@ -1817,11 +1743,11 @@ msgstr "платформаза податке %s успешно обрисан"
 msgid "No platform data found to remove!"
 msgstr ""
 
-#: includes/functions/functions.php:1046
+#: includes/functions/functions.php:1051
 msgid "%s table data deleted successfully."
 msgstr "подаци Табела %s успешно"
 
-#: includes/functions/functions.php:1050
+#: includes/functions/functions.php:1055
 msgid "Error, %s not emptied!"
 msgstr "Greška, %s nije ispražnjen!"
 
@@ -1847,7 +1773,7 @@ msgstr "Indeks baze podataka"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics.php:377 wp-statistics.php:453
+#: wp-statistics.php:414 wp-statistics.php:512
 msgid "Countries"
 msgstr "Države"
 
@@ -1931,7 +1857,7 @@ msgstr ""
 #: includes/optimization/tabs/wps-optimization-historical.php:26
 #: includes/settings/tabs/wps-general.php:138
 #: includes/settings/tabs/wps-general.php:143 shortcode.php:140
-#: wp-statistics.php:386 wp-statistics.php:462
+#: wp-statistics.php:423 wp-statistics.php:521
 msgid "Visitors"
 msgstr "Posetioci"
 
@@ -2019,199 +1945,190 @@ msgid "Memory usage in PHP"
 msgstr "Upotreba memorije u PHP"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:26
-#: includes/optimization/tabs/wps-optimization-resources.php:37
 msgid "Byte"
 msgstr "Bajt"
 
 #: includes/optimization/tabs/wps-optimization-resources.php:33
-msgid "Last Overview page memory usage"
-msgstr ""
-
-#: includes/optimization/tabs/wps-optimization-resources.php:38
-msgid "Memory usage in the overview page"
-msgstr ""
-
-#: includes/optimization/tabs/wps-optimization-resources.php:44
 msgid "PHP Memory Limit"
 msgstr "PHP ograničenje memorije"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:49
+#: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
 msgstr "Ograničenje memorije koje je dozvoljeno skripti da utroši, podešeno u php.ini."
 
+#: includes/optimization/tabs/wps-optimization-resources.php:44
 #: includes/optimization/tabs/wps-optimization-resources.php:55
 #: includes/optimization/tabs/wps-optimization-resources.php:66
 #: includes/optimization/tabs/wps-optimization-resources.php:77
 #: includes/optimization/tabs/wps-optimization-resources.php:88
 #: includes/optimization/tabs/wps-optimization-resources.php:99
 #: includes/optimization/tabs/wps-optimization-resources.php:110
-#: includes/optimization/tabs/wps-optimization-resources.php:121
 msgid "Number of rows in the %s table"
 msgstr "Број редова у %s табели"
 
+#: includes/optimization/tabs/wps-optimization-resources.php:48
 #: includes/optimization/tabs/wps-optimization-resources.php:59
 #: includes/optimization/tabs/wps-optimization-resources.php:70
 #: includes/optimization/tabs/wps-optimization-resources.php:81
 #: includes/optimization/tabs/wps-optimization-resources.php:92
 #: includes/optimization/tabs/wps-optimization-resources.php:103
 #: includes/optimization/tabs/wps-optimization-resources.php:114
-#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "Row"
 msgstr "Red"
 
+#: includes/optimization/tabs/wps-optimization-resources.php:49
 #: includes/optimization/tabs/wps-optimization-resources.php:60
 #: includes/optimization/tabs/wps-optimization-resources.php:71
 #: includes/optimization/tabs/wps-optimization-resources.php:82
 #: includes/optimization/tabs/wps-optimization-resources.php:93
 #: includes/optimization/tabs/wps-optimization-resources.php:104
 #: includes/optimization/tabs/wps-optimization-resources.php:115
-#: includes/optimization/tabs/wps-optimization-resources.php:126
 msgid "Number of rows"
 msgstr "Broj redova"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:131
+#: includes/optimization/tabs/wps-optimization-resources.php:120
 msgid "Version Info"
 msgstr "Podaci o verziji"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "WP Statistics Version"
 msgstr "WP Statistics verzija"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "The WP Statistics version you are running."
 msgstr "WP Statistics verzija koju vi imate"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "PHP Version"
 msgstr "PHP verzija"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The PHP version you are running."
 msgstr "PHP verzija koju vi imate"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "PHP Safe Mode"
 msgstr "PHP bezbedan režim"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr "Da li je PHP bezbedni režim aktivan? GeoIP kod nije podržan u bezbednom režimu."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:169
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "jQuery Version"
 msgstr "jQuery verzija"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:174
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid "The jQuery version you are running."
 msgstr "jQuery verzija koju vi imate"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:180
+#: includes/optimization/tabs/wps-optimization-resources.php:169
 msgid "cURL Version"
 msgstr "cURL verzija"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:173
 msgid "cURL not installed"
 msgstr "cURL nije instaliran"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:185
+#: includes/optimization/tabs/wps-optimization-resources.php:174
 msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr "Verzija PHP cURL ekstenzije koju vi imate. Za GeoIP kod cURL je obavezan. Ako nije instaliran, GeoIP će se deaktivirati."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:191
+#: includes/optimization/tabs/wps-optimization-resources.php:180
 msgid "BC Math"
 msgstr "BC Math"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Installed"
 msgstr "Instaliran"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Not installed"
 msgstr "Nije instaliran"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:196
+#: includes/optimization/tabs/wps-optimization-resources.php:185
 msgid "If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons."
 msgstr "Ако је инсталиран ПХП БЦ Матх  БЦ Математика више није потребан за ГеоИП кода и наведени овде само из историјских разлога."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:201
+#: includes/optimization/tabs/wps-optimization-resources.php:190
 msgid "File Info"
 msgstr "Филе Инфо"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "GeoIP Database"
 msgstr "ГеоИП"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:215
+#: includes/optimization/tabs/wps-optimization-resources.php:204
 msgid "Database file does not exist."
 msgstr "Datoteka baze podataka ne postoji."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:217
-#: includes/optimization/tabs/wps-optimization-resources.php:236
-#: includes/optimization/tabs/wps-optimization-resources.php:255
+#: includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:244
 msgid ", created on "
 msgstr "Датабасе,створено од "
 
-#: includes/optimization/tabs/wps-optimization-resources.php:219
+#: includes/optimization/tabs/wps-optimization-resources.php:208
 msgid "The file size and date of the GeoIP database."
 msgstr "величине фајла и датум базе ГеоИП."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:214
 msgid "browscap.ini File"
 msgstr "Бровсцап.ини Филе"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:234
+#: includes/optimization/tabs/wps-optimization-resources.php:223
 msgid "browscap.ini file does not exist."
 msgstr "бровсцап.ини датотека не постоји."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:238
+#: includes/optimization/tabs/wps-optimization-resources.php:227
 msgid "The file size and date of the browscap.ini file."
 msgstr "Филе величину и датум бровсцап.ини фајлаће"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:244
+#: includes/optimization/tabs/wps-optimization-resources.php:233
 msgid "browscap Cache File"
 msgstr "бровсцап Цацхе Филе"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:253
+#: includes/optimization/tabs/wps-optimization-resources.php:242
 msgid "browscap cache file does not exist."
 msgstr "бровсцап кеш датотека не постоји."
 
-#: includes/optimization/tabs/wps-optimization-resources.php:257
+#: includes/optimization/tabs/wps-optimization-resources.php:246
 msgid "The file size and date of the browscap cache file."
 msgstr "величина и датум бровсцап кеш  Дођите"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:262
+#: includes/optimization/tabs/wps-optimization-resources.php:251
 msgid "Client Info"
 msgstr "Podaci o klijentu"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:267
+#: includes/optimization/tabs/wps-optimization-resources.php:256
 msgid "Client IP"
 msgstr "IP klijenta"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:272
+#: includes/optimization/tabs/wps-optimization-resources.php:261
 msgid "The client IP address."
 msgstr "IP adresa klijenta"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:278
+#: includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "User Agent"
 msgstr "Korisnički agent"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:283
+#: includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client user agent string."
 msgstr "Niz korisničkog agenta klijenta"
 
-#: includes/optimization/tabs/wps-optimization-resources.php:289
+#: includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "Browser"
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-resources.php:296
+#: includes/optimization/tabs/wps-optimization-resources.php:285
 msgid "The detected client browser."
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-resources.php:307
+#: includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser version."
 msgstr ""
 
-#: includes/optimization/tabs/wps-optimization-resources.php:318
+#: includes/optimization/tabs/wps-optimization-resources.php:307
 msgid "The detected client platform."
 msgstr ""
 
@@ -2448,8 +2365,8 @@ msgid "If you need a more robust solution to delegate access you might want to l
 msgstr "Ako vam je potrebno striktnije rešenje za raspodelu pristupa, možda ćete hteti da pogledate %s u WordPress plugin direktorijumu."
 
 #: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
-#: includes/settings/wps-settings.php:104 wp-statistics.php:378
-#: wp-statistics.php:454
+#: includes/settings/wps-settings.php:104 wp-statistics.php:415
+#: wp-statistics.php:513
 msgid "Exclusions"
 msgstr "Izuzeci"
 
@@ -2657,10 +2574,10 @@ msgstr "бровсцап Употреба"
 #: includes/settings/tabs/wps-notifications.php:93
 #: includes/settings/tabs/wps-notifications.php:105
 #: includes/settings/tabs/wps-notifications.php:121
-#: includes/settings/tabs/wps-overview-display.php:87
-#: includes/settings/tabs/wps-overview-display.php:107
-#: includes/settings/tabs/wps-overview-display.php:147
-#: includes/settings/tabs/wps-overview-display.php:159
+#: includes/settings/tabs/wps-overview-display.php:34
+#: includes/settings/tabs/wps-overview-display.php:54
+#: includes/settings/tabs/wps-overview-display.php:94
+#: includes/settings/tabs/wps-overview-display.php:106
 msgid "Active"
 msgstr "Aktivan"
 
