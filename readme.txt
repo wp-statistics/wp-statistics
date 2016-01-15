@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.4
-Stable tag: 9.7
+Stable tag: 10.0
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -237,10 +237,9 @@ If you still have issues open a new thread on the support forum and we'll try an
 = 10.0 =
 The overview page has been completely rewritten!  If you had set custom values for what widgets to display and in what order on your overview page you will have to re-select them using the "Screen Options" tab on the overview page and by dragging and dropping the widgets in to place.
 
-
 == Changelog ==
 = 10.0 =
-* Release Date: TBD
+* Release Date: January 15, 2016
 * Added: Widgets now support reloading on overview and dashboard screen.
 * Updated: Overview screen now loads widgets dynamically to reduce memory usage.
 * Updated: Dashboard widgets now load dynamically.
@@ -249,6 +248,7 @@ The overview page has been completely rewritten!  If you had set custom values f
 * Fixed: Removed extraneous single quote in SQL statement on referrers page, thanks jhertel.
 * Fixed: Order of parameters in referrers page when viewing individual referrers was incorrect and resulted in a blank list.
 * Fixed: UpdatedSQL for last post date detection to order by post_date instead of ID as someone could enter a date in the past for their publish date.  Thanks PC1271 for the fix.
+* Fixed: The referrers widget would only select the first 100k records due to a limit in PHP/MySQL, it will now select all records.
 * Removed: Widget selection and ordering from the settings page, the "Screen Options" tab can now be used on the enabled/disable widgets and drag and drop will remember their location.
 * Removed: Overview page memory usage in the optimization page as it is no longer relevant.
 
