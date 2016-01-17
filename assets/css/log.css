@@ -1,36 +1,36 @@
 
-#right-log {
+#wps-postbox-container-1 {
     width: 30%;
 	float: left;
 }
-#left-log {
+#wps-postbox-container-2 {
     margin: 0 0 0 1%;
     width: 68%;
 	float: right;
 }
 @media screen and (max-width: 960px) {
-#right-log {
+#wps-postbox-container-1 {
     width: 35%;
 }
-#left-log {
+#wps-postbox-container-2 {
     margin: 0 0 0 1%;
     width: 63%;
 }
 }
 @media screen and (max-width: 758px) {
-#right-log {
+#wps-postbox-container-1 {
     width: 100%;
 }
-#left-log {
+#wps-postbox-container-2 {
     margin: 0 0 0 1%;
     width: 100%;
 }
 }
 @media screen and (max-width: 524px) {
-#right-log {
+#wps-postbox-container-1 {
     width: 100%;
 }
-#left-log {
+#wps-postbox-container-2 {
     margin: 0 0 0 1%;
     width: 100%;
 }
@@ -39,7 +39,7 @@
     width: 100%;
     direction: ltr;
 }
-#right-log a, #left-log a, #last-log a {
+#wps-postbox-container-1 a, #wps-postbox-container-2 a, #last-log a {
     text-decoration: none;
 }
 #summary-stats {

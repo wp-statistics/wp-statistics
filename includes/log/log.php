@@ -25,11 +25,11 @@
 	<?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
 	<?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
 	
-	<div class="metabox-holder meta-box-sortables ui-sortable" id="right-log">
+	<div class="postbox-container" id="wps-postbox-container-1">
 			<?php do_meta_boxes( $WP_Statistics->menu_slugs['overview'], 'side', '' ); ?>
 	</div>
 	
-	<div class="metabox-holder meta-box-sortables ui-sortable" id="left-log">
+	<div class="postbox-container" id="wps-postbox-container-2">
 			<?php do_meta_boxes( $WP_Statistics->menu_slugs['overview'], 'normal', '' ); ?>
 	</div>
 </div>
