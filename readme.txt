@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.4
-Stable tag: 10.0
+Stable tag: 10.0.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -238,6 +238,10 @@ If you still have issues open a new thread on the support forum and we'll try an
 The overview page has been completely rewritten!  If you had set custom values for what widgets to display and in what order on your overview page you will have to re-select them using the "Screen Options" tab on the overview page and by dragging and dropping the widgets in to place.
 
 == Changelog ==
+= 10.0.1 =
+* Release Date: January 18, 2016
+* Fixed: If you re-ordered the widgets on the overview screen and then reloaded the page, all the widgets would disappear.
+
 = 10.0 =
 * Release Date: January 15, 2016
 * Added: Widgets now support reloading on overview and dashboard screen.
