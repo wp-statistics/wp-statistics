@@ -64,7 +64,7 @@
 			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-search-widget', __('Search Engine Referrals', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'search' ) ); }
 			wp_add_dashboard_widget( 'wp-statistics-summary-widget', __('Summary', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'summary' ) );
 			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-words-widget', __('Latest Search Words', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'words' ) ); }
-			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __('Top 10 Visitors Today', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'top_visitors' ) ); }
+			if( $WP_Statistics->get_option('visitors') ) { wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __('Top 10 Visitors Today', 'wp_statistics'), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'top.visitors' ) ); }
 		}
 	}
 
