@@ -266,8 +266,10 @@ function wp_statistics_get_widget_contents_callback() {
 			
 				break;
 			case 'page':
-				$pageid = (int)$_POST['page-id'];
-				wp_statistics_generate_page_postbox_content( null, $pageid );
+				if( array_key_exists( 'page-id', $_POST ) ) { 
+					$pageid = (int)$_POST['page-id'];
+					wp_statistics_generate_page_postbox_content( null, $pageid );
+				}
 				
 				break;
 			case 'pages':
@@ -280,7 +282,13 @@ function wp_statistics_get_widget_contents_callback() {
 			
 				break;
 			case 'top.visitors':
-				wp_statistics_generate_top_visitors_postbox_content($ISOCountryCode);
+				$format = null;
+				
+				if( array_key_exists( 'format', $_POST ) ) { 
+					$format = 'compact';
+				}
+					
+				wp_statistics_generate_top_visitors_postbox_content($ISOCountryCode, 'today', 10, $format);
 			
 				break;
 			case 'about':

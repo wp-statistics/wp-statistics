@@ -144,7 +144,7 @@
 		$page_urls['wp-statistics-referring-widget_more_button'] 		= $admin_url . WP_STATISTICS_REFERRERS_PAGE; 
 		$page_urls['wp-statistics-search-widget_more_button'] 			= $admin_url . WP_STATISTICS_SEARCHES_PAGE; 
 		$page_urls['wp-statistics-words-widget_more_button'] 			= $admin_url . WP_STATISTICS_WORDS_PAGE; 
-		$page_urls['wp-statistics-top_visitors-widget_more_button'] 	= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE; 
+		$page_urls['wp-statistics-top-visitors-widget_more_button'] 	= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE; 
 		$page_urls['wp-statistics-visitors-widget_more_button'] 		= $admin_url . WP_STATISTICS_VISITORS_PAGE; 
 		$page_urls['wp-statistics-quickstats-widget_more_button'] 		= $admin_url . WP_STATISTICS_OVERVIEW_PAGE; 
 

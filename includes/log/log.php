@@ -60,7 +60,7 @@
 	$page_urls['wps_search_more_button'] 		= $admin_url . WP_STATISTICS_SEARCHES_PAGE; 
 	$page_urls['wps_words_more_button'] 		= $admin_url . WP_STATISTICS_WORDS_PAGE; 
 	$page_urls['wps_top_visitors_more_button'] 	= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE; 
-	$page_urls['wps_visitors_more_button'] 		= $admin_url . WP_STATISTICS_VISITORS_PAGE; 
+	$page_urls['wps_recent_more_button'] 		= $admin_url . WP_STATISTICS_VISITORS_PAGE; 
 	
 ?>
 <script type="text/javascript">

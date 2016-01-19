@@ -6,6 +6,7 @@ function wp_statistics_get_widget_contents( widget, container_id ) {
 	var data = {
 		'action': 'wp_statistics_get_widget_contents',
 		'widget': widget,
+		'format': 'dashboard'
 	};
 	
 	container = jQuery("#" + container_id);
