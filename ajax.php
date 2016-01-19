@@ -216,6 +216,11 @@ function wp_statistics_get_widget_contents_callback() {
 			}
 		}
 		
+		if( '' == $widget ) { 
+			_e('No matching widget found!', 'wp_statistics');
+			wp_die();
+		}
+		
 		$ISOCountryCode = $WP_Statistics->get_country_codes();
 		$search_engines = wp_statistics_searchengine_list();
 
