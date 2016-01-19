@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.4
-Stable tag: 10.0.2
+Stable tag: 10.0.3
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -238,6 +238,11 @@ If you still have issues open a new thread on the support forum and we'll try an
 The overview page has been completely rewritten!  If you had set custom values for what widgets to display and in what order on your overview page you will have to re-select them using the "Screen Options" tab on the overview page and by dragging and dropping the widgets in to place.
 
 == Changelog ==
+= 10.0.3 =
+* Release Date: January 19, 2016
+* Updated: Google map API now always uses https.
+* Fixed: Google map error that broken the overview page display of charts and the map.
+
 = 10.0.2 =
 * Release Date: January 19, 2016
 * Added: Additional error checking on widget load so they will retry if there is a failure.
