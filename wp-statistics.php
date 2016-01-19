@@ -859,6 +859,8 @@ License: GPL2
 				wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap.css', true, '1.1');
 				wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap.min.js', true, '1.1');
 				wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.1');
+			} else {
+				wp_enqueue_script('google-maps', 'https://maps.google.com/maps/api/js');	
 			}
 		
 			// Load our custom widgets handling javascript.
