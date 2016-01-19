@@ -6,6 +6,13 @@
 		$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text"><p>' . __('Have you thought about donating to WP Statistics?', 'wp_statistics') . ' <a href="http://wp-statistics.com/donate/" target="_blank">'.__('Donate Now!', 'wp_statistics').'</a></p></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __('Close', 'wp_statistics') . '</a></div></div>';
 	}
 
+	// WP Statistics 10.0 had a bug which could corrupt  the metabox display if the user re-ordered the widgets.  Check to see if the meta data is corrupt and if so delete it.
+	$widget_order = get_user_meta($WP_Statistics->user_id, 'meta-box-order_toplevel_page_wps_overview_page', true);
+
+	if( is_array( $widget_order ) && count( $widget_order ) > 2 ) {
+		delete_user_meta( $WP_Statistics->user_id, 'meta-box-order_toplevel_page_wps_overview_page');
+	}
+
 	// Add the about box here as metaboxes added on the actual page load cannot be closed.
 	add_meta_box( 'wps_about_postbox', sprintf(__('About WP Statistics Version %s', 'wp_statistics'), WP_STATISTICS_VERSION), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' =>'about' ) );
 	
