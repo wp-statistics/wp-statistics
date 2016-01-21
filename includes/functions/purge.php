@@ -55,7 +55,7 @@
 			// Purge the search data.
 			$table_name = $wpdb->prefix . 'statistics_search';
 
-			$result = $wpdb->query( $wpdb->preapre( "DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string ) );
+			$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string ) );
 			
 			if($result) {
 				$result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp_statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
