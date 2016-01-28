@@ -25,7 +25,7 @@
 		
 			// Fetch the results from the database.
 			$result = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}statistics_visit WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}'");
-			
+
 			// If we have a result, return it, otherwise force a 0 to be returned instead of the logical FALSE that would otherwise be the case.
 			if( $result) {
 				return $result->visit;
@@ -976,7 +976,7 @@
 		$rangeend_utime = $WP_Statistics->strtotimetz( $rangeend );
 		$daysToDisplay = (int)( ( $rangeend_utime - $rangestart_utime ) / 24 / 60 / 60 );
 		
-		// If the rangeend isn't today OR not one of the standard range values, then it's a custom selected value and we need to flag it as such.
+		// If the rangeend isn't today AND not one of the standard range values, then it's a custom selected value and we need to flag it as such.
 		if( $rangeend != $WP_Statistics->Current_Date('m/d/Y') && ! in_array( $current, $range ) ) {
 			$current = -1;
 		} else {
