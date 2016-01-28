@@ -965,13 +965,26 @@
 		
 		$rcount = count( $range );
 		
-		$rangestart = $WP_Statistics->Current_Date('m/d/Y', '-' . $current);
-		$rangeend = $WP_Statistics->Current_Date('m/d/Y');
-		
 		$bold = true;
-		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } 
-		if( array_key_exists( 'rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; }
 
+		// Check to see if there's a range in the URL, if so set it, otherwise use the default.
+		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } else { $rangestart = $WP_Statistics->Current_Date('m/d/Y', '-' . $current); } 
+		if( array_key_exists( 'rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = $WP_Statistics->Current_Date('m/d/Y'); }
+
+		// Now get the number of days in the range.
+		$rangestart_utime = $WP_Statistics->strtotimetz( $rangestart );
+		$rangeend_utime = $WP_Statistics->strtotimetz( $rangeend );
+		$daysToDisplay = (int)( ( $rangeend_utime - $rangestart_utime ) / 24 / 60 / 60 );
+		
+		// If the rangeend isn't today OR not one of the standard range values, then it's a custom selected value and we need to flag it as such.
+		if( $rangeend != $WP_Statistics->Current_Date('m/d/Y') && ! in_array( $current, $range ) ) {
+			$current = -1;
+		} else {
+			// If on the other hand we are a standard range, let's reset the custom range selector to match it.
+			$rangestart = $WP_Statistics->Current_Date('m/d/Y', '-' . $current);
+			$rangeend = $WP_Statistics->Current_Date('m/d/Y');
+		}
+		
 		echo '<form method="get"><ul class="subsubsub">' . "\r\n";
 		
 		for( $i = 0; $i < $rcount; $i ++ ) {
@@ -1003,9 +1016,8 @@
 		}
 		else {
 			echo ' ' . __('Range', 'wp_statistics' ) . ': ';
-			$rangeend = $WP_Statistics->Current_Date('m/d/Y');
-			$rangestart = $WP_Statistics->Current_Date('m/d/Y','-'.$current);
 		}
+		
 		echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart. '" placeholder="' . __('MM/DD/YYYY', 'wp_statistics') .'"> '.__('to', 'wp_statistics').' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __('MM/DD/YYYY', 'wp_statistics') .'"> <input type="submit" value="'.__('Go', 'wp_statistics').'" class="button-primary">' . "\r\n";
 		
 		echo '</ul><form>' . "\r\n";
