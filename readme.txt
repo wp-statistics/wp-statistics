@@ -238,6 +238,11 @@ If you still have issues open a new thread on the support forum and we'll try an
 The overview page has been completely rewritten!  If you had set custom values for what widgets to display and in what order on your overview page you will have to re-select them using the "Screen Options" tab on the overview page and by dragging and dropping the widgets in to place.
 
 == Changelog ==
+= 10.0.5 =
+* Release Date: TBD
+* Fixed: Date range selector display after entering a custom date range.
+* Fixed: Date ranges that ended in the past displaying the wrong visit/visitors data.
+
 = 10.0.4 =
 * Release Date: January 21, 2016
 * Fixed: Recent Visitors widget in the dashboard did not work.
