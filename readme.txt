@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, GregRoss
 Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
-Tested up to: 4.4
-Stable tag: 10.0.4
+Tested up to: 4.4.2
+Stable tag: 10.0.5
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -239,7 +239,7 @@ The overview page has been completely rewritten!  If you had set custom values f
 
 == Changelog ==
 = 10.0.5 =
-* Release Date: TBD
+* Release Date: February 5, 2016
 * Fixed: Date range selector display after entering a custom date range.
 * Fixed: Date ranges that ended in the past displaying the wrong visit/visitors data.
 
