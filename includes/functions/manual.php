@@ -28,12 +28,10 @@
 				closedir( $dir );
 
 				if( $filename != '' ) {
-					$filename = substr( $filename, 0, -strlen( $ext ) );
-					$filename .= ' V' . WP_STATISTICS_VERSION . $ext;
 					header('Content-Type: application/octet-stream;');
 					header('Content-Disposition: attachment; filename="' . $filename . '"');
 					
-					readfile( $filepath . $filename );
+					readfile( $filepath . '/' . $filename );
 				}
 			}
 		}
