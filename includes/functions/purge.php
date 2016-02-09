@@ -68,7 +68,7 @@
 			$historical = 0;
 			
 			// The first thing we need to do is update the historical data by finding all the unique pages.
-			$result = $wpdb->get_results( $wpdb->preapare( "SELECT DISTINCT uri FROM {$table_name} WHERE `date` < %s", $date_string ) );
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT uri FROM {$table_name} WHERE `date` < %s", $date_string ) );
 
 			// If we have a result, let's store the historical data.		
 			if( $result ) {
