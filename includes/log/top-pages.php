@@ -51,6 +51,12 @@
 									echo "];\n";
 									if( $count > 4 ) { break; }
 								}
+
+								if( $count < 6 ) {
+									for( $i = $count + 1 ; $i < 6; $i++ ) {
+										echo "var pages_data_line" . $i . " = [];\n";
+									}
+								}
 								
 								$tickInterval = $daysToDisplay / 20;
 								if( $tickInterval < 1 ) { $tickInterval = 1; }
