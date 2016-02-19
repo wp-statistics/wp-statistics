@@ -4,8 +4,6 @@
 	});
 </script>
 <?php
-	list( $total, $uris ) = wp_statistics_get_top_pages();
-
 	$daysToDisplay = 20; 
 	if( array_key_exists('hitdays',$_GET) ) { $daysToDisplay = intval($_GET['hitdays']); }
 
@@ -13,6 +11,9 @@
 	if( array_key_exists('rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = ''; }
 
 	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
+
+	list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Current_Date('Y-m-d', '-0', $rangestart_utime), $WP_Statistics->Real_Current_Date('Y-m-d', '-0', $rangeend_utime) );
+
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>

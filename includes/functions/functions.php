@@ -146,7 +146,7 @@
 	}
 
 	// This function returns the statistics for a given page.
-	function wp_statistics_pages($time, $page_uri = '', $id = -1) {
+	function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = null, $rangeenddate = null ) {
 
 		// We need database and the global $WP_Statistics object access.
 		global $wpdb, $WP_Statistics;
@@ -198,7 +198,10 @@
 				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE {$page_sql}";
 				$history = $WP_Statistics->Get_Historical_Data( $history_key, $history_id );
 				break;
-				
+			case 'range':
+				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN '" . $WP_Statistics->Current_Date('Y-m-d', '-0', strtotime( $rangestartdate )) . "' AND '" . $WP_Statistics->Current_Date('Y-m-d', '-0', strtotime( $rangeenddate) ) . "' AND {$page_sql}";
+			
+				break;
 			default:
 				$sqlstatement = "SELECT SUM(count) FROM {$wpdb->prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date('Y-m-d', $time)}' AND {$page_sql}";
 				break;
@@ -237,11 +240,15 @@
 	}
 		
 	// This function returns a multi-dimensional array, with the total number of pages and an array or URI's sorted in order with their URI, count, id and title.
-	function wp_statistics_get_top_pages() {
+	function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = null ) {
 		global $wpdb;
 		
 		// Get every unique URI from the pages database.
-		$result = $wpdb->get_results( "SELECT DISTINCT uri FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
+		if( $rangestartdate != null && $rangeenddate != null ) {
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT uri FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N);
+		} else {
+			$result = $wpdb->get_results( "SELECT DISTINCT uri FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
+		}
 
 		$total = 0;
 		$uris = array();
@@ -270,7 +277,11 @@
 			}
 
 			// Add the current post to the array.
-			$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $id, $title );
+			if( $rangestartdate != null && $rangeenddate != null ) {
+				$uris[] = array( $out[0], wp_statistics_pages( 'range', $out[0], -1, $rangestartdate, $rangeenddate ), $id, $title );
+			} else {
+				$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $id, $title );
+			}
 		}
 
 		// If we have more than one result, let's sort them using usort.
