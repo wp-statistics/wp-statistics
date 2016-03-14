@@ -8,8 +8,8 @@
 
 		GLOBAL $WP_Statistics;
 	
-		// We need the download_url() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
-		if( !function_exists( 'download_url' ) ) { return ''; }
+		// We need the download_url() and gzopen() functions, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
+		if( !function_exists( 'download_url' ) || !function_exists( 'gzopen' ) ) { return ''; }
 	
 		// If GeoIP is disabled, bail out.
 		if( $WP_Statistics->get_option('geoip') == false ) { return '';}
