@@ -475,7 +475,12 @@
 					if( !$this->current_page_id && is_object( $wp_query ) ) {
 						$this->current_page_id = $wp_query->get_queried_object_id();
 					}
-	
+
+					// If we didn't find a page id, we don't have anything else to do.
+					if( ! $this->current_page_id ) {
+						return;
+					}
+					
 					// Get the current page URI.
 					$page_uri = wp_statistics_get_uri();
 					
