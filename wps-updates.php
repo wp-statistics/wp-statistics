@@ -9,7 +9,13 @@
 		GLOBAL $WP_Statistics;
 
 		// We need the download_url() and gzopen() functions, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
-		if( !function_exists( 'download_url' ) || !function_exists( 'gzopen' ) ) { return ''; }
+		// Also stop trying to update the database as it just won't work :)
+		if( false === function_exists( 'download_url' ) || false === function_exists( 'gzopen' ) ) { 
+				$WP_Statistics->update_option('update_geoip', false);
+				
+				$result = "<div class='updated settings-error'><p><strong>" . __('Error the download_url() or gzopen() functions do not exist!', 'wp_statistics') . "</strong></p></div>";
+				return $result;
+		}
 
 		// If GeoIP is disabled, bail out.
 		if( $WP_Statistics->get_option('geoip') == false ) { return '';}
@@ -26,16 +32,18 @@
 		// Check to see if the subdirectory we're going to upload to exists, if not create it.
 		if( !file_exists($upload_dir['basedir'] . '/wp-statistics') ) {
 			if( !@mkdir($upload_dir['basedir'] . '/wp-statistics', 0755 ) ) {
+				$WP_Statistics->update_option('update_geoip', false);
+				
 				$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s', 'wp_statistics'), $upload_dir['basedir'] ) . "</strong></p></div>";
 				return $result;
 			}
 		}
 
 		if( !is_writable( $upload_dir['basedir'] . '/wp-statistics' ) ) {
-			if( !chmod( $upload_dir['basedir'] . '/wp-statistics', 0755 ) ) {
-				$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s', 'wp_statistics'), $upload_dir['basedir'] ) . "</strong></p></div>";
-				return $result;
-			}
+			$WP_Statistics->update_option('update_geoip', false);
+
+			$result = "<div class='updated settings-error'><p><strong>" . sprintf(__('Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s', 'wp_statistics'), $upload_dir['basedir'] ) . "</strong></p></div>";
+			return $result;
 		}
 		
 		// Download the file from MaxMind, this places it in a temporary location.

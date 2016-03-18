@@ -177,12 +177,12 @@
 
 			<tr valign="top">
 				<th scope="row">
-					<?php _e('BC Math', 'wp_statistics'); ?>:
+					<?php _e('Zlib gzopen()', 'wp_statistics'); ?>:
 				</th>
 				
 				<td>
-					<strong><?php if( function_exists('bcadd') ) { _e('Installed','wp_statistics'); } else { _e('Not installed', 'wp_statistics'); }?></strong>
-					<p class="description"><?php _e('If the PHP BC Math Extension is installed.  BC Math is no longer required for the GeoIP code and is listed here only for historical reasons.', 'wp_statistics'); ?></p>
+					<strong><?php if( function_exists('gzopen') ) { _e('Installed','wp_statistics'); } else { _e('Not installed', 'wp_statistics'); }?></strong>
+					<p class="description"><?php _e('If the gzopen() function is installed.  gzopen() is required for the GeoIP database to be downloaded successfully.', 'wp_statistics'); ?></p>
 				</td>
 			</tr>
 
