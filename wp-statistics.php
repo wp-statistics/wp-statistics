@@ -442,19 +442,35 @@ License: GPL2
 		GLOBAL $WP_Statistics;
 
 		// Right side "wide" widgets
-		add_meta_box( 'wps_map_postbox', __( 'Today Visitors Map', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'map' ) );
-		add_meta_box( 'wps_hits_postbox', __( 'Hit Statistics', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'hits' ) );
-		add_meta_box( 'wps_top_visitors_postbox', __( 'Top Visitors', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'top.visitors' ) );
-		add_meta_box( 'wps_search_postbox', __( 'Search Engine Referrals', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'search' ) );
-		add_meta_box( 'wps_words_postbox', __( 'Latest Search Words', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'words' ) );
-		add_meta_box( 'wps_pages_postbox', __( 'Top 10 Pages', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'pages' ) );
-		add_meta_box( 'wps_recent_postbox', __( 'Recent Visitors', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'recent' ) );
+		if( $WP_Statistics->get_option('visits') ) { 
+			add_meta_box( 'wps_hits_postbox', __( 'Hit Statistics', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'hits' ) );
+		}
+		
+		if( $WP_Statistics->get_option('visitors') ) { 
+			add_meta_box( 'wps_top_visitors_postbox', __( 'Top Visitors', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'top.visitors' ) );
+			add_meta_box( 'wps_search_postbox', __( 'Search Engine Referrals', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'search' ) );
+			add_meta_box( 'wps_words_postbox', __( 'Latest Search Words', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'words' ) );
+			add_meta_box( 'wps_recent_postbox', __( 'Recent Visitors', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'recent' ) );
+
+			if( $WP_Statistics->get_option('geoip') ) { 
+				add_meta_box( 'wps_map_postbox', __( 'Today Visitors Map', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'map' ) );
+			}
+		}
+		
+		if( $WP_Statistics->get_option('pages') ) { 
+			add_meta_box( 'wps_pages_postbox', __( 'Top 10 Pages', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'pages' ) );
+		}
 		
 		// Left side "thin" widgets.
-		add_meta_box( 'wps_summary_postbox', __( 'Summary', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'summary' ) );
-		add_meta_box( 'wps_browsers_postbox', __( 'Browsers', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'browsers' ) );
-		add_meta_box( 'wps_referring_postbox', __( 'Top Referring Sites', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'referring' ) );
-		add_meta_box( 'wps_countries_postbox', __( 'Top 10 Countries', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'countries' ) );
+		if( $WP_Statistics->get_option('visitors') ) { 
+			add_meta_box( 'wps_summary_postbox', __( 'Summary', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'summary' ) );
+			add_meta_box( 'wps_browsers_postbox', __( 'Browsers', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'browsers' ) );
+			add_meta_box( 'wps_referring_postbox', __( 'Top Referring Sites', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'referring' ) );
+		
+			if( $WP_Statistics->get_option('geoip') ) { 
+				add_meta_box( 'wps_countries_postbox', __( 'Top 10 Countries', 'wp_statistics'), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'countries' ) );
+			}
+		}
 	}
 	
 	// This function adds the primary menu to WordPress network.
