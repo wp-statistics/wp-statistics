@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.4.2
-Stable tag: 10.0.5
+Stable tag: 10.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -234,8 +234,8 @@ If you still have issues open a new thread on the support forum and we'll try an
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 10.0 =
-The overview page has been completely rewritten!  If you had set custom values for what widgets to display and in what order on your overview page you will have to re-select them using the "Screen Options" tab on the overview page and by dragging and dropping the widgets in to place.
+= 10.1 =
+This is primarily a maintenance release with updates to various libraries and bug fixes.
 
 == Changelog ==
 = 10.1 =
