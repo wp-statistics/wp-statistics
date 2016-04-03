@@ -80,7 +80,7 @@ The admin manual is installed as part of the plugin, simply go to Statistics->Ma
 Disable / Enable the plugin.  You may also want to remove and re-install it.
 
 = All visitors are being set to unknown for their location? =
-Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.  
+Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.
 
 Also, if your running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will come up as unknown always.
 
@@ -143,7 +143,7 @@ Services that use centralized databases, like Google Analytics, for spam and rob
 
 = When I upgrade or install WP Statistics I get an error message like "Parse error: syntax error, unexpected T_STRING, expecting T_CONSTANT_ENCAPSED_STRING or '('" =
 
-Since WP Statistics 8.0, PHP 5.3 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 8.0 and generates a parse error. 
+Since WP Statistics 8.0, PHP 5.3 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 8.0 and generates a parse error.
 
 Your hosting provider should have a newer version of PHP available, sometimes you must activate it through your hosting control panel.
 
@@ -215,7 +215,7 @@ Do you have eAccelerator installed?  If so this is a known issue with eAccelerat
 
 = I've installed WP Statistics for the first time on a site and when I go to the statistics pages I get an error saying like "The following plugin table(s) do not exist in the database" =
 
-This is because something has gone wrong during the installation.  
+This is because something has gone wrong during the installation.
 
 At the end of the message will be a list of tables that are missing, you can use the provided link to re-run the installation routine.  If that does not resolve the issue and the visitors table is the only table listed, you may want to check your MySQL version.  Some older versions of MySQL (in the 5.0.x series) have issues with complex compound indexes, which we use on the visitors table.  If this is the case, check with your hosting provider and see if they can upgrade to a newer version of MySQL.
 
@@ -238,6 +238,20 @@ If you still have issues open a new thread on the support forum and we'll try an
 The overview page has been completely rewritten!  If you had set custom values for what widgets to display and in what order on your overview page you will have to re-select them using the "Screen Options" tab on the overview page and by dragging and dropping the widgets in to place.
 
 == Changelog ==
+= 10.1 =
+* Release Date: April 3, 2016
+* Updated: Top pages page to list the stats for the selected date range in the page list.
+* Updated: Added check for gzopen() function to the Optimization page as some builds of PHP are broken and do not include it which causes the GeoIP download to fail causing a white screen of death in some cases.
+* Updated: Added check to make sure we can write to the upload directory before doing so.
+* Updated: User Agent Parser library updated to V0.5.1.
+* Updated: MaxMind Reader Library updated to V1.1.
+* Fixed: Only display the widgets on the overview page that have their features enabled.
+* Fixed: Top pages list failed when there were less than 5 pages to display.
+* Fixed: Manual download links did not function.
+* Fixed: Typo in function name for purging the database.
+* Fixed: Renamed the Czech and Danish translation file names to function correctly.
+* Fixed: Ensure we have a valid page id before record the stat to the database to avoid an error being recorded in the PHP error log.
+
 = 10.0.5 =
 * Release Date: February 5, 2016
 * Fixed: Date range selector display after entering a custom date range.
@@ -482,13 +496,13 @@ The overview page has been completely rewritten!  If you had set custom values f
 * Added: RSS feed URL's can now be excluded.
 * Added: Option to set the country code for private IP addresses.
 * Fixed: Additional WP_DEBUG warning fixes.
-* Fixed: Incorrect parameter list in get_home_url() when checking for self referrals. 
+* Fixed: Incorrect parameter list in get_home_url() when checking for self referrals.
 * Fixed: Single quotes can now be used in the report content without being escaped.
 * Fixed: Referrers menu item was misspelled.
 * Updated: Italian, French, Polish, Arabic, Persian and Chinese translation.
 * Updated: Widget now formats numbers with international standards.
 * Updated: Short codes now support three number formatting options; i18n, english or none.
-* Updated: Removed old throttling code for hits which is no longer required. 
+* Updated: Removed old throttling code for hits which is no longer required.
 * Updated: IP address exclusions without a subnet mask now assume a single IP address instead of all IP addresses.
 
 = 8.7.2 =
@@ -752,7 +766,7 @@ The overview page has been completely rewritten!  If you had set custom values f
 * Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
 * Added: Admin manual, online viewing as well as downloadable version.
 * Added: Links for “Settings”, “WordPress Plugin Page” and “Rate” pages to the plugin list for WP Statistics.
-* Updated: General settings tab re-organization. 
+* Updated: General settings tab re-organization.
 * Updated: Several typo's and other minor issues.
 * Updated: Highcharts JS v3.0.9 to JS v4.0.1.
 * Updated: Persian (fa_IR) language.
@@ -785,7 +799,7 @@ The overview page has been completely rewritten!  If you had set custom values f
 * Release Date: March 10, 2014
 * Added: Additional checks for BC Math and cURL which are required for the GeoIP code.
 * Updated: GeoIP database handling if it is missing or invalid.
-* Updated: GeoIP database is now stored in uploads/wp-statistics directory so it does not get overwritten during upgrades. 
+* Updated: GeoIP database is now stored in uploads/wp-statistics directory so it does not get overwritten during upgrades.
 * Fixed: Typo's in the shortcode codes (thanks 	g33kg0dd3ss).
 * Updated: Polish (pl_PL) language.
 
@@ -849,7 +863,7 @@ The overview page has been completely rewritten!  If you had set custom values f
 * Fixes: Bug in the robots code that on new installs failed to populate the defaults in the database.
 * Fixes: All known warning messages when running in WordPress debug mode.
 * Fixes: Incorrect description of co-efficient value in the setting page.
-* Fixes: Top level links on the various stats pages now update highlight the current page in the admin menu instead of the overview page. 
+* Fixes: Top level links on the various stats pages now update highlight the current page in the admin menu instead of the overview page.
 * Fixes: Install code now only executes on a true new installation instead of on each activation.
 * Fixes: Bug in hits code when GeoIP was disabled, IP address would not be recorded.
 
@@ -868,7 +882,7 @@ The overview page has been completely rewritten!  If you had set custom values f
 * Release Date: January 16, 2014
 * Added: option to set the required capability level to view statistics in the admin interface.
 * Added: option to set the required capability level to manage statistics in the admin interface.
-* Fixes: 'See More' links on the overview page now update highlight the current page in the admin menu instead of the overview page. 
+* Fixes: 'See More' links on the overview page now update highlight the current page in the admin menu instead of the overview page.
 * Added: Schedule downloads of the GeoIP database.
 * Added: Auto populate missing GeoIP information after a download of the GeoIP database.
 * Fixes: Unschedule of report event if reporting is disabled.
