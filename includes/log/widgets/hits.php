@@ -7,6 +7,8 @@
 						var visit_chart;
 						jQuery(document).ready(function() {
 <?php	
+								$data_lines = array();
+								
 								if( $WP_Statistics->get_option( 'visits' ) ) {
 									echo "var visit_data_line = [";
 									
@@ -37,7 +39,7 @@
 									$data_lines[] = 'visitor_data_line';
 								}
 ?>
-							visit_chart = jQuery.jqplot('visits-stats', [<?php echo implode( ',', $data_lines)?>], {
+							visit_chart = jQuery.jqplot('visits-stats', [<?php echo implode( ',', $data_lines); ?>], {
 								title: {
 									text: '<b>' + <?php echo json_encode(__('Hits in the last', 'wp_statistics') . ' ' . $days . ' ' . __('days', 'wp_statistics')); ?> + '</b>',
 									fontSize: '12px',
