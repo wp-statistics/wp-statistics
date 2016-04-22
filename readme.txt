@@ -221,6 +221,20 @@ At the end of the message will be a list of tables that are missing, you can use
 
 If you still have issues open a new thread on the support forum and we'll try and resolve it for you.
 
+= I've changed the permissions for WP Statistics access and now I've lost access to it myself, how to I fix it? =
+
+If you have access to phpMyAdmin (or similar tool) you can query the wp_options table:
+
+	SELECT * FROM wp_options WHERE option_name = 'wp_statistics';
+
+Then edit the value, inside the string will be something like (note: "edit_plugins" will be whatever permission you selected):
+
+	s:15:"read_capability";s:12:"edit_plugins";s:17:"manage_capability";s:12:"edit_plugins";
+
+Replace it with:
+
+	s:15:"read_capability";s:14:"manage_options";s:17:"manage_capability";s:14:"manage_options";
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
