@@ -235,6 +235,12 @@ Replace it with:
 
 	s:15:"read_capability";s:14:"manage_options";s:17:"manage_capability";s:14:"manage_options";
 
+= I see error messages in my PHP log like "WordPress database error Duplicate entry 'YYYY-MM-DD' for key 'unique_date' for ..." =
+
+This is caused by a race condition in the code, it's safe to ignore (it shouldn't be labeled as an error really, but that is part of WordPress that we can't control).
+
+It happens when a new day starts and two visitors hit the site at nearly the same time for the first visit of the day. Both try and create a new row in the table to track the days visits, but only one of them success and the other throws this warning. 
+	
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
