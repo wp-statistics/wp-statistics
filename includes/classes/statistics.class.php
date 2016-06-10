@@ -559,6 +559,17 @@
 					}
 					
 					break;
+				case 'page':
+					if( array_key_exists( $id, $this->historical ) ) {
+						return $this->historical[$id];
+					}
+					else {
+						$result = $this->db->get_var($this->db->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND page_id = %d", $id));
+						if( $result > $count ) { $count = $result; }
+						$this->historical[$id] = $count;
+					}
+				
+					break;
 				}
 		
 			return $count;
