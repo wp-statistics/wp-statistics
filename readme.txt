@@ -258,6 +258,14 @@ It happens when a new day starts and two visitors hit the site at nearly the sam
 This is primarily a maintenance release with updates to various libraries and bug fixes.
 
 == Changelog ==
+= 10.2 =
+* Release Date: TBD
+* Added: Support for use page id in Get_Historical_Data function.
+* Updated: jQuery CSS references.
+* Fixed: Various WP_DEBUG warnings.
+* Fixed: Incorrect URL in quick access widget for some of the totals.
+* Removed: Google Maps support as Google no longer supports keyless access to the API (http://googlegeodevelopers.blogspot.com.es/2016/06/building-for-scale-updates-to-google.html).
+
 = 10.1 =
 * Release Date: April 3, 2016
 * Updated: Top pages page to list the stats for the selected date range in the page list.
