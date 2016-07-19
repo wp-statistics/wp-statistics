@@ -66,26 +66,6 @@ if( $wps_admin ) {
 
 		<tr valign="top">
 			<th scope="row">
-				<label for="wps_map_type"><?php _e('Map type', 'wp_statistics'); ?>:</label>
-			</th>
-			
-			<td>
-				<select name="wps_map_type">
-				<?php
-					foreach( array( __('Google', 'wp_statistics') => 'google', __('JQVMap', 'wp_statistics') => 'jqvmap') as $key => $value ) {
-						echo "<option value=\"$value\"";
-						if( $WP_Statistics->get_option('map_type') == $value ) { echo ' SELECTED'; }
-						echo ">$key</option>";
-					}
-				?>
-				</select>
-				<p class="description"><?php _e('The "Google" option will use Google\'s mapping service to plot the recent visitors (requires access to Google).', 'wp_statistics'); ?></p>
-				<p class="description"><?php _e('The "JQVMap" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services).', 'wp_statistics'); ?></p>
-			</td>
-		</tr>
-
-		<tr valign="top">
-			<th scope="row">
 				<label for="disable-map"><?php _e('Disable map', 'wp_statistics'); ?>:</label>
 			</th>
 			

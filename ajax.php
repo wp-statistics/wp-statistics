@@ -208,12 +208,7 @@ function wp_statistics_get_widget_contents_callback() {
 		}
 
 		if( 'map' == $widget || 'hitsmap' == $widget ) {
-			if( $WP_Statistics->get_option( 'map_type' ) == 'jqvmap' ) {
-				$widget = 'jqv.map';
-			}
-			else {
-				$widget = 'google.map';
-			}
+			$widget = 'jqv.map';
 		}
 		
 		if( '' == $widget ) { 
