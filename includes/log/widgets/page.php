@@ -10,7 +10,7 @@
 		if( $pageuri && !$pageid ) { $pageid = wp_statistics_uri_to_id( $pageuri ); }
 		
 		$post = get_post($pageid);
-		if( is_object($post) ) { $title = $post->post_title; } else { $title = ""; }
+		if( is_object($post) ) { $title = esc_html( $post->post_title ); } else { $title = ""; }
 		
 		$urlfields = "&page-id={$pageid}";
 		if( $pageuri ) { $urlfields .= "&page-uri={$pageuri}"; }

@@ -264,6 +264,7 @@ This is primarily a maintenance release with updates to various libraries and bu
 * Updated: jQuery CSS references.
 * Fixed: Various WP_DEBUG warnings.
 * Fixed: Incorrect URL in quick access widget for some of the totals.
+* Fixed: Make sure to escape the post title in the widget otherwise the graph may not be displayed correctly.
 * Removed: Google Maps support as Google no longer supports keyless access to the API (http://googlegeodevelopers.blogspot.com.es/2016/06/building-for-scale-updates-to-google.html).
 
 = 10.1 =
