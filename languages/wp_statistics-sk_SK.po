@@ -7,10 +7,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: GlotPress/1.0.2\n"
+"X-Generator: GlotPress/2.1.0\n"
+"Language: sk\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: wp-statistics/ajax.php:220
+#: wp-statistics/ajax.php:215
 msgid "No matching widget found!"
 msgstr ""
 
@@ -46,22 +47,22 @@ msgstr ""
 msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
 msgstr ""
 
-#: wp-statistics/ajax.php:299
+#: wp-statistics/ajax.php:294
 msgid "ERROR: Widget not found!"
 msgstr ""
 
-#: wp-statistics/dashboard.php:111 wp-statistics/editor.php:66
+#: wp-statistics/dashboard.php:107 wp-statistics/editor.php:66
 #: wp-statistics/includes/log/log.php:20
 msgid "Loading..."
 msgstr ""
 
-#: wp-statistics/dashboard.php:129 wp-statistics/editor.php:84
+#: wp-statistics/dashboard.php:125 wp-statistics/editor.php:84
 #: wp-statistics/includes/log/log.php:2
 msgid "Reloading..."
 msgstr ""
 
 #: wp-statistics/includes/log/top-visitors.php:41
-#: wp-statistics/wp-statistics.php:447
+#: wp-statistics/wp-statistics.php:450
 msgid "Top Visitors"
 msgstr ""
 
@@ -158,7 +159,7 @@ msgstr "sledovanie zobrazení"
 msgid "online user tracking"
 msgstr "on-line sledovanie používateľov"
 
-#: wp-statistics/wp-statistics.php:775
+#: wp-statistics/wp-statistics.php:791
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr "Nasledujúca tabuľka(ky) zásuvného modulu neexistuje v databáze, prosím, znova spustite inštaláčnú %s rutinu %s:"
 
@@ -622,7 +623,7 @@ msgstr "Za každú návštevu započítať niekoľko zobrazení. Momentálne %s.
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:177
 #: wp-statistics/includes/settings/tabs/wps-general.php:182
-#: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:516
+#: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:532
 msgid "Pages"
 msgstr "Stránky"
 
@@ -892,7 +893,7 @@ msgstr "Akýkoľvek skrátený kód (shortcode) podporovaný inštaláciou WordP
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:188
 #: wp-statistics/widget.php:38 wp-statistics/widget.php:247
-#: wp-statistics/wp-statistics.php:621
+#: wp-statistics/wp-statistics.php:637
 msgid "User Online"
 msgstr "Používateľ online"
 
@@ -964,40 +965,23 @@ msgstr "Zakázať Widget editora príspevku/stránky"
 msgid "Disable the page/post editor widget."
 msgstr "Zakázať widget editora stránky/príspevku."
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
-msgid "Map type"
-msgstr "Typ mapy"
-
 #: wp-statistics/includes/functions/functions.php:440
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
 msgid "Google"
 msgstr "Google"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
-msgid "JQVMap"
-msgstr "JQVMap"
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:82
-msgid "The \"Google\" option will use Google's mapping service to plot the recent visitors (requires access to Google)."
-msgstr "Možnosť \"Google\" bude používať pre zobrazenie posledných návštevníkov služby máp od Google (vyžaduje sa prístup ku Google)."
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:83
-msgid "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services)."
-msgstr "Možnosť \"JQVMap\" bude pre zobrazenie posledných návštevníkov používať JQVMap javascript knižnicu mapovania (nevyžaduje žiadne externé služby)."
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:89
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
 msgid "Disable map"
 msgstr "Zakázať mapu"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:95
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
 msgid "Disable the map display"
 msgstr "Vypnúť zobrazovanie máp"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:101
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:81
 msgid "Get country location from Google"
 msgstr "Získajte lokáciu krajiny z Google"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:107
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:87
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
 msgstr "Táto funkcia môže spôsobiť pri prezeraní štatistík pokles výkonu a je platná len ak je nastavený typ mapy na \"Google\"."
 
@@ -1051,7 +1035,7 @@ msgstr "Odstránenie"
 #: wp-statistics/includes/settings/tabs/wps-general.php:349
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:88
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:201
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:116
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:96
 #: wp-statistics/includes/settings/tabs/wps-removal.php:42
 msgid "Update"
 msgstr "Aktualizácia"
@@ -1069,7 +1053,7 @@ msgid "Once Every 4 Weeks"
 msgstr "Raz za 4 týždne"
 
 #: wp-statistics/widget.php:14 wp-statistics/wp-statistics.php:408
-#: wp-statistics/wp-statistics.php:469
+#: wp-statistics/wp-statistics.php:485
 msgid "Statistics"
 msgstr "Štatistiky"
 
@@ -1142,7 +1126,7 @@ msgstr "Meno"
 msgid "Items"
 msgstr "Položky"
 
-#: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:646
+#: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:662
 msgid "Yesterday visit"
 msgstr "Včera návštev"
 
@@ -1167,7 +1151,7 @@ msgid "Complete statistics for your WordPress site."
 msgstr "Kompletné štatistiky pre vaše WordPress stránky."
 
 #: wp-statistics/wp-statistics.php:313 wp-statistics/wp-statistics.php:428
-#: wp-statistics/wp-statistics.php:523
+#: wp-statistics/wp-statistics.php:539
 msgid "Settings"
 msgstr "Nastavenia"
 
@@ -1191,78 +1175,78 @@ msgstr "Hodnotiť tento zásuvný modul (plugin)"
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - hity"
 
-#: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:472
-#: wp-statistics/wp-statistics.php:510
+#: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:488
+#: wp-statistics/wp-statistics.php:526
 msgid "Overview"
 msgstr "Prehľad"
 
-#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:515
+#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:531
 msgid "Online"
 msgstr "Online"
 
-#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:517
+#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:533
 msgid "Referrers"
 msgstr "Odkazovače"
 
 #: wp-statistics/shortcode.php:142 wp-statistics/wp-statistics.php:420
-#: wp-statistics/wp-statistics.php:518
+#: wp-statistics/wp-statistics.php:534
 msgid "Searches"
 msgstr "Vyhľadávanie"
 
-#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:519
+#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:535
 msgid "Search Words"
 msgstr "Hľadané slová"
 
-#: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:520
+#: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:536
 msgid "Top Visitors Today"
 msgstr "Top návštevníci dnes"
 
-#: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:522
+#: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:538
 msgid "Optimization"
 msgstr "Optimalizácia"
 
-#: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:486
+#: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:502
 msgid "Manual"
 msgstr "Manuál"
 
-#: wp-statistics/wp-statistics.php:501
+#: wp-statistics/wp-statistics.php:517
 msgid "Site"
 msgstr "Stránka"
 
-#: wp-statistics/wp-statistics.php:502
+#: wp-statistics/wp-statistics.php:518
 msgid "Options"
 msgstr "Možnosti"
 
-#: wp-statistics/wp-statistics.php:628
+#: wp-statistics/wp-statistics.php:644
 msgid "Today visitor"
 msgstr "Dnes návštevníkov"
 
-#: wp-statistics/wp-statistics.php:634
+#: wp-statistics/wp-statistics.php:650
 msgid "Today visit"
 msgstr "Dnes navštíviť"
 
-#: wp-statistics/wp-statistics.php:640
+#: wp-statistics/wp-statistics.php:656
 msgid "Yesterday visitor"
 msgstr "Včera návštevníkov"
 
-#: wp-statistics/wp-statistics.php:652
+#: wp-statistics/wp-statistics.php:668
 msgid "View Stats"
 msgstr "Zobrazenie štatistiky"
 
-#: wp-statistics/wp-statistics.php:676
+#: wp-statistics/wp-statistics.php:692
 msgid "Download ODF file"
 msgstr "Stiahnuť ODF súbor"
 
-#: wp-statistics/wp-statistics.php:677
+#: wp-statistics/wp-statistics.php:693
 msgid "Download HTML file"
 msgstr "Stiahnuť súbor vo formáte HTML"
 
-#: wp-statistics/wp-statistics.php:681
+#: wp-statistics/wp-statistics.php:697
 msgid "Manual file not found."
 msgstr "Súbor manuálu nebol nájdený."
 
-#: wp-statistics/wp-statistics.php:748 wp-statistics/wp-statistics.php:880
-#: wp-statistics/wp-statistics.php:915
+#: wp-statistics/wp-statistics.php:764 wp-statistics/wp-statistics.php:891
+#: wp-statistics/wp-statistics.php:926
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nemáte dostatočné oprávnenia pre prístup k tejto stránke."
 
@@ -1323,7 +1307,7 @@ msgstr "Rýchle štatistiky"
 msgid "Top 10 Browsers"
 msgstr "Top 10 prehliadačov"
 
-#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:457
+#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:471
 msgid "Top 10 Countries"
 msgstr "Top 10 krajín"
 
@@ -1337,36 +1321,36 @@ msgstr "Dnešná mapa návštevníkov"
 msgid "Hit Statistics"
 msgstr "Štatistiky zobrazenia"
 
-#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:450
+#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:461
 msgid "Top 10 Pages"
 msgstr "Top 10 stránok"
 
 #: wp-statistics/dashboard.php:62
 #: wp-statistics/includes/log/last-visitor.php:36
-#: wp-statistics/wp-statistics.php:451
+#: wp-statistics/wp-statistics.php:453
 msgid "Recent Visitors"
 msgstr "Nedávni návštevníci"
 
 #: wp-statistics/dashboard.php:63
 #: wp-statistics/includes/log/top-referring.php:59
 #: wp-statistics/includes/log/top-referring.php:81
-#: wp-statistics/wp-statistics.php:456
+#: wp-statistics/wp-statistics.php:468
 msgid "Top Referring Sites"
 msgstr "Top odkazujúce stránky"
 
 #: wp-statistics/dashboard.php:64
 #: wp-statistics/includes/log/widgets/quickstats.php:75
 #: wp-statistics/includes/log/widgets/summary.php:75
-#: wp-statistics/wp-statistics.php:448
+#: wp-statistics/wp-statistics.php:451
 msgid "Search Engine Referrals"
 msgstr "Odkazovače vyhľadávača"
 
-#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:454
+#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:466
 msgid "Summary"
 msgstr "Zhrnutie"
 
 #: wp-statistics/dashboard.php:66 wp-statistics/includes/log/last-search.php:31
-#: wp-statistics/wp-statistics.php:449
+#: wp-statistics/wp-statistics.php:452
 msgid "Latest Search Words"
 msgstr "Naposledy hľadané slová"
 
@@ -1436,8 +1420,8 @@ msgid "Click to toggle"
 msgstr "Kliknutím prepnúť"
 
 #: wp-statistics/includes/log/all-browsers.php:30
-#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:455
-#: wp-statistics/wp-statistics.php:511
+#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:467
+#: wp-statistics/wp-statistics.php:527
 msgid "Browsers"
 msgstr "Prehliadače"
 
@@ -1510,7 +1494,7 @@ msgstr "Vylúčené zobrazenia naposledy"
 #: wp-statistics/includes/log/exclusions.php:95
 #: wp-statistics/includes/log/hit-statistics.php:66
 #: wp-statistics/includes/log/search-statistics.php:69
-#: wp-statistics/includes/log/widgets/hits.php:42
+#: wp-statistics/includes/log/widgets/hits.php:44
 #: wp-statistics/includes/log/widgets/search.php:42
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
@@ -1525,18 +1509,18 @@ msgid "Hits Statistics Chart"
 msgstr "Graf štatistík zobrazení"
 
 #: wp-statistics/includes/log/hit-statistics.php:66
-#: wp-statistics/includes/log/widgets/hits.php:42
+#: wp-statistics/includes/log/widgets/hits.php:44
 msgid "Hits in the last"
 msgstr "Zobrazenia posledých"
 
 #: wp-statistics/includes/log/hit-statistics.php:87
-#: wp-statistics/includes/log/widgets/hits.php:63
+#: wp-statistics/includes/log/widgets/hits.php:65
 msgid "Number of visits and visitors"
 msgstr "Návštevy a návštevníci"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:170
-#: wp-statistics/includes/log/widgets/hits.php:77
+#: wp-statistics/includes/log/widgets/hits.php:79
 #: wp-statistics/includes/log/widgets/quickstats.php:24
 #: wp-statistics/includes/log/widgets/summary.php:24
 msgid "Visit"
@@ -1544,7 +1528,7 @@ msgstr "Návštev"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:171
-#: wp-statistics/includes/log/widgets/hits.php:77
+#: wp-statistics/includes/log/widgets/hits.php:79
 #: wp-statistics/includes/log/widgets/quickstats.php:23
 #: wp-statistics/includes/log/widgets/summary.php:23
 msgid "Visitor"
@@ -1747,7 +1731,7 @@ msgstr "Tento produkt obsahuje GeoLite2 údaje vytvorené MaxMind, dostupné z %
 msgid "Other"
 msgstr "Ostatné"
 
-#: wp-statistics/wp-statistics.php:445
+#: wp-statistics/wp-statistics.php:456
 msgid "Today Visitors Map"
 msgstr "Dnešná mapa návštevníkov"
 
@@ -1802,7 +1786,7 @@ msgstr "Čas: %s"
 #: wp-statistics/includes/log/widgets/top.visitors.php:12
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:80
 #: wp-statistics/wp-statistics.php:337 wp-statistics/wp-statistics.php:416
-#: wp-statistics/wp-statistics.php:514
+#: wp-statistics/wp-statistics.php:530
 msgid "Hits"
 msgstr "Zobrazenia"
 
@@ -1821,7 +1805,7 @@ msgstr "Verzia"
 
 #: wp-statistics/ajax.php:41 wp-statistics/ajax.php:71
 #: wp-statistics/ajax.php:129 wp-statistics/ajax.php:154
-#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:302
+#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:297
 #: wp-statistics/includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "Prístup zamietnutý!"
@@ -1877,7 +1861,7 @@ msgstr "Index databázy"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:512
+#: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:528
 msgid "Countries"
 msgstr "Krajiny"
 
@@ -1962,7 +1946,7 @@ msgstr "Poznámka: Ako ste práve vyčistili databázu, musíte znova načítať
 #: wp-statistics/includes/settings/tabs/wps-general.php:138
 #: wp-statistics/includes/settings/tabs/wps-general.php:143
 #: wp-statistics/shortcode.php:140 wp-statistics/wp-statistics.php:423
-#: wp-statistics/wp-statistics.php:521
+#: wp-statistics/wp-statistics.php:537
 msgid "Visitors"
 msgstr "Návštevníci"
 
@@ -2464,7 +2448,7 @@ msgstr "Ak potrebujete viacej robustné riešenie na delegovanie prístupu, asi 
 #: wp-statistics/includes/log/exclusions.php:197
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:46
 #: wp-statistics/includes/settings/wps-settings.php:104
-#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:513
+#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:529
 msgid "Exclusions"
 msgstr "Vylúčenia"
 
@@ -2674,8 +2658,8 @@ msgstr "browscap použitie"
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:121
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:34
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:54
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:94
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:106
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:74
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:86
 msgid "Active"
 msgstr "Aktívne"
 

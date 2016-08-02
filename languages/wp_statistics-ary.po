@@ -1,14 +1,14 @@
-# Translation of WP Statistics in Czech
+# Translation of WP Statistics in Moroccan Arabic
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-04-22 00:40:36+0000\n"
+"PO-Revision-Date: 2016-04-05 21:10:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 "X-Generator: GlotPress/2.1.0\n"
-"Language: cs_CZ\n"
+"Language: ar_MA\n"
 "Project-Id-Version: WP Statistics\n"
 
 #: wp-statistics/ajax.php:215
@@ -73,7 +73,7 @@ msgstr ""
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:35
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
-msgstr ""
+msgstr "تفعيل"
 
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:30
 msgid "Purge Old Data Daily"
@@ -101,359 +101,359 @@ msgstr ""
 
 #: wp-statistics/shortcode.php:184
 msgid "The post/page id to get page statistics on."
-msgstr ""
+msgstr "رقم المقال/الصفحة للحصول على احصائياتها."
 
 #: wp-statistics/shortcode.php:181
 msgid "Post/Page ID"
-msgstr ""
+msgstr "رقم المقال/الصفحة"
 
 #: wp-statistics/includes/functions/functions.php:435
 msgid "Ask.com"
-msgstr ""
+msgstr "Ask.com"
 
 #: wp-statistics/shortcode.php:158
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
-msgstr ""
+msgstr "الجدول الزمني للحصول على إحصائية لـ, strtotime() (http://php.net/manual/en/datetime.formats.php) سيتم استخدامها لحساب ذلك. استخدام \"المجموع\" للحصول على كل التواريخ المسجلة."
 
 #: wp-statistics/wp-statistics.php:180
 msgid "visitor tracking"
-msgstr ""
+msgstr "تتبع الزوار"
 
 #: wp-statistics/wp-statistics.php:181
 msgid "geoip collection"
-msgstr ""
+msgstr "مجموعة geoip"
 
 #: wp-statistics/wp-statistics.php:197
 msgid "visit database index"
-msgstr ""
+msgstr "زيارة فهرس قاعدة البيانات"
 
 #: wp-statistics/wp-statistics.php:206
 msgid "Database updates are required, please go to %s and update the following: %s"
-msgstr ""
+msgstr "يجب تحديث قاعدة البيانات، يرجى الذهاب إلى %s وتحديث التالي: %s"
 
 #: wp-statistics/wp-statistics.php:197
 msgid "countries database index"
-msgstr ""
+msgstr "دول فهرس قاعدة البيانات"
 
 #: wp-statistics/wp-statistics.php:190
 msgid "search table"
-msgstr ""
+msgstr "جدول البحث"
 
 #: wp-statistics/wp-statistics.php:184
 msgid "settings page"
-msgstr ""
+msgstr "صفحة الإعدادات"
 
 #: wp-statistics/wp-statistics.php:184 wp-statistics/wp-statistics.php:206
 msgid ","
-msgstr ""
+msgstr "،"
 
 #: wp-statistics/wp-statistics.php:184
 msgid "The following features are disabled, please go to %s and enable them: %s"
-msgstr ""
+msgstr "الميزات التالية معطلة، يرجى الذهاب إلى %s وتمكينها: %s"
 
 #: wp-statistics/wp-statistics.php:179
 msgid "hit tracking"
-msgstr ""
+msgstr "تتبع النقرات"
 
 #: wp-statistics/wp-statistics.php:178
 msgid "online user tracking"
-msgstr ""
+msgstr "تتبع المستخدم المتصل"
 
 #: wp-statistics/wp-statistics.php:791
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
-msgstr ""
+msgstr "جدول الإضافة التالية غير موجود في قاعدة البيانات, يرجى إعادة تشغيل %s للتثبيت الروتيني %s:"
 
 #: wp-statistics/includes/optimization/wps-optimization.php:196
 msgid "Search table conversion complete, %d rows added."
-msgstr ""
+msgstr "بحث تحويل الجدول المكتمل، الصفوف %d أضيفت."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:113
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
-msgstr ""
+msgstr "التثبيت القديمة من احصائيات ووردبريس تخزن تفاصيل البحث في جدول آخر التي يمكن أن تصبح مشكلة على أداء مجموعات البيانات الكبيرة. تم إنشاء جدول جديد لإجراء هذه المعلومات بطريقة أفضل للتحجيم."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:94
 msgid "Search Table"
-msgstr ""
+msgstr "جدول البحث"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:99
 msgid "Convert"
-msgstr ""
+msgstr "التحويل"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:106
 msgid "Convert Now!"
-msgstr ""
+msgstr "تحويل الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:107
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
-msgstr ""
+msgstr "التثبيت القديمة من احصائيات ووردبريس تخزن تفاصيل البحث في جدول آخر التي يمكن أن تصبح مشكلة على أداء مجموعات البيانات الكبيرة. تم إنشاء جدول جديد لإجراء هذه المعلومات بطريقة أفضل للتدرج، ولكن يجب أولا تحويل البيانات القديمة إلى الشكل الجديد قبل أن تتمكن من استخدامها."
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Referrer Spam"
-msgstr ""
+msgstr "إحالات البريد المزعج"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:279
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
-msgstr ""
+msgstr "سيتم جدولة التحميل من قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها بالقائمة السوداء لمرة واحدة في الأسبوع."
 
 #: wp-statistics/includes/settings/wps-settings.php:105
 msgid "Externals"
-msgstr ""
+msgstr "الجهات الخارجية"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:220
 msgid "Piwik Referrer Spam Blacklist settings"
-msgstr ""
+msgstr "إعدادات القائمة السوداء Piwik لإحالات الرسائل الغير مرغوب فيها"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:255
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
-msgstr ""
+msgstr "جدولة التحديث الأسبوعي لـ Piwik لإحالات الرسائل الغير مرغوب فيها بقاعدة بيانات القائمة السوداء"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:248
 msgid "Download Piwik Referrer Spam Blacklist Database"
-msgstr ""
+msgstr "تحميل قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها من القائمة السوداء"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:243
 msgid "Update Piwik Referrer Spam Blacklist Info"
-msgstr ""
+msgstr "تحديث Piwik لإحالات الرسائل الغير مرغوب فيها بمعلومات القائمة السوداء"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:237
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
-msgstr ""
+msgstr "سيتم تحميل قاعدة البيانات Piwik لإحالات الرسائل الغير مرغوب فيها بالقائمة السوداء واستخدامها للكشف عن مرجعية البريد المزعج."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:225
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
-msgstr ""
+msgstr "يتم توفير إحالات الرسائل الغير مرغوب فيها بالقائمة السوداء من قبل Piwik، وهي متاحة من %s."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:231
 msgid "Piwik Referrer Spam Blacklist usage"
-msgstr ""
+msgstr "المرجع Piwik للرسائل الغير المرغوب فيها باستخدام القائمة السوداء"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:148
 msgid "Treat corrupt browser info as a bot"
-msgstr ""
+msgstr "علاج معلومات المتصفح فاسدة بوت"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "404 Pages"
-msgstr ""
+msgstr "404 صفحات"
 
 #: wp-statistics/includes/log/top-visitors.php:26
 msgid "Date"
-msgstr ""
+msgstr "تاريخ"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:151
 msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
-msgstr ""
+msgstr "علاج أي زائر مع معلومات الفاسدة المتصفح (عنوان IP مفقود أو فارغة سلسلة عامل المستخدم) على الروبوت."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:215
 msgid "Excluded 404 pages"
-msgstr ""
+msgstr "استبعاد 404 صفحات"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:218
 msgid "Exclude any URL that returns a \"404 - Not Found\" message."
-msgstr ""
+msgstr "استبعاد أي URL التي تقوم بإرجاع - رسالة &quot;404 لم يتم العثور على&quot;."
 
 #: wp-statistics/wps-updates.php:37
 msgid "Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s"
-msgstr ""
+msgstr "خطأ في إنشاء GeoIP دليل قاعدة البيانات، تأكد من خادم الويب الخاص بك لديه أذونات لإنشاء الدلائل في:٪ الصورة"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:281
 msgid "Add page title to empty search words"
-msgstr ""
+msgstr "إضافة عنوان الصفحة على كلمات بحث فارغة"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:287
 msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
-msgstr ""
+msgstr "إذا تم التعرف على محرك بحث باسم المرجع لكنه لا يشمل استعلام البحث هذا الخيار يوجب استبدال عنوان الصفحة في الاقتباس الذي يسبقه \"~:\" كما طلب البحث للمساعدة في تحديد ما قد تم البحث عنه من قبل المستخدم."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:218
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:75
 msgid "Purge visitors with more than"
-msgstr ""
+msgstr "الزوار المطهرين مع أكثر من"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:223
 msgid "hits"
-msgstr ""
+msgstr "مشاهدات"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:224
 msgid "Deleted user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits."
-msgstr ""
+msgstr "حذف بيانات إحصائيات المستخدم حيث أن المستخدم لديه أكثر من عدد محدد من الزيارات في يوم واحد. هذا يمكن أن يكون مفيد لتوضيح البيانات القديمة عندما يتم زيارة موقعك من خلال بوت. سيؤدي ذلك إلى إزالة الزوار ونقراتهم في الموقع، على كل حال هذا لن يزيل النقرات الفردية للصفحة كما لم يتم تسجيل تلك البيانات على أساس كل استخدام. قيمة الحد الأدنى هو 10 نقرات."
 
 #: wp-statistics/includes/functions/purge-hits.php:28
 msgid "No visitors found to purge."
-msgstr ""
+msgstr "لم يتم إيجاد زوار في التطهير."
 
 #: wp-statistics/includes/functions/purge-hits.php:25
 msgid "%s records purged successfully."
-msgstr ""
+msgstr "%s سجلات طهرت بنجاح."
 
 #: wp-statistics/ajax.php:178
 #: wp-statistics/includes/functions/purge-hits.php:32
 msgid "Number of hits must be greater than or equal to 10!"
-msgstr ""
+msgstr "عدد الزيارات يجب أن يكون أكبر من أو يساوي 10!"
 
 #: wp-statistics/shortcode.php:141
 msgid "Page Visits"
-msgstr ""
+msgstr "عدد زيارات هذه الصفحة"
 
 #: wp-statistics/shortcode.php:144
 msgid "Page Count"
-msgstr ""
+msgstr "عدد الصفحة"
 
 #: wp-statistics/shortcode.php:145
 msgid "Comment Count"
-msgstr ""
+msgstr "عدد التعليق"
 
 #: wp-statistics/shortcode.php:146
 msgid "Spam Count"
-msgstr ""
+msgstr "عدد السبام"
 
 #: wp-statistics/shortcode.php:147
 msgid "User Count"
-msgstr ""
+msgstr "عدد المستخدم"
 
 #: wp-statistics/shortcode.php:148
 msgid "Post Average"
-msgstr ""
+msgstr "متوسط المشاركة"
 
 #: wp-statistics/shortcode.php:149
 msgid "Comment Average"
-msgstr ""
+msgstr "متوسط التعليق"
 
 #: wp-statistics/shortcode.php:150
 msgid "User Average"
-msgstr ""
+msgstr "متوسط المستخدم"
 
 #: wp-statistics/shortcode.php:162
 msgid "Search Provider"
-msgstr ""
+msgstr "محرك البحث"
 
 #: wp-statistics/shortcode.php:165
 msgid "The search provider to get statistics on."
-msgstr ""
+msgstr "مزود البحث للحصول على إحصائيات عن."
 
 #: wp-statistics/shortcode.php:169
 msgid "Number Format"
-msgstr ""
+msgstr "صيغة الرقم"
 
 #: wp-statistics/shortcode.php:172
 msgid "The format to display numbers in: i18n, english, none."
-msgstr ""
+msgstr "صيغة الأرقام للعرض في: I18N، الانجليزية، لا شيء."
 
 #: wp-statistics/shortcode.php:176
 msgid "English"
-msgstr ""
+msgstr "الإنجليزية"
 
 #: wp-statistics/shortcode.php:177
 msgid "International"
-msgstr ""
+msgstr "دولي"
 
 #: wp-statistics/includes/log/exclusions.php:191
 #: wp-statistics/includes/log/hit-statistics.php:164
 msgid "Hits Statistics Summary"
-msgstr ""
+msgstr "موجز إحصائيات المشاهدات"
 
 #: wp-statistics/includes/log/exclusions.php:201
 #: wp-statistics/includes/log/hit-statistics.php:175
 msgid "Chart Total"
-msgstr ""
+msgstr "إجمالي الرسم البياني"
 
 #: wp-statistics/includes/log/exclusions.php:206
 #: wp-statistics/includes/log/hit-statistics.php:181
 msgid "All Time Total"
-msgstr ""
+msgstr "مجموع كل الوقت"
 
 #: wp-statistics/includes/log/log.php:6
 msgid "Have you thought about donating to WP Statistics?"
-msgstr ""
+msgstr "هل فكرت في التبرع لإحصائيات ووردبريس؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:20
 #: wp-statistics/wp-statistics.php:429
 msgid "Donate"
-msgstr ""
+msgstr "التبرع"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:24
 msgid "Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!"
-msgstr ""
+msgstr "صف لنا مدى إستمتاعك في منتج إحصائيات ووردبريس؟ واضغط صفحة %s وبيّن لنا بعض الحب!"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:24
 msgid "donation"
-msgstr ""
+msgstr "التبرعات"
 
 #: wp-statistics/includes/log/log.php:6
 msgid "Donate Now!"
-msgstr ""
+msgstr "تبرع الآن!"
 
 #: wp-statistics/includes/log/log.php:6
 msgid "Close"
-msgstr ""
+msgstr "إغلاق"
 
 #: wp-statistics/shortcode.php:135
 msgid "Select the statistic you wish to display."
-msgstr ""
+msgstr "حدد الإحصائية التي ترغب في عرضها."
 
 #: wp-statistics/shortcode.php:132
 msgid "Statistic"
-msgstr ""
+msgstr "إحصائية"
 
 #: wp-statistics/shortcode.php:143
 msgid "Post Count"
-msgstr ""
+msgstr "عدد المقال"
 
 #: wp-statistics/shortcode.php:155
 msgid "Time Frame"
-msgstr ""
+msgstr "الإطار الزمني"
 
 #: wp-statistics/includes/functions/functions.php:1032
 msgid "to"
-msgstr ""
+msgstr "إلى"
 
 #: wp-statistics/includes/functions/functions.php:1032
 #: wp-statistics/includes/log/top-visitors.php:29
 msgid "Go"
-msgstr ""
+msgstr "إذهب"
 
 #: wp-statistics/includes/log/top-pages.php:102
 msgid "Rank #5"
-msgstr ""
+msgstr "المرتبة #5"
 
 #: wp-statistics/includes/log/top-pages.php:102
 msgid "Rank #4"
-msgstr ""
+msgstr "المرتبة #4"
 
 #: wp-statistics/includes/log/top-pages.php:102
 msgid "Rank #3"
-msgstr ""
+msgstr "المرتبة #3"
 
 #: wp-statistics/includes/log/top-pages.php:102
 msgid "Rank #1"
-msgstr ""
+msgstr "المرتبة #1"
 
 #: wp-statistics/includes/log/top-pages.php:102
 msgid "Rank #2"
-msgstr ""
+msgstr "المرتبة #2"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:60
 msgid "Visits Table"
-msgstr ""
+msgstr "جدول الزيارات"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:75
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistits table, delete duplicate entries and add the index."
-msgstr ""
+msgstr "التثبيتات القديمة من احصائيات ووردبريس تسمح للإدخالات المكررة في جدول الزيارات في كل مرة. بتثبيت أحدث حماية مقابل هذا الفهرس الفريد على الجدول. و لإنشاء فهرس على الإصدارات القديمة المثبتة يجب أن يتم حذف الإدخالات المكررة أولا. أنقر على  \"التحديث الآن\" لفحص جدول الزيارات، وحذف الإدخالات المكررة وإضافة الفهرس."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:76
 msgid "This operation could take a long time on installs with many rows in the visits table."
-msgstr ""
+msgstr "هذه العملية يمكن أن تستغرق وقتا طويلا لتثبيت العديد من الصفوف في جدول الزيارات."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:82
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table."
-msgstr ""
+msgstr "التثبيتات القديمة من احصائيات ووردبريس تسمح للإدخالات المكررة في جدول الزيارات. للحماية من ذلك ثبت الفهرس الفريد في الجدول."
 
 #: wp-statistics/includes/log/last-visitor.php:68
 msgid "Filtered by"
-msgstr ""
+msgstr "تمت تصفيتها من قبل"
 
 #: wp-statistics/includes/functions/functions.php:1026
 #: wp-statistics/includes/functions/functions.php:1029
 msgid "Range"
-msgstr ""
+msgstr "المدى"
 
 #: wp-statistics/includes/functions/functions.php:1032
 #: wp-statistics/includes/log/top-visitors.php:29
@@ -462,118 +462,118 @@ msgstr "MM/DD/YYYY"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:342
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
-msgstr ""
+msgstr "لا تستخدم الترجمات واستخدام بدلاً من ذلك الإعدادات الافتراضية الإنجليزية لإحصائيات ووردبريس (يتطلب تحميل صفحتين)"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:336
 msgid "Force English"
-msgstr ""
+msgstr "إجبار اللغة الإنجليزية"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:331
 msgid "Languages"
-msgstr ""
+msgstr "اللغات"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:227
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
-msgstr ""
+msgstr "ملاحظة: هذا الخيار لن يتعامل مع معايير عنوان URL، (أي شيء بعد علامة؟) إلا اسم البرنامج النصي . سيتم تجاهل إدخالات أقل من حرفين."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:225
 msgid "A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection."
-msgstr ""
+msgstr "قائمة عناوين المواقع المحلية (اتصل بنا,حول, واحد في كل سطر) للإستبعاد من جمع الإحصائيات."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:222
 msgid "Excluded URLs list"
-msgstr ""
+msgstr "قائمة عناوين المواقع المستبعدة"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Excluded URL"
-msgstr ""
+msgstr "العناوين المستبعدة"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:52
 #: wp-statistics/includes/log/widgets/summary.php:52
 msgid "Last 365 Days (Year)"
-msgstr ""
+msgstr "مشاركة 365 يوم (السنة)"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:46
 #: wp-statistics/includes/log/widgets/summary.php:46
 msgid "Last 30 Days (Month)"
-msgstr ""
+msgstr "آخر 30 يوم (شهر)"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:40
 #: wp-statistics/includes/log/widgets/summary.php:40
 msgid "Last 7 Days (Week)"
-msgstr ""
+msgstr "آخر 7 أيام (أسبوع)"
 
 #: wp-statistics/includes/functions/functions.php:441
 msgid "Yahoo!"
-msgstr ""
+msgstr "ياهو!"
 
 #: wp-statistics/includes/functions/functions.php:442
 msgid "Yandex"
-msgstr ""
+msgstr "ياندكس"
 
 #: wp-statistics/includes/functions/functions.php:438
 msgid "clearch.org"
-msgstr ""
+msgstr "clearch.org"
 
 #: wp-statistics/includes/functions/functions.php:439
 msgid "DuckDuckGo"
-msgstr ""
+msgstr "دك دك غو"
 
 #: wp-statistics/includes/functions/functions.php:437
 msgid "Bing"
-msgstr ""
+msgstr "بينج"
 
 #: wp-statistics/includes/functions/functions.php:436
 msgid "Baidu"
-msgstr ""
+msgstr "بايدو"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Feeds"
-msgstr ""
+msgstr "التغذيات"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "User Role"
-msgstr ""
+msgstr "دور المستخدم"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Login Page"
-msgstr ""
+msgstr "صفحة تسجيل الدخول"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Admin Page"
-msgstr ""
+msgstr "صفحة الإدارة"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Self Referral"
-msgstr ""
+msgstr "الإحالة الذاتية"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "IP Match"
-msgstr ""
+msgstr "المتطابق IP"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Robot"
-msgstr ""
+msgstr "روبوت"
 
 #: wp-statistics/includes/log/online.php:100
 msgid "Currently there are no users online in the site."
-msgstr ""
+msgstr "حالياً هناك مستخدمين متواجدين في الموقع."
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Robot Threshold"
-msgstr ""
+msgstr "الحد من الروبوت"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Honey Pot"
-msgstr ""
+msgstr "وعاء العسل"
 
 #: wp-statistics/includes/log/widgets/page.php:8
 msgid "Page Trending Stats"
-msgstr ""
+msgstr "صفحة الإحصائيات الأكثر رواجاً"
 
 #: wp-statistics/includes/log/exclusions.php:24
 msgid "Hostname"
-msgstr ""
+msgstr "اسم المضيف"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:93
 #: wp-statistics/includes/settings/tabs/wps-general.php:133
@@ -583,238 +583,238 @@ msgstr ""
 #: wp-statistics/includes/settings/tabs/wps-general.php:229
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:122
 msgid "Enable or disable this feature"
-msgstr "Zapnout nebo vypnout tuto vlastnost"
+msgstr "تمكين أو تعطيل هذه الميزة"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:99
 msgid "Check for online users every"
-msgstr "Kontrola online uživatelů každých"
+msgstr "تحقق من المتصلين في الموقع في كل"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:104
 msgid "Second"
-msgstr "Sekunda"
+msgstr "ثانية"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:105
 msgid "Time for the check accurate online user in the site. Now: %s Second"
-msgstr "Čas pro kontrolu přesné online uživatele v síti. Nyní: %s druhé"
+msgstr "وقت التحقق من المستخدمين المتصلين في الموقع. الآن: %s ثانية"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
-msgstr ""
+msgstr "تسجيل جميع المستخدمين"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
-msgstr ""
+msgstr "يتجاهل إعدادات الإقصاء ويسجل كل المستخدمين التي يتم على الانترنت (بما في ذلك الإحالة الذاتية والروبوتات). وينبغي أن تستخدم فقط لاستكشاف الأخطاء وإصلاحها."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:155
 msgid "Store entire user agent string"
-msgstr "Uložení celé identifikační řetězec prohlížeče"
+msgstr "تخزين كامل سلسلة عامل المستخدم"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:161
 msgid "Only enabled for debugging"
-msgstr "Jen zapnout pro debugging"
+msgstr "تمكين فقط من أجل التصحيح"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:167
 msgid "Coefficient per visitor"
-msgstr "Koeficient na návštěvníka"
+msgstr "درجة لكل زائر"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:172
 msgid "For each visit to account for several hits. Currently %s."
-msgstr "Pro každou návštěvu k účtu pro několik hitů. V současné době %s."
+msgstr "حساب توجيه النقرات لكل زائر. حالياً %s."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:177
 #: wp-statistics/includes/settings/tabs/wps-general.php:182
 #: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:532
 msgid "Pages"
-msgstr "Stránky"
+msgstr "الصفحات"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:194
 msgid "Track all pages"
-msgstr "Sledovat všechny stránky"
+msgstr "تتبع جميع الصفحات"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:209
 msgid "Strip parameters from URI"
-msgstr ""
+msgstr "معايير الشريط من URI"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:215
 msgid "This will remove anything after the ? in a URL."
-msgstr ""
+msgstr "سيؤدي هذا إلى إزالة أي شيء بعد؟ في URL."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
-msgstr "Zakázat hity sloupec v seznamu post/stránky"
+msgstr "تعطيل عمود النقرات في قائمة المقال/الصفحات"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:234
 msgid "Miscellaneous"
-msgstr "Různé"
+msgstr "متفرقات"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:239
 msgid "Show stats in menu bar"
-msgstr "Zobrazit statistiky v menu baru"
+msgstr "إظهار الاحصائيات في شريط القوائم"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:244
 msgid "No"
-msgstr "Ne"
+msgstr "لا"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:245
 msgid "Yes"
-msgstr "Ano"
+msgstr "نعم"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:247
 msgid "Show stats in admin menu bar"
-msgstr "Zobrazit statistiku v admin menu baru"
+msgstr "اظهار الاحصائيات في شريط القوائم الإداري"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:253
 msgid "Hide admin notices about non active features"
-msgstr "SKrýt admin oznámení o neaktivních vlastnostech"
+msgstr "اخفاء إشعارات المشرف حول الميزات غير نشطة"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:259
 msgid "By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices."
-msgstr "Ve výchozím nastavení WP Statistics zobrazí výstrahu, pokud některý ze základních funkcí jsou zakázány na každé stránce správce, tato možnost zakáže tato oznámení."
+msgstr "افتراضيا احصائيات ووردبريس يعرض تنبيها إذا تم تعطيل أي من الميزات الأساسية في صفحة المشرف، وهذا الخيار لتعطيل هذه الإشعارات."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:265
 msgid "Delete the manual"
-msgstr "Odstranit manuál"
+msgstr "حذف الدليل"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:271
 msgid "By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future."
-msgstr "Ve výchozím nastavení ukládá statistiky WP admin ruční v adresáři plugin (~ 5 meg), je-li tato možnost povolena, bude odstraněn dnes a během upgrade v budoucnu."
+msgstr "افتراضيا احصائيات ووردبريس يخزن دليل المشرف في الدليل المساعد (~ 5 ميج)، إذا تم تمكين هذا الخيار سيتم حذفه الآن، وخلال الترقيات في المستقبل."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:276
 msgid "Search Engines"
-msgstr ""
+msgstr "محركات البحث"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:293
 msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
-msgstr "Zakázání všech vyhledávačů není dovoleno, to povede ve všech vyhledávačích je aktivní."
+msgstr "تعطيل جميع محركات البحث غير مسموح, سيؤدي ذلك الى تنشيط جميع محركات البحث."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:308
 msgid "disable"
-msgstr "vypnout"
+msgstr "تعطيل"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:309
 msgid "Disable %s from data collection and reporting."
-msgstr "Zakážete %s ze shromažďování údajů a výkaznictví."
+msgstr "تعطيل %s من جمع البيانات وإعداد التقارير."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:315
 msgid "Charts"
-msgstr "Grafy"
+msgstr "الرسوم البيانية"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:320
 msgid "Include totals"
-msgstr "Zahrnout součty"
+msgstr "تتضمن الاجماليات"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:326
 msgid "Add a total line to charts with multiple values, like the search engine referrals"
-msgstr "Přidání řádku Celkem se grafy s více hodnotami, jako je hledání vyhledávač doporučováním"
+msgstr "إضافة سطر مجموع المخططات مع قيم متعددة، مثل إحالات محرك البحث"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:32
 msgid "GeoIP settings"
-msgstr "GeoIP nastavení"
+msgstr "إعدادات GeoIP"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:37
 msgid "IP location services provided by GeoLite2 data created by MaxMind, available from %s."
-msgstr "IP umístění služby poskytované GeoLite2 data vytvořená MaxMind, k dispozici od %s."
+msgstr "خدمات الموقع IP المقدمة من البيانات GeoLite2 التي أنشأتها MaxMind، المتاحة من %s."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:47
 msgid "GeoIP collection"
-msgstr "GeoIP kolekce"
+msgstr "مجموعة GeoIP"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:53
 msgid "For get more information and location (country) from visitor, enable this feature."
-msgstr "Zapněte tuto vlastnost pro získání více informací a lokace (země) návštěvníka."
+msgstr "للحصول على مزيد من المعلومات، والمكان (البلد) من الزوار، تمكين هذه الميزة."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:59
 msgid "Update GeoIP Info"
-msgstr "Aktualizovat GeoIP Info"
+msgstr "تحديث معلومات GeoIP"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:64
 msgid "Download GeoIP Database"
-msgstr "Stáhnout GeoIP Databázi"
+msgstr "تحميل قاعدة بيانات GeoIP"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:71
 msgid "Schedule monthly update of GeoIP DB"
-msgstr "Naplánovat měsíční aktualizaci GeoIP DB"
+msgstr "جدولة التحديث الشهري لGeoIP DB"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:97
 msgid "Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month."
-msgstr "Stažení databáze GeoIP bude naplánováno na 2 dny po první úterý v měsíci."
+msgstr "سيتم جدولة التحميل من قاعدة البيانات GeoIP لمدة 2 يوما بعد يوم الثلاثاء الأول من الشهر."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:98
 msgid "This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place)."
-msgstr "Tato možnost bude také stáhnout databáze, je-li místní velikost souboru je menší než 1 KB (což obvykle znamená, že se zakázaným inzerováním, který je dodáván s plugin je stále na svém místě)."
+msgstr "وهذا الخيار أيضا تحميل قاعدة البيانات إذا كان حجم الملف المحلي أقل من 1K (الذي يعني عادة أن طرف البرنامج التي تأتي مع البرنامج المساعد لا يزال في مكانه)."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:104
 msgid "Populate missing GeoIP after update of GeoIP DB"
-msgstr "Vyplnit chybějící  GeoIP po aktualizaci GeoIP DB"
+msgstr "تعبئة GeoIP في عداد المفقودين بعد التحديث من GeoIP DB"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:110
 msgid "Update any missing GeoIP data after downloading a new database."
-msgstr "Aktualizovat chybějící GeoIP data po stažení nové databáze."
+msgstr "تحديث أي بيانات GeoIP مفقودة بعد تحميل قاعدة البيانات الجديدة."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:116
 msgid "Country code for private IP addresses"
-msgstr ""
+msgstr "رمز البلد لعناوين IP خاصة"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:121
 msgid "The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use \"000\" (three zeros) to use \"Unknown\" as the country code."
-msgstr ""
+msgstr "المعيار اثنين الرمز الدولي بلد إلكتروني (أي الولايات المتحدة = الولايات المتحدة الأمريكية، CA = كندا، الخ) ل(غير قابل للتوجيه) عناوين IP خاصة (أي. 10.0.0.1، 192.158.1.1، 127.0.0.1، وما إلى ذلك). استخدام \"000\" (ثلاثة أصفار) لاستخدام \"غير معروف\"، كما رمز البلد."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:132
 msgid "GeoIP collection is disabled due to the following reasons:"
-msgstr "Kolekce GeoIP je zakázáno z následujících důvodů:"
+msgstr "تم تعطيل مجموعة GeoIP وذلك للأسباب التالية:"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:135
 msgid "GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  "
-msgstr "GeoIP kolekce vyžaduje PHP %s nebo vyšš, z důvodu instalované verze PHP je vlastnost vypnuta"
+msgstr "جمع GeoIP يتطلب PHP %s أو أعلى، يتم تعطيله حاليا نظرا لكونها نسخة PHP مثبتة"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:140
 msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
-msgstr "GeoIP kolekce vyžaduje cURL PHP rozšíření a to není nahrané ve Vaší verzi PHP!"
+msgstr "مجموعة GeoIP تتطلب الملحق cURL PHP و هو غير مفعل على إصدار الـ PHP!"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:146
 msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
-msgstr "GeoIP kolekce vyžaduje BC Math PHP rozšíření a to není nahrané ve Vaší verzi PHP!"
+msgstr "مجموعة GeoIP تتطلب الملحق BC Math PHP و هو غير مفعل على إصدار الـ PHP!"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:152
 msgid "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe mode enabled!"
-msgstr "PHP nouzový režim zjištěn! GeoIP kolekce není podporován s PHP je nouzový režim povolen!"
+msgstr "تم الكشف عن الوضع الآمن في PHP! مجموعة GeoIP غير معتمدة عند تمكين الوضع الآمن في PHP!"
 
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:20
 msgid "This will permanently delete data from the database each day, are you sure you want to enable this option?"
-msgstr "To bude trvale odstranit data z databáze každý den, jste si jisti, že chcete povolit tuto možnost?"
+msgstr "سيؤدي ذلك إلى حذف البيانات من قاعدة البيانات بشكل دائم كل يوم، هل أنت متأكد من أنك تريد تمكين هذا الخيار؟"
 
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
-msgstr "Dny"
+msgstr "أيام"
 
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:53
 msgid "The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance."
-msgstr "Počet dnů zachovat statistiky. Minimální hodnota je 30 dní. Neplatné hodnoty zakáže každodenní údržbu."
+msgstr "عدد الأيام للحفاظ على الإحصاءات المتعلقة. قيمة الحد الأدنى هو 30 يوما. سيتم تعطيل الصيانة اليومية في حال ادخال قيم غير صالحة."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:44
 msgid "Common Report Options"
-msgstr ""
+msgstr "خيارات تقرير المشترك"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:49
 msgid "E-mail addresses"
-msgstr "E-mail adresy"
+msgstr "عناوين البريد الإلكتروني"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:54
 msgid "A comma separated list of e-mail addresses to send reports to."
-msgstr ""
+msgstr "أفصل قائمة عناوين البريد الإلكتروني بفاصلة لإرسال التقارير إلى."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:59
 msgid "Update Reports"
-msgstr ""
+msgstr "تقارير التحديث"
 
 #: wp-statistics/includes/log/exclusions.php:24
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:64
 msgid "Browscap"
-msgstr ""
+msgstr "Browscap"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:70
 msgid "Send a report whenever the browscap.ini is updated."
-msgstr ""
+msgstr "إرسال تقرير كلما يتم تحديث browscap.ini."
 
 #: wp-statistics/includes/log/exclusions.php:24
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:76
@@ -823,211 +823,211 @@ msgstr "GeoIP"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:82
 msgid "Send a report whenever the GeoIP database is updated."
-msgstr ""
+msgstr "إرسال تقرير كلما يتم تحديث قاعدة البيانات GeoIP."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:88
 msgid "Pruning"
-msgstr ""
+msgstr "تنقيح"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:94
 msgid "Send a report whenever the pruning of database is run."
-msgstr ""
+msgstr "إرسال تقرير كلما يتم تشغيل التنقيح في قاعدة البيانات."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:100
 msgid "Upgrade"
-msgstr ""
+msgstr "ترقية"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:106
 msgid "Send a report whenever the plugin is upgraded."
-msgstr ""
+msgstr "إرسال تقرير كلما تتم ترقية البرنامج المساعد."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:111
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:116
 #: wp-statistics/schedule.php:221
 msgid "Statistical reporting"
-msgstr "Statistický reporting"
+msgstr "تقارير الإحصائيات"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:129
 msgid "Schedule"
-msgstr "Plán"
+msgstr "جدول"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:153
 msgid "Select how often to receive statistical report."
-msgstr ""
+msgstr "حدد عدد المرات لتلقي تقرير إحصائي."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:159
 msgid "Send reports via"
-msgstr "Zaslat reporty via"
+msgstr "إرسال التقارير عن طريق"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:165
 msgid "Email"
-msgstr "Email"
+msgstr "البريد الإلكتروني"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:167
 msgid "SMS"
-msgstr "SMS"
+msgstr "رسائل نصية"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:170
 msgid "Select delivery method for statistical report."
-msgstr ""
+msgstr "حدد طريقة التسليم للتقرير الإحصائي."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr "Poznámka: Poslat SMS textové zprávy prosím nainstalovat zásuvný modul %s."
+msgstr "ملاحظة: لإرسال رسائل نصية SMS الرجاء تثبيت إضافة %s."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "WordPress SMS"
-msgstr "WordPress SMS"
+msgstr "الرسائل النصية"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:180
 msgid "Report body"
-msgstr "Tělo reportu"
+msgstr "تقرير الهيئة"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:185
 msgid "Enter the contents of the report."
-msgstr ""
+msgstr "أدخل محتويات التقرير."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:187
 msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:"
-msgstr ""
+msgstr "أي رمز قصير بدعم من مثبت ووردبريس، وتشمل جميع الاكواد المختصرة  لاحصائيات ووردبريس (انظر دليل المشرف للحصول على قائمة رموز المتاحة) معتمدة في نص الرسالة. وهنا بعض الأمثلة:"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:188
 #: wp-statistics/widget.php:38 wp-statistics/widget.php:247
 #: wp-statistics/wp-statistics.php:637
 msgid "User Online"
-msgstr "Online uživatelé"
+msgstr "المتواجدين الآن"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:189
 #: wp-statistics/widget.php:52 wp-statistics/widget.php:253
 msgid "Today Visitor"
-msgstr "Dnešní návštěvník"
+msgstr "زوار اليوم"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:190
 #: wp-statistics/widget.php:45 wp-statistics/widget.php:250
 msgid "Today Visit"
-msgstr "Dnešní návštěva"
+msgstr "زيارات اليوم"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:191
 #: wp-statistics/widget.php:66 wp-statistics/widget.php:259
 msgid "Yesterday Visitor"
-msgstr "Včerejší návštěvník"
+msgstr "زوار الأمس"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:192
 #: wp-statistics/widget.php:59
 msgid "Yesterday Visit"
-msgstr "Včerejší návštěva"
+msgstr "زيارات الأمس"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:193
 #: wp-statistics/widget.php:101 wp-statistics/widget.php:274
 msgid "Total Visitor"
-msgstr "Celkem návštěvníků"
+msgstr "مجموع الزوار"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:194
 #: wp-statistics/widget.php:94 wp-statistics/widget.php:271
 msgid "Total Visit"
-msgstr "Celkem návštěv"
+msgstr "مجموع الزيارات"
 
 #: wp-statistics/shortcode.php:175
 msgid "None"
-msgstr "Žádný"
+msgstr "لا شيء"
 
 #: wp-statistics/includes/settings/wps-settings.php:108
 msgid "About"
-msgstr "O"
+msgstr "حول"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:20
 msgid "Dashboard"
-msgstr ""
+msgstr "لوحة القيادة"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:24
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:44
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:64
 msgid "The following items are global to all users."
-msgstr ""
+msgstr "العناصر التالية هي عالمية لجميع المستخدمين."
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:29
 msgid "Disable dashboard widgets"
-msgstr ""
+msgstr "تعطيل قطع لوحة القيادة"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:35
 msgid "Disable the dashboard widgets."
-msgstr ""
+msgstr "تعطيل القطع للوحة القيادة"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:40
 msgid "Page/Post Editor"
-msgstr ""
+msgstr "محرر الصفحة/المشاركة"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:49
 msgid "Disable post/page editor widget"
-msgstr ""
+msgstr "تعطيل قطعة محرر الصفحة/المشاركة"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:55
 msgid "Disable the page/post editor widget."
-msgstr ""
+msgstr "تعطيل القطع لمحرر الصفحة/المشاركة"
 
 #: wp-statistics/includes/functions/functions.php:440
 msgid "Google"
-msgstr "Google"
+msgstr "جوجل"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
 msgid "Disable map"
-msgstr "Vypnout mapu"
+msgstr "تعطيل الخريطة"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
 msgid "Disable the map display"
-msgstr "Vypnout zobrazení mapy"
+msgstr "تعطيل عرض الخريطة"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:81
 msgid "Get country location from Google"
-msgstr "Získat polohu země z Google"
+msgstr "الحصول على موقع البلد من جوجل"
 
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:87
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
-msgstr "Tato funkce může způsobit snížení výkonu při prohlížení statistiky a je platná pouze pokud typ mapy je nastavena na \"Google\"."
+msgstr "قد تؤدي هذه الميزة تدهور الأداء عند عرض الإحصاءات وصالحة فقط إذا تم تعيين نوع الخريطة لـ \"جوجل\"."
 
 #: wp-statistics/includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
-msgstr ""
+msgstr "إزالة احصائيات ووردبريس"
 
 #: wp-statistics/includes/settings/tabs/wps-removal.php:20
 msgid "Uninstalling WP Statistics will not remove the data and settings, you can use this option to remove the WP Statistics data from your install before uninstalling the plugin."
-msgstr ""
+msgstr "إزالة احصائيات ووردبريس لن تقوم بإزالة البيانات والإعدادات، يمكنك استخدام هذا الخيار لإزالة البيانات الخاصة بك قبل إلغاء تثبيت البرنامج المساعد."
 
 #: wp-statistics/includes/settings/tabs/wps-removal.php:23
 msgid "Once you submit this form the settings will be deleted during the page load, however WP Statistics will still show up in your Admin menu until another page load is executed."
-msgstr ""
+msgstr "بمجرد التقدم في هذا الخيار سيتم حذف الإعدادات أثناء تحميل صفحة هذا النموذج، ولكن سوف تزال تظهر احصائيات ووردبريس في قائمة المشرف الخاص بك حتى يتم تحميل الصفحة مرة أخرى."
 
 #: wp-statistics/includes/settings/tabs/wps-removal.php:29
 msgid "Remove data and settings"
-msgstr ""
+msgstr "إزالة البيانات والإعدادات"
 
 #: wp-statistics/includes/settings/tabs/wps-removal.php:34
 msgid "Remove"
-msgstr ""
+msgstr "إزالة"
 
 #: wp-statistics/includes/settings/tabs/wps-removal.php:35
 msgid "Remove data and settings, this action cannot be undone."
-msgstr ""
+msgstr "إزالة البيانات والإعدادات، لا يمكنك التراجع مستقبلاً."
 
 #: wp-statistics/includes/settings/wps-settings.php:100
 msgid "General"
-msgstr "Obecné"
+msgstr "عام"
 
 #: wp-statistics/includes/settings/wps-settings.php:101
 msgid "Notifications"
-msgstr ""
+msgstr "الإشعارات"
 
 #: wp-statistics/includes/settings/wps-settings.php:102
 msgid "Dashboard/Overview"
-msgstr ""
+msgstr "اللوحة/نظرة عامة"
 
 #: wp-statistics/includes/settings/wps-settings.php:106
 msgid "Maintenance"
-msgstr "Údržba"
+msgstr "صيانة"
 
 #: wp-statistics/includes/settings/wps-settings.php:107
 msgid "Removal"
-msgstr ""
+msgstr "الإزالة"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:85
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:234
@@ -1038,337 +1038,337 @@ msgstr ""
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:96
 #: wp-statistics/includes/settings/tabs/wps-removal.php:42
 msgid "Update"
-msgstr "Aktualizovat"
+msgstr "تحديث"
 
 #: wp-statistics/schedule.php:10
 msgid "Once Weekly"
-msgstr "Jednou týdně"
+msgstr "مرة كل أسبوع"
 
 #: wp-statistics/schedule.php:17
 msgid "Once Every 2 Weeks"
-msgstr "Jednou za 2 týdny"
+msgstr "مرة كل 2 أسابيع"
 
 #: wp-statistics/schedule.php:24
 msgid "Once Every 4 Weeks"
-msgstr "Jednou za 4 týdny"
+msgstr "مرة كل 4 أسابيع"
 
 #: wp-statistics/widget.php:14 wp-statistics/wp-statistics.php:408
 #: wp-statistics/wp-statistics.php:485
 msgid "Statistics"
-msgstr "Statistiky"
+msgstr "الاحصائيات"
 
 #: wp-statistics/widget.php:15
 msgid "Show site stats in sidebar."
-msgstr "Zobrazit statistiky stránek v postranním panelu."
+msgstr "عرض احصائيات الموقع في الشريط الجانبي."
 
 #: wp-statistics/widget.php:73 wp-statistics/widget.php:262
 msgid "Week Visit"
-msgstr "Týdenní návštěva"
+msgstr "زيارات الأسبوع"
 
 #: wp-statistics/widget.php:80 wp-statistics/widget.php:265
 msgid "Month Visit"
-msgstr "Měsíční návštěva"
+msgstr "زيارات الشهر"
 
 #: wp-statistics/widget.php:87 wp-statistics/widget.php:268
 msgid "Years Visit"
-msgstr "Roční návštěvnost"
+msgstr "زيارات السنة"
 
 #: wp-statistics/widget.php:108 wp-statistics/widget.php:277
 msgid "Total Page Views"
-msgstr "Celkový počet zobrazení stránky"
+msgstr "مجموع مشاهدات الصفحة"
 
 #: wp-statistics/widget.php:116
 msgid "Search Engine referred"
-msgstr "Vyhledávač podle"
+msgstr "محرك البحث المشار"
 
 #: wp-statistics/widget.php:123 wp-statistics/widget.php:300
 msgid "Total Posts"
-msgstr "Celkem příspěvků"
+msgstr "إجمالي المشاركات"
 
 #: wp-statistics/widget.php:130 wp-statistics/widget.php:303
 msgid "Total Pages"
-msgstr "Celkem stránek"
+msgstr "إجمالي الصفحات"
 
 #: wp-statistics/widget.php:137 wp-statistics/widget.php:306
 msgid "Total Comments"
-msgstr "Celkem komentářů"
+msgstr "إجمالي التعليقات"
 
 #: wp-statistics/widget.php:144 wp-statistics/widget.php:309
 msgid "Total Spams"
-msgstr "Celkem Spamů"
+msgstr "إجمالي السبام"
 
 #: wp-statistics/widget.php:151 wp-statistics/widget.php:312
 msgid "Total Users"
-msgstr "Celkem uživatelů"
+msgstr "عدد الاعضاء"
 
 #: wp-statistics/widget.php:158 wp-statistics/widget.php:315
 msgid "Average Posts"
-msgstr "Průměr příspěvků"
+msgstr "متوسط المشاركات"
 
 #: wp-statistics/widget.php:165 wp-statistics/widget.php:318
 msgid "Average Comments"
-msgstr "Průměr komentářů"
+msgstr "متوسط التعليقات"
 
 #: wp-statistics/widget.php:172 wp-statistics/widget.php:321
 msgid "Average Users"
-msgstr "Průměr uživatelů"
+msgstr "متوسط الاعضاء"
 
 #: wp-statistics/shortcode.php:151 wp-statistics/widget.php:179
 #: wp-statistics/widget.php:324
 msgid "Last Post Date"
-msgstr "Datum posledního příspěvku"
+msgstr "تاريخ آخر مشاركة"
 
 #: wp-statistics/widget.php:240
 msgid "Name"
-msgstr "Jméno"
+msgstr "الأسم"
 
 #: wp-statistics/widget.php:244
 msgid "Items"
-msgstr "Položky"
+msgstr "البنود"
 
 #: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:662
 msgid "Yesterday visit"
-msgstr "Včera návštěv"
+msgstr "زيارات الأمس"
 
 #: wp-statistics/widget.php:280
 msgid "Search Engine Referred"
-msgstr "Vyhledávač podle"
+msgstr "محرك بحث المشارين"
 
 #: wp-statistics/widget.php:283
 msgid "Select type of search engine"
-msgstr "Vyberte typ vyhledávače"
+msgstr "حدد نوع من محرك البحث"
 
 #: wp-statistics/wp-statistics.php:122
 msgid "WP Statistics has been removed, please disable and delete it."
-msgstr ""
+msgstr "تمت إزالة احصائيات ووردبريس، يرجى التعطيل والحذف."
 
 #: wp-statistics/wp-statistics.php:54
 msgid "WP Statistics"
-msgstr "WP Statistiky"
+msgstr "احصائيات ووردبريس"
 
 #: wp-statistics/wp-statistics.php:55
 msgid "Complete statistics for your WordPress site."
-msgstr "Kompletní statistiky pro váš web WordPress."
+msgstr "إحصاءات كاملة لموقع ووردبريس الخاص بك."
 
 #: wp-statistics/wp-statistics.php:313 wp-statistics/wp-statistics.php:428
 #: wp-statistics/wp-statistics.php:539
 msgid "Settings"
-msgstr "Nastavení"
+msgstr "الإعدادات"
 
 #: wp-statistics/wp-statistics.php:325
 msgid "Click here to visit the plugin on WordPress.org"
-msgstr "Chcete-li navštívit plugin WordPress.org"
+msgstr "انقر هنا لزيارة صفحة الإضافة على WordPress.org"
 
 #: wp-statistics/wp-statistics.php:325
 msgid "Visit WordPress.org page"
-msgstr "Navštivte stránku WordPress.org"
+msgstr "زيارة صفحة WordPress.org"
 
 #: wp-statistics/wp-statistics.php:328
 msgid "Click here to rate and review this plugin on WordPress.org"
-msgstr "Klikněte zde pro hodnocení a recenzování tento plugin na WordPress.org"
+msgstr "أنقر هنا لمراجهة وتقييم الإضافة على WordPress.org"
 
 #: wp-statistics/wp-statistics.php:328
 msgid "Rate this plugin"
-msgstr "Ohodnoť tento plugin"
+msgstr "ضع تقييمك لهذه الاضافة"
 
 #: wp-statistics/wp-statistics.php:372
 msgid "WP Statistics - Hits"
-msgstr "WP Statistics - Hits"
+msgstr "احصائيات ووردبريس - الزيارات"
 
 #: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:488
 #: wp-statistics/wp-statistics.php:526
 msgid "Overview"
-msgstr "Přehled"
+msgstr "نظرة عامة"
 
 #: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:531
 msgid "Online"
-msgstr ""
+msgstr "المتواجدون"
 
 #: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:533
 msgid "Referrers"
-msgstr ""
+msgstr "الدعوات"
 
 #: wp-statistics/shortcode.php:142 wp-statistics/wp-statistics.php:420
 #: wp-statistics/wp-statistics.php:534
 msgid "Searches"
-msgstr "Vyhledávání"
+msgstr "عمليات البحث"
 
 #: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:535
 msgid "Search Words"
-msgstr "Hledaná slova"
+msgstr "كلمات البحث"
 
 #: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:536
 msgid "Top Visitors Today"
-msgstr ""
+msgstr "أعلى زوار اليوم"
 
 #: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:538
 msgid "Optimization"
-msgstr "Optimalizace"
+msgstr "التحسين"
 
 #: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:502
 msgid "Manual"
-msgstr "Manuál"
+msgstr "الدليل"
 
 #: wp-statistics/wp-statistics.php:517
 msgid "Site"
-msgstr ""
+msgstr "موقع"
 
 #: wp-statistics/wp-statistics.php:518
 msgid "Options"
-msgstr ""
+msgstr "خيارات"
 
 #: wp-statistics/wp-statistics.php:644
 msgid "Today visitor"
-msgstr "Dnešní návštěvník"
+msgstr "زوار اليوم"
 
 #: wp-statistics/wp-statistics.php:650
 msgid "Today visit"
-msgstr "Dnešní návštěva"
+msgstr "زيارات اليوم"
 
 #: wp-statistics/wp-statistics.php:656
 msgid "Yesterday visitor"
-msgstr "Včera návštěvníků"
+msgstr "زيارات الأمس"
 
 #: wp-statistics/wp-statistics.php:668
 msgid "View Stats"
-msgstr "Zobrazit statistiky"
+msgstr "عرض الإحصائيات"
 
 #: wp-statistics/wp-statistics.php:692
 msgid "Download ODF file"
-msgstr "Stáhnout soubor ODF"
+msgstr "تحميل ملف ODF"
 
 #: wp-statistics/wp-statistics.php:693
 msgid "Download HTML file"
-msgstr "Stáhnout HTML soubor"
+msgstr "تحميل ملف HTML"
 
 #: wp-statistics/wp-statistics.php:697
 msgid "Manual file not found."
-msgstr "Ruční soubor nebyl nalezen."
+msgstr "لم يتم العثور على ملف الدليل."
 
 #: wp-statistics/wp-statistics.php:764 wp-statistics/wp-statistics.php:891
 #: wp-statistics/wp-statistics.php:926
 msgid "You do not have sufficient permissions to access this page."
-msgstr "Nemáte dostatečná práva pro přístup na tuto stránku."
+msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة."
 
 #: wp-statistics/wp-statistics.php:301
 msgid "WP Statistics %s installed on"
-msgstr ""
+msgstr "احصائيات ووردبريس  %s مثبتة على"
 
 #: wp-statistics/wps-updates.php:54
 msgid "Error downloading GeoIP database from: %s - %s"
-msgstr "Chyba při stahování GeoIP databáze od: %s - %s"
+msgstr "خطأ تحميل قاعدة بيانات GeoIP من: %s - %s"
 
 #: wp-statistics/wps-updates.php:65
 msgid "Error could not open downloaded GeoIP database for reading: %s"
-msgstr "Chyba nelze otevřít stažené GeoIP databázi pro čtení: %s"
+msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP التي تم تحميلها للقراءة: %s"
 
 #: wp-statistics/wps-updates.php:72
 msgid "Error could not open destination GeoIP database for writing %s"
-msgstr "Chyba nelze otevřít cílovou databázi GeoIP pro psaní %s"
+msgstr "خطأ لا يمكن فتح قاعدة البيانات GeoIP لجهة الكتابة %s"
 
 #: wp-statistics/wps-updates.php:88
 msgid "GeoIP Database updated successfully!"
-msgstr "GeoIP Databáze byla úspěšně aktualizována!"
+msgstr "تم تحديث قاعدة بيانات GeoIP بنجاح!"
 
 #: wp-statistics/wps-updates.php:113
 msgid "GeoIP update on"
-msgstr ""
+msgstr "تحديث GeoIP على"
 
 #: wp-statistics/wps-updates.php:180
 msgid "Error downloading browscap database from: %s - %s"
-msgstr "Chyba při stahování browscap databáze od: %s - %s"
+msgstr "خطأ في قاعدة بيانات browscap تحميل من: %s - %s"
 
 #: wp-statistics/wps-updates.php:289
 msgid "browscap database updated successfully!"
-msgstr "Browscap databáze úspěšně aktualizován!"
+msgstr "قاعدة بيانات browscap تم تحديثها بنجاح!"
 
 #: wp-statistics/wps-updates.php:299
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
-msgstr ""
+msgstr "تحديث قاعدة بيانات browscap فشل! ملف الكاش كبير جدا، تم الرجوع إلى browscap.ini السابق."
 
 #: wp-statistics/wps-updates.php:307
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
-msgstr ""
+msgstr "تحديث قاعدة بيانات browscap فشل! لم تتم تحديد هوية browscap.ini الجديدة لكلا من  المستخدم والزواحف، وتم الرجوع إلى browscap.ini السابق."
 
 #: wp-statistics/wps-updates.php:329
 msgid "browscap already at current version!"
-msgstr "Browscap již v aktuální verzi!"
+msgstr "browscap بالفعل في النسخة الحالية!"
 
 #: wp-statistics/wps-updates.php:342
 msgid "Browscap.ini update on"
-msgstr ""
+msgstr "تحديث Browscap.ini على"
 
 #: wp-statistics/dashboard.php:56
 msgid "Quick Stats"
-msgstr ""
+msgstr "إحصائيات سريعة"
 
 #: wp-statistics/dashboard.php:57
 #: wp-statistics/includes/log/widgets/browsers.php:41
 msgid "Top 10 Browsers"
-msgstr "Top 10 Prohlížečů"
+msgstr "أفضل 10 متصفحات"
 
 #: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:471
 msgid "Top 10 Countries"
-msgstr "Pořadí"
+msgstr "أعلى 10 دول"
 
 #: wp-statistics/dashboard.php:59
 msgid "Today's Visitor Map"
-msgstr ""
+msgstr "خريطة زوار اليوم"
 
 #: wp-statistics/dashboard.php:60 wp-statistics/editor.php:46
 #: wp-statistics/includes/log/hit-statistics.php:8
 #: wp-statistics/wp-statistics.php:446
 msgid "Hit Statistics"
-msgstr "Statistika hitů"
+msgstr "احصائية النقرات"
 
 #: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:461
 msgid "Top 10 Pages"
-msgstr "Top 10 stránek"
+msgstr "أفضل 10 صفحات"
 
 #: wp-statistics/dashboard.php:62
 #: wp-statistics/includes/log/last-visitor.php:36
 #: wp-statistics/wp-statistics.php:453
 msgid "Recent Visitors"
-msgstr "Aktuální návštěvníci"
+msgstr "الزيارات الأخيرة"
 
 #: wp-statistics/dashboard.php:63
 #: wp-statistics/includes/log/top-referring.php:59
 #: wp-statistics/includes/log/top-referring.php:81
 #: wp-statistics/wp-statistics.php:468
 msgid "Top Referring Sites"
-msgstr "Nejlepší odkazující stránky"
+msgstr "أعلى المواقع اشارة"
 
 #: wp-statistics/dashboard.php:64
 #: wp-statistics/includes/log/widgets/quickstats.php:75
 #: wp-statistics/includes/log/widgets/summary.php:75
 #: wp-statistics/wp-statistics.php:451
 msgid "Search Engine Referrals"
-msgstr "Vyhledávací Engine odkazy"
+msgstr "إحالات محرك البحث"
 
 #: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:466
 msgid "Summary"
-msgstr "Souhrn"
+msgstr "ملخص"
 
 #: wp-statistics/dashboard.php:66 wp-statistics/includes/log/last-search.php:31
 #: wp-statistics/wp-statistics.php:452
 msgid "Latest Search Words"
-msgstr "Poslední vyhledávaný slova"
+msgstr "أحدث كلمات البحث"
 
 #: wp-statistics/dashboard.php:67
 msgid "Top 10 Visitors Today"
-msgstr ""
+msgstr "أفضل 10 زوار اليوم"
 
 #: wp-statistics/editor.php:58
 msgid "This post is not yet published."
-msgstr ""
+msgstr "لم يتم نشر هذا المقال حتى الآن."
 
 #: wp-statistics/includes/functions/geoip-populate.php:24
 msgid "Unable to load the GeoIP database, make sure you have downloaded it in the settings page."
-msgstr "Nemožné nahrát GeoIP databázi, zajistěte stažení v nastavení."
+msgstr "غير قادر على تحميل قاعدة البيانات GeoIP، تأكد من أنك قمت بتنزيلها في صفحة الإعدادات."
 
 #: wp-statistics/includes/functions/geoip-populate.php:48
 msgid "Updated %s GeoIP records in the visitors database."
-msgstr "Aktualizovat %s GeoIP záznamy v databázi návětěvníků."
+msgstr "تحديث السجلات %s  GeoIP في قاعدة بيانات الزوار."
 
 #: wp-statistics/includes/functions/purge.php:21
 #: wp-statistics/includes/functions/purge.php:39
@@ -1376,7 +1376,7 @@ msgstr "Aktualizovat %s GeoIP záznamy v databázi návětěvníků."
 #: wp-statistics/includes/functions/purge.php:61
 #: wp-statistics/includes/functions/purge.php:94
 msgid "%s data older than %s days purged successfully."
-msgstr "%s data starší než %s dnφ úspěšně vyprázdněna."
+msgstr "البيانات %s مضى عليها أكثر من %s أيام طهرت فيه بنجاح."
 
 #: wp-statistics/includes/functions/purge.php:23
 #: wp-statistics/includes/functions/purge.php:41
@@ -1384,20 +1384,20 @@ msgstr "%s data starší než %s dnφ úspěšně vyprázdněna."
 #: wp-statistics/includes/functions/purge.php:63
 #: wp-statistics/includes/functions/purge.php:96
 msgid "No records found to purge from %s!"
-msgstr "Žádné záznamy nalezeny očistit od %s!"
+msgstr "لا توجد سجلات للتخلص من %s!"
 
 #: wp-statistics/includes/functions/purge-hits.php:45
 #: wp-statistics/includes/functions/purge.php:109
 msgid "Database pruned on"
-msgstr ""
+msgstr "قاعدة بيانات مجردة على"
 
 #: wp-statistics/includes/functions/purge.php:114
 msgid "Please select a value over 30 days."
-msgstr "Prosím vyber hodnotu nad 30 dní."
+msgstr "يرجى تحديد قيمة أكثر من 30 يوما."
 
 #: wp-statistics/includes/log/all-browsers.php:21
 msgid "Browser Statistics"
-msgstr "Statistiky prohlížečů"
+msgstr "إحصائيات المتصفح"
 
 #: wp-statistics/includes/log/all-browsers.php:29
 #: wp-statistics/includes/log/all-browsers.php:113
@@ -1417,79 +1417,79 @@ msgstr "Statistiky prohlížečů"
 #: wp-statistics/includes/log/top-referring.php:77
 #: wp-statistics/includes/log/top-visitors.php:40
 msgid "Click to toggle"
-msgstr "Klik na vypínač"
+msgstr "انقر للتبديل"
 
 #: wp-statistics/includes/log/all-browsers.php:30
 #: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:467
 #: wp-statistics/wp-statistics.php:527
 msgid "Browsers"
-msgstr "Prohlížeče"
+msgstr "المتصفحات"
 
 #: wp-statistics/includes/log/all-browsers.php:57
 msgid "Browsers by type"
-msgstr "Prohlížeče podle typu"
+msgstr "حسب نوع المتصفحات"
 
 #: wp-statistics/includes/log/all-browsers.php:114
 #: wp-statistics/includes/log/widgets/top.visitors.php:18
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Platform"
-msgstr "Platforma"
+msgstr "المنصة"
 
 #: wp-statistics/includes/log/all-browsers.php:141
 msgid "Browsers by platform"
-msgstr "Platforma prohlížečů"
+msgstr "حسب نوع المنصة"
 
 #: wp-statistics/includes/log/all-browsers.php:249
 msgid "%s Version"
-msgstr "%s Verze"
+msgstr "الإصدار %s"
 
 #: wp-statistics/includes/log/exclusions.php:8
 msgid "Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!"
-msgstr "Pozor: Vyloučení nejsou nastaveny v současnosti zaznamenávají, výsledky níže nemusí odrážet aktuální statistiky!"
+msgstr "تنبيه: لم يتم تعيين الاستثناءات حاليا ليتم تسجيلها، قد لا تستطيع عكس نتائج الإحصائيات الحالية أدناه!"
 
 #: wp-statistics/includes/log/exclusions.php:64
 msgid "Exclusions Statistics"
-msgstr "Vyloučení statistiky"
+msgstr "استثناءات الاحصائيات"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "10 Days"
-msgstr "10 Dnů"
+msgstr "10 أيام"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "20 Days"
-msgstr "20 Dnů"
+msgstr "20 يوم"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "30 Days"
-msgstr "30 Dnů"
+msgstr "30 يو م"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "2 Months"
-msgstr "2 Měsíce"
+msgstr "شهرين"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "3 Months"
-msgstr "3 Měsíce"
+msgstr "3 أشهر"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "6 Months"
-msgstr "6 Měsíců"
+msgstr "6 أشهر"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "9 Months"
-msgstr "9 Měsíců"
+msgstr "9 أشهر"
 
 #: wp-statistics/includes/functions/functions.php:970
 msgid "1 Year"
-msgstr "1 Rok"
+msgstr "سنة"
 
 #: wp-statistics/includes/log/exclusions.php:73
 msgid "Exclusions Statistical Chart"
-msgstr "Statistický graf vyjímek"
+msgstr "الرسم البياني لإحصائيات الاستثناءات"
 
 #: wp-statistics/includes/log/exclusions.php:95
 msgid "Excluded hits in the last"
-msgstr "Vyloučené hity v posledních"
+msgstr "استبعاد النقرات في الأخير"
 
 #: wp-statistics/includes/log/exclusions.php:95
 #: wp-statistics/includes/log/hit-statistics.php:66
@@ -1498,25 +1498,25 @@ msgstr "Vyloučené hity v posledních"
 #: wp-statistics/includes/log/widgets/search.php:42
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
-msgstr "dnů"
+msgstr "أيام"
 
 #: wp-statistics/includes/log/exclusions.php:116
 msgid "Number of excluded hits"
-msgstr "Počet vyjmutých hitů"
+msgstr "عدد الزيارات المستبعدة"
 
 #: wp-statistics/includes/log/hit-statistics.php:27
 msgid "Hits Statistics Chart"
-msgstr "Graf statistiky přístupů"
+msgstr "الرسم البياني لاحصائيات النقرات"
 
 #: wp-statistics/includes/log/hit-statistics.php:66
 #: wp-statistics/includes/log/widgets/hits.php:44
 msgid "Hits in the last"
-msgstr "Hity v posledních"
+msgstr "آخر النقرات"
 
 #: wp-statistics/includes/log/hit-statistics.php:87
 #: wp-statistics/includes/log/widgets/hits.php:65
 msgid "Number of visits and visitors"
-msgstr "Počet návštěv a návštěvníků"
+msgstr "عدد الزيارات والزوار"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:170
@@ -1524,7 +1524,7 @@ msgstr "Počet návštěv a návštěvníků"
 #: wp-statistics/includes/log/widgets/quickstats.php:24
 #: wp-statistics/includes/log/widgets/summary.php:24
 msgid "Visit"
-msgstr "Návštěva"
+msgstr "زيارة"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:171
@@ -1532,11 +1532,11 @@ msgstr "Návštěva"
 #: wp-statistics/includes/log/widgets/quickstats.php:23
 #: wp-statistics/includes/log/widgets/summary.php:23
 msgid "Visitor"
-msgstr "Návštěvník"
+msgstr "زائر"
 
 #: wp-statistics/includes/log/last-search.php:65
 msgid "Latest Search Word Statistics"
-msgstr "Stastiky posledně vyhledávaných slov"
+msgstr "أحصائيات أحدث كلمات البحث"
 
 #: wp-statistics/includes/log/last-search.php:110
 #: wp-statistics/includes/log/last-visitor.php:101
@@ -1546,7 +1546,7 @@ msgstr "Stastiky posledně vyhledávaných slov"
 #: wp-statistics/includes/log/widgets/recent.php:14
 #: wp-statistics/includes/log/widgets/words.php:27
 msgid "#hash#"
-msgstr "#hash #"
+msgstr "#hash#"
 
 #: wp-statistics/includes/log/last-search.php:115
 #: wp-statistics/includes/log/last-visitor.php:106
@@ -1556,7 +1556,7 @@ msgstr "#hash #"
 #: wp-statistics/includes/log/widgets/words.php:42
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:60
 msgid "Map"
-msgstr "Mapa"
+msgstr "خريطة"
 
 #: wp-statistics/includes/log/last-search.php:159
 #: wp-statistics/includes/log/last-visitor.php:139
@@ -1564,7 +1564,7 @@ msgstr "Mapa"
 #: wp-statistics/includes/log/top-pages.php:205
 #: wp-statistics/includes/log/top-referring.php:153
 msgid "Page"
-msgstr "Stránka"
+msgstr "صفحة"
 
 #: wp-statistics/includes/log/last-search.php:159
 #: wp-statistics/includes/log/last-visitor.php:139
@@ -1572,7 +1572,7 @@ msgstr "Stránka"
 #: wp-statistics/includes/log/top-pages.php:205
 #: wp-statistics/includes/log/top-referring.php:153
 msgid "From"
-msgstr "Od"
+msgstr "من"
 
 #: wp-statistics/includes/log/last-search.php:47
 #: wp-statistics/includes/log/last-visitor.php:38
@@ -1581,43 +1581,43 @@ msgstr "Od"
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:192
 #: wp-statistics/widget.php:296
 msgid "All"
-msgstr "Všechno"
+msgstr "الكل"
 
 #: wp-statistics/includes/log/last-visitor.php:68
 msgid "Recent Visitor Statistics"
-msgstr "Nedávné statistiky návštěvnosti"
+msgstr "آخر إحصائيات الزوار"
 
 #: wp-statistics/includes/log/online.php:11
 #: wp-statistics/includes/log/online.php:18
 msgid "Online Users"
-msgstr ""
+msgstr "المستخدمين على الانترنت"
 
 #: wp-statistics/includes/log/online.php:75
 msgid "Online for "
-msgstr ""
+msgstr "متصل لـ"
 
 #: wp-statistics/includes/log/page-statistics.php:26
 msgid "Page Trend for Post ID"
-msgstr "Stránky Trend pro ID příspěvku"
+msgstr "صفحة الأكثر رواجاً بمعرف المشاركة"
 
 #: wp-statistics/includes/log/page-statistics.php:35
 msgid "Page Trend"
-msgstr "Stránky Trend"
+msgstr "الصفحة الأكثر رواجاً"
 
 #: wp-statistics/includes/log/search-statistics.php:19
 #: wp-statistics/includes/log/search-statistics.php:28
 msgid "Search Engine Referral Statistics"
-msgstr "Vyhledávací Engine referenční Statistika"
+msgstr "إحصائيات مرجعية محرك البحث"
 
 #: wp-statistics/includes/log/search-statistics.php:69
 #: wp-statistics/includes/log/widgets/search.php:42
 msgid "Search engine referrals in the last"
-msgstr "Vyhledávací stroj doporučení v posledních"
+msgstr "إحالات محرك البحث في الأخير"
 
 #: wp-statistics/includes/log/search-statistics.php:90
 #: wp-statistics/includes/log/widgets/search.php:63
 msgid "Number of referrals"
-msgstr "Počet odkazů"
+msgstr "عدد الإحالات"
 
 #: wp-statistics/includes/log/exclusions.php:24
 #: wp-statistics/includes/log/search-statistics.php:104
@@ -1627,58 +1627,58 @@ msgstr "Počet odkazů"
 #: wp-statistics/includes/log/widgets/summary.php:58
 #: wp-statistics/includes/log/widgets/summary.php:105
 msgid "Total"
-msgstr "Celkem"
+msgstr "المجموع"
 
 #: wp-statistics/includes/log/top-countries.php:18
 #: wp-statistics/includes/log/top-countries.php:27
 msgid "Top Countries"
-msgstr "Top zemí"
+msgstr "أفضل الدول"
 
 #: wp-statistics/includes/log/top-countries.php:31
 #: wp-statistics/includes/log/widgets/countries.php:9
 #: wp-statistics/includes/log/widgets/top.visitors.php:11
 msgid "Rank"
-msgstr "Vlajka"
+msgstr "الترتيب"
 
 #: wp-statistics/includes/log/top-countries.php:32
 #: wp-statistics/includes/log/widgets/countries.php:10
 #: wp-statistics/includes/log/widgets/top.visitors.php:13
 msgid "Flag"
-msgstr "Počet návštěvníků"
+msgstr "العلم"
 
 #: wp-statistics/includes/log/top-countries.php:33
 #: wp-statistics/includes/log/widgets/countries.php:11
 #: wp-statistics/includes/log/widgets/top.visitors.php:14
 msgid "Country"
-msgstr "Země"
+msgstr "الدولة"
 
 #: wp-statistics/includes/log/top-countries.php:34
 #: wp-statistics/includes/log/widgets/countries.php:12
 msgid "Visitor Count"
-msgstr "Počet návštěvníků"
+msgstr "عدد الزوار"
 
 #: wp-statistics/includes/log/top-pages.php:20
 #: wp-statistics/includes/log/top-pages.php:156
 msgid "Top Pages"
-msgstr "Nejlepší stránky"
+msgstr "أفضل الصفحات"
 
 #: wp-statistics/includes/log/top-pages.php:30
 msgid "Top 5 Pages Trends"
-msgstr "Top 5 stránek trendy"
+msgstr "الصفحات الـ5 الأكثر رواجاً"
 
 #: wp-statistics/includes/log/top-pages.php:67
 msgid "Top 5 Page Trending Stats"
-msgstr "Top 5 stránek trendy statistiky"
+msgstr "احصائيات الصفحات الـ5 الأكثر رواجاً"
 
 #: wp-statistics/includes/log/top-pages.php:88
 #: wp-statistics/includes/log/widgets/page.php:63
 msgid "Number of Hits"
-msgstr "Počet přístupů"
+msgstr "عدد الزيارات"
 
 #: wp-statistics/includes/log/top-pages.php:184
 #: wp-statistics/includes/log/widgets/pages.php:13
 msgid "No page title found"
-msgstr "Žádný titulek stránky nalézt"
+msgstr "لم يتم العثور على عنوان الصفحة"
 
 #: wp-statistics/includes/log/top-pages.php:187
 #: wp-statistics/includes/log/widgets/pages.php:16
@@ -1687,218 +1687,218 @@ msgstr "Žádný titulek stránky nalézt"
 #: wp-statistics/includes/settings/tabs/wps-general.php:127
 #: wp-statistics/shortcode.php:139
 msgid "Visits"
-msgstr "Návštěvy"
+msgstr "الزيارات"
 
 #: wp-statistics/includes/log/top-referring.php:4
 msgid "To be added soon"
-msgstr "Brzy bude přidáno"
+msgstr "تضاف قريبا"
 
 #: wp-statistics/includes/log/top-referring.php:79
 msgid "Referring sites from"
-msgstr "Odkazující stránky od"
+msgstr "مواقع اشارة من"
 
 #: wp-statistics/includes/log/top-referring.php:137
 #: wp-statistics/includes/log/widgets/referring.php:35
 msgid "References"
-msgstr "Odkazy"
+msgstr "المراجع"
 
 #: wp-statistics/includes/log/top-visitors.php:12
 msgid "Top 100 Visitors Today"
-msgstr ""
+msgstr "أفضل 100 زائر اليوم"
 
 #: wp-statistics/includes/log/log.php:17
 msgid "About WP Statistics Version %s"
-msgstr "O WP Statistics Verze %s"
+msgstr "حول  إصدار احصائيات ووردبريس %s"
 
 #: wp-statistics/includes/log/widgets/about.php:11
 msgid "Website"
-msgstr "Web stránky"
+msgstr "الموقع"
 
 #: wp-statistics/includes/log/widgets/about.php:12
 msgid "Rate and Review"
-msgstr "Hodnotit a recenzovat"
+msgstr "التقييم  والمراجعة"
 
 #: wp-statistics/includes/log/widgets/about.php:16
 msgid "More Information"
-msgstr "Více informací"
+msgstr "مزيد من المعلومات"
 
 #: wp-statistics/includes/log/widgets/about.php:25
 #: wp-statistics/includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
-msgstr "Tento produkt obsahuje GeoLite2 data vytvořená MaxMind, k dispozici od %s."
+msgstr "يتضمن هذا المنتج البيانات GeoLite2 التي أنشأتها MaxMind، المتاحة من %s."
 
 #: wp-statistics/includes/log/widgets/browsers.php:34
 msgid "Other"
-msgstr "Jiný"
+msgstr "أخرى"
 
 #: wp-statistics/wp-statistics.php:456
 msgid "Today Visitors Map"
-msgstr "Dnešní mapa návštšvníků"
+msgstr "خريطة زوار اليوم"
 
 #: wp-statistics/includes/log/widgets/referring.php:36
 msgid "Address"
-msgstr "Adresa"
+msgstr "العنوان"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:12
 #: wp-statistics/includes/log/widgets/summary.php:12
 msgid "User(s) Online"
-msgstr "Online uživatelé"
+msgstr "المتصلين على الانترنت"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:28
 #: wp-statistics/includes/log/widgets/quickstats.php:80
 #: wp-statistics/includes/log/widgets/summary.php:28
 #: wp-statistics/includes/log/widgets/summary.php:80
 msgid "Today"
-msgstr "Dnes"
+msgstr "اليوم"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:34
 #: wp-statistics/includes/log/widgets/quickstats.php:81
 #: wp-statistics/includes/log/widgets/summary.php:34
 #: wp-statistics/includes/log/widgets/summary.php:81
 msgid "Yesterday"
-msgstr "Včera"
+msgstr "الأمس"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:99
 #: wp-statistics/includes/log/widgets/summary.php:99
 msgid "Daily Total"
-msgstr "Denně celkem"
+msgstr "المجموع اليومي"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:118
 #: wp-statistics/includes/log/widgets/summary.php:118
 msgid "Current Time and Date"
-msgstr "Aktuální čas a datum"
+msgstr "التوقيت الحالي و التاريخ"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:118
 #: wp-statistics/includes/log/widgets/summary.php:118
 msgid "(Adjustment)"
-msgstr "(Nastavení)"
+msgstr "(التوافق)"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:122
 #: wp-statistics/includes/log/widgets/summary.php:122
 msgid "Date: %s"
-msgstr "Datum: %s"
+msgstr "التاريخ: %s"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:126
 #: wp-statistics/includes/log/widgets/summary.php:126
 msgid "Time: %s"
-msgstr "Čas: %s"
+msgstr "التوقيت: %s"
 
 #: wp-statistics/includes/log/widgets/top.visitors.php:12
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:80
 #: wp-statistics/wp-statistics.php:337 wp-statistics/wp-statistics.php:416
 #: wp-statistics/wp-statistics.php:530
 msgid "Hits"
-msgstr "Hity"
+msgstr "نقرات"
 
 #: wp-statistics/includes/log/widgets/top.visitors.php:15
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: wp-statistics/includes/log/widgets/top.visitors.php:17
 msgid "Agent"
-msgstr ""
+msgstr "وكيل"
 
 #: wp-statistics/includes/log/widgets/top.visitors.php:19
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:291
 msgid "Version"
-msgstr ""
+msgstr "الإصدار"
 
 #: wp-statistics/ajax.php:41 wp-statistics/ajax.php:71
 #: wp-statistics/ajax.php:129 wp-statistics/ajax.php:154
 #: wp-statistics/ajax.php:184 wp-statistics/ajax.php:297
 #: wp-statistics/includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
-msgstr "Přístup zakázán!"
+msgstr "تم رفض الوصول!"
 
 #: wp-statistics/ajax.php:31
 msgid "%s agent data deleted successfully."
-msgstr "%s agenta data úspěšně smazána."
+msgstr "%s تم حذف بيانات الوكيل بنجاح."
 
 #: wp-statistics/ajax.php:34
 msgid "No agent data found to remove!"
-msgstr ""
+msgstr "لا توجد بيانات وكيل لإزالتها!"
 
 #: wp-statistics/ajax.php:38 wp-statistics/ajax.php:68
 #: wp-statistics/ajax.php:120 wp-statistics/ajax.php:126
 msgid "Please select the desired items."
-msgstr "Prosím vyber požadované položky."
+msgstr "يرجى تحديد العناصر المطلوبة."
 
 #: wp-statistics/ajax.php:62
 msgid "%s platform data deleted successfully."
-msgstr "údaje platforma %s úspěšně smazána."
+msgstr "%s تم حذف بيانات المنصة بنجاح."
 
 #: wp-statistics/ajax.php:65
 msgid "No platform data found to remove!"
-msgstr ""
+msgstr "لا توجد بيانات منصة لإزالتها!"
 
 #: wp-statistics/includes/functions/functions.php:1074
 msgid "%s table data deleted successfully."
-msgstr "data tabulky %s úspěšně smazána."
+msgstr "%s تم حذف بيانات الجدول بنجاح."
 
 #: wp-statistics/includes/functions/functions.php:1078
 msgid "Error, %s not emptied!"
-msgstr "Chyba, %s není vyprázdněno!"
+msgstr "خطأ, %s لم يتم التفريغ!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
-msgstr "Nastavení databáze"
+msgstr "إعداد قاعدة البيانات"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
-msgstr "Spusťte znovu instalaci"
+msgstr "إعادة تشغيل التثبيت"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
-msgstr "Nainstalujte nyní!"
+msgstr "تثبيت الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:15
 msgid "If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process."
-msgstr "Pokud z nějakého důvodu instalace WP Statistics chybí, databázové tabulky nebo jiné položky jádro, to bude znovu provést instalačního procesu."
+msgstr "لسبب ما اذا فقدت بيانات في قاعدة البيانات أو احد العناصر الأساسية, هذا الأمر سيعيد تنفيذ العملية مرة أخرى."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
-msgstr "Databáze Index"
+msgstr "فهرس قاعدة بيانات"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
 #: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:528
 msgid "Countries"
-msgstr "Země"
+msgstr "الدول"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:42
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:74
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:25
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:40
 msgid "Update Now!"
-msgstr "!Aktualizovat nyní"
+msgstr "تحديث الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:43
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistitors table, delete duplicate entries and add the index."
-msgstr "Starší instalace WP Statistics umožňují Duplicitní položky v tabulce návštěvníků v případě rohové. Novější instalace se proti tomu bránit s jedinečný index v tabulce. Chcete-li vytvořit index na starší instaluje duplicitní položky musí být odstraněny jako první. Klepnutím na \"Update Now\" prohledá tabulku vistitors, odstranit duplicitní položky a přidat indexu."
+msgstr "المنصب القديم لإضافة احصائيات ووردبريس تسمح للإدخالات المتكررة في جداول الزوار في بعض الحالات. بتثبيت أحدث منتج يجب تواجد الفهرس في الجداول. لإنشاء فهرس لمنتج قديم يجب أن يتم حذف الإدخالات المكررة أولاً. أنقر على \"تحديث الآن\" وسيقوم تلقائيا بفحص جدول الزوار وحذف كافة الإدخالات المكررة وإضافة الفهرس."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:44
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:108
 msgid "This operation could take a long time on installs with many rows in the visitors table."
-msgstr "Tato operace může trvat dlouhou dobu na nainstaluje s mnoha řádků v tabulce návštěvníků."
+msgstr "هذه العملية يمكن أن تستغرق وقتا طويلا على تثبيت مع العديد من الصفوف في جدول الزوار."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:50
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table."
-msgstr "Starší instalace WP Statistics umožňují Duplicitní položky v tabulce návštěvníků v případě rohové. Novější instalace se proti tomu bránit s jedinečný index v tabulce."
+msgstr "الإصدارات القديمة من منتج احصائيات ووردبريس تسمح للإدخالات المكررة في جدول الزوار في بعض الحالات. عند تثبيت إصدارات أحدث من ذلك سيتم إضافة فهرس فريد على الجدول."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:51
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:83
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:114
 msgid "Congratulations, your installation is already up to date, nothing to do."
-msgstr "Gratulujeme vaše instalace je již datum, nic společného."
+msgstr "تهانينا، التثبيت موجود بالفعل حتى الآن، لا شيء للقيام به."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:8
 #: wp-statistics/includes/optimization/wps-optimization.php:235
 msgid "Export"
-msgstr "Export"
+msgstr "تصدير"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:13
 msgid "Export from"
-msgstr "Export od"
+msgstr "التصدير من"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:18
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:37
@@ -1908,39 +1908,39 @@ msgstr "Export od"
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:134
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:164
 msgid "Please select"
-msgstr "Prosím vyber"
+msgstr "الرجاء تحديد"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:26
 msgid "Select the table for the output file."
-msgstr "Vyberte tabulku pro výstupní soubor."
+msgstr "حدد الجدول لملف الإخراج."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:32
 msgid "Export To"
-msgstr "Exportovat do"
+msgstr "التصدير لـ"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:42
 msgid "Select the output file type."
-msgstr "Vyber typ výstupní souboru."
+msgstr "حدد نوع ملف الإخراج."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:48
 msgid "Include Header Row"
-msgstr "Zahrnout řádek záhlaví"
+msgstr "تضمين رأس الصف"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Include a header row as the first line of the exported file."
-msgstr "Zahrnout řádek záhlaví jako první řádek v exportovaném souboru."
+msgstr "تضمين صف الرأس كما في السطر الأول من الملف الذي تم تصديره."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
-msgstr "Start Nyní!"
+msgstr "ابدأ الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:15
 msgid "Historical Values"
-msgstr ""
+msgstr "القيم التاريخية"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:20
 msgid "Note: As you have just purged the database you must reload this page for these numbers to be correct."
-msgstr ""
+msgstr "ملاحظة: كلما قمت بتطهير قاعدة البيانات يجب تحميل هذه الصفحة لتكون الأرقام صحيحة."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:26
 #: wp-statistics/includes/settings/tabs/wps-general.php:138
@@ -1948,19 +1948,19 @@ msgstr ""
 #: wp-statistics/shortcode.php:140 wp-statistics/wp-statistics.php:423
 #: wp-statistics/wp-statistics.php:537
 msgid "Visitors"
-msgstr "Návštěvníci"
+msgstr "الزوار"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:31
 msgid "Number of historical number of visitors to the site (current value is %s)."
-msgstr ""
+msgstr "العدد التاريخي لزوار الموقع (القيمة الحالية هي %s)."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:42
 msgid "Number of historical number of visits to the site (current value is %s)."
-msgstr ""
+msgstr "العدد التاريخي لزيارات الموقع (القيمة الحالية هي %s)."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:48
 msgid "Update now!"
-msgstr ""
+msgstr "تحديث الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:10
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:43
@@ -1968,82 +1968,82 @@ msgstr ""
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:107
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:141
 msgid "Are you sure?"
-msgstr "Jste si jistý?"
+msgstr "هل أنت متأكد؟"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:175
 msgid "Data"
-msgstr "Data"
+msgstr "المعطيات"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:180
 msgid "Empty Table"
-msgstr "Prázdná tabulka"
+msgstr "تفريغ الجدول"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:194
 msgid "All data table will be lost."
-msgstr "Všechna data budou ztracena!"
+msgstr "سيتم فقدان جميع البيانات الجدول."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:195
 msgid "Clear now!"
-msgstr "Vyčistit nyní!"
+msgstr "مسح الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:203
 msgid "Purge records older than"
-msgstr "Pročistit záznamy starší než"
+msgstr "سجلات الضخ أقدم من"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:209
 msgid "Deleted user statistics data older than the selected number of days.  Minimum value is 30 days."
-msgstr "Odstraněný uživatel statistická data starší než zvolený počet dní. Minimální hodnota je 30 dní."
+msgstr "بيانات الاحصائيات المستخدم المحذوف أقدم من الرقم المحدد من الأيام. قيمة الحد الأدنى هو 30 يوما."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:210
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:225
 msgid "Purge now!"
-msgstr "Pročistit nyní!"
+msgstr "ضخ الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:232
 msgid "Delete User Agent Types"
-msgstr "Odstranit typy uživatelských agentů"
+msgstr "حذف أنواع وكيل العضو"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:237
 msgid "Delete Agents"
-msgstr "Smazat Agenty"
+msgstr "حذف الوكلاء"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:252
 msgid "All visitor data will be lost for this agent type."
-msgstr "Všechna data návštěvníků budou ztraceny pro tento typ agenta."
+msgstr "سيتم فقد جميع البيانات الزائر لهذا النوع."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:253
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:277
 msgid "Delete now!"
-msgstr "Smazat nyní!"
+msgstr "حذف الآن!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:261
 msgid "Delete Platforms"
-msgstr "Vymazat platformy"
+msgstr "حذف المنصات"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:276
 msgid "All visitor data will be lost for this platform type."
-msgstr "Všechna data návštěvníků budou ztraceny pro tento typ platformy."
+msgstr "سيتم فقد جميع البيانات الزائر لنوع هذه المنصة."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:17
 msgid "Resources"
-msgstr "Zdroje"
+msgstr "الموارد"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:22
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:27
 msgid "Memory usage in PHP"
-msgstr "Využití paměti v PHP"
+msgstr "استخدام الذاكرة في PHP"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:26
 msgid "Byte"
-msgstr "Bytů"
+msgstr "بايت"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:33
 msgid "PHP Memory Limit"
-msgstr "PHP Paměť Limit"
+msgstr "حدود ذاكرة PHP"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
-msgstr "Limit paměti skriptu je dovoleno konzumovat, v php.ini."
+msgstr "حدود الذاكرة تسمح للبرنامج النصي باستهلاك حد معين، قم بتعيين ملف php.ini."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:44
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:55
@@ -2053,7 +2053,7 @@ msgstr "Limit paměti skriptu je dovoleno konzumovat, v php.ini."
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:99
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:110
 msgid "Number of rows in the %s table"
-msgstr "Počet řádků v tabulce %s"
+msgstr "عدد الصفوف في جدول %s"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:48
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:59
@@ -2063,7 +2063,7 @@ msgstr "Počet řádků v tabulce %s"
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:103
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:114
 msgid "Row"
-msgstr "Řádek"
+msgstr "صف"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:49
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:60
@@ -2073,403 +2073,403 @@ msgstr "Řádek"
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:104
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:115
 msgid "Number of rows"
-msgstr "Počet řádků"
+msgstr "عدد الصفوف"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:120
 msgid "Version Info"
-msgstr "Verze info"
+msgstr "معلومات الإصدار"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "WP Statistics Version"
-msgstr "WP Statistics Verze"
+msgstr "نسخة WP Statistics"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "The WP Statistics version you are running."
-msgstr "Používáte verzi WP Statistics."
+msgstr "إصدار WP Statistics."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "PHP Version"
-msgstr "PHP Verze"
+msgstr "نسخة PHP"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The PHP version you are running."
-msgstr "PHP verze kterou používáte."
+msgstr "إصدار PHP."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "PHP Safe Mode"
-msgstr "PHP Bezpečný mód"
+msgstr "الوضع الآمن PHP"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
-msgstr "Je PHP nouzovém režimu aktivní. GeoIP kód není podporován v nouzovém režimu."
+msgstr "هل الوضع الآمن نشط. الكود GeoIP غير معتمد في الوضع الآمن."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "jQuery Version"
-msgstr "jQuery Verze"
+msgstr "نسخة jQuery"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
 msgid "The jQuery version you are running."
-msgstr " Query verze kterou používáte."
+msgstr "إصدار jQuery."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:169
 msgid "cURL Version"
-msgstr "cURL Verze"
+msgstr "إصدار cURL"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:173
 msgid "cURL not installed"
-msgstr "cURL není instalováno"
+msgstr "cURL غير مثبت"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:174
 msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
-msgstr "PHP cURL Extension verze kterou používáte.  cURL je požadováno pro GeoIP kód, jestliže neni instalování GeoIP bude vypnuté."
+msgstr "نسخة الملحق PHP cURL تعمل. الملحق cURL مطلوب لعمل كود GeoIP, وإذا لم يتم تثبيته يتم تعطيل GeoIP."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Installed"
-msgstr "Instalováno"
+msgstr "مثبت"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "Not installed"
-msgstr "Neinstalováno"
+msgstr "غير مثبت"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:190
 msgid "File Info"
-msgstr "Informace o souboru"
+msgstr "معلومات عن الملف"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "GeoIP Database"
-msgstr "GeoIP databáze"
+msgstr "قاعدة بيانات GeoIP"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:204
 msgid "Database file does not exist."
-msgstr "Databáze neexistuje"
+msgstr "لا وجود لملف قاعدة البيانات."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:206
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:225
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:244
 msgid ", created on "
-msgstr ", na "
+msgstr "، التي تم إنشاؤها على"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:208
 msgid "The file size and date of the GeoIP database."
-msgstr "Velikost souboru a datum GeoIP databáze."
+msgstr "حجم الملف والتاريخ من قاعدة بيانات GeoIP."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:214
 msgid "browscap.ini File"
-msgstr "Soubor Browscap.ini"
+msgstr "ملف browscap.ini"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:223
 msgid "browscap.ini file does not exist."
-msgstr "Soubor Browscap.ini neexistuje."
+msgstr "لا وجود لملف browscap.ini."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:227
 msgid "The file size and date of the browscap.ini file."
-msgstr "Velikost souboru a datum souboru browscap.ini."
+msgstr "حجم الملف وتاريخ الملف browscap.ini."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:233
 msgid "browscap Cache File"
-msgstr "Browscap soubor mezipaměti"
+msgstr "browscap ملف ذاكرة التخزين المؤقت"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:242
 msgid "browscap cache file does not exist."
-msgstr "Browscap cache soubor neexistuje."
+msgstr "لا وجود لملف ذاكرة التخزين المؤقت browscap."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:246
 msgid "The file size and date of the browscap cache file."
-msgstr "Velikost souboru a datum tohoto souboru browscap."
+msgstr "حجم الملف وتاريخ الملف المؤقت browscap."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:251
 msgid "Client Info"
-msgstr "Klient Info"
+msgstr "معلومات العميل"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:256
 msgid "Client IP"
-msgstr "Klient IP"
+msgstr "IP العميل"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:261
 msgid "The client IP address."
-msgstr "Klientovo IP adresa"
+msgstr "عنوان IP للعميل."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "User Agent"
-msgstr "Uživatelský agent"
+msgstr "وكيل المستخدم"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client user agent string."
-msgstr "Řetězec agenta uživatele klienta."
+msgstr "سلسلة عامل المستخدم العميل."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "Browser"
-msgstr ""
+msgstr "المتصفح"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:285
 msgid "The detected client browser."
-msgstr ""
+msgstr "مستكشف مستعرض العميل."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser version."
-msgstr ""
+msgstr "إصدار مستكشف مستعرض العميل."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:307
 msgid "The detected client platform."
-msgstr ""
+msgstr "مستكشف منصة العميل"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
 msgid "This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?"
-msgstr "To nahradí všechny IP adresy v databázi hodnoty hash a nemůže být zpět, jste si jisti?"
+msgstr "سيؤدي ذلك إلى استبدال جميع عناوين IP في قاعدة البيانات مع قيم التجزئة ولا يمكن التراجع، هل أنت متأكد؟"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:16
 msgid "GeoIP Options"
-msgstr "GeoIP Vlastnosti"
+msgstr "خيارات GeoIP"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:26
 msgid "Updates any unknown location data in the database, this may take a while"
-msgstr "Aktualizuje všechny neznámé lokalizační údaje v databázi, to může chvíli trvat"
+msgstr "تحديث أي بيانات الموقع غير معروفة في قاعدة البيانات, هذا قد يستغرق بعض الوقت"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:31
 #: wp-statistics/includes/settings/tabs/wps-general.php:66
 msgid "IP Addresses"
-msgstr "Adresy IP"
+msgstr "عناوين IP"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:36
 #: wp-statistics/includes/settings/tabs/wps-general.php:71
 msgid "Hash IP Addresses"
-msgstr "Algoritmus hash IP adresy"
+msgstr "عناوين IP المجزئة"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:41
 msgid "Replace IP addresses in the database with hash values, you will not be able to recover the IP addresses in the future to populate location information afterwards and this may take a while"
-msgstr "Nahradit hodnoty hash, adresy IP v databázi nebude možné obnovit adresy IP v budoucnu k vyplnění informací o umístění později a to může chvíli trvat"
+msgstr "استبدال عناوين IP في قاعدة البيانات مع قيم التجزئة، فإنك لن تكون قادرا على استرداد عناوين IP في المستقبل لتجميع معلومات عن الموقع بعد ذلك وهذا قد يستغرق بعض الوقت"
 
 #: wp-statistics/includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
-msgstr "IP adresy nahrazeny hodnoty hash."
+msgstr "استبدال عناوين IP مع قيم التجزئة."
 
 #: wp-statistics/includes/optimization/wps-optimization.php:51
 msgid "Install routine complete."
-msgstr "Instalujte kompletní rutina."
+msgstr "التثبيت الكامل الروتيني."
 
 #: wp-statistics/includes/optimization/wps-optimization.php:234
 msgid "Resources/Information"
-msgstr "Zdroje/Informace"
+msgstr "الموارد/معلومات"
 
 #: wp-statistics/includes/optimization/wps-optimization.php:236
 msgid "Purging"
-msgstr "Pročištění"
+msgstr "تطهير"
 
 #: wp-statistics/includes/optimization/wps-optimization.php:237
 msgid "Database"
-msgstr "Databáze"
+msgstr "قاعدة البيانات"
 
 #: wp-statistics/includes/optimization/wps-optimization.php:238
 msgid "Updates"
-msgstr "Aktualizace"
+msgstr "تحديثات"
 
 #: wp-statistics/includes/optimization/wps-optimization.php:239
 msgid "Historical"
-msgstr ""
+msgstr "التاريخي"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
-msgstr "WP Statistiky V%s"
+msgstr "WP Statistics V%s"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:28
 msgid "Visit Us Online"
-msgstr "Navštivte nás Online"
+msgstr "زورونا على الإنترنت"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "Come visit our great new %s and keep up to date on the latest news about WP Statistics."
-msgstr "Přijďte navštívit naše skvělé nové %s a aktualizuje na nejnovější zprávy o WP Statistics."
+msgstr "قم بزيارة موقعنا الجديد كلياً على %s وأبقى على إطلاع دائم حول أخبار احصائيات ووردبريس."
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:32
 msgid "website"
-msgstr "webové stránky"
+msgstr "الموقع"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:36
 msgid "Rate and Review at WordPress.org"
-msgstr "Ohodnoť a prohlédni WordPress.org"
+msgstr "التقييم و المراجعة في WordPress.org"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:40
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
-msgstr "Děkujeme za instalaci WP Stastiky, doporučujeme ti zaslat"
+msgstr "كل الشكر لتثبيت احصائيات ووردبريس، ونحن نشجعكم على تقديم"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:40
 msgid "rating and review"
-msgstr "Hodnocení a recenze"
+msgstr "التقييم و المراجعة"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:40
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
-msgstr "více než na WordPress.org. Vaše zpětná vazba je velmi ceněn!"
+msgstr "في WordPress.org. حيث أن ملاحظاتكم في موضع تقدير دائماً!"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:44
 msgid "Translations"
-msgstr "Překlady"
+msgstr "الترجمات"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:48
 msgid "WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help."
-msgstr "WP Statistics podporuje internacionalizaci a doporučujeme našim uživatelům odeslat překlady, navštivte prosím naši %s Chcete-li zobrazit aktuální stav a %s, pokud byste chtěli pomoci."
+msgstr "احصائيات ووردبريس تدعم التدويل ونحن نشجع مستخدمينا على تقديم الترجمات، يرجى زيارة موقعنا %s لرؤية الوضع الحالي و %s إذا كنت ترغب في المساعدة."
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:48
 msgid "translation collaboration site"
-msgstr "Web pro spolupráci Překlad"
+msgstr "الموقع التعاوني للترجمة"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:48
 msgid "drop us a line"
-msgstr "Podejte nám zprávu"
+msgstr "اترك لنا رسالة"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:52
 msgid "Support"
-msgstr "Podpora"
+msgstr "دعم"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:57
 msgid "We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:"
-msgstr "Omlouváme se, máte problémy s WP Statistics a my jsme rádi pomohli. Zde je pár věci na práci než se obrátíte na nás:"
+msgstr "نحن آسفون إن كنت تواجه مشكلة مع احصائيات ووردبريس ونحن سعداء للمساعدة. وهنا عدد قليل من الأشياء للقيام بها قبل الاتصال بنا:"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:60
 #: wp-statistics/includes/settings/tabs/wps-about.php:61
 msgid "Have you read the %s?"
-msgstr "Četli jste %s?"
+msgstr "هل قرأت %s؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:60
 msgid "FAQs"
-msgstr "Nejčastější dotazy"
+msgstr "أسئلة وأجوبة"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:61
 msgid "manual"
-msgstr "manuál"
+msgstr "الدليل"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:62
 msgid "Have you search the %s for a similar issue?"
-msgstr "Už jste Hledat %s pro podobný problém?"
+msgstr "هل بحثت في %s لمشكلة مشابهة؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:62
 msgid "support forum"
-msgstr "fórum podpory"
+msgstr "منتدى الدعم"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:63
 msgid "Have you search the Internet for any error messages you are receiving?"
-msgstr "Už jste Hledat na internetu pro všechny chybové zprávy, které obdržíte?"
+msgstr "هل بحثت في الإنترنت عن أي رسائل خطأ التي تظهر لك؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:64
 msgid "Make sure you have access to your PHP error logs."
-msgstr ""
+msgstr "تأكد أن لديك الوصول إلى سجلات الخطأ PHP الخاص بك."
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:67
 msgid "And a few things to double-check:"
-msgstr "A pár věcí na dvakrát:"
+msgstr "وعدد قليل من الأشياء الأخرى:"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:70
 msgid "How's your memory_limit in php.ini?"
-msgstr "Jak máš nastaven memory_limit v php.ini?"
+msgstr "كيف حال memory_limit الخاصة بك في ملف php.ini؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:71
 msgid "Have you tried disabling any other plugins you may have installed?"
-msgstr "Už jste vyzkoušeli, zakázání jiné pluginy, které jste nainstalovali?"
+msgstr "هل حاولت تعطيل أي إضافات أخرى التي قد تم تثبيتها؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:72
 msgid "Have you tried using the default WordPress theme?"
-msgstr "Už jste vyzkoušeli pomocí výchozí WordPress téma?"
+msgstr "هل حاولت استخدام المظهر الافتراضي للوردبريس؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:73
 msgid "Have you double checked the plugin settings?"
-msgstr "Zkontrolovali jste dvojí nastavení pluginu?"
+msgstr "هل ضاعفت الفحص على إعدادات البرنامج المساعد؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:74
 msgid "Do you have all the required PHP extensions installed?"
-msgstr "Máte instalované všechny vyžadované PHP rozšíření?"
+msgstr "هل قمت بتثبيت جميع ملحقات PHP المطلوبة؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:75
 msgid "Are you getting a blank or incomplete page displayed in your browser?  Did you view the source for the page and check for any fatal errors?"
-msgstr "Dostáváš prázdné nebo neúplné stránky zobrazené v prohlížeči? Jste zobrazit zdroj jazyk pro stránku a zkontrolujte případné závažné chyby?"
+msgstr "أنت تحصل على صفحة فارغة أو غير مكتملة العرض في المستعرض الخاص بك؟ قم  بعرض المصدر للصفحة وتحقق من وجود أية أخطاء قاتلة؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:76
 msgid "Have you checked your PHP and web server error logs?"
-msgstr "Zkontrolovali jste protokolů chyb serveru PHP a web?"
+msgstr "هل راجعت سجل أخطاء الـPHP الخاص بك؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:79
 msgid "Still not having any luck?"
-msgstr "Ještě nemají žádné štěstí?"
+msgstr "لم يحالفك الحظ حتى الآن؟"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:79
 msgid "Then please open a new thread on the %s and we'll respond as soon as possible."
-msgstr "Pak prosím otevřít nové vlákno na %s a odpovíme co nejdříve."
+msgstr "الرجاء فتح موضوع جديد في %s، وسنقوم بالرد في أقرب وقت ممكن."
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:79
 msgid "WordPress.org support forum"
-msgstr "Fórum podpory WordPress.org"
+msgstr "منتدى الدعم"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:83
 msgid "Alternatively %s support is available as well."
-msgstr "Další možností %s podpora je k dispozici také."
+msgstr "كما أنه يتوفر دعم للغة %s كذلك."
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:83
 msgid "Farsi"
-msgstr "Farsi"
+msgstr "الفارسية"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:21
 msgid "WP Statistics Honey Pot Page"
-msgstr ""
+msgstr "الفسفور الابيض الاحصائيات عاء العسل الصفحة"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:22
 msgid "This is the honey pot for WP Statistics to use, do not delete."
-msgstr ""
+msgstr "هذا هو وعاء العسل لاحصائيات ووردبريس المستخدم, لا تحذف"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:23
 #: wp-statistics/includes/settings/wps-settings.php:103
 msgid "Access Levels"
-msgstr "Úrovně přístupů"
+msgstr "مستويات الوصول"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:52
 msgid "Required user level to view WP Statistics"
-msgstr "Požadována uživatelská úrověn k prohlížení WP Statistik"
+msgstr "مطلوب مستوى المستخدم لعرض الاحصائيات"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:67
 msgid "Required user level to manage WP Statistics"
-msgstr "Uživatelská úroveň pro správu statistiky WP"
+msgstr "مطلوب مستوى المستخدم لإدارة الاحصائيات"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:75
 msgid "See the %s for details on capability levels."
-msgstr "Viz %s další informace o úrovních schopností."
+msgstr "اطلع على %s لمزيد من التفاصيل على مستويات القدرة."
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:75
 msgid "WordPress Roles and Capabilities page"
-msgstr "Stránky WordPress rolí a funkcí"
+msgstr "أدوار وقدرات صفحة ووردبريس"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:76
 msgid "Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone."
-msgstr "Tip: manage_network = Super Admin síť, manage_options = správce, edit_others_posts = Editor, publish_posts = autor, edit_posts = přispěvatel, číst = všichni."
+msgstr "تلميح:  manage_network = مسؤول, manage_options = مدير, edit_others_posts = محرر, publish_posts = كاتب, edit_posts = مساهم, read = الجميع"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:77
 msgid "Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins."
-msgstr "Každý z výše uvedených casscades práva směrem nahoru v WordPress výchozí konfiguraci. Tak například výběrem publish_posts uděluje právo autorů, redaktoři, administrátoři a Super Admins."
+msgstr "كل ما سبق من الكاسكيدز هي حقوق تكوين الووردبريس الافتراضي. على سبيل المثال عند اختيار publish_posts يمنح حقوق المؤلف,المحرر,المدير,المسؤول."
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:78
 msgid "If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory."
-msgstr "Pokud budete potřebovat robustnější řešení pro přístup delegáta budete chtít podívat na %s do WordPress plugin adresáři."
+msgstr "إذا كنت في حاجة الى حل أكثر قوة لتفويض الوصول التي قد ترغب في النظر في %s الدليل المساعد لووردبريس."
 
 #: wp-statistics/includes/log/exclusions.php:197
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:46
 #: wp-statistics/includes/settings/wps-settings.php:104
 #: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:529
 msgid "Exclusions"
-msgstr "Vyjímky"
+msgstr "الاستثناءات"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:50
 msgid "Record exclusions"
-msgstr "Vyloučení záznamů"
+msgstr "سجل الاستثناءات"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:52
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:106
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:133
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:150
 msgid "Enable"
-msgstr "Zapnout"
+msgstr "تمكين"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:53
 msgid "This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.  This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits."
-msgstr "To bude zaznamenávat všechny vyloučené hity v samostatné tabulce s důvody, proč byla vyloučena, ale žádné další informace. To bude generovat velké množství dat, ale je užitečné, pokud chcete zobrazit celkový počet přístupů vašich stránek dostane, ne jen skutečné uživatele návštěvy."
+msgstr "يقوم هذا الخيار بتسجيل جميع النقرات المستبعدة في جدول منفصل مع أسباب الأستبعاد، ولكن بدون معلومات أخرى. وهذا قد يولد الكثير من البيانات ولكن هو مفيد إذا كنت تريد أن ترى العدد الكلي من المشاهدات التي يحصل عليها موقعك، وليس فقط المستخدم الفعلي للموقع."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:58
 msgid "Exclude User Roles"
-msgstr "Vyloučení rolí uživatelů"
+msgstr "استبعاد أدوار المستخدم"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:74
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:196
@@ -2477,155 +2477,155 @@ msgstr "Vyloučení rolí uživatelů"
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:210
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:217
 msgid "Exclude"
-msgstr "Vyjímka"
+msgstr "منع"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:75
 msgid "Exclude %s role from data collection."
-msgstr "Vylučte úlohu %s ze sběru údajů."
+msgstr "استبعاد دور %s من جمع البيانات."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:81
 msgid "IP/Robot Exclusions"
-msgstr "IP/Robot vyjímky"
+msgstr "استثناءات IP/Robot"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:85
 msgid "Robot list"
-msgstr "Seznam robotů"
+msgstr "قائمة الروبوت"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:98
 msgid "A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored."
-msgstr "Seznam slov, (jeden na řádek) porovnávat odhalit roboty. Položky musí být dlouhé nejméně 4 znaky, nebo budou ignorovány."
+msgstr "قائمة من الكلمات (واحد في كل سطر) لمطابقة ضد للكشف عن الروبوتات. يجب أن تكون إدخالات 4 أحرف على الأقل أو أنها سيتم تجاهلها."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:99
 msgid "Reset to Default"
-msgstr "Reset do Defaultního nastavení"
+msgstr "إعادة تعيين إلى الافتراضي"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:104
 msgid "Force robot list update after upgrades"
-msgstr "Vynutit robota seznamu aktualizaci po inovaci"
+msgstr "إجبار تحديث قائمة الربوت بعد الترقيات"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:107
 msgid "Force the robot list to be reset to the default after an update to WP Statistics takes place.  Note if this option is enabled any custom robots you have added to the list will be lost."
-msgstr "Platnost seznamu robota tak, aby obnovit na výchozí po aktualizaci statistiky WP se koná. Poznámka: je-li tato možnost povolena, žádné vlastní roboty, které jste přidali do seznamu budou ztraceny."
+msgstr "إجبار قائمة الروبوت لإعادة تعيين إلى الافتراضي بعد تحديث احصائيات ووردبريس لتأخذ مكان. ملاحظة إذا تم تمكين هذا الخيار أي روبوتات تم تخصيصها في القائمة سوف تضيع."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:112
 msgid "Robot visit threshold"
-msgstr ""
+msgstr "الحد الأدنى بزيارة الروبوت"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:115
 msgid "Treat visitors with more than this number of visits per day as robots.  0 = disabled."
-msgstr ""
+msgstr "تعامل للزوار أكثر من هذا العدد من مرة في اليوم الواحد كما الروبوتات. 0 = تعطيل."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:120
 msgid "Excluded IP address list"
-msgstr "Vyloučené seznam adres IP"
+msgstr "قائمة عناوين IP المستبعدة"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:123
 msgid "A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255."
-msgstr "Seznam adres IP a podsítě masky (jeden na řádek) vyloučit ze sběru statistických údajů (192.168.0.0/24 a 192.168.0.0/255.255.255.0 formáty jsou přijímány). Chcete-li určit adresu IP, použijte podsítě hodnotu 32 nebo 255.255.255.255."
+msgstr "قائمة عناوين IP وأقنعة الشبكة الفرعية (واحد في كل سطر) لاستبعاد من جميع الإحصائيات (وتقبل الأشكال كل من 192.168.0.0/24 و 192.168.0.0/255.255.255.0 ). لتحديد عنوان IP فقط، استخدم قيمة الشبكة الفرعية 32 أو 255.255.255.255.255."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:124
 msgid "Add 10.0.0.0"
-msgstr "Přidat 10.0.0.0"
+msgstr "إضافة 10.0.0.0"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:125
 msgid "Add 172.16.0.0"
-msgstr "Přidat 172.16.0.0"
+msgstr "إضافة 172.16.0.0"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:126
 msgid "Add 192.168.0.0"
-msgstr "Přidat 192.168.0.0"
+msgstr "إضافة 192.168.0.0"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:131
 msgid "Use honey pot"
-msgstr ""
+msgstr "استخدام وعاء العسل"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:134
 msgid "Use a honey pot page to identify robots."
-msgstr ""
+msgstr "استخدام صفحة وعاء العسل لتحديد الروبوتات."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:139
 msgid "Honey pot post id"
-msgstr ""
+msgstr "معرف مقال وعاء العسل"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:142
 msgid "The post id to use for the honeypot page."
-msgstr ""
+msgstr "رقم المشاركة لاستخدامها في صفحة المصيدة."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:143
 msgid "Create a new honey pot page"
-msgstr ""
+msgstr "إنشاء صفحة وعاء عسل جديدة"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:156
 msgid "GeoIP Exclusions"
-msgstr ""
+msgstr "استثناءات GeoIP"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:160
 msgid "Excluded countries list"
-msgstr ""
+msgstr "قائمة الدول المستثناة"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:163
 msgid "A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use \"000\" (three zeros) to exclude unknown countries."
-msgstr ""
+msgstr "قائمة رموز البلد (واحد في كل سطر، رسالتين لكل منهما) لاستبعاد من جمع الإحصاءات. استخدام \"000\" (ثلاثة أصفار) لاستبعاد بلدان غير معروفة."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:168
 msgid "Included countries list"
-msgstr ""
+msgstr "قائمة البلدان المدرجة"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:171
 msgid "A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use \"000\" (three zeros) to exclude unknown countries."
-msgstr ""
+msgstr "قائمة رموز البلد (واحد في كل سطر، رسالتين لكل منهما) لتشمل في جمع الإحصاءات، إذا كانت هذه القائمة ليست فارغة، سيتم تسجيل الزوار فقط من الدول المدرجة. استخدام \"000\" (ثلاثة أصفار) لاستبعاد بلدان غير معروفة."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:176
 msgid "Host Exclusions"
-msgstr ""
+msgstr "استثناءات المضيف"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:180
 msgid "Excluded hosts list"
-msgstr ""
+msgstr "قائمة المضيفين المستبعدين"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:183
 msgid "A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection."
-msgstr ""
+msgstr "قائمة أسماء المضيف المؤهل بالكامل (أي. server.example.com، سطر واحد في المائة) لاستبعاد من جمع الإحصاءات."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:185
 msgid "Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it's IP address and when the cache is updated resulting in some hits recorded."
-msgstr ""
+msgstr "ملاحظة: هذا الخيار لإجراء بحث DNS عكسي على تحميل كل صفحة ولكن بدلا من ذلك بالتخزين المؤقت لعنوان الـIP لأسماء المضيفين المنصوص عليها هي ساعة واحدة. إذا كنت استبعدت المضيفين وقم بتعيين حيوي قد تجد بعض الدرجات من التداخل عندما يتغير عنوان IP للمضيف وذلك وعندما يتم تحديث ذاكرة التخزين المؤقت قد يؤدي في بعض الزيارات المسجلة."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:190
 msgid "Site URL Exclusions"
-msgstr "URL vyjímky"
+msgstr "رابط الموقع المستثنى"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:194
 msgid "Excluded login page"
-msgstr "Vyloučené přihlašovací stránka"
+msgstr "استبعاد صفحة تسجيل الدخول"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:197
 msgid "Exclude the login page for registering as a hit."
-msgstr "Vylučte přihlašovací stránku pro registraci jako hit."
+msgstr "استبعاد صفحة الدخول للتسجيل كنقرة."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:201
 msgid "Excluded admin pages"
-msgstr "Vyloučené admin stránky"
+msgstr "استبعاد الصفحات الإدارية"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:204
 msgid "Exclude the admin pages for registering as a hit."
-msgstr "Vylučte admin stránky pro registraci jako hit."
+msgstr "استبعاد الصفحات الادارية للتسجيل كنقرة."
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:208
 msgid "Excluded RSS feeds"
-msgstr ""
+msgstr "آر إس إس مستبعدة"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:211
 msgid "Exclude the RSS feeds for registering as a hit."
-msgstr ""
+msgstr "استبعاد آر إس إس لتسجيل كما ضرب."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:162
 msgid "browscap settings"
-msgstr "Browscap nastavení"
+msgstr "إعدادات browscap"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:167
 msgid "browscap usage"
-msgstr "Browscap využití"
+msgstr "استخدام browscap"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:52
 #: wp-statistics/includes/settings/tabs/wps-externals.php:76
@@ -2661,53 +2661,53 @@ msgstr "Browscap využití"
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:74
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:86
 msgid "Active"
-msgstr "Aktivní"
+msgstr "تفعيل"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:173
 msgid "The browscap database will be downloaded and used to detect robots."
-msgstr "Browscap databáze bude stáhnout a slouží k detekci roboty."
+msgstr "سيتم تحميل قاعدة البيانات browscap وتستخدم للكشف عن الروبوتات."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:179
 msgid "Update browscap Info"
-msgstr "Aktualizovat browscap Info"
+msgstr "تحديث معلومات browscap"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:184
 msgid "Download browscap Database"
-msgstr "Stáhnout browscap databáze"
+msgstr "تحميل قاعدة بيانات browscap"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:65
 #: wp-statistics/includes/settings/tabs/wps-externals.php:185
 #: wp-statistics/includes/settings/tabs/wps-externals.php:249
 msgid "Save changes on this page to download the update."
-msgstr "Uložte změny na této stránce můžete stáhnout aktualizaci."
+msgstr "حفظ التغييرات على هذه الصفحة لتحميل التحديث."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:191
 msgid "Schedule weekly update of browscap DB"
-msgstr "Rozvrh týdenní aktualizace browscap DB"
+msgstr "جدولة التحديث الأسبوعي لـ browscap DB"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:79
 #: wp-statistics/includes/settings/tabs/wps-externals.php:199
 #: wp-statistics/includes/settings/tabs/wps-externals.php:263
 msgid "Next update will be"
-msgstr "Další update bude"
+msgstr "التحديث القادم سيكون في"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:215
 msgid "Download of the browscap database will be scheduled for once a week."
-msgstr "Ke stažení browscap databáze bude naplánován pro jednou za týden."
+msgstr "سيتم تحديد موعد تحميل قاعدة بيانات browscap لمرة واحدة في الأسبوع."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:50
 msgid "This will delete the manual when you save the settings, are you sure?"
-msgstr "To odstraní ruční, když uložíte nastavení, jste si jisti?"
+msgstr "سيؤدي ذلك إلى حذف الدليل عند حفظ الإعدادات، هل أنت متأكد؟"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:77
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
-msgstr "Tato funkce nebude ukládat IP adresy do databáze, ale místo toho používá jedinečný algoritmus hash. \"Store celé uživatelské agent string\" nastavení bude zakázáno, pokud je vybrána tato možnost. Nebude schopen obnovit adresy IP v budoucnosti obnovit informace o poloze, pokud je to povoleno."
+msgstr "هذه الميزة لتخزين عناوين IP في قاعدة البيانات ولكن بدلا من ذلك تستخدم تجزئة فريدة من نوعها. سيتم تعطيل \"مخزن سلسلة عامل المستخدم بأكمله\" إذا تم تحديد هذا. أنت لن تكون قادر على استرداد عناوين IP في المستقبل لاسترداد معلومات الموقع إذا تم تمكين هذا."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:82
 #: wp-statistics/shortcode.php:138
 msgid "Users Online"
-msgstr "Uživatelé online"
+msgstr "الإعضاء المتواجدين"
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:87
 msgid "User online"
-msgstr "Uživatel online"
+msgstr "المتواجدين الآن"

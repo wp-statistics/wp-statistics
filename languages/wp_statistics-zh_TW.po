@@ -7,10 +7,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/1.0.2\n"
+"X-Generator: GlotPress/2.1.0\n"
+"Language: zh_TW\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: wp-statistics/ajax.php:220
+#: wp-statistics/ajax.php:215
 msgid "No matching widget found!"
 msgstr ""
 
@@ -46,22 +47,22 @@ msgstr ""
 msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
 msgstr ""
 
-#: wp-statistics/ajax.php:299
+#: wp-statistics/ajax.php:294
 msgid "ERROR: Widget not found!"
 msgstr ""
 
-#: wp-statistics/dashboard.php:111 wp-statistics/editor.php:66
+#: wp-statistics/dashboard.php:107 wp-statistics/editor.php:66
 #: wp-statistics/includes/log/log.php:20
 msgid "Loading..."
 msgstr ""
 
-#: wp-statistics/dashboard.php:129 wp-statistics/editor.php:84
+#: wp-statistics/dashboard.php:125 wp-statistics/editor.php:84
 #: wp-statistics/includes/log/log.php:2
 msgid "Reloading..."
 msgstr ""
 
 #: wp-statistics/includes/log/top-visitors.php:41
-#: wp-statistics/wp-statistics.php:447
+#: wp-statistics/wp-statistics.php:450
 msgid "Top Visitors"
 msgstr ""
 
@@ -158,7 +159,7 @@ msgstr ""
 msgid "online user tracking"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:775
+#: wp-statistics/wp-statistics.php:791
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr ""
 
@@ -622,7 +623,7 @@ msgstr "每一個訪問計算多少位訪客，現時 %s "
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:177
 #: wp-statistics/includes/settings/tabs/wps-general.php:182
-#: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:516
+#: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:532
 msgid "Pages"
 msgstr "頁"
 
@@ -892,7 +893,7 @@ msgstr ""
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:188
 #: wp-statistics/widget.php:38 wp-statistics/widget.php:247
-#: wp-statistics/wp-statistics.php:621
+#: wp-statistics/wp-statistics.php:637
 msgid "User Online"
 msgstr "在線用戶"
 
@@ -964,40 +965,23 @@ msgstr ""
 msgid "Disable the page/post editor widget."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
-msgid "Map type"
-msgstr "映射類型"
-
 #: wp-statistics/includes/functions/functions.php:440
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
 msgid "Google"
 msgstr "谷歌 （Google）"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
-msgid "JQVMap"
-msgstr "JQVMap"
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:82
-msgid "The \"Google\" option will use Google's mapping service to plot the recent visitors (requires access to Google)."
-msgstr "\"Google\"選項將使用谷歌的地圖服務密謀最近訪客 （要求對谷歌的訪問）。"
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:83
-msgid "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services)."
-msgstr "\"JQVMap\"選項將使用 JQVMap javascript 映射庫密謀最近訪客 （需要沒有 extenral 服務）。"
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:89
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
 msgid "Disable map"
 msgstr "禁用地圖"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:95
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
 msgid "Disable the map display"
 msgstr "禁用地圖顯示"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:101
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:81
 msgid "Get country location from Google"
 msgstr "從谷歌獲得國家位置"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:107
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:87
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
 msgstr "此功能時查看統計資訊可能會導致性能下降，只是有效的如果映射類型設置為 \"Google\"。"
 
@@ -1051,7 +1035,7 @@ msgstr ""
 #: wp-statistics/includes/settings/tabs/wps-general.php:349
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:88
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:201
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:116
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:96
 #: wp-statistics/includes/settings/tabs/wps-removal.php:42
 msgid "Update"
 msgstr "更新"
@@ -1069,7 +1053,7 @@ msgid "Once Every 4 Weeks"
 msgstr "每隔 4 周"
 
 #: wp-statistics/widget.php:14 wp-statistics/wp-statistics.php:408
-#: wp-statistics/wp-statistics.php:469
+#: wp-statistics/wp-statistics.php:485
 msgid "Statistics"
 msgstr "統計"
 
@@ -1142,7 +1126,7 @@ msgstr "名稱"
 msgid "Items"
 msgstr "專案"
 
-#: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:646
+#: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:662
 msgid "Yesterday visit"
 msgstr "昨日點擊"
 
@@ -1167,7 +1151,7 @@ msgid "Complete statistics for your WordPress site."
 msgstr "完整的統計資料，為你的 WordPress 網站的。"
 
 #: wp-statistics/wp-statistics.php:313 wp-statistics/wp-statistics.php:428
-#: wp-statistics/wp-statistics.php:523
+#: wp-statistics/wp-statistics.php:539
 msgid "Settings"
 msgstr "設定"
 
@@ -1191,78 +1175,78 @@ msgstr "率這個外掛程式"
 msgid "WP Statistics - Hits"
 msgstr "WP 統計-命中"
 
-#: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:472
-#: wp-statistics/wp-statistics.php:510
+#: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:488
+#: wp-statistics/wp-statistics.php:526
 msgid "Overview"
 msgstr "概述"
 
-#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:515
+#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:531
 msgid "Online"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:517
+#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:533
 msgid "Referrers"
 msgstr ""
 
 #: wp-statistics/shortcode.php:142 wp-statistics/wp-statistics.php:420
-#: wp-statistics/wp-statistics.php:518
+#: wp-statistics/wp-statistics.php:534
 msgid "Searches"
 msgstr "搜索"
 
-#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:519
+#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:535
 msgid "Search Words"
 msgstr "搜索詞"
 
-#: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:520
+#: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:536
 msgid "Top Visitors Today"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:522
+#: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:538
 msgid "Optimization"
 msgstr "優化"
 
-#: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:486
+#: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:502
 msgid "Manual"
 msgstr "手動"
 
-#: wp-statistics/wp-statistics.php:501
+#: wp-statistics/wp-statistics.php:517
 msgid "Site"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:502
+#: wp-statistics/wp-statistics.php:518
 msgid "Options"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:628
+#: wp-statistics/wp-statistics.php:644
 msgid "Today visitor"
 msgstr "累計訪客"
 
-#: wp-statistics/wp-statistics.php:634
+#: wp-statistics/wp-statistics.php:650
 msgid "Today visit"
 msgstr "累計點擊"
 
-#: wp-statistics/wp-statistics.php:640
+#: wp-statistics/wp-statistics.php:656
 msgid "Yesterday visitor"
 msgstr "昨日訪客"
 
-#: wp-statistics/wp-statistics.php:652
+#: wp-statistics/wp-statistics.php:668
 msgid "View Stats"
 msgstr "檢閱統計數據"
 
-#: wp-statistics/wp-statistics.php:676
+#: wp-statistics/wp-statistics.php:692
 msgid "Download ODF file"
 msgstr "ODF 檔下載"
 
-#: wp-statistics/wp-statistics.php:677
+#: wp-statistics/wp-statistics.php:693
 msgid "Download HTML file"
 msgstr "下載 HTML 檔案"
 
-#: wp-statistics/wp-statistics.php:681
+#: wp-statistics/wp-statistics.php:697
 msgid "Manual file not found."
 msgstr "手動檔找不到。"
 
-#: wp-statistics/wp-statistics.php:748 wp-statistics/wp-statistics.php:880
-#: wp-statistics/wp-statistics.php:915
+#: wp-statistics/wp-statistics.php:764 wp-statistics/wp-statistics.php:891
+#: wp-statistics/wp-statistics.php:926
 msgid "You do not have sufficient permissions to access this page."
 msgstr "你沒有足夠權限訪問此頁"
 
@@ -1323,7 +1307,7 @@ msgstr ""
 msgid "Top 10 Browsers"
 msgstr "排名前十的瀏覽器"
 
-#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:457
+#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:471
 msgid "Top 10 Countries"
 msgstr "排名前十的國家"
 
@@ -1337,36 +1321,36 @@ msgstr ""
 msgid "Hit Statistics"
 msgstr "命中統計"
 
-#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:450
+#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:461
 msgid "Top 10 Pages"
 msgstr "前 10 頁"
 
 #: wp-statistics/dashboard.php:62
 #: wp-statistics/includes/log/last-visitor.php:36
-#: wp-statistics/wp-statistics.php:451
+#: wp-statistics/wp-statistics.php:453
 msgid "Recent Visitors"
 msgstr "最近訪客"
 
 #: wp-statistics/dashboard.php:63
 #: wp-statistics/includes/log/top-referring.php:59
 #: wp-statistics/includes/log/top-referring.php:81
-#: wp-statistics/wp-statistics.php:456
+#: wp-statistics/wp-statistics.php:468
 msgid "Top Referring Sites"
 msgstr "引用網站排名"
 
 #: wp-statistics/dashboard.php:64
 #: wp-statistics/includes/log/widgets/quickstats.php:75
 #: wp-statistics/includes/log/widgets/summary.php:75
-#: wp-statistics/wp-statistics.php:448
+#: wp-statistics/wp-statistics.php:451
 msgid "Search Engine Referrals"
 msgstr "搜尋引擎推薦"
 
-#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:454
+#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:466
 msgid "Summary"
 msgstr "摘要"
 
 #: wp-statistics/dashboard.php:66 wp-statistics/includes/log/last-search.php:31
-#: wp-statistics/wp-statistics.php:449
+#: wp-statistics/wp-statistics.php:452
 msgid "Latest Search Words"
 msgstr "最新的搜索詞"
 
@@ -1436,8 +1420,8 @@ msgid "Click to toggle"
 msgstr "按一下可切換"
 
 #: wp-statistics/includes/log/all-browsers.php:30
-#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:455
-#: wp-statistics/wp-statistics.php:511
+#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:467
+#: wp-statistics/wp-statistics.php:527
 msgid "Browsers"
 msgstr "瀏覽器"
 
@@ -1510,7 +1494,7 @@ msgstr "排除在最後一擊中"
 #: wp-statistics/includes/log/exclusions.php:95
 #: wp-statistics/includes/log/hit-statistics.php:66
 #: wp-statistics/includes/log/search-statistics.php:69
-#: wp-statistics/includes/log/widgets/hits.php:42
+#: wp-statistics/includes/log/widgets/hits.php:44
 #: wp-statistics/includes/log/widgets/search.php:42
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
@@ -1525,18 +1509,18 @@ msgid "Hits Statistics Chart"
 msgstr "點擊率統計圖表"
 
 #: wp-statistics/includes/log/hit-statistics.php:66
-#: wp-statistics/includes/log/widgets/hits.php:42
+#: wp-statistics/includes/log/widgets/hits.php:44
 msgid "Hits in the last"
 msgstr "在最後一擊中"
 
 #: wp-statistics/includes/log/hit-statistics.php:87
-#: wp-statistics/includes/log/widgets/hits.php:63
+#: wp-statistics/includes/log/widgets/hits.php:65
 msgid "Number of visits and visitors"
 msgstr "訪客或點擊數量"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:170
-#: wp-statistics/includes/log/widgets/hits.php:77
+#: wp-statistics/includes/log/widgets/hits.php:79
 #: wp-statistics/includes/log/widgets/quickstats.php:24
 #: wp-statistics/includes/log/widgets/summary.php:24
 msgid "Visit"
@@ -1544,7 +1528,7 @@ msgstr "點擊"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:171
-#: wp-statistics/includes/log/widgets/hits.php:77
+#: wp-statistics/includes/log/widgets/hits.php:79
 #: wp-statistics/includes/log/widgets/quickstats.php:23
 #: wp-statistics/includes/log/widgets/summary.php:23
 msgid "Visitor"
@@ -1747,7 +1731,7 @@ msgstr "本產品包含由 MaxMind，可從 %s 創建的 GeoLite2 資料。"
 msgid "Other"
 msgstr "其他"
 
-#: wp-statistics/wp-statistics.php:445
+#: wp-statistics/wp-statistics.php:456
 msgid "Today Visitors Map"
 msgstr "今天訪客地圖"
 
@@ -1802,7 +1786,7 @@ msgstr "時間： %s"
 #: wp-statistics/includes/log/widgets/top.visitors.php:12
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:80
 #: wp-statistics/wp-statistics.php:337 wp-statistics/wp-statistics.php:416
-#: wp-statistics/wp-statistics.php:514
+#: wp-statistics/wp-statistics.php:530
 msgid "Hits"
 msgstr "命中"
 
@@ -1821,7 +1805,7 @@ msgstr ""
 
 #: wp-statistics/ajax.php:41 wp-statistics/ajax.php:71
 #: wp-statistics/ajax.php:129 wp-statistics/ajax.php:154
-#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:302
+#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:297
 #: wp-statistics/includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "訪問被拒絕 ！"
@@ -1877,7 +1861,7 @@ msgstr "資料庫索引"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:512
+#: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:528
 msgid "Countries"
 msgstr "國家"
 
@@ -1962,7 +1946,7 @@ msgstr ""
 #: wp-statistics/includes/settings/tabs/wps-general.php:138
 #: wp-statistics/includes/settings/tabs/wps-general.php:143
 #: wp-statistics/shortcode.php:140 wp-statistics/wp-statistics.php:423
-#: wp-statistics/wp-statistics.php:521
+#: wp-statistics/wp-statistics.php:537
 msgid "Visitors"
 msgstr "訪客"
 
@@ -2464,7 +2448,7 @@ msgstr "如果你需要一個更加健壯的解決方案，委派你可能想看
 #: wp-statistics/includes/log/exclusions.php:197
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:46
 #: wp-statistics/includes/settings/wps-settings.php:104
-#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:513
+#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:529
 msgid "Exclusions"
 msgstr "排除"
 
@@ -2674,8 +2658,8 @@ msgstr "browscap 使用"
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:121
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:34
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:54
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:94
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:106
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:74
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:86
 msgid "Active"
 msgstr "啟動"
 

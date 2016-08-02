@@ -2,15 +2,16 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-08-25 16:02:51+0000\n"
+"PO-Revision-Date: 2016-07-11 13:14:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/1.0.2\n"
+"X-Generator: GlotPress/2.1.0\n"
+"Language: es\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: wp-statistics/ajax.php:220
+#: wp-statistics/ajax.php:215
 msgid "No matching widget found!"
 msgstr ""
 
@@ -46,22 +47,22 @@ msgstr ""
 msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
 msgstr ""
 
-#: wp-statistics/ajax.php:299
+#: wp-statistics/ajax.php:294
 msgid "ERROR: Widget not found!"
 msgstr ""
 
-#: wp-statistics/dashboard.php:111 wp-statistics/editor.php:66
+#: wp-statistics/dashboard.php:107 wp-statistics/editor.php:66
 #: wp-statistics/includes/log/log.php:20
 msgid "Loading..."
 msgstr ""
 
-#: wp-statistics/dashboard.php:129 wp-statistics/editor.php:84
+#: wp-statistics/dashboard.php:125 wp-statistics/editor.php:84
 #: wp-statistics/includes/log/log.php:2
 msgid "Reloading..."
 msgstr ""
 
 #: wp-statistics/includes/log/top-visitors.php:41
-#: wp-statistics/wp-statistics.php:447
+#: wp-statistics/wp-statistics.php:450
 msgid "Top Visitors"
 msgstr ""
 
@@ -158,7 +159,7 @@ msgstr "seguimiento de accesos"
 msgid "online user tracking"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:775
+#: wp-statistics/wp-statistics.php:791
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr ""
 
@@ -622,7 +623,7 @@ msgstr "Por cada visita para tener en cuenta varios golpes. Actualmente %s."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:177
 #: wp-statistics/includes/settings/tabs/wps-general.php:182
-#: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:516
+#: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:532
 msgid "Pages"
 msgstr "Páginas"
 
@@ -892,7 +893,7 @@ msgstr ""
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:188
 #: wp-statistics/widget.php:38 wp-statistics/widget.php:247
-#: wp-statistics/wp-statistics.php:621
+#: wp-statistics/wp-statistics.php:637
 msgid "User Online"
 msgstr "Usuarios conectados"
 
@@ -914,7 +915,7 @@ msgstr "Ayer visitante"
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:192
 #: wp-statistics/widget.php:59
 msgid "Yesterday Visit"
-msgstr "Ayer visite"
+msgstr "Visitas Ayer"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:193
 #: wp-statistics/widget.php:101 wp-statistics/widget.php:274
@@ -964,40 +965,23 @@ msgstr ""
 msgid "Disable the page/post editor widget."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
-msgid "Map type"
-msgstr "Tipo de mapa"
-
 #: wp-statistics/includes/functions/functions.php:440
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
 msgid "Google"
 msgstr "Google"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
-msgid "JQVMap"
-msgstr "JQVMap"
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:82
-msgid "The \"Google\" option will use Google's mapping service to plot the recent visitors (requires access to Google)."
-msgstr "La opción de \"Google\" usará el servicio de mapeo de Google para localizar los últimos visitantes (requiere acceso a Google)."
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:83
-msgid "The \"JQVMap\" option will use JQVMap javascript mapping library to plot the recent visitors (requires no extenral services)."
-msgstr "La opción \"JQVMap\" usará la biblioteca de mapeo  javascript JQVMap para localizar los últimos visitantes (no requiere ningún servicio externo)."
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:89
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
 msgid "Disable map"
 msgstr "Desactivar el mapa"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:95
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
 msgid "Disable the map display"
 msgstr "Desactivar la pantalla de mapa"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:101
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:81
 msgid "Get country location from Google"
 msgstr "Obtener ubicación país de Google"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:107
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:87
 msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
 msgstr "Esta característica puede provocar una degradación del rendimiento al ver las estadísticas y sólo es válida si se establece el tipo de mapa en \"Google\"."
 
@@ -1051,7 +1035,7 @@ msgstr ""
 #: wp-statistics/includes/settings/tabs/wps-general.php:349
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:88
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:201
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:116
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:96
 #: wp-statistics/includes/settings/tabs/wps-removal.php:42
 msgid "Update"
 msgstr "Actualización"
@@ -1069,7 +1053,7 @@ msgid "Once Every 4 Weeks"
 msgstr "Una vez cada 4 semanas"
 
 #: wp-statistics/widget.php:14 wp-statistics/wp-statistics.php:408
-#: wp-statistics/wp-statistics.php:469
+#: wp-statistics/wp-statistics.php:485
 msgid "Statistics"
 msgstr "Estadísticas"
 
@@ -1142,7 +1126,7 @@ msgstr "Nombre"
 msgid "Items"
 msgstr "Elementos"
 
-#: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:646
+#: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:662
 msgid "Yesterday visit"
 msgstr "Visitas ayer"
 
@@ -1167,7 +1151,7 @@ msgid "Complete statistics for your WordPress site."
 msgstr "Estadísticas completas para su sitio de WordPress."
 
 #: wp-statistics/wp-statistics.php:313 wp-statistics/wp-statistics.php:428
-#: wp-statistics/wp-statistics.php:523
+#: wp-statistics/wp-statistics.php:539
 msgid "Settings"
 msgstr "Configuración"
 
@@ -1191,78 +1175,78 @@ msgstr "Tasa de este plugin"
 msgid "WP Statistics - Hits"
 msgstr "Estadísticas de WP - Hitos"
 
-#: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:472
-#: wp-statistics/wp-statistics.php:510
+#: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:488
+#: wp-statistics/wp-statistics.php:526
 msgid "Overview"
 msgstr "Resumen"
 
-#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:515
+#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:531
 msgid "Online"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:517
+#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:533
 msgid "Referrers"
 msgstr ""
 
 #: wp-statistics/shortcode.php:142 wp-statistics/wp-statistics.php:420
-#: wp-statistics/wp-statistics.php:518
+#: wp-statistics/wp-statistics.php:534
 msgid "Searches"
 msgstr "Búsquedas"
 
-#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:519
+#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:535
 msgid "Search Words"
 msgstr "Palabras de búsqueda"
 
-#: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:520
+#: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:536
 msgid "Top Visitors Today"
 msgstr "Lista de visitantes de hoy"
 
-#: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:522
+#: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:538
 msgid "Optimization"
 msgstr "Optimización"
 
-#: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:486
+#: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:502
 msgid "Manual"
 msgstr "Manual"
 
-#: wp-statistics/wp-statistics.php:501
+#: wp-statistics/wp-statistics.php:517
 msgid "Site"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:502
+#: wp-statistics/wp-statistics.php:518
 msgid "Options"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:628
+#: wp-statistics/wp-statistics.php:644
 msgid "Today visitor"
 msgstr "Visitante de hoy"
 
-#: wp-statistics/wp-statistics.php:634
+#: wp-statistics/wp-statistics.php:650
 msgid "Today visit"
 msgstr "Visite hoy"
 
-#: wp-statistics/wp-statistics.php:640
+#: wp-statistics/wp-statistics.php:656
 msgid "Yesterday visitor"
 msgstr "Ayer visitante"
 
-#: wp-statistics/wp-statistics.php:652
+#: wp-statistics/wp-statistics.php:668
 msgid "View Stats"
 msgstr "Ver estadísticas"
 
-#: wp-statistics/wp-statistics.php:676
+#: wp-statistics/wp-statistics.php:692
 msgid "Download ODF file"
 msgstr "Descargar archivo ODF"
 
-#: wp-statistics/wp-statistics.php:677
+#: wp-statistics/wp-statistics.php:693
 msgid "Download HTML file"
 msgstr "Descargar archivo HTML"
 
-#: wp-statistics/wp-statistics.php:681
+#: wp-statistics/wp-statistics.php:697
 msgid "Manual file not found."
 msgstr "Manual archivo no encontrado."
 
-#: wp-statistics/wp-statistics.php:748 wp-statistics/wp-statistics.php:880
-#: wp-statistics/wp-statistics.php:915
+#: wp-statistics/wp-statistics.php:764 wp-statistics/wp-statistics.php:891
+#: wp-statistics/wp-statistics.php:926
 msgid "You do not have sufficient permissions to access this page."
 msgstr "No tienes permisos suficientes para acceder a esta página."
 
@@ -1323,7 +1307,7 @@ msgstr ""
 msgid "Top 10 Browsers"
 msgstr "10 mejores navegadores"
 
-#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:457
+#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:471
 msgid "Top 10 Countries"
 msgstr "Top 10 países"
 
@@ -1337,36 +1321,36 @@ msgstr ""
 msgid "Hit Statistics"
 msgstr "Estadística de hitos"
 
-#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:450
+#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:461
 msgid "Top 10 Pages"
 msgstr "Top 10 páginas"
 
 #: wp-statistics/dashboard.php:62
 #: wp-statistics/includes/log/last-visitor.php:36
-#: wp-statistics/wp-statistics.php:451
+#: wp-statistics/wp-statistics.php:453
 msgid "Recent Visitors"
 msgstr "Visitantes recientes"
 
 #: wp-statistics/dashboard.php:63
 #: wp-statistics/includes/log/top-referring.php:59
 #: wp-statistics/includes/log/top-referring.php:81
-#: wp-statistics/wp-statistics.php:456
+#: wp-statistics/wp-statistics.php:468
 msgid "Top Referring Sites"
 msgstr "Principales sitios de referencia"
 
 #: wp-statistics/dashboard.php:64
 #: wp-statistics/includes/log/widgets/quickstats.php:75
 #: wp-statistics/includes/log/widgets/summary.php:75
-#: wp-statistics/wp-statistics.php:448
+#: wp-statistics/wp-statistics.php:451
 msgid "Search Engine Referrals"
 msgstr "Referencias por motores de búsqueda"
 
-#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:454
+#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:466
 msgid "Summary"
 msgstr "Resumen"
 
 #: wp-statistics/dashboard.php:66 wp-statistics/includes/log/last-search.php:31
-#: wp-statistics/wp-statistics.php:449
+#: wp-statistics/wp-statistics.php:452
 msgid "Latest Search Words"
 msgstr "Las últimas palabras de búsqueda"
 
@@ -1436,8 +1420,8 @@ msgid "Click to toggle"
 msgstr "Haga clic para alternar"
 
 #: wp-statistics/includes/log/all-browsers.php:30
-#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:455
-#: wp-statistics/wp-statistics.php:511
+#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:467
+#: wp-statistics/wp-statistics.php:527
 msgid "Browsers"
 msgstr "Navegadores"
 
@@ -1510,7 +1494,7 @@ msgstr "Excluir accesos en los últimos"
 #: wp-statistics/includes/log/exclusions.php:95
 #: wp-statistics/includes/log/hit-statistics.php:66
 #: wp-statistics/includes/log/search-statistics.php:69
-#: wp-statistics/includes/log/widgets/hits.php:42
+#: wp-statistics/includes/log/widgets/hits.php:44
 #: wp-statistics/includes/log/widgets/search.php:42
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
@@ -1525,18 +1509,18 @@ msgid "Hits Statistics Chart"
 msgstr "Tabla de estadísticas Hits"
 
 #: wp-statistics/includes/log/hit-statistics.php:66
-#: wp-statistics/includes/log/widgets/hits.php:42
+#: wp-statistics/includes/log/widgets/hits.php:44
 msgid "Hits in the last"
 msgstr "Golpes en los últimos"
 
 #: wp-statistics/includes/log/hit-statistics.php:87
-#: wp-statistics/includes/log/widgets/hits.php:63
+#: wp-statistics/includes/log/widgets/hits.php:65
 msgid "Number of visits and visitors"
 msgstr "Número de visitas y visitantes"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:170
-#: wp-statistics/includes/log/widgets/hits.php:77
+#: wp-statistics/includes/log/widgets/hits.php:79
 #: wp-statistics/includes/log/widgets/quickstats.php:24
 #: wp-statistics/includes/log/widgets/summary.php:24
 msgid "Visit"
@@ -1544,7 +1528,7 @@ msgstr "Visita"
 
 #: wp-statistics/includes/log/hit-statistics.php:101
 #: wp-statistics/includes/log/hit-statistics.php:171
-#: wp-statistics/includes/log/widgets/hits.php:77
+#: wp-statistics/includes/log/widgets/hits.php:79
 #: wp-statistics/includes/log/widgets/quickstats.php:23
 #: wp-statistics/includes/log/widgets/summary.php:23
 msgid "Visitor"
@@ -1747,7 +1731,7 @@ msgstr "Este producto incluye datos GeoLite2 creados por MaxMind, disponible des
 msgid "Other"
 msgstr "Otros"
 
-#: wp-statistics/wp-statistics.php:445
+#: wp-statistics/wp-statistics.php:456
 msgid "Today Visitors Map"
 msgstr "Mapa de visitantes diarios"
 
@@ -1802,7 +1786,7 @@ msgstr "Tiempo: %s"
 #: wp-statistics/includes/log/widgets/top.visitors.php:12
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:80
 #: wp-statistics/wp-statistics.php:337 wp-statistics/wp-statistics.php:416
-#: wp-statistics/wp-statistics.php:514
+#: wp-statistics/wp-statistics.php:530
 msgid "Hits"
 msgstr "Hitos"
 
@@ -1821,7 +1805,7 @@ msgstr ""
 
 #: wp-statistics/ajax.php:41 wp-statistics/ajax.php:71
 #: wp-statistics/ajax.php:129 wp-statistics/ajax.php:154
-#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:302
+#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:297
 #: wp-statistics/includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "Acceso denegado!"
@@ -1877,7 +1861,7 @@ msgstr "Índice de base de datos"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:512
+#: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:528
 msgid "Countries"
 msgstr "Países"
 
@@ -1962,7 +1946,7 @@ msgstr ""
 #: wp-statistics/includes/settings/tabs/wps-general.php:138
 #: wp-statistics/includes/settings/tabs/wps-general.php:143
 #: wp-statistics/shortcode.php:140 wp-statistics/wp-statistics.php:423
-#: wp-statistics/wp-statistics.php:521
+#: wp-statistics/wp-statistics.php:537
 msgid "Visitors"
 msgstr "Visitantes"
 
@@ -2464,7 +2448,7 @@ msgstr "Si usted necesita una solución más robusta para delegar el acceso que 
 #: wp-statistics/includes/log/exclusions.php:197
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:46
 #: wp-statistics/includes/settings/wps-settings.php:104
-#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:513
+#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:529
 msgid "Exclusions"
 msgstr "Exclusiones"
 
@@ -2674,8 +2658,8 @@ msgstr "uso Browscap"
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:121
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:34
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:54
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:94
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:106
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:74
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:86
 msgid "Active"
 msgstr "Activo"
 
