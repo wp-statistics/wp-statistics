@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.5
-Stable tag: 10.1
+Stable tag: 10.2
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -254,12 +254,12 @@ It happens when a new day starts and two visitors hit the site at nearly the sam
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 10.1 =
-This is primarily a maintenance release with updates to various libraries and bug fixes.
+= 10.2 =
+This is primarily a maintenance release with updates to various libraries and bug fixes, note that Google Maps is no longer supported.
 
 == Changelog ==
 = 10.2 =
-* Release Date: TBD
+* Release Date: August 2, 2016
 * Added: Support for use page id in Get_Historical_Data function.
 * Updated: jQuery CSS references.
 * Fixed: Various WP_DEBUG warnings.
