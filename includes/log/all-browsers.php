@@ -73,7 +73,7 @@
 									legend: { 
 										show:true, 
 										location: 's',
-										renderer: jQuery.jqplot.EnhancedLegendRenderer,
+										renderer: jQuery.jqplot.EnhancedPieLegendRenderer,
 										rendererOptions:
 											{
 												numberColumns: 3, 
@@ -157,7 +157,7 @@
 									legend: { 
 										show:true, 
 										location: 's',
-										renderer: jQuery.jqplot.EnhancedLegendRenderer,
+										renderer: jQuery.jqplot.EnhancedPieLegendRenderer,
 										rendererOptions: {
 											numberColumns: 3, 
 											disableIEFading: false,
@@ -291,7 +291,7 @@
 						legend: { 
 							show:true, 
 							location: 's',
-							renderer: jQuery.jqplot.EnhancedLegendRenderer,
+							renderer: jQuery.jqplot.EnhancedLegendPieRenderer,
 							rendererOptions:
 								{
 									numberColumns: 2, 

@@ -55,9 +55,9 @@
 										}
 									}, 
 									legend: { 
-										show:true, 
+										show: true, 
 										location: 's',
-										renderer: jQuery.jqplot.EnhancedLegendRenderer,
+										renderer: jQuery.jqplot.EnhancedPieLegendRenderer,
 										rendererOptions:
 											{
 												numberColumns: 2, 
