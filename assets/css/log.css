@@ -237,3 +237,8 @@
     float: right;
     margin: 12px 0 0;
 }
+
+.jqvmap-label
+{
+	z-index: 10000;
+}

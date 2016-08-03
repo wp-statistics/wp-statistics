@@ -258,6 +258,10 @@ It happens when a new day starts and two visitors hit the site at nearly the sam
 This is primarily a maintenance release with updates to various libraries and bug fixes, note that Google Maps is no longer supported.
 
 == Changelog ==
+= 10.3 =
+* Release Date: TBD
+* Fixed: Pop up country information on the map dashboard widget will now stay on the WordPress dashboard menus.
+
 = 10.2 =
 * Release Date: August 2, 2016
 * Added: Support for use page id in Get_Historical_Data function.
