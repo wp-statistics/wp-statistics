@@ -12,7 +12,7 @@
 	<h2><?php _e('Top 100 Visitors Today', 'wp_statistics'); ?></h2>
 <?php 
 	wp_enqueue_script('jquery-ui-datepicker');
-	wp_register_style("jquery-ui-smoothness-css", $WP_Statistics->plugin_url . "assets/css/jquery-ui-smoothness.css");
+	wp_register_style("jquery-ui-smoothness-css", $WP_Statistics->plugin_url . "assets/css/jquery-ui-smoothness' . WP_STATISTICS_MIN_EXT . '.css");
 	wp_enqueue_style("jquery-ui-smoothness-css");
 	
 	$current = 0;

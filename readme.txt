@@ -261,7 +261,10 @@ This is primarily a maintenance release with updates to various libraries and bu
 = 10.3 =
 * Release Date: TBD
 * Fixed: Pop up country information on the map dashboard widget will now stay on the WordPress dashboard menus.
-* Updatede: JQVMap library to version 1.5.1.
+* Added: Support for minified css/js files and the SCRIPT_DEBUG WordPress define.
+* Updated: JQVMap library to version 1.5.1.
+* Updated: jqPlot library to version 1.0.9.
+* Updated: GeoIP library to version 2.4.1.
 
 = 10.2 =
 * Release Date: August 2, 2016

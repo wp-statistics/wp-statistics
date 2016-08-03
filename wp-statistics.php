@@ -35,6 +35,8 @@ License: GPL2
 	define('WP_STATISTICS_DONATE_PAGE', 'wps_donate_page' );
 	define('WP_STATISTICS_MANUAL_PAGE', 'wps_manual_page' );
 
+	if( defined('SCRIPT_DEBUG') && TRUE === SCRIPT_DEBUG) { define( 'WP_STATISTICS_MIN_EXT', '' ); } else { define( 'WP_STATISTICS_MIN_EXT', '.min' ); }
+	
 	// Load the translation code.
 	function wp_statistics_language() {
 		GLOBAL $WP_Statistics;
@@ -598,9 +600,9 @@ License: GPL2
 		global $wp_version;
 		
 		if( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
-			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin.css', true, '1.0');
+			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0');
 		} else {
-			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin-old.css', true, '1.0');
+			wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin-old' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0');
 		}
 	}
 	add_action('admin_head', 'wp_statistics_menu_icon');
@@ -797,23 +799,23 @@ License: GPL2
 		wp_enqueue_script('postbox');
 		
 		// Load the css we use for the statistics pages.
-		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
-		wp_enqueue_style('pagination-css', plugin_dir_url(__FILE__) . 'assets/css/pagination.css', true, '1.0');
-		wp_enqueue_style('jqplot-css', plugin_dir_url(__FILE__) . 'assets/css/jquery.jqplot.min.css', true, '1.0.8');
+		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1');
+		wp_enqueue_style('pagination-css', plugin_dir_url(__FILE__) . 'assets/css/pagination' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0');
+		wp_enqueue_style('jqplot-css', plugin_dir_url(__FILE__) . 'assets/jqplot/jquery.jqplot' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0.9');
 		
 		// Don't forget the right to left support.
 		if( is_rtl() )
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1');
 
 		// Load the charts code.
-		wp_enqueue_script('jqplot', plugin_dir_url(__FILE__) . 'assets/js/jquery.jqplot.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-daterenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.dateAxisRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-tickrenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.canvasAxisTickRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-axisrenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.canvasAxisLabelRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-textrenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.canvasTextRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-tooltip', plugin_dir_url(__FILE__) . 'assets/js/jqplot.highlighter.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.pieRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/js/jqplot.enhancedLegendRenderer.min.js', true, '0.8.3');
+		wp_enqueue_script('jqplot', plugin_dir_url(__FILE__) . 'assets/jqplot/jquery.jqplot' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
+		wp_enqueue_script('jqplot-daterenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.dateAxisRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-tickrenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.canvasAxisTickRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-axisrenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.canvasAxisLabelRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-textrenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.canvasTextRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-tooltip', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.highlighter' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.pieRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.enhancedLegendRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
 
 		// Load the pagination code.
 		include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
@@ -870,12 +872,12 @@ License: GPL2
 			
 		} else {
 		
-			wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap.min.css', true, '1.5.1');
-			wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap.min.js', true, '1.5.1');
-			wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1');
+			wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap' . WP_STATISTICS_MIN_EXT . '.css', true, '1.5.1');
+			wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
+			wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
 		
 			// Load our custom widgets handling javascript.
-			wp_enqueue_script('wp_statistics_log', plugin_dir_url(__FILE__) . 'assets/js/log.js');
+			wp_enqueue_script('wp_statistics_log', plugin_dir_url(__FILE__) . 'assets/js/log' . WP_STATISTICS_MIN_EXT . '.js');
 			
 			include_once dirname( __FILE__ ) . '/includes/log/log.php';
 		}
@@ -902,9 +904,10 @@ License: GPL2
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-tabs');
 		
-		if( is_rtl() )
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
-
+		if( is_rtl() ) {
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1');
+		}
+		
 		// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.
 		$result['useronline'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_useronline`");
 		$result['visit'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_visit`");
@@ -931,17 +934,18 @@ License: GPL2
 		$WP_Statistics->load_user_options();
 
 		// Load our CSS to be used.
-		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/style.css', true, '1.0');
+		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/style' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0');
 
 		// Load the jQuery UI code to create the tabs.
-		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . "assets/css/jquery-ui-1.10.4.custom.css");
+		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . "assets/css/jquery-ui-1.10.4.custom' . WP_STATISTICS_MIN_EXT . '.css");
 		wp_enqueue_style("jquery-ui-css");
 
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-tabs');
 		
-		if( is_rtl() )
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
+		if( is_rtl() ) {
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1');
+		}
 		
 		// We could let the download happen at the end of the page, but this way we get to give some
 		// feedback to the users about the result.

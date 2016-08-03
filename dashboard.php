@@ -72,34 +72,35 @@
 		GLOBAL $WP_Statistics;
 		
 		// Load the css we use for the statistics pages.
-		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.1');
-		wp_enqueue_style('jqplot-css', plugin_dir_url(__FILE__) . 'assets/css/jquery.jqplot.min.css', true, '1.0.8');
+		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/log' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1');
+		wp_enqueue_style('jqplot-css', plugin_dir_url(__FILE__) . 'assets/jqplot/jquery.jqplot' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0.9');
 		
 		// Don't forget the right to left support.
-		if( is_rtl() )
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
-
+		if( is_rtl() ) {
+			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1');
+		}
+		
 		// Load the charts code.
-		wp_enqueue_script('jqplot', plugin_dir_url(__FILE__) . 'assets/js/jquery.jqplot.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-daterenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.dateAxisRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-tickrenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.canvasAxisTickRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-axisrenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.canvasAxisLabelRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-textrenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.canvasTextRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-tooltip', plugin_dir_url(__FILE__) . 'assets/js/jqplot.highlighter.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/js/jqplot.pieRenderer.min.js', true, '0.8.3');
-		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/js/jqplot.enhancedLegendRenderer.min.js', true, '0.8.3');
+		wp_enqueue_script('jqplot', plugin_dir_url(__FILE__) . 'assets/jqplot/jquery.jqplot' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-daterenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.dateAxisRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-tickrenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.canvasAxisTickRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-axisrenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.canvasAxisLabelRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-textrenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.canvasTextRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-tooltip', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.highlighter' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-pierenderer', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.pieRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
+		wp_enqueue_script('jqplot-enhancedlengend', plugin_dir_url(__FILE__) . 'assets/jqplot/plugins/jqplot.enhancedLegendRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9');
 
-		wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap.min.css', true, '1.5.1');
-		wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap.min.js', true, '1.5.1');
-		wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1');
+		wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap' . WP_STATISTICS_MIN_EXT . '.css', true, '1.5.1');
+		wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
+		wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
 
 		$screen = get_current_screen();
 
 		// Load our custom widgets handling javascript.
 		if( 'post' == $screen->id || 'page' == $screen->id) {
-			wp_enqueue_script('wp_statistics_editor', plugin_dir_url(__FILE__) . 'assets/js/editor.js');
+			wp_enqueue_script('wp_statistics_editor', plugin_dir_url(__FILE__) . 'assets/js/editor' . WP_STATISTICS_MIN_EXT . '.js');
 		} else {
-			wp_enqueue_script('wp_statistics_dashboard', plugin_dir_url(__FILE__) . 'assets/js/dashboard.js');
+			wp_enqueue_script('wp_statistics_dashboard', plugin_dir_url(__FILE__) . 'assets/js/dashboard' . WP_STATISTICS_MIN_EXT . '.js');
 		}
 	}
 	
