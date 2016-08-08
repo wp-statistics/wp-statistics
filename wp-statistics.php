@@ -898,7 +898,7 @@ License: GPL2
 		$WP_Statistics->load_user_options();
 
 		// Load the jQuery UI code to create the tabs.
-		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . "assets/css/jquery-ui-1.10.4.custom.css");
+		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . 'assets/css/jquery-ui-1.10.4.custom' . WP_STATISTICS_MIN_EXT . '.css');
 		wp_enqueue_style("jquery-ui-css");
 
 		wp_enqueue_script('jquery-ui-core');
@@ -937,7 +937,7 @@ License: GPL2
 		wp_enqueue_style('log-css', plugin_dir_url(__FILE__) . 'assets/css/style' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0');
 
 		// Load the jQuery UI code to create the tabs.
-		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . "assets/css/jquery-ui-1.10.4.custom' . WP_STATISTICS_MIN_EXT . '.css");
+		wp_register_style("jquery-ui-css", plugin_dir_url(__FILE__) . 'assets/css/jquery-ui-1.10.4.custom' . WP_STATISTICS_MIN_EXT . '.css');
 		wp_enqueue_style("jquery-ui-css");
 
 		wp_enqueue_script('jquery-ui-core');
