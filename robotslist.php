@@ -8,6 +8,7 @@ $wps_robotarray = array(
 	'AcoiRobot',
 	'AddThis.com',
 	'ADmantX',
+	'AdsBot-Google',
 	'advbot',
 	'AhrefsBot',
 	'aiHitBot',
