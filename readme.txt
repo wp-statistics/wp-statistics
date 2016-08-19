@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.6
-Stable tag: 10.2
+Stable tag: 10.3
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -260,12 +260,12 @@ At this time (August 2016) WP Statistics seems to run fine with PHP 7.0.10, howe
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 10.2 =
-This is primarily a maintenance release with updates to various libraries and bug fixes, note that Google Maps is no longer supported.
+= 10.3 =
+This is primarily a maintenance release with updates to various libraries and bug fixes, note that Google Maps is no longer supported as of 10.2.
 
 == Changelog ==
 = 10.3 =
-* Release Date: TBD
+* Release Date: August 19, 2016
 * Added: Support for minified css/js files and the SCRIPT_DEBUG WordPress define.
 * Added: <label> spans around the text for widget fields for easier styling.
 * Added: 'AdsBot-Google' to the robots list
