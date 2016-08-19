@@ -267,9 +267,9 @@ This is primarily a maintenance release with updates to various libraries and bu
 = 10.3 =
 * Release Date: TBD
 * Added: Support for minified css/js files and the SCRIPT_DEBUG WordPress define.
-* Added: <label> spans around the widget fields for easier styling.
+* Added: <label> spans around the text for widget fields for easier styling.
 * Added: 'AdsBot-Google' to the robots list
-* Fixed: Pop up country information on the map dashboard widget will now stay on the WordPress dashboard menus.
+* Fixed: Pop up country information on the map dashboard widget will now stay on top of the WordPress dashboard menus.
 * Fixed: WP_DEBUG errors in front end widget.
 * Updated: JQVMap library to version 1.5.1.
 * Updated: jqPlot library to version 1.0.9.
