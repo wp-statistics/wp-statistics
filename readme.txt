@@ -133,7 +133,7 @@ If you still don't see the menus, go to the support forums and open a new thread
 
 = I'm using another statistics plugin/service and get different numbers for them, why? =
 
-Pretty much every plugin/service is going to give you different results for visits and vistors, there are several reasons for this:
+Pretty much every plugin/service is going to give you different results for visits and visitors, there are several reasons for this:
 
 * Web crawler detection
 * Detection method (javascript vs server side PHP)
