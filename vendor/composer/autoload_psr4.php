@@ -7,5 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'MaxMind\\' => array($vendorDir . '/maxmind/web-service-common/src'),
+    'IPTools\\' => array($vendorDir . '/s1lentium/iptools/src'),
     'GeoIp2\\' => array($vendorDir . '/geoip2/geoip2/src'),
+    'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 );

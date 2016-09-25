@@ -1,17 +1,123 @@
 [
     {
-        "name": "maxmind-db/reader",
-        "version": "v1.1.0",
-        "version_normalized": "1.1.0.0",
+        "name": "composer/ca-bundle",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
-            "reference": "1383655533aa2f13a990b27b075fdde8b7bdd5ff"
+            "url": "https://github.com/composer/ca-bundle.git",
+            "reference": "ec21a59414b99501e723b63fd664aa8ead9c5680"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/1383655533aa2f13a990b27b075fdde8b7bdd5ff",
-            "reference": "1383655533aa2f13a990b27b075fdde8b7bdd5ff",
+            "url": "https://api.github.com/repos/composer/ca-bundle/zipball/ec21a59414b99501e723b63fd664aa8ead9c5680",
+            "reference": "ec21a59414b99501e723b63fd664aa8ead9c5680",
+            "shasum": ""
+        },
+        "require": {
+            "ext-openssl": "*",
+            "ext-pcre": "*",
+            "php": "^5.3.2 || ^7.0"
+        },
+        "require-dev": {
+            "psr/log": "^1.0",
+            "symfony/process": "^2.5 || ^3.0"
+        },
+        "suggest": {
+            "symfony/process": "This is necessary to reliably check whether openssl_x509_parse is vulnerable on older php versions, but can be ignored on PHP 5.5.6+"
+        },
+        "time": "2016-09-04 19:00:06",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\CaBundle\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jordi Boggiano",
+                "email": "j.boggiano@seld.be",
+                "homepage": "http://seld.be"
+            }
+        ],
+        "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+        "keywords": [
+            "cabundle",
+            "cacert",
+            "certificate",
+            "ssl",
+            "tls"
+        ]
+    },
+    {
+        "name": "maxmind/web-service-common",
+        "version": "v0.3.1",
+        "version_normalized": "0.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/maxmind/web-service-common-php.git",
+            "reference": "1fe780bcd6a9038b7e36b13fa0aeeeeca4cdb0a4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/maxmind/web-service-common-php/zipball/1fe780bcd6a9038b7e36b13fa0aeeeeca4cdb0a4",
+            "reference": "1fe780bcd6a9038b7e36b13fa0aeeeeca4cdb0a4",
+            "shasum": ""
+        },
+        "require": {
+            "composer/ca-bundle": "^1.0.3",
+            "ext-curl": "*",
+            "ext-json": "*",
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.*",
+            "squizlabs/php_codesniffer": "2.*"
+        },
+        "time": "2016-08-18 16:36:52",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "MaxMind\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Gregory Oschwald",
+                "email": "goschwald@maxmind.com"
+            }
+        ],
+        "description": "Internal MaxMind Web Service API",
+        "homepage": "https://github.com/maxmind/mm-web-service-api-php"
+    },
+    {
+        "name": "maxmind-db/reader",
+        "version": "v1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
+            "reference": "8da3b4fcd439779d4b16bba0a4ba98365f78d788"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/8da3b4fcd439779d4b16bba0a4ba98365f78d788",
+            "reference": "8da3b4fcd439779d4b16bba0a4ba98365f78d788",
             "shasum": ""
         },
         "require": {
@@ -19,10 +125,10 @@
         },
         "require-dev": {
             "phpunit/phpunit": "4.2.*",
-            "satooshi/php-coveralls": "dev-master",
+            "satooshi/php-coveralls": "1.0.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2016-01-04 15:38:11",
+        "time": "2016-09-15 21:26:50",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -52,75 +158,30 @@
         ]
     },
     {
-        "name": "maxmind/web-service-common",
-        "version": "v0.2.1",
-        "version_normalized": "0.2.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/maxmind/web-service-common-php.git",
-            "reference": "436bebacf4e74651b383435822c472f3e0f2a28a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/maxmind/web-service-common-php/zipball/436bebacf4e74651b383435822c472f3e0f2a28a",
-            "reference": "436bebacf4e74651b383435822c472f3e0f2a28a",
-            "shasum": ""
-        },
-        "require": {
-            "ext-curl": "*",
-            "ext-json": "*",
-            "php": ">=5.3"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "4.*",
-            "squizlabs/php_codesniffer": "2.*"
-        },
-        "time": "2016-06-13 19:55:20",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "MaxMind\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Gregory Oschwald",
-                "email": "goschwald@maxmind.com"
-            }
-        ],
-        "description": "Internal MaxMind Web Service API",
-        "homepage": "https://github.com/maxmind/mm-web-service-api-php"
-    },
-    {
         "name": "geoip2/geoip2",
-        "version": "v2.4.1",
-        "version_normalized": "2.4.1.0",
+        "version": "v2.4.2",
+        "version_normalized": "2.4.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/maxmind/GeoIP2-php.git",
-            "reference": "241e4442e0469d70043805ef699290616d53ce41"
+            "reference": "24b278b0195d7067e930b844c44faf8fae5bdbc7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/241e4442e0469d70043805ef699290616d53ce41",
-            "reference": "241e4442e0469d70043805ef699290616d53ce41",
+            "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/24b278b0195d7067e930b844c44faf8fae5bdbc7",
+            "reference": "24b278b0195d7067e930b844c44faf8fae5bdbc7",
             "shasum": ""
         },
         "require": {
             "maxmind-db/reader": "~1.0",
-            "maxmind/web-service-common": "~0.2",
+            "maxmind/web-service-common": "~0.3",
             "php": ">=5.3.1"
         },
         "require-dev": {
             "phpunit/phpunit": "4.2.*",
             "squizlabs/php_codesniffer": "2.*"
         },
-        "time": "2016-06-10 22:32:01",
+        "time": "2016-08-17 20:42:55",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -147,6 +208,58 @@
             "geoip2",
             "geolocation",
             "maxmind"
+        ]
+    },
+    {
+        "name": "s1lentium/iptools",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/S1lentium/IPTools.git",
+            "reference": "cb4843d4077872643b5d38d18b8591b4aaf605ea"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/S1lentium/IPTools/zipball/cb4843d4077872643b5d38d18b8591b4aaf605ea",
+            "reference": "cb4843d4077872643b5d38d18b8591b4aaf605ea",
+            "shasum": ""
+        },
+        "require": {
+            "ext-bcmath": "*",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "satooshi/php-coveralls": "~1.0"
+        },
+        "time": "2016-08-21 15:57:09",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "IPTools\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Safarov Alisher",
+                "email": "alisher.safarov@outlook.com",
+                "homepage": "https://github.com/S1lentium"
+            }
+        ],
+        "description": "PHP Library for manipulating network addresses (IPv4 and IPv6)",
+        "keywords": [
+            "IP",
+            "IP-Tools",
+            "cidr",
+            "ipv4",
+            "ipv6",
+            "network",
+            "subnet"
         ]
     }
 ]
