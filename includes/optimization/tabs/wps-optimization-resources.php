@@ -155,6 +155,17 @@
 
 			<tr valign="top">
 				<th scope="row">
+					<?php _e('PHP IPv6 Enabled', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php if( defined( 'AF_INET6' ) ) { echo 'Yes'; } else { echo 'No'; } ?></strong>
+					<p class="description"><?php _e('Is PHP compiled with IPv6 support.  You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+			
+			<tr valign="top">
+				<th scope="row">
 					<?php _e('jQuery Version', 'wp_statistics'); ?>:
 				</th>
 				

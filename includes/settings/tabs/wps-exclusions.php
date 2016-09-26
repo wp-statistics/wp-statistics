@@ -1,4 +1,4 @@
-<?php 
+<?php
 global $wp_roles;
 
 $role_list = $wp_roles->get_names();
@@ -23,12 +23,12 @@ if( $wps_nonce_valid ) {
 			'post_status'   => 'publish',
 			'post_author'   => 1,
 		);
-	
+
 		$_POST['wps_honeypot_postid'] = wp_insert_post( $my_post );
 	}
-	
+
 	$wps_option_list = array_merge( $wps_option_list, array('wps_record_exclusions','wps_robotlist','wps_exclude_ip','wps_exclude_loginpage','wps_exclude_adminpage','wps_force_robot_update','wps_excluded_countries','wps_included_countries','wps_excluded_hosts','wps_robot_threshold','wps_use_honeypot','wps_honeypot_postid','wps_exclude_feeds','wps_excluded_urls','wps_exclude_404s', 'wps_corrupt_browser_info' ) );
-	
+
 	foreach( $wps_option_list as $option ) {
 		$new_option = str_replace( "wps_", "", $option );
 
@@ -41,7 +41,7 @@ if( $wps_nonce_valid ) {
 
 <table class="form-table">
 	<tbody>
-		
+
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('Exclusions', 'wp_statistics'); ?></h3></th>
 		</tr>
@@ -59,15 +59,15 @@ if( $wps_nonce_valid ) {
 		</tr>
 		<?php
 			$role_option_list = '';
-			
+
 			foreach( $role_list as $role ) {
 				$store_name = 'exclude_' . str_replace(" ", "_", strtolower($role) );
 				$option_name = 'wps_' . $store_name;
 				$role_option_list .= $option_name . ',';
-				
+
 				$translated_role_name = translate_user_role($role);
 		?>
-		
+
 		<tr valign="top">
 			<th scope="row"><label for="<?php echo $option_name;?>"><?php echo $translated_role_name; ?>:</label></th>
 			<td>
@@ -76,7 +76,7 @@ if( $wps_nonce_valid ) {
 			</td>
 		</tr>
 		<?php } ?>
-		
+
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('IP/Robot Exclusions', 'wp_statistics'); ?></h3></th>
 		</tr>
@@ -84,13 +84,13 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row"><?php _e('Robot list', 'wp_statistics'); ?>:</th>
 			<td>
-				<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php 
-					$robotlist = $WP_Statistics->get_option('robotlist'); 
+				<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
+					$robotlist = $WP_Statistics->get_option('robotlist');
 
 					include_once(dirname( __FILE__ ) . '/../../../robotslist.php');
-					
-					if( $robotlist == '' ) { 
-						$robotlist = $wps_robotlist; 
+
+					if( $robotlist == '' ) {
+						$robotlist = $wps_robotlist;
 						update_option( 'wps_robotlist', $robotlist );
 					}
 
@@ -120,10 +120,13 @@ if( $wps_nonce_valid ) {
 			<th scope="row"><?php _e('Excluded IP address list', 'wp_statistics'); ?>:</th>
 			<td>
 				<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo htmlentities( $WP_Statistics->get_option('exclude_ip'), ENT_QUOTES );?></textarea>
-				<p class="description"><?php echo __('A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255.', 'wp_statistics'); ?></p>
+				<p class="description"><?php echo __('A list of IP addresses and subnet masks (one per line) to exclude from statistics collection.', 'wp_statistics'); ?></p>
+				<p class="description"><?php echo __('For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted.  To specify an IP address only, use a subnet value of 32 or 255.255.255.255.', 'wp_statistics'); ?></p>
+				<p class="description"><?php echo __('For IPv6 addresses use the fc00::/7 format.', 'wp_statistics'); ?></p>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n10.0.0.0/8' ); }" class="button"><?php _e('Add 10.0.0.0', 'wp_statistics');?></a>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n172.16.0.0/12' ); }" class="button"><?php _e('Add 172.16.0.0', 'wp_statistics');?></a>
 				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n192.168.0.0/16' ); }" class="button"><?php _e('Add 192.168.0.0', 'wp_statistics');?></a>
+				<a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\nfc00::/7' ); }" class="button"><?php _e('Add fc00::/7', 'wp_statistics');?></a>
 			</td>
 		</tr>
 
@@ -155,7 +158,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('GeoIP Exclusions', 'wp_statistics'); ?></h3></th>
 		</tr>
-		
+
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded countries list', 'wp_statistics'); ?>:</th>
 			<td>
@@ -175,7 +178,7 @@ if( $wps_nonce_valid ) {
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('Host Exclusions', 'wp_statistics'); ?></h3></th>
 		</tr>
-		
+
 		<tr valign="top">
 			<th scope="row"><?php _e('Excluded hosts list', 'wp_statistics'); ?>:</th>
 			<td>
