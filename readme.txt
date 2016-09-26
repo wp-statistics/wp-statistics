@@ -278,6 +278,7 @@ IPv6 is now supported!  Note you must have IPv6 support complied in to PHP for t
 * Release Date: TBD
 * Added: IPv6 Support.
 * Updated: GeoIP library to version 1.1.1.
+* Updated: phpUserAgent library to 0.5.2
 
 = 10.3 =
 * Release Date: August 19, 2016
