@@ -9,7 +9,7 @@
 							<tbody>
 <?php if( $WP_Statistics->get_option('useronline') ) {?>							
 								<tr>
-									<th><?php _e('User(s) Online', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Users Online', 'wp_statistics'); ?>:</th>
 									<th colspan="2" id="th-colspan">
 										<span><a href="admin.php?page=<?php echo WP_STATISTICS_ONLINE_PAGE; ?>"><?php echo wp_statistics_useronline(); ?></a></span> 
 									</th>
@@ -37,19 +37,19 @@ if( $WP_Statistics->get_option('visitors') || $WP_Statistics->get_option('visits
 								</tr>
 								
 								<tr>
-									<th><?php _e('Last 7 Days (Week)', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Last 7 Days', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><?php if( $WP_Statistics->get_option('visitors') ) { echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=7"><span>' . number_format_i18n(wp_statistics_visitor('week',null,true)) . '</span></a>'; } else { echo ''; }?></th>
 									<th class="th-center"><?php if( $WP_Statistics->get_option('visits') ) { echo '<a href="admin.php?page=' . WP_STATISTICS_HITS_PAGE .'&hitdays=7"><span>' .  number_format_i18n(wp_statistics_visit('week')) . '</span></a>'; } else { echo ''; }?></th>
 								</tr>
 								
 								<tr>
-									<th><?php _e('Last 30 Days (Month)', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Last 30 Days', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><?php if( $WP_Statistics->get_option('visitors') ) { echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=30"><span>' . number_format_i18n(wp_statistics_visitor('month',null,true)) . '</span></a>'; } else { echo ''; }?></th>
 									<th class="th-center"><?php if( $WP_Statistics->get_option('visits') ) { echo '<a href="admin.php?page=' . WP_STATISTICS_HITS_PAGE . '&hitdays=30"><span>' . number_format_i18n(wp_statistics_visit('month')) . '</span></a>'; } else { echo ''; }?></th>
 								</tr>
 								
 								<tr>
-									<th><?php _e('Last 365 Days (Year)', 'wp_statistics'); ?>:</th>
+									<th><?php _e('Last 365 Days', 'wp_statistics'); ?>:</th>
 									<th class="th-center"><?php if( $WP_Statistics->get_option('visitors') ) { echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=365"><span>' . number_format_i18n(wp_statistics_visitor('year',null,true)) . '</span></a>'; } else { echo ''; }?></th>
 									<th class="th-center"><?php if( $WP_Statistics->get_option('visits') ) { echo '<a href="admin.php?page=' . WP_STATISTICS_HITS_PAGE . '&hitdays=365"><span>' . number_format_i18n(wp_statistics_visit('year')) . '</span></a>'; } else { echo ''; }?></th>
 								</tr>
