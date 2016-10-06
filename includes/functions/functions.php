@@ -945,9 +945,6 @@
 		// PHP's cURL extension installed
 		if( !function_exists('curl_init') ) { $enabled = false; }
 		
-		// PHP's bcadd extension installed
-		if( !function_exists('bcadd') ) { $enabled = false; }
-		
 		// PHP NOT running in safe mode
 		if( ini_get('safe_mode') ) {
 			// Double check php version, 5.4 and above don't support safe mode but the ini value may still be set after an upgrade.
