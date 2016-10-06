@@ -244,7 +244,6 @@ function wp_statistics_get_widget_contents_callback() {
 			
 				break;
 			case 'jqv.map':
-			case 'google.map':
 				wp_statistics_generate_map_postbox_content($ISOCountryCode);
 				
 				break;
