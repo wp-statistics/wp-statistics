@@ -3,9 +3,6 @@
 	This is the class for recording GeoIP information for hits on the WordPress site.  It extends the Hits class.
 */
 
-// The GeoIP library from MaxMind is complete has many dependencies, use the autoload.php file to handle them all.
-require_once( plugin_dir_path( __FILE__ ) . '../../vendor/autoload.php' );
-
 // Load the classes.
 use GeoIp2\Database\Reader;
 

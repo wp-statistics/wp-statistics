@@ -4,6 +4,10 @@
 
 	This class handles; visits, visitors and pages.
 */
+
+// The GeoIP library from MaxMind and the IP Tools library are complex and have many dependencies, use the autoload.php file to handle them all.
+require_once( plugin_dir_path( __FILE__ ) . '../../vendor/autoload.php' );
+
 use phpbrowscap\Browscap;
 use IPTools\IP;
 use IPTools\Network;
@@ -73,12 +77,6 @@ class Hits extends WP_Statistics {
 		// The GoeIP exclusions will be processed in the GeoIP hits class constructor.
 		//
 
-		// Get the upload directory from WordPRess.
-		$upload_dir = wp_upload_dir();
-
-		// Create a variable with the name of the database file to download.
-		$BrowscapFile = $upload_dir['basedir'] . '/wp-statistics';
-
 		$crawler = false;
 		$ua_string = '';
 
@@ -87,6 +85,12 @@ class Hits extends WP_Statistics {
 		}
 
 		if( $this->get_option('last_browscap_dl') > 1 && $this->get_option('browscap') ) {
+			// Get the upload directory from WordPress.
+			$upload_dir = wp_upload_dir();
+
+			// Create a variable with the name of the database file to download.
+			$BrowscapFile = $upload_dir['basedir'] . '/wp-statistics';
+
 			// Get the Browser Capabilities use Browscap.
 			$bc = new Browscap( $BrowscapFile );
 			$bc->doAutoUpdate = false; 	// We don't want to auto update.
