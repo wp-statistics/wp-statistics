@@ -293,7 +293,11 @@ class WP_Statistics {
 		}
 
 		// By default we use the remote address the server has.
-		$temp_ip = $this->get_ip_value( $_SERVER['REMOTE_ADDR'] );
+		if( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+			$temp_ip = $this->get_ip_value( $_SERVER['REMOTE_ADDR'] );
+		} else {
+			$temp_ip = '127.0.0.1';
+		}
 
 		if( FALSE !== $temp_ip ) {
 			$this->ip = $temp_ip;
