@@ -14,41 +14,41 @@
 		
 		$urlfields = "&page-id={$pageid}";
 		if( $pageuri ) { $urlfields .= "&page-uri={$pageuri}"; }
-		
+
 		list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $days, $rangestart, $rangeend );
+		$daysInThePast = round( ( time() - $rangeend_utime ) / 86400 ,0 );
 		
 ?>
 						<script type="text/javascript">
 						var pages_chart;
-						jQuery(document).ready(function() {
+						jQuery(document).ready( function() {
 <?php								
-						echo "var page_data_line = [";
-									
-						for( $i=$daysToDisplay; $i>=0; $i--) {
-							$stat = wp_statistics_pages( '-'.$i, $pageuri, $pageid );
+						echo 'var page_data_line = [';
+						
+						for( $i = $daysToDisplay; $i >= 0; $i-- ) {
+							$stat = wp_statistics_pages( '-' . ( $i + $daysInThePast ), $pageuri, $pageid );
 							
-							echo "['" . $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$i, $rangeend_utime) . "'," . $stat . "], ";
-							
+							echo "['" . $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $i, $rangeend_utime ) . "'," . $stat . "], ";
 						}
 
 						echo "];\n";
-						
+
 						$tickInterval = $daysToDisplay / 20;
 						if( $tickInterval < 1 ) { $tickInterval = 1; }
 								
 ?>
-							pages_jqchart = jQuery.jqplot('page-stats', [page_data_line], {
+							pages_jqchart = jQuery.jqplot( 'page-stats', [page_data_line], {
 								title: {
-									text: '<b>' + <?php echo json_encode(__($chart_title, 'wp_statistics')); ?> + '</b>',
+									text: '<b>' + <?php echo json_encode( __( $chart_title, 'wp_statistics' ) ); ?> + '</b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
 									},
 								axes: {
 									xaxis: {
-											min: '<?php echo $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$daysToDisplay, $rangeend_utime);?>',
-											max: '<?php echo $WP_Statistics->Real_Current_Date('Y-m-d', '-0', $rangeend_utime);?>',
-											tickInterval:  '<?php echo $tickInterval?> day',
+											min: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $daysToDisplay, $rangeend_utime );?>',
+											max: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-0', $rangeend_utime );?>',
+											tickInterval:  '<?php echo $tickInterval; ?> day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 											tickOptions: { 
@@ -60,7 +60,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: <?php echo json_encode(__('Number of Hits', 'wp_statistics')); ?>,
+											label: <?php echo json_encode( __('Number of Hits', 'wp_statistics' ) ); ?>,
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -110,12 +110,12 @@
 
 							function JQPlotPagesChartLengendClickRedraw() {
 								pages_jqchart.replot( {resetAxes: ['yaxis'] } );
-								jQuery('div[id="page-stats"] .jqplot-table-legend').click(function() {
+								jQuery('div[id="page-stats"] .jqplot-table-legend').click( function() {
 									JQPlotPagesChartLengendClickRedraw();
 								});
 							}
 							
-							jQuery('div[id="page-stats"] .jqplot-table-legend').click(function() {
+							jQuery('div[id="page-stats"] .jqplot-table-legend').click( function() {
 								JQPlotPagesChartLengendClickRedraw()
 							});
 						});
