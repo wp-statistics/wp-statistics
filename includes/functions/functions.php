@@ -911,9 +911,10 @@
 		$rangestart_utime = $WP_Statistics->strtotimetz( $rangestart );
 		$rangeend_utime = $WP_Statistics->strtotimetz( $rangeend );
 		$daysToDisplay = (int)( ( $rangeend_utime - $rangestart_utime ) / 24 / 60 / 60 );
+		$today = $WP_Statistics->Current_Date( 'm/d/Y' );
 		
-		// If the rangeend isn't today AND not one of the standard range values, then it's a custom selected value and we need to flag it as such.
-		if( $rangeend != $WP_Statistics->Current_Date( 'm/d/Y') && ! in_array( $current, $range ) ) {
+		// If the rangeend isn't today OR it is but not one of the standard range values, then it's a custom selected value and we need to flag it as such.
+		if( $rangeend != $today || ( $rangeend == $today && ! in_array( $current, $range ) ) ) {
 			$current = -1;
 		} else {
 			// If on the other hand we are a standard range, let's reset the custom range selector to match it.
@@ -928,7 +929,8 @@
 			
 			if( $current == $range[$i] ) { echo 'class="current" '; $bold = false;}
 			
-			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . '&rangestart=' . $rangestart . '&rangeend=' . $rangeend . $extrafields . '">' . $desc[$i] . '</a></li>';
+			// Dont' bother adding he date range to the standard links as they're not needed any may confuse the custom range selector.
+			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . $extrafields . '">' . $desc[$i] . '</a></li>';
 			
 			if( $i < $rcount - 1 ) {
 				echo ' | ';
