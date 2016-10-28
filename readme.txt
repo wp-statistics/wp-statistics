@@ -282,7 +282,7 @@ IPv6 is now supported!  Note you must have IPv6 support complied in to PHP for t
 * Fixed: Default provider for searches shortcode.
 * Fixed: Display of top sites list when the display port is very small would .
 * Fixed: CSS for date picker not loading.
-* Fixed: Incorrect page stats for date ranges that end in the past.
+* Fixed: Incorrect stats on some pages for date ranges that end in the past.
 * Fixed: Date range selector on stats now properly displays a custom range after it has been set.
 * Fixed: "Empty" log widget columns could not have widgets added to them.
 * Updated: GeoIP library to version 1.1.1.
