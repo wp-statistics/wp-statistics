@@ -16,7 +16,7 @@
 		if( $pageuri ) { $urlfields .= "&page-uri={$pageuri}"; }
 
 		list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $days, $rangestart, $rangeend );
-		$daysInThePast = round( ( time() - $rangeend_utime ) / 86400 ,0 );
+		$daysInThePast = round( ( time() - $rangeend_utime ) / 86400 , 0 );
 		
 ?>
 						<script type="text/javascript">

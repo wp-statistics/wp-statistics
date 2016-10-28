@@ -13,6 +13,7 @@
 	if( array_key_exists('rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = ''; }
 
 	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
+	$daysInThePast = round( ( time() - $rangeend_utime ) / 86400 ,0 );
 ?>
 <div class="wrap">
 	<?php screen_icon('options-general'); ?>
@@ -29,7 +30,7 @@
 					<div class="inside">
 						<script type="text/javascript">
 						var visit_chart;
-						jQuery(document).ready(function() {
+						jQuery( document ).ready( function() {
 <?php								
 								$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 								$total_daily = array();
@@ -38,13 +39,13 @@
 									
 									echo "var searches_data_line_" . $se['tag'] . " = [";
 									
-									for( $i=$daysToDisplay; $i>=0; $i--) {
+									for( $i = $daysToDisplay; $i >= 0; $i-- ) {
 										if( !array_key_exists( $i, $total_daily ) ) { $total_daily[$i] = 0; }
 										
-										$stat = wp_statistics_searchengine($se['tag'], '-'.$i);
+										$stat = wp_statistics_searchengine( $se['tag'], '-' . ( $i + $daysInThePast ) );
 										$total_daily[$i] += $stat;
 										
-										echo "['" . $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$i, $rangeend_utime) . "'," . $stat . "], ";
+										echo "['" . $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $i, $rangeend_utime ) . "'," . $stat . "], ";
 										
 									}
 
@@ -54,8 +55,8 @@
 								if( $total_stats == 1 ) {
 									echo "var searches_data_line_total = [";
 
-									for( $i=$daysToDisplay; $i>=0; $i--) {
-										echo "['" . $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$i, $rangeend_utime) . "'," . $total_daily[$i] . "], ";
+									for( $i = $daysToDisplay; $i >= 0; $i-- ) {
+										echo "['" . $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $i, $rangeend_utime ) . "'," . $total_daily[$i] . "], ";
 									}
 									
 									echo "];\n";
@@ -64,18 +65,18 @@
 								$tickInterval = $daysToDisplay / 20;
 								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
-							visit_chart = jQuery.jqplot('search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
+							visit_chart = jQuery.jqplot( 'search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
 								title: {
-									text: '<b>' + <?php echo json_encode(__('Search engine referrals in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics')); ?> + '</b>',
+									text: '<b>' + <?php echo json_encode( __( 'Search engine referrals in the last', 'wp_statistics' ) . ' ' . $daysToDisplay . ' ' . __( 'days', 'wp_statistics' ) ); ?> + '</b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
 									},
 								axes: {
 									xaxis: {
-											min: '<?php echo $WP_Statistics->Real_Current_Date('Y-m-d', '-'.$daysToDisplay, $rangeend_utime);?>',
-											max: '<?php echo $WP_Statistics->Real_Current_Date('Y-m-d', '-0', $rangeend_utime);?>',
-											tickInterval: '<?php echo $tickInterval?> day',
+											min: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $daysToDisplay, $rangeend_utime ); ?>',
+											max: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-0', $rangeend_utime ); ?>',
+											tickInterval: '<?php echo $tickInterval; ?> day',
 											renderer:jQuery.jqplot.DateAxisRenderer,
 											tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 											tickOptions: { 
@@ -87,7 +88,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: '<?php echo addslashes(__('Number of referrals', 'wp_statistics')); ?>',
+											label: '<?php echo addslashes( __( 'Number of referrals', 'wp_statistics' ) ); ?>',
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
@@ -101,11 +102,11 @@
 									show: true,
 									location: 's',
 									placement: 'outsideGrid',
-									labels: [<?php foreach( $search_engines as $se ) { echo "'" . addslashes($se['translated']) . "', "; } if( $total_stats == 1 ) { echo "'" . addslashes(__('Total', 'wp_statistics')) . "'"; }?>],
+									labels: [<?php foreach( $search_engines as $se ) { echo "'" . addslashes( $se['translated']) . "', "; } if( $total_stats == 1 ) { echo "'" . addslashes( __( 'Total', 'wp_statistics' ) ) . "'"; } ?>],
 									renderer: jQuery.jqplot.EnhancedLegendRenderer,
 									rendererOptions:
 										{
-											numberColumns: <?php echo count($search_engines) + 1; ?>, 
+											numberColumns: <?php echo count( $search_engines ) + 1; ?>, 
 											disableIEFading: false,
 											border: 'none',
 										},
@@ -126,23 +127,23 @@
 								},
 							} );
 
-							function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
+							function tooltipContentEditor( str, seriesIndex, pointIndex, plot ) {
 								// display series_label, x-axis_tick, y-axis value
 								return plot.legend.labels[seriesIndex] + ", " + str;;
 							}
 							
-							jQuery(window).resize(function() {
+							jQuery(window).resize( function() {
 								JQPlotSearchChartLengendClickRedraw()
 							});
 
 							function JQPlotSearchChartLengendClickRedraw() {
 								visit_chart.replot( {resetAxes: ['yaxis'] } );
-								jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
+								jQuery('div[id="search-stats"] .jqplot-table-legend').click( function() {
 									JQPlotSearchChartLengendClickRedraw();
 								});
 							}
 							
-							jQuery('div[id="search-stats"] .jqplot-table-legend').click(function() {
+							jQuery('div[id="search-stats"] .jqplot-table-legend').click( function() {
 								JQPlotSearchChartLengendClickRedraw()
 							});
 
