@@ -2,24 +2,100 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2016-06-17 16:16:59+0000\n"
+"PO-Revision-Date: 2016-10-18 19:43:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/2.1.0\n"
+"X-Generator: GlotPress/2.2.0\n"
 "Language: fr\n"
 "Project-Id-Version: WP Statistics\n"
+
+#: wp-statistics/includes/log/widgets/summary.php:52
+msgid "Last 365 Days"
+msgstr "Les 365 derniers jours"
+
+#: wp-statistics/includes/log/widgets/summary.php:46
+msgid "Last 30 Days"
+msgstr "Les 30 derniers jours"
+
+#: wp-statistics/includes/log/widgets/summary.php:40
+msgid "Last 7 Days"
+msgstr "Les 7 derniers jours"
+
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "PHP IPv6 Enabled"
+msgstr "PHP IPv6 actif"
+
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+msgid "Is PHP compiled with IPv6 support.  You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them."
+msgstr "Est-ce que PHP est compilé avec le support de IPv6. Si ce n’est pas le cas, vous pourrez trouver des messages d’alertes dans vos logs PHP quand vous recevrez des headers HTTP contenant des adresses IPv6."
+
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:123
+msgid "A list of IP addresses and subnet masks (one per line) to exclude from statistics collection."
+msgstr "Liste des adresses IP ou subnet masks (un par ligne) à exclure de la collecte des statistiques."
+
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:124
+msgid "For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted.  To specify an IP address only, use a subnet value of 32 or 255.255.255.255."
+msgstr "Pour les adresses IPv4, les formats 192.168.0.0/24 et 192.168.0.0/255.255.255.0 sont acceptés. Pour spécifier une adresse IP seule, utilisez une valeur de subnet de 32 ou 255.255.255.255."
+
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:125
+msgid "For IPv6 addresses use the fc00::/7 format."
+msgstr "Pour les adresses IPv6 utiliser le format fc00::/7."
+
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:129
+msgid "Add fc00::/7"
+msgstr "Ajouter fc00::/7"
+
+#: wp-statistics/widget.php:46 wp-statistics/widget.php:263
+msgid "Todays Visits"
+msgstr "Visites du jour"
+
+#: wp-statistics/widget.php:53 wp-statistics/widget.php:266
+msgid "Todays Visitors"
+msgstr "Visiteurs du jour"
+
+#: wp-statistics/widget.php:60
+msgid "Yesterdays Visits"
+msgstr "Visites d'hier"
+
+#: wp-statistics/widget.php:67 wp-statistics/widget.php:272
+msgid "Yesterdays Visitors"
+msgstr "Visiteurs d'hier"
+
+#: wp-statistics/widget.php:74 wp-statistics/widget.php:275
+msgid "Last 7 Days Visits"
+msgstr "Visites des 7 derniers jours"
+
+#: wp-statistics/widget.php:81 wp-statistics/widget.php:278
+msgid "Last 30 Days Visits"
+msgstr "Visites des 30 derniers jours"
+
+#: wp-statistics/widget.php:88 wp-statistics/widget.php:281
+msgid "Last 365 Days Visits"
+msgstr "Visites des 365 derniers jours"
+
+#: wp-statistics/widget.php:95 wp-statistics/widget.php:284
+msgid "Total Visits"
+msgstr "Total des visites"
+
+#: wp-statistics/widget.php:102 wp-statistics/widget.php:287
+msgid "Total Visitors"
+msgstr "Total des visiteurs"
+
+#: wp-statistics/widget.php:269
+msgid "Yesterdays visits"
+msgstr "Visites d’hier"
 
 #: wp-statistics/ajax.php:215
 msgid "No matching widget found!"
 msgstr "Aucun widget correspondant n’a été trouvé !"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:180
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:191
 msgid "Zlib gzopen()"
 msgstr "Zlib gzopen()"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:185
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:196
 msgid "If the gzopen() function is installed.  gzopen() is required for the GeoIP database to be downloaded successfully."
 msgstr "Si la fonction gzopen() est installée. gzopen() est nécessaire pour que la base de données GeoIP puisse être téléchargée avec succès."
 
@@ -31,42 +107,42 @@ msgstr "Erreur, les fonctions download_url() ou gzopen() n’existent pas !"
 msgid "Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s"
 msgstr "Erreur de réglage des permissions du dossier de la base de données GeoIP, assurez-vous que votre serveur web a la permission d’écrire dans les dossiers de : %s"
 
-#: wp-statistics/wp-statistics.php:95
+#: wp-statistics/wp-statistics.php:97
 msgid "&#151; You are running an unsupported version of PHP."
 msgstr "&#151; Vous utilisez une version de PHP non prise en charge."
 
-#: wp-statistics/wp-statistics.php:95
+#: wp-statistics/wp-statistics.php:97
 msgid "WP Statistics Disabled"
 msgstr "WP Statistics Désactivé"
 
-#: wp-statistics/wp-statistics.php:99
+#: wp-statistics/wp-statistics.php:101
 msgid "WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!"
 msgstr "WP Statistics a détecté une version %s de PHP, qui n’est pas prise en charge, WP Statistics requiert PHP version %s ou supérieure !"
 
-#: wp-statistics/wp-statistics.php:101
+#: wp-statistics/wp-statistics.php:103
 msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
 msgstr "Veuillez contacter votre fournisseur d’hébergement pour passer à une version prise en charge, ou désactiver WP Statistics pour supprimer ce message."
 
-#: wp-statistics/ajax.php:294
+#: wp-statistics/ajax.php:293
 msgid "ERROR: Widget not found!"
 msgstr "Erreur : Widget non trouvé !"
 
-#: wp-statistics/dashboard.php:107 wp-statistics/editor.php:66
+#: wp-statistics/dashboard.php:109 wp-statistics/editor.php:66
 #: wp-statistics/includes/log/log.php:20
 msgid "Loading..."
 msgstr "Chargement en cours…"
 
-#: wp-statistics/dashboard.php:125 wp-statistics/editor.php:84
+#: wp-statistics/dashboard.php:127 wp-statistics/editor.php:84
 #: wp-statistics/includes/log/log.php:2
 msgid "Reloading..."
 msgstr "Rechargement en cours…"
 
 #: wp-statistics/includes/log/top-visitors.php:41
-#: wp-statistics/wp-statistics.php:450
+#: wp-statistics/wp-statistics.php:452
 msgid "Top Visitors"
 msgstr "Top Visiteurs"
 
-#: wp-statistics/wp-statistics.php:206
+#: wp-statistics/wp-statistics.php:208
 msgid "optimization page"
 msgstr "page optimisation"
 
@@ -115,51 +191,51 @@ msgstr "Ask.com"
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
 msgstr "La plage de temps pour laquelle on veut obtenir des statistiques, strtotime() (http://php.net/manual/fr/datetime.formats.php) sera utilisé pour la calculer. Utiliser \"total\" pour obtenir toutes les dates enregistrées."
 
-#: wp-statistics/wp-statistics.php:180
+#: wp-statistics/wp-statistics.php:182
 msgid "visitor tracking"
 msgstr "suivi des visiteurs"
 
-#: wp-statistics/wp-statistics.php:181
+#: wp-statistics/wp-statistics.php:183
 msgid "geoip collection"
 msgstr "collecte GeoIP"
 
-#: wp-statistics/wp-statistics.php:197
+#: wp-statistics/wp-statistics.php:199
 msgid "visit database index"
 msgstr "index de la base de données des visites"
 
-#: wp-statistics/wp-statistics.php:206
+#: wp-statistics/wp-statistics.php:208
 msgid "Database updates are required, please go to %s and update the following: %s"
 msgstr "Des mises à jour de la base de données sont nécessaires, veuillez aller à %s et mettre à jour les éléments suivants : %s"
 
-#: wp-statistics/wp-statistics.php:197
+#: wp-statistics/wp-statistics.php:199
 msgid "countries database index"
 msgstr "Index de la base de données des pays"
 
-#: wp-statistics/wp-statistics.php:190
+#: wp-statistics/wp-statistics.php:192
 msgid "search table"
 msgstr "table de recherche"
 
-#: wp-statistics/wp-statistics.php:184
+#: wp-statistics/wp-statistics.php:186
 msgid "settings page"
 msgstr "page de "
 
-#: wp-statistics/wp-statistics.php:184 wp-statistics/wp-statistics.php:206
+#: wp-statistics/wp-statistics.php:186 wp-statistics/wp-statistics.php:208
 msgid ","
 msgstr ","
 
-#: wp-statistics/wp-statistics.php:184
+#: wp-statistics/wp-statistics.php:186
 msgid "The following features are disabled, please go to %s and enable them: %s"
 msgstr "Les options suivantes sont désactivées, veuillez aller à %s et les activer : %s"
 
-#: wp-statistics/wp-statistics.php:179
+#: wp-statistics/wp-statistics.php:181
 msgid "hit tracking"
 msgstr "suivi des hits"
 
-#: wp-statistics/wp-statistics.php:178
+#: wp-statistics/wp-statistics.php:180
 msgid "online user tracking"
 msgstr "suivi des utilisateurs en ligne"
 
-#: wp-statistics/wp-statistics.php:791
+#: wp-statistics/wp-statistics.php:793
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr "Le(s) table(s) des extensions suivantes n’existent pas dans la base de données, veuillez réexécuter la routine d’installation %s : %s"
 
@@ -227,7 +303,7 @@ msgstr "La liste noire de référents spammeurs est fournie par Piwik, disponibl
 msgid "Piwik Referrer Spam Blacklist usage"
 msgstr "Utilisation de la liste noire de référents spammeurs de Piwik"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:148
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:151
 msgid "Treat corrupt browser info as a bot"
 msgstr "Traiter les navigateurs corrompus comme des bots"
 
@@ -239,15 +315,15 @@ msgstr "Pages 404"
 msgid "Date"
 msgstr "Date"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:151
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:154
 msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
 msgstr "Traiter tout visiteur avec une information sur le navigateur corrompue (adresse IP manquante ou chaîne agent utilisateur vide) comme un robot."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:215
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:218
 msgid "Excluded 404 pages"
 msgstr "Pages d’erreur 404 exclues"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:218
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:221
 msgid "Exclude any URL that returns a \"404 - Not Found\" message."
 msgstr "Exclure toute URL qui retourne un message \"404 - Not Found\"."
 
@@ -365,7 +441,7 @@ msgid "Have you thought about donating to WP Statistics?"
 msgstr "Avez-vous pensé à faire un don à WP Statistics ?"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:20
-#: wp-statistics/wp-statistics.php:429
+#: wp-statistics/wp-statistics.php:431
 msgid "Donate"
 msgstr "Faire un don"
 
@@ -401,11 +477,11 @@ msgstr "Compte des articles"
 msgid "Time Frame"
 msgstr "Période de temps"
 
-#: wp-statistics/includes/functions/functions.php:1032
+#: wp-statistics/includes/functions/functions.php:957
 msgid "to"
 msgstr "jusqu'à"
 
-#: wp-statistics/includes/functions/functions.php:1032
+#: wp-statistics/includes/functions/functions.php:957
 #: wp-statistics/includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "Aller"
@@ -450,12 +526,12 @@ msgstr "Les versions anciennes de WP Statistics comptabilisent des doublons dans
 msgid "Filtered by"
 msgstr "Filtré par"
 
-#: wp-statistics/includes/functions/functions.php:1026
-#: wp-statistics/includes/functions/functions.php:1029
+#: wp-statistics/includes/functions/functions.php:951
+#: wp-statistics/includes/functions/functions.php:954
 msgid "Range"
 msgstr "Intervalle"
 
-#: wp-statistics/includes/functions/functions.php:1032
+#: wp-statistics/includes/functions/functions.php:957
 #: wp-statistics/includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/JJ/AAAA"
@@ -472,15 +548,15 @@ msgstr "Forcer l’anglais"
 msgid "Languages"
 msgstr "Langues"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:227
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:230
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
 msgstr "Remarque : cette option ne prendra pas en compte les paramètres de l'URL (tout ce qui est après le ?), seulement le nom du script. Les entrées comprenant moins de deux caractères seront ignorées."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:225
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:228
 msgid "A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection."
 msgstr "Une liste d’URL locales (ex. /wordpress/about, une par ligne) à exclure de la collecte des statistiques."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:222
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:225
 msgid "Excluded URLs list"
 msgstr "Liste des URL Exclues"
 
@@ -489,17 +565,14 @@ msgid "Excluded URL"
 msgstr "URL Exclues"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:52
-#: wp-statistics/includes/log/widgets/summary.php:52
 msgid "Last 365 Days (Year)"
 msgstr "365 derniers jours (Année)"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:46
-#: wp-statistics/includes/log/widgets/summary.php:46
 msgid "Last 30 Days (Month)"
 msgstr "30 derniers jours (Mois)"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:40
-#: wp-statistics/includes/log/widgets/summary.php:40
 msgid "Last 7 Days (Week)"
 msgstr "7 derniers jours (Semaine)"
 
@@ -623,7 +696,7 @@ msgstr "Pour chaque visite tenir compte de plusieurs hits. Actuellement %s."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:177
 #: wp-statistics/includes/settings/tabs/wps-general.php:182
-#: wp-statistics/wp-statistics.php:418 wp-statistics/wp-statistics.php:532
+#: wp-statistics/wp-statistics.php:420 wp-statistics/wp-statistics.php:534
 msgid "Pages"
 msgstr "Pages"
 
@@ -892,38 +965,31 @@ msgid "Any shortcode supported by your installation of WordPress, include all sh
 msgstr "N'importe quel code pris en charge par votre installation de Wordpress, incluant tous les codes de WP Statistics (voir le manuel d'administrateur pour obtenir une liste des codes disponibles) sont supportés dans le message. Voici quelques exemples :"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:188
-#: wp-statistics/widget.php:38 wp-statistics/widget.php:247
-#: wp-statistics/wp-statistics.php:637
+#: wp-statistics/wp-statistics.php:639
 msgid "User Online"
 msgstr "Utilisateur en ligne"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:189
-#: wp-statistics/widget.php:52 wp-statistics/widget.php:253
 msgid "Today Visitor"
 msgstr "Visiteurs du jour"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:190
-#: wp-statistics/widget.php:45 wp-statistics/widget.php:250
 msgid "Today Visit"
 msgstr "Visites du jour"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:191
-#: wp-statistics/widget.php:66 wp-statistics/widget.php:259
 msgid "Yesterday Visitor"
 msgstr "Nombre de visiteurs hier"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:192
-#: wp-statistics/widget.php:59
 msgid "Yesterday Visit"
 msgstr "Nombre de visites hier"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:193
-#: wp-statistics/widget.php:101 wp-statistics/widget.php:274
 msgid "Total Visitor"
 msgstr "Nombre total de visiteurs"
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:194
-#: wp-statistics/widget.php:94 wp-statistics/widget.php:271
 msgid "Total Visit"
 msgstr "Nombre total de visites"
 
@@ -977,14 +1043,6 @@ msgstr "Désactiver la carte"
 msgid "Disable the map display"
 msgstr "Désactiver l'affichage de la carte"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:81
-msgid "Get country location from Google"
-msgstr "Obtenir l'emplacement du pays depuis Google"
-
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:87
-msgid "This feature may cause a performance degradation when viewing statistics and is only valid if the map type is set to \"Google\"."
-msgstr "Cette fonctionnalité peut entraîner une dégradation des performances lorsque vous affichez des statistiques et n'est valide que si le type de carte défini est \"Google\"."
-
 #: wp-statistics/includes/settings/tabs/wps-removal.php:15
 msgid "WP Statisitcs Removal"
 msgstr "Suppression de WP Statistics"
@@ -1030,12 +1088,12 @@ msgid "Removal"
 msgstr "Suppression"
 
 #: wp-statistics/includes/settings/tabs/wps-access-level.php:85
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:234
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:237
 #: wp-statistics/includes/settings/tabs/wps-externals.php:286
 #: wp-statistics/includes/settings/tabs/wps-general.php:349
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:88
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:201
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:96
+#: wp-statistics/includes/settings/tabs/wps-overview-display.php:84
 #: wp-statistics/includes/settings/tabs/wps-removal.php:42
 msgid "Update"
 msgstr "Mise à jour"
@@ -1052,8 +1110,8 @@ msgstr "Une fois toutes les 2 semaines"
 msgid "Once Every 4 Weeks"
 msgstr "Une fois toutes les 4 semaines"
 
-#: wp-statistics/widget.php:14 wp-statistics/wp-statistics.php:408
-#: wp-statistics/wp-statistics.php:485
+#: wp-statistics/widget.php:14 wp-statistics/wp-statistics.php:410
+#: wp-statistics/wp-statistics.php:487
 msgid "Statistics"
 msgstr "Statistiques"
 
@@ -1061,196 +1119,180 @@ msgstr "Statistiques"
 msgid "Show site stats in sidebar."
 msgstr "Voir les statistiques de site dans la barre latérale."
 
-#: wp-statistics/widget.php:73 wp-statistics/widget.php:262
-msgid "Week Visit"
-msgstr "Visite de la semaine"
-
-#: wp-statistics/widget.php:80 wp-statistics/widget.php:265
-msgid "Month Visit"
-msgstr "Visite du mois"
-
-#: wp-statistics/widget.php:87 wp-statistics/widget.php:268
-msgid "Years Visit"
-msgstr "Visites de l'année"
-
-#: wp-statistics/widget.php:108 wp-statistics/widget.php:277
+#: wp-statistics/widget.php:109 wp-statistics/widget.php:290
 msgid "Total Page Views"
 msgstr "Total des pages vues"
 
-#: wp-statistics/widget.php:116
-msgid "Search Engine referred"
-msgstr "Moteur de recherche référent"
+#: wp-statistics/widget.php:117
+msgid "Search Engine referrals"
+msgstr "Amenés par des Moteurs de recherche"
 
-#: wp-statistics/widget.php:123 wp-statistics/widget.php:300
+#: wp-statistics/widget.php:124 wp-statistics/widget.php:313
 msgid "Total Posts"
 msgstr "Total des articles"
 
-#: wp-statistics/widget.php:130 wp-statistics/widget.php:303
+#: wp-statistics/widget.php:131 wp-statistics/widget.php:316
 msgid "Total Pages"
 msgstr "Total des pages"
 
-#: wp-statistics/widget.php:137 wp-statistics/widget.php:306
+#: wp-statistics/widget.php:138 wp-statistics/widget.php:319
 msgid "Total Comments"
 msgstr "Total des commentaires"
 
-#: wp-statistics/widget.php:144 wp-statistics/widget.php:309
+#: wp-statistics/widget.php:145 wp-statistics/widget.php:322
 msgid "Total Spams"
 msgstr "Total des spams"
 
-#: wp-statistics/widget.php:151 wp-statistics/widget.php:312
+#: wp-statistics/widget.php:152 wp-statistics/widget.php:325
 msgid "Total Users"
 msgstr "Total des utilisateurs"
 
-#: wp-statistics/widget.php:158 wp-statistics/widget.php:315
+#: wp-statistics/widget.php:159 wp-statistics/widget.php:328
 msgid "Average Posts"
 msgstr "Moyenne d'articles"
 
-#: wp-statistics/widget.php:165 wp-statistics/widget.php:318
+#: wp-statistics/widget.php:166 wp-statistics/widget.php:331
 msgid "Average Comments"
 msgstr "Moyenne des commentaires"
 
-#: wp-statistics/widget.php:172 wp-statistics/widget.php:321
+#: wp-statistics/widget.php:173 wp-statistics/widget.php:334
 msgid "Average Users"
 msgstr "Moyenne des utilisateurs"
 
-#: wp-statistics/shortcode.php:151 wp-statistics/widget.php:179
-#: wp-statistics/widget.php:324
+#: wp-statistics/shortcode.php:151 wp-statistics/widget.php:180
+#: wp-statistics/widget.php:337
 msgid "Last Post Date"
 msgstr "Date du dernier article"
 
-#: wp-statistics/widget.php:240
+#: wp-statistics/widget.php:253
 msgid "Name"
 msgstr "Nom"
 
-#: wp-statistics/widget.php:244
+#: wp-statistics/widget.php:257
 msgid "Items"
 msgstr "Éléments"
 
-#: wp-statistics/widget.php:256 wp-statistics/wp-statistics.php:662
+#: wp-statistics/wp-statistics.php:664
 msgid "Yesterday visit"
 msgstr "Visite d'hier"
 
-#: wp-statistics/widget.php:280
-msgid "Search Engine Referred"
-msgstr "Moteur de recherche référent"
-
-#: wp-statistics/widget.php:283
+#: wp-statistics/widget.php:296
 msgid "Select type of search engine"
 msgstr "Sélectionnez le type de moteur de recherche"
 
-#: wp-statistics/wp-statistics.php:122
+#: wp-statistics/wp-statistics.php:124
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "WP Statistics a été désinstallé. Merci de le désactiver et de le supprimer."
 
-#: wp-statistics/wp-statistics.php:54
+#: wp-statistics/wp-statistics.php:56
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
-#: wp-statistics/wp-statistics.php:55
+#: wp-statistics/wp-statistics.php:57
 msgid "Complete statistics for your WordPress site."
 msgstr "Statistiques complètes pour votre site WordPress."
 
-#: wp-statistics/wp-statistics.php:313 wp-statistics/wp-statistics.php:428
-#: wp-statistics/wp-statistics.php:539
+#: wp-statistics/wp-statistics.php:315 wp-statistics/wp-statistics.php:430
+#: wp-statistics/wp-statistics.php:541
 msgid "Settings"
 msgstr "Réglages"
 
-#: wp-statistics/wp-statistics.php:325
+#: wp-statistics/wp-statistics.php:327
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "Cliquez ici pour visiter l’extension sur WordPress.org"
 
-#: wp-statistics/wp-statistics.php:325
+#: wp-statistics/wp-statistics.php:327
 msgid "Visit WordPress.org page"
 msgstr "Visitez la page WordPress.org"
 
-#: wp-statistics/wp-statistics.php:328
+#: wp-statistics/wp-statistics.php:330
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "Cliquez ici pour évaluer et noter cette extension sur WordPress.org"
 
-#: wp-statistics/wp-statistics.php:328
+#: wp-statistics/wp-statistics.php:330
 msgid "Rate this plugin"
 msgstr "Noter cette extension"
 
-#: wp-statistics/wp-statistics.php:372
+#: wp-statistics/wp-statistics.php:374
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - Hits"
 
-#: wp-statistics/wp-statistics.php:411 wp-statistics/wp-statistics.php:488
-#: wp-statistics/wp-statistics.php:526
+#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:490
+#: wp-statistics/wp-statistics.php:528
 msgid "Overview"
 msgstr "Vue globale"
 
-#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:531
+#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:533
 msgid "Online"
 msgstr "En ligne"
 
-#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:533
+#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:535
 msgid "Referrers"
 msgstr "Référents"
 
-#: wp-statistics/shortcode.php:142 wp-statistics/wp-statistics.php:420
-#: wp-statistics/wp-statistics.php:534
+#: wp-statistics/shortcode.php:142 wp-statistics/wp-statistics.php:422
+#: wp-statistics/wp-statistics.php:536
 msgid "Searches"
 msgstr "Recherches"
 
-#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:535
+#: wp-statistics/wp-statistics.php:423 wp-statistics/wp-statistics.php:537
 msgid "Search Words"
 msgstr "Recherche par mots"
 
-#: wp-statistics/wp-statistics.php:422 wp-statistics/wp-statistics.php:536
+#: wp-statistics/wp-statistics.php:424 wp-statistics/wp-statistics.php:538
 msgid "Top Visitors Today"
 msgstr "Top des visiteurs du jour"
 
-#: wp-statistics/wp-statistics.php:427 wp-statistics/wp-statistics.php:538
+#: wp-statistics/wp-statistics.php:429 wp-statistics/wp-statistics.php:540
 msgid "Optimization"
 msgstr "Optimisation"
 
-#: wp-statistics/wp-statistics.php:433 wp-statistics/wp-statistics.php:502
+#: wp-statistics/wp-statistics.php:435 wp-statistics/wp-statistics.php:504
 msgid "Manual"
 msgstr "Manuel"
 
-#: wp-statistics/wp-statistics.php:517
+#: wp-statistics/wp-statistics.php:519
 msgid "Site"
 msgstr "Site"
 
-#: wp-statistics/wp-statistics.php:518
+#: wp-statistics/wp-statistics.php:520
 msgid "Options"
 msgstr "Options"
 
-#: wp-statistics/wp-statistics.php:644
+#: wp-statistics/wp-statistics.php:646
 msgid "Today visitor"
 msgstr "Visiteur aujourd'hui"
 
-#: wp-statistics/wp-statistics.php:650
+#: wp-statistics/wp-statistics.php:652
 msgid "Today visit"
 msgstr "Visite aujourd’hui"
 
-#: wp-statistics/wp-statistics.php:656
+#: wp-statistics/wp-statistics.php:658
 msgid "Yesterday visitor"
 msgstr "Visiteur hier"
 
-#: wp-statistics/wp-statistics.php:668
+#: wp-statistics/wp-statistics.php:670
 msgid "View Stats"
 msgstr "Voir les Stats"
 
-#: wp-statistics/wp-statistics.php:692
+#: wp-statistics/wp-statistics.php:694
 msgid "Download ODF file"
 msgstr "Télécharger fichier ODF"
 
-#: wp-statistics/wp-statistics.php:693
+#: wp-statistics/wp-statistics.php:695
 msgid "Download HTML file"
 msgstr "Télécharger le fichier HTML"
 
-#: wp-statistics/wp-statistics.php:697
+#: wp-statistics/wp-statistics.php:699
 msgid "Manual file not found."
 msgstr "Fichier du manuel non trouvé."
 
-#: wp-statistics/wp-statistics.php:764 wp-statistics/wp-statistics.php:891
-#: wp-statistics/wp-statistics.php:926
+#: wp-statistics/wp-statistics.php:766 wp-statistics/wp-statistics.php:893
+#: wp-statistics/wp-statistics.php:929
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Vous n'avez pas les autorisations suffisantes pour accéder à cette page."
 
-#: wp-statistics/wp-statistics.php:301
+#: wp-statistics/wp-statistics.php:303
 msgid "WP Statistics %s installed on"
 msgstr "WP Statistics %s installé sur"
 
@@ -1307,7 +1349,7 @@ msgstr "Stats rapides"
 msgid "Top 10 Browsers"
 msgstr "Top 10 des navigateurs"
 
-#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:471
+#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:473
 msgid "Top 10 Countries"
 msgstr "Top 10 des pays"
 
@@ -1317,40 +1359,40 @@ msgstr "Carte des visiteurs aujourd'hui"
 
 #: wp-statistics/dashboard.php:60 wp-statistics/editor.php:46
 #: wp-statistics/includes/log/hit-statistics.php:8
-#: wp-statistics/wp-statistics.php:446
+#: wp-statistics/wp-statistics.php:448
 msgid "Hit Statistics"
 msgstr "Statistiques de hits"
 
-#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:461
+#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:463
 msgid "Top 10 Pages"
 msgstr "Top 10 des pages"
 
 #: wp-statistics/dashboard.php:62
 #: wp-statistics/includes/log/last-visitor.php:36
-#: wp-statistics/wp-statistics.php:453
+#: wp-statistics/wp-statistics.php:455
 msgid "Recent Visitors"
 msgstr "Visiteurs récents"
 
 #: wp-statistics/dashboard.php:63
 #: wp-statistics/includes/log/top-referring.php:59
 #: wp-statistics/includes/log/top-referring.php:81
-#: wp-statistics/wp-statistics.php:468
+#: wp-statistics/wp-statistics.php:470
 msgid "Top Referring Sites"
 msgstr "Top des Sites référents"
 
 #: wp-statistics/dashboard.php:64
 #: wp-statistics/includes/log/widgets/quickstats.php:75
 #: wp-statistics/includes/log/widgets/summary.php:75
-#: wp-statistics/wp-statistics.php:451
+#: wp-statistics/widget.php:293 wp-statistics/wp-statistics.php:453
 msgid "Search Engine Referrals"
 msgstr "Référents de moteur de recherche"
 
-#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:466
+#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:468
 msgid "Summary"
 msgstr "Résumé"
 
 #: wp-statistics/dashboard.php:66 wp-statistics/includes/log/last-search.php:31
-#: wp-statistics/wp-statistics.php:452
+#: wp-statistics/wp-statistics.php:454
 msgid "Latest Search Words"
 msgstr "Derniers mots recherchés"
 
@@ -1420,8 +1462,8 @@ msgid "Click to toggle"
 msgstr "Cliquez ici pour activer/désactiver"
 
 #: wp-statistics/includes/log/all-browsers.php:30
-#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:467
-#: wp-statistics/wp-statistics.php:527
+#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:469
+#: wp-statistics/wp-statistics.php:529
 msgid "Browsers"
 msgstr "Navigateurs"
 
@@ -1431,7 +1473,7 @@ msgstr "Navigateurs par type"
 
 #: wp-statistics/includes/log/all-browsers.php:114
 #: wp-statistics/includes/log/widgets/top.visitors.php:18
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:302
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:313
 msgid "Platform"
 msgstr "Plate-forme"
 
@@ -1451,35 +1493,35 @@ msgstr "Attention : Les exclusion ne sont pas actuellement réglées pour être 
 msgid "Exclusions Statistics"
 msgstr "Statistiques d'exclusions"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "10 Days"
 msgstr "10 jours"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "20 Days"
 msgstr "20 jours"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "30 Days"
 msgstr "30 jours"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "2 Months"
 msgstr "2 mois"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "3 Months"
 msgstr "3 mois"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "6 Months"
 msgstr "6 mois"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "9 Months"
 msgstr "9 mois"
 
-#: wp-statistics/includes/functions/functions.php:970
+#: wp-statistics/includes/functions/functions.php:895
 msgid "1 Year"
 msgstr "1 an"
 
@@ -1541,7 +1583,6 @@ msgstr "Statistiques des mots recherchés les plus récents"
 #: wp-statistics/includes/log/last-search.php:110
 #: wp-statistics/includes/log/last-visitor.php:101
 #: wp-statistics/includes/log/online.php:50
-#: wp-statistics/includes/log/widgets/google.map.php:60
 #: wp-statistics/includes/log/widgets/jqv.map.php:55
 #: wp-statistics/includes/log/widgets/recent.php:14
 #: wp-statistics/includes/log/widgets/words.php:27
@@ -1579,7 +1620,7 @@ msgstr "De"
 #: wp-statistics/includes/log/top-referring.php:67
 #: wp-statistics/includes/log/top-referring.php:70
 #: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:192
-#: wp-statistics/widget.php:296
+#: wp-statistics/widget.php:309
 msgid "All"
 msgstr "Tous les"
 
@@ -1731,7 +1772,7 @@ msgstr "Ce produit inclut des données de GeoLite2 créées par MaxMind, disponi
 msgid "Other"
 msgstr "Autres"
 
-#: wp-statistics/wp-statistics.php:456
+#: wp-statistics/wp-statistics.php:458
 msgid "Today Visitors Map"
 msgstr "Carte des Visiteurs Aujourd’hui"
 
@@ -1740,7 +1781,6 @@ msgid "Address"
 msgstr "Adresse"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:12
-#: wp-statistics/includes/log/widgets/summary.php:12
 msgid "User(s) Online"
 msgstr "Utilisateur(s) en ligne"
 
@@ -1785,8 +1825,8 @@ msgstr "Temps : %s"
 
 #: wp-statistics/includes/log/widgets/top.visitors.php:12
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:80
-#: wp-statistics/wp-statistics.php:337 wp-statistics/wp-statistics.php:416
-#: wp-statistics/wp-statistics.php:530
+#: wp-statistics/wp-statistics.php:339 wp-statistics/wp-statistics.php:418
+#: wp-statistics/wp-statistics.php:532
 msgid "Hits"
 msgstr "Hits"
 
@@ -1799,13 +1839,13 @@ msgid "Agent"
 msgstr "Agent"
 
 #: wp-statistics/includes/log/widgets/top.visitors.php:19
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:291
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Version"
 msgstr "Version"
 
 #: wp-statistics/ajax.php:41 wp-statistics/ajax.php:71
 #: wp-statistics/ajax.php:129 wp-statistics/ajax.php:154
-#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:297
+#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:296
 #: wp-statistics/includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "Accès refusé !"
@@ -1831,11 +1871,11 @@ msgstr " %s données de plate-forme supprimées avec succès."
 msgid "No platform data found to remove!"
 msgstr "Pas de plateforme de donnée à supprimer trouvée !"
 
-#: wp-statistics/includes/functions/functions.php:1074
+#: wp-statistics/includes/functions/functions.php:999
 msgid "%s table data deleted successfully."
 msgstr "données de la table %s supprimées avec succès."
 
-#: wp-statistics/includes/functions/functions.php:1078
+#: wp-statistics/includes/functions/functions.php:1003
 msgid "Error, %s not emptied!"
 msgstr "Erreur, %s n'a pas été vidé !"
 
@@ -1861,7 +1901,7 @@ msgstr "Index de base de données"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
 #: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics/wp-statistics.php:414 wp-statistics/wp-statistics.php:528
+#: wp-statistics/wp-statistics.php:416 wp-statistics/wp-statistics.php:530
 msgid "Countries"
 msgstr "Pays"
 
@@ -1945,8 +1985,8 @@ msgstr "Note : comme vous venez de purger la base de données, vous devez rechar
 #: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:26
 #: wp-statistics/includes/settings/tabs/wps-general.php:138
 #: wp-statistics/includes/settings/tabs/wps-general.php:143
-#: wp-statistics/shortcode.php:140 wp-statistics/wp-statistics.php:423
-#: wp-statistics/wp-statistics.php:537
+#: wp-statistics/shortcode.php:140 wp-statistics/wp-statistics.php:425
+#: wp-statistics/wp-statistics.php:539
 msgid "Visitors"
 msgstr "Visiteurs"
 
@@ -2103,113 +2143,113 @@ msgstr "PHP Safe Mode"
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr "Est-ce que PHP Safe Mode (Mode sans échec) est activé. Le code de GeoIP n'est pas pris en charge en Safe Mode."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:169
 msgid "jQuery Version"
 msgstr "Version jQuery"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:174
 msgid "The jQuery version you are running."
 msgstr "La version jQuery que vous utilisez."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:169
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:180
 msgid "cURL Version"
 msgstr "Version de cURL"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:173
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "cURL not installed"
 msgstr "cURL n’est pas installé"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:174
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:185
 msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr "La version de l’extension PHP cURL que vous utilisez. cURL est requis pour obtenir le code GeoIP, s'il n'est pas installé GeoIP sera désactivé."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "Installed"
 msgstr "Installé"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "Not installed"
 msgstr "Pas installé"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:190
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:201
 msgid "File Info"
 msgstr "Info du fichier"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:206
 msgid "GeoIP Database"
 msgstr "Base de données GeoIP"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:204
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:215
 msgid "Database file does not exist."
 msgstr "Le fichier de base de données n'existe pas."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:206
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:225
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:244
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:217
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:236
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:255
 msgid ", created on "
 msgstr ", créé le "
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:208
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:219
 msgid "The file size and date of the GeoIP database."
 msgstr "La taille du fichier et la date de la base de données GeoIP."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:214
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:225
 msgid "browscap.ini File"
 msgstr "fichier browscap.ini"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:223
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:234
 msgid "browscap.ini file does not exist."
 msgstr "fichier browscap.ini n'existe pas."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:227
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:238
 msgid "The file size and date of the browscap.ini file."
 msgstr "La taille du fichier et la date du fichier browscap.ini."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:233
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:244
 msgid "browscap Cache File"
 msgstr "fichier cache de browscap"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:242
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:253
 msgid "browscap cache file does not exist."
 msgstr "le fichier cache browscap n'existe pas."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:246
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:257
 msgid "The file size and date of the browscap cache file."
 msgstr "La taille et la date du fichier cache browscap."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:251
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:262
 msgid "Client Info"
 msgstr "Info client"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:256
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "Client IP"
 msgstr "IP client"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:261
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client IP address."
 msgstr "L'adresse IP du client."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:267
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "User Agent"
 msgstr "Agent Utilisateur"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:272
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:283
 msgid "The client user agent string."
 msgstr "La chaîne agent utilisateur (User Agent) du client."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:278
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:289
 msgid "Browser"
 msgstr "Navigateur"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:285
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser."
 msgstr "Le navigateur client détecté."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:307
 msgid "The detected client browser version."
 msgstr "La version du navigateur client détecté."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:307
+#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:318
 msgid "The detected client platform."
 msgstr "La plateforme client détectée."
 
@@ -2448,7 +2488,7 @@ msgstr "Si vous avez besoin d'une solution plus robuste pour déléguer l'accès
 #: wp-statistics/includes/log/exclusions.php:197
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:46
 #: wp-statistics/includes/settings/wps-settings.php:104
-#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:529
+#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:531
 msgid "Exclusions"
 msgstr "Exclusions"
 
@@ -2458,8 +2498,8 @@ msgstr "Enregistrer les exclusions"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:52
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:106
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:133
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:150
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:136
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:153
 msgid "Enable"
 msgstr "Activer"
 
@@ -2472,10 +2512,10 @@ msgid "Exclude User Roles"
 msgstr "Exclure les rôles d'utilisateur"
 
 #: wp-statistics/includes/settings/tabs/wps-exclusions.php:74
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:196
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:203
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:210
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:217
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:199
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:206
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:213
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:220
 msgid "Exclude"
 msgstr "Exclure"
 
@@ -2519,103 +2559,99 @@ msgstr "Considérer les visiteurs qui ont plus que ce nombre de visites par jour
 msgid "Excluded IP address list"
 msgstr "Liste d'adresses IP exclues"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:123
-msgid "A list of IP addresses and subnet masks (one per line) to exclude from statistics collection (both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted).  To specify an IP address only, use a subnet value of 32 or 255.255.255.255."
-msgstr "Une liste d'adresses IP et de masques de sous-réseau (un par ligne) à exclure de la collecte de statistiques (les formats 192.168.0.0/24 et 192.168.0.0/255.255.255.0 sont acceptés). Pour spécifier une adresse IP uniquement, utilisez une valeur de sous-réseau de 32 ou 255.255.255.255."
-
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:124
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:126
 msgid "Add 10.0.0.0"
 msgstr "Ajouter 10.0.0.0"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:125
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:127
 msgid "Add 172.16.0.0"
 msgstr "Ajouter 172.16.0.0"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:126
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:128
 msgid "Add 192.168.0.0"
 msgstr "Ajouter 192.168.0.0"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:131
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:134
 msgid "Use honey pot"
 msgstr "Utiliser le pot de miel"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:134
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:137
 msgid "Use a honey pot page to identify robots."
 msgstr "Utiliser une page pot de miel (\"honey pot\") pour identifier les robots."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:139
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:142
 msgid "Honey pot post id"
 msgstr "ID de l’article pot de miel"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:142
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:145
 msgid "The post id to use for the honeypot page."
 msgstr "Identifiant d’article à utiliser pour la page pot de miel."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:143
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:146
 msgid "Create a new honey pot page"
 msgstr "Créer une nouvelle page pot de miel"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:156
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:159
 msgid "GeoIP Exclusions"
 msgstr "Exclusions Geo-IP"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:160
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:163
 msgid "Excluded countries list"
 msgstr "Liste des pays exclus"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:163
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:166
 msgid "A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use \"000\" (three zeros) to exclude unknown countries."
 msgstr "Une liste de codes de pays (un par ligne, deux lettres chacun) à exclure des statistiques. Utilisez \"000\" (trois zéros) pour exclure les pays inconnus."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:168
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:171
 msgid "Included countries list"
 msgstr "Liste des pays inclus"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:171
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:174
 msgid "A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use \"000\" (three zeros) to exclude unknown countries."
 msgstr "Une liste de codes de pays (un par ligne, deux lettres chacun) à inclure dans les statistiques. Si cette liste n'est pas vide, seuls les visiteurs des pays inclus vont être enregistrés. Utilisez \"000\" (trois zéros) pour exclure les pays inconnus. "
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:176
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:179
 msgid "Host Exclusions"
 msgstr "Exclusions d'hôtes"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:180
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:183
 msgid "Excluded hosts list"
 msgstr "Liste des hôtes exclus"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:183
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:186
 msgid "A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection."
 msgstr "Une liste des noms d'hôtes complètement définis (exemple : serveur.exemple.com, un par ligne) à exclure de la collection de statistiques"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:185
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:188
 msgid "Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it's IP address and when the cache is updated resulting in some hits recorded."
 msgstr "Note : cette option n'effectuera pas une recherche DNS inversée sur chaque chargement de page mais mettra plutôt en cache l'adresse IP des noms d'hôtes fournis pendant une heure. Si vous excluez l'assignation dynamique des hôtes, vous pourrez trouver un certain nombre de doublons quand l'hôte change d'adresse IP et que le cache est mis à jour, ce qui provoque des enregistrements de hits."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:190
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:193
 msgid "Site URL Exclusions"
 msgstr "Exclusions des URL du site"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:194
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:197
 msgid "Excluded login page"
 msgstr "Page de connexion exclue"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:197
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:200
 msgid "Exclude the login page for registering as a hit."
 msgstr "Exclure la page de connexion du comptage des hits."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:201
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:204
 msgid "Excluded admin pages"
 msgstr "Pages admin exclues"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:204
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:207
 msgid "Exclude the admin pages for registering as a hit."
 msgstr "Exclure les pages administratives du comptage des hits."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:208
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:211
 msgid "Excluded RSS feeds"
 msgstr "Flux RSS exclus"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:211
+#: wp-statistics/includes/settings/tabs/wps-exclusions.php:214
 msgid "Exclude the RSS feeds for registering as a hit."
 msgstr "Exclure les flux RSS du comptage des hits."
 
@@ -2659,7 +2695,6 @@ msgstr "utilisation de browscap"
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:34
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:54
 #: wp-statistics/includes/settings/tabs/wps-overview-display.php:74
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:86
 msgid "Active"
 msgstr "Active"
 
@@ -2703,8 +2738,10 @@ msgstr "Cela supprimera le manuel lorsque vous enregistrez les réglages, êtes-
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
 msgstr "Cette fonctionnalité ne stocke pas les adresses IP dans la base de données, mais utilise à la place un hachage unique. Le réglage \"Stocker la chaîne d'agent utilisateur entièrement\" sera désactivé si ce champ est sélectionné. Vous ne serez pas en mesure de récupérer les adresses IP à l'avenir pour obtenir des informations de localisation si cette option est activée."
 
+#: wp-statistics/includes/log/widgets/summary.php:12
 #: wp-statistics/includes/settings/tabs/wps-general.php:82
-#: wp-statistics/shortcode.php:138
+#: wp-statistics/shortcode.php:138 wp-statistics/widget.php:39
+#: wp-statistics/widget.php:260
 msgid "Users Online"
 msgstr "Utilisateurs en ligne"
 
