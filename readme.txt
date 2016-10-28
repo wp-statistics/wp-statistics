@@ -1,10 +1,10 @@
 === WP Statistics ===
-Contributors: mostafa.s1990, GregRoss
+Contributors: GregRoss, mostafa.s1990
 Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.6.1
-Stable tag: 10.3
+Stable tag: 11.0
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -275,7 +275,7 @@ IPv6 is now supported!  Note you must have IPv6 support complied in to PHP for t
 
 == Changelog ==
 = 11.0 =
-* Release Date: TBD
+* Release Date: October 28, 2016
 * Added: IPv6 Support.
 * Added: Time attribute to searches shortcode.
 * Added: Basic print styles for the overview and log pages.
