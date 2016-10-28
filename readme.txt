@@ -277,10 +277,14 @@ IPv6 is now supported!  Note you must have IPv6 support complied in to PHP for t
 = 11.0 =
 * Release Date: TBD
 * Added: IPv6 Support.
-* Added: Time attribute to searches shortcode
+* Added: Time attribute to searches shortcode.
+* Added: Basic print styles for the overview and log pages.
 * Fixed: Default provider for searches shortcode.
 * Fixed: Display of top sites list when the display port is very small would .
 * Fixed: CSS for date picker not loading.
+* Fixed: Incorrect page stats for date ranges that end in the past.
+* Fixed: Date range selector on stats now properly displays a custom range after it has been set.
+* Fixed: "Empty" log widget columns could not have widgets added to them.
 * Updated: GeoIP library to version 1.1.1.
 * Updated: phpUserAgent library to 0.5.2.
 * Updated: Language on the front end widget to match the summary widget in the admin.
