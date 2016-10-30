@@ -125,7 +125,7 @@ You can also ask MaxMind to unblock your host.  Note that automatic updates will
 
 = I've activated the plugin but the menus don't show up and nothing happens? =
 
-WP Statistics requires PHP 5.3, if it has detected an older version of PHP installed it will active cleanly in WordPress but disable all functionality, you will have to upgrade to PHP 5.3 or above for it to function.  WP Statistics will display an error on your plugin list just below the WP Statistics entry to let you know.
+WP Statistics requires PHP 5.4, if it has detected an older version of PHP installed it will active cleanly in WordPress but disable all functionality, you will have to upgrade to PHP 5.4 or above for it to function.  WP Statistics will display an error on your plugin list just below the WP Statistics entry to let you know.
 
 If there is no error message there may be something else wrong, your first thing to try is disabling your other plugins as they can sometimes cause conflicts.
 
@@ -257,6 +257,18 @@ If IPv6 is not enabled, you may see an warning like:
 
 	Warning: inet_pton() [function.inet-pton]: Unrecognized address 2003:0006:1507:5d71:6114:d8bd:80c2:1090
 
+= When I upgrade or install WP Statistics 11.0 I get an error message like "Parse error: syntax error, unexpected T_USE, expecting T_FUNCTION in..." =
+
+Since WP Statistics 11.0, PHP 5.4 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 11.0 and generates a parse error.
+
+Your hosting provider should have a newer version of PHP available, sometimes you must activate it through your hosting control panel.
+
+Since the last release of PHP 5.3 is over 2 years ago (Aug 2014) and is no longer supported or receiving security fixes, if your provider does not support a newer version you should probably be moving hosting providers.
+
+If you have done an upgrade and you can no longer access your site due to the parse error you will have to manually delete the wp-statistics directory from your wordpress/wp-content/plugins directory, either through your hosting providers control panel or FTP.
+
+You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new fixes or features will be added to that version and you should move to a newer version of PHP as soon as possible.  You can download the 10.3 here: https://downloads.wordpress.org/plugin/wp-statistics.10.3.zip
+
 == Screenshots ==
 1. View stats page.
 2. View latest search words.
@@ -271,9 +283,13 @@ If IPv6 is not enabled, you may see an warning like:
 
 == Upgrade Notice ==
 = 11.0 =
-IPv6 is now supported!  Note you must have IPv6 support complied in to PHP for this to work otherwise you may see warning messages if you receive visitors from IPv6 addresses (see the FAQ for more information).
+PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if you have IPv6 support complied in to PHP, if you don't you may see warning messages if you receive visitors from IPv6 addresses (see the FAQ for more information).
 
 == Changelog ==
+= 11.0.1 =
+* Release Date: TBD
+* Updated: Minimum PHP version is now 5.4.
+
 = 11.0 =
 * Release Date: October 28, 2016
 * Added: IPv6 Support.
