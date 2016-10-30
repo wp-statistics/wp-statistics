@@ -4,7 +4,7 @@ Plugin Name: WP Statistics
 Plugin URI: http://wp-statistics.com/
 Description: Complete statistics for your WordPress site.
 Version: 11.0
-Author: Mostafa Soufi & Greg Ross
+Author: Greg Ross & Mostafa Soufi
 Author URI: http://wp-statistics.com/
 Text Domain: wp_statistics
 Domain Path: /languages/
@@ -14,7 +14,7 @@ License: GPL2
 	// These defines are used later for various reasons.
 	define('WP_STATISTICS_VERSION', '11.0');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
-	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.3.0');
+	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
 	define('WPS_EXPORT_FILE_NAME', 'wp-statistics');
 	
