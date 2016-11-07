@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.6.1
-Stable tag: 10.3
+Stable tag: 11.0.1
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -287,7 +287,8 @@ PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if yo
 
 == Changelog ==
 = 11.0.1 =
-* Release Date: TBD
+* Release Date: November 7, 2016
+* Fixed: Don't refresh a widget if it's not visible, fixes the widget being replaced by a spinner that never goes away.
 * Updated: Minimum PHP version is now 5.4.
 * Updated: Additional error checks for new IP code.
 * Updated: jqPlot library to version development version and added DST fix.
