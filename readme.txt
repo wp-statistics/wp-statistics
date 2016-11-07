@@ -289,6 +289,8 @@ PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if yo
 = 11.0.1 =
 * Release Date: TBD
 * Updated: Minimum PHP version is now 5.4.
+* Updated: Additional error checks for new IP code.
+* Updated: jqPlot library to version development version and added DST fix.
 
 = 11.0 =
 * Release Date: October 28, 2016
