@@ -3,7 +3,7 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: 1.0.9
- * Revision: d96a669
+ * Revision: c465c44
  *
  * Copyright (c) 2009-2016 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
