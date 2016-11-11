@@ -15,7 +15,7 @@
 				$map_string = "";
 			} 
 			else { 
-				$ip_string = "<a href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>"; 
+				$ip_string = "<a href='admin.php?page=" . WP_STATISTICS_VISITORS_PAGE . "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>"; 
 				$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='".__('Map', 'wp_statistics')."'>".wp_statistics_icons('dashicons-location-alt', 'map')."</a>";
 			}
 			
