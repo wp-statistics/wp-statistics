@@ -59,7 +59,7 @@
 									}
 								}
 								
-								$tickInterval = $daysToDisplay / 20;
+								$tickInterval = round( $daysToDisplay / 20, 0 );
 								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
 

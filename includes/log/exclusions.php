@@ -87,7 +87,7 @@
 									echo "];\n";
 								}
 								
-								$tickInterval = $daysToDisplay / 20;
+								$tickInterval = round( $daysToDisplay / 20, 0 );
 								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
 							visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach( $excluded_reasons as $reason ) { echo "excluded_data_line_" . $excluded_reason_tags[$reason] . ", "; } ?>], {

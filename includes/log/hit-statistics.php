@@ -58,7 +58,7 @@
 
 								echo "];\n";
 
-								$tickInterval = $daysToDisplay / 20;
+								$tickInterval = round( $daysToDisplay / 20, 0 );
 								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
 							visit_chart = jQuery.jqplot( 'visits-stats', [visit_data_line, visitor_data_line], {

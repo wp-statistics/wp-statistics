@@ -62,7 +62,7 @@
 									echo "];\n";
 								}
 								
-								$tickInterval = $daysToDisplay / 20;
+								$tickInterval = round( $daysToDisplay / 20, 0 );
 								if( $tickInterval < 1 ) { $tickInterval = 1; }
 ?>
 							visit_chart = jQuery.jqplot( 'search-stats', [<?php foreach( $search_engines as $se ) { echo "searches_data_line_" . $se['tag'] . ", "; } if( $total_stats == 1 ) { echo 'searches_data_line_total'; }?>], {
