@@ -223,7 +223,7 @@
 		global $wpdb;
 		
 		// Create the SQL query to use.
-		$sqlstatement = $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}statistics_pages WHERE `URI` = %s AND id > 0", $uri );
+		$sqlstatement = $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}statistics_pages WHERE `URI` = %s AND id > 0 ORDER BY date DESC", $uri );
 
 		// Execute the query.
 		$result = $wpdb->get_var( $sqlstatement );
