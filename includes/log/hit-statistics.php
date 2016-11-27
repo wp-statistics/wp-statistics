@@ -32,12 +32,12 @@
 <?php
 								$visit_total = 0;
 								$visitor_total = 0;
-								$daysInThePast = ( time() - $rangeend_utime ) / 86400;
+								$daysInThePast = (int) ( ( time() - $rangeend_utime ) / 86400 );
 
 								echo "var visit_data_line = [";
 
 								for( $i = $daysToDisplay; $i >= 0; $i-- ) {
-									$working_date = $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $i, $rangeend_utime );
+									$working_date = $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . ( $i + $daysInThePast ), $rangeend_utime );
 									$stat = wp_statistics_visit( '-' . (int)( $i + $daysInThePast ), true );
 									$visit_total += $stat;
 
@@ -49,7 +49,7 @@
 								echo "var visitor_data_line = [";
 
 								for( $i = $daysToDisplay; $i >= 0; $i-- ) {
-									$working_date = $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $i, $rangeend_utime );
+									$working_date = $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . ( $i + $daysInThePast ), $rangeend_utime );
 									$stat = wp_statistics_visitor( '-' . (int)( $i + $daysInThePast ), true );
 									$visitor_total += $stat;
 
