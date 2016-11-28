@@ -286,6 +286,14 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if you have IPv6 support complied in to PHP, if you don't you may see warning messages if you receive visitors from IPv6 addresses (see the FAQ for more information).
 
 == Changelog ==
+= 11.0.2 =
+* Release Date: TBD
+* Fixed: Top visitors page css for date picker.
+* Fixed: Incorrect url for link on recent visitors widget.
+* Fixed: Make sure the tick intervals are always whole numbers, otherwise the axis ticks won't match up with the data on line charts.
+* Fixed: Make sure when looking up a page/post ID for a URL to take the latest visited id instead of the first in case the URI has been reused.
+* Fixed: Duplicate display of hit statistics on hits page in some corner cases.
+
 = 11.0.1 =
 * Release Date: November 7, 2016
 * Fixed: Don't refresh a widget if it's not visible, fixes the widget being replaced by a spinner that never goes away.
