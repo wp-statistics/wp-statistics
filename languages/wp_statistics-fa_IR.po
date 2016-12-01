@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-08-30 08:23:39+0000\n"
+"PO-Revision-Date: 2016-11-08 21:32:33+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,19 +13,19 @@ msgstr ""
 
 #: wp-statistics/includes/log/widgets/summary.php:52
 msgid "Last 365 Days"
-msgstr ""
+msgstr "365 روز اخیر"
 
 #: wp-statistics/includes/log/widgets/summary.php:46
 msgid "Last 30 Days"
-msgstr ""
+msgstr "30 روز اخیر"
 
 #: wp-statistics/includes/log/widgets/summary.php:40
 msgid "Last 7 Days"
-msgstr ""
+msgstr "7 روز اخیر"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "PHP IPv6 Enabled"
-msgstr ""
+msgstr "PHP IPv6 فعال شد."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
 msgid "Is PHP compiled with IPv6 support.  You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them."
@@ -49,47 +49,47 @@ msgstr ""
 
 #: wp-statistics/widget.php:46 wp-statistics/widget.php:263
 msgid "Todays Visits"
-msgstr ""
+msgstr "بازدید امروز"
 
 #: wp-statistics/widget.php:53 wp-statistics/widget.php:266
 msgid "Todays Visitors"
-msgstr ""
+msgstr "بازدیدکننده امروز"
 
 #: wp-statistics/widget.php:60
 msgid "Yesterdays Visits"
-msgstr ""
+msgstr "بازدید دیروز"
 
 #: wp-statistics/widget.php:67 wp-statistics/widget.php:272
 msgid "Yesterdays Visitors"
-msgstr ""
+msgstr "بازدیدکننده دیروز"
 
 #: wp-statistics/widget.php:74 wp-statistics/widget.php:275
 msgid "Last 7 Days Visits"
-msgstr ""
+msgstr "بازدید هفته"
 
 #: wp-statistics/widget.php:81 wp-statistics/widget.php:278
 msgid "Last 30 Days Visits"
-msgstr ""
+msgstr "بازدید ماه"
 
 #: wp-statistics/widget.php:88 wp-statistics/widget.php:281
 msgid "Last 365 Days Visits"
-msgstr ""
+msgstr "بازدید سال"
 
 #: wp-statistics/widget.php:95 wp-statistics/widget.php:284
 msgid "Total Visits"
-msgstr ""
+msgstr "کل بازدیدها"
 
 #: wp-statistics/widget.php:102 wp-statistics/widget.php:287
 msgid "Total Visitors"
-msgstr ""
+msgstr "کل بازدیدکنندگان"
 
 #: wp-statistics/widget.php:269
 msgid "Yesterdays visits"
-msgstr ""
+msgstr "بازدید دیروز"
 
 #: wp-statistics/ajax.php:215
 msgid "No matching widget found!"
-msgstr ""
+msgstr "ابزارک مورد نظر یافت نشد."
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:191
 msgid "Zlib gzopen()"
@@ -109,11 +109,11 @@ msgstr ""
 
 #: wp-statistics/wp-statistics.php:97
 msgid "&#151; You are running an unsupported version of PHP."
-msgstr ""
+msgstr "&#151; ورژن php شما پشتیبانی نمی شود."
 
 #: wp-statistics/wp-statistics.php:97
 msgid "WP Statistics Disabled"
-msgstr ""
+msgstr "افزونه آمار غیر فعال شد."
 
 #: wp-statistics/wp-statistics.php:101
 msgid "WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!"
@@ -125,7 +125,7 @@ msgstr ""
 
 #: wp-statistics/ajax.php:293
 msgid "ERROR: Widget not found!"
-msgstr ""
+msgstr "خطا: ابزارک یافت نشد."
 
 #: wp-statistics/dashboard.php:109 wp-statistics/editor.php:66
 #: wp-statistics/includes/log/log.php:20
@@ -140,20 +140,20 @@ msgstr ""
 #: wp-statistics/includes/log/top-visitors.php:41
 #: wp-statistics/wp-statistics.php:452
 msgid "Top Visitors"
-msgstr ""
+msgstr "بازدیدکنندگان برتر"
 
 #: wp-statistics/wp-statistics.php:208
 msgid "optimization page"
-msgstr ""
+msgstr "صفحه بهینه سازی"
 
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:35
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
-msgstr ""
+msgstr "فعال شد."
 
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:30
 msgid "Purge Old Data Daily"
-msgstr ""
+msgstr "پاکسازی اطلاعات روزانه قدیمی"
 
 #: wp-statistics/includes/settings/tabs/wps-maintenance.php:41
 msgid "A WP Cron job will be run daily to purge any data older than a set number of days."
