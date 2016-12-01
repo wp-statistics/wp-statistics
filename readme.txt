@@ -4,7 +4,7 @@ Donate link: http://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.6.1
-Stable tag: 11.0.1
+Stable tag: 11.0.2
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -287,7 +287,7 @@ PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if yo
 
 == Changelog ==
 = 11.0.2 =
-* Release Date: TBD
+* Release Date: December 1, 2016
 * Fixed: Top visitors page css for date picker.
 * Fixed: Incorrect url for link on recent visitors widget.
 * Fixed: Make sure the tick intervals are always whole numbers, otherwise the axis ticks won't match up with the data on line charts.
