@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2016-11-04 15:40:15+0000\n"
+"PO-Revision-Date: 2016-11-19 00:33:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -105,7 +105,7 @@ msgstr "Error download_url () ili gzopen () funkcije ne postoje!"
 
 #: wp-statistics/wps-updates.php:45
 msgid "Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s"
-msgstr "Greška pri postavljanju permisija GeoIP baze, pobrinite se da vaš web sever ima permisiju da zapisuje u direktorij: %s"
+msgstr "postavljanje Greška dozvole za GeoIP baze podataka direktorija, provjerite je li vaš web server ima dozvole za pisati direktorija u:\"%s\""
 
 #: wp-statistics/wp-statistics.php:97
 msgid "&#151; You are running an unsupported version of PHP."
@@ -766,7 +766,7 @@ msgstr ""
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:309
 msgid "Disable %s from data collection and reporting."
-msgstr "Onemogućiti\"%\".strtolower($m[1]) od prikupljanja podataka i izvještavanja."
+msgstr "Onemogućiti %s od prikupljanja podataka i izvještavanja."
 
 #: wp-statistics/includes/settings/tabs/wps-general.php:315
 msgid "Charts"
@@ -786,7 +786,7 @@ msgstr "postavke GeoIP"
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:37
 msgid "IP location services provided by GeoLite2 data created by MaxMind, available from %s."
-msgstr "usluge IP lokacija koje GeoLite2 podaci stvorio MaxMind, dostupan od\"%\".strtolower($m[1])."
+msgstr "usluge IP lokacija koje GeoLite2 podaci stvorio MaxMind, dostupan od %s."
 
 #: wp-statistics/includes/settings/tabs/wps-externals.php:47
 msgid "GeoIP collection"
@@ -946,7 +946,7 @@ msgstr "Izaberite način isporuke za statistički izvještaj."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "Note: To send SMS text messages please install the %s plugin."
-msgstr "Napomena: Da biste poslali SMS tekstualne poruke instalirajte\"%\".strtolower($m[1]) plugin."
+msgstr "Napomena: Da biste poslali SMS tekstualne poruke instalirajte %s plugin."
 
 #: wp-statistics/includes/settings/tabs/wps-notifications.php:173
 msgid "WordPress SMS"
@@ -1294,15 +1294,15 @@ msgstr "Ti nemaju dovoljno dozvolu da pristupite ovoj stranici."
 
 #: wp-statistics/wp-statistics.php:303
 msgid "WP Statistics %s installed on"
-msgstr "WP Statistika\"%\".strtolower($m[1]) instaliran na"
+msgstr "WP Statistika %s instaliran na"
 
 #: wp-statistics/wps-updates.php:54
 msgid "Error downloading GeoIP database from: %s - %s"
-msgstr "Greška pri preuzimanju GeoIP baze podataka iz:\"%\".strtolower($m[1]) -\"%\".strtolower($m[1])"
+msgstr "Greška pri preuzimanju GeoIP baze podataka iz: %s -%s"
 
 #: wp-statistics/wps-updates.php:65
 msgid "Error could not open downloaded GeoIP database for reading: %s"
-msgstr "Greška nije mogao otvoriti preuzete GeoIP baze podataka za čitanje:\"%\".strtolower($m[1])"
+msgstr "Greška nije mogao otvoriti preuzete GeoIP baze podataka za čitanje: %s"
 
 #: wp-statistics/wps-updates.php:72
 msgid "Error could not open destination GeoIP database for writing %s"
@@ -1410,7 +1410,7 @@ msgstr ""
 
 #: wp-statistics/includes/functions/geoip-populate.php:48
 msgid "Updated %s GeoIP records in the visitors database."
-msgstr "Ažurirano\"%\".strtolower($m[1]) GeoIP zapisa u bazi podataka posjetitelja."
+msgstr "Ažurirano %s GeoIP zapisa u bazi podataka posjetitelja."
 
 #: wp-statistics/includes/functions/purge.php:21
 #: wp-statistics/includes/functions/purge.php:39
@@ -1426,7 +1426,7 @@ msgstr ""
 #: wp-statistics/includes/functions/purge.php:63
 #: wp-statistics/includes/functions/purge.php:96
 msgid "No records found to purge from %s!"
-msgstr "Podaci nisu pronađeni da očisti od\"%\".strtolower($m[1])!"
+msgstr "Podaci nisu pronađeni da očisti od %s!"
 
 #: wp-statistics/includes/functions/purge-hits.php:45
 #: wp-statistics/includes/functions/purge.php:109
@@ -1766,7 +1766,7 @@ msgstr "Više informacija"
 #: wp-statistics/includes/log/widgets/about.php:25
 #: wp-statistics/includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
-msgstr "Ovaj proizvod sadrži GeoLite2 podataka nastala MaxMind, dostupan od\"%\".strtolower($m[1])."
+msgstr "Ovaj proizvod sadrži GeoLite2 podataka nastala MaxMind, dostupan od %s."
 
 #: wp-statistics/includes/log/widgets/browsers.php:34
 msgid "Other"
@@ -1816,7 +1816,7 @@ msgstr "(Podešavanje)"
 #: wp-statistics/includes/log/widgets/quickstats.php:122
 #: wp-statistics/includes/log/widgets/summary.php:122
 msgid "Date: %s"
-msgstr "Datum:\"%\".strtolower($m[1])"
+msgstr "Datum: %s"
 
 #: wp-statistics/includes/log/widgets/quickstats.php:126
 #: wp-statistics/includes/log/widgets/summary.php:126
@@ -1877,7 +1877,7 @@ msgstr ""
 
 #: wp-statistics/includes/functions/functions.php:1003
 msgid "Error, %s not emptied!"
-msgstr "Greška,\"%\".strtolower($m[1]) ne prazni!"
+msgstr "Greška, %s ne prazni!"
 
 #: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
@@ -2309,7 +2309,7 @@ msgstr "istorijski"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
-msgstr "WP Statistika V\"%\".strtolower($m[1])"
+msgstr "WP Statistika V%s"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:28
 msgid "Visit Us Online"
@@ -2430,7 +2430,7 @@ msgstr "Ipak nemaju nikakve sreće?"
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:79
 msgid "Then please open a new thread on the %s and we'll respond as soon as possible."
-msgstr "Onda molim te otvori novu temu na\"%\".strtolower($m[1]), a mi ćemo odgovoriti u najkraćem mogućem roku."
+msgstr "Onda molim te otvori novu temu na %s, a mi ćemo odgovoriti u najkraćem mogućem roku."
 
 #: wp-statistics/includes/settings/tabs/wps-about.php:79
 msgid "WordPress.org support forum"
