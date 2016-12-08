@@ -23,7 +23,7 @@ function wp_statistics_get_widget_contents( widget, container_id ) {
 			.fail(function(result){
 				// If we failed for some reason, like a timeout, try again.
 				container.html(wp_statistics_loading_image);
-				wp_statistics_get_widget_contents( widget, coontaier_id );
+				wp_statistics_get_widget_contents( widget, container_id );
 		});
 		
 	}
