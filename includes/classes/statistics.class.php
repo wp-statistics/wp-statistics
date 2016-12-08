@@ -61,7 +61,7 @@ class WP_Statistics {
 
 		$this->get_IP();
 
-		if( $this->get_option('hash_ips') == true ) { $this->ip_hash = '#hash#' . sha1( $this->ip + $_SERVER['HTTP_USER_AGENT'] ); }
+		if( $this->get_option('hash_ips') == true ) { $this->ip_hash = '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] ); }
 
 	}
 
