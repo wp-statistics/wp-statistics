@@ -114,13 +114,21 @@
 			KEY host (host)
 		) CHARSET=utf8");
 
-		// Before we update the historical table, check to see if it exists with the old keys
-		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_historical LIKE 'key'" );
+		// Grab the database name we're using from the global.
+		$dbname = DB_NAME;
+
+		// Check to see if the historical table exists yet, aka if this is a upgrade instead of a first install.
+		$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'" );
 		
-		if( $result > 0 ) {
-			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)" );
-			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `key` `ID` bigint(20)" );
-			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `type` `category` varchar(25)" );
+		if( $result == 1 ) {
+			// Before we update the historical table, check to see if it exists with the old keys
+			$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_historical LIKE 'key'" );
+			
+			if( $result > 0 ) {
+				$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)" );
+				$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `key` `ID` bigint(20)" );
+				$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `type` `category` varchar(25)" );
+			}
 		}
 		
 		// This includes the dbDelta function from WordPress.
@@ -138,7 +146,6 @@
 		// Some old versions (in the 5.0.x line) of MySQL have issue with the compound index on the visitor table
 		// so let's make sure it was created, if not, use the older format to create the table manually instead of
 		// using the dbDelta() call.
-		$dbname = DB_NAME;
 		$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'" );
 
 		if( $result != 1 ) {
