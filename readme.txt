@@ -1,10 +1,10 @@
 === WP Statistics ===
 Contributors: GregRoss, mostafa.s1990
 Donate link: http://wp-statistics.com/donate/
-Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, feedburner, hits, pagerank, google, alexa, live visit
+Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag: 11.0.2
+Stable tag: 11.0.3
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -286,6 +286,14 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if you have IPv6 support complied in to PHP, if you don't you may see warning messages if you receive visitors from IPv6 addresses (see the FAQ for more information).
 
 == Changelog ==
+= 11.0.3 =
+* Release Date: January 13, 2017
+* Added: Option to reset plugin options without deleting the data.
+* Fixed: If IP hashing as enabled a PHP would be generated during the hashing.
+* Fixed: Typo in JavaScript code that would cause some errors not to be displayed.
+* Fixed: Make sure the historical table exists before checking the keys on it which would cause extra output to be generated on first install.
+* Updated: RTL CSS styles for left/right div's in the admin dashboard, thanks sszdh.
+
 = 11.0.2 =
 * Release Date: December 1, 2016
 * Fixed: Top visitors page css for date picker.
