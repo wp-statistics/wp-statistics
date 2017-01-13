@@ -883,7 +883,7 @@
 	}
 	
 	// This function creates the date range selector 'widget' used in the various statistics pages.
-	function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '' ) {
+	function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '', $pre_extra = '', $post_extra = '' ) {
 		GLOBAL $WP_Statistics;
 		
 		wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -924,6 +924,9 @@
 		
 		echo '<form method="get"><ul class="subsubsub">' . "\r\n";
 		
+		// Output any extra HTML we've been passed after the form element but before the date selector.
+		echo $pre_extra;
+		
 		for( $i = 0; $i < $rcount; $i ++ ) {
 			echo '		<li class="all"><a ';
 			
@@ -957,8 +960,11 @@
 		}
 		
 		echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart . '" placeholder="' . __( 'MM/DD/YYYY', 'wp_statistics' ) . '"> ' . __( 'to', 'wp_statistics' ) . ' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __( 'MM/DD/YYYY', 'wp_statistics' ) . '"> <input type="submit" value="'.__( 'Go', 'wp_statistics' ).'" class="button-primary">' . "\r\n";
+
+		// Output any extra HTML we've been passed after the date selector but before the submit button.
+		echo $post_extra;
 		
-		echo '</ul><form>' . "\r\n";
+		echo '</form>' . "\r\n";
 		
 		echo '<script>jQuery(function() { jQuery( "#datestartpicker" ).datepicker(); jQuery( "#dateendpicker" ).datepicker(); });</script>' . "\r\n";
 	}

@@ -25,6 +25,8 @@
 	define('WP_STATISTICS_HITS_PAGE', 'wps_hits_page' );
 	define('WP_STATISTICS_ONLINE_PAGE', 'wps_online_page' );
 	define('WP_STATISTICS_PAGES_PAGE', 'wps_pages_page' );
+	define('WP_STATISTICS_CATEGORIES_PAGE', 'wps_categories_page' );
+	define('WP_STATISTICS_TAGS_PAGE', 'wps_tags_page' );
 	define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page' );
 	define('WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page' );
 	define('WP_STATISTICS_WORDS_PAGE', 'wps_words_page' );
@@ -418,6 +420,8 @@
 		if( $WP_Statistics->get_option('visits') ) { $WP_Statistics->menu_slugs['hits'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Hits', 'wp_statistics'), __('Hits', 'wp_statistics'), $read_cap, WP_STATISTICS_HITS_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('useronline') ) { $WP_Statistics->menu_slugs['online'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Online', 'wp_statistics'), __('Online', 'wp_statistics'), $read_cap, WP_STATISTICS_ONLINE_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['pages'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, WP_STATISTICS_PAGES_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['categories'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Categories', 'wp_statistics'), __('Categories', 'wp_statistics'), $read_cap, WP_STATISTICS_CATEGORIES_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['tags'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Tags', 'wp_statistics'), __('Tags', 'wp_statistics'), $read_cap, WP_STATISTICS_TAGS_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['referrers'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Referrers', 'wp_statistics'), __('Referrers', 'wp_statistics'), $read_cap, WP_STATISTICS_REFERRERS_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['searches'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, WP_STATISTICS_SEARCHES_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['words'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, WP_STATISTICS_WORDS_PAGE, 'wp_statistics_log'); }
@@ -729,6 +733,14 @@
 				$log_type = 'top-pages';
 
 				break;
+			case WP_STATISTICS_CATEGORIES_PAGE:
+				$log_type = 'categories';
+
+				break;
+			case WP_STATISTICS_TAGS_PAGE:
+				$log_type = 'tags';
+
+				break;
 			case WP_STATISTICS_REFERRERS_PAGE:
 				$log_type = 'top-referring-site';
 
@@ -821,65 +833,51 @@
 		include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 
 		// The different pages have different files to load.
-		if( $log_type == 'last-all-search' ) {
-		
-			include_once dirname( __FILE__ ) . '/includes/log/last-search.php';
-			
-		} else if( $log_type == 'last-all-visitor' ) {
-		
-			include_once dirname( __FILE__ ) . '/includes/log/last-visitor.php';
-			
-		} else if( $log_type == 'top-referring-site' ) {
-		
-			include_once dirname( __FILE__ ) . '/includes/log/top-referring.php';
-			
-		} else if( $log_type == 'all-browsers' ) {
+		switch( $log_type ) {
+			case 'all-browsers':
+			case 'top-countires':
+			case 'hit-statistics':
+			case 'search-statistics':
+			case 'exclusions':
+			case 'online':
+			case 'top-visitors':
+			case 'categories':
+			case 'tags':
+				include_once dirname( __FILE__ ) . '/includes/log/' . $log_type . '.php';
 
-			include_once dirname( __FILE__ ) . '/includes/log/all-browsers.php';
+				break;
+			case 'last-all-search':
+				include_once dirname( __FILE__ ) . '/includes/log/last-search.php';
+				
+				break;
+			case 'last-all-visitor':
+				include_once dirname( __FILE__ ) . '/includes/log/last-visitor.php';
 			
-		} else if( $log_type == 'top-countries' ) {
+				break;
+			case 'top-referring-site':
+				include_once dirname( __FILE__ ) . '/includes/log/top-referring.php';
+			
+				break;
+			case 'top-pages':
+				// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
+				if( array_key_exists( 'page-id', $_GET ) || array_key_exists( 'page-uri', $_GET ) ) {
+					include_once dirname( __FILE__ ) . '/includes/log/page-statistics.php';
+				} else {
+					include_once dirname( __FILE__ ) . '/includes/log/top-pages.php';
+				}
 
-			include_once dirname( __FILE__ ) . '/includes/log/top-countries.php';
+				break;
+			default:
+				wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap' . WP_STATISTICS_MIN_EXT . '.css', true, '1.5.1');
+				wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
+				wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
 			
-		} else if( $log_type == 'hit-statistics' ) {
-
-			include_once dirname( __FILE__ ) . '/includes/log/hit-statistics.php';
-			
-		} else if( $log_type == 'search-statistics' ) {
-
-			include_once dirname( __FILE__ ) . '/includes/log/search-statistics.php';
-			
-		} else if( $log_type == 'exclusions' ) {
-
-			include_once dirname( __FILE__ ) . '/includes/log/exclusions.php';
-			
-		} else if( $log_type == 'online' ) {
-
-			include_once dirname( __FILE__ ) . '/includes/log/online.php';
-			
-		} else if( $log_type == 'top-visitors' ) {
-
-			include_once dirname( __FILE__ ) . '/includes/log/top-visitors.php';
-			
-		} else if( $log_type == 'top-pages' ) {
-
-			// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
-			if( array_key_exists( 'page-id', $_GET ) || array_key_exists( 'page-uri', $_GET ) ) {
-				include_once dirname( __FILE__ ) . '/includes/log/page-statistics.php';
-			} else {
-				include_once dirname( __FILE__ ) . '/includes/log/top-pages.php';
-			}
-			
-		} else {
-		
-			wp_enqueue_style('jqvmap-css', plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap' . WP_STATISTICS_MIN_EXT . '.css', true, '1.5.1');
-			wp_enqueue_script('jquery-vmap', plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
-			wp_enqueue_script('jquery-vmap-world', plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1');
-		
-			// Load our custom widgets handling javascript.
-			wp_enqueue_script('wp_statistics_log', plugin_dir_url(__FILE__) . 'assets/js/log' . WP_STATISTICS_MIN_EXT . '.js');
-			
-			include_once dirname( __FILE__ ) . '/includes/log/log.php';
+				// Load our custom widgets handling javascript.
+				wp_enqueue_script('wp_statistics_log', plugin_dir_url(__FILE__) . 'assets/js/log' . WP_STATISTICS_MIN_EXT . '.js');
+				
+				include_once dirname( __FILE__ ) . '/includes/log/log.php';
+				
+				break;
 		}
 	}
 	
