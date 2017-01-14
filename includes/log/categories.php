@@ -64,6 +64,12 @@
 <?php
 								$visit_total = 0;
 								$daysInThePast = (int) ( ( time() - $rangeend_utime ) / 86400 );
+								$posts_stats = array();
+
+								// Setup the array, otherwise PHP may throw an error.
+								foreach( $posts as $post ){
+									$posts_stats[$post->ID] = 0;
+								}
 
 								echo "var visit_data_line = [";
 
@@ -72,7 +78,9 @@
 
 									$stat = 0;
 									foreach( $posts as $post ){
-										$stat += wp_statistics_pages( '-' . (int)( $i + $daysInThePast ), NULL, $post->ID );
+										$temp_stat = wp_statistics_pages( '-' . (int)( $i + $daysInThePast ), NULL, $post->ID );
+										$posts_stats[$post->ID] += $temp_stat;
+										$stat = $temp_stat;
 									}
 
 									$visit_total += $stat;
@@ -215,6 +223,48 @@
 
 									echo number_format_i18n( $stat ); ?></span></th>
 								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
+		<div class="metabox-holder">
+			<div class="meta-box-sortables">
+				<div class="postbox">
+					<div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br /></div>
+					<h3 class="hndle"><span><?php _e( 'Category Posts Sorted by Hits', 'wp_statistics' ); ?></span></h3>
+					<div class="inside">
+						<table width="auto" class="widefat table-stats" id="post-stats">
+							<tbody>
+								<tr>
+									<th><?php _e( 'Post Title', 'wp_statistics' ); ?></th>
+									<th class="th-center"><?php _e( 'Hits', 'wp_statistics' ); ?></th>
+								</tr>
+
+<?php 
+								arsort( $posts_stats );
+
+								$posts_by_id = array();
+								
+								foreach( $posts as $post ) {
+									$posts_by_id[$post->ID] = $post;
+								}
+									
+								foreach( $posts_stats as $post_id => $post_stat ) {
+									$post_obj = $posts_by_id[$post_id];
+
+?>
+								<tr>
+									<th><a href="<?php echo get_permalink( $post_obj ); ?>"><?php echo $post_obj->post_title; ?></a></th>
+									<th class="th-center"><span><?php echo number_format_i18n( $post_stat ); ?></span></th>
+								</tr>
+<?php
+								}
+?>
 							</tbody>
 						</table>
 					</div>

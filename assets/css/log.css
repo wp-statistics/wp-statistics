@@ -77,6 +77,10 @@
     font-size: 21px;
 }
 
+#post-stats {
+	border: none;
+}
+
 #th-colspan {
     text-align: center;
 }
