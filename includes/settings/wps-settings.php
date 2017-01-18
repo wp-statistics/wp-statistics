@@ -7,7 +7,7 @@ if( array_key_exists( 'wp-statistics-nonce', $_POST ) ) {
 
 $wps_admin = false;
 
-if(current_user_can(wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options')))) {
+if( current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) ) ) ) {
 	$wps_admin = true;
 }
 

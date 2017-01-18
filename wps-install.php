@@ -225,7 +225,7 @@
 				
 				$wiget = array();
 				
-				// Handle the widget options, we're goin to store them in a subarray.
+				// Handle the widget options, we're going to store them in a sub-array.
 				foreach( $widget_options as $option ) {
 					$widget[$option] = get_option($option);
 					

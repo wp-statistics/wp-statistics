@@ -13,25 +13,27 @@ if( $wps_nonce_valid ) {
 			
 			// Handle multi site implementations
 			if( is_multisite() ) {
-				
 				// Loop through each of the sites.
 				foreach( wp_get_sites() as $blog ) {
 
 					switch_to_blog( $blog['blog_id'] );
 					
 					// Delete the wp_statistics option.
-					delete_option('wp_statistics');
+					update_option( 'wp_statistics', array() );
 					// Delete the user options.
 					$wpdb->query( "DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key LIKE 'wp_statistics%'");
 				}
 				
 				restore_current_blog();
 			} else {
-					// Delete the wp_statistics option.
-					delete_option('wp_statistics');
-					// Delete the user options.
-					$wpdb->query( "DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key LIKE 'wp_statistics%'");
+				// Delete the wp_statistics option.
+				update_option( 'wp_statistics', array() );
+				// Delete the user options.
+				$wpdb->query( "DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key LIKE 'wp_statistics%'");
 			}
+			
+			$WP_Statistics->load_options();
+			$WP_Statistics->save_options();
 		}
 	}
 }
