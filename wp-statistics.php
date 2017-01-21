@@ -122,13 +122,30 @@
 	}
 
 	// This adds a row after WP Statistics in the plugin page IF we've been removed via the settings page.
-	function wp_statistics_removal_after_plugin_row() {
-		echo '<tr><th scope="row" class="check-column"></th><td class="plugin-title" colspan="*"><span style="padding: 3px; color: white; background-color: red; font-weight: bold">&nbsp;&nbsp;' . __('WP Statistics has been removed, please disable and delete it.', 'wp_statistics') . '&nbsp;&nbsp;</span></td></tr>';
+	function wp_statistics_removal_admin_notice() {
+		$screen = get_current_screen();
+		
+		if( 'plugins' !== $screen->id ) {
+			return;
+		}
+
+	?>
+		<div class="error">
+			<p style="max-width:800px;"><?php 
+			
+			echo '<p>';
+			echo __('WP Statistics has been removed, please disable and delete it.', 'wp_statistics');
+			echo '</p>';
+			?></p>
+		</div>
+		
+	<?php
 	}
 	
 	// If we've been removed, return without doing anything else.
 	if( get_option( 'wp_statistics_removal' ) == 'done' ) {
-		add_action('after_plugin_row_' . plugin_basename( __FILE__ ), 'wp_statistics_removal_after_plugin_row', 10, 2);
+		add_action( 'admin_notices', 'wp_statistics_removal_admin_notice', 10, 2 );
+
 		return;
 	}
 	

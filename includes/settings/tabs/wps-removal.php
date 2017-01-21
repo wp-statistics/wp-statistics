@@ -4,6 +4,10 @@ if( $wps_nonce_valid ) {
 	if( array_key_exists( 'wps_remove_plugin', $_POST ) ) {
 		if( is_super_admin() ) {
 			update_option( 'wp_statistics_removal', 'true' );
+
+			// We need to reload the page after we reset the options but it's too late to do it through a HTTP redirect so do a 
+			// JavaScript redirect instead.
+			echo '<script type="text/javascript">window.location.href="' .  admin_url() . 'plugins.php";</script>';
 		}
 	}
 
