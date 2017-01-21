@@ -118,7 +118,7 @@
 		$dbname = DB_NAME;
 
 		// Check to see if the historical table exists yet, aka if this is a upgrade instead of a first install.
-		$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'" );
+		$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'" );
 		
 		if( $result == 1 ) {
 			// Before we update the historical table, check to see if it exists with the old keys
@@ -132,28 +132,28 @@
 		}
 		
 		// This includes the dbDelta function from WordPress.
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		
 		// Create/update the plugin tables.
-		dbDelta($create_useronline_table);
-		dbDelta($create_visit_table);
-		dbDelta($create_visitor_table);
-		dbDelta($create_exclusion_table);
-		dbDelta($create_pages_table);
-		dbDelta($create_historical_table);
-		dbDelta($create_search_table);
+		dbDelta( $create_useronline_table );
+		dbDelta( $create_visit_table );
+		dbDelta( $create_visitor_table );
+		dbDelta( $create_exclusion_table );
+		dbDelta( $create_pages_table );
+		dbDelta( $create_historical_table );
+		dbDelta( $create_search_table );
 		
 		// Some old versions (in the 5.0.x line) of MySQL have issue with the compound index on the visitor table
 		// so let's make sure it was created, if not, use the older format to create the table manually instead of
 		// using the dbDelta() call.
-		$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'" );
+		$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'" );
 
 		if( $result != 1 ) {
 			$wpdb->query( $create_visitor_table_old );
 		}
 		
 		// Check to see if the date_ip index still exists, if so get rid of it.
-		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
+		$result = $wpdb->query( "SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'" );
 
 		// Note, the result will be the number of fields contained in the index.
 		if( $result > 1 ) {
@@ -168,14 +168,14 @@
 		}
 		
 		// Store the new version information.
-		update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
-		update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
+		update_option( 'wp_statistics_plugin_version', WP_STATISTICS_VERSION );
+		update_option( 'wp_statistics_db_version', WP_STATISTICS_VERSION );
 
 		// Now check to see what database updates may be required and record them for a user notice later.
 		$dbupdates = array( 'date_ip_agent' => false, 'unique_date' => false );
 		
 		// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
-		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'");
+		$result = $wpdb->query( "SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'" );
 
 		// Note, the result will be the number of fields contained in the index, so in our case 5.
 		if( $result != 5 ) {
@@ -183,7 +183,7 @@
 		}
 		
 		// Check the number of index's on the visits table, if it's only 5 we need to check for duplicate entries and remove them
-		$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visit WHERE Key_name = 'unique_date'");
+		$result = $wpdb->query( "SHOW INDEX FROM {$wp_prefix}statistics_visit WHERE Key_name = 'unique_date'" );
 
 		// Note, the result will be the number of fields contained in the index, so in our case 1.
 		if( $result != 1 ) {
@@ -192,9 +192,8 @@
 
 		$WP_Statistics->update_option( 'pending_db_updates', $dbupdates );
 
-		// Get the robots list, we'll use this for both upgrades and new installs.
-		include_once('robotslist.php');
-
+		$default_options = $WP_Statistics->Default_Options();
+		
 		if( $WPS_Installed == false ) {
 		
 			// If this is a first time install, we just need to setup the primary values in the tables.
@@ -202,7 +201,7 @@
 			$WP_Statistics->Primary_Values();
 			
 			// By default, on new installs, use the new search table.
-			$WP_Statistics->update_option('search_converted', 1);
+			$WP_Statistics->update_option( 'search_converted', 1 );
 			
 		} else {
 
@@ -210,40 +209,40 @@
 		
 			// Check to see if the "new" settings code is in place or not, if not, upgrade the old settings to the new system.
 			if( get_option('wp_statistics') === FALSE ) {
-				$core_options = array('wps_disable_map', 'wps_map_location', 'wps_google_coordinates', 'wps_schedule_dbmaint', 'wps_schedule_dbmaint_days', 'wps_geoip', 'wps_update_geoip', 'wps_schedule_geoip', 'wps_last_geoip_dl', 'wps_auto_pop', 'wps_useronline', 'wps_check_online', 'wps_visits', 'wps_visitors', 'wps_store_ua', 'wps_coefficient', 'wps_pages', 'wps_track_all_pages', 'wps_disable_column', 'wps_menu_bar', 'wps_hide_notices', 'wps_chart_totals', 'wps_stats_report', 'wps_time_report', 'wps_send_report', 'wps_content_report', 'wps_read_capability', 'wps_manage_capability', 'wps_record_exclusions', 'wps_robotlist', 'wps_exclude_ip', 'wps_exclude_loginpage', 'wps_exclude_adminpage');
-				$var_options = array('wps_disable_se_%', 'wps_exclude_%');
-				$widget_options = array( 'name_widget', 'useronline_widget', 'tvisit_widget', 'tvisitor_widget', 'yvisit_widget', 'yvisitor_widget', 'wvisit_widget', 'mvisit_widget', 'ysvisit_widget', 'ttvisit_widget', 'ttvisitor_widget', 'tpviews_widget', 'ser_widget', 'select_se', 'tp_widget', 'tpg_widget', 'tc_widget', 'ts_widget', 'tu_widget', 'ap_widget', 'ac_widget', 'au_widget', 'lpd_widget', 'select_lps');
+				$core_options = array( 'wps_disable_map', 'wps_map_location', 'wps_google_coordinates', 'wps_schedule_dbmaint', 'wps_schedule_dbmaint_days', 'wps_geoip', 'wps_update_geoip', 'wps_schedule_geoip', 'wps_last_geoip_dl', 'wps_auto_pop', 'wps_useronline', 'wps_check_online', 'wps_visits', 'wps_visitors', 'wps_store_ua', 'wps_coefficient', 'wps_pages', 'wps_track_all_pages', 'wps_disable_column', 'wps_menu_bar', 'wps_hide_notices', 'wps_chart_totals', 'wps_stats_report', 'wps_time_report', 'wps_send_report', 'wps_content_report', 'wps_read_capability', 'wps_manage_capability', 'wps_record_exclusions', 'wps_robotlist', 'wps_exclude_ip', 'wps_exclude_loginpage', 'wps_exclude_adminpage' );
+				$var_options = array( 'wps_disable_se_%', 'wps_exclude_%' );
+				$widget_options = array( 'name_widget', 'useronline_widget', 'tvisit_widget', 'tvisitor_widget', 'yvisit_widget', 'yvisitor_widget', 'wvisit_widget', 'mvisit_widget', 'ysvisit_widget', 'ttvisit_widget', 'ttvisitor_widget', 'tpviews_widget', 'ser_widget', 'select_se', 'tp_widget', 'tpg_widget', 'tc_widget', 'ts_widget', 'tu_widget', 'ap_widget', 'ac_widget', 'au_widget', 'lpd_widget', 'select_lps' );
 				
 				// Handle the core options, we're going to strip off the 'wps_' header as we store them in the new settings array.
 				foreach( $core_options as $option ) {
 					$new_name = substr( $option, 4 );
 					
-					$WP_Statistics->store_option($new_name, get_option( $option ));
+					$WP_Statistics->store_option( $new_name, get_option( $option ) );
 					
-					delete_option($option);
+					delete_option( $option );
 				}
 				
 				$wiget = array();
 				
 				// Handle the widget options, we're going to store them in a sub-array.
 				foreach( $widget_options as $option ) {
-					$widget[$option] = get_option($option);
+					$widget[$option] = get_option( $option );
 					
-					delete_option($option);
+					delete_option( $option );
 				}
 
-				$WP_Statistics->store_option('widget', $widget);
+				$WP_Statistics->store_option( 'widget', $widget );
 				
 				foreach( $var_options as $option ) {
 					// Handle the special variables options.
-					$result = $wpdb->get_results("SELECT * FROM {$wp_prefix}options WHERE option_name LIKE '{$option}'");
+					$result = $wpdb->get_results( "SELECT * FROM {$wp_prefix}options WHERE option_name LIKE '{$option}'" );
 
 					foreach( $result as $opt ) {
 						$new_name = substr( $opt->option_name, 4 );
 					
-						$WP_Statistics->store_option($new_name, $opt->option_value);
+						$WP_Statistics->store_option( $new_name, $opt->option_value );
 
-						delete_option($opt->option_name);
+						delete_option( $opt->option_name );
 					}
 				}
 
@@ -251,10 +250,10 @@
 			}
 			
 			// If the robot list is empty, fill in the defaults.
-			$wps_temp_robotslist = $WP_Statistics->get_option('robotlist'); 
+			$wps_temp_robotslist = $WP_Statistics->get_option( 'robotlist' ); 
 
-			if(trim($wps_temp_robotslist) == "" || $WP_Statistics->get_option('force_robot_update') == TRUE) {
-				$WP_Statistics->update_option('robotlist', $wps_robotslist);
+			if( trim( $wps_temp_robotslist ) == "" || $WP_Statistics->get_option( 'force_robot_update' ) == TRUE ) {
+				$WP_Statistics->update_option( 'robotlist', $default_options['robotslist'] );
 			}
 
 			// WP Statistics V4.2 and below automatically exclude the administrator for statistics collection
@@ -262,8 +261,8 @@
 			// 4.2 behaviour when we upgrade, so see if the option exists in the database and if not, set it.
 			// This will not work correctly on a WordPress install that has removed the administrator role.
 			// However that seems VERY unlikely.
-			$exclude_admins = $WP_Statistics->get_option('exclude_administrator', '2');
-			if( $exclude_admins == '2' ) { $WP_Statistics->update_option('exclude_administrator', '1'); }
+			$exclude_admins = $WP_Statistics->get_option( 'exclude_administrator', '2' );
+			if( $exclude_admins == '2' ) { $WP_Statistics->update_option( 'exclude_administrator', '1' ); }
 			
 			// WordPress 4.3 broke the diplay of the sidebar widget because it no longer accepted a null value
 			// to be returned from the widget update function, let's look to see if we need to update any 
@@ -280,31 +279,19 @@
 			}
 		}
 
+		// We've already handled some of the default or need to do more logic checks on them so create a list to exclude from the next loop.
+		$excluded_defaults = array( 'force_robot_update', 'robot_list' );
+		
 		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
-		if( $WP_Statistics->get_option('geoip') === FALSE ) { $WP_Statistics->store_option('geoip',FALSE); }
-		if( $WP_Statistics->get_option('browscap') === FALSE ) { $WP_Statistics->store_option('browscap',FALSE); }
-		if( $WP_Statistics->get_option('useronline') === FALSE ) { $WP_Statistics->store_option('useronline',TRUE); }
-		if( $WP_Statistics->get_option('visits') === FALSE ) { $WP_Statistics->store_option('visits',TRUE); }
-		if( $WP_Statistics->get_option('visitors') === FALSE ) { $WP_Statistics->store_option('visitors',TRUE); }
-		if( $WP_Statistics->get_option('pages') === FALSE ) { $WP_Statistics->store_option('pages',TRUE); }
-		if( $WP_Statistics->get_option('check_online') === FALSE ) { $WP_Statistics->store_option('check_online','30'); }
-		if( $WP_Statistics->get_option('menu_bar') === FALSE ) { $WP_Statistics->store_option('menu_bar',FALSE); }
-		if( $WP_Statistics->get_option('coefficient') === FALSE ) { $WP_Statistics->store_option('coefficient','1'); }
-		if( $WP_Statistics->get_option('stats_report') === FALSE ) { $WP_Statistics->store_option('stats_report',FALSE); }
-		if( $WP_Statistics->get_option('time_report') === FALSE ) { $WP_Statistics->store_option('time_report','daily'); }
-		if( $WP_Statistics->get_option('send_report') === FALSE ) { $WP_Statistics->store_option('send_report','mail'); }
-		if( $WP_Statistics->get_option('content_report') === FALSE ) { $WP_Statistics->store_option('content_report',''); }
-		if( $WP_Statistics->get_option('update_geoip') === FALSE ) { $WP_Statistics->store_option('update_geoip',TRUE); }
-		if( $WP_Statistics->get_option('store_ua') === FALSE ) { $WP_Statistics->store_option('store_ua',FALSE); }
-		if( $WP_Statistics->get_option('robotlist') === FALSE ) { $WP_Statistics->store_option('robotlist',$wps_robotslist); }
-		if( $WP_Statistics->get_option('exclude_administrator') === FALSE ) { $WP_Statistics->store_option('exclude_administrator',TRUE); }
-		if( $WP_Statistics->get_option('disable_se_clearch') === FALSE ) { $WP_Statistics->store_option('disable_se_clearch',TRUE); }
-		if( $WP_Statistics->get_option('disable_se_ask') === FALSE ) { $WP_Statistics->store_option('disable_se_ask',TRUE); }
-		if( $WP_Statistics->get_option('map_type') === FALSE ) { $WP_Statistics->store_option('map_type','jqvmap'); }
-
+		foreach( $default_options as $key => $value ) {
+			if( ! in_array( $key, $excluded_defaults ) && FALSE === $WP_Statistics->get_option( $key ) ) { 
+				$WP_Statistics->store_option( $key, $value ); 
+			}
+		}
+		
 		if( $WPS_Installed == false ) {		
 			// We now need to set the robot list to update during the next release.  This is only done for new installs to ensure we don't overwrite existing custom robot lists.
-			$WP_Statistics->store_option('force_robot_update',TRUE);
+			$WP_Statistics->store_option( 'force_robot_update', TRUE );
 		}
 
 		// For version 8.0, we're removing the old %option% types from the reports, so let's upgrade anyone who still has them to short codes.

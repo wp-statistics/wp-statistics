@@ -187,8 +187,8 @@ class WP_Statistics {
 		return array_key_exists( $option, $this->user_options );
 	}
 
-	// During installation of WP Statistics some inital data needs to be loaded in to the database so errors are not displayed.
-	// This function will add some inital data if the tables are empty.
+	// During installation of WP Statistics some initial data needs to be loaded in to the database so errors are not displayed.
+	// This function will add some initial data if the tables are empty.
 	public function Primary_Values() {
 
 		$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline");
@@ -242,6 +242,46 @@ class WP_Statistics {
 		}
 	}
 
+	// During installation of WP Statistics some initial options need to be set.
+	// This function will save a set of default options for the plugin.
+	public function Default_Options() {
+		$options = array();
+		
+		// Get the robots list, we'll use this for both upgrades and new installs.
+		include_once( $this->plugin_dir . '/robotslist.php' );
+
+		$options['robotlist'] = trim( $wps_robotslist );
+
+		// By default, on new installs, use the new search table.
+		$options['search_converted'] =  1;
+
+		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
+		$options['geoip'] = FALSE;
+		$options['browscap'] = FALSE;
+		$options['useronline'] = TRUE;
+		$options['visits'] = TRUE;
+		$options['visitors'] = TRUE;
+		$options['pages'] = TRUE;
+		$options['check_online'] = '30';
+		$options['menu_bar'] = FALSE;
+		$options['coefficient'] = '1';
+		$options['stats_report'] = FALSE;
+		$options['time_report'] = 'daily';
+		$options['send_report'] = 'mail';
+		$options['content_report'] = '';
+		$options['update_geoip'] = TRUE;
+		$options['store_ua'] = FALSE;
+		$options['robotlist'] = $wps_robotslist;
+		$options['exclude_administrator'] = TRUE;
+		$options['disable_se_clearch'] = TRUE;
+		$options['disable_se_ask'] = TRUE;
+		$options['map_type'] = 'jqvmap';
+
+		$options['force_robot_update'] = TRUE;
+		
+		return $options;
+	}
+	
 	// This function processes a string that represents an IP address and returns either FALSE if it's invalid or a valid IP4 address.
 	private function get_ip_value( $ip ) {
 		// Reject anything that's not a string.
