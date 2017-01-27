@@ -26,6 +26,7 @@
 	define('WP_STATISTICS_ONLINE_PAGE', 'wps_online_page' );
 	define('WP_STATISTICS_PAGES_PAGE', 'wps_pages_page' );
 	define('WP_STATISTICS_CATEGORIES_PAGE', 'wps_categories_page' );
+	define('WP_STATISTICS_AUTHORS_PAGE', 'wps_authors_page' );
 	define('WP_STATISTICS_TAGS_PAGE', 'wps_tags_page' );
 	define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page' );
 	define('WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page' );
@@ -439,6 +440,7 @@
 		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['pages'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Pages', 'wp_statistics'), __('Pages', 'wp_statistics'), $read_cap, WP_STATISTICS_PAGES_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['categories'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Categories', 'wp_statistics'), __('Categories', 'wp_statistics'), $read_cap, WP_STATISTICS_CATEGORIES_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['tags'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Tags', 'wp_statistics'), __('Tags', 'wp_statistics'), $read_cap, WP_STATISTICS_TAGS_PAGE, 'wp_statistics_log'); }
+		if( $WP_Statistics->get_option('pages') ) { $WP_Statistics->menu_slugs['authors'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Authors', 'wp_statistics'), __('Authors', 'wp_statistics'), $read_cap, WP_STATISTICS_AUTHORS_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['referrers'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Referrers', 'wp_statistics'), __('Referrers', 'wp_statistics'), $read_cap, WP_STATISTICS_REFERRERS_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['searches'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Searches', 'wp_statistics'), __('Searches', 'wp_statistics'), $read_cap, WP_STATISTICS_SEARCHES_PAGE, 'wp_statistics_log'); }
 		if( $WP_Statistics->get_option('visitors') ) { $WP_Statistics->menu_slugs['words'] = add_submenu_page(WP_STATISTICS_OVERVIEW_PAGE, __('Search Words', 'wp_statistics'), __('Search Words', 'wp_statistics'), $read_cap, WP_STATISTICS_WORDS_PAGE, 'wp_statistics_log'); }
@@ -758,6 +760,10 @@
 				$log_type = 'tags';
 
 				break;
+			case WP_STATISTICS_AUTHORS_PAGE:
+				$log_type = 'authors';
+
+				break;
 			case WP_STATISTICS_REFERRERS_PAGE:
 				$log_type = 'top-referring-site';
 
@@ -860,6 +866,7 @@
 			case 'top-visitors':
 			case 'categories':
 			case 'tags':
+			case 'authors':
 				include_once dirname( __FILE__ ) . '/includes/log/' . $log_type . '.php';
 
 				break;
