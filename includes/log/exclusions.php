@@ -18,10 +18,10 @@
 
 	$total_stats = $WP_Statistics->get_option( 'chart_totals' );
 	
-	$excluded_reasons = array('Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot','Feeds', 'Excluded URL', '404 Pages', 'Referrer Spam');
-	$excluded_reason_tags = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded_url', '404 Pages' => 'excluded_404s', 'Referrer Spam' => 'referrer_spam' );
-	$excluded_reason_db   = array('Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ip match','Self Referral' => 'self referral','Login Page' => 'login page','Admin Page' => 'admin page','User Role' => 'user role','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded url', '404 Pages' => '404', 'Referrer Spam' => 'referrer_spam');
-	$excluded_reason_translate = array( 'Robot' => json_encode(__('Robot', 'wp_statistics')), 'Browscap' => json_encode(__('Browscap', 'wp_statistics')), 'IP Match' => json_encode(__('IP Match', 'wp_statistics')), 'Self Referral' => json_encode(__('Self Referral', 'wp_statistics')), 'Login Page' => json_encode(__('Login Page', 'wp_statistics')), 'Admin Page' => json_encode(__('Admin Page', 'wp_statistics')), 'User Role' => json_encode(__('User Role', 'wp_statistics')), 'Total' => json_encode(__('Total', 'wp_statistics')), 'GeoIP' => json_encode(__('GeoIP', 'wp_statistics')), 'Hostname' => json_encode(__('Hostname', 'wp_statistics')), 'Robot Threshold' => json_encode(__('Robot Threshold', 'wp_statistics')), 'Honey Pot' => json_encode(__('Honey Pot', 'wp_statistics')), 'Feeds' => json_encode(__('Feeds', 'wp_statistics') ), 'Excluded URL' => json_encode(__('Excluded URL', 'wp_statistics') ),'404 Pages' => json_encode(__('404 Pages', 'wp_statistics') ), 'Referrer Spam' => json_encode(__('Referrer Spam', 'wp_statistics') ) );
+	$excluded_reasons = array( 'Robot','Browscap','IP Match','Self Referral','Login Page','Admin Page','User Role','GeoIP','Hostname', 'Robot Threshold','Honey Pot','Feeds', 'Excluded URL', '404 Pages', 'Referrer Spam', 'AJAX Request' );
+	$excluded_reason_tags = array( 'Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ipmatch','Self Referral' => 'selfreferral','Login Page' => 'loginpage','Admin Page' => 'adminpage','User Role' => 'userrole','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded_url', '404 Pages' => 'excluded_404s', 'Referrer Spam' => 'referrer_spam', 'AJAX Request' => 'ajax' );
+	$excluded_reason_db   = array( 'Robot' => 'robot','Browscap' => 'browscap','IP Match' => 'ip match','Self Referral' => 'self referral','Login Page' => 'login page','Admin Page' => 'admin page','User Role' => 'user role','Total' => 'total','GeoIP' => 'geoip','Hostname' => 'hostname','Robot Threshold' => 'robot_threshold','Honey Pot' => 'honeypot','Feeds' => 'feed', 'Excluded URL' => 'excluded url', '404 Pages' => '404', 'Referrer Spam' => 'referrer_spam', 'AJAX Request' => 'ajax' );
+	$excluded_reason_translate = array( 'Robot' => json_encode( __( 'Robot', 'wp_statistics' ) ), 'Browscap' => json_encode( __( 'Browscap', 'wp_statistics' ) ), 'IP Match' => json_encode( __( 'IP Match', 'wp_statistics' ) ), 'Self Referral' => json_encode( __( 'Self Referral', 'wp_statistics' ) ), 'Login Page' => json_encode( __( 'Login Page', 'wp_statistics' ) ), 'Admin Page' => json_encode( __( 'Admin Page', 'wp_statistics' ) ), 'User Role' => json_encode( __( 'User Role', 'wp_statistics' ) ), 'Total' => json_encode( __( 'Total', 'wp_statistics' ) ), 'GeoIP' => json_encode( __( 'GeoIP', 'wp_statistics' ) ), 'Hostname' => json_encode( __( 'Hostname', 'wp_statistics' ) ), 'Robot Threshold' => json_encode( __( 'Robot Threshold', 'wp_statistics' ) ), 'Honey Pot' => json_encode( __( 'Honey Pot', 'wp_statistics' ) ), 'Feeds' => json_encode( __( 'Feeds', 'wp_statistics') ), 'Excluded URL' => json_encode( __( 'Excluded URL', 'wp_statistics') ),'404 Pages' => json_encode( __( '404 Pages', 'wp_statistics') ), 'Referrer Spam' => json_encode( __( 'Referrer Spam', 'wp_statistics') ), 'AJAX Request' => json_encode( __( 'AJAX Request', 'wp_statistics') ) );
 	$excluded_results = array('Total' => array() );
 	$excluded_total = 0;
 	
@@ -31,10 +31,10 @@
 		// is created with mixed case so it looks nice to the user.  Therefore we have to convert it to lower case here.
 		$thisreason = $excluded_reason_db[$reason];
 		
-		for( $i=$daysToDisplay; $i>=0; $i--) {
+		for( $i = $daysToDisplay; $i >= 0; $i-- ) {
 		
 			// We're looping through the days backwards, so let's fine out what date we want to look at.
-			$thisdate = $WP_Statistics->real_current_date('Y-m-d', '-'.$i, $rangeend_utime );
+			$thisdate = $WP_Statistics->real_current_date( 'Y-m-d', '-' . $i, $rangeend_utime );
 		
 			// Create the SQL query string to get the data.
 			$query = $wpdb->prepare( "SELECT count FROM {$wpdb->prefix}statistics_exclusions WHERE reason = %s AND date = %s", $thisreason, $thisdate );
@@ -56,7 +56,7 @@
 	
 	$excuded_all_time = $wpdb->get_var( "SELECT SUM(count) FROM {$wpdb->prefix}statistics_exclusions" );
 	
-	// If the chart totals is enabled, cheat a little and just add another reason category to the list so it get's generated later.
+	// If the chart totals is enabled, cheat a little and just add another reason category to the list so it gets generated later.
 	if( $total_stats == 1 ) { $excluded_reasons[] = 'Total'; }
 ?>
 <div class="wrap">
@@ -92,7 +92,7 @@
 ?>
 							visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach( $excluded_reasons as $reason ) { echo "excluded_data_line_" . $excluded_reason_tags[$reason] . ", "; } ?>], {
 								title: {
-									text: '<b>' + <?php echo json_encode(__('Excluded hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics')); ?> + '</b>',
+									text: '<b>' + <?php echo json_encode( __( 'Excluded hits in the last', 'wp_statistics') . ' ' . $daysToDisplay . ' ' . __('days', 'wp_statistics' ) ); ?> + '</b>',
 									fontSize: '12px',
 									fontFamily: 'Tahoma',
 									textColor: '#000000',
@@ -113,7 +113,7 @@
 									yaxis: {
 											min: 0,
 											padMin: 1.0,
-											label: <?php echo json_encode(__('Number of excluded hits', 'wp_statistics')); ?>,
+											label: <?php echo json_encode( __( 'Number of excluded hits', 'wp_statistics' ) ); ?>,
 											labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
 											labelOptions: {
 												angle: -90,
