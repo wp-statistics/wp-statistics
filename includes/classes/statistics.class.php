@@ -35,10 +35,10 @@ class WP_Statistics {
 
 		global $wpdb;
 
-		if( get_option('timezone_string') ) {
-			$this->tz_offset = timezone_offset_get( timezone_open( get_option('timezone_string') ), new DateTime() );
-		} else if( get_option('gmt_offset') ) {
-			$this->tz_offset = get_option('gmt_offset') * 60 * 60;
+		if( get_option( 'timezone_string' ) ) {
+			$this->tz_offset = timezone_offset_get( timezone_open( get_option( 'timezone_string' ) ), new DateTime() );
+		} else if( get_option( 'gmt_offset' ) ) {
+			$this->tz_offset = get_option( 'gmt_offset' ) * 60 * 60;
 		}
 
 		$this->db = $wpdb;
@@ -49,8 +49,12 @@ class WP_Statistics {
 		// Load the options from the database
 		$this->options = get_option( 'wp_statistics' );
 
+		if( ! is_array( $this->options ) ) {
+			$this->user_options = array();
+		}
+
 		// Set the default co-efficient.
-		$this->coefficient = $this->get_option('coefficient', 1);
+		$this->coefficient = $this->get_option( 'coefficient', 1 );
 
 		// Double check the co-efficient setting to make sure it's not been set to 0.
 		if( $this->coefficient <= 0 ) { $this->coefficient = 1; }
@@ -61,7 +65,7 @@ class WP_Statistics {
 
 		$this->get_IP();
 
-		if( $this->get_option('hash_ips') == true ) { $this->ip_hash = '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] ); }
+		if( $this->get_option( 'hash_ips' ) == true ) { $this->ip_hash = '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] ); }
 
 	}
 
@@ -75,10 +79,14 @@ class WP_Statistics {
 	// This function loads the options from WordPress, it is included here for completeness as the options are loaded automatically in the class constructor.
 	public function load_options() {
 		$this->options = get_option( 'wp_statistics' );
+
+		if( ! is_array( $this->options ) ) {
+			$this->user_options = array();
+		}
 	}
 
 	// This function loads the user options from WordPress.  It is NOT called during the class constructor.
-	public function load_user_options( $force = false) {
+	public function load_user_options( $force = false ) {
 		if( $this->user_options_loaded == true && $force != true ) { return; }
 
 		$this->set_user_id();
@@ -86,16 +94,20 @@ class WP_Statistics {
 		// Not sure why, but get_user_meta() is returning an array or array's unless $single is set to true.
 		$this->user_options = get_user_meta( $this->user_id, 'wp_statistics', true );
 
+		if( ! is_array( $this->user_options ) ) {
+			$this->user_options = array();
+		}
+		
 		$this->user_options_loaded = true;
 	}
 
 	// The function mimics WordPress's get_option() function but uses the array instead of individual options.
-	public function get_option($option, $default = null) {
+	public function get_option( $option, $default = null ) {
 		// If no options array exists, return FALSE.
 		if( !is_array($this->options) ) { return FALSE; }
 
 		// if the option isn't set yet, return the $default if it exists, otherwise FALSE.
-		if( !array_key_exists($option, $this->options) ) {
+		if( !array_key_exists( $option, $this->options ) ) {
 			if( isset( $default ) ) {
 				return $default;
 			} else {
@@ -108,13 +120,13 @@ class WP_Statistics {
 	}
 
 	// This function mimics WordPress's get_user_meta() function but uses the array instead of individual options.
-	public function get_user_option($option, $default = null) {
+	public function get_user_option( $option, $default = null ) {
 		// If the user id has not been set or no options array exists, return FALSE.
 		if( $this->user_id == 0 ) {return FALSE; }
 		if( !is_array($this->user_options) ) { return FALSE; }
 
 		// if the option isn't set yet, return the $default if it exists, otherwise FALSE.
-		if( !array_key_exists($option, $this->user_options) ) {
+		if( !array_key_exists( $option, $this->user_options ) ) {
 			if( isset( $default ) ) {
 				return $default;
 			} else {
@@ -127,16 +139,16 @@ class WP_Statistics {
 	}
 
 	// The function mimics WordPress's update_option() function but uses the array instead of individual options.
-	public function update_option($option, $value) {
+	public function update_option( $option, $value ) {
 		// Store the value in the array.
 		$this->options[$option] = $value;
 
 		// Write the array to the database.
-		update_option('wp_statistics', $this->options);
+		update_option( 'wp_statistics', $this->options );
 	}
 
 	// The function mimics WordPress's update_user_meta() function but uses the array instead of individual options.
-	public function update_user_option($option, $value) {
+	public function update_user_option( $option, $value ) {
 		// If the user id has not been set return FALSE.
 		if( $this->user_id == 0 ) { return FALSE; }
 
@@ -148,12 +160,12 @@ class WP_Statistics {
 	}
 
 	// This function is similar to update_option, but it only stores the option in the array.  This save some writing to the database if you have multiple values to update.
-	public function store_option($option, $value) {
+	public function store_option( $option, $value ) {
 		$this->options[$option] = $value;
 	}
 
 	// This function is similar to update_user_option, but it only stores the option in the array.  This save some writing to the database if you have multiple values to update.
-	public function store_user_option($option, $value) {
+	public function store_user_option( $option, $value ) {
 		// If the user id has not been set return FALSE.
 		if( $this->user_id == 0 ) { return FALSE; }
 
@@ -162,8 +174,8 @@ class WP_Statistics {
 
 	// This function saves the current options array to the database.
 	public function save_options() {
-		update_option('wp_statistics', $this->options);
-	}
+		update_option( 'wp_statistics', $this->options );
+	} 
 
 	// This function saves the current user options array to the database.
 	public function save_user_options() {
@@ -173,14 +185,14 @@ class WP_Statistics {
 	}
 
 	// This function check to see if an option is currently set or not.
-	public function isset_option($option) {
+	public function isset_option( $option ) {
 		if( !is_array($this->options) ) { return FALSE; }
 
 		return array_key_exists( $option, $this->options );
 	}
 
 	// This function check to see if a user option is currently set or not.
-	public function isset_user_option($option) {
+	public function isset_user_option( $option ) {
 		if( $this->user_id == 0 ) { return FALSE; }
 		if( !is_array($this->user_options) ) { return FALSE; }
 
@@ -413,7 +425,7 @@ class WP_Statistics {
 	}
 
 	// This function will return the referrer link for the current user.
-	public function get_Referred($default_referrer = false) {
+	public function get_Referred( $default_referrer = false ) {
 
 		if( $this->referrer !== false ) { return $this->referrer; }
 
@@ -422,7 +434,7 @@ class WP_Statistics {
 		if( isset($_SERVER['HTTP_REFERER']) ) { $this->referrer = $_SERVER['HTTP_REFERER']; }
 		if( $default_referrer ) { $this->referrer = $default_referrer; }
 
-		$this->referrer = esc_sql(strip_tags($this->referrer) );
+		$this->referrer = esc_sql( strip_tags( $this->referrer ) );
 
 		if( !$this->referrer ) { $this->referrer = get_bloginfo('url'); }
 
@@ -450,12 +462,12 @@ class WP_Statistics {
 	}
 
 	// This function returns a date string in the desired format with a passed in timestamp.
-	public function Local_Date($format, $timestamp ) {
+	public function Local_Date( $format, $timestamp ) {
 		return date( $format, $timestamp + $this->tz_offset );
 	}
 
 	// This function returns a date string in the desired format.
-	public function Current_Date($format = 'Y-m-d H:i:s', $strtotime = null, $relative = null) {
+	public function Current_Date( $format = 'Y-m-d H:i:s', $strtotime = null, $relative = null ) {
 
 		if( $strtotime ) {
 			if( $relative ) {
@@ -470,27 +482,27 @@ class WP_Statistics {
 	}
 
 	// This function returns a date string in the desired format.
-	public function Real_Current_Date($format = 'Y-m-d H:i:s', $strtotime = null, $relative = null) {
+	public function Real_Current_Date( $format = 'Y-m-d H:i:s', $strtotime = null, $relative = null ) {
 
 		if( $strtotime ) {
 			if( $relative ) {
-				return date($format, strtotime("{$strtotime} day", $relative) );
+				return date( $format, strtotime( "{$strtotime} day", $relative ) );
 			}
 			else {
-				return date($format, strtotime("{$strtotime} day") );
+				return date( $format, strtotime( "{$strtotime} day" ) );
 			}
 		} else {
-			return date($format, time());
+			return date( $format, time() );
 		}
 	}
 
 	// This function returns an internationalized date string in the desired format.
-	public function Current_Date_i18n($format = 'Y-m-d H:i:s', $strtotime = null, $day=' day') {
+	public function Current_Date_i18n( $format = 'Y-m-d H:i:s', $strtotime = null, $day=' day' ) {
 
 		if( $strtotime ) {
-			return date_i18n($format, strtotime("{$strtotime}{$day}") + $this->tz_offset );
+			return date_i18n( $format, strtotime( "{$strtotime}{$day}" ) + $this->tz_offset );
 		} else {
-			return date_i18n($format, time() + $this->tz_offset);
+			return date_i18n( $format, time() + $this->tz_offset );
 		}
 	}
 
@@ -503,16 +515,16 @@ class WP_Statistics {
 	}
 
 	// This function checks to see if a search engine exists in the current list of search engines.
-	public function Check_Search_Engines ($search_engine_name, $search_engine = null) {
+	public function Check_Search_Engines( $search_engine_name, $search_engine = null ) {
 
-		if( strstr($search_engine, $search_engine_name) ) {
+		if( strstr( $search_engine, $search_engine_name ) ) {
 			return 1;
 		}
 	}
 
 	// This function returns an array of information about a given search engine based on the url passed in.
 	// It is used in several places to get the SE icon or the sql query to select an individual SE from the database.
-	public function Search_Engine_Info($url = false) {
+	public function Search_Engine_Info( $url = false ) {
 
 		// If no URL was passed in, get the current referrer for the session.
 		if(!$url) {
@@ -549,7 +561,7 @@ class WP_Statistics {
 
 	// This function returns an array of information about a given search engine based on the url passed in.
 	// It is used in several places to get the SE icon or the sql query to select an individual SE from the database.
-	public function Search_Engine_Info_By_Engine($engine = false) {
+	public function Search_Engine_Info_By_Engine( $engine = false ) {
 
 		// If there is no URL and no referrer, always return false.
 		if($engine == false) {
@@ -568,11 +580,11 @@ class WP_Statistics {
 	}
 
 	// This function will parse a URL from a referrer and return the search query words used.
-	public function Search_Engine_QueryString($url = false) {
+	public function Search_Engine_QueryString( $url = false ) {
 
 		// If no URL was passed in, get the current referrer for the session.
 		if(!$url) {
-			$url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
+			$url = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : false;
 		}
 
 		// If there is no URL and no referrer, always return false.
@@ -581,26 +593,26 @@ class WP_Statistics {
 		}
 
 		// Parse the URL in to it's component parts.
-		$parts = parse_url($url);
+		$parts = parse_url( $url );
 
 		// Check to see if there is a query component in the URL (everything after the ?).  If there isn't one
 		// set an empty array so we don't get errors later.
-		if( array_key_exists('query',$parts) ) { parse_str($parts['query'], $query); } else { $query = array(); }
+		if( array_key_exists( 'query', $parts ) ) { parse_str( $parts['query'], $query ); } else { $query = array(); }
 
 		// Get the list of search engines we currently support.
 		$search_engines = wp_statistics_searchengine_list();
 
 		// Loop through the SE list until we find which search engine matches.
 		foreach( $search_engines as $key => $value ) {
-			$search_regex = wp_statistics_searchengine_regex($key);
+			$search_regex = wp_statistics_searchengine_regex( $key );
 
-			preg_match( '/' . $search_regex . '/', $parts['host'], $matches);
+			preg_match( '/' . $search_regex . '/', $parts['host'], $matches );
 
 			if( isset($matches[1]) )
 				{
 				// Check to see if the query key the SE uses exists in the query part of the URL.
-				if( array_key_exists($search_engines[$key]['querykey'], $query) ) {
-					$words = strip_tags($query[$search_engines[$key]['querykey']]);
+				if( array_key_exists( $search_engines[$key]['querykey'], $query ) ) {
+					$words = strip_tags( $query[$search_engines[$key]['querykey']] );
 				}
 				else {
 					$words = '';
@@ -617,7 +629,7 @@ class WP_Statistics {
 		return 'No search query found!';
 	}
 
-	public function Get_Historical_Data($type, $id = '') {
+	public function Get_Historical_Data( $type, $id = '' ) {
 
 		$count = 0;
 
@@ -627,7 +639,7 @@ class WP_Statistics {
 					return $this->historical['visitors'];
 				}
 				else {
-					$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visitors'");
+					$result = $this->db->get_var( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visitors'" );
 					if( $result > $count ) { $count = $result; }
 					$this->historical['visitors'] = $count;
 				}
@@ -638,7 +650,7 @@ class WP_Statistics {
 					return $this->historical['visits'];
 				}
 				else {
-					$result = $this->db->get_var("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visits'");
+					$result = $this->db->get_var( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visits'" );
 					if( $result > $count ) { $count = $result; }
 					$this->historical['visits'] = $count;
 				}
@@ -649,7 +661,7 @@ class WP_Statistics {
 					return $this->historical[$id];
 				}
 				else {
-					$result = $this->db->get_var($this->db->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND uri = %s", $id));
+					$result = $this->db->get_var( $this->db->prepare( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND uri = %s", $id ) );
 					if( $result > $count ) { $count = $result; }
 					$this->historical[$id] = $count;
 				}
@@ -660,7 +672,7 @@ class WP_Statistics {
 					return $this->historical[$id];
 				}
 				else {
-					$result = $this->db->get_var($this->db->prepare("SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND page_id = %d", $id));
+					$result = $this->db->get_var( $this->db->prepare( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND page_id = %d", $id ) );
 					if( $result > $count ) { $count = $result; }
 					$this->historical[$id] = $count;
 				}
