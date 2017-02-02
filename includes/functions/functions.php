@@ -302,7 +302,7 @@
 		$page_uri = $_SERVER["REQUEST_URI"];
 
 		// Strip the site's path from the URI.
-		$page_uri = str_ireplace( $site_uri, '', $page_uri );
+		$page_uri = substr( $page_uri, strlen( $site_uri ) );
 		
 		// If we're at the root (aka the URI is blank), let's make sure to indicate it.
 		if( $page_uri == '' ) { $page_uri = '/'; }
