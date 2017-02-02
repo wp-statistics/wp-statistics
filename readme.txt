@@ -286,6 +286,16 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if you have IPv6 support complied in to PHP, if you don't you may see warning messages if you receive visitors from IPv6 addresses (see the FAQ for more information).
 
 == Changelog ==
+= 12.0.0 =
+* Release Date: TBD
+* Added: Categories, tags and authors stats pages.
+* Added: Option to exclude AJAX calls from the statistics collection.
+* Fixed: Removal of settings now uses the defaults and handles a conner case that could cause corrupt settings to be saved during the reset.
+* Fixed: URI retrieval of the current page could return an incorrect result in some cases.
+* Updated: After "removal" the notice on the plugins page is now at the top of the page as an admin notice instead of being embedded in the plugin list.
+* Updated: Split change log, form this point forward only the changes for the last two major versions will be included, older entries can be found in the changes.txt file in the plugin root.
+
+
 = 11.0.3 =
 * Release Date: January 13, 2017
 * Added: Option to reset plugin options without deleting the data.
