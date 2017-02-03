@@ -858,7 +858,7 @@
 		// The different pages have different files to load.
 		switch( $log_type ) {
 			case 'all-browsers':
-			case 'top-countires':
+			case 'top-countries':
 			case 'hit-statistics':
 			case 'search-statistics':
 			case 'exclusions':
