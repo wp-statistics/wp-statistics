@@ -1,0 +1,3 @@
+Newer versions of LibreOffice break the display of images in IE/Edge due to the png files being embedded with the "data:image/*" mime type instead of "data:image/png".
+
+To fix, simply search/replace on the two strings.
