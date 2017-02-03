@@ -77,7 +77,7 @@ Still not having any luck? Open a new thread on one of the support forums and we
 The admin manual is installed as part of the plugin, simply go to Statistics->Manual to view it.  At the top of the page will also be two icons that will allow you to download it in either ODT or HTML formats.
 
 = What do I do if the plug does not work? =
-Disable / Enable the plugin.  You may also want to try removing and re-installing it as well.  If it is still not working, please open a new support thread on the [WordPress support forums](http://wordpress.org/support/plugin/wp-statistics).
+Disable then enable the plugin.  You may also want to try removing and re-installing it as well.  If it is still not working, please open a new support thread on the [WordPress support forums](https://wordpress.org/support/plugin/wp-statistics).
 
 = All visitors are being set to unknown for their location? =
 Make sure you've downloaded the GeoIP database and the GeoIP code is enabled.
@@ -100,9 +100,6 @@ Make sure you have WordPress configured correctly for SMTP and also check your W
 WP Statistics doesn't officially support multi-site however it does have limited functionally associated with it and should function without issue.  However no support is provided at this time.
 
 Version 8.8 is the first release that should install, upgrade and remove correctly on mutli-site as well as have some very basic support for the network admin menu.  This should not be taken as an indication that WP Statistics fully supports multi-site, but only as a very preliminary first step.
-
-= Does WP Statistics report on post hits? =
-Yes, version 6.0 has introduced page hit statistics!
 
 = Does WP Statistics track the time of the hits? =
 No.
@@ -247,6 +244,10 @@ WP Statistics is PHP 7 compliant, however some versions of PHP 7 have bugs that 
 
 At this time (August 2016) WP Statistics seems to run fine with PHP 7.0.10, however you may experience issues that we haven't found yet.  If you do, feel free to report it after you've confirmed it is not a problem with PHP.
 
+= PHP 7.1 Support =
+
+WP Statistics has not yet been tested on PHP 7.1 and reports so far (As of February 2017) indicate there are issues.  As PHP 7.1 is still relatively new it is not recommended at this time.
+
 = IPv6 Support =
 
 WP Statistics supports IPv6 as of version 11.0, however PHP must be compiled with IPv6 support enabled, otherwise you may see warnings when a visitor from an IPv6 address hits your site.
@@ -282,7 +283,7 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 11.0 =
+= 12.0 =
 PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if you have IPv6 support complied in to PHP, if you don't you may see warning messages if you receive visitors from IPv6 addresses (see the FAQ for more information).
 
 == Changelog ==
