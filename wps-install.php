@@ -336,17 +336,18 @@
 		if( is_multisite() ) {
 			
 			// Loop through each of the sites.
-			foreach( wp_get_sites() as $blog ) {
+			$sites = get_sites();
+			foreach( $sites as $blog ) {
 
 				// Since we've just upgraded/installed the current blog, don't execute a remote call for us.
-				if( $blog['blog_id'] !=  get_current_blog_id() ) {
+				if( $blog->blog_id !=  get_current_blog_id() ) {
 
 					// Get the admin url for the current site.
-					$url = get_admin_url($blog['blog_id']);
+					$url = get_admin_url( $blog->blog_id );
 					
 					// Go and visit the admin url of the site, this will rerun the install script for each site.
 					// We turn blocking off because we don't really care about the response so why wait for it.
-					wp_remote_request($url, array( 'blocking' => false ) );
+					wp_remote_request( $url, array( 'blocking' => false ) );
 				}
 			}
 		}

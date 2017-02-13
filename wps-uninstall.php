@@ -6,9 +6,10 @@
 		if( is_multisite() ) {
 			
 			// Loop through each of the sites.
-			foreach( wp_get_sites() as $blog ) {
+			$sites = get_sites();
+			foreach( $sites as $blog ) {
 
-				switch_to_blog( $blog['blog_id'] );
+				switch_to_blog( $blog->blog_id );
 				wp_statistics_site_removal( $wpdb->prefix );
 			}
 			

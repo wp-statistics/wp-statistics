@@ -20,9 +20,10 @@ if( $wps_nonce_valid ) {
 			// Handle multi site implementations
 			if( is_multisite() ) {
 				// Loop through each of the sites.
-				foreach( wp_get_sites() as $blog ) {
+				$sites = get_sites();
+				foreach( $sites as $blog ) {
 
-					switch_to_blog( $blog['blog_id'] );
+					switch_to_blog( $blog->blog_id );
 					
 					// Delete the wp_statistics option.
 					update_option( 'wp_statistics', array() );
