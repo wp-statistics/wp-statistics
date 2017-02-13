@@ -700,4 +700,28 @@ class WP_Statistics {
 
 		return $this->country_codes;
 	}
+	
+	// Returns an array of site id's	
+	public function get_wp_sites_list() {
+		GLOBAL $wp_version;
+		
+		$site_list = array();
+		
+		// wp_get_sites() is deprecated in 4.6 or above and replaced with get_sites().
+		if( version_compare( $wp_version, '4.6', '>=' ) ) {
+			$sites = get_sites();
+			
+			foreach( $sites as $site ) {
+				$site_list[] = $site->blog_id;
+			}
+		} else {
+			$sites = wp_get_sites();
+
+			foreach( $sites as $site ) {
+				$site_list[] = $site['blog_id'];
+			}
+		}
+		
+		return $site_list;
+	}
 }

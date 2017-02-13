@@ -1,15 +1,15 @@
 <?php
 	if( is_admin() ) {
-		GLOBAL $wpdb;
+		GLOBAL $wpdb, $WP_Statistics;
 
 		// Handle multi site implementations
 		if( is_multisite() ) {
 			
 			// Loop through each of the sites.
-			$sites = get_sites();
-			foreach( $sites as $blog ) {
+			$sites = $WP_Statistics->get_wp_sites_list();
+			foreach( $sites as $blog_id ) {
 
-				switch_to_blog( $blog->blog_id );
+				switch_to_blog( $blog_id );
 				wp_statistics_site_removal( $wpdb->prefix );
 			}
 			

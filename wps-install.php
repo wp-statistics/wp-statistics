@@ -1,6 +1,6 @@
 <?php
 	if( is_admin() ) {
-		GLOBAL $wpdb;
+		GLOBAL $wpdb, $WP_Statistics;
 		
 		$wp_prefix = $wpdb->prefix;
 
@@ -334,16 +334,17 @@
 		
 		// Handle multi site implementations
 		if( is_multisite() ) {
+			$current_blog = get_current_blog_id();
 			
 			// Loop through each of the sites.
-			$sites = get_sites();
-			foreach( $sites as $blog ) {
+			$sites = $WP_Statistics->get_wp_sites_list();
+			foreach( $sites as $blog_id ) {
 
 				// Since we've just upgraded/installed the current blog, don't execute a remote call for us.
-				if( $blog->blog_id !=  get_current_blog_id() ) {
+				if( $blog_id != $current_blog ) {
 
 					// Get the admin url for the current site.
-					$url = get_admin_url( $blog->blog_id );
+					$url = get_admin_url( $blog_id );
 					
 					// Go and visit the admin url of the site, this will rerun the install script for each site.
 					// We turn blocking off because we don't really care about the response so why wait for it.

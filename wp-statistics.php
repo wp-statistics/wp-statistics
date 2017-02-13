@@ -513,11 +513,11 @@
 		add_submenu_page( __FILE__, __( 'Overview', 'wp_statistics' ), __( 'Overview', 'wp_statistics' ), $read_cap, __FILE__, 'wp_statistics_network_overview' );
 		
 		$count = 0;
-		$sites = get_sites();
+		$sites = $WP_Statistics->get_wp_sites_list();
 		
-		foreach( $sites as $blog ) {
-			$details = get_blog_details( $blog->blog_id );
-			add_submenu_page( __FILE__, $details->blogname, $details->blogname, $manage_cap, 'wp_statistics_blogid_' . $blog->blog_id, 'wp_statistics_goto_network_blog' );
+		foreach( $sites as $blog_id ) {
+			$details = get_blog_details( $blog_id );
+			add_submenu_page( __FILE__, $details->blogname, $details->blogname, $manage_cap, 'wp_statistics_blogid_' . $blog_id, 'wp_statistics_goto_network_blog' );
 			
 			$count++;
 			if( $count > 15 ) { break; }
@@ -533,6 +533,7 @@
 	if( is_multisite() ) { add_action( 'network_admin_menu', 'wp_statistics_networkmenu' ); }
 	
 	function wp_statistics_network_overview() {
+		GLOBAL $WP_Statistics;
 		
 ?>
 	<div id="wrap">
@@ -566,11 +567,11 @@
 							__( 'Settings', 'wp_statistics' )           => WP_STATISTICS_SETTINGS_PAGE
 						);
 
-		$sites = get_sites();
+		$sites = $WP_Statistics->get_wp_sites_list();
 			
-		foreach( $sites as $blog ) {
-			$details = get_blog_details( $blog->blog_id );
-			$url = get_admin_url( $blog->blog_id, '/' ) . 'admin.php?page=';
+		foreach( $sites as $blog_id ) {
+			$details = get_blog_details( $blog_id );
+			$url = get_admin_url( $blog_id, '/' ) . 'admin.php?page=';
 			$alternate = '';
 			
 			if( $i % 2 == 0 ) { $alternate = ' class="alternate"'; }
