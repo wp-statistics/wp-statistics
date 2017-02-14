@@ -294,6 +294,7 @@ PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if yo
 * Fixed: Removal of settings now uses the defaults and handles a conner case that could cause corrupt settings to be saved during the reset.
 * Fixed: URI retrieval of the current page could return an incorrect result in some cases.
 * Fixed: Images in the HTML version of the admin manual did not display correctly in Microsoft IE/Edge.
+* Fixed: Incorrect variable name on the exclusions page for the robots list.
 * Updated: After "removal" the notice on the plugins page is now at the top of the page as an admin notice instead of being embedded in the plugin list.
 * Updated: Split change log, form this point forward only the changes for the last two major versions will be included, older entries can be found in the changes.txt file in the plugin root.
 
