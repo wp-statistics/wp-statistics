@@ -90,7 +90,7 @@ if( $wps_nonce_valid ) {
 					include_once(dirname( __FILE__ ) . '/../../../robotslist.php');
 
 					if( $robotlist == '' ) {
-						$robotlist = $wps_robotlist;
+						$robotlist = $wps_robotarray;
 						update_option( 'wps_robotlist', $robotlist );
 					}
 
