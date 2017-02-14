@@ -155,6 +155,7 @@
 	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
 	
 	// This is our global WP_Statitsics class that is used throughout the plugin.
+	GLOBAL $WP_Statistics;
 	$WP_Statistics = new WP_Statistics();
 
 	// Check to see if we're installed and are the current version.
