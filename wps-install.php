@@ -253,7 +253,7 @@
 			$wps_temp_robotslist = $WP_Statistics->get_option( 'robotlist' ); 
 
 			if( trim( $wps_temp_robotslist ) == "" || $WP_Statistics->get_option( 'force_robot_update' ) == TRUE ) {
-				$WP_Statistics->update_option( 'robotlist', $default_options['robotslist'] );
+				$WP_Statistics->update_option( 'robotlist', $default_options['robotlist'] );
 			}
 
 			// WP Statistics V4.2 and below automatically exclude the administrator for statistics collection
