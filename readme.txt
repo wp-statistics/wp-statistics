@@ -1,22 +1,22 @@
 === WP Statistics ===
 Contributors: GregRoss, mostafa.s1990
-Donate link: http://wp-statistics.com/donate/
+Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag: 11.0.3
+Stable tag: 12.0
 License: GPL3
 
 Complete statistics for your WordPress site.
 
 == Description ==
-A comprehensive plugin for your WordPress visitor statistics, come visit us at our [website](http://wp-statistics.com) for all the latest news and information.
+A comprehensive plugin for your WordPress visitor statistics, come visit us at our [website](https://wp-statistics.com) for all the latest news and information.
 
 Track statistics for your WordPress site without depending on external services and uses arrogate data whenever possible to respect your users privacy.
 
 On screen statistics presented as graphs are easily viewed through the WordPress admin interface.
 
-This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
+This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
 
 = Features =
 * Online users, visits, visitors and page statistics
@@ -40,14 +40,14 @@ This product includes GeoLite2 data created by MaxMind, available from http://ww
 = Translations =
 WP Statistics has been translated in to many languages, for the current list and contributors, please visit the [translators](https://wp-statistics.com/translators/) page on [wp-statistics.com](https://wp-statistics.com/).
 
-Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](http://wp-statistics.com/translations/) today!
+Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](https://wp-statistics.com/translations/) today!
 
 = Support =
 We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:
 
-* Have you read the [FAQs](http://wordpress.org/plugins/wp-statistics/faq/)?
-* Have you read the [manual](http://plugins.svn.wordpress.org/wp-statistics/trunk/manual/WP%20Statistics%20Admin%20Manual.html)?
-* Have you search the [support forum](http://wordpress.org/support/plugin/wp-statistics) for a similar issue?
+* Have you read the [FAQs](https://wordpress.org/plugins/wp-statistics/faq/)?
+* Have you read the [manual](https://plugins.svn.wordpress.org/wp-statistics/trunk/manual/WP%20Statistics%20Admin%20Manual.html)?
+* Have you search the [support forum](https://wordpress.org/support/plugin/wp-statistics) for a similar issue?
 * Have you search the Internet for any error messages you are receiving?
 * Make sure you have access to your PHP error logs.
 
@@ -63,8 +63,8 @@ And a few things to double-check:
 
 Still not having any luck? Open a new thread on one of the support forums and we'll respond as soon as possible.
 
-* [English Support Forum](http://wordpress.org/support/plugin/wp-statistics)
-* [Persian Support Forum](http://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
+* [English Support Forum](https://wordpress.org/support/plugin/wp-statistics)
+* [Persian Support Forum](https://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -94,7 +94,7 @@ This depends on how many hits your site gets.  The data collection code is very 
 Be very careful to set the subnet mask correctly on the subnet list, it is very easy to catch too much traffic.  Likewise if you are excluding a single IP address make sure to include a subnet mask of 32 or 255.255.255.255 otherwise you may not get the expected results.
 
 = I'm not receiving e-mail reports? =
-Make sure you have WordPress configured correctly for SMTP and also check your WP Cron is working correctly.  You can use [Cron View](http://wordpress.org/plugins/cron-view) to examine your WP Cron table and see if there are any issues.
+Make sure you have WordPress configured correctly for SMTP and also check your WP Cron is working correctly.  You can use [Cron View](https://wordpress.org/plugins/cron-view) to examine your WP Cron table and see if there are any issues.
 
 = Does WP Statistics support multi-site? =
 WP Statistics doesn't officially support multi-site however it does have limited functionally associated with it and should function without issue.  However no support is provided at this time.
@@ -104,7 +104,7 @@ Version 8.8 is the first release that should install, upgrade and remove correct
 = Does WP Statistics track the time of the hits? =
 No.
 
-= The GeoIP database isn't downloading and when I force a download through the settings page I get the following error: "Error downloading GeoIP database from: http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz - Forbidden" =
+= The GeoIP database isn't downloading and when I force a download through the settings page I get the following error: "Error downloading GeoIP database from: https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz - Forbidden" =
 This means that MaxMind has block the IP address of your webserver, this is often the case if it has been blacklisted in the past due to abuse.
 
 You have two options:
@@ -113,7 +113,7 @@ You have two options:
 
 To manually download the database and install it take the following steps:
 
-- On another system (any PC will do) download the maxmind database from http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz
+- On another system (any PC will do) download the maxmind database from https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz
 - Decompress the database
 - Connect to your web host and create a "wp-statistics" directory in your wordpress uploads folder (usually it is located in wp-content, so you would create a directory "wp-content/uploads/wp-statistics").
 - Upload the GeoLite-Country.mmdb file to the folder you just created.
@@ -190,7 +190,7 @@ If it is a memory issue you have two choices:
  - Increase PHP's memory allocation
  - Delete some of your historical data.
 
-See http://php.net/manual/en/ini.core.php#ini.memory-limit for information about PHP's memory limit.
+See https://php.net/manual/en/ini.core.php#ini.memory-limit for information about PHP's memory limit.
 
 To remove historical data you can use the Statistics->Optimization->Purging->Purge records older than.
 
@@ -284,11 +284,11 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 
 == Upgrade Notice ==
 = 12.0 =
-PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if you have IPv6 support complied in to PHP, if you don't you may see warning messages if you receive visitors from IPv6 addresses (see the FAQ for more information).
+PHP 5.4 is now required for version 11.0 and above!
 
 == Changelog ==
 = 12.0.0 =
-* Release Date: TBD
+* Release Date: February 18, 2017
 * Added: Categories, tags and authors stats pages.
 * Added: Option to exclude AJAX calls from the statistics collection.
 * Fixed: Removal of settings now uses the defaults and handles a conner case that could cause corrupt settings to be saved during the reset.
@@ -297,7 +297,6 @@ PHP 5.4 is now required for version 11.0 and above!  IPv6 is now supported if yo
 * Fixed: Incorrect variable name on the exclusions page for the robots list.
 * Updated: After "removal" the notice on the plugins page is now at the top of the page as an admin notice instead of being embedded in the plugin list.
 * Updated: Split change log, form this point forward only the changes for the last two major versions will be included, older entries can be found in the changes.txt file in the plugin root.
-
 
 = 11.0.3 =
 * Release Date: January 13, 2017
