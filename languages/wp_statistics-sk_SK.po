@@ -7,2744 +7,2795 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: GlotPress/2.3.0-alpha\n"
+"X-Generator: GlotPress/2.3.0\n"
 "Language: sk\n"
 "Project-Id-Version: WP Statistics\n"
 
-#: wp-statistics/includes/log/widgets/summary.php:52
+#: includes/log/categories.php:196
+msgid "Category Statistics Summary"
+msgstr ""
+
+#: includes/log/categories.php:59
+msgid "Category Statistics Chart"
+msgstr ""
+
+#: includes/log/categories.php:31
+msgid "Select Category"
+msgstr ""
+
+#: includes/log/authors.php:256 includes/log/categories.php:244
+#: includes/log/tags.php:259
+msgid "Post Title"
+msgstr ""
+
+#: includes/log/authors.php:223 includes/log/categories.php:211
+#: includes/log/tags.php:226
+msgid "Chart Visits Total"
+msgstr ""
+
+#: includes/log/authors.php:251
+msgid "Author Posts Sorted by Hits"
+msgstr ""
+
+#: includes/log/authors.php:228 includes/log/categories.php:216
+#: includes/log/tags.php:231
+msgid "All Time Visits Total"
+msgstr ""
+
+#: includes/log/categories.php:206
+msgid "Number of posts in category"
+msgstr ""
+
+#: includes/log/authors.php:218
+msgid "Number of posts by author"
+msgstr ""
+
+#: includes/log/authors.php:214 includes/log/categories.php:202
+#: includes/log/tags.php:217
+msgid "Count"
+msgstr ""
+
+#: includes/log/authors.php:208
+msgid "Author Statistics Summary"
+msgstr ""
+
+#: includes/log/categories.php:13
+msgid "Category Statistics"
+msgstr ""
+
+#: includes/log/authors.php:13
+msgid "Author Statistics"
+msgstr ""
+
+#: includes/log/authors.php:31
+msgid "Select Author"
+msgstr ""
+
+#: includes/log/authors.php:51 includes/log/categories.php:39
+#: includes/log/tags.php:48
+msgid "Select"
+msgstr ""
+
+#: includes/log/authors.php:71
+msgid "Author Statistics Chart"
+msgstr ""
+
+#: includes/log/authors.php:131 includes/log/categories.php:119
+#: includes/log/tags.php:134
+msgid "Number of visits"
+msgstr ""
+
+#: includes/log/categories.php:239
+msgid "Category Posts Sorted by Hits"
+msgstr ""
+
+#: includes/log/exclusions.php:24
+msgid "AJAX Request"
+msgstr ""
+
+#: includes/log/tags.php:13
+msgid "Tag Statistics"
+msgstr ""
+
+#: includes/log/tags.php:31
+msgid "Select Tag"
+msgstr ""
+
+#: includes/log/tags.php:74
+msgid "Tag Statistics Chart"
+msgstr ""
+
+#: includes/log/tags.php:211
+msgid "Tag Statistics Summary"
+msgstr ""
+
+#: includes/log/tags.php:221
+msgid "Number of posts in tag"
+msgstr ""
+
+#: includes/log/tags.php:254
+msgid "Tag Posts Sorted by Hits"
+msgstr ""
+
+#: includes/settings/tabs/wps-exclusions.php:225
+msgid "Excluded AJAX calls"
+msgstr ""
+
+#: includes/settings/tabs/wps-exclusions.php:228
+msgid "Exclude any call to the WordPress AJAX system."
+msgstr ""
+
+#: includes/settings/tabs/wps-removal.php:88
+msgid "Reset options"
+msgstr ""
+
+#: includes/settings/tabs/wps-removal.php:93
+msgid "Reset"
+msgstr ""
+
+#: includes/settings/tabs/wps-removal.php:94
+msgid "Reset the plugin options to the defaults.  This will remove all user and global settings but will keep all other data.  This action cannot be undone.  Note: For multi-site installs this will reset all sites to the defaults."
+msgstr ""
+
+#: wp-statistics.php:441
+msgid "Categories"
+msgstr ""
+
+#: wp-statistics.php:442
+msgid "Tags"
+msgstr ""
+
+#: wp-statistics.php:443
+msgid "Authors"
+msgstr ""
+
+#: includes/log/widgets/summary.php:52
 msgid "Last 365 Days"
 msgstr ""
 
-#: wp-statistics/includes/log/widgets/summary.php:46
+#: includes/log/widgets/summary.php:46
 msgid "Last 30 Days"
 msgstr ""
 
-#: wp-statistics/includes/log/widgets/summary.php:40
+#: includes/log/widgets/summary.php:40
 msgid "Last 7 Days"
 msgstr ""
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+#: includes/optimization/tabs/wps-optimization-resources.php:158
 msgid "PHP IPv6 Enabled"
 msgstr ""
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+#: includes/optimization/tabs/wps-optimization-resources.php:163
 msgid "Is PHP compiled with IPv6 support.  You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:123
+#: includes/settings/tabs/wps-exclusions.php:123
 msgid "A list of IP addresses and subnet masks (one per line) to exclude from statistics collection."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:124
+#: includes/settings/tabs/wps-exclusions.php:124
 msgid "For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted.  To specify an IP address only, use a subnet value of 32 or 255.255.255.255."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:125
+#: includes/settings/tabs/wps-exclusions.php:125
 msgid "For IPv6 addresses use the fc00::/7 format."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:129
+#: includes/settings/tabs/wps-exclusions.php:129
 msgid "Add fc00::/7"
 msgstr ""
 
-#: wp-statistics/widget.php:46 wp-statistics/widget.php:263
+#: widget.php:46 widget.php:263
 msgid "Todays Visits"
 msgstr ""
 
-#: wp-statistics/widget.php:53 wp-statistics/widget.php:266
+#: widget.php:53 widget.php:266
 msgid "Todays Visitors"
 msgstr ""
 
-#: wp-statistics/widget.php:60
+#: widget.php:60
 msgid "Yesterdays Visits"
 msgstr ""
 
-#: wp-statistics/widget.php:67 wp-statistics/widget.php:272
+#: widget.php:67 widget.php:272
 msgid "Yesterdays Visitors"
 msgstr ""
 
-#: wp-statistics/widget.php:74 wp-statistics/widget.php:275
+#: widget.php:74 widget.php:275
 msgid "Last 7 Days Visits"
 msgstr ""
 
-#: wp-statistics/widget.php:81 wp-statistics/widget.php:278
+#: widget.php:81 widget.php:278
 msgid "Last 30 Days Visits"
 msgstr ""
 
-#: wp-statistics/widget.php:88 wp-statistics/widget.php:281
+#: widget.php:88 widget.php:281
 msgid "Last 365 Days Visits"
 msgstr ""
 
-#: wp-statistics/widget.php:95 wp-statistics/widget.php:284
+#: widget.php:95 widget.php:284
 msgid "Total Visits"
 msgstr ""
 
-#: wp-statistics/widget.php:102 wp-statistics/widget.php:287
+#: widget.php:102 widget.php:287
 msgid "Total Visitors"
 msgstr ""
 
-#: wp-statistics/widget.php:269
+#: widget.php:269
 msgid "Yesterdays visits"
 msgstr ""
 
-#: wp-statistics/ajax.php:215
+#: ajax.php:215
 msgid "No matching widget found!"
 msgstr ""
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:191
+#: includes/optimization/tabs/wps-optimization-resources.php:191
 msgid "Zlib gzopen()"
 msgstr ""
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:196
+#: includes/optimization/tabs/wps-optimization-resources.php:196
 msgid "If the gzopen() function is installed.  gzopen() is required for the GeoIP database to be downloaded successfully."
 msgstr ""
 
-#: wp-statistics/wps-updates.php:16
+#: wps-updates.php:16
 msgid "Error the download_url() or gzopen() functions do not exist!"
 msgstr ""
 
-#: wp-statistics/wps-updates.php:45
+#: wps-updates.php:45
 msgid "Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:97
+#: wp-statistics.php:100
 msgid "&#151; You are running an unsupported version of PHP."
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:97
+#: wp-statistics.php:100
 msgid "WP Statistics Disabled"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:101
+#: wp-statistics.php:104
 msgid "WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:103
+#: wp-statistics.php:106
 msgid "Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message."
 msgstr ""
 
-#: wp-statistics/ajax.php:293
+#: ajax.php:293
 msgid "ERROR: Widget not found!"
 msgstr ""
 
-#: wp-statistics/dashboard.php:109 wp-statistics/editor.php:66
-#: wp-statistics/includes/log/log.php:20
+#: dashboard.php:109 editor.php:66 includes/log/log.php:20
 msgid "Loading..."
 msgstr ""
 
-#: wp-statistics/dashboard.php:127 wp-statistics/editor.php:84
-#: wp-statistics/includes/log/log.php:2
+#: dashboard.php:127 editor.php:84 includes/log/log.php:2
 msgid "Reloading..."
 msgstr ""
 
-#: wp-statistics/includes/log/top-visitors.php:41
-#: wp-statistics/wp-statistics.php:452
+#: includes/log/top-visitors.php:41 wp-statistics.php:475
 msgid "Top Visitors"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:208
+#: wp-statistics.php:228
 msgid "optimization page"
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:35
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:63
+#: includes/settings/tabs/wps-maintenance.php:35
+#: includes/settings/tabs/wps-maintenance.php:63
 msgid "Enabled"
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:30
+#: includes/settings/tabs/wps-maintenance.php:30
 msgid "Purge Old Data Daily"
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:41
+#: includes/settings/tabs/wps-maintenance.php:41
 msgid "A WP Cron job will be run daily to purge any data older than a set number of days."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:47
+#: includes/settings/tabs/wps-maintenance.php:47
 msgid "Purge data older than"
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:58
+#: includes/settings/tabs/wps-maintenance.php:58
 msgid "Purge High Hit Count Visitors Daily"
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:69
+#: includes/settings/tabs/wps-maintenance.php:69
 msgid "A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
 msgstr ""
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:81
+#: includes/settings/tabs/wps-maintenance.php:81
 msgid "The number of hits required to delete the visitor.  Minimum value is 10 hits.  Invalid values will disable the daily maintenance."
 msgstr ""
 
-#: wp-statistics/shortcode.php:184
+#: shortcode.php:184
 msgid "The post/page id to get page statistics on."
 msgstr ""
 
-#: wp-statistics/shortcode.php:181
+#: shortcode.php:181
 msgid "Post/Page ID"
 msgstr "ID príspevku / stránky"
 
-#: wp-statistics/includes/functions/functions.php:435
+#: includes/functions/functions.php:435
 msgid "Ask.com"
 msgstr "Ask.com"
 
-#: wp-statistics/shortcode.php:158
+#: shortcode.php:158
 msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
 msgstr "Na výpočet štatistiky bude použitý časový rámec strtotime() (http://php.net/manual/en/datetime.formats.php). Použite &quot;celkom&quot;, pre získanie všetkých zaznamenaných dát."
 
-#: wp-statistics/wp-statistics.php:182
+#: wp-statistics.php:202
 msgid "visitor tracking"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:183
+#: wp-statistics.php:203
 msgid "geoip collection"
 msgstr "kolekcia GeoIP"
 
-#: wp-statistics/wp-statistics.php:199
+#: wp-statistics.php:219
 msgid "visit database index"
 msgstr "databázový index návštev"
 
-#: wp-statistics/wp-statistics.php:208
+#: wp-statistics.php:228
 msgid "Database updates are required, please go to %s and update the following: %s"
 msgstr "Je potrebná aktualizácia databázy, prejdite do%s a aktualizujte nasledovné:%s"
 
-#: wp-statistics/wp-statistics.php:199
+#: wp-statistics.php:219
 msgid "countries database index"
 msgstr "databázový index krajín"
 
-#: wp-statistics/wp-statistics.php:192
+#: wp-statistics.php:212
 msgid "search table"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:186
+#: wp-statistics.php:206
 msgid "settings page"
 msgstr ""
 
-#: wp-statistics/wp-statistics.php:186 wp-statistics/wp-statistics.php:208
+#: wp-statistics.php:206 wp-statistics.php:228
 msgid ","
 msgstr ","
 
-#: wp-statistics/wp-statistics.php:186
+#: wp-statistics.php:206
 msgid "The following features are disabled, please go to %s and enable them: %s"
 msgstr "Nasledujúce funkcie sú vypnuté, prejdite do %s, a aktivujte ich: %s"
 
-#: wp-statistics/wp-statistics.php:181
+#: wp-statistics.php:201
 msgid "hit tracking"
 msgstr "sledovanie zobrazení"
 
-#: wp-statistics/wp-statistics.php:180
+#: wp-statistics.php:200
 msgid "online user tracking"
 msgstr "on-line sledovanie používateľov"
 
-#: wp-statistics/wp-statistics.php:793
+#: wp-statistics.php:828
 msgid "The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: "
 msgstr "Nasledujúca tabuľka(ky) zásuvného modulu neexistuje v databáze, prosím, znova spustite inštaláčnú %s rutinu %s:"
 
-#: wp-statistics/includes/optimization/wps-optimization.php:196
+#: includes/optimization/wps-optimization.php:196
 msgid "Search table conversion complete, %d rows added."
 msgstr "Konverzia vyhľadavacej tabuľky dokončená, pridaných %d riadkov."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:113
+#: includes/optimization/tabs/wps-optimization-database.php:113
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion."
 msgstr "Staršie inštalácie WP Štatistiky ukladajú detaily z vyhľadávania v tabuľke návštevníkov, čo môže spôsobovať výkonostné problémy pri veľkých objemoch dát. Bola preto vytvorená nová tabuľka pre uchovanie týchto informácií lepšie škálovateľným spôsobom."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:94
+#: includes/optimization/tabs/wps-optimization-database.php:94
 msgid "Search Table"
 msgstr "Vyhľadávacia Tabuľka"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:99
+#: includes/optimization/tabs/wps-optimization-database.php:99
 msgid "Convert"
 msgstr "Konvertovať"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:106
+#: includes/optimization/tabs/wps-optimization-database.php:106
 msgid "Convert Now!"
 msgstr "Konvertovať teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:107
+#: includes/optimization/tabs/wps-optimization-database.php:107
 msgid "Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used."
 msgstr "Staršie inštalácie WP Štatistiky ukladajú detaily z vyhľadávania v tabuľke návštevníkov, čo môže spôsobovať výkonostné problémy pri veľkých objemoch dát. Bola preto vytvorená nová tabuľka pre uchovanie týchto informácií lepšie škálovateľným spôsobom. Predtým ako staré dáta bude môžné použiť, musia byť najskôr konvertované na nový formát."
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Referrer Spam"
 msgstr "Referrer Spam"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:279
+#: includes/settings/tabs/wps-externals.php:279
 msgid "Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week."
 msgstr "Sťahovanie databázy Piwik Referrer Spam Blacklist bude naplánovaná raz týždenne."
 
-#: wp-statistics/includes/settings/wps-settings.php:105
+#: includes/settings/wps-settings.php:105
 msgid "Externals"
 msgstr "Externé špecifikácie"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:220
+#: includes/settings/tabs/wps-externals.php:220
 msgid "Piwik Referrer Spam Blacklist settings"
 msgstr "Nastavenia Piwik Referrer Spam Blacklist"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:255
+#: includes/settings/tabs/wps-externals.php:255
 msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
 msgstr "Naplánovať týždennú aktualizáciu Piwik Referrer Spam Blacklist DB"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:248
+#: includes/settings/tabs/wps-externals.php:248
 msgid "Download Piwik Referrer Spam Blacklist Database"
 msgstr "Stiahnite si Piwik Referrer Spam Blacklist databázu"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:243
+#: includes/settings/tabs/wps-externals.php:243
 msgid "Update Piwik Referrer Spam Blacklist Info"
 msgstr "Aktualizácia Piwik Referrer Spam Blacklist informácií"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:237
+#: includes/settings/tabs/wps-externals.php:237
 msgid "The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam."
 msgstr "Bude stiahnutá Piwik Referrer Spam Blacklist databáza, ktorá sa používa na určenie spamu odkazovača."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:225
+#: includes/settings/tabs/wps-externals.php:225
 msgid "Referrer spam blacklist is provided by Piwik, available from %s."
 msgstr "Referrer spam blacklist poskytuje Piwik, dostupný z %s."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:231
+#: includes/settings/tabs/wps-externals.php:231
 msgid "Piwik Referrer Spam Blacklist usage"
 msgstr "Využitie Piwik Referrer Spam Blacklist "
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:151
+#: includes/settings/tabs/wps-exclusions.php:151
 msgid "Treat corrupt browser info as a bot"
 msgstr "Zaobchádzať s narušenými informáciami prehliadača ako s robotom"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "404 Pages"
 msgstr "Stránky 404"
 
-#: wp-statistics/includes/log/top-visitors.php:26
+#: includes/log/top-visitors.php:26
 msgid "Date"
 msgstr "Dátum"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:154
+#: includes/settings/tabs/wps-exclusions.php:154
 msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
 msgstr "Považovať každého návštevníka s nekompletnými informáciami prehliadača (chýbajúce IP adresy alebo prázdny reťazca agenta) za robota."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:218
+#: includes/settings/tabs/wps-exclusions.php:218
 msgid "Excluded 404 pages"
 msgstr "Vylúčené stránky 404"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:221
+#: includes/settings/tabs/wps-exclusions.php:221
 msgid "Exclude any URL that returns a \"404 - Not Found\" message."
 msgstr "Vylúčiť ľubovoľnú URL, ktorá vracia - správa \"404 - Not Found\"."
 
-#: wp-statistics/wps-updates.php:37
+#: wps-updates.php:37
 msgid "Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s"
 msgstr "Chyba pri vytváraní adresára GeoIP databázy, uistite sa, že váš webový server má oprávnenie na vytvorenie adresárov v : %s"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:281
+#: includes/settings/tabs/wps-general.php:281
 msgid "Add page title to empty search words"
 msgstr "Zadajte názov stránky do prázdnych vyhľadávacích slóv"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:287
+#: includes/settings/tabs/wps-general.php:287
 msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
 msgstr "Ak je vyhľadávač identifikovaný ako refferer (označenie pre URI, z kterého bola webová stránka navštívená), ale nezahŕňa vyhľadávací dotaz, táto voľba nahradí názov stránky v úvodzovkách, ktorému predchádza \"~:\", ako vyhľadávací dotaz a tak pomôže určiť čo používateľ hľadal."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:218
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:75
+#: includes/optimization/tabs/wps-optimization-purging.php:218
+#: includes/settings/tabs/wps-maintenance.php:75
 msgid "Purge visitors with more than"
 msgstr "Odstrániť návštevníkov s viac ako"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:223
+#: includes/optimization/tabs/wps-optimization-purging.php:223
 msgid "hits"
 msgstr "zobrazenia"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:224
+#: includes/optimization/tabs/wps-optimization-purging.php:224
 msgid "Deleted user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits."
 msgstr "Zmazané používateľské štatistiky, kde má používateľ viac zobrazení za deň ako definovaný počet. Môže byť užitočné vymazať staré dáta, keď boli vaše stránky zobrazované robotom. Tým sa odstráni návštevník a jeho zobrazenia stránok, ale neodstráni to jednotlivé zobrazenia stránok, kedže dáta nie sú zaznamenavané podľa použitia. Minimálna hodnota je 10 zobrazení."
 
-#: wp-statistics/includes/functions/purge-hits.php:28
+#: includes/functions/purge-hits.php:28
 msgid "No visitors found to purge."
 msgstr "Neboli nájdení žiadni návštevníci na odstránenie."
 
-#: wp-statistics/includes/functions/purge-hits.php:25
+#: includes/functions/purge-hits.php:25
 msgid "%s records purged successfully."
 msgstr "%s záznamov úspešne uvoľnených."
 
-#: wp-statistics/ajax.php:178
-#: wp-statistics/includes/functions/purge-hits.php:32
+#: ajax.php:178 includes/functions/purge-hits.php:32
 msgid "Number of hits must be greater than or equal to 10!"
 msgstr "Počet zobrazení musí byť väčší alebo rovný 10!"
 
-#: wp-statistics/shortcode.php:141
+#: shortcode.php:141
 msgid "Page Visits"
 msgstr "Návštev stránok"
 
-#: wp-statistics/shortcode.php:144
+#: shortcode.php:144
 msgid "Page Count"
 msgstr "Počet stránok"
 
-#: wp-statistics/shortcode.php:145
+#: shortcode.php:145
 msgid "Comment Count"
 msgstr "Počet komentárov"
 
-#: wp-statistics/shortcode.php:146
+#: shortcode.php:146
 msgid "Spam Count"
 msgstr "Počet spamu"
 
-#: wp-statistics/shortcode.php:147
+#: shortcode.php:147
 msgid "User Count"
 msgstr "Počet používateľov"
 
-#: wp-statistics/shortcode.php:148
+#: shortcode.php:148
 msgid "Post Average"
 msgstr "Priemerne príspevkov"
 
-#: wp-statistics/shortcode.php:149
+#: shortcode.php:149
 msgid "Comment Average"
 msgstr "Komentárov priemerne"
 
-#: wp-statistics/shortcode.php:150
+#: shortcode.php:150
 msgid "User Average"
 msgstr ""
 
-#: wp-statistics/shortcode.php:162
+#: shortcode.php:162
 msgid "Search Provider"
 msgstr "Poskytovateľ vyhľadávania"
 
-#: wp-statistics/shortcode.php:165
+#: shortcode.php:165
 msgid "The search provider to get statistics on."
 msgstr "Poskytovateľ vyhľadávania pre získanie štatistických údajov."
 
-#: wp-statistics/shortcode.php:169
+#: shortcode.php:169
 msgid "Number Format"
 msgstr "Číselný formát"
 
-#: wp-statistics/shortcode.php:172
+#: shortcode.php:172
 msgid "The format to display numbers in: i18n, english, none."
 msgstr "Formát zobrazenia čísla v: i18n, angličtina, nič."
 
-#: wp-statistics/shortcode.php:176
+#: shortcode.php:176
 msgid "English"
 msgstr "Angličtina"
 
-#: wp-statistics/shortcode.php:177
+#: shortcode.php:177
 msgid "International"
 msgstr "Medzinárodný"
 
-#: wp-statistics/includes/log/exclusions.php:191
-#: wp-statistics/includes/log/hit-statistics.php:164
+#: includes/log/exclusions.php:191 includes/log/hit-statistics.php:164
 msgid "Hits Statistics Summary"
 msgstr "Súhrn štatistík zobrazení"
 
-#: wp-statistics/includes/log/exclusions.php:201
-#: wp-statistics/includes/log/hit-statistics.php:175
+#: includes/log/exclusions.php:201 includes/log/hit-statistics.php:175
 msgid "Chart Total"
 msgstr "Sumárny graf"
 
-#: wp-statistics/includes/log/exclusions.php:206
-#: wp-statistics/includes/log/hit-statistics.php:181
+#: includes/log/exclusions.php:206 includes/log/hit-statistics.php:181
 msgid "All Time Total"
 msgstr "Celkovo"
 
-#: wp-statistics/includes/log/log.php:6
+#: includes/log/log.php:6
 msgid "Have you thought about donating to WP Statistics?"
 msgstr "Už ste premýšľali o podpore pre WP Statistics?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:20
-#: wp-statistics/wp-statistics.php:431
+#: includes/settings/tabs/wps-about.php:20 wp-statistics.php:454
 msgid "Donate"
 msgstr "Prispejte"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:24
+#: includes/settings/tabs/wps-about.php:24
 msgid "Fell like showing us how much you enjoy WP Statistics?  Drop by our %s page and show us some love!"
 msgstr "Chcete sa s námi podeliť o to ako sa vám páči WP Statistics? Prejdite na našu stránku %s a ukážte nám trochu lásky!"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:24
+#: includes/settings/tabs/wps-about.php:24
 msgid "donation"
 msgstr "dar"
 
-#: wp-statistics/includes/log/log.php:6
+#: includes/log/log.php:6
 msgid "Donate Now!"
 msgstr "Prispejte práve teraz!"
 
-#: wp-statistics/includes/log/log.php:6
+#: includes/log/log.php:6
 msgid "Close"
 msgstr "Zavrieť"
 
-#: wp-statistics/shortcode.php:135
+#: shortcode.php:135
 msgid "Select the statistic you wish to display."
 msgstr "Vyberte štatistiku, ktorú chcete zobraziť."
 
-#: wp-statistics/shortcode.php:132
+#: shortcode.php:132
 msgid "Statistic"
 msgstr "Štatistický"
 
-#: wp-statistics/shortcode.php:143
+#: shortcode.php:143
 msgid "Post Count"
 msgstr "Počet príspevkov"
 
-#: wp-statistics/shortcode.php:155
+#: shortcode.php:155
 msgid "Time Frame"
 msgstr "Časový rámec"
 
-#: wp-statistics/includes/functions/functions.php:957
+#: includes/functions/functions.php:962
 msgid "to"
 msgstr "do"
 
-#: wp-statistics/includes/functions/functions.php:957
-#: wp-statistics/includes/log/top-visitors.php:29
+#: includes/functions/functions.php:962 includes/log/top-visitors.php:29
 msgid "Go"
 msgstr "Prejsť"
 
-#: wp-statistics/includes/log/top-pages.php:102
+#: includes/log/top-pages.php:103
 msgid "Rank #5"
 msgstr "Rank #5"
 
-#: wp-statistics/includes/log/top-pages.php:102
+#: includes/log/top-pages.php:103
 msgid "Rank #4"
 msgstr "Rank #4"
 
-#: wp-statistics/includes/log/top-pages.php:102
+#: includes/log/top-pages.php:103
 msgid "Rank #3"
 msgstr "Rank #3"
 
-#: wp-statistics/includes/log/top-pages.php:102
+#: includes/log/top-pages.php:103
 msgid "Rank #1"
 msgstr "Rank #1"
 
-#: wp-statistics/includes/log/top-pages.php:102
+#: includes/log/top-pages.php:103
 msgid "Rank #2"
 msgstr "Rank #2"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:60
+#: includes/optimization/tabs/wps-optimization-database.php:60
 msgid "Visits Table"
 msgstr "Tabuľka návštev"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:75
+#: includes/optimization/tabs/wps-optimization-database.php:75
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistits table, delete duplicate entries and add the index."
 msgstr "Staršie inštalácie WP Statistics umožňujú v hraničnom prípade duplicitné záznamy v tabuľke návštev. Novšie inštalácie zabraňujú tomu použitím jedinečného indexu v tabuľke. Ak chcete vytvoriť index na staršie inštalácie, musíte najkôr duplicitné položky odstrániť. Kliknutím \"Aktualizovať teraz\" sa vykoná kontrola tabuľky návštev, odstránia sa duplicitné záznamy a pridá sa index."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:76
+#: includes/optimization/tabs/wps-optimization-database.php:76
 msgid "This operation could take a long time on installs with many rows in the visits table."
 msgstr "Ak je veľa riadkov v tabuľke návštev, táto operácia môže trvať počas inštalácie dlhú dobu."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:82
+#: includes/optimization/tabs/wps-optimization-database.php:82
 msgid "Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table."
 msgstr "Staršie inštalácie WP Statistics umožňujú v hraničnom prípade duplicitné záznamy v tabuľke návštev. Novšie inštalácie zabraňujú tomu použitím jedinečného indexu v tabuľke. "
 
-#: wp-statistics/includes/log/last-visitor.php:68
+#: includes/log/last-visitor.php:68
 msgid "Filtered by"
 msgstr "Filtrované podľa"
 
-#: wp-statistics/includes/functions/functions.php:951
-#: wp-statistics/includes/functions/functions.php:954
+#: includes/functions/functions.php:956 includes/functions/functions.php:959
 msgid "Range"
 msgstr "Rozsah"
 
-#: wp-statistics/includes/functions/functions.php:957
-#: wp-statistics/includes/log/top-visitors.php:29
+#: includes/functions/functions.php:962 includes/log/top-visitors.php:29
 msgid "MM/DD/YYYY"
 msgstr "MM/DD/RRRR"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:342
+#: includes/settings/tabs/wps-general.php:342
 msgid "Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)"
 msgstr "Nepoužívajte preklady a namiesto toho použite predvolenú Angličtinu pre WP Statistics (vyžaduje dve načítania stránky)"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:336
+#: includes/settings/tabs/wps-general.php:336
 msgid "Force English"
 msgstr "Vynútiť Angličtinu"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:331
+#: includes/settings/tabs/wps-general.php:331
 msgid "Languages"
 msgstr "Jazyky"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:230
+#: includes/settings/tabs/wps-exclusions.php:237
 msgid "Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored."
 msgstr "Poznámka: Táto voľba nebude spracovávať parametre URL (hocičo za ?), len po meno skriptu. Položky s menej ako dvoma znakmi budú ignorované."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:228
+#: includes/settings/tabs/wps-exclusions.php:235
 msgid "A list of local urls (ie. /wordpress/about, one per line) to exclude from statistics collection."
 msgstr "Zoznam lokálnych adries URL (napr. /wordpress /about, jedna na riadok), vylúčených zo zberu štatistických údajov."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:225
+#: includes/settings/tabs/wps-exclusions.php:232
 msgid "Excluded URLs list"
 msgstr "Zoznam vylúčených URL-adries"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Excluded URL"
 msgstr "Vylúčené URL"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:52
+#: includes/log/widgets/quickstats.php:52
 msgid "Last 365 Days (Year)"
 msgstr "Posledných 365 dní (Rok)"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:46
+#: includes/log/widgets/quickstats.php:46
 msgid "Last 30 Days (Month)"
 msgstr "Posledných 30 dní (Mesiac)"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:40
+#: includes/log/widgets/quickstats.php:40
 msgid "Last 7 Days (Week)"
 msgstr "Posledných 7 dní (Týždeň)"
 
-#: wp-statistics/includes/functions/functions.php:441
+#: includes/functions/functions.php:441
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: wp-statistics/includes/functions/functions.php:442
+#: includes/functions/functions.php:442
 msgid "Yandex"
 msgstr "Yandex"
 
-#: wp-statistics/includes/functions/functions.php:438
+#: includes/functions/functions.php:438
 msgid "clearch.org"
 msgstr "clearch.org"
 
-#: wp-statistics/includes/functions/functions.php:439
+#: includes/functions/functions.php:439
 msgid "DuckDuckGo"
 msgstr "DuckDuckGo"
 
-#: wp-statistics/includes/functions/functions.php:437
+#: includes/functions/functions.php:437
 msgid "Bing"
 msgstr "Bing"
 
-#: wp-statistics/includes/functions/functions.php:436
+#: includes/functions/functions.php:436
 msgid "Baidu"
 msgstr "Baidu"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Feeds"
 msgstr "Prísuny (Feeds)"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "User Role"
 msgstr "Rola používateľa"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Login Page"
 msgstr "Prihlasovacia stránka"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Admin Page"
 msgstr "Administrátorska stránka"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Self Referral"
 msgstr "Seba odkazujúci"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "IP Match"
 msgstr "IP zhoda"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Robot"
 msgstr "Robot"
 
-#: wp-statistics/includes/log/online.php:100
+#: includes/log/online.php:100
 msgid "Currently there are no users online in the site."
 msgstr "Aktuálne nie sú na webe žiadni aktívni používatelia."
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Robot Threshold"
 msgstr "Prah pre roboty"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Honey Pot"
 msgstr "Honey Pot"
 
-#: wp-statistics/includes/log/widgets/page.php:8
+#: includes/log/widgets/page.php:8
 msgid "Page Trending Stats"
 msgstr "Štatistika trendov stránky"
 
-#: wp-statistics/includes/log/exclusions.php:24
+#: includes/log/exclusions.php:24
 msgid "Hostname"
 msgstr "Meno hostiteľa"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:93
-#: wp-statistics/includes/settings/tabs/wps-general.php:133
-#: wp-statistics/includes/settings/tabs/wps-general.php:149
-#: wp-statistics/includes/settings/tabs/wps-general.php:188
-#: wp-statistics/includes/settings/tabs/wps-general.php:200
-#: wp-statistics/includes/settings/tabs/wps-general.php:229
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:122
+#: includes/settings/tabs/wps-general.php:93
+#: includes/settings/tabs/wps-general.php:133
+#: includes/settings/tabs/wps-general.php:149
+#: includes/settings/tabs/wps-general.php:188
+#: includes/settings/tabs/wps-general.php:200
+#: includes/settings/tabs/wps-general.php:229
+#: includes/settings/tabs/wps-notifications.php:122
 msgid "Enable or disable this feature"
 msgstr "Zapnúť alebo vypnúť túto funkciu"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:99
+#: includes/settings/tabs/wps-general.php:99
 msgid "Check for online users every"
 msgstr "Kontrolovať aktívnych používateľov každých"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:104
+#: includes/settings/tabs/wps-general.php:104
 msgid "Second"
 msgstr "Sekúnd"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:105
+#: includes/settings/tabs/wps-general.php:105
 msgid "Time for the check accurate online user in the site. Now: %s Second"
 msgstr "Čas pre presnú kontrolu on-line pužívateľov na stránke. Teraz: %s sekúnd"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:111
+#: includes/settings/tabs/wps-general.php:111
 msgid "Record all user"
 msgstr "Zaznamenať všetkých používateľov"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:117
+#: includes/settings/tabs/wps-general.php:117
 msgid "Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting."
 msgstr "Ignoruje nastavenia pre vylúčenie a zaznamenáva všetkých aktívnych používateľov (vrátane svojich reffererov a robotov). Malo by byť použité iba pri riešení problémov."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:155
+#: includes/settings/tabs/wps-general.php:155
 msgid "Store entire user agent string"
 msgstr "Uložiť celý reťazec agenta používateľa"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:161
+#: includes/settings/tabs/wps-general.php:161
 msgid "Only enabled for debugging"
 msgstr "Aktivované len pre ladenie"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:167
+#: includes/settings/tabs/wps-general.php:167
 msgid "Coefficient per visitor"
 msgstr "Koeficient na návštevníka"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:172
+#: includes/settings/tabs/wps-general.php:172
 msgid "For each visit to account for several hits. Currently %s."
 msgstr "Za každú návštevu započítať niekoľko zobrazení. Momentálne %s."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:177
-#: wp-statistics/includes/settings/tabs/wps-general.php:182
-#: wp-statistics/wp-statistics.php:420 wp-statistics/wp-statistics.php:534
+#: includes/settings/tabs/wps-general.php:177
+#: includes/settings/tabs/wps-general.php:182 wp-statistics.php:440
+#: wp-statistics.php:557
 msgid "Pages"
 msgstr "Stránky"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:194
+#: includes/settings/tabs/wps-general.php:194
 msgid "Track all pages"
 msgstr "Sledovať všetky stránky"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:209
+#: includes/settings/tabs/wps-general.php:209
 msgid "Strip parameters from URI"
 msgstr "Získať parametre z URI"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:215
+#: includes/settings/tabs/wps-general.php:215
 msgid "This will remove anything after the ? in a URL."
 msgstr "Týmto sa odstráni v URL všetko nasledujúce po?."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:223
+#: includes/settings/tabs/wps-general.php:223
 msgid "Disable hits column in post/pages list"
 msgstr "Zakázať stĺpec zobrazení vo výpise príspevkov/stránok"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:234
+#: includes/settings/tabs/wps-general.php:234
 msgid "Miscellaneous"
 msgstr "Rôzne"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:239
+#: includes/settings/tabs/wps-general.php:239
 msgid "Show stats in menu bar"
 msgstr "Zobraziť štatistiky v menu"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:244
+#: includes/settings/tabs/wps-general.php:244
 msgid "No"
 msgstr "Nie"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:245
+#: includes/settings/tabs/wps-general.php:245
 msgid "Yes"
 msgstr "Áno"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:247
+#: includes/settings/tabs/wps-general.php:247
 msgid "Show stats in admin menu bar"
 msgstr "Zobraziť štatistiky v administrátorskom menu"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:253
+#: includes/settings/tabs/wps-general.php:253
 msgid "Hide admin notices about non active features"
 msgstr "Skryť administrátorské oznámenia o neaktívnych funkciách"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:259
+#: includes/settings/tabs/wps-general.php:259
 msgid "By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices."
 msgstr "Ak sú základné funkcie deaktivované, v predvolenom nastavení WP Statistics zobrazuje výstrahu na každej admin stránke, táto voľba vypne zobrazovanie týchto výstrah."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:265
+#: includes/settings/tabs/wps-general.php:265
 msgid "Delete the manual"
 msgstr "Odstrániť manuál"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:271
+#: includes/settings/tabs/wps-general.php:271
 msgid "By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future."
 msgstr "V predvolenom nastavení WP Statistics ukladá administrátorsky manuál v plugin adresári (~ 5 meg), ak je táto možnosť povolená, bude teraz manuál zmazaný a aj počas aktualizácii v budúcnosti."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:276
+#: includes/settings/tabs/wps-general.php:276
 msgid "Search Engines"
 msgstr "Vyhľadávače"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:293
+#: includes/settings/tabs/wps-general.php:293
 msgid "Disabling all search engines is not allowed, doing so will result in all search engines being active."
 msgstr "Vypnutie všetkých vyhľadávačov nie je povolené, vykonanie tohto spôsobí zmenu vo všetkých aktívnych vyhľadávačoch."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:308
+#: includes/settings/tabs/wps-general.php:308
 msgid "disable"
 msgstr "vypnúť"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:309
+#: includes/settings/tabs/wps-general.php:309
 msgid "Disable %s from data collection and reporting."
 msgstr "Vypnúť %s zo zberu údajov a hlásení."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:315
+#: includes/settings/tabs/wps-general.php:315
 msgid "Charts"
 msgstr "Grafy"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:320
+#: includes/settings/tabs/wps-general.php:320
 msgid "Include totals"
 msgstr "Zahrnúť súčty"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:326
+#: includes/settings/tabs/wps-general.php:326
 msgid "Add a total line to charts with multiple values, like the search engine referrals"
 msgstr "Pridanie sumárneho riadku na grafy s viacerými hodnotami, ako referencie vyhľadávača"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:32
+#: includes/settings/tabs/wps-externals.php:32
 msgid "GeoIP settings"
 msgstr "GeoIP nastavenia"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:37
+#: includes/settings/tabs/wps-externals.php:37
 msgid "IP location services provided by GeoLite2 data created by MaxMind, available from %s."
 msgstr "IP služby polohy poskytované GeoLite2 Data, vytvoril MaxMind, dostupné z %s."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:47
+#: includes/settings/tabs/wps-externals.php:47
 msgid "GeoIP collection"
 msgstr "Zber údajov GeoIP"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:53
+#: includes/settings/tabs/wps-externals.php:53
 msgid "For get more information and location (country) from visitor, enable this feature."
 msgstr "Pre získanie ďalších informácií a lokácie (krajiny) návštevníka, aktivujte túto funkciu."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:59
+#: includes/settings/tabs/wps-externals.php:59
 msgid "Update GeoIP Info"
 msgstr "Aktualizácia GeoIP Info"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:64
+#: includes/settings/tabs/wps-externals.php:64
 msgid "Download GeoIP Database"
 msgstr "Stiahnuť GeoIP databázu"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:71
+#: includes/settings/tabs/wps-externals.php:71
 msgid "Schedule monthly update of GeoIP DB"
 msgstr "Naplánovať mesačnú aktualizáciu GeoIP DB"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:97
+#: includes/settings/tabs/wps-externals.php:97
 msgid "Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month."
 msgstr "Sťahovanie GeoIP databázy bude naplánované 2 dni po prvom utorku v mesiaci."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:98
+#: includes/settings/tabs/wps-externals.php:98
 msgid "This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place)."
 msgstr "Ak veľkosť lokálneho súboru je menej ako 1k, táto voľba tiež stiahne databázu (čo zvyčajne znamená že pozostatok, pochádzajúci zo zásuvného modulu zostávna na svojom mieste)."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:104
+#: includes/settings/tabs/wps-externals.php:104
 msgid "Populate missing GeoIP after update of GeoIP DB"
 msgstr "Vyplňte chýbajúce GeoIP po aktualizácii GeoIP DB"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:110
+#: includes/settings/tabs/wps-externals.php:110
 msgid "Update any missing GeoIP data after downloading a new database."
 msgstr "Aktualizovať chýbajúce GeoIP údaje po stiahnutí novej databázy."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:116
+#: includes/settings/tabs/wps-externals.php:116
 msgid "Country code for private IP addresses"
 msgstr "Kód krajiny pre súkromné ​​IP adresy"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:121
+#: includes/settings/tabs/wps-externals.php:121
 msgid "The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use \"000\" (three zeros) to use \"Unknown\" as the country code."
 msgstr "Štandardný medzinárodný kód krajiny zložený z dvoch písmen (napr. US = Spojené štáty, CA = Kanada, atď.) pre súkromné ​​(nepoužité na smerovanie) IP adresy (napr. 10.0.0.1, 192.158.1.1, 127.0.0.1, atď.). Zadajte \"000\" (tri nuly) na použitie \"Unknown\" (Neznáma) ako kód krajiny."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:132
+#: includes/settings/tabs/wps-externals.php:132
 msgid "GeoIP collection is disabled due to the following reasons:"
 msgstr "Zber údajov GeoIP je zakázaný z nasledujúcich príčin:"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:135
+#: includes/settings/tabs/wps-externals.php:135
 msgid "GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  "
 msgstr "Zber údajov GeoIP vyžaduje PHP %s alebo vyššie, je preto zakázaný kvôli aktuálne nainštalovanej PHP verzii "
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:140
+#: includes/settings/tabs/wps-externals.php:140
 msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
 msgstr "Zber údajov GeoIP vyžaduje rozšírenie PHP cURL a to nie je zavedené vo vašej verzii PHP!"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:146
+#: includes/settings/tabs/wps-externals.php:146
 msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
 msgstr "Zber údajov GeoIP vyžaduje BC Math PHP rozšírenie a to nie je zavedené vo vašej verzii PHP!"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:152
+#: includes/settings/tabs/wps-externals.php:152
 msgid "PHP safe mode detected!  GeoIP collection is not supported with PHP's safe mode enabled!"
 msgstr "Zistený PHP núdzový režim! Zber GeoIP údajov nie je podporovaný s PHP v núdzovom režime!"
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:20
+#: includes/settings/tabs/wps-maintenance.php:20
 msgid "This will permanently delete data from the database each day, are you sure you want to enable this option?"
 msgstr "To bude natrvalo odstrániť dáta z databázy každý deň, ste si istí, že chcete povoliť túto možnosť?"
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:52
+#: includes/settings/tabs/wps-maintenance.php:52
 msgid "Days"
 msgstr "Dní"
 
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:53
+#: includes/settings/tabs/wps-maintenance.php:53
 msgid "The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance."
 msgstr "Počet dní pre uchovanie štatistík. Minimálna hodnota je 30 dní. Neplatné hodnoty znemožnia dennú údržbu."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:44
+#: includes/settings/tabs/wps-notifications.php:44
 msgid "Common Report Options"
 msgstr "Všeobecné nastavenia záznamov"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:49
+#: includes/settings/tabs/wps-notifications.php:49
 msgid "E-mail addresses"
 msgstr "E-mailové adresy"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:54
+#: includes/settings/tabs/wps-notifications.php:54
 msgid "A comma separated list of e-mail addresses to send reports to."
 msgstr "Čiarkou oddelený zoznam e-mailových adries pre odoslanie hlásení."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:59
+#: includes/settings/tabs/wps-notifications.php:59
 msgid "Update Reports"
 msgstr "Správy o aktualizácii"
 
-#: wp-statistics/includes/log/exclusions.php:24
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:64
+#: includes/log/exclusions.php:24
+#: includes/settings/tabs/wps-notifications.php:64
 msgid "Browscap"
 msgstr "Browscap"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:70
+#: includes/settings/tabs/wps-notifications.php:70
 msgid "Send a report whenever the browscap.ini is updated."
 msgstr "Poslať správu, kedykoľvek je browscap.ini aktualizovaný."
 
-#: wp-statistics/includes/log/exclusions.php:24
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:76
+#: includes/log/exclusions.php:24
+#: includes/settings/tabs/wps-notifications.php:76
 msgid "GeoIP"
 msgstr "GeoIP"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:82
+#: includes/settings/tabs/wps-notifications.php:82
 msgid "Send a report whenever the GeoIP database is updated."
 msgstr "Poslať správu, kedykoľvek je databáza GeoIP aktualizovaná."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:88
+#: includes/settings/tabs/wps-notifications.php:88
 msgid "Pruning"
 msgstr "Odstránenie"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:94
+#: includes/settings/tabs/wps-notifications.php:94
 msgid "Send a report whenever the pruning of database is run."
 msgstr "Poslať správu, kedykoľvek sa spustí čistenie databázy."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:100
+#: includes/settings/tabs/wps-notifications.php:100
 msgid "Upgrade"
 msgstr "Aktualizácia"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:106
+#: includes/settings/tabs/wps-notifications.php:106
 msgid "Send a report whenever the plugin is upgraded."
 msgstr "Poslať správu, kedykoľvek je zásuvný modul aktualizovaný."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:111
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:116
-#: wp-statistics/schedule.php:221
+#: includes/settings/tabs/wps-notifications.php:111
+#: includes/settings/tabs/wps-notifications.php:116 schedule.php:221
 msgid "Statistical reporting"
 msgstr "Štatistické vykazovanie"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:129
+#: includes/settings/tabs/wps-notifications.php:129
 msgid "Schedule"
 msgstr "Plánovanie"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:153
+#: includes/settings/tabs/wps-notifications.php:153
 msgid "Select how often to receive statistical report."
 msgstr "Vyberte, ako často chcete dostávať štatistický záznam."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:159
+#: includes/settings/tabs/wps-notifications.php:159
 msgid "Send reports via"
 msgstr "Odoslať správy prostredníctvom"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:165
+#: includes/settings/tabs/wps-notifications.php:165
 msgid "Email"
 msgstr "E-mail"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:167
+#: includes/settings/tabs/wps-notifications.php:167
 msgid "SMS"
 msgstr "SMS"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:170
+#: includes/settings/tabs/wps-notifications.php:170
 msgid "Select delivery method for statistical report."
 msgstr "Zvoliť spôsob doručenia pre štatistický záznam."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:173
+#: includes/settings/tabs/wps-notifications.php:173
 msgid "Note: To send SMS text messages please install the %s plugin."
 msgstr "Poznámka: Pre odosielanie SMS textových správ nainštalujte %s zásuvný modul."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:173
+#: includes/settings/tabs/wps-notifications.php:173
 msgid "WordPress SMS"
 msgstr "WordPress SMS"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:180
+#: includes/settings/tabs/wps-notifications.php:180
 msgid "Report body"
 msgstr "Telo správy"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:185
+#: includes/settings/tabs/wps-notifications.php:185
 msgid "Enter the contents of the report."
 msgstr "Zadajte obsah správy."
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:187
+#: includes/settings/tabs/wps-notifications.php:187
 msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:"
 msgstr "Akýkoľvek skrátený kód (shortcode) podporovaný inštaláciou WordPress, zahŕňa všetky skrátené kódy pre WP Statistics (viď. administrátorsky návod pre zoznam dostupných kódov), sú podporované v tele správy. Tu je niekoľko príkladov:"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:188
-#: wp-statistics/wp-statistics.php:639
+#: includes/settings/tabs/wps-notifications.php:188 wp-statistics.php:662
 msgid "User Online"
 msgstr "Používateľ online"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:189
+#: includes/settings/tabs/wps-notifications.php:189
 msgid "Today Visitor"
 msgstr "Dnes návštevníkov"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:190
+#: includes/settings/tabs/wps-notifications.php:190
 msgid "Today Visit"
 msgstr "Dnes návštev"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:191
+#: includes/settings/tabs/wps-notifications.php:191
 msgid "Yesterday Visitor"
 msgstr "Včera Návštevníkov"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:192
+#: includes/settings/tabs/wps-notifications.php:192
 msgid "Yesterday Visit"
 msgstr "Včera Návštev"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:193
+#: includes/settings/tabs/wps-notifications.php:193
 msgid "Total Visitor"
 msgstr "Celkom návštevníkov"
 
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:194
+#: includes/settings/tabs/wps-notifications.php:194
 msgid "Total Visit"
 msgstr "Návštev celkom"
 
-#: wp-statistics/shortcode.php:175
+#: shortcode.php:175
 msgid "None"
 msgstr "Žiadna"
 
-#: wp-statistics/includes/settings/wps-settings.php:108
+#: includes/settings/wps-settings.php:108
 msgid "About"
 msgstr "O aplikácii"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:20
+#: includes/settings/tabs/wps-overview-display.php:20
 msgid "Dashboard"
 msgstr "Prehľadový panel"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:24
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:44
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:64
+#: includes/settings/tabs/wps-overview-display.php:24
+#: includes/settings/tabs/wps-overview-display.php:44
+#: includes/settings/tabs/wps-overview-display.php:64
 msgid "The following items are global to all users."
 msgstr "Nasledujúce položky sú globálne pre všetkých používateľov."
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:29
+#: includes/settings/tabs/wps-overview-display.php:29
 msgid "Disable dashboard widgets"
 msgstr "Zakázať Widgety prehľadového panelu"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:35
+#: includes/settings/tabs/wps-overview-display.php:35
 msgid "Disable the dashboard widgets."
 msgstr "Zakázať widgety prehľadového panelu."
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:40
+#: includes/settings/tabs/wps-overview-display.php:40
 msgid "Page/Post Editor"
 msgstr "Editor Stránky/Príspevku"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:49
+#: includes/settings/tabs/wps-overview-display.php:49
 msgid "Disable post/page editor widget"
 msgstr "Zakázať Widget editora príspevku/stránky"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:55
+#: includes/settings/tabs/wps-overview-display.php:55
 msgid "Disable the page/post editor widget."
 msgstr "Zakázať widget editora stránky/príspevku."
 
-#: wp-statistics/includes/functions/functions.php:440
+#: includes/functions/functions.php:440
 msgid "Google"
 msgstr "Google"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:69
+#: includes/settings/tabs/wps-overview-display.php:69
 msgid "Disable map"
 msgstr "Zakázať mapu"
 
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:75
+#: includes/settings/tabs/wps-overview-display.php:75
 msgid "Disable the map display"
 msgstr "Vypnúť zobrazovanie máp"
 
-#: wp-statistics/includes/settings/tabs/wps-removal.php:15
+#: includes/settings/tabs/wps-removal.php:74
 msgid "WP Statisitcs Removal"
 msgstr "Odstránenie WP Statisitcs"
 
-#: wp-statistics/includes/settings/tabs/wps-removal.php:20
+#: includes/settings/tabs/wps-removal.php:79
 msgid "Uninstalling WP Statistics will not remove the data and settings, you can use this option to remove the WP Statistics data from your install before uninstalling the plugin."
 msgstr "Odinštalovanie WP Statistics neodstráni dáta a nastavenia, môžete použiť túto možnosť na odstránenie dát WP Statistics z vášej inštalácie pred odinštalovaním zásuvného modulu."
 
-#: wp-statistics/includes/settings/tabs/wps-removal.php:23
+#: includes/settings/tabs/wps-removal.php:82
 msgid "Once you submit this form the settings will be deleted during the page load, however WP Statistics will still show up in your Admin menu until another page load is executed."
 msgstr "Po odoslaní tohto formulára budú počas načítavania stránky zmazané nastavenia, avšak WP Statistics ich bude aj naďalej zobrazovať v ponuke pre správu, až pokiaľ sa neudeje načítanie ďalšej stránky."
 
-#: wp-statistics/includes/settings/tabs/wps-removal.php:29
+#: includes/settings/tabs/wps-removal.php:100
 msgid "Remove data and settings"
 msgstr "Odstrániť dáta a nastavenia"
 
-#: wp-statistics/includes/settings/tabs/wps-removal.php:34
+#: includes/settings/tabs/wps-removal.php:105
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: wp-statistics/includes/settings/tabs/wps-removal.php:35
+#: includes/settings/tabs/wps-removal.php:106
 msgid "Remove data and settings, this action cannot be undone."
 msgstr "Odstrániť dáta a nastavenia, túto operáciu nie je možno vratiť späť."
 
-#: wp-statistics/includes/settings/wps-settings.php:100
+#: includes/settings/wps-settings.php:100
 msgid "General"
 msgstr "Všeobecne"
 
-#: wp-statistics/includes/settings/wps-settings.php:101
+#: includes/settings/wps-settings.php:101
 msgid "Notifications"
 msgstr "Notifikácie"
 
-#: wp-statistics/includes/settings/wps-settings.php:102
+#: includes/settings/wps-settings.php:102
 msgid "Dashboard/Overview"
 msgstr "Prehľadový panel/Prehľad"
 
-#: wp-statistics/includes/settings/wps-settings.php:106
+#: includes/settings/wps-settings.php:106
 msgid "Maintenance"
 msgstr "Údržba"
 
-#: wp-statistics/includes/settings/wps-settings.php:107
+#: includes/settings/wps-settings.php:107
 msgid "Removal"
 msgstr "Odstránenie"
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:85
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:237
-#: wp-statistics/includes/settings/tabs/wps-externals.php:286
-#: wp-statistics/includes/settings/tabs/wps-general.php:349
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:88
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:201
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:84
-#: wp-statistics/includes/settings/tabs/wps-removal.php:42
+#: includes/settings/tabs/wps-access-level.php:85
+#: includes/settings/tabs/wps-exclusions.php:244
+#: includes/settings/tabs/wps-externals.php:286
+#: includes/settings/tabs/wps-general.php:349
+#: includes/settings/tabs/wps-maintenance.php:88
+#: includes/settings/tabs/wps-notifications.php:201
+#: includes/settings/tabs/wps-overview-display.php:84
+#: includes/settings/tabs/wps-removal.php:113
 msgid "Update"
 msgstr "Aktualizácia"
 
-#: wp-statistics/schedule.php:10
+#: schedule.php:10
 msgid "Once Weekly"
 msgstr "Raz týždenne"
 
-#: wp-statistics/schedule.php:17
+#: schedule.php:17
 msgid "Once Every 2 Weeks"
 msgstr "Raz za 2 týždne"
 
-#: wp-statistics/schedule.php:24
+#: schedule.php:24
 msgid "Once Every 4 Weeks"
 msgstr "Raz za 4 týždne"
 
-#: wp-statistics/widget.php:14 wp-statistics/wp-statistics.php:410
-#: wp-statistics/wp-statistics.php:487
+#: widget.php:14 wp-statistics.php:430 wp-statistics.php:510
 msgid "Statistics"
 msgstr "Štatistiky"
 
-#: wp-statistics/widget.php:15
+#: widget.php:15
 msgid "Show site stats in sidebar."
 msgstr "Zobraziť štatistiky stránok v bočnom paneli."
 
-#: wp-statistics/widget.php:109 wp-statistics/widget.php:290
+#: widget.php:109 widget.php:290
 msgid "Total Page Views"
 msgstr "Celkový počet zobrazení stránky"
 
-#: wp-statistics/widget.php:117
+#: widget.php:117
 msgid "Search Engine referrals"
 msgstr ""
 
-#: wp-statistics/widget.php:124 wp-statistics/widget.php:313
+#: widget.php:124 widget.php:313
 msgid "Total Posts"
 msgstr "Celkom prispevkov"
 
-#: wp-statistics/widget.php:131 wp-statistics/widget.php:316
+#: widget.php:131 widget.php:316
 msgid "Total Pages"
 msgstr "Celkom stránok"
 
-#: wp-statistics/widget.php:138 wp-statistics/widget.php:319
+#: widget.php:138 widget.php:319
 msgid "Total Comments"
 msgstr "Komentárov celkovo"
 
-#: wp-statistics/widget.php:145 wp-statistics/widget.php:322
+#: widget.php:145 widget.php:322
 msgid "Total Spams"
 msgstr "Celkom spamy"
 
-#: wp-statistics/widget.php:152 wp-statistics/widget.php:325
+#: widget.php:152 widget.php:325
 msgid "Total Users"
 msgstr "Celkom používateľov"
 
-#: wp-statistics/widget.php:159 wp-statistics/widget.php:328
+#: widget.php:159 widget.php:328
 msgid "Average Posts"
 msgstr "Priemer príspevkov"
 
-#: wp-statistics/widget.php:166 wp-statistics/widget.php:331
+#: widget.php:166 widget.php:331
 msgid "Average Comments"
 msgstr "Priemer komentárov"
 
-#: wp-statistics/widget.php:173 wp-statistics/widget.php:334
+#: widget.php:173 widget.php:334
 msgid "Average Users"
 msgstr "Priemerny Uzivatelske"
 
-#: wp-statistics/shortcode.php:151 wp-statistics/widget.php:180
-#: wp-statistics/widget.php:337
+#: shortcode.php:151 widget.php:180 widget.php:337
 msgid "Last Post Date"
 msgstr "Dátum posledného príspevku"
 
-#: wp-statistics/widget.php:253
+#: widget.php:253
 msgid "Name"
 msgstr "Meno"
 
-#: wp-statistics/widget.php:257
+#: widget.php:257
 msgid "Items"
 msgstr "Položky"
 
-#: wp-statistics/wp-statistics.php:664
+#: wp-statistics.php:687
 msgid "Yesterday visit"
 msgstr "Včera návštev"
 
-#: wp-statistics/widget.php:296
+#: widget.php:296
 msgid "Select type of search engine"
 msgstr "Vyberte typ vyhladávača"
 
-#: wp-statistics/wp-statistics.php:124
+#: wp-statistics.php:138
 msgid "WP Statistics has been removed, please disable and delete it."
 msgstr "Aplikácia WP Statistics bola odstránená, prosím, vypnite a zmažte ju."
 
-#: wp-statistics/wp-statistics.php:56
+#: wp-statistics.php:59
 msgid "WP Statistics"
 msgstr "WP Statistics"
 
-#: wp-statistics/wp-statistics.php:57
+#: wp-statistics.php:60
 msgid "Complete statistics for your WordPress site."
 msgstr "Kompletné štatistiky pre vaše WordPress stránky."
 
-#: wp-statistics/wp-statistics.php:315 wp-statistics/wp-statistics.php:430
-#: wp-statistics/wp-statistics.php:541
+#: wp-statistics.php:335 wp-statistics.php:453 wp-statistics.php:564
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: wp-statistics/wp-statistics.php:327
+#: wp-statistics.php:347
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr "Kliknite tu pre návštevu pluginu na WordPress.org"
 
-#: wp-statistics/wp-statistics.php:327
+#: wp-statistics.php:347
 msgid "Visit WordPress.org page"
 msgstr "Navštívte stránku WordPress.org"
 
-#: wp-statistics/wp-statistics.php:330
+#: wp-statistics.php:350
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr "Kliknite tu pre ohodnotenie a posúdenie tohto pluginu na WordPress.org"
 
-#: wp-statistics/wp-statistics.php:330
+#: wp-statistics.php:350
 msgid "Rate this plugin"
 msgstr "Hodnotiť tento zásuvný modul (plugin)"
 
-#: wp-statistics/wp-statistics.php:374
+#: wp-statistics.php:394
 msgid "WP Statistics - Hits"
 msgstr "WP Statistics - hity"
 
-#: wp-statistics/wp-statistics.php:413 wp-statistics/wp-statistics.php:490
-#: wp-statistics/wp-statistics.php:528
+#: wp-statistics.php:433 wp-statistics.php:513 wp-statistics.php:551
 msgid "Overview"
 msgstr "Prehľad"
 
-#: wp-statistics/wp-statistics.php:419 wp-statistics/wp-statistics.php:533
+#: wp-statistics.php:439 wp-statistics.php:556
 msgid "Online"
 msgstr "Online"
 
-#: wp-statistics/wp-statistics.php:421 wp-statistics/wp-statistics.php:535
+#: wp-statistics.php:444 wp-statistics.php:558
 msgid "Referrers"
 msgstr "Odkazovače"
 
-#: wp-statistics/shortcode.php:142 wp-statistics/wp-statistics.php:422
-#: wp-statistics/wp-statistics.php:536
+#: shortcode.php:142 wp-statistics.php:445 wp-statistics.php:559
 msgid "Searches"
 msgstr "Vyhľadávanie"
 
-#: wp-statistics/wp-statistics.php:423 wp-statistics/wp-statistics.php:537
+#: wp-statistics.php:446 wp-statistics.php:560
 msgid "Search Words"
 msgstr "Hľadané slová"
 
-#: wp-statistics/wp-statistics.php:424 wp-statistics/wp-statistics.php:538
+#: wp-statistics.php:447 wp-statistics.php:561
 msgid "Top Visitors Today"
 msgstr "Top návštevníci dnes"
 
-#: wp-statistics/wp-statistics.php:429 wp-statistics/wp-statistics.php:540
+#: wp-statistics.php:452 wp-statistics.php:563
 msgid "Optimization"
 msgstr "Optimalizácia"
 
-#: wp-statistics/wp-statistics.php:435 wp-statistics/wp-statistics.php:504
+#: wp-statistics.php:458 wp-statistics.php:527
 msgid "Manual"
 msgstr "Manuál"
 
-#: wp-statistics/wp-statistics.php:519
+#: wp-statistics.php:542
 msgid "Site"
 msgstr "Stránka"
 
-#: wp-statistics/wp-statistics.php:520
+#: wp-statistics.php:543
 msgid "Options"
 msgstr "Možnosti"
 
-#: wp-statistics/wp-statistics.php:646
+#: wp-statistics.php:669
 msgid "Today visitor"
 msgstr "Dnes návštevníkov"
 
-#: wp-statistics/wp-statistics.php:652
+#: wp-statistics.php:675
 msgid "Today visit"
 msgstr "Dnes navštíviť"
 
-#: wp-statistics/wp-statistics.php:658
+#: wp-statistics.php:681
 msgid "Yesterday visitor"
 msgstr "Včera návštevníkov"
 
-#: wp-statistics/wp-statistics.php:670
+#: wp-statistics.php:693
 msgid "View Stats"
 msgstr "Zobrazenie štatistiky"
 
-#: wp-statistics/wp-statistics.php:694
+#: wp-statistics.php:717
 msgid "Download ODF file"
 msgstr "Stiahnuť ODF súbor"
 
-#: wp-statistics/wp-statistics.php:695
+#: wp-statistics.php:718
 msgid "Download HTML file"
 msgstr "Stiahnuť súbor vo formáte HTML"
 
-#: wp-statistics/wp-statistics.php:699
+#: wp-statistics.php:722
 msgid "Manual file not found."
 msgstr "Súbor manuálu nebol nájdený."
 
-#: wp-statistics/wp-statistics.php:766 wp-statistics/wp-statistics.php:893
-#: wp-statistics/wp-statistics.php:929
+#: wp-statistics.php:801 wp-statistics.php:915 wp-statistics.php:951
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Nemáte dostatočné oprávnenia pre prístup k tejto stránke."
 
-#: wp-statistics/wp-statistics.php:303
+#: wp-statistics.php:323
 msgid "WP Statistics %s installed on"
 msgstr "WP Statistics %s inštalovaný na"
 
-#: wp-statistics/wps-updates.php:54
+#: wps-updates.php:54
 msgid "Error downloading GeoIP database from: %s - %s"
 msgstr "Chyba pri sťahovaní GeoIP databázy z: %s - %s"
 
-#: wp-statistics/wps-updates.php:65
+#: wps-updates.php:65
 msgid "Error could not open downloaded GeoIP database for reading: %s"
 msgstr "Nepodarilo sa otvoriť stiahnutú GeoIP databázu pre čítanie: %s"
 
-#: wp-statistics/wps-updates.php:72
+#: wps-updates.php:72
 msgid "Error could not open destination GeoIP database for writing %s"
 msgstr "Nemožno otvoriť cieľovú GeoIP databázu pre zápis %s"
 
-#: wp-statistics/wps-updates.php:88
+#: wps-updates.php:88
 msgid "GeoIP Database updated successfully!"
 msgstr "GeoIP databáza aktualizovaná úspešne!"
 
-#: wp-statistics/wps-updates.php:113
+#: wps-updates.php:113
 msgid "GeoIP update on"
 msgstr "GeoIP aktualizované na"
 
-#: wp-statistics/wps-updates.php:180
+#: wps-updates.php:180
 msgid "Error downloading browscap database from: %s - %s"
 msgstr "Chyba pri sťahovaní browscap databázy z: %s - %s"
 
-#: wp-statistics/wps-updates.php:289
+#: wps-updates.php:289
 msgid "browscap database updated successfully!"
 msgstr "browscap databáza je aktualizovaná úspešne!"
 
-#: wp-statistics/wps-updates.php:299
+#: wps-updates.php:299
 msgid "browscap database updated failed!  Cache file too large, reverting to previous browscap.ini."
 msgstr "browscap aktualizácia databázy zlyhala! Súbor vyrovnávacej pamäte (Cache) je príliš veľký, návrat k predchádzajúcemu browscap.ini."
 
-#: wp-statistics/wps-updates.php:307
+#: wps-updates.php:307
 msgid "browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini."
 msgstr "browscap aktualizácia databázy zlyhala! Nový browscap.ini chybne identifikuje pužívateľských agentov ako skenery, návrat k predchádzajúcemu browscap.ini."
 
-#: wp-statistics/wps-updates.php:329
+#: wps-updates.php:329
 msgid "browscap already at current version!"
 msgstr "browscap už v aktuálnej verzii!"
 
-#: wp-statistics/wps-updates.php:342
+#: wps-updates.php:342
 msgid "Browscap.ini update on"
 msgstr "Browscap.ini aktualizovaný na"
 
-#: wp-statistics/dashboard.php:56
+#: dashboard.php:56
 msgid "Quick Stats"
 msgstr "Rýchle štatistiky"
 
-#: wp-statistics/dashboard.php:57
-#: wp-statistics/includes/log/widgets/browsers.php:41
+#: dashboard.php:57 includes/log/widgets/browsers.php:41
 msgid "Top 10 Browsers"
 msgstr "Top 10 prehliadačov"
 
-#: wp-statistics/dashboard.php:58 wp-statistics/wp-statistics.php:473
+#: dashboard.php:58 wp-statistics.php:496
 msgid "Top 10 Countries"
 msgstr "Top 10 krajín"
 
-#: wp-statistics/dashboard.php:59
+#: dashboard.php:59
 msgid "Today's Visitor Map"
 msgstr "Dnešná mapa návštevníkov"
 
-#: wp-statistics/dashboard.php:60 wp-statistics/editor.php:46
-#: wp-statistics/includes/log/hit-statistics.php:8
-#: wp-statistics/wp-statistics.php:448
+#: dashboard.php:60 editor.php:46 includes/log/hit-statistics.php:8
+#: wp-statistics.php:471
 msgid "Hit Statistics"
 msgstr "Štatistiky zobrazenia"
 
-#: wp-statistics/dashboard.php:61 wp-statistics/wp-statistics.php:463
+#: dashboard.php:61 wp-statistics.php:486
 msgid "Top 10 Pages"
 msgstr "Top 10 stránok"
 
-#: wp-statistics/dashboard.php:62
-#: wp-statistics/includes/log/last-visitor.php:36
-#: wp-statistics/wp-statistics.php:455
+#: dashboard.php:62 includes/log/last-visitor.php:36 wp-statistics.php:478
 msgid "Recent Visitors"
 msgstr "Nedávni návštevníci"
 
-#: wp-statistics/dashboard.php:63
-#: wp-statistics/includes/log/top-referring.php:59
-#: wp-statistics/includes/log/top-referring.php:81
-#: wp-statistics/wp-statistics.php:470
+#: dashboard.php:63 includes/log/top-referring.php:59
+#: includes/log/top-referring.php:81 wp-statistics.php:493
 msgid "Top Referring Sites"
 msgstr "Top odkazujúce stránky"
 
-#: wp-statistics/dashboard.php:64
-#: wp-statistics/includes/log/widgets/quickstats.php:75
-#: wp-statistics/includes/log/widgets/summary.php:75
-#: wp-statistics/widget.php:293 wp-statistics/wp-statistics.php:453
+#: dashboard.php:64 includes/log/widgets/quickstats.php:75
+#: includes/log/widgets/summary.php:75 widget.php:293 wp-statistics.php:476
 msgid "Search Engine Referrals"
 msgstr "Odkazovače vyhľadávača"
 
-#: wp-statistics/dashboard.php:65 wp-statistics/wp-statistics.php:468
+#: dashboard.php:65 wp-statistics.php:491
 msgid "Summary"
 msgstr "Zhrnutie"
 
-#: wp-statistics/dashboard.php:66 wp-statistics/includes/log/last-search.php:31
-#: wp-statistics/wp-statistics.php:454
+#: dashboard.php:66 includes/log/last-search.php:31 wp-statistics.php:477
 msgid "Latest Search Words"
 msgstr "Naposledy hľadané slová"
 
-#: wp-statistics/dashboard.php:67
+#: dashboard.php:67
 msgid "Top 10 Visitors Today"
 msgstr "Top 10 Návštevníkov dnes"
 
-#: wp-statistics/editor.php:58
+#: editor.php:58
 msgid "This post is not yet published."
 msgstr "Tento príspevok ešte nie je uverejnený."
 
-#: wp-statistics/includes/functions/geoip-populate.php:24
+#: includes/functions/geoip-populate.php:24
 msgid "Unable to load the GeoIP database, make sure you have downloaded it in the settings page."
 msgstr "Nepodarilo sa načítať GeoIP databázy, uistite sa, že ste si stiahli na stránke nastavení."
 
-#: wp-statistics/includes/functions/geoip-populate.php:48
+#: includes/functions/geoip-populate.php:48
 msgid "Updated %s GeoIP records in the visitors database."
 msgstr "Aktualizovať %s GeoIP záznamov v databáze návštevníkov."
 
-#: wp-statistics/includes/functions/purge.php:21
-#: wp-statistics/includes/functions/purge.php:39
-#: wp-statistics/includes/functions/purge.php:50
-#: wp-statistics/includes/functions/purge.php:61
-#: wp-statistics/includes/functions/purge.php:94
+#: includes/functions/purge.php:21 includes/functions/purge.php:39
+#: includes/functions/purge.php:50 includes/functions/purge.php:61
+#: includes/functions/purge.php:94
 msgid "%s data older than %s days purged successfully."
 msgstr "%s údaje staršie ako %s dní úspešne vymazané."
 
-#: wp-statistics/includes/functions/purge.php:23
-#: wp-statistics/includes/functions/purge.php:41
-#: wp-statistics/includes/functions/purge.php:52
-#: wp-statistics/includes/functions/purge.php:63
-#: wp-statistics/includes/functions/purge.php:96
+#: includes/functions/purge.php:23 includes/functions/purge.php:41
+#: includes/functions/purge.php:52 includes/functions/purge.php:63
+#: includes/functions/purge.php:96
 msgid "No records found to purge from %s!"
 msgstr "Žiadne záznamy nenájdené na odstránenie z %s!"
 
-#: wp-statistics/includes/functions/purge-hits.php:45
-#: wp-statistics/includes/functions/purge.php:109
+#: includes/functions/purge-hits.php:45 includes/functions/purge.php:109
 msgid "Database pruned on"
 msgstr "Databáza vyčistená"
 
-#: wp-statistics/includes/functions/purge.php:114
+#: includes/functions/purge.php:114
 msgid "Please select a value over 30 days."
 msgstr "Vyberte hodnotu viac ako 30 dní."
 
-#: wp-statistics/includes/log/all-browsers.php:21
+#: includes/log/all-browsers.php:21
 msgid "Browser Statistics"
 msgstr "Štatistiky prehliadačov"
 
-#: wp-statistics/includes/log/all-browsers.php:29
-#: wp-statistics/includes/log/all-browsers.php:113
-#: wp-statistics/includes/log/all-browsers.php:248
-#: wp-statistics/includes/log/exclusions.php:72
-#: wp-statistics/includes/log/exclusions.php:190
-#: wp-statistics/includes/log/hit-statistics.php:26
-#: wp-statistics/includes/log/hit-statistics.php:163
-#: wp-statistics/includes/log/last-search.php:64
-#: wp-statistics/includes/log/last-visitor.php:67
-#: wp-statistics/includes/log/online.php:17
-#: wp-statistics/includes/log/page-statistics.php:34
-#: wp-statistics/includes/log/search-statistics.php:27
-#: wp-statistics/includes/log/top-countries.php:26
-#: wp-statistics/includes/log/top-pages.php:29
-#: wp-statistics/includes/log/top-pages.php:155
-#: wp-statistics/includes/log/top-referring.php:77
-#: wp-statistics/includes/log/top-visitors.php:40
+#: includes/log/all-browsers.php:29 includes/log/all-browsers.php:113
+#: includes/log/all-browsers.php:248 includes/log/authors.php:70
+#: includes/log/authors.php:207 includes/log/authors.php:250
+#: includes/log/categories.php:58 includes/log/categories.php:195
+#: includes/log/categories.php:238 includes/log/exclusions.php:72
+#: includes/log/exclusions.php:190 includes/log/hit-statistics.php:26
+#: includes/log/hit-statistics.php:163 includes/log/last-search.php:64
+#: includes/log/last-visitor.php:67 includes/log/online.php:17
+#: includes/log/page-statistics.php:34 includes/log/search-statistics.php:28
+#: includes/log/tags.php:73 includes/log/tags.php:210 includes/log/tags.php:253
+#: includes/log/top-countries.php:26 includes/log/top-pages.php:30
+#: includes/log/top-pages.php:156 includes/log/top-referring.php:77
+#: includes/log/top-visitors.php:40
 msgid "Click to toggle"
 msgstr "Kliknutím prepnúť"
 
-#: wp-statistics/includes/log/all-browsers.php:30
-#: wp-statistics/wp-statistics.php:415 wp-statistics/wp-statistics.php:469
-#: wp-statistics/wp-statistics.php:529
+#: includes/log/all-browsers.php:30 wp-statistics.php:435 wp-statistics.php:492
+#: wp-statistics.php:552
 msgid "Browsers"
 msgstr "Prehliadače"
 
-#: wp-statistics/includes/log/all-browsers.php:57
+#: includes/log/all-browsers.php:57
 msgid "Browsers by type"
 msgstr "Prehliadače podľa typu"
 
-#: wp-statistics/includes/log/all-browsers.php:114
-#: wp-statistics/includes/log/widgets/top.visitors.php:18
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:313
+#: includes/log/all-browsers.php:114 includes/log/widgets/top.visitors.php:18
+#: includes/optimization/tabs/wps-optimization-resources.php:313
 msgid "Platform"
 msgstr "Platforma"
 
-#: wp-statistics/includes/log/all-browsers.php:141
+#: includes/log/all-browsers.php:141
 msgid "Browsers by platform"
 msgstr "Prehliadače podľa platformy"
 
-#: wp-statistics/includes/log/all-browsers.php:249
+#: includes/log/all-browsers.php:249
 msgid "%s Version"
 msgstr "Verzia %s"
 
-#: wp-statistics/includes/log/exclusions.php:8
+#: includes/log/exclusions.php:8
 msgid "Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!"
 msgstr "Pozor: Vylúčenia nie sú aktuálne nastavené na zaznamenávanie, výsledky nižšie nemusia odrážať aktuálne štatistiky!"
 
-#: wp-statistics/includes/log/exclusions.php:64
+#: includes/log/exclusions.php:64
 msgid "Exclusions Statistics"
 msgstr "Štatistiky vylúčení"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "10 Days"
 msgstr "10 dní"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "20 Days"
 msgstr "20 dní"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "30 Days"
 msgstr "30 dní"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "2 Months"
 msgstr "2 mesiace"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "3 Months"
 msgstr "3 mesiace"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "6 Months"
 msgstr "6 mesiacov"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "9 Months"
 msgstr "9 mesiacov"
 
-#: wp-statistics/includes/functions/functions.php:895
+#: includes/functions/functions.php:895
 msgid "1 Year"
 msgstr "1 rok"
 
-#: wp-statistics/includes/log/exclusions.php:73
+#: includes/log/exclusions.php:73
 msgid "Exclusions Statistical Chart"
 msgstr "Štatistický graf vylúčení"
 
-#: wp-statistics/includes/log/exclusions.php:95
+#: includes/log/exclusions.php:95
 msgid "Excluded hits in the last"
 msgstr "Vylúčené zobrazenia naposledy"
 
-#: wp-statistics/includes/log/exclusions.php:95
-#: wp-statistics/includes/log/hit-statistics.php:66
-#: wp-statistics/includes/log/search-statistics.php:69
-#: wp-statistics/includes/log/widgets/hits.php:44
-#: wp-statistics/includes/log/widgets/search.php:42
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:208
+#: includes/log/authors.php:110 includes/log/categories.php:98
+#: includes/log/exclusions.php:95 includes/log/hit-statistics.php:66
+#: includes/log/search-statistics.php:70 includes/log/tags.php:113
+#: includes/log/widgets/hits.php:44 includes/log/widgets/search.php:42
+#: includes/optimization/tabs/wps-optimization-purging.php:208
 msgid "days"
 msgstr "dní"
 
-#: wp-statistics/includes/log/exclusions.php:116
+#: includes/log/exclusions.php:116
 msgid "Number of excluded hits"
 msgstr "Počet vylúčených zobrazení"
 
-#: wp-statistics/includes/log/hit-statistics.php:27
+#: includes/log/hit-statistics.php:27
 msgid "Hits Statistics Chart"
 msgstr "Graf štatistík zobrazení"
 
-#: wp-statistics/includes/log/hit-statistics.php:66
-#: wp-statistics/includes/log/widgets/hits.php:44
+#: includes/log/authors.php:110 includes/log/categories.php:98
+#: includes/log/hit-statistics.php:66 includes/log/tags.php:113
+#: includes/log/widgets/hits.php:44
 msgid "Hits in the last"
 msgstr "Zobrazenia posledých"
 
-#: wp-statistics/includes/log/hit-statistics.php:87
-#: wp-statistics/includes/log/widgets/hits.php:65
+#: includes/log/hit-statistics.php:87 includes/log/widgets/hits.php:65
 msgid "Number of visits and visitors"
 msgstr "Návštevy a návštevníci"
 
-#: wp-statistics/includes/log/hit-statistics.php:101
-#: wp-statistics/includes/log/hit-statistics.php:170
-#: wp-statistics/includes/log/widgets/hits.php:79
-#: wp-statistics/includes/log/widgets/quickstats.php:24
-#: wp-statistics/includes/log/widgets/summary.php:24
+#: includes/log/authors.php:145 includes/log/categories.php:133
+#: includes/log/hit-statistics.php:101 includes/log/hit-statistics.php:170
+#: includes/log/tags.php:148 includes/log/widgets/hits.php:79
+#: includes/log/widgets/quickstats.php:24 includes/log/widgets/summary.php:24
 msgid "Visit"
 msgstr "Návštev"
 
-#: wp-statistics/includes/log/hit-statistics.php:101
-#: wp-statistics/includes/log/hit-statistics.php:171
-#: wp-statistics/includes/log/widgets/hits.php:79
-#: wp-statistics/includes/log/widgets/quickstats.php:23
-#: wp-statistics/includes/log/widgets/summary.php:23
+#: includes/log/hit-statistics.php:101 includes/log/hit-statistics.php:171
+#: includes/log/widgets/hits.php:79 includes/log/widgets/quickstats.php:23
+#: includes/log/widgets/summary.php:23
 msgid "Visitor"
 msgstr "Návštevníkov"
 
-#: wp-statistics/includes/log/last-search.php:65
+#: includes/log/last-search.php:65
 msgid "Latest Search Word Statistics"
 msgstr "Najnovšie štatistiky vyhľadávania slóv"
 
-#: wp-statistics/includes/log/last-search.php:110
-#: wp-statistics/includes/log/last-visitor.php:101
-#: wp-statistics/includes/log/online.php:50
-#: wp-statistics/includes/log/widgets/jqv.map.php:55
-#: wp-statistics/includes/log/widgets/recent.php:14
-#: wp-statistics/includes/log/widgets/words.php:27
+#: includes/log/last-search.php:110 includes/log/last-visitor.php:101
+#: includes/log/online.php:50 includes/log/widgets/jqv.map.php:55
+#: includes/log/widgets/recent.php:14 includes/log/widgets/words.php:27
 msgid "#hash#"
 msgstr "#hash#"
 
-#: wp-statistics/includes/log/last-search.php:115
-#: wp-statistics/includes/log/last-visitor.php:106
-#: wp-statistics/includes/log/online.php:55
-#: wp-statistics/includes/log/top-referring.php:112
-#: wp-statistics/includes/log/widgets/recent.php:19
-#: wp-statistics/includes/log/widgets/words.php:42
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:60
+#: includes/log/last-search.php:115 includes/log/last-visitor.php:106
+#: includes/log/online.php:55 includes/log/top-referring.php:112
+#: includes/log/widgets/recent.php:19 includes/log/widgets/words.php:42
+#: includes/settings/tabs/wps-overview-display.php:60
 msgid "Map"
 msgstr "Mapa"
 
-#: wp-statistics/includes/log/last-search.php:159
-#: wp-statistics/includes/log/last-visitor.php:139
-#: wp-statistics/includes/log/online.php:109
-#: wp-statistics/includes/log/top-pages.php:205
-#: wp-statistics/includes/log/top-referring.php:153
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
+#: includes/log/online.php:109 includes/log/top-pages.php:206
+#: includes/log/top-referring.php:153
 msgid "Page"
 msgstr "Strana"
 
-#: wp-statistics/includes/log/last-search.php:159
-#: wp-statistics/includes/log/last-visitor.php:139
-#: wp-statistics/includes/log/online.php:109
-#: wp-statistics/includes/log/top-pages.php:205
-#: wp-statistics/includes/log/top-referring.php:153
+#: includes/log/last-search.php:159 includes/log/last-visitor.php:139
+#: includes/log/online.php:109 includes/log/top-pages.php:206
+#: includes/log/top-referring.php:153
 msgid "From"
 msgstr "z"
 
-#: wp-statistics/includes/log/last-search.php:47
-#: wp-statistics/includes/log/last-visitor.php:38
-#: wp-statistics/includes/log/top-referring.php:67
-#: wp-statistics/includes/log/top-referring.php:70
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:192
-#: wp-statistics/widget.php:309
+#: includes/log/last-search.php:47 includes/log/last-visitor.php:38
+#: includes/log/top-referring.php:67 includes/log/top-referring.php:70
+#: includes/optimization/tabs/wps-optimization-purging.php:192 widget.php:309
 msgid "All"
 msgstr "Všetko"
 
-#: wp-statistics/includes/log/last-visitor.php:68
+#: includes/log/last-visitor.php:68
 msgid "Recent Visitor Statistics"
 msgstr "Nedávne štatistiky návštevnosti"
 
-#: wp-statistics/includes/log/online.php:11
-#: wp-statistics/includes/log/online.php:18
+#: includes/log/online.php:11 includes/log/online.php:18
 msgid "Online Users"
 msgstr "Online používatelia"
 
-#: wp-statistics/includes/log/online.php:75
+#: includes/log/online.php:75
 msgid "Online for "
 msgstr "Online už"
 
-#: wp-statistics/includes/log/page-statistics.php:26
+#: includes/log/page-statistics.php:26
 msgid "Page Trend for Post ID"
 msgstr "Trend stránok pre ID príspevku"
 
-#: wp-statistics/includes/log/page-statistics.php:35
+#: includes/log/page-statistics.php:35
 msgid "Page Trend"
 msgstr "Trend stránok"
 
-#: wp-statistics/includes/log/search-statistics.php:19
-#: wp-statistics/includes/log/search-statistics.php:28
+#: includes/log/search-statistics.php:20 includes/log/search-statistics.php:29
 msgid "Search Engine Referral Statistics"
 msgstr "Štatistiky odkazovačov vyhľadávača"
 
-#: wp-statistics/includes/log/search-statistics.php:69
-#: wp-statistics/includes/log/widgets/search.php:42
+#: includes/log/search-statistics.php:70 includes/log/widgets/search.php:42
 msgid "Search engine referrals in the last"
 msgstr "Odkazovače vyhľadávača posledných"
 
-#: wp-statistics/includes/log/search-statistics.php:90
-#: wp-statistics/includes/log/widgets/search.php:63
+#: includes/log/search-statistics.php:91 includes/log/widgets/search.php:63
 msgid "Number of referrals"
 msgstr "Počet odkazovačov "
 
-#: wp-statistics/includes/log/exclusions.php:24
-#: wp-statistics/includes/log/search-statistics.php:104
-#: wp-statistics/includes/log/widgets/quickstats.php:58
-#: wp-statistics/includes/log/widgets/quickstats.php:105
-#: wp-statistics/includes/log/widgets/search.php:77
-#: wp-statistics/includes/log/widgets/summary.php:58
-#: wp-statistics/includes/log/widgets/summary.php:105
+#: includes/log/exclusions.php:24 includes/log/search-statistics.php:105
+#: includes/log/widgets/quickstats.php:58
+#: includes/log/widgets/quickstats.php:105 includes/log/widgets/search.php:77
+#: includes/log/widgets/summary.php:58 includes/log/widgets/summary.php:105
 msgid "Total"
 msgstr "Celkom"
 
-#: wp-statistics/includes/log/top-countries.php:18
-#: wp-statistics/includes/log/top-countries.php:27
+#: includes/log/top-countries.php:18 includes/log/top-countries.php:27
 msgid "Top Countries"
 msgstr "Top krajiny"
 
-#: wp-statistics/includes/log/top-countries.php:31
-#: wp-statistics/includes/log/widgets/countries.php:9
-#: wp-statistics/includes/log/widgets/top.visitors.php:11
+#: includes/log/top-countries.php:31 includes/log/widgets/countries.php:9
+#: includes/log/widgets/top.visitors.php:11
 msgid "Rank"
 msgstr "Hodnotenie"
 
-#: wp-statistics/includes/log/top-countries.php:32
-#: wp-statistics/includes/log/widgets/countries.php:10
-#: wp-statistics/includes/log/widgets/top.visitors.php:13
+#: includes/log/top-countries.php:32 includes/log/widgets/countries.php:10
+#: includes/log/widgets/top.visitors.php:13
 msgid "Flag"
 msgstr "Vlajka"
 
-#: wp-statistics/includes/log/top-countries.php:33
-#: wp-statistics/includes/log/widgets/countries.php:11
-#: wp-statistics/includes/log/widgets/top.visitors.php:14
+#: includes/log/top-countries.php:33 includes/log/widgets/countries.php:11
+#: includes/log/widgets/top.visitors.php:14
 msgid "Country"
 msgstr "Krajina"
 
-#: wp-statistics/includes/log/top-countries.php:34
-#: wp-statistics/includes/log/widgets/countries.php:12
+#: includes/log/top-countries.php:34 includes/log/widgets/countries.php:12
 msgid "Visitor Count"
 msgstr "Počet návštev"
 
-#: wp-statistics/includes/log/top-pages.php:20
-#: wp-statistics/includes/log/top-pages.php:156
+#: includes/log/top-pages.php:21 includes/log/top-pages.php:157
 msgid "Top Pages"
 msgstr "Top stránky"
 
-#: wp-statistics/includes/log/top-pages.php:30
+#: includes/log/top-pages.php:31
 msgid "Top 5 Pages Trends"
 msgstr "Top 5 stránok trendy"
 
-#: wp-statistics/includes/log/top-pages.php:67
+#: includes/log/top-pages.php:68
 msgid "Top 5 Page Trending Stats"
 msgstr "Top 5 štatistiky stránka trendy"
 
-#: wp-statistics/includes/log/top-pages.php:88
-#: wp-statistics/includes/log/widgets/page.php:63
+#: includes/log/top-pages.php:89 includes/log/widgets/page.php:63
 msgid "Number of Hits"
 msgstr "Počet zobrazení"
 
-#: wp-statistics/includes/log/top-pages.php:184
-#: wp-statistics/includes/log/widgets/pages.php:13
+#: includes/log/top-pages.php:185 includes/log/widgets/pages.php:13
 msgid "No page title found"
 msgstr "Nenašiel sa názov stránky"
 
-#: wp-statistics/includes/log/top-pages.php:187
-#: wp-statistics/includes/log/widgets/pages.php:16
-#: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:37
-#: wp-statistics/includes/settings/tabs/wps-general.php:122
-#: wp-statistics/includes/settings/tabs/wps-general.php:127
-#: wp-statistics/shortcode.php:139
+#: includes/log/top-pages.php:188 includes/log/widgets/pages.php:16
+#: includes/optimization/tabs/wps-optimization-historical.php:37
+#: includes/settings/tabs/wps-general.php:122
+#: includes/settings/tabs/wps-general.php:127 shortcode.php:139
 msgid "Visits"
 msgstr "Návštevy"
 
-#: wp-statistics/includes/log/top-referring.php:4
+#: includes/log/top-referring.php:4
 msgid "To be added soon"
 msgstr "Bude pridané čoskoro"
 
-#: wp-statistics/includes/log/top-referring.php:79
+#: includes/log/top-referring.php:79
 msgid "Referring sites from"
 msgstr "Odkazujúce stránky z"
 
-#: wp-statistics/includes/log/top-referring.php:137
-#: wp-statistics/includes/log/widgets/referring.php:35
+#: includes/log/top-referring.php:137 includes/log/widgets/referring.php:35
 msgid "References"
 msgstr "Referencie"
 
-#: wp-statistics/includes/log/top-visitors.php:12
+#: includes/log/top-visitors.php:12
 msgid "Top 100 Visitors Today"
 msgstr "Top 100 Návštevníkov dnes"
 
-#: wp-statistics/includes/log/log.php:17
+#: includes/log/log.php:17
 msgid "About WP Statistics Version %s"
 msgstr "O WP Statistics Verzia %s"
 
-#: wp-statistics/includes/log/widgets/about.php:11
+#: includes/log/widgets/about.php:11
 msgid "Website"
 msgstr "Webové stránky"
 
-#: wp-statistics/includes/log/widgets/about.php:12
+#: includes/log/widgets/about.php:12
 msgid "Rate and Review"
 msgstr "Hodnotiť a recenzovať"
 
-#: wp-statistics/includes/log/widgets/about.php:16
+#: includes/log/widgets/about.php:16
 msgid "More Information"
 msgstr "Ďalšie informácie"
 
-#: wp-statistics/includes/log/widgets/about.php:25
-#: wp-statistics/includes/settings/tabs/wps-about.php:12
+#: includes/log/widgets/about.php:25 includes/settings/tabs/wps-about.php:12
 msgid "This product includes GeoLite2 data created by MaxMind, available from %s."
 msgstr "Tento produkt obsahuje GeoLite2 údaje vytvorené MaxMind, dostupné z %s."
 
-#: wp-statistics/includes/log/widgets/browsers.php:34
+#: includes/log/widgets/browsers.php:34
 msgid "Other"
 msgstr "Ostatné"
 
-#: wp-statistics/wp-statistics.php:458
+#: wp-statistics.php:481
 msgid "Today Visitors Map"
 msgstr "Dnešná mapa návštevníkov"
 
-#: wp-statistics/includes/log/widgets/referring.php:36
+#: includes/log/widgets/referring.php:36
 msgid "Address"
 msgstr "Adresa"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:12
+#: includes/log/widgets/quickstats.php:12
 msgid "User(s) Online"
 msgstr "Používatelia online"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:28
-#: wp-statistics/includes/log/widgets/quickstats.php:80
-#: wp-statistics/includes/log/widgets/summary.php:28
-#: wp-statistics/includes/log/widgets/summary.php:80
+#: includes/log/widgets/quickstats.php:28
+#: includes/log/widgets/quickstats.php:80 includes/log/widgets/summary.php:28
+#: includes/log/widgets/summary.php:80
 msgid "Today"
 msgstr "Dnes"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:34
-#: wp-statistics/includes/log/widgets/quickstats.php:81
-#: wp-statistics/includes/log/widgets/summary.php:34
-#: wp-statistics/includes/log/widgets/summary.php:81
+#: includes/log/widgets/quickstats.php:34
+#: includes/log/widgets/quickstats.php:81 includes/log/widgets/summary.php:34
+#: includes/log/widgets/summary.php:81
 msgid "Yesterday"
 msgstr "Včera"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:99
-#: wp-statistics/includes/log/widgets/summary.php:99
+#: includes/log/widgets/quickstats.php:99 includes/log/widgets/summary.php:99
 msgid "Daily Total"
 msgstr "Denne spolu"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:118
-#: wp-statistics/includes/log/widgets/summary.php:118
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "Current Time and Date"
 msgstr "Aktuálny čas a dátum"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:118
-#: wp-statistics/includes/log/widgets/summary.php:118
+#: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "(Adjustment)"
 msgstr "(Prispôsobiť)"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:122
-#: wp-statistics/includes/log/widgets/summary.php:122
+#: includes/log/widgets/quickstats.php:122 includes/log/widgets/summary.php:122
 msgid "Date: %s"
 msgstr "Dátum: %s"
 
-#: wp-statistics/includes/log/widgets/quickstats.php:126
-#: wp-statistics/includes/log/widgets/summary.php:126
+#: includes/log/widgets/quickstats.php:126 includes/log/widgets/summary.php:126
 msgid "Time: %s"
 msgstr "Čas: %s"
 
-#: wp-statistics/includes/log/widgets/top.visitors.php:12
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:80
-#: wp-statistics/wp-statistics.php:339 wp-statistics/wp-statistics.php:418
-#: wp-statistics/wp-statistics.php:532
+#: includes/log/authors.php:257 includes/log/categories.php:245
+#: includes/log/tags.php:260 includes/log/widgets/top.visitors.php:12
+#: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:359
+#: wp-statistics.php:438 wp-statistics.php:555
 msgid "Hits"
 msgstr "Zobrazenia"
 
-#: wp-statistics/includes/log/widgets/top.visitors.php:15
+#: includes/log/widgets/top.visitors.php:15
 msgid "IP"
 msgstr "IP"
 
-#: wp-statistics/includes/log/widgets/top.visitors.php:17
+#: includes/log/widgets/top.visitors.php:17
 msgid "Agent"
 msgstr "Agent"
 
-#: wp-statistics/includes/log/widgets/top.visitors.php:19
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:302
+#: includes/log/widgets/top.visitors.php:19
+#: includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Version"
 msgstr "Verzia"
 
-#: wp-statistics/ajax.php:41 wp-statistics/ajax.php:71
-#: wp-statistics/ajax.php:129 wp-statistics/ajax.php:154
-#: wp-statistics/ajax.php:184 wp-statistics/ajax.php:296
-#: wp-statistics/includes/optimization/wps-optimization.php:6
+#: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184 ajax.php:296
+#: includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
 msgstr "Prístup zamietnutý!"
 
-#: wp-statistics/ajax.php:31
+#: ajax.php:31
 msgid "%s agent data deleted successfully."
 msgstr "údaje agenta %s úspešne vymazaná."
 
-#: wp-statistics/ajax.php:34
+#: ajax.php:34
 msgid "No agent data found to remove!"
 msgstr "Neboli nájdené žiadne údaje agentov na odstránenie!"
 
-#: wp-statistics/ajax.php:38 wp-statistics/ajax.php:68
-#: wp-statistics/ajax.php:120 wp-statistics/ajax.php:126
+#: ajax.php:38 ajax.php:68 ajax.php:120 ajax.php:126
 msgid "Please select the desired items."
 msgstr "Vyberte požadované položky."
 
-#: wp-statistics/ajax.php:62
+#: ajax.php:62
 msgid "%s platform data deleted successfully."
 msgstr "údaje platformy %s úspešne vymazané."
 
-#: wp-statistics/ajax.php:65
+#: ajax.php:65
 msgid "No platform data found to remove!"
 msgstr "Neboli nájdené žiadne údaje platformy na odstránenie!"
 
-#: wp-statistics/includes/functions/functions.php:999
+#: includes/functions/functions.php:1007
 msgid "%s table data deleted successfully."
 msgstr "%s údaje tabuľky úspešne vymazané."
 
-#: wp-statistics/includes/functions/functions.php:1003
+#: includes/functions/functions.php:1011
 msgid "Error, %s not emptied!"
 msgstr "Chyba, %s nie je vyprázdnený!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
+#: includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
 msgstr "Nastavenie databázy"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:10
+#: includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
 msgstr "Spustiť znovu inštaláciu"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:14
+#: includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
 msgstr "Inštalovať teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:15
+#: includes/optimization/tabs/wps-optimization-database.php:15
 msgid "If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process."
 msgstr "Ak z nejakého dôvodu vašej inštalácii WP Statistics chýbajú databázové tabuľky alebo iné kľúčové časti, toto spustí opätovne inštalačný proces."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:20
+#: includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
 msgstr "Index databázy"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
-#: wp-statistics/wp-statistics.php:416 wp-statistics/wp-statistics.php:530
+#: includes/optimization/tabs/wps-optimization-database.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:21
+#: wp-statistics.php:436 wp-statistics.php:553
 msgid "Countries"
 msgstr "Krajiny"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:42
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:74
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:25
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:40
+#: includes/optimization/tabs/wps-optimization-database.php:42
+#: includes/optimization/tabs/wps-optimization-database.php:74
+#: includes/optimization/tabs/wps-optimization-updates.php:25
+#: includes/optimization/tabs/wps-optimization-updates.php:40
 msgid "Update Now!"
 msgstr "Aktualizovať teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:43
+#: includes/optimization/tabs/wps-optimization-database.php:43
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistitors table, delete duplicate entries and add the index."
 msgstr "Staršie inštalácie WP Statistics umožňujú v hraničnom prípade duplicitné záznamy v tabuľke návštevníkov. Novšie inštalácie zabraňujú tomu použitím jedinečného indexu v tabuľke. Ak chcete vytvoriť index na staršie inštalácie, musíte najkôr duplicitné položky odstrániť. Kliknutím \"Aktualizovať teraz\" sa vykoná kontrola tabuľky návštevníkov, odstránia sa duplicitné záznamy a pridá sa index."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:44
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:108
+#: includes/optimization/tabs/wps-optimization-database.php:44
+#: includes/optimization/tabs/wps-optimization-database.php:108
 msgid "This operation could take a long time on installs with many rows in the visitors table."
 msgstr "Ak je veľa riadkov v tabuľke návštevníkov, táto operácia môže trvať počas inštalácie dlhú dobu."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:50
+#: includes/optimization/tabs/wps-optimization-database.php:50
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table."
 msgstr "Staršie inštalácie WP Statistics umožňujú v hraničnom prípade duplicitné záznamy v tabuľke návštevníkov. Novšie inštalácie zabraňujú tomu použitím jedinečného indexu v tabuľke."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:51
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:83
-#: wp-statistics/includes/optimization/tabs/wps-optimization-database.php:114
+#: includes/optimization/tabs/wps-optimization-database.php:51
+#: includes/optimization/tabs/wps-optimization-database.php:83
+#: includes/optimization/tabs/wps-optimization-database.php:114
 msgid "Congratulations, your installation is already up to date, nothing to do."
 msgstr "Gratulujeme, vaša inštalácia je už aktuálna, nič nebude vykonané."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:8
-#: wp-statistics/includes/optimization/wps-optimization.php:235
+#: includes/optimization/tabs/wps-optimization-export.php:8
+#: includes/optimization/wps-optimization.php:235
 msgid "Export"
 msgstr "Export"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:13
+#: includes/optimization/tabs/wps-optimization-export.php:13
 msgid "Export from"
 msgstr "Export z"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:18
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:37
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:185
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:242
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:266
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:134
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:164
+#: includes/optimization/tabs/wps-optimization-export.php:18
+#: includes/optimization/tabs/wps-optimization-export.php:37
+#: includes/optimization/tabs/wps-optimization-purging.php:185
+#: includes/optimization/tabs/wps-optimization-purging.php:242
+#: includes/optimization/tabs/wps-optimization-purging.php:266
+#: includes/settings/tabs/wps-notifications.php:134
+#: includes/settings/tabs/wps-notifications.php:164
 msgid "Please select"
 msgstr "Prosím, vyberte"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:26
+#: includes/optimization/tabs/wps-optimization-export.php:26
 msgid "Select the table for the output file."
 msgstr "Vyberte tabuľku pre výstupný súbor."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:32
+#: includes/optimization/tabs/wps-optimization-export.php:32
 msgid "Export To"
 msgstr "Export do"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:42
+#: includes/optimization/tabs/wps-optimization-export.php:42
 msgid "Select the output file type."
 msgstr "Vyberte typ výstupného súboru."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:48
+#: includes/optimization/tabs/wps-optimization-export.php:48
 msgid "Include Header Row"
 msgstr "Zahrnúť riadok hlavičky"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:53
+#: includes/optimization/tabs/wps-optimization-export.php:53
 msgid "Include a header row as the first line of the exported file."
 msgstr "Zahrnúť hlavičku ako prvý riadok exportovaného súboru."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-export.php:54
+#: includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
 msgstr "Začnite teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:15
+#: includes/optimization/tabs/wps-optimization-historical.php:15
 msgid "Historical Values"
 msgstr "Historické hodnoty"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:20
+#: includes/optimization/tabs/wps-optimization-historical.php:20
 msgid "Note: As you have just purged the database you must reload this page for these numbers to be correct."
 msgstr "Poznámka: Ako ste práve vyčistili databázu, musíte znova načítať túto stránku aby boli tieto čísla správne."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:26
-#: wp-statistics/includes/settings/tabs/wps-general.php:138
-#: wp-statistics/includes/settings/tabs/wps-general.php:143
-#: wp-statistics/shortcode.php:140 wp-statistics/wp-statistics.php:425
-#: wp-statistics/wp-statistics.php:539
+#: includes/optimization/tabs/wps-optimization-historical.php:26
+#: includes/settings/tabs/wps-general.php:138
+#: includes/settings/tabs/wps-general.php:143 shortcode.php:140
+#: wp-statistics.php:448 wp-statistics.php:562
 msgid "Visitors"
 msgstr "Návštevníci"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:31
+#: includes/optimization/tabs/wps-optimization-historical.php:31
 msgid "Number of historical number of visitors to the site (current value is %s)."
 msgstr "Historický počet návštevníkov stránok (aktuálna hodnota je %s)."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:42
+#: includes/optimization/tabs/wps-optimization-historical.php:42
 msgid "Number of historical number of visits to the site (current value is %s)."
 msgstr "Historický počet návštev stránok (aktuálna hodnota je %s)."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:48
+#: includes/optimization/tabs/wps-optimization-historical.php:48
 msgid "Update now!"
 msgstr "Aktualizovať teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:10
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:43
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:75
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:107
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:141
+#: includes/optimization/tabs/wps-optimization-purging.php:10
+#: includes/optimization/tabs/wps-optimization-purging.php:43
+#: includes/optimization/tabs/wps-optimization-purging.php:75
+#: includes/optimization/tabs/wps-optimization-purging.php:107
+#: includes/optimization/tabs/wps-optimization-purging.php:141
 msgid "Are you sure?"
 msgstr "Ste si istý?"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:175
+#: includes/optimization/tabs/wps-optimization-purging.php:175
 msgid "Data"
 msgstr "Údaje"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:180
+#: includes/optimization/tabs/wps-optimization-purging.php:180
 msgid "Empty Table"
 msgstr "Prázdna tabuľka"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:194
+#: includes/optimization/tabs/wps-optimization-purging.php:194
 msgid "All data table will be lost."
 msgstr "Celá tabuľka údajov bude stratená."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:195
+#: includes/optimization/tabs/wps-optimization-purging.php:195
 msgid "Clear now!"
 msgstr "Vyčistiť teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:203
+#: includes/optimization/tabs/wps-optimization-purging.php:203
 msgid "Purge records older than"
 msgstr "Odstrániť záznamy staršie ako"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:209
+#: includes/optimization/tabs/wps-optimization-purging.php:209
 msgid "Deleted user statistics data older than the selected number of days.  Minimum value is 30 days."
 msgstr "Odstránené používateľské štatistiky staršie ako je vybraný počet dní. Minimálna hodnota je 30 dní."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:210
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:225
+#: includes/optimization/tabs/wps-optimization-purging.php:210
+#: includes/optimization/tabs/wps-optimization-purging.php:225
 msgid "Purge now!"
 msgstr "Odstrániť teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:232
+#: includes/optimization/tabs/wps-optimization-purging.php:232
 msgid "Delete User Agent Types"
 msgstr "Odstrániť typy používateľských agentov"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:237
+#: includes/optimization/tabs/wps-optimization-purging.php:237
 msgid "Delete Agents"
 msgstr "Odstráňte agentov"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:252
+#: includes/optimization/tabs/wps-optimization-purging.php:252
 msgid "All visitor data will be lost for this agent type."
 msgstr "Všetky údaje návštevníka budú stratené pre tento typ agenta."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:253
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:277
+#: includes/optimization/tabs/wps-optimization-purging.php:253
+#: includes/optimization/tabs/wps-optimization-purging.php:277
 msgid "Delete now!"
 msgstr "Odstrániť teraz!"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:261
+#: includes/optimization/tabs/wps-optimization-purging.php:261
 msgid "Delete Platforms"
 msgstr "Odstrániť platformy"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:276
+#: includes/optimization/tabs/wps-optimization-purging.php:276
 msgid "All visitor data will be lost for this platform type."
 msgstr "Všetky údaje návštevníka budú stratené pre tento typ platformy."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:17
+#: includes/optimization/tabs/wps-optimization-resources.php:17
 msgid "Resources"
 msgstr "Zdroje"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:22
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:27
+#: includes/optimization/tabs/wps-optimization-resources.php:22
+#: includes/optimization/tabs/wps-optimization-resources.php:27
 msgid "Memory usage in PHP"
 msgstr "Využitie pamäte v PHP"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:26
+#: includes/optimization/tabs/wps-optimization-resources.php:26
 msgid "Byte"
 msgstr "Bajt"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:33
+#: includes/optimization/tabs/wps-optimization-resources.php:33
 msgid "PHP Memory Limit"
 msgstr "PHP Limit pamäte"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:38
+#: includes/optimization/tabs/wps-optimization-resources.php:38
 msgid "The memory limit a script is allowed to consume, set in php.ini."
 msgstr "Limit pamäte, ktorú môže skript spotrebovať, nastavené v php.ini."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:44
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:55
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:66
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:77
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:88
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:99
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:110
+#: includes/optimization/tabs/wps-optimization-resources.php:44
+#: includes/optimization/tabs/wps-optimization-resources.php:55
+#: includes/optimization/tabs/wps-optimization-resources.php:66
+#: includes/optimization/tabs/wps-optimization-resources.php:77
+#: includes/optimization/tabs/wps-optimization-resources.php:88
+#: includes/optimization/tabs/wps-optimization-resources.php:99
+#: includes/optimization/tabs/wps-optimization-resources.php:110
 msgid "Number of rows in the %s table"
 msgstr "Počet riadkov v tabuľke %s"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:48
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:59
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:70
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:81
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:92
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:103
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:114
+#: includes/optimization/tabs/wps-optimization-resources.php:48
+#: includes/optimization/tabs/wps-optimization-resources.php:59
+#: includes/optimization/tabs/wps-optimization-resources.php:70
+#: includes/optimization/tabs/wps-optimization-resources.php:81
+#: includes/optimization/tabs/wps-optimization-resources.php:92
+#: includes/optimization/tabs/wps-optimization-resources.php:103
+#: includes/optimization/tabs/wps-optimization-resources.php:114
 msgid "Row"
 msgstr "Riadok"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:49
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:60
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:71
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:82
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:93
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:104
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:115
+#: includes/optimization/tabs/wps-optimization-resources.php:49
+#: includes/optimization/tabs/wps-optimization-resources.php:60
+#: includes/optimization/tabs/wps-optimization-resources.php:71
+#: includes/optimization/tabs/wps-optimization-resources.php:82
+#: includes/optimization/tabs/wps-optimization-resources.php:93
+#: includes/optimization/tabs/wps-optimization-resources.php:104
+#: includes/optimization/tabs/wps-optimization-resources.php:115
 msgid "Number of rows"
 msgstr "Počet riadkov"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:120
+#: includes/optimization/tabs/wps-optimization-resources.php:120
 msgid "Version Info"
 msgstr "Informácie o verzii"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:125
+#: includes/optimization/tabs/wps-optimization-resources.php:125
 msgid "WP Statistics Version"
 msgstr "Verzia WP Statistics"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:130
+#: includes/optimization/tabs/wps-optimization-resources.php:130
 msgid "The WP Statistics version you are running."
 msgstr "Používate verziu WP Statistics."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:136
+#: includes/optimization/tabs/wps-optimization-resources.php:136
 msgid "PHP Version"
 msgstr "PHP verzia"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:141
+#: includes/optimization/tabs/wps-optimization-resources.php:141
 msgid "The PHP version you are running."
 msgstr "Používate verziu PHP."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:147
+#: includes/optimization/tabs/wps-optimization-resources.php:147
 msgid "PHP Safe Mode"
 msgstr "PHP núdzový režim"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:152
+#: includes/optimization/tabs/wps-optimization-resources.php:152
 msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
 msgstr "Je PHP núdzový režim (Safe Mode) aktívny? GeoIP kód nie je podporovaný v núdzovom režime."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:169
+#: includes/optimization/tabs/wps-optimization-resources.php:169
 msgid "jQuery Version"
 msgstr "Verzia jQuery"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:174
+#: includes/optimization/tabs/wps-optimization-resources.php:174
 msgid "The jQuery version you are running."
 msgstr "JQuery verziu používate."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:180
+#: includes/optimization/tabs/wps-optimization-resources.php:180
 msgid "cURL Version"
 msgstr "cURL verzia"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:184
+#: includes/optimization/tabs/wps-optimization-resources.php:184
 msgid "cURL not installed"
 msgstr "cURL nie je nainštalovaný"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:185
+#: includes/optimization/tabs/wps-optimization-resources.php:185
 msgid "The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
 msgstr "Používaná verzia PHP cURL rozšírenia. cURL je potrebné pre určenie GeoIP kódu, ak nie je nainštalované, funkcia GeoIP bude vypnutá."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "Installed"
 msgstr "Inštalované"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
+#: includes/optimization/tabs/wps-optimization-resources.php:195
 msgid "Not installed"
 msgstr "Nie je nainštalovaný"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:201
+#: includes/optimization/tabs/wps-optimization-resources.php:201
 msgid "File Info"
 msgstr "Informácie o súbore"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:206
+#: includes/optimization/tabs/wps-optimization-resources.php:206
 msgid "GeoIP Database"
 msgstr "GeoIP databáza"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:215
+#: includes/optimization/tabs/wps-optimization-resources.php:215
 msgid "Database file does not exist."
 msgstr "Databázový súbor neexistuje."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:217
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:236
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:255
+#: includes/optimization/tabs/wps-optimization-resources.php:217
+#: includes/optimization/tabs/wps-optimization-resources.php:236
+#: includes/optimization/tabs/wps-optimization-resources.php:255
 msgid ", created on "
 msgstr ", vytvorené na "
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:219
+#: includes/optimization/tabs/wps-optimization-resources.php:219
 msgid "The file size and date of the GeoIP database."
 msgstr "Veľkosť súboru a dátum GeoIP databázy."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:225
+#: includes/optimization/tabs/wps-optimization-resources.php:225
 msgid "browscap.ini File"
 msgstr "browscap.ini súbor"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:234
+#: includes/optimization/tabs/wps-optimization-resources.php:234
 msgid "browscap.ini file does not exist."
 msgstr "browscap.ini súbor neexistuje."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:238
+#: includes/optimization/tabs/wps-optimization-resources.php:238
 msgid "The file size and date of the browscap.ini file."
 msgstr "Veľkosť súboru a dátum súboru browscap.ini."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:244
+#: includes/optimization/tabs/wps-optimization-resources.php:244
 msgid "browscap Cache File"
 msgstr "browscap súbor vyrovnávacej pamäte"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:253
+#: includes/optimization/tabs/wps-optimization-resources.php:253
 msgid "browscap cache file does not exist."
 msgstr "browscap súbor vyrovnávacej pamäte neexistuje."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:257
+#: includes/optimization/tabs/wps-optimization-resources.php:257
 msgid "The file size and date of the browscap cache file."
 msgstr "Veľkosť súboru a dátum súboru cache browscap."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:262
+#: includes/optimization/tabs/wps-optimization-resources.php:262
 msgid "Client Info"
 msgstr "Info o klientovi"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:267
+#: includes/optimization/tabs/wps-optimization-resources.php:267
 msgid "Client IP"
 msgstr "IP klienta"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:272
+#: includes/optimization/tabs/wps-optimization-resources.php:272
 msgid "The client IP address."
 msgstr "Adresa IP klienta."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:278
+#: includes/optimization/tabs/wps-optimization-resources.php:278
 msgid "User Agent"
 msgstr "User Agent"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:283
+#: includes/optimization/tabs/wps-optimization-resources.php:283
 msgid "The client user agent string."
 msgstr "Identifikačný reťazec klienta."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:289
+#: includes/optimization/tabs/wps-optimization-resources.php:289
 msgid "Browser"
 msgstr "Prehliadač"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
+#: includes/optimization/tabs/wps-optimization-resources.php:296
 msgid "The detected client browser."
 msgstr "Zistený prehliadač klienta."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:307
+#: includes/optimization/tabs/wps-optimization-resources.php:307
 msgid "The detected client browser version."
 msgstr "Zistená verzia prehliadača klienta."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:318
+#: includes/optimization/tabs/wps-optimization-resources.php:318
 msgid "The detected client platform."
 msgstr "Zistená platforma klienta."
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
+#: includes/optimization/tabs/wps-optimization-updates.php:4
 msgid "This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?"
 msgstr "To nahradí všetky IP adresy z databázy s hash hodnoty a nie je možné vrátiť späť, ste si istí?"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:16
+#: includes/optimization/tabs/wps-optimization-updates.php:16
 msgid "GeoIP Options"
 msgstr "Možnosti GeoIP"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:26
+#: includes/optimization/tabs/wps-optimization-updates.php:26
 msgid "Updates any unknown location data in the database, this may take a while"
 msgstr "Aktualizuje všetky neznáme miesto údaje v databáze, to môže chvíľu trvať,"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:31
-#: wp-statistics/includes/settings/tabs/wps-general.php:66
+#: includes/optimization/tabs/wps-optimization-updates.php:31
+#: includes/settings/tabs/wps-general.php:66
 msgid "IP Addresses"
 msgstr "IP adresy"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:36
-#: wp-statistics/includes/settings/tabs/wps-general.php:71
+#: includes/optimization/tabs/wps-optimization-updates.php:36
+#: includes/settings/tabs/wps-general.php:71
 msgid "Hash IP Addresses"
 msgstr "Hash IP adries"
 
-#: wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:41
+#: includes/optimization/tabs/wps-optimization-updates.php:41
 msgid "Replace IP addresses in the database with hash values, you will not be able to recover the IP addresses in the future to populate location information afterwards and this may take a while"
 msgstr "IP adresy v databáze nahradiť hodnotami hash. Nebudete potom schopní obnoviť IP adresy v budúcnosti a získať lokalizačné informácie. Táto operácia môže chvíľu trvať"
 
-#: wp-statistics/includes/optimization/wps-optimization.php:43
+#: includes/optimization/wps-optimization.php:43
 msgid "IP Addresses replaced with hash values."
 msgstr "IP adresy nahradené hodnotami hash."
 
-#: wp-statistics/includes/optimization/wps-optimization.php:51
+#: includes/optimization/wps-optimization.php:51
 msgid "Install routine complete."
 msgstr "Inštalačná rutina kompletná."
 
-#: wp-statistics/includes/optimization/wps-optimization.php:234
+#: includes/optimization/wps-optimization.php:234
 msgid "Resources/Information"
 msgstr "Zdroje/Informácie"
 
-#: wp-statistics/includes/optimization/wps-optimization.php:236
+#: includes/optimization/wps-optimization.php:236
 msgid "Purging"
 msgstr "Odstraňujem"
 
-#: wp-statistics/includes/optimization/wps-optimization.php:237
+#: includes/optimization/wps-optimization.php:237
 msgid "Database"
 msgstr "Databáza"
 
-#: wp-statistics/includes/optimization/wps-optimization.php:238
+#: includes/optimization/wps-optimization.php:238
 msgid "Updates"
 msgstr "Aktualizácie"
 
-#: wp-statistics/includes/optimization/wps-optimization.php:239
+#: includes/optimization/wps-optimization.php:239
 msgid "Historical"
 msgstr "Historický"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:8
+#: includes/settings/tabs/wps-about.php:8
 msgid "WP Statistics V%s"
 msgstr "WP Statistics V %s"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:28
+#: includes/settings/tabs/wps-about.php:28
 msgid "Visit Us Online"
 msgstr "Navštívte nás Online"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:32
+#: includes/settings/tabs/wps-about.php:32
 msgid "Come visit our great new %s and keep up to date on the latest news about WP Statistics."
 msgstr "Príďte navštíviť náše skvelé nové %s a zostaňte informovaní o najnovších novinkách ohľadom WP Statistics."
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:32
+#: includes/settings/tabs/wps-about.php:32
 msgid "website"
 msgstr "webové stránky"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:36
+#: includes/settings/tabs/wps-about.php:36
 msgid "Rate and Review at WordPress.org"
 msgstr "Hodnotiť a recenzovať na WordPress.org"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:40
+#: includes/settings/tabs/wps-about.php:40
 msgid "Thanks for installing WP Statistics, we encourage you to submit a "
 msgstr "Vďaka za inštaláciu WP Statistics, odporúčame vám podať "
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:40
+#: includes/settings/tabs/wps-about.php:40
 msgid "rating and review"
 msgstr "hodnotenie a recenzia"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:40
+#: includes/settings/tabs/wps-about.php:40
 msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
 msgstr "na WordPress.org. Vaša spätná väzba je veľmi cenná!"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:44
+#: includes/settings/tabs/wps-about.php:44
 msgid "Translations"
 msgstr "Preklady"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:48
+#: includes/settings/tabs/wps-about.php:48
 msgid "WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help."
 msgstr "WP Statistics podporuje internacionalizáciu a žiadame našich užívateľov, aby predložili preklady, prosím navštívte naše %s Ak chcete zobraziť aktuálny stav a %s ak by ste chceli pomôcť."
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:48
+#: includes/settings/tabs/wps-about.php:48
 msgid "translation collaboration site"
 msgstr "preklad spolupracujúca lokalita"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:48
+#: includes/settings/tabs/wps-about.php:48
 msgid "drop us a line"
 msgstr "Napíšte nám"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:52
+#: includes/settings/tabs/wps-about.php:52
 msgid "Support"
 msgstr "Podpora"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:57
+#: includes/settings/tabs/wps-about.php:57
 msgid "We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:"
 msgstr "Ľutujeme, že máte problém s WP Statistics, radi vám pomôžeme. Tu je niekoľko vecí, ktoré je potrebné urobiť, než nás budete kontaktovať:"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:60
-#: wp-statistics/includes/settings/tabs/wps-about.php:61
+#: includes/settings/tabs/wps-about.php:60
+#: includes/settings/tabs/wps-about.php:61
 msgid "Have you read the %s?"
 msgstr "Čítali ste %s?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:60
+#: includes/settings/tabs/wps-about.php:60
 msgid "FAQs"
 msgstr "Často kladené otázky"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:61
+#: includes/settings/tabs/wps-about.php:61
 msgid "manual"
 msgstr "manuál"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:62
+#: includes/settings/tabs/wps-about.php:62
 msgid "Have you search the %s for a similar issue?"
 msgstr "Hľadali ste v %s podobný problém?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:62
+#: includes/settings/tabs/wps-about.php:62
 msgid "support forum"
 msgstr "diskusné fórum"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:63
+#: includes/settings/tabs/wps-about.php:63
 msgid "Have you search the Internet for any error messages you are receiving?"
 msgstr "Hľadali ste na Internete chybové hlásenia, ktoré dostávate?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:64
+#: includes/settings/tabs/wps-about.php:64
 msgid "Make sure you have access to your PHP error logs."
 msgstr "Uistite sa, že máte prístup k PHP chybovým záznamom."
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:67
+#: includes/settings/tabs/wps-about.php:67
 msgid "And a few things to double-check:"
 msgstr "A pár vecí skontrolovať:"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:70
+#: includes/settings/tabs/wps-about.php:70
 msgid "How's your memory_limit in php.ini?"
 msgstr "Ako je váš memory_limit v php.ini?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:71
+#: includes/settings/tabs/wps-about.php:71
 msgid "Have you tried disabling any other plugins you may have installed?"
 msgstr "Skúšali ste vypnúť nejaké iné zásuvné moduly (pluginy), ktoré máte nainštalované?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:72
+#: includes/settings/tabs/wps-about.php:72
 msgid "Have you tried using the default WordPress theme?"
 msgstr "Vyskúšali ste s pomocou predvolenej WordPress témy?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:73
+#: includes/settings/tabs/wps-about.php:73
 msgid "Have you double checked the plugin settings?"
 msgstr "Prekontrolovali ste nastavenia zásuvného modulu (pluginu)?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:74
+#: includes/settings/tabs/wps-about.php:74
 msgid "Do you have all the required PHP extensions installed?"
 msgstr "Máte všetky potrebné PHP rozšírenia nainštalované?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:75
+#: includes/settings/tabs/wps-about.php:75
 msgid "Are you getting a blank or incomplete page displayed in your browser?  Did you view the source for the page and check for any fatal errors?"
 msgstr "Ste stále nevyplnené alebo neúplné stránky zobrazujú v prehliadači? Môžete zobraziť zdrojový kód stránky a skontrolovať prípadné fatálne chyby?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:76
+#: includes/settings/tabs/wps-about.php:76
 msgid "Have you checked your PHP and web server error logs?"
 msgstr "Skontrolovali ste svoje PHP a chybové hlásenia webového servera?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:79
+#: includes/settings/tabs/wps-about.php:79
 msgid "Still not having any luck?"
 msgstr "Stále bez trochy šťastia?"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:79
+#: includes/settings/tabs/wps-about.php:79
 msgid "Then please open a new thread on the %s and we'll respond as soon as possible."
 msgstr "Potom prosím otvoriť nové vlákno na %s, budeme odpovedať čo najskôr."
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:79
+#: includes/settings/tabs/wps-about.php:79
 msgid "WordPress.org support forum"
 msgstr "WordPress.org fórum podpory"
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:83
+#: includes/settings/tabs/wps-about.php:83
 msgid "Alternatively %s support is available as well."
 msgstr "Alternatívne je tu k dispozícii podpora v jazyku %s ."
 
-#: wp-statistics/includes/settings/tabs/wps-about.php:83
+#: includes/settings/tabs/wps-about.php:83
 msgid "Farsi"
 msgstr "Perzština"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:21
+#: includes/settings/tabs/wps-exclusions.php:21
 msgid "WP Statistics Honey Pot Page"
 msgstr "Stránka WP Statistics Honey Pot "
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:22
+#: includes/settings/tabs/wps-exclusions.php:22
 msgid "This is the honey pot for WP Statistics to use, do not delete."
 msgstr "Toto je honey pot používaný WP Statistics, neodstraňujte ho."
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:23
-#: wp-statistics/includes/settings/wps-settings.php:103
+#: includes/settings/tabs/wps-access-level.php:23
+#: includes/settings/wps-settings.php:103
 msgid "Access Levels"
 msgstr "Úrovne prístupu"
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:52
+#: includes/settings/tabs/wps-access-level.php:52
 msgid "Required user level to view WP Statistics"
 msgstr "Požadovaná pužívateľská úroveň potrebná pre zobrazenie WP Statistics"
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:67
+#: includes/settings/tabs/wps-access-level.php:67
 msgid "Required user level to manage WP Statistics"
 msgstr "Požadovaná pužívateľská úroveň potrebná pre správu WP Statistics"
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:75
+#: includes/settings/tabs/wps-access-level.php:75
 msgid "See the %s for details on capability levels."
 msgstr "Pozrite si %s podrobnosti o úrovniach spôsobilosti."
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:75
+#: includes/settings/tabs/wps-access-level.php:75
 msgid "WordPress Roles and Capabilities page"
 msgstr "WordPress funkcie a možnosti stránka"
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:76
+#: includes/settings/tabs/wps-access-level.php:76
 msgid "Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone."
 msgstr "Tip: manage_network = Superadministrátor siete, manage_options = Administrátor, edit_others_posts = Editor, publish_posts = Autor, edit_posts = Prispievateľ, read = všetci."
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:77
+#: includes/settings/tabs/wps-access-level.php:77
 msgid "Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins."
 msgstr "Každé z vyššie uvedených mení v predvolenom nastavení WordPress kaskádne práva smerom nahor. Tak napríklad výberom publish_posts udeľujete právo autorom, editorom, administrátorom a super administrátorom."
 
-#: wp-statistics/includes/settings/tabs/wps-access-level.php:78
+#: includes/settings/tabs/wps-access-level.php:78
 msgid "If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory."
 msgstr "Ak potrebujete viacej robustné riešenie na delegovanie prístupu, asi sa budete chcieť pozrieť na %s v adresári WordPress zasúvného modulu."
 
-#: wp-statistics/includes/log/exclusions.php:197
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:46
-#: wp-statistics/includes/settings/wps-settings.php:104
-#: wp-statistics/wp-statistics.php:417 wp-statistics/wp-statistics.php:531
+#: includes/log/exclusions.php:197 includes/settings/tabs/wps-exclusions.php:46
+#: includes/settings/wps-settings.php:104 wp-statistics.php:437
+#: wp-statistics.php:554
 msgid "Exclusions"
 msgstr "Vylúčenia"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:50
+#: includes/settings/tabs/wps-exclusions.php:50
 msgid "Record exclusions"
 msgstr "Vylúčenie záznamov"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:52
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:106
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:136
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:153
+#: includes/settings/tabs/wps-exclusions.php:52
+#: includes/settings/tabs/wps-exclusions.php:106
+#: includes/settings/tabs/wps-exclusions.php:136
+#: includes/settings/tabs/wps-exclusions.php:153
 msgid "Enable"
 msgstr "Zapnúť"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:53
+#: includes/settings/tabs/wps-exclusions.php:53
 msgid "This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.  This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits."
 msgstr "To bude zaznamenávať všetky vylúčené hity v samostatnej tabuľke dôvody prečo to bolo vylúčené, ale žiadne ďalšie informácie. To bude generovať veľa údajov, ale je užitočné, ak chcete zobraziť celkový počet hitov vaše stránky dostane, nie len skutočný užívateľ návštev."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:58
+#: includes/settings/tabs/wps-exclusions.php:58
 msgid "Exclude User Roles"
 msgstr "Vylúčiť používateľské role"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:74
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:199
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:206
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:213
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:220
+#: includes/settings/tabs/wps-exclusions.php:74
+#: includes/settings/tabs/wps-exclusions.php:199
+#: includes/settings/tabs/wps-exclusions.php:206
+#: includes/settings/tabs/wps-exclusions.php:213
+#: includes/settings/tabs/wps-exclusions.php:220
+#: includes/settings/tabs/wps-exclusions.php:227
 msgid "Exclude"
 msgstr "Vylúčiť"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:75
+#: includes/settings/tabs/wps-exclusions.php:75
 msgid "Exclude %s role from data collection."
 msgstr "Vylúčiť %s rolu zo zberu údajov."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:81
+#: includes/settings/tabs/wps-exclusions.php:81
 msgid "IP/Robot Exclusions"
 msgstr "IP/Robot vylúčenia"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:85
+#: includes/settings/tabs/wps-exclusions.php:85
 msgid "Robot list"
 msgstr "Zoznam robotov"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:98
+#: includes/settings/tabs/wps-exclusions.php:98
 msgid "A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored."
 msgstr "Zoznam slov (jedno na riadok) pre porovnanie na detekciu robotov. Položky musia mať aspoň 4 znaky alebo sa budú ignorovať."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:99
+#: includes/settings/tabs/wps-exclusions.php:99
 msgid "Reset to Default"
 msgstr "Obnoviť predvolené"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:104
+#: includes/settings/tabs/wps-exclusions.php:104
 msgid "Force robot list update after upgrades"
 msgstr "Po aktualizáciach vynútiť aj aktualizáciu zoznamu robotov"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:107
+#: includes/settings/tabs/wps-exclusions.php:107
 msgid "Force the robot list to be reset to the default after an update to WP Statistics takes place.  Note if this option is enabled any custom robots you have added to the list will be lost."
 msgstr "Po aktualizácii WP Statistics vynútiť obnovenie zoznamu robotov na prednastavenú hodnotu. Poznámka: Ak je táto vlastnosť povolená, vami pridané roboty do zoznamu sa stratia."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:112
+#: includes/settings/tabs/wps-exclusions.php:112
 msgid "Robot visit threshold"
 msgstr "Prah pre návštevy robotov"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:115
+#: includes/settings/tabs/wps-exclusions.php:115
 msgid "Treat visitors with more than this number of visits per day as robots.  0 = disabled."
 msgstr "Rozlišuj návštevníkov s počet návštev za deň viac ako toto číslo ako robotov. 0 = vypnuté."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:120
+#: includes/settings/tabs/wps-exclusions.php:120
 msgid "Excluded IP address list"
 msgstr "Zoznam vylúčených IP adries "
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:126
+#: includes/settings/tabs/wps-exclusions.php:126
 msgid "Add 10.0.0.0"
 msgstr "Pridať 10.0.0.0"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:127
+#: includes/settings/tabs/wps-exclusions.php:127
 msgid "Add 172.16.0.0"
 msgstr "Pridať 172.16.0.0"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:128
+#: includes/settings/tabs/wps-exclusions.php:128
 msgid "Add 192.168.0.0"
 msgstr "Pridať 192.168.0.0"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:134
+#: includes/settings/tabs/wps-exclusions.php:134
 msgid "Use honey pot"
 msgstr "Použiť Honey Pot"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:137
+#: includes/settings/tabs/wps-exclusions.php:137
 msgid "Use a honey pot page to identify robots."
 msgstr "Použite stránku Honey Pot na identifikáciu robotov."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:142
+#: includes/settings/tabs/wps-exclusions.php:142
 msgid "Honey pot post id"
 msgstr "Id Honey pot príspevku"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:145
+#: includes/settings/tabs/wps-exclusions.php:145
 msgid "The post id to use for the honeypot page."
 msgstr "Id príspevku použité pre stránku Honeypot."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:146
+#: includes/settings/tabs/wps-exclusions.php:146
 msgid "Create a new honey pot page"
 msgstr "Vytvorenie novej Honey Pot stránky"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:159
+#: includes/settings/tabs/wps-exclusions.php:159
 msgid "GeoIP Exclusions"
 msgstr "GeoIP Vylúčenia"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:163
+#: includes/settings/tabs/wps-exclusions.php:163
 msgid "Excluded countries list"
 msgstr "Zoznam vylúčených krajín"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:166
+#: includes/settings/tabs/wps-exclusions.php:166
 msgid "A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use \"000\" (three zeros) to exclude unknown countries."
 msgstr "Zoznam kódov krajín (jeden na riadok, dve písmená) vylúčených zo zberu štatistických údajov. Pomocou &quot;000&quot; (tri nuly) vylúčite neznáme krajiny."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:171
+#: includes/settings/tabs/wps-exclusions.php:171
 msgid "Included countries list"
 msgstr "Zahrnuté zoznamy krajín"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:174
+#: includes/settings/tabs/wps-exclusions.php:174
 msgid "A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use \"000\" (three zeros) to exclude unknown countries."
 msgstr "Zoznam kódov krajín (jeden na riadok, dve písmená) zahrnutých do zberu štatistických údajov, ak nie je tento zoznam prázdny, budú zaznamenaní iba návštevníci zo zoznamu krajín. Pomocou &quot;000&quot; (tri nuly) vylúčite neznáme krajiny."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:179
+#: includes/settings/tabs/wps-exclusions.php:179
 msgid "Host Exclusions"
 msgstr "Hostiteľské vylúčenia"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:183
+#: includes/settings/tabs/wps-exclusions.php:183
 msgid "Excluded hosts list"
 msgstr "Vylúčený zoznam hostiteľov"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:186
+#: includes/settings/tabs/wps-exclusions.php:186
 msgid "A list of fully qualified host names (ie. server.example.com, one per line) to exclude from statistics collection."
 msgstr "Zoznam plne kvalifikovaných názvov hostiteľov (to je. server.example.com, jeden na riadok) vylúčených zo zberu štatistických údajov."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:188
+#: includes/settings/tabs/wps-exclusions.php:188
 msgid "Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it's IP address and when the cache is updated resulting in some hits recorded."
 msgstr "Poznámka: Táto voľba nebude vykonávať spätné DNS vyhľadávanie pri každom načítaní stránky, ale namiesto toho si pre poskytnuté mená hostiteľov ukladá do pamäte IP adresy po dobu jednej hodiny. Ak ste vylúčili dynamicky prideľených hostiteľov, môžete objaviť nejaký stupeň prekrývania, keď hostiteľ mení svoju IP adresu a keď je pamäť aktualizovaná zaznamenaním nejakého zobrazenia. "
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:193
+#: includes/settings/tabs/wps-exclusions.php:193
 msgid "Site URL Exclusions"
 msgstr "Stránky URL vylúčenia"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:197
+#: includes/settings/tabs/wps-exclusions.php:197
 msgid "Excluded login page"
 msgstr "Vylúčená prihlasovacia stránka"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:200
+#: includes/settings/tabs/wps-exclusions.php:200
 msgid "Exclude the login page for registering as a hit."
 msgstr "Vylúčiť prihlasovaciu stránku z registrácie zobrazenia."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:204
+#: includes/settings/tabs/wps-exclusions.php:204
 msgid "Excluded admin pages"
 msgstr "Vylúčené admin stránky"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:207
+#: includes/settings/tabs/wps-exclusions.php:207
 msgid "Exclude the admin pages for registering as a hit."
 msgstr "Vylúčiť admin stránky z registrácie zobrazenia."
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:211
+#: includes/settings/tabs/wps-exclusions.php:211
 msgid "Excluded RSS feeds"
 msgstr "Vylúčené RSS kanály"
 
-#: wp-statistics/includes/settings/tabs/wps-exclusions.php:214
+#: includes/settings/tabs/wps-exclusions.php:214
 msgid "Exclude the RSS feeds for registering as a hit."
 msgstr "Vylúčiť RSS kanály z registrácie zobrazenia."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:162
+#: includes/settings/tabs/wps-externals.php:162
 msgid "browscap settings"
 msgstr "browscap nastavenia"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:167
+#: includes/settings/tabs/wps-externals.php:167
 msgid "browscap usage"
 msgstr "browscap použitie"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:52
-#: wp-statistics/includes/settings/tabs/wps-externals.php:76
-#: wp-statistics/includes/settings/tabs/wps-externals.php:109
-#: wp-statistics/includes/settings/tabs/wps-externals.php:172
-#: wp-statistics/includes/settings/tabs/wps-externals.php:196
-#: wp-statistics/includes/settings/tabs/wps-externals.php:236
-#: wp-statistics/includes/settings/tabs/wps-externals.php:260
-#: wp-statistics/includes/settings/tabs/wps-general.php:76
-#: wp-statistics/includes/settings/tabs/wps-general.php:92
-#: wp-statistics/includes/settings/tabs/wps-general.php:116
-#: wp-statistics/includes/settings/tabs/wps-general.php:132
-#: wp-statistics/includes/settings/tabs/wps-general.php:148
-#: wp-statistics/includes/settings/tabs/wps-general.php:160
-#: wp-statistics/includes/settings/tabs/wps-general.php:187
-#: wp-statistics/includes/settings/tabs/wps-general.php:199
-#: wp-statistics/includes/settings/tabs/wps-general.php:214
-#: wp-statistics/includes/settings/tabs/wps-general.php:228
-#: wp-statistics/includes/settings/tabs/wps-general.php:258
-#: wp-statistics/includes/settings/tabs/wps-general.php:270
-#: wp-statistics/includes/settings/tabs/wps-general.php:286
-#: wp-statistics/includes/settings/tabs/wps-general.php:325
-#: wp-statistics/includes/settings/tabs/wps-general.php:341
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:40
-#: wp-statistics/includes/settings/tabs/wps-maintenance.php:68
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:69
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:81
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:93
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:105
-#: wp-statistics/includes/settings/tabs/wps-notifications.php:121
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:34
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:54
-#: wp-statistics/includes/settings/tabs/wps-overview-display.php:74
+#: includes/settings/tabs/wps-externals.php:52
+#: includes/settings/tabs/wps-externals.php:76
+#: includes/settings/tabs/wps-externals.php:109
+#: includes/settings/tabs/wps-externals.php:172
+#: includes/settings/tabs/wps-externals.php:196
+#: includes/settings/tabs/wps-externals.php:236
+#: includes/settings/tabs/wps-externals.php:260
+#: includes/settings/tabs/wps-general.php:76
+#: includes/settings/tabs/wps-general.php:92
+#: includes/settings/tabs/wps-general.php:116
+#: includes/settings/tabs/wps-general.php:132
+#: includes/settings/tabs/wps-general.php:148
+#: includes/settings/tabs/wps-general.php:160
+#: includes/settings/tabs/wps-general.php:187
+#: includes/settings/tabs/wps-general.php:199
+#: includes/settings/tabs/wps-general.php:214
+#: includes/settings/tabs/wps-general.php:228
+#: includes/settings/tabs/wps-general.php:258
+#: includes/settings/tabs/wps-general.php:270
+#: includes/settings/tabs/wps-general.php:286
+#: includes/settings/tabs/wps-general.php:325
+#: includes/settings/tabs/wps-general.php:341
+#: includes/settings/tabs/wps-maintenance.php:40
+#: includes/settings/tabs/wps-maintenance.php:68
+#: includes/settings/tabs/wps-notifications.php:69
+#: includes/settings/tabs/wps-notifications.php:81
+#: includes/settings/tabs/wps-notifications.php:93
+#: includes/settings/tabs/wps-notifications.php:105
+#: includes/settings/tabs/wps-notifications.php:121
+#: includes/settings/tabs/wps-overview-display.php:34
+#: includes/settings/tabs/wps-overview-display.php:54
+#: includes/settings/tabs/wps-overview-display.php:74
 msgid "Active"
 msgstr "Aktívne"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:173
+#: includes/settings/tabs/wps-externals.php:173
 msgid "The browscap database will be downloaded and used to detect robots."
 msgstr "Browscap databáza bude stiahnutá a použitá na detekciu robotov."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:179
+#: includes/settings/tabs/wps-externals.php:179
 msgid "Update browscap Info"
 msgstr "Aktualizácia browscap Info"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:184
+#: includes/settings/tabs/wps-externals.php:184
 msgid "Download browscap Database"
 msgstr "Stiahnuť browscap databázu"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:65
-#: wp-statistics/includes/settings/tabs/wps-externals.php:185
-#: wp-statistics/includes/settings/tabs/wps-externals.php:249
+#: includes/settings/tabs/wps-externals.php:65
+#: includes/settings/tabs/wps-externals.php:185
+#: includes/settings/tabs/wps-externals.php:249
 msgid "Save changes on this page to download the update."
 msgstr "Uložite zmeny na tejto stránke aby sa začalo sťahovanie aktualizácie."
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:191
+#: includes/settings/tabs/wps-externals.php:191
 msgid "Schedule weekly update of browscap DB"
 msgstr "Naplánovať týždennú aktualizáciu browscap DB"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:79
-#: wp-statistics/includes/settings/tabs/wps-externals.php:199
-#: wp-statistics/includes/settings/tabs/wps-externals.php:263
+#: includes/settings/tabs/wps-externals.php:79
+#: includes/settings/tabs/wps-externals.php:199
+#: includes/settings/tabs/wps-externals.php:263
 msgid "Next update will be"
 msgstr "Ďalšia aktualizácia bude"
 
-#: wp-statistics/includes/settings/tabs/wps-externals.php:215
+#: includes/settings/tabs/wps-externals.php:215
 msgid "Download of the browscap database will be scheduled for once a week."
 msgstr "Sťahovanie browscap databázy bude naplánované raz týždenne."
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:50
+#: includes/settings/tabs/wps-general.php:50
 msgid "This will delete the manual when you save the settings, are you sure?"
 msgstr "To odstráni manuálne uložíte nastavenia, sú si istí?"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:77
+#: includes/settings/tabs/wps-general.php:77
 msgid "This feature will not store IP addresses in the database but instead used a unique hash.  The \"Store entire user agent string\" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled."
 msgstr "Táto funkcia nebude ukladať IP adresy v databáze, ale namiesto toho použije jedinečné hodnoty hash. Ak je táto možnosť vybratá, nastavenie \"Uložiť celý reťazec agenta používateľa\" sa vypne. Pri tomto nastavení nebudete môcť v budúcnosti obnoviť IP adresy a získať tak informácie o polohe."
 
-#: wp-statistics/includes/log/widgets/summary.php:12
-#: wp-statistics/includes/settings/tabs/wps-general.php:82
-#: wp-statistics/shortcode.php:138 wp-statistics/widget.php:39
-#: wp-statistics/widget.php:260
+#: includes/log/widgets/summary.php:12
+#: includes/settings/tabs/wps-general.php:82 shortcode.php:138 widget.php:39
+#: widget.php:260
 msgid "Users Online"
 msgstr "Používatelia online"
 
-#: wp-statistics/includes/settings/tabs/wps-general.php:87
+#: includes/settings/tabs/wps-general.php:87
 msgid "User online"
 msgstr "Používateľ online"
