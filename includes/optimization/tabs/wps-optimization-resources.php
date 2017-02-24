@@ -198,6 +198,28 @@
 			</tr>
 
 			<tr valign="top">
+				<th scope="row">
+					<?php _e('GMP PHP extension', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php if( extension_loaded( 'gmp' ) ) { _e('Installed','wp_statistics'); } else { _e('Not installed', 'wp_statistics'); }?></strong>
+					<p class="description"><?php _e('If the GMP Math PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row">
+					<?php _e('BCMath PHP extension', 'wp_statistics'); ?>:
+				</th>
+				
+				<td>
+					<strong><?php if( extension_loaded( 'bcmath' ) ) { _e('Installed','wp_statistics'); } else { _e('Not installed', 'wp_statistics'); }?></strong>
+					<p class="description"><?php _e('If the BCMath PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.', 'wp_statistics'); ?></p>
+				</td>
+			</tr>
+
+			<tr valign="top">
 				<th scope="row" colspan="2"><h3><?php _e('File Info', 'wp_statistics'); ?></h3></th>
 			</tr>
 
