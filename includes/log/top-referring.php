@@ -22,33 +22,55 @@
 	if( array_key_exists('referr',$_GET) ) {
 		$referr = $_GET['referr'];
 		$title = $_GET['referr'];
+		$referr_field = '&referr=' . $referr;
 	}
 	else {
 		$referr = '';
+		$referr_field = null;
 	}
 	
 	$get_urls = array();
 	$total = 0;
 		
 	if( $referr ) {
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s AND referred <> '' AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%', $rangestartdate, $rangeenddate ) );
+		if( $WP_Statistics->get_option( 'search_converted' ) ) {
+			$sql = $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_search` WHERE `host` = %s AND `last_counter` BETWEEN %s AND %s ORDER BY `ID` DESC", $referr, $rangestartdate, $rangeenddate );
+		} else {
+			$sql = $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s AND referred <> '' AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%', $rangestartdate, $rangeenddate );
+		}
 
+		$result = $wpdb->get_results( $sql );
+		
 		$total = count( $result );
 	} else {
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' AND `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ) );
-		
 		$urls = array();
-		foreach( $result as $item ) {
 		
-			$url = parse_url($item->referred);
+		if( $WP_Statistics->get_option( 'search_converted' ) ) {
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT host FROM {$wpdb->prefix}statistics_search WHERE host <> '' AND `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ) );
+
+			foreach( $result as $item ) {
+				if( empty( $item->host ) || stristr( get_bloginfo( 'url' ), $item->host ) ) {
+					continue;
+				}
+					
+				$urls[] = $item->host;
+			}
+		} else {
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' AND `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ) );
+
+			foreach( $result as $item ) {
 			
-			if( empty($url['host']) || stristr(get_bloginfo('url'), $url['host']) )
-				continue;
+				$url = parse_url($item->referred);
 				
-			$urls[] = $url['host'];
+				if( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
+					continue;
+				}
+					
+				$urls[] = $url['host'];
+			}
 		}
 		
-		$get_urls = array_count_values($urls);
+		$get_urls = array_count_values( $urls );
 
 		$total = count( $get_urls );
 	}
@@ -58,7 +80,7 @@
 	<?php screen_icon('options-general'); ?>
 	<h2><?php _e('Top Referring Sites', 'wp_statistics'); ?></h2>
 
-	<div><?php wp_statistics_date_range_selector( WP_STATISTICS_REFERRERS_PAGE, $daysToDisplay ); ?></div>
+	<div><?php wp_statistics_date_range_selector( WP_STATISTICS_REFERRERS_PAGE, $daysToDisplay, null, null, $referr_field ); ?></div>
 	
 	<div class="clear"/>
 	
@@ -98,10 +120,10 @@
 									$start = $Pagination->getEntryStart();
 									$end = $Pagination->getEntryEnd();
 									
-									if( $WP_Statistics->get_option('search_converted') ) {
-										$result = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s AND {$wpdb->prefix}statistics_visitor.`last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC LIMIT %d, %d", $referr, $rangestartdate, $rangeenddate, $start, $end ) );
+									if( $WP_Statistics->get_option( 'search_converted' ) ) {
+										$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s AND {$wpdb->prefix}statistics_visitor.`last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC LIMIT %d, %d", $referr, $rangestartdate, $rangeenddate, $start, $end ) );
 									}
-									
+
 									if( $referr ) {
 										foreach($result as $item) {
 									
