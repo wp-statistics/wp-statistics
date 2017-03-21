@@ -297,12 +297,40 @@
 	function wp_statistics_get_uri() {
 		// Get the site's path from the URL.
 		$site_uri = parse_url( site_url(), PHP_URL_PATH );
+		$site_uri_len = strlen( $site_uri );
 	
+		// Get the site's path from the URL.
+		$home_uri = parse_url( home_url(), PHP_URL_PATH );
+		$home_uri_len = strlen( $home_uri );
+
 		// Get the current page URI.
 		$page_uri = $_SERVER["REQUEST_URI"];
 
-		// Strip the site's path from the URI.
-		$page_uri = substr( $page_uri, strlen( $site_uri ) );
+		/*
+		 * We need to check which URI is longer in case one contains the other.
+		 *
+		 * For example home_uri might be "/site/wp" and site_uri might be "/site".
+		 *
+		 * In that case we want to check to see if the page_uri starts with "/site/wp" before
+		 * we check for "/site", but in the reverse case, we need to swap the order of the check.
+		 */
+		if( $site_uri_len > $home_uri_len ) {
+			if( substr( $page_uri, 0, $site_uri_len ) == $site_uri ) {
+				$page_uri = substr( $page_uri, $site_uri_len );
+			}
+			
+			if( substr( $page_uri, 0, $home_uri_len ) == $home_uri ) {
+				$page_uri = substr( $page_uri, $home_uri_len );
+			}
+		} else {
+			if( substr( $page_uri, 0, $home_uri_len ) == $home_uri ) {
+				$page_uri = substr( $page_uri, $home_uri_len );
+			}
+
+			if( substr( $page_uri, 0, $site_uri_len ) == $site_uri ) {
+				$page_uri = substr( $page_uri, $site_uri_len );
+			}
+		}
 		
 		// If we're at the root (aka the URI is blank), let's make sure to indicate it.
 		if( $page_uri == '' ) { $page_uri = '/'; }
