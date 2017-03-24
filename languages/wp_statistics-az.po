@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-02-18 11:44:28+0000\n"
+"PO-Revision-Date: 2017-02-23 19:49:33+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.3.0\n"
+"X-Generator: GlotPress/2.3.1\n"
 "Language: az\n"
 "Project-Id-Version: WP Statistics\n"
 
@@ -1076,15 +1076,15 @@ msgstr ""
 
 #: includes/settings/tabs/wps-notifications.php:173
 msgid "WordPress SMS"
-msgstr ""
+msgstr "WordPress SMS"
 
 #: includes/settings/tabs/wps-notifications.php:180
 msgid "Report body"
-msgstr ""
+msgstr "body Hesabat"
 
 #: includes/settings/tabs/wps-notifications.php:185
 msgid "Enter the contents of the report."
-msgstr ""
+msgstr "Hesabatın məzmununu daxil edin."
 
 #: includes/settings/tabs/wps-notifications.php:187
 msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:"
@@ -1092,81 +1092,81 @@ msgstr ""
 
 #: includes/settings/tabs/wps-notifications.php:188 wp-statistics.php:662
 msgid "User Online"
-msgstr ""
+msgstr "Online İstifadəçi"
 
 #: includes/settings/tabs/wps-notifications.php:189
 msgid "Today Visitor"
-msgstr ""
+msgstr "Bugünkü Ziyarətçi"
 
 #: includes/settings/tabs/wps-notifications.php:190
 msgid "Today Visit"
-msgstr ""
+msgstr "Bugünkü Ziyarət"
 
 #: includes/settings/tabs/wps-notifications.php:191
 msgid "Yesterday Visitor"
-msgstr ""
+msgstr "Dünənki Ziyarətçi"
 
 #: includes/settings/tabs/wps-notifications.php:192
 msgid "Yesterday Visit"
-msgstr ""
+msgstr "Dünənki Ziyarət"
 
 #: includes/settings/tabs/wps-notifications.php:193
 msgid "Total Visitor"
-msgstr ""
+msgstr "Toplam Ziyarətçi"
 
 #: includes/settings/tabs/wps-notifications.php:194
 msgid "Total Visit"
-msgstr ""
+msgstr "Toplam Ziyarət"
 
 #: shortcode.php:175
 msgid "None"
-msgstr ""
+msgstr "heç biri"
 
 #: includes/settings/wps-settings.php:108
 msgid "About"
-msgstr ""
+msgstr "Haqqında"
 
 #: includes/settings/tabs/wps-overview-display.php:20
 msgid "Dashboard"
-msgstr ""
+msgstr "Əsas Lövhə"
 
 #: includes/settings/tabs/wps-overview-display.php:24
 #: includes/settings/tabs/wps-overview-display.php:44
 #: includes/settings/tabs/wps-overview-display.php:64
 msgid "The following items are global to all users."
-msgstr ""
+msgstr "Aşağıdakı maddələr bütün istifadəçilər üçün keçərlidir."
 
 #: includes/settings/tabs/wps-overview-display.php:29
 msgid "Disable dashboard widgets"
-msgstr ""
+msgstr "Əsas Lövhə modullarını deaktiv et"
 
 #: includes/settings/tabs/wps-overview-display.php:35
 msgid "Disable the dashboard widgets."
-msgstr ""
+msgstr "Əsas Lövhə modullarını deaktiv et."
 
 #: includes/settings/tabs/wps-overview-display.php:40
 msgid "Page/Post Editor"
-msgstr ""
+msgstr "Səhifə / Yazı Redaktoru"
 
 #: includes/settings/tabs/wps-overview-display.php:49
 msgid "Disable post/page editor widget"
-msgstr ""
+msgstr "Yazı/səhifə redaktor modulunu deaktiv et"
 
 #: includes/settings/tabs/wps-overview-display.php:55
 msgid "Disable the page/post editor widget."
-msgstr ""
+msgstr "Səhifə/yazı redaktor modulunu deaktiv et"
 
 #: includes/functions/functions.php:440
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: includes/settings/tabs/wps-overview-display.php:69
 msgid "Disable map"
-msgstr ""
+msgstr "Xəritən deaktiv et"
 
 #: includes/settings/tabs/wps-overview-display.php:75
 msgid "Disable the map display"
-msgstr ""
+msgstr "Xəritə ekranını deaktiv et"
 
 #: includes/settings/tabs/wps-removal.php:74
 msgid "WP Statisitcs Removal"
@@ -1194,15 +1194,15 @@ msgstr ""
 
 #: includes/settings/wps-settings.php:100
 msgid "General"
-msgstr ""
+msgstr "Ümumi"
 
 #: includes/settings/wps-settings.php:101
 msgid "Notifications"
-msgstr ""
+msgstr "Bildirişlər"
 
 #: includes/settings/wps-settings.php:102
 msgid "Dashboard/Overview"
-msgstr ""
+msgstr "Əsas Lövhə/Ümumi Baxış"
 
 #: includes/settings/wps-settings.php:106
 msgid "Maintenance"
@@ -1237,7 +1237,7 @@ msgstr ""
 
 #: widget.php:14 wp-statistics.php:430 wp-statistics.php:510
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: widget.php:15
 msgid "Show site stats in sidebar."
@@ -1365,51 +1365,51 @@ msgstr ""
 
 #: wp-statistics.php:452 wp-statistics.php:563
 msgid "Optimization"
-msgstr ""
+msgstr "Optimallaşdırma"
 
 #: wp-statistics.php:458 wp-statistics.php:527
 msgid "Manual"
-msgstr ""
+msgstr "Təlimat"
 
 #: wp-statistics.php:542
 msgid "Site"
-msgstr ""
+msgstr "Sayt"
 
 #: wp-statistics.php:543
 msgid "Options"
-msgstr ""
+msgstr "Seçimlər"
 
 #: wp-statistics.php:669
 msgid "Today visitor"
-msgstr ""
+msgstr "Bugünkü Ziyarətçi"
 
 #: wp-statistics.php:675
 msgid "Today visit"
-msgstr ""
+msgstr "Bugünkü ziyarət"
 
 #: wp-statistics.php:681
 msgid "Yesterday visitor"
-msgstr ""
+msgstr "Dünənki Ziyarətçi"
 
 #: wp-statistics.php:693
 msgid "View Stats"
-msgstr ""
+msgstr "Statistikanı Göstər"
 
 #: wp-statistics.php:717
 msgid "Download ODF file"
-msgstr ""
+msgstr "ODF faylını Endir"
 
 #: wp-statistics.php:718
 msgid "Download HTML file"
-msgstr ""
+msgstr "HTML faylını Endir"
 
 #: wp-statistics.php:722
 msgid "Manual file not found."
-msgstr ""
+msgstr "Təlimat faylı tapılmadı."
 
 #: wp-statistics.php:801 wp-statistics.php:915 wp-statistics.php:951
 msgid "You do not have sufficient permissions to access this page."
-msgstr ""
+msgstr "Bu səhifəyə daxil olmaq üçün kifayət qədər icazəniz yoxdur."
 
 #: wp-statistics.php:323
 msgid "WP Statistics %s installed on"
@@ -1465,20 +1465,20 @@ msgstr ""
 
 #: dashboard.php:57 includes/log/widgets/browsers.php:41
 msgid "Top 10 Browsers"
-msgstr ""
+msgstr "Top 10 brauzerlər"
 
 #: dashboard.php:58 wp-statistics.php:496
 msgid "Top 10 Countries"
-msgstr ""
+msgstr "Top 10 Ölkələr"
 
 #: dashboard.php:59
 msgid "Today's Visitor Map"
-msgstr ""
+msgstr "Bu günkü Ziyarətçi Xəritəsi"
 
 #: dashboard.php:60 editor.php:46 includes/log/hit-statistics.php:8
 #: wp-statistics.php:471
 msgid "Hit Statistics"
-msgstr ""
+msgstr "Hit Statistika"
 
 #: dashboard.php:61 wp-statistics.php:486
 msgid "Top 10 Pages"
@@ -1833,76 +1833,76 @@ msgstr ""
 
 #: includes/log/widgets/browsers.php:34
 msgid "Other"
-msgstr ""
+msgstr "Digər"
 
 #: wp-statistics.php:481
 msgid "Today Visitors Map"
-msgstr ""
+msgstr "Bugünkü Ziyarətçi Xəritəsi"
 
 #: includes/log/widgets/referring.php:36
 msgid "Address"
-msgstr ""
+msgstr "Ünvan"
 
 #: includes/log/widgets/quickstats.php:12
 msgid "User(s) Online"
-msgstr ""
+msgstr "Online İstifadəçi(lər)"
 
 #: includes/log/widgets/quickstats.php:28
 #: includes/log/widgets/quickstats.php:80 includes/log/widgets/summary.php:28
 #: includes/log/widgets/summary.php:80
 msgid "Today"
-msgstr ""
+msgstr "Bugün"
 
 #: includes/log/widgets/quickstats.php:34
 #: includes/log/widgets/quickstats.php:81 includes/log/widgets/summary.php:34
 #: includes/log/widgets/summary.php:81
 msgid "Yesterday"
-msgstr ""
+msgstr "Dünən"
 
 #: includes/log/widgets/quickstats.php:99 includes/log/widgets/summary.php:99
 msgid "Daily Total"
-msgstr ""
+msgstr "Günlük Toplam"
 
 #: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "Current Time and Date"
-msgstr ""
+msgstr "Cari Vaxt və Tarix"
 
 #: includes/log/widgets/quickstats.php:118 includes/log/widgets/summary.php:118
 msgid "(Adjustment)"
-msgstr ""
+msgstr "(Düzəliş)"
 
 #: includes/log/widgets/quickstats.php:122 includes/log/widgets/summary.php:122
 msgid "Date: %s"
-msgstr ""
+msgstr "Tarix: %s"
 
 #: includes/log/widgets/quickstats.php:126 includes/log/widgets/summary.php:126
 msgid "Time: %s"
-msgstr ""
+msgstr "Vaxt: %s"
 
 #: includes/log/authors.php:257 includes/log/categories.php:245
 #: includes/log/tags.php:260 includes/log/widgets/top.visitors.php:12
 #: includes/settings/tabs/wps-maintenance.php:80 wp-statistics.php:359
 #: wp-statistics.php:438 wp-statistics.php:555
 msgid "Hits"
-msgstr ""
+msgstr "Hitlər"
 
 #: includes/log/widgets/top.visitors.php:15
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: includes/log/widgets/top.visitors.php:17
 msgid "Agent"
-msgstr ""
+msgstr "Agent"
 
 #: includes/log/widgets/top.visitors.php:19
 #: includes/optimization/tabs/wps-optimization-resources.php:302
 msgid "Version"
-msgstr ""
+msgstr "Versiya"
 
 #: ajax.php:41 ajax.php:71 ajax.php:129 ajax.php:154 ajax.php:184 ajax.php:296
 #: includes/optimization/wps-optimization.php:6
 msgid "Access denied!"
-msgstr ""
+msgstr "Giriş qadağandır!"
 
 #: ajax.php:31
 msgid "%s agent data deleted successfully."
@@ -1910,7 +1910,7 @@ msgstr ""
 
 #: ajax.php:34
 msgid "No agent data found to remove!"
-msgstr ""
+msgstr "Silmək üçün agent məlumatı tapılmadı!"
 
 #: ajax.php:38 ajax.php:68 ajax.php:120 ajax.php:126
 msgid "Please select the desired items."
@@ -1922,11 +1922,11 @@ msgstr ""
 
 #: ajax.php:65
 msgid "No platform data found to remove!"
-msgstr ""
+msgstr "Silmək üçün heç bir platforma çəlumatı tapılmadı!"
 
 #: includes/functions/functions.php:1007
 msgid "%s table data deleted successfully."
-msgstr ""
+msgstr "%s dənə cədvəl məlumatı uğurla silindi."
 
 #: includes/functions/functions.php:1011
 msgid "Error, %s not emptied!"
@@ -1934,15 +1934,15 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-database.php:5
 msgid "Database Setup"
-msgstr ""
+msgstr "Baza Ayarları"
 
 #: includes/optimization/tabs/wps-optimization-database.php:10
 msgid "Re-run Install"
-msgstr ""
+msgstr "Quraşdırmanı yenidən çalışdır"
 
 #: includes/optimization/tabs/wps-optimization-database.php:14
 msgid "Install Now!"
-msgstr ""
+msgstr "İndi Quraşdır!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:15
 msgid "If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process."
@@ -1950,20 +1950,20 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-database.php:20
 msgid "Database Index"
-msgstr ""
+msgstr "Baza indeksi"
 
 #: includes/optimization/tabs/wps-optimization-database.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:21
 #: wp-statistics.php:436 wp-statistics.php:553
 msgid "Countries"
-msgstr ""
+msgstr "Ölkələr"
 
 #: includes/optimization/tabs/wps-optimization-database.php:42
 #: includes/optimization/tabs/wps-optimization-database.php:74
 #: includes/optimization/tabs/wps-optimization-updates.php:25
 #: includes/optimization/tabs/wps-optimization-updates.php:40
 msgid "Update Now!"
-msgstr ""
+msgstr "İndi Yenilə!"
 
 #: includes/optimization/tabs/wps-optimization-database.php:43
 msgid "Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking \"Update Now\" will scan the vistitors table, delete duplicate entries and add the index."
@@ -2001,7 +2001,7 @@ msgstr ""
 #: includes/settings/tabs/wps-notifications.php:134
 #: includes/settings/tabs/wps-notifications.php:164
 msgid "Please select"
-msgstr ""
+msgstr "Zəhmət olmasa seçin"
 
 #: includes/optimization/tabs/wps-optimization-export.php:26
 msgid "Select the table for the output file."
@@ -2025,11 +2025,11 @@ msgstr ""
 
 #: includes/optimization/tabs/wps-optimization-export.php:54
 msgid "Start Now!"
-msgstr ""
+msgstr "İndi Başla!"
 
 #: includes/optimization/tabs/wps-optimization-historical.php:15
 msgid "Historical Values"
-msgstr ""
+msgstr "Tarixi Dəyərlər"
 
 #: includes/optimization/tabs/wps-optimization-historical.php:20
 msgid "Note: As you have just purged the database you must reload this page for these numbers to be correct."
