@@ -287,6 +287,14 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 PHP 5.4 is now required for version 11.0 and above!
 
 == Changelog ==
+= 12.0.1 =
+* Release Date: March 24, 2017
+* Added: Check for BCMath or GMP Math extensions to support newer GeoIP database files.
+* Fixed: Robots list not being updated on upgrades properly in some cases.
+* Fixed: wp_statistics_get_uri() to handle cases where site and home uri's are different.
+* Fixed: wp_statistics_get_uri() to validate what is being removed to make sure we don't remove the wrong things.
+* Fixed: Display of individual referring site stats.
+
 = 12.0.0 =
 * Release Date: February 18, 2017
 * Added: Categories, tags and authors stats pages.
