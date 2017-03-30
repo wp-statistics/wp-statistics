@@ -8,11 +8,26 @@
 	} );
 </script>
 <?php
-	$daysToDisplay = 20; 
-	if( array_key_exists( 'hitdays', $_GET ) ) { $daysToDisplay = intval( $_GET['hitdays'] ); }
+	$date_args = '';
+	$daysToDisplay = 20;
+	if( array_key_exists( 'hitdays', $_GET ) ) { 
+		$daysToDisplay = intval( $_GET['hitdays'] );
+		$date_args .= '&hitdays=' . $daysToDisplay;
+	}
 
-	if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } else { $rangestart = ''; }
-	if( array_key_exists( 'rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = ''; }
+	if( array_key_exists( 'rangestart', $_GET ) ) { 
+		$rangestart = $_GET['rangestart']; 
+		$date_args .= '&rangestart=' . $rangestart;
+	} else { 
+		$rangestart = ''; 
+	}
+	
+	if( array_key_exists( 'rangeend', $_GET ) ) { 
+		$rangeend = $_GET['rangeend']; 
+		$date_args .= '&rangeend=' . $rangeend;
+	} else { 
+		$rangeend = ''; 
+	}
 
 	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
 
@@ -86,10 +101,10 @@
 	
 	<ul class="subsubsub">
 		<?php if( $referr ) { ?>
-		<li class="all"><a <?php if( !$referr ) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>"><?php _e( 'All', 'wp_statistics' ); ?></a></li>
-			| <li><a class="current" href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer( $referr ); ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+		<li class="all"><a <?php if( !$referr ) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE . $date_args; ?>"><?php _e( 'All', 'wp_statistics' ); ?></a></li>
+			| <li><a class="current" href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer( $referr ) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
-		<li class="all"><a <?php if( !$referr ) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>"><?php _e( 'All', 'wp_statistics' ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+		<li class="all"><a <?php if( !$referr ) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE . $date_args; ?>"><?php _e( 'All', 'wp_statistics' ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php }?>
 	</ul>
 	<div class="postbox-container" id="last-log">
@@ -97,7 +112,7 @@
 			<div class="meta-box-sortables">
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br /></div>
-					<?php if($referr) { ?>
+					<?php if( $referr ) { ?>
 						<h3 class="hndle"><span><?php _e( 'Referring sites from', 'wp_statistics' ); ?>: <?php echo $WP_Statistics->html_sanitize_referrer( $referr ); ?></span></h3>
 					<?php } else { ?>
 						<h3 class="hndle"><span><?php _e( 'Top Referring Sites', 'wp_statistics' ); ?></span></h3>
@@ -155,7 +170,7 @@
 											$i++;
 											
 											echo "<div class='log-item'>";
-											echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr={$items}'>{$items}</a></div>";
+											echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr={$items}" . $date_args . "'>{$items}</a></div>";
 											echo "<div class='log-ip'>" . __( 'References', 'wp_statistics' ) . ': ' . number_format_i18n( $value ) . '</div>';
 											echo "<div class='clear'></div>";
 											echo "<div class='log-url'><a href='http://" . $WP_Statistics->html_sanitize_referrer( $items ) . "/' title='" . $WP_Statistics->html_sanitize_referrer( $items ) . "'><div class='dashicons dashicons-admin-links'></div> http://" . $WP_Statistics->html_sanitize_referrer( $items ) . '/</a></div>';
