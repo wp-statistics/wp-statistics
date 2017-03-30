@@ -724,4 +724,16 @@ class WP_Statistics {
 		
 		return $site_list;
 	}
+	
+	public function html_sanitize_referrer( $referrer, $length = -1 ) {
+		if( 'data:' == strtolower( substr( $referrer, 0, 5 ) ) ) {
+			$referrer = 'http://127.0.0.1';
+		}
+		
+		if( $length > 0 ) {
+			$referrer = substr( $referrer, 0, $length );
+		}
+		
+		return htmlentities( $referrer, ENT_QUOTES );
+	}
 }

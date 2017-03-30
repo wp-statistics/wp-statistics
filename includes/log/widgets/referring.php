@@ -41,8 +41,8 @@
 								foreach( $get_urls as $items => $value) {
 								
 									echo "<tr>";
-									echo "<td><a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . htmlentities($items,ENT_QUOTES) . "'>" . number_format_i18n($value) . "</a></td>";
-									echo "<td><a href='http://" . htmlentities($items,ENT_QUOTES) . "' target='_blank'>" . htmlentities($items,ENT_QUOTES) . " " . wp_statistics_icons('dashicons-admin-links', 'link') . "</a></td>";
+									echo "<td><a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $WP_Statistics->html_sanitize_referrer( $items ) . "'>" . number_format_i18n($value) . "</a></td>";
+									echo "<td><a href='http://" . $WP_Statistics->html_sanitize_referrer( $items ) . "' target='_blank'>" . $WP_Statistics->html_sanitize_referrer( $items ) . " " . wp_statistics_icons('dashicons-admin-links', 'link') . "</a></td>";
 									echo "</tr>";
 								}
 							?>

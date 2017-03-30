@@ -87,7 +87,7 @@
 	<ul class="subsubsub">
 		<?php if($referr) { ?>
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>"><?php _e('All', 'wp_statistics'); ?></a></li>
-			| <li><a class="current" href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>&referr=<?php echo htmlentities($referr, ENT_QUOTES); ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
+			| <li><a class="current" href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer( $referr ); ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
 		<li class="all"><a <?php if(!$referr) { echo 'class="current"'; } ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>"><?php _e('All', 'wp_statistics'); ?> <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php }?>
@@ -98,7 +98,7 @@
 				<div class="postbox">
 					<div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br /></div>
 					<?php if($referr) { ?>
-						<h3 class="hndle"><span><?php _e('Referring sites from', 'wp_statistics'); ?>: <?php echo htmlentities($referr, ENT_QUOTES); ?></span></h3>
+						<h3 class="hndle"><span><?php _e('Referring sites from', 'wp_statistics'); ?>: <?php echo $WP_Statistics->html_sanitize_referrer( $referr ); ?></span></h3>
 					<?php } else { ?>
 						<h3 class="hndle"><span><?php _e('Top Referring Sites', 'wp_statistics'); ?></span></h3>
 					<?php } ?>
@@ -141,7 +141,7 @@
 											
 											echo "<div class='log-agent'><a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
 											
-											echo "<a href='" . htmlentities($item->referred,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> " . htmlentities(substr($item->referred, 0, 100),ENT_QUOTES) . "[...]</a></div>";
+											echo "<a href='" . $WP_Statistics->html_sanitize_referrer( $item->referred ) . "'><div class='dashicons dashicons-admin-links'></div> " . $WP_Statistics->html_sanitize_referrer( $item->referred, 100 ) . "[...]</a></div>";
 											echo "</div>";
 										
 										}
@@ -158,7 +158,7 @@
 											echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr={$items}'>{$items}</a></div>";
 											echo "<div class='log-ip'>".__('References', 'wp_statistics').": " . number_format_i18n($value) . "</div>";
 											echo "<div class='clear'></div>";
-											echo "<div class='log-url'><a href='http://" . htmlentities($items,ENT_QUOTES) . "/' title='" . htmlentities($items,ENT_QUOTES) . "'><div class='dashicons dashicons-admin-links'></div> http://" . htmlentities($items,ENT_QUOTES) . "/</a></div>";
+											echo "<div class='log-url'><a href='http://" . $WP_Statistics->html_sanitize_referrer( $items ) . "/' title='" . $WP_Statistics->html_sanitize_referrer( $items ) . "'><div class='dashicons dashicons-admin-links'></div> http://" . $WP_Statistics->html_sanitize_referrer( $items ) . "/</a></div>";
 											echo "</div>";
 											
 										}
