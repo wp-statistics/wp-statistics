@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag: 12.0.1
+Stable tag: 12.0.2
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -287,6 +287,11 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 PHP 5.4 is now required for version 11.0 and above!
 
 == Changelog ==
+= 12.0.2 =
+* Release Date: March 30, 2017
+* Fixed: XSS issue with date range picker, thanks Anon submitter to JPCERT/CC Vulnerability Handling Team.
+* Fixed: XSS issue with referrers, thanks Gen Sato who submitted to JPCERT/CC Vulnerability Handling Team.
+
 = 12.0.1 =
 * Release Date: March 24, 2017
 * Added: Check for BCMath or GMP Math extensions to support newer GeoIP database files.
