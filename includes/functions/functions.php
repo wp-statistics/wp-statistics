@@ -935,11 +935,19 @@
 		if( array_key_exists( 'rangestart', $_GET ) ) { $rangestart = $_GET['rangestart']; } else { $rangestart = $WP_Statistics->Current_Date( 'm/d/Y', '-' . $current ); } 
 		if( array_key_exists( 'rangeend', $_GET ) ) { $rangeend = $_GET['rangeend']; } else { $rangeend = $WP_Statistics->Current_Date( 'm/d/Y' ); }
 
-		// Now get the number of days in the range.
+		// Convert the text dates to unix timestamps and do some basic sanity checking.
 		$rangestart_utime = $WP_Statistics->strtotimetz( $rangestart );
+		if( false === $rangestart_utime ) { $rangestart_utime = time(); }
 		$rangeend_utime = $WP_Statistics->strtotimetz( $rangeend );
+		if( false === $rangeend_utime || $rangeend_utime < $rangestart_utime ) { $rangeend_utime = time(); }
+
+		// Now get the number of days in the range.
 		$daysToDisplay = (int)( ( $rangeend_utime - $rangestart_utime ) / 24 / 60 / 60 );
 		$today = $WP_Statistics->Current_Date( 'm/d/Y' );
+		
+		// Re-create the range start/end strings from our utime's to make sure we get ride of any cruft and have them in the format we want.
+		$rangestart = $WP_Statistics->Local_Date( 'm/d/Y', $rangestart_utime );
+		$rangeend = $WP_Statistics->Local_Date( 'm/d/Y', $rangeend_utime );
 		
 		// If the rangeend isn't today OR it is but not one of the standard range values, then it's a custom selected value and we need to flag it as such.
 		if( $rangeend != $today || ( $rangeend == $today && ! in_array( $current, $range ) ) ) {
