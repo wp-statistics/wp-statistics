@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag: 12.0.2
+Stable tag: 12.0.3
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -283,10 +283,14 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 12.0.2 =
+= 12.0.3 =
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.0.3 =
+* Release Date: March 31, 2017
+* Fixed: Additional XSS issue with referrers, thanks Gen Sato who submitted to JPCERT/CC Vulnerability Handling Team.
+
 = 12.0.2 =
 * Release Date: March 30, 2017
 * Fixed: Top referrer widget was not using the new search table.
