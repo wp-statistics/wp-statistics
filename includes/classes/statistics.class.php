@@ -730,6 +730,10 @@ class WP_Statistics {
 			$referrer = 'http://127.0.0.1';
 		}
 		
+		if( 'javascript:' == strtolower( substr( $referrer, 0, 5 ) ) ) {
+			$referrer = 'http://127.0.0.1';
+		}
+
 		if( $length > 0 ) {
 			$referrer = substr( $referrer, 0, $length );
 		}
