@@ -13,7 +13,7 @@
 			if( empty( $uri[3] ) ) { $uri[3] = '[' . __( 'No page title found', 'wp_statistics' ) . ']'; }
 			
 			echo "<div class=\"log-page-title\">{$i} - {$uri[3]}</div>";
-			echo '<div class="right-div">' . __( 'Visits', 'wp_statistics' ) . ': <a href="?page=' . WP_STATISTICS_PAGES_PAGE . '&page-uri=' . $uri[0] . '">' . number_format_i18n( $uri[1] ) . '</a></div>';
+			echo '<div class="right-div">' . __( 'Visits', 'wp_statistics' ) . ': <a href="?page=' . WP_STATISTICS_PAGES_PAGE . '&page-uri=' . htmlentities( $uri[0], ENT_QUOTES ) . '">' . number_format_i18n( $uri[1] ) . '</a></div>';
 			echo '<div><a href="' . htmlentities( $site_url . $uri[0], ENT_QUOTES ) . '">' . htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) . '</a></div>';
 			echo '</div>';
 			
