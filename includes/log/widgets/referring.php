@@ -60,7 +60,7 @@
 									
 									echo "<tr>";
 									echo "<td><a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $referrer_html . "'>" . number_format_i18n($value) . "</a></td>";
-									echo "<td><a href='http://" . $referrer_html . "' target='_blank'>" . $referrer_html . " " . wp_statistics_icons('dashicons-admin-links', 'link') . "</a></td>";
+									echo "<td>" .  $WP_Statistics->get_referrer_link( $items ) . "</td>";
 									echo "</tr>";
 								}
 							?>

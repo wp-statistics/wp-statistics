@@ -156,7 +156,7 @@
 											
 											echo "<div class='log-agent'><a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
 											
-											echo "<a href='" . $WP_Statistics->html_sanitize_referrer( $item->referred ) . "'><div class='dashicons dashicons-admin-links'></div> " . $WP_Statistics->html_sanitize_referrer( $item->referred, 100 ) . "[...]</a></div>";
+											echo $WP_Statistics->get_referrer_link( $item->referred, 100 );
 											echo "</div>";
 										
 										}
@@ -174,7 +174,7 @@
 											echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $referrer_html . $date_args . "'>" . $referrer_html . "</a></div>";
 											echo "<div class='log-ip'>" . __( 'References', 'wp_statistics' ) . ': ' . number_format_i18n( $value ) . '</div>';
 											echo "<div class='clear'></div>";
-											echo "<div class='log-url'><a href='http://" . $referrer_html . "/' title='" . $referrer_html . "'><div class='dashicons dashicons-admin-links'></div> http://" . $referrer_html . '/</a></div>';
+											echo "<div class='log-url'>" . $WP_Statistics->get_referrer_link( $items, 100 ) . '</div>';
 											echo "</div>";
 											
 										}

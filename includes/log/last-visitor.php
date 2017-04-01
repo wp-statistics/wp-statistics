@@ -125,9 +125,8 @@
 									
 									echo "<a href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&agent={$items->agent}'>{$agent}</a>";
 
-									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items->referred );
+									echo $WP_Statistics->get_referrer_link( $items->referred );
 									
-									echo "<a href='" . $referrer_html . "' title='" . $referrer_html . "'>" . wp_statistics_icons('dashicons-admin-links', 'link') . " " . $referrer_html . "</a></div>";
 									echo "</div>";
 								}
 								
