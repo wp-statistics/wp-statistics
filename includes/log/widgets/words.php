@@ -55,8 +55,10 @@
 				}
 				
 				echo "<a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+
+				$referrer_html = $WP_Statistics->html_sanitize_referrer( $items->referred );
 				
-				echo "<a href='" . $WP_Statistics->html_sanitize_referrer( $items->referred ) . "' title='" . $WP_Statistics->html_sanitize_referrer( $items->referred ) . "'>" . wp_statistics_icons('dashicons-admin-links', 'link') . " " . $WP_Statistics->html_sanitize_referrer( $items->referred ) . "</a></div>";
+				echo "<a href='" . $referrer_html . "' title='" . $referrer_html . "'>" . wp_statistics_icons('dashicons-admin-links', 'link') . " " . $referrer_html . "</a></div>";
 				echo "</div>";
 			}
 			

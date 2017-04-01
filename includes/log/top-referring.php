@@ -168,12 +168,13 @@
 										foreach( $get_urls as $items => $value) {
 											
 											$i++;
+											$referrer_html = $WP_Statistics->html_sanitize_referrer( $items );
 											
 											echo "<div class='log-item'>";
-											echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $WP_Statistics->html_sanitize_referrer( $items ) . $date_args . "'>" . $WP_Statistics->html_sanitize_referrer( $items ) . "</a></div>";
+											echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $referrer_html . $date_args . "'>" . $referrer_html . "</a></div>";
 											echo "<div class='log-ip'>" . __( 'References', 'wp_statistics' ) . ': ' . number_format_i18n( $value ) . '</div>';
 											echo "<div class='clear'></div>";
-											echo "<div class='log-url'><a href='http://" . $WP_Statistics->html_sanitize_referrer( $items ) . "/' title='" . $WP_Statistics->html_sanitize_referrer( $items ) . "'><div class='dashicons dashicons-admin-links'></div> http://" . $WP_Statistics->html_sanitize_referrer( $items ) . '/</a></div>';
+											echo "<div class='log-url'><a href='http://" . $referrer_html . "/' title='" . $referrer_html . "'><div class='dashicons dashicons-admin-links'></div> http://" . $referrer_html . '/</a></div>';
 											echo "</div>";
 											
 										}

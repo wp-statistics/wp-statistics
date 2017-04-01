@@ -20,25 +20,27 @@
 			}
 			
 			echo "<div class='log-item'>";
-				echo "<div class='log-referred'>{$ip_string}</div>";
-				echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($items->last_counter)) . "</div>";
-				echo "<div class='clear'></div>";
-				echo "<div class='log-url'>";
-				echo $map_string;
-				
-				if($WP_Statistics->get_option('geoip')) {
-					echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
-				}
-				
-				if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
-					$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
-				} else {
-					$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
-				}
-				
-				echo "<a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
-				
-				echo "<a href='" . $WP_Statistics->html_sanitize_referrer( $items->referred ) . "' title='" . $WP_Statistics->html_sanitize_referrer( $items->referred ) . "'>".wp_statistics_icons('dashicons-admin-links', 'link') . " " . $WP_Statistics->html_sanitize_referrer( $items->referred ) . "</a></div>";
+			echo "<div class='log-referred'>{$ip_string}</div>";
+			echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($items->last_counter)) . "</div>";
+			echo "<div class='clear'></div>";
+			echo "<div class='log-url'>";
+			echo $map_string;
+			
+			if($WP_Statistics->get_option('geoip')) {
+				echo "<img src='".plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png')."' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+			}
+			
+			if( array_search( strtolower( $items->agent ), array( "chrome", "firefox", "msie", "opera", "safari" ) ) !== FALSE ){
+				$agent = "<img src='".plugins_url('wp-statistics/assets/images/').$items->agent.".png' class='log-tools' title='{$items->agent}'/>";
+			} else {
+				$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
+			}
+			
+			echo "<a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+
+			$referrer_html = $WP_Statistics->html_sanitize_referrer( $items->referred );
+			
+			echo "<a href='" . $referrer_html . "' title='" . $referrer_html . "'>".wp_statistics_icons('dashicons-admin-links', 'link') . " " . $referrer_html . "</a></div>";
 			echo "</div>";
 		}
 		

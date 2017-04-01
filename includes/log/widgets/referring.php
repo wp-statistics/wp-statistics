@@ -55,10 +55,12 @@
 							<?php
 							
 								foreach( $get_urls as $items => $value) {
-								
+
+									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items );
+									
 									echo "<tr>";
-									echo "<td><a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $WP_Statistics->html_sanitize_referrer( $items ) . "'>" . number_format_i18n($value) . "</a></td>";
-									echo "<td><a href='http://" . $WP_Statistics->html_sanitize_referrer( $items ) . "' target='_blank'>" . $WP_Statistics->html_sanitize_referrer( $items ) . " " . wp_statistics_icons('dashicons-admin-links', 'link') . "</a></td>";
+									echo "<td><a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $referrer_html . "'>" . number_format_i18n($value) . "</a></td>";
+									echo "<td><a href='http://" . $referrer_html . "' target='_blank'>" . $referrer_html . " " . wp_statistics_icons('dashicons-admin-links', 'link') . "</a></td>";
 									echo "</tr>";
 								}
 							?>
