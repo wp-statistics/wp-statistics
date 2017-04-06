@@ -7,39 +7,24 @@
 		$urls = array();
 		$start = 0;
 		
-		if( $WP_Statistics->get_option( 'search_converted' ) ) {
-			do {
-				$result = $wpdb->get_results( "SELECT host FROM {$wpdb->prefix}statistics_search WHERE host <> '' LIMIT {$start}, 10000" );
-
-				$start += count( $result );
-
-				foreach( $result as $item ) {
-					if( empty( $item->host ) || stristr( get_bloginfo( 'url' ), $item->host ) ) {
-						continue;
-					}
-						
-					$urls[] = $item->host;
-				}
-			} while( 10000 == count( $result ) );
-		} else {
-			do {
-				$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' LIMIT {$start}, 10000" );
-				
-				$start += count( $result );
+		do {
+			$result = $wpdb->get_results( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' LIMIT {$start}, 10000" );
 			
-				foreach( $result as $item ) {
-				
-					$url = parse_url( $item->referred );
-					
-					if( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) )
-						continue;
-						
-					$urls[] = $url['host'];
-				}
-			
-			} while( 10000 == count( $result ) );
-		}
+			$start += count( $result );
 		
+			foreach( $result as $item ) {
+			
+				$url = parse_url( $item->referred );
+				
+				if( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
+					continue;
+				}
+					
+				$urls[] = $url['host'];
+			}
+		
+		} while( 10000 == count( $result ) );
+
 		$get_urls = array_count_values( $urls );
 	
 		arsort( $get_urls );

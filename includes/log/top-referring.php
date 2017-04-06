@@ -48,41 +48,22 @@
 	$total = 0;
 		
 	if( $referr ) {
-		if( $WP_Statistics->get_option( 'search_converted' ) ) {
-			$sql = $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_search` WHERE `host` = %s AND `last_counter` BETWEEN %s AND %s ORDER BY `ID` DESC", $referr, $rangestartdate, $rangeenddate );
-		} else {
-			$sql = $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s AND referred <> '' AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%', $rangestartdate, $rangeenddate );
-		}
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s AND referred <> '' AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC", '%' . $referr . '%', $rangestartdate, $rangeenddate ) );
 
-		$result = $wpdb->get_results( $sql );
-		
 		$total = count( $result );
 	} else {
-		$urls = array();
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' AND `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ) );
 		
-		if( $WP_Statistics->get_option( 'search_converted' ) ) {
-			$result = $wpdb->get_results( $wpdb->prepare( "SELECT host FROM {$wpdb->prefix}statistics_search WHERE host <> '' AND `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ) );
-
-			foreach( $result as $item ) {
-				if( empty( $item->host ) || stristr( get_bloginfo( 'url' ), $item->host ) ) {
-					continue;
-				}
-					
-				$urls[] = $item->host;
-			}
-		} else {
-			$result = $wpdb->get_results( $wpdb->prepare( "SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' AND `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ) );
-
-			foreach( $result as $item ) {
+		$urls = array();
+		foreach( $result as $item ) {
+		
+			$url = parse_url($item->referred);
 			
-				$url = parse_url($item->referred);
-				
-				if( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
-					continue;
-				}
-					
-				$urls[] = $url['host'];
+			if( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
+				continue;
 			}
+				
+			$urls[] = $url['host'];
 		}
 		
 		$get_urls = array_count_values( $urls );
