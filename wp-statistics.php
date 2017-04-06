@@ -3,7 +3,7 @@
  * Plugin Name: WP Statistics
  * Plugin URI: http://wp-statistics.com/
  * Description: Complete statistics for your WordPress site.
- * Version: 12.0.4
+ * Version: 12.0.5
  * Author: Greg Ross & Mostafa Soufi
  * Author URI: http://wp-statistics.com/
  * Text Domain: wp_statistics
@@ -12,7 +12,7 @@
  */
 
 	// These defines are used later for various reasons.
-	define('WP_STATISTICS_VERSION', '12.0.4');
+	define('WP_STATISTICS_VERSION', '12.0.5');
 	define('WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.');
 	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
 	define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION);
