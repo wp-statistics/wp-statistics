@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WP Statistics package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2016-11-18 07:40:58+0000\n"
+"PO-Revision-Date: 2017-04-02 07:49:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,141 +13,141 @@ msgstr ""
 
 #: includes/log/categories.php:196
 msgid "Category Statistics Summary"
-msgstr ""
+msgstr "ملخص احصائيات التصنيفات"
 
 #: includes/log/categories.php:59
 msgid "Category Statistics Chart"
-msgstr ""
+msgstr "الرسم البيانات لاحصائيات التصنيفات"
 
 #: includes/log/categories.php:31
 msgid "Select Category"
-msgstr ""
+msgstr "اختر تصنيف"
 
 #: includes/log/authors.php:256 includes/log/categories.php:244
 #: includes/log/tags.php:259
 msgid "Post Title"
-msgstr ""
+msgstr "عنوان المقال"
 
 #: includes/log/authors.php:223 includes/log/categories.php:211
 #: includes/log/tags.php:226
 msgid "Chart Visits Total"
-msgstr ""
+msgstr "الرسم البياني لإجمالي الزيارات"
 
 #: includes/log/authors.php:251
 msgid "Author Posts Sorted by Hits"
-msgstr ""
+msgstr "مقالات الكاتب حسب الزيارات"
 
 #: includes/log/authors.php:228 includes/log/categories.php:216
 #: includes/log/tags.php:231
 msgid "All Time Visits Total"
-msgstr ""
+msgstr "إجمالي الزيارات كل الوقت"
 
 #: includes/log/categories.php:206
 msgid "Number of posts in category"
-msgstr ""
+msgstr "عدد المقالات في التصنيف"
 
 #: includes/log/authors.php:218
 msgid "Number of posts by author"
-msgstr ""
+msgstr "عدد المقالات بواسطة الكاتب"
 
 #: includes/log/authors.php:214 includes/log/categories.php:202
 #: includes/log/tags.php:217
 msgid "Count"
-msgstr ""
+msgstr "العد"
 
 #: includes/log/authors.php:208
 msgid "Author Statistics Summary"
-msgstr ""
+msgstr "ملخص احصائيات الكاتب"
 
 #: includes/log/categories.php:13
 msgid "Category Statistics"
-msgstr ""
+msgstr "احصائيات التصنيف"
 
 #: includes/log/authors.php:13
 msgid "Author Statistics"
-msgstr ""
+msgstr "احصائيات الكاتب"
 
 #: includes/log/authors.php:31
 msgid "Select Author"
-msgstr ""
+msgstr "اختر الكاتب"
 
 #: includes/log/authors.php:51 includes/log/categories.php:39
 #: includes/log/tags.php:48
 msgid "Select"
-msgstr ""
+msgstr "اختر"
 
 #: includes/log/authors.php:71
 msgid "Author Statistics Chart"
-msgstr ""
+msgstr "الرسم البياني لإحصائيات الكاتب"
 
 #: includes/log/authors.php:131 includes/log/categories.php:119
 #: includes/log/tags.php:134
 msgid "Number of visits"
-msgstr ""
+msgstr "عدد الزيارات"
 
 #: includes/log/categories.php:239
 msgid "Category Posts Sorted by Hits"
-msgstr ""
+msgstr "مقالات الصنيف حسب الزيارات"
 
 #: includes/log/exclusions.php:24
 msgid "AJAX Request"
-msgstr ""
+msgstr "طلبات الأجاكس"
 
 #: includes/log/tags.php:13
 msgid "Tag Statistics"
-msgstr ""
+msgstr "احصائيات الوسم"
 
 #: includes/log/tags.php:31
 msgid "Select Tag"
-msgstr ""
+msgstr "اختر وسم"
 
 #: includes/log/tags.php:74
 msgid "Tag Statistics Chart"
-msgstr ""
+msgstr "الرسم البياني لاحصائيات الوسم"
 
 #: includes/log/tags.php:211
 msgid "Tag Statistics Summary"
-msgstr ""
+msgstr "ملخص احصائيات الوسم"
 
 #: includes/log/tags.php:221
 msgid "Number of posts in tag"
-msgstr ""
+msgstr "عدد المقالات في الوسم"
 
 #: includes/log/tags.php:254
 msgid "Tag Posts Sorted by Hits"
-msgstr ""
+msgstr "مثالات الوسم حسب الزيارات"
 
 #: includes/settings/tabs/wps-exclusions.php:225
 msgid "Excluded AJAX calls"
-msgstr ""
+msgstr "طلبات الأجاكس المستبعدة"
 
 #: includes/settings/tabs/wps-exclusions.php:228
 msgid "Exclude any call to the WordPress AJAX system."
-msgstr ""
+msgstr "أستبعد أي طلب على نظام الإجاكس في الووردبريس"
 
 #: includes/settings/tabs/wps-removal.php:88
 msgid "Reset options"
-msgstr ""
+msgstr "إعادة تعيين الخيارات"
 
 #: includes/settings/tabs/wps-removal.php:93
 msgid "Reset"
-msgstr ""
+msgstr "إعادة تعيين"
 
 #: includes/settings/tabs/wps-removal.php:94
 msgid "Reset the plugin options to the defaults.  This will remove all user and global settings but will keep all other data.  This action cannot be undone.  Note: For multi-site installs this will reset all sites to the defaults."
-msgstr ""
+msgstr "إعادة تعيين خيارات البرنامج المساعد إلى الإعدادات الافتراضية. سيؤدي هذا إلى إزالة جميع إعدادات المستخدم والإعدادات العامة ولكن سيحتفظ بجميع البيانات الأخرى. لا يمكن التراجع عن هذا الإجراء. ملاحظة: بالنسبة إلى عمليات التثبيت متعددة المواقع، سيؤدي ذلك إلى إعادة تعيين جميع المواقع إلى الإعدادات الافتراضية."
 
 #: wp-statistics.php:441
 msgid "Categories"
-msgstr ""
+msgstr "التصنيفات"
 
 #: wp-statistics.php:442
 msgid "Tags"
-msgstr ""
+msgstr "الوسوم"
 
 #: wp-statistics.php:443
 msgid "Authors"
-msgstr ""
+msgstr "الكتاب"
 
 #: includes/log/widgets/summary.php:52
 msgid "Last 365 Days"
@@ -203,7 +203,7 @@ msgstr "زوار الأمس"
 
 #: widget.php:74 widget.php:275
 msgid "Last 7 Days Visits"
-msgstr "زيارات آخر 7 أبام"
+msgstr "زيارات آخر 7 أيام"
 
 #: widget.php:81 widget.php:278
 msgid "Last 30 Days Visits"
