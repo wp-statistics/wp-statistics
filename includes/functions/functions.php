@@ -968,8 +968,8 @@
 			
 			if( $current == $range[$i] ) { echo 'class="current" '; $bold = false;}
 			
-			// Dont' bother adding he date range to the standard links as they're not needed any may confuse the custom range selector.
-			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . $extrafields . '">' . $desc[$i] . '</a></li>';
+			// Don't bother adding he date range to the standard links as they're not needed any may confuse the custom range selector.
+			echo 'href="?page=' . $page . '&hitdays=' . $range[$i] . esc_url($extrafields) . '">' . $desc[$i] . '</a></li>';
 			
 			if( $i < $rcount - 1 ) {
 				echo ' | ';
@@ -985,7 +985,7 @@
 		parse_str( $extrafields, $parse );
 		
 		foreach( $parse as $key => $value ) {
-			echo '<input type="hidden" name="' . $key . '" value="' . $value . '">';
+			echo '<input type="hidden" name="' . $key . '" value="' . esc_url($value) . '">';
 		}
 			
 		if( $bold ) { 
