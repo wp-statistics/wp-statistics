@@ -17,23 +17,23 @@
     float: left;
 }
 
-#last-log{
-  direction: rtl;
+#last-log {
+    direction: rtl;
 }
 
-.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
-  font-family: tahoma;
+.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-family: tahoma;
 }
 
-.ui-tabs .ui-tabs-nav li{
-  float: right;
+.ui-tabs .ui-tabs-nav li {
+    float: right;
 }
 
-.jqvmap-label{
-  direction: ltr;
+.jqvmap-label {
+    direction: ltr;
 }
 
-.jqplot-table-legend, .jqplot-highlighter-tooltip{
+.jqplot-table-legend, .jqplot-highlighter-tooltip {
     direction: rtl;
     font-family: tahoma;
 }
@@ -47,9 +47,9 @@
 }
 
 .left-div {
-	float: right;
+    float: right;
 }
 
 .right-div {
-	float: left;
+    float: left;
 }

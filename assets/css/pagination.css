@@ -4,6 +4,7 @@
     padding: 14px 0 0;
     text-align: center;
 }
+
 .pageOn {
     background: none repeat scroll 0 0 #4dcdff;
     border: 1px solid #60a8ff;
@@ -13,6 +14,7 @@
     margin: 2px;
     padding: 5px 10px;
 }
+
 .pageOff {
     background: none repeat scroll 0 0 #ffffff;
     border: 1px solid #dadada;
@@ -22,16 +24,20 @@
     padding: 5px 9px;
     text-shadow: 1px 1px #ffffff;
 }
+
 .pageOff:hover {
 }
+
 .pageOff a {
     box-shadow: 0 1px 0 #ffffff inset;
     color: #aaaaaa;
     padding: 5px 8px;
 }
+
 .paginationSelect {
     background: none repeat scroll 0 0 #eeeeee;
 }
+
 .paginationErrors {
     background: none repeat scroll 0 0 #ffdd99;
     border: 2px dashed #dd9900;
@@ -42,6 +48,7 @@
     text-align: left;
     width: 70%;
 }
+
 #result-log {
     color: #148e00;
     direction: rtl;
