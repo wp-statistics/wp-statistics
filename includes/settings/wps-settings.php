@@ -164,6 +164,7 @@ switch ( $selected_tab ) {
     </script>
     <a name="top"></a>
     <div class="wrap">
+        <h2><?php _e( 'Settings', 'wp_statistics' ); ?></h2>
         <form id="wps_settings_form" method="post">
 			<?php wp_nonce_field( 'update-options', 'wp-statistics-nonce' ); ?>
             <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">

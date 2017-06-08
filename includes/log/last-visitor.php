@@ -152,6 +152,7 @@ if ( $_get != '%' ) {
 							echo $WP_Statistics->get_referrer_link( $items->referred );
 
 							echo "</div>";
+							echo "</div>";
 						}
 
 						echo "</div>";

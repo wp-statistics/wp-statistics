@@ -152,6 +152,7 @@ $total = $search_result[ $referred ];
 									echo $WP_Statistics->get_referrer_link( $items->referred );
 
 									echo "</div>";
+									echo "</div>";
 								}
 							}
 

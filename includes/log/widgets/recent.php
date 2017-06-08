@@ -1,6 +1,5 @@
 <?php
 function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count = 10 ) {
-
 	global $wpdb, $WP_Statistics;
 
 	$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}" );
@@ -46,6 +45,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 
 		echo $WP_Statistics->get_referrer_link( $items->referred );
 
+		echo "</div>";
 		echo "</div>";
 	}
 
