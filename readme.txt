@@ -286,9 +286,10 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.* =
 * Release Date: June 8, 2017
-* Fix items show issue in referring page.
-* Fix recent visitor link in dashboard widget.
+* Updated WP-Statistics logo! Thanks [Arin Hacopian](http://aringrafix.com/) for design the logo.
 * Remove manual file and moved to `wp-statistics.com/category/documentation`
+* Fixed items show issue in referring page.
+* Fixed recent visitor link in dashboard widget.
 
 = 12.0.6 =
 * Release Date: April 27, 2017
