@@ -46,7 +46,7 @@ Translations are done by people just like you, help make WP Statistics available
 We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:
 
 * Have you read the [FAQs](https://wordpress.org/plugins/wp-statistics/faq/)?
-* Have you read the [manual](https://plugins.svn.wordpress.org/wp-statistics/trunk/manual/WP%20Statistics%20Admin%20Manual.html)?
+* Have you read the [documentation](http://wp-statistics.com/category/documentation)?
 * Have you search the [support forum](https://wordpress.org/support/plugin/wp-statistics) for a similar issue?
 * Have you search the Internet for any error messages you are receiving?
 * Make sure you have access to your PHP error logs.
@@ -73,9 +73,6 @@ Still not having any luck? Open a new thread on one of the support forums and we
 4. Go to the plugin settings page and configure as required (note this will also download the GeoIP database for the fist time).
 
 == Frequently Asked Questions ==
-= Where's the Admin Manual? =
-The admin manual is installed as part of the plugin, simply go to Statistics->Manual to view it.  At the top of the page will also be two icons that will allow you to download it in either ODT or HTML formats.
-
 = What do I do if the plug does not work? =
 Disable then enable the plugin.  You may also want to try removing and re-installing it as well.  If it is still not working, please open a new support thread on the [WordPress support forums](https://wordpress.org/support/plugin/wp-statistics).
 
