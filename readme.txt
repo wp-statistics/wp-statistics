@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.7
-Stable tag: 12.0.6
+Stable tag: 12.0.7
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -284,7 +284,7 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
-= 12.0.* =
+= 12.0.7 =
 * Release Date: June 8, 2017
 * Updated WP-Statistics logo! Thanks [Arin Hacopian](http://aringrafix.com/) for design the logo.
 * Remove manual file and moved to `wp-statistics.com/category/documentation`
