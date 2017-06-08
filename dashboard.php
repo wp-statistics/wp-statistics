@@ -164,7 +164,7 @@ function wp_statistics_dashboard_inline_javascript() {
 	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
 	$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
 
-	$admin_url = get_admin_url() . "/admin.php?page=";
+	$admin_url = get_admin_url() . "admin.php?page=";
 
 	$page_urls = array();
 
@@ -178,7 +178,7 @@ function wp_statistics_dashboard_inline_javascript() {
 	$page_urls['wp-statistics-search-widget_more_button']       = $admin_url . WP_STATISTICS_SEARCHES_PAGE;
 	$page_urls['wp-statistics-words-widget_more_button']        = $admin_url . WP_STATISTICS_WORDS_PAGE;
 	$page_urls['wp-statistics-top-visitors-widget_more_button'] = $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
-	$page_urls['wp-statistics-visitors-widget_more_button']     = $admin_url . WP_STATISTICS_VISITORS_PAGE;
+	$page_urls['wp-statistics-recent-widget_more_button']     = $admin_url . WP_STATISTICS_VISITORS_PAGE;
 	$page_urls['wp-statistics-quickstats-widget_more_button']   = $admin_url . WP_STATISTICS_OVERVIEW_PAGE;
 
 	?>

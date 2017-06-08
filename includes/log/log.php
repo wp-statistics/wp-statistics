@@ -47,7 +47,7 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 $new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
 $new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
 
-$admin_url = get_admin_url() . "/admin.php?page=";
+$admin_url = get_admin_url() . "admin.php?page=";
 
 $page_urls = array();
 
