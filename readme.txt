@@ -291,6 +291,7 @@ This is a security fix, please update immediately.
 * Release Date: June 8, 2017
 * Fix items show issue in referring page.
 * Fix recent visitor link in dashboard widget.
+* Remove manual file and moved to `wp-statistics.com/category/documentation`
 
 = 12.0.6 =
 * Release Date: April 27, 2017

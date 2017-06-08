@@ -385,18 +385,6 @@ if ( is_admin() ) {
 	// Save the settings now that we've set them.
 	$WP_Statistics->save_options();
 
-	// If the manual has been set to auto delete, do that now.
-	if ( $WP_Statistics->get_option( 'delete_manual' ) == true ) {
-		$filepath = realpath( plugin_dir_path( __FILE__ ) ) . "/";
-
-		if ( file_exists( $filepath . WP_STATISTICS_MANUAL . 'html' ) ) {
-			unlink( $filepath . WP_STATISTICS_MANUAL . 'html' );
-		}
-		if ( file_exists( $filepath . WP_STATISTICS_MANUAL . 'odt' ) ) {
-			unlink( $filepath . WP_STATISTICS_MANUAL . 'odt' );
-		}
-	}
-
 	if ( $WP_Statistics->get_option( 'upgrade_report' ) == true ) {
 		$WP_Statistics->update_option( 'send_upgrade_email', true );
 	}

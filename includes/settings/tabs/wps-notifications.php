@@ -209,7 +209,7 @@ if ( $wps_nonce_valid ) {
 				) ); ?>
                 <p class="description"><?php _e( 'Enter the contents of the report.', 'wp_statistics' ); ?></p>
                 <p class="description data">
-					<?php _e( 'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the admin manual for a list of codes available) are supported in the body of the message.  Here are some examples:', 'wp_statistics' ); ?>
+					<?php _e( 'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message.  Here are some examples:', 'wp_statistics' ); ?>
                     <br><br>
                     &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'User Online', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=usersonline]</code><br>

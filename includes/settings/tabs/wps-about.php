@@ -51,7 +51,7 @@
     </tr>
 
     <tr valign="top">
-        <td scope="row" colspan="2"><?php echo sprintf( __( 'WP Statistics supports internationalization and we encourage our users to submit translations, please visit our %s to see the current status and %s if you would like to help.', 'wp_statistics' ), '<a href="http://wp-statistics.com/translations/" target="_blank">' . __( 'translation collaboration site', 'wp_statistics' ) . '</a>', '<a href="http://wp-statistics.com/contact/" target="_blank">' . __( 'drop us a line', 'wp_statistics' ) . '</a>' ); ?></td>
+        <td scope="row" colspan="2"><?php echo sprintf( __( 'WP Statistics supports internationalization. please visit %s to see the current status and help to translation.', 'wp_statistics' ), '<a href="https://translate.wordpress.org/projects/wp-plugins/wp-statistics" target="_blank">' . __( 'WP Statistics Translating page', 'wp_statistics' ) . '</a>' ); ?></td>
     </tr>
 
     <tr valign="top">
@@ -63,8 +63,8 @@
             <p><?php _e( "We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:", 'wp_statistics' ); ?></p>
 
             <ul style="list-style-type: disc; list-style-position: inside; padding-left: 25px;">
-                <li><?php echo sprintf( __( 'Have you read the %s?', 'wp_statistics' ), '<a title="' . __( 'FAQs', 'wp_statistics' ) . '" href="http://wp-statistics.com/?page_id=19" target="_blank">' . __( 'FAQs', 'wp_statistics' ) . '</a>' ); ?></li>
-                <li><?php echo sprintf( __( 'Have you read the %s?', 'wp_statistics' ), '<a title="' . __( 'manual', 'wp_statistics' ) . '" href="?page=' . WP_STATISTICS_MANUAL_PAGE . '">' . __( 'manual', 'wp_statistics' ) . '</a>' ); ?></li>
+                <li><?php echo sprintf( __( 'Have you read the %s?', 'wp_statistics' ), '<a title="' . __( 'FAQs', 'wp_statistics' ) . '" href="http://wp-statistics.com/category/faq/" target="_blank">' . __( 'FAQs', 'wp_statistics' ) . '</a>' ); ?></li>
+                <li><?php echo sprintf( __( 'Have you read the %s?', 'wp_statistics' ), '<a title="' . __( 'Documentation', 'wp_statistics' ) . '" href="http://wp-statistics.com/category/documentation/">' . __( 'documentation', 'wp_statistics' ) . '</a>' ); ?></li>
                 <li><?php echo sprintf( __( 'Have you search the %s for a similar issue?', 'wp_statistics' ), '<a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">' . __( 'support forum', 'wp_statistics' ) . '</a>' ); ?></li>
                 <li><?php _e( 'Have you search the Internet for any error messages you are receiving?', 'wp_statistics' ); ?></li>
                 <li><?php _e( 'Make sure you have access to your PHP error logs.', 'wp_statistics' ); ?></li>

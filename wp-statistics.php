@@ -13,7 +13,6 @@
 
 // These defines are used later for various reasons.
 define( 'WP_STATISTICS_VERSION', '12.0.6' );
-define( 'WP_STATISTICS_MANUAL', 'manual/WP Statistics Admin Manual.' );
 define( 'WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0' );
 define( 'WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION );
 define( 'WPS_EXPORT_FILE_NAME', 'wp-statistics' );
@@ -36,7 +35,6 @@ define( 'WP_STATISTICS_VISITORS_PAGE', 'wps_visitors_page' );
 define( 'WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page' );
 define( 'WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page' );
 define( 'WP_STATISTICS_DONATE_PAGE', 'wps_donate_page' );
-define( 'WP_STATISTICS_MANUAL_PAGE', 'wps_manual_page' );
 
 if ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) {
 	define( 'WP_STATISTICS_MIN_EXT', '' );
@@ -77,13 +75,6 @@ function wp_statistics_init() {
 	if ( array_key_exists( 'wps_export', $_POST ) ) {
 		include_once dirname( __FILE__ ) . '/includes/functions/export.php';
 		wp_statistics_export_data();
-	}
-
-	// Check to see if we're downloading the manual, if so, do so now.
-	// Note this will set the headers to download the manual and then stop running WordPress.
-	if ( array_key_exists( 'wps_download_manual', $_GET ) ) {
-		include_once dirname( __FILE__ ) . '/includes/functions/manual.php';
-		wp_statistics_download_manual();
 	}
 }
 
@@ -524,11 +515,6 @@ function wp_statistics_menu() {
 	$WP_Statistics->menu_slugs['settings'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Settings', 'wp_statistics' ), __( 'Settings', 'wp_statistics' ), $read_cap, WP_STATISTICS_SETTINGS_PAGE, 'wp_statistics_settings' );
 	$WP_Statistics->menu_slugs['donate']   = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Donate', 'wp_statistics' ), __( 'Donate', 'wp_statistics' ), $read_cap, WP_STATISTICS_DONATE_PAGE, 'wp_statistics_donate' );
 
-	// Only add the manual entry if it hasn't been deleted.
-	if ( $WP_Statistics->get_option( 'delete_manual' ) != true ) {
-		$WP_Statistics->menu_slugs['manual'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Manual', 'wp_statistics' ), __( 'Manual', 'wp_statistics' ), $manage_cap, WP_STATISTICS_MANUAL_PAGE, 'wp_statistics_manual' );
-	}
-
 	// Add action to load the meta boxes to the overview page.
 	add_action( 'load-' . $WP_Statistics->menu_slugs['overview'], 'wp_statistics_load_overview_page' );
 }
@@ -595,12 +581,6 @@ function wp_statistics_networkmenu() {
 		if ( $count > 15 ) {
 			break;
 		}
-	}
-
-	// Only add the manual entry if it hasn't been deleted.
-	if ( $WP_Statistics->get_option( 'delete_manual' ) != true ) {
-		add_submenu_page( __FILE__, '', '', $read_cap, 'wps_break_menu', 'wp_statistics_log_overview' );
-		add_submenu_page( __FILE__, __( 'Manual', 'wp_statistics' ), __( 'Manual', 'wp_statistics' ), $manage_cap, WP_STATISTICS_MANUAL_PAGE, 'wp_statistics_manual' );
 	}
 }
 
@@ -786,29 +766,6 @@ function wp_statistics_menubar() {
 
 if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
 	add_action( 'admin_bar_menu', 'wp_statistics_menubar', 20 );
-}
-
-// This function creates the HTML for the manual page.  The manual is a seperate HTML file that is contained inside of an iframe.
-// There is a bit of JavaScript included to resize the iframe so that the scroll bars can be hidden and it looks like everything
-// is in the same page.
-function wp_statistics_manual() {
-	if ( file_exists( plugin_dir_path( __FILE__ ) . WP_STATISTICS_MANUAL . 'html' ) ) {
-		echo '<script type="text/javascript">' . "\n";
-		echo '    function AdjustiFrameHeight(id,fudge)' . "\n";
-		echo '    {' . "\n";
-		echo '        var frame = document.getElementById(id);' . "\n";
-		echo '        frame.height = frame.contentDocument.body.offsetHeight + fudge;' . "\n";
-		echo '    }' . "\n";
-		echo '</script>' . "\n";
-
-		echo '<br>';
-		echo '<a href="admin.php?page=' . WP_STATISTICS_MANUAL_PAGE . '&wps_download_manual=true&type=odt' . '" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . 'assets/images/ODT.png' . '" height="32" width="32" alt="' . __( 'Download ODF file', 'wp_statistics' ) . '"></a>&nbsp;';
-		echo '<a href="admin.php?page=' . WP_STATISTICS_MANUAL_PAGE . '&wps_download_manual=true&type=html' . '" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . 'assets/images/HTML.png' . '" height="32" width="32" alt="' . __( 'Download HTML file', 'wp_statistics' ) . '"></a><br>';
-
-		echo '<iframe src="' . plugin_dir_url( __FILE__ ) . WP_STATISTICS_MANUAL . 'html' . '" width="100%" frameborder="0" scrolling="no" id="wps_inline_docs" onload="AdjustiFrameHeight(\'wps_inline_docs\', 50);"></iframe>';
-	} else {
-		echo '<br><br><div class="error"><br>' . __( "Manual file not found.", 'wp_statistics' ) . '<br><br></div>';
-	}
 }
 
 // This is the main statistics display function.

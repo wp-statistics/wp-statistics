@@ -1,9 +1,8 @@
 <?php
-$selist = wp_statistics_searchengine_list( true );
-
-$permalink = get_option( 'permalink_structure' );
-
+$selist                       = wp_statistics_searchengine_list( true );
+$permalink                    = get_option( 'permalink_structure' );
 $disable_strip_uri_parameters = false;
+
 if ( $permalink == '' || strpos( $permalink, '?' ) !== false ) {
 	$disable_strip_uri_parameters = true;
 }
@@ -34,7 +33,6 @@ if ( $wps_nonce_valid ) {
 		'wps_chart_totals',
 		'wps_store_ua',
 		'wps_hide_notices',
-		'wps_delete_manual',
 		'wps_hash_ips',
 		'wps_all_online',
 		'wps_strip_uri_parameters',
@@ -61,35 +59,9 @@ if ( $wps_nonce_valid ) {
 		$new_option = str_replace( "wps_", "", $option );
 		$WP_Statistics->store_option( $new_option, $value );
 	}
-
-	if ( $WP_Statistics->get_option( 'delete_manual' ) == true ) {
-		$filepath = realpath( plugin_dir_path( __FILE__ ) . "../../../" ) . "/";
-
-		if ( file_exists( $filepath . WP_STATISTICS_MANUAL . 'html' ) ) {
-			unlink( $filepath . WP_STATISTICS_MANUAL . 'html' );
-		}
-		if ( file_exists( $filepath . WP_STATISTICS_MANUAL . 'odt' ) ) {
-			unlink( $filepath . WP_STATISTICS_MANUAL . 'odt' );
-		}
-	}
-
 }
-
 ?>
     <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery("#delete_manual").click(function () {
-                if (!this.checked)
-                    return;
-
-                var agree = confirm('<?php _e( 'This will delete the manual when you save the settings, are you sure?', 'wp_statistics' ); ?>');
-
-                if (!agree)
-                    jQuery("#delete_manual").attr("checked", false);
-
-            });
-        });
-
         function ToggleStatOptions() {
             jQuery('[id^="wps_stats_report_option"]').fadeToggle();
         }
@@ -297,18 +269,6 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row">
-                <label for="hide_notices"><?php _e( 'Delete the manual', 'wp_statistics' ); ?>:</label>
-            </th>
-
-            <td>
-                <input id="delete_manual" type="checkbox" value="1" name="wps_delete_manual" <?php echo $WP_Statistics->get_option( 'delete_manual' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="delete_manual"><?php _e( 'Active', 'wp_statistics' ); ?></label>
-                <p class="description"><?php _e( 'By default WP Statistics stores the admin manual in the plugin directory (~5 meg), if this option is enabled it will be deleted now and during upgrades in the future.', 'wp_statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e( 'Search Engines', 'wp_statistics' ); ?></h3></th>
         </tr>
 
@@ -334,8 +294,8 @@ if ( $wps_nonce_valid ) {
 		$se_option_list = '';
 
 		foreach ( $selist as $se ) {
-			$option_name = 'wps_disable_se_' . $se['tag'];
-			$store_name = 'disable_se_' . $se['tag'];
+			$option_name    = 'wps_disable_se_' . $se['tag'];
+			$store_name     = 'disable_se_' . $se['tag'];
 			$se_option_list .= $option_name . ',';
 			?>
 
