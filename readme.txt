@@ -287,6 +287,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.0.* =
+* Release Date: June 8, 2017
+
 = 12.0.6 =
 * Release Date: April 27, 2017
 * Fixed: Additional XSS fixes, thanks Plugin Vulnerabilities Team.
