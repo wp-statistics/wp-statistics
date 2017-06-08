@@ -3,19 +3,19 @@ global $wp_roles;
 
 $role_list = $wp_roles->get_names();
 
-if ($wps_nonce_valid) {
+if ( $wps_nonce_valid ) {
 
-	$wps_option_list = array_merge($wps_option_list, array('wps_read_capability', 'wps_manage_capability'));
+	$wps_option_list = array_merge( $wps_option_list, array( 'wps_read_capability', 'wps_manage_capability' ) );
 
-	foreach ($wps_option_list as $option) {
-		$new_option = str_replace("wps_", "", $option);
+	foreach ( $wps_option_list as $option ) {
+		$new_option = str_replace( "wps_", "", $option );
 
-		if (array_key_exists($option, $_POST)) {
-			$value = $_POST[$option];
+		if ( array_key_exists( $option, $_POST ) ) {
+			$value = $_POST[ $option ];
 		} else {
 			$value = '';
 		}
-		$WP_Statistics->store_option($new_option, $value);
+		$WP_Statistics->store_option( $new_option, $value );
 	}
 }
 
@@ -24,31 +24,31 @@ if ($wps_nonce_valid) {
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Access Levels', 'wp_statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Access Levels', 'wp_statistics' ); ?></h3></th>
         </tr>
 		<?php
 		global $wp_roles;
 
 		$role_list = $wp_roles->get_names();
 
-		foreach ($wp_roles->roles as $role) {
+		foreach ( $wp_roles->roles as $role ) {
 
 			$cap_list = $role['capabilities'];
 
-			foreach ($cap_list as $key => $cap) {
-				if (substr($key, 0, 6) != 'level_') {
-					$all_caps[$key] = 1;
+			foreach ( $cap_list as $key => $cap ) {
+				if ( substr( $key, 0, 6 ) != 'level_' ) {
+					$all_caps[ $key ] = 1;
 				}
 			}
 		}
 
-		ksort($all_caps);
+		ksort( $all_caps );
 
-		$read_cap = $WP_Statistics->get_option('read_capability', 'manage_options');
+		$read_cap    = $WP_Statistics->get_option( 'read_capability', 'manage_options' );
 		$option_list = '';
 
-		foreach ($all_caps as $key => $cap) {
-			if ($key == $read_cap) {
+		foreach ( $all_caps as $key => $cap ) {
+			if ( $key == $read_cap ) {
 				$selected = " SELECTED";
 			} else {
 				$selected = "";
@@ -58,7 +58,7 @@ if ($wps_nonce_valid) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_read_capability"><?php _e('Required user level to view WP Statistics', 'wp_statistics') ?>
+                <label for="wps_read_capability"><?php _e( 'Required user level to view WP Statistics', 'wp_statistics' ) ?>
                     :</label></th>
             <td>
                 <select id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; ?></select>
@@ -66,10 +66,10 @@ if ($wps_nonce_valid) {
         </tr>
 
 		<?php
-		$manage_cap = $WP_Statistics->get_option('manage_capability', 'manage_options');
+		$manage_cap = $WP_Statistics->get_option( 'manage_capability', 'manage_options' );
 
-		foreach ($all_caps as $key => $cap) {
-			if ($key == $manage_cap) {
+		foreach ( $all_caps as $key => $cap ) {
+			if ( $key == $manage_cap ) {
 				$selected = " SELECTED";
 			} else {
 				$selected = "";
@@ -79,7 +79,7 @@ if ($wps_nonce_valid) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_manage_capability"><?php _e('Required user level to manage WP Statistics', 'wp_statistics') ?>
+                <label for="wps_manage_capability"><?php _e( 'Required user level to manage WP Statistics', 'wp_statistics' ) ?>
                     :</label></th>
             <td>
                 <select id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; ?></select>
@@ -88,14 +88,14 @@ if ($wps_nonce_valid) {
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <p class="description"><?php echo sprintf(__('See the %s for details on capability levels.', 'wp_statistics'), '<a target=_blank href="http://codex.wordpress.org/Roles_and_Capabilities">' . __('WordPress Roles and Capabilities page', 'wp_statistics') . '</a>'); ?></p>
-                <p class="description"><?php echo __('Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp_statistics'); ?></p>
-                <p class="description"><?php echo __('Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.', 'wp_statistics'); ?></p>
-                <p class="description"><?php echo sprintf(__('If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory.', 'wp_statistics'), '<a href="http://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>Capability Manager Enhanced</a>'); ?></p>
+                <p class="description"><?php echo sprintf( __( 'See the %s for details on capability levels.', 'wp_statistics' ), '<a target=_blank href="http://codex.wordpress.org/Roles_and_Capabilities">' . __( 'WordPress Roles and Capabilities page', 'wp_statistics' ) . '</a>' ); ?></p>
+                <p class="description"><?php echo __( 'Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp_statistics' ); ?></p>
+                <p class="description"><?php echo __( 'Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.', 'wp_statistics' ); ?></p>
+                <p class="description"><?php echo sprintf( __( 'If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory.', 'wp_statistics' ), '<a href="http://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>Capability Manager Enhanced</a>' ); ?></p>
             </th>
         </tr>
 
         </tbody>
     </table>
 
-<?php submit_button(__('Update', 'wp_statistics'), 'primary', 'submit'); ?>
+<?php submit_button( __( 'Update', 'wp_statistics' ), 'primary', 'submit' ); ?>

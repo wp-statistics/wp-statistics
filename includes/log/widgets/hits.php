@@ -1,6 +1,5 @@
 <?php
-function wp_statistics_generate_hits_postbox_content($size = '300px', $days = 20)
-{
+function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 20 ) {
 
 	global $wpdb, $WP_Statistics;
 	?>
@@ -10,13 +9,13 @@ function wp_statistics_generate_hits_postbox_content($size = '300px', $days = 20
 			<?php
 			$data_lines = array();
 
-			if ($WP_Statistics->get_option('visits')) {
+			if ( $WP_Statistics->get_option( 'visits' ) ) {
 				echo "var visit_data_line = [";
 
-				for ($i = $days; $i >= 0; $i--) {
-					$stat = wp_statistics_visit('-' . $i, true);
+				for ( $i = $days; $i >= 0; $i -- ) {
+					$stat = wp_statistics_visit( '-' . $i, true );
 
-					echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-' . $i) . "'," . $stat . "], ";
+					echo "['" . $WP_Statistics->Current_Date( 'Y-m-d', '-' . $i ) . "'," . $stat . "], ";
 
 				}
 
@@ -25,13 +24,13 @@ function wp_statistics_generate_hits_postbox_content($size = '300px', $days = 20
 				$data_lines[] = 'visit_data_line';
 			}
 
-			if ($WP_Statistics->get_option('visitors')) {
+			if ( $WP_Statistics->get_option( 'visitors' ) ) {
 				echo "var visitor_data_line = [";
 
-				for ($i = $days; $i >= 0; $i--) {
-					$stat = wp_statistics_visitor('-' . $i, true);
+				for ( $i = $days; $i >= 0; $i -- ) {
+					$stat = wp_statistics_visitor( '-' . $i, true );
 
-					echo "['" . $WP_Statistics->Current_Date('Y-m-d', '-' . $i) . "'," . $stat . "], ";
+					echo "['" . $WP_Statistics->Current_Date( 'Y-m-d', '-' . $i ) . "'," . $stat . "], ";
 
 				}
 
@@ -40,17 +39,17 @@ function wp_statistics_generate_hits_postbox_content($size = '300px', $days = 20
 				$data_lines[] = 'visitor_data_line';
 			}
 			?>
-            visit_chart = jQuery.jqplot('visits-stats', [<?php echo implode(',', $data_lines); ?>], {
+            visit_chart = jQuery.jqplot('visits-stats', [<?php echo implode( ',', $data_lines ); ?>], {
                 title: {
-                    text: '<b>' + <?php echo json_encode(__('Hits in the last', 'wp_statistics') . ' ' . $days . ' ' . __('days', 'wp_statistics')); ?> +'</b>',
+                    text: '<b>' + <?php echo json_encode( __( 'Hits in the last', 'wp_statistics' ) . ' ' . $days . ' ' . __( 'days', 'wp_statistics' ) ); ?> +'</b>',
                     fontSize: '12px',
                     fontFamily: 'Tahoma',
                     textColor: '#000000',
                 },
                 axes: {
                     xaxis: {
-                        min: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '-' . $days); ?>',
-                        max: '<?php echo $WP_Statistics->Current_Date('Y-m-d', '');?>',
+                        min: '<?php echo $WP_Statistics->Current_Date( 'Y-m-d', '-' . $days ); ?>',
+                        max: '<?php echo $WP_Statistics->Current_Date( 'Y-m-d', '' );?>',
                         tickInterval: '1 day',
                         renderer: jQuery.jqplot.DateAxisRenderer,
                         tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
@@ -63,7 +62,7 @@ function wp_statistics_generate_hits_postbox_content($size = '300px', $days = 20
                     yaxis: {
                         min: 0,
                         padMin: 1.0,
-                        label: <?php echo json_encode(__('Number of visits and visitors', 'wp_statistics')); ?>,
+                        label: <?php echo json_encode( __( 'Number of visits and visitors', 'wp_statistics' ) ); ?>,
                         labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                         labelOptions: {
                             angle: -90,
@@ -77,7 +76,10 @@ function wp_statistics_generate_hits_postbox_content($size = '300px', $days = 20
                     show: true,
                     location: 's',
                     placement: 'outsideGrid',
-                    labels: [<?php echo implode(',', array(json_encode(__('Visit', 'wp_statistics')), json_encode(__('Visitor', 'wp_statistics')))); ?>],
+                    labels: [<?php echo implode( ',', array(
+						json_encode( __( 'Visit', 'wp_statistics' ) ),
+						json_encode( __( 'Visitor', 'wp_statistics' ) )
+					) ); ?>],
                     renderer: jQuery.jqplot.EnhancedLegendRenderer,
                     rendererOptions: {
                         numberColumns: 2,

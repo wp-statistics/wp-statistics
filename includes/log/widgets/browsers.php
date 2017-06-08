@@ -1,6 +1,5 @@
 <?php
-function wp_statistics_generate_browsers_postbox_content()
-{
+function wp_statistics_generate_browsers_postbox_content() {
 
 	global $wpdb, $WP_Statistics;
 	?>
@@ -13,35 +12,35 @@ function wp_statistics_generate_browsers_postbox_content()
 				$BrowserVisits = array();
 				$total = 0;
 
-				foreach ($Browsers as $Browser) {
-					$BrowserVisits[$Browser] = wp_statistics_useragent($Browser);
-					$total += $BrowserVisits[$Browser];
+				foreach ( $Browsers as $Browser ) {
+					$BrowserVisits[ $Browser ] = wp_statistics_useragent( $Browser );
+					$total                     += $BrowserVisits[ $Browser ];
 				}
 
-				arsort($BrowserVisits);
+				arsort( $BrowserVisits );
 
 				echo "var browser_data = [";
 				$count = 0;
 				$topten = 0;
 
-				foreach ($BrowserVisits as $key => $value) {
-					echo "['" . substr($key, 0, 15) . " (" . number_format_i18n($value) . ")'," . $value . "], ";
+				foreach ( $BrowserVisits as $key => $value ) {
+					echo "['" . substr( $key, 0, 15 ) . " (" . number_format_i18n( $value ) . ")'," . $value . "], ";
 
 					$topten += $value;
-					$count++;
-					if ($count > 9) {
+					$count ++;
+					if ( $count > 9 ) {
 						break;
 					}
 				}
 
-				echo "['" . json_encode(__('Other', 'wp_statistics')) . " (" . number_format_i18n($total - $topten) . ")'," . ($total - $topten) . "], ";
+				echo "['" . json_encode( __( 'Other', 'wp_statistics' ) ) . " (" . number_format_i18n( $total - $topten ) . ")'," . ( $total - $topten ) . "], ";
 
 				echo "];\n";
 				?>
 
                 browser_chart = jQuery.jqplot('browsers-log', [browser_data], {
                     title: {
-                        text: '<b>' + <?php echo json_encode(__('Top 10 Browsers', 'wp_statistics')); ?> +'</b>',
+                        text: '<b>' + <?php echo json_encode( __( 'Top 10 Browsers', 'wp_statistics' ) ); ?> +'</b>',
                         fontSize: '12px',
                         fontFamily: 'Tahoma',
                         textColor: '#000000',
@@ -84,8 +83,8 @@ function wp_statistics_generate_browsers_postbox_content()
 
     </script>
 
-    <div id="browsers-log" style="height: <?php $height = (count($Browsers) / 2 * 27) + 300;
-	if ($height > 462) {
+    <div id="browsers-log" style="height: <?php $height = ( count( $Browsers ) / 2 * 27 ) + 300;
+	if ( $height > 462 ) {
 		$height = 462;
 	}
 	echo $height; ?>px;"></div>

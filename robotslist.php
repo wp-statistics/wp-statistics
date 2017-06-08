@@ -175,5 +175,5 @@ $wps_robotarray = array(
 	'ZemlyaCrawl'
 );
 
-$wps_robotslist = implode("\n", $wps_robotarray);
+$wps_robotslist = implode( "\n", $wps_robotarray );
 ?>

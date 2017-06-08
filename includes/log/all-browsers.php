@@ -5,39 +5,39 @@
 </script>
 <?php
 $daysToDisplay = 20;
-if (array_key_exists('hitdays', $_GET)) {
-	$daysToDisplay = intval($_GET['hitdays']);
+if ( array_key_exists( 'hitdays', $_GET ) ) {
+	$daysToDisplay = intval( $_GET['hitdays'] );
 }
 
-if (array_key_exists('rangestart', $_GET)) {
+if ( array_key_exists( 'rangestart', $_GET ) ) {
 	$rangestart = $_GET['rangestart'];
 } else {
 	$rangestart = '';
 }
-if (array_key_exists('rangeend', $_GET)) {
+if ( array_key_exists( 'rangeend', $_GET ) ) {
 	$rangeend = $_GET['rangeend'];
 } else {
 	$rangeend = '';
 }
 
-list($daysToDisplay, $rangestart_utime, $rangeend_utime) = wp_statistics_date_range_calculator($daysToDisplay, $rangestart, $rangeend);
+list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
 
-$rangestartdate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangestart_utime);
-$rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime);
+$rangestartdate = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangestart_utime );
+$rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_utime );
 
 ?>
 <div class="wrap">
-	<?php screen_icon('options-general'); ?>
-    <h2><?php _e('Browser Statistics', 'wp_statistics'); ?></h2>
+	<?php screen_icon( 'options-general' ); ?>
+    <h2><?php _e( 'Browser Statistics', 'wp_statistics' ); ?></h2>
 
-    <div><?php wp_statistics_date_range_selector(WP_STATISTICS_BROWSERS_PAGE, $daysToDisplay); ?></div>
+    <div><?php wp_statistics_date_range_selector( WP_STATISTICS_BROWSERS_PAGE, $daysToDisplay ); ?></div>
 
     <div class="postbox-container" style="width: 48%; float: left; margin-right:20px">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e('Browsers', 'wp_statistics'); ?></span></h3>
+                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
+                    <h3 class="hndle"><span><?php _e( 'Browsers', 'wp_statistics' ); ?></span></h3>
                     <div class="inside">
                         <script type="text/javascript">
                             jQuery(function () {
@@ -45,17 +45,17 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
                                 jQuery(document).ready(function () {
 									<?php
 									$Browsers = wp_statistics_ua_list();
-									if (!is_array($Browsers)) {
+									if ( ! is_array( $Browsers ) ) {
 										$Browsers = array();
 									}
 
-									natcasesort($Browsers);
+									natcasesort( $Browsers );
 
 									echo "var browser_data = [";
 
-									foreach ($Browsers as $Browser) {
-										$count = wp_statistics_useragent($Browser, $rangestartdate, $rangeenddate);
-										echo "['" . substr($Browser, 0, 15) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									foreach ( $Browsers as $Browser ) {
+										$count = wp_statistics_useragent( $Browser, $rangestartdate, $rangeenddate );
+										echo "['" . substr( $Browser, 0, 15 ) . " (" . number_format_i18n( $count ) . ")'," . $count . "], ";
 									}
 
 									echo "];\n";
@@ -65,7 +65,7 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
 
                                     browser_chart = jQuery.jqplot('browsers-log', [browser_data], {
                                         title: {
-                                            text: '<b>' + <?php echo json_encode(__('Browsers by type', 'wp_statistics')); ?> +'</b>',
+                                            text: '<b>' + <?php echo json_encode( __( 'Browsers by type', 'wp_statistics' ) ); ?> +'</b>',
                                             fontSize: '12px',
                                             fontFamily: 'Tahoma',
                                             textColor: '#000000',
@@ -109,8 +109,8 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
 
                         </script>
 
-                        <div id="browsers-log" style="height: <?php $height = (ceil(count($Browsers) / 3) * 27) + 400;
-						if ($height < 400) {
+                        <div id="browsers-log" style="height: <?php $height = ( ceil( count( $Browsers ) / 3 ) * 27 ) + 400;
+						if ( $height < 400 ) {
 							$height = 400;
 						}
 						echo $height; ?>px;"></div>
@@ -124,26 +124,26 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e('Platform', 'wp_statistics'); ?></span></h3>
+                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
+                    <h3 class="hndle"><span><?php _e( 'Platform', 'wp_statistics' ); ?></span></h3>
                     <div class="inside">
                         <script type="text/javascript">
                             jQuery(function () {
                                 var platform_chart;
                                 jQuery(document).ready(function () {
 									<?php
-									$Platforms = wp_statistics_platform_list(null, $rangestartdate, $rangeenddate);
-									if (!is_array($Platforms)) {
+									$Platforms = wp_statistics_platform_list( null, $rangestartdate, $rangeenddate );
+									if ( ! is_array( $Platforms ) ) {
 										$Platforms = array();
 									}
 
-									natcasesort($Platforms);
+									natcasesort( $Platforms );
 
 									echo "var platform_data = [";
 
-									foreach ($Platforms as $Platform) {
-										$count = wp_statistics_platform($Platform);
-										echo "['" . substr($Platform, 0, 15) . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+									foreach ( $Platforms as $Platform ) {
+										$count = wp_statistics_platform( $Platform );
+										echo "['" . substr( $Platform, 0, 15 ) . " (" . number_format_i18n( $count ) . ")'," . $count . "], ";
 									}
 
 									echo "];\n";
@@ -153,7 +153,7 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
 
                                     platform_chart = jQuery.jqplot('platform-log', [platform_data], {
                                         title: {
-                                            text: '<b>' + <?php echo json_encode(__('Browsers by platform', 'wp_statistics')); ?> +'</b>',
+                                            text: '<b>' + <?php echo json_encode( __( 'Browsers by platform', 'wp_statistics' ) ); ?> +'</b>',
                                             fontSize: '12px',
                                             fontFamily: 'Tahoma',
                                             textColor: '#000000',
@@ -197,8 +197,8 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
 
                         </script>
 
-                        <div id="platform-log" style="height: <?php $height = (ceil(count($Platforms) / 3) * 27) + 400;
-						if ($height < 400) {
+                        <div id="platform-log" style="height: <?php $height = ( ceil( count( $Platforms ) / 3 ) * 27 ) + 400;
+						if ( $height < 400 ) {
 							$height = 400;
 						}
 						echo $height; ?>px;"></div>
@@ -217,9 +217,9 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
         <div class="metabox-holder">
             <div class="meta-box-sortables">
 				<?php
-				for ($BrowserCount = 0; $BrowserCount < count($Browsers); $BrowserCount++) {
-					if ($BrowserCount % 3 == 0) {
-						BrowserVersionStats($Browsers[$BrowserCount]);
+				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
+					if ( $BrowserCount % 3 == 0 ) {
+						BrowserVersionStats( $Browsers[ $BrowserCount ] );
 					}
 				}
 				?>
@@ -231,9 +231,9 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
         <div class="metabox-holder">
             <div class="meta-box-sortables">
 				<?php
-				for ($BrowserCount = 0; $BrowserCount < count($Browsers); $BrowserCount++) {
-					if ($BrowserCount % 3 == 1) {
-						BrowserVersionStats($Browsers[$BrowserCount]);
+				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
+					if ( $BrowserCount % 3 == 1 ) {
+						BrowserVersionStats( $Browsers[ $BrowserCount ] );
 					}
 				}
 				?>
@@ -245,9 +245,9 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
         <div class="metabox-holder">
             <div class="meta-box-sortables">
 				<?php
-				for ($BrowserCount = 0; $BrowserCount < count($Browsers); $BrowserCount++) {
-					if ($BrowserCount % 3 == 2) {
-						BrowserVersionStats($Browsers[$BrowserCount]);
+				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
+					if ( $BrowserCount % 3 == 2 ) {
+						BrowserVersionStats( $Browsers[ $BrowserCount ] );
 					}
 				}
 				?>
@@ -256,30 +256,29 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
     </div>
 </div>
 
-<?php function BrowserVersionStats($Browser, $rangestartdate = null, $rangeenddate = null)
-{
-	$Browser_tag = strtolower(preg_replace('/[^a-zA-Z]/', '', $Browser)); ?>
+<?php function BrowserVersionStats( $Browser, $rangestartdate = null, $rangeenddate = null ) {
+	$Browser_tag = strtolower( preg_replace( '/[^a-zA-Z]/', '', $Browser ) ); ?>
     <div class="postbox">
-        <div class="handlediv" title="<?php _e('Click to toggle', 'wp_statistics'); ?>"><br/></div>
-        <h3 class="hndle"><span><?php echo sprintf(__('%s Version', 'wp_statistics'), $Browser); ?></span></h3>
+        <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
+        <h3 class="hndle"><span><?php echo sprintf( __( '%s Version', 'wp_statistics' ), $Browser ); ?></span></h3>
         <div class="inside">
             <script type="text/javascript">
                 jQuery(function () {
                     var <?php echo $Browser_tag;?>_chart;
                     jQuery(document).ready(function () {
 						<?php
-						$Versions = wp_statistics_agent_version_list($Browser, $rangestartdate, $rangeenddate);
-						if (!is_array($Versions)) {
+						$Versions = wp_statistics_agent_version_list( $Browser, $rangestartdate, $rangeenddate );
+						if ( ! is_array( $Versions ) ) {
 							$Versions = array();
 						}
 
-						natcasesort($Versions);
+						natcasesort( $Versions );
 
 						echo "var " . $Browser_tag . "_version_data = [";
 
-						foreach ($Versions as $Version) {
-							$count = wp_statistics_agent_version($Browser, $Version, $rangestartdate, $rangeenddate);
-							echo "['" . $Version . " (" . number_format_i18n($count) . ")'," . $count . "], ";
+						foreach ( $Versions as $Version ) {
+							$count = wp_statistics_agent_version( $Browser, $Version, $rangestartdate, $rangeenddate );
+							echo "['" . $Version . " (" . number_format_i18n( $count ) . ")'," . $count . "], ";
 						}
 
 						echo "];\n";
@@ -330,8 +329,8 @@ $rangeenddate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime
 
                 });
             </script>
-            <div class="ltr" id="version-<?php echo $Browser_tag; ?>-log" style="height: <?php $height = (ceil(count($Versions) / 2) * 27) + 237;
-			if ($height < 300) {
+            <div class="ltr" id="version-<?php echo $Browser_tag; ?>-log" style="height: <?php $height = ( ceil( count( $Versions ) / 2 ) * 27 ) + 237;
+			if ( $height < 300 ) {
 				$height = 300;
 			}
 			echo $height; ?>px;"></div>
