@@ -10,3 +10,8 @@
 .wps-center {
     text-align: center;
 }
+
+#wps_about_postbox #about_postbox img {
+    max-width: 170px;
+    margin: 0 0 9px 0;
+}
