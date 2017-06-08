@@ -4,7 +4,7 @@
  * Plugin URI: http://wp-statistics.com/
  * Description: Complete statistics for your WordPress site.
  * Version: 12.0.6
- * Author: Greg Ross & Mostafa Soufi
+ * Author: WP-Statistics Team
  * Author URI: http://wp-statistics.com/
  * Text Domain: wp_statistics
  * Domain Path: /languages/
