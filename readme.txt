@@ -286,8 +286,9 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.7 =
 * Release Date: June 8, 2017
+* WordPress 3.8 compatibility
 * Updated WP-Statistics logo! Thanks [Arin Hacopian](http://aringrafix.com/) for design the logo.
-* Remove manual file and moved to `wp-statistics.com/category/documentation`
+* Remove manual file and moved to [wp-statistics.com/category/documentation](http://wp-statistics.com/category/documentation)
 * Fixed items show issue in referring page.
 * Fixed recent visitor link in dashboard widget.
 
