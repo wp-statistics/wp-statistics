@@ -211,6 +211,7 @@ function wp_statistics_send_report() {
 
 	// Process shortcodes in the template.  Note that V8.0 upgrade script replaced the old %option% codes with the appropriate short codes.
 	$final_text_report = do_shortcode( $final_text_report );
+	$final_text_report = apply_filters( 'wp_statistics_final_text_report_email', $final_text_report );
 
 	// Send the report through the selected transport agent.
 	if ( $WP_Statistics->get_option( 'send_report' ) == 'mail' ) {

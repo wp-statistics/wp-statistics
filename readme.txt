@@ -38,7 +38,7 @@ This product includes GeoLite2 data created by MaxMind, available from https://w
 * Comprehensive Admin Manual
 
 = Translations =
-WP Statistics has been translated in to many languages, for the current list and contributors, please visit the [translators](https://wp-statistics.com/translators/) page on [wp-statistics.com](https://wp-statistics.com/).
+WP Statistics has been translated in to many languages, for the current list and contributors, please visit the [translators](https://translate.wordpress.org/projects/wp-plugins/wp-statistics).
 
 Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](https://wp-statistics.com/translations/) today!
 
