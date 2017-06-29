@@ -280,7 +280,7 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 10. View latest search engine referrers Statistics page.
 
 == Upgrade Notice ==
-= 12.0.5 =
+= 12.0.8 =
 This is a security fix, please update immediately.
 
 == Changelog ==
