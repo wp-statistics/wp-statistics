@@ -289,7 +289,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.8 =
 * Release Date: June 29, 2017
-* Fixed: Additional XSS issue, thanks Marc-Alexandre & John Castro from sucuri.net Team.
+* Fixed: SQL Injection vulnerability, thanks John Castro for reporting issue from sucuri.net Team.
 * Added: new hook (`wp_statistics_final_text_report_email`) in email reporting.
 * Removed: all language files from the language folder. Translations have moved to [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/wp-statistics).
 
