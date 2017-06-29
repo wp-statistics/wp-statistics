@@ -51,7 +51,7 @@
     </tr>
 
     <tr valign="top">
-        <td scope="row" colspan="2"><?php echo sprintf( __( 'WP Statistics supports internationalization. please visit %s to do translation.', 'wp_statistics' ), '<a href="https://wp-statistics.com/translations/" target="_blank">' . __( 'WP Statistics translations page', 'wp_statistics' ) . '</a>' ); ?></td>
+        <td scope="row" colspan="2"><?php echo sprintf( __( 'WP Statistics supports internationalization. please visit %s to help translation.', 'wp_statistics' ), '<a href="https://wp-statistics.com/translations/" target="_blank">' . __( 'WP Statistics translations page', 'wp_statistics' ) . '</a>' ); ?></td>
     </tr>
 
     <tr valign="top">
