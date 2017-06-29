@@ -167,9 +167,9 @@ function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate 
 	// If a page/post ID has been passed, use it to select the rows, otherwise use the URI.
 	//  Note that a single page/post ID can have multiple URI's associated with it.
 	if ( $id != - 1 ) {
-		$page_sql    = '`id` = ' . $id;
+		$page_sql    = '`id` = ' . absint($id);
 		$history_key = 'page';
-		$history_id  = $id;
+		$history_id  = absint($id);
 	} else {
 		$page_sql    = "`URI` = '{$page_uri_sql}'";
 		$history_key = 'uri';
