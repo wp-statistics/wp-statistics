@@ -3,7 +3,7 @@
  * Plugin Name: WP Statistics
  * Plugin URI: http://wp-statistics.com/
  * Description: Complete statistics for your WordPress site.
- * Version: 12.0.8
+ * Version: 12.0.8.1
  * Author: WP-Statistics Team
  * Author URI: http://wp-statistics.com/
  * Text Domain: wp_statistics
@@ -12,7 +12,7 @@
  */
 
 // These defines are used later for various reasons.
-define( 'WP_STATISTICS_VERSION', '12.0.8' );
+define( 'WP_STATISTICS_VERSION', '12.0.8.1' );
 define( 'WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0' );
 define( 'WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION );
 define( 'WPS_EXPORT_FILE_NAME', 'wp-statistics' );
@@ -59,7 +59,7 @@ function wp_statistics_language() {
 	if ( ! $override ) {
 		$domain = 'wp_statistics';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-        
+
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . 'plugins/wp-statistics-' . $locale . '.mo' );
 
 		__( 'WP Statistics', 'wp_statistics' );
