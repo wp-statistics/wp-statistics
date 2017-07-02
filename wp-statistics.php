@@ -57,7 +57,11 @@ function wp_statistics_language() {
 
 	// If not, go ahead and load the translations.
 	if ( ! $override ) {
-		load_plugin_textdomain( 'wp_statistics', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		$domain = 'wp_statistics';
+		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+        
+		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . 'plugins/wp-statistics-' . $locale . '.mo' );
+
 		__( 'WP Statistics', 'wp_statistics' );
 		__( 'Complete statistics for your WordPress site.', 'wp_statistics' );
 	}
