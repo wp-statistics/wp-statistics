@@ -289,12 +289,12 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.9 =
 * Release Date: July 3, 2017
+* Fixed: XSS issue with agent and ip in visitors page, Thanks Ryan Dewhurst from Dewhurst Security Team.
 * Updated: GeoIP library to v2.5.0
 * Updated: Maxmind-db reader library to v1.1.3
 
 = 12.0.8.1 =
 * Release Date: July 2, 2017
-* Fixed: XSS issue with agent and ip in visitors page, Thanks Ryan Dewhurst from Dewhurst Security Team.
 * Fixed: load languages file. please visit [translations page](https://wp-statistics.com/translations/) to help translation.
 
 = 12.0.8 =
