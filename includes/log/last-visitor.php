@@ -22,6 +22,7 @@ if ( array_key_exists( 'ip', $_GET ) ) {
 	$title = htmlentities( $_GET['ip'], ENT_QUOTES );
 }
 
+$_get = esc_attr($_get);
 $total_visitor = $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor`" );
 
 if ( $_get != '%' ) {
