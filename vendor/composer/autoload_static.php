@@ -9,6 +9,7 @@ class ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40
     public static $prefixLengthsPsr4 = array (
         'M' => 
         array (
+            'MaxMind\\Db\\' => 11,
             'MaxMind\\' => 8,
         ),
         'I' => 
@@ -26,6 +27,10 @@ class ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40
     );
 
     public static $prefixDirsPsr4 = array (
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
         'MaxMind\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind/web-service-common/src',
@@ -44,22 +49,11 @@ class ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'M' => 
-        array (
-            'MaxMind' => 
-            array (
-                0 => __DIR__ . '/..' . '/maxmind-db/reader/src',
-            ),
-        ),
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
