@@ -151,6 +151,7 @@ $wps_robotarray = array(
 	'uMBot-LN',
 	'uni5download',
 	'unrulymedia',
+	'UptimeRobot',
 	'URL_Spider_SQL',
 	'Vagabondo',
 	'vBSEO',
