@@ -288,6 +288,7 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = 12.0.10 =
+* Release Date: July 24, 2017
 * Added: UptimeRobot to the default robots list.
 * Fixed: Uses `esc_attr()` for cleaning `$_GET` in referrers page.
 * Removed: `screen_icon()` function from the plugin. (This function has been deprecated).
