@@ -25,7 +25,6 @@ if ( array_key_exists( 'referred', $_GET ) ) {
 $total = $search_result[ $referred ];
 ?>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php _e( 'Latest Search Words', 'wp_statistics' ); ?></h2>
     <ul class="subsubsub">
 		<?php

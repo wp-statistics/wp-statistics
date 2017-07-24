@@ -27,7 +27,6 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 
 ?>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php _e( 'Top Pages', 'wp_statistics' ); ?></h2>
 
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_PAGES_PAGE, $daysToDisplay ); ?>

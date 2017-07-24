@@ -4,7 +4,6 @@
     });
 </script>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php _e( 'Hit Statistics', 'wp_statistics' ); ?></h2>
 
 	<?php

@@ -72,7 +72,6 @@ if ( $referr ) {
 
 ?>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php _e( 'Top Referring Sites', 'wp_statistics' ); ?></h2>
 
     <div><?php wp_statistics_date_range_selector( WP_STATISTICS_REFERRERS_PAGE, $daysToDisplay, null, null, $referr_field ); ?></div>

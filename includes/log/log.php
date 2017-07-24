@@ -28,7 +28,6 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 ?>
 <div class="wrap">
 	<?php echo $nag_html; ?>
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php echo get_admin_page_title(); ?></h2>
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 	<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>

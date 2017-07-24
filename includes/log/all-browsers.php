@@ -27,7 +27,6 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 
 ?>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php _e( 'Browser Statistics', 'wp_statistics' ); ?></h2>
 
     <div><?php wp_statistics_date_range_selector( WP_STATISTICS_BROWSERS_PAGE, $daysToDisplay ); ?></div>

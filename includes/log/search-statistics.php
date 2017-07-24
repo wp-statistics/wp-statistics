@@ -26,7 +26,6 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 $daysInThePast = round( ( time() - $rangeend_utime ) / 86400, 0 );
 ?>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php _e( 'Search Engine Referral Statistics', 'wp_statistics' ); ?></h2>
 
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_SEARCHES_PAGE, $daysToDisplay ); ?>

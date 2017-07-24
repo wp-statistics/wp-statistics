@@ -48,7 +48,6 @@ if ( array_key_exists( 'rangeend', $_GET ) ) {
 }
 ?>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php echo __( 'Page Trend for Post ID', 'wp_statistics' ) . ' ' . $pageid . ' - ' . $title; ?></h2>
 
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_PAGES_PAGE, $daysToDisplay, null, null, $urlfields ); ?>

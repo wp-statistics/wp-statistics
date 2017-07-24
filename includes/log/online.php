@@ -7,7 +7,6 @@
 
 ?>
 <div class="wrap">
-	<?php screen_icon( 'options-general' ); ?>
     <h2><?php _e( 'Online Users', 'wp_statistics' ); ?></h2>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
