@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.8
-Stable tag: 12.0.9
+Stable tag: 12.0.10
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -289,6 +289,8 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.10 =
 * Added: UptimeRobot to the default robots list.
+* Fixed: Uses `esc_attr()` for cleaning `$_GET` in referrers page.
+* Removed: `screen_icon()` function from the plugin. (This function has been deprecated).
 
 = 12.0.9 =
 * Release Date: July 3, 2017
