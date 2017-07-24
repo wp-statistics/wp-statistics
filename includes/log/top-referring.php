@@ -11,19 +11,19 @@
 $date_args     = '';
 $daysToDisplay = 20;
 if ( array_key_exists( 'hitdays', $_GET ) ) {
-	$daysToDisplay = intval( $_GET['hitdays'] );
+	$daysToDisplay = intval( esc_attr($_GET['hitdays']) );
 	$date_args     .= '&hitdays=' . $daysToDisplay;
 }
 
 if ( array_key_exists( 'rangestart', $_GET ) ) {
-	$rangestart = $_GET['rangestart'];
+	$rangestart = esc_attr($_GET['rangestart']);
 	$date_args  .= '&rangestart=' . $rangestart;
 } else {
 	$rangestart = '';
 }
 
 if ( array_key_exists( 'rangeend', $_GET ) ) {
-	$rangeend  = $_GET['rangeend'];
+	$rangeend  = esc_attr($_GET['rangeend']);
 	$date_args .= '&rangeend=' . $rangeend;
 } else {
 	$rangeend = '';

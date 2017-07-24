@@ -287,6 +287,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.0.10 =
+* Added: UptimeRobot to the default robots list.
+
 = 12.0.9 =
 * Release Date: July 3, 2017
 * Fixed: XSS issue with agent and ip in visitors page, Thanks Ryan Dewhurst from Dewhurst Security Team.
