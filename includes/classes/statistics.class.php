@@ -817,6 +817,6 @@ class WP_Statistics {
 			$eplises               = '';
 		}
 
-		return "<a href='http://{$html_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
+		return "<a href='{$html_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
 	}
 }
