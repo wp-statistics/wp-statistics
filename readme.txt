@@ -289,6 +289,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.11 =
 * Fixed: links issue in the last visitors page.
+* Updated: admin CSS style. set `with` for Hits column in posts/pages list.
 
 = 12.0.10 =
 * Release Date: July 24, 2017
