@@ -104,7 +104,7 @@ function wp_statistics_unsupported_version_admin_notice() {
 
 			echo sprintf( __( 'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!', 'wp_statistics' ), phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION );
 			echo '</p><p>';
-			echo __( 'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.' );
+			echo __( 'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.', 'wp_statistics' );
 			?></p>
     </div>
 
