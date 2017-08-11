@@ -180,7 +180,7 @@ if ( $referr ) {
                 <div class="pagination-log">
 					<?php if ( $total > 0 ) {
 						echo $Pagination->display(); ?>
-                        <p id="result-log"><?php echo ' ' . __( 'Page', 'wp_statistics' ) . ' ' . $Pagination->getCurrentPage() . ' ' . __( 'From', 'wp_statistics' ) . ' ' . $Pagination->getTotalPages(); ?></p>
+                        <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp_statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
 					<?php } ?>
                 </div>
             </div>
