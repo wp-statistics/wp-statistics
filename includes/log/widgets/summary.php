@@ -9,7 +9,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
         <tbody>
 		<?php if ( $WP_Statistics->get_option( 'useronline' ) ) { ?>
             <tr>
-                <th><?php _e( 'Users Online', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Online Users', 'wp_statistics' ); ?>:</th>
                 <th colspan="2" id="th-colspan">
                     <span><a href="admin.php?page=<?php echo WP_STATISTICS_ONLINE_PAGE; ?>"><?php echo wp_statistics_useronline(); ?></a></span>
                 </th>

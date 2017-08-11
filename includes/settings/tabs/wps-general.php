@@ -86,12 +86,12 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Users Online', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Online Users', 'wp_statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="useronline"><?php _e( 'User online', 'wp_statistics' ); ?>:</label>
+                <label for="useronline"><?php _e( 'Online User', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>

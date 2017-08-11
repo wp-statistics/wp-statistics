@@ -211,19 +211,19 @@ if ( $wps_nonce_valid ) {
                 <p class="description data">
 					<?php _e( 'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message.  Here are some examples:', 'wp_statistics' ); ?>
                     <br><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'User Online', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Online User', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=usersonline]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today Visitor', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=today]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today Visit', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=today]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday Visitor', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=yesterday]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday Visit', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=yesterday]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visitor', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=total]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visit', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=total]</code><br>
                 </p>
             </td>

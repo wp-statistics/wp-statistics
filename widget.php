@@ -36,35 +36,35 @@ class WPStatistics_Widget extends WP_Widget {
 
 		if ( $widget_options['useronline_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Users Online', 'wp_statistics' ) . ': </label>';
+			echo '<label>' . __( 'Online Users', 'wp_statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_useronline() );
 			echo '</li>';
 		}
 
 		if ( $widget_options['tvisit_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Todays Visits', 'wp_statistics' ) . ': </label>';
+			echo '<label>' . __( 'Today\'s Visits', 'wp_statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_visit( 'today' ) );
 			echo '</li>';
 		}
 
 		if ( $widget_options['tvisitor_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Todays Visitors', 'wp_statistics' ) . ': </label>';
+			echo '<label>' . __( 'Today\'s Visitors', 'wp_statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_visitor( 'today', null, true ) );
 			echo '</li>';
 		}
 
 		if ( $widget_options['yvisit_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Yesterdays Visits', 'wp_statistics' ) . ': </label>';
+			echo '<label>' . __( 'Yesterday\'s Visits', 'wp_statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_visit( 'yesterday' ) );
 			echo '</li>';
 		}
 
 		if ( $widget_options['yvisitor_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Yesterdays Visitors', 'wp_statistics' ) . ': </label>';
+			echo '<label>' . __( 'Yesterday\'s Visitors', 'wp_statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_visitor( 'yesterday', null, true ) );
 			echo '</li>';
 		}
@@ -114,7 +114,7 @@ class WPStatistics_Widget extends WP_Widget {
 		if ( $widget_options['ser_widget'] ) {
 
 			echo '<li>';
-			echo '<label>' . __( 'Search Engine referrals', 'wp_statistics' ) . ': </label>';
+			echo '<label>' . __( 'Search Engine Referrals', 'wp_statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_searchengine( $widget_options['select_se'] ) );
 			echo '</li>';
 		}
@@ -258,23 +258,23 @@ class WPStatistics_Widget extends WP_Widget {
         <ul>
             <li>
                 <input type="checkbox" id="useronline_widget" name="useronline_widget" <?php checked( 'on', $widget_options['useronline_widget'] ); ?>/>
-                <label for="useronline_widget"><?php _e( 'Users Online', 'wp_statistics' ); ?></label></li>
+                <label for="useronline_widget"><?php _e( 'Online Users', 'wp_statistics' ); ?></label></li>
 
             <li>
                 <input type="checkbox" id="tvisit_widget" name="tvisit_widget" <?php checked( 'on', $widget_options['tvisit_widget'] ); ?>/>
-                <label for="tvisit_widget"><?php _e( 'Todays Visits', 'wp_statistics' ); ?></label></li>
+                <label for="tvisit_widget"><?php _e( 'Today\'s Visits', 'wp_statistics' ); ?></label></li>
 
             <li>
                 <input type="checkbox" id="tvisitor_widget" name="tvisitor_widget" <?php checked( 'on', $widget_options['tvisitor_widget'] ); ?>/>
-                <label for="tvisitor_widget"><?php _e( 'Todays Visitors', 'wp_statistics' ); ?></label></li>
+                <label for="tvisitor_widget"><?php _e( 'Today\'s Visitors', 'wp_statistics' ); ?></label></li>
 
             <li>
                 <input type="checkbox" id="yvisit_widget" name="yvisit_widget" <?php checked( 'on', $widget_options['yvisit_widget'] ); ?>/>
-                <label for="yvisit_widget"><?php _e( 'Yesterdays visits', 'wp_statistics' ); ?></label></li>
+                <label for="yvisit_widget"><?php _e( 'Yesterday\'s Visits', 'wp_statistics' ); ?></label></li>
 
             <li>
                 <input type="checkbox" id="yvisitor_widget" name="yvisitor_widget" <?php checked( 'on', $widget_options['yvisitor_widget'] ); ?>/>
-                <label for="yvisitor_widget"><?php _e( 'Yesterdays Visitors', 'wp_statistics' ); ?></label></li>
+                <label for="yvisitor_widget"><?php _e( 'Yesterday\'s Visitors', 'wp_statistics' ); ?></label></li>
 
             <li>
                 <input type="checkbox" id="wvisit_widget" name="wvisit_widget" <?php checked( 'on', $widget_options['wvisit_widget'] ); ?>/>

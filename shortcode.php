@@ -147,7 +147,7 @@ function wp_statistics_shortcake() {
 						'description' => __( 'Select the statistic you wish to display.', 'wp_statistics' ),
 						'value'       => 'usersonline',
 						'options'     => array(
-							'usersonline'    => __( 'Users Online', 'wp_statistics' ),
+							'usersonline'    => __( 'Online Users', 'wp_statistics' ),
 							'visits'         => __( 'Visits', 'wp_statistics' ),
 							'visitors'       => __( 'Visitors', 'wp_statistics' ),
 							'pagevisits'     => __( 'Page Visits', 'wp_statistics' ),
