@@ -181,7 +181,7 @@ if ( $total_stats == 1 ) {
 									echo "excluded_data_line_" . $excluded_reason_tags[ $reason ] . ", ";
 								} ?>], {
                                     title: {
-                                        text: '<b>' + <?php echo json_encode( __( 'Excluded hits in the last', 'wp_statistics' ) . ' ' . $daysToDisplay . ' ' . __( 'days', 'wp_statistics' ) ); ?> +'</b>',
+                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Excluded hits in the last %s days', 'wp_statistics' ), $daysToDisplay ) ); ?> +'</b>',
                                         fontSize: '12px',
                                         fontFamily: 'Tahoma',
                                         textColor: '#000000',

@@ -85,7 +85,7 @@ $daysInThePast = round( ( time() - $rangeend_utime ) / 86400, 0 );
 									echo 'searches_data_line_total';
 								}?>], {
                                     title: {
-                                        text: '<b>' + <?php echo json_encode( __( 'Search engine referrals in the last', 'wp_statistics' ) . ' ' . $daysToDisplay . ' ' . __( 'days', 'wp_statistics' ) ); ?> +'</b>',
+                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Search engine referrals in the last %s days', 'wp_statistics' ), $daysToDisplay ) ); ?> +'</b>',
                                         fontSize: '12px',
                                         fontFamily: 'Tahoma',
                                         textColor: '#000000',

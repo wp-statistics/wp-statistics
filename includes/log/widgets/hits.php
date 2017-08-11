@@ -41,7 +41,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 2
 			?>
             visit_chart = jQuery.jqplot('visits-stats', [<?php echo implode( ',', $data_lines ); ?>], {
                 title: {
-                    text: '<b>' + <?php echo json_encode( __( 'Hits in the last', 'wp_statistics' ) . ' ' . $days . ' ' . __( 'days', 'wp_statistics' ) ); ?> +'</b>',
+                    text: '<b>' + <?php echo json_encode( sprintf( __( 'Hits in the last %s days', 'wp_statistics' ), $days ) ); ?> +'</b>',
                     fontSize: '12px',
                     fontFamily: 'Tahoma',
                     textColor: '#000000',
