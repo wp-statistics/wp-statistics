@@ -81,8 +81,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor_hits"><?php _e( 'Purge visitors with more than', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="wps_schedule_dbmaint_visitor_hits"><?php _e( 'Purge visitors with more than', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>

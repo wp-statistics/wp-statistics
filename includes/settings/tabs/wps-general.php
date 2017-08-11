@@ -257,8 +257,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hide_notices"><?php _e( 'Hide admin notices about non active features', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="hide_notices"><?php _e( 'Hide admin notices about non active features', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
@@ -274,8 +273,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hide_notices"><?php _e( 'Add page title to empty search words', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="hide_notices"><?php _e( 'Add page title to empty search words', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
@@ -300,8 +298,9 @@ if ( $wps_nonce_valid ) {
 			?>
 
             <tr valign="top">
-                <th scope="row"><label for="<?php echo $option_name; ?>"><?php _e( $se['name'], 'wp_statistics' ); ?>
-                        :</label></th>
+                <th scope="row">
+										<label for="<?php echo $option_name; ?>"><?php _e( $se['name'], 'wp_statistics' ); ?>:</label>
+								</th>
                 <td>
                     <input id="<?php echo $option_name; ?>" type="checkbox" value="1" name="<?php echo $option_name; ?>" <?php echo $WP_Statistics->get_option( $store_name ) == true ? "checked='checked'" : ''; ?>><label for="<?php echo $option_name; ?>"><?php _e( 'disable', 'wp_statistics' ); ?></label>
                     <p class="description"><?php echo sprintf( __( 'Disable %s from data collection and reporting.', 'wp_statistics' ), $se['name'] ); ?></p>

@@ -220,8 +220,7 @@
 
         <tr>
             <th scope="row">
-                <label for="purge-visitor-hits"><?php _e( 'Purge visitors with more than', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="purge-visitor-hits"><?php _e( 'Purge visitors with more than', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>

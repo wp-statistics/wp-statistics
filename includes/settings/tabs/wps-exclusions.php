@@ -130,8 +130,8 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="force_robot_update"><?php _e( 'Force robot list update after upgrades', 'wp_statistics' ); ?>
-                    :</label></th>
+                <label for="force_robot_update"><?php _e( 'Force robot list update after upgrades', 'wp_statistics' ); ?>:</label>
+						</th>
             <td>
                 <input id="force_robot_update" type="checkbox" value="1" name="wps_force_robot_update" <?php echo $WP_Statistics->get_option( 'force_robot_update' ) == true ? "checked='checked'" : ''; ?>><label for="force_robot_update"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php echo sprintf( __( 'Force the robot list to be reset to the default after an update to WP Statistics takes place.  Note if this option is enabled any custom robots you have added to the list will be lost.', 'wp_statistics' ), $role ); ?></p>
@@ -139,8 +139,8 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps_robot_threshold"><?php _e( 'Robot visit threshold', 'wp_statistics' ); ?>
-                    :</label></th>
+            <th scope="row"><label for="wps_robot_threshold"><?php _e( 'Robot visit threshold', 'wp_statistics' ); ?>:</label>
+						</th>
             <td>
                 <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold" value="<?php echo $WP_Statistics->get_option( 'robot_threshold' ); ?>">
                 <p class="description"><?php echo __( 'Treat visitors with more than this number of visits per day as robots.  0 = disabled.', 'wp_statistics' ); ?></p>
@@ -181,8 +181,8 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="corrupt_browser_info"><?php _e( 'Treat corrupt browser info as a bot', 'wp_statistics' ); ?>
-                    :</label></th>
+                <label for="corrupt_browser_info"><?php _e( 'Treat corrupt browser info as a bot', 'wp_statistics' ); ?>:</label>
+						</th>
             <td>
                 <input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo $WP_Statistics->get_option( 'corrupt_browser_info' ) == true ? "checked='checked'" : ''; ?>><label for="wps_corrupt_browser_info"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php echo __( 'Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot.', 'wp_statistics' ); ?></p>

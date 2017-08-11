@@ -58,8 +58,8 @@ if ( $wps_nonce_valid ) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_read_capability"><?php _e( 'Required user level to view WP Statistics', 'wp_statistics' ) ?>
-                    :</label></th>
+                <label for="wps_read_capability"><?php _e( 'Required user level to view WP Statistics', 'wp_statistics' ) ?>:</label>
+						</th>
             <td>
                 <select id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; ?></select>
             </td>
@@ -79,8 +79,8 @@ if ( $wps_nonce_valid ) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_manage_capability"><?php _e( 'Required user level to manage WP Statistics', 'wp_statistics' ) ?>
-                    :</label></th>
+                <label for="wps_manage_capability"><?php _e( 'Required user level to manage WP Statistics', 'wp_statistics' ) ?>:</label>
+						</th>
             <td>
                 <select id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; ?></select>
             </td>

@@ -84,8 +84,7 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Schedule monthly update of GeoIP DB', 'wp_statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Schedule monthly update of GeoIP DB', 'wp_statistics' ); ?>:</label>
                 </th>
 
                 <td>
@@ -121,8 +120,7 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Populate missing GeoIP after update of GeoIP DB', 'wp_statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Populate missing GeoIP after update of GeoIP DB', 'wp_statistics' ); ?>:</label>
                 </th>
 
                 <td>
@@ -134,8 +132,7 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Country code for private IP addresses', 'wp_statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Country code for private IP addresses', 'wp_statistics' ); ?>:</label>
                 </th>
 
                 <td>
@@ -209,8 +206,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="browscap-schedule"><?php _e( 'Schedule weekly update of browscap DB', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="browscap-schedule"><?php _e( 'Schedule weekly update of browscap DB', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
@@ -254,8 +250,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-enable"><?php _e( 'Piwik Referrer Spam Blacklist usage', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="referrerspam-enable"><?php _e( 'Piwik Referrer Spam Blacklist usage', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
@@ -267,8 +262,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-update"><?php _e( 'Update Piwik Referrer Spam Blacklist Info', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="geoip-update"><?php _e( 'Update Piwik Referrer Spam Blacklist Info', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
@@ -280,8 +274,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-schedule"><?php _e( 'Schedule weekly update of Piwik Referrer Spam Blacklist DB', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="referrerspam-schedule"><?php _e( 'Schedule weekly update of Piwik Referrer Spam Blacklist DB', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
