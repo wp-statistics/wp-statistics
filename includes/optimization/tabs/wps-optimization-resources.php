@@ -27,7 +27,7 @@ function formatSize( $size ) {
             </th>
 
             <td>
-                <strong><?php echo number_format_i18n( memory_get_usage() ); ?></strong> <?php _e( 'Byte', 'wp_statistics' ); ?>
+                <strong><?php echo number_format_i18n( memory_get_usage() ); ?></strong> <?php _e( 'Bytes', 'wp_statistics' ); ?>
                 <p class="description"><?php _e( 'Memory usage in PHP', 'wp_statistics' ); ?></p>
             </td>
         </tr>

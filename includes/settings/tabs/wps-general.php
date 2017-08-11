@@ -108,8 +108,8 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo htmlentities( $WP_Statistics->get_option( 'check_online' ), ENT_QUOTES ); ?>"/>
-				<?php _e( 'Second', 'wp_statistics' ); ?>
-                <p class="description"><?php echo sprintf( __( 'Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics' ), $WP_Statistics->get_option( 'check_online' ) ); ?></p>
+				<?php _e( 'Seconds', 'wp_statistics' ); ?>
+                <p class="description"><?php echo sprintf( __( 'Time for the check accurate online user in the site. Now: %s Seconds', 'wp_statistics' ), $WP_Statistics->get_option( 'check_online' ) ); ?></p>
             </td>
         </tr>
 
