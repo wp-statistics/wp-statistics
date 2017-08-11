@@ -65,7 +65,7 @@ if ( $wps_nonce_valid ) {
 
                 <td>
                     <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo $WP_Statistics->get_option( 'geoip' ) == true ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-enable"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                    <label for="geoip-enable"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                     <p class="description"><?php _e( 'For get more information and location (country) from visitor, enable this feature.', 'wp_statistics' ); ?></p>
                 </td>
             </tr>
@@ -84,13 +84,12 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Schedule monthly update of GeoIP DB', 'wp_statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Schedule monthly update of GeoIP DB', 'wp_statistics' ); ?>:</label>
                 </th>
 
                 <td>
                     <input id="geoip-schedule" type="checkbox" name="wps_schedule_geoip" <?php echo $WP_Statistics->get_option( 'schedule_geoip' ) == true ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-schedule"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                    <label for="geoip-schedule"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
 					<?php
 					if ( $WP_Statistics->get_option( 'schedule_geoip' ) ) {
 						echo '<p class="description">' . __( 'Next update will be', 'wp_statistics' ) . ': <code>';
@@ -121,21 +120,19 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Populate missing GeoIP after update of GeoIP DB', 'wp_statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Populate missing GeoIP after update of GeoIP DB', 'wp_statistics' ); ?>:</label>
                 </th>
 
                 <td>
                     <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo $WP_Statistics->get_option( 'auto_pop' ) == true ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-auto-pop"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                    <label for="geoip-auto-pop"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                     <p class="description"><?php _e( 'Update any missing GeoIP data after downloading a new database.', 'wp_statistics' ); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Country code for private IP addresses', 'wp_statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Country code for private IP addresses', 'wp_statistics' ); ?>:</label>
                 </th>
 
                 <td>
@@ -190,7 +187,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="browscap-enable" type="checkbox" name="wps_browscap" <?php echo $WP_Statistics->get_option( 'browscap' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="browscap-enable"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="browscap-enable"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'The browscap database will be downloaded and used to detect robots.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -209,13 +206,12 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="browscap-schedule"><?php _e( 'Schedule weekly update of browscap DB', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="browscap-schedule"><?php _e( 'Schedule weekly update of browscap DB', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
                 <input id="browscap-schedule" type="checkbox" name="wps_schedule_browscap" <?php echo $WP_Statistics->get_option( 'schedule_browscap' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="browscap-schedule"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="browscap-schedule"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
 				<?php
 				if ( $WP_Statistics->get_option( 'schedule_browscap' ) ) {
 					echo '<p class="description">' . __( 'Next update will be', 'wp_statistics' ) . ': <code>';
@@ -254,21 +250,19 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-enable"><?php _e( 'Piwik Referrer Spam Blacklist usage', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="referrerspam-enable"><?php _e( 'Piwik Referrer Spam Blacklist usage', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
                 <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo $WP_Statistics->get_option( 'referrerspam' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="referrerspam-enable"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="referrerspam-enable"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-update"><?php _e( 'Update Piwik Referrer Spam Blacklist Info', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="geoip-update"><?php _e( 'Update Piwik Referrer Spam Blacklist Info', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
@@ -280,13 +274,12 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-schedule"><?php _e( 'Schedule weekly update of Piwik Referrer Spam Blacklist DB', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="referrerspam-schedule"><?php _e( 'Schedule weekly update of Piwik Referrer Spam Blacklist DB', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
                 <input id="referrerspam-schedule" type="checkbox" name="wps_schedule_referrerspam" <?php echo $WP_Statistics->get_option( 'schedule_referrerspam' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="referrerspam-schedule"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="referrerspam-schedule"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
 				<?php
 				if ( $WP_Statistics->get_option( 'schedule_referrerspam' ) ) {
 					echo '<p class="description">' . __( 'Next update will be', 'wp_statistics' ) . ': <code>';

@@ -83,7 +83,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="browscap-report" type="checkbox" value="1" name="wps_browscap_report" <?php echo $WP_Statistics->get_option( 'browscap_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="browscap-report"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="browscap-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Send a report whenever the browscap.ini is updated.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -95,7 +95,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo $WP_Statistics->get_option( 'geoip_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="geoip-report"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="geoip-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Send a report whenever the GeoIP database is updated.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -107,7 +107,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo $WP_Statistics->get_option( 'prune_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="prune-report"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="prune-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Send a report whenever the pruning of database is run.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -119,7 +119,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="upgrade-report" type="checkbox" value="1" name="wps_upgrade_report" <?php echo $WP_Statistics->get_option( 'upgrade_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="upgrade-report"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="upgrade-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Send a report whenever the plugin is upgraded.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -135,7 +135,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php echo $WP_Statistics->get_option( 'stats_report' ) == true ? "checked='checked'" : ''; ?> onClick='ToggleStatOptions();'>
-                <label for="stats-report"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="stats-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -211,19 +211,19 @@ if ( $wps_nonce_valid ) {
                 <p class="description data">
 					<?php _e( 'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message.  Here are some examples:', 'wp_statistics' ); ?>
                     <br><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'User Online', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Online User', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=usersonline]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today Visitor', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=today]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today Visit', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=today]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday Visitor', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=yesterday]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday Visit', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=yesterday]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visitor', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=total]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visit', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=total]</code><br>
                 </p>
             </td>

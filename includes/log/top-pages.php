@@ -220,7 +220,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 				<?php if ( $total > 0 ) { ?>
                     <div class="pagination-log">
 						<?php echo $Pagination->display(); ?>
-                        <p id="result-log"><?php echo ' ' . __( 'Page', 'wp_statistics' ) . ' ' . $Pagination->getCurrentPage() . ' ' . __( 'From', 'wp_statistics' ) . ' ' . $Pagination->getTotalPages(); ?></p>
+                        <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp_statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
                     </div>
 				<?php } ?>
             </div>

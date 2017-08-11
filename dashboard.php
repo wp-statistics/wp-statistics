@@ -76,7 +76,7 @@ function wp_statistics_dashboard_widget_load() {
 			wp_add_dashboard_widget( 'wp-statistics-countries-widget', __( 'Top 10 Countries', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'countries' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __( 'Today\'s Visitor Map', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hitsmap' ) );
+			wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __( 'Today\'s Visitors Map', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hitsmap' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visits' ) ) {
 			wp_add_dashboard_widget( 'wp-statistics-hits-widget', __( 'Hit Statistics', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hits' ) );

@@ -215,7 +215,7 @@ function wp_statistics_not_enable() {
 		}
 
 		if ( count( $itemstoenable ) > 0 ) {
-			echo '<div class="update-nag">' . sprintf( __( 'The following features are disabled, please go to %s and enable them: %s', 'wp_statistics' ), '<a href="' . $get_bloginfo_url . '">' . __( 'settings page', 'wp_statistics' ) . '</a>', implode( __( ',', 'wp_statistics' ), $itemstoenable ) ) . '</div>';
+			echo '<div class="update-nag">' . sprintf( __( 'The following features are disabled, please go to %ssettings page%s and enable them: %s', 'wp_statistics' ), '<a href="' . $get_bloginfo_url . '">', '</a>', implode( __( ',', 'wp_statistics' ), $itemstoenable ) ) . '</div>';
 		}
 
 		$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_STATISTICS_OPTIMIZATION_PAGE . "&tab=database";
@@ -243,7 +243,7 @@ function wp_statistics_not_enable() {
 			}
 
 			if ( count( $dbupdatestodo ) > 0 ) {
-				echo '<div class="update-nag">' . sprintf( __( 'Database updates are required, please go to %s and update the following: %s', 'wp_statistics' ), '<a href="' . $get_bloginfo_url . '">' . __( 'optimization page', 'wp_statistics' ) . '</a>', implode( __( ',', 'wp_statistics' ), $dbupdatestodo ) ) . '</div>';
+				echo '<div class="update-nag">' . sprintf( __( 'Database updates are required, please go to %soptimization page%s and update the following: %s', 'wp_statistics' ), '<a href="' . $get_bloginfo_url . '">', '</a>', implode( __( ',', 'wp_statistics' ), $dbupdatestodo ) ) . '</div>';
 			}
 
 		}
@@ -540,7 +540,7 @@ function wp_statistics_load_overview_page() {
 		add_meta_box( 'wps_recent_postbox', __( 'Recent Visitors', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'recent' ) );
 
 		if ( $WP_Statistics->get_option( 'geoip' ) ) {
-			add_meta_box( 'wps_map_postbox', __( 'Today Visitors Map', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'map' ) );
+			add_meta_box( 'wps_map_postbox', __( 'Today\'s Visitors Map', 'wp_statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'map' ) );
 		}
 	}
 
@@ -729,32 +729,32 @@ function wp_statistics_menubar() {
 		$wp_admin_bar->add_menu( array(
 			'id'     => 'wp-statistics-menu-useronline',
 			'parent' => 'wp-statistic-menu',
-			'title'  => __( 'User Online', 'wp_statistics' ) . ": " . wp_statistics_useronline(),
+			'title'  => __( 'Online User', 'wp_statistics' ) . ": " . wp_statistics_useronline(),
 			'href'   => $AdminURL . 'admin.php?page=' . WP_STATISTICS_ONLINE_PAGE
 		) );
 
 		$wp_admin_bar->add_menu( array(
 			'id'     => 'wp-statistics-menu-todayvisitor',
 			'parent' => 'wp-statistic-menu',
-			'title'  => __( 'Today visitor', 'wp_statistics' ) . ": " . wp_statistics_visitor( 'today' )
+			'title'  => __( 'Today\'s Visitors', 'wp_statistics' ) . ": " . wp_statistics_visitor( 'today' )
 		) );
 
 		$wp_admin_bar->add_menu( array(
 			'id'     => 'wp-statistics-menu-todayvisit',
 			'parent' => 'wp-statistic-menu',
-			'title'  => __( 'Today visit', 'wp_statistics' ) . ": " . wp_statistics_visit( 'today' )
+			'title'  => __( 'Today\'s Visits', 'wp_statistics' ) . ": " . wp_statistics_visit( 'today' )
 		) );
 
 		$wp_admin_bar->add_menu( array(
 			'id'     => 'wp-statistics-menu-yesterdayvisitor',
 			'parent' => 'wp-statistic-menu',
-			'title'  => __( 'Yesterday visitor', 'wp_statistics' ) . ": " . wp_statistics_visitor( 'yesterday' )
+			'title'  => __( 'Yesterday\'s Visitors', 'wp_statistics' ) . ": " . wp_statistics_visitor( 'yesterday' )
 		) );
 
 		$wp_admin_bar->add_menu( array(
 			'id'     => 'wp-statistics-menu-yesterdayvisit',
 			'parent' => 'wp-statistic-menu',
-			'title'  => __( 'Yesterday visit', 'wp_statistics' ) . ": " . wp_statistics_visit( 'yesterday' )
+			'title'  => __( 'Yesterday\'s Visits', 'wp_statistics' ) . ": " . wp_statistics_visit( 'yesterday' )
 		) );
 
 		$wp_admin_bar->add_menu( array(

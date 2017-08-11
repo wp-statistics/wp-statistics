@@ -45,7 +45,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
 				echo 'searches_data_line_total';
 			}?>], {
                 title: {
-                    text: '<b>' + <?php echo json_encode( __( 'Search engine referrals in the last', 'wp_statistics' ) . ' ' . $days . ' ' . __( 'days', 'wp_statistics' ) ); ?> +'</b>',
+                    text: '<b>' + <?php echo json_encode( sprintf( __( 'Search engine referrals in the last %s days', 'wp_statistics' ), $days ) ); ?> +'</b>',
                     fontSize: '12px',
                     fontFamily: 'Tahoma',
                     textColor: '#000000',

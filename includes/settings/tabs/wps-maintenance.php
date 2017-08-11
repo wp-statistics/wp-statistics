@@ -45,7 +45,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo $WP_Statistics->get_option( 'schedule_dbmaint' ) == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
-                <label for="wps_schedule_dbmaint"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="wps_schedule_dbmaint"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'A WP Cron job will be run daily to purge any data older than a set number of days.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -74,15 +74,14 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="wps_schedule_dbmaint_visitor" type="checkbox" name="wps_schedule_dbmaint_visitor" <?php echo $WP_Statistics->get_option( 'schedule_dbmaint_visitor' ) == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
-                <label for="wps_schedule_dbmaint_visitor"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="wps_schedule_dbmaint_visitor"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot).', 'wp_statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor_hits"><?php _e( 'Purge visitors with more than', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="wps_schedule_dbmaint_visitor_hits"><?php _e( 'Purge visitors with more than', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>

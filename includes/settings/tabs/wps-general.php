@@ -80,23 +80,23 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo $WP_Statistics->get_option( 'hash_ips' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="hash_ips"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="hash_ips"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'This feature will not store IP addresses in the database but instead used a unique hash.  The "Store entire user agent string" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Users Online', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Online Users', 'wp_statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="useronline"><?php _e( 'User online', 'wp_statistics' ); ?>:</label>
+                <label for="useronline"><?php _e( 'Online User', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
                 <input id="useronline" type="checkbox" value="1" name="wps_useronline" <?php echo $WP_Statistics->get_option( 'useronline' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="useronline"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="useronline"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -108,8 +108,8 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo htmlentities( $WP_Statistics->get_option( 'check_online' ), ENT_QUOTES ); ?>"/>
-				<?php _e( 'Second', 'wp_statistics' ); ?>
-                <p class="description"><?php echo sprintf( __( 'Time for the check accurate online user in the site. Now: %s Second', 'wp_statistics' ), $WP_Statistics->get_option( 'check_online' ) ); ?></p>
+				<?php _e( 'Seconds', 'wp_statistics' ); ?>
+                <p class="description"><?php echo sprintf( __( 'Time for the check accurate online user in the site. Now: %s Seconds', 'wp_statistics' ), $WP_Statistics->get_option( 'check_online' ) ); ?></p>
             </td>
         </tr>
 
@@ -120,7 +120,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="allonline" type="checkbox" value="1" name="wps_all_online" <?php echo $WP_Statistics->get_option( 'all_online' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="allonline"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="allonline"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -136,7 +136,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="visits" type="checkbox" value="1" name="wps_visits" <?php echo $WP_Statistics->get_option( 'visits' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="visits"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="visits"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -152,7 +152,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="visitors" type="checkbox" value="1" name="wps_visitors" <?php echo $WP_Statistics->get_option( 'visitors' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="visitors"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="visitors"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -164,7 +164,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="store_ua" type="checkbox" value="1" name="wps_store_ua" <?php echo $WP_Statistics->get_option( 'store_ua' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="store_ua"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="store_ua"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Only enabled for debugging', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -191,7 +191,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="pages" type="checkbox" value="1" name="wps_pages" <?php echo $WP_Statistics->get_option( 'pages' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="pages"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="pages"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -203,7 +203,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="all_pages" type="checkbox" value="1" name="wps_track_all_pages" <?php echo $WP_Statistics->get_option( 'track_all_pages' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="all_pages"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="all_pages"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -218,7 +218,7 @@ if ( $wps_nonce_valid ) {
 
                 <td>
                     <input id="strip_uri_parameters" type="checkbox" value="1" name="wps_strip_uri_parameters" <?php echo $WP_Statistics->get_option( 'strip_uri_parameters' ) == true ? "checked='checked'" : ''; ?>>
-                    <label for="strip_uri_parameters"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                    <label for="strip_uri_parameters"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                     <p class="description"><?php _e( 'This will remove anything after the ? in a URL.', 'wp_statistics' ); ?></p>
                 </td>
             </tr>
@@ -232,7 +232,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo $WP_Statistics->get_option( 'disable_column' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="disable_column"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="disable_column"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -257,13 +257,12 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hide_notices"><?php _e( 'Hide admin notices about non active features', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="hide_notices"><?php _e( 'Hide admin notices about non active features', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
                 <input id="hide_notices" type="checkbox" value="1" name="wps_hide_notices" <?php echo $WP_Statistics->get_option( 'hide_notices' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="store_ua"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="store_ua"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'By default WP Statistics displays an alert if any of the core features are disabled on every admin page, this option will disable these notices.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -274,13 +273,12 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hide_notices"><?php _e( 'Add page title to empty search words', 'wp_statistics' ); ?>
-                    :</label>
+                <label for="hide_notices"><?php _e( 'Add page title to empty search words', 'wp_statistics' ); ?>:</label>
             </th>
 
             <td>
                 <input id="addsearchwords" type="checkbox" value="1" name="wps_addsearchwords" <?php echo $WP_Statistics->get_option( 'addsearchwords' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="addsearchwords"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="addsearchwords"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by "~:" as the search query to help identify what the user may have been searching for.', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -300,10 +298,11 @@ if ( $wps_nonce_valid ) {
 			?>
 
             <tr valign="top">
-                <th scope="row"><label for="<?php echo $option_name; ?>"><?php _e( $se['name'], 'wp_statistics' ); ?>
-                        :</label></th>
+                <th scope="row">
+										<label for="<?php echo $option_name; ?>"><?php _e( $se['name'], 'wp_statistics' ); ?>:</label>
+								</th>
                 <td>
-                    <input id="<?php echo $option_name; ?>" type="checkbox" value="1" name="<?php echo $option_name; ?>" <?php echo $WP_Statistics->get_option( $store_name ) == true ? "checked='checked'" : ''; ?>><label for="<?php echo $option_name; ?>"><?php _e( 'disable', 'wp_statistics' ); ?></label>
+                    <input id="<?php echo $option_name; ?>" type="checkbox" value="1" name="<?php echo $option_name; ?>" <?php echo $WP_Statistics->get_option( $store_name ) == true ? "checked='checked'" : ''; ?>><label for="<?php echo $option_name; ?>"><?php _e( 'Disable', 'wp_statistics' ); ?></label>
                     <p class="description"><?php echo sprintf( __( 'Disable %s from data collection and reporting.', 'wp_statistics' ), $se['name'] ); ?></p>
                 </td>
             </tr>
@@ -320,7 +319,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="chart-totals" type="checkbox" value="1" name="wps_chart_totals" <?php echo $WP_Statistics->get_option( 'chart_totals' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="chart-totals"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="chart-totals"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Add a total line to charts with multiple values, like the search engine referrals', 'wp_statistics' ); ?></p>
             </td>
         </tr>
@@ -336,7 +335,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
                 <input id="override-language" type="checkbox" value="1" name="wps_override_language" <?php echo $WP_Statistics->get_option( 'override_language' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="override-language"><?php _e( 'Active', 'wp_statistics' ); ?></label>
+                <label for="override-language"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
                 <p class="description"><?php _e( 'Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)', 'wp_statistics' ); ?></p>
             </td>
         </tr>

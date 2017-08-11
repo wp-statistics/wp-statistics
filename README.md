@@ -48,6 +48,6 @@ WP Statistics supports shortcodes in WordPress, these can be used in either a po
 
 # Community Links
 Thank you [jetbrains](https://www.jetbrains.com) for giving us Intellij IDEA Ultimate licenses for develop this project.
-* [Wordpress plugin page](http://wordpress.org/plugins/wp-statistic/)
+* [Wordpress plugin page](http://wordpress.org/plugins/wp-statistics/)
 * [Plugin website](https://wp-statistics.com)
 * [Donate](https://wp-statistics.com/donate/)

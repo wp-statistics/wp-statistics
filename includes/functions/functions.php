@@ -1125,9 +1125,9 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	}
 
 	if ( $bold ) {
-		echo ' <b>' . __( 'Range', 'wp_statistics' ) . ':</b> ';
+		echo ' <b>' . __( 'Time Frame', 'wp_statistics' ) . ':</b> ';
 	} else {
-		echo ' ' . __( 'Range', 'wp_statistics' ) . ': ';
+		echo ' ' . __( 'Time Frame', 'wp_statistics' ) . ': ';
 	}
 
 	echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart . '" placeholder="' . __( 'MM/DD/YYYY', 'wp_statistics' ) . '"> ' . __( 'to', 'wp_statistics' ) . ' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __( 'MM/DD/YYYY', 'wp_statistics' ) . '"> <input type="submit" value="' . __( 'Go', 'wp_statistics' ) . '" class="button-primary">' . "\r\n";
