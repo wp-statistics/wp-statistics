@@ -95,10 +95,10 @@ if ( $wps_nonce_valid ) {
 					if ( $WP_Statistics->get_option( 'schedule_geoip' ) ) {
 						echo '<p class="description">' . __( 'Next update will be', 'wp_statistics' ) . ': <code>';
 						$last_update = $WP_Statistics->get_option( 'last_geoip_dl' );
-						$this_month  = strtotime( 'First Tuesday of this month' );
+						$this_month  = strtotime( __( 'First Tuesday of this month', 'wp_statistics' ) );
 
 						if ( $last_update > $this_month ) {
-							$next_update = strtotime( 'First Tuesday of next month' ) + ( 86400 * 2 );
+							$next_update = strtotime( __( 'First Tuesday of next month', 'wp_statistics' ) ) + ( 86400 * 2 );
 						} else {
 							$next_update = $this_month + ( 86400 * 2 );
 						}

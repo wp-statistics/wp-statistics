@@ -130,7 +130,7 @@ function wp_statistics_geoip_event() {
 
 	// Maxmind updates the geoip database on the first Tuesday of the month, to make sure we don't update before they post
 	// the update, download it two days later.
-	$thisupdate = strtotime( 'First Tuesday of this month' ) + ( 86400 * 2 );
+	$thisupdate = strtotime( __( 'First Tuesday of this month', 'wp_statistics' ) ) + ( 86400 * 2 );
 
 	$lastupdate = $WP_Statistics->get_option( 'last_geoip_dl' );
 

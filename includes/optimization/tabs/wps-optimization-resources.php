@@ -160,9 +160,9 @@ function formatSize( $size ) {
 
             <td>
                 <strong><?php if ( ini_get( 'safe_mode' ) ) {
-						echo 'Yes';
+						_e( 'Yes', 'wp_statistics' );
 					} else {
-						echo 'No';
+						_e( 'No', 'wp_statistics' );
 					} ?></strong>
                 <p class="description"><?php _e( 'Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode.', 'wp_statistics' ); ?></p>
             </td>
@@ -175,9 +175,9 @@ function formatSize( $size ) {
 
             <td>
                 <strong><?php if ( defined( 'AF_INET6' ) ) {
-						echo 'Yes';
+						_e( 'Yes', 'wp_statistics' );
 					} else {
-						echo 'No';
+						_e( 'No', 'wp_statistics' );
 					} ?></strong>
                 <p class="description"><?php _e( 'Is PHP compiled with IPv6 support.  You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.', 'wp_statistics' ); ?></p>
             </td>
