@@ -45,7 +45,7 @@ $historical_visits = $WP_Statistics->Get_Historical_Data( 'visits' );
 
             <tr valign="top">
                 <td colspan=2>
-                    <input id="historical-submit" class="button button-primary" type="submit" value="<?php _e( 'Update now!', 'wp_statistics' ); ?>" name="historical-submit"/>
+                    <input id="historical-submit" class="button button-primary" type="submit" value="<?php _e( 'Update Now!', 'wp_statistics' ); ?>" name="historical-submit"/>
                 </td>
             </tr>
 
