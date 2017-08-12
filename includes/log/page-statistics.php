@@ -56,8 +56,12 @@ if ( array_key_exists( 'rangeend', $_GET ) ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Page Trend', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle = __( 'Page Trend', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
 						<?php include_once( dirname( __FILE__ ) . '/widgets/page.php' );
 						wp_statistics_generate_page_postbox_content( $pageuri, $pageid, $daysToDisplay, null, $rangestart, $rangeend ); ?>

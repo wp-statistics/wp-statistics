@@ -38,8 +38,12 @@ include_once( dirname( __FILE__ ) . '/widgets/top.visitors.php' );
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Top Visitors', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle =  __( 'Top Visitors', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
                     <div class="inside">
 
 						<?php wp_statistics_generate_top_visitors_postbox_content( $ISOCountryCode, $statsdate, 100, false ); ?>
