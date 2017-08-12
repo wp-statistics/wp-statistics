@@ -35,8 +35,12 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Browsers', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle = __( 'Browsers', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
                         <script type="text/javascript">
                             jQuery(function () {
@@ -123,8 +127,12 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Platform', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle = __( 'Platform', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
                         <script type="text/javascript">
                             jQuery(function () {
@@ -258,8 +266,12 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 <?php function BrowserVersionStats( $Browser, $rangestartdate = null, $rangeenddate = null ) {
 	$Browser_tag = strtolower( preg_replace( '/[^a-zA-Z]/', '', $Browser ) ); ?>
     <div class="postbox">
-        <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-        <h3 class="hndle"><span><?php echo sprintf( __( '%s Version', 'wp_statistics' ), $Browser ); ?></span></h3>
+        <?php $paneltitle = sprintf( __( '%s Version', 'wp_statistics' ), $Browser ); ?>
+        <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+            <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+        <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
         <div class="inside">
             <script type="text/javascript">
                 jQuery(function () {

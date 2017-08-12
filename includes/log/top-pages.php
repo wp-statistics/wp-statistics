@@ -36,8 +36,12 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
             <div class="meta-box-sortables">
 
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Top 5 Pages Trends', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle =  __( 'Top 5 Pages Trends', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
                     <div class="inside">
                         <script type="text/javascript">
                             var pages_jqchart;
@@ -166,8 +170,12 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
                 </div>
 
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Top Pages', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle =  __( 'Top Pages', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
                     <div class="inside">
 						<?php
 						if ( $total > 0 ) {

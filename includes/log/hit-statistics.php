@@ -32,8 +32,12 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Hits Statistics Chart', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle = __( 'Hits Statistics Chart', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
                         <script type="text/javascript">
                             var visit_chart;
@@ -171,8 +175,12 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="handlediv" title="<?php _e( 'Click to toggle', 'wp_statistics' ); ?>"><br/></div>
-                    <h3 class="hndle"><span><?php _e( 'Hits Statistics Summary', 'wp_statistics' ); ?></span></h3>
+                    <?php $paneltitle = __( 'Hits Statistics Summary', 'wp_statistics' ); ?>
+                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
                         <table width="auto" class="widefat table-stats" id="summary-stats">
                             <tbody>
