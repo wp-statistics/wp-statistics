@@ -21,12 +21,12 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             <tr>
                 <th width="60%"></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
-						_e( 'Visitor', 'wp_statistics' );
+						_e( 'Visitors', 'wp_statistics' );
 					} else {
 						echo '';
 					} ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visits' ) ) {
-						_e( 'Visit', 'wp_statistics' );
+						_e( 'Visits', 'wp_statistics' );
 					} else {
 						echo '';
 					} ?></th>

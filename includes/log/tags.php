@@ -162,7 +162,7 @@
                                         show: true,
                                         location: 's',
                                         placement: 'outsideGrid',
-                                        labels: [<?php echo json_encode( __( 'Visit', 'wp_statistics' ) ); ?>],
+                                        labels: [<?php echo json_encode( __( 'Visits', 'wp_statistics' ) ); ?>],
                                         renderer: jQuery.jqplot.EnhancedLegendRenderer,
                                         rendererOptions: {
                                             numberColumns: 2,
