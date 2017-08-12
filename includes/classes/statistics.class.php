@@ -597,7 +597,7 @@ class WP_Statistics {
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => 'Unknown7',
+			'name'         => _x( 'Unknown', 'Search Engine', 'wp_statistics' ),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
@@ -624,7 +624,7 @@ class WP_Statistics {
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => 'Unknown8',
+			'name'         => _x( 'Unknown', 'Search Engine', 'wp_statistics' ),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
