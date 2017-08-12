@@ -77,18 +77,17 @@
 									echo "<a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a> {$items->ip}";
 									echo "<br>";
 
-									echo __( 'Online for ', 'wp_statistics' );
 									$timediff = ( $items->timestamp - $items->created );
 
 									if ( $timediff > 3600 ) {
-										echo date( "H:i:s", ( $items->timestamp - $items->created ) );
+										$onlinefor = date( "H:i:s", ( $items->timestamp - $items->created ) );
 									} else if ( $timediff > 60 ) {
-										echo "00:" . date( "i:s", ( $items->timestamp - $items->created ) );
+										$onlinefor = "00:" . date( "i:s", ( $items->timestamp - $items->created ) );
 									} else {
-										echo "00:00:" . date( "s", ( $items->timestamp - $items->created ) );
+										$onlinefor = "00:00:" . date( "s", ( $items->timestamp - $items->created ) );
 									}
 
-									echo " (HH:MM:SS)";
+									echo sprintf( __( 'Online for %s (HH:MM:SS)', 'wp_statistics' ), $onlinefor );
 
 									echo "</div>";
 									echo "</div>";
