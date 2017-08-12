@@ -77,8 +77,8 @@ function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 2
                     location: 's',
                     placement: 'outsideGrid',
                     labels: [<?php echo implode( ',', array(
-						json_encode( __( 'Visit', 'wp_statistics' ) ),
-						json_encode( __( 'Visitor', 'wp_statistics' ) )
+						json_encode( __( 'Visits', 'wp_statistics' ) ),
+						json_encode( __( 'Visitors', 'wp_statistics' ) )
 					) ); ?>],
                     renderer: jQuery.jqplot.EnhancedLegendRenderer,
                     rendererOptions: {

@@ -109,7 +109,7 @@
                                         show: true,
                                         location: 's',
                                         placement: 'outsideGrid',
-                                        labels: [<?php echo json_encode( __( 'Visit', 'wp_statistics' ) ); ?>, <?php echo json_encode( __( 'Visitor', 'wp_statistics' ) ); ?>],
+                                        labels: [<?php echo json_encode( __( 'Visits', 'wp_statistics' ) ); ?>, <?php echo json_encode( __( 'Visitors', 'wp_statistics' ) ); ?>],
                                         renderer: jQuery.jqplot.EnhancedLegendRenderer,
                                         rendererOptions: {
                                             numberColumns: 2,
@@ -178,8 +178,8 @@
                             <tbody>
                             <tr>
                                 <th></th>
-                                <th class="th-center"><?php _e( 'Visit', 'wp_statistics' ); ?></th>
-                                <th class="th-center"><?php _e( 'Visitor', 'wp_statistics' ); ?></th>
+                                <th class="th-center"><?php _e( 'Visits', 'wp_statistics' ); ?></th>
+                                <th class="th-center"><?php _e( 'Visitors', 'wp_statistics' ); ?></th>
                             </tr>
 
                             <tr>
