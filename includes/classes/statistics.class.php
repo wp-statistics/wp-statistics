@@ -436,18 +436,18 @@ class WP_Statistics {
 		try {
 			$agent = parse_user_agent();
 		} catch ( Exception $e ) {
-			$agent = array( 'browser' => 'Unknown', 'platform' => 'Unknown', 'version' => 'Unknown' );
+			$agent = array( 'browser' => _x( 'Unknown', 'Browser', 'wp_statistics' ), 'platform' => _x( 'Unknown', 'Platform', 'wp_statistics' ), 'version' => _x( 'Unknown', 'Version', 'wp_statistics' ) );
 		}
 
 		// null isn't a very good default, so set it to Unknown instead.
 		if ( $agent['browser'] == null ) {
-			$agent['browser'] = "Unknown";
+			$agent['browser'] = _x( 'Unknown', 'Browser', 'wp_statistics' );
 		}
 		if ( $agent['platform'] == null ) {
-			$agent['platform'] = "Unknown";
+			$agent['platform'] = _x( 'Unknown', 'Platform', 'wp_statistics' );
 		}
 		if ( $agent['version'] == null ) {
-			$agent['version'] = "Unknown";
+			$agent['version'] = _x( 'Unknown', 'Version', 'wp_statistics' );
 		}
 
 		// Uncommon browsers often have some extra cruft, like brackets, http:// and other strings that we can strip out.
@@ -597,7 +597,7 @@ class WP_Statistics {
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => 'Unknown',
+			'name'         => _x( 'Unknown', 'Search Engine', 'wp_statistics' ),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
@@ -624,7 +624,7 @@ class WP_Statistics {
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => 'Unknown',
+			'name'         => _x( 'Unknown', 'Search Engine', 'wp_statistics' ),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
