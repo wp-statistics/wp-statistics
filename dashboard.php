@@ -161,8 +161,8 @@ function wp_statistics_dashboard_inline_javascript() {
 
 	$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp_statistics' ) . '"></div>';
 
-	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '</button>';
-	$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '</button>';
+	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" title="' . __( 'Reload', 'wp_statistics' ) . '" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button><button class="handlediv button-link wps-more" type="button" title="' . __( 'More Details', 'wp_statistics' ) . '" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp_statistics' ) . '</span></button>';
+	$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" title="' . __( 'Reload', 'wp_statistics' ) . '" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button>';
 
 	$admin_url = get_admin_url() . "admin.php?page=";
 
