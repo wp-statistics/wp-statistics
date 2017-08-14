@@ -289,7 +289,10 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.11 =
 * Fixed: links issue in the last visitors page.
+* Fixed: i18n issues (hardcoded strings, missing or incorrect textdomains).
 * Updated: admin CSS style. set `with` for Hits column in posts/pages list.
+* Updated: Improve consistency, best practices and correct typos in translation strings.
+* Updated: More, Reload and Toggle arrow buttons in metaboxes are consistent with WP core widget metaboxes, with screen-reader-text and key navigation.
 
 = 12.0.10 =
 * Release Date: July 24, 2017
