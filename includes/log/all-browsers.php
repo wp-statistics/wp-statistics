@@ -36,7 +36,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php $paneltitle = __( 'Browsers', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
@@ -128,7 +128,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php $paneltitle = __( 'Platform', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
@@ -267,7 +267,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 	$Browser_tag = strtolower( preg_replace( '/[^a-zA-Z]/', '', $Browser ) ); ?>
     <div class="postbox">
         <?php $paneltitle = sprintf( __( '%s Version', 'wp_statistics' ), $Browser ); ?>
-        <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+        <button class="handlediv" type="button" aria-expanded="true">
             <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>

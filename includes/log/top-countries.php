@@ -33,7 +33,7 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php $paneltitle =  __( 'Top Countries', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
