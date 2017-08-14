@@ -39,7 +39,7 @@ include_once( dirname( __FILE__ ) . '/widgets/top.visitors.php' );
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php $paneltitle =  __( 'Top Visitors', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>

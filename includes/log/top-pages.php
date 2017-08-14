@@ -37,7 +37,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 
                 <div class="postbox">
                     <?php $paneltitle =  __( 'Top 5 Pages Trends', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
@@ -171,7 +171,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 
                 <div class="postbox">
                     <?php $paneltitle =  __( 'Top Pages', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>

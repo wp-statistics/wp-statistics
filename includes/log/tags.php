@@ -86,7 +86,7 @@
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php $paneltitle =  __( 'Tag Statistics Chart', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
@@ -229,7 +229,7 @@
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php $paneltitle =  __( 'Tag Statistics Summary', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
@@ -278,7 +278,7 @@
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php $paneltitle =  __( 'Tag Posts Sorted by Hits', 'wp_statistics' ); ?>
-                    <button class="handlediv" type="button" title="<?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?>">
+                    <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
