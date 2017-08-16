@@ -100,7 +100,7 @@ if ( $referr ) {
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <?php if ( $referr ) {
-                        $paneltitle = sprintf( __( 'Referring sites from: %s', 'wp_statistics' ), $WP_Statistics->html_sanitize_referrer( $referr ) );
+                        $paneltitle = sprintf( __( 'Referring site: %s', 'wp_statistics' ), $WP_Statistics->html_sanitize_referrer( $referr ) );
                     } else {
                         $paneltitle = __( 'Top Referring Sites', 'wp_statistics' );
                     }; ?>
