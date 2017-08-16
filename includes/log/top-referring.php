@@ -153,7 +153,7 @@ if ( $referr ) {
 									}
 
 									echo "<div class='log-agent'><a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
-									echo $WP_Statistics->get_referrer_link( $item->referred, 100 );
+									echo $WP_Statistics->get_referrer_link( $item->referred, 100 ) . '</div>';
 									echo "</div>";
 								}
 							} else {
