@@ -810,13 +810,13 @@ class WP_Statistics {
 		$html_referrer = $this->html_sanitize_referrer( $referrer );
 
 		if ( $length > 0 && strlen( $referrer ) > $length ) {
-			$html_referrer_limited = $this->html_sanitize_referrer( $item->referred, $length );
+			$html_referrer_limited = $this->html_sanitize_referrer( $referrer, $length );
 			$eplises               = '[...]';
 		} else {
 			$html_referrer_limited = $html_referrer;
 			$eplises               = '';
 		}
 
-		return "<a href='http://{$html_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
+		return "<a href='{$html_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
 	}
 }
