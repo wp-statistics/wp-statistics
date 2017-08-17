@@ -288,6 +288,7 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = 12.0.11 =
+* Release Date: August 17, 2017
 * Fixed: links issue in the last visitors page.
 * Fixed: i18n issues (hardcoded strings, missing or incorrect textdomains).
 * Updated: admin CSS style. set `with` for Hits column in posts/pages list.
