@@ -3,7 +3,7 @@
  * Plugin Name: WP Statistics
  * Plugin URI: http://wp-statistics.com/
  * Description: Complete statistics for your WordPress site.
- * Version: 12.0.11
+ * Version: 12.0.12
  * Author: WP-Statistics Team
  * Author URI: http://wp-statistics.com/
  * Text Domain: wp_statistics
@@ -12,7 +12,7 @@
  */
 
 // These defines are used later for various reasons.
-define( 'WP_STATISTICS_VERSION', '12.0.11' );
+define( 'WP_STATISTICS_VERSION', '12.0.12' );
 define( 'WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0' );
 define( 'WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION );
 define( 'WPS_EXPORT_FILE_NAME', 'wp-statistics' );
@@ -34,6 +34,7 @@ define( 'WP_STATISTICS_TOP_VISITORS_PAGE', 'wps_top_visitors_page' );
 define( 'WP_STATISTICS_VISITORS_PAGE', 'wps_visitors_page' );
 define( 'WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page' );
 define( 'WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page' );
+define( 'WP_STATISTICS_PLUGINS_PAGE', 'wps_plugins_page' );
 define( 'WP_STATISTICS_DONATE_PAGE', 'wps_donate_page' );
 
 if ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) {
@@ -517,6 +518,7 @@ function wp_statistics_menu() {
 
 	$WP_Statistics->menu_slugs['optimize'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Optimization', 'wp_statistics' ), __( 'Optimization', 'wp_statistics' ), $manage_cap, WP_STATISTICS_OPTIMIZATION_PAGE, 'wp_statistics_optimization' );
 	$WP_Statistics->menu_slugs['settings'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Settings', 'wp_statistics' ), __( 'Settings', 'wp_statistics' ), $read_cap, WP_STATISTICS_SETTINGS_PAGE, 'wp_statistics_settings' );
+	$WP_Statistics->menu_slugs['plugins']  = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Add-Ons', 'wp_statistics' ), '<span style="color:#dc6b26">' . __( 'Add-Ons', 'wp_statistics' ) . '</span>', $read_cap, WP_STATISTICS_PLUGINS_PAGE, 'wp_statistics_plugins' );
 	$WP_Statistics->menu_slugs['donate']   = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Donate', 'wp_statistics' ), '<span style="color:#459605">' . __( 'Donate', 'wp_statistics' ) . '</span>', $read_cap, WP_STATISTICS_DONATE_PAGE, 'wp_statistics_donate' );
 
 	// Add action to load the meta boxes to the overview page.
@@ -680,6 +682,43 @@ function wp_statistics_goto_network_blog() {
 	$url = get_admin_url( $blog_id ) . '/admin.php?page=' . WP_STATISTICS_OVERVIEW_PAGE;
 
 	echo "<script>window.location.href = '$url';</script>";
+}
+
+function wp_statistics_plugins() {
+	// Activate or deactivate the selected plugin
+	if ( isset( $_GET['action'] ) ) {
+		if ( $_GET['action'] == 'activate' ) {
+			$result = activate_plugin( $_GET['plugin'] . '/' . $_GET['plugin'] . '.php' );
+			if ( is_wp_error( $result ) ) {
+				wp_statistics_admin_notice_result( 'error', $result->get_error_message() );
+			} else {
+				wp_statistics_admin_notice_result( 'success', __( 'Add-On activated.', 'wp_statistics' ) );
+			}
+		}
+		if ( $_GET['action'] == 'deactivate' ) {
+			$result = deactivate_plugins( $_GET['plugin'] . '/' . $_GET['plugin'] . '.php' );
+			if ( is_wp_error( $result ) ) {
+				wp_statistics_admin_notice_result( 'error', $result->get_error_message() );
+			} else {
+				wp_statistics_admin_notice_result( 'success', __( 'Add-On deactivated.', 'wp_statistics' ) );
+			}
+		}
+	}
+	$response      = wp_remote_get( 'https://wp-statistics.com/wp-json/addons/get' );
+	$response_code = wp_remote_retrieve_response_code( $response );
+	$error         = null;
+	$plugins       = [];
+	// Check response
+	if ( is_wp_error( $response ) ) {
+		$error = $response->get_error_message();
+	} else {
+		if ( $response_code == '200' ) {
+			$plugins = json_decode( $response['body'] );
+		} else {
+			$error = $response['body'];
+		}
+	}
+	include_once dirname( __FILE__ ) . '/includes/templates/plugins.php';
 }
 
 function wp_statistics_donate() {

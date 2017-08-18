@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.8
-Stable tag: 12.0.11
+Stable tag: 12.0.12
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -287,6 +287,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.0.12 =
+* Added: Add-ons page! The Add-ons add functionality to your WP-Statistics. [Click here](https://wp-statistics.com/add-ons/) to see current Add-ons.
+
 = 12.0.11 =
 * Release Date: August 17, 2017
 * Fixed: links issue in the last visitors page.
