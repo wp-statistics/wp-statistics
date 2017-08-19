@@ -22,5 +22,37 @@
 
 .button-link.wps-more,
 .button-link.wps-refresh {
-	text-decoration: none !important;
+    text-decoration: none !important;
+}
+
+.wp-statistics-plugins .widefat > * {
+    float: left;
+}
+
+.wp-statistics-plugins .widefat .plugin-card .desc, .wp-statistics-plugins .widefat .plugin-card .name {
+    margin-right: 0;
+}
+
+.rtl .wp-statistics-plugins .widefat > * {
+    float: right;
+}
+
+.rtl .wp-statistics-plugins .widefat .plugin-card .desc, .rtl .wp-statistics-plugins .widefat .plugin-card .name {
+    margin-right: 148px;
+    margin-left: 0;
+}
+
+.wp-statistics-plugins .widefat .plugin-card-bottom {
+    float: initial;
+}
+
+.wp-statistics-plugins .widefat .column-downloaded p {
+    margin: 2px 0 0px 0;
+}
+
+.wp-statistics-plugins .column-price {
+    display: inline;
+    margin: 0 8px;
+    font-size: 15px;
+    color: #589616;
 }
