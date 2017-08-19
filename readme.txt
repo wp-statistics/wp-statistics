@@ -289,6 +289,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.0.12 =
 * Added: Add-ons page! The Add-ons add functionality to your WP-Statistics. [Click here](https://wp-statistics.com/add-ons/) to see current Add-ons.
+* Updated: GeoIP library to v2.6.0
 
 = 12.0.11 =
 * Release Date: August 17, 2017

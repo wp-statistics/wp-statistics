@@ -9,8 +9,9 @@ class ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40
     public static $prefixLengthsPsr4 = array (
         'M' => 
         array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
             'MaxMind\\Db\\' => 11,
-            'MaxMind\\' => 8,
         ),
         'I' => 
         array (
@@ -27,13 +28,17 @@ class ComposerStaticInit9d8833294cc7806cc2c9e043ead23c40
     );
 
     public static $prefixDirsPsr4 = array (
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
         'MaxMind\\Db\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
-        ),
-        'MaxMind\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src',
         ),
         'IPTools\\' => 
         array (
