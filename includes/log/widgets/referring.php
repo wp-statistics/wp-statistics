@@ -33,8 +33,8 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 	?>
     <table width="100%" class="widefat table-stats" id="last-referrer">
         <tr>
-            <td width="10%"><?php _e( 'References', 'wp_statistics' ); ?></td>
-            <td width="90%"><?php _e( 'Address', 'wp_statistics' ); ?></td>
+            <td width="10%"><?php _e( 'References', 'wp-statistics' ); ?></td>
+            <td width="90%"><?php _e( 'Address', 'wp-statistics' ); ?></td>
         </tr>
 
 		<?php

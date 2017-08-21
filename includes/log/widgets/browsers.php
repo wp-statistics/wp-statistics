@@ -33,14 +33,14 @@ function wp_statistics_generate_browsers_postbox_content() {
 					}
 				}
 
-				echo "['" . json_encode( __( 'Other', 'wp_statistics' ) ) . " (" . number_format_i18n( $total - $topten ) . ")'," . ( $total - $topten ) . "], ";
+				echo "['" . json_encode( __( 'Other', 'wp-statistics' ) ) . " (" . number_format_i18n( $total - $topten ) . ")'," . ( $total - $topten ) . "], ";
 
 				echo "];\n";
 				?>
 
                 browser_chart = jQuery.jqplot('browsers-log', [browser_data], {
                     title: {
-                        text: '<b>' + <?php echo json_encode( __( 'Top 10 Browsers', 'wp_statistics' ) ); ?> +'</b>',
+                        text: '<b>' + <?php echo json_encode( __( 'Top 10 Browsers', 'wp-statistics' ) ); ?> +'</b>',
                         fontSize: '12px',
                         fontFamily: 'Tahoma',
                         textColor: '#000000',

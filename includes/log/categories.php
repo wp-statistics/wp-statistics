@@ -9,7 +9,7 @@
     });
 </script>
 <div class="wrap">
-    <h2><?php _e( 'Category Statistics', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Category Statistics', 'wp-statistics' ); ?></h2>
 
 	<?php
 	$daysToDisplay = 20;
@@ -37,7 +37,7 @@
 		}
 	}
 
-	$html = __( 'Select Category', 'wp_statistics' ) . ': ';
+	$html = __( 'Select Category', 'wp-statistics' ) . ': ';
 
 	$args = array(
 		'selected' => $category,
@@ -45,7 +45,7 @@
 	);
 
 	$html .= wp_dropdown_categories( $args );
-	$html .= '<input type="submit" value="' . __( 'Select', 'wp_statistics' ) . '" class="button-primary">';
+	$html .= '<input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" class="button-primary">';
 	$html .= '<br>';
 
 	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
@@ -64,9 +64,9 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Category Statistics Chart', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Category Statistics Chart', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -110,7 +110,7 @@
 								?>
                                 visit_chart = jQuery.jqplot('visits-stats', [visit_data_line], {
                                     title: {
-                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Hits in the last %s days', 'wp_statistics' ), $daysToDisplay ) ); ?> +'</b>',
+                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Hits in the last %s days', 'wp-statistics' ), $daysToDisplay ) ); ?> +'</b>',
                                         fontSize: '12px',
                                         fontFamily: 'Tahoma',
                                         textColor: '#000000',
@@ -131,7 +131,7 @@
                                         yaxis: {
                                             min: 0,
                                             padMin: 1.0,
-                                            label: <?php echo json_encode( __( 'Number of visits', 'wp_statistics' ) ); ?>,
+                                            label: <?php echo json_encode( __( 'Number of visits', 'wp-statistics' ) ); ?>,
                                             labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                                             labelOptions: {
                                                 angle: -90,
@@ -145,7 +145,7 @@
                                         show: true,
                                         location: 's',
                                         placement: 'outsideGrid',
-                                        labels: [<?php echo json_encode( __( 'Visits', 'wp_statistics' ) ); ?>],
+                                        labels: [<?php echo json_encode( __( 'Visits', 'wp-statistics' ) ); ?>],
                                         renderer: jQuery.jqplot.EnhancedLegendRenderer,
                                         rendererOptions: {
                                             numberColumns: 2,
@@ -207,9 +207,9 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Category Statistics Summary', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Category Statistics Summary', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -218,23 +218,23 @@
                             <tbody>
                             <tr>
                                 <th></th>
-                                <th class="th-center"><?php _e( 'Count', 'wp_statistics' ); ?></th>
+                                <th class="th-center"><?php _e( 'Count', 'wp-statistics' ); ?></th>
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'Number of posts in category', 'wp_statistics' ); ?>:</th>
+                                <th><?php _e( 'Number of posts in category', 'wp-statistics' ); ?>:</th>
                                 <th class="th-center"><span><?php echo number_format_i18n( count( $posts ) ); ?></span>
                                 </th>
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'Chart Visits Total', 'wp_statistics' ); ?>:</th>
+                                <th><?php _e( 'Chart Visits Total', 'wp-statistics' ); ?>:</th>
                                 <th class="th-center"><span><?php echo number_format_i18n( $visit_total ); ?></span>
                                 </th>
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'All Time Visits Total', 'wp_statistics' ); ?>:</th>
+                                <th><?php _e( 'All Time Visits Total', 'wp-statistics' ); ?>:</th>
                                 <th class="th-center"><span><?php
 
 										$stat = 0;
@@ -256,9 +256,9 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Category Posts Sorted by Hits', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Category Posts Sorted by Hits', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -266,8 +266,8 @@
                         <table width="auto" class="widefat table-stats" id="post-stats">
                             <tbody>
                             <tr>
-                                <th><?php _e( 'Post Title', 'wp_statistics' ); ?></th>
-                                <th class="th-center"><?php _e( 'Hits', 'wp_statistics' ); ?></th>
+                                <th><?php _e( 'Post Title', 'wp-statistics' ); ?></th>
+                                <th class="th-center"><?php _e( 'Hits', 'wp-statistics' ); ?></th>
                             </tr>
 
 							<?php

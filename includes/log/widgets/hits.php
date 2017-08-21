@@ -41,7 +41,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 2
 			?>
             visit_chart = jQuery.jqplot('visits-stats', [<?php echo implode( ',', $data_lines ); ?>], {
                 title: {
-                    text: '<b>' + <?php echo json_encode( sprintf( __( 'Hits in the last %s days', 'wp_statistics' ), $days ) ); ?> +'</b>',
+                    text: '<b>' + <?php echo json_encode( sprintf( __( 'Hits in the last %s days', 'wp-statistics' ), $days ) ); ?> +'</b>',
                     fontSize: '12px',
                     fontFamily: 'Tahoma',
                     textColor: '#000000',
@@ -62,7 +62,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 2
                     yaxis: {
                         min: 0,
                         padMin: 1.0,
-                        label: <?php echo json_encode( __( 'Number of visits and visitors', 'wp_statistics' ) ); ?>,
+                        label: <?php echo json_encode( __( 'Number of visits and visitors', 'wp-statistics' ) ); ?>,
                         labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                         labelOptions: {
                             angle: -90,
@@ -77,8 +77,8 @@ function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 2
                     location: 's',
                     placement: 'outsideGrid',
                     labels: [<?php echo implode( ',', array(
-						json_encode( __( 'Visits', 'wp_statistics' ) ),
-						json_encode( __( 'Visitors', 'wp_statistics' ) )
+						json_encode( __( 'Visits', 'wp-statistics' ) ),
+						json_encode( __( 'Visitors', 'wp-statistics' ) )
 					) ); ?>],
                     renderer: jQuery.jqplot.EnhancedLegendRenderer,
                     rendererOptions: {

@@ -13,7 +13,7 @@ function wp_statistics_download_geoip() {
 	if ( false === function_exists( 'download_url' ) || false === function_exists( 'gzopen' ) ) {
 		$WP_Statistics->update_option( 'update_geoip', false );
 
-		$result = "<div class='updated settings-error'><p><strong>" . __( 'Error the download_url() or gzopen() functions do not exist!', 'wp_statistics' ) . "</strong></p></div>";
+		$result = "<div class='updated settings-error'><p><strong>" . __( 'Error the download_url() or gzopen() functions do not exist!', 'wp-statistics' ) . "</strong></p></div>";
 
 		return $result;
 	}
@@ -37,7 +37,7 @@ function wp_statistics_download_geoip() {
 		if ( ! @mkdir( $upload_dir['basedir'] . '/wp-statistics', 0755 ) ) {
 			$WP_Statistics->update_option( 'update_geoip', false );
 
-			$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s', 'wp_statistics' ), $upload_dir['basedir'] ) . "</strong></p></div>";
+			$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s', 'wp-statistics' ), $upload_dir['basedir'] ) . "</strong></p></div>";
 
 			return $result;
 		}
@@ -46,7 +46,7 @@ function wp_statistics_download_geoip() {
 	if ( ! is_writable( $upload_dir['basedir'] . '/wp-statistics' ) ) {
 		$WP_Statistics->update_option( 'update_geoip', false );
 
-		$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s', 'wp_statistics' ), $upload_dir['basedir'] ) . "</strong></p></div>";
+		$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s', 'wp-statistics' ), $upload_dir['basedir'] ) . "</strong></p></div>";
 
 		return $result;
 	}
@@ -56,7 +56,7 @@ function wp_statistics_download_geoip() {
 
 	// If we failed, through a message, otherwise proceed.
 	if ( is_wp_error( $TempFile ) ) {
-		$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error downloading GeoIP database from: %s - %s', 'wp_statistics' ), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
+		$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error downloading GeoIP database from: %s - %s', 'wp-statistics' ), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
 	} else {
 		// Open the downloaded file to unzip it.
 		$ZipHandle = gzopen( $TempFile, 'rb' );
@@ -66,13 +66,13 @@ function wp_statistics_download_geoip() {
 
 		// If we failed to open the downloaded file, through an error and remove the temporary file.  Otherwise do the actual unzip.
 		if ( ! $ZipHandle ) {
-			$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error could not open downloaded GeoIP database for reading: %s', 'wp_statistics' ), $TempFile ) . "</strong></p></div>";
+			$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error could not open downloaded GeoIP database for reading: %s', 'wp-statistics' ), $TempFile ) . "</strong></p></div>";
 
 			unlink( $TempFile );
 		} else {
 			// If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
 			if ( ! $DBfh ) {
-				$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error could not open destination GeoIP database for writing %s', 'wp_statistics' ), $DBFile ) . "</strong></p></div>";
+				$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error could not open destination GeoIP database for writing %s', 'wp-statistics' ), $DBFile ) . "</strong></p></div>";
 				unlink( $TempFile );
 			} else {
 				while ( ( $data = gzread( $ZipHandle, 4096 ) ) != false ) {
@@ -87,7 +87,7 @@ function wp_statistics_download_geoip() {
 				unlink( $TempFile );
 
 				// Display the success message.
-				$result = "<div class='updated settings-error'><p><strong>" . __( 'GeoIP Database updated successfully!', 'wp_statistics' ) . "</strong></p></div>";
+				$result = "<div class='updated settings-error'><p><strong>" . __( 'GeoIP Database updated successfully!', 'wp-statistics' ) . "</strong></p></div>";
 
 				// Update the options to reflect the new download.
 				$WP_Statistics->update_option( 'last_geoip_dl', time() );
@@ -114,7 +114,7 @@ function wp_statistics_download_geoip() {
 			$WP_Statistics->update_option( 'email_list', $blogemail );
 		}
 
-		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'GeoIP update on', 'wp_statistics' ) . ' ' . $blogname, $result, $headers );
+		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'GeoIP update on', 'wp-statistics' ) . ' ' . $blogname, $result, $headers );
 	}
 
 	// All of the messages displayed above are stored in a stirng, now it's time to actually output the messages.
@@ -186,7 +186,7 @@ function wp_statistics_download_browscap() {
 
 		// If we failed, through a message, otherwise proceed.
 		if ( is_wp_error( $TempFile ) ) {
-			$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error downloading browscap database from: %s - %s', 'wp_statistics' ), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
+			$result = "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Error downloading browscap database from: %s - %s', 'wp-statistics' ), $download_url, $TempFile->get_error_message() ) . "</strong></p></div>";
 		} else {
 			// Keep the current version just in case by renaming it.
 			if ( file_exists( $upload_dir['basedir'] . '/wp-statistics/browscap.old' ) ) {
@@ -310,7 +310,7 @@ function wp_statistics_download_browscap() {
 			$WP_Statistics->update_option( 'last_browscap_dl', time() );
 			$WP_Statistics->update_option( 'update_browscap', false );
 
-			$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap database updated successfully!', 'wp_statistics' ) . "</strong></p></div>";
+			$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap database updated successfully!', 'wp-statistics' ) . "</strong></p></div>";
 
 			// Do some sanity checks on the new ini/cache file
 			$ini_fs   = filesize( $upload_dir['basedir'] . '/wp-statistics/browscap.ini' );
@@ -320,7 +320,7 @@ function wp_statistics_download_browscap() {
 			// Check to make sure the cache file isn't any more than 15% larger than then ini file
 			if ( $cache_fs - $ini_fs > $ini_fs * 0.15 ) {
 				$fail   = true;
-				$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap database updated failed!  Cache file too large, reverting to previous browscap.ini.', 'wp_statistics' ) . "</strong></p></div>";
+				$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap database updated failed!  Cache file too large, reverting to previous browscap.ini.', 'wp-statistics' ) . "</strong></p></div>";
 			} else {
 				// Check to make sure we don't resolve a typical user agent as a robot.
 				$test_browser = $bc->getBrowser( "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0" );
@@ -328,7 +328,7 @@ function wp_statistics_download_browscap() {
 
 				if ( $crawler == true ) {
 					$fail   = true;
-					$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini.', 'wp_statistics' ) . "</strong></p></div>";
+					$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap database updated failed!  New browscap.ini is mis-identifing user agents as crawlers, reverting to previous browscap.ini.', 'wp-statistics' ) . "</strong></p></div>";
 				}
 			}
 
@@ -360,7 +360,7 @@ function wp_statistics_download_browscap() {
 		$WP_Statistics->update_option( 'last_browscap_dl', time() );
 		$WP_Statistics->update_option( 'update_browscap', false );
 
-		$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap already at current version!', 'wp_statistics' ) . "</strong></p></div>";
+		$result = "<div class='updated settings-error'><p><strong>" . __( 'browscap already at current version!', 'wp-statistics' ) . "</strong></p></div>";
 	}
 
 	if ( $WP_Statistics->get_option( 'browscap_report' ) == true ) {
@@ -375,7 +375,7 @@ function wp_statistics_download_browscap() {
 			$WP_Statistics->update_option( 'email_list', $blogemail );
 		}
 
-		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Browscap.ini update on', 'wp_statistics' ) . ' ' . $blogname, $result, $headers );
+		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Browscap.ini update on', 'wp-statistics' ) . ' ' . $blogname, $result, $headers );
 	}
 
 	// All of the messages displayed above are stored in a stirng, now it's time to actually output the messages.

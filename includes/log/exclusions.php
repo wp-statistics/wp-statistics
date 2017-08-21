@@ -5,7 +5,7 @@
 </script>
 <?php
 if ( $WP_Statistics->get_option( 'record_exclusions' ) != 1 ) {
-	echo "<div class='updated settings-error'><p><strong>" . __( 'Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!', 'wp_statistics' ) . "</strong></p></div>";
+	echo "<div class='updated settings-error'><p><strong>" . __( 'Attention: Exclusion are not currently set to be recorded, the results below may not reflect current statistics!', 'wp-statistics' ) . "</strong></p></div>";
 }
 
 $daysToDisplay = 20;
@@ -84,23 +84,23 @@ $excluded_reason_db        = array(
 	'Referrer Spam'   => 'referrer_spam',
 	'AJAX Request'    => 'ajax'
 );
-$excluded_reason_translate = array( 'Robot'           => json_encode( __( 'Robot', 'wp_statistics' ) ),
-                                    'Browscap'        => json_encode( __( 'Browscap', 'wp_statistics' ) ),
-                                    'IP Match'        => json_encode( __( 'IP Match', 'wp_statistics' ) ),
-                                    'Self Referral'   => json_encode( __( 'Self Referral', 'wp_statistics' ) ),
-                                    'Login Page'      => json_encode( __( 'Login Page', 'wp_statistics' ) ),
-                                    'Admin Page'      => json_encode( __( 'Admin Page', 'wp_statistics' ) ),
-                                    'User Role'       => json_encode( __( 'User Role', 'wp_statistics' ) ),
-                                    'Total'           => json_encode( __( 'Total', 'wp_statistics' ) ),
-                                    'GeoIP'           => json_encode( __( 'GeoIP', 'wp_statistics' ) ),
-                                    'Hostname'        => json_encode( __( 'Hostname', 'wp_statistics' ) ),
-                                    'Robot Threshold' => json_encode( __( 'Robot Threshold', 'wp_statistics' ) ),
-                                    'Honey Pot'       => json_encode( __( 'Honey Pot', 'wp_statistics' ) ),
-                                    'Feeds'           => json_encode( __( 'Feeds', 'wp_statistics' ) ),
-                                    'Excluded URL'    => json_encode( __( 'Excluded URL', 'wp_statistics' ) ),
-                                    '404 Pages'       => json_encode( __( '404 Pages', 'wp_statistics' ) ),
-                                    'Referrer Spam'   => json_encode( __( 'Referrer Spam', 'wp_statistics' ) ),
-                                    'AJAX Request'    => json_encode( __( 'AJAX Request', 'wp_statistics' ) )
+$excluded_reason_translate = array( 'Robot'           => json_encode( __( 'Robot', 'wp-statistics' ) ),
+                                    'Browscap'        => json_encode( __( 'Browscap', 'wp-statistics' ) ),
+                                    'IP Match'        => json_encode( __( 'IP Match', 'wp-statistics' ) ),
+                                    'Self Referral'   => json_encode( __( 'Self Referral', 'wp-statistics' ) ),
+                                    'Login Page'      => json_encode( __( 'Login Page', 'wp-statistics' ) ),
+                                    'Admin Page'      => json_encode( __( 'Admin Page', 'wp-statistics' ) ),
+                                    'User Role'       => json_encode( __( 'User Role', 'wp-statistics' ) ),
+                                    'Total'           => json_encode( __( 'Total', 'wp-statistics' ) ),
+                                    'GeoIP'           => json_encode( __( 'GeoIP', 'wp-statistics' ) ),
+                                    'Hostname'        => json_encode( __( 'Hostname', 'wp-statistics' ) ),
+                                    'Robot Threshold' => json_encode( __( 'Robot Threshold', 'wp-statistics' ) ),
+                                    'Honey Pot'       => json_encode( __( 'Honey Pot', 'wp-statistics' ) ),
+                                    'Feeds'           => json_encode( __( 'Feeds', 'wp-statistics' ) ),
+                                    'Excluded URL'    => json_encode( __( 'Excluded URL', 'wp-statistics' ) ),
+                                    '404 Pages'       => json_encode( __( '404 Pages', 'wp-statistics' ) ),
+                                    'Referrer Spam'   => json_encode( __( 'Referrer Spam', 'wp-statistics' ) ),
+                                    'AJAX Request'    => json_encode( __( 'AJAX Request', 'wp-statistics' ) )
 );
 $excluded_results          = array( 'Total' => array() );
 $excluded_total            = 0;
@@ -146,7 +146,7 @@ if ( $total_stats == 1 ) {
 }
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Exclusions Statistics', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Exclusions Statistics', 'wp-statistics' ); ?></h2>
 
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_EXCLUSIONS_PAGE, $daysToDisplay ); ?>
 
@@ -154,9 +154,9 @@ if ( $total_stats == 1 ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Exclusions Statistical Chart', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Exclusions Statistical Chart', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -185,7 +185,7 @@ if ( $total_stats == 1 ) {
 									echo "excluded_data_line_" . $excluded_reason_tags[ $reason ] . ", ";
 								} ?>], {
                                     title: {
-                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Excluded hits in the last %s days', 'wp_statistics' ), $daysToDisplay ) ); ?> +'</b>',
+                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Excluded hits in the last %s days', 'wp-statistics' ), $daysToDisplay ) ); ?> +'</b>',
                                         fontSize: '12px',
                                         fontFamily: 'Tahoma',
                                         textColor: '#000000',
@@ -206,7 +206,7 @@ if ( $total_stats == 1 ) {
                                         yaxis: {
                                             min: 0,
                                             padMin: 1.0,
-                                            label: <?php echo json_encode( __( 'Number of excluded hits', 'wp_statistics' ) ); ?>,
+                                            label: <?php echo json_encode( __( 'Number of excluded hits', 'wp-statistics' ) ); ?>,
                                             labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                                             labelOptions: {
                                                 angle: -90,
@@ -282,9 +282,9 @@ if ( $total_stats == 1 ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Hits Statistics Summary', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Hits Statistics Summary', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -293,17 +293,17 @@ if ( $total_stats == 1 ) {
                             <tbody>
                             <tr>
                                 <th></th>
-                                <th class="th-center"><?php _e( 'Exclusions', 'wp_statistics' ); ?></th>
+                                <th class="th-center"><?php _e( 'Exclusions', 'wp-statistics' ); ?></th>
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'Chart Total', 'wp_statistics' ); ?>:</th>
+                                <th><?php _e( 'Chart Total', 'wp-statistics' ); ?>:</th>
                                 <th class="th-center"><span><?php echo number_format_i18n( $excluded_total ); ?></span>
                                 </th>
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'All Time Total', 'wp_statistics' ); ?>:</th>
+                                <th><?php _e( 'All Time Total', 'wp-statistics' ); ?>:</th>
                                 <th class="th-center">
                                     <span><?php echo number_format_i18n( $excuded_all_time ); ?></span>
                                 </th>

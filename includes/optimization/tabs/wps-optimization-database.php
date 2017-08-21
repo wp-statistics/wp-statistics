@@ -2,27 +2,27 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Database Setup', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Database Setup', 'wp-statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Re-run Install', 'wp_statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Re-run Install', 'wp-statistics' ); ?>:</label>
             </th>
 
             <td>
-                <input id="install-submit" class="button button-primary" type="button" value="<?php _e( 'Install Now!', 'wp_statistics' ); ?>" name="install-submit" onclick="location.href=document.URL+'&install=1&tab=database'">
-                <p class="description"><?php _e( 'If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process.', 'wp_statistics' ); ?></p>
+                <input id="install-submit" class="button button-primary" type="button" value="<?php _e( 'Install Now!', 'wp-statistics' ); ?>" name="install-submit" onclick="location.href=document.URL+'&install=1&tab=database'">
+                <p class="description"><?php _e( 'If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Database Index', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Database Index', 'wp-statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Countries', 'wp_statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Countries', 'wp-statistics' ); ?>:</label>
             </th>
 
             <td>
@@ -39,15 +39,15 @@
 				if ( $result != 5 ) {
 					$dbupdates['date_ip_agent'] = true;
 					?>
-                    <input id="index-submit" class="button button-primary" type="button" value="<?php _e( 'Update Now!', 'wp_statistics' ); ?>" name="index-submit" onclick="location.href=document.URL+'&index=1&tab=database'">
-                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistitors table, delete duplicate entries and add the index.', 'wp_statistics' ); ?></p>
-                    <p class="description"><?php _e( 'This operation could take a long time on installs with many rows in the visitors table.', 'wp_statistics' ); ?></p>
+                    <input id="index-submit" class="button button-primary" type="button" value="<?php _e( 'Update Now!', 'wp-statistics' ); ?>" name="index-submit" onclick="location.href=document.URL+'&index=1&tab=database'">
+                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistitors table, delete duplicate entries and add the index.', 'wp-statistics' ); ?></p>
+                    <p class="description"><?php _e( 'This operation could take a long time on installs with many rows in the visitors table.', 'wp-statistics' ); ?></p>
 					<?php
 				} else {
 					$dbupdates['date_ip_agent'] = false;
 					?>
-                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.', 'wp_statistics' ); ?></p>
-                    <p class="description"><?php _e( 'Congratulations, your installation is already up to date, nothing to do.', 'wp_statistics' ); ?></p>
+                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.', 'wp-statistics' ); ?></p>
+                    <p class="description"><?php _e( 'Congratulations, your installation is already up to date, nothing to do.', 'wp-statistics' ); ?></p>
 					<?php
 				}
 				?>
@@ -56,7 +56,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Visits Table', 'wp_statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Visits Table', 'wp-statistics' ); ?>:</label>
             </th>
             <td>
 				<?php
@@ -70,15 +70,15 @@
 				if ( $result != 1 ) {
 					$dbupdates['unique_date'] = true;
 					?>
-                    <input id="visits-submit" class="button button-primary" type="button" value="<?php _e( 'Update Now!', 'wp_statistics' ); ?>" name="visit-submit" onclick="location.href=document.URL+'&visits=1&tab=database'">
-                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistits table, delete duplicate entries and add the index.', 'wp_statistics' ); ?></p>
-                    <p class="description"><?php _e( 'This operation could take a long time on installs with many rows in the visits table.', 'wp_statistics' ); ?></p>
+                    <input id="visits-submit" class="button button-primary" type="button" value="<?php _e( 'Update Now!', 'wp-statistics' ); ?>" name="visit-submit" onclick="location.href=document.URL+'&visits=1&tab=database'">
+                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistits table, delete duplicate entries and add the index.', 'wp-statistics' ); ?></p>
+                    <p class="description"><?php _e( 'This operation could take a long time on installs with many rows in the visits table.', 'wp-statistics' ); ?></p>
 					<?php
 				} else {
 					$dbupdates['unique_date'] = false;
 					?>
-                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.', 'wp_statistics' ); ?></p>
-                    <p class="description"><?php _e( 'Congratulations, your installation is already up to date, nothing to do.', 'wp_statistics' ); ?></p>
+                    <p class="description"><?php _e( 'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.', 'wp-statistics' ); ?></p>
+                    <p class="description"><?php _e( 'Congratulations, your installation is already up to date, nothing to do.', 'wp-statistics' ); ?></p>
 					<?php
 				}
 
@@ -89,26 +89,26 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Search Table', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Search Table', 'wp-statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Convert', 'wp_statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Convert', 'wp-statistics' ); ?>:</label>
             </th>
             <td>
 				<?php
 				// Note, the result will be the number of fields contained in the index, so in our case 1.
 				if ( $WP_Statistics->get_option( 'search_converted' ) != 1 ) {
 					?>
-                    <input id="visits-submit" class="button button-primary" type="button" value="<?php _e( 'Convert Now!', 'wp_statistics' ); ?>" name="search-submit" onclick="location.href=document.URL+'&search=1&tab=database'">
-                    <p class="description"><?php _e( 'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used.', 'wp_statistics' ); ?></p>
-                    <p class="description"><?php _e( 'This operation could take a long time on installs with many rows in the visitors table.', 'wp_statistics' ); ?></p>
+                    <input id="visits-submit" class="button button-primary" type="button" value="<?php _e( 'Convert Now!', 'wp-statistics' ); ?>" name="search-submit" onclick="location.href=document.URL+'&search=1&tab=database'">
+                    <p class="description"><?php _e( 'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used.', 'wp-statistics' ); ?></p>
+                    <p class="description"><?php _e( 'This operation could take a long time on installs with many rows in the visitors table.', 'wp-statistics' ); ?></p>
 					<?php
 				} else {
 					?>
-                    <p class="description"><?php _e( 'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion.', 'wp_statistics' ); ?></p>
-                    <p class="description"><?php _e( 'Congratulations, your installation is already up to date, nothing to do.', 'wp_statistics' ); ?></p>
+                    <p class="description"><?php _e( 'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion.', 'wp-statistics' ); ?></p>
+                    <p class="description"><?php _e( 'Congratulations, your installation is already up to date, nothing to do.', 'wp-statistics' ); ?></p>
 					<?php
 				}
 				?>

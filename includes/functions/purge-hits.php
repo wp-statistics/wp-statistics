@@ -22,12 +22,12 @@ function wp_statistics_purge_visitor_hits( $purge_hits ) {
 				$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `id` = %s;", $item[0] ) );
 			}
 
-			$result_string = sprintf( __( '%s records purged successfully.', 'wp_statistics' ), '<code>' . count( $to_delete ) . '</code>' );
+			$result_string = sprintf( __( '%s records purged successfully.', 'wp-statistics' ), '<code>' . count( $to_delete ) . '</code>' );
 		} else {
-			$result_string = __( 'No visitors found to purge.', 'wp_statistics' );
+			$result_string = __( 'No visitors found to purge.', 'wp-statistics' );
 		}
 	} else {
-		$result_string = __( 'Number of hits must be greater than or equal to 10!', 'wp_statistics' );
+		$result_string = __( 'Number of hits must be greater than or equal to 10!', 'wp-statistics' );
 	}
 
 	if ( $WP_Statistics->get_option( 'prune_report' ) == true ) {
@@ -42,7 +42,7 @@ function wp_statistics_purge_visitor_hits( $purge_hits ) {
 			$WP_Statistics->update_option( 'email_list', $blogemail );
 		}
 
-		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Database pruned on', 'wp_statistics' ) . ' ' . $blogname, $result_string, $headers );
+		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Database pruned on', 'wp-statistics' ) . ' ' . $blogname, $result_string, $headers );
 	}
 
 	return $result_string;

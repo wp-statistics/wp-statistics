@@ -12,40 +12,40 @@ $historical_visits = $WP_Statistics->Get_Historical_Data( 'visits' );
         <table class="form-table">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php _e( 'Historical Values', 'wp_statistics' ); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php _e( 'Historical Values', 'wp-statistics' ); ?></h3></th>
             </tr>
 
             <tr valign="top" id="wps_historical_purge" style="display: none">
                 <th scope="row" colspan=2>
-					<?php _e( 'Note: As you have just purged the database you must reload this page for these numbers to be correct.', 'wp_statistics' ); ?>
+					<?php _e( 'Note: As you have just purged the database you must reload this page for these numbers to be correct.', 'wp-statistics' ); ?>
                 </th>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-					<?php _e( 'Visitors', 'wp_statistics' ); ?>:
+					<?php _e( 'Visitors', 'wp-statistics' ); ?>:
                 </th>
 
                 <td>
                     <input type="text" size="10" value="<?php echo $historical_visitors; ?>" id="wps_historical_visitors" name="wps_historical_visitors">
-                    <p class="description"><?php echo sprintf( __( 'Number of historical number of visitors to the site (current value is %s).', 'wp_statistics' ), number_format_i18n( $historical_visitors ) ); ?></p>
+                    <p class="description"><?php echo sprintf( __( 'Number of historical number of visitors to the site (current value is %s).', 'wp-statistics' ), number_format_i18n( $historical_visitors ) ); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-					<?php _e( 'Visits', 'wp_statistics' ); ?>:
+					<?php _e( 'Visits', 'wp-statistics' ); ?>:
                 </th>
 
                 <td>
                     <input type="text" size="10" value="<?php echo $historical_visits; ?>" id="wps_historical_visits" name="wps_historical_visits">
-                    <p class="description"><?php echo sprintf( __( 'Number of historical number of visits to the site (current value is %s).', 'wp_statistics' ), number_format_i18n( $historical_visits ) ); ?></p>
+                    <p class="description"><?php echo sprintf( __( 'Number of historical number of visits to the site (current value is %s).', 'wp-statistics' ), number_format_i18n( $historical_visits ) ); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <td colspan=2>
-                    <input id="historical-submit" class="button button-primary" type="submit" value="<?php _e( 'Update Now!', 'wp_statistics' ); ?>" name="historical-submit"/>
+                    <input id="historical-submit" class="button button-primary" type="submit" value="<?php _e( 'Update Now!', 'wp-statistics' ); ?>" name="historical-submit"/>
                 </td>
             </tr>
 

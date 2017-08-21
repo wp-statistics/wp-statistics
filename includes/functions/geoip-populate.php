@@ -21,7 +21,7 @@ function wp_statistics_populate_geoip_info() {
 		$upload_dir = wp_upload_dir();
 		$reader     = new Reader( $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb' );
 	} catch ( Exception $e ) {
-		return "<div class='updated settings-error'><p><strong>" . __( 'Unable to load the GeoIP database, make sure you have downloaded it in the settings page.', 'wp_statistics' ) . "</strong></p></div>";
+		return "<div class='updated settings-error'><p><strong>" . __( 'Unable to load the GeoIP database, make sure you have downloaded it in the settings page.', 'wp-statistics' ) . "</strong></p></div>";
 	}
 
 	$count = 0;
@@ -47,7 +47,7 @@ function wp_statistics_populate_geoip_info() {
 		}
 	}
 
-	return "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Updated %s GeoIP records in the visitors database.', 'wp_statistics' ), $count ) . "</strong></p></div>";
+	return "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Updated %s GeoIP records in the visitors database.', 'wp-statistics' ), $count ) . "</strong></p></div>";
 }
 
 ?>

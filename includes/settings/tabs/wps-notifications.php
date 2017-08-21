@@ -55,12 +55,12 @@ if ( $wps_nonce_valid ) {
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Common Report Options', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Common Report Options', 'wp-statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <td scope="row" style="vertical-align: top;">
-                <label for="email-report"><?php _e( 'E-mail addresses', 'wp_statistics' ); ?>:</label>
+                <label for="email-report"><?php _e( 'E-mail addresses', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
@@ -68,75 +68,75 @@ if ( $wps_nonce_valid ) {
 					$WP_Statistics->store_option( 'email_list', get_bloginfo( 'admin_email' ) );
 				}
 				echo htmlentities( $WP_Statistics->get_option( 'email_list' ), ENT_QUOTES ); ?>"/>
-                <p class="description"><?php _e( 'A comma separated list of e-mail addresses to send reports to.', 'wp_statistics' ); ?></p>
+                <p class="description"><?php _e( 'A comma separated list of e-mail addresses to send reports to.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Update Reports', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Update Reports', 'wp-statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <td scope="row">
-                <label for="browscap-report"><?php _e( 'Browscap', 'wp_statistics' ); ?>:</label>
+                <label for="browscap-report"><?php _e( 'Browscap', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
                 <input id="browscap-report" type="checkbox" value="1" name="wps_browscap_report" <?php echo $WP_Statistics->get_option( 'browscap_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="browscap-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
-                <p class="description"><?php _e( 'Send a report whenever the browscap.ini is updated.', 'wp_statistics' ); ?></p>
+                <label for="browscap-report"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <p class="description"><?php _e( 'Send a report whenever the browscap.ini is updated.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <td scope="row">
-                <label for="geoip-report"><?php _e( 'GeoIP', 'wp_statistics' ); ?>:</label>
+                <label for="geoip-report"><?php _e( 'GeoIP', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
                 <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo $WP_Statistics->get_option( 'geoip_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="geoip-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
-                <p class="description"><?php _e( 'Send a report whenever the GeoIP database is updated.', 'wp_statistics' ); ?></p>
+                <label for="geoip-report"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <p class="description"><?php _e( 'Send a report whenever the GeoIP database is updated.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <td scope="row">
-                <label for="prune-report"><?php _e( 'Pruning', 'wp_statistics' ); ?>:</label>
+                <label for="prune-report"><?php _e( 'Pruning', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
                 <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo $WP_Statistics->get_option( 'prune_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="prune-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
-                <p class="description"><?php _e( 'Send a report whenever the pruning of database is run.', 'wp_statistics' ); ?></p>
+                <label for="prune-report"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <p class="description"><?php _e( 'Send a report whenever the pruning of database is run.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <td scope="row">
-                <label for="upgrade-report"><?php _e( 'Upgrade', 'wp_statistics' ); ?>:</label>
+                <label for="upgrade-report"><?php _e( 'Upgrade', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
                 <input id="upgrade-report" type="checkbox" value="1" name="wps_upgrade_report" <?php echo $WP_Statistics->get_option( 'upgrade_report' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="upgrade-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
-                <p class="description"><?php _e( 'Send a report whenever the plugin is upgraded.', 'wp_statistics' ); ?></p>
+                <label for="upgrade-report"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <p class="description"><?php _e( 'Send a report whenever the plugin is upgraded.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Statistical reporting', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Statistical reporting', 'wp-statistics' ); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="stats-report"><?php _e( 'Statistical reporting', 'wp_statistics' ); ?>:</label>
+                <label for="stats-report"><?php _e( 'Statistical reporting', 'wp-statistics' ); ?>:</label>
             </th>
 
             <td>
                 <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php echo $WP_Statistics->get_option( 'stats_report' ) == true ? "checked='checked'" : ''; ?> onClick='ToggleStatOptions();'>
-                <label for="stats-report"><?php _e( 'Enable', 'wp_statistics' ); ?></label>
-                <p class="description"><?php _e( 'Enable or disable this feature', 'wp_statistics' ); ?></p>
+                <label for="stats-report"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <p class="description"><?php _e( 'Enable or disable this feature', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -147,12 +147,12 @@ if ( $wps_nonce_valid ) {
 		} ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="time-report"><?php _e( 'Schedule', 'wp_statistics' ); ?>:</label>
+                <label for="time-report"><?php _e( 'Schedule', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
                 <select name="wps_time_report" id="time-report">
-                    <option value="0" <?php selected( $WP_Statistics->get_option( 'time_report' ), '0' ); ?>><?php _e( 'Please select', 'wp_statistics' ); ?></option>
+                    <option value="0" <?php selected( $WP_Statistics->get_option( 'time_report' ), '0' ); ?>><?php _e( 'Please select', 'wp-statistics' ); ?></option>
 					<?php
 					function wp_statistics_schedule_sort( $a, $b ) {
 						if ( $a['interval'] == $b['interval'] ) {
@@ -171,34 +171,34 @@ if ( $wps_nonce_valid ) {
 					}
 					?>
                 </select>
-                <p class="description"><?php _e( 'Select how often to receive statistical report.', 'wp_statistics' ); ?></p>
+                <p class="description"><?php _e( 'Select how often to receive statistical report.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="send-report"><?php _e( 'Send reports via', 'wp_statistics' ); ?>:</label>
+                <label for="send-report"><?php _e( 'Send reports via', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
                 <select name="wps_send_report" id="send-report">
-                    <option value="0" <?php selected( $WP_Statistics->get_option( 'send_report' ), '0' ); ?>><?php _e( 'Please select', 'wp_statistics' ); ?></option>
-                    <option value="mail" <?php selected( $WP_Statistics->get_option( 'send_report' ), 'mail' ); ?>><?php _e( 'Email', 'wp_statistics' ); ?></option>
+                    <option value="0" <?php selected( $WP_Statistics->get_option( 'send_report' ), '0' ); ?>><?php _e( 'Please select', 'wp-statistics' ); ?></option>
+                    <option value="mail" <?php selected( $WP_Statistics->get_option( 'send_report' ), 'mail' ); ?>><?php _e( 'Email', 'wp-statistics' ); ?></option>
 					<?php if ( is_plugin_active( 'wp-sms/wp-sms.php' ) || is_plugin_active( 'wp-sms-pro/wp-sms.php' ) ) { ?>
-                        <option value="sms" <?php selected( $WP_Statistics->get_option( 'send_report' ), 'sms' ); ?>><?php _e( 'SMS', 'wp_statistics' ); ?></option>
+                        <option value="sms" <?php selected( $WP_Statistics->get_option( 'send_report' ), 'sms' ); ?>><?php _e( 'SMS', 'wp-statistics' ); ?></option>
 					<?php } ?>
                 </select>
-                <p class="description"><?php _e( 'Select delivery method for statistical report.', 'wp_statistics' ); ?></p>
+                <p class="description"><?php _e( 'Select delivery method for statistical report.', 'wp-statistics' ); ?></p>
 
 				<?php if ( ! is_plugin_active( 'wp-sms/wp-sms.php' ) ) { ?>
-                    <p class="description note"><?php echo sprintf( __( 'Note: To send SMS text messages please install the %s plugin.', 'wp_statistics' ), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __( 'WordPress SMS', 'wp_statistics' ) . '</a>' ); ?></p>
+                    <p class="description note"><?php echo sprintf( __( 'Note: To send SMS text messages please install the %s plugin.', 'wp-statistics' ), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __( 'WordPress SMS', 'wp-statistics' ) . '</a>' ); ?></p>
 				<?php } ?>
             </td>
         </tr>
 
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php _e( 'Report body', 'wp_statistics' ); ?>:</label>
+                <label for="content-report"><?php _e( 'Report body', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
@@ -207,23 +207,23 @@ if ( $wps_nonce_valid ) {
 					'textarea_name' => 'wps_content_report',
 					'textarea_rows' => 5
 				) ); ?>
-                <p class="description"><?php _e( 'Enter the contents of the report.', 'wp_statistics' ); ?></p>
+                <p class="description"><?php _e( 'Enter the contents of the report.', 'wp-statistics' ); ?></p>
                 <p class="description data">
-					<?php _e( 'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message.  Here are some examples:', 'wp_statistics' ); ?>
+					<?php _e( 'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message.  Here are some examples:', 'wp-statistics' ); ?>
                     <br><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Online User', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Online User', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=usersonline]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visitors', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=today]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Today\'s Visits', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=today]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visitors', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=yesterday]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Yesterday\'s Visits', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=yesterday]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visitors', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visitors', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=visitors time=total]</code><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visits', 'wp_statistics' ); ?>: <code>[wpstatistics
+                    &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visits', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=total]</code><br>
                 </p>
             </td>
@@ -231,4 +231,4 @@ if ( $wps_nonce_valid ) {
         </tbody>
     </table>
 
-<?php submit_button( __( 'Update', 'wp_statistics' ), 'primary', 'submit' ); ?>
+<?php submit_button( __( 'Update', 'wp-statistics' ), 'primary', 'submit' ); ?>

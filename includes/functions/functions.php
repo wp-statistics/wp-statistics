@@ -473,7 +473,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 	$default = $engines = array(
 		'ask'        => array(
 			'name'         => 'Ask.com',
-			'translated'   => __( 'Ask.com', 'wp_statistics' ),
+			'translated'   => __( 'Ask.com', 'wp-statistics' ),
 			'tag'          => 'ask',
 			'sqlpattern'   => '%ask.com%',
 			'regexpattern' => 'ask\.com',
@@ -482,7 +482,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 		),
 		'baidu'      => array(
 			'name'         => 'Baidu',
-			'translated'   => __( 'Baidu', 'wp_statistics' ),
+			'translated'   => __( 'Baidu', 'wp-statistics' ),
 			'tag'          => 'baidu',
 			'sqlpattern'   => '%baidu.com%',
 			'regexpattern' => 'baidu\.com',
@@ -491,7 +491,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 		),
 		'bing'       => array(
 			'name'         => 'Bing',
-			'translated'   => __( 'Bing', 'wp_statistics' ),
+			'translated'   => __( 'Bing', 'wp-statistics' ),
 			'tag'          => 'bing',
 			'sqlpattern'   => '%bing.com%',
 			'regexpattern' => 'bing\.com',
@@ -500,7 +500,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 		),
 		'clearch'    => array(
 			'name'         => 'clearch.org',
-			'translated'   => __( 'clearch.org', 'wp_statistics' ),
+			'translated'   => __( 'clearch.org', 'wp-statistics' ),
 			'tag'          => 'clearch',
 			'sqlpattern'   => '%clearch.org%',
 			'regexpattern' => 'clearch\.org',
@@ -509,7 +509,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 		),
 		'duckduckgo' => array(
 			'name'         => 'DuckDuckGo',
-			'translated'   => __( 'DuckDuckGo', 'wp_statistics' ),
+			'translated'   => __( 'DuckDuckGo', 'wp-statistics' ),
 			'tag'          => 'duckduckgo',
 			'sqlpattern'   => array( '%duckduckgo.com%', '%ddg.gg%' ),
 			'regexpattern' => array( 'duckduckgo\.com', 'ddg\.gg' ),
@@ -518,7 +518,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 		),
 		'google'     => array(
 			'name'         => 'Google',
-			'translated'   => __( 'Google', 'wp_statistics' ),
+			'translated'   => __( 'Google', 'wp-statistics' ),
 			'tag'          => 'google',
 			'sqlpattern'   => '%google.%',
 			'regexpattern' => 'google\.',
@@ -527,7 +527,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 		),
 		'yahoo'      => array(
 			'name'         => 'Yahoo!',
-			'translated'   => __( 'Yahoo!', 'wp_statistics' ),
+			'translated'   => __( 'Yahoo!', 'wp-statistics' ),
 			'tag'          => 'yahoo',
 			'sqlpattern'   => '%yahoo.com%',
 			'regexpattern' => 'yahoo\.com',
@@ -536,7 +536,7 @@ function wp_statistics_searchengine_list( $all = false ) {
 		),
 		'yandex'     => array(
 			'name'         => 'Yandex',
-			'translated'   => __( 'Yandex', 'wp_statistics' ),
+			'translated'   => __( 'Yandex', 'wp-statistics' ),
 			'tag'          => 'yandex',
 			'sqlpattern'   => '%yandex.ru%',
 			'regexpattern' => 'yandex\.ru',
@@ -1033,14 +1033,14 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	if ( count( $range ) == 0 ) {
 		$range = array( 10, 20, 30, 60, 90, 180, 270, 365 );
 		$desc  = array(
-			__( '10 Days', 'wp_statistics' ),
-			__( '20 Days', 'wp_statistics' ),
-			__( '30 Days', 'wp_statistics' ),
-			__( '2 Months', 'wp_statistics' ),
-			__( '3 Months', 'wp_statistics' ),
-			__( '6 Months', 'wp_statistics' ),
-			__( '9 Months', 'wp_statistics' ),
-			__( '1 Year', 'wp_statistics' )
+			__( '10 Days', 'wp-statistics' ),
+			__( '20 Days', 'wp-statistics' ),
+			__( '30 Days', 'wp-statistics' ),
+			__( '2 Months', 'wp-statistics' ),
+			__( '3 Months', 'wp-statistics' ),
+			__( '6 Months', 'wp-statistics' ),
+			__( '9 Months', 'wp-statistics' ),
+			__( '1 Year', 'wp-statistics' )
 		);
 	}
 
@@ -1125,12 +1125,12 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	}
 
 	if ( $bold ) {
-		echo ' <b>' . __( 'Time Frame', 'wp_statistics' ) . ':</b> ';
+		echo ' <b>' . __( 'Time Frame', 'wp-statistics' ) . ':</b> ';
 	} else {
-		echo ' ' . __( 'Time Frame', 'wp_statistics' ) . ': ';
+		echo ' ' . __( 'Time Frame', 'wp-statistics' ) . ': ';
 	}
 
-	echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart . '" placeholder="' . __( 'MM/DD/YYYY', 'wp_statistics' ) . '"> ' . __( 'to', 'wp_statistics' ) . ' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __( 'MM/DD/YYYY', 'wp_statistics' ) . '"> <input type="submit" value="' . __( 'Go', 'wp_statistics' ) . '" class="button-primary">' . "\r\n";
+	echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' . $rangestart . '" placeholder="' . __( 'MM/DD/YYYY', 'wp-statistics' ) . '"> ' . __( 'to', 'wp-statistics' ) . ' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __( 'MM/DD/YYYY', 'wp-statistics' ) . '"> <input type="submit" value="' . __( 'Go', 'wp-statistics' ) . '" class="button-primary">' . "\r\n";
 
 	// Output any extra HTML we've been passed after the date selector but before the submit button.
 	echo $post_extra;
@@ -1174,11 +1174,11 @@ function wp_statitiscs_empty_table( $table_name = false ) {
 		$result = $wpdb->query( 'DELETE FROM ' . $table_name );
 
 		if ( $result ) {
-			return sprintf( __( '%s table data deleted successfully.', 'wp_statistics' ), '<code>' . $table_name . '</code>' );
+			return sprintf( __( '%s table data deleted successfully.', 'wp-statistics' ), '<code>' . $table_name . '</code>' );
 		}
 	}
 
-	return sprintf( __( 'Error, %s not emptied!', 'wp_statistics' ), $table_name );
+	return sprintf( __( 'Error, %s not emptied!', 'wp-statistics' ), $table_name );
 }
 
 // This function creates a small JavaScript snipit that will load the contents of a overview or dashboard widget.

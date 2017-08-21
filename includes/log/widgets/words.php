@@ -27,7 +27,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			}
 
 			if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
-				$ip_string = __( '#hash#', 'wp_statistics' );
+				$ip_string = __( '#hash#', 'wp-statistics' );
 			} else {
 				$ip_string = "<a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a>";
 			}
@@ -45,7 +45,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			echo "<div class='log-ip'>" . date( get_option( 'date_format' ), strtotime( $items->last_counter ) ) . " - {$ip_string}</div>";
 			echo "<div class='clear'></div>";
 			echo "<div class='log-url'>";
-			echo "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp_statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
+			echo "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
 
 			if ( $WP_Statistics->get_option( 'geoip' ) ) {
 				echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";

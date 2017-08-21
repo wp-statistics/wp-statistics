@@ -25,7 +25,7 @@ if ( array_key_exists( 'referred', $_GET ) ) {
 $total = $search_result[ $referred ];
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Latest Search Words', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Latest Search Words', 'wp-statistics' ); ?></h2>
     <ul class="subsubsub">
 		<?php
 		$search_result_count = count( $search_result );
@@ -42,7 +42,7 @@ $total = $search_result[ $referred ];
 			if ( $key == 'All' ) {
 				$tag       = '';
 				$name      = 'All';
-				$translate = __( 'All', 'wp_statistics' );
+				$translate = __( 'All', 'wp-statistics' );
 			} else {
 				$tag       = $search_engines[ $key ]['tag'];
 				$name      = $search_engines[ $key ]['name'];
@@ -57,9 +57,9 @@ $total = $search_result[ $referred ];
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Latest Search Word Statistics', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Latest Search Word Statistics', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -109,11 +109,11 @@ $total = $search_result[ $referred ];
 									}
 
 									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
-										$ip_string  = __( '#hash#', 'wp_statistics' );
+										$ip_string  = __( '#hash#', 'wp-statistics' );
 										$map_string = "";
 									} else {
 										$ip_string  = "<a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a>";
-										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp_statistics' ) . "'>{$dash_icon}</a>";
+										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>{$dash_icon}</a>";
 									}
 
 									if ( $WP_Statistics->get_option( 'search_converted' ) ) {
@@ -135,7 +135,7 @@ $total = $search_result[ $referred ];
 										echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 									}
 
-									echo "<a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-search&referred={$this_search_engine['tag']}'><img src='" . plugins_url( 'wp-statistics/assets/images/' . $this_search_engine['image'] ) . "' class='log-tools' title='" . __( $this_search_engine['name'], 'wp_statistics' ) . "'/></a>";
+									echo "<a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-search&referred={$this_search_engine['tag']}'><img src='" . plugins_url( 'wp-statistics/assets/images/' . $this_search_engine['image'] ) . "' class='log-tools' title='" . __( $this_search_engine['name'], 'wp-statistics' ) . "'/></a>";
 
 									if ( array_search( strtolower( $items->agent ), array(
 											"chrome",
@@ -167,7 +167,7 @@ $total = $search_result[ $referred ];
                     <div class="pagination-log">
 						<?php if ( $total > 0 ) {
 							echo $Pagination->display(); ?>
-                            <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp_statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
+                            <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp-statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
 						<?php } ?>
                     </div>
                 </div>

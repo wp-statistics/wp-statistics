@@ -33,11 +33,11 @@ if ( $_get != '%' ) {
 
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Recent Visitors', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Recent Visitors', 'wp-statistics' ); ?></h2>
     <ul class="subsubsub">
         <li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';
-			} ?>href="?page=<?php echo WP_STATISTICS_VISITORS_PAGE; ?>"><?php _e( 'All', 'wp_statistics' ); ?>
+			} ?>href="?page=<?php echo WP_STATISTICS_VISITORS_PAGE; ?>"><?php _e( 'All', 'wp-statistics' ); ?>
                 <span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
 		<?php
 		if ( isset( $_var ) ) {
@@ -62,7 +62,7 @@ if ( $_get != '%' ) {
 					if ( $i == $Total ) {
 						$spacer = "";
 					}
-					echo $spacer . "<li><a " . $current . "href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&agent=" . $Browser . "'> " . __( $Browser, 'wp_statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
+					echo $spacer . "<li><a " . $current . "href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&agent=" . $Browser . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
 				}
 			} else {
 				if ( $_get != '%' ) {
@@ -79,12 +79,12 @@ if ( $_get != '%' ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Recent Visitor Statistics', 'wp_statistics' );
+                    <?php $paneltitle = __( 'Recent Visitor Statistics', 'wp-statistics' );
                         if ( $_get != '%' ) {
-                            $paneltitle = $paneltitle . ' [' . __( 'Filtered by', 'wp_statistics' ) . ': ' . $title . ']';
+                            $paneltitle = $paneltitle . ' [' . __( 'Filtered by', 'wp-statistics' ) . ': ' . $title . ']';
                         } ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -119,11 +119,11 @@ if ( $_get != '%' ) {
 
 						foreach ( $result as $items ) {
 							if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
-								$ip_string  = __( '#hash#', 'wp_statistics' );
+								$ip_string  = __( '#hash#', 'wp-statistics' );
 								$map_string = "";
 							} else {
 								$ip_string  = "<a href='?page=" . WP_STATISTICS_VISITORS_PAGE . "&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
-								$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp_statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
+								$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
 							}
 
 							echo "<div class='log-item'>";
@@ -165,7 +165,7 @@ if ( $_get != '%' ) {
 
                 <div class="pagination-log">
 					<?php echo $Pagination->display(); ?>
-                    <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp_statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
+                    <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp-statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
         <tbody>
 		<?php if ( $WP_Statistics->get_option( 'useronline' ) ) { ?>
             <tr>
-                <th><?php _e( 'Online Users', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Online Users', 'wp-statistics' ); ?>:</th>
                 <th colspan="2" id="th-colspan">
                     <span><a href="admin.php?page=<?php echo WP_STATISTICS_ONLINE_PAGE; ?>"><?php echo wp_statistics_useronline(); ?></a></span>
                 </th>
@@ -21,19 +21,19 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             <tr>
                 <th width="60%"></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
-						_e( 'Visitors', 'wp_statistics' );
+						_e( 'Visitors', 'wp-statistics' );
 					} else {
 						echo '';
 					} ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visits' ) ) {
-						_e( 'Visits', 'wp_statistics' );
+						_e( 'Visits', 'wp-statistics' );
 					} else {
 						echo '';
 					} ?></th>
             </tr>
 
             <tr>
-                <th><?php _e( 'Today', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Today', 'wp-statistics' ); ?>:</th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=1"><span>' . number_format_i18n( wp_statistics_visitor( 'today', null, true ) ) . '</span></a>';
 					} else {
@@ -47,7 +47,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             </tr>
 
             <tr>
-                <th><?php _e( 'Yesterday', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Yesterday', 'wp-statistics' ); ?>:</th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=1"><span>' . number_format_i18n( wp_statistics_visitor( 'yesterday', null, true ) ) . '</span></a>';
 					} else {
@@ -61,7 +61,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             </tr>
 
             <tr>
-                <th><?php _e( 'Last 7 Days (Week)', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Last 7 Days (Week)', 'wp-statistics' ); ?>:</th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=7"><span>' . number_format_i18n( wp_statistics_visitor( 'week', null, true ) ) . '</span></a>';
 					} else {
@@ -75,7 +75,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             </tr>
 
             <tr>
-                <th><?php _e( 'Last 30 Days (Month)', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Last 30 Days (Month)', 'wp-statistics' ); ?>:</th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=30"><span>' . number_format_i18n( wp_statistics_visitor( 'month', null, true ) ) . '</span></a>';
 					} else {
@@ -89,7 +89,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             </tr>
 
             <tr>
-                <th><?php _e( 'Last 365 Days (Year)', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Last 365 Days (Year)', 'wp-statistics' ); ?>:</th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=365"><span>' . number_format_i18n( wp_statistics_visitor( 'year', null, true ) ) . '</span></a>';
 					} else {
@@ -103,7 +103,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             </tr>
 
             <tr>
-                <th><?php _e( 'Total', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Total', 'wp-statistics' ); ?>:</th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' . WP_STATISTICS_VISITORS_PAGE . '&hitdays=365"><span>' . number_format_i18n( wp_statistics_visitor( 'total', null, true ) ) . '</span></a>';
 					} else {
@@ -130,13 +130,13 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
                 </tr>
 			<?php } ?>
             <tr>
-                <th colspan="3" style="text-align: center;"><?php _e( 'Search Engine Referrals', 'wp_statistics' ); ?></th>
+                <th colspan="3" style="text-align: center;"><?php _e( 'Search Engine Referrals', 'wp-statistics' ); ?></th>
             </tr>
 
             <tr>
                 <th width="60%"></th>
-                <th class="th-center"><?php _e( 'Today', 'wp_statistics' ); ?></th>
-                <th class="th-center"><?php _e( 'Yesterday', 'wp_statistics' ); ?></th>
+                <th class="th-center"><?php _e( 'Today', 'wp-statistics' ); ?></th>
+                <th class="th-center"><?php _e( 'Yesterday', 'wp-statistics' ); ?></th>
             </tr>
 
 			<?php
@@ -146,7 +146,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
 				?>
                 <tr>
                     <th>
-                        <img src='<?php echo plugins_url( 'wp-statistics/assets/images/' . $se['image'] ); ?>'> <?php _e( $se['name'], 'wp_statistics' ); ?>
+                        <img src='<?php echo plugins_url( 'wp-statistics/assets/images/' . $se['image'] ); ?>'> <?php _e( $se['name'], 'wp-statistics' ); ?>
                         :
                     </th>
                     <th class="th-center"><span><?php $se_temp = wp_statistics_searchengine( $se['tag'], 'today' );
@@ -161,7 +161,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
 			}
 			?>
             <tr>
-                <th><?php _e( 'Daily Total', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Daily Total', 'wp-statistics' ); ?>:</th>
                 <td id="th-colspan" class="th-center"><span><?php echo number_format_i18n( $se_today_total ); ?></span>
                 </td>
                 <td id="th-colspan" class="th-center">
@@ -169,7 +169,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             </tr>
 
             <tr>
-                <th><?php _e( 'Total', 'wp_statistics' ); ?>:</th>
+                <th><?php _e( 'Total', 'wp-statistics' ); ?>:</th>
                 <th colspan="2" id="th-colspan">
                     <span><?php echo number_format_i18n( wp_statistics_searchengine( 'all' ) ); ?></span></th>
             </tr>
@@ -185,17 +185,17 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
             </tr>
 
             <tr>
-                <th colspan="3" style="text-align: center;"><?php _e( 'Current Time and Date', 'wp_statistics' ); ?>
-                    <span id="time_zone"><a href="<?php echo admin_url( 'options-general.php' ); ?>"><?php _e( '(Adjustment)', 'wp_statistics' ); ?></a></span>
+                <th colspan="3" style="text-align: center;"><?php _e( 'Current Time and Date', 'wp-statistics' ); ?>
+                    <span id="time_zone"><a href="<?php echo admin_url( 'options-general.php' ); ?>"><?php _e( '(Adjustment)', 'wp-statistics' ); ?></a></span>
                 </th>
             </tr>
 
             <tr>
-                <th colspan="3"><?php echo sprintf( __( 'Date: %s', 'wp_statistics' ), '<code dir="ltr">' . $WP_Statistics->Current_Date_i18n( get_option( 'date_format' ) ) . '</code>' ); ?></th>
+                <th colspan="3"><?php echo sprintf( __( 'Date: %s', 'wp-statistics' ), '<code dir="ltr">' . $WP_Statistics->Current_Date_i18n( get_option( 'date_format' ) ) . '</code>' ); ?></th>
             </tr>
 
             <tr>
-                <th colspan="3"><?php echo sprintf( __( 'Time: %s', 'wp_statistics' ), '<code dir="ltr">' . $WP_Statistics->Current_Date_i18n( get_option( 'time_format' ) ) . '</code>' ); ?></th>
+                <th colspan="3"><?php echo sprintf( __( 'Time: %s', 'wp-statistics' ), '<code dir="ltr">' . $WP_Statistics->Current_Date_i18n( get_option( 'time_format' ) ) . '</code>' ); ?></th>
             </tr>
 		<?php } ?>
         </tbody>

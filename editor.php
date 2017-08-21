@@ -51,7 +51,7 @@ function wp_statistics_add_editor_meta_box() {
 
 		add_meta_box(
 			'wp_statistics_editor_meta_box',
-			__( 'Hit Statistics', 'wp_statistics' ),
+			__( 'Hit Statistics', 'wp-statistics' ),
 			'wp_statistics_editor_meta_box',
 			$screen,
 			'normal',
@@ -65,7 +65,7 @@ add_action( 'add_meta_boxes', 'wp_statistics_add_editor_meta_box' );
 function wp_statistics_editor_meta_box( $post ) {
 	// If the post isn't published yet, don't output the stats as they take too much memory and CPU to compute for no reason.
 	if ( $post->post_status != 'publish' && $post->post_status != 'private' ) {
-		_e( 'This post is not yet published.', 'wp_statistics' );
+		_e( 'This post is not yet published.', 'wp-statistics' );
 
 		return;
 	}
@@ -76,7 +76,7 @@ function wp_statistics_editor_meta_box( $post ) {
 }
 
 function wp_statistics_generate_editor_postbox_contents( $post, $args ) {
-	$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp_statistics' ) . '"></div>';
+	$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp-statistics' ) . '"></div>';
 	$widget       = $args['args']['widget'];
 	$container_id = 'wp-statistics-' . str_replace( '.', '-', $widget ) . '-div';
 
@@ -94,10 +94,10 @@ function wp_statistics_editor_inline_javascript() {
 
 	wp_statistics_load_widget_css_and_scripts();
 
-	$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp_statistics' ) . '"></div>';
+	$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
 
-	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp_statistics' ) . '</span></button>';
-	$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button>';
+	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp-statistics' ) . '</span></button>';
+	$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button>';
 
 	$admin_url = get_admin_url() . "/admin.php?page=";
 

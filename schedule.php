@@ -130,7 +130,7 @@ function wp_statistics_geoip_event() {
 
 	// Maxmind updates the geoip database on the first Tuesday of the month, to make sure we don't update before they post
 	// the update, download it two days later.
-	$thisupdate = strtotime( __( 'First Tuesday of this month', 'wp_statistics' ) ) + ( 86400 * 2 );
+	$thisupdate = strtotime( __( 'First Tuesday of this month', 'wp-statistics' ) ) + ( 86400 * 2 );
 
 	$lastupdate = $WP_Statistics->get_option( 'last_geoip_dl' );
 
@@ -227,7 +227,7 @@ function wp_statistics_send_report() {
 			$WP_Statistics->update_option( 'email_list', $blogemail );
 		}
 
-		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Statistical reporting', 'wp_statistics' ), $final_text_report, $headers );
+		wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Statistical reporting', 'wp-statistics' ), $final_text_report, $headers );
 
 	} else if ( $WP_Statistics->get_option( 'send_report' ) == 'sms' ) {
 

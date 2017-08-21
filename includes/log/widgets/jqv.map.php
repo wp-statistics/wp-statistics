@@ -62,7 +62,7 @@ function wp_statistics_generate_map_postbox_content( $ISOCountryCode ) {
 					}
 
 					if ( substr( $markets['ip'], 0, 6 ) == '#hash#' ) {
-						$markets['ip'] = __( '#hash#', 'wp_statistics' );
+						$markets['ip'] = __( '#hash#', 'wp-statistics' );
 					}
 
 					$get_ipp[ $markets['location'] ][] = "<p>{$agent} {$markets['ip']}</p>";

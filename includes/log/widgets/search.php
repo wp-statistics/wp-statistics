@@ -45,7 +45,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
 				echo 'searches_data_line_total';
 			}?>], {
                 title: {
-                    text: '<b>' + <?php echo json_encode( sprintf( __( 'Search engine referrals in the last %s days', 'wp_statistics' ), $days ) ); ?> +'</b>',
+                    text: '<b>' + <?php echo json_encode( sprintf( __( 'Search engine referrals in the last %s days', 'wp-statistics' ), $days ) ); ?> +'</b>',
                     fontSize: '12px',
                     fontFamily: 'Tahoma',
                     textColor: '#000000',
@@ -66,7 +66,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
                     yaxis: {
                         min: 0,
                         padMin: 1.0,
-                        label: <?php echo json_encode( __( 'Number of referrals', 'wp_statistics' ) ); ?>,
+                        label: <?php echo json_encode( __( 'Number of referrals', 'wp-statistics' ) ); ?>,
                         labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                         labelOptions: {
                             angle: -90,
@@ -83,7 +83,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
                     labels: [<?php foreach ( $search_engines as $se ) {
 						echo json_encode( $se['translated'] ) . ", ";
 					} if ( $total_stats == 1 ) {
-						echo "'" . json_encode( __( 'Total', 'wp_statistics' ) ) . "'";
+						echo "'" . json_encode( __( 'Total', 'wp-statistics' ) ) . "'";
 					}?>],
                     renderer: jQuery.jqplot.EnhancedLegendRenderer,
                     rendererOptions: {

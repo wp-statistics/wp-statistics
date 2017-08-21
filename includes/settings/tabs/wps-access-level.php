@@ -24,7 +24,7 @@ if ( $wps_nonce_valid ) {
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Access Levels', 'wp_statistics' ); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e( 'Access Levels', 'wp-statistics' ); ?></h3></th>
         </tr>
 		<?php
 		global $wp_roles;
@@ -58,7 +58,7 @@ if ( $wps_nonce_valid ) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_read_capability"><?php _e( 'Required user level to view WP Statistics', 'wp_statistics' ) ?>:</label>
+                <label for="wps_read_capability"><?php _e( 'Required user level to view WP Statistics', 'wp-statistics' ) ?>:</label>
 						</th>
             <td>
                 <select id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; ?></select>
@@ -79,7 +79,7 @@ if ( $wps_nonce_valid ) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_manage_capability"><?php _e( 'Required user level to manage WP Statistics', 'wp_statistics' ) ?>:</label>
+                <label for="wps_manage_capability"><?php _e( 'Required user level to manage WP Statistics', 'wp-statistics' ) ?>:</label>
 						</th>
             <td>
                 <select id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; ?></select>
@@ -88,14 +88,14 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <p class="description"><?php echo sprintf( __( 'See the %sWordPress Roles and Capabilities page%s for details on capability levels.', 'wp_statistics' ), '<a target=_blank href="http://codex.wordpress.org/Roles_and_Capabilities">', '</a>' ); ?></p>
-                <p class="description"><?php echo __( 'Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp_statistics' ); ?></p>
-                <p class="description"><?php echo __( 'Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.', 'wp_statistics' ); ?></p>
-                <p class="description"><?php echo sprintf( __( 'If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory.', 'wp_statistics' ), '<a href="http://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>Capability Manager Enhanced</a>' ); ?></p>
+                <p class="description"><?php echo sprintf( __( 'See the %sWordPress Roles and Capabilities page%s for details on capability levels.', 'wp-statistics' ), '<a target=_blank href="http://codex.wordpress.org/Roles_and_Capabilities">', '</a>' ); ?></p>
+                <p class="description"><?php echo __( 'Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp-statistics' ); ?></p>
+                <p class="description"><?php echo __( 'Each of the above casscades the rights upwards in the default WordPress configuration.  So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.', 'wp-statistics' ); ?></p>
+                <p class="description"><?php echo sprintf( __( 'If you need a more robust solution to delegate access you might want to look at %s in the WordPress plugin directory.', 'wp-statistics' ), '<a href="http://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>Capability Manager Enhanced</a>' ); ?></p>
             </th>
         </tr>
 
         </tbody>
     </table>
 
-<?php submit_button( __( 'Update', 'wp_statistics' ), 'primary', 'submit' ); ?>
+<?php submit_button( __( 'Update', 'wp-statistics' ), 'primary', 'submit' ); ?>

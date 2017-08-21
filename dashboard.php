@@ -68,37 +68,37 @@ function wp_statistics_dashboard_widget_load() {
 
 	// If the admin has disabled the widgets, don't display them.
 	if ( ! $WP_Statistics->get_option( 'disable_dashboard' ) ) {
-		wp_add_dashboard_widget( 'wp-statistics-quickstats-widget', __( 'Quick Stats', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'quickstats' ) );
+		wp_add_dashboard_widget( 'wp-statistics-quickstats-widget', __( 'Quick Stats', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'quickstats' ) );
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-browsers-widget', __( 'Top 10 Browsers', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'browsers' ) );
+			wp_add_dashboard_widget( 'wp-statistics-browsers-widget', __( 'Top 10 Browsers', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'browsers' ) );
 		}
 		if ( $WP_Statistics->get_option( 'geoip' ) && $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-countries-widget', __( 'Top 10 Countries', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'countries' ) );
+			wp_add_dashboard_widget( 'wp-statistics-countries-widget', __( 'Top 10 Countries', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'countries' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __( 'Today\'s Visitors Map', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hitsmap' ) );
+			wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __( 'Today\'s Visitors Map', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hitsmap' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visits' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-hits-widget', __( 'Hit Statistics', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hits' ) );
+			wp_add_dashboard_widget( 'wp-statistics-hits-widget', __( 'Hit Statistics', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'hits' ) );
 		}
 		if ( $WP_Statistics->get_option( 'pages' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-pages-widget', __( 'Top 10 Pages', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'pages' ) );
+			wp_add_dashboard_widget( 'wp-statistics-pages-widget', __( 'Top 10 Pages', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'pages' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-recent-widget', __( 'Recent Visitors', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'recent' ) );
+			wp_add_dashboard_widget( 'wp-statistics-recent-widget', __( 'Recent Visitors', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'recent' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-referring-widget', __( 'Top Referring Sites', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'referring' ) );
+			wp_add_dashboard_widget( 'wp-statistics-referring-widget', __( 'Top Referring Sites', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'referring' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-search-widget', __( 'Search Engine Referrals', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'search' ) );
+			wp_add_dashboard_widget( 'wp-statistics-search-widget', __( 'Search Engine Referrals', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'search' ) );
 		}
-		wp_add_dashboard_widget( 'wp-statistics-summary-widget', __( 'Summary', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'summary' ) );
+		wp_add_dashboard_widget( 'wp-statistics-summary-widget', __( 'Summary', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'summary' ) );
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-words-widget', __( 'Latest Search Words', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'words' ) );
+			wp_add_dashboard_widget( 'wp-statistics-words-widget', __( 'Latest Search Words', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'words' ) );
 		}
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __( 'Top 10 Visitors Today', 'wp_statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'top.visitors' ) );
+			wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __( 'Top 10 Visitors Today', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'top.visitors' ) );
 		}
 	}
 }
@@ -141,7 +141,7 @@ function wp_statistics_load_widget_css_and_scripts() {
 }
 
 function wp_statistics_generate_dashboard_postbox_contents( $post, $args ) {
-	$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp_statistics' ) . '"></div>';
+	$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp-statistics' ) . '"></div>';
 	$widget       = $args['args']['widget'];
 	$container_id = 'wp-statistics-' . str_replace( '.', '-', $widget ) . '-div';
 
@@ -159,10 +159,10 @@ function wp_statistics_dashboard_inline_javascript() {
 
 	wp_statistics_load_widget_css_and_scripts();
 
-	$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp_statistics' ) . '"></div>';
+	$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
 
-	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp_statistics' ) . '</span></button>';
-	$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button>';
+	$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp-statistics' ) . '</span></button>';
+	$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button>';
 
 	$admin_url = get_admin_url() . "admin.php?page=";
 

@@ -12,15 +12,15 @@ function wp_statistics_generate_top_visitors_postbox_content( $ISOCountryCode, $
 	?>
     <table width="100%" class="widefat table-stats" id="last-referrer">
         <tr>
-            <td style='text-align: left'><?php _e( 'Rank', 'wp_statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'Hits', 'wp_statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'Flag', 'wp_statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'Country', 'wp_statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'IP', 'wp_statistics' ); ?></td>
+            <td style='text-align: left'><?php _e( 'Rank', 'wp-statistics' ); ?></td>
+            <td style='text-align: left'><?php _e( 'Hits', 'wp-statistics' ); ?></td>
+            <td style='text-align: left'><?php _e( 'Flag', 'wp-statistics' ); ?></td>
+            <td style='text-align: left'><?php _e( 'Country', 'wp-statistics' ); ?></td>
+            <td style='text-align: left'><?php _e( 'IP', 'wp-statistics' ); ?></td>
 			<?php if ( $compact == false ) { ?>
-                <td style='text-align: left'><?php _e( 'Agent', 'wp_statistics' ); ?></td>
-                <td style='text-align: left'><?php _e( 'Platform', 'wp_statistics' ); ?></td>
-                <td style='text-align: left'><?php _e( 'Version', 'wp_statistics' ); ?></td>
+                <td style='text-align: left'><?php _e( 'Agent', 'wp-statistics' ); ?></td>
+                <td style='text-align: left'><?php _e( 'Platform', 'wp-statistics' ); ?></td>
+                <td style='text-align: left'><?php _e( 'Version', 'wp-statistics' ); ?></td>
 			<?php } ?>
         </tr>
 

@@ -1,9 +1,9 @@
 <?php
-$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp_statistics' ) . '"></div>';
+$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
 
 $nag_html = '';
 if ( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {
-	$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text"><p>' . __( 'Have you thought about donating to WP Statistics?', 'wp_statistics' ) . ' <a href="http://wp-statistics.com/donate/" target="_blank">' . __( 'Donate Now!', 'wp_statistics' ) . '</a></p></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __( 'Close', 'wp_statistics' ) . '</a></div></div>';
+	$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text"><p>' . __( 'Have you thought about donating to WP Statistics?', 'wp-statistics' ) . ' <a href="http://wp-statistics.com/donate/" target="_blank">' . __( 'Donate Now!', 'wp-statistics' ) . '</a></p></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __( 'Close', 'wp-statistics' ) . '</a></div></div>';
 }
 
 // WP Statistics 10.0 had a bug which could corrupt  the metabox display if the user re-ordered the widgets.  Check to see if the meta data is corrupt and if so delete it.
@@ -14,10 +14,10 @@ if ( is_array( $widget_order ) && count( $widget_order ) > 2 ) {
 }
 
 // Add the about box here as metaboxes added on the actual page load cannot be closed.
-add_meta_box( 'wps_about_postbox', sprintf( __( 'About WP Statistics Version %s', 'wp_statistics' ), WP_STATISTICS_VERSION ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'about' ) );
+add_meta_box( 'wps_about_postbox', sprintf( __( 'About WP Statistics Version %s', 'wp-statistics' ), WP_STATISTICS_VERSION ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'about' ) );
 
 function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
-	$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp_statistics' ) . '"></div>';
+	$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp-statistics' ) . '"></div>';
 	$widget       = $args['args']['widget'];
 	$container_id = str_replace( '.', '_', $widget . '_postbox' );
 
@@ -43,8 +43,8 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
     </div>
 </div>
 <?php
-$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp_statistics' ) . '</span></button>';
-$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp_statistics' ) . '</span></button>';
+$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp-statistics' ) . '</span></button>';
+$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button>';
 
 $admin_url = get_admin_url() . "admin.php?page=";
 

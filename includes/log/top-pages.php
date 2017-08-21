@@ -27,7 +27,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Top Pages', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Top Pages', 'wp-statistics' ); ?></h2>
 
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_PAGES_PAGE, $daysToDisplay ); ?>
 
@@ -36,9 +36,9 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
             <div class="meta-box-sortables">
 
                 <div class="postbox">
-                    <?php $paneltitle =  __( 'Top 5 Pages Trends', 'wp_statistics' ); ?>
+                    <?php $paneltitle =  __( 'Top 5 Pages Trends', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
@@ -82,7 +82,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 
                                 pages_jqchart = jQuery.jqplot('jqpage-stats', [pages_data_line1, pages_data_line2, pages_data_line3, pages_data_line4, pages_data_line5], {
                                     title: {
-                                        text: '<b><?php echo htmlentities( __( 'Top 5 Page Trending Stats', 'wp_statistics' ), ENT_QUOTES ); ?></b>',
+                                        text: '<b><?php echo htmlentities( __( 'Top 5 Page Trending Stats', 'wp-statistics' ), ENT_QUOTES ); ?></b>',
                                         fontSize: '12px',
                                         fontFamily: 'Tahoma',
                                         textColor: '#000000',
@@ -103,7 +103,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
                                         yaxis: {
                                             min: 0,
                                             padMin: 1.0,
-                                            label: <?php echo json_encode( __( 'Number of Hits', 'wp_statistics' ) ); ?>,
+                                            label: <?php echo json_encode( __( 'Number of Hits', 'wp-statistics' ) ); ?>,
                                             labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                                             labelOptions: {
                                                 angle: -90,
@@ -117,7 +117,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
                                         show: true,
                                         location: 's',
                                         placement: 'outsideGrid',
-                                        labels: [ <?php echo json_encode( __( 'Rank #1', 'wp_statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #2', 'wp_statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #3', 'wp_statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #4', 'wp_statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #5', 'wp_statistics' ) ); ?> ],
+                                        labels: [ <?php echo json_encode( __( 'Rank #1', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #2', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #3', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #4', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #5', 'wp-statistics' ) ); ?> ],
                                         renderer: jQuery.jqplot.EnhancedLegendRenderer,
                                         rendererOptions: {
                                             numberColumns: 5,
@@ -170,9 +170,9 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
                 </div>
 
                 <div class="postbox">
-                    <?php $paneltitle =  __( 'Top Pages', 'wp_statistics' ); ?>
+                    <?php $paneltitle =  __( 'Top Pages', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
@@ -204,11 +204,11 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 									echo "<div class='log-item'>";
 
 									if ( $uri[3] == '' ) {
-										$uri[3] = '[' . htmlentities( __( 'No page title found', 'wp_statistics' ), ENT_QUOTES ) . ']';
+										$uri[3] = '[' . htmlentities( __( 'No page title found', 'wp-statistics' ), ENT_QUOTES ) . ']';
 									}
 
 									echo "<div class='log-page-title'>{$count} - {$uri[3]}</div>";
-									echo "<div class='right-div'>" . __( 'Visits', 'wp_statistics' ) . ": <a href='?page=" . WP_STATISTICS_PAGES_PAGE . '&page-uri=' . htmlentities( $uri[0], ENT_QUOTES ) . "'>" . number_format_i18n( $uri[1] ) . "</a></div>";
+									echo "<div class='right-div'>" . __( 'Visits', 'wp-statistics' ) . ": <a href='?page=" . WP_STATISTICS_PAGES_PAGE . '&page-uri=' . htmlentities( $uri[0], ENT_QUOTES ) . "'>" . number_format_i18n( $uri[1] ) . "</a></div>";
 									echo "<div class='left-div'><a dir='ltr' href='" . htmlentities( $site_url . $uri[0], ENT_QUOTES ) . "'>" . htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) . "</a></div>";
 									echo "</div>";
 								}
@@ -228,7 +228,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Curren
 				<?php if ( $total > 0 ) { ?>
                     <div class="pagination-log">
 						<?php echo $Pagination->display(); ?>
-                        <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp_statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
+                        <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp-statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
                     </div>
 				<?php } ?>
             </div>

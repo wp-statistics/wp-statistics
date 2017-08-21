@@ -8,7 +8,7 @@ function wp_statistics_generate_page_postbox_content( $pageuri, $pageid, $days =
 	}
 
 	if ( $chart_title == null ) {
-		$chart_title = __( 'Page Trending Stats', 'wp_statistics' );
+		$chart_title = __( 'Page Trending Stats', 'wp-statistics' );
 	}
 
 	if ( $pageuri && ! $pageid ) {
@@ -53,7 +53,7 @@ function wp_statistics_generate_page_postbox_content( $pageuri, $pageid, $days =
 			?>
             pages_jqchart = jQuery.jqplot('page-stats', [page_data_line], {
                 title: {
-                    text: '<b>' + <?php echo json_encode( __( $chart_title, 'wp_statistics' ) ); ?> +'</b>',
+                    text: '<b>' + <?php echo json_encode( __( $chart_title, 'wp-statistics' ) ); ?> +'</b>',
                     fontSize: '12px',
                     fontFamily: 'Tahoma',
                     textColor: '#000000',
@@ -74,7 +74,7 @@ function wp_statistics_generate_page_postbox_content( $pageuri, $pageid, $days =
                     yaxis: {
                         min: 0,
                         padMin: 1.0,
-                        label: <?php echo json_encode( __( 'Number of Hits', 'wp_statistics' ) ); ?>,
+                        label: <?php echo json_encode( __( 'Number of Hits', 'wp-statistics' ) ); ?>,
                         labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                         labelOptions: {
                             angle: -90,

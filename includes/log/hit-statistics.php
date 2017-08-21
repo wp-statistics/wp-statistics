@@ -4,7 +4,7 @@
     });
 </script>
 <div class="wrap">
-    <h2><?php _e( 'Hit Statistics', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Hit Statistics', 'wp-statistics' ); ?></h2>
 
 	<?php
 	$daysToDisplay = 20;
@@ -32,9 +32,9 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Hits Statistics Chart', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Hits Statistics Chart', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -78,7 +78,7 @@
 								?>
                                 visit_chart = jQuery.jqplot('visits-stats', [visit_data_line, visitor_data_line], {
                                     title: {
-                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Hits in the last %s days', 'wp_statistics' ), $daysToDisplay ) ); ?> +'</b>',
+                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Hits in the last %s days', 'wp-statistics' ), $daysToDisplay ) ); ?> +'</b>',
                                         fontSize: '12px',
                                         fontFamily: 'Tahoma',
                                         textColor: '#000000',
@@ -99,7 +99,7 @@
                                         yaxis: {
                                             min: 0,
                                             padMin: 1.0,
-                                            label: <?php echo json_encode( __( 'Number of visits and visitors', 'wp_statistics' ) ); ?>,
+                                            label: <?php echo json_encode( __( 'Number of visits and visitors', 'wp-statistics' ) ); ?>,
                                             labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
                                             labelOptions: {
                                                 angle: -90,
@@ -113,7 +113,7 @@
                                         show: true,
                                         location: 's',
                                         placement: 'outsideGrid',
-                                        labels: [<?php echo json_encode( __( 'Visits', 'wp_statistics' ) ); ?>, <?php echo json_encode( __( 'Visitors', 'wp_statistics' ) ); ?>],
+                                        labels: [<?php echo json_encode( __( 'Visits', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Visitors', 'wp-statistics' ) ); ?>],
                                         renderer: jQuery.jqplot.EnhancedLegendRenderer,
                                         rendererOptions: {
                                             numberColumns: 2,
@@ -175,9 +175,9 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Hits Statistics Summary', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Hits Statistics Summary', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -186,12 +186,12 @@
                             <tbody>
                             <tr>
                                 <th></th>
-                                <th class="th-center"><?php _e( 'Visits', 'wp_statistics' ); ?></th>
-                                <th class="th-center"><?php _e( 'Visitors', 'wp_statistics' ); ?></th>
+                                <th class="th-center"><?php _e( 'Visits', 'wp-statistics' ); ?></th>
+                                <th class="th-center"><?php _e( 'Visitors', 'wp-statistics' ); ?></th>
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'Chart Total', 'wp_statistics' ); ?>:</th>
+                                <th><?php _e( 'Chart Total', 'wp-statistics' ); ?>:</th>
                                 <th class="th-center"><span><?php echo number_format_i18n( $visit_total ); ?></span>
                                 </th>
                                 <th class="th-center"><span><?php echo number_format_i18n( $visitor_total ); ?></span>
@@ -199,7 +199,7 @@
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'All Time Total', 'wp_statistics' ); ?>:</th>
+                                <th><?php _e( 'All Time Total', 'wp-statistics' ); ?>:</th>
                                 <th class="th-center">
                                     <span><?php echo number_format_i18n( wp_statistics_visit( 'total' ) ); ?></span>
                                 </th>

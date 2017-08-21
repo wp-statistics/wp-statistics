@@ -7,15 +7,15 @@
 
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Online Users', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Online Users', 'wp-statistics' ); ?></h2>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
 
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Online Users', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Online Users', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -50,11 +50,11 @@
 
 								if ( $count >= $start ) {
 									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
-										$ip_string  = __( '#hash#', 'wp_statistics' );
+										$ip_string  = __( '#hash#', 'wp-statistics' );
 										$map_string = "";
 									} else {
 										$ip_string  = "<a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
-										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp_statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
+										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
 									}
 
 									echo "<div class='log-item'>";
@@ -91,7 +91,7 @@
 										$onlinefor = "00:00:" . date( "s", ( $items->timestamp - $items->created ) );
 									}
 
-									echo sprintf( __( 'Online for %s (HH:MM:SS)', 'wp_statistics' ), $onlinefor );
+									echo sprintf( __( 'Online for %s (HH:MM:SS)', 'wp-statistics' ), $onlinefor );
 
 									echo "</div>";
 									echo "</div>";
@@ -105,7 +105,7 @@
 
 							echo "</div>";
 						} else {
-							echo "<div class='wps-center'>" . __( 'Currently there are no users online in the site.', 'wp_statistics' ) . "</div>";
+							echo "<div class='wps-center'>" . __( 'Currently there are no users online in the site.', 'wp-statistics' ) . "</div>";
 						}
 						?>
                     </div>
@@ -114,7 +114,7 @@
 				<?php if ( $total > 0 ) { ?>
                     <div class="pagination-log">
 						<?php echo $Pagination->display(); ?>
-                        <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp_statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
+                        <p id="result-log"><?php printf( __( 'Page %1$s of %2$s', 'wp-statistics' ), $Pagination->getCurrentPage(), $Pagination->getTotalPages() ); ?></p>
                     </div>
 				<?php } ?>
             </div>

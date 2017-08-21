@@ -10,11 +10,11 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 
 	foreach ( $result as $items ) {
 		if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
-			$ip_string  = __( '#hash#', 'wp_statistics' );
+			$ip_string  = __( '#hash#', 'wp-statistics' );
 			$map_string = "";
 		} else {
 			$ip_string  = "<a href='admin.php?page=" . WP_STATISTICS_VISITORS_PAGE . "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
-			$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp_statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
+			$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
 		}
 
 		echo "<div class='log-item'>";

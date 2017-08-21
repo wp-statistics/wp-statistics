@@ -29,16 +29,16 @@ function wp_statistics_delete_agents_action_callback() {
 			$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = %s", $agent ) );
 
 			if ( $result ) {
-				echo sprintf( __( '%s agent data deleted successfully.', 'wp_statistics' ), '<code>' . $agent . '</code>' );
+				echo sprintf( __( '%s agent data deleted successfully.', 'wp-statistics' ), '<code>' . $agent . '</code>' );
 			} else {
-				_e( 'No agent data found to remove!', 'wp_statistics' );
+				_e( 'No agent data found to remove!', 'wp-statistics' );
 			}
 
 		} else {
-			_e( 'Please select the desired items.', 'wp_statistics' );
+			_e( 'Please select the desired items.', 'wp-statistics' );
 		}
 	} else {
-		_e( 'Access denied!', 'wp_statistics' );
+		_e( 'Access denied!', 'wp-statistics' );
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
@@ -60,15 +60,15 @@ function wp_statistics_delete_platforms_action_callback() {
 			$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = %s", $platform ) );
 
 			if ( $result ) {
-				echo sprintf( __( '%s platform data deleted successfully.', 'wp_statistics' ), '<code>' . htmlentities( $platform, ENT_QUOTES ) . '</code>' );
+				echo sprintf( __( '%s platform data deleted successfully.', 'wp-statistics' ), '<code>' . htmlentities( $platform, ENT_QUOTES ) . '</code>' );
 			} else {
-				_e( 'No platform data found to remove!', 'wp_statistics' );
+				_e( 'No platform data found to remove!', 'wp-statistics' );
 			}
 		} else {
-			_e( 'Please select the desired items.', 'wp_statistics' );
+			_e( 'Please select the desired items.', 'wp-statistics' );
 		}
 	} else {
-		_e( 'Access denied!', 'wp_statistics' );
+		_e( 'Access denied!', 'wp-statistics' );
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
@@ -118,16 +118,16 @@ function wp_statistics_empty_table_action_callback() {
 
 					break;
 				default:
-					_e( 'Please select the desired items.', 'wp_statistics' );
+					_e( 'Please select the desired items.', 'wp-statistics' );
 			}
 
 			$WP_Statistics->Primary_Values();
 
 		} else {
-			_e( 'Please select the desired items.', 'wp_statistics' );
+			_e( 'Please select the desired items.', 'wp-statistics' );
 		}
 	} else {
-		_e( 'Access denied!', 'wp_statistics' );
+		_e( 'Access denied!', 'wp-statistics' );
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
@@ -153,7 +153,7 @@ function wp_statistics_purge_data_action_callback() {
 
 		echo wp_statistics_purge_data( $purge_days );
 	} else {
-		_e( 'Access denied!', 'wp_statistics' );
+		_e( 'Access denied!', 'wp-statistics' );
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
@@ -178,12 +178,12 @@ function wp_statistics_purge_visitor_hits_action_callback() {
 		}
 
 		if ( $purge_hits < 10 ) {
-			_e( 'Number of hits must be greater than or equal to 10!', 'wp_statistics' );
+			_e( 'Number of hits must be greater than or equal to 10!', 'wp-statistics' );
 		} else {
 			echo wp_statistics_purge_visitor_hits( $purge_hits );
 		}
 	} else {
-		_e( 'Access denied!', 'wp_statistics' );
+		_e( 'Access denied!', 'wp-statistics' );
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
@@ -231,7 +231,7 @@ function wp_statistics_get_widget_contents_callback() {
 		}
 
 		if ( '' == $widget ) {
-			_e( 'No matching widget found!', 'wp_statistics' );
+			_e( 'No matching widget found!', 'wp-statistics' );
 			wp_die();
 		}
 
@@ -309,10 +309,10 @@ function wp_statistics_get_widget_contents_callback() {
 
 				break;
 			default:
-				_e( 'ERROR: Widget not found!', 'wp_statistics' );
+				_e( 'ERROR: Widget not found!', 'wp-statistics' );
 		}
 	} else {
-		_e( 'Access denied!', 'wp_statistics' );
+		_e( 'Access denied!', 'wp-statistics' );
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response

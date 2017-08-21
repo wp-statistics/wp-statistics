@@ -48,7 +48,7 @@ if ( array_key_exists( 'rangeend', $_GET ) ) {
 }
 ?>
 <div class="wrap">
-    <h2><?php echo __( 'Page Trend for Post ID', 'wp_statistics' ) . ' ' . $pageid . ' - ' . $title; ?></h2>
+    <h2><?php echo __( 'Page Trend for Post ID', 'wp-statistics' ) . ' ' . $pageid . ' - ' . $title; ?></h2>
 
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_PAGES_PAGE, $daysToDisplay, null, null, $urlfields ); ?>
 
@@ -56,9 +56,9 @@ if ( array_key_exists( 'rangeend', $_GET ) ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Page Trend', 'wp_statistics' ); ?>
+                    <?php $paneltitle = __( 'Page Trend', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp_statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>

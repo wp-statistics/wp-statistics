@@ -164,43 +164,43 @@ switch ( $selected_tab ) {
     </script>
     <a name="top"></a>
     <div class="wrap">
-        <h2><?php _e( 'Settings', 'wp_statistics' ); ?></h2>
+        <h2><?php _e( 'Settings', 'wp-statistics' ); ?></h2>
         <form id="wps_settings_form" method="post">
 			<?php wp_nonce_field( 'update-options', 'wp-statistics-nonce' ); ?>
             <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
                 <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 					<?php if ( $wps_admin ) { ?>
                         <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#general-settings"><span><?php _e( 'General', 'wp_statistics' ); ?></span></a>
+                        <a class="ui-tabs-anchor" href="#general-settings"><span><?php _e( 'General', 'wp-statistics' ); ?></span></a>
                         </li><?php } ?>
 					<?php if ( $wps_admin ) { ?>
                         <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#notifications-settings"><span><?php _e( 'Notifications', 'wp_statistics' ); ?></span></a>
+                        <a class="ui-tabs-anchor" href="#notifications-settings"><span><?php _e( 'Notifications', 'wp-statistics' ); ?></span></a>
                         </li><?php } ?>
                     <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#overview-display-settings"><span><?php _e( 'Dashboard/Overview', 'wp_statistics' ); ?></span></a>
+                        <a class="ui-tabs-anchor" href="#overview-display-settings"><span><?php _e( 'Dashboard/Overview', 'wp-statistics' ); ?></span></a>
                     </li>
 					<?php if ( $wps_admin ) { ?>
                         <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#access-settings"><span><?php _e( 'Access Levels', 'wp_statistics' ); ?></span></a>
+                        <a class="ui-tabs-anchor" href="#access-settings"><span><?php _e( 'Access Levels', 'wp-statistics' ); ?></span></a>
                         </li><?php } ?>
 					<?php if ( $wps_admin ) { ?>
                         <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#exclusions-settings"><span><?php _e( 'Exclusions', 'wp_statistics' ); ?></span></a>
+                        <a class="ui-tabs-anchor" href="#exclusions-settings"><span><?php _e( 'Exclusions', 'wp-statistics' ); ?></span></a>
                         </li><?php } ?>
 					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#externals-settings"><span><?php _e( 'Externals', 'wp_statistics' ); ?></span></a>
-                        </li><?php } ?>
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e( 'Maintenance', 'wp_statistics' ); ?></span></a>
+                        <li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#externals-settings"><span><?php _e( 'Externals', 'wp-statistics' ); ?></span></a>
                         </li><?php } ?>
 					<?php if ( $wps_admin ) { ?>
                         <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#removal-settings"><span><?php _e( 'Removal', 'wp_statistics' ); ?></span></a>
+                        <a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e( 'Maintenance', 'wp-statistics' ); ?></span></a>
+                        </li><?php } ?>
+					<?php if ( $wps_admin ) { ?>
+                        <li class="ui-state-default ui-corner-top">
+                        <a class="ui-tabs-anchor" href="#removal-settings"><span><?php _e( 'Removal', 'wp-statistics' ); ?></span></a>
                         </li><?php } ?>
                     <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#about"><span><?php _e( 'About', 'wp_statistics' ); ?></span></a>
+                        <a class="ui-tabs-anchor" href="#about"><span><?php _e( 'About', 'wp-statistics' ); ?></span></a>
                     </li>
                 </ul>
 

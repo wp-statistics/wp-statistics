@@ -6,10 +6,10 @@ function wp_statistics_generate_countries_postbox_content( $ISOCountryCode, $cou
 	?>
     <table width="100%" class="widefat table-stats" id="last-referrer">
         <tr>
-            <td width="10%" style='text-align: left'><?php _e( 'Rank', 'wp_statistics' ); ?></td>
-            <td width="10%" style='text-align: left'><?php _e( 'Flag', 'wp_statistics' ); ?></td>
-            <td width="40%" style='text-align: left'><?php _e( 'Country', 'wp_statistics' ); ?></td>
-            <td width="40%" style='text-align: left'><?php _e( 'Visitor Count', 'wp_statistics' ); ?></td>
+            <td width="10%" style='text-align: left'><?php _e( 'Rank', 'wp-statistics' ); ?></td>
+            <td width="10%" style='text-align: left'><?php _e( 'Flag', 'wp-statistics' ); ?></td>
+            <td width="40%" style='text-align: left'><?php _e( 'Country', 'wp-statistics' ); ?></td>
+            <td width="40%" style='text-align: left'><?php _e( 'Visitor Count', 'wp-statistics' ); ?></td>
         </tr>
 
 		<?php

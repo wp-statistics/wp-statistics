@@ -3,7 +3,7 @@ GLOBAL $wpdb, $WP_Statistics;
 $wp_prefix = $wpdb->prefix;
 
 if ( ! is_super_admin() ) {
-	wp_die( __( 'Access denied!', 'wp_statistics' ) );
+	wp_die( __( 'Access denied!', 'wp-statistics' ) );
 }
 
 if ( array_key_exists( 'populate', $_GET ) ) {
@@ -41,7 +41,7 @@ if ( array_key_exists( 'hash-ips', $_GET ) ) {
 			}
 		}
 
-		echo "<div class='updated settings-error'><p><strong>" . __( 'IP Addresses replaced with hash values.', 'wp_statistics' ) . "</strong></p></div>";
+		echo "<div class='updated settings-error'><p><strong>" . __( 'IP Addresses replaced with hash values.', 'wp-statistics' ) . "</strong></p></div>";
 	}
 }
 
@@ -49,7 +49,7 @@ if ( array_key_exists( 'install', $_GET ) ) {
 	if ( intval( $_GET['install'] ) == 1 ) {
 		$WPS_Installed = "1.0";
 		include( plugin_dir_path( __FILE__ ) . "../../wps-install.php" );
-		echo "<div class='updated settings-error'><p><strong>" . __( 'Install routine complete.', 'wp_statistics' ) . "</strong></p></div>";
+		echo "<div class='updated settings-error'><p><strong>" . __( 'Install routine complete.', 'wp-statistics' ) . "</strong></p></div>";
 	}
 }
 
@@ -208,7 +208,7 @@ if ( array_key_exists( 'search', $_GET ) ) {
 	}
 
 	$WP_Statistics->update_option( 'search_converted', 1 );
-	echo "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Search table conversion complete, %d rows added.', 'wp_statistics' ), $total ) . "</strong></p></div>";
+	echo "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Search table conversion complete, %d rows added.', 'wp-statistics' ), $total ) . "</strong></p></div>";
 
 }
 
@@ -247,25 +247,25 @@ switch ( $selected_tab ) {
     });
 </script>
 <div class="wrap">
-    <h2><?php _e( 'Optimization', 'wp_statistics' ); ?></h2>
+    <h2><?php _e( 'Optimization', 'wp-statistics' ); ?></h2>
     <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
         <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
             <li class="ui-state-default ui-corner-top">
-                <a href="#resources" class="ui-tabs-anchor"><span><?php _e( 'Resources/Information', 'wp_statistics' ); ?></span></a>
+                <a href="#resources" class="ui-tabs-anchor"><span><?php _e( 'Resources/Information', 'wp-statistics' ); ?></span></a>
             </li>
             <li class="ui-state-default ui-corner-top">
-                <a href="#export" class="ui-tabs-anchor"><span><?php _e( 'Export', 'wp_statistics' ); ?></span></a></li>
+                <a href="#export" class="ui-tabs-anchor"><span><?php _e( 'Export', 'wp-statistics' ); ?></span></a></li>
             <li class="ui-state-default ui-corner-top">
-                <a href="#purging" class="ui-tabs-anchor"><span><?php _e( 'Purging', 'wp_statistics' ); ?></span></a>
+                <a href="#purging" class="ui-tabs-anchor"><span><?php _e( 'Purging', 'wp-statistics' ); ?></span></a>
             </li>
             <li class="ui-state-default ui-corner-top">
-                <a href="#database" class="ui-tabs-anchor"><span><?php _e( 'Database', 'wp_statistics' ); ?></span></a>
+                <a href="#database" class="ui-tabs-anchor"><span><?php _e( 'Database', 'wp-statistics' ); ?></span></a>
             </li>
             <li class="ui-state-default ui-corner-top">
-                <a href="#updates" class="ui-tabs-anchor"><span><?php _e( 'Updates', 'wp_statistics' ); ?></span></a>
+                <a href="#updates" class="ui-tabs-anchor"><span><?php _e( 'Updates', 'wp-statistics' ); ?></span></a>
             </li>
             <li class="ui-state-default ui-corner-top">
-                <a href="#historical" class="ui-tabs-anchor"><span><?php _e( 'Historical', 'wp_statistics' ); ?></span></a>
+                <a href="#historical" class="ui-tabs-anchor"><span><?php _e( 'Historical', 'wp-statistics' ); ?></span></a>
             </li>
         </ul>
 
