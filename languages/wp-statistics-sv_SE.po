@@ -1,0 +1,3682 @@
+# Translation of Plugins - WP Statistics - Stable (latest release) in Swedish
+# This file is distributed under the same license as the Plugins - WP Statistics - Stable (latest release) package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Plugins - WP Statistics - Stable (latest release)\n"
+"POT-Creation-Date: 2017-08-20 20:32+0330\n"
+"PO-Revision-Date: 2017-08-20 20:32+0330\n"
+"Last-Translator: Mostafa Soufi <mostafa.soufi@hotmail.com>\n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: F:\\xampp\\htdocs\\cms\\wordpress\\wp-content\\plugins"
+"\\wp-statistics\n"
+"X-Poedit-SearchPath-0: F:\\xampp\\htdocs\\cms\\wordpress\\wp-content\\plugins"
+"\\wp-statistics\n"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:32
+#, php-format
+msgid "%s agent data deleted successfully."
+msgstr "%s agentdata har raderats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:34
+msgid "No agent data found to remove!"
+msgstr "Ingen agentdata finns att ta bort!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:68
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:121
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:127
+msgid "Please select the desired items."
+msgstr "Välj önskade alternativ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:156
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:186
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:315
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:6
+msgid "Access denied!"
+msgstr "Åtkomst nekad!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:63
+#, php-format
+msgid "%s platform data deleted successfully."
+msgstr "%s plattformsdata har raderats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:65
+msgid "No platform data found to remove!"
+msgstr "Ingen plattformsdata finns att ta bort!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:30
+msgid "Number of hits must be greater than or equal to 10!"
+msgstr "Antal träffar måste vara större än eller lika med 10!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:234
+#, fuzzy
+msgid "No matching widget found!"
+msgstr "Sidtiteln saknas"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:312
+msgid "ERROR: Widget not found!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:71
+msgid "Quick Stats"
+msgstr "Snabbstatistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:43
+msgid "Top 10 Browsers"
+msgstr "Webbläsarnas 10 i topp"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:76
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:560
+msgid "Top 10 Countries"
+msgstr "Länders 10 i topp"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:79
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:545
+#, fuzzy
+msgid "Today's Visitors Map"
+msgstr "Dagens besökskarta"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:82
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:54
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
+msgid "Hit Statistics"
+msgstr "Träffstatistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:85
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:550
+msgid "Top 10 Pages"
+msgstr "Mest besökta sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:542
+msgid "Recent Visitors"
+msgstr "Senaste besökarna"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:91
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:75
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:557
+msgid "Top Referring Sites"
+msgstr "Länkkällornas 10 i topp"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:117
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:305
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:540
+msgid "Search Engine Referrals"
+msgstr "Sökmotorlänkningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:96
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:555
+msgid "Summary"
+msgstr "Sammanfattning"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:98
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:541
+msgid "Latest Search Words"
+msgstr "Senaste sökorden"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:101
+msgid "Top 10 Visitors Today"
+msgstr "Besökarnas 10 i topp idag"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:144
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:79
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
+msgid "Loading..."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:162
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:2
+msgid "Reloading..."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:47
+msgid "Reload"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:46
+msgid "More Details"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:68
+msgid "This post is not yet published."
+msgstr "Detta inlägg är ännu inte publicerat."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:476
+msgid "Ask.com"
+msgstr "Ask.com"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:485
+msgid "Baidu"
+msgstr "Baidu"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:494
+msgid "Bing"
+msgstr "Bing"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:503
+msgid "clearch.org"
+msgstr "clearch.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:512
+msgid "DuckDuckGo"
+msgstr "DuckDuckGo"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:521
+msgid "Google"
+msgstr "Google"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:530
+msgid "Yahoo!"
+msgstr "Yahoo"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:539
+msgid "Yandex"
+msgstr "Yandex"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1036
+msgid "10 Days"
+msgstr "10 dagar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1037
+msgid "20 Days"
+msgstr "20 dagar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1038
+msgid "30 Days"
+msgstr "30 dagar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1039
+msgid "2 Months"
+msgstr "2 månader"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1040
+msgid "3 Months"
+msgstr "3 månader"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1041
+msgid "6 Months"
+msgstr "6 månader"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1042
+msgid "9 Months"
+msgstr "9 månader"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1043
+msgid "1 Year"
+msgstr "1 år"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1128
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:167
+msgid "Time Frame"
+msgstr "Tidsram"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:30
+msgid "MM/DD/YYYY"
+msgstr "MM/DD/YYYY"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1133
+msgid "to"
+msgstr "till"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:30
+msgid "Go"
+msgstr "start"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1177
+#, php-format
+msgid "%s table data deleted successfully."
+msgstr "%s tabelldata har raderats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1181
+#, php-format
+msgid "Error, %s not emptied!"
+msgstr "Fel, %s inte tömd!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:24
+msgid ""
+"Unable to load the GeoIP database, make sure you have downloaded it in the "
+"settings page."
+msgstr ""
+"Det gick inte att läsa in databasen för GeoIP, se till att du har hämtat den "
+"på inställningssidan."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:50
+#, php-format
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "Uppdaterat %s GeoIP poster i besökardatabasen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:25
+#, php-format
+msgid "%s records purged successfully."
+msgstr "%s registreringar framgångsrikt bortstädade."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:27
+msgid "No visitors found to purge."
+msgstr "Inga besökare att rensa bort."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:123
+msgid "Database pruned on"
+msgstr "Databasrensning pågår"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:69
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:106
+#, php-format
+msgid "%s data older than %s days purged successfully."
+msgstr "%s data äldre än %s dagar har städats bort."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:49
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:108
+#, php-format
+msgid "No records found to purge from %s!"
+msgstr "Inga dataposter att städa bort från %s!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:128
+msgid "Please select a value over 30 days."
+msgstr "Var vänlig välj minst 30 dagar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:30
+msgid "Browser Statistics"
+msgstr "Webbläsarstatistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:475
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:556
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:618
+msgid "Browsers"
+msgstr "Webbläsare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:132
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:271
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:85
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:228
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:277
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:69
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:212
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:261
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:159
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:287
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:180
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:62
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:87
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:90
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:233
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:282
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:175
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:108
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:43
+#, php-format
+msgid "Toggle panel: %s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:71
+msgid "Browsers by type"
+msgstr "Typer av webbläsare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:22
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:373
+msgid "Platform"
+msgstr "Plattform"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:163
+msgid "Browsers by platform"
+msgstr "Plattformar för webbläsare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:269
+#, php-format
+msgid "%s Version"
+msgstr "%s-versioner"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:12
+#, fuzzy
+msgid "Author Statistics"
+msgstr "Träffstatistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:40
+msgid "Select Author"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:63
+msgid "Select"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:83
+#, fuzzy
+msgid "Author Statistics Chart"
+msgstr "Statistik över träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:113
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:134
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:44
+#, fuzzy, php-format
+msgid "Hits in the last %s days"
+msgstr "Träffar under de senaste 20 dagarna"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:150
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:134
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:155
+#, fuzzy
+msgid "Number of visits"
+msgstr "Antal träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:148
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:169
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:211
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:80
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:134
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:151
+msgid "Visits"
+msgstr "Besök"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:226
+#, fuzzy
+msgid "Author Statistics Summary"
+msgstr "Statistiksammanfattning för träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:237
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:221
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:242
+#, fuzzy
+msgid "Count"
+msgstr "Land"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:241
+#, fuzzy
+msgid "Number of posts by author"
+msgstr "Antal besök och besökare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:231
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:252
+#, fuzzy
+msgid "Chart Visits Total"
+msgstr "Totalt i diagrammet"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:253
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:237
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:258
+#, fuzzy
+msgid "All Time Visits Total"
+msgstr "Totalt under hela tidsperioden"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:275
+msgid "Author Posts Sorted by Hits"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:285
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:269
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:290
+#, fuzzy
+msgid "Post Title"
+msgstr "Antal inlägg"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:286
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:270
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:291
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:228
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:89
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:392
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:484
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:621
+msgid "Hits"
+msgstr "Träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:12
+#, fuzzy
+msgid "Category Statistics"
+msgstr "Sammanfattande statistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:40
+msgid "Select Category"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:67
+#, fuzzy
+msgid "Category Statistics Chart"
+msgstr "Statistik över träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:210
+#, fuzzy
+msgid "Category Statistics Summary"
+msgstr "Statistiksammanfattning för träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:225
+#, fuzzy
+msgid "Number of posts in category"
+msgstr "Antal besök och besökare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:259
+msgid "Category Posts Sorted by Hits"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:8
+msgid ""
+"Attention: Exclusion are not currently set to be recorded, the results below "
+"may not reflect current statistics!"
+msgstr ""
+"Lystring: Uteslutning är för närvarande inte inställd för att lagras, "
+"resultatet nedan kanske inte återger aktuell statistik!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:87
+msgid "Robot"
+msgstr "Robot"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:81
+msgid "Browscap"
+msgstr "Browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:89
+msgid "IP Match"
+msgstr "Matchande IP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:90
+msgid "Self Referral"
+msgstr "Länk till sig själv"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:91
+msgid "Login Page"
+msgstr "Inloggningssida"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:92
+msgid "Admin Page"
+msgstr "Administrationssida"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:93
+msgid "User Role"
+msgstr "Användarroll"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:172
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:86
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:172
+msgid "Total"
+msgstr "Totalt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:93
+msgid "GeoIP"
+msgstr "GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:96
+msgid "Hostname"
+msgstr "Värdnamn"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:97
+msgid "Robot Threshold"
+msgstr "Gränsvärde för robotar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:98
+msgid "Honey Pot"
+msgstr "Honey Pot"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:99
+msgid "Feeds"
+msgstr "Feeds"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:100
+msgid "Excluded URL"
+msgstr "Utesluten webbadress"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:101
+msgid "404 Pages"
+msgstr "404-sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:102
+msgid "Referrer Spam"
+msgstr "Manipulerade referenskällor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:103
+msgid "AJAX Request"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:149
+msgid "Exclusions Statistics"
+msgstr "Uteslutningsstatistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:157
+msgid "Exclusions Statistical Chart"
+msgstr "Statistik över uteslutningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:188
+#, fuzzy, php-format
+msgid "Excluded hits in the last %s days"
+msgstr "Uteslutna träffar under de senaste"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:209
+msgid "Number of excluded hits"
+msgstr "Antal uteslutna träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:285
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:178
+msgid "Hits Statistics Summary"
+msgstr "Statistiksammanfattning för träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:296
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:72
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:481
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:620
+msgid "Exclusions"
+msgstr "Uteslutningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:300
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:194
+msgid "Chart Total"
+msgstr "Totalt i diagrammet"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:306
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:202
+msgid "All Time Total"
+msgstr "Totalt under hela tidsperioden"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:35
+msgid "Hits Statistics Chart"
+msgstr "Statistik över träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:65
+msgid "Number of visits and visitors"
+msgstr "Antal besök och besökare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:145
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:150
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:152
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:514
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:628
+msgid "Visitors"
+msgstr "Besökare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:85
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:197
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:323
+msgid "All"
+msgstr "Allt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:60
+msgid "Latest Search Word Statistics"
+msgstr "Statistik över senaste sökorden"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:112
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:122
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:53
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:65
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:30
+msgid "#hash#"
+msgstr "#hash#"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:126
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:57
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:140
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:64
+msgid "Map"
+msgstr "Karta"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:170
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:168
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:117
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:231
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:186
+#, php-format
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:82
+msgid "Recent Visitor Statistics"
+msgstr "Senaste besökarna"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:84
+msgid "Filtered by"
+msgstr "Filtrerat med"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:6
+msgid "Have you thought about donating to WP Statistics?"
+msgstr "Kan du tänka dig en donation till WP Statistics?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:6
+msgid "Donate Now!"
+msgstr "Donera nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:6
+msgid "Close"
+msgstr "Stäng"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:17
+#, php-format
+msgid "About WP Statistics Version %s"
+msgstr "Om WP Statistics version %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:12
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:12
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:89
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:150
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:261
+msgid "Online Users"
+msgstr "Uppkopplade användare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:94
+#, fuzzy, php-format
+msgid "Online for %s (HH:MM:SS)"
+msgstr "Uppkopplingstid "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:108
+msgid "Currently there are no users online in the site."
+msgstr "Ingen uppkopplad till webbplatsen för närvarande."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:51
+msgid "Page Trend for Post ID"
+msgstr "Sidtrend för Post-ID"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:59
+msgid "Page Trend"
+msgstr "Sidtrend"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:37
+msgid "Search Engine Referral Statistics"
+msgstr "Sökmotorlänkningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:91
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:48
+#, fuzzy, php-format
+msgid "Search engine referrals in the last %s days"
+msgstr "Sökmotorlänkningar under de senaste"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:112
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:69
+msgid "Number of referrals"
+msgstr "Antal länkningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:12
+#, fuzzy
+msgid "Tag Statistics"
+msgstr "Statistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:40
+msgid "Select Tag"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:88
+#, fuzzy
+msgid "Tag Statistics Chart"
+msgstr "Statistik över träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:231
+#, fuzzy
+msgid "Tag Statistics Summary"
+msgstr "Statistiksammanfattning för träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:246
+#, fuzzy
+msgid "Number of posts in tag"
+msgstr "Antal rader i tabellen %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:280
+msgid "Tag Posts Sorted by Hits"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:35
+msgid "Top Countries"
+msgstr "Topplacerade länder"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:15
+msgid "Rank"
+msgstr "Rankning"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:17
+msgid "Flag"
+msgstr "Flagga"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:18
+msgid "Country"
+msgstr "Land"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:12
+msgid "Visitor Count"
+msgstr "Antal besökare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:173
+msgid "Top Pages"
+msgstr "Mest besökta sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:39
+msgid "Top 5 Pages Trends"
+msgstr "5 sidor i topptrend"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:85
+msgid "Top 5 Page Trending Stats"
+msgstr "5 sidor i topptrend under de senaste 20 dagarna"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/page.php:77
+msgid "Number of Hits"
+msgstr "Antal träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #1"
+msgstr "Rankning 1"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #2"
+msgstr "Rankning 2"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #3"
+msgstr "Rankning 3"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #4"
+msgstr "Rankning 4"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #5"
+msgstr "Rankning 5"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:207
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:14
+msgid "No page title found"
+msgstr "Sidtiteln saknas"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "Kommer att läggas till snart"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:103
+#, fuzzy, php-format
+msgid "Referring site: %s"
+msgstr "Länkande webbplatser från"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:170
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:36
+msgid "References"
+msgstr "Länkningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:11
+msgid "Top 100 Visitors Today"
+msgstr "Besökarnas 100 i topp idag"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:27
+msgid "Date"
+msgstr "Datum"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
+#, fuzzy
+msgid "Top Visitors"
+msgstr "Besökartopp idag"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:11
+msgid "Website"
+msgstr "Webbsajten"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:13
+msgid "Rate and Review"
+msgstr "Betyg och recension"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:19
+msgid "More Information"
+msgstr "Mer information"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:14
+#, php-format
+msgid ""
+"This product includes GeoLite2 data created by MaxMind, available from %s."
+msgstr ""
+"Denna produkt använder data från GeoLite2 skapat av MaxMind, tillgängligt "
+"från %s."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:36
+msgid "Other"
+msgstr "Annat"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/page.php:11
+msgid "Page Trending Stats"
+msgstr "Sidans statistiktrend"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:138
+msgid "Today"
+msgstr "Idag"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:139
+msgid "Yesterday"
+msgstr "Igår"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:64
+msgid "Last 7 Days (Week)"
+msgstr "Senaste veckan (7 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:78
+msgid "Last 30 Days (Month)"
+msgstr "Senaste månaden (30 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:92
+msgid "Last 365 Days (Year)"
+msgstr "Senaste året (365 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:164
+msgid "Daily Total"
+msgstr "Dagstotal"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:188
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:188
+msgid "Current Time and Date"
+msgstr "Nuvarande datum och tid"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:189
+msgid "(Adjustment)"
+msgstr "(Inställning)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:194
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:194
+#, php-format
+msgid "Date: %s"
+msgstr "Datum:%s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:198
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:198
+#, php-format
+msgid "Time: %s"
+msgstr "Tid:%s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:37
+msgid "Address"
+msgstr "Adress"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:64
+#, fuzzy
+msgid "Last 7 Days"
+msgstr "Senaste veckan (7 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:78
+#, fuzzy
+msgid "Last 30 Days"
+msgstr "Senaste månaden (30 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:92
+#, fuzzy
+msgid "Last 365 Days"
+msgstr "Senaste året (365 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:19
+msgid "IP"
+msgstr "IP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:21
+msgid "Agent"
+msgstr "Agent"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:23
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:362
+msgid "Version"
+msgstr "Version"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
+msgid "Database Setup"
+msgstr "Databasstruktur"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:10
+msgid "Re-run Install"
+msgstr "Gör om installationen"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:14
+msgid "Install Now!"
+msgstr "Installera nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:15
+msgid ""
+"If for some reason your installation of WP Statistics is missing the "
+"database tables or other core items, this will re-execute the install "
+"process."
+msgstr ""
+"Om installationen av WP Statistics råkar sakna någon databastabell eller "
+"komponent, kan detta användas för att upprepa installationen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "Databasindex"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:478
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:619
+msgid "Countries"
+msgstr "Länder"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:42
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "Uppdatera nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:43
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table.  To create the index on the older installs duplicate "
+"entries must be deleted first.  Clicking \"Update Now\" will scan the "
+"vistitors table, delete duplicate entries and add the index."
+msgstr ""
+"I äldre installationer av WP Statistics kan dubbletter i besökartabellen "
+"uppstå. Nyare installationer har skydd mot detta med hjälp av unika index. "
+"För att skapa index på en äldre installation måste dubbletterna raderas. "
+"Klicka på \"Uppdatera nu\" för att granska besökartabellen, radera "
+"dubbletter och skapa index."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:106
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visitors table."
+msgstr ""
+"Operationen kan ta lång tid om det finns många rader i besökartabellen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:49
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table."
+msgstr ""
+"I äldre installationer av WP Statistics kan dubbletter i besökartabellen "
+"uppstå. Nyare installationer har skydd mot detta med hjälp av unika index."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:111
+msgid ""
+"Congratulations, your installation is already up to date, nothing to do."
+msgstr "Grattis, din installation är redan sjyst, ingen åtgärd behövs."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:59
+msgid "Visits Table"
+msgstr "Besökstabell"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:74
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visits "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table.  To create the index on the older installs duplicate "
+"entries must be deleted first.  Clicking \"Update Now\" will scan the "
+"vistits table, delete duplicate entries and add the index."
+msgstr ""
+"I äldre installationer av WP Statistics kan dubbletter i besökstabellen "
+"uppstå. Nyare installationer har skydd mot detta med hjälp av unika index. "
+"För att skapa index på en äldre installation måste dubbletterna raderas. "
+"Klicka på \"Uppdatera nu\" för att granska besökstabellen, radera dubbletter "
+"och skapa index."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:75
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visits table."
+msgstr "Operationen kan ta lång tid om det finns många rader i besökstabellen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:80
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visits "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table."
+msgstr ""
+"I äldre installationer av WP Statistics kan dubbletter i besökstabellen "
+"uppstå. Nyare installationer har skydd mot detta med hjälp av unika index."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:92
+msgid "Search Table"
+msgstr "Söktabell"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:97
+msgid "Convert"
+msgstr "Konvertera"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:104
+msgid "Convert Now!"
+msgstr "Konvertera nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:105
+msgid ""
+"Older installs of WP Statistics store details of searches in the visitors "
+"table which can become a performance issue on large datasets.  A new table "
+"has been created to hold this information in a more scalable fashion, "
+"however the old data must first be converted to the new format before it can "
+"be used."
+msgstr ""
+"Äldre installationer av WP Statistics sätt att lagra information om "
+"sökningar i besökartabellen kan leda till prestandaproblem vid stora "
+"datamängder. En ny tabell har skapats för att samla informationen mer "
+"effektivt, men de gamla uppgifterna måste först konverteras till det nya "
+"formatet innan den kan användas."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:110
+msgid ""
+"Older installs of WP Statistics store details of searches in the visitors "
+"table which can become a performance issue on large datasets.  A new table "
+"has been created to hold this information in a more scalable fashion."
+msgstr ""
+"Äldre installationer av WP Statistics lagrar information om sökningar i "
+"besökartabellen som kan leda till prestandaproblem vid stora datamängder. En "
+"ny tabell har skapats för att samla informationen mer effektivt."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:257
+msgid "Export"
+msgstr "Exportera"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:13
+msgid "Export from"
+msgstr "Exportera från"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:271
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:155
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:185
+msgid "Please select"
+msgstr "Vänligen välj"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:26
+msgid "Select the table for the output file."
+msgstr "Välj tabell som ska exporteras"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:32
+msgid "Export To"
+msgstr "Exportera till"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:42
+msgid "Select the output file type."
+msgstr "Välj formattyp för datafilen som skapas."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:48
+msgid "Include Header Row"
+msgstr "Inkludera rubrikrad"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Include a header row as the first line of the exported file."
+msgstr "Placerar en rubrikrad överst i den skapade datafilen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:54
+msgid "Start Now!"
+msgstr "Börja nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:15
+msgid "Historical Values"
+msgstr "Historikvärden"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:20
+msgid ""
+"Note: As you have just purged the database you must reload this page for "
+"these numbers to be correct."
+msgstr ""
+"Obs! Om du nyligen har städat i databasen måste du ladda om denna sida för "
+"att dessa värden ska bli korrekta."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:31
+#, php-format
+msgid ""
+"Number of historical number of visitors to the site (current value is %s)."
+msgstr "Antal webbplatsbesökare i historiken (nuvarande antal är %s)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:42
+#, php-format
+msgid ""
+"Number of historical number of visits to the site (current value is %s)."
+msgstr "Antal webbplatsbesök i historiken (nuvarande antal är %s)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:77
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:110
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:145
+msgid "Are you sure?"
+msgstr "Är du säker på det?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:180
+msgid "Data"
+msgstr "Data"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:185
+msgid "Empty Table"
+msgstr "Töm tabell"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:199
+msgid "All data table will be lost."
+msgstr "Allt data försvinner."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:200
+msgid "Clear now!"
+msgstr "Radera nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:208
+msgid "Purge records older than"
+msgstr "Städa bort uppgifter äldre än"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:213
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:60
+msgid "Days"
+msgstr "Dagar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:214
+#, fuzzy
+msgid ""
+"Delete user statistics data older than the selected number of days.  Minimum "
+"value is 30 days."
+msgstr ""
+"Raderar användarstatistik som är äldre än det valda antalet dagar. Minst 30 "
+"dagar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:215
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:230
+msgid "Purge now!"
+msgstr "Städa nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:223
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:84
+msgid "Purge visitors with more than"
+msgstr "Städa bort besökare med mer än"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:229
+#, fuzzy
+msgid ""
+"Delete user statistics data where the user has more than the defined number "
+"of hits in a day.  This can be useful to clear up old data when your site "
+"has been hit by a bot.  This will remove the visitor and their hits to the "
+"site, however it will not remove individual page hits as that data is not "
+"recorded on a per use basis.  Minimum value is 10 hits."
+msgstr ""
+"Raderad användarstatistik när användaren överstiger det definierade antalet "
+"träffar per dag. Detta kan vara användbart för att rensa ut äldre uppgifter "
+"när webbplatsen har attackerats av en robot. Detta tar bort besökaren och "
+"träffarna på webbplatsen, men det kommer inte att ta bort enskilda "
+"sidträffar, eftersom dessa uppgifter inte sparas på användarbasis. Minvärdet "
+"är 10 träffar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:237
+msgid "Delete User Agent Types"
+msgstr "Radera agenter"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:242
+msgid "Delete Agents"
+msgstr "Radera användaragent"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:257
+msgid "All visitor data will be lost for this agent type."
+msgstr "All besökardata med denna agent kommer försvinna."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:258
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:282
+msgid "Delete now!"
+msgstr "Radera nu!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:266
+msgid "Delete Platforms"
+msgstr "Radera plattformsagenter"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:281
+msgid "All visitor data will be lost for this platform type."
+msgstr "All besökardata med denna plattform kommer försvinna."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:21
+msgid "Resources"
+msgstr "Resurser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:31
+msgid "Memory usage in PHP"
+msgstr "Minnesanvändning för PHP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:30
+#, fuzzy
+msgid "Bytes"
+msgstr "Byte"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:37
+msgid "PHP Memory Limit"
+msgstr "Minnesgräns för PHP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:42
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr "Över minnesgräns att användas för skript, angivet i php.ini."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:72
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:84
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:96
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:108
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:120
+#, php-format
+msgid "Number of rows in the %s table"
+msgstr "Antal rader i tabellen %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:54
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:78
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:90
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:114
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:126
+msgid "Number of rows"
+msgstr "Antal rader"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:131
+msgid "Version Info"
+msgstr "Versionsinformation"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "WP Statistics Version"
+msgstr "WP Statistics version"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "The WP Statistics version you are running."
+msgstr "Den version av WP Statistics som nu används."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "PHP Version"
+msgstr "PHP-version"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:152
+msgid "The PHP version you are running."
+msgstr "Den PHP-version som nu används."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "PHP Safe Mode"
+msgstr "PHP säkerhetsläge"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:178
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:252
+msgid "Yes"
+msgstr "Ja"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:180
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:251
+msgid "No"
+msgstr "Nej"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:167
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr "Rutinerna för GeoIP saknar stöd för säkerhetsläget i PHP."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:173
+#, fuzzy
+msgid "PHP IPv6 Enabled"
+msgstr "Aktiverat"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:182
+msgid ""
+"Is PHP compiled with IPv6 support.  You may see warning messages in your PHP "
+"log if it is not and you receive HTTP headers with IPv6 addresses in them."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:188
+msgid "jQuery Version"
+msgstr "jQuery-version"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
+msgid "The jQuery version you are running."
+msgstr "JQuery-versionen som nu används."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:201
+msgid "cURL Version"
+msgstr "cURL-version"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:209
+msgid "cURL not installed"
+msgstr "cURL ej installerat"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:211
+msgid ""
+"The PHP cURL Extension version you are running.  cURL is required for the "
+"GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+"Den version av PHP-tillägget cURL som nu används. cURL är nödvändig för "
+"GeoIP-koden, utan den inaktiveras GeoIP."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:217
+msgid "Zlib gzopen()"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:222
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:237
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:252
+msgid "Installed"
+msgstr "Installerad"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:224
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:239
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:254
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:34
+msgid "Not installed"
+msgstr "Ej installerad"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:226
+msgid ""
+"If the gzopen() function is installed.  gzopen() is required for the GeoIP "
+"database to be downloaded successfully."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:232
+#, fuzzy
+msgid "GMP PHP extension"
+msgstr "PHP-version"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:241
+#, fuzzy
+msgid ""
+"If the GMP Math PHP extension is loaded, either GMP or BCMath is required "
+"for the GeoIP database to be read successfully."
+msgstr ""
+"BC Math behövs inte längre för GeoIP-koden och uppges här bara av historiska "
+"skäl."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:247
+msgid "BCMath PHP extension"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:256
+#, fuzzy
+msgid ""
+"If the BCMath PHP extension is loaded, either GMP or BCMath is required for "
+"the GeoIP database to be read successfully."
+msgstr ""
+"BC Math behövs inte längre för GeoIP-koden och uppges här bara av historiska "
+"skäl."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:261
+msgid "File Info"
+msgstr "Filinformation"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:266
+msgid "GeoIP Database"
+msgstr "Databasen för GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:275
+msgid "Database file does not exist."
+msgstr "Databasfilen saknas."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:277
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:315
+msgid ", created on "
+msgstr ", skapade av"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:279
+msgid "The file size and date of the GeoIP database."
+msgstr "Filstorlek och datum för GeoIP-databasen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:285
+msgid "browscap.ini File"
+msgstr "Filen browscap.ini"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:294
+msgid "browscap.ini file does not exist."
+msgstr "Filen browscap.ini saknas."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:298
+msgid "The file size and date of the browscap.ini file."
+msgstr "Storlek och datum för filen browscap.ini."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:304
+msgid "browscap Cache File"
+msgstr "Cache-fil för browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:313
+msgid "browscap cache file does not exist."
+msgstr "Cache-filen för browscap saknas."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:317
+msgid "The file size and date of the browscap cache file."
+msgstr "Storlek och datum för cache-filen för browscap."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:322
+msgid "Client Info"
+msgstr "Klientinformation"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:327
+msgid "Client IP"
+msgstr "Klientens IP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:332
+msgid "The client IP address."
+msgstr "Användarens IP-adress."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:338
+msgid "User Agent"
+msgstr "Användaragent"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:343
+msgid "The client user agent string."
+msgstr "Klientens användaragentsträng."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:349
+msgid "Browser"
+msgstr "Webbläsare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:356
+msgid "The detected client browser."
+msgstr "Detekterad klientwebbläsaren."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:367
+msgid "The detected client browser version."
+msgstr "Detekterad version på klientwebbläsaren"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:378
+msgid "The detected client platform."
+msgstr "Detekterad klientplattform."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
+msgid ""
+"This will replace all IP addresses in the database with hash values and "
+"cannot be undo, are you sure?"
+msgstr ""
+"Detta ersätter alla IP-adresser i databasen med hash-värden och kommer inte "
+"att kunna inte återställas, är du säker på att du vill det?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "Alternativ för GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:26
+msgid ""
+"Updates any unknown location data in the database, this may take a while"
+msgstr ""
+"Uppdaterar alla okända lokaliseringsuppgifter i databasen, vilket kan ta en "
+"stund"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:31
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:73
+msgid "IP Addresses"
+msgstr "IP-adresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:78
+msgid "Hash IP Addresses"
+msgstr "Hashade IP-adresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:41
+msgid ""
+"Replace IP addresses in the database with hash values, you will not be able "
+"to recover the IP addresses in the future to populate location information "
+"afterwards and this may take a while"
+msgstr ""
+"Byter IP-adresserna i databasen till hashade värden, det blir inte möjligt "
+"att återställa IP-adresserna framöver för att återskapa platsinformationen "
+"och bytet kommer att ta en stund"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:44
+msgid "IP Addresses replaced with hash values."
+msgstr "IP-adresserna har ersatts med hashade värden."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:52
+msgid "Install routine complete."
+msgstr "Installationen är klar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:211
+#, php-format
+msgid "Search table conversion complete, %d rows added."
+msgstr "Konvertering av söktabell klar, ökade med %d rader."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:250
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:519
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:629
+msgid "Optimization"
+msgstr "Optimering"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:254
+msgid "Resources/Information"
+msgstr "Resurser/information"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:259
+msgid "Purging"
+msgstr "Städning"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:262
+msgid "Database"
+msgstr "Databas"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:265
+msgid "Updates"
+msgstr "Uppdateringar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:268
+msgid "Historical"
+msgstr "Historik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:10
+#, php-format
+msgid "WP Statistics V%s"
+msgstr "WP Statistics V%s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:522
+msgid "Donate"
+msgstr "Donera"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:28
+#, fuzzy, php-format
+msgid ""
+"Fell like showing us how much you enjoy WP Statistics? Drop by our %sdonation"
+"%s page and show us some love!"
+msgstr ""
+"Vill du visa oss hur mycket du gillar WP statistics? Ta vägen förbi vår %s "
+"sida och visa oss lite uppskattning!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
+msgid "Visit Us Online"
+msgstr "Besök vår webbsajt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:36
+#, fuzzy, php-format
+msgid ""
+"Come visit our great new %swebsite%s and keep up to date on the latest news "
+"about WP Statistics."
+msgstr ""
+"Besök vår fantastiska nya %s och hålla dig uppdaterad om senaste nytt från "
+"WP Statistics."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+msgid "Rate and Review at WordPress.org"
+msgstr "Betyg och recensioner hos WordPress.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:44
+#, fuzzy, php-format
+msgid ""
+"Thanks for installing WP Statistics, we encourage you to submit a %srating "
+"and review%s over at WordPress.org. Your feedback is greatly appreciated!"
+msgstr "Tack för installeringen av WP Statistics, vi ber dig att skicka in en"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:49
+msgid "Translations"
+msgstr "Översättningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
+#, fuzzy, php-format
+msgid ""
+"WP Statistics supports internationalization. Please visit %sWP Statistics "
+"translations page%s to help translation."
+msgstr ""
+"WP Statistics vill gynna internationalisering och uppmuntrar våra användare "
+"att bidra med översättningar, besök vår %s för att se nuvarande status och "
+"%s om du vill hjälpa till."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:57
+msgid "Support"
+msgstr "Support"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:62
+msgid ""
+"We're sorry you're having problem with WP Statistics and we're happy to help "
+"out.  Here are a few things to do before contacting us:"
+msgstr ""
+"Vi beklagar att du ska ha problem med WP Statistics och vi är glada att "
+"hjälpa till. Här är några saker att göra innan du kontaktar oss:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
+#, fuzzy, php-format
+msgid "Have you read the %sFAQs%s?"
+msgstr "Har du läst %s?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
+msgid "FAQs"
+msgstr "Vanliga frågor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
+#, fuzzy, php-format
+msgid "Have you read the %sdocumentation%s?"
+msgstr "Har du läst %s?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
+#, fuzzy
+msgid "Documentation"
+msgstr "donation"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
+#, fuzzy, php-format
+msgid "Have you search the %ssupport forum%s for a similar issue?"
+msgstr "Har du sökt efter %s för ett liknande problem?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:68
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr "Har du sökt på internet efter eventuella felmeddelanden du fått?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:69
+msgid "Make sure you have access to your PHP error logs."
+msgstr "Kontrollera att du har åtkomst till felloggar för PHP."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:72
+msgid "And a few things to double-check:"
+msgstr "Och ett par saker att dubbelkolla:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
+msgid "How's your memory_limit in php.ini?"
+msgstr "Vilken minnesbegränsning anges i php.ini?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:76
+msgid "Have you tried disabling any other plugins you may have installed?"
+msgstr "Har du provat att inaktivera något annat installerat tillägg?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:77
+msgid "Have you tried using the default WordPress theme?"
+msgstr "Har du försökt att använda defaulttemat från WordPress?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:78
+msgid "Have you double checked the plugin settings?"
+msgstr "Har du dubbelcheckat tilläggets inställningar?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:79
+msgid "Do you have all the required PHP extensions installed?"
+msgstr "Har du alla nödvändiga PHP-tillägg installerade?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:80
+#, fuzzy
+msgid "Are you getting a blank or incomplete page displayed in your browser?"
+msgstr ""
+"Visas en blank eller ofullständig sida i din webbläsare? Tog du reda på "
+"varifrån sidan hämtades och checkade om det fanns fatala fel?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:80
+#, fuzzy
+msgid "Did you view the source for the page and check for any fatal errors?"
+msgstr ""
+"Visas en blank eller ofullständig sida i din webbläsare? Tog du reda på "
+"varifrån sidan hämtades och checkade om det fanns fatala fel?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:81
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "Har du kollat felloggarna för PHP och webbservern?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:84
+msgid "Still not having any luck?"
+msgstr "Går det fortfarande åt pipan?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:84
+#, fuzzy, php-format
+msgid ""
+"Then please open a new thread on the %sWordPress.org support forum%s and "
+"we'll respond as soon as possible."
+msgstr ""
+"I så fall ber vi dig öppna en ny tråd på %s, vi försöker svara så fort som "
+"möjligt."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:88
+#, fuzzy, php-format
+msgid "Alternatively %sFarsi%s support is available as well."
+msgstr "Alternativt finns även %s support."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:185
+msgid "Access Levels"
+msgstr "Åtkomstnivåer"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:61
+msgid "Required user level to view WP Statistics"
+msgstr "Nödvändig användarnivå för att se statistiken"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:82
+msgid "Required user level to manage WP Statistics"
+msgstr "Nödvändig användarnivå för att administrera WP Statistics"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:91
+#, fuzzy, php-format
+msgid ""
+"See the %sWordPress Roles and Capabilities page%s for details on capability "
+"levels."
+msgstr "Detaljer för kravnivåerna finns på %s."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:92
+msgid ""
+"Hint: manage_network = Super Admin Network, manage_options = Administrator, "
+"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
+"Contributor, read = Everyone."
+msgstr ""
+"Förtydligande: manage_network motsvarar Superadministratör, manage_options "
+"motsvarar Administratör, edit_others_posts motsvarar Redaktör, publish_posts "
+"motsvarar Författare, edit_posts motsvarar Medarbetare, read motsvarar Alla."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:93
+msgid ""
+"Each of the above casscades the rights upwards in the default WordPress "
+"configuration.  So for example selecting publish_posts grants the right to "
+"Authors, Editors, Admins and Super Admins."
+msgstr ""
+"Uppräkningen är prioritetsordnad uppifrån och ner. Exempelvis omfattar "
+"alternativet publish_posts följande: Författare, Redaktörer, Administratörer "
+"och Superadministratörer."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:94
+#, php-format
+msgid ""
+"If you need a more robust solution to delegate access you might want to look "
+"at %s in the WordPress plugin directory."
+msgstr ""
+"Om du behöver en mer genomgripande lösning för att delegera åtkomst kanske "
+"du är hjälpt av %s i Tilläggskatalogen för WordPress."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:101
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:278
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:310
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:346
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:234
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:114
+msgid "Update"
+msgstr "Uppdatering"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:25
+msgid "WP Statistics Honey Pot Page"
+msgstr " Honey Pot-sidan från WP Statistics"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:26
+msgid "This is the honey pot for WP Statistics to use, do not delete."
+msgstr "Detta är en \"syltburk\" som WP Statistics använder, ta inte bort den."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:76
+msgid "Record exclusions"
+msgstr "Registrera uteslutningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:79
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:136
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:167
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:187
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:68
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:92
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:128
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:214
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:258
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:282
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:83
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:123
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:155
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:167
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:194
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:206
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:221
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:235
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:265
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:281
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:322
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:338
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:77
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:86
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:98
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:110
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:122
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:78
+msgid "Enable"
+msgstr "Lägg till"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:80
+msgid ""
+"This will record all the excluded hits in a separate table with the reasons "
+"why it was excluded but no other information.  This will generate a lot of "
+"data but is useful if you want to see the total number of hits your site "
+"gets, not just actual user visits."
+msgstr ""
+"Alla träffar som utesluts registreras i en separat tabell tillsammans med "
+"orsaken till uteslutningen, enbart. Det blir mycket data men är användbart "
+"om det finns behov av att se det totala antalet träffar på webbplatsen, inte "
+"enbart normala besök."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:85
+msgid "Exclude User Roles"
+msgstr "Uteslutna användarroller"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:233
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:240
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:254
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:261
+msgid "Exclude"
+msgstr "Uteslut"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:103
+#, php-format
+msgid "Exclude %s role from data collection."
+msgstr "Uteslut rollen %s från statistiken."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:109
+msgid "IP/Robot Exclusions"
+msgstr "Uteslutna IP-adresser och robotar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:113
+msgid "Robot list"
+msgstr "Robotlista"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:126
+msgid ""
+"A list of words (one per line) to match against to detect robots.  Entries "
+"must be at least 4 characters long or they will be ignored."
+msgstr ""
+"En lista med uttryck (ett per rad) att matcha mot för att upptäcka robotar. "
+"Varje uttryck måste vara minst 4 tecken långt för att inte ignoreras."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:127
+msgid "Reset to Default"
+msgstr "Återställ till default"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:133
+msgid "Force robot list update after upgrades"
+msgstr "Genomför uppdatering av robotlistan vid uppgradering"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:137
+msgid ""
+"Force the robot list to be reset to the default after an update to WP "
+"Statistics takes place.  Note if this option is enabled any custom robots "
+"you have added to the list will be lost."
+msgstr ""
+"Robotlistan återställs till default vid uppgradering av WP Statistics. "
+"Notera att egna uttryck tas bort ur robotlistan om det här alternativet är "
+"aktiverat."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:142
+msgid "Robot visit threshold"
+msgstr "Tröskel för robotbesök"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:146
+msgid ""
+"Treat visitors with more than this number of visits per day as robots.  0 = "
+"disabled."
+msgstr "Betrakta besökare med fler besök per dag som robotar. 0 = aldrig."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:151
+msgid "Excluded IP address list"
+msgstr "Uteslutna IP-adresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:154
+#, fuzzy
+msgid ""
+"A list of IP addresses and subnet masks (one per line) to exclude from "
+"statistics collection."
+msgstr ""
+"En lista över lokala webbadresser som ska undantas från statistiken (t.ex. /"
+"wordpress/about, en per rad)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:155
+#, fuzzy
+msgid ""
+"For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
+"formats are accepted.  To specify an IP address only, use a subnet value of "
+"32 or 255.255.255.255."
+msgstr ""
+"En lista med IP-adresser och nätmasker (en per rad) som ska uteslutas från "
+"statistikinsamlingen (båda formaten 192.168.0.0/24 och "
+"192.168.0.0/255.255.255.0 accepteras). För att ange endast en IP-adress, "
+"används ett subnät-värde på 32 eller 255.255.255.255."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:156
+msgid "For IPv6 addresses use the fc00::/7 format."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:157
+msgid "Add 10.0.0.0"
+msgstr "Lägg till 10.0.0.0"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:158
+msgid "Add 172.16.0.0"
+msgstr "Lägg till 172.16.0.0"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:159
+msgid "Add 192.168.0.0"
+msgstr "Lägg till 192.168.0.0"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:160
+msgid "Add fc00::/7"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:165
+msgid "Use honey pot"
+msgstr "Använd en Honey Pot"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:168
+msgid "Use a honey pot page to identify robots."
+msgstr ""
+"Använd en Honey Pot-sida (motsvarar en syltburk som man gärna smakarav) för "
+"att identifiera robotar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:173
+msgid "Honey pot post id"
+msgstr "Id för Honey Pot-inlägget"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:177
+msgid "The post id to use for the honeypot page."
+msgstr "ID-koden för inlägget som används av syltburk-sidan."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:178
+msgid "Create a new honey pot page"
+msgstr "Skapa en ny Honey Pot-sida"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:184
+msgid "Treat corrupt browser info as a bot"
+msgstr "Betrakta förvrängd webbläsarinformation som robotgenererad"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:188
+msgid ""
+"Treat any visitor with corrupt browser info (missing IP address or empty "
+"user agent string) as a robot."
+msgstr ""
+"Betrakta alla besökare med förvrängd webbläsarinformation (såsom saknad ip-"
+"adress eller utebliven user-agent-sträng) som en robot."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:193
+msgid "GeoIP Exclusions"
+msgstr "Uteslutningar för GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:197
+msgid "Excluded countries list"
+msgstr "Lista med uteslutna länder"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:200
+msgid ""
+"A list of country codes (one per line, two letters each) to exclude from "
+"statistics collection.  Use \"000\" (three zeros) to exclude unknown "
+"countries."
+msgstr ""
+"En lista över landskoder (en per rad, två bokstäver i varje) att utesluta "
+"från statistikinsamling. Använd \"000\" (tre nollor) för att utesluta okända "
+"länder."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:205
+msgid "Included countries list"
+msgstr "Lista med inkluderade länder"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:208
+msgid ""
+"A list of country codes (one per line, two letters each) to include in "
+"statistics collection, if this list is not empty, only visitors from the "
+"included countries will be recorded.  Use \"000\" (three zeros) to exclude "
+"unknown countries."
+msgstr ""
+"En lista över landskoder (ett per rad, två bokstäver vardera) att inkluderas "
+"i statistikinsamlingen. Om listan inte är tom registreras endast besökare "
+"från de inkluderade länderna. Använd \"000\" (tre nollor) för att utesluta "
+"okända länder."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:213
+msgid "Host Exclusions"
+msgstr "Uteslutna värddatorer "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:217
+msgid "Excluded hosts list"
+msgstr "Lista över uteslutna värddatorer"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:220
+msgid ""
+"A list of fully qualified host names (ie. server.example.com, one per line) "
+"to exclude from statistics collection."
+msgstr ""
+"En lista över kompletta värddatornamn (t.ex. server.example.com, en per rad) "
+"att utesluta från statistikinsamlingen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:222
+msgid ""
+"Note: this option will NOT perform a reverse DNS lookup on each page load "
+"but instead cache the IP address for the provided hostnames for one hour.  "
+"If you are excluding dynamically assigned hosts you may find some degree of "
+"overlap when the host changes it's IP address and when the cache is updated "
+"resulting in some hits recorded."
+msgstr ""
+"Obs! Detta alternativ gör ingen omvänd DNS-sökning vid varje sidladdning "
+"utan cachar IP-adressen för listat värddatornamn under en timme. Om "
+"dynamiskt tilldelade värdar utesluts uppträder en viss grad av överlappning "
+"när värden ändrar IP-adressen och när cachen uppdateras, vilket resulterar i "
+"ytterligare några registrerade träffar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:227
+msgid "Site URL Exclusions"
+msgstr "Uteslutna webbadresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:231
+msgid "Excluded login page"
+msgstr "Uteslut inloggningssidan"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:234
+msgid "Exclude the login page for registering as a hit."
+msgstr "Uteslut inloggningssidan från att registreras som en träff."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:238
+msgid "Excluded admin pages"
+msgstr "Uteslut administrationssidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:241
+msgid "Exclude the admin pages for registering as a hit."
+msgstr "Uteslut administrationssidor från att registreras som träff."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:245
+msgid "Excluded RSS feeds"
+msgstr "Uteslut RSS feed"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:248
+msgid "Exclude the RSS feeds for registering as a hit."
+msgstr "Uteslut RSS-feeds från att registreras som träff."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:252
+msgid "Excluded 404 pages"
+msgstr "Uteslutna 404-sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:255
+msgid "Exclude any URL that returns a \"404 - Not Found\" message."
+msgstr ""
+"Uteslut alla URL:er som returnerar felmeddelandet 404 (sidan kan inte "
+"hittas)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:259
+#, fuzzy
+msgid "Excluded AJAX calls"
+msgstr "Lista över uteslutna webbadresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:262
+msgid "Exclude any call to the WordPress AJAX system."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:266
+msgid "Excluded URLs list"
+msgstr "Lista över uteslutna webbadresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:269
+msgid ""
+"A list of local urls (ie. /wordpress/about, one per line) to exclude from "
+"statistics collection."
+msgstr ""
+"En lista över lokala webbadresser som ska undantas från statistiken (t.ex. /"
+"wordpress/about, en per rad)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:271
+msgid ""
+"Note: this option will NOT handle url parameters (anything after the ?), "
+"only to the script name.  Entries less than two characters will be ignored."
+msgstr ""
+"Obs! Detta alternativ hanterar inte URL-parametrarna (allt efter ?), bara "
+"skriptnamnet. Kortare uppgift än två tecken ignoreras."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:49
+msgid "GeoIP settings"
+msgstr "Inställningar för GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:54
+#, php-format
+msgid ""
+"IP location services provided by GeoLite2 data created by MaxMind, available "
+"from %s."
+msgstr ""
+"IP-platstjänster levererade från GeoLite2 data, skapat av MaxMind, "
+"tillgänglig från %s."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:63
+msgid "GeoIP collection"
+msgstr "GeoIP-insamling"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:69
+msgid ""
+"For get more information and location (country) from visitor, enable this "
+"feature."
+msgstr ""
+"Lägg till den här funktionen för att få mer besökarinformation och -plats "
+"(land)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:75
+msgid "Update GeoIP Info"
+msgstr "Uppdatera information med GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:80
+msgid "Download GeoIP Database"
+msgstr "Hämta databasen med GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:203
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:271
+msgid "Save changes on this page to download the update."
+msgstr "Spara ändringar på denna sida för att hämta uppdateringen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:87
+msgid "Schedule monthly update of GeoIP DB"
+msgstr "Schemalägg månadsvis uppdatering av databasen med GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:217
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:285
+msgid "Next update will be"
+msgstr "Nästa uppdatering kommer att vara"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:133
+msgid "First Tuesday of this month"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:100
+msgid "First Tuesday of next month"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:116
+msgid ""
+"Download of the GeoIP database will be scheduled for 2 days after the first "
+"Tuesday of the month."
+msgstr ""
+"Hämtning av databasen med GeoIP schemaläggs till 2 dagar efter första "
+"tisdagen i månaden."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:117
+msgid ""
+"This option will also download the database if the local filesize is less "
+"than 1k (which usually means the stub that comes with the plugin is still in "
+"place)."
+msgstr ""
+"Detta alternativ hämtar även databasen när den lokala storleken är mindre än "
+"1k (vilket i regel betyder att minidatabasen som bifogats tillägget finns "
+"kvar)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:123
+msgid "Populate missing GeoIP after update of GeoIP DB"
+msgstr "Komplettera GeoIP efter uppdatering av databasen med GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:129
+msgid "Update any missing GeoIP data after downloading a new database."
+msgstr "Uppdaterar GeoIP-data som saknas när en ny databas hämtats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:135
+msgid "Country code for private IP addresses"
+msgstr "Landskod för privata IP-adresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:140
+msgid ""
+"The international standard two letter country code (ie. US = United States, "
+"CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, "
+"192.158.1.1, 127.0.0.1, etc.).  Use \"000\" (three zeros) to use \"Unknown\" "
+"as the country code."
+msgstr ""
+"Den internationella standarden med två bokstäver (t.ex. US = USA, CA = "
+"Kanada, etc.) för privata (icke-routningsbara) IP-adresser (t.ex. 10.0.0.1, "
+"192.158.1.1, 127.0.0.1, etc.). Använd &quot;000&quot; (tre nollor) för att "
+"ange &quot;okänd&quot; landskod."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:149
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "GeoIP-insamlingen är inaktiverad på grund av följande skäl:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:152
+#, php-format
+msgid ""
+"GeoIP collection requires PHP %s or above, it is currently disabled due to "
+"the installed PHP version being  "
+msgstr ""
+"GeoIP-insamling kräver PHP %s eller senare, den är just nu avstängd på grund "
+"av att den installerade PHP versionen är för gammal"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:158
+msgid ""
+"GeoIP collection requires the cURL PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP insamling behöver tillägget cURL i PHP vilket saknas i din version av "
+"PHP!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:164
+msgid ""
+"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"GeoIP insamling behöver tillägget BC Math i PHP vilket saknas i din version "
+"av PHP!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:170
+msgid ""
+"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
+"mode enabled!"
+msgstr ""
+"PHP \"säkert läge\" detekterat! GeoIP insamling saknar stöd för aktiverat "
+"\"säkert läge\" i PHP."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:180
+msgid "browscap settings"
+msgstr "Inställningar för browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:185
+msgid "browscap usage"
+msgstr "Användning av browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:191
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr "Databasen för browscap hämtas och används för att upptäcka robotar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:197
+msgid "Update browscap Info"
+msgstr "Uppdatera information för browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:202
+msgid "Download browscap Database"
+msgstr "Hämta Databasen för browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:209
+msgid "Schedule weekly update of browscap DB"
+msgstr "Schemalägg veckovis uppdatering av databasen för browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:235
+msgid "Download of the browscap database will be scheduled for once a week."
+msgstr ""
+"Nedladdningen av browscap databas kommer att planeras till en gång i veckan."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:241
+msgid "Piwik Referrer Spam Blacklist settings"
+msgstr "Inställningar för svarta listan från Piwik med skräpreferenser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:247
+#, php-format
+msgid "Referrer spam blacklist is provided by Piwik, available from %s."
+msgstr ""
+"Svarta listan med skräpreferenser tillhandahålls av Piwik, som är "
+"tillgänglig från %s."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:253
+msgid "Piwik Referrer Spam Blacklist usage"
+msgstr "Användning av Piwiks svarta lista med skräpreferenser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:259
+msgid ""
+"The Piwik Referrer Spam Blacklist database will be downloaded and used to "
+"detect referrer spam."
+msgstr ""
+"Svartlistade skräpreferenser hämtas från Piwiks databas och används för att "
+"detektera s.k. \"referrer spam\"."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:265
+msgid "Update Piwik Referrer Spam Blacklist Info"
+msgstr "Uppdatera information om Piwiks svartlistade skräpreferenser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:270
+msgid "Download Piwik Referrer Spam Blacklist Database"
+msgstr "Hämta svarta skräpreferenslistan från Piwik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:277
+msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
+msgstr ""
+"Schemalägg veckovis uppdatering av svarta listan från Piwik med "
+"skräpreferenser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:303
+msgid ""
+"Download of the Piwik Referrer Spam Blacklist database will be scheduled for "
+"once a week."
+msgstr ""
+"Nedladdning av Piwiks svartlistade skräpreferenser kommer att schemaläggas "
+"en gång per vecka."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:84
+msgid ""
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+"Den här funktionen kommer inte att lagra IP-adresser i databasen utan "
+"använde en unik hash. Den &quot;Lagra hela user agent string&quot; "
+"inställningen inaktiveras om detta är valt. Du kommer inte att kunna "
+"återställa IP-adresserna i framtiden att återvinna platsinformation om det "
+"är aktiverat."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:214
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:771
+#, fuzzy
+msgid "Online User"
+msgstr "Uppkopplade användare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:140
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:156
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:195
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:207
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:236
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:139
+msgid "Enable or disable this feature"
+msgstr "Lägg till eller ta bort funktionen"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:106
+msgid "Check for online users every"
+msgstr "Checka uppkopplingar varje"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:111
+#, fuzzy
+msgid "Seconds"
+msgstr ":e sekund"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:112
+#, fuzzy, php-format
+msgid "Time for the check accurate online user in the site. Now: %s Seconds"
+msgstr ""
+"Tid fram till nästa check av antal uppkopplade användare på webbplatsen. "
+"Just nu:%s sekunder"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:118
+msgid "Record all user"
+msgstr "Räkna alla användare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:124
+msgid ""
+"Ignores the exclusion settings and records all users that are online "
+"(including self referrals and robots).  Should only be used for "
+"troubleshooting."
+msgstr ""
+"Ignorerar uteslutningsinställningarna och räknar alla uppkopplingar "
+"(inklusive egen och robotar). Bör endast användas för felsökning."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:162
+msgid "Store entire user agent string"
+msgstr "Registrera hela användaragentsträngen"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:168
+msgid "Only enabled for debugging"
+msgstr "Bara påslagen för felsökning"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:174
+msgid "Coefficient per visitor"
+msgstr "Faktor per besökare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:179
+#, php-format
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "Faktor för varje besök vid flera träffar. För närvarande %s."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:184
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:490
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:623
+msgid "Pages"
+msgstr "Sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:201
+msgid "Track all pages"
+msgstr "Spåra alla sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:216
+msgid "Strip parameters from URI"
+msgstr "Skala bort parametrar från URI:n"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:222
+msgid "This will remove anything after the ? in a URL."
+msgstr "Tar bort allt efter ? i URL:en."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:230
+msgid "Disable hits column in post/pages list"
+msgstr "Ta bort antal träffar i inlägg/sidlistan"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:241
+msgid "Miscellaneous"
+msgstr "Diverse"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:246
+msgid "Show stats in menu bar"
+msgstr "Visa statistik på menylisten"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:254
+msgid "Show stats in admin menu bar"
+msgstr "Visa statistik på administrationsmenylisten"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:260
+msgid "Hide admin notices about non active features"
+msgstr "Dölj administrationsmeddelanden om inaktiva funktioner"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:266
+msgid ""
+"By default WP Statistics displays an alert if any of the core features are "
+"disabled on every admin page, this option will disable these notices."
+msgstr ""
+"Enligt defaultalternativet larmar WP Statistics om någon av de centrala "
+"funktionerna är avslagen på alla administrationssidor, detta alternativ "
+"stänger av dessa meddelanden."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:271
+msgid "Search Engines"
+msgstr "Sökmotorer"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:276
+msgid "Add page title to empty search words"
+msgstr "Lägg till sidtitel till tomma sökord"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:282
+msgid ""
+"If a search engine is identified as the referrer but it does not include the "
+"search query this option will substitute the page title in quotes preceded "
+"by \"~:\" as the search query to help identify what the user may have been "
+"searching for."
+msgstr ""
+"Om länkningen utförts av en sökmotor utan att sökbegreppet finns med sätter "
+"det här alternativet in sidtiteln inom citationstecken föregått av \"~:\" "
+"som sökbegrepp, för att underlätta identifiering av användarens sökning."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:288
+msgid ""
+"Disabling all search engines is not allowed, doing so will result in all "
+"search engines being active."
+msgstr ""
+"Det fungerar inte att ta bort alla sökmotorer, i det fallet medges alla "
+"sökmotorer."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:305
+#, fuzzy
+msgid "Disable"
+msgstr "Ta bort"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:306
+#, php-format
+msgid "Disable %s from data collection and reporting."
+msgstr "Ta bort %s från datainsamling och rapportering."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:312
+msgid "Charts"
+msgstr "Diagram"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:317
+msgid "Include totals"
+msgstr "Inkludera totalvärden"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:323
+msgid ""
+"Add a total line to charts with multiple values, like the search engine "
+"referrals"
+msgstr ""
+"Lägger till en totalvärdesrad till diagram med flera värden, som exempelvis "
+"sökmotorlänkningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:328
+msgid "Languages"
+msgstr "Språk"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:333
+msgid "Force English"
+msgstr "Alltid engelska"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:339
+msgid ""
+"Do not use the translations and instead use the English defaults for WP "
+"Statistics (requires two page loads)"
+msgstr ""
+"Använd ingen översättning, utan istället de engelska defaulttexterna för WP "
+"Statistics (språket ändras först efter ytterligare en sidladdning)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:28
+msgid ""
+"This will permanently delete data from the database each day, are you sure "
+"you want to enable this option?"
+msgstr ""
+"Denna funktion tar dagligen bort data från databasen permanent, är du säker "
+"på att du vill det?"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:38
+msgid "Purge Old Data Daily"
+msgstr "Rensa gammal data dagligen"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:43
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:72
+msgid "Enabled"
+msgstr "Aktiverat"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:49
+msgid ""
+"A WP Cron job will be run daily to purge any data older than a set number of "
+"days."
+msgstr ""
+"Ett WP Cron-jobb kommer att köras varje dag för att radera data som är äldre "
+"än inställt antal dagar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:55
+msgid "Purge data older than"
+msgstr "Rensa gammal data äldre än"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:61
+msgid ""
+"The number of days to keep statistics for.  Minimum value is 30 days.  "
+"Invalid values will disable the daily maintenance."
+msgstr ""
+"Antalet dagar att samla statistik för, minst 30 dagar. Ogiltigt antal "
+"kopplar bort det dagliga underhållet."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:66
+msgid "Purge High Hit Count Visitors Daily"
+msgstr "Radera varje dag besökare med många träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:78
+msgid ""
+"A WP Cron job will be run daily to purge any users statistics data where the "
+"user has more than the defined number of hits in a day (aka they are "
+"probably a bot)."
+msgstr ""
+"Ett WP Cron-jobb kommer att köras varje dag för att radera besökares "
+"statstik-data där besökaren har fler än angivet antal träffar på en dag "
+"(vilket antagligen innebär att besökaren är en robot)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:90
+msgid ""
+"The number of hits required to delete the visitor.  Minimum value is 10 "
+"hits.  Invalid values will disable the daily maintenance."
+msgstr ""
+"Antal träffar som krävs för att en besökare ska raderas. Minsta värde är 10 "
+"träffar. Ogiltiga värden gör att dagligt underhåll inte körs."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:58
+msgid "Common Report Options"
+msgstr "Gemensamma rapportalternativ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:63
+msgid "E-mail addresses"
+msgstr "E-postadresser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:71
+msgid "A comma separated list of e-mail addresses to send reports to."
+msgstr ""
+"En kommaseparerad lista med e-postadresser att skicka rapporterna till."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:76
+msgid "Update Reports"
+msgstr "Uppdateringsrapporter"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:87
+msgid "Send a report whenever the browscap.ini is updated."
+msgstr "Rapporterar när browscap.ini har uppdaterats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:99
+msgid "Send a report whenever the GeoIP database is updated."
+msgstr "Rapporterar när databasen för GeoIP har uppdaterats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:105
+msgid "Pruning"
+msgstr "Rensning"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:111
+msgid "Send a report whenever the pruning of database is run."
+msgstr "Rapporterar när databasen har rensats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:117
+msgid "Upgrade"
+msgstr "Uppgradering"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:123
+msgid "Send a report whenever the plugin is upgraded."
+msgstr "Rapporterar när tillägget WP Statistics har uppgraderats."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:128
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:230
+msgid "Statistical reporting"
+msgstr "Statistikrapportering"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:150
+msgid "Schedule"
+msgstr "Schema"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:174
+msgid "Select how often to receive statistical report."
+msgstr "Välj hur ofta du vill ha statistikrapporter."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:180
+msgid "Send reports via"
+msgstr "Skicka via"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:186
+msgid "Email"
+msgstr "E-post"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:188
+msgid "SMS"
+msgstr "SMS"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:191
+msgid "Select delivery method for statistical report."
+msgstr "Välj hur statistikrapporterna ska skickas."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:194
+#, php-format
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr "Obs! För att skicka via SMS behöver tillägget %s vara installerat."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:194
+msgid "WordPress SMS"
+msgstr "WordPress SMS"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:201
+msgid "Report body"
+msgstr "Rapportens innehåll"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:210
+msgid "Enter the contents of the report."
+msgstr "Välj ut vad som ska rapporteras."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:212
+#, fuzzy
+msgid ""
+"Any shortcode supported by your installation of WordPress, include all "
+"shortcodes for WP Statistics (see the documentation for a list of codes "
+"available) are supported in the body of the message.  Here are some examples:"
+msgstr ""
+"Använd \"shortcode\" som stöds i WordPress för att ange innehållet. Se i "
+"administrationsmanualen för WP Statistics vilka koder som kan användas. Här "
+"följer ett par exempel:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:216
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:53
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:269
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:778
+#, fuzzy
+msgid "Today's Visitors"
+msgstr "Besökare idag"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:218
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:265
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:784
+#, fuzzy
+msgid "Today's Visits"
+msgstr "Besök idag"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:220
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:67
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:277
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:790
+#, fuzzy
+msgid "Yesterday's Visitors"
+msgstr "Besökare igår"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:222
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:273
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:796
+#, fuzzy
+msgid "Yesterday's Visits"
+msgstr "Besök igår"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:224
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:297
+#, fuzzy
+msgid "Total Visitors"
+msgstr "Besökare totalt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:226
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:293
+#, fuzzy
+msgid "Total Visits"
+msgstr "Besök totalt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:24
+msgid "Dashboard"
+msgstr "Panel"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:68
+msgid "The following items are global to all users."
+msgstr "Följande övergripande alternativ gäller alla användare."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:33
+msgid "Disable dashboard widgets"
+msgstr "Inga \"widgets\" på panelen"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:39
+msgid "Disable the dashboard widgets."
+msgstr "Inaktivera alla eventuella panel-widgets."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:44
+msgid "Page/Post Editor"
+msgstr "Redigering av sidor/inlägg"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:53
+msgid "Disable post/page editor widget"
+msgstr "Inga redigerings-widget"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:59
+msgid "Disable the page/post editor widget."
+msgstr "Inaktivera eventuellt redigerings-widget."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:73
+msgid "Disable map"
+msgstr "Ta bort karta"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:79
+msgid "Disable the map display"
+msgstr "Inga kartor visas"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:75
+msgid "WP Statisitcs Removal"
+msgstr "Radering av data och inställningar för WP Statistics"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:80
+msgid ""
+"Uninstalling WP Statistics will not remove the data and settings, you can "
+"use this option to remove the WP Statistics data from your install before "
+"uninstalling the plugin."
+msgstr ""
+"När tillägget WP Statistics avinstalleras raderas inte dess data och "
+"inställningar, använd det här alternativet för att radera all data före "
+"avinstallation av tillägget."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:83
+msgid ""
+"Once you submit this form the settings will be deleted during the page load, "
+"however WP Statistics will still show up in your Admin menu until another "
+"page load is executed."
+msgstr ""
+"Inställningarna raderas när det här alternativet väljs, men WP Statistics "
+"kommer att finnas kvar på administrationsmenyn tills dess nästa sida laddas."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:89
+#, fuzzy
+msgid "Reset options"
+msgstr "Alternativ för GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:94
+msgid "Reset"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:95
+msgid ""
+"Reset the plugin options to the defaults.  This will remove all user and "
+"global settings but will keep all other data.  This action cannot be "
+"undone.  Note: For multi-site installs this will reset all sites to the "
+"defaults."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:101
+msgid "Remove data and settings"
+msgstr "Radera data och inställningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:106
+msgid "Remove"
+msgstr "Radera"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:107
+msgid "Remove data and settings, this action cannot be undone."
+msgstr "Raderar all data och alla inställningar, åtgärden kan inte ångras."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:167
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:366
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:520
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
+msgid "Settings"
+msgstr "Inställningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:174
+msgid "General"
+msgstr "Generellt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:178
+msgid "Notifications"
+msgstr "Meddelanden"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:181
+msgid "Dashboard/Overview"
+msgstr "Översiktspanel"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:192
+msgid "Externals"
+msgstr "Externa"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:196
+msgid "Maintenance"
+msgstr "Underhåll"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:200
+msgid "Removal"
+msgstr "Radering"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:203
+msgid "About"
+msgstr "Om"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:5
+msgid "These extensions add functionality to your WP-Statistics."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:30
+msgid "Active"
+msgstr "Aktiv"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:32
+#, fuzzy
+msgid "Deactivate"
+msgstr "Aktiv"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:41
+msgid "Deactivate Add-On"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:44
+msgid "Activate Add-On"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:49
+msgid "Buy Add-On"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:65
+msgid "Join to Market!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:71
+msgid "Submit Add-on"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:10
+msgid "Once Weekly"
+msgstr "Varje vecka"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "Varannan vecka"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "Var fjärde vecka"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:144
+msgid "Statistic"
+msgstr "Statistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:147
+msgid "Select the statistic you wish to display."
+msgstr "Välj vilken statistik du vill visa."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:153
+msgid "Page Visits"
+msgstr "Sidbesök"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:154
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:505
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:625
+msgid "Searches"
+msgstr "Sökningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:155
+msgid "Post Count"
+msgstr "Antal inlägg"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:156
+msgid "Page Count"
+msgstr "Antal sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:157
+msgid "Comment Count"
+msgstr "Antal kommentarer"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:158
+msgid "Spam Count"
+msgstr "Antal spam"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:159
+msgid "User Count"
+msgstr "Antal användare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:160
+msgid "Post Average"
+msgstr "Genomsnittligt antal inlägg"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:161
+msgid "Comment Average"
+msgstr "Genomsnittligt antal kommentarer"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:162
+msgid "User Average"
+msgstr "Genomsnittligt antal användare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:163
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:180
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:360
+msgid "Last Post Date"
+msgstr "Senaste inläggsdatum"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:170
+msgid ""
+"The time frame to get the statistic for, strtotime() (http://php.net/manual/"
+"en/datetime.formats.php) will be used to calculate it. Use \"total\" to get "
+"all recorded dates."
+msgstr ""
+"Tidsramen för statistikinsamlingen, strtotime() (http://php.net/manual/en/"
+"datetime.formats.php) används för beräkningen. Ange \"total\" för att få med "
+"alla insamlade dagar."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:174
+msgid "Search Provider"
+msgstr "Sökleverantör"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:177
+msgid "The search provider to get statistics on."
+msgstr "Sökleverantören att få statistik för."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:181
+msgid "Number Format"
+msgstr "Sifferformat"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:184
+msgid "The format to display numbers in: i18n, english, none."
+msgstr "Formatet för att visa värden: i18n, engelska, inget."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:187
+msgid "None"
+msgstr "Tomt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:188
+msgid "English"
+msgstr "Engelska"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:189
+msgid "International"
+msgstr "Internationell"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:193
+msgid "Post/Page ID"
+msgstr "ID för inlägg/sida"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:196
+msgid "The post/page id to get page statistics on."
+msgstr "ID för inlägg/sida att samla sidstatistik om."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:469
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:574
+msgid "Statistics"
+msgstr "Statistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "Visa sajtens statistik i sidopanelen."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:281
+#, fuzzy
+msgid "Last 7 Days Visits"
+msgstr "Senaste veckan (7 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:285
+#, fuzzy
+msgid "Last 30 Days Visits"
+msgstr "Senaste månaden (30 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:289
+#, fuzzy
+msgid "Last 365 Days Visits"
+msgstr "Senaste året (365 dagar)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:109
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:301
+msgid "Total Page Views"
+msgstr "Totalt antal sidvisningar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:124
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:328
+msgid "Total Posts"
+msgstr "Totalt antal inlägg"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:131
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:332
+msgid "Total Pages"
+msgstr "Totalt antal sidor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:336
+msgid "Total Comments"
+msgstr "Totalt antal kommentarer"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:145
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:340
+msgid "Total Spams"
+msgstr "Totalt antal spammar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:152
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:344
+msgid "Total Users"
+msgstr "Totalt antal användare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:159
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:348
+msgid "Average Posts"
+msgstr "Genomsnittligt antal inlägg"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:166
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:352
+msgid "Average Comments"
+msgstr "Genomsnittligt antal kommentarer"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:173
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:356
+msgid "Average Users"
+msgstr "Genomsnittligt antal användare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:253
+msgid "Name"
+msgstr "Namn"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:257
+msgid "Items"
+msgstr "Enheter"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:310
+msgid "Select type of search engine"
+msgstr "Välj sökmotor"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:66
+msgid "WP Statistics"
+msgstr "WP Statistics"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:67
+msgid "Complete statistics for your WordPress site."
+msgstr "Komplett statistik för din Wordpress-sajt."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:101
+#, fuzzy
+msgid "WP Statistics Disabled"
+msgstr "WP Statistics %s installerad på"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:101
+msgid "&#151; You are running an unsupported version of PHP."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:106
+#, fuzzy, php-format
+msgid ""
+"WP Statistics has detected PHP version %s which is unsupported, WP "
+"Statistics requires PHP Version %s or higher!"
+msgstr ""
+"FEL: PHP-versionen saknar stöd. WP Statistics fungerar inte utan PHP-version"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:108
+msgid ""
+"Please contact your hosting provider to upgrade to a supported version or "
+"disable WP Statistics to remove this message."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:140
+msgid "WP Statistics has been removed, please disable and delete it."
+msgstr "WP Statistik har tagits bort, var vänlig inaktivera och radera det."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:206
+msgid "online user tracking"
+msgstr "spårning av uppkopplade användare "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:209
+msgid "hit tracking"
+msgstr "spårning av träff"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:212
+msgid "visitor tracking"
+msgstr "spårning av besökare"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:215
+msgid "geoip collection"
+msgstr "geoip-insamling"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:219
+#, fuzzy, php-format
+msgid ""
+"The following features are disabled, please go to %ssettings page%s and "
+"enable them: %s"
+msgstr ""
+"Följande funktioner är inaktiverade, vänligen gå till %s och aktivera dem: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:219
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:247
+msgid ","
+msgstr ","
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:227
+msgid "search table"
+msgstr "sök tabellen"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:236
+msgid "countries database index"
+msgstr "databasindex för länder"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:237
+msgid "visit database index"
+msgstr "databasindex för besök"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:247
+#, fuzzy, php-format
+msgid ""
+"Database updates are required, please go to %soptimization page%s and update "
+"the following: %s"
+msgstr ""
+"Uppdateringar av databasen är nödvändiga, vänligen gå till %s och uppdatera "
+"följande: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:354
+#, php-format
+msgid "WP Statistics %s installed on"
+msgstr "WP Statistics %s installerad på"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:379
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "Klicka här för att besöka tillägget hos WordPress.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:379
+msgid "Visit WordPress.org page"
+msgstr "Besök sidan WordPress.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:382
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr ""
+"Klicka här för att betygsätta och recensera detta tillägg hos WordPress.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:382
+msgid "Rate this plugin"
+msgstr "Betygsätt detta tillägg"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:428
+msgid "WP Statistics - Hits"
+msgstr "WP Statistics - träffar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:472
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:577
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:617
+msgid "Overview"
+msgstr "Översikt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:487
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:622
+msgid "Online"
+msgstr "Uppkopplingar"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:493
+#, fuzzy
+msgid "Categories"
+msgstr "Länder"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:496
+msgid "Tags"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
+msgid "Authors"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:502
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+msgid "Referrers"
+msgstr "Länkreferenser"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:508
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:626
+msgid "Search Words"
+msgstr "Sökord"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:511
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:627
+msgid "Top Visitors Today"
+msgstr "Besökartopp idag"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:521
+msgid "Add-Ons"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:607
+msgid "Site"
+msgstr "Sajt"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:608
+msgid "Options"
+msgstr "Alternativ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:695
+msgid "Add-On activated."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:703
+msgid "Add-On deactivated."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:802
+msgid "View Stats"
+msgstr "Visa statistik"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:888
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1017
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1053
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Du har inte behörighet för åtkomst till den här sidan."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:929
+#, php-format
+msgid ""
+"The following plugin table(s) do not exist in the database, please re-run "
+"the %s install routine %s: "
+msgstr ""
+"Följande tilläggstabell(er) saknas i databasen, vänligen kör %s "
+"installeringsrutin %s:"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:16
+msgid "Error the download_url() or gzopen() functions do not exist!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:40
+#, php-format
+msgid ""
+"Error creating GeoIP database directory, make sure your web server has "
+"permissions to create directories in : %s"
+msgstr ""
+"Fel vid skapandet av katalogen för GeoIP-databasen, kontrollera om din "
+"webbserver har rättigheten att skapa kataloger i %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:49
+#, fuzzy, php-format
+msgid ""
+"Error setting permissions of the GeoIP database directory, make sure your "
+"web server has permissions to write to directories in : %s"
+msgstr ""
+"Fel vid skapandet av katalogen för GeoIP-databasen, kontrollera om din "
+"webbserver har rättigheten att skapa kataloger i %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:59
+#, php-format
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "Fel vid hämtning av databasen för GeoIP från:%s - %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:69
+#, php-format
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "Fel, kunde inte öppna hämtad databas för GeoIP för läsning: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:75
+#, php-format
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr "Fel, kunde inte öppna destinationsdatabas för GeoIP för att skriva %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:90
+msgid "GeoIP Database updated successfully!"
+msgstr "Databasen för GeoIP har uppdaterats!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:117
+msgid "GeoIP update on"
+msgstr "Uppdatering av GeoIP pågår"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:189
+#, php-format
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "Fel vid hämtning av databasen för browscap från: %s - %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:313
+msgid "browscap database updated successfully!"
+msgstr "Databasen för browscap har uppdaterats!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:323
+msgid ""
+"browscap database updated failed!  Cache file too large, reverting to "
+"previous browscap.ini."
+msgstr ""
+"Uppdateringen av databasen för browscap misslyckades! Cache-filen är för "
+"stor, återgår till föregående Browscap.ini."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:331
+msgid ""
+"browscap database updated failed!  New browscap.ini is mis-identifing user "
+"agents as crawlers, reverting to previous browscap.ini."
+msgstr ""
+"Uppdateringen av databasen för browscap misslyckades! Den nya browscap.ini-"
+"filen misstolkar användaragenter som sökrobotar, återgår till föregående "
+"browscap.ini."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:363
+msgid "browscap already at current version!"
+msgstr "browscap har redan den senaste versionen!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:378
+msgid "Browscap.ini update on"
+msgstr "Uppdatering av browscap.ini pågår"
+
+#~ msgid "Mostafa Soufi & Greg Ross"
+#~ msgstr "Mostafa Soufi & Greg Ross"
+
+#~ msgid "http://wp-statistics.com/"
+#~ msgstr "http://wp-statistics.com/"
+
+#~ msgid "Manual file not found."
+#~ msgstr "Manualfilen hittades inte."
+
+#~ msgid "Download HTML file"
+#~ msgstr "Hämta HTML-fil"
+
+#~ msgid "Download ODF file"
+#~ msgstr "Hämta ODF-fil"
+
+#~ msgid "Yesterday visitor"
+#~ msgstr "Besökare igår"
+
+#~ msgid "Today visit"
+#~ msgstr "Besök idag"
+
+#~ msgid "Today visitor"
+#~ msgstr "Besökare idag"
+
+#~ msgid "Manual"
+#~ msgstr "Manual"
+
+#~ msgid "optimization page"
+#~ msgstr "optimeringssida"
+
+#~ msgid "settings page"
+#~ msgstr "inställningssidan"
+
+#~ msgid "Your current PHP version is"
+#~ msgstr "Din nuvarande PHP-version är"
+
+#~ msgid " or higher!"
+#~ msgstr "eller senare!"
+
+#~ msgid "Search Engine Referred"
+#~ msgstr "Sökmotorlänkar"
+
+#~ msgid "Yesterday visit"
+#~ msgstr "Besök igår"
+
+#~ msgid "Search Engine referred"
+#~ msgstr "Sökmotorlänkar"
+
+#~ msgid "Years Visit"
+#~ msgstr "Besök per år"
+
+#~ msgid "Month Visit"
+#~ msgstr "Besök per månad"
+
+#~ msgid "Week Visit"
+#~ msgstr "Besök per vecka"
+
+#~ msgid "Slot 7"
+#~ msgstr "Plats 7"
+
+#~ msgid "N/A"
+#~ msgstr "Finns inte"
+
+#~ msgid "Slot 6"
+#~ msgstr "Plats 6"
+
+#~ msgid "Slot 5"
+#~ msgstr "Plats 5"
+
+#~ msgid "Slot 4"
+#~ msgstr "Plats 4"
+
+#~ msgid "Slot 3"
+#~ msgstr "Plats 3"
+
+#~ msgid "Slot 2"
+#~ msgstr "Plats 2"
+
+#~ msgid "Slot 1"
+#~ msgstr "Plats 1"
+
+#~ msgid "Column B"
+#~ msgstr "Kolumn B"
+
+#~ msgid "Column A"
+#~ msgstr "Kolumn A"
+
+#~ msgid "Slot"
+#~ msgstr "Platser"
+
+#~ msgid ""
+#~ "The following items are unique to each user.  If you do not select the "
+#~ "'About' widget it will automatically be displayed in the last positon of "
+#~ "column A."
+#~ msgstr ""
+#~ "Följande visningsalternativ är användarspecifika. Om om-alternativet "
+#~ "utelämnas visas det längst ner i kolumn A."
+
+#~ msgid "Overview Widgets to Display"
+#~ msgstr "Visning av översikt-widgets"
+
+#~ msgid ""
+#~ "This feature may cause a performance degradation when viewing statistics "
+#~ "and is only valid if the map type is set to \"Google\"."
+#~ msgstr ""
+#~ "Denna funktion kan innebära långsammare visning av statistiken och "
+#~ "fungerar bara om karttypen är inställd på Google-alternativet."
+
+#~ msgid "Get country location from Google"
+#~ msgstr "Lokalisera landet via Google"
+
+#~ msgid ""
+#~ "The \"JQVMap\" option will use JQVMap javascript mapping library to plot "
+#~ "the recent visitors (requires no extenral services)."
+#~ msgstr ""
+#~ "JQVMap-alternativet använder JQVMap-javascripts kartbibliotek för att "
+#~ "lokalisera de senaste besökarna (förutsätter inga externa tjänster)."
+
+#~ msgid ""
+#~ "The \"Google\" option will use Google's mapping service to plot the "
+#~ "recent visitors (requires access to Google)."
+#~ msgstr ""
+#~ "Google-alternativet använder Googles karttjänst för att lokalisera de "
+#~ "senaste besökarna (förutsätter tillgång till Google)."
+
+#~ msgid "JQVMap"
+#~ msgstr "JQVMap"
+
+#~ msgid "Map type"
+#~ msgstr "Karttyp"
+
+#~ msgid "Top Pages Visited"
+#~ msgstr "Mest besökta sidor"
+
+#~ msgid "Search Engine Referrers Statistical Chart"
+#~ msgstr "Diagram över sökmotorlänkningar"
+
+#~ msgid "Hits Statistical Chart"
+#~ msgstr "Diagram över träffar"
+
+#~ msgid "User Online"
+#~ msgstr "Uppkopplade användare"
+
+#~ msgid ""
+#~ "By default WP Statistics stores the admin manual in the plugin directory "
+#~ "(~5 meg), if this option is enabled it will be deleted now and during "
+#~ "upgrades in the future."
+#~ msgstr ""
+#~ "Enligt defaultalternativet lagrar WP Statistics administrationsmanualen i "
+#~ "tilläggskatalogen (~ 5 MB), detta alternativ tar bort den omedelbart och "
+#~ "vid alla uppgraderingar framöver."
+
+#~ msgid "Delete the manual"
+#~ msgstr "Ta bort manualen"
+
+#~ msgid "User online"
+#~ msgstr "Uppkopplade användare"
+
+#~ msgid "Users Online"
+#~ msgstr "Uppkopplingar"
+
+#~ msgid ""
+#~ "This will delete the manual when you save the settings, are you sure?"
+#~ msgstr ""
+#~ "Detta kommer att ta bort den manuella när du sparar inställningarna, är "
+#~ "du säker?"
+
+#~ msgid "WordPress Roles and Capabilities page"
+#~ msgstr "WordPress Roles and Capabilities page"
+
+#~ msgid "Farsi"
+#~ msgstr "Farsi"
+
+#~ msgid "WordPress.org support forum"
+#~ msgstr "WordPress.org supportforum"
+
+#~ msgid "support forum"
+#~ msgstr "supportforum"
+
+#~ msgid "manual"
+#~ msgstr "manual"
+
+#~ msgid "drop us a line"
+#~ msgstr "hör av dig"
+
+#~ msgid "translation collaboration site"
+#~ msgstr "sajt för översättningssamarbete"
+
+#~ msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
+#~ msgstr "på WordPress.org. Ditt gensvar uppskattas mycket!"
+
+#~ msgid "rating and review"
+#~ msgstr "betygsättning och recension"
+
+#~ msgid "website"
+#~ msgstr "webbsajt"
+
+#~ msgid "BC Math"
+#~ msgstr "BC Math"
+
+#~ msgid "Row"
+#~ msgstr "Rad(er)"
+
+#~ msgid "Memory usage in the overview page"
+#~ msgstr "Minnesanvändning för översiktssidan"
+
+#~ msgid "Last Overview page memory usage"
+#~ msgstr "Senaste minnesanvändningen för översiktssidan"
+
+#~ msgid "hits"
+#~ msgstr "träffar"
+
+#~ msgid "Update now!"
+#~ msgstr "Uppdatera nu!"
+
+#~ msgid "User(s) Online"
+#~ msgstr "Uppkopplingar"
+
+#~ msgid "Today Visitors Map"
+#~ msgstr "Karta över dagens besökare"
+
+#~ msgid "More"
+#~ msgstr "Mer"
+
+#~ msgid "From"
+#~ msgstr "Från"
+
+#~ msgid "Page"
+#~ msgstr "Sida"
+
+#~ msgid "Visitor"
+#~ msgstr "Besökare"
+
+#~ msgid "Visit"
+#~ msgstr "Besök"
+
+#~ msgid "Hits in the last"
+#~ msgstr "Träffar under de senaste"
+
+#~ msgid "days"
+#~ msgstr "dagarna"
+
+#~ msgid "Click to toggle"
+#~ msgstr "Klicka för att växla"
+
+#~ msgid "Range"
+#~ msgstr "Område"
+
+#~ msgid "WP Statistics Overview"
+#~ msgstr "Översikt över WP Statistics"
+
+#~ msgid "Please reload the dashboard to display the content of this widget."
+#~ msgstr "Vänligen ladda om panelen för att visa innehållet i denna widget."

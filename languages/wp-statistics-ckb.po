@@ -1,0 +1,3594 @@
+# Translation of Plugins - WP Statistics - Stable (latest release) in Kurdish (Sorani)
+# This file is distributed under the same license as the Plugins - WP Statistics - Stable (latest release) package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Plugins - WP Statistics - Stable (latest release)\n"
+"POT-Creation-Date: 2017-08-20 20:21+0330\n"
+"PO-Revision-Date: 2017-08-20 20:21+0330\n"
+"Last-Translator: Mostafa Soufi <mostafa.soufi@hotmail.com>\n"
+"Language-Team: \n"
+"Language: ku_IQ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: F:\\xampp\\htdocs\\cms\\wordpress\\wp-content\\plugins"
+"\\wp-statistics\n"
+"X-Poedit-SearchPath-0: F:\\xampp\\htdocs\\cms\\wordpress\\wp-content\\plugins"
+"\\wp-statistics\n"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:32
+#, php-format
+msgid "%s agent data deleted successfully."
+msgstr "%s بریکاری داتا بە سەرکەوتوویی سڕایەوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:34
+msgid "No agent data found to remove!"
+msgstr "داتای وێبگەڕەکە بۆ سڕینەوە پەیدا نەبوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:68
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:121
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:127
+msgid "Please select the desired items."
+msgstr "تکایە بڕگەی داخوازی خوارەوە هەڵبژێرە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:156
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:186
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:315
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:6
+msgid "Access denied!"
+msgstr "دەستپێگەیشتنی بێمۆڵەت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:63
+#, php-format
+msgid "%s platform data deleted successfully."
+msgstr "ازانیارەکانی سەکۆ %s بە سەرکەوتوویی سڕایەوە.."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:65
+msgid "No platform data found to remove!"
+msgstr "سەکۆی وێبگەڕ بۆ سڕینەوە پەیدا نەبوو."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:181
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:30
+msgid "Number of hits must be greater than or equal to 10!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:234
+#, fuzzy
+msgid "No matching widget found!"
+msgstr "سەردێڕی پەرە پەیدا نەبوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/ajax.php:312
+msgid "ERROR: Widget not found!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:71
+msgid "Quick Stats"
+msgstr "ئاماری خێرا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:43
+msgid "Top 10 Browsers"
+msgstr "١٠ وێبگەڕی لووتکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:76
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:560
+msgid "Top 10 Countries"
+msgstr "١٠ وەڵاتی لووتکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:79
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:545
+#, fuzzy
+msgid "Today's Visitors Map"
+msgstr "میوانەکانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:82
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:54
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:7
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:535
+msgid "Hit Statistics"
+msgstr "ئامری سەردان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:85
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:550
+msgid "Top 10 Pages"
+msgstr "بەرزترین ١٠ پەرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:542
+msgid "Recent Visitors"
+msgstr "دوایین میوانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:91
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:75
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:105
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:557
+msgid "Top Referring Sites"
+msgstr "زۆرترین ماڵپەڕی هاتن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:117
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:305
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:540
+msgid "Search Engine Referrals"
+msgstr "مەکینەی گەڕان هاتنەژوور"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:96
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:555
+msgid "Summary"
+msgstr "کورتە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:98
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:541
+msgid "Latest Search Words"
+msgstr "دوایین وەشەی گەڕان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:101
+msgid "Top 10 Visitors Today"
+msgstr "١٠ میوانی لوتکەی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:144
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:79
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:20
+msgid "Loading..."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:162
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:2
+msgid "Reloading..."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:47
+msgid "Reload"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/dashboard.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:46
+msgid "More Details"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/editor.php:68
+msgid "This post is not yet published."
+msgstr "ئەم نووسراوە هێشتا بڵاو نەکراوەتەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:476
+msgid "Ask.com"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:485
+msgid "Baidu"
+msgstr "بەیدوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:494
+msgid "Bing"
+msgstr "بینگ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:503
+msgid "clearch.org"
+msgstr "clearch.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:512
+msgid "DuckDuckGo"
+msgstr "دەک دەک گۆو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:521
+msgid "Google"
+msgstr "گووگڵ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:530
+msgid "Yahoo!"
+msgstr "یاهو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:539
+msgid "Yandex"
+msgstr "یاندیکس"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1036
+msgid "10 Days"
+msgstr "١٠ ڕۆژی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1037
+msgid "20 Days"
+msgstr "٢٠ ڕۆژی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1038
+msgid "30 Days"
+msgstr "٣٠ ڕۆژی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1039
+msgid "2 Months"
+msgstr "٢ مانگی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1040
+msgid "3 Months"
+msgstr "٣ مانگی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1041
+msgid "6 Months"
+msgstr "٦مانگی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1042
+msgid "9 Months"
+msgstr "٩ مانگی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1043
+msgid "1 Year"
+msgstr "١ ساڵی ڕابردوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1128
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:167
+msgid "Time Frame"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:30
+msgid "MM/DD/YYYY"
+msgstr "MM/DD/YYYY"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1133
+msgid "to"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:30
+msgid "Go"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1177
+#, php-format
+msgid "%s table data deleted successfully."
+msgstr "داتای خەشتی %s بە سەرکەوتوویی سڕایەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/functions.php:1181
+#, php-format
+msgid "Error, %s not emptied!"
+msgstr "هەڵە! %s بەتاڵ نییە!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:24
+msgid ""
+"Unable to load the GeoIP database, make sure you have downloaded it in the "
+"settings page."
+msgstr ""
+"توانایی گەڕانەوەی بنکەدراوەی GeoIP نییە، دەڵنیا بە لە پەرگەی ڕێکخستنەکان "
+"وەردەگیرێت."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/geoip-populate.php:50
+#, php-format
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr "%s ڕیکۆردی GeoIP لە بنکەی دراوە بەڕۆژ بوو."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:25
+#, php-format
+msgid "%s records purged successfully."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:27
+msgid "No visitors found to purge."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge-hits.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:123
+msgid "Database pruned on"
+msgstr "بنکەی دراوە پاکسازی لە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:69
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:106
+#, php-format
+msgid "%s data older than %s days purged successfully."
+msgstr "%s داتای کۆنەتر لە ڕۆژی %s بە سەرکەوتوویی پاکسازی بوو."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:49
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:71
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:108
+#, php-format
+msgid "No records found to purge from %s!"
+msgstr " هیچ ریکۆردێک  پەیدانەبوو بۆ %s! پاکسازی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/functions/purge.php:128
+msgid "Please select a value over 30 days."
+msgstr "تکایە زۆرتر لە ٣٠ ڕۆژ هەڵبژێرن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:30
+msgid "Browser Statistics"
+msgstr "ئاماری وێبگەرەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:475
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:556
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:618
+msgid "Browsers"
+msgstr "وێبگەڕەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:132
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:271
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:85
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:228
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:277
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:69
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:212
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:261
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:159
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:287
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:180
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:62
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:87
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:61
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:90
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:233
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:282
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:175
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:108
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:43
+#, php-format
+msgid "Toggle panel: %s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:71
+msgid "Browsers by type"
+msgstr "وێبگڕەکان لە سەر بنەمای جۆری"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:130
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:22
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:373
+msgid "Platform"
+msgstr "سەکۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:163
+msgid "Browsers by platform"
+msgstr "وێبگەڕەکان لە سەر بنەمای سەکۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/all-browsers.php:269
+#, php-format
+msgid "%s Version"
+msgstr "%s وەشان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:12
+#, fuzzy
+msgid "Author Statistics"
+msgstr "ئامری سەردان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:40
+msgid "Select Author"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:64
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:63
+msgid "Select"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:83
+#, fuzzy
+msgid "Author Statistics Chart"
+msgstr "هێڵکاری ئاماری سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:113
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:134
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:44
+#, fuzzy, php-format
+msgid "Hits in the last %s days"
+msgstr "ئامار لە دوایین ٢٠ ڕۆژدا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:150
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:134
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:155
+#, fuzzy
+msgid "Number of visits"
+msgstr "ژمارەی سەردان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:148
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:169
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:211
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:80
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:134
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:151
+msgid "Visits"
+msgstr "سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:226
+#, fuzzy
+msgid "Author Statistics Summary"
+msgstr "هێڵکاری ئاماری سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:237
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:221
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:242
+#, fuzzy
+msgid "Count"
+msgstr "وەڵات"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:241
+#, fuzzy
+msgid "Number of posts by author"
+msgstr "ژمارەی سەردان و میوانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:231
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:252
+#, fuzzy
+msgid "Chart Visits Total"
+msgstr "بەرزترین میوانەکانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:253
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:237
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:258
+#, fuzzy
+msgid "All Time Visits Total"
+msgstr "بەرزترین میوانەکانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:275
+msgid "Author Posts Sorted by Hits"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:285
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:269
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:290
+msgid "Post Title"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/authors.php:286
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:270
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:291
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:228
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:89
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:392
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:484
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:621
+msgid "Hits"
+msgstr "سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:12
+#, fuzzy
+msgid "Category Statistics"
+msgstr "کورتە ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:40
+msgid "Select Category"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:67
+#, fuzzy
+msgid "Category Statistics Chart"
+msgstr "هێڵکاری ئاماری سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:210
+#, fuzzy
+msgid "Category Statistics Summary"
+msgstr "هێڵکاری ئاماری سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:225
+#, fuzzy
+msgid "Number of posts in category"
+msgstr "ژمارەی سەردان و میوانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/categories.php:259
+msgid "Category Posts Sorted by Hits"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:8
+msgid ""
+"Attention: Exclusion are not currently set to be recorded, the results below "
+"may not reflect current statistics!"
+msgstr ""
+"خاڵ: تائێستا جیاکاری بۆ ریکۆردەکان جیاکاری نەکراوە. ئاکامەکانی خوارەوە "
+"لەوانەیە ئاماری کۆتایی  ڕەنگدانەوەی نەکات."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:87
+msgid "Robot"
+msgstr "ڕۆبۆت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:81
+msgid "Browscap"
+msgstr "Browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:89
+msgid "IP Match"
+msgstr "یەکگرتنەوەی ئایپی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:90
+msgid "Self Referral"
+msgstr "ئاراستەکردنی خۆیی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:91
+msgid "Login Page"
+msgstr "پەڕی چوونەژوورەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:92
+msgid "Admin Page"
+msgstr "پەڕی بەڕێوەبەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:93
+msgid "User Role"
+msgstr "ڕۆڵی بەرکارهێنەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:129
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:172
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:86
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:172
+msgid "Total"
+msgstr "کۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:93
+msgid "GeoIP"
+msgstr "GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:96
+msgid "Hostname"
+msgstr "ناوی خانەخوێ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:97
+msgid "Robot Threshold"
+msgstr "لێواری ڕۆبۆت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:98
+msgid "Honey Pot"
+msgstr "مەنجەڵی هەنگوین"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:99
+msgid "Feeds"
+msgstr "پێشبردنەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:100
+msgid "Excluded URL"
+msgstr "بەستەری دەرکراو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:101
+msgid "404 Pages"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:102
+msgid "Referrer Spam"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:103
+msgid "AJAX Request"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:149
+msgid "Exclusions Statistics"
+msgstr "ئاماری جیاکاریەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:157
+msgid "Exclusions Statistical Chart"
+msgstr "هێڵکاری ئاماری جیاکراوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:188
+#, fuzzy, php-format
+msgid "Excluded hits in the last %s days"
+msgstr "سەردانی دوایین  جیاکردنەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:209
+msgid "Number of excluded hits"
+msgstr "ژمارەی سەردانی جیاکاری"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:285
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:178
+msgid "Hits Statistics Summary"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:296
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:72
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:481
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:620
+msgid "Exclusions"
+msgstr "جیاکاریەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:300
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:194
+msgid "Chart Total"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/exclusions.php:306
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:202
+msgid "All Time Total"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:35
+msgid "Hits Statistics Chart"
+msgstr "هێڵکاری ئاماری سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:65
+msgid "Number of visits and visitors"
+msgstr "ژمارەی سەردان و میوانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/hit-statistics.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/hits.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:145
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:150
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:152
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:514
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:628
+msgid "Visitors"
+msgstr "میوانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:40
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:85
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:197
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:323
+msgid "All"
+msgstr "گشتی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:60
+msgid "Latest Search Word Statistics"
+msgstr "دوایین ئاماری گەڕانی وشە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:112
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:122
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:53
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/jqv.map.php:65
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:13
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:30
+msgid "#hash#"
+msgstr "#hash#"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:116
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:126
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:57
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:140
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/recent.php:17
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/words.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:64
+msgid "Map"
+msgstr "نەخشە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-search.php:170
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:168
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:117
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:231
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:186
+#, php-format
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:82
+msgid "Recent Visitor Statistics"
+msgstr "دوایین ئاماری میوان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/last-visitor.php:84
+msgid "Filtered by"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:6
+msgid "Have you thought about donating to WP Statistics?"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:6
+msgid "Donate Now!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:6
+msgid "Close"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/log.php:17
+#, php-format
+msgid "About WP Statistics Version %s"
+msgstr "دەربارەی زیاد کراوەی ئاماری وۆردپرێس،وەشانی %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:16
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:12
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:12
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:89
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:150
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:39
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:261
+msgid "Online Users"
+msgstr "بەکار‌هێنەرانی سەرهێڵ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:94
+#, fuzzy, php-format
+msgid "Online for %s (HH:MM:SS)"
+msgstr "سەرهێڵ بۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/online.php:108
+msgid "Currently there are no users online in the site."
+msgstr ".لە ئێستادا هیچ بەکارهێنەرێک بۆ ئەم ماڵپەڕ لەسەرهێڵ نییە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:51
+msgid "Page Trend for Post ID"
+msgstr "پەرە بۆ جووڵانەوە شناسنامەی نووسراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/page-statistics.php:59
+msgid "Page Trend"
+msgstr "جووڵانەوە پەرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:37
+msgid "Search Engine Referral Statistics"
+msgstr "ئاماری هاتنەوە لە مەکەینەی گەڕان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:91
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:48
+#, fuzzy, php-format
+msgid "Search engine referrals in the last %s days"
+msgstr "دوایین هاتنەکان لە مەکەینەی گەڕان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/search-statistics.php:112
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/search.php:69
+msgid "Number of referrals"
+msgstr "ژمارەی هاتنەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:12
+#, fuzzy
+msgid "Tag Statistics"
+msgstr "ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:40
+msgid "Select Tag"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:88
+#, fuzzy
+msgid "Tag Statistics Chart"
+msgstr "هێڵکاری ئاماری سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:231
+#, fuzzy
+msgid "Tag Statistics Summary"
+msgstr "هێڵکاری ئاماری سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:246
+#, fuzzy
+msgid "Number of posts in tag"
+msgstr "ژمارەی رێز لە خشت %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/tags.php:280
+msgid "Tag Posts Sorted by Hits"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:35
+msgid "Top Countries"
+msgstr "لوتکەی وەڵاتەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:9
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:15
+msgid "Rank"
+msgstr "پلە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:45
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:17
+msgid "Flag"
+msgstr "ئاڵا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:11
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:18
+msgid "Country"
+msgstr "وەڵات"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-countries.php:47
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/countries.php:12
+msgid "Visitor Count"
+msgstr "ژمارەی میوان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:30
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:173
+msgid "Top Pages"
+msgstr "پەڕەکانی لووتکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:39
+msgid "Top 5 Pages Trends"
+msgstr "لوتکەی ٥ پەرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:85
+msgid "Top 5 Page Trending Stats"
+msgstr "لوتکەی باشترینی ٥ پەڕە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:106
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/page.php:77
+msgid "Number of Hits"
+msgstr "ژمارەی سەردان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #1"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #2"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #3"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #4"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:120
+msgid "Rank #5"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-pages.php:207
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/pages.php:14
+msgid "No page title found"
+msgstr "سەردێڕی پەرە پەیدا نەبوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:4
+msgid "To be added soon"
+msgstr "بە خێرایی زیاد دەبێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:103
+#, fuzzy, php-format
+msgid "Referring site: %s"
+msgstr "ماڵپەرەکانی هاتن  لە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-referring.php:170
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:36
+msgid "References"
+msgstr "سەرچاوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:11
+msgid "Top 100 Visitors Today"
+msgstr "لوتکەی ١٠٠ میوانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:27
+msgid "Date"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/top-visitors.php:41
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:539
+#, fuzzy
+msgid "Top Visitors"
+msgstr "بەرزترین میوانەکانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:11
+msgid "Website"
+msgstr "ماڵپەڕەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:13
+msgid "Rate and Review"
+msgstr "پلەدانان و پێداچوونەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:19
+msgid "More Information"
+msgstr "زانیاری زۆرتر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/about.php:29
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:14
+#, php-format
+msgid ""
+"This product includes GeoLite2 data created by MaxMind, available from %s."
+msgstr ""
+"ائەم بەرهەمە بریتیە لە داتا GeoLite2 ە کە لەلایەن MaxMind،درووستبووە وە لە "
+"%s توانایی دەستپێگەیشتنت هەیە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/browsers.php:36
+msgid "Other"
+msgstr "ئەوی "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/page.php:11
+msgid "Page Trending Stats"
+msgstr "ئامارەکانی پەڕی زۆر خوازراو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:138
+msgid "Today"
+msgstr "ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:139
+msgid "Yesterday"
+msgstr "دوێنێ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:64
+msgid "Last 7 Days (Week)"
+msgstr "٧ ڕۆژی ڕابردوو(هەفتە)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:78
+msgid "Last 30 Days (Month)"
+msgstr "٣٠ ڕۆژ ڕابردوو (مانگ)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:92
+msgid "Last 365 Days (Year)"
+msgstr "٣٦٥ ڕۆژ ڕابردوو(ساڵ)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:164
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:164
+msgid "Daily Total"
+msgstr "کۆی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:188
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:188
+msgid "Current Time and Date"
+msgstr "کات و رێکەوتی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:189
+msgid "(Adjustment)"
+msgstr "(ڕێکخستن)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:194
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:194
+#, php-format
+msgid "Date: %s"
+msgstr "رێکەوت: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/quickstats.php:198
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:198
+#, php-format
+msgid "Time: %s"
+msgstr "کات: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/referring.php:37
+msgid "Address"
+msgstr "ناونیشان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:64
+#, fuzzy
+msgid "Last 7 Days"
+msgstr "٧ ڕۆژی ڕابردوو(هەفتە)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:78
+#, fuzzy
+msgid "Last 30 Days"
+msgstr "٣٠ ڕۆژ ڕابردوو (مانگ)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/summary.php:92
+#, fuzzy
+msgid "Last 365 Days"
+msgstr "٣٦٥ ڕۆژ ڕابردوو(ساڵ)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:19
+msgid "IP"
+msgstr "IP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:21
+msgid "Agent"
+msgstr "بریکار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/log/widgets/top.visitors.php:23
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:362
+msgid "Version"
+msgstr "وەشان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:5
+msgid "Database Setup"
+msgstr "دامەزراندنی بنکە دراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:10
+msgid "Re-run Install"
+msgstr "دامەزراندنی دوبار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:14
+msgid "Install Now!"
+msgstr "دامەزراندن ئێستا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:15
+msgid ""
+"If for some reason your installation of WP Statistics is missing the "
+"database tables or other core items, this will re-execute the install "
+"process."
+msgstr ""
+"گەر بە هەر هۆکارێک دامەزراندنی زیادکراوەی ئاماری وۆردپرێس یان خشتەکان بنکە "
+"دراوە  یان بڕگەکانی دیکەی ناوەڕۆک لەدەست چووە ئەم پرۆسە دامەزراندن دووپات "
+"دەکات"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:20
+msgid "Database Index"
+msgstr "پێنوێنی بنکەدراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:21
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:478
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:619
+msgid "Countries"
+msgstr "وەڵآتەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:42
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:73
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:25
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:40
+msgid "Update Now!"
+msgstr "بەڕۆژکردن ئێستا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:43
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table.  To create the index on the older installs duplicate "
+"entries must be deleted first.  Clicking \"Update Now\" will scan the "
+"vistitors table, delete duplicate entries and add the index."
+msgstr ""
+"لە وەشانی کۆنەی زیادکراوەئامار داتای دووبارە لە سوچێکی خشتی میوان دووپات "
+"دەکرایەوە.وەشانی نوێ لەم بارەیە لە پێرستێک چاکسازیان بۆ بووە.بۆ درووستکردنی "
+"پێرست لە وەشانی کۆنە سەرەتا دەبێت دتاکنا بسڕنەوە.بە کرتە لەسەر بەڕۆژ بوون "
+"سەرەتا خشتی میوانان چاودێری ئینجا داتای دووبارودووپات دەسڕنەوەو پێرست زیاد "
+"دەکەن."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:106
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visitors table."
+msgstr ""
+"ئەم هەڵبژاردە کاتیکی زۆر بۆ بۆ دامەزراندنی ژمارەی رێزەکان لەخشتی میوانەکان "
+"بەخۆیەوە ترخان دەکات."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:49
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visitors "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table."
+msgstr ""
+"لە وەشانی کۆنەی زیادکراوەئامار داتای دووبارە لە سوچێکی خشتی میوان دووپات "
+"دەکرایەوە.وەشانی نوێ لەم بارەیە لە پێرستێک چاکسازیان بۆ بووە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:50
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:111
+msgid ""
+"Congratulations, your installation is already up to date, nothing to do."
+msgstr "پیرۆز بێت.تائێستا دامەزراوەی ئێوە بەڕۆژە و کێشەی نییە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:59
+msgid "Visits Table"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:74
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visits "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table.  To create the index on the older installs duplicate "
+"entries must be deleted first.  Clicking \"Update Now\" will scan the "
+"vistits table, delete duplicate entries and add the index."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:75
+msgid ""
+"This operation could take a long time on installs with many rows in the "
+"visits table."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:80
+msgid ""
+"Older installs of WP Statistics allow for duplicate entries in the visits "
+"table in a corner case.  Newer installs protect against this with a unique "
+"index on the table."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:92
+msgid "Search Table"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:97
+msgid "Convert"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:104
+msgid "Convert Now!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:105
+msgid ""
+"Older installs of WP Statistics store details of searches in the visitors "
+"table which can become a performance issue on large datasets.  A new table "
+"has been created to hold this information in a more scalable fashion, "
+"however the old data must first be converted to the new format before it can "
+"be used."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-database.php:110
+msgid ""
+"Older installs of WP Statistics store details of searches in the visitors "
+"table which can become a performance issue on large datasets.  A new table "
+"has been created to hold this information in a more scalable fashion."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:8
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:257
+msgid "Export"
+msgstr "هەناردەکردن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:13
+msgid "Export from"
+msgstr "هەناردن لە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:18
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:37
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:271
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:155
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:185
+msgid "Please select"
+msgstr "تکایە هەڵبژێرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:26
+msgid "Select the table for the output file."
+msgstr "خشتی داخواز بۆ چونەدەرەڤەی پەڕگە هەڵبژێرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:32
+msgid "Export To"
+msgstr "ناردنەدەرەوە بۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:42
+msgid "Select the output file type."
+msgstr "جۆری چونەدەرەڤەی پەڕگە هەڵبژێرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:48
+msgid "Include Header Row"
+msgstr "تایبەتبوونی سەردێری رێز"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:53
+msgid "Include a header row as the first line of the exported file."
+msgstr "بریتیە لە سەردێڕی رێز لە هێڵی یەکەمی پەڕگەی هەنارەکراوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-export.php:54
+msgid "Start Now!"
+msgstr "دەستپێکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:15
+msgid "Historical Values"
+msgstr "ژمارەی مێژوویی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:20
+msgid ""
+"Note: As you have just purged the database you must reload this page for "
+"these numbers to be correct."
+msgstr ""
+"خاڵ:هەر وا کە بنکەی دراوەتان پاکسازی کرد بۆ نیشاندانی  ژمارە بە تەنیایی "
+"دەبیت پەڕە نوێ بکەنەوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:31
+#, php-format
+msgid ""
+"Number of historical number of visitors to the site (current value is %s)."
+msgstr "ژمارەی مێژووی میوانەکان (ژمارەی ئێستا %s یە)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-historical.php:42
+#, php-format
+msgid ""
+"Number of historical number of visits to the site (current value is %s)."
+msgstr "ژمارەی مێژووی سەردانەکان (ژمارەی ئێستا %s یە)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:10
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:44
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:77
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:110
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:145
+msgid "Are you sure?"
+msgstr "دەڵنیای ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:180
+msgid "Data"
+msgstr "رێکەوت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:185
+msgid "Empty Table"
+msgstr "بەتاڵ بوونی خشت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:199
+msgid "All data table will be lost."
+msgstr "گشتی زانیاریەکانی خشت لەدەست دەچێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:200
+msgid "Clear now!"
+msgstr "پاککردنەە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:208
+msgid "Purge records older than"
+msgstr "پاکسازی ریکۆردی کۆنەتر لە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:213
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:60
+msgid "Days"
+msgstr "ڕۆژ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:214
+#, fuzzy
+msgid ""
+"Delete user statistics data older than the selected number of days.  Minimum "
+"value is 30 days."
+msgstr ""
+"هەڵبژاردنی ڕۆژەکانی پێشتر بۆ سڕینەوەی داتاکانی بەکارهێنەر. کەمترین ژمارە ٣٠ "
+"رۆژ.."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:215
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:230
+msgid "Purge now!"
+msgstr "ئێستا پاکسازیبکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:223
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:84
+msgid "Purge visitors with more than"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:229
+msgid ""
+"Delete user statistics data where the user has more than the defined number "
+"of hits in a day.  This can be useful to clear up old data when your site "
+"has been hit by a bot.  This will remove the visitor and their hits to the "
+"site, however it will not remove individual page hits as that data is not "
+"recorded on a per use basis.  Minimum value is 10 hits."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:237
+msgid "Delete User Agent Types"
+msgstr "سڕینەوەی جۆری سیستەمی کارپێکردنی بەکارهینەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:242
+msgid "Delete Agents"
+msgstr "سڕینەوەی سیستەمی کارپێکردنەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:257
+msgid "All visitor data will be lost for this agent type."
+msgstr "گشتی داتای میوان لەجۆری بریکار لەدەستدەچن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:258
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:282
+msgid "Delete now!"
+msgstr "ئێستا بیسڕەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:266
+msgid "Delete Platforms"
+msgstr "سڕینەوەی سەکۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-purging.php:281
+msgid "All visitor data will be lost for this platform type."
+msgstr "تەواوی داتاکانی سەکۆی سەردان  لەدەست دەچن."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:21
+msgid "Resources"
+msgstr "سەرچاوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:26
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:31
+msgid "Memory usage in PHP"
+msgstr "بیرگەی بەکارهینان لە PHP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:30
+#, fuzzy
+msgid "Bytes"
+msgstr "بایت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:37
+msgid "PHP Memory Limit"
+msgstr "سنووری بیرگەی PHP "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:42
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr "ڕێکخستنی سنووری بیرگە بۆ سکریپتی php.iniلە دابینکراوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:72
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:84
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:96
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:108
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:120
+#, php-format
+msgid "Number of rows in the %s table"
+msgstr "ژمارەی رێز لە خشت %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:54
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:66
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:78
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:90
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:114
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:126
+msgid "Number of rows"
+msgstr "ژمارەی رێزەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:131
+msgid "Version Info"
+msgstr "زانیاری وەشان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:136
+msgid "WP Statistics Version"
+msgstr "وەشانی زیادکراوەی ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:141
+msgid "The WP Statistics version you are running."
+msgstr "وەشانی زیادکراوەی ئاماری ئێستای ئێوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:147
+msgid "PHP Version"
+msgstr "وەشانیPHP "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:152
+msgid "The PHP version you are running."
+msgstr "وەشانی PHPی ئێوە لە کاتی ئیشکردن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:158
+msgid "PHP Safe Mode"
+msgstr "شیوازی پاراستنیPHP "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:163
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:178
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:252
+msgid "Yes"
+msgstr "بەڵێ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:165
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:180
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:251
+msgid "No"
+msgstr "نەخێر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:167
+msgid "Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode."
+msgstr "پاراسنی دۆخی PHP  چالاکە.کۆدەکانی GeoIP لەدۆخی ئسایش پشتیوانی نابن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:173
+msgid "PHP IPv6 Enabled"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:182
+msgid ""
+"Is PHP compiled with IPv6 support.  You may see warning messages in your PHP "
+"log if it is not and you receive HTTP headers with IPv6 addresses in them."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:188
+msgid "jQuery Version"
+msgstr "وەشانی jQuery "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:195
+msgid "The jQuery version you are running."
+msgstr "وەشانی  jQuery ئێوە کە لە ئێستا بەکارتهێناوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:201
+msgid "cURL Version"
+msgstr "وەشانیcURL"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:209
+msgid "cURL not installed"
+msgstr "cURL دانەمزراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:211
+msgid ""
+"The PHP cURL Extension version you are running.  cURL is required for the "
+"GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+"پێوەکراوەی cURL لە PHP ئێوە لەکاتی ڕاکردنە. گەر دانەمەزراوە GeoIP ناچالاک "
+"دەبێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:217
+msgid "Zlib gzopen()"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:222
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:237
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:252
+msgid "Installed"
+msgstr "دامەزرا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:224
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:239
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:254
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:34
+msgid "Not installed"
+msgstr "دانەمەزرا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:226
+msgid ""
+"If the gzopen() function is installed.  gzopen() is required for the GeoIP "
+"database to be downloaded successfully."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:232
+#, fuzzy
+msgid "GMP PHP extension"
+msgstr "وەشانیPHP "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:241
+#, fuzzy
+msgid ""
+"If the GMP Math PHP extension is loaded, either GMP or BCMath is required "
+"for the GeoIP database to be read successfully."
+msgstr ""
+"گر بیریاری پێ زایین  PHPجیاکاری لۆ دامەزراندن بووە.بیرکاری پێش زیینی تر بۆ "
+"دامەزراندن پێویستە بۆ کۆدی  GeoIP تەنیا بە هۆکاری مێژوویی باس کراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:247
+msgid "BCMath PHP extension"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:256
+#, fuzzy
+msgid ""
+"If the BCMath PHP extension is loaded, either GMP or BCMath is required for "
+"the GeoIP database to be read successfully."
+msgstr ""
+"گر بیریاری پێ زایین  PHPجیاکاری لۆ دامەزراندن بووە.بیرکاری پێش زیینی تر بۆ "
+"دامەزراندن پێویستە بۆ کۆدی  GeoIP تەنیا بە هۆکاری مێژوویی باس کراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:261
+msgid "File Info"
+msgstr "زانیاری پەڕگە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:266
+msgid "GeoIP Database"
+msgstr "بنکەدراوەی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:275
+msgid "Database file does not exist."
+msgstr "پەڕگەی بنکەدراوە بوونی نییە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:277
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:296
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:315
+msgid ", created on "
+msgstr "درووستکراوە لە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:279
+msgid "The file size and date of the GeoIP database."
+msgstr "قەبارە پەڕگە ورێکەوتی بنکەیدراوەی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:285
+msgid "browscap.ini File"
+msgstr "پەرگەی browscap.ini"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:294
+msgid "browscap.ini file does not exist."
+msgstr "پەڕگەی browscap.ini بوونی نییە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:298
+msgid "The file size and date of the browscap.ini file."
+msgstr "قەباری و رێکەوتی پەڕگەی browscap.ini"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:304
+msgid "browscap Cache File"
+msgstr "بیرگەی نهێنی browscap "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:313
+msgid "browscap cache file does not exist."
+msgstr "بیرگەی نهێنی browscap  بوونی نییە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:317
+msgid "The file size and date of the browscap cache file."
+msgstr "قەبارە پەڕگە ورێکەوتی بیرگەی نژێنی browscap ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:322
+msgid "Client Info"
+msgstr "زانیاری بەکارهینەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:327
+msgid "Client IP"
+msgstr "IP بەکارهێنەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:332
+msgid "The client IP address."
+msgstr "ناونیشانی IP بەکارهینەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:338
+msgid "User Agent"
+msgstr "بریکاری بەکارهێنەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:343
+msgid "The client user agent string."
+msgstr "رێزبەندی بریکاری بەکارهینەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:349
+msgid "Browser"
+msgstr "وەبگەڕ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:356
+msgid "The detected client browser."
+msgstr "وەبگەڕی ناسراوەی بەکارهینەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:367
+msgid "The detected client browser version."
+msgstr "وەشانی ناسراوەی وێبگەڕی بەکارهینەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-resources.php:378
+msgid "The detected client platform."
+msgstr "سەکۆی ناسراوەی بەکارهینەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:4
+msgid ""
+"This will replace all IP addresses in the database with hash values and "
+"cannot be undo, are you sure?"
+msgstr ""
+"تەواوی ناونیشانەکانی لە بنکەدراوە دەگؤڕدڕێنە سەر هەش وە  ناگەڕێنەوە ،"
+"دەڵنیای ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:16
+msgid "GeoIP Options"
+msgstr "رێکخستنی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:26
+msgid ""
+"Updates any unknown location data in the database, this may take a while"
+msgstr ""
+"وەرگرتنی بەرۆژکردنی شوێنی وەڵآتەکان لە بنکەی درواە.لەوانەیە ئەم کردارە کەمێ "
+"کات بەخۆیەوە ترخان بکات"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:31
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:73
+msgid "IP Addresses"
+msgstr "ناونیشانەکانی IP "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:36
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:78
+msgid "Hash IP Addresses"
+msgstr "هەشکردنی ناونیشانی IP "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/tabs/wps-optimization-updates.php:41
+msgid ""
+"Replace IP addresses in the database with hash values, you will not be able "
+"to recover the IP addresses in the future to populate location information "
+"afterwards and this may take a while"
+msgstr ""
+"تەواوی ناونیشانەکانی IP لە بنکەی دراوە بە هەش دەگۆردرێن و توانایی "
+"گەڕانەوەیان نییە.بۆ ئەم کردارە دەڵنیای ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:44
+msgid "IP Addresses replaced with hash values."
+msgstr "ناونیشانەکانی IP لەگەڵ  بەهای هەش دەگۆڕدرێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:52
+msgid "Install routine complete."
+msgstr "دامەزراندن تەواوبوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:211
+#, php-format
+msgid "Search table conversion complete, %d rows added."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:250
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:519
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:629
+msgid "Optimization"
+msgstr "باشینەسازی)هەژیکردن)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:254
+msgid "Resources/Information"
+msgstr "سەرچاوەکان/زانیاری"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:259
+msgid "Purging"
+msgstr "پاکسازی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:262
+msgid "Database"
+msgstr "بنکەدراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:265
+msgid "Updates"
+msgstr "بەڕۆژبونەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/optimization/wps-optimization.php:268
+msgid "Historical"
+msgstr "مێژوویی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:10
+#, php-format
+msgid "WP Statistics V%s"
+msgstr "ئاماری وۆردپرێس وشانی %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:24
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:522
+msgid "Donate"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:28
+#, php-format
+msgid ""
+"Fell like showing us how much you enjoy WP Statistics? Drop by our %sdonation"
+"%s page and show us some love!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:32
+msgid "Visit Us Online"
+msgstr "دیتنی ئێمە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:36
+#, fuzzy, php-format
+msgid ""
+"Come visit our great new %swebsite%s and keep up to date on the latest news "
+"about WP Statistics."
+msgstr ""
+"بۆ %s نوێی ئێمە بڕۆن تا لە زانیاریەکان و هەواڵەکانی زیادکراوەی ئاماری "
+"وۆردپرێس ئاگادار بن."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:40
+msgid "Rate and Review at WordPress.org"
+msgstr "پلەدانان و پێداچوونەوە لە  WordPress.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:44
+#, fuzzy, php-format
+msgid ""
+"Thanks for installing WP Statistics, we encourage you to submit a %srating "
+"and review%s over at WordPress.org. Your feedback is greatly appreciated!"
+msgstr ""
+"سپاس  و پێزانین بۆ دامەزراندنی  زیادکراوەی ئاماری وۆردپرێس.ئێوە ئێوە "
+"هاندەدەین بۆ ناردنی "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:49
+msgid "Translations"
+msgstr "وەرگێڕانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:53
+#, fuzzy, php-format
+msgid ""
+"WP Statistics supports internationalization. Please visit %sWP Statistics "
+"translations page%s to help translation."
+msgstr ""
+"زیادکراوەی ئاماری وۆردپرێش بۆ بوون بە نێودەوڵەتی هانتان ئەدات تاکوو "
+"وەرگێڕانی لە سەر بکەن., بۆ دیتنی دۆخی وەرگێڕاوەکان %s سەردانی بکەن و گەر پێت "
+"خۆشە  یارمەتیمان بدەی %s سەردانی بکە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:57
+msgid "Support"
+msgstr "پشتیوانی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:62
+msgid ""
+"We're sorry you're having problem with WP Statistics and we're happy to help "
+"out.  Here are a few things to do before contacting us:"
+msgstr ""
+"گەر لە گەڵ زیادکراوەی ئاماری وۆردپرێس کێشەت هەیە !پێمان خۆشە یارمەتیت بدەین."
+"لە خوارەوە دەتوانیت لە تاقمەکانی سوود وەربگریت و پەیوەندیمان پی بکەی : "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
+#, fuzzy, php-format
+msgid "Have you read the %sFAQs%s?"
+msgstr "ئێوە %s ت خوێندوەتەوە ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:65
+msgid "FAQs"
+msgstr "پرسیارەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
+#, fuzzy, php-format
+msgid "Have you read the %sdocumentation%s?"
+msgstr "ئێوە %s ت خوێندوەتەوە ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:66
+msgid "Documentation"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:67
+#, fuzzy, php-format
+msgid "Have you search the %ssupport forum%s for a similar issue?"
+msgstr "لە %s بۆ بابەتەکانی هاوتا گڕانتان کردووە ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:68
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr "ئایا بۆ هەر هەڵە لە ئینتەرنێت گەڕاوی ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:69
+msgid "Make sure you have access to your PHP error logs."
+msgstr "دەڵنیای PHP بە هەڵەکانی دەستپێگەیشتنت هەیە؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:72
+msgid "And a few things to double-check:"
+msgstr "سەرنج بەم چەند خاڵە بدەن :"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:75
+msgid "How's your memory_limit in php.ini?"
+msgstr "ژمارەی memory_limit لەphp.ini چاو پێکەوتووە ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:76
+msgid "Have you tried disabling any other plugins you may have installed?"
+msgstr "هەوڵت داوە زیادکراوەکانی دیکە ناچالللاک بکەی ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:77
+msgid "Have you tried using the default WordPress theme?"
+msgstr "هەوڵت داوا ڕکاری بنەڕەتی وۆردپرێس بکاربێنیت ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:78
+msgid "Have you double checked the plugin settings?"
+msgstr "ئایا ڕێکخستنەکانی زیادکراوەت چاودێری کردووە ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:79
+msgid "Do you have all the required PHP extensions installed?"
+msgstr "ئایا پێویستیەکانی دەستپیگەیشتنی PHP دامەزراندووە؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:80
+#, fuzzy
+msgid "Are you getting a blank or incomplete page displayed in your browser?"
+msgstr ""
+"ئایا پەرەییکی بەتاڵ لە وێبگەڕەکەت  بینڕاوە ؟ئایا هەڵەکانت لە کۆدەکان بینیوە "
+"ئان پشکنینت بۆ کردووە /"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:80
+#, fuzzy
+msgid "Did you view the source for the page and check for any fatal errors?"
+msgstr ""
+"ئایا پەرەییکی بەتاڵ لە وێبگەڕەکەت  بینڕاوە ؟ئایا هەڵەکانت لە کۆدەکان بینیوە "
+"ئان پشکنینت بۆ کردووە /"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:81
+msgid "Have you checked your PHP and web server error logs?"
+msgstr "ئایا PHP گوزارشی هەڵەکانی سێرڤێری وێبەکەت پشکنین کردووە ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:84
+msgid "Still not having any luck?"
+msgstr "هێشتا شآنسو بەختێکت بۆ نییە ؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:84
+#, fuzzy, php-format
+msgid ""
+"Then please open a new thread on the %sWordPress.org support forum%s and "
+"we'll respond as soon as possible."
+msgstr "تکایە تیکێتێکی نوێ لە  %s بنووسن تا لە کەمترین کات وەڵامەت بدەینەوە ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-about.php:88
+#, fuzzy, php-format
+msgid "Alternatively %sFarsi%s support is available as well."
+msgstr "مەکۆی پشتیوانی %s ئێمە ،ڕێگایێکی ترە بۆ دەستپێگەیشتن بە ئێمە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:27
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:185
+msgid "Access Levels"
+msgstr "ئاستی دەستپێگەیشتن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:61
+msgid "Required user level to view WP Statistics"
+msgstr "ئاستی بەکارهێنەری پێویست بۆ دیتنی ئاماری وۆردپرێس"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:82
+msgid "Required user level to manage WP Statistics"
+msgstr "ئاستی بەکارهێنەری پێویست بۆ بەڕێوەبردنی ئاماری وۆردپرێس"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:91
+#, fuzzy, php-format
+msgid ""
+"See the %sWordPress Roles and Capabilities page%s for details on capability "
+"levels."
+msgstr "دیتنی وردەکاری %s لە سەر ئاستی تواناییەکان."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:92
+msgid ""
+"Hint: manage_network = Super Admin Network, manage_options = Administrator, "
+"edit_others_posts = Editor, publish_posts = Author, edit_posts = "
+"Contributor, read = Everyone."
+msgstr ""
+"خاڵ: manage_network =بەڕێوەبەری تۆڕ، manage_options = بەڕیوەبەر، "
+"edit_others_posts = سەرنووسەر، publish_posts = نووسەر، edit_posts = هاوبەش، "
+"read = گشتی."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:93
+msgid ""
+"Each of the above casscades the rights upwards in the default WordPress "
+"configuration.  So for example selecting publish_posts grants the right to "
+"Authors, Editors, Admins and Super Admins."
+msgstr ""
+"هەر ئەکێک لە بڕگەکان بە شێوازی بنەڕەتی لە وۆردپرێس دابین کراوە. بۆ وێنە بە "
+"هەڵبژاردنی publish_posts به نویسنده‌گاه، سەرنووسەرەکان، بەڕێوەبەرو بەرێوەبەری "
+"گشتی دەستپێگەیشتن دەدەیت."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:94
+#, php-format
+msgid ""
+"If you need a more robust solution to delegate access you might want to look "
+"at %s in the WordPress plugin directory."
+msgstr ""
+"گەر پێویستت بە ڕێگاییک دیکە بۆ پەیوەندی لەگەڵ ڕۆڵی بەکارهینەرانی وۆردپرێس "
+"هەیە، نچاو لەم زیادکراوە  %s بکەن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-access-level.php:101
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:278
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:310
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:346
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:234
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:114
+msgid "Update"
+msgstr "بەڕۆژکردن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:25
+msgid "WP Statistics Honey Pot Page"
+msgstr "پەڕەی ئاماری وۆردپرێسی مەنجەڵە هەنگوین"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:26
+msgid "This is the honey pot for WP Statistics to use, do not delete."
+msgstr "ئەم مەنجەڵە هەنگوێنە بۆ بەکارهێنانی ئاماری WPیە،نەبۆ سڕینەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:76
+msgid "Record exclusions"
+msgstr "تۆمارکردنی جیاکاریەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:79
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:136
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:167
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:187
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:68
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:92
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:128
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:190
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:214
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:258
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:282
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:83
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:99
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:123
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:139
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:155
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:167
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:194
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:206
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:221
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:235
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:265
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:281
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:322
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:338
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:77
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:86
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:98
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:110
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:122
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:38
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:58
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:78
+msgid "Enable"
+msgstr "چالاک"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:80
+msgid ""
+"This will record all the excluded hits in a separate table with the reasons "
+"why it was excluded but no other information.  This will generate a lot of "
+"data but is useful if you want to see the total number of hits your site "
+"gets, not just actual user visits."
+msgstr ""
+"جیاکردنی چینیک لە سەردانی ئامارەکە و هەڵگرتنی  ئەان بە نووسینی هۆکارەکەیان "
+"لە خشتێکی تر.دەتوانێت ژمارەیێکی زۆر داتا درووستکرێت.بەسوودە دەتوانن ئامارێکی "
+"پتوتر لە سەردانەکان بەدەت بێنن."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:85
+msgid "Exclude User Roles"
+msgstr "دوورخستنەوەی ڕۆڵی بەکارهێنەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:233
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:240
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:247
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:254
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:261
+msgid "Exclude"
+msgstr "دوورخستنەوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:103
+#, php-format
+msgid "Exclude %s role from data collection."
+msgstr "دوورخستنی ڕۆڵی بەکارهێنەر %s  لە ژمارەی ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:109
+msgid "IP/Robot Exclusions"
+msgstr "جیاکردنی ڕۆبۆت/ئای پی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:113
+msgid "Robot list"
+msgstr "لیستی ڕۆبۆتەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:126
+msgid ""
+"A list of words (one per line) to match against to detect robots.  Entries "
+"must be at least 4 characters long or they will be ignored."
+msgstr ""
+"پیرستێک لە وەشەکان بۆ هەڵسەنگاندن و ناسینی ڕۆبۆتەکان (لە هەر هێڵ وەشەیێک "
+"بنووسن). چوونەژوورەوەکان دەبێت ٤ پیت بن."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:127
+msgid "Reset to Default"
+msgstr "ڕێکخستنەوه بۆ شێوازی بنەڕەتی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:133
+msgid "Force robot list update after upgrades"
+msgstr "بەڕۆژکردنی لیستی ڕۆبۆتەکان پێش بەرزکردنەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:137
+msgid ""
+"Force the robot list to be reset to the default after an update to WP "
+"Statistics takes place.  Note if this option is enabled any custom robots "
+"you have added to the list will be lost."
+msgstr ""
+"پێرستی ڕۆبۆتەکان پاش بەڕۆژ بوونەوە ڕێکدەخرینەە.گەر ئەم برگە هەڵبژیرن پێرست "
+"لەدەست دەچێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:142
+msgid "Robot visit threshold"
+msgstr "لێواری سەفەری ڕۆبۆت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:146
+msgid ""
+"Treat visitors with more than this number of visits per day as robots.  0 = "
+"disabled."
+msgstr ""
+"هەڵسوکەوتکردنی میوانان زۆرتر لەم ژمارە سەردانە لەهەر ڕۆژ بە عینوانی ڕۆبۆت 0 "
+"= ناچالاکە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:151
+msgid "Excluded IP address list"
+msgstr "جیاکردنی پێرستی ناونیشانیIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:154
+#, fuzzy
+msgid ""
+"A list of IP addresses and subnet masks (one per line) to exclude from "
+"statistics collection."
+msgstr ""
+"لیستێک لە بەستەرە ناوخۆییەکان (نمونە /wordpress/about بۆ هەر دێڕێک یەک) بۆ "
+"دەرکردنی لە کۆکراوەی ئامارەکان."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:155
+#, fuzzy
+msgid ""
+"For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 "
+"formats are accepted.  To specify an IP address only, use a subnet value of "
+"32 or 255.255.255.255."
+msgstr ""
+"لیستێک لە ناونیشانی  IPو Subnet Maskهای (لە هەر هیڵ یەک دانی) بۆ بەرگیری لە "
+"ژمێڕیاری ئامار (هەر دوو شێوازی 192.168.0.0/24 و 192.168.0.0/255.255.255.0 "
+"توانیی قبووڵ). بۆ دابین کردن تەنها ئادرەسێک لەIP پێویست  نییەSubnet "
+"Maskزیادی کەن "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:156
+msgid "For IPv6 addresses use the fc00::/7 format."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:157
+msgid "Add 10.0.0.0"
+msgstr "زیادکردنی10.0.0.0"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:158
+msgid "Add 172.16.0.0"
+msgstr "زۆرکردنی172.16.0.0"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:159
+msgid "Add 192.168.0.0"
+msgstr "زیادکردنی192.168.0.0"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:160
+msgid "Add fc00::/7"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:165
+msgid "Use honey pot"
+msgstr "بەکارهینانی مەنجەڵە هەنگوین"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:168
+msgid "Use a honey pot page to identify robots."
+msgstr "بەکارهینانی پەڕەیێک لە مەنجەڵە هەنگوین بۆ ناساندنی ڕۆبۆتەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:173
+msgid "Honey pot post id"
+msgstr "مەنجەڵە هەنگوین ناردنی ناسنامە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:177
+msgid "The post id to use for the honeypot page."
+msgstr "ناردنی ناسنامە بۆ بەکارهێنانی پەڕەی مەنجەڵە هەنگوین"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:178
+msgid "Create a new honey pot page"
+msgstr "درووستکردنی پەڕەی نوێی مەنجەڵە هەنگوین"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:184
+msgid "Treat corrupt browser info as a bot"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:188
+msgid ""
+"Treat any visitor with corrupt browser info (missing IP address or empty "
+"user agent string) as a robot."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:193
+msgid "GeoIP Exclusions"
+msgstr "جیاکراوەکانی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:197
+msgid "Excluded countries list"
+msgstr "لیستی وەڵاتە جیاکراوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:200
+msgid ""
+"A list of country codes (one per line, two letters each) to exclude from "
+"statistics collection.  Use \"000\" (three zeros) to exclude unknown "
+"countries."
+msgstr ""
+"لیستێک لە کۆدی وەڵاتەکان (ئەکدانە لە هەر هێڵ، هەر دوو نامە) لە کۆی ئامار "
+"بریتیە بەکارهێنان لە &quot;000&quot; (سێ سفر) رد بۆ وەڵاتە نەناسراوەکانە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:205
+msgid "Included countries list"
+msgstr "لیستی وەڵاتەکان بریتین لە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:208
+msgid ""
+"A list of country codes (one per line, two letters each) to include in "
+"statistics collection, if this list is not empty, only visitors from the "
+"included countries will be recorded.  Use \"000\" (three zeros) to exclude "
+"unknown countries."
+msgstr ""
+"لیستێک لە کۆدی وەڵاتەکان (لەهەر هێڵ یەکێک، هەر دوو نامە)لە کۆ ئامار بریتییە، "
+"گەر ئەم لیستە بەتاڵ نییە، تەنیا میوانەکان لە وەڵاتەکان تۆمار دەبن. "
+"بەکارهێنان لە &quot;000&quot; (سێ سفر) بۆ قەبووڵ نەکردنی وەڵاتە "
+"نەناسراوەکانە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:213
+msgid "Host Exclusions"
+msgstr "جیاکاری هۆست"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:217
+msgid "Excluded hosts list"
+msgstr "جیاکاری لیستی هۆستەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:220
+msgid ""
+"A list of fully qualified host names (ie. server.example.com, one per line) "
+"to exclude from statistics collection."
+msgstr ""
+"لیستێک لە ناونیشانەکانی خۆماڵی (بۆ وێنە: /wordpress/about، هەر هێڵ) لە کۆی "
+"ئامار دووردەخرێت."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:222
+msgid ""
+"Note: this option will NOT perform a reverse DNS lookup on each page load "
+"but instead cache the IP address for the provided hostnames for one hour.  "
+"If you are excluding dynamically assigned hosts you may find some degree of "
+"overlap when the host changes it's IP address and when the cache is updated "
+"resulting in some hits recorded."
+msgstr ""
+"ئاگاداربە:ئەم بڕگە  dns پێچەوانە لە هەر  نوێکردنی پەڕە بۆ هەر ipێک  کە لە "
+"سەر شەکرەی هەر  سێرڤێرێک لە کاتژمێر بەکاردێت . گەر ئێوە بەرگیری بکەن لە هەر "
+"هۆستێکی تایبەتلەوانەیە کە ءیوە پەیدا بکەن پلەی هاوئاهەنگی لە نێوانگۆڕانی "
+"هۆست کە بە ناونیشانی ئایپی و  بەڕۆژ بوونی ئاکامی سەردانەکان لە  بوونی شەکرە "
+"لە وێبگەر."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:227
+msgid "Site URL Exclusions"
+msgstr "جیاکاری ئادرەسی ماڵپەڕ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:231
+msgid "Excluded login page"
+msgstr "جیاکاری پەڕگەی هاتنە ژوور"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:234
+msgid "Exclude the login page for registering as a hit."
+msgstr "جیاکاری پەڕەی چوونەژوورەوە بۆ ناونووسی  لە ژماردنی ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:238
+msgid "Excluded admin pages"
+msgstr "جیاکاری پەڕەی بەڕێوەبەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:241
+msgid "Exclude the admin pages for registering as a hit."
+msgstr "جیاکاری پەڕەی بەڕێوەبەر بۆ ناونووسی لە ژماردنی ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:245
+msgid "Excluded RSS feeds"
+msgstr "جیاکاری فیدی RSS "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:248
+msgid "Exclude the RSS feeds for registering as a hit."
+msgstr "جیاکاری پەڕەی فیدیRSS  بۆ ناونووسی لە ژماردنی ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:252
+msgid "Excluded 404 pages"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:255
+msgid "Exclude any URL that returns a \"404 - Not Found\" message."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:259
+#, fuzzy
+msgid "Excluded AJAX calls"
+msgstr "لیستی بەستەرە دەرکراوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:262
+msgid "Exclude any call to the WordPress AJAX system."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:266
+msgid "Excluded URLs list"
+msgstr "لیستی بەستەرە دەرکراوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:269
+msgid ""
+"A list of local urls (ie. /wordpress/about, one per line) to exclude from "
+"statistics collection."
+msgstr ""
+"لیستێک لە بەستەرە ناوخۆییەکان (نمونە /wordpress/about بۆ هەر دێڕێک یەک) بۆ "
+"دەرکردنی لە کۆکراوەی ئامارەکان."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-exclusions.php:271
+msgid ""
+"Note: this option will NOT handle url parameters (anything after the ?), "
+"only to the script name.  Entries less than two characters will be ignored."
+msgstr ""
+"تێبینی: ئەم هەڵبژاردنە هیچ پارامێتەری بەستەرێک لە ئەستۆناگرێت ( هەر شتێک "
+"لەدوای ؟)، تەنها بۆ ناوی سکریپتەکە. هەر تێنوسراوێک کەمتر لە دوو پیت پشتگوێ "
+"دەخرێت."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:49
+msgid "GeoIP settings"
+msgstr "ڕێکخستنه‌کانیGeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:54
+#, php-format
+msgid ""
+"IP location services provided by GeoLite2 data created by MaxMind, available "
+"from %s."
+msgstr ""
+"خزمەتگوزاری نیشاندانی شوێن IPلەگەڵ GeoLite2 دابینکراوە و لەلایانMaxMind "
+"درووستکراوە و لە %s توانایی دەستپێگەیشتنی بۆ هەیە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:63
+msgid "GeoIP collection"
+msgstr "کۆی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:69
+msgid ""
+"For get more information and location (country) from visitor, enable this "
+"feature."
+msgstr "بۆ وەرگرتنی زانیاری زۆرتر و شوێنی(وەڵاتی) میوان.ئەم جێگا چالاک بکە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:75
+msgid "Update GeoIP Info"
+msgstr "بەڕۆژ بونی زانیاریەکان GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:80
+msgid "Download GeoIP Database"
+msgstr "داگرتنی بنکەداراوەی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:203
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:271
+msgid "Save changes on this page to download the update."
+msgstr "پاشکەوتی گۆڕانکاری لەم پەرگە و داگرتنی بەڕۆژکراوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:87
+msgid "Schedule monthly update of GeoIP DB"
+msgstr "برنامە دانان بۆ بەڕۆژ کردنی مانگانەی بنکەدراوەی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:217
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:285
+msgid "Next update will be"
+msgstr "بەڕۆژ بوونی داهاتوو هەیە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:97
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:133
+msgid "First Tuesday of this month"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:100
+msgid "First Tuesday of next month"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:116
+msgid ""
+"Download of the GeoIP database will be scheduled for 2 days after the first "
+"Tuesday of the month."
+msgstr "وەرگرتنی بنکەدراوەی GeoIP لە دوو ڕۆژ پاش یەکەمین سێ شەممەی هەر مانگ."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:117
+msgid ""
+"This option will also download the database if the local filesize is less "
+"than 1k (which usually means the stub that comes with the plugin is still in "
+"place)."
+msgstr ""
+"ئەم هەڵبژاردە تەنانەت زانیاریەکانی کەمتر لە ١ کیلۆبایتیش دادگرێت(کە بەمانای "
+"زانیارییەکانی  هاورێی زیادکراوەیە)."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:123
+msgid "Populate missing GeoIP after update of GeoIP DB"
+msgstr "خەڵکی لەدەست چوو GeoIP  پاش لە بەڕۆژ کردنی بنکەی دراوە GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:129
+msgid "Update any missing GeoIP data after downloading a new database."
+msgstr ""
+"بەڕۆژ کردنی هەر داتاییک لەدەست چوو GeoIP پاش لە داگرتنی بنکە دراوەی نوێ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:135
+msgid "Country code for private IP addresses"
+msgstr "کۆدی وەڵآت  بۆ نیشانەکانی IP تایبەت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:140
+msgid ""
+"The international standard two letter country code (ie. US = United States, "
+"CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, "
+"192.158.1.1, 127.0.0.1, etc.).  Use \"000\" (three zeros) to use \"Unknown\" "
+"as the country code."
+msgstr ""
+"ستانداردی دوو کۆدی نێودەوڵەتی نامە (بۆ وێنە. ئەمریکا= وەڵآتی ئەمریکا، CA = "
+"کەنەدا، و هتد) بۆ تایبەت (یوانایی دەتپێگەیشتنی نییە) ناونیشانیIP (بۆ وێنە. "
+"10.0.0.1، 192.158.1.1، 127.0.0.1،و هتد). بەکارهێنان لە &quot;000&quot; (سێ "
+"سفر) به استفاده از &quot;نەناسراو&quot; بە عینوانی کۆدی وەڵات."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:149
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr "کۆی GeoIP بەهۆکاری خوارەوە ناچالاک بووە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:152
+#, php-format
+msgid ""
+"GeoIP collection requires PHP %s or above, it is currently disabled due to "
+"the installed PHP version being  "
+msgstr ""
+"کۆی GeoIP به PHP وەشانی%s یان سەرترەوە پێویستی هەیە، لە ئێستا بە هۆی کەم "
+"بوونی وەشانی PHPئێوە ناچالاکە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:158
+msgid ""
+"GeoIP collection requires the cURL PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"کۆی GeoIPپێویستی بە پێوەکراوەی BC Math لەPHP هەیە وە ناتوانێت لە وەشانی ئێوە "
+"PHPدابین بکرێت!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:164
+msgid ""
+"GeoIP collection requires the BC Math PHP extension and it is not loaded on "
+"your version of PHP!"
+msgstr ""
+"کۆی GeoIPپێویستی بە پێوەکراوەی BC Math لەPHP هەیە وە ناتوانێت لە وەشانی ئێوە "
+"PHPدابین بکرێت!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:170
+msgid ""
+"PHP safe mode detected!  GeoIP collection is not supported with PHP's safe "
+"mode enabled!"
+msgstr ""
+"شێوازی پاراستنی PHP نەدۆزراوە! کۆیGeoIP لەلایەن شیوازی پاراستنی PHP پاڵپشتی "
+"نابێت!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:180
+msgid "browscap settings"
+msgstr "ڕێکخستنەکانی browscap "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:185
+msgid "browscap usage"
+msgstr "سودوەرگرتن لە browscap"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:191
+msgid "The browscap database will be downloaded and used to detect robots."
+msgstr "بنکەی دراوە browscap داگرە بۆ بهەرە وەرگرتن لە رۆبۆت."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:197
+msgid "Update browscap Info"
+msgstr "Browscap بەڕۆژکردنی زانیاریەکانی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:202
+msgid "Download browscap Database"
+msgstr "داگرتنی browscapبنکەدراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:209
+msgid "Schedule weekly update of browscap DB"
+msgstr "ببەرنامەی بەڕۆژ کردنی هەفتانە browscap دسی بی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:235
+msgid "Download of the browscap database will be scheduled for once a week."
+msgstr "داگرتنی بنکەدراوەی browscap بۆبارێک لە حەفتە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:241
+msgid "Piwik Referrer Spam Blacklist settings"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:247
+#, php-format
+msgid "Referrer spam blacklist is provided by Piwik, available from %s."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:253
+msgid "Piwik Referrer Spam Blacklist usage"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:259
+msgid ""
+"The Piwik Referrer Spam Blacklist database will be downloaded and used to "
+"detect referrer spam."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:265
+msgid "Update Piwik Referrer Spam Blacklist Info"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:270
+msgid "Download Piwik Referrer Spam Blacklist Database"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:277
+msgid "Schedule weekly update of Piwik Referrer Spam Blacklist DB"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-externals.php:303
+msgid ""
+"Download of the Piwik Referrer Spam Blacklist database will be scheduled for "
+"once a week."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:84
+msgid ""
+"This feature will not store IP addresses in the database but instead used a "
+"unique hash.  The \"Store entire user agent string\" setting will be "
+"disabled if this is selected.  You will not be able to recover the IP "
+"addresses in the future to recover location information if this is enabled."
+msgstr ""
+"ئەم تایبەتمەندییە ناونیشانی IP لە بنکەی دراوە پاشکەوت دەکات بەڵآم بە جێگای "
+"لە هەشی تایبەت بەهرە وەردەگرێت. String بریکاری بەکارهێنەر کۆی \"Store\" "
+"ڕێکخستن ناچالاک دەبێت گەر ئەم بڕگە هەڵبژێردرێت. ئێوە دەتوانن بۆ گەڕانەوەی "
+"ناونیشان IP لەداهاتو گە ڕانەوەی زانیاریەکانی شوێن چالاک بکەن.."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:94
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:214
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:771
+#, fuzzy
+msgid "Online User"
+msgstr "بەکار‌هێنەرانی سەرهێڵ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:100
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:140
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:156
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:195
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:207
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:236
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:139
+msgid "Enable or disable this feature"
+msgstr "ئەم تایبەتمەندیە چالاک یان ناچالاک بکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:106
+msgid "Check for online users every"
+msgstr "پشکنین بۆ بەکارهێنەرانی سەرهێڵ بکە هەموو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:111
+#, fuzzy
+msgid "Seconds"
+msgstr "چرکەیەک"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:112
+#, fuzzy, php-format
+msgid "Time for the check accurate online user in the site. Now: %s Seconds"
+msgstr "کات بۆ پشکنینی دروستی بەکارهێنەری سەرهیڵ لەم ماڵپەڕە. ئێستا %s چرکەیە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:118
+msgid "Record all user"
+msgstr "تۆمارکردنی گشت بەکارهێنەر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:124
+msgid ""
+"Ignores the exclusion settings and records all users that are online "
+"(including self referrals and robots).  Should only be used for "
+"troubleshooting."
+msgstr ""
+"ڕێکخستنی دەرکردەکان و تۆمارەکانی هەموو بەکارهێنەرانی سەرهێڵ پشتگوێ بخە "
+"( بەلەخۆگرتنی ئاراستەکردنی خۆیی و ڕۆبۆتەکان). پێویستە تەنها بۆ دیاریکردنی "
+"کێشە بەکاربهێندرێت."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:162
+msgid "Store entire user agent string"
+msgstr "تەواوی زنجیرەی بەکارهێنەری بریکار پاشەکەوت بکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:168
+msgid "Only enabled for debugging"
+msgstr "تەنها چالاک بکرێت بۆ هەڵەدۆزین"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:174
+msgid "Coefficient per visitor"
+msgstr "هاوچوستی بۆ هەر سەردانکارێک"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:179
+#, php-format
+msgid "For each visit to account for several hits. Currently %s."
+msgstr "بۆ هەر سەردانێک بۆ هەژمارکردنی ژمارەیەک هەڵدانەوە. لە ئێستادا %s."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:184
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:189
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:490
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:623
+msgid "Pages"
+msgstr "پەڕەكان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:201
+msgid "Track all pages"
+msgstr "شوێن پێی هەموو پەڕەکان بکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:216
+msgid "Strip parameters from URI"
+msgstr "لابردنی پارامێتەرەکان لە بەستەرەکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:222
+msgid "This will remove anything after the ? in a URL."
+msgstr "ئەمە هەموو شتێک دەسڕێتەوە لە دوای ؟ لە بەستەرێکدا"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:230
+msgid "Disable hits column in post/pages list"
+msgstr "ستونی هەڵدانەوەکان لە لیستی بابەت\\پەڕەکان ناچالاک بکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:241
+msgid "Miscellaneous"
+msgstr "هەمەجۆر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:246
+msgid "Show stats in menu bar"
+msgstr "ئامارەكان لە لیست ئامراز پێشان بدە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:254
+msgid "Show stats in admin menu bar"
+msgstr "ئامارەكان لە لیست ئامرازی بەڕێوەبەر پێشان بدە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:260
+msgid "Hide admin notices about non active features"
+msgstr ""
+"ئاگاداركردنەوەكانی بەڕێوەبەر بشارەوە سەبارەت بە تایبەتمەندییە ناچالاكەكان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:266
+msgid ""
+"By default WP Statistics displays an alert if any of the core features are "
+"disabled on every admin page, this option will disable these notices."
+msgstr ""
+"لە بنەرەت زیادکراوەی ئاماری وۆردپرێس  تواناییەکانی ناچالاکی زیاد کراوە بە "
+"شێوەی هەڵە لە پەڕەی بەڕێوەبەر نیشان ئەدات.ئەم هەڵبژاردە ئەم تایبەتمەندییە "
+"ناچالاک دەکات"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:271
+msgid "Search Engines"
+msgstr "مەکینەکانی گەڕان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:276
+msgid "Add page title to empty search words"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:282
+msgid ""
+"If a search engine is identified as the referrer but it does not include the "
+"search query this option will substitute the page title in quotes preceded "
+"by \"~:\" as the search query to help identify what the user may have been "
+"searching for."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:288
+msgid ""
+"Disabling all search engines is not allowed, doing so will result in all "
+"search engines being active."
+msgstr ""
+"ناچاڵاککردنی مەکینەکانی گەڕان کە پێویستت پێیان نییە..ئەم کارە لە ئاکامی گشتی "
+"مەکینەکان کارگێڕی هەیە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:305
+#, fuzzy
+msgid "Disable"
+msgstr "ناچالاک"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:306
+#, php-format
+msgid "Disable %s from data collection and reporting."
+msgstr "ناچالاککردنی %s کۆکردنەوەی داتا و گوزارشەکان."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:312
+msgid "Charts"
+msgstr "هێڵکاریەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:317
+msgid "Include totals"
+msgstr "کۆی گشتی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:323
+msgid ""
+"Add a total line to charts with multiple values, like the search engine "
+"referrals"
+msgstr "زیادکردنی کۆی گشتی بە هێڵکاری ئاماری تێپەڕبوونلە مەکینەکانی گەڕان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:328
+msgid "Languages"
+msgstr "زمانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:333
+msgid "Force English"
+msgstr "ئئنگلیزی بەزۆر"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-general.php:339
+msgid ""
+"Do not use the translations and instead use the English defaults for WP "
+"Statistics (requires two page loads)"
+msgstr ""
+"وەرگێرانەکان بەکارمەهێنە و لە جیاتی ئەوە ئینگلیزی وەکو زمانی بنچینەیی بۆ WP "
+"Statistics  بەکاربهێنە (پێویستی بە بارکردنی دوو پەڕ هەیە)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:28
+msgid ""
+"This will permanently delete data from the database each day, are you sure "
+"you want to enable this option?"
+msgstr "ئەم کردارە داتا کۆنەکان بۆ هەمیشە دەسڕێتەوە. بۆ چالاککردنی دەڵنیای؟"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:38
+msgid "Purge Old Data Daily"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:43
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:72
+msgid "Enabled"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:49
+msgid ""
+"A WP Cron job will be run daily to purge any data older than a set number of "
+"days."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:55
+msgid "Purge data older than"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:61
+msgid ""
+"The number of days to keep statistics for.  Minimum value is 30 days.  "
+"Invalid values will disable the daily maintenance."
+msgstr ""
+"ژمارەی ڕۆژەکان بۆ هێشتنەوەی ئامار. کەمترین ژمارە ٣٠ ڕۆژە.ڕۆژانە ژمارەی "
+"نادرووست ناچالاک دکرێتەوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:66
+msgid "Purge High Hit Count Visitors Daily"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:78
+msgid ""
+"A WP Cron job will be run daily to purge any users statistics data where the "
+"user has more than the defined number of hits in a day (aka they are "
+"probably a bot)."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-maintenance.php:90
+msgid ""
+"The number of hits required to delete the visitor.  Minimum value is 10 "
+"hits.  Invalid values will disable the daily maintenance."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:58
+msgid "Common Report Options"
+msgstr "ڕێکخستنی گوزارشی گشتی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:63
+msgid "E-mail addresses"
+msgstr "ناونیشانەکانی ئیمەیل"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:71
+msgid "A comma separated list of e-mail addresses to send reports to."
+msgstr "بۆ وەرگرتنی ئیمەیلی گوزارش،ناونیشانی ئیمەیلەکان بە کۆما جودابکەنەوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:76
+msgid "Update Reports"
+msgstr "بەڕۆژکردنی گوزارشەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:87
+msgid "Send a report whenever the browscap.ini is updated."
+msgstr "ناردنی گوزارش کاتێک browscap.ini بەڕۆژ دەبێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:99
+msgid "Send a report whenever the GeoIP database is updated."
+msgstr "ناردنی گوزارش کاتێک GeoIP  بەڕۆژ دەبێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:105
+msgid "Pruning"
+msgstr "سڕینەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:111
+msgid "Send a report whenever the pruning of database is run."
+msgstr "ناردنی گوزارش کاتێک بنکەی دراوە بەڕۆژ دەبێت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:117
+msgid "Upgrade"
+msgstr "بەڕۆژبوون"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:123
+msgid "Send a report whenever the plugin is upgraded."
+msgstr "سڕینەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:128
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:133
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:230
+msgid "Statistical reporting"
+msgstr "گوزارشی ئاماری"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:150
+msgid "Schedule"
+msgstr "کات دیاریکردن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:174
+msgid "Select how often to receive statistical report."
+msgstr "چۆنیەتی وەرگرتنی گوزارشی ئامار هەلبژێرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:180
+msgid "Send reports via"
+msgstr "ناردنی گوزارش لە رێگای"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:186
+msgid "Email"
+msgstr "ئیمەیل"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:188
+msgid "SMS"
+msgstr "کۆرتە پەیام"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:191
+msgid "Select delivery method for statistical report."
+msgstr "شێوازی وەرگرتنی گوزارشی ئاماری هەڵبژێرە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:194
+#, php-format
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr "خاڵ: بۆناردنی کورتە پەیام تکایە زیادکراوەی %s دامەرزێنە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:194
+msgid "WordPress SMS"
+msgstr "کورتەپەیامی وۆردپرێس"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:201
+msgid "Report body"
+msgstr "ناوەرۆکی دەقی گوزارش"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:210
+msgid "Enter the contents of the report."
+msgstr "ناوەرۆکی گوزارش بنووسە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:212
+#, fuzzy
+msgid ""
+"Any shortcode supported by your installation of WordPress, include all "
+"shortcodes for WP Statistics (see the documentation for a list of codes "
+"available) are supported in the body of the message.  Here are some examples:"
+msgstr ""
+"هەر کورتە کۆدێک لە لایەن وۆردپرێسی ئێوە پاڵپشتی دەبێت. کورتەکۆدەکان  لە "
+"زیادکراوەی ئامار(لیستی کۆدەکان لە رینمایی بەکارهینەردا هەیە) لە جەستە "
+"پشتیبانی دەکرێت. بۆ وێنە :"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:216
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:53
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:269
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:778
+#, fuzzy
+msgid "Today's Visitors"
+msgstr "میوانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:218
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:46
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:265
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:784
+#, fuzzy
+msgid "Today's Visits"
+msgstr "سەردانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:220
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:67
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:277
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:790
+#, fuzzy
+msgid "Yesterday's Visitors"
+msgstr "میوانی دوێنێ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:222
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:60
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:273
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:796
+#, fuzzy
+msgid "Yesterday's Visits"
+msgstr "سەردانی دوێنێ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:224
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:102
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:297
+#, fuzzy
+msgid "Total Visitors"
+msgstr "کۆی میوانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-notifications.php:226
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:95
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:293
+#, fuzzy
+msgid "Total Visits"
+msgstr "کۆی سەردانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:24
+msgid "Dashboard"
+msgstr "داشبۆرد"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:28
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:48
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:68
+msgid "The following items are global to all users."
+msgstr "بەڕگەکانی خوارەوە  جیهانین بۆ تەواو بەکارهینەران"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:33
+msgid "Disable dashboard widgets"
+msgstr "ناچاڵاککردنی ئامرازی داشبۆرد"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:39
+msgid "Disable the dashboard widgets."
+msgstr "ناچاڵاککردنی ئامرازی داشبۆرد"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:44
+msgid "Page/Post Editor"
+msgstr "دەستکاری پەڕەو/نوسراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:53
+msgid "Disable post/page editor widget"
+msgstr "ناچالاککردنی ئامرازی(ویدجێت)  سەردانی پەرەو/نوسراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:59
+msgid "Disable the page/post editor widget."
+msgstr "ناچالاککردنی ئامرازی(ویدجێت) سەردانی پەرەو/نوسراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:73
+msgid "Disable map"
+msgstr "ناچالاککردنی نخشە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-overview-display.php:79
+msgid "Disable the map display"
+msgstr "ناچالاککردنی نیشاندانی نەخشە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:75
+msgid "WP Statisitcs Removal"
+msgstr "سڕینەوەی زیادکراوەی ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:80
+msgid ""
+"Uninstalling WP Statistics will not remove the data and settings, you can "
+"use this option to remove the WP Statistics data from your install before "
+"uninstalling the plugin."
+msgstr ""
+"سڕینەوەی زیادکراوەی ئاماری وۆردپرێس،سڕینەوەی  ڕیکخستنەکانی زیادکراوەی نییە."
+"ئەم هەڵبژاردە دەتوانن تەواوی زانیاری(خشت و داتا)ی زیادکراوە بسڕنەوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:83
+msgid ""
+"Once you submit this form the settings will be deleted during the page load, "
+"however WP Statistics will still show up in your Admin menu until another "
+"page load is executed."
+msgstr ""
+"پاکسازی لە کاتی بارکردنی پەڕە پاس  بارێک لە تۆمارکردنی ڕێکخستنەکان ئەنجام "
+"دەبێت.بەڵام زیادکراوەی ئاماری وۆردپرێس لە پێرستی بەڕێوەبەر تاکاتێک  بەشەکانی "
+"دیکەی پەڕە هەڵگرسابێت نیشان دەدرێت."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:89
+#, fuzzy
+msgid "Reset options"
+msgstr "رێکخستنی GeoIP"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:94
+msgid "Reset"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:95
+msgid ""
+"Reset the plugin options to the defaults.  This will remove all user and "
+"global settings but will keep all other data.  This action cannot be "
+"undone.  Note: For multi-site installs this will reset all sites to the "
+"defaults."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:101
+msgid "Remove data and settings"
+msgstr "سڕینەوە داتاو ڕێکخستنەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:106
+msgid "Remove"
+msgstr "سڕینەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/tabs/wps-removal.php:107
+msgid "Remove data and settings, this action cannot be undone."
+msgstr "سڕینەوە داتاو ڕێکخستنەکان .ئەم کردارە ناگەرێتەوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:167
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:366
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:520
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:630
+msgid "Settings"
+msgstr "ڕیکخستن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:174
+msgid "General"
+msgstr "گشتی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:178
+msgid "Notifications"
+msgstr "ئاگادارییەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:181
+msgid "Dashboard/Overview"
+msgstr "داشبۆرد/لەچاوپێکەوتنێک"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:192
+msgid "Externals"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:196
+msgid "Maintenance"
+msgstr "پاراستن/چاککردن"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:200
+msgid "Removal"
+msgstr "سڕینەوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/settings/wps-settings.php:203
+msgid "About"
+msgstr "دەربارە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:5
+msgid "These extensions add functionality to your WP-Statistics."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:30
+msgid "Active"
+msgstr "چالاک"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:32
+#, fuzzy
+msgid "Deactivate"
+msgstr "چالاک"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:41
+msgid "Deactivate Add-On"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:44
+msgid "Activate Add-On"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:49
+msgid "Buy Add-On"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:65
+msgid "Join to Market!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/includes/templates/plugins.php:71
+msgid "Submit Add-on"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:10
+msgid "Once Weekly"
+msgstr "جارێک لە هەفتە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:17
+msgid "Once Every 2 Weeks"
+msgstr "هەر ٢ هەفتە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/schedule.php:24
+msgid "Once Every 4 Weeks"
+msgstr "هەر ٤ هەفتە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:144
+msgid "Statistic"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:147
+msgid "Select the statistic you wish to display."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:153
+msgid "Page Visits"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:154
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:505
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:625
+msgid "Searches"
+msgstr "گەرانەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:155
+msgid "Post Count"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:156
+msgid "Page Count"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:157
+msgid "Comment Count"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:158
+msgid "Spam Count"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:159
+msgid "User Count"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:160
+msgid "Post Average"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:161
+msgid "Comment Average"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:162
+msgid "User Average"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:163
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:180
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:360
+msgid "Last Post Date"
+msgstr "ڕێکەوتی بەڕۆژبوونی ماڵپەڕ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:170
+msgid ""
+"The time frame to get the statistic for, strtotime() (http://php.net/manual/"
+"en/datetime.formats.php) will be used to calculate it. Use \"total\" to get "
+"all recorded dates."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:174
+msgid "Search Provider"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:177
+msgid "The search provider to get statistics on."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:181
+msgid "Number Format"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:184
+msgid "The format to display numbers in: i18n, english, none."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:187
+msgid "None"
+msgstr "هیچ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:188
+msgid "English"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:189
+msgid "International"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:193
+msgid "Post/Page ID"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/shortcode.php:196
+msgid "The post/page id to get page statistics on."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:14
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:469
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:574
+msgid "Statistics"
+msgstr "ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:15
+msgid "Show site stats in sidebar."
+msgstr "نیشاندانی ئاماری ماڵپەر لە (ئامرازی) لاتەنیشت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:74
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:281
+#, fuzzy
+msgid "Last 7 Days Visits"
+msgstr "٧ ڕۆژی ڕابردوو(هەفتە)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:81
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:285
+#, fuzzy
+msgid "Last 30 Days Visits"
+msgstr "٣٠ ڕۆژ ڕابردوو (مانگ)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:88
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:289
+#, fuzzy
+msgid "Last 365 Days Visits"
+msgstr "٣٦٥ ڕۆژ ڕابردوو(ساڵ)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:109
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:301
+msgid "Total Page Views"
+msgstr "کۆی گشتی سەردانی پەڕگە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:124
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:328
+msgid "Total Posts"
+msgstr "کۆی نووسراوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:131
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:332
+msgid "Total Pages"
+msgstr "کۆی پەڕەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:138
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:336
+msgid "Total Comments"
+msgstr "کۆی بۆچونەکان(لێدوانەکان)"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:145
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:340
+msgid "Total Spams"
+msgstr "کۆی بێزارکەرەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:152
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:344
+msgid "Total Users"
+msgstr "کۆی بەکارهێنەران"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:159
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:348
+msgid "Average Posts"
+msgstr "مامناوەندی نووسراوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:166
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:352
+msgid "Average Comments"
+msgstr "مامناوەندی بۆچوونەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:173
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:356
+msgid "Average Users"
+msgstr "مامناوەندی بەکارهێنەران"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:253
+msgid "Name"
+msgstr "ناو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:257
+msgid "Items"
+msgstr "بڕگە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/widget.php:310
+msgid "Select type of search engine"
+msgstr "هەڵبژاردنی جۆری مەکینەی گەڕان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:66
+msgid "WP Statistics"
+msgstr "ئاماری وۆردپرێس"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:67
+msgid "Complete statistics for your WordPress site."
+msgstr "ئامری گشتی بۆ ماڵپەڕی وۆردپرێسەکەت"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:101
+#, fuzzy
+msgid "WP Statistics Disabled"
+msgstr "زیادکراوەی ئاماری وۆردپرێس %s دامەزراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:101
+msgid "&#151; You are running an unsupported version of PHP."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:106
+#, fuzzy, php-format
+msgid ""
+"WP Statistics has detected PHP version %s which is unsupported, WP "
+"Statistics requires PHP Version %s or higher!"
+msgstr ""
+"هەڵە: زیادکراوەی ئاماری وۆردپرێس وەشانی پشتیوانی  PHP نەکراوە ناناسێت."
+"زیادکراوە بێ فەرمانی PHPئیش ناکات"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:108
+msgid ""
+"Please contact your hosting provider to upgrade to a supported version or "
+"disable WP Statistics to remove this message."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:140
+msgid "WP Statistics has been removed, please disable and delete it."
+msgstr "زیادکراوە ئاماری وۆردپرێس سڕاوەتەوە .تکایە ناچالاک یان بیشرەوە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:206
+msgid "online user tracking"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:209
+msgid "hit tracking"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:212
+msgid "visitor tracking"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:215
+msgid "geoip collection"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:219
+#, php-format
+msgid ""
+"The following features are disabled, please go to %ssettings page%s and "
+"enable them: %s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:219
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:247
+msgid ","
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:227
+msgid "search table"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:236
+msgid "countries database index"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:237
+msgid "visit database index"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:247
+#, php-format
+msgid ""
+"Database updates are required, please go to %soptimization page%s and update "
+"the following: %s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:354
+#, php-format
+msgid "WP Statistics %s installed on"
+msgstr "زیادکراوەی ئاماری وۆردپرێس %s دامەزراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:379
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr "بۆ دیتنی زیادکراوەی لە WordPress.org کرتەیێک بکە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:379
+msgid "Visit WordPress.org page"
+msgstr "دیتنی پەرەی WordPress.org"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:382
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr "بۆ ]لەدانان بە ئەم زیادکراوە لە سەر ماڵپەڕی Wordpress.org کرتە بکە "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:382
+msgid "Rate this plugin"
+msgstr "پلەدانان بۆ ئەم زیادکراوە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:428
+msgid "WP Statistics - Hits"
+msgstr "ئاماری وۆردپرێس-سەردان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:472
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:577
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:617
+msgid "Overview"
+msgstr "پیشاندانی گشتی"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:487
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:622
+msgid "Online"
+msgstr "سەرهێڵ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:493
+#, fuzzy
+msgid "Categories"
+msgstr "وەڵآتەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:496
+msgid "Tags"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:499
+msgid "Authors"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:502
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:624
+msgid "Referrers"
+msgstr "هاتنەژوورەوەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:508
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:626
+msgid "Search Words"
+msgstr "گەرانی وەشەکان"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:511
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:627
+msgid "Top Visitors Today"
+msgstr "بەرزترین میوانەکانی ئەمڕۆ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:521
+msgid "Add-Ons"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:607
+msgid "Site"
+msgstr "مالپەڕ"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:608
+msgid "Options"
+msgstr "ڕێکخستنه‌کان "
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:695
+msgid "Add-On activated."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:703
+msgid "Add-On deactivated."
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:802
+msgid "View Stats"
+msgstr "نیشاندانی ئامار"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:888
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1017
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:1053
+msgid "You do not have sufficient permissions to access this page."
+msgstr "تۆ مۆڵەتت بۆ دەستپێگەیشتنی ئەم پەڕەیە نییە."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wp-statistics.php:929
+#, php-format
+msgid ""
+"The following plugin table(s) do not exist in the database, please re-run "
+"the %s install routine %s: "
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:16
+msgid "Error the download_url() or gzopen() functions do not exist!"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:40
+#, php-format
+msgid ""
+"Error creating GeoIP database directory, make sure your web server has "
+"permissions to create directories in : %s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:49
+#, php-format
+msgid ""
+"Error setting permissions of the GeoIP database directory, make sure your "
+"web server has permissions to write to directories in : %s"
+msgstr ""
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:59
+#, php-format
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr "هەڵەی داگرتنی بنکەدراوەی GeoIP لە %s: - %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:69
+#, php-format
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr "هەڵەی کردنەوە لە کاتی داگرتنی GeoIPبۆ خوێندن %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:75
+#, php-format
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr "هەڵەی کردنەوە لە کاتی داگرتنی GeoIP بۆ نووسینی: %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:90
+msgid "GeoIP Database updated successfully!"
+msgstr "بنکەیدراوەی GeoIP بە سەرکەوتوویی بە ڕۆژ بوو"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:117
+msgid "GeoIP update on"
+msgstr "GeoIP بەڕۆژ بوو لە"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:189
+#, php-format
+msgid "Error downloading browscap database from: %s - %s"
+msgstr "داگرتنی بنکەی دراوە لە browscapهەڵە لە: %s - %s"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:313
+msgid "browscap database updated successfully!"
+msgstr "browscap بنکەی بە سەرکەوتوویی بەڕۆژ بوو."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:323
+msgid ""
+"browscap database updated failed!  Cache file too large, reverting to "
+"previous browscap.ini."
+msgstr ""
+"بنکەدراوەی browscap بۆ بەڕۆژ بوون سەرکەوتوو نەبووە! پەڕگەی باشکەوتکردن "
+"قەبارەی گەورەیە! بڕۆ بۆ browscap.ini پێشتر."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:331
+msgid ""
+"browscap database updated failed!  New browscap.ini is mis-identifing user "
+"agents as crawlers, reverting to previous browscap.ini."
+msgstr ""
+"بنکەدراوەی browscap بۆ بەڕۆژ بوون سەرکەوتوو نەبووە! browscap.iniنوێ هەڵەیە "
+"identifing بریکاری بەکارهێنەر بەمانای وێبخشۆک بڕۆ بۆ browscap.ini پێشتر."
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:363
+msgid "browscap already at current version!"
+msgstr "browscap لە ئێستا ئامادەیە بۆ ئەم وەشانە!"
+
+#: F:\xampp\htdocs\cms\wordpress\wp-content\plugins\wp-statistics/wps-updates.php:378
+msgid "Browscap.ini update on"
+msgstr "Browscap.ini بەڕۆژکرا"
+
+#~ msgid "Mostafa Soufi & Greg Ross"
+#~ msgstr "Mostafa Soufi & Greg Ross"
+
+#~ msgid "http://wp-statistics.com/"
+#~ msgstr "http://wp-statistics.com/"
+
+#~ msgid "Manual file not found."
+#~ msgstr "ڕێنمایی پەیدا نەبوو"
+
+#~ msgid "Download HTML file"
+#~ msgstr "داگرتنی پەڕگەی HTML"
+
+#~ msgid "Download ODF file"
+#~ msgstr "داگرتنی پەڕگەی ODF"
+
+#~ msgid "Yesterday visitor"
+#~ msgstr "میوانی دوێنێ"
+
+#~ msgid "Today visit"
+#~ msgstr "میوانی ئەمڕؤ"
+
+#~ msgid "Today visitor"
+#~ msgstr "کۆی میوان"
+
+#~ msgid "Manual"
+#~ msgstr "ڕێنمایی"
+
+#~ msgid "Your current PHP version is"
+#~ msgstr "وەشانی ئێستای PHP ئێوە"
+
+#~ msgid " or higher!"
+#~ msgstr "و یان زۆرتر"
+
+#~ msgid "Search Engine Referred"
+#~ msgstr "هاتن لە مەکینەی گەڕان"
+
+#~ msgid "Yesterday visit"
+#~ msgstr "سەردانی دوێنێ"
+
+#~ msgid "Search Engine referred"
+#~ msgstr "هاتن لە مەکینەی گەڕان"
+
+#~ msgid "Years Visit"
+#~ msgstr "سەردانی ساڵ"
+
+#~ msgid "Month Visit"
+#~ msgstr "سەردانی مانگ"
+
+#~ msgid "Week Visit"
+#~ msgstr "سەردانی هەفتە"
+
+#~ msgid "Slot 7"
+#~ msgstr "ئاسۆیی ٧"
+
+#~ msgid "N/A"
+#~ msgstr "بەتاڵ"
+
+#~ msgid "Slot 6"
+#~ msgstr "ئاسۆیی ٦"
+
+#~ msgid "Slot 5"
+#~ msgstr "ئاسۆیی ٥"
+
+#~ msgid "Slot 4"
+#~ msgstr "ئاسۆیی ٤"
+
+#~ msgid "Slot 3"
+#~ msgstr "ئاسۆیی ٣"
+
+#~ msgid "Slot 2"
+#~ msgstr "ئاسۆیی ٢"
+
+#~ msgid "Slot 1"
+#~ msgstr "ئاسۆیی ١"
+
+#~ msgid "Column B"
+#~ msgstr "ئاسۆیی B"
+
+#~ msgid "Column A"
+#~ msgstr "Aئاسۆیی "
+
+#~ msgid "Slot"
+#~ msgstr "ئاسۆیی "
+
+#~ msgid ""
+#~ "The following items are unique to each user.  If you do not select the "
+#~ "'About' widget it will automatically be displayed in the last positon of "
+#~ "column A."
+#~ msgstr ""
+#~ "Aبڕگەکانی ژێرەوە تایبەت بە بەکارهێنەرانن.گەر ئێوە ئامرازی\"دەربارەی "
+#~ "زیادکراوە\"هەڵنەبژیرن ،بەشێوازی خۆکارانە لە ستوونی نیشاندەدرێت"
+
+#~ msgid "Overview Widgets to Display"
+#~ msgstr "پێنوینی بۆ نیشاندانی ویدجێتەکان"
+
+#~ msgid ""
+#~ "This feature may cause a performance degradation when viewing statistics "
+#~ "and is only valid if the map type is set to \"Google\"."
+#~ msgstr ""
+#~ "ئەم تایبەتمەندیە لەوانەیە نیشاندانی ئاماری بە هێواشی ئەنجام بدات .تەنها "
+#~ "بۆ جۆری نەخشەی گووگڵ ڕێکخراوە."
+
+#~ msgid "Get country location from Google"
+#~ msgstr "وەرگرتنی شوێنی وەڵات لە گووگڵ"
+
+#~ msgid ""
+#~ "The \"JQVMap\" option will use JQVMap javascript mapping library to plot "
+#~ "the recent visitors (requires no extenral services)."
+#~ msgstr ""
+#~ "هەڵبژاردەی \"JQVMap\" لە کتێبخانەی جاڤاسکریپت JQVMap بۆ دوایین "
+#~ "سەردانەەکان کەڵک وەردەگرێت. (پێویستی بە خزمەتگوزاری دەرەوەی نابێت )."
+
+#~ msgid ""
+#~ "The \"Google\" option will use Google's mapping service to plot the "
+#~ "recent visitors (requires access to Google)."
+#~ msgstr ""
+#~ "هەلبژاردەی \"گوگڵ\" بۆخزمەتگوزاری نەخشەی گوگڵ بۆ دوایین سەردانەکان بەهرە "
+#~ "وەردەگرێت. (پێویستی بە دەستپێگەیشتنی گووگڵە)."
+
+#~ msgid "JQVMap"
+#~ msgstr "نەخشەیJQV"
+
+#~ msgid "Map type"
+#~ msgstr "جۆری نەخشە"
+
+#~ msgid "Top Pages Visited"
+#~ msgstr "زۆرترین پەرەکانی سەردان"
+
+#~ msgid "Search Engine Referrers Statistical Chart"
+#~ msgstr "هێڵکاری یاماری مەکینەکانی گەڕان"
+
+#~ msgid "Hits Statistical Chart"
+#~ msgstr "هێڵکاری ئاماری سەردان"
+
+#~ msgid "User Online"
+#~ msgstr "بەکارهینەری سەرهێڵ"
+
+#~ msgid ""
+#~ "By default WP Statistics stores the admin manual in the plugin directory "
+#~ "(~5 meg), if this option is enabled it will be deleted now and during "
+#~ "upgrades in the future."
+#~ msgstr ""
+#~ "لە بنەرەت پەرگەی ڕینمایی بەکارهێنەرزیادکراوەی ئامار لە بوخچەی زیادکراوەی "
+#~ "ئامار بە قەبارەی(٥مێگابایت) دانراوە.گەر ئەم هەڵبژاردە چالاک بێت هەر "
+#~ "ئێستا  سڕایەوە و لەکاتی بەڕۆژ بوونەوەس نامێنێت."
+
+#~ msgid "Delete the manual"
+#~ msgstr "سڕینەوەی پەڕگەی ڕینمایی"
+
+#~ msgid "User online"
+#~ msgstr "بەکارهێنەری سەرهێڵ"
+
+#~ msgid "Users Online"
+#~ msgstr "بەکارهێنەری سەرهێڵ"
+
+#~ msgid ""
+#~ "This will delete the manual when you save the settings, are you sure?"
+#~ msgstr "پاش پاشکەتکردنی ڕێکخستنەکان پەڕگەی ڕینمایی دەسڕێتەوە ،دەڵنیای ؟"
+
+#~ msgid "WordPress Roles and Capabilities page"
+#~ msgstr "پەڕەی ڕۆڵەکان و تواناییەکانی وۆردپرێس"
+
+#~ msgid "Farsi"
+#~ msgstr "فارسی"
+
+#~ msgid "WordPress.org support forum"
+#~ msgstr "سەکۆی پشتیوانی WordPress.org"
+
+#~ msgid "support forum"
+#~ msgstr "سەکۆی پشتیوانی"
+
+#~ msgid "manual"
+#~ msgstr "ڕێنمایی"
+
+#~ msgid "drop us a line"
+#~ msgstr "پەیوەندی لەگەڵ ئێمە"
+
+#~ msgid "translation collaboration site"
+#~ msgstr "مالپەڕی هاوکار لە وەرگێڕان"
+
+#~ msgid "over at WordPress.org.  Your feedback is greatly appreciated!"
+#~ msgstr "سەردانی ماڵپەڕی وۆردپرێش بکەن .بۆچوونەکانتان جێگای پێزانینە."
+
+#~ msgid "rating and review"
+#~ msgstr "پلەدانان و پێداچوونەوە"
+
+#~ msgid "website"
+#~ msgstr "ماڵپەڕ"
+
+#~ msgid "BC Math"
+#~ msgstr "بیرکاری BC "
+
+#~ msgid "Row"
+#~ msgstr "رێز"
+
+#~ msgid "Memory usage in the overview page"
+#~ msgstr "بیرگەی بەکارهێنان لە پیشاندانیگشتی بەڕە."
+
+#~ msgid "Last Overview page memory usage"
+#~ msgstr "دوایین پیشاندانی گشتی پەری بیرگەی بەکارهێنراو."
+
+#~ msgid "Update now!"
+#~ msgstr "بەڕۆژکردن"
+
+#~ msgid "User(s) Online"
+#~ msgstr "بەکارهێنەر(ەکان) سەرهێڵ"
+
+#~ msgid "Today Visitors Map"
+#~ msgstr "میوانەکانی ئەمڕۆ لە سەر نەخشە"
+
+#~ msgid "More"
+#~ msgstr "زۆرتر"
+
+#~ msgid "From"
+#~ msgstr "لە"
+
+#~ msgid "Page"
+#~ msgstr "پەڕە"
+
+#~ msgid "Visitor"
+#~ msgstr "میوان"
+
+#~ msgid "Visit"
+#~ msgstr "سەردان"
+
+#~ msgid "Hits in the last"
+#~ msgstr "دوایین سەردانەکان لە"
+
+#~ msgid "days"
+#~ msgstr "ڕۆژی ڕابردوو"
+
+#~ msgid "Click to toggle"
+#~ msgstr "بۆ بەستن و داخستن کرتە بکە"
+
+#~ msgid "WP Statistics Overview"
+#~ msgstr "پیشاندانی گشتی ئامری وۆردپرێس"
+
+#~ msgid "Please reload the dashboard to display the content of this widget."
+#~ msgstr "بۆ دیتنی ناوەڕۆکی  ئامرازی ئامار پەرە بارێک نوێ بکەوە."
