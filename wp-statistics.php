@@ -6,7 +6,7 @@
  * Version: 12.0.11
  * Author: WP-Statistics Team
  * Author URI: http://wp-statistics.com/
- * Text Domain: wp_statistics
+ * Text Domain: wp-statistics
  * Domain Path: /languages/
  * License: GPL2
  */
@@ -58,7 +58,7 @@ function wp_statistics_language() {
 
 	// If not, go ahead and load the translations.
 	if ( ! $override ) {
-		$domain = 'wp_statistics';
+		$domain = 'wp-statistics';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . 'plugins/wp-statistics-' . $locale . '.mo' );
