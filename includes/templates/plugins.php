@@ -23,13 +23,13 @@
                             </div>
                             <div class="plugin-card-bottom">
                                 <div class="column-downloaded">
-                                    <strong>Version: </strong><?php echo $plugin->version; ?>
-                                    <p><strong>Status:</strong>
+                                    <strong><?php _e( 'Version:', 'wp-statistics' ); ?></strong><?php echo ' ' . $plugin->version; ?>
+                                    <p><strong><?php _e( 'Status:', 'wp-statistics' ); ?></strong>
 										<?php
 										if ( is_plugin_active( $plugin->slug . '/' . $plugin->slug . '.php' ) ) {
 											_e( 'Active', 'wp-statistics' );
 										} else if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php' ) ) {
-											_e( 'Deactivate', 'wp-statistics' );
+											_e( 'Inactive', 'wp-statistics' );
 										} else {
 											_e( 'Not installed', 'wp-statistics' );
 										}
@@ -65,10 +65,8 @@
                     <h2 class="hndle ui-sortable-handle"><span><?php _e( 'Join to Market!', 'wp-statistics' ); ?></span>
                     </h2>
                     <div class="inside">
-                        <p>We welcome practical extensions for the WP-Statistics plugin. In case you're a WordPress
-                            programmer and developer and plan to sell extension in this page, please contact us through
-                            the following link.</p>
-                        <a href="http://wp-statistics.com/add-ons/submit" target="_blank" class="button"><?php _e( 'Submit Add-on', 'wp-statistics' ); ?></a>
+                      <p><?php _e( 'We welcome practical extensions for the WP-Statistics plugin. In case you\'re a WordPress programmer and developer and plan to sell extension in this page, please contact us through the following link.', 'wp_statistics' ); ?></p>
+                      <a href="http://wp-statistics.com/add-ons/submit" target="_blank" class="button"><?php _e( 'Submit Add-on', 'wp-statistics' ); ?></a>
                     </div>
                 </div>
             </div>
