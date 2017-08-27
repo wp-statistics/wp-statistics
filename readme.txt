@@ -287,6 +287,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= Beta version =
+* Fixed: PHP syntax error for array brackets when the PHP < 5.4
+
 = 12.0.12 =
 * Added: Add-ons page! The Add-ons add functionality to your WP-Statistics. [Click here](https://wp-statistics.com/add-ons/) to see current Add-ons.
 * Fixed: Translations issue.
