@@ -704,7 +704,7 @@ function wp_statistics_plugins() {
 	$response      = wp_remote_get( 'https://wp-statistics.com/wp-json/addons/get' );
 	$response_code = wp_remote_retrieve_response_code( $response );
 	$error         = null;
-	$plugins       = [];
+	$plugins       = array();
 	// Check response
 	if ( is_wp_error( $response ) ) {
 		$error = $response->get_error_message();
