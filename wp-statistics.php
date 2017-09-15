@@ -951,6 +951,8 @@ function wp_statistics_log( $log_type = "" ) {
 	wp_enqueue_script( 'jqplot-pierenderer', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.pieRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
 	wp_enqueue_script( 'jqplot-enhancedlengend', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.enhancedLegendRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
 
+	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle' . WP_STATISTICS_MIN_EXT . '.js', true, '2.7.0' );
+
 	// Load the pagination code.
 	include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 

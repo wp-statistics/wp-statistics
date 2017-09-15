@@ -267,7 +267,11 @@ function wp_statistics_get_widget_contents_callback() {
 
 				break;
 			case 'hits':
-				wp_statistics_generate_hits_postbox_content();
+				if ( array_key_exists( 'format', $_POST ) and $_POST['format'] == 'dashboard' ) {
+					wp_statistics_generate_hits_postbox_content( 300, 10 );
+				} else {
+					wp_statistics_generate_hits_postbox_content( 110 );
+				}
 
 				break;
 			case 'search':
