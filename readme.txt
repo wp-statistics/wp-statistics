@@ -67,7 +67,6 @@ And a few things to double-check:
 Still not having any luck? Open a new thread on one of the support forums and we'll respond as soon as possible.
 
 * [English Support Forum](https://wordpress.org/support/plugin/wp-statistics)
-* [Persian Support Forum](https://forum.wp-parsi.com/forum/17-%D9%85%D8%B4%DA%A9%D9%84%D8%A7%D8%AA-%D8%AF%DB%8C%DA%AF%D8%B1/)
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
