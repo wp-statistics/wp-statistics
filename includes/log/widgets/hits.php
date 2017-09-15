@@ -1,10 +1,10 @@
 <?php
-function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 20 ) {
+function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 ) {
 	global $wpdb, $WP_Statistics;
 	$id = 'visits-stats-' . rand( 111, 999 );
 
 	for ( $i = $days; $i >= 0; $i -- ) {
-		$date[] = "'" . $WP_Statistics->Current_Date( 'Y-m-d', '-' . $i ) . "'";
+		$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
 	}
 
 	for ( $i = $days; $i >= 0; $i -- ) {
@@ -15,7 +15,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 2
 		$visits[] = wp_statistics_visit( '-' . $i, true );
 	}
 	?>
-    <canvas id="<?php echo $id; ?>" width="400" height="<?php echo $size; ?>"></canvas>
+    <canvas id="<?php echo $id; ?>" height="<?php echo $size; ?>"></canvas>
     <script>
         var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
         var ChartJs = new Chart(ctx, {
@@ -28,7 +28,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300px', $days = 2
                         label: 'Visitors',
                         data: [<?php echo implode( ',', $visitors ); ?>],
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255,99,132,1)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1,
                         fill: true,
                     },
