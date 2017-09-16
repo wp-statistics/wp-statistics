@@ -21,7 +21,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 
         var ChartJs = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: [<?php echo implode( ',', $date ); ?>],
+                labels: [<?php echo implode( ', ', $date ); ?>],
                 datasets: [
 					<?php if ( $WP_Statistics->get_option( 'visitors' ) ) { ?>
                     {
@@ -47,6 +47,9 @@ function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 
             },
             options: {
                 responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
                 title: {
                     display: true,
                     text: '<?php echo sprintf( __( 'Hits in the last %s days', 'wp-statistics' ), $days ); ?>'

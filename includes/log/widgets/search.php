@@ -31,7 +31,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
         var ChartJs = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: [<?php echo implode( ',', $date ); ?>],
+                labels: [<?php echo implode( ', ', $date ); ?>],
                 datasets: [
 					<?php foreach ( $search_engines as $se ): ?>
                     {
@@ -45,7 +45,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
 					<?php endforeach; ?>
 					<?php if ( $total_stats == 1 ) : ?>
                     {
-                        label: '<?php _e( 'Total', 'wp_statistics' ); ?>',
+                        label: '<?php _e( 'Total', 'wp-statistics' ); ?>',
                         data: [<?php echo implode( ',', $total_daily ); ?>],
                         backgroundColor: 'rgba(180, 180, 180, 0.2)',
                         borderColor: 'rgba(180, 180, 180, 1)',
@@ -57,6 +57,9 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
             },
             options: {
                 responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
                 title: {
                     display: true,
                     text: '<?php echo sprintf( __( 'Search engine referrals in the last %s days', 'wp-statistics' ), $days ); ?>'

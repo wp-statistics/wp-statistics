@@ -1,93 +1,82 @@
 <?php
 function wp_statistics_generate_browsers_postbox_content() {
-
 	global $wpdb, $WP_Statistics;
-	?>
-    <script type="text/javascript">
-        jQuery(function () {
-            var browser_chart;
-            jQuery(document).ready(function () {
-				<?php
-				$Browsers = wp_statistics_ua_list();
-				$BrowserVisits = array();
-				$total = 0;
+	$id                   = 'search-stats-' . rand( 111, 999 );
+	$Browsers             = wp_statistics_ua_list();
+	$BrowserVisits        = array();
+	$total                = 0;
+	$count                = 0;
+	$topten               = 0;
+	$topten_browser_name  = array();
+	$topten_browser_value = array();
 
-				foreach ( $Browsers as $Browser ) {
-					$BrowserVisits[ $Browser ] = wp_statistics_useragent( $Browser );
-					$total                     += $BrowserVisits[ $Browser ];
-				}
-
-				arsort( $BrowserVisits );
-
-				echo "var browser_data = [";
-				$count = 0;
-				$topten = 0;
-
-				foreach ( $BrowserVisits as $key => $value ) {
-					echo "['" . substr( $key, 0, 15 ) . " (" . number_format_i18n( $value ) . ")'," . $value . "], ";
-
-					$topten += $value;
-					$count ++;
-					if ( $count > 9 ) {
-						break;
-					}
-				}
-
-				echo "['" . json_encode( __( 'Other', 'wp-statistics' ) ) . " (" . number_format_i18n( $total - $topten ) . ")'," . ( $total - $topten ) . "], ";
-
-				echo "];\n";
-				?>
-
-                browser_chart = jQuery.jqplot('browsers-log', [browser_data], {
-                    title: {
-                        text: '<b>' + <?php echo json_encode( __( 'Top 10 Browsers', 'wp-statistics' ) ); ?> +'</b>',
-                        fontSize: '12px',
-                        fontFamily: 'Tahoma',
-                        textColor: '#000000',
-                    },
-                    seriesDefaults: {
-                        // Make this a pie chart.
-                        renderer: jQuery.jqplot.PieRenderer,
-                        rendererOptions: {
-                            // Put data labels on the pie slices.
-                            // By default, labels show the percentage of the slice.
-                            dataLabels: 'percent',
-                            showDataLabels: true,
-                            shadowOffset: 0,
-                        }
-                    },
-                    legend: {
-                        show: true,
-                        location: 's',
-                        renderer: jQuery.jqplot.EnhancedPieLegendRenderer,
-                        rendererOptions: {
-                            numberColumns: 2,
-                            disableIEFading: false,
-                            border: 'none',
-                        },
-                    },
-                    grid: {background: 'transparent', borderWidth: 0, shadow: false},
-                    highlighter: {
-                        show: true,
-                        formatString: '%s',
-                        tooltipLocation: 'n',
-                        useAxesFormatters: false,
-                    },
-                });
-            });
-
-            jQuery(window).resize(function () {
-                browser_chart.replot({resetAxes: true});
-            });
-        });
-
-    </script>
-
-    <div id="browsers-log" style="height: <?php $height = ( count( $Browsers ) / 2 * 27 ) + 300;
-	if ( $height > 462 ) {
-		$height = 462;
+	foreach ( $Browsers as $Browser ) {
+		$BrowserVisits[ $Browser ] = wp_statistics_useragent( $Browser );
+		$total                     += $BrowserVisits[ $Browser ];
 	}
-	echo $height; ?>px;"></div>
+
+	arsort( $BrowserVisits );
+
+	foreach ( $BrowserVisits as $key => $value ) {
+		$topten += $value;
+		$count ++;
+		if ( $count > 9 ) {
+			break;
+		}
+
+		$topten_browser_name[]  = "'" . $key . "'";
+		$topten_browser_value[] = $value;
+	}
+
+	if ( $topten_browser_name and $topten_browser_value ) {
+		$topten_browser_name[]  = "'" . __( 'Other', 'wp-statistics' ) . "'";
+		$topten_browser_value[] = ( $total - $topten );
+	}
+	?>
+    <canvas id="<?php echo $id; ?>" height="240"></canvas>
+    <script>
+        var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
+        var ChartJs = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [<?php echo implode( ', ', $topten_browser_name ); ?>],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [<?php echo implode( ', ', $topten_browser_value ); ?>],
+                    backgroundColor: [
+                        "rgba(230, 126, 34, 0.4)",
+                        "rgba(142, 68, 173, 0.4)",
+                        "rgba(72, 201, 176, 0.4)",
+                        "rgba(244, 208, 63, 0.4)",
+                        "rgba(84, 153, 199, 0.4)",
+                        "rgba(231, 76, 60, 0.4)",
+                        "rgba(93, 109, 126, 0.4)",
+                        "rgba(23, 216, 35, 0.4)",
+                        "rgba(23, 205, 216, 0.4)",
+                        "rgba(140, 140, 140, 0.4)",
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var dataset = data.datasets[tooltipItem.datasetIndex];
+                            var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                                return previousValue + currentValue;
+                            });
+                            var currentValue = dataset.data[tooltipItem.index];
+                            var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                            return precentage + "% - " + data.labels[tooltipItem.index];
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 	<?php
 }
-
