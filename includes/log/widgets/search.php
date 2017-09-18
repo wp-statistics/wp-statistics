@@ -52,7 +52,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
                         backgroundColor: 'rgba(180, 180, 180, 0.2)',
                         borderColor: 'rgba(180, 180, 180, 1)',
                         borderWidth: 1,
-                        fill: true,
+                        fill: false,
                     },
 					<?php endif;?>
                 ]
