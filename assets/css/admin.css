@@ -56,3 +56,7 @@
     font-size: 15px;
     color: #589616;
 }
+
+.wp-statistics-sub-fullwidth {
+    width: 100%;
+}

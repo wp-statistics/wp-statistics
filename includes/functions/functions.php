@@ -1091,7 +1091,7 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 		$rangeend   = $WP_Statistics->Current_Date( 'm/d/Y' );
 	}
 
-	echo '<form method="get"><ul class="subsubsub">' . "\r\n";
+	echo '<form method="get"><ul class="subsubsub wp-statistics-sub-fullwidth">' . "\r\n";
 
 	// Output any extra HTML we've been passed after the form element but before the date selector.
 	echo $pre_extra;
