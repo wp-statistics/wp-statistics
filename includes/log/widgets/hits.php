@@ -1,7 +1,9 @@
 <?php
 function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 ) {
 	global $wpdb, $WP_Statistics;
-	$id = 'visits-stats-' . rand( 111, 999 );
+	$id       = 'visits-stats-' . rand( 111, 999 );
+	$visitors = array();
+	$visits   = array();
 
 	for ( $i = $days; $i >= 0; $i -- ) {
 		$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
@@ -25,7 +27,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 
                 datasets: [
 					<?php if ( $WP_Statistics->get_option( 'visitors' ) ) { ?>
                     {
-                        label: 'Visitors',
+                        label: '<?php _e( 'Visitors', 'wp-statistics' ); ?>',
                         data: [<?php echo implode( ',', $visitors ); ?>],
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
@@ -35,7 +37,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 
 					<?php } ?>
 					<?php if ( $WP_Statistics->get_option( 'visits' ) ) { ?>
                     {
-                        label: 'Visits',
+                        label: '<?php _e( 'Visits', 'wp-statistics' ); ?>',
                         data: [<?php echo implode( ',', $visits ); ?>],
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',

@@ -59,7 +59,7 @@ function wp_statistics_language() {
 	// If not, go ahead and load the translations.
 	if ( ! $override ) {
 		load_plugin_textdomain( 'wp-statistics', false, basename( dirname( __FILE__ ) ) . '/languages' );
-        
+
 		__( 'WP Statistics', 'wp-statistics' );
 		__( 'Complete statistics for your WordPress site.', 'wp-statistics' );
 	}
@@ -806,7 +806,11 @@ if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
 	add_action( 'admin_bar_menu', 'wp_statistics_menubar', 20 );
 }
 
-// This is the main statistics display function.
+/**
+ * This is the main statistics display function.
+ *
+ * @param string $log_type
+ */
 function wp_statistics_log( $log_type = "" ) {
 	GLOBAL $wpdb, $WP_Statistics, $plugin_page;
 
@@ -951,8 +955,6 @@ function wp_statistics_log( $log_type = "" ) {
 	wp_enqueue_script( 'jqplot-pierenderer', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.pieRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
 	wp_enqueue_script( 'jqplot-enhancedlengend', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.enhancedLegendRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
 
-	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle' . WP_STATISTICS_MIN_EXT . '.js', true, '2.7.0' );
-
 	// Load the pagination code.
 	include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 
@@ -1005,6 +1007,12 @@ function wp_statistics_log( $log_type = "" ) {
 			break;
 	}
 }
+
+function wp_statistics_load_scripts() {
+	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle' . WP_STATISTICS_MIN_EXT . '.js', true, '2.7.0' );
+}
+
+add_action( 'admin_enqueue_scripts', 'wp_statistics_load_scripts' );
 
 // This function loads the optimization page code.
 function wp_statistics_optimization() {

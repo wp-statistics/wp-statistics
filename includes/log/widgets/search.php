@@ -3,6 +3,8 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
 	global $wpdb, $WP_Statistics;
 	$id          = 'search-stats-' . rand( 111, 999 );
 	$total_stats = $WP_Statistics->get_option( 'chart_totals' );
+	$date        = array();
+	$stats       = array();
 	$total_daily = array();
 
 	for ( $i = $days; $i >= 0; $i -- ) {

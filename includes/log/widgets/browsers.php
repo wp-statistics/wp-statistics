@@ -41,7 +41,7 @@ function wp_statistics_generate_browsers_postbox_content() {
             data: {
                 labels: [<?php echo implode( ', ', $topten_browser_name ); ?>],
                 datasets: [{
-                    label: '# of Votes',
+                    label: '<?php _e( 'Browsers', 'wp-statistics' ); ?>',
                     data: [<?php echo implode( ', ', $topten_browser_value ); ?>],
                     backgroundColor: [
                         "rgba(230, 126, 34, 0.4)",
