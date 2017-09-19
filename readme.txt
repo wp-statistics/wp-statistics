@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.8
-Stable tag: 12.0.12.1
+Stable tag: 12.1.0
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -286,6 +286,12 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.1.0 =
+* Added: Awesome charts! The Chartjs library used in the plugin for show charts.
+* Updated: Countries code.
+* Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo and Mayotte)
+* Fixed: Postbox container width in Logs page
+
 = 12.0.12.1 =
 * Fixed: PHP syntax error for array brackets when the PHP < 5.4
 

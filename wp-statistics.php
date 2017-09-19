@@ -3,7 +3,7 @@
  * Plugin Name: WP Statistics
  * Plugin URI: http://wp-statistics.com/
  * Description: Complete statistics for your WordPress site.
- * Version: 12.0.12.1
+ * Version: 12.1.0
  * Author: WP-Statistics Team
  * Author URI: http://wp-statistics.com/
  * Text Domain: wp-statistics
@@ -12,7 +12,7 @@
  */
 
 // These defines are used later for various reasons.
-define( 'WP_STATISTICS_VERSION', '12.0.12.1' );
+define( 'WP_STATISTICS_VERSION', '12.1.0' );
 define( 'WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0' );
 define( 'WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION );
 define( 'WPS_EXPORT_FILE_NAME', 'wp-statistics' );
@@ -1008,10 +1008,12 @@ function wp_statistics_log( $log_type = "" ) {
 	}
 }
 
+// Load admin scripts
 function wp_statistics_load_scripts() {
 	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle' . WP_STATISTICS_MIN_EXT . '.js', true, '2.7.0' );
 }
 
+// Add admin scripts action
 add_action( 'admin_enqueue_scripts', 'wp_statistics_load_scripts' );
 
 // This function loads the optimization page code.
