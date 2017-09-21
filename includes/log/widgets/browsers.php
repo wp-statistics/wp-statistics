@@ -1,7 +1,7 @@
 <?php
 function wp_statistics_generate_browsers_postbox_content() {
 	global $wpdb, $WP_Statistics;
-	$id                   = 'search-stats-' . rand( 111, 999 );
+	$id                   = 'browser-stats-' . rand( 111, 999 );
 	$Browsers             = wp_statistics_ua_list();
 	$BrowserVisits        = array();
 	$total                = 0;

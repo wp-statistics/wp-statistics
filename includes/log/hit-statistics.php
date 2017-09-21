@@ -49,7 +49,6 @@
 		$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
 	}
 	?>
-
     <div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
