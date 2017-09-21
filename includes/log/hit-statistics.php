@@ -48,11 +48,6 @@
 	for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 		$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
 	}
-
-	$tickInterval = round( $daysToDisplay / 20, 0 );
-	if ( $tickInterval < 1 ) {
-		$tickInterval = 1;
-	}
 	?>
 
     <div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
