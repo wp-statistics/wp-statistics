@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1d0528fc4586a954e5c487bfcb0444b2",
     "content-hash": "b02574b3168e88e8f4d17f9f12d910a4",
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12"
+                "reference": "9dd73a03951357922d8aee6cc084500de93e2343"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
-                "reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9dd73a03951357922d8aee6cc084500de93e2343",
+                "reference": "9dd73a03951357922d8aee6cc084500de93e2343",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +63,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2017-03-06 11:59:08"
+            "time": "2017-09-11T07:24:36+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -117,7 +116,7 @@
                 "geolocation",
                 "maxmind"
             ],
-            "time": "2017-07-10 17:59:43"
+            "time": "2017-07-10T17:59:43+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -172,7 +171,7 @@
                 "geolocation",
                 "maxmind"
             ],
-            "time": "2017-01-19 23:49:38"
+            "time": "2017-01-19T23:49:38+00:00"
         },
         {
             "name": "maxmind/web-service-common",
@@ -218,7 +217,7 @@
             ],
             "description": "Internal MaxMind Web Service API",
             "homepage": "https://github.com/maxmind/web-service-common-php",
-            "time": "2017-07-06 17:48:21"
+            "time": "2017-07-06T17:48:21+00:00"
         },
         {
             "name": "s1lentium/iptools",
@@ -268,7 +267,7 @@
                 "network",
                 "subnet"
             ],
-            "time": "2016-08-21 15:57:09"
+            "time": "2016-08-21T15:57:09+00:00"
         }
     ],
     "packages-dev": [],
