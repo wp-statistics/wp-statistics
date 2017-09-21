@@ -80,7 +80,7 @@
 	}
 
 	for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
-		$date[] = $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . ( $i + $daysInThePast ), $rangeend_utime );
+		$date[] = "'" . $WP_Statistics->Real_Current_Date( 'M j', '-' . ( $i + $daysInThePast ), $rangeend_utime ) . "'";
 
 		$stat = 0;
 		foreach ( $posts as $post ) {
