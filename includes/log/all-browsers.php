@@ -25,6 +25,24 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 $rangestartdate = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangestart_utime );
 $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_utime );
 
+$Browsers = wp_statistics_ua_list();
+if ( ! is_array( $Browsers ) ) {
+	$Browsers = array();
+}
+
+natcasesort( $Browsers );
+
+foreach ( $Browsers as $Browser ) {
+	$BrowserVisits[ $Browser ] = wp_statistics_useragent( $Browser, $rangestartdate, $rangeenddate );
+}
+
+$i = 0;
+foreach ( $BrowserVisits as $key => $value ) {
+	$i ++;
+	$browser_name[]  = "'" . $key . "'";
+	$browser_value[] = $value;
+	$browser_color[] = wp_statistics_generate_rgba_color( $i, '0.4' );
+}
 ?>
 <div class="wrap">
     <h2><?php _e( 'Browser Statistics', 'wp-statistics' ); ?></h2>
@@ -35,13 +53,50 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Browsers', 'wp-statistics' ); ?>
+					<?php $paneltitle = __( 'Browsers', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
+                        <canvas id="browsers-log" height="400"></canvas>
+                        <script>
+                            var ctx = document.getElementById("browsers-log").getContext('2d');
+                            var ChartJs = new Chart(ctx, {
+                                type: 'pie',
+                                data: {
+                                    labels: [<?php echo implode( ', ', $browser_name ); ?>],
+                                    datasets: [{
+                                        label: '<?php _e( 'Browsers', 'wp-statistics' ); ?>',
+                                        data: [<?php echo implode( ', ', $browser_value ); ?>],
+                                        backgroundColor: [<?php echo implode( ', ', $browser_color ); ?>],
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    legend: {
+                                        position: 'bottom',
+                                    },
+                                    tooltips: {
+                                        callbacks: {
+                                            label: function (tooltipItem, data) {
+                                                var dataset = data.datasets[tooltipItem.datasetIndex];
+                                                var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                                                    return previousValue + currentValue;
+                                                });
+                                                var currentValue = dataset.data[tooltipItem.index];
+                                                var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                                                return precentage + "% - " + data.labels[tooltipItem.index];
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+
+						<?php exit; ?>
+
                         <script type="text/javascript">
                             jQuery(function () {
                                 var browser_chart;
@@ -55,17 +110,12 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 									natcasesort( $Browsers );
 
 									echo "var browser_data = [";
-
 									foreach ( $Browsers as $Browser ) {
 										$count = wp_statistics_useragent( $Browser, $rangestartdate, $rangeenddate );
 										echo "['" . substr( $Browser, 0, 15 ) . " (" . number_format_i18n( $count ) . ")'," . $count . "], ";
 									}
-
 									echo "];\n";
-
-
 									?>
-
                                     browser_chart = jQuery.jqplot('browsers-log', [browser_data], {
                                         title: {
                                             text: '<b>' + <?php echo json_encode( __( 'Browsers by type', 'wp-statistics' ) ); ?> +'</b>',
@@ -127,7 +177,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Platform', 'wp-statistics' ); ?>
+					<?php $paneltitle = __( 'Platform', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
@@ -147,15 +197,11 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 									natcasesort( $Platforms );
 
 									echo "var platform_data = [";
-
 									foreach ( $Platforms as $Platform ) {
 										$count = wp_statistics_platform( $Platform );
 										echo "['" . substr( $Platform, 0, 15 ) . " (" . number_format_i18n( $count ) . ")'," . $count . "], ";
 									}
-
 									echo "];\n";
-
-
 									?>
 
                                     platform_chart = jQuery.jqplot('platform-log', [platform_data], {
@@ -226,7 +272,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 				<?php
 				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 0 ) {
-						BrowserVersionStats( $Browsers[ $BrowserCount ] );
+						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ] );
 					}
 				}
 				?>
@@ -240,7 +286,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 				<?php
 				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 1 ) {
-						BrowserVersionStats( $Browsers[ $BrowserCount ] );
+						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ] );
 					}
 				}
 				?>
@@ -254,7 +300,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
 				<?php
 				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 2 ) {
-						BrowserVersionStats( $Browsers[ $BrowserCount ] );
+						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ] );
 					}
 				}
 				?>
@@ -263,10 +309,10 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
     </div>
 </div>
 
-<?php function BrowserVersionStats( $Browser, $rangestartdate = null, $rangeenddate = null ) {
+<?php function wp_statistics_browser_version_stats( $Browser, $rangestartdate = null, $rangeenddate = null ) {
 	$Browser_tag = strtolower( preg_replace( '/[^a-zA-Z]/', '', $Browser ) ); ?>
     <div class="postbox">
-        <?php $paneltitle = sprintf( __( '%s Version', 'wp-statistics' ), $Browser ); ?>
+		<?php $paneltitle = sprintf( __( '%s Version', 'wp-statistics' ), $Browser ); ?>
         <button class="handlediv" type="button" aria-expanded="true">
             <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -335,7 +381,7 @@ $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_ut
                     });
 
                     jQuery(window).resize(function () {
-                        <?php echo $Browser_tag;?>_chart.replot({resetAxes: true});
+						<?php echo $Browser_tag;?>_chart.replot({resetAxes: true});
                     });
 
                 });

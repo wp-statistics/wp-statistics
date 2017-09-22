@@ -26,11 +26,13 @@ function wp_statistics_generate_browsers_postbox_content() {
 
 		$topten_browser_name[]  = "'" . $key . "'";
 		$topten_browser_value[] = $value;
+		$topten_browser_color[] = wp_statistics_generate_rgba_color( $count, '0.4' );
 	}
 
 	if ( $topten_browser_name and $topten_browser_value ) {
 		$topten_browser_name[]  = "'" . __( 'Other', 'wp-statistics' ) . "'";
 		$topten_browser_value[] = ( $total - $topten );
+		$topten_browser_color[] = wp_statistics_generate_rgba_color( 10, '0.4' );
 	}
 	?>
     <canvas id="<?php echo $id; ?>" height="240"></canvas>
@@ -43,18 +45,7 @@ function wp_statistics_generate_browsers_postbox_content() {
                 datasets: [{
                     label: '<?php _e( 'Browsers', 'wp-statistics' ); ?>',
                     data: [<?php echo implode( ', ', $topten_browser_value ); ?>],
-                    backgroundColor: [
-                        "rgba(230, 126, 34, 0.4)",
-                        "rgba(142, 68, 173, 0.4)",
-                        "rgba(72, 201, 176, 0.4)",
-                        "rgba(244, 208, 63, 0.4)",
-                        "rgba(84, 153, 199, 0.4)",
-                        "rgba(231, 76, 60, 0.4)",
-                        "rgba(93, 109, 126, 0.4)",
-                        "rgba(23, 216, 35, 0.4)",
-                        "rgba(23, 205, 216, 0.4)",
-                        "rgba(140, 140, 140, 0.4)",
-                    ],
+                    backgroundColor: [<?php echo implode( ', ', $topten_browser_color ); ?>],
                 }]
             },
             options: {

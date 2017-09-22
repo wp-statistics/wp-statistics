@@ -167,9 +167,9 @@ function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate 
 	// If a page/post ID has been passed, use it to select the rows, otherwise use the URI.
 	//  Note that a single page/post ID can have multiple URI's associated with it.
 	if ( $id != - 1 ) {
-		$page_sql    = '`id` = ' . absint($id);
+		$page_sql    = '`id` = ' . absint( $id );
 		$history_key = 'page';
-		$history_id  = absint($id);
+		$history_id  = absint( $id );
 	} else {
 		$page_sql    = "`URI` = '{$page_uri_sql}'";
 		$history_key = 'uri';
@@ -631,15 +631,15 @@ function wp_statistics_searchengine_query( $search_engine = 'all' ) {
 		if ( strtolower( $search_engine ) == 'all' ) {
 			// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
 			foreach ( $searchengine_list as $key => $se ) {
-				$key = esc_sql($key);
+				$key          = esc_sql( $key );
 				$search_query .= "`engine` = '{$key}' OR ";
 			}
 
 			// Trim off the last ' OR ' for the loop above.
 			$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
 		} else {
-			$search_engine = esc_sql($search_engine);
-			$search_query .= "`engine` = '{$search_engine}'";
+			$search_engine = esc_sql( $search_engine );
+			$search_query  .= "`engine` = '{$search_engine}'";
 		}
 	} else {
 		// Are we getting results for all search engines or a specific one?
@@ -650,12 +650,12 @@ function wp_statistics_searchengine_query( $search_engine = 'all' ) {
 				// The SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
 				if ( is_array( $se['sqlpattern'] ) ) {
 					foreach ( $se['sqlpattern'] as $subse ) {
-						$subse = esc_sql($subse);
+						$subse        = esc_sql( $subse );
 						$search_query .= "`referred` LIKE '{$subse}' OR ";
 					}
 				} else {
-					$se['sqlpattern'] = esc_sql($se['sqlpattern']);
-					$search_query .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
+					$se['sqlpattern'] = esc_sql( $se['sqlpattern'] );
+					$search_query     .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
 				}
 			}
 
@@ -665,15 +665,15 @@ function wp_statistics_searchengine_query( $search_engine = 'all' ) {
 			// For just one?  Ok, the SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
 			if ( is_array( $searchengine_list[ $search_engine ]['sqlpattern'] ) ) {
 				foreach ( $searchengine_list[ $search_engine ]['sqlpattern'] as $se ) {
-					$se = esc_sql($se);
+					$se           = esc_sql( $se );
 					$search_query .= "`referred` LIKE '{$se}' OR ";
 				}
 
 				// Trim off the last ' OR ' for the loop above.
 				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
 			} else {
-				$searchengine_list[$search_engine]['sqlpattern'] = esc_sql($searchengine_list[$search_engine]['sqlpattern']);
-				$search_query .= "`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}'";
+				$searchengine_list[ $search_engine ]['sqlpattern'] = esc_sql( $searchengine_list[ $search_engine ]['sqlpattern'] );
+				$search_query                                      .= "`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}'";
 			}
 		}
 	}
@@ -1194,5 +1194,17 @@ function wp_statistics_generate_widget_load_javascript( $widget, $container_id =
     </script>
 	<?php
 }
-	
-	
+
+/**
+ * Generate RGBA colors
+ *
+ * @param $num
+ * @param string $opacity
+ *
+ * @return string
+ */
+function wp_statistics_generate_rgba_color( $num, $opacity = '1' ) {
+	$hash = md5( 'color' . $num );
+
+	return sprintf( "'rgba(%s, %s, %s, %s)'", hexdec( substr( $hash, 0, 2 ) ), hexdec( substr( $hash, 2, 2 ) ), hexdec( substr( $hash, 4, 2 ) ), $opacity );
+}
