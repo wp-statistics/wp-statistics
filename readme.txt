@@ -290,6 +290,7 @@ This is a security fix, please update immediately.
 * Added: Awesome charts! The Chartjs library used in the plugin for show charts.
 * Updated: Countries code.
 * Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo and Mayotte)
+* Fixed: Showing data on the Browsers, Platforms and browsers version charts.
 * Fixed: Postbox container width in Logs page
 
 = 12.0.12.1 =
