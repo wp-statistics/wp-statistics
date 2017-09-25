@@ -440,7 +440,7 @@ function wp_statistics_agent_version_list( $agent, $rangestartdate = null, $rang
 	return $Versions;
 }
 
-// This function returns the statistcs for a given agent/version pair from the database.
+// This function returns the statistics for a given agent/version pair from the database.
 function wp_statistics_agent_version( $agent, $version, $rangestartdate = null, $rangeenddate = null ) {
 
 	global $wpdb;

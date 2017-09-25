@@ -37,12 +37,17 @@ foreach ( $Browsers as $Browser ) {
 	$BrowserVisits[ $Browser ] = wp_statistics_useragent( $Browser, $rangestartdate, $rangeenddate );
 }
 
-$i = 0;
+$i             = 0;
+$browser_value = array();
+$browser_color = array();
+
 foreach ( $BrowserVisits as $key => $value ) {
-	$i ++;
-	$browser_name[]  = "'" . $key . "'";
-	$browser_value[] = $value;
-	$browser_color[] = wp_statistics_generate_rgba_color( $i, '0.4' );
+	if ( $value ) {
+		$i ++;
+		$browser_name[]  = "'" . $key . "'";
+		$browser_value[] = $value;
+		$browser_color[] = wp_statistics_generate_rgba_color( $i, '0.4' );
+	}
 }
 
 // Platforms
@@ -79,7 +84,7 @@ foreach ( $PlatformVisits as $key => $value ) {
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
-                        <canvas id="browsers-log" height="400"></canvas>
+                        <canvas id="browsers-log" height="200"></canvas>
                         <script>
                             var ctx = document.getElementById("browsers-log").getContext('2d');
                             var ChartJs = new Chart(ctx, {
@@ -130,7 +135,7 @@ foreach ( $PlatformVisits as $key => $value ) {
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
-                        <canvas id="platforms-log" height="400"></canvas>
+                        <canvas id="platforms-log" height="200"></canvas>
                         <script>
                             var ctx = document.getElementById("platforms-log").getContext('2d');
                             var ChartJs = new Chart(ctx, {
@@ -180,7 +185,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 				<?php
 				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 0 ) {
-						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ] );
+						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ], $rangestartdate, $rangeenddate );
 					}
 				}
 				?>
@@ -194,7 +199,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 				<?php
 				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 1 ) {
-						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ] );
+						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ], $rangestartdate, $rangeenddate );
 					}
 				}
 				?>
@@ -208,7 +213,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 				<?php
 				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 2 ) {
-						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ] );
+						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ], $rangestartdate, $rangeenddate );
 					}
 				}
 				?>
@@ -217,3 +222,75 @@ foreach ( $PlatformVisits as $key => $value ) {
     </div>
 </div>
 
+<?php
+function wp_statistics_browser_version_stats( $Browser, $rangestartdate, $rangeenddate ) {
+	$id            = 'browser-stats-' . $Browser;
+	$browser_tag   = strtolower( preg_replace( '/[^a-zA-Z]/', '', $Browser ) );
+	$versions      = wp_statistics_agent_version_list( $Browser, $rangestartdate, $rangeenddate );
+	$version_name  = array();
+	$version_value = array();
+	$browser_color = array();
+	$i             = 0;
+
+	if ( count( $versions ) < 10 ) {
+		return;
+	}
+
+	foreach ( $versions as $key => $value ) {
+		$i ++;
+		$version_value[ $value ] = wp_statistics_agent_version( $Browser, $value, $rangestartdate, $rangeenddate );
+		$version_color[]         = wp_statistics_generate_rgba_color( $i, '0.4' );
+	}
+
+	natcasesort( $version_value );
+	$version_value = array_slice( $version_value, - 20 );
+
+	foreach ( $version_value as $key => $value ) {
+		$version_name[] = "'" . $key . "'";
+	}
+	?>
+    <div class="postbox">
+		<?php $paneltitle = sprintf( __( '%s Version', 'wp-statistics' ), $Browser ); ?>
+        <button class="handlediv" type="button" aria-expanded="true">
+            <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+        <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
+        <div class="inside">
+            <canvas id="<?php echo $id; ?>" height="250"></canvas>
+            <script>
+                var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
+                var ChartJs = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [<?php echo implode( ', ', $version_name ); ?>],
+                        datasets: [{
+                            label: '<?php _e( 'Platforms', 'wp-statistics' ); ?>',
+                            data: [<?php echo implode( ', ', $version_value ); ?>],
+                            backgroundColor: [<?php echo implode( ', ', $version_color ); ?>],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: false,
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                                    var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                                        return previousValue + currentValue;
+                                    });
+                                    var currentValue = dataset.data[tooltipItem.index];
+                                    var precentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                                    return precentage + "% - " + data.labels[tooltipItem.index];
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+<?php } ?>
