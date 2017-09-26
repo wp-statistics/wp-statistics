@@ -5,7 +5,6 @@
 </script>
 <div class="wrap">
     <h2><?php _e( 'Author Statistics', 'wp-statistics' ); ?></h2>
-
 	<?php
 	$daysToDisplay = 20;
 	if ( array_key_exists( 'hitdays', $_GET ) ) {
