@@ -25,7 +25,6 @@ if ( array_key_exists( 'rangeend', $_GET ) ) {
 }
 
 list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
-
 $total_stats = $WP_Statistics->get_option( 'chart_totals' );
 
 $excluded_reasons          = array(
@@ -84,29 +83,29 @@ $excluded_reason_db        = array(
 	'Referrer Spam'   => 'referrer_spam',
 	'AJAX Request'    => 'ajax'
 );
-$excluded_reason_translate = array( 'Robot'           => json_encode( __( 'Robot', 'wp-statistics' ) ),
-                                    'Browscap'        => json_encode( __( 'Browscap', 'wp-statistics' ) ),
-                                    'IP Match'        => json_encode( __( 'IP Match', 'wp-statistics' ) ),
-                                    'Self Referral'   => json_encode( __( 'Self Referral', 'wp-statistics' ) ),
-                                    'Login Page'      => json_encode( __( 'Login Page', 'wp-statistics' ) ),
-                                    'Admin Page'      => json_encode( __( 'Admin Page', 'wp-statistics' ) ),
-                                    'User Role'       => json_encode( __( 'User Role', 'wp-statistics' ) ),
-                                    'Total'           => json_encode( __( 'Total', 'wp-statistics' ) ),
-                                    'GeoIP'           => json_encode( __( 'GeoIP', 'wp-statistics' ) ),
-                                    'Hostname'        => json_encode( __( 'Hostname', 'wp-statistics' ) ),
-                                    'Robot Threshold' => json_encode( __( 'Robot Threshold', 'wp-statistics' ) ),
-                                    'Honey Pot'       => json_encode( __( 'Honey Pot', 'wp-statistics' ) ),
-                                    'Feeds'           => json_encode( __( 'Feeds', 'wp-statistics' ) ),
-                                    'Excluded URL'    => json_encode( __( 'Excluded URL', 'wp-statistics' ) ),
-                                    '404 Pages'       => json_encode( __( '404 Pages', 'wp-statistics' ) ),
-                                    'Referrer Spam'   => json_encode( __( 'Referrer Spam', 'wp-statistics' ) ),
-                                    'AJAX Request'    => json_encode( __( 'AJAX Request', 'wp-statistics' ) )
+$excluded_reason_translate = array(
+	'Robot'           => json_encode( __( 'Robot', 'wp-statistics' ) ),
+	'Browscap'        => json_encode( __( 'Browscap', 'wp-statistics' ) ),
+	'IP Match'        => json_encode( __( 'IP Match', 'wp-statistics' ) ),
+	'Self Referral'   => json_encode( __( 'Self Referral', 'wp-statistics' ) ),
+	'Login Page'      => json_encode( __( 'Login Page', 'wp-statistics' ) ),
+	'Admin Page'      => json_encode( __( 'Admin Page', 'wp-statistics' ) ),
+	'User Role'       => json_encode( __( 'User Role', 'wp-statistics' ) ),
+	'Total'           => json_encode( __( 'Total', 'wp-statistics' ) ),
+	'GeoIP'           => json_encode( __( 'GeoIP', 'wp-statistics' ) ),
+	'Hostname'        => json_encode( __( 'Hostname', 'wp-statistics' ) ),
+	'Robot Threshold' => json_encode( __( 'Robot Threshold', 'wp-statistics' ) ),
+	'Honey Pot'       => json_encode( __( 'Honey Pot', 'wp-statistics' ) ),
+	'Feeds'           => json_encode( __( 'Feeds', 'wp-statistics' ) ),
+	'Excluded URL'    => json_encode( __( 'Excluded URL', 'wp-statistics' ) ),
+	'404 Pages'       => json_encode( __( '404 Pages', 'wp-statistics' ) ),
+	'Referrer Spam'   => json_encode( __( 'Referrer Spam', 'wp-statistics' ) ),
+	'AJAX Request'    => json_encode( __( 'AJAX Request', 'wp-statistics' ) )
 );
 $excluded_results          = array( 'Total' => array() );
 $excluded_total            = 0;
 
 foreach ( $excluded_reasons as $reason ) {
-
 	// The reasons array above is used both for display and internal purposes.  Internally the values are all lower case but the array
 	// is created with mixed case so it looks nice to the user.  Therefore we have to convert it to lower case here.
 	$thisreason = $excluded_reason_db[ $reason ];
@@ -144,134 +143,77 @@ $excuded_all_time = $wpdb->get_var( "SELECT SUM(count) FROM {$wpdb->prefix}stati
 if ( $total_stats == 1 ) {
 	$excluded_reasons[] = 'Total';
 }
+
+for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
+	$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
+}
+
+$stats = array();
+foreach ( $excluded_reasons as $reason ) {
+	for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
+		$stats[ $reason ][] = $excluded_results[ $reason ][ $i ];
+	}
+}
 ?>
 <div class="wrap">
     <h2><?php _e( 'Exclusions Statistics', 'wp-statistics' ); ?></h2>
-
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_EXCLUSIONS_PAGE, $daysToDisplay ); ?>
-
     <div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Exclusions Statistical Chart', 'wp-statistics' ); ?>
+					<?php $paneltitle = __( 'Exclusions Statistical Chart', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
-                        <script type="text/javascript">
-                            var visit_chart;
-                            jQuery(document).ready(function () {
-								<?php
-								foreach ( $excluded_reasons as $reason ) {
-
-									echo "var excluded_data_line_" . $excluded_reason_tags[ $reason ] . " = [";
-
-									for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
-										echo "['" . $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $i, $rangeend_utime ) . "'," . $excluded_results[ $reason ][ $i ] . "], ";
-									}
-
-									echo "];\n";
-								}
-
-								$tickInterval = round( $daysToDisplay / 20, 0 );
-								if ( $tickInterval < 1 ) {
-									$tickInterval = 1;
-								}
-								?>
-                                visit_chart = jQuery.jqplot('exclusion-stats', [<?php foreach ( $excluded_reasons as $reason ) {
-									echo "excluded_data_line_" . $excluded_reason_tags[ $reason ] . ", ";
-								} ?>], {
-                                    title: {
-                                        text: '<b>' + <?php echo json_encode( sprintf( __( 'Excluded hits in the last %s days', 'wp-statistics' ), $daysToDisplay ) ); ?> +'</b>',
-                                        fontSize: '12px',
-                                        fontFamily: 'Tahoma',
-                                        textColor: '#000000',
+                        <div class="inside">
+                            <canvas id="hit-stats" height="80"></canvas>
+                            <script>
+                                var ctx = document.getElementById("hit-stats").getContext('2d');
+                                var ChartJs = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: [<?php echo implode( ', ', $date ); ?>],
+                                        datasets: [
+											<?php foreach ($stats as $key => $value) : $i ++; ?>
+                                            {
+                                                label: '<?php echo $key; ?>',
+                                                data: [<?php echo implode( ',', $value ); ?>],
+                                                backgroundColor: <?php echo wp_statistics_generate_rgba_color( $i, '0.2' ); ?>,
+                                                borderColor: <?php echo wp_statistics_generate_rgba_color( $i, '1' ); ?>,
+                                                borderWidth: 1,
+                                                fill: true,
+                                            },
+											<?php endforeach; ?>
+                                        ]
                                     },
-                                    axes: {
-                                        xaxis: {
-                                            min: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $daysToDisplay, $rangeend_utime );?>',
-                                            max: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-0', $rangeend_utime );?>',
-                                            tickInterval: '<?php echo $tickInterval?> day',
-                                            renderer: jQuery.jqplot.DateAxisRenderer,
-                                            tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-                                            tickOptions: {
-                                                angle: -45,
-                                                formatString: '%b %#d',
-                                                showGridline: false,
-                                            },
+                                    options: {
+                                        responsive: true,
+                                        legend: {
+                                            position: 'bottom',
                                         },
-                                        yaxis: {
-                                            min: 0,
-                                            padMin: 1.0,
-                                            label: <?php echo json_encode( __( 'Number of excluded hits', 'wp-statistics' ) ); ?>,
-                                            labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
-                                            labelOptions: {
-                                                angle: -90,
-                                                fontSize: '12px',
-                                                fontFamily: 'Tahoma',
-                                                fontWeight: 'bold',
-                                            },
+                                        title: {
+                                            display: true,
+                                            text: '<?php echo sprintf( __( 'Hits in the last %s days', 'wp-statistics' ), $daysToDisplay ); ?>'
+                                        },
+                                        tooltips: {
+                                            mode: 'index',
+                                            intersect: false,
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
                                         }
-                                    },
-                                    legend: {
-                                        show: true,
-                                        location: 's',
-                                        placement: 'outsideGrid',
-                                        labels: [<?php foreach ( $excluded_reasons as $reason ) {
-											echo $excluded_reason_translate[ $reason ] . ", ";
-										} ?>],
-                                        renderer: jQuery.jqplot.EnhancedLegendRenderer,
-                                        rendererOptions: {
-                                            numberColumns: <?php echo count( $excluded_reasons ) + 1; ?>,
-                                            disableIEFading: false,
-                                            border: 'none',
-                                        },
-                                    },
-                                    highlighter: {
-                                        show: true,
-                                        bringSeriesToFront: true,
-                                        tooltipAxes: 'xy',
-                                        formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
-                                        tooltipContentEditor: tooltipContentEditor,
-                                    },
-                                    grid: {
-                                        drawGridlines: true,
-                                        borderColor: 'transparent',
-                                        shadow: false,
-                                        drawBorder: false,
-                                        shadowColor: 'transparent'
-                                    },
+                                    }
                                 });
-
-                                function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
-                                    // display series_label, x-axis_tick, y-axis value
-                                    return plot.legend.labels[seriesIndex] + ", " + str;
-                                    ;
-                                }
-
-                                jQuery(window).resize(function () {
-                                    JQPlotExclusionChartLengendClickRedraw()
-                                });
-
-                                function JQPlotExclusionChartLengendClickRedraw() {
-                                    visit_chart.replot({resetAxes: ['yaxis']});
-                                    jQuery('div[id="exclusion-stats"] .jqplot-table-legend').click(function () {
-                                        JQPlotExclusionChartLengendClickRedraw();
-                                    });
-                                }
-
-                                jQuery('div[id="exclusion-stats"] .jqplot-table-legend').click(function () {
-                                    JQPlotExclusionChartLengendClickRedraw()
-                                });
-
-                            });
-                        </script>
-
-                        <div id="exclusion-stats" style="height:500px;"></div>
-
+                            </script>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -282,7 +224,7 @@ if ( $total_stats == 1 ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle = __( 'Hits Statistics Summary', 'wp-statistics' ); ?>
+					<?php $paneltitle = __( 'Hits Statistics Summary', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
@@ -315,5 +257,4 @@ if ( $total_stats == 1 ) {
             </div>
         </div>
     </div>
-
 </div>

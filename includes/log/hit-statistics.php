@@ -24,7 +24,6 @@
 	}
 
 	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
-
 	wp_statistics_date_range_selector( WP_STATISTICS_HITS_PAGE, $daysToDisplay );
 
 	$visit_total   = 0;
