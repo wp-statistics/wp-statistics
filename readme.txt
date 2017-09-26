@@ -293,6 +293,7 @@ This is a security fix, please update immediately.
 * Fixed: Showing data on the Browsers, Platforms and browsers version charts.
 * Fixed: Postbox container width in Logs page.
 * Removed: `WP_STATISTICS_MIN_EXT` define for load `.min` version in css/js.
+* Removed: Additional assets and the assets cleaned up.
 
 = 12.0.12.1 =
 * Fixed: PHP syntax error for array brackets when the PHP < 5.4
