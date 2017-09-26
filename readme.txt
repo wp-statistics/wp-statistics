@@ -291,7 +291,8 @@ This is a security fix, please update immediately.
 * Updated: Countries code.
 * Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo and Mayotte)
 * Fixed: Showing data on the Browsers, Platforms and browsers version charts.
-* Fixed: Postbox container width in Logs page
+* Fixed: Postbox container width in Logs page.
+* Removed: `WP_STATISTICS_MIN_EXT` define for load `.min` version in css/js.
 
 = 12.0.12.1 =
 * Fixed: PHP syntax error for array brackets when the PHP < 5.4

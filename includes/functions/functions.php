@@ -1027,7 +1027,7 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	GLOBAL $WP_Statistics;
 
 	wp_enqueue_script( 'jquery-ui-datepicker' );
-	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness' . WP_STATISTICS_MIN_EXT . '.css' );
+	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness.css' );
 	wp_enqueue_style( 'jquery-ui-smoothness-css' );
 
 	if ( count( $range ) == 0 ) {
