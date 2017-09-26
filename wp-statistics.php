@@ -716,20 +716,6 @@ function wp_statistics_donate() {
 	echo "<script>window.location.href='http://wp-statistics.com/donate';</script>";
 }
 
-// This function adds the menu icon to the top level menu.  WordPress 3.8 changed the style of the menu a bit and so a different css file is loaded.
-function wp_statistics_menu_icon() {
-
-	global $wp_version;
-
-	if ( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
-		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
-	} else {
-		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin-old.css', true, '1.0' );
-	}
-}
-
-add_action( 'admin_head', 'wp_statistics_menu_icon' );
-
 // This function adds the admin bar menu if the user has selected it.
 function wp_statistics_menubar() {
 	GLOBAL $wp_admin_bar, $wp_version, $WP_Statistics;
@@ -992,8 +978,10 @@ function wp_statistics_log( $log_type = "" ) {
 
 // Load admin scripts
 function wp_statistics_load_scripts() {
-	wp_enqueue_style( 'log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
-	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.js', true, '2.7.0' );
+	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+
+	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0' );
 }
 
 // Add admin scripts action
@@ -1014,7 +1002,7 @@ function wp_statistics_optimization() {
 	$WP_Statistics->load_user_options();
 
 	// Load the jQuery UI code to create the tabs.
-	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.css' );
+	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.min.css' );
 	wp_enqueue_style( "jquery-ui-css" );
 
 	wp_enqueue_script( 'jquery-ui-core' );
@@ -1053,7 +1041,7 @@ function wp_statistics_settings() {
 	wp_enqueue_style( 'log-css', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', true, '1.0' );
 
 	// Load the jQuery UI code to create the tabs.
-	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.css' );
+	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.min.css' );
 	wp_enqueue_style( "jquery-ui-css" );
 
 	wp_enqueue_script( 'jquery-ui-core' );

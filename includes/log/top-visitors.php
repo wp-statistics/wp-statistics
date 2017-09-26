@@ -11,7 +11,7 @@ include_once( dirname( __FILE__ ) . '/widgets/top.visitors.php' );
     <h2><?php _e( 'Top 100 Visitors Today', 'wp-statistics' ); ?></h2>
 	<?php
 	wp_enqueue_script( 'jquery-ui-datepicker' );
-	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness.css' );
+	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness.min.css' );
 	wp_enqueue_style( 'jquery-ui-smoothness-css' );
 
 	$current = 0;
