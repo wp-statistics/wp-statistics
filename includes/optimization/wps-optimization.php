@@ -146,10 +146,11 @@ if ( array_key_exists( 'historical-submit', $_POST ) ) {
 		$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'] ), array( 'category' => 'visitors' ) );
 
 		if ( $result == 0 ) {
-			$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value'    => $_POST['wps_historical_visitors'],
-			                                                                      'category' => 'visitors',
-			                                                                      'page_id'  => - 1,
-			                                                                      'uri'      => '-1'
+			$result = $wpdb->insert( $wp_prefix . "statistics_historical", array(
+				'value'    => $_POST['wps_historical_visitors'],
+				'category' => 'visitors',
+				'page_id'  => - 1,
+				'uri'      => '-1'
 			) );
 		}
 	}
@@ -158,10 +159,11 @@ if ( array_key_exists( 'historical-submit', $_POST ) ) {
 		$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visits'] ), array( 'category' => 'visits' ) );
 
 		if ( $result == 0 ) {
-			$result = $wpdb->insert( $wp_prefix . "statistics_historical", array( 'value'    => $_POST['wps_historical_visits'],
-			                                                                      'category' => 'visits',
-			                                                                      'page_id'  => - 2,
-			                                                                      'uri'      => '-2'
+			$result = $wpdb->insert( $wp_prefix . "statistics_historical", array(
+				'value'    => $_POST['wps_historical_visits'],
+				'category' => 'visits',
+				'page_id'  => - 2,
+				'uri'      => '-2'
 			) );
 		}
 	}
@@ -246,52 +248,61 @@ switch ( $selected_tab ) {
 	}?>
     });
 </script>
-<div class="wrap">
+<div class="wrap wp-statistics-settings">
     <h2><?php _e( 'Optimization', 'wp-statistics' ); ?></h2>
-    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-            <li class="ui-state-default ui-corner-top">
-                <a href="#resources" class="ui-tabs-anchor"><span><?php _e( 'Resources/Information', 'wp-statistics' ); ?></span></a>
-            </li>
-            <li class="ui-state-default ui-corner-top">
-                <a href="#export" class="ui-tabs-anchor"><span><?php _e( 'Export', 'wp-statistics' ); ?></span></a></li>
-            <li class="ui-state-default ui-corner-top">
-                <a href="#purging" class="ui-tabs-anchor"><span><?php _e( 'Purging', 'wp-statistics' ); ?></span></a>
-            </li>
-            <li class="ui-state-default ui-corner-top">
-                <a href="#database" class="ui-tabs-anchor"><span><?php _e( 'Database', 'wp-statistics' ); ?></span></a>
-            </li>
-            <li class="ui-state-default ui-corner-top">
-                <a href="#updates" class="ui-tabs-anchor"><span><?php _e( 'Updates', 'wp-statistics' ); ?></span></a>
-            </li>
-            <li class="ui-state-default ui-corner-top">
-                <a href="#historical" class="ui-tabs-anchor"><span><?php _e( 'Historical', 'wp-statistics' ); ?></span></a>
-            </li>
-        </ul>
+    <div id="poststuff">
+        <div id="post-body" class="metabox-holder columns-2">
+            <div class="wp-list-table widefat widefat">
+                <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                        <li class="ui-state-default ui-corner-top">
+                            <a href="#resources" class="ui-tabs-anchor"><span><?php _e( 'Resources/Information', 'wp-statistics' ); ?></span></a>
+                        </li>
+                        <li class="ui-state-default ui-corner-top">
+                            <a href="#export" class="ui-tabs-anchor"><span><?php _e( 'Export', 'wp-statistics' ); ?></span></a>
+                        </li>
+                        <li class="ui-state-default ui-corner-top">
+                            <a href="#purging" class="ui-tabs-anchor"><span><?php _e( 'Purging', 'wp-statistics' ); ?></span></a>
+                        </li>
+                        <li class="ui-state-default ui-corner-top">
+                            <a href="#database" class="ui-tabs-anchor"><span><?php _e( 'Database', 'wp-statistics' ); ?></span></a>
+                        </li>
+                        <li class="ui-state-default ui-corner-top">
+                            <a href="#updates" class="ui-tabs-anchor"><span><?php _e( 'Updates', 'wp-statistics' ); ?></span></a>
+                        </li>
+                        <li class="ui-state-default ui-corner-top">
+                            <a href="#historical" class="ui-tabs-anchor"><span><?php _e( 'Historical', 'wp-statistics' ); ?></span></a>
+                        </li>
+                    </ul>
 
-        <div id="resources">
-			<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-resources.php' ); ?>
+                    <div id="resources">
+						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-resources.php' ); ?>
+                    </div>
+
+                    <div id="export">
+						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-export.php' ); ?>
+                    </div>
+
+                    <div id="purging">
+						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-purging.php' ); ?>
+                    </div>
+
+                    <div id="database">
+						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-database.php' ); ?>
+                    </div>
+
+                    <div id="updates">
+						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-updates.php' ); ?>
+                    </div>
+
+                    <div id="historical">
+						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-historical.php' ); ?>
+                    </div>
+
+                </div>
+            </div>
+
+			<?php include_once dirname( __FILE__ ) . '/../templates/postbox.php'; ?>
         </div>
-
-        <div id="export">
-			<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-export.php' ); ?>
-        </div>
-
-        <div id="purging">
-			<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-purging.php' ); ?>
-        </div>
-
-        <div id="database">
-			<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-database.php' ); ?>
-        </div>
-
-        <div id="updates">
-			<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-updates.php' ); ?>
-        </div>
-
-        <div id="historical">
-			<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-historical.php' ); ?>
-        </div>
-
     </div>
 </div>
