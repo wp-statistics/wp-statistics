@@ -52,6 +52,9 @@ function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 
                 legend: {
                     position: 'bottom',
                 },
+                animation: {
+                    duration: 0,
+                },
                 title: {
                     display: true,
                     text: '<?php echo sprintf( __( 'Hits in the last %s days', 'wp-statistics' ), $days ); ?>'

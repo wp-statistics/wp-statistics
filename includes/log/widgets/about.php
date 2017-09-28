@@ -26,7 +26,7 @@ function wp_statistics_generate_about_postbox_content() {
     <hr/>
 
     <div>
-		<?php echo sprintf( __( 'This product includes GeoLite2 data created by MaxMind, available from %s.', 'wp-statistics' ), '<a href="http://www.maxmind.com" target=_blank>http://www.maxmind.com</a>' ); ?>
+		<?php echo sprintf( __( 'This product includes GeoLite2 data created by %s.', 'wp-statistics' ), '<a href="http://www.maxmind.com" target=_blank>MaxMind</a>' ); ?>
     </div>
 	<?php
 }

@@ -64,6 +64,9 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
                 legend: {
                     position: 'bottom',
                 },
+                animation: {
+                    duration: 0,
+                },
                 title: {
                     display: true,
                     text: '<?php echo sprintf( __( 'Search engine referrals in the last %s days', 'wp-statistics' ), $days ); ?>'

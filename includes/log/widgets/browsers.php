@@ -53,6 +53,9 @@ function wp_statistics_generate_browsers_postbox_content() {
                 legend: {
                     position: 'bottom',
                 },
+                animation: {
+                    duration: 0,
+                },
                 tooltips: {
                     callbacks: {
                         label: function (tooltipItem, data) {
