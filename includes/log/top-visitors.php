@@ -11,7 +11,7 @@ include_once( dirname( __FILE__ ) . '/widgets/top.visitors.php' );
     <h2><?php _e( 'Top 100 Visitors Today', 'wp-statistics' ); ?></h2>
 	<?php
 	wp_enqueue_script( 'jquery-ui-datepicker' );
-	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness' . WP_STATISTICS_MIN_EXT . '.css' );
+	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness.min.css' );
 	wp_enqueue_style( 'jquery-ui-smoothness-css' );
 
 	$current = 0;
@@ -38,7 +38,7 @@ include_once( dirname( __FILE__ ) . '/widgets/top.visitors.php' );
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <?php $paneltitle =  __( 'Top Visitors', 'wp-statistics' ); ?>
+					<?php $paneltitle = __( 'Top Visitors', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>

@@ -24,153 +24,93 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 $daysInThePast = round( ( time() - $rangeend_utime ) / 86400, 0 );
 
 list( $total, $uris ) = wp_statistics_get_top_pages( $WP_Statistics->Real_Current_Date( 'Y-m-d', '-0', $rangestart_utime ), $WP_Statistics->Real_Current_Date( 'Y-m-d', '-0', $rangeend_utime ) );
+$count = 0;
 
+foreach ( $uris as $uri ) {
+	$count ++;
+
+	for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
+		$stats[ $uri[0] ][] = wp_statistics_pages( '-' . ( $i + $daysInThePast ), $uri[0] );
+	}
+
+	if ( $count > 4 ) {
+		break;
+	}
+}
+
+for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
+	$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
+}
 ?>
 <div class="wrap">
     <h2><?php _e( 'Top Pages', 'wp-statistics' ); ?></h2>
-
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_PAGES_PAGE, $daysToDisplay ); ?>
-
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
-
                 <div class="postbox">
-                    <?php $paneltitle =  __( 'Top 5 Pages Trends', 'wp-statistics' ); ?>
+					<?php $paneltitle = __( 'Top 5 Pages Trends', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
                     <div class="inside">
-                        <script type="text/javascript">
-                            var pages_jqchart;
-                            jQuery(document).ready(function () {
-								<?php
-								$count = 0;
+                        <canvas id="hit-stats" height="80"></canvas>
+                        <script>
+                            var colors = [];
+                            colors[0] = ['rgba(12, 132, 132, 0.2)', 'rgba(12, 132, 132, 1)'];
+                            colors[1] = ['rgba(23, 107, 239, 0.2)', 'rgba(23, 107, 239, 1)'];
+                            colors[2] = ['rgba(222, 88, 51, 0.2)', 'rgba(222, 88, 51, 1)'];
+                            colors[3] = ['rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)'];
+                            colors[4] = ['rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)'];
 
-								foreach ( $uris as $uri ) {
-
-									$count ++;
-
-									echo "var pages_data_line" . $count . " = [";
-
-									for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
-										$stat = wp_statistics_pages( '-' . ( $i + $daysInThePast ), $uri[0] );
-
-										echo "['" . $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $i, $rangeend_utime ) . "'," . $stat . "], ";
-
-									}
-
-									echo "];\n";
-									if ( $count > 4 ) {
-										break;
-									}
-								}
-
-								if ( $count < 6 ) {
-									for ( $i = $count + 1; $i < 6; $i ++ ) {
-										echo "var pages_data_line" . $i . " = [];\n";
-									}
-								}
-
-								$tickInterval = round( $daysToDisplay / 20, 0 );
-								if ( $tickInterval < 1 ) {
-									$tickInterval = 1;
-								}
-								?>
-
-                                pages_jqchart = jQuery.jqplot('jqpage-stats', [pages_data_line1, pages_data_line2, pages_data_line3, pages_data_line4, pages_data_line5], {
-                                    title: {
-                                        text: '<b><?php echo htmlentities( __( 'Top 5 Page Trending Stats', 'wp-statistics' ), ENT_QUOTES ); ?></b>',
-                                        fontSize: '12px',
-                                        fontFamily: 'Tahoma',
-                                        textColor: '#000000',
-                                    },
-                                    axes: {
-                                        xaxis: {
-                                            min: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-' . $daysToDisplay, $rangeend_utime ); ?>',
-                                            max: '<?php echo $WP_Statistics->Real_Current_Date( 'Y-m-d', '-0', $rangeend_utime ); ?>',
-                                            tickInterval: '<?php echo $tickInterval; ?> day',
-                                            renderer: jQuery.jqplot.DateAxisRenderer,
-                                            tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-                                            tickOptions: {
-                                                angle: -45,
-                                                formatString: '%b %#d',
-                                                showGridline: false,
-                                            },
+                            var ctx = document.getElementById("hit-stats").getContext('2d');
+                            var ChartJs = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: [<?php echo implode( ', ', $date ); ?>],
+                                    datasets: [
+										<?php foreach ($stats as $key => $value) : $i++; ?>
+                                        {
+                                            label: '<?php echo $key; ?>',
+                                            data: [<?php echo implode( ',', $value ); ?>],
+                                            backgroundColor: colors[<?php echo $i; ?>][0],
+                                            borderColor: colors[<?php echo $i; ?>][1],
+                                            fill: true,
+                                            borderWidth: 1,
                                         },
-                                        yaxis: {
-                                            min: 0,
-                                            padMin: 1.0,
-                                            label: <?php echo json_encode( __( 'Number of Hits', 'wp-statistics' ) ); ?>,
-                                            labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
-                                            labelOptions: {
-                                                angle: -90,
-                                                fontSize: '12px',
-                                                fontFamily: 'Tahoma',
-                                                fontWeight: 'bold',
-                                            },
-                                        }
-                                    },
+										<?php endforeach; ?>
+                                    ]
+                                },
+                                options: {
+                                    responsive: true,
                                     legend: {
-                                        show: true,
-                                        location: 's',
-                                        placement: 'outsideGrid',
-                                        labels: [ <?php echo json_encode( __( 'Rank #1', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #2', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #3', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #4', 'wp-statistics' ) ); ?>, <?php echo json_encode( __( 'Rank #5', 'wp-statistics' ) ); ?> ],
-                                        renderer: jQuery.jqplot.EnhancedLegendRenderer,
-                                        rendererOptions: {
-                                            numberColumns: 5,
-                                            disableIEFading: false,
-                                            border: 'none',
-                                        },
+                                        position: 'bottom',
                                     },
-                                    highlighter: {
-                                        show: true,
-                                        bringSeriesToFront: true,
-                                        tooltipAxes: 'xy',
-                                        formatString: '%s:&nbsp;<b>%i</b>&nbsp;',
-                                        tooltipContentEditor: tooltipContentEditor,
+                                    title: {
+                                        display: true,
+                                        text: '<?php echo htmlentities( __( 'Top 5 Page Trending Stats', 'wp-statistics' ), ENT_QUOTES ); ?>'
                                     },
-                                    grid: {
-                                        drawGridlines: true,
-                                        borderColor: 'transparent',
-                                        shadow: false,
-                                        drawBorder: false,
-                                        shadowColor: 'transparent'
+                                    tooltips: {
+                                        mode: 'index',
+                                        intersect: false,
                                     },
-                                });
-
-                                function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
-                                    // display series_label, x-axis_tick, y-axis value
-                                    return plot.legend.labels[seriesIndex] + ", " + str;
-                                    ;
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    }
                                 }
-
-                                jQuery(window).resize(function () {
-                                    JQPlotPagesChartLengendClickRedraw()
-                                });
-
-                                function JQPlotPagesChartLengendClickRedraw() {
-                                    pages_jqchart.replot({resetAxes: ['yaxis']});
-                                    jQuery('div[id="jqpage-stats"] .jqplot-table-legend').click(function () {
-                                        JQPlotPagesChartLengendClickRedraw();
-                                    });
-                                }
-
-                                jQuery('div[id="jqpage-stats"] .jqplot-table-legend').click(function () {
-                                    JQPlotPagesChartLengendClickRedraw()
-                                });
                             });
                         </script>
-
-                        <div id="jqpage-stats" style="height:500px;"></div>
-
                     </div>
                 </div>
 
                 <div class="postbox">
-                    <?php $paneltitle =  __( 'Top Pages', 'wp-statistics' ); ?>
+					<?php $paneltitle = __( 'Top Pages', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>

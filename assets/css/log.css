@@ -166,14 +166,14 @@
 }
 
 .log-item {
-    border-bottom: 1px solid #D3CDCD;
+    border-bottom: 1px solid #efeeee;
     border-top: 1px solid #FFFFFF;
     min-height: 46px;
     padding: 3px 7px;
 }
 
 .log-item:hover {
-    background: none repeat scroll 0 0 #EEEEEE;
+    background: none repeat scroll 0 0 #f7f7f7;
 }
 
 .show-map {
@@ -271,13 +271,6 @@
     direction: ltr;
 }
 
-#browsers-log {
-    direction: ltr;
-    height: 330px;
-    margin: 0 auto;
-    width: 100%;
-}
-
 #platform-log {
     direction: ltr;
 }
@@ -334,4 +327,22 @@
 
 .ui-sortable {
     min-height: 100px;
+}
+
+.table-stats tr, .table-stats td {
+    border-bottom: 1px solid #efeeee;
+    background-color: white;
+}
+
+.table-stats tr:first-child td {
+    border: 0px none;
+    text-align: left;
+}
+
+.rtl .table-stats tr, .rtl .table-stats td {
+    text-align: right !important;
+}
+
+.table-stats {
+    border: 0px none !important;
 }

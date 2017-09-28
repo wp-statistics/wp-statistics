@@ -3,7 +3,7 @@
  * Plugin Name: WP Statistics
  * Plugin URI: http://wp-statistics.com/
  * Description: Complete statistics for your WordPress site.
- * Version: 12.0.12.1
+ * Version: 12.1.0
  * Author: WP-Statistics Team
  * Author URI: http://wp-statistics.com/
  * Text Domain: wp-statistics
@@ -12,7 +12,7 @@
  */
 
 // These defines are used later for various reasons.
-define( 'WP_STATISTICS_VERSION', '12.0.12.1' );
+define( 'WP_STATISTICS_VERSION', '12.1.0' );
 define( 'WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0' );
 define( 'WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION );
 define( 'WPS_EXPORT_FILE_NAME', 'wp-statistics' );
@@ -37,12 +37,6 @@ define( 'WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page' );
 define( 'WP_STATISTICS_PLUGINS_PAGE', 'wps_plugins_page' );
 define( 'WP_STATISTICS_DONATE_PAGE', 'wps_donate_page' );
 
-if ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) {
-	define( 'WP_STATISTICS_MIN_EXT', '' );
-} else {
-	define( 'WP_STATISTICS_MIN_EXT', '.min' );
-}
-
 // Load the translation code.
 function wp_statistics_language() {
 	GLOBAL $WP_Statistics;
@@ -59,7 +53,7 @@ function wp_statistics_language() {
 	// If not, go ahead and load the translations.
 	if ( ! $override ) {
 		load_plugin_textdomain( 'wp-statistics', false, basename( dirname( __FILE__ ) ) . '/languages' );
-        
+
 		__( 'WP Statistics', 'wp-statistics' );
 		__( 'Complete statistics for your WordPress site.', 'wp-statistics' );
 	}
@@ -701,7 +695,7 @@ function wp_statistics_plugins() {
 			}
 		}
 	}
-	$response      = wp_remote_get( 'https://wp-statistics.com/wp-json/addons/get' );
+	$response      = wp_remote_get( 'https://wp-statistics.com/wp-json/plugin/addons' );
 	$response_code = wp_remote_retrieve_response_code( $response );
 	$error         = null;
 	$plugins       = array();
@@ -721,20 +715,6 @@ function wp_statistics_plugins() {
 function wp_statistics_donate() {
 	echo "<script>window.location.href='http://wp-statistics.com/donate';</script>";
 }
-
-// This function adds the menu icon to the top level menu.  WordPress 3.8 changed the style of the menu a bit and so a different css file is loaded.
-function wp_statistics_menu_icon() {
-
-	global $wp_version;
-
-	if ( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
-		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0' );
-	} else {
-		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin-old' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0' );
-	}
-}
-
-add_action( 'admin_head', 'wp_statistics_menu_icon' );
 
 // This function adds the admin bar menu if the user has selected it.
 function wp_statistics_menubar() {
@@ -806,7 +786,11 @@ if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
 	add_action( 'admin_bar_menu', 'wp_statistics_menubar', 20 );
 }
 
-// This is the main statistics display function.
+/**
+ * This is the main statistics display function.
+ *
+ * @param string $log_type
+ */
 function wp_statistics_log( $log_type = "" ) {
 	GLOBAL $wpdb, $WP_Statistics, $plugin_page;
 
@@ -932,24 +916,12 @@ function wp_statistics_log( $log_type = "" ) {
 	wp_enqueue_script( 'postbox' );
 
 	// Load the css we use for the statistics pages.
-	wp_enqueue_style( 'log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1' );
-	wp_enqueue_style( 'pagination-css', plugin_dir_url( __FILE__ ) . 'assets/css/pagination' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0' );
-	wp_enqueue_style( 'jqplot-css', plugin_dir_url( __FILE__ ) . 'assets/jqplot/jquery.jqplot' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0.9' );
+	wp_enqueue_style( 'pagination-css', plugin_dir_url( __FILE__ ) . 'assets/css/pagination.css', true, '1.0' );
 
 	// Don't forget the right to left support.
 	if ( is_rtl() ) {
-		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1' );
+		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
 	}
-
-	// Load the charts code.
-	wp_enqueue_script( 'jqplot', plugin_dir_url( __FILE__ ) . 'assets/jqplot/jquery.jqplot' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
-	wp_enqueue_script( 'jqplot-daterenderer', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.dateAxisRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
-	wp_enqueue_script( 'jqplot-tickrenderer', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.canvasAxisTickRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
-	wp_enqueue_script( 'jqplot-axisrenderer', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.canvasAxisLabelRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
-	wp_enqueue_script( 'jqplot-textrenderer', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.canvasTextRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
-	wp_enqueue_script( 'jqplot-tooltip', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.highlighter' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
-	wp_enqueue_script( 'jqplot-pierenderer', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.pieRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
-	wp_enqueue_script( 'jqplot-enhancedlengend', plugin_dir_url( __FILE__ ) . 'assets/jqplot/plugins/jqplot.enhancedLegendRenderer' . WP_STATISTICS_MIN_EXT . '.js', true, '1.0.9' );
 
 	// Load the pagination code.
 	include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
@@ -991,18 +963,29 @@ function wp_statistics_log( $log_type = "" ) {
 
 			break;
 		default:
-			wp_enqueue_style( 'jqvmap-css', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jqvmap' . WP_STATISTICS_MIN_EXT . '.css', true, '1.5.1' );
-			wp_enqueue_script( 'jquery-vmap', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jquery.vmap' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1' );
-			wp_enqueue_script( 'jquery-vmap-world', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/maps/jquery.vmap.world' . WP_STATISTICS_MIN_EXT . '.js', true, '1.5.1' );
+			wp_enqueue_style( 'jqvmap-css', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
+			wp_enqueue_script( 'jquery-vmap', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1' );
+			wp_enqueue_script( 'jquery-vmap-world', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1' );
 
 			// Load our custom widgets handling javascript.
-			wp_enqueue_script( 'wp_statistics_log', plugin_dir_url( __FILE__ ) . 'assets/js/log' . WP_STATISTICS_MIN_EXT . '.js' );
+			wp_enqueue_script( 'wp_statistics_log', plugin_dir_url( __FILE__ ) . 'assets/js/log.js' );
 
 			include_once dirname( __FILE__ ) . '/includes/log/log.php';
 
 			break;
 	}
 }
+
+// Load admin scripts
+function wp_statistics_load_scripts() {
+	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+
+	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0' );
+}
+
+// Add admin scripts action
+add_action( 'admin_enqueue_scripts', 'wp_statistics_load_scripts' );
 
 // This function loads the optimization page code.
 function wp_statistics_optimization() {
@@ -1019,14 +1002,14 @@ function wp_statistics_optimization() {
 	$WP_Statistics->load_user_options();
 
 	// Load the jQuery UI code to create the tabs.
-	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom' . WP_STATISTICS_MIN_EXT . '.css' );
+	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.min.css' );
 	wp_enqueue_style( "jquery-ui-css" );
 
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
 
 	if ( is_rtl() ) {
-		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1' );
+		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
 	}
 
 	// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.
@@ -1055,17 +1038,17 @@ function wp_statistics_settings() {
 	$WP_Statistics->load_user_options();
 
 	// Load our CSS to be used.
-	wp_enqueue_style( 'log-css', plugin_dir_url( __FILE__ ) . 'assets/css/style' . WP_STATISTICS_MIN_EXT . '.css', true, '1.0' );
+	wp_enqueue_style( 'log-css', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', true, '1.0' );
 
 	// Load the jQuery UI code to create the tabs.
-	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom' . WP_STATISTICS_MIN_EXT . '.css' );
+	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.min.css' );
 	wp_enqueue_style( "jquery-ui-css" );
 
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
 
 	if ( is_rtl() ) {
-		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl' . WP_STATISTICS_MIN_EXT . '.css', true, '1.1' );
+		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
 	}
 
 	// We could let the download happen at the end of the page, but this way we get to give some

@@ -12,15 +12,15 @@ function wp_statistics_generate_top_visitors_postbox_content( $ISOCountryCode, $
 	?>
     <table width="100%" class="widefat table-stats" id="last-referrer">
         <tr>
-            <td style='text-align: left'><?php _e( 'Rank', 'wp-statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'Hits', 'wp-statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'Flag', 'wp-statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'Country', 'wp-statistics' ); ?></td>
-            <td style='text-align: left'><?php _e( 'IP', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'Rank', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'Hits', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'Flag', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'Country', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'IP', 'wp-statistics' ); ?></td>
 			<?php if ( $compact == false ) { ?>
-                <td style='text-align: left'><?php _e( 'Agent', 'wp-statistics' ); ?></td>
-                <td style='text-align: left'><?php _e( 'Platform', 'wp-statistics' ); ?></td>
-                <td style='text-align: left'><?php _e( 'Version', 'wp-statistics' ); ?></td>
+                <td><?php _e( 'Agent', 'wp-statistics' ); ?></td>
+                <td><?php _e( 'Platform', 'wp-statistics' ); ?></td>
+                <td><?php _e( 'Version', 'wp-statistics' ); ?></td>
 			<?php } ?>
         </tr>
 
@@ -35,16 +35,16 @@ function wp_statistics_generate_top_visitors_postbox_content( $ISOCountryCode, $
 			$item = strtoupper( $visitor->location );
 
 			echo "<tr>";
-			echo "<td style='text-align: left'>$i</td>";
-			echo "<td style='text-align: left'>" . (int) $visitor->hits . "</td>";
-			echo "<td style='text-align: left'><img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $item . '.png' ) . "' title='{$ISOCountryCode[$item]}'/></td>";
-			echo "<td style='text-align: left'>{$ISOCountryCode[$item]}</td>";
-			echo "<td style='text-align: left'>{$visitor->ip}</td>";
+			echo "<td>$i</td>";
+			echo "<td>" . (int) $visitor->hits . "</td>";
+			echo "<td><img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $item . '.png' ) . "' title='{$ISOCountryCode[$item]}'/></td>";
+			echo "<td>{$ISOCountryCode[$item]}</td>";
+			echo "<td>{$visitor->ip}</td>";
 
 			if ( $compact == false ) {
-				echo "<td style='text-align: left'>{$visitor->agent}</td>";
-				echo "<td style='text-align: left'>{$visitor->platform}</td>";
-				echo "<td style='text-align: left'>{$visitor->version}</td>";
+				echo "<td>{$visitor->agent}</td>";
+				echo "<td>{$visitor->platform}</td>";
+				echo "<td>{$visitor->version}</td>";
 			}
 			echo "</tr>";
 

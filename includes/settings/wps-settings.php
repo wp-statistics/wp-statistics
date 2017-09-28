@@ -158,103 +158,112 @@ switch ( $selected_tab ) {
 
                 var clickurl = jQuery(location).attr('href') + '&tab=' + tab;
 
-                jQuery('#wps_settings_form').attr('action', clickurl).submit();
+                jQuery('#wp-statistics-settings-form').attr('action', clickurl).submit();
             });
         });
     </script>
     <a name="top"></a>
-    <div class="wrap">
+    <div class="wrap wp-statistics-settings">
         <h2><?php _e( 'Settings', 'wp-statistics' ); ?></h2>
-        <form id="wps_settings_form" method="post">
-			<?php wp_nonce_field( 'update-options', 'wp-statistics-nonce' ); ?>
-            <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#general-settings"><span><?php _e( 'General', 'wp-statistics' ); ?></span></a>
-                        </li><?php } ?>
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#notifications-settings"><span><?php _e( 'Notifications', 'wp-statistics' ); ?></span></a>
-                        </li><?php } ?>
-                    <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#overview-display-settings"><span><?php _e( 'Dashboard/Overview', 'wp-statistics' ); ?></span></a>
-                    </li>
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#access-settings"><span><?php _e( 'Access Levels', 'wp-statistics' ); ?></span></a>
-                        </li><?php } ?>
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#exclusions-settings"><span><?php _e( 'Exclusions', 'wp-statistics' ); ?></span></a>
-                        </li><?php } ?>
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top"><a class="ui-tabs-anchor" href="#externals-settings"><span><?php _e( 'Externals', 'wp-statistics' ); ?></span></a>
-                        </li><?php } ?>
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e( 'Maintenance', 'wp-statistics' ); ?></span></a>
-                        </li><?php } ?>
-					<?php if ( $wps_admin ) { ?>
-                        <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#removal-settings"><span><?php _e( 'Removal', 'wp-statistics' ); ?></span></a>
-                        </li><?php } ?>
-                    <li class="ui-state-default ui-corner-top">
-                        <a class="ui-tabs-anchor" href="#about"><span><?php _e( 'About', 'wp-statistics' ); ?></span></a>
-                    </li>
-                </ul>
+        <div id="poststuff">
+            <div id="post-body" class="metabox-holder columns-2">
+                <div class="wp-list-table widefat widefat">
+                    <form id="wp-statistics-settings-form" method="post">
+						<?php wp_nonce_field( 'update-options', 'wp-statistics-nonce' ); ?>
+                        <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+								<?php if ( $wps_admin ) { ?>
+                                    <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#general-settings"><span><?php _e( 'General', 'wp-statistics' ); ?></span></a>
+                                    </li><?php } ?>
+								<?php if ( $wps_admin ) { ?>
+                                    <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#notifications-settings"><span><?php _e( 'Notifications', 'wp-statistics' ); ?></span></a>
+                                    </li><?php } ?>
+                                <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#overview-display-settings"><span><?php _e( 'Dashboard/Overview', 'wp-statistics' ); ?></span></a>
+                                </li>
+								<?php if ( $wps_admin ) { ?>
+                                    <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#access-settings"><span><?php _e( 'Access Levels', 'wp-statistics' ); ?></span></a>
+                                    </li><?php } ?>
+								<?php if ( $wps_admin ) { ?>
+                                    <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#exclusions-settings"><span><?php _e( 'Exclusions', 'wp-statistics' ); ?></span></a>
+                                    </li><?php } ?>
+								<?php if ( $wps_admin ) { ?>
+                                    <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#externals-settings"><span><?php _e( 'Externals', 'wp-statistics' ); ?></span></a>
+                                    </li><?php } ?>
+								<?php if ( $wps_admin ) { ?>
+                                    <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#maintenance-settings"><span><?php _e( 'Maintenance', 'wp-statistics' ); ?></span></a>
+                                    </li><?php } ?>
+								<?php if ( $wps_admin ) { ?>
+                                    <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#removal-settings"><span><?php _e( 'Removal', 'wp-statistics' ); ?></span></a>
+                                    </li><?php } ?>
+                                <li class="ui-state-default ui-corner-top">
+                                    <a class="ui-tabs-anchor" href="#about"><span><?php _e( 'About', 'wp-statistics' ); ?></span></a>
+                                </li>
+                            </ul>
 
-                <div id="general-settings">
-					<?php if ( $wps_admin ) {
-						include( dirname( __FILE__ ) . '/tabs/wps-general.php' );
-					} ?>
+                            <div id="general-settings">
+								<?php if ( $wps_admin ) {
+									include( dirname( __FILE__ ) . '/tabs/wps-general.php' );
+								} ?>
+                            </div>
+
+                            <div id="notifications-settings">
+								<?php if ( $wps_admin ) {
+									include( dirname( __FILE__ ) . '/tabs/wps-notifications.php' );
+								} ?>
+                            </div>
+
+                            <div id="overview-display-settings">
+								<?php include( dirname( __FILE__ ) . '/tabs/wps-overview-display.php' ); ?>
+                            </div>
+
+                            <div id="access-settings">
+								<?php if ( $wps_admin ) {
+									include( dirname( __FILE__ ) . '/tabs/wps-access-level.php' );
+								} ?>
+                            </div>
+
+                            <div id="exclusions-settings">
+								<?php if ( $wps_admin ) {
+									include( dirname( __FILE__ ) . '/tabs/wps-exclusions.php' );
+								} ?>
+                            </div>
+
+                            <div id="externals-settings">
+								<?php if ( $wps_admin ) {
+									include( dirname( __FILE__ ) . '/tabs/wps-externals.php' );
+								} ?>
+                            </div>
+
+                            <div id="maintenance-settings">
+								<?php if ( $wps_admin ) {
+									include( dirname( __FILE__ ) . '/tabs/wps-maintenance.php' );
+								} ?>
+                            </div>
+
+                            <div id="removal-settings">
+								<?php if ( $wps_admin ) {
+									include( dirname( __FILE__ ) . '/tabs/wps-removal.php' );
+								} ?>
+                            </div>
+
+                            <div id="about">
+								<?php include( dirname( __FILE__ ) . '/tabs/wps-about.php' ); ?>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                <div id="notifications-settings">
-					<?php if ( $wps_admin ) {
-						include( dirname( __FILE__ ) . '/tabs/wps-notifications.php' );
-					} ?>
-                </div>
-
-                <div id="overview-display-settings">
-					<?php include( dirname( __FILE__ ) . '/tabs/wps-overview-display.php' ); ?>
-                </div>
-
-                <div id="access-settings">
-					<?php if ( $wps_admin ) {
-						include( dirname( __FILE__ ) . '/tabs/wps-access-level.php' );
-					} ?>
-                </div>
-
-                <div id="exclusions-settings">
-					<?php if ( $wps_admin ) {
-						include( dirname( __FILE__ ) . '/tabs/wps-exclusions.php' );
-					} ?>
-                </div>
-
-                <div id="externals-settings">
-					<?php if ( $wps_admin ) {
-						include( dirname( __FILE__ ) . '/tabs/wps-externals.php' );
-					} ?>
-                </div>
-
-                <div id="maintenance-settings">
-					<?php if ( $wps_admin ) {
-						include( dirname( __FILE__ ) . '/tabs/wps-maintenance.php' );
-					} ?>
-                </div>
-
-                <div id="removal-settings">
-					<?php if ( $wps_admin ) {
-						include( dirname( __FILE__ ) . '/tabs/wps-removal.php' );
-					} ?>
-                </div>
-
-                <div id="about">
-					<?php include( dirname( __FILE__ ) . '/tabs/wps-about.php' ); ?>
-                </div>
+	            <?php include_once dirname( __FILE__ ) . '/../templates/postbox.php'; ?>
             </div>
-        </form>
+        </div>
     </div>
 
 <?php

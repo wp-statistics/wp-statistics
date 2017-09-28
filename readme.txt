@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, pagerank, google, alexa, live visit
 Requires at least: 3.0
 Tested up to: 4.8
-Stable tag: 12.0.12.1
+Stable tag: 12.1.0
 License: GPL3
 
 Complete statistics for your WordPress site.
@@ -270,22 +270,32 @@ If you have done an upgrade and you can no longer access your site due to the pa
 You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new fixes or features will be added to that version and you should move to a newer version of PHP as soon as possible.  You can download the 10.3 here: https://downloads.wordpress.org/plugin/wp-statistics.10.3.zip
 
 == Screenshots ==
-1. View stats page.
-2. View latest search words.
-3. View recent visitors page.
-4. View top referrer site page.
-5. Optimization page.
-6. Settings page.
-7. Widget page.
-8. View Top Browsers page.
-9. View latest Hits Statistics page.
-10. View latest search engine referrers Statistics page.
+1. Overview.
+2. Browsers Statistics.
+3. Top Countries.
+4. Hit Statistics.
+5. Top pages.
+6. Category Statistics.
+7. Search Engine Referral Statistics.
+8. Last Search Words.
+9. Dashboard widgets.
+10. Theme widget.
 
 == Upgrade Notice ==
 = 12.0.9 =
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.1.0 =
+* Added: Awesome charts! The Chartjs library used in the plugin for show charts.
+* Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo, Saint Martin, Saint Barthélemy and Mayotte)
+* Updated: Countries code.
+* Updated: Settings and Optimization page styles.
+* Fixed: Showing data on the Browsers, Platforms and browsers version charts.
+* Fixed: Postbox container width in Logs page.
+* Removed: `WP_STATISTICS_MIN_EXT` define for load `.min` version in css/js.
+* Removed: Additional assets and the assets cleaned up.
+
 = 12.0.12.1 =
 * Fixed: PHP syntax error for array brackets when the PHP < 5.4
 

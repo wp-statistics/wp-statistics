@@ -56,3 +56,62 @@
     font-size: 15px;
     color: #589616;
 }
+
+.wp-statistics-sub-fullwidth {
+    width: 100%;
+}
+
+/** Setting page **/
+.wp-statistics-settings .widefat {
+    float: left;
+}
+
+.wp-statistics-settings .postbox-container {
+    margin-top: 51px;
+}
+
+.wp-statistics-settings #tabs {
+    margin-top: 18px;
+}
+
+.wp-statistics-settings .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.wp-statistics-settings #tabs .ui-widget-content {
+    background-color: white;
+    border-left: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    border-bottom: 1px solid #dadada;
+}
+
+.wp-statistics-settings .ui-tabs .ui-tabs-nav {
+    padding: 0;
+}
+
+.wp-statistics-settings .ui-tabs .ui-tabs-nav li {
+    border-color: #dadada;
+}
+
+.wp-statistics-settings .ui-widget-header {
+    border-bottom-color: #dadada;
+}
+
+.rtl .wp-statistics-settings .widefat {
+    float: right;
+}
+
+.wp-statistics-settings .ui-widget-content .ui-tabs-panel a {
+    color: #0073aa;
+}
+
+@media only screen and (max-width: 1482px) {
+    .wp-statistics-settings #poststuff #post-body.columns-2 {
+        margin: 0;
+    }
+
+    .wp-statistics-settings .postbox-container {
+        margin-top: 11px;
+    }
+}

@@ -167,9 +167,9 @@ function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate 
 	// If a page/post ID has been passed, use it to select the rows, otherwise use the URI.
 	//  Note that a single page/post ID can have multiple URI's associated with it.
 	if ( $id != - 1 ) {
-		$page_sql    = '`id` = ' . absint($id);
+		$page_sql    = '`id` = ' . absint( $id );
 		$history_key = 'page';
-		$history_id  = absint($id);
+		$history_id  = absint( $id );
 	} else {
 		$page_sql    = "`URI` = '{$page_uri_sql}'";
 		$history_key = 'uri';
@@ -440,7 +440,7 @@ function wp_statistics_agent_version_list( $agent, $rangestartdate = null, $rang
 	return $Versions;
 }
 
-// This function returns the statistcs for a given agent/version pair from the database.
+// This function returns the statistics for a given agent/version pair from the database.
 function wp_statistics_agent_version( $agent, $version, $rangestartdate = null, $rangeenddate = null ) {
 
 	global $wpdb;
@@ -631,15 +631,15 @@ function wp_statistics_searchengine_query( $search_engine = 'all' ) {
 		if ( strtolower( $search_engine ) == 'all' ) {
 			// For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
 			foreach ( $searchengine_list as $key => $se ) {
-				$key = esc_sql($key);
+				$key          = esc_sql( $key );
 				$search_query .= "`engine` = '{$key}' OR ";
 			}
 
 			// Trim off the last ' OR ' for the loop above.
 			$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
 		} else {
-			$search_engine = esc_sql($search_engine);
-			$search_query .= "`engine` = '{$search_engine}'";
+			$search_engine = esc_sql( $search_engine );
+			$search_query  .= "`engine` = '{$search_engine}'";
 		}
 	} else {
 		// Are we getting results for all search engines or a specific one?
@@ -650,12 +650,12 @@ function wp_statistics_searchengine_query( $search_engine = 'all' ) {
 				// The SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
 				if ( is_array( $se['sqlpattern'] ) ) {
 					foreach ( $se['sqlpattern'] as $subse ) {
-						$subse = esc_sql($subse);
+						$subse        = esc_sql( $subse );
 						$search_query .= "`referred` LIKE '{$subse}' OR ";
 					}
 				} else {
-					$se['sqlpattern'] = esc_sql($se['sqlpattern']);
-					$search_query .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
+					$se['sqlpattern'] = esc_sql( $se['sqlpattern'] );
+					$search_query     .= "`referred` LIKE '{$se['sqlpattern']}' OR ";
 				}
 			}
 
@@ -665,15 +665,15 @@ function wp_statistics_searchengine_query( $search_engine = 'all' ) {
 			// For just one?  Ok, the SQL pattern for a search engine may be an array if it has to handle multiple domains (like google.com and google.ca) or other factors.
 			if ( is_array( $searchengine_list[ $search_engine ]['sqlpattern'] ) ) {
 				foreach ( $searchengine_list[ $search_engine ]['sqlpattern'] as $se ) {
-					$se = esc_sql($se);
+					$se           = esc_sql( $se );
 					$search_query .= "`referred` LIKE '{$se}' OR ";
 				}
 
 				// Trim off the last ' OR ' for the loop above.
 				$search_query = substr( $search_query, 0, strlen( $search_query ) - 4 );
 			} else {
-				$searchengine_list[$search_engine]['sqlpattern'] = esc_sql($searchengine_list[$search_engine]['sqlpattern']);
-				$search_query .= "`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}'";
+				$searchengine_list[ $search_engine ]['sqlpattern'] = esc_sql( $searchengine_list[ $search_engine ]['sqlpattern'] );
+				$search_query                                      .= "`referred` LIKE '{$searchengine_list[$search_engine]['sqlpattern']}'";
 			}
 		}
 	}
@@ -1027,7 +1027,7 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	GLOBAL $WP_Statistics;
 
 	wp_enqueue_script( 'jquery-ui-datepicker' );
-	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness' . WP_STATISTICS_MIN_EXT . '.css' );
+	wp_register_style( 'jquery-ui-smoothness-css', $WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness.min.css' );
 	wp_enqueue_style( 'jquery-ui-smoothness-css' );
 
 	if ( count( $range ) == 0 ) {
@@ -1091,7 +1091,7 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 		$rangeend   = $WP_Statistics->Current_Date( 'm/d/Y' );
 	}
 
-	echo '<form method="get"><ul class="subsubsub">' . "\r\n";
+	echo '<form method="get"><ul class="subsubsub wp-statistics-sub-fullwidth">' . "\r\n";
 
 	// Output any extra HTML we've been passed after the form element but before the date selector.
 	echo $pre_extra;
@@ -1194,5 +1194,17 @@ function wp_statistics_generate_widget_load_javascript( $widget, $container_id =
     </script>
 	<?php
 }
-	
-	
+
+/**
+ * Generate RGBA colors
+ *
+ * @param $num
+ * @param string $opacity
+ *
+ * @return string
+ */
+function wp_statistics_generate_rgba_color( $num, $opacity = '1' ) {
+	$hash = md5( 'color' . $num );
+
+	return sprintf( "'rgba(%s, %s, %s, %s)'", hexdec( substr( $hash, 0, 2 ) ), hexdec( substr( $hash, 2, 2 ) ), hexdec( substr( $hash, 4, 2 ) ), $opacity );
+}

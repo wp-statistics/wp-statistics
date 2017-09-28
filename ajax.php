@@ -213,6 +213,14 @@ function wp_statistics_get_widget_contents_callback() {
 		'words'
 	);
 
+	if ( array_key_exists( 'format', $_POST ) and $_POST['format'] == 'dashboard' ) {
+		$size = 300;
+		$days = 10;
+	} else {
+		$size = 110;
+		$days = 20;
+	}
+
 	$view_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) );
 
 	if ( current_user_can( $view_cap ) ) {
@@ -267,11 +275,11 @@ function wp_statistics_get_widget_contents_callback() {
 
 				break;
 			case 'hits':
-				wp_statistics_generate_hits_postbox_content();
+				wp_statistics_generate_hits_postbox_content( $size, $days );
 
 				break;
 			case 'search':
-				wp_statistics_generate_search_postbox_content( $search_engines );
+				wp_statistics_generate_search_postbox_content( $search_engines, $size, $days );
 
 				break;
 			case 'words':
