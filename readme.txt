@@ -288,7 +288,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = 12.1.0 =
 * Added: Awesome charts! The Chartjs library used in the plugin for show charts.
-* Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo and Mayotte)
+* Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo, Saint Martin, Saint Barthélemy and Mayotte)
 * Updated: Countries code.
 * Updated: Settings and Optimization page styles.
 * Fixed: Showing data on the Browsers, Platforms and browsers version charts.
