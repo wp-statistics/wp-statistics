@@ -102,6 +102,10 @@
     float: right;
 }
 
+.wp-statistics-settings .ui-widget-content .ui-tabs-panel a {
+    color: #0073aa;
+}
+
 @media only screen and (max-width: 1482px) {
     .wp-statistics-settings #poststuff #post-body.columns-2 {
         margin: 0;
