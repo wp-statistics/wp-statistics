@@ -98,6 +98,10 @@
     border-bottom-color: #dadada;
 }
 
+.rtl .wp-statistics-settings .widefat {
+    float: right;
+}
+
 @media only screen and (max-width: 1482px) {
     .wp-statistics-settings #poststuff #post-body.columns-2 {
         margin: 0;
