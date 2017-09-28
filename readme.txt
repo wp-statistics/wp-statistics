@@ -290,6 +290,7 @@ This is a security fix, please update immediately.
 * Added: Awesome charts! The Chartjs library used in the plugin for show charts.
 * Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo and Mayotte)
 * Updated: Countries code.
+* Updated: Settings and Optimization page styles.
 * Fixed: Showing data on the Browsers, Platforms and browsers version charts.
 * Fixed: Postbox container width in Logs page.
 * Removed: `WP_STATISTICS_MIN_EXT` define for load `.min` version in css/js.
