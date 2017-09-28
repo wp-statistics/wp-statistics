@@ -42,12 +42,12 @@ $browser_value = array();
 $browser_color = array();
 
 foreach ( $BrowserVisits as $key => $value ) {
-	if ( $value ) {
+	//if ( $value ) {
 		$i ++;
 		$browser_name[]  = "'" . $key . "'";
 		$browser_value[] = $value;
 		$browser_color[] = wp_statistics_generate_rgba_color( $i, '0.4' );
-	}
+	//}
 }
 
 // Platforms

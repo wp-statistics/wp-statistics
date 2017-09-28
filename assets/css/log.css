@@ -271,13 +271,6 @@
     direction: ltr;
 }
 
-#browsers-log {
-    direction: ltr;
-    height: 330px;
-    margin: 0 auto;
-    width: 100%;
-}
-
 #platform-log {
     direction: ltr;
 }
