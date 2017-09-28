@@ -270,16 +270,16 @@ If you have done an upgrade and you can no longer access your site due to the pa
 You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new fixes or features will be added to that version and you should move to a newer version of PHP as soon as possible.  You can download the 10.3 here: https://downloads.wordpress.org/plugin/wp-statistics.10.3.zip
 
 == Screenshots ==
-1. View stats page.
-2. View latest search words.
-3. View recent visitors page.
-4. View top referrer site page.
-5. Optimization page.
-6. Settings page.
-7. Widget page.
-8. View Top Browsers page.
-9. View latest Hits Statistics page.
-10. View latest search engine referrers Statistics page.
+1. Overview.
+2. Browsers Statistics.
+3. Top Countries.
+4. Hit Statistics.
+5. Top pages.
+6. Category Statistics.
+7. Search Engine Referral Statistics.
+8. Last Search Words.
+9. Dashboard widgets.
+10. Theme widget.
 
 == Upgrade Notice ==
 = 12.0.9 =
