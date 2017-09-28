@@ -12,4 +12,22 @@
             </div>
         </div>
     </div>
+
+	<?php
+	$response      = wp_remote_get( 'https://wp-statistics.com/wp-json/plugin/postbox' );
+	$response_code = wp_remote_retrieve_response_code( $response );
+
+	if ( ! is_wp_error( $response ) and $response_code == '200' ) :
+		$result = json_decode( $response['body'] );
+		foreach ( $result->items as $item ) : ?>
+            <div class="meta-box-sortables">
+                <div id="wps-plugins-support" class="postbox">
+                    <h2 class="hndle"><span><?php echo $item->title; ?></span></h2>
+                    <div class="inside"><?php echo $item->content; ?></div>
+                </div>
+            </div>
+			<?php
+		endforeach;
+	endif;
+	?>
 </div>
