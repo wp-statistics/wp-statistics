@@ -107,8 +107,18 @@
 }
 
 @media only screen and (max-width: 1482px) {
-    .wp-statistics-settings #poststuff #post-body.columns-2 {
-        margin: 0;
+    .wp-statistics-settings .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+        padding-right: 6px;
+        padding-left: 6px;
+        font-size: 12px;
+    }
+
+    .wp-statistics-settings .ui-tabs .ui-tabs-nav li.ui-tabs-active {
+        margin-right: 5px;
+    }
+
+    .wp-statistics-settings .ui-tabs .ui-tabs-nav li {
+        margin-right: 5px;
     }
 
     .wp-statistics-settings .postbox-container {
