@@ -286,6 +286,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.1.1 =
+* Updated: Admin css.
+
 = 12.1.0 =
 * Added: Awesome charts! The Chartjs library used in the plugin for show charts.
 * Updated: Missed flags icons. (Curaçao, Saint Lucia, Turkmenistan, Kosovo, Saint Martin, Saint Barthélemy and Mayotte)
