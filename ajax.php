@@ -214,7 +214,7 @@ function wp_statistics_get_widget_contents_callback() {
 	);
 
 	if ( array_key_exists( 'format', $_POST ) and $_POST['format'] == 'dashboard' ) {
-		$size = 300;
+		$size = 220;
 		$days = 10;
 	} else {
 		$size = 110;

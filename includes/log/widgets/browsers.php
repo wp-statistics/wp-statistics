@@ -35,7 +35,7 @@ function wp_statistics_generate_browsers_postbox_content() {
 		$topten_browser_color[] = wp_statistics_generate_rgba_color( 10, '0.4' );
 	}
 	?>
-    <canvas id="<?php echo $id; ?>" height="240"></canvas>
+    <canvas id="<?php echo $id; ?>" height="220"></canvas>
     <script>
         var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
         var ChartJs = new Chart(ctx, {
