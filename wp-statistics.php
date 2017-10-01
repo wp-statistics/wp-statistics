@@ -981,7 +981,13 @@ function wp_statistics_load_scripts() {
 	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
 	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
 
-	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0' );
+	$in_footer = true;
+	if ( isset( $_GET['page'] ) ) {
+		if ( $_GET['page'] == 'wps_browsers_page' or $_GET['page'] == 'wps_hits_page' or $_GET['page'] == 'wps_pages_page' or $_GET['page'] == 'wps_categories_page' or $_GET['page'] == 'wps_tags_page' or $_GET['page'] == 'wps_authors_page' or $_GET['page'] == 'wps_searches_page' ) {
+			$in_footer = false;
+		}
+	}
+	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0', $in_footer );
 }
 
 // Add admin scripts action
