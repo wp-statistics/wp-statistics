@@ -1,12 +1,3 @@
-#adminmenu #toplevel_page_wps_overview_page .wp-menu-image:before {
-    content: "\f184";
-}
-
-#wp-admin-bar-wp-statistic-menu .ab-icon:before {
-    font-family: "dashicons" !important;
-    content: "\f184" !important;
-}
-
 .wps-center {
     text-align: center;
 }

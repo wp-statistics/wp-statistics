@@ -458,7 +458,7 @@ function wp_statistics_menu() {
 	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
 
 	// Add the top level menu.
-	$WP_Statistics->menu_slugs['top'] = add_menu_page( __( 'Statistics', 'wp-statistics' ), __( 'Statistics', 'wp-statistics' ), $read_cap, WP_STATISTICS_OVERVIEW_PAGE, 'wp_statistics_log' );
+	$WP_Statistics->menu_slugs['top'] = add_menu_page( __( 'Statistics', 'wp-statistics' ), __( 'Statistics', 'wp-statistics' ), $read_cap, WP_STATISTICS_OVERVIEW_PAGE, 'wp_statistics_log', 'dashicons-chart-pie' );
 
 	// Add the sub items.
 	$WP_Statistics->menu_slugs['overview'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Overview', 'wp-statistics' ), __( 'Overview', 'wp-statistics' ), $read_cap, WP_STATISTICS_OVERVIEW_PAGE, 'wp_statistics_log' );
