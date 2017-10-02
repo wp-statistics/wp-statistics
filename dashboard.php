@@ -106,10 +106,17 @@ function wp_statistics_dashboard_widget_load() {
 function wp_statistics_load_widget_css_and_scripts() {
 	GLOBAL $WP_Statistics;
 
+	// Load the css we use for the statistics pages.
+	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+
 	// Don't forget the right to left support.
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
 	}
+
+	// Load the charts code.
+    wp_enqueue_script( 'wpstatistics-chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0' );
 
 	// Load the map code.
 	wp_enqueue_style( 'jqvmap-css', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
@@ -164,7 +171,7 @@ function wp_statistics_dashboard_inline_javascript() {
 	$page_urls['wp-statistics-search-widget_more_button']       = $admin_url . WP_STATISTICS_SEARCHES_PAGE;
 	$page_urls['wp-statistics-words-widget_more_button']        = $admin_url . WP_STATISTICS_WORDS_PAGE;
 	$page_urls['wp-statistics-top-visitors-widget_more_button'] = $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
-	$page_urls['wp-statistics-recent-widget_more_button']     = $admin_url . WP_STATISTICS_VISITORS_PAGE;
+	$page_urls['wp-statistics-recent-widget_more_button']       = $admin_url . WP_STATISTICS_VISITORS_PAGE;
 	$page_urls['wp-statistics-quickstats-widget_more_button']   = $admin_url . WP_STATISTICS_OVERVIEW_PAGE;
 
 	?>

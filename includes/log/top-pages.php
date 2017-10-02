@@ -57,6 +57,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
                     <div class="inside">
                         <canvas id="hit-stats" height="80"></canvas>
+                        <script type='text/javascript' src='<?php echo WP_STATISTICS_PLUGIN_DIR; ?>/assets/js/Chart.bundle.min.js'></script>
                         <script>
                             var colors = [];
                             colors[0] = ['rgba(12, 132, 132, 0.2)', 'rgba(12, 132, 132, 1)'];

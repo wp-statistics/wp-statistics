@@ -85,6 +85,7 @@ foreach ( $PlatformVisits as $key => $value ) {
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
                         <canvas id="browsers-log" height="200"></canvas>
+                        <script type='text/javascript' src='<?php echo WP_STATISTICS_PLUGIN_DIR; ?>/assets/js/Chart.bundle.min.js'></script>
                         <script>
                             var ctx = document.getElementById("browsers-log").getContext('2d');
                             var ChartJs = new Chart(ctx, {

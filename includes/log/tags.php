@@ -109,6 +109,7 @@
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
                     <div class="inside">
                         <canvas id="hit-stats" height="80"></canvas>
+                        <script type='text/javascript' src='<?php echo WP_STATISTICS_PLUGIN_DIR; ?>/assets/js/Chart.bundle.min.js'></script>
                         <script>
                             var ctx = document.getElementById("hit-stats").getContext('2d');
                             var ChartJs = new Chart(ctx, {

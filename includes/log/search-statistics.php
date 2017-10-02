@@ -61,6 +61,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
                     <div class="inside">
                         <canvas id="search-stats" height="80"></canvas>
+                        <script type='text/javascript' src='<?php echo WP_STATISTICS_PLUGIN_DIR; ?>/assets/js/Chart.bundle.min.js'></script>
                         <script>
                             var colors = [];
                             colors['baidu'] = ['rgba(35, 25, 220, 0.2)', 'rgba(35, 25, 220, 1)'];

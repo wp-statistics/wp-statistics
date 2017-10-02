@@ -36,6 +36,7 @@ define( 'WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page' );
 define( 'WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page' );
 define( 'WP_STATISTICS_PLUGINS_PAGE', 'wps_plugins_page' );
 define( 'WP_STATISTICS_DONATE_PAGE', 'wps_donate_page' );
+define( 'WP_STATISTICS_PLUGIN_DIR', plugin_dir_url( __FILE__ ) );
 
 // Load the translation code.
 function wp_statistics_language() {
@@ -916,11 +917,27 @@ function wp_statistics_log( $log_type = "" ) {
 	wp_enqueue_script( 'postbox' );
 
 	// Load the css we use for the statistics pages.
-	wp_enqueue_style( 'pagination-css', plugin_dir_url( __FILE__ ) . 'assets/css/pagination.css', true, '1.0' );
+	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+	wp_enqueue_style( 'wpstatistics-pagination-css', plugin_dir_url( __FILE__ ) . 'assets/css/pagination.css', true, '1.0' );
 
 	// Don't forget the right to left support.
 	if ( is_rtl() ) {
-		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
+		wp_enqueue_style( 'wpstatistics-rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
+	}
+
+	// Load the charts code.
+	$page                      = isset( $_GET['page'] ) ? $_GET['page'] : '';
+	$pages_dont_chart_required = array( 'wps_browsers_page', 'wps_hits_page', 'wps_pages_page', 'wps_categories_page', 'wps_tags_page', 'wps_authors_page', 'wps_searches_page' );
+
+	if ( array_search( $page, $pages_dont_chart_required ) !== false ) {
+		$load_chart_script = false;
+	} else {
+		$load_chart_script = true;
+	}
+
+	if ( $load_chart_script ) {
+		wp_enqueue_script( 'wpstatistics-chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0' );
 	}
 
 	// Load the pagination code.
@@ -963,9 +980,9 @@ function wp_statistics_log( $log_type = "" ) {
 
 			break;
 		default:
-			wp_enqueue_style( 'jqvmap-css', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
-			wp_enqueue_script( 'jquery-vmap', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1' );
-			wp_enqueue_script( 'jquery-vmap-world', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1' );
+			wp_enqueue_style( 'wpstatistics-jqvmap-css', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
+			wp_enqueue_script( 'wpstatistics-jquery-vmap', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1' );
+			wp_enqueue_script( 'wpstatistics-jquery-vmap-world', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1' );
 
 			// Load our custom widgets handling javascript.
 			wp_enqueue_script( 'wp_statistics_log', plugin_dir_url( __FILE__ ) . 'assets/js/log.js' );
@@ -975,23 +992,6 @@ function wp_statistics_log( $log_type = "" ) {
 			break;
 	}
 }
-
-// Load admin scripts
-function wp_statistics_load_scripts() {
-	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
-	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
-
-	$in_footer = true;
-	if ( isset( $_GET['page'] ) ) {
-		if ( $_GET['page'] == 'wps_browsers_page' or $_GET['page'] == 'wps_hits_page' or $_GET['page'] == 'wps_pages_page' or $_GET['page'] == 'wps_categories_page' or $_GET['page'] == 'wps_tags_page' or $_GET['page'] == 'wps_authors_page' or $_GET['page'] == 'wps_searches_page' ) {
-			$in_footer = false;
-		}
-	}
-	wp_enqueue_script( 'chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0', $in_footer );
-}
-
-// Add admin scripts action
-add_action( 'admin_enqueue_scripts', 'wp_statistics_load_scripts' );
 
 // This function loads the optimization page code.
 function wp_statistics_optimization() {
