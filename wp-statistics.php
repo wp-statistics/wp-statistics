@@ -930,7 +930,7 @@ function wp_statistics_log( $log_type = "" ) {
 	$pages_dont_chart_required = array( 'wps_browsers_page', 'wps_hits_page', 'wps_pages_page', 'wps_categories_page', 'wps_tags_page', 'wps_authors_page', 'wps_searches_page' );
 
 	if ( array_search( $page, $pages_dont_chart_required ) !== false ) {
-		$load_chart_script = false;
+		$load_chart_script = true;
 	} else {
 		$load_chart_script = true;
 	}

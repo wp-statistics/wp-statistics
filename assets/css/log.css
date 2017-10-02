@@ -346,3 +346,7 @@
 .table-stats {
     border: 0px none !important;
 }
+
+.wp-statistics-sub-fullwidth {
+    float: none;
+}

@@ -49,7 +49,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 <div class="wrap">
     <h2><?php _e( 'Search Engine Referral Statistics', 'wp-statistics' ); ?></h2>
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_SEARCHES_PAGE, $daysToDisplay ); ?>
-    <div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
+    <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">

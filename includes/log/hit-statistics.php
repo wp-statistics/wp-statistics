@@ -3,52 +3,51 @@
         postboxes.add_postbox_toggles(pagenow);
     });
 </script>
+<?php
+$daysToDisplay = 20;
+if ( array_key_exists( 'hitdays', $_GET ) ) {
+	$daysToDisplay = intval( $_GET['hitdays'] );
+}
+
+if ( array_key_exists( 'rangestart', $_GET ) ) {
+	$rangestart = $_GET['rangestart'];
+} else {
+	$rangestart = '';
+}
+if ( array_key_exists( 'rangeend', $_GET ) ) {
+	$rangeend = $_GET['rangeend'];
+} else {
+	$rangeend = '';
+}
+
+list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
+wp_statistics_date_range_selector( WP_STATISTICS_HITS_PAGE, $daysToDisplay );
+
+$visit_total   = 0;
+$visitor_total = 0;
+$daysInThePast = (int) ( ( time() - $rangeend_utime ) / 86400 );
+$visitors      = array();
+$visits        = array();
+
+for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
+	$stat        = wp_statistics_visit( '-' . (int) ( $i + $daysInThePast ), true );
+	$visit_total += $stat;
+	$visits[]    = $stat;
+}
+
+for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
+	$stat          = wp_statistics_visitor( '-' . (int) ( $i + $daysInThePast ), true );
+	$visitor_total += $stat;
+	$visitors[]    = $stat;
+}
+
+for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
+	$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
+}
+?>
 <div class="wrap">
     <h2><?php _e( 'Hit Statistics', 'wp-statistics' ); ?></h2>
-
-	<?php
-	$daysToDisplay = 20;
-	if ( array_key_exists( 'hitdays', $_GET ) ) {
-		$daysToDisplay = intval( $_GET['hitdays'] );
-	}
-
-	if ( array_key_exists( 'rangestart', $_GET ) ) {
-		$rangestart = $_GET['rangestart'];
-	} else {
-		$rangestart = '';
-	}
-	if ( array_key_exists( 'rangeend', $_GET ) ) {
-		$rangeend = $_GET['rangeend'];
-	} else {
-		$rangeend = '';
-	}
-
-	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator( $daysToDisplay, $rangestart, $rangeend );
-	wp_statistics_date_range_selector( WP_STATISTICS_HITS_PAGE, $daysToDisplay );
-
-	$visit_total   = 0;
-	$visitor_total = 0;
-	$daysInThePast = (int) ( ( time() - $rangeend_utime ) / 86400 );
-	$visitors      = array();
-	$visits        = array();
-
-	for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
-		$stat        = wp_statistics_visit( '-' . (int) ( $i + $daysInThePast ), true );
-		$visit_total += $stat;
-		$visits[]    = $stat;
-	}
-
-	for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
-		$stat          = wp_statistics_visitor( '-' . (int) ( $i + $daysInThePast ), true );
-		$visitor_total += $stat;
-		$visitors[]    = $stat;
-	}
-
-	for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
-		$date[] = "'" . $WP_Statistics->Current_Date( 'M j', '-' . $i ) . "'";
-	}
-	?>
-    <div class="postbox-container" style="width: 100%; float: left; margin-right:20px">
+    <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
