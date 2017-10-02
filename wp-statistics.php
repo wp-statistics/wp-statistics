@@ -918,7 +918,6 @@ function wp_statistics_log( $log_type = "" ) {
 
 	// Load the css we use for the statistics pages.
 	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
-	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
 	wp_enqueue_style( 'wpstatistics-pagination-css', plugin_dir_url( __FILE__ ) . 'assets/css/pagination.css', true, '1.0' );
 
 	// Don't forget the right to left support.
@@ -1007,6 +1006,9 @@ function wp_statistics_optimization() {
 	// during the creation of the class.  Instead load them now that the user exists.
 	$WP_Statistics->load_user_options();
 
+	// Load our CSS to be used.
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+
 	// Load the jQuery UI code to create the tabs.
 	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.min.css' );
 	wp_enqueue_style( "jquery-ui-css" );
@@ -1044,7 +1046,7 @@ function wp_statistics_settings() {
 	$WP_Statistics->load_user_options();
 
 	// Load our CSS to be used.
-	wp_enqueue_style( 'log-css', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', true, '1.0' );
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
 
 	// Load the jQuery UI code to create the tabs.
 	wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.min.css' );
