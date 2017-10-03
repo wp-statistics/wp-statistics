@@ -925,20 +925,6 @@ function wp_statistics_log( $log_type = "" ) {
 		wp_enqueue_style( 'wpstatistics-rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
 	}
 
-	// Load the charts code.
-	$page                      = isset( $_GET['page'] ) ? $_GET['page'] : '';
-	$pages_dont_chart_required = array( 'wps_browsers_page', 'wps_hits_page', 'wps_pages_page', 'wps_categories_page', 'wps_tags_page', 'wps_authors_page', 'wps_searches_page' );
-
-	if ( array_search( $page, $pages_dont_chart_required ) !== false ) {
-		$load_chart_script = false;
-	} else {
-		$load_chart_script = true;
-	}
-
-	if ( $load_chart_script ) {
-		wp_enqueue_script( 'wpstatistics-chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0' );
-	}
-
 	// Load the pagination code.
 	include_once dirname( __FILE__ ) . '/includes/classes/pagination.class.php';
 
@@ -1067,3 +1053,38 @@ function wp_statistics_settings() {
 
 	include_once dirname( __FILE__ ) . "/includes/settings/wps-settings.php";
 }
+
+function wp_statistics_enqueue_scripts( $hook ) {
+	$pages_required_chart = array(
+		'index.php', // Dashboard
+		'post.php', // Edit Post/Page
+		'toplevel_page_wps_overview_page',
+		'statistics_page_wps_browsers_page',
+		'statistics_page_wps_hits_page',
+		'statistics_page_wps_pages_page',
+		'statistics_page_wps_categories_page',
+		'statistics_page_wps_tags_page',
+		'statistics_page_wps_authors_page',
+		'statistics_page_wps_searches_page'
+	);
+
+	if ( array_search( $hook, $pages_required_chart ) !== false ) {
+		$load_in_footer              = true;
+		$pages_required_load_in_head = array(
+			'statistics_page_wps_browsers_page',
+			'statistics_page_wps_hits_page',
+			'statistics_page_wps_pages_page',
+			'statistics_page_wps_categories_page',
+			'statistics_page_wps_tags_page',
+			'statistics_page_wps_authors_page',
+			'statistics_page_wps_searches_page',
+		);
+
+		if ( array_search( $hook, $pages_required_load_in_head ) !== false ) {
+			$load_in_footer = false;
+		}
+
+		wp_enqueue_script( 'my_custom_script', WP_STATISTICS_PLUGIN_DIR . 'assets/js/Chart.bundle.min.js', false, '1.2.7', $load_in_footer );
+	}
+}
+add_action( 'admin_enqueue_scripts', 'wp_statistics_enqueue_scripts' );

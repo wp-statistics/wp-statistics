@@ -115,9 +115,6 @@ function wp_statistics_load_widget_css_and_scripts() {
 		wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
 	}
 
-	// Load the charts code.
-    wp_enqueue_script( 'wpstatistics-chartjs', plugin_dir_url( __FILE__ ) . 'assets/js/Chart.bundle.min.js', true, '2.7.0' );
-
 	// Load the map code.
 	wp_enqueue_style( 'jqvmap-css', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
 	wp_enqueue_script( 'jquery-vmap', plugin_dir_url( __FILE__ ) . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1' );

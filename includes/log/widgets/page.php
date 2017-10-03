@@ -46,7 +46,6 @@ function wp_statistics_generate_page_postbox_content( $pageuri, $pageid, $days =
 	}
 	?>
     <canvas id="visits-stats" height="80"></canvas>
-    <script type='text/javascript' src='<?php echo WP_STATISTICS_PLUGIN_DIR; ?>/assets/js/Chart.bundle.min.js'></script>
     <script>
         var ctx = document.getElementById("visits-stats").getContext('2d');
         var ChartJs = new Chart(ctx, {
