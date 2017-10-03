@@ -49,9 +49,7 @@ if ( array_key_exists( 'rangeend', $_GET ) ) {
 ?>
 <div class="wrap">
     <h2><?php echo __( 'Page Trend for Post ID', 'wp-statistics' ) . ' ' . $pageid . ' - ' . $title; ?></h2>
-
 	<?php wp_statistics_date_range_selector( WP_STATISTICS_PAGES_PAGE, $daysToDisplay, null, null, $urlfields ); ?>
-
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">

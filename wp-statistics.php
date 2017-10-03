@@ -677,6 +677,9 @@ function wp_statistics_goto_network_blog() {
 }
 
 function wp_statistics_plugins() {
+	// Load our CSS to be used.
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+	
 	// Activate or deactivate the selected plugin
 	if ( isset( $_GET['action'] ) ) {
 		if ( $_GET['action'] == 'activate' ) {
