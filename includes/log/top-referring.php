@@ -62,7 +62,7 @@ if ( $referr ) {
 			continue;
 		}
 
-		$urls[] = $url['host'];
+		$urls[] = $url['scheme'] . '://' . $url['host'];
 	}
 
 	$get_urls = array_count_values( $urls );
@@ -164,7 +164,7 @@ if ( $referr ) {
 								foreach ( $get_urls as $items => $value ) {
 									$i ++;
 									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items );
-
+									$referrer_html = parse_url($referrer_html)['host'];
 									echo "<div class='log-item'>";
 									echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_STATISTICS_REFERRERS_PAGE . "&referr=" . $referrer_html . $date_args . "'>" . $referrer_html . "</a></div>";
 									echo "<div class='log-ip'>" . __( 'References', 'wp-statistics' ) . ': ' . number_format_i18n( $value ) . '</div>';
