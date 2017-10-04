@@ -679,7 +679,7 @@ function wp_statistics_goto_network_blog() {
 function wp_statistics_plugins() {
 	// Load our CSS to be used.
 	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
-	
+
 	// Activate or deactivate the selected plugin
 	if ( isset( $_GET['action'] ) ) {
 		if ( $_GET['action'] == 'activate' ) {
@@ -983,7 +983,6 @@ function wp_statistics_log( $log_type = "" ) {
 
 // This function loads the optimization page code.
 function wp_statistics_optimization() {
-
 	GLOBAL $wpdb, $WP_Statistics;
 
 	// Check the current user has the rights to be here.
@@ -1058,36 +1057,39 @@ function wp_statistics_settings() {
 }
 
 function wp_statistics_enqueue_scripts( $hook ) {
+	if ( ! isset( $_GET['page'] ) ) {
+		return;
+	}
+
 	$pages_required_chart = array(
-		'index.php', // Dashboard
-		'post.php', // Edit Post/Page
-		'toplevel_page_wps_overview_page',
-		'statistics_page_wps_browsers_page',
-		'statistics_page_wps_hits_page',
-		'statistics_page_wps_pages_page',
-		'statistics_page_wps_categories_page',
-		'statistics_page_wps_tags_page',
-		'statistics_page_wps_authors_page',
-		'statistics_page_wps_searches_page'
+		'wps_overview_page',
+		'wps_browsers_page',
+		'wps_hits_page',
+		'wps_pages_page',
+		'wps_categories_page',
+		'wps_tags_page',
+		'wps_authors_page',
+		'wps_searches_page',
 	);
 
-	if ( array_search( $hook, $pages_required_chart ) !== false ) {
+	if ( array_search( $_GET['page'], $pages_required_chart ) !== false ) {
 		$load_in_footer              = true;
 		$pages_required_load_in_head = array(
-			'statistics_page_wps_browsers_page',
-			'statistics_page_wps_hits_page',
-			'statistics_page_wps_pages_page',
-			'statistics_page_wps_categories_page',
-			'statistics_page_wps_tags_page',
-			'statistics_page_wps_authors_page',
-			'statistics_page_wps_searches_page',
+			'wps_browsers_page',
+			'wps_hits_page',
+			'wps_pages_page',
+			'wps_categories_page',
+			'wps_tags_page',
+			'wps_authors_page',
+			'wps_searches_page',
 		);
 
-		if ( array_search( $hook, $pages_required_load_in_head ) !== false ) {
+		if ( array_search( $_GET['page'], $pages_required_load_in_head ) !== false ) {
 			$load_in_footer = false;
 		}
 
-		wp_enqueue_script( 'my_custom_script', WP_STATISTICS_PLUGIN_DIR . 'assets/js/Chart.bundle.min.js', false, '1.2.7', $load_in_footer );
+		wp_enqueue_script( 'wp-statistics-chart-js', WP_STATISTICS_PLUGIN_DIR . 'assets/js/Chart.bundle.min.js', false, '2.7.0', $load_in_footer );
 	}
 }
+
 add_action( 'admin_enqueue_scripts', 'wp_statistics_enqueue_scripts' );
