@@ -160,7 +160,7 @@ if ( $referr ) {
 								arsort( $get_urls );
 								$get_urls = array_slice( $get_urls, $start, $end );
 
-								$i = 0;
+								$i = $start;
 								foreach ( $get_urls as $items => $value ) {
 									$i ++;
 									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items );
