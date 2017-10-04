@@ -11,11 +11,6 @@
     width: 52px;
 }
 
-.button-link.wps-more,
-.button-link.wps-refresh {
-    text-decoration: none !important;
-}
-
 .wp-statistics-plugins .widefat > * {
     float: left;
 }
