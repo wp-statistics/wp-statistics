@@ -22,7 +22,7 @@
 }
 
 .ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-    font-family: tahoma;
+    font-family: tahoma, serif;
 }
 
 .ui-tabs .ui-tabs-nav li {
@@ -35,7 +35,7 @@
 
 .jqplot-table-legend, .jqplot-highlighter-tooltip {
     direction: rtl;
-    font-family: tahoma;
+    font-family: tahoma, serif;
 }
 
 #donate-text {
