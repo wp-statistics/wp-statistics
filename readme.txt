@@ -287,6 +287,7 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = 12.1.3 =
+We're sorry about last issues. Now you can update to new version to resolve conflict issues.
 * Fixed: Issues in charts css.
 * Updated: Admin css and charts height.
 * Fixed: Issues in conflict chart script with other libraries.

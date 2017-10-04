@@ -23,14 +23,12 @@ class WPStatistics_Widget extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		GLOBAL $WP_Statistics;
-
+		global $WP_Statistics;
 		extract( $args );
-
 		$widget_options = $WP_Statistics->get_option( 'widget' );
 
-		echo $widget_options['name_widget'];
-
+		echo $before_widget;
+		echo $before_title . $widget_options['name_widget'] . $after_title;
 		echo '<ul>';
 
 		if ( $widget_options['useronline_widget'] ) {
@@ -182,7 +180,7 @@ class WPStatistics_Widget extends WP_Widget {
 		}
 
 		echo '</ul>';
-
+		echo $after_widget;
 	}
 
 	/**
@@ -190,6 +188,8 @@ class WPStatistics_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new options
 	 * @param array $old_instance The previous options
+	 *
+	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
 		GLOBAL $WP_Statistics;
@@ -240,6 +240,8 @@ class WPStatistics_Widget extends WP_Widget {
 	 * Outputs the options form on admin
 	 *
 	 * @param array $instance The widget options
+	 *
+	 * @return string|void
 	 */
 	public function form( $instance ) {
 		GLOBAL $WP_Statistics;
@@ -249,11 +251,11 @@ class WPStatistics_Widget extends WP_Widget {
 		?>
         <p>
             <label for="name_widget"><?php _e( 'Name', 'wp-statistics' ); ?>:
-                <input id="name_widget" name="name_widget" type="text" value="<?php echo $widget_options['name_widget']; ?>" />
+                <input id="name_widget" name="name_widget" type="text" value="<?php echo $widget_options['name_widget']; ?>"/>
             </label>
         </p>
 
-		<?php _e( 'Items', 'wp-statistics' ); ?>:<br />
+		<?php _e( 'Items', 'wp-statistics' ); ?>:<br/>
         <ul>
             <li>
                 <input type="checkbox" id="useronline_widget" name="useronline_widget" <?php checked( 'on', $widget_options['useronline_widget'] ); ?>/>
@@ -302,24 +304,24 @@ class WPStatistics_Widget extends WP_Widget {
             <li>
                 <input type="checkbox" id="ser_widget" class="ser_widget" name="ser_widget" <?php checked( 'on', $widget_options['ser_widget'] ); ?>/>
                 <label for="ser_widget"><?php _e( 'Search Engine Referrals', 'wp-statistics' ); ?></label>
-		<p id="ser_option" style="<?php if ( ! $widget_options['ser_widget'] ) {
-				echo "display: none;";
-			} ?>">
-				<?php _e( 'Select type of search engine', 'wp-statistics' ); ?>:<br/>
-				<?php
-				$search_engines = wp_statistics_searchengine_list();
+                <p id="ser_option" style="<?php if ( ! $widget_options['ser_widget'] ) {
+					echo "display: none;";
+				} ?>">
+					<?php _e( 'Select type of search engine', 'wp-statistics' ); ?>:<br/>
+					<?php
+					$search_engines = wp_statistics_searchengine_list();
 
-				foreach ( $search_engines as $se ) {
-					echo '		<input type="radio" id="select_' . $se['tag'] . '" name="select_se" value="' . $se['tag'] . '" ';
-					checked( $se['tag'], $widget_options['select_se'] );
-					echo "/>\n";
-					echo '		<label for="' . $se['name'] . '">' . $se['translated'] . "</label>\n";
-					echo "\n";
-				}
-				?>
-		<input type="radio" id="select_all" name="select_se" value="all" <?php checked( 'all', $widget_options['select_se'] ); ?>/>
-		<label for="select_all"><?php _e( 'All', 'wp-statistics' ); ?></label>
-		</p>
+					foreach ( $search_engines as $se ) {
+						echo '		<input type="radio" id="select_' . $se['tag'] . '" name="select_se" value="' . $se['tag'] . '" ';
+						checked( $se['tag'], $widget_options['select_se'] );
+						echo "/>\n";
+						echo '		<label for="' . $se['name'] . '">' . $se['translated'] . "</label>\n";
+						echo "\n";
+					}
+					?>
+                    <input type="radio" id="select_all" name="select_se" value="all" <?php checked( 'all', $widget_options['select_se'] ); ?>/>
+                    <label for="select_all"><?php _e( 'All', 'wp-statistics' ); ?></label>
+                </p>
             </li>
             <li>
                 <input type="checkbox" id="tp_widget" name="tp_widget" <?php checked( 'on', $widget_options['tp_widget'] ); ?>/>
