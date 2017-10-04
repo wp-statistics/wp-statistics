@@ -108,7 +108,7 @@ function wp_statistics_editor_inline_javascript() {
 	?>
     <script type="text/javascript">
         var wp_statistics_destinations = <?php echo json_encode( $page_urls ); ?>;
-        var wp_statistics_loading_image = '<?php echo $loading_img; ?>'
+        var wp_statistics_loading_image = '<?php echo $loading_img; ?>';
 
         function wp_statistics_wait_for_postboxes() {
 
@@ -150,5 +150,3 @@ function wp_statistics_editor_inline_javascript() {
     </script>
 	<?php
 }
-
-?>
