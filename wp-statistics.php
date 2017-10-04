@@ -494,7 +494,7 @@ function wp_statistics_menu() {
 		$WP_Statistics->menu_slugs['referrers'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Referrers', 'wp-statistics' ), __( 'Referrers', 'wp-statistics' ), $read_cap, WP_STATISTICS_REFERRERS_PAGE, 'wp_statistics_log' );
 	}
 	if ( $WP_Statistics->get_option( 'visitors' ) ) {
-		$WP_Statistics->menu_slugs['searches'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Searches', 'wp-statistics' ), __( 'Searches', 'wp-statistics' ), $read_cap, WP_STATISTICS_SEARCHES_PAGE, 'wp_statistics_log' );
+		$WP_Statistics->menu_slugs['searches'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Search Engines', 'wp-statistics' ), __( 'Search Engines', 'wp-statistics' ), $read_cap, WP_STATISTICS_SEARCHES_PAGE, 'wp_statistics_log' );
 	}
 	if ( $WP_Statistics->get_option( 'visitors' ) ) {
 		$WP_Statistics->menu_slugs['words'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Search Words', 'wp-statistics' ), __( 'Search Words', 'wp-statistics' ), $read_cap, WP_STATISTICS_WORDS_PAGE, 'wp_statistics_log' );

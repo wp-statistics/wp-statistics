@@ -131,6 +131,7 @@ if ( $referr ) {
 								if ( $WP_Statistics->get_option( 'search_converted' ) ) {
 									$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s AND {$wpdb->prefix}statistics_visitor.`last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC LIMIT %d, %d", $referr, $rangestartdate, $rangeenddate, $start, $end ) );
 								}
+
 								foreach ( $result as $item ) {
 									echo "<div class='log-item'>";
 									echo "<div class='log-referred'><a href='?page=" . WP_STATISTICS_OVERVIEW_PAGE . "&type=last-all-visitor&ip={$item->ip}'>" . wp_statistics_icons( 'dashicons-visibility', 'visibility' ) . "{$item->ip}</a></div>";
