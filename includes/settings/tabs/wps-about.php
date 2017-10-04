@@ -79,7 +79,7 @@
                 <li><?php _e( 'Have you tried using the default WordPress theme?', 'wp-statistics' ); ?></li>
                 <li><?php _e( 'Have you double checked the plugin settings?', 'wp-statistics' ); ?></li>
                 <li><?php _e( 'Do you have all the required PHP extensions installed?', 'wp-statistics' ); ?></li>
-                <li><?php _e( 'Are you getting a blank or incomplete page displayed in your browser?', 'wp-statistics' ) . ' ' . _e( 'Did you view the source for the page and check for any fatal errors?', 'wp-statistics' ); ?></li>
+                <li><?php echo __( 'Are you getting a blank or incomplete page displayed in your browser?', 'wp-statistics' ) . ' ' . __( 'Did you view the source for the page and check for any fatal errors?', 'wp-statistics' ); ?></li>
                 <li><?php _e( 'Have you checked your PHP and web server error logs?', 'wp-statistics' ); ?></li>
             </ul>
 
