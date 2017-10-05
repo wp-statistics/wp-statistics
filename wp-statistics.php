@@ -563,7 +563,7 @@ function wp_statistics_networkmenu() {
 	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
 
 	// Add the top level menu.
-	add_menu_page( __( 'Statistics', 'wp-statistics' ), __( 'Statistics', 'wp-statistics' ), $read_cap, __FILE__, 'wp_statistics_network_overview' );
+	add_menu_page( __( 'Statistics', 'wp-statistics' ), __( 'Statistics', 'wp-statistics' ), $read_cap, __FILE__, 'wp_statistics_network_overview', 'dashicons-chart-pie' );
 
 	// Add the sub items.
 	add_submenu_page( __FILE__, __( 'Overview', 'wp-statistics' ), __( 'Overview', 'wp-statistics' ), $read_cap, __FILE__, 'wp_statistics_network_overview' );

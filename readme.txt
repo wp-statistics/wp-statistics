@@ -292,6 +292,7 @@ We're sorry about last issues. Now you can update to new version to resolve conf
 * Fixed: Chart height issue in css.
 * Fixed: Correct numbering for pages > 1 in Top Referring page. [#22](https://github.com/wp-statistics/wp-statistics/pull/22/files)
 * Fixed: Don't run the SQL if `$reffer` is not set. [#21](https://github.com/wp-statistics/wp-statistics/pull/21)
+* Fixed: Network menu icon.
 
 = 12.1.0 =
 * Added: Awesome charts! The Chartjs library used in the plugin for show charts.
