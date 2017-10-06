@@ -292,7 +292,7 @@ function wp_statistics_get_widget_contents_callback() {
 				if ( array_key_exists( 'page-id', $_POST ) ) {
 					$pageid = (int) $_POST['page-id'];
 					echo '&nbsp;';
-					echo sprintf( __( '<a href="admin.php?page=wps_pages_page&page-id=%s">Click here</a> to see page stats.', 'wp-statistics' ), $pageid );
+					echo sprintf( __( '%1$sClick here%2$s to see page stats.', 'wp-statistics' ), '<a href="admin.php?page=wps_pages_page&page-id=' . $pageid . '"', '</a>' );
 
 					// This feature temporarily disabled because there is conflicts.
 					//wp_statistics_generate_page_postbox_content( null, $pageid );
