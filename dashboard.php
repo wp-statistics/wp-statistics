@@ -28,7 +28,8 @@ function wp_statistics_dashboard_widget_load() {
 			'wp-statistics-search-widget',
 			'wp-statistics-summary-widget',
 			'wp-statistics-words-widget',
-			'wp-statistics-top-visitors-widget'
+			'wp-statistics-top-visitors-widget',
+			'wp-statistics-searched-phrases-widget',
 		);
 
 		foreach ( $default_hidden as $widget ) {
@@ -38,7 +39,7 @@ function wp_statistics_dashboard_widget_load() {
 		}
 
 		update_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets );
-	} else if ( $WP_Statistics->get_user_option( 'dashboard_set' ) != WP_STATISTICS_VERSION ) {
+	} elseif ( $WP_Statistics->get_user_option( 'dashboard_set' ) != WP_STATISTICS_VERSION ) {
 		// We also have to fudge things when we add new widgets to the code base.
 		if ( version_compare( $WP_Statistics->get_user_option( 'dashboard_set' ), '8.7', '<' ) ) {
 
@@ -99,6 +100,9 @@ function wp_statistics_dashboard_widget_load() {
 		}
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
 			wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __( 'Top 10 Visitors Today', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'top.visitors' ) );
+		}
+		if ( $WP_Statistics->get_option( 'visitors' ) ) {
+			wp_add_dashboard_widget( 'wp-statistics-searched-phrases-widget', __( 'Top Searched Phrases (30 Days)', 'wp-statistics' ), 'wp_statistics_generate_dashboard_postbox_contents', $control_callback = null, array( 'widget' => 'searched.phrases' ) );
 		}
 	}
 }
@@ -163,18 +167,19 @@ function wp_statistics_dashboard_inline_javascript() {
 
 	$page_urls = array();
 
-	$page_urls['wp-statistics-browsers-widget_more_button']     = $admin_url . WP_STATISTICS_BROWSERS_PAGE;
-	$page_urls['wp-statistics-countries-widget_more_button']    = $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
-	$page_urls['wp-statistics-exclusions-widget_more_button']   = $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE;
-	$page_urls['wp-statistics-hits-widget_more_button']         = $admin_url . WP_STATISTICS_HITS_PAGE;
-	$page_urls['wp-statistics-online-widget_more_button']       = $admin_url . WP_STATISTICS_ONLINE_PAGE;
-	$page_urls['wp-statistics-pages-widget_more_button']        = $admin_url . WP_STATISTICS_PAGES_PAGE;
-	$page_urls['wp-statistics-referring-widget_more_button']    = $admin_url . WP_STATISTICS_REFERRERS_PAGE;
-	$page_urls['wp-statistics-search-widget_more_button']       = $admin_url . WP_STATISTICS_SEARCHES_PAGE;
-	$page_urls['wp-statistics-words-widget_more_button']        = $admin_url . WP_STATISTICS_WORDS_PAGE;
-	$page_urls['wp-statistics-top-visitors-widget_more_button'] = $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
-	$page_urls['wp-statistics-recent-widget_more_button']       = $admin_url . WP_STATISTICS_VISITORS_PAGE;
-	$page_urls['wp-statistics-quickstats-widget_more_button']   = $admin_url . WP_STATISTICS_OVERVIEW_PAGE;
+	$page_urls['wp-statistics-browsers-widget_more_button']				= $admin_url . WP_STATISTICS_BROWSERS_PAGE;
+	$page_urls['wp-statistics-countries-widget_more_button']			= $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
+	$page_urls['wp-statistics-exclusions-widget_more_button']			= $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE;
+	$page_urls['wp-statistics-hits-widget_more_button']					= $admin_url . WP_STATISTICS_HITS_PAGE;
+	$page_urls['wp-statistics-online-widget_more_button']					= $admin_url . WP_STATISTICS_ONLINE_PAGE;
+	$page_urls['wp-statistics-pages-widget_more_button']					= $admin_url . WP_STATISTICS_PAGES_PAGE;
+	$page_urls['wp-statistics-referring-widget_more_button']				= $admin_url . WP_STATISTICS_REFERRERS_PAGE;
+	$page_urls['wp-statistics-searched-phrases-widget_more_button']	= $admin_url . WP_STATISTICS_SEARCHED_PHRASES_PAGE;
+	$page_urls['wp-statistics-search-widget_more_button']				= $admin_url . WP_STATISTICS_SEARCHES_PAGE;
+	$page_urls['wp-statistics-words-widget_more_button']					= $admin_url . WP_STATISTICS_WORDS_PAGE;
+	$page_urls['wp-statistics-top-visitors-widget_more_button']			= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
+	$page_urls['wp-statistics-recent-widget_more_button']				= $admin_url . WP_STATISTICS_VISITORS_PAGE;
+	$page_urls['wp-statistics-quickstats-widget_more_button']			= $admin_url . WP_STATISTICS_OVERVIEW_PAGE;
 
 	?>
     <script type="text/javascript">
