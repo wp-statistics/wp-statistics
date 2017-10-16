@@ -1,14 +1,14 @@
 <?php
 /*
- * Plugin Name: WP Statistics
- * Plugin URI: http://wp-statistics.com/
- * Description: Complete statistics for your WordPress site.
- * Version: 12.1.3
- * Author: WP-Statistics Team
- * Author URI: http://wp-statistics.com/
- * Text Domain: wp-statistics
- * Domain Path: /languages/
- * License: GPL2
+Plugin Name: WP Statistics
+Plugin URI: http://wp-statistics.com/
+Description: Complete statistics for your WordPress site.
+Version: 12.1.3
+Author: Verona Labs
+Author URI: http://veronalabs.com/
+Text Domain: wp-statistics
+Domain Path: /languages/
+License: GPL2
  */
 
 // These defines are used later for various reasons.
