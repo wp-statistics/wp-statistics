@@ -210,7 +210,8 @@ function wp_statistics_get_widget_contents_callback() {
 		'search',
 		'summary',
 		'top.visitors',
-		'words'
+		'words',
+		'searched.phrases',
 	);
 
 	if ( array_key_exists( 'format', $_POST ) and $_POST['format'] == 'dashboard' ) {
@@ -264,6 +265,10 @@ function wp_statistics_get_widget_contents_callback() {
 				break;
 			case 'referring':
 				wp_statistics_generate_referring_postbox_content();
+
+				break;
+			case 'searched.phrases':
+				wp_statistics_generate_searched_phrases_postbox_content();
 
 				break;
 			case 'countries':

@@ -28,6 +28,7 @@ define( 'WP_STATISTICS_CATEGORIES_PAGE', 'wps_categories_page' );
 define( 'WP_STATISTICS_AUTHORS_PAGE', 'wps_authors_page' );
 define( 'WP_STATISTICS_TAGS_PAGE', 'wps_tags_page' );
 define( 'WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page' );
+define( 'WP_STATISTICS_SEARCHED_PHRASES_PAGE', 'wps_searched_phrases_page' );
 define( 'WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page' );
 define( 'WP_STATISTICS_WORDS_PAGE', 'wps_words_page' );
 define( 'WP_STATISTICS_TOP_VISITORS_PAGE', 'wps_top_visitors_page' );
@@ -494,6 +495,9 @@ function wp_statistics_menu() {
 		$WP_Statistics->menu_slugs['referrers'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Referrers', 'wp-statistics' ), __( 'Referrers', 'wp-statistics' ), $read_cap, WP_STATISTICS_REFERRERS_PAGE, 'wp_statistics_log' );
 	}
 	if ( $WP_Statistics->get_option( 'visitors' ) ) {
+		$WP_Statistics->menu_slugs['searched.phrases'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Searched Phrases', 'wp-statistics' ), __( 'Searched Phrases', 'wp-statistics' ), $read_cap, WP_STATISTICS_SEARCHED_PHRASES_PAGE, 'wp_statistics_log' );
+	}
+	if ( $WP_Statistics->get_option( 'visitors' ) ) {
 		$WP_Statistics->menu_slugs['searches'] = add_submenu_page( WP_STATISTICS_OVERVIEW_PAGE, __( 'Search Engines', 'wp-statistics' ), __( 'Search Engines', 'wp-statistics' ), $read_cap, WP_STATISTICS_SEARCHES_PAGE, 'wp_statistics_log' );
 	}
 	if ( $WP_Statistics->get_option( 'visitors' ) ) {
@@ -530,6 +534,7 @@ function wp_statistics_load_overview_page() {
 	if ( $WP_Statistics->get_option( 'visitors' ) ) {
 		add_meta_box( 'wps_top_visitors_postbox', __( 'Top Visitors', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'top.visitors' ) );
 		add_meta_box( 'wps_search_postbox', __( 'Search Engine Referrals', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'search' ) );
+		add_meta_box( 'wps_words_postbox', __( 'Top Searched Phrases (30 Days)', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'searched.phrases' ) );
 		add_meta_box( 'wps_words_postbox', __( 'Latest Search Words', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'words' ) );
 		add_meta_box( 'wps_recent_postbox', __( 'Recent Visitors', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'normal', null, array( 'widget' => 'recent' ) );
 
@@ -614,6 +619,7 @@ function wp_statistics_network_overview() {
 				__( 'Online', 'wp-statistics' )             => WP_STATISTICS_ONLINE_PAGE,
 				__( 'Pages', 'wp-statistics' )              => WP_STATISTICS_PAGES_PAGE,
 				__( 'Referrers', 'wp-statistics' )          => WP_STATISTICS_REFERRERS_PAGE,
+				__( 'Searched Phrases', 'wp-statistics' )   => WP_STATISTICS_SEARCHED_PHRASES_PAGE,
 				__( 'Searches', 'wp-statistics' )           => WP_STATISTICS_SEARCHES_PAGE,
 				__( 'Search Words', 'wp-statistics' )       => WP_STATISTICS_WORDS_PAGE,
 				__( 'Top Visitors Today', 'wp-statistics' ) => WP_STATISTICS_TOP_VISITORS_PAGE,
@@ -839,6 +845,10 @@ function wp_statistics_log( $log_type = "" ) {
 			$log_type = 'top-referring-site';
 
 			break;
+		case WP_STATISTICS_SEARCHED_PHRASES_PAGE:
+			$log_type = 'searched-phrases';
+
+			break;
 		case WP_STATISTICS_SEARCHES_PAGE:
 			$log_type = 'search-statistics';
 
@@ -956,6 +966,10 @@ function wp_statistics_log( $log_type = "" ) {
 			break;
 		case 'top-referring-site':
 			include_once dirname( __FILE__ ) . '/includes/log/top-referring.php';
+
+			break;
+		case 'searched-phrases':
+			include_once dirname( __FILE__ ) . '/includes/log/searched-phrases.php';
 
 			break;
 		case 'top-pages':
