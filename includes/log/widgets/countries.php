@@ -15,7 +15,7 @@ function wp_statistics_generate_countries_postbox_content( $ISOCountryCode, $cou
 		<?php
 		$Countries = array();
 
-		$result = $wpdb->get_results( "SELECT DISTINCT `location` FROM `{$wpdb->prefix}statistics_visitor`" );
+		$result = $wpdb->get_results( "SELECT `location` FROM `{$wpdb->prefix}statistics_visitor` GROUP BY `location`" );
 
 		foreach ( $result as $item ) {
 			$Countries[ $item->location ] = $wpdb->get_var( $wpdb->prepare( "SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location=%s", $item->location ) );
