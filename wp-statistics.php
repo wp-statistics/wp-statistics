@@ -115,34 +115,6 @@ namespace {
 	define( 'WP_STATISTICS_PLUGIN_DIR', plugin_dir_url( __FILE__ ) );
 
 	/**
-	 * Load the translation code.
-	 */
-	function wp_statistics_language(){
-		GLOBAL $WP_Statistics;
-
-		// Users can override loading the default language code, check to see if they have.
-		$override = false;
-
-		if( is_object( $WP_Statistics ) ){
-			if( $WP_Statistics->get_option( 'override_language', false ) ){
-				$override = true;
-			}
-		}
-
-		// If not, go ahead and load the translations.
-		if( ! $override ){
-			load_plugin_textdomain( 'wp-statistics', false, basename( dirname( __FILE__ ) ) . '/languages' );
-
-			__( 'WP Statistics', 'wp-statistics' );
-			__( 'Complete statistics for your WordPress site.', 'wp-statistics' );
-		}
-	}
-
-	// Add translation action.
-	// We have to load the translation code before the init otherwise the widgets won't get translated properly.
-	add_action( 'plugins_loaded', 'wp_statistics_language' );
-
-	/**
 	 * Load the init code.
 	 */
 	function wp_statistics_init(){
