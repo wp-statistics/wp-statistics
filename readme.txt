@@ -289,7 +289,8 @@ This is a security fix, please update immediately.
 == Changelog ==
 = dev-master =
 * Added: Top Searched Phrases & Widget. Thanks [Farhad Sakhaei](https://github.com/parsmizban)
-* Removed: some unused variables and optimization the plugin.
+* Removed: Some unused variables and optimization the plugin.
+* Removed: Force English option feature in the plugin.
 
 = 12.1.3 =
 * We're sorry about last issues. Now you can update to new version to resolve conflict issues.
