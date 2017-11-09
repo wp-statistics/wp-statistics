@@ -1392,15 +1392,11 @@ namespace {
 		// during the creation of the class.  Instead load them now that the user exists.
 		$WP_Statistics->load_user_options();
 
+		// Load our JS to be used.
+		wp_enqueue_script( 'wp-statistics-admin-js', WP_STATISTICS_PLUGIN_DIR . 'assets/js/admin.js', array('jquery'), '1.0' );
+
 		// Load our CSS to be used.
 		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
-
-		// Load the jQuery UI code to create the tabs.
-		wp_register_style( "jquery-ui-css", plugin_dir_url( __FILE__ ) . 'assets/css/jquery-ui-1.10.4.custom.min.css' );
-		wp_enqueue_style( "jquery-ui-css" );
-
-		wp_enqueue_script( 'jquery-ui-core' );
-		wp_enqueue_script( 'jquery-ui-tabs' );
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );

@@ -8,4 +8,4 @@ jQuery(document).ready(function(){
         jQuery(this).addClass('current');
         jQuery("#"+tab_id).addClass('current');
     })
-})
+});

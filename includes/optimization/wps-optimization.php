@@ -26,9 +26,7 @@ if ( array_key_exists( 'hash-ips', $_GET ) ) {
 		$result = $wpdb->get_results( "SELECT DISTINCT ip FROM {$wp_prefix}statistics_visitor" );
 
 		foreach ( $result as $row ) {
-
 			if ( substr( $row->ip, 0, 6 ) != '#hash#' ) {
-
 				$wpdb->update(
 					$wp_prefix . "statistics_visitor",
 					array(
@@ -141,7 +139,6 @@ if ( array_key_exists( 'visits', $_GET ) ) {
 }
 
 if ( array_key_exists( 'historical-submit', $_POST ) ) {
-
 	if ( array_key_exists( 'wps_historical_visitors', $_POST ) ) {
 		$result = $wpdb->update( $wp_prefix . "statistics_historical", array( 'value' => $_POST['wps_historical_visitors'] ), array( 'category' => 'visitors' ) );
 
@@ -178,18 +175,14 @@ if ( array_key_exists( 'search', $_GET ) ) {
 	$limitsize = 10000;
 
 	foreach ( $se_list as $key => $se ) {
-
 		$sql      = wp_statistics_searchengine_query( $key );
 		$rowcount = $wpdb->get_var( "SELECT count(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE {$sql}" );
 		$offset   = 0;
 
 		while ( $rowcount > 0 ) {
-
 			$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE {$sql} LIMIT {$offset}, {$limitsize}" );
-
 			foreach ( $result as $row ) {
-				$parts = parse_url( $row->referred );
-
+				$parts                = parse_url( $row->referred );
 				$data['last_counter'] = $row->last_counter;
 				$data['engine']       = $key;
 				$data['host']         = $parts['host'];
@@ -211,95 +204,42 @@ if ( array_key_exists( 'search', $_GET ) ) {
 
 	$WP_Statistics->update_option( 'search_converted', 1 );
 	echo "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Search table conversion complete, %d rows added.', 'wp-statistics' ), $total ) . "</strong></p></div>";
-
-}
-
-$selected_tab = "";
-if ( array_key_exists( 'tab', $_GET ) ) {
-	$selected_tab = $_GET['tab'];
-}
-
-switch ( $selected_tab ) {
-	case 'export':
-		$current_tab = 1;
-		break;
-	case 'purging':
-		$current_tab = 2;
-		break;
-	case 'database':
-		$current_tab = 3;
-		break;
-	case 'updates':
-		$current_tab = 4;
-		break;
-	case 'historical':
-		$current_tab = 5;
-		break;
-	default:
-		$current_tab = 0;
-
 }
 ?>
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery("#tabs").tabs();
-		<?php if ( $current_tab != 0 ) {
-		echo 'jQuery("#tabs").tabs("option", "active",' . $current_tab . ');' . "\n";
-	}?>
-    });
-</script>
 <div class="wrap wp-statistics-settings">
     <h2><?php _e( 'Optimization', 'wp-statistics' ); ?></h2>
     <div id="poststuff">
         <div id="post-body" class="metabox-holder columns-2">
             <div class="wp-list-table widefat widefat">
-                <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-                    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-                        <li class="ui-state-default ui-corner-top">
-                            <a href="#resources" class="ui-tabs-anchor"><span><?php _e( 'Resources/Information', 'wp-statistics' ); ?></span></a>
-                        </li>
-                        <li class="ui-state-default ui-corner-top">
-                            <a href="#export" class="ui-tabs-anchor"><span><?php _e( 'Export', 'wp-statistics' ); ?></span></a>
-                        </li>
-                        <li class="ui-state-default ui-corner-top">
-                            <a href="#purging" class="ui-tabs-anchor"><span><?php _e( 'Purging', 'wp-statistics' ); ?></span></a>
-                        </li>
-                        <li class="ui-state-default ui-corner-top">
-                            <a href="#database" class="ui-tabs-anchor"><span><?php _e( 'Database', 'wp-statistics' ); ?></span></a>
-                        </li>
-                        <li class="ui-state-default ui-corner-top">
-                            <a href="#updates" class="ui-tabs-anchor"><span><?php _e( 'Updates', 'wp-statistics' ); ?></span></a>
-                        </li>
-                        <li class="ui-state-default ui-corner-top">
-                            <a href="#historical" class="ui-tabs-anchor"><span><?php _e( 'Historical', 'wp-statistics' ); ?></span></a>
-                        </li>
+                <div class="wp-statistics-container">
+                    <ul class="tabs">
+                        <li class="tab-link current" data-tab="resources"><?php _e( 'Resources/Information', 'wp-statistics' ); ?></li>
+                        <li class="tab-link" data-tab="export"><?php _e( 'Export', 'wp-statistics' ); ?></li>
+                        <li class="tab-link" data-tab="purging"><?php _e( 'Purging', 'wp-statistics' ); ?></li>
+                        <li class="tab-link" data-tab="database"><?php _e( 'Database', 'wp-statistics' ); ?></li>
+                        <li class="tab-link" data-tab="updates"><?php _e( 'Updates', 'wp-statistics' ); ?></li>
+                        <li class="tab-link" data-tab="historical"><?php _e( 'Historical', 'wp-statistics' ); ?></li>
                     </ul>
 
-                    <div id="resources">
+                    <div id="resources" class="tab-content current">
 						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-resources.php' ); ?>
                     </div>
-
-                    <div id="export">
+                    <div id="export" class="tab-content">
 						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-export.php' ); ?>
                     </div>
-
-                    <div id="purging">
+                    <div id="purging" class="tab-content">
 						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-purging.php' ); ?>
                     </div>
-
-                    <div id="database">
+                    <div id="database" class="tab-content">
 						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-database.php' ); ?>
                     </div>
-
-                    <div id="updates">
+                    <div id="updates" class="tab-content">
 						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-updates.php' ); ?>
                     </div>
-
-                    <div id="historical">
+                    <div id="historical" class="tab-content">
 						<?php include( dirname( __FILE__ ) . '/tabs/wps-optimization-historical.php' ); ?>
                     </div>
-
-                </div>
+                </div><!-- container -->
             </div>
 
 			<?php include_once dirname( __FILE__ ) . '/../templates/postbox.php'; ?>
