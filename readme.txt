@@ -1,11 +1,12 @@
 === WP Statistics ===
 Contributors: mostafa.s1990, GregRoss
 Donate link: https://wp-statistics.com/donate/
-Tags: statistics, stats, visit, visitors, chart, browser, blog, today, yesterday, week, month, year, total, post, page, sidebar, summary, hits, google, live-visit, search-word, agent
+Tags: analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, summary, google, live-visit, search-word, agent
 Requires at least: 3.0
-Tested up to: 4.8
+Tested up to: 4.9
 Stable tag: 12.1.3
 License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Complete statistics for your WordPress site.
 
