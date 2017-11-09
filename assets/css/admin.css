@@ -1,16 +1,4 @@
-.wps-center {
-    text-align: center;
-}
-
-#wps_about_postbox #about_postbox img {
-    max-width: 170px;
-    margin: 0 0 9px 0;
-}
-
-.column-wp-statistics {
-    width: 52px;
-}
-
+/** Add-Ons page **/
 .wp-statistics-plugins .widefat > * {
     float: left;
 }
@@ -52,62 +40,61 @@
     margin-top: 51px;
 }
 
-.wp-statistics-settings #tabs {
-    margin-top: 18px;
+.wp-statistics-container {
+    margin: 0 auto;
 }
 
-.wp-statistics-settings .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
-    padding-right: 8px;
-    padding-left: 8px;
+.wp-statistics-settings ul.tabs {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
 }
 
-.wp-statistics-settings #tabs .ui-widget-content {
-    background-color: white;
-    border-left: 1px solid #dadada;
-    border-right: 1px solid #dadada;
-    border-bottom: 1px solid #dadada;
+.wp-statistics-settings ul.tabs li {
+    background: none;
+    color: #222;
+    display: inline-block;
+    padding: 10px 10px;
+    cursor: pointer;
+    border: 1px solid #f1f1f1;
+    margin: 0;
 }
 
-.wp-statistics-settings .ui-tabs .ui-tabs-nav {
-    padding: 0;
+.wp-statistics-settings ul.tabs li.current {
+    background: #ffffff;
+    color: #222;
+    border-right-color: #e5e5e5;
+    border-left-color: #e5e5e5;
+    border-bottom-color: #ffffff;
+    border-top-color: #e5e5e5;
+    padding-bottom: 11px;
 }
 
-.wp-statistics-settings .ui-tabs .ui-tabs-nav li {
-    border-color: #dadada;
+.wp-statistics-settings .tab-content {
+    display: none;
+    background: #ffffff;
+    padding: 15px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin: -1px 0 0 0;
 }
 
-.wp-statistics-settings .ui-widget-header {
-    border-bottom-color: #dadada;
+.wp-statistics-settings .tab-content.current {
+    display: inherit;
 }
 
 .rtl .wp-statistics-settings .widefat {
     float: right;
 }
 
-.wp-statistics-settings .ui-widget-content .ui-tabs-panel a {
-    color: #0073aa;
-}
-
-@media only screen and (max-width: 1482px) {
-    .wp-statistics-settings .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
-        padding-right: 6px;
-        padding-left: 6px;
-        font-size: 12px;
-    }
-
-    .wp-statistics-settings .ui-tabs .ui-tabs-nav li.ui-tabs-active {
-        margin-right: 5px;
-    }
-
-    .wp-statistics-settings .ui-tabs .ui-tabs-nav li {
-        margin-right: 5px;
-    }
-
-    .wp-statistics-settings .postbox-container {
-        margin-top: 11px;
+@media only screen and (max-width: 1327px) {
+    .wp-statistics-settings ul.tabs li {
+        padding: 10px 5px;
     }
 }
 
+/** Other CSS **/
 .note {
     color: #FF0000;
     font-size: 11px !important;
@@ -122,4 +109,17 @@
 
 .data code {
     border-radius: 2px 2px 2px 2px;
+}
+
+.wps-center {
+    text-align: center;
+}
+
+#wps_about_postbox #about_postbox img {
+    max-width: 170px;
+    margin: 0 0 9px 0;
+}
+
+.column-wp-statistics {
+    width: 52px;
 }
