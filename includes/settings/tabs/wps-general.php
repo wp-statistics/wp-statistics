@@ -36,7 +36,6 @@ if ( $wps_nonce_valid ) {
 		'wps_hash_ips',
 		'wps_all_online',
 		'wps_strip_uri_parameters',
-		'wps_override_language',
 		'wps_addsearchwords'
 	);
 
@@ -321,22 +320,6 @@ if ( $wps_nonce_valid ) {
                 <input id="chart-totals" type="checkbox" value="1" name="wps_chart_totals" <?php echo $WP_Statistics->get_option( 'chart_totals' ) == true ? "checked='checked'" : ''; ?>>
                 <label for="chart-totals"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
                 <p class="description"><?php _e( 'Add a total line to charts with multiple values, like the search engine referrals', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Languages', 'wp-statistics' ); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="chart-totals"><?php _e( 'Force English', 'wp-statistics' ); ?>:</label>
-            </th>
-
-            <td>
-                <input id="override-language" type="checkbox" value="1" name="wps_override_language" <?php echo $WP_Statistics->get_option( 'override_language' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="override-language"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
-                <p class="description"><?php _e( 'Do not use the translations and instead use the English defaults for WP Statistics (requires two page loads)', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
