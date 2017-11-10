@@ -126,7 +126,7 @@ function wp_statistics_load_widget_css_and_scripts() {
 
 	// Load chart library
 	if ( !isset( $_GET['post'] ) ) {
-		wp_enqueue_script( 'wp-statistics-chart-js', WP_STATISTICS_PLUGIN_DIR . 'assets/js/Chart.bundle.min.js', false, '2.7.0' );
+		wp_enqueue_script( 'wp-statistics-chart-js', WP_STATISTICS_PLUGIN_URL . 'assets/js/Chart.bundle.min.js', false, '2.7.0' );
 	}
 
 	$screen = get_current_screen();
@@ -167,19 +167,19 @@ function wp_statistics_dashboard_inline_javascript() {
 
 	$page_urls = array();
 
-	$page_urls['wp-statistics-browsers-widget_more_button']				= $admin_url . WP_STATISTICS_BROWSERS_PAGE;
-	$page_urls['wp-statistics-countries-widget_more_button']			= $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
-	$page_urls['wp-statistics-exclusions-widget_more_button']			= $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE;
-	$page_urls['wp-statistics-hits-widget_more_button']					= $admin_url . WP_STATISTICS_HITS_PAGE;
-	$page_urls['wp-statistics-online-widget_more_button']					= $admin_url . WP_STATISTICS_ONLINE_PAGE;
-	$page_urls['wp-statistics-pages-widget_more_button']					= $admin_url . WP_STATISTICS_PAGES_PAGE;
-	$page_urls['wp-statistics-referring-widget_more_button']				= $admin_url . WP_STATISTICS_REFERRERS_PAGE;
+	$page_urls['wp-statistics-browsers-widget_more_button']			= $admin_url . WP_STATISTICS_BROWSERS_PAGE;
+	$page_urls['wp-statistics-countries-widget_more_button']		= $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
+	$page_urls['wp-statistics-exclusions-widget_more_button']		= $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE;
+	$page_urls['wp-statistics-hits-widget_more_button']				= $admin_url . WP_STATISTICS_HITS_PAGE;
+	$page_urls['wp-statistics-online-widget_more_button']			= $admin_url . WP_STATISTICS_ONLINE_PAGE;
+	$page_urls['wp-statistics-pages-widget_more_button']			= $admin_url . WP_STATISTICS_PAGES_PAGE;
+	$page_urls['wp-statistics-referring-widget_more_button']		= $admin_url . WP_STATISTICS_REFERRERS_PAGE;
 	$page_urls['wp-statistics-searched-phrases-widget_more_button']	= $admin_url . WP_STATISTICS_SEARCHED_PHRASES_PAGE;
-	$page_urls['wp-statistics-search-widget_more_button']				= $admin_url . WP_STATISTICS_SEARCHES_PAGE;
-	$page_urls['wp-statistics-words-widget_more_button']					= $admin_url . WP_STATISTICS_WORDS_PAGE;
-	$page_urls['wp-statistics-top-visitors-widget_more_button']			= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
-	$page_urls['wp-statistics-recent-widget_more_button']				= $admin_url . WP_STATISTICS_VISITORS_PAGE;
-	$page_urls['wp-statistics-quickstats-widget_more_button']			= $admin_url . WP_STATISTICS_OVERVIEW_PAGE;
+	$page_urls['wp-statistics-search-widget_more_button']			= $admin_url . WP_STATISTICS_SEARCHES_PAGE;
+	$page_urls['wp-statistics-words-widget_more_button']			= $admin_url . WP_STATISTICS_WORDS_PAGE;
+	$page_urls['wp-statistics-top-visitors-widget_more_button']		= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
+	$page_urls['wp-statistics-recent-widget_more_button']			= $admin_url . WP_STATISTICS_VISITORS_PAGE;
+	$page_urls['wp-statistics-quickstats-widget_more_button']		= $admin_url . WP_STATISTICS_OVERVIEW_PAGE;
 
 	?>
     <script type="text/javascript">

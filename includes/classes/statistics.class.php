@@ -1,11 +1,11 @@
 <?php
-
-/*
-	This is the primary class for WP Statistics recording hits on the WordPress site.  It is extended by the Hits class and the GeoIPHits class.
-
-	This class handles; visits, visitors and pages.
-*/
-
+/**
+ * Class WP_Statistics
+ *
+ * This is the primary class for WP Statistics recording hits on the WordPress site.
+ * It is extended by the Hits class and the GeoIPHits class.
+ * This class handles; visits, visitors and pages.
+ */
 class WP_Statistics {
 
 	// Setup our protected, private and public variables.
@@ -33,8 +33,33 @@ class WP_Statistics {
 
 	// Construction function.
 	public function __construct() {
-
 		global $wpdb;
+
+		// Add init actions.
+		// For the main init we're going to set our priority to 9 to execute before most plugins
+		// so we can export data before and set the headers without
+		// worrying about bugs in other plugins that output text and don't allow us to set the headers.
+		add_action( 'init', array( $this, 'wp_statistics_init' ), 9 );
+
+		// Check the PHP version,
+		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
+		if( ! version_compare( phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=" ) ){
+			add_action( 'admin_notices', array( $this, 'wp_statistics_unsupported_version_admin_notice'), 10, 2 );
+
+			return;
+		}
+
+		// If we've been flagged to remove all of the data, then do so now.
+		if( get_option( 'wp_statistics_removal' ) == 'true' ){
+			include_once( WP_STATISTICS_PLUGIN_DIR . 'wps-uninstall.php' );
+		}
+
+		// If we've been removed, return without doing anything else.
+		if( get_option( 'wp_statistics_removal' ) == 'done' ){
+			add_action( 'admin_notices', array( $this, 'wp_statistics_removal_admin_notice'), 10, 2 );
+
+			return;
+		}
 
 		if ( get_option( 'timezone_string' ) ) {
 			$this->tz_offset = timezone_offset_get( timezone_open( get_option( 'timezone_string' ) ), new DateTime() );
@@ -72,6 +97,79 @@ class WP_Statistics {
 			$this->ip_hash = '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
 		}
 
+	}
+
+	/**
+	 * Load the init code.
+	 */
+	public function wp_statistics_init(){
+
+		// Check to see if we're exporting data, if so, do so now.
+		// Note this will set the headers to download the export file and then stop running WordPress.
+		if( array_key_exists( 'wps_export', $_POST ) ){
+			include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/export.php';
+			wp_statistics_export_data();
+		}
+	}
+
+	/**
+	 * Unsupported Version Admin Notice
+	 */
+	public function wp_statistics_unsupported_version_admin_notice(){
+
+		$screen = get_current_screen();
+
+		if( 'plugins' !== $screen->id ){
+			return;
+		}
+		?>
+		<div class="error">
+			<p style="max-width:800px;">
+				<b><?php _e( 'WP Statistics Disabled', 'wp-statistics' ); ?></b> <?php _e(
+						'&#151; You are running an unsupported version of PHP.', 'wp-statistics'
+				); ?>
+			</p>
+
+			<p style="max-width:800px;"><?php
+
+				echo sprintf(
+						__(
+								'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
+								'wp-statistics'
+						), phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION
+				);
+				echo '</p><p>';
+				echo __(
+						'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
+						'wp-statistics'
+				);
+				?></p>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * This adds a row after WP Statistics in the plugin page
+	 * IF we've been removed via the settings page.
+	 */
+	public function wp_statistics_removal_admin_notice(){
+		$screen = get_current_screen();
+
+		if( 'plugins' !== $screen->id ){
+			return;
+		}
+
+		?>
+		<div class="error">
+			<p style="max-width:800px;"><?php
+
+				echo '<p>';
+				echo __( 'WP Statistics has been removed, please disable and delete it.', 'wp-statistics' );
+				echo '</p>';
+				?></p>
+		</div>
+		<?php
 	}
 
 	// This function sets the current WordPress user id for the class.
