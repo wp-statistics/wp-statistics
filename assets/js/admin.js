@@ -13,13 +13,22 @@ jQuery(document).ready(function () {
         });
     }
 
+    /**
+     * Get Parameter value
+     * @param name
+     * @returns {*}
+     */
     function getParameterValue(name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if(results) {
+        if (results) {
             return results[1];
         }
     }
 
+    /**
+     * Enable Tab
+     * @param tab_id
+     */
     function enableTab(tab_id) {
         jQuery('.wp-statistics-settings ul.tabs li').removeClass('current');
         jQuery('.wp-statistics-settings .tab-content').removeClass('current');
@@ -27,7 +36,9 @@ jQuery(document).ready(function () {
         jQuery("[data-tab=" + tab_id + "]").addClass('current');
         jQuery("#" + tab_id).addClass('current');
 
-        var clickurl = jQuery(location).attr('href') + '&tab=' + tab_id;
-        jQuery('#wp-statistics-settings-form').attr('action', clickurl).submit();
+        if (jQuery('#wp-statistics-settings-form').length) {
+            var click_url = jQuery(location).attr('href') + '&tab=' + tab_id;
+            jQuery('#wp-statistics-settings-form').attr('action', click_url).submit();
+        }
     }
 });

@@ -1004,7 +1004,7 @@ namespace {
 	function wp_statistics_plugins() {
 		// Load our CSS to be used.
 		wp_enqueue_style(
-			'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0'
+			'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.1'
 		);
 
 		// Activate or deactivate the selected plugin
@@ -1396,7 +1396,7 @@ namespace {
 		wp_enqueue_script( 'wp-statistics-admin-js', WP_STATISTICS_PLUGIN_DIR . 'assets/js/admin.js', array('jquery'), '1.0' );
 
 		// Load our CSS to be used.
-		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.1' );
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
@@ -1436,7 +1436,7 @@ namespace {
 		wp_enqueue_script( 'wp-statistics-admin-js', WP_STATISTICS_PLUGIN_DIR . 'assets/js/admin.js', array('jquery'), '1.0' );
 
 		// Load our CSS to be used.
-		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+		wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.1' );
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'rtl-css', plugin_dir_url( __FILE__ ) . 'assets/css/rtl.css', true, '1.1' );
