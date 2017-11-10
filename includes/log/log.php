@@ -2,8 +2,12 @@
 $loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
 
 $nag_html = '';
+if ( ! $WP_Statistics->get_option( 'geoip' ) ) {
+	$nag_html .= sprintf( __( '<div class="update-nag" style="%s">GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.</div>', 'wp-statistics' ), 'width: 90%;', admin_url( 'admin.php?page=wps_settings_page&tab=externals-settings' ) );
+}
+
 if ( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {
-	$nag_html = '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text"><p>' . __( 'Have you thought about donating to WP Statistics?', 'wp-statistics' ) . ' <a href="http://wp-statistics.com/donate/" target="_blank">' . __( 'Donate Now!', 'wp-statistics' ) . '</a></p></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __( 'Close', 'wp-statistics' ) . '</a></div></div>';
+	$nag_html .= '<div class="update-nag" style="width: 90%;"><div id="donate-text">' . __( 'Have you thought about donating to WP Statistics?', 'wp-statistics' ) . ' <a href="http://wp-statistics.com/donate/" target="_blank">' . __( 'Donate Now!', 'wp-statistics' ) . '</a></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' . __( 'Close', 'wp-statistics' ) . '</a></div></div>';
 }
 
 // WP Statistics 10.0 had a bug which could corrupt  the metabox display if the user re-ordered the widgets.  Check to see if the meta data is corrupt and if so delete it.
@@ -50,18 +54,18 @@ $admin_url = get_admin_url() . "admin.php?page=";
 
 $page_urls = array();
 
-$page_urls['wps_browsers_more_button']				= $admin_url . WP_STATISTICS_BROWSERS_PAGE;
-$page_urls['wps_countries_more_button']				= $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
-$page_urls['wps_exclusions_more_button']			= $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE;
-$page_urls['wps_hits_more_button']						= $admin_url . WP_STATISTICS_HITS_PAGE;
-$page_urls['wps_online_more_button']					= $admin_url . WP_STATISTICS_ONLINE_PAGE;
-$page_urls['wps_pages_more_button']					= $admin_url . WP_STATISTICS_PAGES_PAGE;
-$page_urls['wps_referring_more_button']				= $admin_url . WP_STATISTICS_REFERRERS_PAGE;
-$page_urls['wps_searched_phrases_more_button']	= $admin_url . WP_STATISTICS_SEARCHED_PHRASES_PAGE;
-$page_urls['wps_search_more_button']					= $admin_url . WP_STATISTICS_SEARCHES_PAGE;
-$page_urls['wps_words_more_button']					= $admin_url . WP_STATISTICS_WORDS_PAGE;
-$page_urls['wps_top_visitors_more_button']			= $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
-$page_urls['wps_recent_more_button']					= $admin_url . WP_STATISTICS_VISITORS_PAGE;
+$page_urls['wps_browsers_more_button']         = $admin_url . WP_STATISTICS_BROWSERS_PAGE;
+$page_urls['wps_countries_more_button']        = $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
+$page_urls['wps_exclusions_more_button']       = $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE;
+$page_urls['wps_hits_more_button']             = $admin_url . WP_STATISTICS_HITS_PAGE;
+$page_urls['wps_online_more_button']           = $admin_url . WP_STATISTICS_ONLINE_PAGE;
+$page_urls['wps_pages_more_button']            = $admin_url . WP_STATISTICS_PAGES_PAGE;
+$page_urls['wps_referring_more_button']        = $admin_url . WP_STATISTICS_REFERRERS_PAGE;
+$page_urls['wps_searched_phrases_more_button'] = $admin_url . WP_STATISTICS_SEARCHED_PHRASES_PAGE;
+$page_urls['wps_search_more_button']           = $admin_url . WP_STATISTICS_SEARCHES_PAGE;
+$page_urls['wps_words_more_button']            = $admin_url . WP_STATISTICS_WORDS_PAGE;
+$page_urls['wps_top_visitors_more_button']     = $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
+$page_urls['wps_recent_more_button']           = $admin_url . WP_STATISTICS_VISITORS_PAGE;
 
 ?>
 <script type="text/javascript">

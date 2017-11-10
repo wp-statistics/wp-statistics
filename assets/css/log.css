@@ -318,7 +318,12 @@
 
 #donate-button {
     float: right;
-    margin: 12px 0 0;
+    margin: -2px 0 0 0;
+}
+
+#donate-button a {
+    height: 23px;
+    line-height: 22px;
 }
 
 .jqvmap-label {
