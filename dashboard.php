@@ -111,8 +111,8 @@ function wp_statistics_load_widget_css_and_scripts() {
 	GLOBAL $WP_Statistics;
 
 	// Load the css we use for the statistics pages.
-	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
-	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.0' );
+	wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.2' );
+	wp_enqueue_style( 'wpstatistics-admin-css', plugin_dir_url( __FILE__ ) . 'assets/css/admin.css', true, '1.1' );
 
 	// Don't forget the right to left support.
 	if ( is_rtl() ) {

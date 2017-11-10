@@ -1297,7 +1297,7 @@ namespace {
 		wp_enqueue_script( 'postbox' );
 
 		// Load the css we use for the statistics pages.
-		wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.1' );
+		wp_enqueue_style( 'wpstatistics-log-css', plugin_dir_url( __FILE__ ) . 'assets/css/log.css', true, '1.2' );
 		wp_enqueue_style(
 			'wpstatistics-pagination-css', plugin_dir_url( __FILE__ ) . 'assets/css/pagination.css', true, '1.0'
 		);
