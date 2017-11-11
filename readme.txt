@@ -291,7 +291,7 @@ This is a security fix, please update immediately.
 * Added: Top Searched Phrases & Widget. Thanks [Farhad Sakhaei](https://github.com/parsmizban)
 * Removed: Some unused variables and optimization the plugin.
 * Removed: Force English option feature in the plugin.
-* Improvemented: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
+* Improvement: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
 * Improvement: Export data on the optimization page.
 * Improvement: Constants, Includes and moved some functions to the class.
 
