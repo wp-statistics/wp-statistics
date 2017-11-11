@@ -118,16 +118,16 @@ if ( is_admin() ) {
 	$dbname = DB_NAME;
 
 	// Check to see if the historical table exists yet, aka if this is a upgrade instead of a first install.
-	$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'" );
+	$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'");
 
 	if ( $result == 1 ) {
 		// Before we update the historical table, check to see if it exists with the old keys
-		$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_historical LIKE 'key'" );
+		$result = $wpdb->query("SHOW COLUMNS FROM {$wp_prefix}statistics_historical LIKE 'key'");
 
 		if ( $result > 0 ) {
-			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)" );
-			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `key` `ID` bigint(20)" );
-			$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `type` `category` varchar(25)" );
+			$wpdb->query("ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)");
+			$wpdb->query("ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `key` `ID` bigint(20)");
+			$wpdb->query("ALTER TABLE `{$wp_prefix}statistics_historical` CHANGE `type` `category` varchar(25)");
 		}
 	}
 
@@ -135,47 +135,47 @@ if ( is_admin() ) {
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	// Create/update the plugin tables.
-	dbDelta( $create_useronline_table );
-	dbDelta( $create_visit_table );
-	dbDelta( $create_visitor_table );
-	dbDelta( $create_exclusion_table );
-	dbDelta( $create_pages_table );
-	dbDelta( $create_historical_table );
-	dbDelta( $create_search_table );
+	dbDelta($create_useronline_table);
+	dbDelta($create_visit_table);
+	dbDelta($create_visitor_table);
+	dbDelta($create_exclusion_table);
+	dbDelta($create_pages_table);
+	dbDelta($create_historical_table);
+	dbDelta($create_search_table);
 
 	// Some old versions (in the 5.0.x line) of MySQL have issue with the compound index on the visitor table
 	// so let's make sure it was created, if not, use the older format to create the table manually instead of
 	// using the dbDelta() call.
-	$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'" );
+	$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'");
 
 	if ( $result != 1 ) {
-		$wpdb->query( $create_visitor_table_old );
+		$wpdb->query($create_visitor_table_old);
 	}
 
 	// Check to see if the date_ip index still exists, if so get rid of it.
-	$result = $wpdb->query( "SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'" );
+	$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip'");
 
 	// Note, the result will be the number of fields contained in the index.
 	if ( $result > 1 ) {
-		$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
+		$wpdb->query("DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor");
 	}
 
 	// One final database change, drop the 'AString' column from visitors if it exists as it's a typo from an old version.
-	$result = $wpdb->query( "SHOW COLUMNS FROM {$wp_prefix}statistics_visitor LIKE 'AString'" );
+	$result = $wpdb->query("SHOW COLUMNS FROM {$wp_prefix}statistics_visitor LIKE 'AString'");
 
 	if ( $result > 0 ) {
-		$wpdb->query( "ALTER TABLE `{$wp_prefix}statistics_visitor` DROP `AString`" );
+		$wpdb->query("ALTER TABLE `{$wp_prefix}statistics_visitor` DROP `AString`");
 	}
 
 	// Store the new version information.
-	update_option( 'wp_statistics_plugin_version', WP_STATISTICS_VERSION );
-	update_option( 'wp_statistics_db_version', WP_STATISTICS_VERSION );
+	update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
+	update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
 
 	// Now check to see what database updates may be required and record them for a user notice later.
 	$dbupdates = array( 'date_ip_agent' => false, 'unique_date' => false );
 
 	// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
-	$result = $wpdb->query( "SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'" );
+	$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'");
 
 	// Note, the result will be the number of fields contained in the index, so in our case 5.
 	if ( $result != 5 ) {
@@ -183,14 +183,14 @@ if ( is_admin() ) {
 	}
 
 	// Check the number of index's on the visits table, if it's only 5 we need to check for duplicate entries and remove them
-	$result = $wpdb->query( "SHOW INDEX FROM {$wp_prefix}statistics_visit WHERE Key_name = 'unique_date'" );
+	$result = $wpdb->query("SHOW INDEX FROM {$wp_prefix}statistics_visit WHERE Key_name = 'unique_date'");
 
 	// Note, the result will be the number of fields contained in the index, so in our case 1.
 	if ( $result != 1 ) {
 		$dbupdates['unique_date'] = true;
 	}
 
-	$WP_Statistics->update_option( 'pending_db_updates', $dbupdates );
+	$WP_Statistics->update_option('pending_db_updates', $dbupdates);
 
 	$default_options = $WP_Statistics->Default_Options();
 
@@ -201,14 +201,14 @@ if ( is_admin() ) {
 		$WP_Statistics->Primary_Values();
 
 		// By default, on new installs, use the new search table.
-		$WP_Statistics->update_option( 'search_converted', 1 );
+		$WP_Statistics->update_option('search_converted', 1);
 
 	} else {
 
 		// If this is an upgrade, we need to check to see if we need to convert anything from old to new formats.
 
 		// Check to see if the "new" settings code is in place or not, if not, upgrade the old settings to the new system.
-		if ( get_option( 'wp_statistics' ) === false ) {
+		if ( get_option('wp_statistics') === false ) {
 			$core_options   = array(
 				'wps_disable_map',
 				'wps_map_location',
@@ -242,7 +242,7 @@ if ( is_admin() ) {
 				'wps_robotlist',
 				'wps_exclude_ip',
 				'wps_exclude_loginpage',
-				'wps_exclude_adminpage'
+				'wps_exclude_adminpage',
 			);
 			$var_options    = array( 'wps_disable_se_%', 'wps_exclude_%' );
 			$widget_options = array(
@@ -269,39 +269,39 @@ if ( is_admin() ) {
 				'ac_widget',
 				'au_widget',
 				'lpd_widget',
-				'select_lps'
+				'select_lps',
 			);
 
 			// Handle the core options, we're going to strip off the 'wps_' header as we store them in the new settings array.
 			foreach ( $core_options as $option ) {
-				$new_name = substr( $option, 4 );
+				$new_name = substr($option, 4);
 
-				$WP_Statistics->store_option( $new_name, get_option( $option ) );
+				$WP_Statistics->store_option($new_name, get_option($option));
 
-				delete_option( $option );
+				delete_option($option);
 			}
 
 			$wiget = array();
 
 			// Handle the widget options, we're going to store them in a sub-array.
 			foreach ( $widget_options as $option ) {
-				$widget[ $option ] = get_option( $option );
+				$widget[ $option ] = get_option($option);
 
-				delete_option( $option );
+				delete_option($option);
 			}
 
-			$WP_Statistics->store_option( 'widget', $widget );
+			$WP_Statistics->store_option('widget', $widget);
 
 			foreach ( $var_options as $option ) {
 				// Handle the special variables options.
-				$result = $wpdb->get_results( "SELECT * FROM {$wp_prefix}options WHERE option_name LIKE '{$option}'" );
+				$result = $wpdb->get_results("SELECT * FROM {$wp_prefix}options WHERE option_name LIKE '{$option}'");
 
 				foreach ( $result as $opt ) {
-					$new_name = substr( $opt->option_name, 4 );
+					$new_name = substr($opt->option_name, 4);
 
-					$WP_Statistics->store_option( $new_name, $opt->option_value );
+					$WP_Statistics->store_option($new_name, $opt->option_value);
 
-					delete_option( $opt->option_name );
+					delete_option($opt->option_name);
 				}
 			}
 
@@ -309,10 +309,10 @@ if ( is_admin() ) {
 		}
 
 		// If the robot list is empty, fill in the defaults.
-		$wps_temp_robotslist = $WP_Statistics->get_option( 'robotlist' );
+		$wps_temp_robotslist = $WP_Statistics->get_option('robotlist');
 
-		if ( trim( $wps_temp_robotslist ) == "" || $WP_Statistics->get_option( 'force_robot_update' ) == true ) {
-			$WP_Statistics->update_option( 'robotlist', $default_options['robotlist'] );
+		if ( trim($wps_temp_robotslist) == "" || $WP_Statistics->get_option('force_robot_update') == true ) {
+			$WP_Statistics->update_option('robotlist', $default_options['robotlist']);
 		}
 
 		// WP Statistics V4.2 and below automatically exclude the administrator for statistics collection
@@ -320,25 +320,25 @@ if ( is_admin() ) {
 		// 4.2 behaviour when we upgrade, so see if the option exists in the database and if not, set it.
 		// This will not work correctly on a WordPress install that has removed the administrator role.
 		// However that seems VERY unlikely.
-		$exclude_admins = $WP_Statistics->get_option( 'exclude_administrator', '2' );
+		$exclude_admins = $WP_Statistics->get_option('exclude_administrator', '2');
 		if ( $exclude_admins == '2' ) {
-			$WP_Statistics->update_option( 'exclude_administrator', '1' );
+			$WP_Statistics->update_option('exclude_administrator', '1');
 		}
 
 		// WordPress 4.3 broke the diplay of the sidebar widget because it no longer accepted a null value
 		// to be returned from the widget update function, let's look to see if we need to update any
 		// occurances in the options table.
-		$widget_options = get_option( 'widget_wpstatistics_widget' );
-		if ( is_array( $widget_options ) ) {
+		$widget_options = get_option('widget_wpstatistics_widget');
+		if ( is_array($widget_options) ) {
 			foreach ( $widget_options as $key => $value ) {
 				// We want to update all null array keys that are integers.
-				if ( $value === null && is_int( $key ) ) {
+				if ( $value === null && is_int($key) ) {
 					$widget_options[ $key ] = array();
 				}
 			}
 
 			// Store the widget options back to the database.
-			update_option( 'widget_wpstatistics_widget', $widget_options );
+			update_option('widget_wpstatistics_widget', $widget_options);
 		}
 	}
 
@@ -347,21 +347,21 @@ if ( is_admin() ) {
 
 	// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
 	foreach ( $default_options as $key => $value ) {
-		if ( ! in_array( $key, $excluded_defaults ) && false === $WP_Statistics->get_option( $key ) ) {
-			$WP_Statistics->store_option( $key, $value );
+		if ( ! in_array($key, $excluded_defaults) && false === $WP_Statistics->get_option($key) ) {
+			$WP_Statistics->store_option($key, $value);
 		}
 	}
 
 	if ( $WPS_Installed == false ) {
 		// We now need to set the robot list to update during the next release.  This is only done for new installs to ensure we don't overwrite existing custom robot lists.
-		$WP_Statistics->store_option( 'force_robot_update', true );
+		$WP_Statistics->store_option('force_robot_update', true);
 	}
 
 	// For version 8.0, we're removing the old %option% types from the reports, so let's upgrade anyone who still has them to short codes.
-	$report_content = $WP_Statistics->get_option( 'content_report' );
+	$report_content = $WP_Statistics->get_option('content_report');
 
 	// Check to make sure we have a report to process.
-	if ( trim( $report_content ) == '' ) {
+	if ( trim($report_content) == '' ) {
 		// These are the variables we can replace in the template and the short codes we're going to replace them with.
 		$template_vars = array(
 			'user_online'       => '[wpstatistics stat=usersonline]',
@@ -374,19 +374,23 @@ if ( is_admin() ) {
 		);
 
 		// Replace the items in the template.
-		$final_report = preg_replace_callback( '/%(.*?)%/im', function ( $m ) {
-			return $template_vars[ $m[1] ];
-		}, $report_content );
+		$final_report = preg_replace_callback(
+			'/%(.*?)%/im',
+			function ( $m ) {
+				return $template_vars[ $m[1] ];
+			},
+			$report_content
+		);
 
 		// Store the updated report content.
-		$WP_Statistics->store_option( 'content_report', $final_report );
+		$WP_Statistics->store_option('content_report', $final_report);
 	}
 
 	// Save the settings now that we've set them.
 	$WP_Statistics->save_options();
 
-	if ( $WP_Statistics->get_option( 'upgrade_report' ) == true ) {
-		$WP_Statistics->update_option( 'send_upgrade_email', true );
+	if ( $WP_Statistics->get_option('upgrade_report') == true ) {
+		$WP_Statistics->update_option('send_upgrade_email', true);
 	}
 
 	// Handle multi site implementations
@@ -401,13 +405,12 @@ if ( is_admin() ) {
 			if ( $blog_id != $current_blog ) {
 
 				// Get the admin url for the current site.
-				$url = get_admin_url( $blog_id );
+				$url = get_admin_url($blog_id);
 
 				// Go and visit the admin url of the site, this will rerun the install script for each site.
 				// We turn blocking off because we don't really care about the response so why wait for it.
-				wp_remote_request( $url, array( 'blocking' => false ) );
+				wp_remote_request($url, array( 'blocking' => false ));
 			}
 		}
 	}
 }
-?>

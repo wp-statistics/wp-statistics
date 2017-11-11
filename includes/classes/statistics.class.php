@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class WP_Statistics
  *
@@ -11,25 +12,25 @@ class WP_Statistics {
 	// Setup our protected, private and public variables.
 	protected $db;
 	protected $tb_prefix;
-	protected $ip = false;
+	protected $ip      = false;
 	protected $ip_hash = false;
 	protected $agent;
 
 	private $result;
 	private $historical;
 	private $user_options_loaded = false;
-	private $is_feed = false;
-	private $tz_offset = 0;
-	private $country_codes = false;
-	private $referrer = false;
+	private $is_feed             = false;
+	private $tz_offset           = 0;
+	private $country_codes       = false;
+	private $referrer            = false;
 
-	public $coefficient = 1;
-	public $plugin_dir = '';
-	public $plugin_url = '';
-	public $user_id = 0;
-	public $options = array();
+	public $coefficient  = 1;
+	public $plugin_dir   = '';
+	public $plugin_url   = '';
+	public $user_id      = 0;
+	public $options      = array();
 	public $user_options = array();
-	public $menu_slugs = array();
+	public $menu_slugs   = array();
 
 	// Construction function.
 	public function __construct() {
@@ -39,32 +40,32 @@ class WP_Statistics {
 		// For the main init we're going to set our priority to 9 to execute before most plugins
 		// so we can export data before and set the headers without
 		// worrying about bugs in other plugins that output text and don't allow us to set the headers.
-		add_action( 'init', array( $this, 'wp_statistics_init' ), 9 );
+		add_action('init', array( $this, 'wp_statistics_init' ), 9);
 
 		// Check the PHP version,
 		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-		if( ! version_compare( phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=" ) ){
-			add_action( 'admin_notices', array( $this, 'wp_statistics_unsupported_version_admin_notice'), 10, 2 );
+		if ( ! version_compare(phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=") ) {
+			add_action('admin_notices', array( $this, 'wp_statistics_unsupported_version_admin_notice' ), 10, 2);
 
 			return;
 		}
 
 		// If we've been flagged to remove all of the data, then do so now.
-		if( get_option( 'wp_statistics_removal' ) == 'true' ){
+		if ( get_option('wp_statistics_removal') == 'true' ) {
 			include_once( WP_STATISTICS_PLUGIN_DIR . 'wps-uninstall.php' );
 		}
 
 		// If we've been removed, return without doing anything else.
-		if( get_option( 'wp_statistics_removal' ) == 'done' ){
-			add_action( 'admin_notices', array( $this, 'wp_statistics_removal_admin_notice'), 10, 2 );
+		if ( get_option('wp_statistics_removal') == 'done' ) {
+			add_action('admin_notices', array( $this, 'wp_statistics_removal_admin_notice' ), 10, 2);
 
 			return;
 		}
 
-		if ( get_option( 'timezone_string' ) ) {
-			$this->tz_offset = timezone_offset_get( timezone_open( get_option( 'timezone_string' ) ), new DateTime() );
-		} else if ( get_option( 'gmt_offset' ) ) {
-			$this->tz_offset = get_option( 'gmt_offset' ) * 60 * 60;
+		if ( get_option('timezone_string') ) {
+			$this->tz_offset = timezone_offset_get(timezone_open(get_option('timezone_string')), new DateTime());
+		} else if ( get_option('gmt_offset') ) {
+			$this->tz_offset = get_option('gmt_offset') * 60 * 60;
 		}
 
 		$this->db         = $wpdb;
@@ -73,14 +74,14 @@ class WP_Statistics {
 		$this->historical = array();
 
 		// Load the options from the database
-		$this->options = get_option( 'wp_statistics' );
+		$this->options = get_option('wp_statistics');
 
-		if ( ! is_array( $this->options ) ) {
+		if ( ! is_array($this->options) ) {
 			$this->user_options = array();
 		}
 
 		// Set the default co-efficient.
-		$this->coefficient = $this->get_option( 'coefficient', 1 );
+		$this->coefficient = $this->get_option('coefficient', 1);
 
 		// Double check the co-efficient setting to make sure it's not been set to 0.
 		if ( $this->coefficient <= 0 ) {
@@ -88,13 +89,13 @@ class WP_Statistics {
 		}
 
 		// This is a bit of a hack, we strip off the "includes/classes" at the end of the current class file's path.
-		$this->plugin_dir = substr( dirname( __FILE__ ), 0, - 17 );
-		$this->plugin_url = substr( plugin_dir_url( __FILE__ ), 0, - 17 );
+		$this->plugin_dir = substr(dirname(__FILE__), 0, -17);
+		$this->plugin_url = substr(plugin_dir_url(__FILE__), 0, -17);
 
 		$this->get_IP();
 
-		if ( $this->get_option( 'hash_ips' ) == true ) {
-			$this->ip_hash = '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
+		if ( $this->get_option('hash_ips') == true ) {
+			$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
 		}
 
 	}
@@ -102,11 +103,11 @@ class WP_Statistics {
 	/**
 	 * Load the init code.
 	 */
-	public function wp_statistics_init(){
+	public function wp_statistics_init() {
 
 		// Check to see if we're exporting data, if so, do so now.
 		// Note this will set the headers to download the export file and then stop running WordPress.
-		if( array_key_exists( 'wps_export', $_POST ) ){
+		if ( array_key_exists('wps_export', $_POST) ) {
 			include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/export.php';
 			wp_statistics_export_data();
 		}
@@ -115,33 +116,39 @@ class WP_Statistics {
 	/**
 	 * Unsupported Version Admin Notice
 	 */
-	public function wp_statistics_unsupported_version_admin_notice(){
+	public function wp_statistics_unsupported_version_admin_notice() {
 
 		$screen = get_current_screen();
 
-		if( 'plugins' !== $screen->id ){
+		if ( 'plugins' !== $screen->id ) {
 			return;
 		}
 		?>
 		<div class="error">
 			<p style="max-width:800px;">
-				<b><?php _e( 'WP Statistics Disabled', 'wp-statistics' ); ?></b> <?php _e(
-						'&#151; You are running an unsupported version of PHP.', 'wp-statistics'
+				<b><?php _e(
+						'WP Statistics Disabled',
+						'wp-statistics'
+					); ?></b> <?php _e(
+					'&#151; You are running an unsupported version of PHP.',
+					'wp-statistics'
 				); ?>
 			</p>
 
 			<p style="max-width:800px;"><?php
 
 				echo sprintf(
-						__(
-								'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
-								'wp-statistics'
-						), phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION
+					__(
+						'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
+						'wp-statistics'
+					),
+					phpversion(),
+					WP_STATISTICS_REQUIRED_PHP_VERSION
 				);
 				echo '</p><p>';
 				echo __(
-						'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
-						'wp-statistics'
+					'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
+					'wp-statistics'
 				);
 				?></p>
 		</div>
@@ -153,10 +160,10 @@ class WP_Statistics {
 	 * This adds a row after WP Statistics in the plugin page
 	 * IF we've been removed via the settings page.
 	 */
-	public function wp_statistics_removal_admin_notice(){
+	public function wp_statistics_removal_admin_notice() {
 		$screen = get_current_screen();
 
-		if( 'plugins' !== $screen->id ){
+		if ( 'plugins' !== $screen->id ) {
 			return;
 		}
 
@@ -165,7 +172,7 @@ class WP_Statistics {
 			<p style="max-width:800px;"><?php
 
 				echo '<p>';
-				echo __( 'WP Statistics has been removed, please disable and delete it.', 'wp-statistics' );
+				echo __('WP Statistics has been removed, please disable and delete it.', 'wp-statistics');
 				echo '</p>';
 				?></p>
 		</div>
@@ -181,9 +188,9 @@ class WP_Statistics {
 
 	// This function loads the options from WordPress, it is included here for completeness as the options are loaded automatically in the class constructor.
 	public function load_options() {
-		$this->options = get_option( 'wp_statistics' );
+		$this->options = get_option('wp_statistics');
 
-		if ( ! is_array( $this->options ) ) {
+		if ( ! is_array($this->options) ) {
 			$this->user_options = array();
 		}
 	}
@@ -197,9 +204,9 @@ class WP_Statistics {
 		$this->set_user_id();
 
 		// Not sure why, but get_user_meta() is returning an array or array's unless $single is set to true.
-		$this->user_options = get_user_meta( $this->user_id, 'wp_statistics', true );
+		$this->user_options = get_user_meta($this->user_id, 'wp_statistics', true);
 
-		if ( ! is_array( $this->user_options ) ) {
+		if ( ! is_array($this->user_options) ) {
 			$this->user_options = array();
 		}
 
@@ -209,12 +216,12 @@ class WP_Statistics {
 	// The function mimics WordPress's get_option() function but uses the array instead of individual options.
 	public function get_option( $option, $default = null ) {
 		// If no options array exists, return FALSE.
-		if ( ! is_array( $this->options ) ) {
+		if ( ! is_array($this->options) ) {
 			return false;
 		}
 
 		// if the option isn't set yet, return the $default if it exists, otherwise FALSE.
-		if ( ! array_key_exists( $option, $this->options ) ) {
+		if ( ! array_key_exists($option, $this->options) ) {
 			if ( isset( $default ) ) {
 				return $default;
 			} else {
@@ -232,12 +239,12 @@ class WP_Statistics {
 		if ( $this->user_id == 0 ) {
 			return false;
 		}
-		if ( ! is_array( $this->user_options ) ) {
+		if ( ! is_array($this->user_options) ) {
 			return false;
 		}
 
 		// if the option isn't set yet, return the $default if it exists, otherwise FALSE.
-		if ( ! array_key_exists( $option, $this->user_options ) ) {
+		if ( ! array_key_exists($option, $this->user_options) ) {
 			if ( isset( $default ) ) {
 				return $default;
 			} else {
@@ -255,7 +262,7 @@ class WP_Statistics {
 		$this->options[ $option ] = $value;
 
 		// Write the array to the database.
-		update_option( 'wp_statistics', $this->options );
+		update_option('wp_statistics', $this->options);
 	}
 
 	// The function mimics WordPress's update_user_meta() function but uses the array instead of individual options.
@@ -269,7 +276,7 @@ class WP_Statistics {
 		$this->user_options[ $option ] = $value;
 
 		// Write the array to the database.
-		update_user_meta( $this->user_id, 'wp_statistics', $this->user_options );
+		update_user_meta($this->user_id, 'wp_statistics', $this->user_options);
 	}
 
 	// This function is similar to update_option, but it only stores the option in the array.  This save some writing to the database if you have multiple values to update.
@@ -289,7 +296,7 @@ class WP_Statistics {
 
 	// This function saves the current options array to the database.
 	public function save_options() {
-		update_option( 'wp_statistics', $this->options );
+		update_option('wp_statistics', $this->options);
 	}
 
 	// This function saves the current user options array to the database.
@@ -298,16 +305,16 @@ class WP_Statistics {
 			return false;
 		}
 
-		update_user_meta( $this->user_id, 'wp_statistics', $this->user_options );
+		update_user_meta($this->user_id, 'wp_statistics', $this->user_options);
 	}
 
 	// This function check to see if an option is currently set or not.
 	public function isset_option( $option ) {
-		if ( ! is_array( $this->options ) ) {
+		if ( ! is_array($this->options) ) {
 			return false;
 		}
 
-		return array_key_exists( $option, $this->options );
+		return array_key_exists($option, $this->options);
 	}
 
 	// This function check to see if a user option is currently set or not.
@@ -315,18 +322,18 @@ class WP_Statistics {
 		if ( $this->user_id == 0 ) {
 			return false;
 		}
-		if ( ! is_array( $this->user_options ) ) {
+		if ( ! is_array($this->user_options) ) {
 			return false;
 		}
 
-		return array_key_exists( $option, $this->user_options );
+		return array_key_exists($option, $this->user_options);
 	}
 
 	// During installation of WP Statistics some initial data needs to be loaded in to the database so errors are not displayed.
 	// This function will add some initial data if the tables are empty.
 	public function Primary_Values() {
 
-		$this->result = $this->db->query( "SELECT * FROM {$this->tb_prefix}statistics_useronline" );
+		$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline");
 
 		if ( ! $this->result ) {
 
@@ -334,17 +341,17 @@ class WP_Statistics {
 				$this->tb_prefix . "statistics_useronline",
 				array(
 					'ip'        => $this->get_IP(),
-					'timestamp' => $this->Current_Date( 'U' ),
+					'timestamp' => $this->Current_Date('U'),
 					'date'      => $this->Current_Date(),
 					'referred'  => $this->get_Referred(),
 					'agent'     => $this->agent['browser'],
 					'platform'  => $this->agent['platform'],
-					'version'   => $this->agent['version']
+					'version'   => $this->agent['version'],
 				)
 			);
 		}
 
-		$this->result = $this->db->query( "SELECT * FROM {$this->tb_prefix}statistics_visit" );
+		$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_visit");
 
 		if ( ! $this->result ) {
 
@@ -352,26 +359,26 @@ class WP_Statistics {
 				$this->tb_prefix . "statistics_visit",
 				array(
 					'last_visit'   => $this->Current_Date(),
-					'last_counter' => $this->Current_date( 'Y-m-d' ),
-					'visit'        => 1
+					'last_counter' => $this->Current_date('Y-m-d'),
+					'visit'        => 1,
 				)
 			);
 		}
 
-		$this->result = $this->db->query( "SELECT * FROM {$this->tb_prefix}statistics_visitor" );
+		$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_visitor");
 
 		if ( ! $this->result ) {
 
 			$this->db->insert(
 				$this->tb_prefix . "statistics_visitor",
 				array(
-					'last_counter' => $this->Current_date( 'Y-m-d' ),
+					'last_counter' => $this->Current_date('Y-m-d'),
 					'referred'     => $this->get_Referred(),
 					'agent'        => $this->agent['browser'],
 					'platform'     => $this->agent['platform'],
 					'version'      => $this->agent['version'],
 					'ip'           => $this->get_IP(),
-					'location'     => '000'
+					'location'     => '000',
 				)
 			);
 		}
@@ -385,7 +392,7 @@ class WP_Statistics {
 		// Get the robots list, we'll use this for both upgrades and new installs.
 		include_once( $this->plugin_dir . '/robotslist.php' );
 
-		$options['robotlist'] = trim( $wps_robotslist );
+		$options['robotlist'] = trim($wps_robotslist);
 
 		// By default, on new installs, use the new search table.
 		$options['search_converted'] = 1;
@@ -420,31 +427,31 @@ class WP_Statistics {
 	// This function processes a string that represents an IP address and returns either FALSE if it's invalid or a valid IP4 address.
 	private function get_ip_value( $ip ) {
 		// Reject anything that's not a string.
-		if ( ! is_string( $ip ) ) {
+		if ( ! is_string($ip) ) {
 			return false;
 		}
 
 		// Trim off any spaces.
-		$ip = trim( $ip );
+		$ip = trim($ip);
 
 		// Process IPv4 and v6 addresses separately.
-		if ( $this->isValidIPv6( $ip ) ) {
+		if ( $this->isValidIPv6($ip) ) {
 			// Reject any IPv6 addresses if IPv6 is not compiled in to this version of PHP.
-			if ( ! defined( 'AF_INET6' ) ) {
+			if ( ! defined('AF_INET6') ) {
 				return false;
 			}
 		} else {
 			// Trim off any port values that exist.
-			if ( strstr( $ip, ':' ) !== false ) {
-				$temp = explode( ':', $ip );
+			if ( strstr($ip, ':') !== false ) {
+				$temp = explode(':', $ip);
 				$ip   = $temp[0];
 			}
 
 			// Check to make sure the http header is actually an IP address and not some kind of SQL injection attack.
-			$long = ip2long( $ip );
+			$long = ip2long($ip);
 
 			// ip2long returns either -1 or FALSE if it is not a valid IP address depending on the PHP version, so check for both.
-			if ( $long == - 1 || $long === false ) {
+			if ( $long == -1 || $long === false ) {
 				return false;
 			}
 		}
@@ -468,8 +475,8 @@ class WP_Statistics {
 		}
 
 		// By default we use the remote address the server has.
-		if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
-			$temp_ip = $this->get_ip_value( $_SERVER['REMOTE_ADDR'] );
+		if ( array_key_exists('REMOTE_ADDR', $_SERVER) ) {
+			$temp_ip = $this->get_ip_value($_SERVER['REMOTE_ADDR']);
 		} else {
 			$temp_ip = '127.0.0.1';
 		}
@@ -491,11 +498,11 @@ class WP_Statistics {
 			'HTTP_X_FORWARDED_FOR',
 			'HTTP_X_FORWARDED',
 			'HTTP_FORWARDED_FOR',
-			'HTTP_FORWARDED'
+			'HTTP_FORWARDED',
 		);
 
 		foreach ( $envs as $env ) {
-			$temp_ip = $this->get_ip_value( getenv( $env ) );
+			$temp_ip = $this->get_ip_value(getenv($env));
 
 			if ( false !== $temp_ip ) {
 				$this->ip = $temp_ip;
@@ -520,7 +527,7 @@ class WP_Statistics {
 	 * @return boolean - true/false
 	 */
 	private function isValidIPv6( $ip ) {
-		if ( false === filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
+		if ( false === filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ) {
 			return false;
 		} else {
 			return true;
@@ -534,24 +541,28 @@ class WP_Statistics {
 		try {
 			$agent = parse_user_agent();
 		} catch ( Exception $e ) {
-			$agent = array( 'browser' => _x( 'Unknown', 'Browser', 'wp-statistics' ), 'platform' => _x( 'Unknown', 'Platform', 'wp-statistics' ), 'version' => _x( 'Unknown', 'Version', 'wp-statistics' ) );
+			$agent = array(
+				'browser'  => _x('Unknown', 'Browser', 'wp-statistics'),
+				'platform' => _x('Unknown', 'Platform', 'wp-statistics'),
+				'version'  => _x('Unknown', 'Version', 'wp-statistics'),
+			);
 		}
 
 		// null isn't a very good default, so set it to Unknown instead.
 		if ( $agent['browser'] == null ) {
-			$agent['browser'] = _x( 'Unknown', 'Browser', 'wp-statistics' );
+			$agent['browser'] = _x('Unknown', 'Browser', 'wp-statistics');
 		}
 		if ( $agent['platform'] == null ) {
-			$agent['platform'] = _x( 'Unknown', 'Platform', 'wp-statistics' );
+			$agent['platform'] = _x('Unknown', 'Platform', 'wp-statistics');
 		}
 		if ( $agent['version'] == null ) {
-			$agent['version'] = _x( 'Unknown', 'Version', 'wp-statistics' );
+			$agent['version'] = _x('Unknown', 'Version', 'wp-statistics');
 		}
 
 		// Uncommon browsers often have some extra cruft, like brackets, http:// and other strings that we can strip out.
 		$strip_strings = array( '"', "'", '(', ')', ';', ':', '/', '[', ']', '{', '}', 'http' );
 		foreach ( $agent as $key => $value ) {
-			$agent[ $key ] = str_replace( $strip_strings, '', $agent[ $key ] );
+			$agent[ $key ] = str_replace($strip_strings, '', $agent[ $key ]);
 		}
 
 		return $agent;
@@ -573,26 +584,32 @@ class WP_Statistics {
 			$this->referrer = $default_referrer;
 		}
 
-		$this->referrer = esc_sql( strip_tags( $this->referrer ) );
+		$this->referrer = esc_sql(strip_tags($this->referrer));
 
 		if ( ! $this->referrer ) {
-			$this->referrer = get_bloginfo( 'url' );
+			$this->referrer = get_bloginfo('url');
 		}
 
-		if ( $this->get_option( 'addsearchwords', false ) ) {
+		if ( $this->get_option('addsearchwords', false) ) {
 			// Check to see if this is a search engine referrer
-			$SEInfo = $this->Search_Engine_Info( $this->referrer );
+			$SEInfo = $this->Search_Engine_Info($this->referrer);
 
-			if ( is_array( $SEInfo ) ) {
+			if ( is_array($SEInfo) ) {
 				// If we're a known SE, check the query string
 				if ( $SEInfo['tag'] != '' ) {
-					$result = $this->Search_Engine_QueryString( $this->referrer );
+					$result = $this->Search_Engine_QueryString($this->referrer);
 
 					// If there were no search words, let's add the page title
 					if ( $result == '' || $result == 'No search query found!' ) {
-						$result = wp_title( '', false );
+						$result = wp_title('', false);
 						if ( $result != '' ) {
-							$this->referrer = esc_url( add_query_arg( $SEInfo['querykey'], urlencode( '~"' . $result . '"' ), $this->referrer ) );
+							$this->referrer = esc_url(
+								add_query_arg(
+									$SEInfo['querykey'],
+									urlencode('~"' . $result . '"'),
+									$this->referrer
+								)
+							);
 						}
 					}
 				}
@@ -604,7 +621,7 @@ class WP_Statistics {
 
 	// This function returns a date string in the desired format with a passed in timestamp.
 	public function Local_Date( $format, $timestamp ) {
-		return date( $format, $timestamp + $this->tz_offset );
+		return date($format, $timestamp + $this->tz_offset);
 	}
 
 	// This function returns a date string in the desired format.
@@ -612,12 +629,12 @@ class WP_Statistics {
 
 		if ( $strtotime ) {
 			if ( $relative ) {
-				return date( $format, strtotime( "{$strtotime} day", $relative ) + $this->tz_offset );
+				return date($format, strtotime("{$strtotime} day", $relative) + $this->tz_offset);
 			} else {
-				return date( $format, strtotime( "{$strtotime} day" ) + $this->tz_offset );
+				return date($format, strtotime("{$strtotime} day") + $this->tz_offset);
 			}
 		} else {
-			return date( $format, time() + $this->tz_offset );
+			return date($format, time() + $this->tz_offset);
 		}
 	}
 
@@ -626,12 +643,12 @@ class WP_Statistics {
 
 		if ( $strtotime ) {
 			if ( $relative ) {
-				return date( $format, strtotime( "{$strtotime} day", $relative ) );
+				return date($format, strtotime("{$strtotime} day", $relative));
 			} else {
-				return date( $format, strtotime( "{$strtotime} day" ) );
+				return date($format, strtotime("{$strtotime} day"));
 			}
 		} else {
-			return date( $format, time() );
+			return date($format, time());
 		}
 	}
 
@@ -639,14 +656,14 @@ class WP_Statistics {
 	public function Current_Date_i18n( $format = 'Y-m-d H:i:s', $strtotime = null, $day = ' day' ) {
 
 		if ( $strtotime ) {
-			return date_i18n( $format, strtotime( "{$strtotime}{$day}" ) + $this->tz_offset );
+			return date_i18n($format, strtotime("{$strtotime}{$day}") + $this->tz_offset);
 		} else {
-			return date_i18n( $format, time() + $this->tz_offset );
+			return date_i18n($format, time() + $this->tz_offset);
 		}
 	}
 
 	public function strtotimetz( $timestring ) {
-		return strtotime( $timestring ) + $this->tz_offset;
+		return strtotime($timestring) + $this->tz_offset;
 	}
 
 	public function timetz() {
@@ -656,7 +673,7 @@ class WP_Statistics {
 	// This function checks to see if a search engine exists in the current list of search engines.
 	public function Check_Search_Engines( $search_engine_name, $search_engine = null ) {
 
-		if ( strstr( $search_engine, $search_engine_name ) ) {
+		if ( strstr($search_engine, $search_engine_name) ) {
 			return 1;
 		}
 	}
@@ -676,16 +693,16 @@ class WP_Statistics {
 		}
 
 		// Parse the URL in to it's component parts.
-		$parts = parse_url( $url );
+		$parts = parse_url($url);
 
 		// Get the list of search engines we currently support.
 		$search_engines = wp_statistics_searchengine_list();
 
 		// Loop through the SE list until we find which search engine matches.
 		foreach ( $search_engines as $key => $value ) {
-			$search_regex = wp_statistics_searchengine_regex( $key );
+			$search_regex = wp_statistics_searchengine_regex($key);
 
-			preg_match( '/' . $search_regex . '/', $parts['host'], $matches );
+			preg_match('/' . $search_regex . '/', $parts['host'], $matches);
 
 			if ( isset( $matches[1] ) ) {
 				// Return the first matched SE.
@@ -695,12 +712,12 @@ class WP_Statistics {
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => _x( 'Unknown', 'Search Engine', 'wp-statistics' ),
+			'name'         => _x('Unknown', 'Search Engine', 'wp-statistics'),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
 			'querykey'     => 'q',
-			'image'        => 'unknown.png'
+			'image'        => 'unknown.png',
 		);
 	}
 
@@ -716,18 +733,18 @@ class WP_Statistics {
 		// Get the list of search engines we currently support.
 		$search_engines = wp_statistics_searchengine_list();
 
-		if ( array_key_exists( $engine, $search_engines ) ) {
+		if ( array_key_exists($engine, $search_engines) ) {
 			return $search_engines[ $engine ];
 		}
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => _x( 'Unknown', 'Search Engine', 'wp-statistics' ),
+			'name'         => _x('Unknown', 'Search Engine', 'wp-statistics'),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
 			'querykey'     => 'q',
-			'image'        => 'unknown.png'
+			'image'        => 'unknown.png',
 		);
 	}
 
@@ -745,12 +762,12 @@ class WP_Statistics {
 		}
 
 		// Parse the URL in to it's component parts.
-		$parts = parse_url( $url );
+		$parts = parse_url($url);
 
 		// Check to see if there is a query component in the URL (everything after the ?).  If there isn't one
 		// set an empty array so we don't get errors later.
-		if ( array_key_exists( 'query', $parts ) ) {
-			parse_str( $parts['query'], $query );
+		if ( array_key_exists('query', $parts) ) {
+			parse_str($parts['query'], $query);
 		} else {
 			$query = array();
 		}
@@ -760,14 +777,14 @@ class WP_Statistics {
 
 		// Loop through the SE list until we find which search engine matches.
 		foreach ( $search_engines as $key => $value ) {
-			$search_regex = wp_statistics_searchengine_regex( $key );
+			$search_regex = wp_statistics_searchengine_regex($key);
 
-			preg_match( '/' . $search_regex . '/', $parts['host'], $matches );
+			preg_match('/' . $search_regex . '/', $parts['host'], $matches);
 
 			if ( isset( $matches[1] ) ) {
 				// Check to see if the query key the SE uses exists in the query part of the URL.
-				if ( array_key_exists( $search_engines[ $key ]['querykey'], $query ) ) {
-					$words = strip_tags( $query[ $search_engines[ $key ]['querykey'] ] );
+				if ( array_key_exists($search_engines[ $key ]['querykey'], $query) ) {
+					$words = strip_tags($query[ $search_engines[ $key ]['querykey'] ]);
 				} else {
 					$words = '';
 				}
@@ -792,53 +809,71 @@ class WP_Statistics {
 
 		switch ( $type ) {
 			case 'visitors':
-				if ( array_key_exists( 'visitors', $this->historical ) ) {
+				if ( array_key_exists('visitors', $this->historical) ) {
 					return $this->historical['visitors'];
 				} else {
-					$result = $this->db->get_var( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visitors'" );
+					$result
+						= $this->db->get_var(
+						"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visitors'"
+					);
 					if ( $result > $count ) {
 						$count = $result;
 					}
 					$this->historical['visitors'] = $count;
 				}
 
-				break;
+			break;
 			case 'visits':
-				if ( array_key_exists( 'visits', $this->historical ) ) {
+				if ( array_key_exists('visits', $this->historical) ) {
 					return $this->historical['visits'];
 				} else {
-					$result = $this->db->get_var( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visits'" );
+					$result
+						= $this->db->get_var(
+						"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visits'"
+					);
 					if ( $result > $count ) {
 						$count = $result;
 					}
 					$this->historical['visits'] = $count;
 				}
 
-				break;
+			break;
 			case 'uri':
-				if ( array_key_exists( $id, $this->historical ) ) {
+				if ( array_key_exists($id, $this->historical) ) {
 					return $this->historical[ $id ];
 				} else {
-					$result = $this->db->get_var( $this->db->prepare( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND uri = %s", $id ) );
+					$result
+						= $this->db->get_var(
+						$this->db->prepare(
+							"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND uri = %s",
+							$id
+						)
+					);
 					if ( $result > $count ) {
 						$count = $result;
 					}
 					$this->historical[ $id ] = $count;
 				}
 
-				break;
+			break;
 			case 'page':
-				if ( array_key_exists( $id, $this->historical ) ) {
+				if ( array_key_exists($id, $this->historical) ) {
 					return $this->historical[ $id ];
 				} else {
-					$result = $this->db->get_var( $this->db->prepare( "SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND page_id = %d", $id ) );
+					$result
+						= $this->db->get_var(
+						$this->db->prepare(
+							"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND page_id = %d",
+							$id
+						)
+					);
 					if ( $result > $count ) {
 						$count = $result;
 					}
 					$this->historical[ $id ] = $count;
 				}
 
-				break;
+			break;
 		}
 
 		return $count;
@@ -862,14 +897,14 @@ class WP_Statistics {
 		return $this->country_codes;
 	}
 
-	// Returns an array of site id's	
+	// Returns an array of site id's
 	public function get_wp_sites_list() {
 		GLOBAL $wp_version;
 
 		$site_list = array();
 
 		// wp_get_sites() is deprecated in 4.6 or above and replaced with get_sites().
-		if ( version_compare( $wp_version, '4.6', '>=' ) ) {
+		if ( version_compare($wp_version, '4.6', '>=') ) {
 			$sites = get_sites();
 
 			foreach ( $sites as $site ) {
@@ -886,29 +921,29 @@ class WP_Statistics {
 		return $site_list;
 	}
 
-	public function html_sanitize_referrer( $referrer, $length = - 1 ) {
-		$referrer = trim( $referrer );
+	public function html_sanitize_referrer( $referrer, $length = -1 ) {
+		$referrer = trim($referrer);
 
-		if ( 'data:' == strtolower( substr( $referrer, 0, 5 ) ) ) {
+		if ( 'data:' == strtolower(substr($referrer, 0, 5)) ) {
 			$referrer = 'http://127.0.0.1';
 		}
 
-		if ( 'javascript:' == strtolower( substr( $referrer, 0, 11 ) ) ) {
+		if ( 'javascript:' == strtolower(substr($referrer, 0, 11)) ) {
 			$referrer = 'http://127.0.0.1';
 		}
 
 		if ( $length > 0 ) {
-			$referrer = substr( $referrer, 0, $length );
+			$referrer = substr($referrer, 0, $length);
 		}
 
-		return htmlentities( $referrer, ENT_QUOTES );
+		return htmlentities($referrer, ENT_QUOTES);
 	}
 
-	public function get_referrer_link( $referrer, $length = - 1 ) {
-		$html_referrer = $this->html_sanitize_referrer( $referrer );
+	public function get_referrer_link( $referrer, $length = -1 ) {
+		$html_referrer = $this->html_sanitize_referrer($referrer);
 
-		if ( $length > 0 && strlen( $referrer ) > $length ) {
-			$html_referrer_limited = $this->html_sanitize_referrer( $referrer, $length );
+		if ( $length > 0 && strlen($referrer) > $length ) {
+			$html_referrer_limited = $this->html_sanitize_referrer($referrer, $length);
 			$eplises               = '[...]';
 		} else {
 			$html_referrer_limited = $html_referrer;

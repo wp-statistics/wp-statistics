@@ -4,136 +4,143 @@
 function wp_statistics_close_donation_nag_action_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
+	$manage_cap = wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options'));
 
-	if ( current_user_can( $manage_cap ) ) {
-		$WP_Statistics->update_option( 'disable_donation_nag', true );
+	if ( current_user_can($manage_cap) ) {
+		$WP_Statistics->update_option('disable_donation_nag', true);
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_wp_statistics_close_donation_nag', 'wp_statistics_close_donation_nag_action_callback' );
+add_action('wp_ajax_wp_statistics_close_donation_nag', 'wp_statistics_close_donation_nag_action_callback');
 
 // Setup an AJAX action to delete an agent in the optimization page.
 function wp_statistics_delete_agents_action_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
+	$manage_cap = wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options'));
 
-	if ( current_user_can( $manage_cap ) ) {
+	if ( current_user_can($manage_cap) ) {
 		$agent = $_POST['agent-name'];
 
 		if ( $agent ) {
 
-			$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = %s", $agent ) );
+			$result = $wpdb->query(
+				$wpdb->prepare("DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = %s", $agent)
+			);
 
 			if ( $result ) {
-				echo sprintf( __( '%s agent data deleted successfully.', 'wp-statistics' ), '<code>' . $agent . '</code>' );
+				echo sprintf(__('%s agent data deleted successfully.', 'wp-statistics'), '<code>' . $agent . '</code>');
 			} else {
-				_e( 'No agent data found to remove!', 'wp-statistics' );
+				_e('No agent data found to remove!', 'wp-statistics');
 			}
 
 		} else {
-			_e( 'Please select the desired items.', 'wp-statistics' );
+			_e('Please select the desired items.', 'wp-statistics');
 		}
 	} else {
-		_e( 'Access denied!', 'wp-statistics' );
+		_e('Access denied!', 'wp-statistics');
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_wp_statistics_delete_agents', 'wp_statistics_delete_agents_action_callback' );
+add_action('wp_ajax_wp_statistics_delete_agents', 'wp_statistics_delete_agents_action_callback');
 
 // Setup an AJAX action to delete a platform in the optimization page.
 function wp_statistics_delete_platforms_action_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
+	$manage_cap = wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options'));
 
-	if ( current_user_can( $manage_cap ) ) {
+	if ( current_user_can($manage_cap) ) {
 		$platform = $_POST['platform-name'];
 
 		if ( $platform ) {
 
-			$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = %s", $platform ) );
+			$result = $wpdb->query(
+				$wpdb->prepare("DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `platform` = %s", $platform)
+			);
 
 			if ( $result ) {
-				echo sprintf( __( '%s platform data deleted successfully.', 'wp-statistics' ), '<code>' . htmlentities( $platform, ENT_QUOTES ) . '</code>' );
+				echo sprintf(
+					__('%s platform data deleted successfully.', 'wp-statistics'),
+					'<code>' . htmlentities($platform, ENT_QUOTES) . '</code>'
+				);
 			} else {
-				_e( 'No platform data found to remove!', 'wp-statistics' );
+				_e('No platform data found to remove!', 'wp-statistics');
 			}
 		} else {
-			_e( 'Please select the desired items.', 'wp-statistics' );
+			_e('Please select the desired items.', 'wp-statistics');
 		}
 	} else {
-		_e( 'Access denied!', 'wp-statistics' );
+		_e('Access denied!', 'wp-statistics');
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_wp_statistics_delete_platforms', 'wp_statistics_delete_platforms_action_callback' );
+add_action('wp_ajax_wp_statistics_delete_platforms', 'wp_statistics_delete_platforms_action_callback');
 
 // Setup an AJAX action to empty a table in the optimization page.
 function wp_statistics_empty_table_action_callback() {
 	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
+	$manage_cap = wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options'));
 
-	if ( current_user_can( $manage_cap ) ) {
+	if ( current_user_can($manage_cap) ) {
 		$table_name = $_POST['table-name'];
 
 		if ( $table_name ) {
 
 			switch ( $table_name ) {
 				case 'useronline':
-					echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_useronline' );
-					break;
+					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_useronline');
+				break;
 				case 'visit':
-					echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visit' );
-					break;
+					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_visit');
+				break;
 				case 'visitors':
-					echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visitor' );
-					break;
+					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_visitor');
+				break;
 				case 'exclusions':
-					echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_exclusions' );
-					break;
+					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_exclusions');
+				break;
 				case 'pages':
-					echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_pages' );
-					break;
+					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_pages');
+				break;
 				case 'search':
-					echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_search' );
-					break;
+					echo wp_statitiscs_empty_table($wpdb->prefix . 'statistics_search');
+				break;
 				case 'all':
-					$result_string = wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_useronline' );
-					$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visit' );
-					$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visitor' );
-					$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_exclusions' );
-					$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_pages' );
-					$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_search' );
+					$result_string = wp_statitiscs_empty_table($wpdb->prefix . 'statistics_useronline');
+					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_visit');
+					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_visitor');
+					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_exclusions');
+					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_pages');
+					$result_string .= '<br>' . wp_statitiscs_empty_table($wpdb->prefix . 'statistics_search');
 
 					echo $result_string;
 
-					break;
+				break;
 				default:
-					_e( 'Please select the desired items.', 'wp-statistics' );
+					_e('Please select the desired items.', 'wp-statistics');
 			}
 
 			$WP_Statistics->Primary_Values();
 
 		} else {
-			_e( 'Please select the desired items.', 'wp-statistics' );
+			_e('Please select the desired items.', 'wp-statistics');
 		}
 	} else {
-		_e( 'Access denied!', 'wp-statistics' );
+		_e('Access denied!', 'wp-statistics');
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_wp_statistics_empty_table', 'wp_statistics_empty_table_action_callback' );
+add_action('wp_ajax_wp_statistics_empty_table', 'wp_statistics_empty_table_action_callback');
 
 // Setup an AJAX action to purge old data in the optimization page.
 function wp_statistics_purge_data_action_callback() {
@@ -141,25 +148,25 @@ function wp_statistics_purge_data_action_callback() {
 
 	require( $WP_Statistics->plugin_dir . '/includes/functions/purge.php' );
 
-	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
+	$manage_cap = wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options'));
 
-	if ( current_user_can( $manage_cap ) ) {
+	if ( current_user_can($manage_cap) ) {
 		$purge_days = 0;
 
-		if ( array_key_exists( 'purge-days', $_POST ) ) {
+		if ( array_key_exists('purge-days', $_POST) ) {
 			// Get the number of days to purge data before.
-			$purge_days = intval( $_POST['purge-days'] );
+			$purge_days = intval($_POST['purge-days']);
 		}
 
-		echo wp_statistics_purge_data( $purge_days );
+		echo wp_statistics_purge_data($purge_days);
 	} else {
-		_e( 'Access denied!', 'wp-statistics' );
+		_e('Access denied!', 'wp-statistics');
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_wp_statistics_purge_data', 'wp_statistics_purge_data_action_callback' );
+add_action('wp_ajax_wp_statistics_purge_data', 'wp_statistics_purge_data_action_callback');
 
 // Setup an AJAX action to purge visitors with more than a defined number of hits.
 function wp_statistics_purge_visitor_hits_action_callback() {
@@ -167,29 +174,29 @@ function wp_statistics_purge_visitor_hits_action_callback() {
 
 	require( $WP_Statistics->plugin_dir . '/includes/functions/purge-hits.php' );
 
-	$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
+	$manage_cap = wp_statistics_validate_capability($WP_Statistics->get_option('manage_capability', 'manage_options'));
 
-	if ( current_user_can( $manage_cap ) ) {
+	if ( current_user_can($manage_cap) ) {
 		$purge_hits = 10;
 
-		if ( array_key_exists( 'purge-hits', $_POST ) ) {
+		if ( array_key_exists('purge-hits', $_POST) ) {
 			// Get the number of days to purge data before.
-			$purge_hits = intval( $_POST['purge-hits'] );
+			$purge_hits = intval($_POST['purge-hits']);
 		}
 
 		if ( $purge_hits < 10 ) {
-			_e( 'Number of hits must be greater than or equal to 10!', 'wp-statistics' );
+			_e('Number of hits must be greater than or equal to 10!', 'wp-statistics');
 		} else {
-			echo wp_statistics_purge_visitor_hits( $purge_hits );
+			echo wp_statistics_purge_visitor_hits($purge_hits);
 		}
 	} else {
-		_e( 'Access denied!', 'wp-statistics' );
+		_e('Access denied!', 'wp-statistics');
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_wp_statistics_purge_visitor_hits', 'wp_statistics_purge_visitor_hits_action_callback' );
+add_action('wp_ajax_wp_statistics_purge_visitor_hits', 'wp_statistics_purge_visitor_hits_action_callback');
 
 // Setup an AJAX action to purge visitors with more than a defined number of hits.
 function wp_statistics_get_widget_contents_callback() {
@@ -214,7 +221,7 @@ function wp_statistics_get_widget_contents_callback() {
 		'searched.phrases',
 	);
 
-	if ( array_key_exists( 'format', $_POST ) and $_POST['format'] == 'dashboard' ) {
+	if ( array_key_exists('format', $_POST) and $_POST['format'] == 'dashboard' ) {
 		$size = 220;
 		$days = 10;
 	} else {
@@ -222,15 +229,15 @@ function wp_statistics_get_widget_contents_callback() {
 		$days = 20;
 	}
 
-	$view_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) );
+	$view_cap = wp_statistics_validate_capability($WP_Statistics->get_option('read_capability', 'manage_options'));
 
-	if ( current_user_can( $view_cap ) ) {
+	if ( current_user_can($view_cap) ) {
 		$widget = '';
 
-		if ( array_key_exists( 'widget', $_POST ) ) {
+		if ( array_key_exists('widget', $_POST) ) {
 			// Get the widget we're going to display.
 
-			if ( in_array( $_POST['widget'], $widgets ) ) {
+			if ( in_array($_POST['widget'], $widgets) ) {
 				$widget = $_POST['widget'];
 			}
 		}
@@ -240,7 +247,7 @@ function wp_statistics_get_widget_contents_callback() {
 		}
 
 		if ( '' == $widget ) {
-			_e( 'No matching widget found!', 'wp-statistics' );
+			_e('No matching widget found!', 'wp-statistics');
 			wp_die();
 		}
 
@@ -251,90 +258,94 @@ function wp_statistics_get_widget_contents_callback() {
 
 		switch ( $widget ) {
 			case 'summary':
-				wp_statistics_generate_summary_postbox_content( $search_engines );
+				wp_statistics_generate_summary_postbox_content($search_engines);
 
-				break;
+			break;
 			case 'quickstats':
-				wp_statistics_generate_quickstats_postbox_content( $search_engines );
+				wp_statistics_generate_quickstats_postbox_content($search_engines);
 
-				break;
+			break;
 
 			case 'browsers':
 				wp_statistics_generate_browsers_postbox_content();
 
-				break;
+			break;
 			case 'referring':
 				wp_statistics_generate_referring_postbox_content();
 
-				break;
+			break;
 			case 'searched.phrases':
 				wp_statistics_generate_searched_phrases_postbox_content();
 
-				break;
+			break;
 			case 'countries':
-				wp_statistics_generate_countries_postbox_content( $ISOCountryCode );
+				wp_statistics_generate_countries_postbox_content($ISOCountryCode);
 
-				break;
+			break;
 			case 'jqv.map':
-				wp_statistics_generate_map_postbox_content( $ISOCountryCode );
+				wp_statistics_generate_map_postbox_content($ISOCountryCode);
 
-				break;
+			break;
 			case 'hits':
-				wp_statistics_generate_hits_postbox_content( $size, $days );
+				wp_statistics_generate_hits_postbox_content($size, $days);
 
-				break;
+			break;
 			case 'search':
-				wp_statistics_generate_search_postbox_content( $search_engines, $size, $days );
+				wp_statistics_generate_search_postbox_content($search_engines, $size, $days);
 
-				break;
+			break;
 			case 'words':
-				wp_statistics_generate_words_postbox_content( $ISOCountryCode );
+				wp_statistics_generate_words_postbox_content($ISOCountryCode);
 
-				break;
+			break;
 			case 'page':
-				_e( 'This feature temporarily disabled.', 'wp-statistics' );
+				_e('This feature temporarily disabled.', 'wp-statistics');
 
-				if ( array_key_exists( 'page-id', $_POST ) ) {
+				if ( array_key_exists('page-id', $_POST) ) {
 					$pageid = (int) $_POST['page-id'];
 					echo '&nbsp;';
-					echo sprintf( __( '%1$sClick here%2$s to see page stats.', 'wp-statistics' ), '<a href="admin.php?page=wps_pages_page&page-id=' . $pageid . '"', '</a>' );
+					echo sprintf(
+						__('%1$sClick here%2$s to see page stats.', 'wp-statistics'),
+						'<a href="admin.php?page=wps_pages_page&page-id=' . $pageid . '"',
+						'</a>'
+					);
 
 					// This feature temporarily disabled because there is conflicts.
 					//wp_statistics_generate_page_postbox_content( null, $pageid );
 				}
 
-				break;
+			break;
 			case 'pages':
 				list( $total, $uris ) = wp_statistics_get_top_pages();
-				wp_statistics_generate_pages_postbox_content( $total, $uris );
+				wp_statistics_generate_pages_postbox_content($total, $uris);
 
-				break;
+			break;
 			case 'recent':
-				wp_statistics_generate_recent_postbox_content( $ISOCountryCode );
+				wp_statistics_generate_recent_postbox_content($ISOCountryCode);
 
-				break;
+			break;
 			case 'top.visitors':
 				$format = null;
 
-				if ( array_key_exists( 'format', $_POST ) ) {
+				if ( array_key_exists('format', $_POST) ) {
 					$format = 'compact';
 				}
 
-				wp_statistics_generate_top_visitors_postbox_content( $ISOCountryCode, 'today', 10, $format );
+				wp_statistics_generate_top_visitors_postbox_content($ISOCountryCode, 'today', 10, $format);
 
-				break;
+			break;
 			case 'about':
-				wp_statistics_generate_about_postbox_content( $ISOCountryCode );
+				wp_statistics_generate_about_postbox_content($ISOCountryCode);
 
-				break;
+			break;
 			default:
-				_e( 'ERROR: Widget not found!', 'wp-statistics' );
+				_e('ERROR: Widget not found!', 'wp-statistics');
 		}
 	} else {
-		_e( 'Access denied!', 'wp-statistics' );
+		_e('Access denied!', 'wp-statistics');
 	}
 
 	wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_wp_statistics_get_widget_contents', 'wp_statistics_get_widget_contents_callback' );
+add_action('wp_ajax_wp_statistics_get_widget_contents', 'wp_statistics_get_widget_contents_callback');

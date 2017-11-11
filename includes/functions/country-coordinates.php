@@ -247,4 +247,3 @@ $CountryCoordinates["EH"] = array( "lat" => "24.5", "lng" => "-13" );
 $CountryCoordinates["YE"] = array( "lat" => "15", "lng" => "48" );
 $CountryCoordinates["ZM"] = array( "lat" => "-15", "lng" => "30" );
 $CountryCoordinates["ZW"] = array( "lat" => "-20", "lng" => "30" );
-?>

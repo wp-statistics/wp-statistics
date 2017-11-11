@@ -21,10 +21,10 @@ class GeoIPHits extends Hits {
 				$upload_dir = wp_upload_dir();
 
 				// Create a new Reader and point it to the database.
-				$reader = new Reader( $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb' );
+				$reader = new Reader($upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb');
 
 				// Look up the IP address
-				$record = $reader->country( $this->ip );
+				$record = $reader->country($this->ip);
 
 				// Get the location.
 				$location = $record->country->isoCode;
@@ -44,22 +44,27 @@ class GeoIPHits extends Hits {
 		// Check to see if we are excluded by the GeoIP rules.
 		if ( ! $this->exclusion_match ) {
 			// Grab the excluded/included countries lists, force the country codes to be in upper case to match what the GeoIP code uses.
-			$excluded_countries        = explode( "\n", strtoupper( str_replace( "\r\n", "\n", $this->get_option( 'excluded_countries' ) ) ) );
-			$included_countries_string = trim( strtoupper( str_replace( "\r\n", "\n", $this->get_option( 'included_countries' ) ) ) );
+			$excluded_countries        = explode(
+				"\n",
+				strtoupper(str_replace("\r\n", "\n", $this->get_option('excluded_countries')))
+			);
+			$included_countries_string = trim(
+				strtoupper(str_replace("\r\n", "\n", $this->get_option('included_countries')))
+			);
 
 			// We need to be really sure this isn't an empty string or explode will return an array with one entry instead of none.
 			if ( $included_countries_string == '' ) {
 				$included_countries = array();
 			} else {
-				$included_countries = explode( "\n", $included_countries_string );
+				$included_countries = explode("\n", $included_countries_string);
 			}
 
 			// Check to see if the current location is in the excluded countries list.
-			if ( in_array( $this->location, $excluded_countries ) ) {
+			if ( in_array($this->location, $excluded_countries) ) {
 				$this->exclusion_match  = true;
 				$this->exclusion_reason = "geoip";
 			} // Check to see if the current location is not the included countries list.
-			else if ( ! in_array( $this->location, $included_countries ) && count( $included_countries ) > 0 ) {
+			else if ( ! in_array($this->location, $included_countries) && count($included_countries) > 0 ) {
 				$this->exclusion_match  = true;
 				$this->exclusion_reason = "geoip";
 			}
