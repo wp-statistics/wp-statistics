@@ -293,6 +293,7 @@ This is a security fix, please update immediately.
 * Removed: Force English option feature in the plugin.
 * Improvement: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
 * Improvement: Export data on the optimization page.
+* Improvement: Constants, Includes and moved some functions to the class.
 
 = 12.1.3 =
 * We're sorry about last issues. Now you can update to new version to resolve conflict issues.

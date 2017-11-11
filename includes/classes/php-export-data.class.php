@@ -14,8 +14,8 @@ abstract class ExportData {
 	public $filename; // file mode: the output file name; browser mode: file name for download; string mode: not used
 
 	public function __construct( $exportTo = "browser", $filename = "exportdata" ) {
-		if ( ! in_array( $exportTo, array( 'browser', 'file', 'string' ) ) ) {
-			throw new Exception( "$exportTo is not a valid ExportData export type" );
+		if ( ! in_array($exportTo, array( 'browser', 'file', 'string' )) ) {
+			throw new Exception("$exportTo is not a valid ExportData export type");
 		}
 		$this->exportTo = $exportTo;
 		$this->filename = $filename;
@@ -26,39 +26,39 @@ abstract class ExportData {
 		switch ( $this->exportTo ) {
 			case 'browser':
 				$this->sendHttpHeaders();
-				break;
+			break;
 			case 'string':
 				$this->stringData = '';
-				break;
+			break;
 			case 'file':
-				$this->tempFilename = tempnam( sys_get_temp_dir(), 'exportdata' );
-				$this->tempFile     = fopen( $this->tempFilename, "w" );
-				break;
+				$this->tempFilename = tempnam(sys_get_temp_dir(), 'exportdata');
+				$this->tempFile     = fopen($this->tempFilename, "w");
+			break;
 		}
 
-		$this->write( $this->generateHeader() );
+		$this->write($this->generateHeader());
 	}
 
 	public function addRow( $row ) {
-		$this->write( $this->generateRow( $row ) );
+		$this->write($this->generateRow($row));
 	}
 
 	public function finalize() {
 
-		$this->write( $this->generateFooter() );
+		$this->write($this->generateFooter());
 
 		switch ( $this->exportTo ) {
 			case 'browser':
 				flush();
-				break;
+			break;
 			case 'string':
 				// do nothing
-				break;
+			break;
 			case 'file':
 				// close temp file and move it to correct location
-				fclose( $this->tempFile );
-				rename( $this->tempFilename, $this->filename );
-				break;
+				fclose($this->tempFile);
+				rename($this->tempFilename, $this->filename);
+			break;
 		}
 	}
 
@@ -72,13 +72,13 @@ abstract class ExportData {
 		switch ( $this->exportTo ) {
 			case 'browser':
 				echo $data;
-				break;
+			break;
 			case 'string':
 				$this->stringData .= $data;
-				break;
+			break;
 			case 'file':
-				fwrite( $this->tempFile, $data );
-				break;
+				fwrite($this->tempFile, $data);
+			break;
 		}
 	}
 
@@ -104,15 +104,15 @@ class ExportDataTSV extends ExportData {
 		foreach ( $row as $key => $value ) {
 			// Escape inner quotes and wrap all contents in new quotes.
 			// Note that we are using \" to escape double quote not ""
-			$row[ $key ] = '"' . str_replace( '"', '\"', $value ) . '"';
+			$row[ $key ] = '"' . str_replace('"', '\"', $value) . '"';
 		}
 
-		return implode( "\t", $row ) . "\n";
+		return implode("\t", $row) . "\n";
 	}
 
 	function sendHttpHeaders() {
-		header( "Content-type: text/tab-separated-values" );
-		header( "Content-Disposition: attachment; filename=" . basename( $this->filename ) );
+		header("Content-type: text/tab-separated-values");
+		header("Content-Disposition: attachment; filename=" . basename($this->filename));
 	}
 }
 
@@ -125,15 +125,15 @@ class ExportDataCSV extends ExportData {
 		foreach ( $row as $key => $value ) {
 			// Escape inner quotes and wrap all contents in new quotes.
 			// Note that we are using \" to escape double quote not ""
-			$row[ $key ] = '"' . str_replace( '"', '\"', $value ) . '"';
+			$row[ $key ] = '"' . str_replace('"', '\"', $value) . '"';
 		}
 
-		return implode( ",", $row ) . "\n";
+		return implode(",", $row) . "\n";
 	}
 
 	function sendHttpHeaders() {
-		header( "Content-type: text/csv" );
-		header( "Content-Disposition: attachment; filename=" . basename( $this->filename ) );
+		header("Content-type: text/csv");
+		header("Content-Disposition: attachment; filename=" . basename($this->filename));
 	}
 }
 
@@ -165,7 +165,7 @@ class ExportDataExcel extends ExportData {
 	function generateHeader() {
 
 		// workbook header
-		$output = stripslashes( sprintf( self::XmlHeader, $this->encoding ) ) . "\n";
+		$output = stripslashes(sprintf(self::XmlHeader, $this->encoding)) . "\n";
 
 		// Set up styles
 		$output .= "<Styles>\n";
@@ -173,7 +173,7 @@ class ExportDataExcel extends ExportData {
 		$output .= "</Styles>\n";
 
 		// worksheet header
-		$output .= sprintf( "<Worksheet ss:Name=\"%s\">\n    <Table>\n", htmlentities( $this->title ) );
+		$output .= sprintf("<Worksheet ss:Name=\"%s\">\n    <Table>\n", htmlentities($this->title));
 
 		return $output;
 	}
@@ -194,7 +194,7 @@ class ExportDataExcel extends ExportData {
 		$output = '';
 		$output .= "        <Row>\n";
 		foreach ( $row as $k => $v ) {
-			$output .= $this->generateCell( $v );
+			$output .= $this->generateCell($v);
 		}
 		$output .= "        </Row>\n";
 
@@ -207,7 +207,7 @@ class ExportDataExcel extends ExportData {
 
 		// Tell Excel to treat as a number. Note that Excel only stores roughly 15 digits, so keep 
 		// as text if number is longer than that.
-		if ( preg_match( "/^-?\d+(?:[.,]\d+)?$/", $item ) && ( strlen( $item ) < 15 ) ) {
+		if ( preg_match("/^-?\d+(?:[.,]\d+)?$/", $item) && ( strlen($item) < 15 ) ) {
 			$type = 'Number';
 		}
 		// Sniff for valid dates; should look something like 2010-07-14 or 7/14/2010 etc. Can
@@ -216,30 +216,30 @@ class ExportDataExcel extends ExportData {
 		// Note we want to be very strict in what we consider a date. There is the possibility
 		// of really screwing up the data if we try to reformat a string that was not actually 
 		// intended to represent a date.
-		elseif ( preg_match( "/^(\d{1,2}|\d{4})[\/\-]\d{1,2}[\/\-](\d{1,2}|\d{4})([^\d].+)?$/", $item ) &&
-		         ( $timestamp = strtotime( $item ) ) &&
+		elseif ( preg_match("/^(\d{1,2}|\d{4})[\/\-]\d{1,2}[\/\-](\d{1,2}|\d{4})([^\d].+)?$/", $item) &&
+		         ( $timestamp = strtotime($item) ) &&
 		         ( $timestamp > 0 ) &&
-		         ( $timestamp < strtotime( '+500 years' ) )
+		         ( $timestamp < strtotime('+500 years') )
 		) {
 			$type  = 'DateTime';
-			$item  = strftime( "%Y-%m-%dT%H:%M:%S", $timestamp );
+			$item  = strftime("%Y-%m-%dT%H:%M:%S", $timestamp);
 			$style = 'sDT'; // defined in header; tells excel to format date for display
 		} else {
 			$type = 'String';
 		}
 
-		$item   = str_replace( '&#039;', '&apos;', htmlspecialchars( $item, ENT_QUOTES ) );
+		$item = str_replace('&#039;', '&apos;', htmlspecialchars($item, ENT_QUOTES));
 		$output .= "            ";
 		$output .= $style ? "<Cell ss:StyleID=\"$style\">" : "<Cell>";
-		$output .= sprintf( "<Data ss:Type=\"%s\">%s</Data>", $type, $item );
+		$output .= sprintf("<Data ss:Type=\"%s\">%s</Data>", $type, $item);
 		$output .= "</Cell>\n";
 
 		return $output;
 	}
 
 	function sendHttpHeaders() {
-		header( "Content-Type: application/vnd.ms-excel; charset=" . $this->encoding );
-		header( "Content-Disposition: inline; filename=\"" . basename( $this->filename ) . "\"" );
+		header("Content-Type: application/vnd.ms-excel; charset=" . $this->encoding);
+		header("Content-Disposition: inline; filename=\"" . basename($this->filename) . "\"");
 	}
 
 }

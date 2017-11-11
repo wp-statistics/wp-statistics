@@ -4,7 +4,7 @@
 	
 	It is used in several places in the plugin and is therefore centralized here for ease of update.
 */
-$ISOCountryCode['000'] = _x( 'Unknown', 'Country', 'wp-statistics' );
+$ISOCountryCode['000'] = _x('Unknown', 'Country', 'wp-statistics');
 $ISOCountryCode['AF']  = "Afghanistan";
 $ISOCountryCode['AX']  = "Åland Islands";
 $ISOCountryCode['AL']  = "Albania";
@@ -285,4 +285,3 @@ $ISOCountryCode['YU']  = "Yugoslavia";
 $ISOCountryCode['ZR']  = "Zaire";
 $ISOCountryCode['ZM']  = "Zambia";
 $ISOCountryCode['ZW']  = "Zimbabwe";
-?>
