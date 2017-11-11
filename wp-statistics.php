@@ -26,10 +26,6 @@ namespace {
 	 */
 	define( 'WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_STATISTICS_REQUIRED_PHP_VERSION );
 	/**
-	 * WPS Export File Name
-	 */
-	define( 'WPS_EXPORT_FILE_NAME', 'wp-statistics' );
-	/**
 	 * Overview Page
 	 */
 	define( 'WP_STATISTICS_OVERVIEW_PAGE', 'wps_overview_page' );
@@ -70,7 +66,7 @@ namespace {
 	 */
 	define( 'WP_STATISTICS_TAGS_PAGE', 'wps_tags_page' );
 	/**
-	 * Referees Page
+	 * Referer Page
 	 */
 	define( 'WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page' );
 	/**
@@ -110,114 +106,18 @@ namespace {
 	 */
 	define( 'WP_STATISTICS_DONATE_PAGE', 'wps_donate_page' );
 	/**
-	 * Plugin Directory
+	 * Plugin URL
 	 */
-	define( 'WP_STATISTICS_PLUGIN_DIR', plugin_dir_url( __FILE__ ) );
-
+	define( 'WP_STATISTICS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 	/**
-	 * Load the init code.
+	 * Plugin DIR
 	 */
-	function wp_statistics_init() {
-
-		// Check to see if we're exporting data, if so, do so now.
-		// Note this will set the headers to download the export file and then stop running WordPress.
-		if ( array_key_exists( 'wps_export', $_POST ) ) {
-			include_once dirname( __FILE__ ) . '/includes/functions/export.php';
-			wp_statistics_export_data();
-		}
-	}
-
-	// Add init actions.
-	// For the main init we're going to set our priority to 9 to execute before most plugins
-	// so we can export data before and set the headers without
-	// worrying about bugs in other plugins that output text and don't allow us to set the headers.
-	add_action( 'init', 'wp_statistics_init', 9 );
-
-	/**
-	 * Unsupported Version Admin Notice
-	 */
-	function wp_statistics_unsupported_version_admin_notice() {
-
-		$screen = get_current_screen();
-
-		if ( 'plugins' !== $screen->id ) {
-			return;
-		}
-		?>
-        <div class="error">
-            <p style="max-width:800px;">
-                <b><?php _e( 'WP Statistics Disabled', 'wp-statistics' ); ?></b> <?php _e(
-					'&#151; You are running an unsupported version of PHP.', 'wp-statistics'
-				); ?>
-            </p>
-
-            <p style="max-width:800px;"><?php
-
-				echo sprintf(
-					__(
-						'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
-						'wp-statistics'
-					), phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION
-				);
-				echo '</p><p>';
-				echo __(
-					'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
-					'wp-statistics'
-				);
-				?></p>
-        </div>
-
-		<?php
-	}
-
-	// Check the PHP version,
-	// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-	if ( ! version_compare( phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=" ) ) {
-		add_action( 'admin_notices', 'wp_statistics_unsupported_version_admin_notice', 10, 2 );
-
-		return;
-	}
-
-	// If we've been flagged to remove all of the data, then do so now.
-	if ( get_option( 'wp_statistics_removal' ) == 'true' ) {
-		include_once( dirname( __FILE__ ) . '/wps-uninstall.php' );
-	}
-
-	/**
-	 * This adds a row after WP Statistics in the plugin page
-	 * IF we've been removed via the settings page.
-	 */
-	function wp_statistics_removal_admin_notice() {
-		$screen = get_current_screen();
-
-		if ( 'plugins' !== $screen->id ) {
-			return;
-		}
-
-		?>
-        <div class="error">
-            <p style="max-width:800px;"><?php
-
-				echo '<p>';
-				echo __( 'WP Statistics has been removed, please disable and delete it.', 'wp-statistics' );
-				echo '</p>';
-				?></p>
-        </div>
-
-		<?php
-	}
-
-	// If we've been removed, return without doing anything else.
-	if ( get_option( 'wp_statistics_removal' ) == 'done' ) {
-		add_action( 'admin_notices', 'wp_statistics_removal_admin_notice', 10, 2 );
-
-		return;
-	}
+	define( 'WP_STATISTICS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 	// Load the user agent parsing code first, the WP_Statistics class depends on it.
 	// Then load the WP_Statistics class.
-	include_once dirname( __FILE__ ) . '/vendor/donatj/phpuseragentparser/Source/UserAgentParser.php';
-	include_once dirname( __FILE__ ) . '/includes/classes/statistics.class.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'vendor/donatj/phpuseragentparser/Source/UserAgentParser.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/classes/statistics.class.php';
 
 	// This is our global WP_Statistics class that is used throughout the plugin.
 	GLOBAL $WP_Statistics;
@@ -226,29 +126,29 @@ namespace {
 	// Check to see if we're installed and are the current version.
 	$WPS_Installed = get_option( 'wp_statistics_plugin_version' );
 	if ( $WPS_Installed != WP_STATISTICS_VERSION ) {
-		include_once( dirname( __FILE__ ) . '/wps-install.php' );
+		include_once( WP_STATISTICS_PLUGIN_DIR . 'wps-install.php' );
 	}
 
 	// Load the update functions for GeoIP and browscap.ini
 	// (done in a separate file to avoid a parse error in PHP 5.2 or below)
-	include_once dirname( __FILE__ ) . '/wps-updates.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'wps-updates.php';
 
 	// Load the rest of the required files for our global functions, online user tracking and hit tracking.
-	include_once dirname( __FILE__ ) . '/includes/functions/functions.php';
-	include_once dirname( __FILE__ ) . '/includes/classes/hits.class.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/functions.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/classes/hits.class.php';
 
 	// If GeoIP is enabled and supported, extend the hits class to record the GeoIP information.
 	if ( $WP_Statistics->get_option( 'geoip' ) && wp_statistics_geoip_supported() ) {
-		include_once dirname( __FILE__ ) . '/includes/classes/hits.geoip.class.php';
+		include_once WP_STATISTICS_PLUGIN_DIR . 'includes/classes/hits.geoip.class.php';
 	}
 
 	// Finally load the widget, dashboard, shortcode and scheduled events.
-	include_once dirname( __FILE__ ) . '/widget.php';
-	include_once dirname( __FILE__ ) . '/dashboard.php';
-	include_once dirname( __FILE__ ) . '/editor.php';
-	include_once dirname( __FILE__ ) . '/shortcode.php';
-	include_once dirname( __FILE__ ) . '/schedule.php';
-	include_once dirname( __FILE__ ) . '/ajax.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'widget.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'dashboard.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'editor.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'shortcode.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'schedule.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'ajax.php';
 
 	/**
 	 * This function outputs error messages in the admin interface
@@ -475,8 +375,8 @@ namespace {
 		if ( current_user_can( $manage_cap ) ) {
 			array_unshift(
 				$links, '<a href="' . admin_url( 'admin.php?page=' . WP_STATISTICS_SETTINGS_PAGE ) . '">' . __(
-					'Settings', 'wp-statistics'
-				) . '</a>'
+					      'Settings', 'wp-statistics'
+				      ) . '</a>'
 			);
 		}
 
@@ -752,13 +652,13 @@ namespace {
 		);
 		$WP_Statistics->menu_slugs['plugins']  = add_submenu_page(
 			WP_STATISTICS_OVERVIEW_PAGE, __( 'Add-Ons', 'wp-statistics' ), '<span style="color:#dc6b26">' . __(
-				'Add-Ons', 'wp-statistics'
-			) . '</span>', $read_cap, WP_STATISTICS_PLUGINS_PAGE, 'wp_statistics_plugins'
+				                           'Add-Ons', 'wp-statistics'
+			                           ) . '</span>', $read_cap, WP_STATISTICS_PLUGINS_PAGE, 'wp_statistics_plugins'
 		);
 		$WP_Statistics->menu_slugs['donate']   = add_submenu_page(
 			WP_STATISTICS_OVERVIEW_PAGE, __( 'Donate', 'wp-statistics' ), '<span style="color:#459605">' . __(
-				'Donate', 'wp-statistics'
-			) . '</span>', $read_cap, WP_STATISTICS_DONATE_PAGE, 'wp_statistics_donate'
+				                           'Donate', 'wp-statistics'
+			                           ) . '</span>', $read_cap, WP_STATISTICS_DONATE_PAGE, 'wp_statistics_donate'
 		);
 
 		// Add action to load the meta boxes to the overview page.
@@ -908,18 +808,18 @@ namespace {
 		GLOBAL $WP_Statistics;
 
 		?>
-        <div id="wrap">
-            <br>
+		<div id="wrap">
+			<br>
 
-            <table class="widefat wp-list-table" style="width: auto;">
-                <thead>
-                <tr>
-                    <th style='text-align: left'><?php _e( 'Site', 'wp-statistics' ); ?></th>
-                    <th style='text-align: left'><?php _e( 'Options', 'wp-statistics' ); ?></th>
-                </tr>
-                </thead>
+			<table class="widefat wp-list-table" style="width: auto;">
+				<thead>
+				<tr>
+					<th style='text-align: left'><?php _e( 'Site', 'wp-statistics' ); ?></th>
+					<th style='text-align: left'><?php _e( 'Options', 'wp-statistics' ); ?></th>
+				</tr>
+				</thead>
 
-                <tbody>
+				<tbody>
 				<?php
 				$i = 0;
 
@@ -953,11 +853,11 @@ namespace {
 					}
 					?>
 
-                    <tr<?php echo $alternate; ?>>
-                        <td style='text-align: left'>
+					<tr<?php echo $alternate; ?>>
+						<td style='text-align: left'>
 							<?php echo $details->blogname; ?>
-                        </td>
-                        <td style='text-align: left'>
+						</td>
+						<td style='text-align: left'>
 							<?php
 							$options_len = count( $options );
 							$j           = 0;
@@ -970,15 +870,15 @@ namespace {
 								}
 							}
 							?>
-                        </td>
-                    </tr>
+						</td>
+					</tr>
 					<?php
 					$i ++;
 				}
 				?>
-                </tbody>
-            </table>
-        </div>
+				</tbody>
+			</table>
+		</div>
 		<?php
 	}
 
@@ -1488,7 +1388,10 @@ namespace {
 				$load_in_footer = false;
 			}
 
-			wp_enqueue_script( 'wp-statistics-chart-js', WP_STATISTICS_PLUGIN_DIR . 'assets/js/Chart.bundle.min.js', false, '2.7.0', $load_in_footer );
+			wp_enqueue_script(
+				'wp-statistics-chart-js', WP_STATISTICS_PLUGIN_URL . 'assets/js/Chart.bundle.min.js', false,
+				'2.7.0', $load_in_footer
+			);
 		}
 	}
 

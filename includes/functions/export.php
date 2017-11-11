@@ -25,7 +25,7 @@ function wp_statistics_export_data() {
 
 		if ( $table && $type ) {
 			require( $WP_Statistics->plugin_dir . '/includes/classes/php-export-data.class.php' );
-			$file_name = WPS_EXPORT_FILE_NAME . '-' . $WP_Statistics->Current_Date( 'Y-m-d-H-i' );
+			$file_name = 'wp-statistics' . '-' . $WP_Statistics->Current_Date( 'Y-m-d-H-i' );
 
 			switch ( $type ) {
 				case 'xml':
