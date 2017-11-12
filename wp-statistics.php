@@ -114,10 +114,7 @@ namespace {
 	 */
 	define('WP_STATISTICS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
-	// Load the user agent parsing code first, the WP_Statistics class depends on it.
-	// Then load the WP_Statistics class.
-	include_once WP_STATISTICS_PLUGIN_DIR . 'vendor/donatj/phpuseragentparser/Source/UserAgentParser.php';
-	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/classes/statistics.class.php';
+	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/classes/class-wp-statistics.php';
 
 	// This is our global WP_Statistics class that is used throughout the plugin.
 	GLOBAL $WP_Statistics;
@@ -135,12 +132,6 @@ namespace {
 
 	// Load the rest of the required files for our global functions, online user tracking and hit tracking.
 	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/functions.php';
-	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/classes/hits.class.php';
-
-	// If GeoIP is enabled and supported, extend the hits class to record the GeoIP information.
-	if ( $WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported() ) {
-		include_once WP_STATISTICS_PLUGIN_DIR . 'includes/classes/hits.geoip.class.php';
-	}
 
 	// Finally load the widget, dashboard, shortcode and scheduled events.
 	include_once WP_STATISTICS_PLUGIN_DIR . 'widget.php';
@@ -297,9 +288,9 @@ namespace {
 			return;
 		}
 
-		// Create a new hit class, if we're GeoIP enabled, use GeoIPHits().
-		if ( class_exists('GeoIPHits') ) {
-			$h = new GeoIPHits();
+		// Create a new hit class, if we're GeoIP enabled, use GEO_IP_Hits().
+		if ( class_exists('GEO_IP_Hits') ) {
+			$h = new GEO_IP_Hits();
 		} else {
 			$h = new Hits();
 		}
@@ -1385,9 +1376,6 @@ namespace {
 			wp_enqueue_style('wpstatistics-rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
 		}
 
-		// Load the pagination code.
-		include_once dirname(__FILE__) . '/includes/classes/pagination.class.php';
-
 		// The different pages have different files to load.
 		switch ( $log_type ) {
 			case 'all-browsers':
@@ -1482,7 +1470,7 @@ namespace {
 		// Load our JS to be used.
 		wp_enqueue_script(
 			'wp-statistics-admin-js',
-			WP_STATISTICS_PLUGIN_DIR . 'assets/js/admin.js',
+			WP_STATISTICS_PLUGIN_URL . 'assets/js/admin.js',
 			array( 'jquery' ),
 			'1.0'
 		);
@@ -1532,7 +1520,7 @@ namespace {
 		// Load our JS to be used.
 		wp_enqueue_script(
 			'wp-statistics-admin-js',
-			WP_STATISTICS_PLUGIN_DIR . 'assets/js/admin.js',
+			WP_STATISTICS_PLUGIN_URL . 'assets/js/admin.js',
 			array( 'jquery' ),
 			'1.0'
 		);

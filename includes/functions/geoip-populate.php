@@ -5,8 +5,6 @@
 	It is used in two different parts of the plugin; when a user manual requests the update to happen and after a new GeoIP database has been download (if the option is selected).
 */
 
-// Include the MaxMind library and use it.
-include_once( plugin_dir_path(__FILE__) . '../../vendor/autoload.php' );
 use GeoIp2\Database\Reader;
 
 // This function does all the work.

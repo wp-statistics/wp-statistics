@@ -1,6 +1,11 @@
 {
   "require": {
     "geoip2/geoip2": "2.*",
-    "s1lentium/iptools": "*"
+    "s1lentium/iptools": "*",
+    "donatj/phpuseragentparser": "*",
+    "garetjax/phpbrowscap": "*"
+  },
+  "config": {
+    "vendor-dir": "includes/vendor"
   }
 }
