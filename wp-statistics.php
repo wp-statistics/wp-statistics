@@ -20,7 +20,7 @@ namespace {
 	/**
 	 * Required PHP Version
 	 */
-	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
+	define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.6.0');
 	/**
 	 * Required GEO IP PHP Version
 	 */
