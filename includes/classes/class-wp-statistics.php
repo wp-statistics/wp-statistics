@@ -111,7 +111,7 @@ namespace {
 			// Check to see if we're installed and are the current version.
 			$this->installed_version = get_option('wp_statistics_plugin_version');
 			if ( $this->installed_version != WP_STATISTICS_VERSION ) {
-				new \WP_Statistics_Install();
+				new \WP_Statistics_Install($this);
 			}
 
 		}

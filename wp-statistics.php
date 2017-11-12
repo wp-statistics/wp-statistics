@@ -120,10 +120,6 @@ namespace {
 	GLOBAL $WP_Statistics;
 	$WP_Statistics = new WP_Statistics();
 
-	// Load the update functions for GeoIP and browscap.ini
-	// (done in a separate file to avoid a parse error in PHP 5.2 or below)
-	include_once WP_STATISTICS_PLUGIN_DIR . 'wps-updates.php';
-
 	// Load the rest of the required files for our global functions, online user tracking and hit tracking.
 	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/functions.php';
 
@@ -311,17 +307,17 @@ namespace {
 
 		// Check to see if the GeoIP database needs to be downloaded and do so if required.
 		if ( $WP_Statistics->get_option('update_geoip') ) {
-			wp_statistics_download_geoip();
+			WP_Statistics_Updates::download_geoip();
 		}
 
 		// Check to see if the browscap database needs to be downloaded and do so if required.
 		if ( $WP_Statistics->get_option('update_browscap') ) {
-			wp_statistics_download_browscap();
+			WP_Statistics_Updates::download_browscap();
 		}
 
 		// Check to see if the referrerspam database needs to be downloaded and do so if required.
 		if ( $WP_Statistics->get_option('update_referrerspam') ) {
-			wp_statistics_download_referrerspam();
+			WP_Statistics_Updates::download_referrerspam();
 		}
 
 		if ( $WP_Statistics->get_option('send_upgrade_email') ) {
@@ -1529,7 +1525,7 @@ namespace {
 		// We could let the download happen at the end of the page, but this way we get to give some
 		// feedback to the users about the result.
 		if ( $WP_Statistics->get_option('update_geoip') == true ) {
-			echo wp_statistics_download_geoip();
+			echo WP_Statistics_Updates::download_geoip();
 		}
 
 		include_once dirname(__FILE__) . "/includes/settings/wps-settings.php";
