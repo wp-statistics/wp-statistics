@@ -2,8 +2,6 @@
 if ( is_admin() ) {
 	GLOBAL $wpdb, $WP_Statistics;
 
-	include_once dirname(__FILE__) . '/includes/classes/class-wp-statistics.php';
-
 	$WP_Statistics = new WP_Statistics();
 
 	// Handle multi site implementations
