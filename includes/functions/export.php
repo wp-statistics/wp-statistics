@@ -35,7 +35,7 @@ function wp_statistics_export_data() {
 		}
 
 		if ( $table && $type ) {
-			require( $WP_Statistics->plugin_dir . '/includes/github/elidickinson/php-export-data/php-export-data.class.php' );
+			require( WP_STATISTICS_PLUGIN_DIR . 'includes/github/elidickinson/php-export-data/php-export-data.class.php' );
 			
 			$file_name = 'wp-statistics' . '-' . $WP_Statistics->Current_Date('Y-m-d-H-i');
 

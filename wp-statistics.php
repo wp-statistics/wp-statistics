@@ -109,6 +109,7 @@ namespace {
 	 * Plugin URL
 	 */
 	define('WP_STATISTICS_PLUGIN_URL', plugin_dir_url(__FILE__));
+
 	/**
 	 * Plugin DIR
 	 */
@@ -121,7 +122,6 @@ namespace {
 	$WP_Statistics = new WP_Statistics();
 
 	// Finally load the widget, dashboard, shortcode and scheduled events.
-	include_once WP_STATISTICS_PLUGIN_DIR . 'dashboard.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'editor.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'shortcode.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'schedule.php';
@@ -1040,7 +1040,7 @@ namespace {
 	 */
 	function wp_statistics_plugins() {
 		// Load our CSS to be used.
-		wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin.css', true, '1.1');
+		wp_enqueue_style('wpstatistics-admin-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/admin.css', true, '1.1');
 
 		// Activate or deactivate the selected plugin
 		if ( isset( $_GET['action'] ) ) {
@@ -1125,7 +1125,7 @@ namespace {
 				$wp_admin_bar->add_menu(
 					array(
 						'id'    => 'wp-statistic-menu',
-						'title' => '<img src="' . plugin_dir_url(__FILE__) . '/assets/images/icon.png"/>',
+						'title' => '<img src="' . WP_STATISTICS_PLUGIN_URL . 'assets/images/icon.png"/>',
 						'href'  => $AdminURL . 'admin.php?page=' . WP_STATISTICS_OVERVIEW_PAGE,
 					)
 				);
@@ -1349,17 +1349,17 @@ namespace {
 		wp_enqueue_script('postbox');
 
 		// Load the css we use for the statistics pages.
-		wp_enqueue_style('wpstatistics-log-css', plugin_dir_url(__FILE__) . 'assets/css/log.css', true, '1.2');
+		wp_enqueue_style('wpstatistics-log-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/log.css', true, '1.2');
 		wp_enqueue_style(
 			'wpstatistics-pagination-css',
-			plugin_dir_url(__FILE__) . 'assets/css/pagination.css',
+			WP_STATISTICS_PLUGIN_URL . 'assets/css/pagination.css',
 			true,
 			'1.0'
 		);
 
 		// Don't forget the right to left support.
 		if ( is_rtl() ) {
-			wp_enqueue_style('wpstatistics-rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
+			wp_enqueue_style('wpstatistics-rtl-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/rtl.css', true, '1.1');
 		}
 
 		// The different pages have different files to load.
@@ -1404,25 +1404,25 @@ namespace {
 			default:
 				wp_enqueue_style(
 					'wpstatistics-jqvmap-css',
-					plugin_dir_url(__FILE__) . 'assets/jqvmap/jqvmap.css',
+					WP_STATISTICS_PLUGIN_URL . 'assets/jqvmap/jqvmap.css',
 					true,
 					'1.5.1'
 				);
 				wp_enqueue_script(
 					'wpstatistics-jquery-vmap',
-					plugin_dir_url(__FILE__) . 'assets/jqvmap/jquery.vmap.js',
+					WP_STATISTICS_PLUGIN_URL . 'assets/jqvmap/jquery.vmap.js',
 					true,
 					'1.5.1'
 				);
 				wp_enqueue_script(
 					'wpstatistics-jquery-vmap-world',
-					plugin_dir_url(__FILE__) . 'assets/jqvmap/maps/jquery.vmap.world.js',
+					WP_STATISTICS_PLUGIN_URL . 'assets/jqvmap/maps/jquery.vmap.world.js',
 					true,
 					'1.5.1'
 				);
 
 				// Load our custom widgets handling javascript.
-				wp_enqueue_script('wp_statistics_log', plugin_dir_url(__FILE__) . 'assets/js/log.js');
+				wp_enqueue_script('wp_statistics_log', WP_STATISTICS_PLUGIN_URL . 'assets/js/log.js');
 
 				include_once dirname(__FILE__) . '/includes/log/log.php';
 
@@ -1462,10 +1462,10 @@ namespace {
 		);
 
 		// Load our CSS to be used.
-		wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin.css', true, '1.1');
+		wp_enqueue_style('wpstatistics-admin-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/admin.css', true, '1.1');
 
 		if ( is_rtl() ) {
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
+			wp_enqueue_style('rtl-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/rtl.css', true, '1.1');
 		}
 
 		// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.
@@ -1512,10 +1512,10 @@ namespace {
 		);
 
 		// Load our CSS to be used.
-		wp_enqueue_style('wpstatistics-admin-css', plugin_dir_url(__FILE__) . 'assets/css/admin.css', true, '1.1');
+		wp_enqueue_style('wpstatistics-admin-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/admin.css', true, '1.1');
 
 		if ( is_rtl() ) {
-			wp_enqueue_style('rtl-css', plugin_dir_url(__FILE__) . 'assets/css/rtl.css', true, '1.1');
+			wp_enqueue_style('rtl-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/rtl.css', true, '1.1');
 		}
 
 		// We could let the download happen at the end of the page, but this way we get to give some

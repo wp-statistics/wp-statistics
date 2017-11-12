@@ -1177,7 +1177,7 @@ function wp_statistics_date_range_selector(
 	wp_enqueue_script('jquery-ui-datepicker');
 	wp_register_style(
 		'jquery-ui-smoothness-css',
-		$WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness.min.css'
+		WP_STATISTICS_PLUGIN_URL . 'assets/css/jquery-ui-smoothness.min.css'
 	);
 	wp_enqueue_style('jquery-ui-smoothness-css');
 
@@ -1389,3 +1389,4 @@ function wp_statistics_generate_rgba_color( $num, $opacity = '1' ) {
 		$opacity
 	);
 }
+

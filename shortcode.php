@@ -135,7 +135,7 @@ function wp_statistics_shortcake() {
 
 				// Icon/image for shortcode. Optional. src or dashicons-$icon. Defaults to carrot.
 				'listItemImage' => '<img src="' .
-				                   plugin_dir_url(__FILE__) .
+				                   WP_STATISTICS_PLUGIN_URL .
 				                   'assets/images/logo-250.png" width="128" height="128">',
 
 				// Available shortcode attributes and default values. Required. Array.
