@@ -1,0 +1,374 @@
+[
+    {
+        "name": "composer/ca-bundle",
+        "version": "1.0.8",
+        "version_normalized": "1.0.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/ca-bundle.git",
+            "reference": "9dd73a03951357922d8aee6cc084500de93e2343"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9dd73a03951357922d8aee6cc084500de93e2343",
+            "reference": "9dd73a03951357922d8aee6cc084500de93e2343",
+            "shasum": ""
+        },
+        "require": {
+            "ext-openssl": "*",
+            "ext-pcre": "*",
+            "php": "^5.3.2 || ^7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.5",
+            "psr/log": "^1.0",
+            "symfony/process": "^2.5 || ^3.0"
+        },
+        "suggest": {
+            "symfony/process": "This is necessary to reliably check whether openssl_x509_parse is vulnerable on older php versions, but can be ignored on PHP 5.5.6+"
+        },
+        "time": "2017-09-11T07:24:36+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\CaBundle\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jordi Boggiano",
+                "email": "j.boggiano@seld.be",
+                "homepage": "http://seld.be"
+            }
+        ],
+        "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+        "keywords": [
+            "cabundle",
+            "cacert",
+            "certificate",
+            "ssl",
+            "tls"
+        ]
+    },
+    {
+        "name": "maxmind/web-service-common",
+        "version": "v0.4.0",
+        "version_normalized": "0.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/maxmind/web-service-common-php.git",
+            "reference": "622f7c732a7f9c4c62497fc103939e042b6bdb88"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/maxmind/web-service-common-php/zipball/622f7c732a7f9c4c62497fc103939e042b6bdb88",
+            "reference": "622f7c732a7f9c4c62497fc103939e042b6bdb88",
+            "shasum": ""
+        },
+        "require": {
+            "composer/ca-bundle": "^1.0.3",
+            "ext-curl": "*",
+            "ext-json": "*",
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "2.*",
+            "phpunit/phpunit": "4.*",
+            "squizlabs/php_codesniffer": "3.*"
+        },
+        "time": "2017-07-06T17:48:21+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "MaxMind\\Exception\\": "src/Exception",
+                "MaxMind\\WebService\\": "src/WebService"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Gregory Oschwald",
+                "email": "goschwald@maxmind.com"
+            }
+        ],
+        "description": "Internal MaxMind Web Service API",
+        "homepage": "https://github.com/maxmind/web-service-common-php"
+    },
+    {
+        "name": "maxmind-db/reader",
+        "version": "v1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
+            "reference": "1647820dfbcb552222fb5feb3a8387e2636394c9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/1647820dfbcb552222fb5feb3a8387e2636394c9",
+            "reference": "1647820dfbcb552222fb5feb3a8387e2636394c9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "2.*",
+            "phpunit/phpunit": "4.*",
+            "satooshi/php-coveralls": "1.0.*",
+            "squizlabs/php_codesniffer": "3.*"
+        },
+        "suggest": {
+            "ext-bcmath": "bcmath or gmp is required for decoding larger integers with the pure PHP decoder",
+            "ext-gmp": "bcmath or gmp is required for decoding larger integers with the pure PHP decoder",
+            "ext-maxminddb": "A C-based database decoder that provides significantly faster lookups"
+        },
+        "time": "2017-10-27T19:15:33+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "MaxMind\\Db\\": "src/MaxMind/Db"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Gregory J. Oschwald",
+                "email": "goschwald@maxmind.com",
+                "homepage": "http://www.maxmind.com/"
+            }
+        ],
+        "description": "MaxMind DB Reader API",
+        "homepage": "https://github.com/maxmind/MaxMind-DB-Reader-php",
+        "keywords": [
+            "database",
+            "geoip",
+            "geoip2",
+            "geolocation",
+            "maxmind"
+        ]
+    },
+    {
+        "name": "geoip2/geoip2",
+        "version": "v2.7.0",
+        "version_normalized": "2.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/maxmind/GeoIP2-php.git",
+            "reference": "ca9f9a244474d97eac1ef542aaced7cc944bafbe"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/ca9f9a244474d97eac1ef542aaced7cc944bafbe",
+            "reference": "ca9f9a244474d97eac1ef542aaced7cc944bafbe",
+            "shasum": ""
+        },
+        "require": {
+            "maxmind-db/reader": "~1.0",
+            "maxmind/web-service-common": "~0.4",
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "apigen/apigen": "*",
+            "friendsofphp/php-cs-fixer": "2.*",
+            "phpunit/phpunit": "4.*",
+            "squizlabs/php_codesniffer": "3.*"
+        },
+        "time": "2017-10-27T19:20:22+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GeoIp2\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Gregory J. Oschwald",
+                "email": "goschwald@maxmind.com",
+                "homepage": "http://www.maxmind.com/"
+            }
+        ],
+        "description": "MaxMind GeoIP2 PHP API",
+        "homepage": "https://github.com/maxmind/GeoIP2-php",
+        "keywords": [
+            "IP",
+            "geoip",
+            "geoip2",
+            "geolocation",
+            "maxmind"
+        ]
+    },
+    {
+        "name": "s1lentium/iptools",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/S1lentium/IPTools.git",
+            "reference": "cb4843d4077872643b5d38d18b8591b4aaf605ea"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/S1lentium/IPTools/zipball/cb4843d4077872643b5d38d18b8591b4aaf605ea",
+            "reference": "cb4843d4077872643b5d38d18b8591b4aaf605ea",
+            "shasum": ""
+        },
+        "require": {
+            "ext-bcmath": "*",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "satooshi/php-coveralls": "~1.0"
+        },
+        "time": "2016-08-21T15:57:09+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "IPTools\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Safarov Alisher",
+                "email": "alisher.safarov@outlook.com",
+                "homepage": "https://github.com/S1lentium"
+            }
+        ],
+        "description": "PHP Library for manipulating network addresses (IPv4 and IPv6)",
+        "keywords": [
+            "IP",
+            "IP-Tools",
+            "cidr",
+            "ipv4",
+            "ipv6",
+            "network",
+            "subnet"
+        ]
+    },
+    {
+        "name": "donatj/phpuseragentparser",
+        "version": "v0.9.0",
+        "version_normalized": "0.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/donatj/PhpUserAgent.git",
+            "reference": "ea79de6a18e52285e62cd75cf1cebe276ecaf503"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/donatj/PhpUserAgent/zipball/ea79de6a18e52285e62cd75cf1cebe276ecaf503",
+            "reference": "ea79de6a18e52285e62cd75cf1cebe276ecaf503",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "camspiers/json-pretty": "0.1.*",
+            "donatj/drop": "*",
+            "phpunit/phpunit": "~4.8"
+        },
+        "time": "2017-10-23T16:52:52+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "Source/UserAgentParser.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jesse G. Donat",
+                "email": "donatj@gmail.com",
+                "homepage": "http://donatstudios.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Simple, streamlined PHP user-agent parser",
+        "homepage": "http://donatstudios.com/PHP-Parser-HTTP_USER_AGENT",
+        "keywords": [
+            "browser",
+            "browser detection",
+            "parser",
+            "user agent",
+            "useragent"
+        ]
+    },
+    {
+        "name": "garetjax/phpbrowscap",
+        "version": "2.0",
+        "version_normalized": "2.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/GaretJax/phpbrowscap.git",
+            "reference": "ed661716d0d9158bac6ab3b074b18b70f8d18bef"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/GaretJax/phpbrowscap/zipball/ed661716d0d9158bac6ab3b074b18b70f8d18bef",
+            "reference": "ed661716d0d9158bac6ab3b074b18b70f8d18bef",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-02-04T09:18:51+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "phpbrowscap": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT License"
+        ],
+        "authors": [
+            {
+                "name": "Jonathan Stoppani",
+                "email": "jonathan.stoppani@gmail.com"
+            }
+        ],
+        "description": "Standalone replacement for php's native get_browser() function",
+        "homepage": "http://github.com/GaretJax/phpbrowscap",
+        "keywords": [
+            "browser",
+            "capabilities",
+            "get_browser",
+            "user agent"
+        ]
+    }
+]
