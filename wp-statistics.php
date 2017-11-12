@@ -654,16 +654,6 @@ namespace {
 			);
 		}
 		if ( $WP_Statistics->get_option('visitors') ) {
-			$WP_Statistics->menu_slugs['searched.phrases'] = add_submenu_page(
-				WP_STATISTICS_OVERVIEW_PAGE,
-				__('Searched Phrases', 'wp-statistics'),
-				__('Searched Phrases', 'wp-statistics'),
-				$read_cap,
-				WP_STATISTICS_SEARCHED_PHRASES_PAGE,
-				'wp_statistics_log'
-			);
-		}
-		if ( $WP_Statistics->get_option('visitors') ) {
 			$WP_Statistics->menu_slugs['searches'] = add_submenu_page(
 				WP_STATISTICS_OVERVIEW_PAGE,
 				__('Search Engines', 'wp-statistics'),
@@ -680,6 +670,16 @@ namespace {
 				__('Search Words', 'wp-statistics'),
 				$read_cap,
 				WP_STATISTICS_WORDS_PAGE,
+				'wp_statistics_log'
+			);
+		}
+		if ( $WP_Statistics->get_option('visitors') ) {
+			$WP_Statistics->menu_slugs['searched.phrases'] = add_submenu_page(
+				WP_STATISTICS_OVERVIEW_PAGE,
+				__('Top Search Words', 'wp-statistics'),
+				__('Top Search Words', 'wp-statistics'),
+				$read_cap,
+				WP_STATISTICS_SEARCHED_PHRASES_PAGE,
 				'wp_statistics_log'
 			);
 		}
