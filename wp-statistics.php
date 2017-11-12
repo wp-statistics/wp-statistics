@@ -120,11 +120,7 @@ namespace {
 	GLOBAL $WP_Statistics;
 	$WP_Statistics = new WP_Statistics();
 
-	// Load the rest of the required files for our global functions, online user tracking and hit tracking.
-	include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/functions.php';
-
 	// Finally load the widget, dashboard, shortcode and scheduled events.
-	include_once WP_STATISTICS_PLUGIN_DIR . 'widget.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'dashboard.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'editor.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'shortcode.php';

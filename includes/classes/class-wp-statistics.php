@@ -50,12 +50,12 @@ namespace {
 			// For the main init we're going to set our priority to 9 to execute before most plugins
 			// so we can export data before and set the headers without
 			// worrying about bugs in other plugins that output text and don't allow us to set the headers.
-			add_action('init', array( $this, 'wp_statistics_init' ), 9);
+			add_action('init', array( $this, 'init' ), 9);
 
 			// Check the PHP version,
 			// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
 			if ( ! version_compare(phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=") ) {
-				add_action('admin_notices', array( $this, 'wp_statistics_unsupported_version_admin_notice' ), 10, 2);
+				add_action('admin_notices', array( $this, 'unsupported_version_admin_notice' ), 10, 2);
 
 				return;
 			}
@@ -67,7 +67,7 @@ namespace {
 
 			// If we've been removed, return without doing anything else.
 			if ( get_option('wp_statistics_removal') == 'done' ) {
-				add_action('admin_notices', array( $this, 'wp_statistics_removal_admin_notice' ), 10, 2);
+				add_action('admin_notices', array( $this, 'removal_admin_notice' ), 10, 2);
 
 				return;
 			}
@@ -114,6 +114,11 @@ namespace {
 				new \WP_Statistics_Install($this);
 			}
 
+			// Load the rest of the required files for our global functions, online user tracking and hit tracking.
+			include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/functions.php';
+
+			add_action('widgets_init', array( $this, 'widget' ));
+
 		}
 
 		/**
@@ -130,9 +135,9 @@ namespace {
 		}
 
 		/**
-		 * Load the init code.
+		 * Loads the init code.
 		 */
-		public function wp_statistics_init() {
+		public function init() {
 			// Check to see if we're exporting data, if so, do so now.
 			// Note this will set the headers to download the export file and then stop running WordPress.
 			if ( array_key_exists('wps_export', $_POST) ) {
@@ -142,9 +147,16 @@ namespace {
 		}
 
 		/**
+		 * Registers Widget
+		 */
+		public function widget() {
+			register_widget('WP_Statistics_Widget');
+		}
+
+		/**
 		 * Unsupported Version Admin Notice
 		 */
-		public function wp_statistics_unsupported_version_admin_notice() {
+		public function unsupported_version_admin_notice() {
 
 			$screen = get_current_screen();
 
@@ -188,7 +200,7 @@ namespace {
 		 * This adds a row after WP Statistics in the plugin page
 		 * IF we've been removed via the settings page.
 		 */
-		public function wp_statistics_removal_admin_notice() {
+		public function removal_admin_notice() {
 			$screen = get_current_screen();
 
 			if ( 'plugins' !== $screen->id ) {
