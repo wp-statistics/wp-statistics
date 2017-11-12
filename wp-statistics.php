@@ -120,12 +120,6 @@ namespace {
 	GLOBAL $WP_Statistics;
 	$WP_Statistics = new WP_Statistics();
 
-	// Check to see if we're installed and are the current version.
-	$WPS_Installed = get_option('wp_statistics_plugin_version');
-	if ( $WPS_Installed != WP_STATISTICS_VERSION ) {
-		include_once( WP_STATISTICS_PLUGIN_DIR . 'wps-install.php' );
-	}
-
 	// Load the update functions for GeoIP and browscap.ini
 	// (done in a separate file to avoid a parse error in PHP 5.2 or below)
 	include_once WP_STATISTICS_PLUGIN_DIR . 'wps-updates.php';

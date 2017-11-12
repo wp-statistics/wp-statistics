@@ -32,6 +32,7 @@ namespace {
 		public $options      = array();
 		public $user_options = array();
 		public $menu_slugs   = array();
+		public $installed_version;
 
 		/**
 		 * __construct
@@ -105,6 +106,12 @@ namespace {
 
 			if ( $this->get_option('hash_ips') == true ) {
 				$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
+			}
+
+			// Check to see if we're installed and are the current version.
+			$this->installed_version = get_option('wp_statistics_plugin_version');
+			if ( $this->installed_version != WP_STATISTICS_VERSION ) {
+				include_once( WP_STATISTICS_PLUGIN_DIR . 'wps-install.php' );
 			}
 
 		}
