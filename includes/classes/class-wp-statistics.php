@@ -62,7 +62,7 @@ namespace {
 
 			// If we've been flagged to remove all of the data, then do so now.
 			if ( get_option('wp_statistics_removal') == 'true' ) {
-				include_once( WP_STATISTICS_PLUGIN_DIR . 'wps-uninstall.php' );
+				new \WP_Statistics_Uninstall;
 			}
 
 			// If we've been removed, return without doing anything else.
@@ -111,7 +111,7 @@ namespace {
 			// Check to see if we're installed and are the current version.
 			$this->installed_version = get_option('wp_statistics_plugin_version');
 			if ( $this->installed_version != WP_STATISTICS_VERSION ) {
-				include_once( WP_STATISTICS_PLUGIN_DIR . 'wps-install.php' );
+				new \WP_Statistics_Install();
 			}
 
 		}

@@ -48,7 +48,7 @@ if ( array_key_exists('hash-ips', $_GET) ) {
 if ( array_key_exists('install', $_GET) ) {
 	if ( intval($_GET['install']) == 1 ) {
 		$WPS_Installed = "1.0";
-		include( plugin_dir_path(__FILE__) . "../../wps-install.php" );
+		new \WP_Statistics_Install();
 		echo "<div class='updated settings-error'><p><strong>" .
 		     __('Install routine complete.', 'wp-statistics') .
 		     "</strong></p></div>";
