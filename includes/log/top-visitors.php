@@ -13,7 +13,7 @@ include_once( dirname(__FILE__) . '/widgets/top.visitors.php' );
 	wp_enqueue_script('jquery-ui-datepicker');
 	wp_register_style(
 		'jquery-ui-smoothness-css',
-		$WP_Statistics->plugin_url . 'assets/css/jquery-ui-smoothness.min.css'
+		WP_STATISTICS_PLUGIN_URL . 'assets/css/jquery-ui-smoothness.min.css'
 	);
 	wp_enqueue_style('jquery-ui-smoothness-css');
 

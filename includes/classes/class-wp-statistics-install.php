@@ -9,8 +9,8 @@ namespace {
 		/**
 		 * WP_Statistics_Install constructor.
 		 */
-		function __construct() {
-			global $wpdb, $WP_Statistics;
+		function __construct( $WP_Statistics ) {
+			global $wpdb;
 			if ( is_admin() ) {
 
 				// The follow variables are used to define the table structure for new and upgrade installations.

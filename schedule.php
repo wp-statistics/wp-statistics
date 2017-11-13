@@ -192,7 +192,7 @@ function wp_statistics_dbmaint_event() {
 
 	global $wpdb, $WP_Statistics;
 
-	require_once( plugin_dir_path(__FILE__) . '/includes/functions/purge.php' );
+	require_once( WP_STATISTICS_PLUGIN_DIR . 'includes/functions/purge.php' );
 
 	$purge_days = intval($WP_Statistics->get_option('schedule_dbmaint_days', false));
 
@@ -206,7 +206,7 @@ function wp_statistics_dbmaint_visitor_event() {
 
 	global $wpdb, $WP_Statistics;
 
-	require_once( plugin_dir_path(__FILE__) . '/includes/functions/purge-hits.php' );
+	require_once( WP_STATISTICS_PLUGIN_DIR . 'includes/functions/purge-hits.php' );
 
 	$purge_hits = intval($WP_Statistics->get_option('schedule_dbmaint_visitor_hits', false));
 

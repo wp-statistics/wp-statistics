@@ -99,7 +99,7 @@ function wp_statistics_editor_inline_javascript() {
 		return;
 	}
 
-	wp_statistics_load_widget_css_and_scripts();
+	\WP_Statistics_Dashboard::load_widget_css_and_scripts();
 
 	$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .
 	               plugins_url('wp-statistics/assets/images/') .
