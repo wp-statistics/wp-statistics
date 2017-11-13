@@ -294,7 +294,7 @@ This is a security fix, please update immediately.
 * Improvement: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
 * Improvement: Export data on the optimization page.
 * Improvement: Constants, Includes and moved some functions to the class.
-* Improvement: The classes and fixes
+* Improvement: The classes method and created some class to do some tasks in the plugin. Thanks [Farhad Sakhaei](https://github.com/parsmizban)
 * Fixed: Some notice errors.
 
 = 12.1.3 =
