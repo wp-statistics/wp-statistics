@@ -41,6 +41,7 @@ foreach ( $Browsers as $Browser ) {
 	$BrowserVisits[ $Browser ] = wp_statistics_useragent($Browser, $rangestartdate, $rangeenddate);
 }
 
+$browser_name  = array();
 $i             = 0;
 $browser_value = array();
 $browser_color = array();
