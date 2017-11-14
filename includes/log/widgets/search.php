@@ -15,7 +15,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
 		for ( $i = $days; $i >= 0; $i-- ) {
 			$stat                   = wp_statistics_searchengine($se['tag'], '-' . $i);
 			$stats[ $se['name'] ][] = $stat;
-			$total_daily[ $i ] += $stat;
+			$total_daily[ $i ] = $stat;
 		}
 	}
 	?>
