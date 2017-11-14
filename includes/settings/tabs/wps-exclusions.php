@@ -139,7 +139,7 @@ if ( $wps_nonce_valid ) {
 				<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
 					$robotlist = $WP_Statistics->get_option('robotlist');
 
-					include_once( dirname(__FILE__) . '/../../../robotslist.php' );
+					include_once( WP_STATISTICS_PLUGIN_DIR . 'includes/robotslist.php' );
 
 					if ( $robotlist == '' ) {
 						$robotlist = implode("\n", $wps_robotarray);
