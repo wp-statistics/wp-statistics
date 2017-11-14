@@ -35,7 +35,7 @@ namespace {
 		}
 
 		/**
-		 * Removes database options, usermeta keys & tables
+		 * Removes database options, user meta keys & tables
 		 */
 		public function wp_statistics_site_removal() {
 			global $wpdb;

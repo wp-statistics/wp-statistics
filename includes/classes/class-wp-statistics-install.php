@@ -8,6 +8,8 @@ namespace {
 
 		/**
 		 * WP_Statistics_Install constructor.
+		 *
+		 * @param $WP_Statistics
 		 */
 		function __construct( $WP_Statistics ) {
 			global $wpdb;
