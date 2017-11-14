@@ -288,7 +288,7 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = dev-master =
-* Added: Top Searched Phrases & Widget. Thanks [Farhad Sakhaei](https://github.com/parsmizban)
+* Added: Top Searched Phrases & Widget. Thanks [Farhad Sakhaei](https://github.com/Dedi-Data)
 * Removed: Some unused variables and optimization the plugin.
 * Removed: Force English option feature in the plugin.
 * Improvement: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
@@ -301,7 +301,7 @@ This is a security fix, please update immediately.
 * Fixed: Chart height issue in css.
 * Fixed: Correct numbering for pages > 1 in Top Referring page. [#22](https://github.com/wp-statistics/wp-statistics/pull/22/files)
 * Fixed: Don't run the SQL if `$reffer` is not set. [#21](https://github.com/wp-statistics/wp-statistics/pull/21)
-* Fixed: Refferer url scheme. [#24](https://github.com/wp-statistics/wp-statistics/pull/24) Thanks [Farhad Sakhaei](https://github.com/parsmizban)
+* Fixed: Refferer url scheme. [#24](https://github.com/wp-statistics/wp-statistics/pull/24) Thanks [Farhad Sakhaei](https://github.com/Dedi-Data)
 * Fixed: Network menu icon.
 
 = 12.1.0 =
