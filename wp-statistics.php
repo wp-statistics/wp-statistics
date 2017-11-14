@@ -121,8 +121,6 @@ namespace {
 	GLOBAL $WP_Statistics;
 	$WP_Statistics = new WP_Statistics();
 
-	// Finally load the widget, dashboard, shortcode and scheduled events.
-	include_once WP_STATISTICS_PLUGIN_DIR . 'schedule.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'ajax.php';
 
 	/**
@@ -130,7 +128,7 @@ namespace {
 	 * if the primary components of WP Statistics are enabled.
 	 */
 	function wp_statistics_not_enable() {
-		GLOBAL $WP_Statistics;
+		global $WP_Statistics;
 
 		// If the user had told us to be quite, do so.
 		if ( ! $WP_Statistics->get_option('hide_notices') ) {
