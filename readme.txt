@@ -288,13 +288,13 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = dev-master =
-* Added: Top Search Words. Thanks [Farhad Sakhaei](https://github.com/parsmizban)
+* Added: Top Search Words. Thanks [Farhad Sakhaei](https://github.com/Dedi-Data)
 * Removed: Some unused variables and optimization the plugin.
 * Removed: Force English option feature in the plugin.
 * Improvement: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
 * Improvement: Export data on the optimization page.
 * Improvement: Constants, Includes and moved some functions to the class.
-* Improvement: The classes method and created some class to do some tasks in the plugin. Thanks [Farhad Sakhaei](https://github.com/parsmizban)
+* Improvement: The classes method and created some class to do some tasks in the plugin. Thanks [Farhad Sakhaei](https://github.com/Dedi-Data)
 * Fixed: Some notice errors.
 
 = 12.1.3 =
@@ -303,7 +303,7 @@ This is a security fix, please update immediately.
 * Fixed: Chart height issue in css.
 * Fixed: Correct numbering for pages > 1 in Top Referring page. [#22](https://github.com/wp-statistics/wp-statistics/pull/22/files)
 * Fixed: Don't run the SQL if `$reffer` is not set. [#21](https://github.com/wp-statistics/wp-statistics/pull/21)
-* Fixed: Refferer url scheme. [#24](https://github.com/wp-statistics/wp-statistics/pull/24) Thanks [Farhad Sakhaei](https://github.com/parsmizban)
+* Fixed: Refferer url scheme. [#24](https://github.com/wp-statistics/wp-statistics/pull/24) Thanks [Farhad Sakhaei](https://github.com/Dedi-Data)
 * Fixed: Network menu icon.
 
 = 12.1.0 =

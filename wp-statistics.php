@@ -122,8 +122,6 @@ namespace {
 	$WP_Statistics = new WP_Statistics();
 
 	// Finally load the widget, dashboard, shortcode and scheduled events.
-	include_once WP_STATISTICS_PLUGIN_DIR . 'editor.php';
-	include_once WP_STATISTICS_PLUGIN_DIR . 'shortcode.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'schedule.php';
 	include_once WP_STATISTICS_PLUGIN_DIR . 'ajax.php';
 

@@ -115,6 +115,12 @@ namespace {
 			add_action('wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load');
 			add_action('admin_footer', 'WP_Statistics_Dashboard::inline_javascript');
 
+			add_action( 'add_meta_boxes', 'WP_Statistics_Editor::add_meta_box' );
+
+			add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
+			add_filter('widget_text', 'do_shortcode');
+			add_action( 'admin_init', 'WP_Statistics_Shortcode::shortcake' );
+
 		}
 
 		/**
