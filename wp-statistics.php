@@ -121,8 +121,6 @@ namespace {
 	GLOBAL $WP_Statistics;
 	$WP_Statistics = new WP_Statistics();
 
-	include_once WP_STATISTICS_PLUGIN_DIR . 'ajax.php';
-
 	/**
 	 * This function outputs error messages in the admin interface
 	 * if the primary components of WP Statistics are enabled.

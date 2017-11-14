@@ -122,6 +122,7 @@ namespace {
 			add_action( 'admin_init', 'WP_Statistics_Shortcode::shortcake' );
 
 			new \WP_Statistics_Schedule($this);
+			new \WP_Statistics_Ajax();
 		}
 
 		/**
