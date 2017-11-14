@@ -353,9 +353,8 @@ namespace {
 							$pageid = (int) $_POST['page-id'];
 							echo '&nbsp;';
 							echo sprintf(
-								__('%1$sClick here%2$s to see page stats.', 'wp-statistics'),
-								'<a href="admin.php?page=wps_pages_page&page-id=' . $pageid . '"',
-								'</a>'
+								__('<a href="%s">Click here</a> to see page stats.', 'wp-statistics'),
+								'admin.php?page=wps_pages_page&page-id=' . $pageid
 							);
 
 							// This feature temporarily disabled because there is conflicts.
