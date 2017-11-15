@@ -76,7 +76,7 @@ namespace {
 				$this->set_pages();
 			}
 
-			require_once( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
+			require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
 
 			// define an autoload method to automatically load classes in /includes/classes
 			spl_autoload_register(array( $this, 'autoload' ));
@@ -160,6 +160,8 @@ namespace {
 
 			new \WP_Statistics_Schedule($this);
 			new \WP_Statistics_Ajax();
+
+			new \WP_Statistics_Bootstrap($this);
 		}
 
 		/**

@@ -1390,3 +1390,34 @@ function wp_statistics_generate_rgba_color( $num, $opacity = '1' ) {
 	);
 }
 
+/**
+ * This function will validate that a capability exists,
+ * if not it will default to returning the 'manage_options' capability.
+ *
+ * @param string $capability Capability
+ *
+ * @return string 'manage_options'
+ */
+function wp_statistics_validate_capability( $capability ) {
+
+	global $wp_roles;
+
+	$role_list = $wp_roles->get_names();
+
+	if ( ! is_object($wp_roles) || ! is_array($wp_roles->roles) ) {
+		return 'manage_options';
+	}
+
+	foreach ( $wp_roles->roles as $role ) {
+
+		$cap_list = $role['capabilities'];
+
+		foreach ( $cap_list as $key => $cap ) {
+			if ( $capability == $key ) {
+				return $capability;
+			}
+		}
+	}
+
+	return 'manage_options';
+}
