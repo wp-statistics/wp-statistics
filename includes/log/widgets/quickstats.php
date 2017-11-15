@@ -279,7 +279,7 @@ function wp_statistics_generate_quickstats_postbox_content( $search_engines, $se
 	<?php
 
 	// Include the hits chart widget, we're going to display the last 10 days only as the WordPress columns are kind of small to do much else.
-	include_once( WP_Statistics::$reg['plugin-dir'] . "includes/log/widgets/hits.php" );
+	include( WP_Statistics::$reg['plugin-dir'] . "includes/log/widgets/hits.php" );
 
 	wp_statistics_generate_hits_postbox_content("220px", 10);
 }

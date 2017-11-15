@@ -10,7 +10,7 @@ use IPTools\IP;
 use IPTools\Network;
 use IPTools\Range;
 
-class Hits extends WP_Statistics {
+class WP_Statistics_Hits extends WP_Statistics {
 
 	// Setup our public/private/protected variables.
 	public $result = null;

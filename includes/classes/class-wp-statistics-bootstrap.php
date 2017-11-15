@@ -190,11 +190,11 @@ namespace {
 				return;
 			}
 
-			// Create a new hit class, if we're GeoIP enabled, use GEO_IP_Hits().
-			if ( class_exists('GEO_IP_Hits') ) {
-				$h = new GEO_IP_Hits();
+			// Create a new hit class, if we're GeoIP enabled, use WP_Statistics_GEO_IP_Hits().
+			if ( class_exists('WP_Statistics_GEO_IP_Hits') ) {
+				$h = new WP_Statistics_GEO_IP_Hits();
 			} else {
-				$h = new Hits();
+				$h = new WP_Statistics_Hits();
 			}
 
 			// Call the online users tracking code.
@@ -953,7 +953,7 @@ namespace {
 					$error = $response['body'];
 				}
 			}
-			include_once WP_Statistics::$reg['plugin-dir'] . 'includes/templates/plugins.php';
+			include WP_Statistics::$reg['plugin-dir'] . 'includes/templates/plugins.php';
 		}
 
 		/**
@@ -1264,30 +1264,30 @@ namespace {
 				case 'categories':
 				case 'tags':
 				case 'authors':
-					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/' . $log_type . '.php';
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/' . $log_type . '.php';
 				break;
 				case 'last-all-search':
-					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/last-search.php';
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/last-search.php';
 
 				break;
 				case 'last-all-visitor':
-					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/last-visitor.php';
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/last-visitor.php';
 
 				break;
 				case 'top-referring-site':
-					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-referring.php';
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-referring.php';
 
 				break;
 				case 'searched-phrases':
-					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/searched-phrases.php';
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/searched-phrases.php';
 
 				break;
 				case 'top-pages':
 					// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
 					if ( array_key_exists('page-id', $_GET) || array_key_exists('page-uri', $_GET) ) {
-						include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/page-statistics.php';
+						include WP_Statistics::$reg['plugin-dir'] . 'includes/log/page-statistics.php';
 					} else {
-						include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-pages.php';
+						include WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-pages.php';
 					}
 
 				break;
@@ -1314,7 +1314,7 @@ namespace {
 					// Load our custom widgets handling javascript.
 					wp_enqueue_script('wp_statistics_log', WP_Statistics::$reg['plugin-url'] . 'assets/js/log.js');
 
-					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/log.php';
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/log.php';
 
 				break;
 			}
@@ -1373,7 +1373,7 @@ namespace {
 			$result['historical'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_historical`");
 			$result['search']     = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_search`");
 
-			include_once WP_Statistics::$reg['plugin-dir'] . "includes/optimization/wps-optimization.php";
+			include WP_Statistics::$reg['plugin-dir'] . "includes/optimization/wps-optimization.php";
 		}
 
 
@@ -1426,7 +1426,7 @@ namespace {
 				echo WP_Statistics_Updates::download_geoip();
 			}
 
-			include_once WP_Statistics::$reg['plugin-dir'] . "includes/settings/wps-settings.php";
+			include WP_Statistics::$reg['plugin-dir'] . "includes/settings/wps-settings.php";
 		}
 
 

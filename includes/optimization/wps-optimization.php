@@ -278,7 +278,7 @@ if ( array_key_exists('search', $_GET) ) {
 				</div><!-- container -->
 			</div>
 
-			<?php include_once WP_Statistics::$reg['plugin-dir'] . 'includes/templates/postbox.php'; ?>
+			<?php include WP_Statistics::$reg['plugin-dir'] . 'includes/templates/postbox.php'; ?>
 		</div>
 	</div>
 </div>
