@@ -13,7 +13,7 @@ namespace {
 			// We need to fudge the display settings for first time users so not all of the widgets are displayed, we only want to do this on
 			// the first time they visit the dashboard though so check to see if we've been here before.
 			if ( ! $WP_Statistics->get_user_option('dashboard_set') ) {
-				$WP_Statistics->update_user_option('dashboard_set', WP_STATISTICS_VERSION);
+				$WP_Statistics->update_user_option('dashboard_set', WP_Statistics::$reg['version']);
 
 				$hidden_widgets = get_user_meta($WP_Statistics->user_id, 'metaboxhidden_dashboard', true);
 				if ( ! is_array($hidden_widgets) ) {
@@ -42,11 +42,11 @@ namespace {
 				}
 
 				update_user_meta($WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets);
-			} elseif ( $WP_Statistics->get_user_option('dashboard_set') != WP_STATISTICS_VERSION ) {
+			} elseif ( $WP_Statistics->get_user_option('dashboard_set') != WP_Statistics::$reg['version'] ) {
 				// We also have to fudge things when we add new widgets to the code base.
 				if ( version_compare($WP_Statistics->get_user_option('dashboard_set'), '8.7', '<') ) {
 
-					$WP_Statistics->update_user_option('dashboard_set', WP_STATISTICS_VERSION);
+					$WP_Statistics->update_user_option('dashboard_set', WP_Statistics::$reg['version']);
 
 					$hidden_widgets = get_user_meta($WP_Statistics->user_id, 'metaboxhidden_dashboard', true);
 					if ( ! is_array($hidden_widgets) ) {
@@ -200,20 +200,20 @@ namespace {
 			global $WP_Statistics;
 
 			// Load the css we use for the statistics pages.
-			wp_enqueue_style('wpstatistics-log-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/log.css', true, '1.2');
-			wp_enqueue_style('wpstatistics-admin-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/admin.css', true, '1.1');
+			wp_enqueue_style('wpstatistics-log-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/log.css', true, '1.2');
+			wp_enqueue_style('wpstatistics-admin-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css', true, '1.1');
 
 			// Don't forget the right to left support.
 			if ( is_rtl() ) {
-				wp_enqueue_style('rtl-css', WP_STATISTICS_PLUGIN_URL . 'assets/css/rtl.css', true, '1.1');
+				wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1');
 			}
 
 			// Load the map code.
-			wp_enqueue_style('jqvmap-css', WP_STATISTICS_PLUGIN_URL . 'assets/jqvmap/jqvmap.css', true, '1.5.1');
-			wp_enqueue_script('jquery-vmap', WP_STATISTICS_PLUGIN_URL . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1');
+			wp_enqueue_style('jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1');
+			wp_enqueue_script('jquery-vmap', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1');
 			wp_enqueue_script(
 				'jquery-vmap-world',
-				WP_STATISTICS_PLUGIN_URL . 'assets/jqvmap/maps/jquery.vmap.world.js',
+				WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
 				true,
 				'1.5.1'
 			);
@@ -222,7 +222,7 @@ namespace {
 			if ( ! isset( $_GET['post'] ) ) {
 				wp_enqueue_script(
 					'wp-statistics-chart-js',
-					WP_STATISTICS_PLUGIN_URL . 'assets/js/Chart.bundle.min.js',
+					WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
 					false,
 					'2.7.0'
 				);
@@ -232,9 +232,9 @@ namespace {
 
 			// Load our custom widgets handling javascript.
 			if ( 'post' == $screen->id || 'page' == $screen->id ) {
-				wp_enqueue_script('wp_statistics_editor', WP_STATISTICS_PLUGIN_URL . 'assets/js/editor.js');
+				wp_enqueue_script('wp_statistics_editor', WP_Statistics::$reg['plugin-url'] . 'assets/js/editor.js');
 			} else {
-				wp_enqueue_script('wp_statistics_dashboard', WP_STATISTICS_PLUGIN_URL . 'assets/js/dashboard.js');
+				wp_enqueue_script('wp_statistics_dashboard', WP_Statistics::$reg['plugin-url'] . 'assets/js/dashboard.js');
 			}
 		}
 
@@ -274,22 +274,19 @@ namespace {
 
 			$page_urls = array();
 
-			$page_urls['wp-statistics-browsers-widget_more_button']         = $admin_url . WP_STATISTICS_BROWSERS_PAGE;
-			$page_urls['wp-statistics-countries-widget_more_button']        = $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
-			$page_urls['wp-statistics-exclusions-widget_more_button']       = $admin_url .
-			                                                                  WP_STATISTICS_EXCLUSIONS_PAGE;
-			$page_urls['wp-statistics-hits-widget_more_button']             = $admin_url . WP_STATISTICS_HITS_PAGE;
-			$page_urls['wp-statistics-online-widget_more_button']           = $admin_url . WP_STATISTICS_ONLINE_PAGE;
-			$page_urls['wp-statistics-pages-widget_more_button']            = $admin_url . WP_STATISTICS_PAGES_PAGE;
-			$page_urls['wp-statistics-referring-widget_more_button']        = $admin_url . WP_STATISTICS_REFERRERS_PAGE;
-			$page_urls['wp-statistics-searched-phrases-widget_more_button'] = $admin_url .
-			                                                                  WP_STATISTICS_SEARCHED_PHRASES_PAGE;
-			$page_urls['wp-statistics-search-widget_more_button']           = $admin_url . WP_STATISTICS_SEARCHES_PAGE;
-			$page_urls['wp-statistics-words-widget_more_button']            = $admin_url . WP_STATISTICS_WORDS_PAGE;
-			$page_urls['wp-statistics-top-visitors-widget_more_button']     = $admin_url .
-			                                                                  WP_STATISTICS_TOP_VISITORS_PAGE;
-			$page_urls['wp-statistics-recent-widget_more_button']           = $admin_url . WP_STATISTICS_VISITORS_PAGE;
-			$page_urls['wp-statistics-quickstats-widget_more_button']       = $admin_url . WP_STATISTICS_OVERVIEW_PAGE;
+			$page_urls['wp-statistics-browsers-widget_more_button']         = $admin_url . WP_Statistics::$page['browser'];
+			$page_urls['wp-statistics-countries-widget_more_button']        = $admin_url . WP_Statistics::$page['countries'];
+			$page_urls['wp-statistics-exclusions-widget_more_button']       = $admin_url . WP_Statistics::$page['exclusions'];
+			$page_urls['wp-statistics-hits-widget_more_button']             = $admin_url . WP_Statistics::$page['hits'];
+			$page_urls['wp-statistics-online-widget_more_button']           = $admin_url . WP_Statistics::$page['online'];
+			$page_urls['wp-statistics-pages-widget_more_button']            = $admin_url . WP_Statistics::$page['pages'];
+			$page_urls['wp-statistics-referring-widget_more_button']        = $admin_url . WP_Statistics::$page['referrers'];
+			$page_urls['wp-statistics-searched-phrases-widget_more_button'] = $admin_url . WP_Statistics::$page['searched-phrases'];
+			$page_urls['wp-statistics-search-widget_more_button']           = $admin_url . WP_Statistics::$page['searches'];
+			$page_urls['wp-statistics-words-widget_more_button']            = $admin_url . WP_Statistics::$page['words'];
+			$page_urls['wp-statistics-top-visitors-widget_more_button']     = $admin_url . WP_Statistics::$page['top-visitors'];
+			$page_urls['wp-statistics-recent-widget_more_button']           = $admin_url . WP_Statistics::$page['visitors'];
+			$page_urls['wp-statistics-quickstats-widget_more_button']       = $admin_url . WP_Statistics::$page['overview'];
 
 			?>
 			<script type="text/javascript">

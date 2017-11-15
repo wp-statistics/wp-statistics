@@ -32,6 +32,9 @@ namespace {
 		public $menu_slugs   = array();
 		public $installed_version;
 
+		public static $reg  = array();
+		public static $page = array();
+
 		/**
 		 * __construct
 		 * WP_Statistics constructor.
@@ -39,7 +42,37 @@ namespace {
 		public function __construct() {
 			global $wpdb;
 
-			require_once( WP_STATISTICS_PLUGIN_DIR . 'includes/vendor/autoload.php' );
+			if ( ! isset( WP_Statistics::$reg['plugin-url'] ) ) {
+				/**
+				 * Plugin URL
+				 */
+				WP_Statistics::$reg['plugin-url'] = plugin_dir_url(WP_STATISTICS_MAIN_FILE);
+				//define('WP_STATISTICS_PLUGIN_URL', plugin_dir_url(WP_STATISTICS_MAIN_FILE));
+				/**
+				 * Plugin DIR
+				 */
+				WP_Statistics::$reg['plugin-dir'] = plugin_dir_path(WP_STATISTICS_MAIN_FILE);
+				//define('WP_STATISTICS_PLUGIN_DIR', plugin_dir_path(WP_STATISTICS_MAIN_FILE));
+				/**
+				 * WP Statistics Version
+				 */
+				WP_Statistics::$reg['version'] = '12.1.3';
+				//define('WP_STATISTICS_VERSION', '12.1.3');
+				/**
+				 * Required PHP Version
+				 */
+				WP_Statistics::$reg['required-php-version'] = '5.4.0';
+				//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
+				/**
+				 * Required GEO IP PHP Version
+				 */
+				WP_Statistics::$reg['geoip-php-version'] = WP_Statistics::$reg['required-php-version'];
+				//define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_Statistics::$reg['required_php_version']);
+
+				$this->set_pages();
+			}
+
+			require_once( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
 
 			// define an autoload method to automatically load classes in /includes/classes
 			spl_autoload_register(array( $this, 'autoload' ));
@@ -52,7 +85,7 @@ namespace {
 
 			// Check the PHP version,
 			// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-			if ( ! version_compare(phpversion(), WP_STATISTICS_REQUIRED_PHP_VERSION, ">=") ) {
+			if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
 				add_action('admin_notices', array( $this, 'unsupported_version_admin_notice' ), 10, 2);
 
 				return;
@@ -104,12 +137,12 @@ namespace {
 
 			// Check to see if we're installed and are the current version.
 			$this->installed_version = get_option('wp_statistics_plugin_version');
-			if ( $this->installed_version != WP_STATISTICS_VERSION ) {
+			if ( $this->installed_version != WP_Statistics::$reg['version'] ) {
 				new \WP_Statistics_Install($this);
 			}
 
 			// Load the rest of the required files for our global functions, online user tracking and hit tracking.
-			include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/functions.php';
+			include_once WP_Statistics::$reg['plugin-dir'] . 'includes/functions/functions.php';
 
 			add_action('widgets_init', array( $this, 'widget' ));
 			add_action('wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load');
@@ -132,9 +165,117 @@ namespace {
 		 */
 		public function autoload( $class ) {
 			$lower_class_name = str_replace('_', '-', strtolower($class));
-			$class_full_path  = WP_STATISTICS_PLUGIN_DIR . 'includes/classes/class-' . $lower_class_name . '.php';
+			$class_full_path  = WP_Statistics::$reg['plugin-dir'] .
+			                    'includes/classes/class-' .
+			                    $lower_class_name .
+			                    '.php';
 			if ( file_exists($class_full_path) ) {
 				include_once $class_full_path;
+			}
+		}
+
+		public function set_pages() {
+			if ( ! isset( WP_Statistics::$page['overview'] ) ) {
+				/**
+				 * Overview Page
+				 */
+				WP_Statistics::$page['overview'] = 'wps_overview_page';
+				//define('WP_STATISTICS_OVERVIEW_PAGE', 'wps_overview_page');
+				/**
+				 * Browsers Page
+				 */
+				WP_Statistics::$page['browser'] = 'wps_browsers_page';
+				//define('WP_STATISTICS_BROWSERS_PAGE', 'wps_browsers_page');
+				/**
+				 * Countries Page
+				 */
+				WP_Statistics::$page['countries'] = 'wps_countries_page';
+				//define('WP_STATISTICS_COUNTRIES_PAGE', 'wps_countries_page');
+				/**
+				 * Exclusions Page
+				 */
+				WP_Statistics::$page['exclusions'] = 'wps_exclusions_page';
+				//define('WP_STATISTICS_EXCLUSIONS_PAGE', 'wps_exclusions_page');
+				/**
+				 * Hits Page
+				 */
+				WP_Statistics::$page['hits'] = 'wps_hits_page';
+				//define('WP_STATISTICS_HITS_PAGE', 'wps_hits_page');
+				/**
+				 * Online Page
+				 */
+				WP_Statistics::$page['online'] = 'wps_online_page';
+				//define('WP_STATISTICS_ONLINE_PAGE', 'wps_online_page');
+				/**
+				 * Pages Page
+				 */
+				WP_Statistics::$page['pages'] = 'wps_pages_page';
+				//define('WP_STATISTICS_PAGES_PAGE', 'wps_pages_page');
+				/**
+				 * Categories Page
+				 */
+				WP_Statistics::$page['categories'] = 'wps_categories_page';
+				//define('WP_STATISTICS_CATEGORIES_PAGE', 'wps_categories_page');
+				/**
+				 * Authors Page
+				 */
+				WP_Statistics::$page['authors'] = 'wps_authors_page';
+				//define('WP_STATISTICS_AUTHORS_PAGE', 'wps_authors_page');
+				/**
+				 * Tags Page
+				 */
+				WP_Statistics::$page['tags'] = 'wps_tags_page';
+				//define('WP_STATISTICS_TAGS_PAGE', 'wps_tags_page');
+				/**
+				 * Referer Page
+				 */
+				WP_Statistics::$page['referrers'] = 'wps_referrers_page';
+				//define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page');
+				/**
+				 * Searched Phrases Page
+				 */
+				WP_Statistics::$page['searched-phrases'] = 'wps_searched_phrases_page';
+				//define('WP_STATISTICS_SEARCHED_PHRASES_PAGE', 'wps_searched_phrases_page');
+				/**
+				 * Searches Page
+				 */
+				WP_Statistics::$page['searches'] = 'wps_searches_page';
+				//define('WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page');
+				/**
+				 * Words Page
+				 */
+				WP_Statistics::$page['words'] = 'wps_words_page';
+				//define('WP_STATISTICS_WORDS_PAGE', 'wps_words_page');
+				/**
+				 * Top Visitors Page
+				 */
+				WP_Statistics::$page['top-visitors'] = 'wps_top_visitors_page';
+				//define('WP_STATISTICS_TOP_VISITORS_PAGE', 'wps_top_visitors_page');
+				/**
+				 * Visitors Page
+				 */
+				WP_Statistics::$page['visitors'] = 'wps_visitors_page';
+				//define('WP_STATISTICS_VISITORS_PAGE', 'wps_visitors_page');
+				/**
+				 * Optimization Page
+				 */
+				WP_Statistics::$page['optimization'] = 'wps_optimization_page';
+				//define('WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page');
+				/**
+				 * Settings Page
+				 */
+				WP_Statistics::$page['settings'] = 'wps_settings_page';
+				//define('WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page');
+				/**
+				 * Plugins Page
+				 */
+				WP_Statistics::$page['plugins'] = 'wps_plugins_page';
+				//define('WP_STATISTICS_PLUGINS_PAGE', 'wps_plugins_page');
+				/**
+				 * Donate Page
+				 */
+				WP_Statistics::$page['donate'] = 'wps_donate_page';
+				//define('WP_STATISTICS_DONATE_PAGE', 'wps_donate_page');
 			}
 		}
 
@@ -145,7 +286,7 @@ namespace {
 			// Check to see if we're exporting data, if so, do so now.
 			// Note this will set the headers to download the export file and then stop running WordPress.
 			if ( array_key_exists('wps_export', $_POST) ) {
-				include_once WP_STATISTICS_PLUGIN_DIR . 'includes/functions/export.php';
+				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/functions/export.php';
 				wp_statistics_export_data();
 			}
 		}
@@ -187,7 +328,7 @@ namespace {
 							'wp-statistics'
 						),
 						phpversion(),
-						WP_STATISTICS_REQUIRED_PHP_VERSION
+						WP_Statistics::$reg['required-php-version']
 					);
 					echo '</p><p>';
 					echo __(
@@ -434,7 +575,7 @@ namespace {
 			$options = array();
 
 			// Get the robots list, we'll use this for both upgrades and new installs.
-			include_once( WP_STATISTICS_PLUGIN_DIR . 'includes/robotslist.php' );
+			include_once( WP_Statistics::$reg['plugin-dir'] . 'includes/robotslist.php' );
 
 			$options['robotlist'] = trim($wps_robotslist);
 
@@ -934,7 +1075,7 @@ namespace {
 		public function get_country_codes() {
 			if ( $this->country_codes == false ) {
 				$ISOCountryCode = array();
-				include( WP_STATISTICS_PLUGIN_DIR . "includes/functions/country-codes.php" );
+				include( WP_Statistics::$reg['plugin-dir'] . "includes/functions/country-codes.php" );
 				$this->country_codes = $ISOCountryCode;
 			}
 

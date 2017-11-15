@@ -37,7 +37,7 @@ if ( is_array($widget_order) && count($widget_order) > 2 ) {
 // Add the about box here as metaboxes added on the actual page load cannot be closed.
 add_meta_box(
 	'wps_about_postbox',
-	sprintf(__('About WP Statistics Version %s', 'wp-statistics'), WP_STATISTICS_VERSION),
+	sprintf(__('About WP Statistics Version %s', 'wp-statistics'), WP_Statistics::$reg['version']),
 	'wp_statistics_generate_overview_postbox_contents',
 	$WP_Statistics->menu_slugs['overview'],
 	'side',
@@ -95,18 +95,18 @@ $admin_url = get_admin_url() . "admin.php?page=";
 
 $page_urls = array();
 
-$page_urls['wps_browsers_more_button']         = $admin_url . WP_STATISTICS_BROWSERS_PAGE;
-$page_urls['wps_countries_more_button']        = $admin_url . WP_STATISTICS_COUNTRIES_PAGE;
-$page_urls['wps_exclusions_more_button']       = $admin_url . WP_STATISTICS_EXCLUSIONS_PAGE;
-$page_urls['wps_hits_more_button']             = $admin_url . WP_STATISTICS_HITS_PAGE;
-$page_urls['wps_online_more_button']           = $admin_url . WP_STATISTICS_ONLINE_PAGE;
-$page_urls['wps_pages_more_button']            = $admin_url . WP_STATISTICS_PAGES_PAGE;
-$page_urls['wps_referring_more_button']        = $admin_url . WP_STATISTICS_REFERRERS_PAGE;
-$page_urls['wps_searched_phrases_more_button'] = $admin_url . WP_STATISTICS_SEARCHED_PHRASES_PAGE;
-$page_urls['wps_search_more_button']           = $admin_url . WP_STATISTICS_SEARCHES_PAGE;
-$page_urls['wps_words_more_button']            = $admin_url . WP_STATISTICS_WORDS_PAGE;
-$page_urls['wps_top_visitors_more_button']     = $admin_url . WP_STATISTICS_TOP_VISITORS_PAGE;
-$page_urls['wps_recent_more_button']           = $admin_url . WP_STATISTICS_VISITORS_PAGE;
+$page_urls['wps_browsers_more_button']         = $admin_url . WP_Statistics::$page['browser'];
+$page_urls['wps_countries_more_button']        = $admin_url . WP_Statistics::$page['countries'];
+$page_urls['wps_exclusions_more_button']       = $admin_url . WP_Statistics::$page['exclusions'];
+$page_urls['wps_hits_more_button']             = $admin_url . WP_Statistics::$page['hits'];
+$page_urls['wps_online_more_button']           = $admin_url . WP_Statistics::$page['online'];
+$page_urls['wps_pages_more_button']            = $admin_url . WP_Statistics::$page['pages'];
+$page_urls['wps_referring_more_button']        = $admin_url . WP_Statistics::$page['referrers'];
+$page_urls['wps_searched_phrases_more_button'] = $admin_url . WP_Statistics::$page['searched-phrases'];
+$page_urls['wps_search_more_button']           = $admin_url . WP_Statistics::$page['searches'];
+$page_urls['wps_words_more_button']            = $admin_url . WP_Statistics::$page['words'];
+$page_urls['wps_top_visitors_more_button']     = $admin_url . WP_Statistics::$page['top-visitors'];
+$page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$page['visitors'];
 
 ?>
 <script type="text/javascript">

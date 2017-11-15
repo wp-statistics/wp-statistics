@@ -68,7 +68,7 @@
 										$map_string = "";
 									} else {
 										$ip_string = "<a href='?page=" .
-										             WP_STATISTICS_OVERVIEW_PAGE .
+										             WP_Statistics::$page['overview'] .
 										             "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
 										$map_string
 										           = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
@@ -110,7 +110,7 @@
 									}
 
 									echo "<a href='?page=" .
-									     WP_STATISTICS_OVERVIEW_PAGE .
+									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a> {$items->ip}";
 									echo "<br>";
 

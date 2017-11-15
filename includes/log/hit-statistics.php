@@ -27,7 +27,7 @@
 		$rangestart,
 		$rangeend
 	);
-	wp_statistics_date_range_selector(WP_STATISTICS_HITS_PAGE, $daysToDisplay);
+	wp_statistics_date_range_selector(WP_Statistics::$page['hits'], $daysToDisplay);
 
 	$visit_total = 0;
 	$visitor_total = 0;

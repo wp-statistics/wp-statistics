@@ -214,7 +214,7 @@ function formatSize( $size ) {
 			</th>
 
 			<td>
-				<strong><?php echo WP_STATISTICS_VERSION; ?></strong>
+				<strong><?php echo WP_Statistics::$reg['version']; ?></strong>
 
 				<p class="description"><?php _e('The WP Statistics version you are running.', 'wp-statistics'); ?></p>
 			</td>

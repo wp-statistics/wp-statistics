@@ -170,7 +170,7 @@ foreach ( $excluded_reasons as $reason ) {
 ?>
 <div class="wrap">
 	<h2><?php _e('Exclusions Statistics', 'wp-statistics'); ?></h2>
-	<?php wp_statistics_date_range_selector(WP_STATISTICS_EXCLUSIONS_PAGE, $daysToDisplay); ?>
+	<?php wp_statistics_date_range_selector(WP_Statistics::$page['exclusions'], $daysToDisplay); ?>
 	<div class="postbox-container" id="last-log">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
@@ -189,7 +189,7 @@ foreach ( $excluded_reasons as $reason ) {
 						<div class="inside">
 							<canvas id="hit-stats" height="80"></canvas>
 							<script type='text/javascript'
-							        src='<?php echo WP_STATISTICS_PLUGIN_URL; ?>assets/js/Chart.bundle.min.js'></script>
+							        src='<?php echo WP_Statistics::$reg['plugin-url']; ?>assets/js/Chart.bundle.min.js'></script>
 							<script>
 								var ctx = document.getElementById("hit-stats").getContext('2d');
 								var ChartJs = new Chart(ctx, {

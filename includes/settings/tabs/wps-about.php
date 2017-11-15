@@ -7,7 +7,7 @@
 
 	<tr valign="top">
 		<td scope="row" align="center">
-			<h2><?php echo sprintf(__('WP Statistics V%s', 'wp-statistics'), WP_STATISTICS_VERSION); ?></h2></td>
+			<h2><?php echo sprintf(__('WP Statistics V%s', 'wp-statistics'), WP_Statistics::$reg['version']); ?></h2></td>
 	</tr>
 
 	<tr valign="top">

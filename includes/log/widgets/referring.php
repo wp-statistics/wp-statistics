@@ -47,7 +47,7 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 
 			echo "<tr>";
 			echo "<td><a href='?page=" .
-			     WP_STATISTICS_REFERRERS_PAGE .
+			     WP_Statistics::$page['referrers'] .
 			     "&referr=" .
 			     $referrer_html .
 			     "'>" .

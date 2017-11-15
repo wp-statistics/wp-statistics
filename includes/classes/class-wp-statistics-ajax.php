@@ -188,7 +188,7 @@ namespace {
 		static function purge_data_action_callback() {
 			GLOBAL $WP_Statistics; // this is how you get access to the database
 
-			require( WP_STATISTICS_PLUGIN_DIR . 'includes/functions/purge.php' );
+			require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
 
 			$manage_cap = wp_statistics_validate_capability(
 				$WP_Statistics->get_option('manage_capability', 'manage_options')
@@ -216,7 +216,7 @@ namespace {
 		static function purge_visitor_hits_action_callback() {
 			GLOBAL $WP_Statistics; // this is how you get access to the database
 
-			require( WP_STATISTICS_PLUGIN_DIR . 'includes/functions/purge-hits.php' );
+			require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
 
 			$manage_cap = wp_statistics_validate_capability(
 				$WP_Statistics->get_option('manage_capability', 'manage_options')
@@ -302,7 +302,7 @@ namespace {
 				$ISOCountryCode = $WP_Statistics->get_country_codes();
 				$search_engines = wp_statistics_searchengine_list();
 
-				require( WP_STATISTICS_PLUGIN_DIR . 'includes/log/widgets/' . $widget . '.php' );
+				require( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/' . $widget . '.php' );
 
 				switch ( $widget ) {
 					case 'summary':

@@ -39,7 +39,7 @@ if ( $_get != '%' ) {
 	<ul class="subsubsub">
 		<li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';
-			} ?>href="?page=<?php echo WP_STATISTICS_VISITORS_PAGE; ?>"><?php _e('All', 'wp-statistics'); ?>
+			} ?>href="?page=<?php echo WP_Statistics::$page['visitors']; ?>"><?php _e('All', 'wp-statistics'); ?>
 				<span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
 		<?php
 		if ( isset( $_var ) ) {
@@ -68,7 +68,7 @@ if ( $_get != '%' ) {
 					     "<li><a " .
 					     $current .
 					     "href='?page=" .
-					     WP_STATISTICS_VISITORS_PAGE .
+					     WP_Statistics::$page['visitors'] .
 					     "&agent=" .
 					     $Browser .
 					     "'> " .
@@ -85,7 +85,7 @@ if ( $_get != '%' ) {
 				}
 				echo $spacer .
 				     "<li><a {$current} href='?page=" .
-				     WP_STATISTICS_VISITORS_PAGE .
+				     WP_Statistics::$page['visitors'] .
 				     "&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
 			}
 		}
@@ -159,7 +159,7 @@ if ( $_get != '%' ) {
 								$map_string = "";
 							} else {
 								$ip_string = "<a href='?page=" .
-								             WP_STATISTICS_VISITORS_PAGE .
+								             WP_Statistics::$page['visitors'] .
 								             "&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
 								$map_string
 								           = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
@@ -204,7 +204,7 @@ if ( $_get != '%' ) {
 							}
 
 							echo "<a href='?page=" .
-							     WP_STATISTICS_VISITORS_PAGE .
+							     WP_Statistics::$page['visitors'] .
 							     "&agent={$items->agent}'>{$agent}</a>";
 
 							echo $WP_Statistics->get_referrer_link($items->referred);

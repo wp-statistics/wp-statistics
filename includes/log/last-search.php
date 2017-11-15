@@ -50,7 +50,7 @@ $total = $search_result[ $referred ];
 			}
 
 			echo "<li><a href='?page=" .
-			     WP_STATISTICS_WORDS_PAGE .
+			     WP_Statistics::$page['words'] .
 			     "&referred={$tag}'>" .
 			     $translate .
 			     " <span class='count'>({$value})</span></a></li>{$separator}";
@@ -171,7 +171,7 @@ $total = $search_result[ $referred ];
 									}
 
 									echo "<a href='?page=" .
-									     WP_STATISTICS_OVERVIEW_PAGE .
+									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-search&referred={$this_search_engine['tag']}'><img src='" .
 									     plugins_url('wp-statistics/assets/images/' . $this_search_engine['image']) .
 									     "' class='log-tools' title='" .
@@ -198,7 +198,7 @@ $total = $search_result[ $referred ];
 									}
 
 									echo "<a href='?page=" .
-									     WP_STATISTICS_OVERVIEW_PAGE .
+									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 
 									echo $WP_Statistics->get_referrer_link($items->referred);

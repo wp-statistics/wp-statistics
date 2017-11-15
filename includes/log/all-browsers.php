@@ -78,7 +78,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 <div class="wrap">
 	<h2><?php _e('Browser Statistics', 'wp-statistics'); ?></h2>
 
-	<div><?php wp_statistics_date_range_selector(WP_STATISTICS_BROWSERS_PAGE, $daysToDisplay); ?></div>
+	<div><?php wp_statistics_date_range_selector(WP_Statistics::$page['browser'], $daysToDisplay); ?></div>
 	<div class="postbox-container" style="width: 48%; float: left; margin-right:20px">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">

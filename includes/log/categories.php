@@ -50,7 +50,7 @@
 	);
 
 	wp_statistics_date_range_selector(
-		WP_STATISTICS_CATEGORIES_PAGE,
+		WP_Statistics::$page['categories'],
 		$daysToDisplay,
 		null,
 		null,

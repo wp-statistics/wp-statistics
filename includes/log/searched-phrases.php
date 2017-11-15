@@ -74,7 +74,7 @@ if ( $phrase ) {
 	<h2><?php _e('Top Searched Phrases', 'wp-statistics'); ?></h2>
 
 	<div><?php wp_statistics_date_range_selector(
-			WP_STATISTICS_SEARCHED_PHRASES_PAGE,
+			WP_Statistics::$page['searched-phrases'],
 			$daysToDisplay,
 			null,
 			null,
@@ -87,7 +87,7 @@ if ( $phrase ) {
 		<?php if ( $phrase ) { ?>
 			<li class="all"><a <?php if ( ! $phrase ) {
 					echo 'class="current"';
-				} ?>href="?page=<?php echo WP_STATISTICS_SEARCHED_PHRASES_PAGE . $date_args; ?>"><?php _e(
+				} ?>href="?page=<?php echo WP_Statistics::$page['searched-phrases'] . $date_args; ?>"><?php _e(
 						'All',
 						'wp-statistics'
 					); ?></a>
@@ -95,7 +95,7 @@ if ( $phrase ) {
 			|
 			<li>
 				<a class="current"
-				   href="?page=<?php echo WP_STATISTICS_SEARCHED_PHRASES_PAGE; ?>&referr=<?php echo esc_html($phrase) .
+				   href="?page=<?php echo WP_Statistics::$page['searched-phrases']; ?>&referr=<?php echo esc_html($phrase) .
 				                                                                                    $date_args; ?>"> <?php echo htmlentities(
 						$title,
 						ENT_QUOTES
@@ -104,7 +104,7 @@ if ( $phrase ) {
 		<?php } else { ?>
 			<li class="all"><a <?php if ( ! $phrase ) {
 					echo 'class="current"';
-				} ?>href="?page=<?php echo WP_STATISTICS_SEARCHED_PHRASES_PAGE . $date_args; ?>"><?php _e(
+				} ?>href="?page=<?php echo WP_Statistics::$page['searched-phrases'] . $date_args; ?>"><?php _e(
 						'All',
 						'wp-statistics'
 					); ?>
