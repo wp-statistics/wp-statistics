@@ -54,6 +54,10 @@ namespace {
 				WP_Statistics::$reg['plugin-dir'] = plugin_dir_path(WP_STATISTICS_MAIN_FILE);
 				//define('WP_STATISTICS_PLUGIN_DIR', plugin_dir_path(WP_STATISTICS_MAIN_FILE));
 				/**
+				 * Plugin Main File
+				 */
+				WP_Statistics::$reg['main-file'] = WP_STATISTICS_MAIN_FILE;
+				/**
 				 * WP Statistics Version
 				 */
 				WP_Statistics::$reg['version'] = '12.1.3';

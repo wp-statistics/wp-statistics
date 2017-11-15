@@ -258,27 +258,27 @@ if ( array_key_exists('search', $_GET) ) {
 					</ul>
 
 					<div id="resources" class="tab-content current">
-						<?php include( dirname(__FILE__) . '/tabs/wps-optimization-resources.php' ); ?>
+						<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/optimization/tabs/wps-optimization-resources.php' ); ?>
 					</div>
 					<div id="export" class="tab-content">
-						<?php include( dirname(__FILE__) . '/tabs/wps-optimization-export.php' ); ?>
+						<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/optimization/tabs/wps-optimization-export.php' ); ?>
 					</div>
 					<div id="purging" class="tab-content">
-						<?php include( dirname(__FILE__) . '/tabs/wps-optimization-purging.php' ); ?>
+						<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/optimization/tabs/wps-optimization-purging.php' ); ?>
 					</div>
 					<div id="database" class="tab-content">
-						<?php include( dirname(__FILE__) . '/tabs/wps-optimization-database.php' ); ?>
+						<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/optimization/tabs/wps-optimization-database.php' ); ?>
 					</div>
 					<div id="updates" class="tab-content">
-						<?php include( dirname(__FILE__) . '/tabs/wps-optimization-updates.php' ); ?>
+						<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/optimization/tabs/wps-optimization-updates.php' ); ?>
 					</div>
 					<div id="historical" class="tab-content">
-						<?php include( dirname(__FILE__) . '/tabs/wps-optimization-historical.php' ); ?>
+						<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/optimization/tabs/wps-optimization-historical.php' ); ?>
 					</div>
 				</div><!-- container -->
 			</div>
 
-			<?php include_once dirname(__FILE__) . '/../templates/postbox.php'; ?>
+			<?php include_once WP_Statistics::$reg['plugin-dir'] . 'includes/templates/postbox.php'; ?>
 		</div>
 	</div>
 </div>

@@ -65,7 +65,7 @@ if ( array_key_exists('rangeend', $_GET) ) {
 					<h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
 
 					<div class="inside">
-						<?php include_once( dirname(__FILE__) . '/widgets/page.php' );
+						<?php include_once( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/page.php' );
 						wp_statistics_generate_page_postbox_content(
 							$pageuri,
 							$pageid,

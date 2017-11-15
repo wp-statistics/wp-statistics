@@ -68,37 +68,37 @@ if ( $wps_admin === false ) {
 
 							<?php if ( $wps_admin ) { ?>
 								<div id="general-settings" class="tab-content current">
-									<?php include( dirname(__FILE__) . '/tabs/wps-general.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-general.php' ); ?>
 								</div>
 								<div id="notifications-settings" class="tab-content">
-									<?php include( dirname(__FILE__) . '/tabs/wps-notifications.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-notifications.php' ); ?>
 								</div>
 								<div id="overview-display-settings" class="tab-content">
-									<?php include( dirname(__FILE__) . '/tabs/wps-overview-display.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-overview-display.php' ); ?>
 								</div>
 								<div id="access-settings" class="tab-content">
-									<?php include( dirname(__FILE__) . '/tabs/wps-access-level.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-access-level.php' ); ?>
 								</div>
 								<div id="exclusions-settings" class="tab-content">
-									<?php include( dirname(__FILE__) . '/tabs/wps-exclusions.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-exclusions.php' ); ?>
 								</div>
 								<div id="externals-settings" class="tab-content">
-									<?php include( dirname(__FILE__) . '/tabs/wps-externals.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-externals.php' ); ?>
 								</div>
 								<div id="maintenance-settings" class="tab-content">
-									<?php include( dirname(__FILE__) . '/tabs/wps-maintenance.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-maintenance.php' ); ?>
 								</div>
 								<div id="removal-settings" class="tab-content">
-									<?php include( dirname(__FILE__) . '/tabs/wps-removal.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-removal.php' ); ?>
 								</div>
 							<?php } ?>
 							<div id="about" class="tab-content">
-								<?php include( dirname(__FILE__) . '/tabs/wps-about.php' ); ?>
+								<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-about.php' ); ?>
 							</div>
 						</div><!-- container -->
 					</form>
 				</div>
-				<?php include_once dirname(__FILE__) . '/../templates/postbox.php'; ?>
+				<?php include_once WP_Statistics::$reg['plugin-dir'] . 'include/templates/postbox.php'; ?>
 			</div>
 		</div>
 	</div>

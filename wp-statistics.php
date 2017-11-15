@@ -264,7 +264,7 @@ namespace {
 		return $links;
 	}
 
-	add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'wp_statistics_settings_links', 10, 2);
+	add_filter('plugin_action_links_' . plugin_basename(WP_Statistics::$reg['main-file']), 'wp_statistics_settings_links', 10, 2);
 
 	/**
 	 * Add a WordPress plugin page and rating links to the meta information to the plugin list.
@@ -275,7 +275,7 @@ namespace {
 	 * @return array Links
 	 */
 	function wp_statistics_add_meta_links( $links, $file ) {
-		if ( $file == plugin_basename(__FILE__) ) {
+		if ( $file == plugin_basename(WP_Statistics::$reg['main-file']) ) {
 			$plugin_url = 'http://wordpress.org/plugins/wp-statistics/';
 
 			$links[] = '<a href="' . $plugin_url . '" target="_blank" title="' . __(
@@ -793,18 +793,18 @@ namespace {
 			__('Statistics', 'wp-statistics'),
 			__('Statistics', 'wp-statistics'),
 			$read_cap,
-			__FILE__,
+			WP_Statistics::$reg['main-file'],
 			'wp_statistics_network_overview',
 			'dashicons-chart-pie'
 		);
 
 		// Add the sub items.
 		add_submenu_page(
-			__FILE__,
+			WP_Statistics::$reg['main-file'],
 			__('Overview', 'wp-statistics'),
 			__('Overview', 'wp-statistics'),
 			$read_cap,
-			__FILE__,
+			WP_Statistics::$reg['main-file'],
 			'wp_statistics_network_overview'
 		);
 
@@ -814,7 +814,7 @@ namespace {
 		foreach ( $sites as $blog_id ) {
 			$details = get_blog_details($blog_id);
 			add_submenu_page(
-				__FILE__,
+				WP_Statistics::$reg['main-file'],
 				$details->blogname,
 				$details->blogname,
 				$manage_cap,
@@ -975,7 +975,7 @@ namespace {
 				$error = $response['body'];
 			}
 		}
-		include_once dirname(__FILE__) . '/includes/templates/plugins.php';
+		include_once WP_Statistics::$reg['plugin-dir'] . 'includes/templates/plugins.php';
 	}
 
 	/**
@@ -1282,30 +1282,30 @@ namespace {
 			case 'categories':
 			case 'tags':
 			case 'authors':
-				include_once dirname(__FILE__) . '/includes/log/' . $log_type . '.php';
+				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/' . $log_type . '.php';
 			break;
 			case 'last-all-search':
-				include_once dirname(__FILE__) . '/includes/log/last-search.php';
+				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/last-search.php';
 
 			break;
 			case 'last-all-visitor':
-				include_once dirname(__FILE__) . '/includes/log/last-visitor.php';
+				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/last-visitor.php';
 
 			break;
 			case 'top-referring-site':
-				include_once dirname(__FILE__) . '/includes/log/top-referring.php';
+				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-referring.php';
 
 			break;
 			case 'searched-phrases':
-				include_once dirname(__FILE__) . '/includes/log/searched-phrases.php';
+				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/searched-phrases.php';
 
 			break;
 			case 'top-pages':
 				// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
 				if ( array_key_exists('page-id', $_GET) || array_key_exists('page-uri', $_GET) ) {
-					include_once dirname(__FILE__) . '/includes/log/page-statistics.php';
+					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/page-statistics.php';
 				} else {
-					include_once dirname(__FILE__) . '/includes/log/top-pages.php';
+					include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-pages.php';
 				}
 
 			break;
@@ -1332,7 +1332,7 @@ namespace {
 				// Load our custom widgets handling javascript.
 				wp_enqueue_script('wp_statistics_log', WP_Statistics::$reg['plugin-url'] . 'assets/js/log.js');
 
-				include_once dirname(__FILE__) . '/includes/log/log.php';
+				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/log/log.php';
 
 			break;
 		}
@@ -1390,7 +1390,7 @@ namespace {
 		$result['historical'] = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_historical`");
 		$result['search']     = $wpdb->get_var("SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_search`");
 
-		include_once dirname(__FILE__) . "/includes/optimization/wps-optimization.php";
+		include_once WP_Statistics::$reg['plugin-dir'] . "includes/optimization/wps-optimization.php";
 	}
 
 	/**
@@ -1442,7 +1442,7 @@ namespace {
 			echo WP_Statistics_Updates::download_geoip();
 		}
 
-		include_once dirname(__FILE__) . "/includes/settings/wps-settings.php";
+		include_once WP_Statistics::$reg['plugin-dir'] . "includes/settings/wps-settings.php";
 	}
 
 	/**
