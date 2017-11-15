@@ -54,6 +54,10 @@ namespace {
 				WP_Statistics::$reg['plugin-dir'] = plugin_dir_path(WP_STATISTICS_MAIN_FILE);
 				//define('WP_STATISTICS_PLUGIN_DIR', plugin_dir_path(WP_STATISTICS_MAIN_FILE));
 				/**
+				 * Plugin Main File
+				 */
+				WP_Statistics::$reg['main-file'] = WP_STATISTICS_MAIN_FILE;
+				/**
 				 * WP Statistics Version
 				 */
 				WP_Statistics::$reg['version'] = '12.1.3';
@@ -72,7 +76,7 @@ namespace {
 				$this->set_pages();
 			}
 
-			require_once( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
+			require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
 
 			// define an autoload method to automatically load classes in /includes/classes
 			spl_autoload_register(array( $this, 'autoload' ));
@@ -156,6 +160,8 @@ namespace {
 
 			new \WP_Statistics_Schedule($this);
 			new \WP_Statistics_Ajax();
+
+			new \WP_Statistics_Bootstrap($this);
 		}
 
 		/**
