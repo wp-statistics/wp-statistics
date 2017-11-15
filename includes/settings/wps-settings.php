@@ -98,7 +98,7 @@ if ( $wps_admin === false ) {
 						</div><!-- container -->
 					</form>
 				</div>
-				<?php include_once WP_Statistics::$reg['plugin-dir'] . 'include/templates/postbox.php'; ?>
+				<?php include WP_Statistics::$reg['plugin-dir'] . 'include/templates/postbox.php'; ?>
 			</div>
 		</div>
 	</div>

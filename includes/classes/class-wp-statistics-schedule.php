@@ -11,7 +11,7 @@ namespace {
 		 *
 		 * @param $WP_Statistics
 		 */
-		function __construct($WP_Statistics) {
+		function __construct( $WP_Statistics ) {
 
 			// before construct
 			add_filter('cron_schedules', 'WP_Statistics_Schedule::addcron');
@@ -242,7 +242,9 @@ namespace {
 		 */
 		static function dbmaint_event() {
 			global $WP_Statistics;
-			require_once( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
+			if ( ! function_exists('wp_statistics_purge_data') ) {
+				require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
+			}
 			$purge_days = intval($WP_Statistics->get_option('schedule_dbmaint_days', false));
 			wp_statistics_purge_data($purge_days);
 		}
@@ -252,7 +254,9 @@ namespace {
 		 */
 		static function dbmaint_visitor_event() {
 			global $WP_Statistics;
-			require_once( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
+			if(! function_exists('wp_statistics_purge_visitor_hits')){
+				require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
+			}
 			$purge_hits = intval($WP_Statistics->get_option('schedule_dbmaint_visitor_hits', false));
 			wp_statistics_purge_visitor_hits($purge_hits);
 		}

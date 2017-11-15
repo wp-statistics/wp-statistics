@@ -5,7 +5,7 @@
 </script>
 <?php
 $ISOCountryCode = $WP_Statistics->get_country_codes();
-include_once( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.php' );
+include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.php' );
 ?>
 <div class="wrap">
 	<h2><?php _e('Top 100 Visitors Today', 'wp-statistics'); ?></h2>

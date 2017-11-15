@@ -146,7 +146,10 @@ namespace {
 			}
 
 			// Load the rest of the required files for our global functions, online user tracking and hit tracking.
-			include_once WP_Statistics::$reg['plugin-dir'] . 'includes/functions/functions.php';
+			if ( ! function_exists('wp_statistics_useronline') ) {
+				include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/functions.php';
+			}
+
 
 			add_action('widgets_init', array( $this, 'widget' ));
 			add_action('wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load');
@@ -170,13 +173,18 @@ namespace {
 		 * @param string $class Class name
 		 */
 		public function autoload( $class ) {
-			$lower_class_name = str_replace('_', '-', strtolower($class));
-			$class_full_path  = WP_Statistics::$reg['plugin-dir'] .
-			                    'includes/classes/class-' .
-			                    $lower_class_name .
-			                    '.php';
-			if ( file_exists($class_full_path) ) {
-				include_once $class_full_path;
+			if ( ! class_exists($class) &&
+			     // This check is for performance of loading plugin classes
+			     substr($class, 0, 14) === 'WP_Statistics_'
+			) {
+				$lower_class_name = str_replace('_', '-', strtolower($class));
+				$class_full_path  = WP_Statistics::$reg['plugin-dir'] .
+				                    'includes/classes/class-' .
+				                    $lower_class_name .
+				                    '.php';
+				if ( file_exists($class_full_path) ) {
+					require $class_full_path;
+				}
 			}
 		}
 
@@ -292,7 +300,9 @@ namespace {
 			// Check to see if we're exporting data, if so, do so now.
 			// Note this will set the headers to download the export file and then stop running WordPress.
 			if ( array_key_exists('wps_export', $_POST) ) {
-				include_once WP_Statistics::$reg['plugin-dir'] . 'includes/functions/export.php';
+				if ( ! function_exists('wp_statistics_export_data') ) {
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/export.php';
+				}
 				wp_statistics_export_data();
 			}
 		}
@@ -580,8 +590,10 @@ namespace {
 		public function Default_Options() {
 			$options = array();
 
-			// Get the robots list, we'll use this for both upgrades and new installs.
-			include_once( WP_Statistics::$reg['plugin-dir'] . 'includes/robotslist.php' );
+			if ( ! isset( $wps_robotarray ) ) {
+				// Get the robots list, we'll use this for both upgrades and new installs.
+				include( WP_Statistics::$reg['plugin-dir'] . 'includes/robotslist.php' );
+			}
 
 			$options['robotlist'] = trim($wps_robotslist);
 

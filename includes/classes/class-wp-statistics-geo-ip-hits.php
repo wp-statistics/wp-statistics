@@ -6,7 +6,7 @@
 // Load the classes.
 use GeoIp2\Database\Reader;
 
-class GEO_IP_Hits extends Hits {
+class WP_Statistics_GEO_IP_Hits extends WP_Statistics_Hits {
 	public function __construct() {
 
 		// Call the parent constructor (WP_Statistics::__constructor).

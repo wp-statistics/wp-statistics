@@ -154,7 +154,9 @@ namespace {
 				}
 
 				// This includes the dbDelta function from WordPress.
-				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+				if ( ! function_exists('dbDelta') ) {
+					require( ABSPATH . 'wp-admin/includes/upgrade.php' );
+				}
 
 				// Create/update the plugin tables.
 				dbDelta($create_useronline_table);
