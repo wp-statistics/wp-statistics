@@ -197,14 +197,14 @@ if ( $wps_nonce_valid ) {
 					<?php
 					echo __('GeoIP collection is disabled due to the following reasons:', 'wp-statistics') . '<br><br>';
 
-					if ( ! version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
+					if ( ! version_compare(phpversion(), WP_Statistics::$reg['geoip-php-version'], '>') ) {
 						printf(
 							'&nbsp;&nbsp;&nbsp;&nbsp;* ' .
 							__(
 								'GeoIP collection requires PHP %s or above, it is currently disabled due to the installed PHP version being  ',
 								'wp-statistics'
 							),
-							'<code>' . WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION . '</code>'
+							'<code>' . WP_Statistics::$reg['geoip-php-version'] . '</code>'
 						);
 						echo '<code>' . phpversion() . '</code>.<br>';
 					}

@@ -192,8 +192,8 @@ namespace {
 				}
 
 				// Store the new version information.
-				update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
-				update_option('wp_statistics_db_version', WP_STATISTICS_VERSION);
+				update_option('wp_statistics_plugin_version', WP_Statistics::$reg['version']);
+				update_option('wp_statistics_db_version', WP_Statistics::$reg['version']);
 
 				// Now check to see what database updates may be required and record them for a user notice later.
 				$dbupdates = array( 'date_ip_agent' => false, 'unique_date' => false );

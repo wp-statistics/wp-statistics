@@ -1142,7 +1142,7 @@ function wp_statistics_geoip_supported() {
 	$enabled = true;
 
 	// PHP 5.3
-	if ( ! version_compare(phpversion(), WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION, '>') ) {
+	if ( ! version_compare(phpversion(), WP_Statistics::$reg['geoip-php-version'], '>') ) {
 		$enabled = false;
 	}
 
@@ -1177,7 +1177,7 @@ function wp_statistics_date_range_selector(
 	wp_enqueue_script('jquery-ui-datepicker');
 	wp_register_style(
 		'jquery-ui-smoothness-css',
-		WP_STATISTICS_PLUGIN_URL . 'assets/css/jquery-ui-smoothness.min.css'
+		WP_Statistics::$reg['plugin-url'] . 'assets/css/jquery-ui-smoothness.min.css'
 	);
 	wp_enqueue_style('jquery-ui-smoothness-css');
 

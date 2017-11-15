@@ -92,7 +92,7 @@ if ( $referr ) {
 	<h2><?php _e('Top Referring Sites', 'wp-statistics'); ?></h2>
 
 	<div><?php wp_statistics_date_range_selector(
-			WP_STATISTICS_REFERRERS_PAGE,
+			WP_Statistics::$page['referrers'],
 			$daysToDisplay,
 			null,
 			null,
@@ -105,7 +105,7 @@ if ( $referr ) {
 		<?php if ( $referr ) { ?>
 			<li class="all"><a <?php if ( ! $referr ) {
 					echo 'class="current"';
-				} ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE . $date_args; ?>"><?php _e(
+				} ?>href="?page=<?php echo WP_Statistics::$page['referrers'] . $date_args; ?>"><?php _e(
 						'All',
 						'wp-statistics'
 					); ?></a>
@@ -113,14 +113,14 @@ if ( $referr ) {
 			|
 			<li>
 				<a class="current"
-				   href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer(
+				   href="?page=<?php echo WP_Statistics::$page['referrers']; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer(
 						   $referr
 					   ) . $date_args; ?>"> <?php echo htmlentities($title, ENT_QUOTES); ?>
 					<span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
 			<li class="all"><a <?php if ( ! $referr ) {
 					echo 'class="current"';
-				} ?>href="?page=<?php echo WP_STATISTICS_REFERRERS_PAGE . $date_args; ?>"><?php _e(
+				} ?>href="?page=<?php echo WP_Statistics::$page['referrers'] . $date_args; ?>"><?php _e(
 						'All',
 						'wp-statistics'
 					); ?>
@@ -192,7 +192,7 @@ if ( $referr ) {
 								foreach ( $result as $item ) {
 									echo "<div class='log-item'>";
 									echo "<div class='log-referred'><a href='?page=" .
-									     WP_STATISTICS_OVERVIEW_PAGE .
+									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-visitor&ip={$item->ip}'>" .
 									     wp_statistics_icons('dashicons-visibility', 'visibility') .
 									     "{$item->ip}</a></div>";
@@ -224,7 +224,7 @@ if ( $referr ) {
 									}
 
 									echo "<div class='log-agent'><a href='?page=" .
-									     WP_STATISTICS_OVERVIEW_PAGE .
+									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
 									echo $WP_Statistics->get_referrer_link($item->referred, 100) . '</div>';
 									echo "</div>";
@@ -240,7 +240,7 @@ if ( $referr ) {
 									$referrer_html = parse_url($referrer_html)['host'];
 									echo "<div class='log-item'>";
 									echo "<div class='log-referred'>{$i} - <a href='?page=" .
-									     WP_STATISTICS_REFERRERS_PAGE .
+									     WP_Statistics::$page['referrers'] .
 									     "&referr=" .
 									     $referrer_html .
 									     $date_args .

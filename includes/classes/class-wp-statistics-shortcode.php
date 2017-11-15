@@ -143,7 +143,7 @@ namespace {
 
 						// Icon/image for shortcode. Optional. src or dashicons-$icon. Defaults to carrot.
 						'listItemImage' => '<img src="' .
-						                   WP_STATISTICS_PLUGIN_URL .
+						                   WP_Statistics::$reg['plugin-url'] .
 						                   'assets/images/logo-250.png" width="128" height="128">',
 
 						// Available shortcode attributes and default values. Required. Array.

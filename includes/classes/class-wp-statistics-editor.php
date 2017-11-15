@@ -17,7 +17,7 @@ namespace {
 			// We need to fudge the display settings for first time users so not all of the widgets are displayed, we only want to do this on
 			// the first time they visit the dashboard though so check to see if we've been here before.
 			if ( ! $WP_Statistics->get_user_option('editor_set') ) {
-				$WP_Statistics->update_user_option('editor_set', WP_STATISTICS_VERSION);
+				$WP_Statistics->update_user_option('editor_set', WP_Statistics::$reg['version']);
 
 				$hidden_widgets = get_user_meta($WP_Statistics->user_id, 'metaboxhidden_post', true);
 				if ( ! is_array($hidden_widgets) ) {
@@ -135,7 +135,7 @@ namespace {
 			$page_urls = array();
 
 			$page_urls['wp_statistics_editor_meta_box_more_button'] = $admin_url .
-			                                                          WP_STATISTICS_PAGES_PAGE .
+			                                                          WP_Statistics::$page['pages'] .
 			                                                          '&page-id=';
 
 			?>

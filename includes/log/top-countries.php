@@ -29,7 +29,7 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 ?>
 <div class="wrap">
 	<h2><?php _e('Top Countries', 'wp-statistics'); ?></h2>
-	<?php wp_statistics_date_range_selector(WP_STATISTICS_COUNTRIES_PAGE, $daysToDisplay); ?>
+	<?php wp_statistics_date_range_selector(WP_Statistics::$page['countries'], $daysToDisplay); ?>
 	<div class="postbox-container" id="last-log">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">

@@ -16,7 +16,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 			$map_string = "";
 		} else {
 			$ip_string = "<a href='admin.php?page=" .
-			             WP_STATISTICS_VISITORS_PAGE .
+			             WP_Statistics::$page['visitors'] .
 			             "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
 			$map_string
 			           = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
@@ -59,7 +59,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		}
 
 		echo "<a href='?page=" .
-		     WP_STATISTICS_OVERVIEW_PAGE .
+		     WP_Statistics::$page['overview'] .
 		     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 
 		echo $WP_Statistics->get_referrer_link($items->referred);

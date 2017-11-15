@@ -67,7 +67,7 @@
 	);
 
 	wp_statistics_date_range_selector(
-		WP_STATISTICS_AUTHORS_PAGE,
+		WP_Statistics::$page['authors'],
 		$daysToDisplay,
 		null,
 		null,

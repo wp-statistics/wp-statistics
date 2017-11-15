@@ -18,7 +18,7 @@ function wp_statistics_generate_pages_postbox_content( $total, $uris ) {
 		echo '<div class="right-div">' .
 		     __('Visits', 'wp-statistics') .
 		     ': <a href="?page=' .
-		     WP_STATISTICS_PAGES_PAGE .
+		     WP_Statistics::$page['pages'] .
 		     '&page-uri=' .
 		     htmlentities($uri[0], ENT_QUOTES) .
 		     '">' .

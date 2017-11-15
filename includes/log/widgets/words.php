@@ -65,7 +65,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 
 			$this_search_engine = $WP_Statistics->Search_Engine_Info($items->referred);
 			echo "<a href='?page=" .
-			     WP_STATISTICS_OVERVIEW_PAGE .
+			     WP_Statistics::$page['overview'] .
 			     "&type=last-all-search&referred={$this_search_engine['tag']}'><img src='" .
 			     plugins_url('wp-statistics/assets/images/' . $this_search_engine['image']) .
 			     "' class='log-tools' title='" .
@@ -92,7 +92,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			}
 
 			echo "<a href='?page=" .
-			     WP_STATISTICS_OVERVIEW_PAGE .
+			     WP_Statistics::$page['overview'] .
 			     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 
 			$referrer_html = $WP_Statistics->html_sanitize_referrer($items->referred);

@@ -242,7 +242,7 @@ namespace {
 		 */
 		static function dbmaint_event() {
 			global $WP_Statistics;
-			require_once( WP_STATISTICS_PLUGIN_DIR . 'includes/functions/purge.php' );
+			require_once( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
 			$purge_days = intval($WP_Statistics->get_option('schedule_dbmaint_days', false));
 			wp_statistics_purge_data($purge_days);
 		}
@@ -252,7 +252,7 @@ namespace {
 		 */
 		static function dbmaint_visitor_event() {
 			global $WP_Statistics;
-			require_once( WP_STATISTICS_PLUGIN_DIR . 'includes/functions/purge-hits.php' );
+			require_once( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
 			$purge_hits = intval($WP_Statistics->get_option('schedule_dbmaint_visitor_hits', false));
 			wp_statistics_purge_visitor_hits($purge_hits);
 		}

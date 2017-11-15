@@ -12,7 +12,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 				<th><?php _e('Online Users', 'wp-statistics'); ?>:</th>
 				<th colspan="2" id="th-colspan">
 					<span><a
-							href="admin.php?page=<?php echo WP_STATISTICS_ONLINE_PAGE; ?>"><?php echo wp_statistics_useronline(
+							href="admin.php?page=<?php echo WP_Statistics::$page['online']; ?>"><?php echo wp_statistics_useronline(
 							); ?></a></span>
 				</th>
 			</tr>
@@ -38,7 +38,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 				<th><?php _e('Today', 'wp-statistics'); ?>:</th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visitors') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_VISITORS_PAGE .
+						     WP_Statistics::$page['visitors'] .
 						     '&hitdays=1"><span>' .
 						     number_format_i18n(wp_statistics_visitor('today', null, true)) .
 						     '</span></a>';
@@ -47,7 +47,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 					} ?></th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visits') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_HITS_PAGE .
+						     WP_Statistics::$page['hits'] .
 						     '&hitdays=1"><span>' .
 						     number_format_i18n(wp_statistics_visit('today')) .
 						     '</span></a>';
@@ -60,7 +60,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 				<th><?php _e('Yesterday', 'wp-statistics'); ?>:</th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visitors') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_VISITORS_PAGE .
+						     WP_Statistics::$page['visitors'] .
 						     '&hitdays=1"><span>' .
 						     number_format_i18n(wp_statistics_visitor('yesterday', null, true)) .
 						     '</span></a>';
@@ -69,7 +69,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 					} ?></th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visits') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_HITS_PAGE .
+						     WP_Statistics::$page['hits'] .
 						     '&hitdays=1"><span>' .
 						     number_format_i18n(wp_statistics_visit('yesterday')) .
 						     '</span></a>';
@@ -82,7 +82,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 				<th><?php _e('Last 7 Days', 'wp-statistics'); ?>:</th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visitors') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_VISITORS_PAGE .
+						     WP_Statistics::$page['visitors'] .
 						     '&hitdays=7"><span>' .
 						     number_format_i18n(wp_statistics_visitor('week', null, true)) .
 						     '</span></a>';
@@ -91,7 +91,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 					} ?></th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visits') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_HITS_PAGE .
+						     WP_Statistics::$page['hits'] .
 						     '&hitdays=7"><span>' .
 						     number_format_i18n(wp_statistics_visit('week')) .
 						     '</span></a>';
@@ -104,7 +104,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 				<th><?php _e('Last 30 Days', 'wp-statistics'); ?>:</th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visitors') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_VISITORS_PAGE .
+						     WP_Statistics::$page['visitors'] .
 						     '&hitdays=30"><span>' .
 						     number_format_i18n(wp_statistics_visitor('month', null, true)) .
 						     '</span></a>';
@@ -113,7 +113,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 					} ?></th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visits') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_HITS_PAGE .
+						     WP_Statistics::$page['hits'] .
 						     '&hitdays=30"><span>' .
 						     number_format_i18n(wp_statistics_visit('month')) .
 						     '</span></a>';
@@ -126,7 +126,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 				<th><?php _e('Last 365 Days', 'wp-statistics'); ?>:</th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visitors') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_VISITORS_PAGE .
+						     WP_Statistics::$page['visitors'] .
 						     '&hitdays=365"><span>' .
 						     number_format_i18n(wp_statistics_visitor('year', null, true)) .
 						     '</span></a>';
@@ -135,7 +135,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 					} ?></th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visits') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_HITS_PAGE .
+						     WP_Statistics::$page['hits'] .
 						     '&hitdays=365"><span>' .
 						     number_format_i18n(wp_statistics_visit('year')) .
 						     '</span></a>';
@@ -148,7 +148,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 				<th><?php _e('Total', 'wp-statistics'); ?>:</th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visitors') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_VISITORS_PAGE .
+						     WP_Statistics::$page['visitors'] .
 						     '&hitdays=365"><span>' .
 						     number_format_i18n(wp_statistics_visitor('total', null, true)) .
 						     '</span></a>';
@@ -157,7 +157,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 					} ?></th>
 				<th class="th-center"><?php if ( $WP_Statistics->get_option('visits') ) {
 						echo '<a href="admin.php?page=' .
-						     WP_STATISTICS_HITS_PAGE .
+						     WP_Statistics::$page['hits'] .
 						     '&hitdays=365"><span>' .
 						     number_format_i18n(wp_statistics_visit('total')) .
 						     '</span></a>';

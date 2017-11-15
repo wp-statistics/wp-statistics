@@ -63,7 +63,7 @@
 		$rangeend
 	);
 
-	wp_statistics_date_range_selector(WP_STATISTICS_TAGS_PAGE, $daysToDisplay, null, null, '&pretag=' . $tag, $html);
+	wp_statistics_date_range_selector(WP_Statistics::$page['tags'], $daysToDisplay, null, null, '&pretag=' . $tag, $html);
 
 	$args = array(
 		'tax_query' => array(

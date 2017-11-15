@@ -51,7 +51,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i-- ) {
 ?>
 <div class="wrap">
 	<h2><?php _e('Top Pages', 'wp-statistics'); ?></h2>
-	<?php wp_statistics_date_range_selector(WP_STATISTICS_PAGES_PAGE, $daysToDisplay); ?>
+	<?php wp_statistics_date_range_selector(WP_Statistics::$page['pages'], $daysToDisplay); ?>
 	<div class="postbox-container" id="last-log">
 		<div class="metabox-holder">
 			<div class="meta-box-sortables">
@@ -177,7 +177,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i-- ) {
 									echo "<div class='right-div'>" .
 									     __('Visits', 'wp-statistics') .
 									     ": <a href='?page=" .
-									     WP_STATISTICS_PAGES_PAGE .
+									     WP_Statistics::$page['pages'] .
 									     '&page-uri=' .
 									     htmlentities($uri[0], ENT_QUOTES) .
 									     "'>" .

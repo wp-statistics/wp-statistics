@@ -22,7 +22,7 @@ function wp_statistics_generate_about_postbox_content() {
 		) ) {
 			?>
 			| <p>
-				<a href="?page=<?php echo WP_STATISTICS_SETTINGS_PAGE; ?>&tab=about"><?php _e(
+				<a href="?page=<?php echo WP_Statistics::$page['settings']; ?>&tab=about"><?php _e(
 						'More Information',
 						'wp-statistics'
 					); ?></a>

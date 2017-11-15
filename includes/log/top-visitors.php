@@ -13,7 +13,7 @@ include_once( dirname(__FILE__) . '/widgets/top.visitors.php' );
 	wp_enqueue_script('jquery-ui-datepicker');
 	wp_register_style(
 		'jquery-ui-smoothness-css',
-		WP_STATISTICS_PLUGIN_URL . 'assets/css/jquery-ui-smoothness.min.css'
+		WP_Statistics::$reg['plugin-url'] . 'assets/css/jquery-ui-smoothness.min.css'
 	);
 	wp_enqueue_style('jquery-ui-smoothness-css');
 
@@ -29,7 +29,7 @@ include_once( dirname(__FILE__) . '/widgets/top.visitors.php' );
 
 	echo ' ' . __('Date', 'wp-statistics') . ': ';
 
-	echo '<input type="hidden" name="page" value="' . WP_STATISTICS_TOP_VISITORS_PAGE . '">' . "\r\n";
+	echo '<input type="hidden" name="page" value="' . WP_Statistics::$page['top-visitors'] . '">' . "\r\n";
 	echo '<input type="text" size="10" name="statsdate" id="statsdate" value="' .
 	     htmlentities($statsdate, ENT_QUOTES) .
 	     '" placeholder="' .
