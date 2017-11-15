@@ -77,28 +77,28 @@ if ( $wps_admin === false ) {
 									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-overview-display.php' ); ?>
 								</div>
 								<div id="access-settings" class="tab-content">
-									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-access-level.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-access-level.php' ); ?>
 								</div>
 								<div id="exclusions-settings" class="tab-content">
-									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-exclusions.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-exclusions.php' ); ?>
 								</div>
 								<div id="externals-settings" class="tab-content">
-									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-externals.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-externals.php' ); ?>
 								</div>
 								<div id="maintenance-settings" class="tab-content">
-									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-maintenance.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-maintenance.php' ); ?>
 								</div>
 								<div id="removal-settings" class="tab-content">
-									<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-removal.php' ); ?>
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-removal.php' ); ?>
 								</div>
 							<?php } ?>
 							<div id="about" class="tab-content">
-								<?php include( WP_Statistics::$reg['plugin-dir'] . 'include/settings/tabs/wps-about.php' ); ?>
+								<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-about.php' ); ?>
 							</div>
 						</div><!-- container -->
 					</form>
 				</div>
-				<?php include WP_Statistics::$reg['plugin-dir'] . 'include/templates/postbox.php'; ?>
+				<?php include WP_Statistics::$reg['plugin-dir'] . 'includes/templates/postbox.php'; ?>
 			</div>
 		</div>
 	</div>
