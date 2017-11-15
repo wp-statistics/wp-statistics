@@ -297,7 +297,7 @@ This is a security fix, please update immediately.
 * Fixed: Some notices error.
 * Removed: Some unused variables.
 * Removed: Force English option feature in the plugin.
-* Thanks [Farhad Sakhaei](https://dedidata.com/) To help us with this changes.
+* Thanks [Farhad Sakhaei](https://dedidata.com/) To help us with these changes.
 
 = 12.1.3 =
 * We're sorry about last issues. Now you can update to new version to resolve conflict issues.
