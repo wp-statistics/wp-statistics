@@ -288,14 +288,16 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = dev-master =
-* Added: Top Search Words. Thanks [Farhad Sakhaei](https://github.com/Dedi-Data)
-* Removed: Some unused variables and optimization the plugin.
-* Removed: Force English option feature in the plugin.
-* Improvement: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
+* The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
+* Improvement: Many functions converted to classes.
 * Improvement: Export data on the optimization page.
-* Improvement: Constants, Includes and moved some functions to the class.
-* Improvement: The classes method and created some class to do some tasks in the plugin. Thanks [Farhad Sakhaei](https://github.com/Dedi-Data)
-* Fixed: Some notice errors.
+* Improvement: Constants, Include files.
+* Improvement: Setting/Optimization page stylesheet and removed jQuery UI to generate tabs.
+* Added: Top Search Words in the plugin.
+* Fixed: Some notices error.
+* Removed: Some unused variables.
+* Removed: Force English option feature in the plugin.
+* Thanks [Farhad Sakhaei](https://dedidata.com/) To help us with this changes.
 
 = 12.1.3 =
 * We're sorry about last issues. Now you can update to new version to resolve conflict issues.
