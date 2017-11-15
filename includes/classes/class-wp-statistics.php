@@ -126,7 +126,7 @@ namespace {
 		}
 
 		/**
-		 * Autoloads classes of the plugin
+		 * Autoload classes of the plugin
 		 *
 		 * @param string $class Class name
 		 */

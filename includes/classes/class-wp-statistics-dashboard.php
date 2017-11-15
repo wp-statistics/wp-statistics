@@ -1,5 +1,8 @@
 <?php
 namespace {
+	/**
+	 * Class WP_Statistics_Dashboard
+	 */
 	class WP_Statistics_Dashboard {
 
 		static function widget_load() {

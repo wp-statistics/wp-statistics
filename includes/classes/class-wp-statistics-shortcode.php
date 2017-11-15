@@ -9,21 +9,19 @@ namespace {
 		/**
 		 * @param $atts
 		 *
+		 * WP-Statistics shortcode is in the format of:
+		 * [wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx id=xxx]
+
+		 * Where:
+		 * stat = the statistic you want.
+		 * time = is the timeframe, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it.
+		 * provider = the search provider to get stats on.
+		 * format = i18n, english, none.
+		 * id = the page/post id to get stats on.
+		 *
 		 * @return array|false|int|null|object|string|void
 		 */
 		static function shortcodes( $atts ) {
-			/*
-				WP Statitics shortcode is in the format of:
-
-					[wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx id=xxx]
-
-				Where:
-					stat = the statistic you want.
-					time = is the timeframe, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it.
-					provider = the search provider to get stats on.
-					format = i18n, english, none.
-					id = the page/post id to get stats on.
-			*/
 
 			if ( ! is_array($atts) ) {
 				return;

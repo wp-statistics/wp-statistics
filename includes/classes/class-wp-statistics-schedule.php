@@ -8,6 +8,8 @@ namespace {
 
 		/**
 		 * WP_Statistics_Schedule constructor.
+		 *
+		 * @param $WP_Statistics
 		 */
 		function __construct($WP_Statistics) {
 
@@ -141,7 +143,6 @@ namespace {
 		 */
 		static function addcron( $schedules ) {
 			// Adds once weekly to the existing schedules.
-
 			if ( ! array_key_exists('weekly', $schedules) ) {
 				$schedules['weekly'] = array(
 					'interval' => 604800,
