@@ -1,21 +1,21 @@
 === WP Statistics ===
 Contributors: mostafa.s1990, GregRoss
 Donate link: https://wp-statistics.com/donate/
-Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, summary, google, live visit, search word, agent, google analytics, webmasters, google webmasters
+Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
 Stable tag: 12.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Complete statistics for your WordPress site.
+Complete WordPress Analytics and Statistics for your site!
 
 == Description ==
 A comprehensive plugin for your WordPress visitor statistics, come visit us at our [website](https://wp-statistics.com) for all the latest news and information.
 
-Track statistics for your WordPress site without depending on external services and uses arrogate data whenever possible to respect your users privacy.
+Track Statistics for your WordPress site without depending on external services and uses arrogate data whenever possible to respect your users privacy.
 
-On screen statistics presented as graphs are easily viewed through the WordPress admin interface.
+On screen Statistics presented as graphs are easily viewed through the WordPress admin interface.
 
 This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
 
