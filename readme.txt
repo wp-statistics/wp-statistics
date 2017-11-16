@@ -1,7 +1,7 @@
 === WP Statistics ===
 Contributors: mostafa.s1990, GregRoss
 Donate link: https://wp-statistics.com/donate/
-Tags: analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, summary, google, live-visit, search-word, agent
+Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, summary, google, live visit, search word, agent, google analytics, webmasters, google webmasters
 Requires at least: 3.0
 Tested up to: 4.9
 Stable tag: 12.1.3
