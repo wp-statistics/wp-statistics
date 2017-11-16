@@ -1421,3 +1421,24 @@ function wp_statistics_validate_capability( $capability ) {
 
 	return 'manage_options';
 }
+
+/**
+ * Notices displayed near the top of admin pages.
+ *
+ * @param $type
+ * @param $message
+ */
+function wp_statistics_admin_notice_result( $type, $message ) {
+
+	switch ( $type ) {
+		case 'error':
+			$class = 'notice notice-error';
+			break;
+
+		case 'success':
+			$class = 'notice notice-success';
+			break;
+	}
+
+	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
+}
