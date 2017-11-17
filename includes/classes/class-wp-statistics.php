@@ -82,6 +82,7 @@ namespace {
 				$this->set_pages();
 			}
 
+			// Autoload composer
 			require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
 
 			// define an autoload method to automatically load classes in /includes/classes

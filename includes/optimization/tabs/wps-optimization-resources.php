@@ -4,6 +4,12 @@
 * @date 7 March 2011
 * @website www.zriel.com
 */
+
+/**
+ * @param $size
+ *
+ * @return string
+ */
 function formatSize( $size ) {
 	$sizes = array( " Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB" );
 	if ( $size == 0 ) {
