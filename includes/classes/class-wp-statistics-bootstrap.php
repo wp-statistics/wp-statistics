@@ -362,8 +362,8 @@ namespace {
 				$post_types = (array) get_post_types(array( 'show_ui' => true ), 'object');
 
 				foreach ( $post_types as $type ) {
-					add_action('manage_' . $type->name . '_posts_columns', 'wp_statistics_add_column', 10, 2);
-					add_action('manage_' . $type->name . '_posts_custom_column', 'wp_statistics_render_column', 10, 2);
+					add_action('manage_' . $type->name . '_posts_columns', 'WP_Statistics_Bootstrap::add_column', 10, 2);
+					add_action('manage_' . $type->name . '_posts_custom_column', 'WP_Statistics_Bootstrap::render_column', 10, 2);
 				}
 			}
 		}
