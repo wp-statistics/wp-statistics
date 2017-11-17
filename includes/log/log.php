@@ -18,7 +18,7 @@ if ( ! $WP_Statistics->get_option('geoip') ) {
 }
 
 if ( ! $WP_Statistics->get_option('disable_donation_nag', false) ) {
-	$nag_html .= '<div class="update-nag" style="width: 90%;"><div id="donate-text">' .
+	$nag_html .= '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text">' .
 	             __('Have you thought about donating to WP Statistics?', 'wp-statistics') .
 	             ' <a href="http://wp-statistics.com/donate/" target="_blank">' .
 	             __('Donate Now!', 'wp-statistics') .
