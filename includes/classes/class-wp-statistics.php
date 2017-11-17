@@ -60,8 +60,14 @@ namespace {
 				/**
 				 * WP Statistics Version
 				 */
-				WP_Statistics::$reg['version'] = '12.1.3';
+
+				if ( ! function_exists( 'get_plugin_data' ) ){
+					require( ABSPATH . 'wp-admin/includes/plugin.php' );
+				}
+				WP_Statistics::$reg['plugin-data'] = get_plugin_data( WP_STATISTICS_MAIN_FILE );
+				WP_Statistics::$reg['version'] = WP_Statistics::$reg['plugin-data']['Version'];
 				//define('WP_STATISTICS_VERSION', '12.1.3');
+
 				/**
 				 * Required PHP Version
 				 */
