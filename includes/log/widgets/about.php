@@ -11,7 +11,7 @@ function wp_statistics_generate_about_postbox_content() {
 	<div id="about-links" style="text-align: center;">
 		<p><a href="http://wp-statistics.com" target="_blank"><?php _e('Website', 'wp-statistics'); ?></a></p>
 		| <p>
-			<a href="http://wordpress.org/support/view/plugin-reviews/wp-statistics" target="_blank"><?php _e(
+			<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><?php _e(
 					'Rate and Review',
 					'wp-statistics'
 				); ?></a>

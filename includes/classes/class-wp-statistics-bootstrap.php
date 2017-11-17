@@ -304,7 +304,7 @@ namespace {
 						'wp-statistics'
 					) . '">' . __('Visit WordPress.org page', 'wp-statistics') . '</a>';
 
-				$rate_url = 'http://wordpress.org/support/view/plugin-reviews/wp-statistics?rate=5#postform';
+				$rate_url = 'https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post';
 				$links[]  = '<a href="' . $rate_url . '" target="_blank" title="' . __(
 						'Click here to rate and review this plugin on WordPress.org',
 						'wp-statistics'

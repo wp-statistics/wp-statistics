@@ -65,7 +65,7 @@
 					'Thanks for installing WP Statistics, we encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!',
 					'wp-statistics'
 				),
-				'<a href="http://wordpress.org/support/view/plugin-reviews/wp-statistics" target="_blank">',
+				'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">',
 				'</a>'
 			); ?>
 		</td>
