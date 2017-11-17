@@ -16,6 +16,7 @@ if ( $wps_nonce_valid ) {
 			GLOBAL $wpdb, $WP_Statistics;
 
 			$default_options = $WP_Statistics->Default_Options();
+			$excluded_defaults = array( 'force_robot_update', 'robot_list' );
 
 			// Handle multi site implementations
 			if ( is_multisite() ) {
