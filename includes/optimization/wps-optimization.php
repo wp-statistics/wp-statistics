@@ -1,5 +1,5 @@
 <?php
-GLOBAL $wpdb, $WP_Statistics;
+global $wpdb, $WP_Statistics;
 $wp_prefix = $wpdb->prefix;
 
 if ( ! is_super_admin() ) {

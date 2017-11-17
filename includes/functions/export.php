@@ -1,11 +1,10 @@
 ﻿<?php
 function wp_statistics_export_data() {
+	global $WP_Statistics, $wpdb;
 
 	if ( ! isset( $_POST['table-to-export'] ) or ! isset( $_POST['export-file-type'] ) ) {
 		return;
 	}
-
-	GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
 	$manage_cap = wp_statistics_validate_capability(
 		$WP_Statistics->get_option(
