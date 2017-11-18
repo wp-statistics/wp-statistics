@@ -1352,14 +1352,6 @@ namespace {
 					'1.0'
 			);
 
-			// Load our CSS to be used.
-			wp_enqueue_style(
-					'wpstatistics-admin-css',
-					WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css',
-					true,
-					'1.1'
-			);
-
 			if ( is_rtl() ) {
 				wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1');
 			}
@@ -1408,14 +1400,6 @@ namespace {
 					'1.0'
 			);
 
-			// Load our CSS to be used.
-			wp_enqueue_style(
-					'wpstatistics-admin-css',
-					WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css',
-					true,
-					'1.1'
-			);
-
 			if ( is_rtl() ) {
 				wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1');
 			}
@@ -1436,6 +1420,15 @@ namespace {
 		 * @param string $hook Not Used
 		 */
 		static function enqueue_scripts( $hook ) {
+
+			// Load our CSS to be used.
+			wp_enqueue_style(
+					'wpstatistics-admin-css',
+					WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css',
+					true,
+					WP_Statistics::$reg['version']
+			);
+
 			if ( ! isset( $_GET['page'] ) ) {
 				return;
 			}
