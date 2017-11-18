@@ -287,6 +287,11 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Fixed: Issue in checking the cron request.
+* Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
+* Fixed: Admin bar menu icon.
+
 = 12.2.1 =
 * Fixed: Issue to `add_column` callback.
 
