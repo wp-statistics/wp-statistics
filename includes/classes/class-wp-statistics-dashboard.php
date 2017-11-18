@@ -201,7 +201,6 @@ namespace {
 
 			// Load the css we use for the statistics pages.
 			wp_enqueue_style('wpstatistics-log-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/log.css', true, '1.2');
-			wp_enqueue_style('wpstatistics-admin-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css', true, '1.1');
 
 			// Don't forget the right to left support.
 			if ( is_rtl() ) {

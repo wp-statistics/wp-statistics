@@ -2,54 +2,45 @@
 .wp-statistics-plugins .widefat > * {
     float: left;
 }
-
-.wp-statistics-plugins .widefat .plugin-card .desc, .wp-statistics-plugins .widefat .plugin-card .name {
+.wp-statistics-plugins .widefat .plugin-card .desc,
+.wp-statistics-plugins .widefat .plugin-card .name {
     margin-right: 0;
 }
-
 .rtl .wp-statistics-plugins .widefat > * {
     float: right;
 }
-
-.rtl .wp-statistics-plugins .widefat .plugin-card .desc, .rtl .wp-statistics-plugins .widefat .plugin-card .name {
+.rtl .wp-statistics-plugins .widefat .plugin-card .desc,
+.rtl .wp-statistics-plugins .widefat .plugin-card .name {
     margin-right: 148px;
     margin-left: 0;
 }
-
 .wp-statistics-plugins .widefat .plugin-card-bottom {
     float: initial;
 }
-
 .wp-statistics-plugins .widefat .column-downloaded p {
-    margin: 2px 0 0px 0;
+    margin: 2px 0 0 0;
 }
-
 .wp-statistics-plugins .column-price {
     display: inline;
     margin: 0 8px;
     font-size: 15px;
     color: #589616;
 }
-
 /** Setting page **/
 .wp-statistics-settings .widefat {
     float: left;
 }
-
 .wp-statistics-settings .postbox-container {
     margin-top: 51px;
 }
-
 .wp-statistics-container {
     margin: 0 auto;
 }
-
 .wp-statistics-settings ul.tabs {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
-
 .wp-statistics-settings ul.tabs li {
     background: none;
     color: #222;
@@ -59,7 +50,6 @@
     border: 1px solid #f1f1f1;
     margin: 0;
 }
-
 .wp-statistics-settings ul.tabs li.current {
     background: #ffffff;
     color: #222;
@@ -69,7 +59,6 @@
     border-top-color: #e5e5e5;
     padding-bottom: 11px;
 }
-
 .wp-statistics-settings .tab-content {
     display: none;
     background: #ffffff;
@@ -79,51 +68,41 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
     margin: -1px 0 0 0;
 }
-
 .wp-statistics-settings .tab-content.current {
     display: inherit;
 }
-
 .rtl .wp-statistics-settings .widefat {
     float: right;
 }
-
 @media only screen and (max-width: 1327px) {
     .wp-statistics-settings ul.tabs li {
         padding: 10px 5px;
     }
 }
-
 /** Other CSS **/
 .note {
     color: #FF0000;
     font-size: 11px !important;
     font-weight: bold;
 }
-
 .data {
     border-top: 1px solid #CFCDCD;
     font-size: 11px !important;
     padding: 5px 0 0;
 }
-
 .data code {
     border-radius: 2px 2px 2px 2px;
 }
-
 .wps-center {
     text-align: center;
 }
-
 #wps_about_postbox #about_postbox img {
     max-width: 170px;
     margin: 0 0 9px 0;
 }
-
 .column-wp-statistics {
     width: 52px;
 }
-
 #wpadminbar #wp-admin-bar-wp-statistic-menu .ab-icon:before {
     content: '\f184';
     top: 2px;
