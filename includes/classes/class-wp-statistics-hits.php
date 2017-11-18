@@ -103,6 +103,14 @@ class WP_Statistics_Hits extends WP_Statistics {
 			return;
 		}
 
+		if ( (defined( 'DOING_CRON' ) && DOING_CRON === true) || wp_doing_cron() === true  ) {
+			$this->exclusion_match  = true;
+			$this->exclusion_reason = 'cronjob';
+
+			return;
+		}
+
+
 		// Detect if the user is a crawler.
 		$crawler   = false;
 		$ua_string = '';
