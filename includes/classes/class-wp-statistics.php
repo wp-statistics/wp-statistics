@@ -88,6 +88,8 @@ namespace {
 			// define an autoload method to automatically load classes in /includes/classes
 			spl_autoload_register(array( $this, 'autoload' ));
 
+			load_plugin_textdomain( 'wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages' );
+
 			// Add init actions.
 			// For the main init we're going to set our priority to 9 to execute before most plugins
 			// so we can export data before and set the headers without
