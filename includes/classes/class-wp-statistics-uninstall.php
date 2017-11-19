@@ -12,7 +12,7 @@ namespace {
 		 */
 		function __construct() {
 			if ( is_admin() ) {
-				global $wpdb, $WP_Statistics;
+				global $WP_Statistics;
 
 				// Handle multi site implementations
 				if ( is_multisite() ) {

@@ -171,12 +171,11 @@ namespace {
 		 * @throws \phpbrowscap\Exception
 		 */
 		static function download_browscap() {
-
-			GLOBAL $WP_Statistics;
+			global $WP_Statistics;
 
 			// We need the download_url() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
 			if ( ! function_exists('download_url') ) {
-				return '';
+				include( ABSPATH . 'wp-admin/includes/file.php' );
 			}
 
 			// If browscap is disabled, bail out.

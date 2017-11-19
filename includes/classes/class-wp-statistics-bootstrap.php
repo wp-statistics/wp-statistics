@@ -192,9 +192,9 @@ namespace {
 
 			// Create a new hit class, if we're GeoIP enabled, use WP_Statistics_GEO_IP_Hits().
 			if ( class_exists('WP_Statistics_GEO_IP_Hits') ) {
-				$h = new WP_Statistics_GEO_IP_Hits();
+				$h = new WP_Statistics_GEO_IP_Hits;
 			} else {
-				$h = new WP_Statistics_Hits();
+				$h = new WP_Statistics_Hits;
 			}
 
 			// Call the online users tracking code.
