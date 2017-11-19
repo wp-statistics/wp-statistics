@@ -9,7 +9,9 @@ namespace {
 		/**
 		 * WP_Statistics_Bootstrap constructor.
 		 */
-		function __construct($WP_Statistics) {
+		function __construct() {
+			global $WP_Statistics;
+
 			// Display the admin notices if we should.
 			if ( isset( $pagenow ) && array_key_exists('page', $_GET) ) {
 				if ( $pagenow == "admin.php" && substr($_GET['page'], 0, 14) == 'wp-statistics/' ) {

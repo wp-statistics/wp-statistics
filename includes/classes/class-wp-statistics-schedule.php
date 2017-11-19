@@ -11,7 +11,8 @@ namespace {
 		 *
 		 * @param $WP_Statistics
 		 */
-		function __construct( $WP_Statistics ) {
+		function __construct() {
+			global $WP_Statistics;
 
 			// before construct
 			add_filter('cron_schedules', 'WP_Statistics_Schedule::addcron');
