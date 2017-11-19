@@ -22,7 +22,7 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 				continue;
 			}
 
-			$urls[] = $url['host'];
+			$urls[] = $url['scheme'] . '://' . $url['host'];
 		}
 
 	} while ( 10000 == count($result) );
