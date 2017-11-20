@@ -40,7 +40,7 @@ namespace {
 		 * WP_Statistics constructor.
 		 */
 		public function __construct() {
-			global $wpdb;
+			global $WP_Statistics, $wpdb;
 
 			if ( ! isset( WP_Statistics::$reg['plugin-url'] ) ) {
 				/**
@@ -104,28 +104,16 @@ namespace {
 				return;
 			}
 
-			// If we've been flagged to remove all of the data, then do so now.
-			if ( get_option('wp_statistics_removal') == 'true' ) {
-				new \WP_Statistics_Uninstall;
-			}
-
-			// If we've been removed, return without doing anything else.
-			if ( get_option('wp_statistics_removal') == 'done' ) {
-				add_action('admin_notices', array( $this, 'removal_admin_notice' ), 10, 2);
-
-				return;
-			}
+			$this->db         = $wpdb;
+			$this->tb_prefix  = $wpdb->prefix;
+			$this->agent      = $this->get_UserAgent();
+			$this->historical = array();
 
 			if ( get_option('timezone_string') ) {
 				$this->tz_offset = timezone_offset_get(timezone_open(get_option('timezone_string')), new DateTime());
 			} else if ( get_option('gmt_offset') ) {
 				$this->tz_offset = get_option('gmt_offset') * 60 * 60;
 			}
-
-			$this->db         = $wpdb;
-			$this->tb_prefix  = $wpdb->prefix;
-			$this->agent      = $this->get_UserAgent();
-			$this->historical = array();
 
 			// Load the options from the database
 			$this->options = get_option('wp_statistics');
@@ -148,32 +136,44 @@ namespace {
 				$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
 			}
 
-			// Check to see if we're installed and are the current version.
-			$this->installed_version = get_option('wp_statistics_plugin_version');
-			if ( $this->installed_version != WP_Statistics::$reg['version'] ) {
-				new \WP_Statistics_Install($this);
-			}
-
 			// Load the rest of the required files for our global functions, online user tracking and hit tracking.
 			if ( ! function_exists('wp_statistics_useronline') ) {
 				include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/functions.php';
 			}
 
+			$WP_Statistics = $this;
+
+			// Check to see if we're installed and are the current version.
+			$this->installed_version = get_option('wp_statistics_plugin_version');
+			if ( $this->installed_version != WP_Statistics::$reg['version'] ) {
+				new \WP_Statistics_Install;
+			}
+
+			// If we've been flagged to remove all of the data, then do so now.
+			if ( get_option('wp_statistics_removal') == 'true' ) {
+				new \WP_Statistics_Uninstall;
+			}
+
+			// If we've been removed, return without doing anything else.
+			if ( get_option('wp_statistics_removal') == 'done' ) {
+				add_action('admin_notices', array( $this, 'removal_admin_notice' ), 10, 2);
+
+				return;
+			}
 
 			add_action('widgets_init', array( $this, 'widget' ));
+
+
 			add_action('wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load');
 			add_action('admin_footer', 'WP_Statistics_Dashboard::inline_javascript');
-
 			add_action('add_meta_boxes', 'WP_Statistics_Editor::add_meta_box');
-
 			add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
 			add_filter('widget_text', 'do_shortcode');
 			add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
 
-			new \WP_Statistics_Schedule($this);
-			new \WP_Statistics_Ajax();
-
-			new \WP_Statistics_Bootstrap($this);
+			new \WP_Statistics_Schedule;
+			new \WP_Statistics_Ajax;
+			new \WP_Statistics_Bootstrap;
 		}
 
 		/**

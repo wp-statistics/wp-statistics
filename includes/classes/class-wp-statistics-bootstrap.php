@@ -9,7 +9,9 @@ namespace {
 		/**
 		 * WP_Statistics_Bootstrap constructor.
 		 */
-		function __construct($WP_Statistics) {
+		function __construct() {
+			global $WP_Statistics;
+
 			// Display the admin notices if we should.
 			if ( isset( $pagenow ) && array_key_exists('page', $_GET) ) {
 				if ( $pagenow == "admin.php" && substr($_GET['page'], 0, 14) == 'wp-statistics/' ) {
@@ -192,9 +194,9 @@ namespace {
 
 			// Create a new hit class, if we're GeoIP enabled, use WP_Statistics_GEO_IP_Hits().
 			if ( class_exists('WP_Statistics_GEO_IP_Hits') ) {
-				$h = new WP_Statistics_GEO_IP_Hits();
+				$h = new WP_Statistics_GEO_IP_Hits;
 			} else {
-				$h = new WP_Statistics_Hits();
+				$h = new WP_Statistics_Hits;
 			}
 
 			// Call the online users tracking code.
