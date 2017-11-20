@@ -224,7 +224,7 @@ namespace {
 
 				$default_options = $WP_Statistics->Default_Options();
 
-				if ( $WP_Statistics->installed_version == false ) {
+				if ( WP_Statistics::$installed_version == false ) {
 
 					// If this is a first time install, we just need to setup the primary values in the tables.
 
@@ -386,7 +386,7 @@ namespace {
 					}
 				}
 
-				if ( $WP_Statistics->installed_version == false ) {
+				if ( WP_Statistics::$installed_version == false ) {
 					// We now need to set the robot list to update during the next release.  This is only done for new installs to ensure we don't overwrite existing custom robot lists.
 					$WP_Statistics->store_option('force_robot_update', true);
 				}
