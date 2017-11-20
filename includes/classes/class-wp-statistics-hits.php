@@ -379,22 +379,23 @@ class WP_Statistics_Hits extends WP_Statistics {
 
 	// This function records visits to the site.
 	public function Visits() {
+		global $wpdb;
 
 		// If we're a webcrawler or referral from ourselves or an excluded address don't record the visit.
 		if ( ! $this->exclusion_match ) {
 
 			// Check to see if we're a returning visitor.
-			$this->result = $this->db->get_row(
-				"SELECT * FROM {$this->tb_prefix}statistics_visit ORDER BY `{$this->tb_prefix}statistics_visit`.`ID` DESC"
+			$this->result = $wpdb->get_row(
+				"SELECT * FROM {$wpdb->prefix}statistics_visit ORDER BY `{$wpdb->prefix}statistics_visit`.`ID` DESC"
 			);
 
 			// If we're a returning visitor, update the current record in the database, otherwise, create a new one.
 			if ( $this->result->last_counter != $this->Current_Date('Y-m-d') ) {
 				// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
 				// for this IP address we want to do an "INSERT ... ON DUPLICATE KEY" which WordPress doesn't support.
-				$sqlstring = $this->db->prepare(
+				$sqlstring = $wpdb->prepare(
 					'INSERT INTO ' .
-					$this->tb_prefix .
+					$wpdb->prefix .
 					'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' .
 					$this->coefficient,
 					$this->Current_Date(),
@@ -402,25 +403,25 @@ class WP_Statistics_Hits extends WP_Statistics {
 					$this->coefficient
 				);
 
-				$this->db->query($sqlstring);
+				$wpdb->query($sqlstring);
 			} else {
-				$sqlstring = $this->db->prepare(
+				$sqlstring = $wpdb->prepare(
 					'UPDATE ' .
-					$this->tb_prefix .
+					$wpdb->prefix .
 					'statistics_visit SET `visit` = `visit` + %d, `last_visit` = %s WHERE `last_counter` = %s',
 					$this->coefficient,
 					$this->Current_Date(),
 					$this->result->last_counter
 				);
 
-				$this->db->query($sqlstring);
+				$wpdb->query($sqlstring);
 			}
 		}
 	}
 
 	// This function records unique visitors to the site.
 	public function Visitors() {
-		global $wp_query, $WP_Statistics;
+		global $wpdb, $wp_query, $WP_Statistics;
 
 		// Get the pages or posts ID if it exists.
 		if ( is_object($wp_query) ) {
@@ -443,12 +444,12 @@ class WP_Statistics_Hits extends WP_Statistics {
 
 			// Check to see if we already have an entry in the database.
 			if ( $this->ip_hash != false ) {
-				$this->result = $this->db->get_row(
-					"SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip_hash}'"
+				$this->result = $wpdb->get_row(
+					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip_hash}'"
 				);
 			} else {
-				$this->result = $this->db->get_row(
-					"SELECT * FROM {$this->tb_prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'"
+				$this->result = $wpdb->get_row(
+					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$this->Current_Date('Y-m-d')}' AND `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'"
 				);
 			}
 
@@ -471,9 +472,9 @@ class WP_Statistics_Hits extends WP_Statistics {
 				// Store the result.
 				// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
 				// for this IP address we want to do an "INSERT IGNORE" which WordPress doesn't support.
-				$sqlstring = $this->db->prepare(
+				$sqlstring = $wpdb->prepare(
 					'INSERT IGNORE INTO ' .
-					$this->tb_prefix .
+					$wpdb->prefix .
 					'statistics_visitor (last_counter, referred, agent, platform, version, ip, location, UAString, hits, honeypot) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, 1, %s )',
 					$this->Current_date('Y-m-d'),
 					$this->get_Referred(),
@@ -486,11 +487,11 @@ class WP_Statistics_Hits extends WP_Statistics {
 					$honeypot
 				);
 
-				$this->db->query($sqlstring);
+				$wpdb->query($sqlstring);
 
 				// Now parse the referrer and store the results in the search table if the database has been converted.
 				// Also make sure we actually inserted a row on the INSERT IGNORE above or we'll create duplicate entries.
-				if ( $this->get_option('search_converted') && $this->db->insert_id ) {
+				if ( $this->get_option('search_converted') && $wpdb->insert_id ) {
 
 					$search_engines = wp_statistics_searchengine_list();
 					$referred       = $this->get_Referred();
@@ -509,13 +510,13 @@ class WP_Statistics_Hits extends WP_Statistics {
 							$data['engine']       = $key;
 							$data['words']        = $WP_Statistics->Search_Engine_QueryString($referred);
 							$data['host']         = $parts['host'];
-							$data['visitor']      = $this->db->insert_id;
+							$data['visitor']      = $wpdb->insert_id;
 
 							if ( $data['words'] == 'No search query found!' ) {
 								$data['words'] = '';
 							}
 
-							$this->db->insert($this->db->prefix . 'statistics_search', $data);
+							$wpdb->insert($this->db->prefix . 'statistics_search', $data);
 						}
 					}
 				}
@@ -531,16 +532,16 @@ class WP_Statistics_Hits extends WP_Statistics {
 					$this->exclusion_reason = 'honeypot';
 				} else {
 
-					$sqlstring = $this->db->prepare(
+					$sqlstring = $wpdb->prepare(
 						'UPDATE ' .
-						$this->tb_prefix .
+						$wpdb->prefix .
 						'statistics_visitor SET `hits` = `hits` + %d, `honeypot` = %d WHERE `ID` = %d',
 						1 - $honeypot,
 						$honeypot,
 						$this->result->ID
 					);
 
-					$this->db->query($sqlstring);
+					$wpdb->query($sqlstring);
 				}
 			}
 		}
@@ -551,18 +552,19 @@ class WP_Statistics_Hits extends WP_Statistics {
 	}
 
 	private function RecordExclusion() {
+		global $wpdb;
 		// If we're not storing exclusions, just return.
 		if ( $this->exclusion_record != true ) {
 			return;
 		}
 
-		$this->result = $this->db->query(
-			"UPDATE {$this->tb_prefix}statistics_exclusions SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date( 'Y-m-d' )}' AND `reason` = '{$this->exclusion_reason}'"
+		$this->result = $wpdb->query(
+			"UPDATE {$wpdb->prefix}statistics_exclusions SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date( 'Y-m-d' )}' AND `reason` = '{$this->exclusion_reason}'"
 		);
 
 		if ( ! $this->result ) {
-			$this->db->insert(
-				$this->tb_prefix . 'statistics_exclusions',
+			$wpdb->insert(
+				$wpdb->prefix . 'statistics_exclusions',
 				array(
 					'date'   => $this->Current_date('Y-m-d'),
 					'reason' => $this->exclusion_reason,
@@ -574,7 +576,7 @@ class WP_Statistics_Hits extends WP_Statistics {
 
 	// This function records page hits.
 	public function Pages() {
-		global $wp_query;
+		global $wpdb, $wp_query;
 
 		// If we're a webcrawler or referral from ourselves or an excluded address don't record the page hit.
 		if ( ! $this->exclusion_match ) {
@@ -605,19 +607,19 @@ class WP_Statistics_Hits extends WP_Statistics {
 				$page_uri = substr($page_uri, 0, 255);
 
 				// If we have already been to this page today (a likely scenario), just update the count on the record.
-				$sql          = $this->db->prepare(
-					"UPDATE {$this->tb_prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date( 'Y-m-d' )}' AND `uri` = %s",
+				$sql          = $wpdb->prepare(
+					"UPDATE {$wpdb->prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$this->Current_Date( 'Y-m-d' )}' AND `uri` = %s",
 					$page_uri
 				);
-				$this->result = $this->db->query($sql);
+				$this->result = $wpdb->query($sql);
 
 				// If the update failed (aka the record doesn't exist), insert a new one.  Note this may drop a page hit if a race condition
 				// exists where two people load the same page a the roughly the same time.  In that case two inserts would be attempted but
 				// there is a unique index requirement on the database and one of them would fail.
 				if ( ! $this->result ) {
 
-					$this->db->insert(
-						$this->tb_prefix . 'statistics_pages',
+					$wpdb->insert(
+						$wpdb->prefix . 'statistics_pages',
 						array(
 							'uri'   => $page_uri,
 							'date'  => $this->Current_date('Y-m-d'),
@@ -633,14 +635,15 @@ class WP_Statistics_Hits extends WP_Statistics {
 	// This function checks to see if the current user (as defined by their IP address) has an entry in the database.
 	// Note we set the $this->result variable so we don't have to re-execute the query when we do the user update.
 	public function Is_user() {
+		global $wpdb;
 
 		if ( $this->ip_hash != false ) {
-			$this->result = $this->db->query(
-				"SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip_hash}'"
+			$this->result = $wpdb->query(
+				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$this->ip_hash}'"
 			);
 		} else {
-			$this->result = $this->db->query(
-				"SELECT * FROM {$this->tb_prefix}statistics_useronline WHERE `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'"
+			$this->result = $wpdb->query(
+				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$this->ip}' AND `agent` = '{$this->agent['browser']}' AND `platform` = '{$this->agent['platform']}' AND `version` = '{$this->agent['version']}'"
 			);
 		}
 
@@ -668,11 +671,12 @@ class WP_Statistics_Hits extends WP_Statistics {
 
 	// This function adds a user to the database.
 	public function Add_user() {
+		global $wpdb;
 		if ( ! $this->Is_user() ) {
 
 			// Insert the user in to the database.
-			$this->db->insert(
-				$this->tb_prefix . 'statistics_useronline',
+			$wpdb->insert(
+				$wpdb->prefix . 'statistics_useronline',
 				array(
 					'ip'        => $this->ip_hash ? $this->ip_hash : $this->ip,
 					'timestamp' => $this->timestamp,
@@ -691,12 +695,13 @@ class WP_Statistics_Hits extends WP_Statistics {
 
 	// This function updates a user in the database.
 	public function Update_user() {
+		global $wpdb;
 		// Make sure we found the user earlier when we called Is_user().
 		if ( $this->result ) {
 
 			// Update the database with the new information.
-			$this->db->update(
-				$this->tb_prefix . 'statistics_useronline',
+			$wpdb->update(
+				$wpdb->prefix . 'statistics_useronline',
 				array(
 					'timestamp' => $this->timestamp,
 					'date'      => $this->Current_Date(),
@@ -715,10 +720,11 @@ class WP_Statistics_Hits extends WP_Statistics {
 
 	// This function removes expired users.
 	public function Delete_user() {
+		global $wpdb;
 		// We want to delete users that are over the number of seconds set by the admin.
 		$timediff = $this->timestamp - $this->second;
 
 		// Call the deletion query.
-		$this->db->query("DELETE FROM {$this->tb_prefix}statistics_useronline WHERE timestamp < '{$timediff}'");
+		$wpdb->query("DELETE FROM {$wpdb->prefix}statistics_useronline WHERE timestamp < '{$timediff}'");
 	}
 }
