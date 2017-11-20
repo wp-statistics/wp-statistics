@@ -84,11 +84,7 @@ namespace {
 				$this->tz_offset = get_option('gmt_offset') * 60 * 60;
 			}
 
-			// Load the options from the database
-			$this->options = get_option('wp_statistics');
-			if ( ! is_array($this->options) ) {
-				$this->user_options = array();
-			}
+			$this->load_options();
 
 			// Set the default co-efficient.
 			$this->coefficient = $this->get_option('coefficient', 1);
@@ -171,7 +167,8 @@ namespace {
 			load_plugin_textdomain('wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages');
 		}
 
-		// This function loads the options from WordPress, it is included here for completeness as the options are loaded automatically in the class constructor.
+		// This function loads the options from WordPress,
+		// It is included here for completeness as the options are loaded automatically in the class constructor.
 		public function load_options() {
 			$this->options = get_option('wp_statistics');
 
@@ -180,7 +177,8 @@ namespace {
 			}
 		}
 
-		// This function loads the user options from WordPress.  It is NOT called during the class constructor.
+		// This function loads the user options from WordPress.
+		// It is NOT called during the class constructor.
 		public function load_user_options( $force = false ) {
 			if ( $this->user_options_loaded == true && $force != true ) {
 				return;
@@ -220,7 +218,8 @@ namespace {
 			return $this->options[ $option ];
 		}
 
-		// This function mimics WordPress's get_user_meta() function but uses the array instead of individual options.
+		// This function mimics WordPress's get_user_meta() function
+		// But uses the array instead of individual options.
 		public function get_user_option( $option, $default = null ) {
 			// If the user id has not been set or no options array exists, return FALSE.
 			if ( $this->user_id == 0 ) {
