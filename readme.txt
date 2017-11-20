@@ -1,5 +1,5 @@
 === WP Statistics ===
-Contributors: mostafa.s1990, GregRoss
+Contributors: mostafa.s1990, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
@@ -288,6 +288,7 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = dev-master =
+* Improvement: Processes in the plugin. Admin & Front-end separated.
 * Fixed: Issue in checking the cron request.
 * Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
 * Fixed: Admin bar menu icon.
