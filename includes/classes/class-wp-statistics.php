@@ -30,8 +30,8 @@ namespace {
 		public $options      = array();
 		public $user_options = array();
 		public $menu_slugs   = array();
-		public $installed_version;
 
+		public static $installed_version;
 		public static $reg  = array();
 		public static $page = array();
 
@@ -40,7 +40,7 @@ namespace {
 		 * WP_Statistics constructor.
 		 */
 		public function __construct() {
-			global $WP_Statistics, $wpdb;
+			global $wpdb;
 
 			if ( ! isset( WP_Statistics::$reg['plugin-url'] ) ) {
 				/**
@@ -61,70 +61,37 @@ namespace {
 				 * WP Statistics Version
 				 */
 
-				if ( ! function_exists( 'get_plugin_data' ) ){
+				if ( ! function_exists('get_plugin_data') ) {
 					require( ABSPATH . 'wp-admin/includes/plugin.php' );
 				}
-				WP_Statistics::$reg['plugin-data'] = get_plugin_data( WP_STATISTICS_MAIN_FILE );
-				WP_Statistics::$reg['version'] = WP_Statistics::$reg['plugin-data']['Version'];
+				WP_Statistics::$reg['plugin-data'] = get_plugin_data(WP_STATISTICS_MAIN_FILE);
+				WP_Statistics::$reg['version']     = WP_Statistics::$reg['plugin-data']['Version'];
 				//define('WP_STATISTICS_VERSION', '12.1.3');
 
-				/**
-				 * Required PHP Version
-				 */
-				WP_Statistics::$reg['required-php-version'] = '5.4.0';
-				//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
-				/**
-				 * Required GEO IP PHP Version
-				 */
-				WP_Statistics::$reg['geoip-php-version'] = WP_Statistics::$reg['required-php-version'];
-				//define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_Statistics::$reg['required_php_version']);
-
-				$this->set_pages();
 			}
 
-			// Autoload composer
-			require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
+			$this->db        = $wpdb;
+			$this->tb_prefix = $wpdb->prefix;
 
-			// define an autoload method to automatically load classes in /includes/classes
-			spl_autoload_register(array( $this, 'autoload' ));
-
-			load_plugin_textdomain( 'wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages' );
-
-			// Add init actions.
-			// For the main init we're going to set our priority to 9 to execute before most plugins
-			// so we can export data before and set the headers without
-			// worrying about bugs in other plugins that output text and don't allow us to set the headers.
-			add_action('init', array( $this, 'init' ), 9);
-
-			// Check the PHP version,
-			// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-			if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
-				add_action('admin_notices', array( $this, 'unsupported_version_admin_notice' ), 10, 2);
-
-				return;
-			}
-
-			$this->db         = $wpdb;
-			$this->tb_prefix  = $wpdb->prefix;
-			$this->agent      = $this->get_UserAgent();
 			$this->historical = array();
 
 			if ( get_option('timezone_string') ) {
-				$this->tz_offset = timezone_offset_get(timezone_open(get_option('timezone_string')), new DateTime());
-			} else if ( get_option('gmt_offset') ) {
+				$this->tz_offset = timezone_offset_get(
+					timezone_open(get_option('timezone_string')),
+					new DateTime()
+				);
+			} elseif ( get_option('gmt_offset') ) {
 				$this->tz_offset = get_option('gmt_offset') * 60 * 60;
 			}
 
 			// Load the options from the database
 			$this->options = get_option('wp_statistics');
-
 			if ( ! is_array($this->options) ) {
 				$this->user_options = array();
 			}
 
 			// Set the default co-efficient.
 			$this->coefficient = $this->get_option('coefficient', 1);
-
 			// Double check the co-efficient setting to make sure it's not been set to 0.
 			if ( $this->coefficient <= 0 ) {
 				$this->coefficient = 1;
@@ -136,43 +103,43 @@ namespace {
 				$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
 			}
 
-			// Load the rest of the required files for our global functions, online user tracking and hit tracking.
+		}
+
+		public function run() {
+			global $WP_Statistics;
+			// Autoload composer
+			require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
+
+			// define an autoload method to automatically load classes in /includes/classes
+			spl_autoload_register(array( $this, 'autoload' ));
+
+			// Add init actions.
+			// For the main init we're going to set our priority to 9 to execute before most plugins
+			// so we can export data before and set the headers without
+			// worrying about bugs in other plugins that output text and don't allow us to set the headers.
+			add_action('init', array( $this, 'init' ), 9);
+
+			// Load the rest of the required files for our global functions,
+			// online user tracking and hit tracking.
 			if ( ! function_exists('wp_statistics_useronline') ) {
 				include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/functions.php';
 			}
 
+			$this->agent = $this->get_UserAgent();
+
 			$WP_Statistics = $this;
 
-			// Check to see if we're installed and are the current version.
-			$this->installed_version = get_option('wp_statistics_plugin_version');
-			if ( $this->installed_version != WP_Statistics::$reg['version'] ) {
-				new \WP_Statistics_Install;
+			if ( is_admin() ) {
+				// JUST ADMIN AREA
+				new \WP_Statistics_Admin;
+			} else {
+				// JUST FRONTEND AREA
+				new \WP_Statistics_Frontend;
 			}
 
-			// If we've been flagged to remove all of the data, then do so now.
-			if ( get_option('wp_statistics_removal') == 'true' ) {
-				new \WP_Statistics_Uninstall;
-			}
-
-			// If we've been removed, return without doing anything else.
-			if ( get_option('wp_statistics_removal') == 'done' ) {
-				add_action('admin_notices', array( $this, 'removal_admin_notice' ), 10, 2);
-
-				return;
-			}
-
-			add_action('widgets_init', array( $this, 'widget' ));
-
-
-			add_action('wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load');
-			add_action('admin_footer', 'WP_Statistics_Dashboard::inline_javascript');
-			add_action('add_meta_boxes', 'WP_Statistics_Editor::add_meta_box');
 			add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
-			add_filter('widget_text', 'do_shortcode');
 			add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
 
-			new \WP_Statistics_Schedule;
-			new \WP_Statistics_Ajax;
 			new \WP_Statistics_Bootstrap;
 		}
 
@@ -183,7 +150,7 @@ namespace {
 		 */
 		public function autoload( $class ) {
 			if ( ! class_exists($class) &&
-			     // This check is for performance of loading plugin classes
+				// This check is for performance of loading plugin classes
 			     substr($class, 0, 14) === 'WP_Statistics_'
 			) {
 				$lower_class_name = str_replace('_', '-', strtolower($class));
@@ -197,203 +164,11 @@ namespace {
 			}
 		}
 
-		public function set_pages() {
-			if ( ! isset( WP_Statistics::$page['overview'] ) ) {
-				/**
-				 * Overview Page
-				 */
-				WP_Statistics::$page['overview'] = 'wps_overview_page';
-				//define('WP_STATISTICS_OVERVIEW_PAGE', 'wps_overview_page');
-				/**
-				 * Browsers Page
-				 */
-				WP_Statistics::$page['browser'] = 'wps_browsers_page';
-				//define('WP_STATISTICS_BROWSERS_PAGE', 'wps_browsers_page');
-				/**
-				 * Countries Page
-				 */
-				WP_Statistics::$page['countries'] = 'wps_countries_page';
-				//define('WP_STATISTICS_COUNTRIES_PAGE', 'wps_countries_page');
-				/**
-				 * Exclusions Page
-				 */
-				WP_Statistics::$page['exclusions'] = 'wps_exclusions_page';
-				//define('WP_STATISTICS_EXCLUSIONS_PAGE', 'wps_exclusions_page');
-				/**
-				 * Hits Page
-				 */
-				WP_Statistics::$page['hits'] = 'wps_hits_page';
-				//define('WP_STATISTICS_HITS_PAGE', 'wps_hits_page');
-				/**
-				 * Online Page
-				 */
-				WP_Statistics::$page['online'] = 'wps_online_page';
-				//define('WP_STATISTICS_ONLINE_PAGE', 'wps_online_page');
-				/**
-				 * Pages Page
-				 */
-				WP_Statistics::$page['pages'] = 'wps_pages_page';
-				//define('WP_STATISTICS_PAGES_PAGE', 'wps_pages_page');
-				/**
-				 * Categories Page
-				 */
-				WP_Statistics::$page['categories'] = 'wps_categories_page';
-				//define('WP_STATISTICS_CATEGORIES_PAGE', 'wps_categories_page');
-				/**
-				 * Authors Page
-				 */
-				WP_Statistics::$page['authors'] = 'wps_authors_page';
-				//define('WP_STATISTICS_AUTHORS_PAGE', 'wps_authors_page');
-				/**
-				 * Tags Page
-				 */
-				WP_Statistics::$page['tags'] = 'wps_tags_page';
-				//define('WP_STATISTICS_TAGS_PAGE', 'wps_tags_page');
-				/**
-				 * Referer Page
-				 */
-				WP_Statistics::$page['referrers'] = 'wps_referrers_page';
-				//define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page');
-				/**
-				 * Searched Phrases Page
-				 */
-				WP_Statistics::$page['searched-phrases'] = 'wps_searched_phrases_page';
-				//define('WP_STATISTICS_SEARCHED_PHRASES_PAGE', 'wps_searched_phrases_page');
-				/**
-				 * Searches Page
-				 */
-				WP_Statistics::$page['searches'] = 'wps_searches_page';
-				//define('WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page');
-				/**
-				 * Words Page
-				 */
-				WP_Statistics::$page['words'] = 'wps_words_page';
-				//define('WP_STATISTICS_WORDS_PAGE', 'wps_words_page');
-				/**
-				 * Top Visitors Page
-				 */
-				WP_Statistics::$page['top-visitors'] = 'wps_top_visitors_page';
-				//define('WP_STATISTICS_TOP_VISITORS_PAGE', 'wps_top_visitors_page');
-				/**
-				 * Visitors Page
-				 */
-				WP_Statistics::$page['visitors'] = 'wps_visitors_page';
-				//define('WP_STATISTICS_VISITORS_PAGE', 'wps_visitors_page');
-				/**
-				 * Optimization Page
-				 */
-				WP_Statistics::$page['optimization'] = 'wps_optimization_page';
-				//define('WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page');
-				/**
-				 * Settings Page
-				 */
-				WP_Statistics::$page['settings'] = 'wps_settings_page';
-				//define('WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page');
-				/**
-				 * Plugins Page
-				 */
-				WP_Statistics::$page['plugins'] = 'wps_plugins_page';
-				//define('WP_STATISTICS_PLUGINS_PAGE', 'wps_plugins_page');
-				/**
-				 * Donate Page
-				 */
-				WP_Statistics::$page['donate'] = 'wps_donate_page';
-				//define('WP_STATISTICS_DONATE_PAGE', 'wps_donate_page');
-			}
-		}
-
 		/**
 		 * Loads the init code.
 		 */
 		public function init() {
-			// Check to see if we're exporting data, if so, do so now.
-			// Note this will set the headers to download the export file and then stop running WordPress.
-			if ( array_key_exists('wps_export', $_POST) ) {
-				if ( ! function_exists('wp_statistics_export_data') ) {
-					include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/export.php';
-				}
-				wp_statistics_export_data();
-			}
-		}
-
-		/**
-		 * Registers Widget
-		 */
-		public function widget() {
-			register_widget('WP_Statistics_Widget');
-		}
-
-		/**
-		 * Unsupported Version Admin Notice
-		 */
-		public function unsupported_version_admin_notice() {
-
-			$screen = get_current_screen();
-
-			if ( 'plugins' !== $screen->id ) {
-				return;
-			}
-			?>
-			<div class="error">
-				<p style="max-width:800px;">
-					<b><?php _e(
-							'WP Statistics Disabled',
-							'wp-statistics'
-						); ?></b> <?php _e(
-						'&#151; You are running an unsupported version of PHP.',
-						'wp-statistics'
-					); ?>
-				</p>
-
-				<p style="max-width:800px;"><?php
-
-					echo sprintf(
-						__(
-							'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
-							'wp-statistics'
-						),
-						phpversion(),
-						WP_Statistics::$reg['required-php-version']
-					);
-					echo '</p><p>';
-					echo __(
-						'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
-						'wp-statistics'
-					);
-					?></p>
-			</div>
-
-			<?php
-		}
-
-		/**
-		 * This adds a row after WP Statistics in the plugin page
-		 * IF we've been removed via the settings page.
-		 */
-		public function removal_admin_notice() {
-			$screen = get_current_screen();
-
-			if ( 'plugins' !== $screen->id ) {
-				return;
-			}
-
-			?>
-			<div class="error">
-				<p style="max-width:800px;"><?php
-
-					echo '<p>';
-					echo __('WP Statistics has been removed, please disable and delete it.', 'wp-statistics');
-					echo '</p>';
-					?></p>
-			</div>
-			<?php
-		}
-
-		// This function sets the current WordPress user id for the class.
-		public function set_user_id() {
-			if ( $this->user_id == 0 ) {
-				$this->user_id = get_current_user_id();
-			}
+			load_plugin_textdomain('wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages');
 		}
 
 		// This function loads the options from WordPress, it is included here for completeness as the options are loaded automatically in the class constructor.
@@ -411,7 +186,9 @@ namespace {
 				return;
 			}
 
-			$this->set_user_id();
+			if ( $this->user_id == 0 ) {
+				$this->user_id = get_current_user_id();
+			}
 
 			// Not sure why, but get_user_meta() is returning an array or array's unless $single is set to true.
 			$this->user_options = get_user_meta($this->user_id, 'wp_statistics', true);
