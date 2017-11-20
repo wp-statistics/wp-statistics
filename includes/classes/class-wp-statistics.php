@@ -11,9 +11,14 @@ namespace {
 	class WP_Statistics {
 
 		// Setup our protected, private and public variables.
-		protected $ip      = false;
-		protected $ip_hash = false;
-		protected $agent;
+		public $ip           = false;
+		public $ip_hash      = false;
+		public $agent;
+		public $coefficient  = 1;
+		public $user_id      = 0;
+		public $options      = array();
+		public $user_options = array();
+		public $menu_slugs   = array();
 
 		private $result;
 		private $historical;
@@ -22,12 +27,6 @@ namespace {
 		private $tz_offset           = 0;
 		private $country_codes       = false;
 		private $referrer            = false;
-
-		public $coefficient  = 1;
-		public $user_id      = 0;
-		public $options      = array();
-		public $user_options = array();
-		public $menu_slugs   = array();
 
 		public static $installed_version;
 		public static $reg  = array();
@@ -139,8 +138,7 @@ namespace {
 		 * @param string $class Class name
 		 */
 		public function autoload( $class ) {
-			if ( ! class_exists($class) &&
-				// This check is for performance of loading plugin classes
+			if ( ! class_exists($class) && // This check is for performance of loading plugin classes
 			     substr($class, 0, 14) === 'WP_Statistics_'
 			) {
 				$lower_class_name = str_replace('_', '-', strtolower($class));
@@ -236,7 +234,8 @@ namespace {
 			return $this->user_options[ $option ];
 		}
 
-		// The function mimics WordPress's update_option() function but uses the array instead of individual options.
+		// The function mimics WordPress's update_option() function
+		// But uses the array instead of individual options.
 		public function update_option( $option, $value ) {
 			// Store the value in the array.
 			$this->options[ $option ] = $value;
@@ -245,7 +244,8 @@ namespace {
 			update_option('wp_statistics', $this->options);
 		}
 
-		// The function mimics WordPress's update_user_meta() function but uses the array instead of individual options.
+		// The function mimics WordPress's update_user_meta() function
+		// But uses the array instead of individual options.
 		public function update_user_option( $option, $value ) {
 			// If the user id has not been set return FALSE.
 			if ( $this->user_id == 0 ) {
@@ -828,7 +828,7 @@ namespace {
 					} else {
 						$result
 							= $wpdb->get_var(
-								$wpdb->prepare(
+							$wpdb->prepare(
 								"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND uri = %s",
 								$id
 							)
@@ -846,7 +846,7 @@ namespace {
 					} else {
 						$result
 							= $wpdb->get_var(
-								$wpdb->prepare(
+							$wpdb->prepare(
 								"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND page_id = %d",
 								$id
 							)

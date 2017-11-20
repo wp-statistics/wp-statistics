@@ -8,7 +8,7 @@ use GeoIp2\Database\Reader;
 
 class WP_Statistics_GEO_IP_Hits extends WP_Statistics_Hits {
 	public function __construct() {
-
+		global $WP_Statistics;
 		// Call the parent constructor (WP_Statistics::__constructor).
 		parent::__construct();
 
@@ -24,7 +24,7 @@ class WP_Statistics_GEO_IP_Hits extends WP_Statistics_Hits {
 				$reader = new Reader($upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb');
 
 				// Look up the IP address
-				$record = $reader->country($this->ip);
+				$record = $reader->country($WP_Statistics->ip);
 
 				// Get the location.
 				$location = $record->country->isoCode;
@@ -46,10 +46,10 @@ class WP_Statistics_GEO_IP_Hits extends WP_Statistics_Hits {
 			// Grab the excluded/included countries lists, force the country codes to be in upper case to match what the GeoIP code uses.
 			$excluded_countries        = explode(
 				"\n",
-				strtoupper(str_replace("\r\n", "\n", $this->get_option('excluded_countries')))
+				strtoupper(str_replace("\r\n", "\n", $WP_Statistics->get_option('excluded_countries')))
 			);
 			$included_countries_string = trim(
-				strtoupper(str_replace("\r\n", "\n", $this->get_option('included_countries')))
+				strtoupper(str_replace("\r\n", "\n", $WP_Statistics->get_option('included_countries')))
 			);
 
 			// We need to be really sure this isn't an empty string or explode will return an array with one entry instead of none.
