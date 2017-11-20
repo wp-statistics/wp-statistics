@@ -11,8 +11,6 @@ namespace {
 	class WP_Statistics {
 
 		// Setup our protected, private and public variables.
-		protected $db;
-		protected $tb_prefix;
 		protected $ip      = false;
 		protected $ip_hash = false;
 		protected $agent;
@@ -40,7 +38,6 @@ namespace {
 		 * WP_Statistics constructor.
 		 */
 		public function __construct() {
-			global $wpdb;
 
 			if ( ! isset( WP_Statistics::$reg['plugin-url'] ) ) {
 				/**
@@ -69,9 +66,6 @@ namespace {
 				//define('WP_STATISTICS_VERSION', '12.1.3');
 
 			}
-
-			$this->db        = $wpdb;
-			$this->tb_prefix = $wpdb->prefix;
 
 			$this->historical = array();
 
@@ -318,13 +312,14 @@ namespace {
 		// During installation of WP Statistics some initial data needs to be loaded in to the database so errors are not displayed.
 		// This function will add some initial data if the tables are empty.
 		public function Primary_Values() {
+			global $wpdb;
 
-			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_useronline");
+			$this->result = $wpdb->query("SELECT * FROM {$wpdb->prefix}statistics_useronline");
 
 			if ( ! $this->result ) {
 
-				$this->db->insert(
-					$this->tb_prefix . "statistics_useronline",
+				$wpdb->insert(
+					$wpdb->prefix . "statistics_useronline",
 					array(
 						'ip'        => $this->get_IP(),
 						'timestamp' => $this->Current_Date('U'),
@@ -337,12 +332,12 @@ namespace {
 				);
 			}
 
-			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_visit");
+			$this->result = $wpdb->query("SELECT * FROM {$wpdb->prefix}statistics_visit");
 
 			if ( ! $this->result ) {
 
-				$this->db->insert(
-					$this->tb_prefix . "statistics_visit",
+				$wpdb->insert(
+					$wpdb->prefix . "statistics_visit",
 					array(
 						'last_visit'   => $this->Current_Date(),
 						'last_counter' => $this->Current_date('Y-m-d'),
@@ -351,12 +346,12 @@ namespace {
 				);
 			}
 
-			$this->result = $this->db->query("SELECT * FROM {$this->tb_prefix}statistics_visitor");
+			$this->result = $wpdb->query("SELECT * FROM {$wpdb->prefix}statistics_visitor");
 
 			if ( ! $this->result ) {
 
-				$this->db->insert(
-					$this->tb_prefix . "statistics_visitor",
+				$wpdb->insert(
+					$wpdb->prefix . "statistics_visitor",
 					array(
 						'last_counter' => $this->Current_date('Y-m-d'),
 						'referred'     => $this->get_Referred(),
@@ -792,6 +787,7 @@ namespace {
 		}
 
 		public function Get_Historical_Data( $type, $id = '' ) {
+			global $wpdb;
 
 			$count = 0;
 
@@ -801,8 +797,8 @@ namespace {
 						return $this->historical['visitors'];
 					} else {
 						$result
-							= $this->db->get_var(
-							"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visitors'"
+							= $wpdb->get_var(
+							"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'visitors'"
 						);
 						if ( $result > $count ) {
 							$count = $result;
@@ -816,8 +812,8 @@ namespace {
 						return $this->historical['visits'];
 					} else {
 						$result
-							= $this->db->get_var(
-							"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'visits'"
+							= $wpdb->get_var(
+							"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'visits'"
 						);
 						if ( $result > $count ) {
 							$count = $result;
@@ -831,9 +827,9 @@ namespace {
 						return $this->historical[ $id ];
 					} else {
 						$result
-							= $this->db->get_var(
-							$this->db->prepare(
-								"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND uri = %s",
+							= $wpdb->get_var(
+								$wpdb->prepare(
+								"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND uri = %s",
 								$id
 							)
 						);
@@ -849,9 +845,9 @@ namespace {
 						return $this->historical[ $id ];
 					} else {
 						$result
-							= $this->db->get_var(
-							$this->db->prepare(
-								"SELECT value FROM {$this->tb_prefix}statistics_historical WHERE category = 'uri' AND page_id = %d",
+							= $wpdb->get_var(
+								$wpdb->prepare(
+								"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND page_id = %d",
 								$id
 							)
 						);
