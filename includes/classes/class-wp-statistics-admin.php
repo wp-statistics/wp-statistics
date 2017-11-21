@@ -3,7 +3,7 @@
 /**
  * Class WP_Statistics_Admin
  */
-final class WP_Statistics_Admin {
+class WP_Statistics_Admin {
 
 	public function __construct(){
 

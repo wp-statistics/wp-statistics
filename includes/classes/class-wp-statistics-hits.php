@@ -277,7 +277,7 @@ class WP_Statistics_Hits {
 		// Check to see if we're excluding RSS feeds.
 		if ( $WP_Statistics->get_option('exclude_feeds') ) {
 			if ( is_object($WP_Statistics) ) {
-				if ( $WP_Statistics->check_feed() ) {
+				if ( $WP_Statistics->is_feed ) {
 					$this->exclusion_match  = true;
 					$this->exclusion_reason = 'feed';
 

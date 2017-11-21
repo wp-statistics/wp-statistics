@@ -12,11 +12,6 @@ namespace {
 		function __construct() {
 			global $WP_Statistics;
 
-			// If we've been told to exclude the feeds from the statistics add a detection hook when WordPress generates the RSS feed.
-			if ( $WP_Statistics->get_option('exclude_feeds') ) {
-				add_filter('the_title_rss', 'WP_Statistics_Bootstrap::check_feed_title');
-			}
-
 			// We can wait until the very end of the page to process the statistics,
 			// that way the page loads and displays quickly.
 			add_action('shutdown', 'WP_Statistics_Bootstrap::shutdown_action');
@@ -48,23 +43,6 @@ namespace {
 
 			add_action('admin_enqueue_scripts', 'WP_Statistics_Bootstrap::enqueue_scripts');
 		}
-
-
-
-		/**
-		 * Check Feed Title
-		 *
-		 * @param string $title Title
-		 *
-		 * @return string Title
-		 */
-		static function check_feed_title( $title ) {
-			global $WP_Statistics;
-			$WP_Statistics->feed_detected();
-
-			return $title;
-		}
-
 
 		/**
 		 * Shutdown Action
