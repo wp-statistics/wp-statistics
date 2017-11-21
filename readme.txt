@@ -1,5 +1,5 @@
 === WP Statistics ===
-Contributors: mostafa.s1990, GregRoss
+Contributors: mostafa.s1990, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
@@ -287,6 +287,14 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
+* Improvement: Management processes and front-end have been separated for more speed.
+* Fixed: Issue in checking the cron request.
+* Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
+* Fixed: Admin bar menu icon.
+* Fixed issue in generate query string in some state pages.
+
 = 12.2.1 =
 * Fixed: Issue to `add_column` callback.
 
