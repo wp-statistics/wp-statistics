@@ -863,14 +863,6 @@ namespace {
 			return $count;
 		}
 
-		public function feed_detected() {
-			$this->is_feed = true;
-		}
-
-		public function check_feed() {
-			return $this->is_feed;
-		}
-
 		public function get_country_codes() {
 			if ( $this->country_codes == false ) {
 				$ISOCountryCode = array();
