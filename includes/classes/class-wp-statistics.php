@@ -126,7 +126,11 @@ namespace {
 				new \WP_Statistics_Frontend;
 			}
 
-			register_widget('WP_Statistics_Widget');
+			// Register widget
+			add_action( 'widgets_init', function () {
+				register_widget('WP_Statistics_Widget');
+			} );
+
 			add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
 			add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
 

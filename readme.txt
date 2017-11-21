@@ -288,10 +288,12 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = dev-master =
-* Improvement: Processes in the plugin. Admin & Front-end separated.
+* The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
+* Improvement: Management processes and front-end have been separated for more speed.
 * Fixed: Issue in checking the cron request.
 * Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
 * Fixed: Admin bar menu icon.
+* Fixed issue in generate query string in some state pages.
 
 = 12.2.1 =
 * Fixed: Issue to `add_column` callback.
