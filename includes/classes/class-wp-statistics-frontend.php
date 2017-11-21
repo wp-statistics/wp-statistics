@@ -22,8 +22,6 @@ class WP_Statistics_Frontend {
 		}
 	}
 
-
-
 	/**
 	 * Footer Action
 	 */
