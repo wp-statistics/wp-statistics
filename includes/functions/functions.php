@@ -1260,7 +1260,7 @@ function wp_statistics_date_range_selector(
 		     $page .
 		     '&hitdays=' .
 		     $range[ $i ] .
-		     esc_url($extrafields) .
+		     esc_html($extrafields) .
 		     '">' .
 		     $desc[ $i ] .
 		     '</a></li>';
