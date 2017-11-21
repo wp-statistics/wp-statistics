@@ -12,17 +12,6 @@ namespace {
 		function __construct() {
 			global $WP_Statistics;
 
-			// Display the admin notices if we should.
-			if ( isset( $pagenow ) && array_key_exists('page', $_GET) ) {
-				if ( $pagenow == "admin.php" && substr($_GET['page'], 0, 14) == 'wp-statistics/' ) {
-					add_action('admin_notices', 'WP_Statistics_Bootstrap::not_enable');
-				}
-			}
-
-			// Add the honey trap code in the footer.
-			add_action('wp_footer', 'WP_Statistics_Bootstrap::footer_action');
-
-
 			// If we've been told to exclude the feeds from the statistics add a detection hook when WordPress generates the RSS feed.
 			if ( $WP_Statistics->get_option('exclude_feeds') ) {
 				add_filter('the_title_rss', 'WP_Statistics_Bootstrap::check_feed_title');
@@ -60,110 +49,7 @@ namespace {
 			add_action('admin_enqueue_scripts', 'WP_Statistics_Bootstrap::enqueue_scripts');
 		}
 
-		/**
-		 * This function outputs error messages in the admin interface
-		 * if the primary components of WP Statistics are enabled.
-		 */
-		static function not_enable() {
-			global $WP_Statistics;
 
-			// If the user had told us to be quite, do so.
-			if ( ! $WP_Statistics->get_option('hide_notices') ) {
-
-				// Check to make sure the current user can manage WP Statistics,
-				// if not there's no point displaying the warnings.
-				$manage_cap = wp_statistics_validate_capability(
-					$WP_Statistics->get_option(
-						'manage_capability',
-						'manage_options'
-					)
-				);
-				if ( ! current_user_can($manage_cap) ) {
-					return;
-				}
-
-				$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_Statistics::$page['settings'];
-
-				$itemstoenable = array();
-				if ( ! $WP_Statistics->get_option('useronline') ) {
-					$itemstoenable[] = __('online user tracking', 'wp-statistics');
-				}
-				if ( ! $WP_Statistics->get_option('visits') ) {
-					$itemstoenable[] = __('hit tracking', 'wp-statistics');
-				}
-				if ( ! $WP_Statistics->get_option('visitors') ) {
-					$itemstoenable[] = __('visitor tracking', 'wp-statistics');
-				}
-				if ( ! $WP_Statistics->get_option('geoip') && wp_statistics_geoip_supported() ) {
-					$itemstoenable[] = __('geoip collection', 'wp-statistics');
-				}
-
-				if ( count($itemstoenable) > 0 ) {
-					echo '<div class="update-nag">' . sprintf(
-							__(
-								'The following features are disabled, please go to %ssettings page%s and enable them: %s',
-								'wp-statistics'
-							),
-							'<a href="' . $get_bloginfo_url . '">',
-							'</a>',
-							implode(__(',', 'wp-statistics'), $itemstoenable)
-						) . '</div>';
-				}
-
-				$get_bloginfo_url = get_admin_url() .
-				                    "admin.php?page=" .
-				                    WP_Statistics::$page['optimization'] .
-				                    "&tab=database";
-
-				$dbupdatestodo = array();
-
-				if ( ! $WP_Statistics->get_option('search_converted') ) {
-					$dbupdatestodo[] = __('search table', 'wp-statistics');
-				}
-
-				// Check to see if there are any database changes the user hasn't done yet.
-				$dbupdates = $WP_Statistics->get_option('pending_db_updates', false);
-
-				// The database updates are stored in an array so loop thorugh it and output some notices.
-				if ( is_array($dbupdates) ) {
-					$dbstrings = array(
-						'date_ip_agent' => __('countries database index', 'wp-statistics'),
-						'unique_date'   => __('visit database index', 'wp-statistics'),
-					);
-
-					foreach ( $dbupdates as $key => $update ) {
-						if ( $update == true ) {
-							$dbupdatestodo[] = $dbstrings[ $key ];
-						}
-					}
-
-					if ( count($dbupdatestodo) > 0 ) {
-						echo '<div class="update-nag">' . sprintf(
-								__(
-									'Database updates are required, please go to %soptimization page%s and update the following: %s',
-									'wp-statistics'
-								),
-								'<a href="' . $get_bloginfo_url . '">',
-								'</a>',
-								implode(__(',', 'wp-statistics'), $dbupdatestodo)
-							) . '</div>';
-					}
-
-				}
-			}
-		}
-
-
-		/**
-		 * Footer Action
-		 */
-		static function footer_action() {
-			global $WP_Statistics;
-			if ( $WP_Statistics->get_option('use_honeypot') && $WP_Statistics->get_option('honeypot_postid') > 0 ) {
-				$post_url = get_permalink($WP_Statistics->get_option('honeypot_postid'));
-				echo '<a href="' . $post_url . '" style="display: none;">&nbsp;</a>';
-			}
-		}
 
 		/**
 		 * Check Feed Title
