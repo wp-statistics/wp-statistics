@@ -7,7 +7,7 @@ class WP_Statistics_Frontend {
 
 	public function __construct() {
 		global $WP_Statistics;
-		add_action('widgets_init', 'WP_Statistics_Frontend::widget');
+
 		add_filter('widget_text', 'do_shortcode');
 
 		new \WP_Statistics_Schedule;
@@ -22,12 +22,7 @@ class WP_Statistics_Frontend {
 		}
 	}
 
-	/**
-	 * Registers Widget
-	 */
-	static function widget() {
-		register_widget('WP_Statistics_Widget');
-	}
+
 
 	/**
 	 * Footer Action
