@@ -53,6 +53,7 @@ $excluded_reasons          = array(
 	'404 Pages',
 	'Referrer Spam',
 	'AJAX Request',
+	'CronJob',
 );
 $excluded_reason_tags      = array(
 	'Robot'           => 'robot',
@@ -72,6 +73,7 @@ $excluded_reason_tags      = array(
 	'404 Pages'       => 'excluded_404s',
 	'Referrer Spam'   => 'referrer_spam',
 	'AJAX Request'    => 'ajax',
+	'CronJob'         => 'cronjob',
 );
 $excluded_reason_db        = array(
 	'Robot'           => 'robot',
@@ -91,6 +93,7 @@ $excluded_reason_db        = array(
 	'404 Pages'       => '404',
 	'Referrer Spam'   => 'referrer_spam',
 	'AJAX Request'    => 'ajax',
+	'CronJob'         => 'cronjob',
 );
 $excluded_reason_translate = array(
 	'Robot'           => json_encode(__('Robot', 'wp-statistics')),
@@ -110,6 +113,7 @@ $excluded_reason_translate = array(
 	'404 Pages'       => json_encode(__('404 Pages', 'wp-statistics')),
 	'Referrer Spam'   => json_encode(__('Referrer Spam', 'wp-statistics')),
 	'AJAX Request'    => json_encode(__('AJAX Request', 'wp-statistics')),
+	'CronJob'         => json_encode(__('CronJob', 'wp-statistics')),
 );
 $excluded_results          = array( 'Total' => array() );
 $excluded_total            = 0;
