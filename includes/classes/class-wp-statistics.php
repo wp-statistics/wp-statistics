@@ -128,9 +128,7 @@ namespace {
 
 			add_action('widgets_init', 'WP_Statistics::widget');
 			add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
-			add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
 
-			new \WP_Statistics_Bootstrap;
 		}
 
 		/**
