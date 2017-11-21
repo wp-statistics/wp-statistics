@@ -126,11 +126,7 @@ namespace {
 				new \WP_Statistics_Frontend;
 			}
 
-			// Register widget
-			add_action( 'widgets_init', function () {
-				register_widget('WP_Statistics_Widget');
-			} );
-
+			add_action('widgets_init', 'WP_Statistics::widget');
 			add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
 			add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
 
@@ -174,6 +170,13 @@ namespace {
 			}
 		}
 
+		/**
+		 * Registers Widget
+		 */
+		static function widget() {
+			register_widget('WP_Statistics_Widget');
+		}
+		
 		// This function loads the user options from WordPress.
 		// It is NOT called during the class constructor.
 		public function load_user_options( $force = false ) {
