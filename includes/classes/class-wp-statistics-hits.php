@@ -1,7 +1,6 @@
 <?php
 /*
 	This is the primary class for recording hits on the WordPress site.  It extends the WP_Statistics class and is itself extended by the GEO_IP_Hits class.
-
 	This class handles; visits, visitors and pages.
 */
 
@@ -77,11 +76,12 @@ class WP_Statistics_Hits {
 		 *
 		 * Order of exclusion checks is:
 		 *		1 - AJAX calls
-		 *		2 - Robots
-		 * 		3 - IP/Subnets
-		 *		4 - Self Referrals, Referrer Spam & login page
-		 *		5 - User roles
-		 *		6 - Host name list
+		 * 		2 - CronJob
+		 *		3 - Robots
+		 * 		4 - IP/Subnets
+		 *		5 - Self Referrals, Referrer Spam & login page
+		 *		6 - User roles
+		 *		7 - Host name list
 		 *
 		 * The GoeIP exclusions will be processed in the GeoIP hits class constructor.
 		 *
@@ -257,13 +257,11 @@ class WP_Statistics_Hits {
 
 		// Check to see if we're excluding RSS feeds.
 		if ( $WP_Statistics->get_option('exclude_feeds') ) {
-			if ( is_object($WP_Statistics) ) {
-				if ( $WP_Statistics->is_feed ) {
-					$this->exclusion_match  = true;
-					$this->exclusion_reason = 'feed';
+			if ( is_feed() ) {
+				$this->exclusion_match  = true;
+				$this->exclusion_reason = 'feed';
 
-					return;
-				}
+				return;
 			}
 		}
 
@@ -556,7 +554,7 @@ class WP_Statistics_Hits {
 	public function Pages() {
 		global $wpdb, $wp_query, $WP_Statistics;
 
-		// If we're a webcrawler or referral from ourselves or an excluded address don't record the page hit.
+		// If we're a web crawler or referral from ourselves or an excluded address don't record the page hit.
 		if ( ! $this->exclusion_match ) {
 
 			// Don't track anything but actual pages and posts, unless we've been told to.

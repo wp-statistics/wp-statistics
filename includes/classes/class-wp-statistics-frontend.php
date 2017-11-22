@@ -21,9 +21,41 @@ class WP_Statistics_Frontend {
 			add_filter('the_title_rss', 'WP_Statistics_Frontend::is_feed');
 		}
 
-		// We can wait until the very end of the page to process the statistics,
-		// that way the page loads and displays quickly.
-		add_action('wp_loaded', 'WP_Statistics_Frontend::init');
+		add_action('wp_footer', 'WP_Statistics_Frontend::add_ajax_script', 1000);
+
+		if (defined('DOING_AJAX') && DOING_AJAX && $_REQUEST['action'] == 'wp_statistics_log_visit') {
+			add_action('wp_ajax_wp_statistics_log_visit', 'WP_Statistics_Frontend::log_visit');
+			add_action('wp_ajax_nopriv_wp_statistics_log_visit', 'WP_Statistics_Frontend::log_visit');
+		}else{
+			// We can wait until the very end of the page to process the statistics,
+			// that way the page loads and displays quickly.
+			add_action('wp', 'WP_Statistics_Frontend::init');
+		}
+
+	}
+
+	static function add_ajax_script() {
+		$nonce    = wp_create_nonce('wp-statistics-ajax-nonce');
+		$ajax_url = admin_url('admin-ajax.php');
+		?>
+		<script>
+			jQuery(document).ready(function ($) {
+				var data = {
+					'action': 'wp_statistics_log_visit',
+					'nonce': '<?php echo $nonce;?>',
+				};
+				jQuery.post('<?php echo $ajax_url; ?>', data, function (response) {
+					alert('Got this from the server: ' + response);
+				});
+			});
+		</script>
+		<?php
+	}
+
+	static function log_visit() {
+		check_ajax_referer('wp-statistics-ajax-nonce', 'nonce');
+		WP_Statistics_Frontend::init();
+		wp_die();
 	}
 
 	/**
@@ -35,19 +67,6 @@ class WP_Statistics_Frontend {
 			$post_url = get_permalink($WP_Statistics->get_option('honeypot_postid'));
 			echo '<a href="' . $post_url . '" style="display: none;">&nbsp;</a>';
 		}
-	}
-
-	/**
-	 * Check Feed Title
-	 *
-	 * @param string $title Title
-	 *
-	 * @return string Title
-	 */
-	static function is_feed( $title ) {
-		global $WP_Statistics;
-		$WP_Statistics->is_feed = true;
-		return $title;
 	}
 
 	/**
