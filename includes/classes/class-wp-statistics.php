@@ -79,12 +79,6 @@ namespace {
 		 */
 		private $user_options_loaded = false;
 		/**
-		 * Current request is feed?
-		 *
-		 * @var bool
-		 */
-		private $is_feed = false;
-		/**
 		 * Timezone offset
 		 *
 		 * @var int|mixed|void

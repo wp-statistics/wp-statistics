@@ -15,15 +15,9 @@ class WP_Statistics_Frontend {
 		// Add the honey trap code in the footer.
 		add_action('wp_footer', 'WP_Statistics_Frontend::add_honeypot');
 
-		// If we've been told to exclude the feeds from the statistics
-		// add a detection hook when WordPress generates the RSS feed.
-		if ( $WP_Statistics->get_option('exclude_feeds') ) {
-			add_filter('the_title_rss', 'WP_Statistics_Frontend::is_feed');
-		}
-
 		// We can wait until the very end of the page to process the statistics,
 		// that way the page loads and displays quickly.
-		add_action('wp_loaded', 'WP_Statistics_Frontend::init');
+		add_action('wp', 'WP_Statistics_Frontend::init');
 	}
 
 	/**
@@ -35,19 +29,6 @@ class WP_Statistics_Frontend {
 			$post_url = get_permalink($WP_Statistics->get_option('honeypot_postid'));
 			echo '<a href="' . $post_url . '" style="display: none;">&nbsp;</a>';
 		}
-	}
-
-	/**
-	 * Check Feed Title
-	 *
-	 * @param string $title Title
-	 *
-	 * @return string Title
-	 */
-	static function is_feed( $title ) {
-		global $WP_Statistics;
-		$WP_Statistics->is_feed = true;
-		return $title;
 	}
 
 	/**
