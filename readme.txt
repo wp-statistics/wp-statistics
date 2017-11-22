@@ -294,6 +294,7 @@ This is a security fix, please update immediately.
 * Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
 * Fixed: Admin bar menu icon.
 * Fixed issue in generate query string in some state pages.
+* Fixed issue in admin widget. The `id` in label missed and used `get_field_id` method to get a correct id.
 
 = 12.2.1 =
 * Fixed: Issue to `add_column` callback.

@@ -13,6 +13,10 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
 
 	foreach ( $search_engines as $se ) {
 		for ( $i = $days; $i >= 0; $i-- ) {
+			if ( ! array_key_exists($i, $total_daily) ) {
+				$total_daily[ $i ] = 0;
+			}
+
 			$stat                   = wp_statistics_searchengine($se['tag'], '-' . $i);
 			$stats[ $se['name'] ][] = $stat;
 			$total_daily[ $i ] += $stat;
