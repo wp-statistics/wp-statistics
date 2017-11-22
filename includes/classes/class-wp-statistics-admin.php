@@ -1110,9 +1110,8 @@ class WP_Statistics_Admin {
 		}
 
 		// We want to make sure the tables actually exist before we blindly start access them.
-		$dbname = DB_NAME;
 		$result = $wpdb->query(
-			"SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visit' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_exclusions' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_pages' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_useronline' OR `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_search'"
+			"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visitor' OR `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visit' OR `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_exclusions' OR `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_historical' OR `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_pages' OR `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_useronline' OR `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_search'"
 		);
 
 		if ( $result != 7 ) {
@@ -1123,37 +1122,37 @@ class WP_Statistics_Admin {
 
 			$missing_tables = array();
 
-			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visitor'");
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visitor'");
 			if ( $result != 1 ) {
 				$missing_tables[] = $wpdb->prefix . 'statistics_visitor';
 			}
-			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_visit'");
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visit'");
 			if ( $result != 1 ) {
 				$missing_tables[] = $wpdb->prefix . 'statistics_visit';
 			}
 			$result = $wpdb->query(
-				"SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_exclusions'"
+				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_exclusions'"
 			);
 			if ( $result != 1 ) {
 				$missing_tables[] = $wpdb->prefix . 'statistics_exclusions';
 			}
 			$result = $wpdb->query(
-				"SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_historical'"
+				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_historical'"
 			);
 			if ( $result != 1 ) {
 				$missing_tables[] = $wpdb->prefix . 'statistics_historical';
 			}
 			$result = $wpdb->query(
-				"SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_useronline'"
+				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_useronline'"
 			);
 			if ( $result != 1 ) {
 				$missing_tables[] = $wpdb->prefix . 'statistics_useronline';
 			}
-			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_pages'");
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_pages'");
 			if ( $result != 1 ) {
 				$missing_tables[] = $wpdb->prefix . 'statistics_pages';
 			}
-			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$dbname}` = '{$wpdb->prefix}statistics_search'");
+			$result = $wpdb->query("SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_search'");
 			if ( $result != 1 ) {
 				$missing_tables[] = $wpdb->prefix . 'statistics_search';
 			}
