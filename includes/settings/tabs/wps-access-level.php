@@ -64,7 +64,7 @@ if ( $wps_nonce_valid ) {
 					) ?>:</label>
 			</th>
 			<td>
-				<select id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; ?></select>
+				<select dir="ltr" id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; ?></select>
 			</td>
 		</tr>
 
@@ -88,7 +88,7 @@ if ( $wps_nonce_valid ) {
 					) ?>:</label>
 			</th>
 			<td>
-				<select id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; ?></select>
+				<select dir="ltr" id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; ?></select>
 			</td>
 		</tr>
 
