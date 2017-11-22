@@ -655,7 +655,8 @@ class WP_Statistics_Hits {
 		// If we're a webcrawler or referral from ourselves or an excluded address don't record the user as online, unless we've been told to anyway.
 		if ( ! $this->exclusion_match || $WP_Statistics->get_option('all_online') ) {
 
-			// If the current user exists in the database already, just update them, otherwise add them
+			// If the current user exists in the database already,
+			// Just update them, otherwise add them
 			if ( $this->Is_user() ) {
 				$this->Update_user();
 			} else {
