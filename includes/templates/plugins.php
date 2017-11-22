@@ -10,6 +10,12 @@
 				<div id="the-list">
 					<?php foreach ( $plugins->items as $plugin ) : ?>
 						<div class="plugin-card">
+							<?php if ( $plugin->is_feature ) : ?>
+                                <div class="cover-ribbon">
+                                    <div class="cover-ribbon-inside"><?php _e( 'New!', 'wp-statistics' ); ?></div>
+                                </div>
+							<?php endif; ?>
+
 							<div class="plugin-card-top">
 								<div class="name column-name">
 									<h3>
