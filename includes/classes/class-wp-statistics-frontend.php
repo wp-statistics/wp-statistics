@@ -23,7 +23,7 @@ class WP_Statistics_Frontend {
 
 		// We can wait until the very end of the page to process the statistics,
 		// that way the page loads and displays quickly.
-		add_action('wp_loaded', 'WP_Statistics_Frontend::init');
+		add_action('wp', 'WP_Statistics_Frontend::init');
 	}
 
 	/**

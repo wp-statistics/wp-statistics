@@ -1,7 +1,6 @@
 <?php
 /*
 	This is the primary class for recording hits on the WordPress site.  It extends the WP_Statistics class and is itself extended by the GEO_IP_Hits class.
-
 	This class handles; visits, visitors and pages.
 */
 
@@ -11,7 +10,6 @@ use IPTools\Network;
 use IPTools\Range;
 
 class WP_Statistics_Hits {
-
 	// Setup our public/private/protected variables.
 	public $result = null;
 
@@ -556,7 +554,7 @@ class WP_Statistics_Hits {
 	public function Pages() {
 		global $wpdb, $wp_query, $WP_Statistics;
 
-		// If we're a webcrawler or referral from ourselves or an excluded address don't record the page hit.
+		// If we're a web crawler or referral from ourselves or an excluded address don't record the page hit.
 		if ( ! $this->exclusion_match ) {
 
 			// Don't track anything but actual pages and posts, unless we've been told to.
