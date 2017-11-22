@@ -11,25 +11,115 @@ namespace {
 	class WP_Statistics {
 
 		// Setup our protected, private and public variables.
-		public $ip           = false;
-		public $ip_hash      = false;
+		/**
+		 * IP address of visitor
+		 *
+		 * @var bool|string
+		 */
+		public $ip = false;
+		/**
+		 * Hash of visitors IP address
+		 *
+		 * @var bool|string
+		 */
+		public $ip_hash = false;
+		/**
+		 * Agent of visitor browser
+		 *
+		 * @var string
+		 */
 		public $agent;
-		public $coefficient  = 1;
-		public $user_id      = 0;
-		public $options      = array();
+		/**
+		 * a coefficient to record number of visits
+		 *
+		 * @var int
+		 */
+		public $coefficient = 1;
+		/**
+		 * Visitor User ID
+		 *
+		 * @var int
+		 */
+		public $user_id = 0;
+		/**
+		 * Plugin options (Recorded in database)
+		 *
+		 * @var array
+		 */
+		public $options = array();
+		/**
+		 * User Options
+		 *
+		 * @var array
+		 */
 		public $user_options = array();
-		public $menu_slugs   = array();
+		/**
+		 * Menu Slugs
+		 *
+		 * @var array
+		 */
+		public $menu_slugs = array();
 
+		/**
+		 * Result of queries
+		 *
+		 * @var
+		 */
 		private $result;
-		private $historical;
+		/**
+		 * Historical data
+		 *
+		 * @var array
+		 */
+		private $historical = array();
+		/**
+		 * is user options loaded?
+		 *
+		 * @var bool
+		 */
 		private $user_options_loaded = false;
-		private $is_feed             = false;
-		private $tz_offset           = 0;
-		private $country_codes       = false;
-		private $referrer            = false;
+		/**
+		 * Current request is feed?
+		 *
+		 * @var bool
+		 */
+		private $is_feed = false;
+		/**
+		 * Timezone offset
+		 *
+		 * @var int|mixed|void
+		 */
+		private $tz_offset = 0;
+		/**
+		 * Country Codes
+		 *
+		 * @var bool|string
+		 */
+		private $country_codes = false;
+		/**
+		 * Referrer
+		 *
+		 * @var bool
+		 */
+		private $referrer = false;
 
+		/**
+		 * Installed Version
+		 *
+		 * @var string
+		 */
 		public static $installed_version;
-		public static $reg  = array();
+		/**
+		 * Registry for plugin settings
+		 *
+		 * @var array
+		 */
+		public static $reg = array();
+		/**
+		 * Pages slugs
+		 *
+		 * @var array
+		 */
 		public static $page = array();
 
 		/**
@@ -66,8 +156,6 @@ namespace {
 
 			}
 
-			$this->historical = array();
-
 			if ( get_option('timezone_string') ) {
 				$this->tz_offset = timezone_offset_get(
 					timezone_open(get_option('timezone_string')),
@@ -94,6 +182,9 @@ namespace {
 
 		}
 
+		/**
+		 * Run when plugin loads
+		 */
 		public function run() {
 			global $WP_Statistics;
 			// Autoload composer
@@ -158,8 +249,9 @@ namespace {
 			load_plugin_textdomain('wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages');
 		}
 
-		// This function loads the options from WordPress,
-		// It is included here for completeness as the options are loaded automatically in the class constructor.
+		/**
+		 * loads the options from WordPress,
+		 */
 		public function load_options() {
 			$this->options = get_option('wp_statistics');
 
@@ -174,9 +266,13 @@ namespace {
 		static function widget() {
 			register_widget('WP_Statistics_Widget');
 		}
-		
-		// This function loads the user options from WordPress.
-		// It is NOT called during the class constructor.
+
+		/**
+		 * Loads the user options from WordPress.
+		 * It is NOT called during the class constructor.
+		 *
+		 * @param bool|false $force
+		 */
 		public function load_user_options( $force = false ) {
 			if ( $this->user_options_loaded == true && $force != true ) {
 				return;
@@ -196,7 +292,14 @@ namespace {
 			$this->user_options_loaded = true;
 		}
 
-		// The function mimics WordPress's get_option() function but uses the array instead of individual options.
+		/**
+		 * mimics WordPress's get_option() function but uses the array instead of individual options.
+		 *
+		 * @param      $option
+		 * @param null $default
+		 *
+		 * @return bool|null
+		 */
 		public function get_option( $option, $default = null ) {
 			// If no options array exists, return FALSE.
 			if ( ! is_array($this->options) ) {
@@ -216,8 +319,15 @@ namespace {
 			return $this->options[ $option ];
 		}
 
-		// This function mimics WordPress's get_user_meta() function
-		// But uses the array instead of individual options.
+		/**
+		 * mimics WordPress's get_user_meta() function
+		 * But uses the array instead of individual options.
+		 *
+		 * @param      $option
+		 * @param null $default
+		 *
+		 * @return bool|null
+		 */
 		public function get_user_option( $option, $default = null ) {
 			// If the user id has not been set or no options array exists, return FALSE.
 			if ( $this->user_id == 0 ) {
@@ -240,8 +350,13 @@ namespace {
 			return $this->user_options[ $option ];
 		}
 
-		// The function mimics WordPress's update_option() function
-		// But uses the array instead of individual options.
+		/**
+		 * Mimics WordPress's update_option() function
+		 * But uses the array instead of individual options.
+		 *
+		 * @param $option
+		 * @param $value
+		 */
 		public function update_option( $option, $value ) {
 			// Store the value in the array.
 			$this->options[ $option ] = $value;
@@ -250,8 +365,15 @@ namespace {
 			update_option('wp_statistics', $this->options);
 		}
 
-		// The function mimics WordPress's update_user_meta() function
-		// But uses the array instead of individual options.
+		/**
+		 * Mimics WordPress's update_user_meta() function
+		 * But uses the array instead of individual options.
+		 *
+		 * @param $option
+		 * @param $value
+		 *
+		 * @return bool
+		 */
 		public function update_user_option( $option, $value ) {
 			// If the user id has not been set return FALSE.
 			if ( $this->user_id == 0 ) {
@@ -265,12 +387,28 @@ namespace {
 			update_user_meta($this->user_id, 'wp_statistics', $this->user_options);
 		}
 
-		// This function is similar to update_option, but it only stores the option in the array.  This save some writing to the database if you have multiple values to update.
+		/**
+		 * This function is similar to update_option,
+		 * but it only stores the option in the array.
+		 * This save some writing to the database if you have multiple values to update.
+		 *
+		 * @param $option
+		 * @param $value
+		 */
 		public function store_option( $option, $value ) {
 			$this->options[ $option ] = $value;
 		}
 
-		// This function is similar to update_user_option, but it only stores the option in the array.  This save some writing to the database if you have multiple values to update.
+		/**
+		 * This function is similar to update_user_option,
+		 * but it only stores the option in the array.
+		 * This save some writing to the database if you have multiple values to update.
+		 *
+		 * @param $option
+		 * @param $value
+		 *
+		 * @return bool
+		 */
 		public function store_user_option( $option, $value ) {
 			// If the user id has not been set return FALSE.
 			if ( $this->user_id == 0 ) {
@@ -280,12 +418,18 @@ namespace {
 			$this->user_options[ $option ] = $value;
 		}
 
-		// This function saves the current options array to the database.
+		/**
+		 * Saves the current options array to the database.
+		 */
 		public function save_options() {
 			update_option('wp_statistics', $this->options);
 		}
 
-		// This function saves the current user options array to the database.
+		/**
+		 * Saves the current user options array to the database.
+		 *
+		 * @return bool
+		 */
 		public function save_user_options() {
 			if ( $this->user_id == 0 ) {
 				return false;
@@ -294,7 +438,13 @@ namespace {
 			update_user_meta($this->user_id, 'wp_statistics', $this->user_options);
 		}
 
-		// This function check to see if an option is currently set or not.
+		/**
+		 * Check to see if an option is currently set or not.
+		 *
+		 * @param $option
+		 *
+		 * @return bool
+		 */
 		public function isset_option( $option ) {
 			if ( ! is_array($this->options) ) {
 				return false;
@@ -303,7 +453,13 @@ namespace {
 			return array_key_exists($option, $this->options);
 		}
 
-		// This function check to see if a user option is currently set or not.
+		/**
+		 * check to see if a user option is currently set or not.
+		 *
+		 * @param $option
+		 *
+		 * @return bool
+		 */
 		public function isset_user_option( $option ) {
 			if ( $this->user_id == 0 ) {
 				return false;
@@ -315,8 +471,11 @@ namespace {
 			return array_key_exists($option, $this->user_options);
 		}
 
-		// During installation of WP Statistics some initial data needs to be loaded in to the database so errors are not displayed.
-		// This function will add some initial data if the tables are empty.
+		/**
+		 * During installation of WP Statistics some initial data needs to be loaded
+		 * in to the database so errors are not displayed.
+		 * This function will add some initial data if the tables are empty.
+		 */
 		public function Primary_Values() {
 			global $wpdb;
 
@@ -371,8 +530,12 @@ namespace {
 			}
 		}
 
-		// During installation of WP Statistics some initial options need to be set.
-		// This function will save a set of default options for the plugin.
+		/**
+		 * During installation of WP Statistics some initial options need to be set.
+		 * This function will save a set of default options for the plugin.
+		 *
+		 * @return array
+		 */
 		public function Default_Options() {
 			$options = array();
 
@@ -413,7 +576,14 @@ namespace {
 			return $options;
 		}
 
-		// This function processes a string that represents an IP address and returns either FALSE if it's invalid or a valid IP4 address.
+		/**
+		 * Processes a string that represents an IP address and returns
+		 * either FALSE if it's invalid or a valid IP4 address.
+		 *
+		 * @param $ip
+		 *
+		 * @return bool|string
+		 */
 		private function get_ip_value( $ip ) {
 			// Reject anything that's not a string.
 			if ( ! is_string($ip) ) {
@@ -455,7 +625,11 @@ namespace {
 
 		}
 
-		// This function returns the current IP address of the remote client.
+		/**
+		 * Returns the current IP address of the remote client.
+		 *
+		 * @return bool|string
+		 */
 		public function get_IP() {
 
 			// Check to see if we've already retrieved the IP address and if so return the last result.
@@ -523,7 +697,11 @@ namespace {
 			}
 		}
 
-		// This function calls the user agent parsing code.
+		/**
+		 * Calls the user agent parsing code.
+		 *
+		 * @return array|\string[]
+		 */
 		public function get_UserAgent() {
 
 			// Parse the agent stirng.
@@ -557,7 +735,13 @@ namespace {
 			return $agent;
 		}
 
-		// This function will return the referrer link for the current user.
+		/**
+		 * return the referrer link for the current user.
+		 *
+		 * @param bool|false $default_referrer
+		 *
+		 * @return array|bool|string|void
+		 */
 		public function get_Referred( $default_referrer = false ) {
 
 			if ( $this->referrer !== false ) {
@@ -608,12 +792,26 @@ namespace {
 			return $this->referrer;
 		}
 
-		// This function returns a date string in the desired format with a passed in timestamp.
+		/**
+		 * Returns a date string in the desired format with a passed in timestamp.
+		 *
+		 * @param $format
+		 * @param $timestamp
+		 *
+		 * @return bool|string
+		 */
 		public function Local_Date( $format, $timestamp ) {
 			return date($format, $timestamp + $this->tz_offset);
 		}
 
-		// This function returns a date string in the desired format.
+		// Returns a date string in the desired format.
+		/**
+		 * @param string $format
+		 * @param null   $strtotime
+		 * @param null   $relative
+		 *
+		 * @return bool|string
+		 */
 		public function Current_Date( $format = 'Y-m-d H:i:s', $strtotime = null, $relative = null ) {
 
 			if ( $strtotime ) {
@@ -627,7 +825,15 @@ namespace {
 			}
 		}
 
-		// This function returns a date string in the desired format.
+		/**
+		 * Returns a date string in the desired format.
+		 *
+		 * @param string $format
+		 * @param null   $strtotime
+		 * @param null   $relative
+		 *
+		 * @return bool|string
+		 */
 		public function Real_Current_Date( $format = 'Y-m-d H:i:s', $strtotime = null, $relative = null ) {
 
 			if ( $strtotime ) {
@@ -641,7 +847,15 @@ namespace {
 			}
 		}
 
-		// This function returns an internationalized date string in the desired format.
+		/**
+		 * Returns an internationalized date string in the desired format.
+		 *
+		 * @param string $format
+		 * @param null   $strtotime
+		 * @param string $day
+		 *
+		 * @return string
+		 */
 		public function Current_Date_i18n( $format = 'Y-m-d H:i:s', $strtotime = null, $day = ' day' ) {
 
 			if ( $strtotime ) {
@@ -651,15 +865,34 @@ namespace {
 			}
 		}
 
+		/**
+		 * Adds the timezone offset to the given time string
+		 *
+		 * @param $timestring
+		 *
+		 * @return int
+		 */
 		public function strtotimetz( $timestring ) {
 			return strtotime($timestring) + $this->tz_offset;
 		}
 
+		/**
+		 * Adds current time to timezone offset
+		 *
+		 * @return int
+		 */
 		public function timetz() {
 			return time() + $this->tz_offset;
 		}
 
-		// This function checks to see if a search engine exists in the current list of search engines.
+		/**
+		 * Checks to see if a search engine exists in the current list of search engines.
+		 *
+		 * @param      $search_engine_name
+		 * @param null $search_engine
+		 *
+		 * @return int
+		 */
 		public function Check_Search_Engines( $search_engine_name, $search_engine = null ) {
 
 			if ( strstr($search_engine, $search_engine_name) ) {
@@ -667,8 +900,15 @@ namespace {
 			}
 		}
 
-		// This function returns an array of information about a given search engine based on the url passed in.
-		// It is used in several places to get the SE icon or the sql query to select an individual SE from the database.
+		/**
+		 * Returns an array of information about a given search engine based on the url passed in.
+		 * It is used in several places to get the SE icon or the sql query
+		 * To select an individual SE from the database.
+		 *
+		 * @param bool|false $url
+		 *
+		 * @return array|bool
+		 */
 		public function Search_Engine_Info( $url = false ) {
 
 			// If no URL was passed in, get the current referrer for the session.
@@ -710,8 +950,15 @@ namespace {
 			);
 		}
 
-		// This function returns an array of information about a given search engine based on the url passed in.
-		// It is used in several places to get the SE icon or the sql query to select an individual SE from the database.
+		/**
+		 * Returns an array of information about a given search engine based on the url passed in.
+		 * It is used in several places to get the SE icon or the sql query
+		 * to select an individual SE from the database.
+		 *
+		 * @param bool|false $engine
+		 *
+		 * @return array|bool
+		 */
 		public function Search_Engine_Info_By_Engine( $engine = false ) {
 
 			// If there is no URL and no referrer, always return false.
@@ -737,7 +984,13 @@ namespace {
 			);
 		}
 
-		// This function will parse a URL from a referrer and return the search query words used.
+		/**
+		 * Parses a URL from a referrer and return the search query words used.
+		 *
+		 * @param bool|false $url
+		 *
+		 * @return bool|string
+		 */
 		public function Search_Engine_QueryString( $url = false ) {
 
 			// If no URL was passed in, get the current referrer for the session.
@@ -792,6 +1045,14 @@ namespace {
 			return 'No search query found!';
 		}
 
+		/**
+		 * Get historical data
+		 *
+		 * @param        $type
+		 * @param string $id
+		 *
+		 * @return int|null|string
+		 */
 		public function Get_Historical_Data( $type, $id = '' ) {
 			global $wpdb;
 
@@ -869,6 +1130,11 @@ namespace {
 			return $count;
 		}
 
+		/**
+		 * Get country codes
+		 *
+		 * @return array|bool|string
+		 */
 		public function get_country_codes() {
 			if ( $this->country_codes == false ) {
 				$ISOCountryCode = array();
@@ -879,7 +1145,11 @@ namespace {
 			return $this->country_codes;
 		}
 
-		// Returns an array of site id's
+		/**
+		 * Returns an array of site id's
+		 *
+		 * @return array
+		 */
 		public function get_wp_sites_list() {
 			GLOBAL $wp_version;
 
@@ -903,6 +1173,14 @@ namespace {
 			return $site_list;
 		}
 
+		/**
+		 * Sanitizes the referrer
+		 *
+		 * @param     $referrer
+		 * @param int $length
+		 *
+		 * @return string
+		 */
 		public function html_sanitize_referrer( $referrer, $length = -1 ) {
 			$referrer = trim($referrer);
 
@@ -921,6 +1199,14 @@ namespace {
 			return htmlentities($referrer, ENT_QUOTES);
 		}
 
+		/**
+		 * Get referrer link
+		 *
+		 * @param     $referrer
+		 * @param int $length
+		 *
+		 * @return string
+		 */
 		public function get_referrer_link( $referrer, $length = -1 ) {
 			$html_referrer = $this->html_sanitize_referrer($referrer);
 
