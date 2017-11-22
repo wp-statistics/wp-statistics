@@ -8,36 +8,7 @@ class WP_Statistics_Admin {
 	public function __construct() {
 		global $WP_Statistics;
 
-		/**
-		 * Required PHP Version
-		 */
-		WP_Statistics::$reg['required-php-version'] = '5.4.0';
-		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
-
-		/**
-		 * Required GEO IP PHP Version
-		 */
-		WP_Statistics::$reg['geoip-php-version'] = WP_Statistics::$reg['required-php-version'];
-		//define('WP_STATISTICS_REQUIRED_GEOIP_PHP_VERSION', WP_Statistics::$reg['required_php_version']);
-
-		// Check the PHP version,
-		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
-			add_action('admin_notices', 'WP_Statistics_Admin::unsupported_version_admin_notice', 10, 2);
-
-			return;
-		}
-
-		$this->set_pages();
-
-		add_action('admin_init', 'WP_Statistics_Admin::export_data', 9);
-
-		// If we've been removed, return without doing anything else.
-		if ( get_option('wp_statistics_removal') == 'done' ) {
-			add_action('admin_notices', array( $this, 'removal_admin_notice' ), 10, 2);
-
-			return;
-		}
+		WP_Statistics_Admin::check_php_compatibility();
 
 		// Check to see if we're installed and are the current version.
 		WP_Statistics::$installed_version = get_option('wp_statistics_plugin_version');
@@ -49,6 +20,16 @@ class WP_Statistics_Admin {
 		if ( get_option('wp_statistics_removal') == 'true' ) {
 			new \WP_Statistics_Uninstall;
 		}
+		// If we've been removed, return without doing anything else.
+		if ( get_option('wp_statistics_removal') == 'done' ) {
+			add_action('admin_notices', array( $this, 'removal_admin_notice' ), 10, 2);
+
+			return;
+		}
+
+		add_action('admin_init', 'WP_Statistics_Admin::export_data', 9);
+
+		WP_Statistics_Admin::set_pages();
 
 		add_action('wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load');
 		add_action('admin_footer', 'WP_Statistics_Dashboard::inline_javascript');
@@ -91,7 +72,65 @@ class WP_Statistics_Admin {
 		add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
 	}
 
-	public function set_pages() {
+	static function check_php_compatibility(){
+		/**
+		 * Required PHP Version
+		 */
+		WP_Statistics::$reg['required-php-version'] = '5.4.0';
+		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
+
+		// Check the PHP version,
+		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
+		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
+			add_action('admin_notices', 'WP_Statistics_Admin::unsupported_version_admin_notice', 10, 2);
+			return;
+		}
+	}
+
+	/**
+	 * Unsupported Version Admin Notice
+	 */
+	static function unsupported_version_admin_notice() {
+
+		$screen = get_current_screen();
+
+		if ( 'plugins' !== $screen->id ) {
+			return;
+		}
+		?>
+		<div class="error">
+			<p style="max-width:800px;">
+				<b><?php _e(
+							'WP Statistics Disabled',
+							'wp-statistics'
+					); ?></b> <?php _e(
+						'&#151; You are running an unsupported version of PHP.',
+						'wp-statistics'
+				); ?>
+			</p>
+
+			<p style="max-width:800px;"><?php
+
+				echo sprintf(
+						__(
+								'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
+								'wp-statistics'
+						),
+						phpversion(),
+						WP_Statistics::$reg['required-php-version']
+				);
+				echo '</p><p>';
+				echo __(
+						'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
+						'wp-statistics'
+				);
+				?></p>
+		</div>
+
+		<?php
+	}
+
+	static function set_pages() {
 		if ( ! isset( WP_Statistics::$page['overview'] ) ) {
 			/**
 			 * Overview Page
@@ -194,49 +233,6 @@ class WP_Statistics_Admin {
 			WP_Statistics::$page['donate'] = 'wps_donate_page';
 			//define('WP_STATISTICS_DONATE_PAGE', 'wps_donate_page');
 		}
-	}
-
-	/**
-	 * Unsupported Version Admin Notice
-	 */
-	static function unsupported_version_admin_notice() {
-
-		$screen = get_current_screen();
-
-		if ( 'plugins' !== $screen->id ) {
-			return;
-		}
-		?>
-		<div class="error">
-			<p style="max-width:800px;">
-				<b><?php _e(
-						'WP Statistics Disabled',
-						'wp-statistics'
-					); ?></b> <?php _e(
-					'&#151; You are running an unsupported version of PHP.',
-					'wp-statistics'
-				); ?>
-			</p>
-
-			<p style="max-width:800px;"><?php
-
-				echo sprintf(
-					__(
-						'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
-						'wp-statistics'
-					),
-					phpversion(),
-					WP_Statistics::$reg['required-php-version']
-				);
-				echo '</p><p>';
-				echo __(
-					'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
-					'wp-statistics'
-				);
-				?></p>
-		</div>
-
-		<?php
 	}
 
 	/**
