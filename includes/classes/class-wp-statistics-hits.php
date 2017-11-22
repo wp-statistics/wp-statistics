@@ -232,25 +232,6 @@ class WP_Statistics_Hits {
 			}
 		}
 
-		// Check to see if we're excluding the admin pages.
-		if ( $WP_Statistics->get_option('exclude_adminpage') ) {
-			$protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']), 'https') === false ? 'http' : 'https';
-			$host     = $_SERVER['HTTP_HOST'];
-			$script   = $_SERVER['SCRIPT_NAME'];
-
-			$currentURL = $protocol . '://' . $host . $script;
-			$adminURL   = get_admin_url();
-
-			$currentURL = substr($currentURL, 0, strlen($adminURL));
-
-			if ( $currentURL == $adminURL ) {
-				$this->exclusion_match  = true;
-				$this->exclusion_reason = 'admin page';
-
-				return;
-			}
-		}
-
 		// Check to see if we're excluding referrer spam.
 		if ( $WP_Statistics->get_option('referrerspam') ) {
 			$referrer = $WP_Statistics->get_Referred();

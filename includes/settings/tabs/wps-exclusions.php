@@ -41,7 +41,6 @@ if ( $wps_nonce_valid ) {
 			'wps_robotlist',
 			'wps_exclude_ip',
 			'wps_exclude_loginpage',
-			'wps_exclude_adminpage',
 			'wps_force_robot_update',
 			'wps_excluded_countries',
 			'wps_included_countries',
@@ -363,22 +362,6 @@ if ( $wps_nonce_valid ) {
 
 				<p class="description"><?php _e(
 						'Exclude the login page for registering as a hit.',
-						'wp-statistics'
-					); ?></p>
-			</td>
-		</tr>
-		<tr valign="top">
-			<th scope="row"><?php _e('Excluded admin pages', 'wp-statistics'); ?>:</th>
-			<td>
-				<input id="wps-exclude-adminpage" type="checkbox" value="1"
-				       name="wps_exclude_adminpage" <?php echo $WP_Statistics->get_option('exclude_adminpage') == true
-					? "checked='checked'" : ''; ?>><label for="wps-exclude-adminpage"><?php _e(
-						'Exclude',
-						'wp-statistics'
-					); ?></label>
-
-				<p class="description"><?php _e(
-						'Exclude the admin pages for registering as a hit.',
 						'wp-statistics'
 					); ?></p>
 			</td>
