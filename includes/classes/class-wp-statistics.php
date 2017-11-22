@@ -209,17 +209,45 @@ namespace {
 
 			$WP_Statistics = $this;
 
+			add_action('wp_ajax_wp_statistics_log_visit', 'WP_Statistics::log_visit');
+			add_action('wp_ajax_nopriv_wp_statistics_log_visit', 'WP_Statistics::log_visit');
+
 			if ( is_admin() ) {
 				// JUST ADMIN AREA
 				new \WP_Statistics_Admin;
 			} else {
+				add_action('wp_footer', 'WP_Statistics::add_ajax_script', 1000);
 				// JUST FRONTEND AREA
-				new \WP_Statistics_Frontend;
+				//new \WP_Statistics_Frontend;
 			}
 
 			add_action('widgets_init', 'WP_Statistics::widget');
 			add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
 
+		}
+
+		static function add_ajax_script() {
+			$nonce    = wp_create_nonce('wp-statistics-ajax-nonce');
+			$ajax_url = admin_url('admin-ajax.php');
+			?>
+			<script>
+				jQuery(document).ready(function ($) {
+					var data = {
+						'action': 'wp_statistics_log_visit',
+						'nonce': '<?php echo $nonce;?>',
+					};
+					jQuery.post('<?php echo $ajax_url; ?>', data, function (response) {
+						alert('Got this from the server: ' + response);
+					});
+				});
+			</script>
+			<?php
+		}
+
+		static function log_visit() {
+			check_ajax_referer('wp-statistics-ajax-nonce', 'nonce');
+			new \WP_Statistics_Frontend;
+			wp_die();
 		}
 
 		/**
