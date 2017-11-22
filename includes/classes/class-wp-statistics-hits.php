@@ -10,6 +10,7 @@ use IPTools\Network;
 use IPTools\Range;
 
 class WP_Statistics_Hits {
+
 	// Setup our public/private/protected variables.
 	public $result = null;
 
@@ -75,11 +76,12 @@ class WP_Statistics_Hits {
 		 *
 		 * Order of exclusion checks is:
 		 *		1 - AJAX calls
-		 *		2 - Robots
-		 * 		3 - IP/Subnets
-		 *		4 - Self Referrals, Referrer Spam & login page
-		 *		5 - User roles
-		 *		6 - Host name list
+		 * 		2 - CronJob
+		 *		3 - Robots
+		 * 		4 - IP/Subnets
+		 *		5 - Self Referrals, Referrer Spam & login page
+		 *		6 - User roles
+		 *		7 - Host name list
 		 *
 		 * The GoeIP exclusions will be processed in the GeoIP hits class constructor.
 		 *
