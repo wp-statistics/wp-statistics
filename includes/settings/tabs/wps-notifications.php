@@ -64,7 +64,7 @@ if ( $wps_nonce_valid ) {
 			</td>
 
 			<td>
-				<input type="text" id="email_list" name="wps_email_list" size="30"
+				<input dir="ltr" type="text" id="email_list" name="wps_email_list" size="30"
 				       value="<?php if ( $WP_Statistics->get_option('email_list') == '' ) {
 					       $WP_Statistics->store_option('email_list', get_bloginfo('admin_email'));
 				       }
