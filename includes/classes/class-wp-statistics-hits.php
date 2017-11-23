@@ -93,7 +93,7 @@ class WP_Statistics_Hits {
 		$page_uri    = wp_statistics_get_uri();
 		$ajax_string = 'admin-ajax.php';
 
-		if ( substr($page_uri, 0, strlen($ajax_string)) === $ajax_string ) {
+		if ( strpos($page_uri, $ajax_string) !== false ) {
 			$this->exclusion_match  = true;
 			$this->exclusion_reason = 'ajax';
 
