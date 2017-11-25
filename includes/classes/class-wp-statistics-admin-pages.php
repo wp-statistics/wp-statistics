@@ -453,13 +453,13 @@ class WP_Statistics_Admin_Pages {
 			'wpstatistics-log-css',
 			WP_Statistics::$reg['plugin-url'] . 'assets/css/log.css',
 			true,
-			'1.2'
+			WP_Statistics::$reg['version']
 		);
 		wp_enqueue_style(
 			'wpstatistics-pagination-css',
 			WP_Statistics::$reg['plugin-url'] . 'assets/css/pagination.css',
 			true,
-			'1.0'
+			WP_Statistics::$reg['version']
 		);
 
 		// Don't forget the right to left support.
@@ -468,7 +468,7 @@ class WP_Statistics_Admin_Pages {
 				'wpstatistics-rtl-css',
 				WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css',
 				true,
-				'1.1'
+				WP_Statistics::$reg['version']
 			);
 		}
 

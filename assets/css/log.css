@@ -343,6 +343,10 @@
     border: 0px none;
     text-align: left;
 }
+.rtl .table-stats.left-align tr,
+.rtl .table-stats.left-align td {
+    text-align: left !important;
+}
 
 .rtl .table-stats tr, .rtl .table-stats td {
     text-align: right !important;

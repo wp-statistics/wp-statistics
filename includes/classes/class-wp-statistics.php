@@ -1212,7 +1212,13 @@ namespace {
 				$eplises               = '';
 			}
 
-			return "<a href='{$html_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
+			if(substr($html_referrer, 0, 7) !== 'http://' or substr($html_referrer, 0, 8) !== 'https://'){
+				// non relative address
+				$html_nr_referrer = 'http://' . $html_referrer;
+			}else{
+				$html_nr_referrer = $html_referrer;
+			}
+			return "<a href='{$html_nr_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
 		}
 
 	}
