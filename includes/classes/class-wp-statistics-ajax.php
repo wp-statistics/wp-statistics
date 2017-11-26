@@ -363,8 +363,7 @@ namespace {
 
 					break;
 					case 'pages':
-						list( $total, $uris ) = wp_statistics_get_top_pages();
-						wp_statistics_generate_pages_postbox_content($total, $uris);
+						wp_statistics_generate_pages_postbox_content();
 
 					break;
 					case 'recent':

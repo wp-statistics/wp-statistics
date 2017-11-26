@@ -52,7 +52,9 @@ class WP_Statistics_Hits {
 		}
 
 		// Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location information now.
-		if ( $WP_Statistics->get_option('private_country_code') != '000' && $WP_Statistics->get_option('private_country_code') != '' ) {
+		if ( $WP_Statistics->get_option('private_country_code') != '000' &&
+		     $WP_Statistics->get_option('private_country_code') != ''
+		) {
 			$private_subnets = array( '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24', 'fc00::/7' );
 
 			foreach ( $private_subnets as $psub ) {
@@ -100,7 +102,7 @@ class WP_Statistics_Hits {
 			return;
 		}
 
-		if ( (defined( 'DOING_CRON' ) && DOING_CRON === true) || wp_doing_cron() === true  ) {
+		if ( ( defined('DOING_CRON') && DOING_CRON === true ) || wp_doing_cron() === true ) {
 			$this->exclusion_match  = true;
 			$this->exclusion_reason = 'cronjob';
 
