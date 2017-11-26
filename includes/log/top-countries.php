@@ -55,39 +55,28 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 
 							<?php
 							$ISOCountryCode = $WP_Statistics->get_country_codes();
-
-							$result = $wpdb->get_results(
-								"SELECT DISTINCT `location` FROM `{$wpdb->prefix}statistics_visitor`"
-							);
-
 							$rangestartdate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangestart_utime);
 							$rangeenddate   = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime);
 
-							foreach ( $result as $item ) {
-								$Countries[ $item->location ] = $wpdb->get_var(
-									$wpdb->prepare(
-										"SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location=%s AND `last_counter` BETWEEN %s AND %s",
-										$item->location,
-										$rangestartdate,
-										$rangeenddate
+							$result = $wpdb->get_results(
+								sprintf("SELECT `location`, COUNT(`location`) AS `count` FROM `wp_statistics_visitor` WHERE `last_counter` BETWEEN '%s' AND '%s' GROUP BY `location` ORDER BY `count` DESC",
+									$rangestartdate,
+									$rangeenddate
 									)
 								);
-							}
-
-							arsort($Countries);
 							$i = 0;
 
-							foreach ( $Countries as $item => $value ) {
+							foreach ( $result as $item ) {
 								$i++;
-								$item = strtoupper($item);
+								$item->location = strtoupper($item->location);
 
 								echo "<tr>";
 								echo "<td>$i</td>";
 								echo "<td><img src='" .
-								     plugins_url('wp-statistics/assets/images/flags/' . $item . '.png') .
-								     "' title='{$ISOCountryCode[$item]}'/></td>";
-								echo "<td style='direction: ltr;'>{$ISOCountryCode[$item]}</td>";
-								echo "<td>" . number_format_i18n($value) . "</td>";
+								     plugins_url('wp-statistics/assets/images/flags/' . $item->location . '.png') .
+								     "' title='{$ISOCountryCode[$item->location]}'/></td>";
+								echo "<td style='direction: ltr;'>{$ISOCountryCode[$item->location]}</td>";
+								echo "<td>" . number_format_i18n($item->count) . "</td>";
 								echo "</tr>";
 							}
 							?>
