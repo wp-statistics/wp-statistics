@@ -290,6 +290,7 @@ This is a security fix, please update immediately.
 = dev-master =
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
 * Improvement: Management processes and front-end have been separated for more speed.
+* Improvement: MySQL Queries and used multi index for `wp_statistics_pages`.
 * Fixed: Issue in checking the cron request.
 * Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
 * Fixed: Admin bar menu icon.

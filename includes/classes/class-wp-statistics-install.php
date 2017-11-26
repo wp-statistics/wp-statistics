@@ -9,7 +9,7 @@ namespace {
 		/**
 		 * WP_Statistics_Install constructor.
 		 *
-		 * @param $WP_Statistics
+		 * @internal param $WP_Statistics
 		 */
 		function __construct() {
 			global $WP_Statistics, $wpdb;
@@ -103,7 +103,8 @@ namespace {
 						UNIQUE KEY date_2 (date,uri),
 						KEY url (uri),
 						KEY date (date),
-						KEY id (id)
+						KEY id (id),
+						KEY `uri` (`uri`,`count`,`id`)
 					) CHARSET=utf8" );
 
 				$create_historical_table = ( "
@@ -186,11 +187,18 @@ namespace {
 					$wpdb->query("DROP INDEX `date_ip` ON {$wpdb->prefix}statistics_visitor");
 				}
 
-				// One final database change, drop the 'AString' column from visitors if it exists as it's a typo from an old version.
+				// Drop the 'AString' column from visitors if it exists as it's a typo from an old version.
 				$result = $wpdb->query("SHOW COLUMNS FROM {$wpdb->prefix}statistics_visitor LIKE 'AString'");
 
 				if ( $result > 0 ) {
 					$wpdb->query("ALTER TABLE `{$wpdb->prefix}statistics_visitor` DROP `AString`");
+				}
+
+				// One final database change, add multi index for pages.
+				$result = $wpdb->query("SHOW INDEX FROM {$wpdb->prefix}statistics_pages WHERE Key_name = 'uri'");
+
+				if ( !$result ) {
+					$wpdb->query("ALTER TABLE `{$wpdb->prefix}statistics_pages` ADD INDEX( `uri`, `count`, `id`)");
 				}
 
 				// Store the new version information.
