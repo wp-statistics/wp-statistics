@@ -1,8 +1,7 @@
 <?php
-function wp_statistics_generate_countries_postbox_content( $ISOCountryCode, $count = 10 ) {
-
+function wp_statistics_generate_countries_postbox_content() {
 	global $wpdb, $WP_Statistics;
-
+	$ISOCountryCode = $WP_Statistics->get_country_codes();
 	?>
 	<table width="100%" class="widefat table-stats" id="last-referrer">
 		<tr>
@@ -11,44 +10,22 @@ function wp_statistics_generate_countries_postbox_content( $ISOCountryCode, $cou
 			<td width="40%" style='text-align: left'><?php _e('Country', 'wp-statistics'); ?></td>
 			<td width="40%" style='text-align: left'><?php _e('Visitor Count', 'wp-statistics'); ?></td>
 		</tr>
-
 		<?php
-		$Countries = array();
-
-		$result = $wpdb->get_results("SELECT `location` FROM `{$wpdb->prefix}statistics_visitor` GROUP BY `location`");
-
-		foreach ( $result as $item ) {
-			$Countries[ $item->location ] = $wpdb->get_var(
-				$wpdb->prepare(
-					"SELECT count(location) FROM `{$wpdb->prefix}statistics_visitor` WHERE location=%s",
-					$item->location
-				)
-			);
-		}
-
-		arsort($Countries);
+		$result = $wpdb->get_results("SELECT `location`, COUNT(`location`) AS `count` FROM `{$wpdb->prefix}statistics_visitor` GROUP BY `location` ORDER BY `count` DESC LIMIT 10");
 		$i = 0;
-
-		foreach ( $Countries as $item => $value ) {
+		foreach ( $result as $item ) {
 			$i++;
-
-			$item = strtoupper($item);
-
+			$item->location = strtoupper($item->location);
 			echo "<tr>";
 			echo "<td style='text-align: left'>$i</td>";
 			echo "<td style='text-align: left'><img src='" .
-			     plugins_url('wp-statistics/assets/images/flags/' . $item . '.png') .
-			     "' title='{$ISOCountryCode[$item]}'/></td>";
-			echo "<td style='text-align: left'>{$ISOCountryCode[$item]}</td>";
-			echo "<td style='text-align: left'>" . number_format_i18n($value) . "</td>";
+			     plugins_url('wp-statistics/assets/images/flags/' . $item->location . '.png') .
+			     "' title='{$ISOCountryCode[$item->location]}'/></td>";
+			echo "<td style='text-align: left !important'>{$ISOCountryCode[$item->location]}</td>";
+			echo "<td style='text-align: left !important'>" . number_format_i18n($item->count) . "</td>";
 			echo "</tr>";
-
-			if ( $i == $count ) {
-				break;
-			}
 		}
 		?>
 	</table>
 	<?php
 }
-
