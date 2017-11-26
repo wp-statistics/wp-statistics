@@ -59,7 +59,7 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 							$rangeenddate   = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime);
 
 							$result = $wpdb->get_results(
-								sprintf("SELECT `location`, COUNT(`location`) AS `count` FROM `wp_statistics_visitor` WHERE `last_counter` BETWEEN '%s' AND '%s' GROUP BY `location` ORDER BY `count` DESC",
+								sprintf("SELECT `location`, COUNT(`location`) AS `count` FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` BETWEEN '%s' AND '%s' GROUP BY `location` ORDER BY `count` DESC",
 									$rangestartdate,
 									$rangeenddate
 									)
