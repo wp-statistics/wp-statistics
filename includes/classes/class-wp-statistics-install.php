@@ -187,20 +187,13 @@ namespace {
 					$wpdb->query("DROP INDEX `date_ip` ON {$wpdb->prefix}statistics_visitor");
 				}
 
-				// Drop the 'AString' column from visitors if it exists as it's a typo from an old version.
+				// One final database change, drop the 'AString' column from visitors if it exists as it's a typo from an old version.
 				$result = $wpdb->query("SHOW COLUMNS FROM {$wpdb->prefix}statistics_visitor LIKE 'AString'");
 
 				if ( $result > 0 ) {
 					$wpdb->query("ALTER TABLE `{$wpdb->prefix}statistics_visitor` DROP `AString`");
 				}
-
-				// One final database change, add multi index for pages.
-				$result = $wpdb->query("SHOW INDEX FROM {$wpdb->prefix}statistics_pages WHERE Key_name = 'uri'");
-
-				if ( !$result ) {
-					$wpdb->query("ALTER TABLE `{$wpdb->prefix}statistics_pages` ADD INDEX( `uri`, `count`, `id`)");
-				}
-
+				
 				// Store the new version information.
 				update_option('wp_statistics_plugin_version', WP_Statistics::$reg['version']);
 				update_option('wp_statistics_db_version', WP_Statistics::$reg['version']);
