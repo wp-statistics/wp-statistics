@@ -193,7 +193,7 @@ namespace {
 				if ( $result > 0 ) {
 					$wpdb->query("ALTER TABLE `{$wpdb->prefix}statistics_visitor` DROP `AString`");
 				}
-				
+
 				// Store the new version information.
 				update_option('wp_statistics_plugin_version', WP_Statistics::$reg['version']);
 				update_option('wp_statistics_db_version', WP_Statistics::$reg['version']);
