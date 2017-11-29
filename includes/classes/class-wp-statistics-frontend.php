@@ -8,6 +8,11 @@ class WP_Statistics_Frontend {
 	public function __construct() {
 		global $WP_Statistics;
 
+		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
+		if( !WP_Statistics::check_php_compatibility() ) {
+			return;
+		}
+
 		add_filter('widget_text', 'do_shortcode');
 
 		new WP_Statistics_Schedule;
