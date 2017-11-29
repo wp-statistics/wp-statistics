@@ -21,12 +21,12 @@ class WP_Statistics_Admin {
 		// Check to see if we're installed and are the current version.
 		WP_Statistics::$installed_version = get_option('wp_statistics_plugin_version');
 		if ( WP_Statistics::$installed_version != WP_Statistics::$reg['version'] ) {
-			new \WP_Statistics_Install;
+			new WP_Statistics_Install;
 		}
 
 		// If we've been flagged to remove all of the data, then do so now.
 		if ( get_option('wp_statistics_removal') == 'true' ) {
-			new \WP_Statistics_Uninstall;
+			new WP_Statistics_Uninstall;
 		}
 		// If we've been removed, return without doing anything else.
 		if ( get_option('wp_statistics_removal') == 'done' ) {
@@ -42,7 +42,7 @@ class WP_Statistics_Admin {
 		add_action('wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load');
 		add_action('admin_footer', 'WP_Statistics_Dashboard::inline_javascript');
 		add_action('add_meta_boxes', 'WP_Statistics_Editor::add_meta_box');
-		new \WP_Statistics_Ajax;
+		new WP_Statistics_Ajax;
 
 		// Display the admin notices if we should.
 		if ( isset( $pagenow ) && array_key_exists('page', $_GET) ) {
