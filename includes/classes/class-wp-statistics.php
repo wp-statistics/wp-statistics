@@ -155,6 +155,24 @@ class WP_Statistics {
 	}
 
 	/**
+	 * Checks PHP Compatibility
+	 */
+	static function check_php_compatibility() {
+		/**
+		 * Required PHP Version
+		 */
+		WP_Statistics::$reg['required-php-version'] = '5.4.0';
+		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
+
+		// Check the PHP version,
+		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Run when plugin loads
 	 */
 	public function run() {
@@ -206,7 +224,6 @@ class WP_Statistics {
 			// JUST FRONTEND AREA
 			new WP_Statistics_Frontend;
 		}
-
 
 		add_action('widgets_init', 'WP_Statistics::widget');
 		add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');

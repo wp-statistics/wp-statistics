@@ -11,7 +11,12 @@ class WP_Statistics_Admin {
 	public function __construct() {
 		global $WP_Statistics;
 
-		WP_Statistics_Admin::check_php_compatibility();
+		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
+		if( !WP_Statistics::check_php_compatibility() ) {
+			add_action('admin_notices', 'WP_Statistics_Admin::unsupported_version_admin_notice', 10, 2);
+
+			return;
+        }
 
 		// Check to see if we're installed and are the current version.
 		WP_Statistics::$installed_version = get_option('wp_statistics_plugin_version');
@@ -73,25 +78,6 @@ class WP_Statistics_Admin {
 
 		add_action('admin_enqueue_scripts', 'WP_Statistics_Admin::enqueue_scripts');
 		add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
-	}
-
-	/**
-	 * Checks PHP Compatibility
-	 */
-	static function check_php_compatibility() {
-		/**
-		 * Required PHP Version
-		 */
-		WP_Statistics::$reg['required-php-version'] = '5.4.0';
-		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
-
-		// Check the PHP version,
-		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
-			add_action('admin_notices', 'WP_Statistics_Admin::unsupported_version_admin_notice', 10, 2);
-
-			return;
-		}
 	}
 
 	/**
