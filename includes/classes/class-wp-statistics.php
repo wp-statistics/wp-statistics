@@ -165,10 +165,11 @@ class WP_Statistics {
 		 */
 		WP_Statistics::$reg['required-php-version'] = '5.4.0';
 		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
+
 		// Check the PHP version,
 		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
 		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
-			add_action('admin_notices', 'WP_Statistics_Admin::unsupported_version_admin_notice', 10, 2);
+			add_action('admin_notices', 'WP_Statistics::unsupported_version_admin_notice', 10, 2);
 
 			return;
 		}
@@ -209,7 +210,6 @@ class WP_Statistics {
 
 		add_action('widgets_init', 'WP_Statistics::widget');
 		add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
-
 	}
 
 	/**
@@ -1252,4 +1252,46 @@ class WP_Statistics {
 		return "<a href='{$html_nr_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
 	}
 
+	/**
+	 * Unsupported Version Admin Notice
+	 */
+	static function unsupported_version_admin_notice() {
+
+		$screen = get_current_screen();
+
+		if ( 'plugins' !== $screen->id ) {
+			return;
+		}
+		?>
+		<div class="error">
+			<p style="max-width:800px;">
+				<b><?php _e(
+						'WP Statistics Disabled',
+						'wp-statistics'
+					); ?></b> <?php _e(
+					'&#151; You are running an unsupported version of PHP.',
+					'wp-statistics'
+				); ?>
+			</p>
+
+			<p style="max-width:800px;"><?php
+
+				echo sprintf(
+					__(
+						'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
+						'wp-statistics'
+					),
+					phpversion(),
+					WP_Statistics::$reg['required-php-version']
+				);
+				echo '</p><p>';
+				echo __(
+					'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
+					'wp-statistics'
+				);
+				?></p>
+		</div>
+
+		<?php
+	}
 }
