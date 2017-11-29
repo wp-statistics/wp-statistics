@@ -210,10 +210,10 @@ class WP_Statistics {
 
 		if ( is_admin() ) {
 			// JUST ADMIN AREA
-			new \WP_Statistics_Admin;
+			new WP_Statistics_Admin;
 		} else {
 			// JUST FRONTEND AREA
-			new \WP_Statistics_Frontend;
+			new WP_Statistics_Frontend;
 		}
 
 
