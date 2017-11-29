@@ -74,49 +74,6 @@ class WP_Statistics_Admin {
 	}
 
 	/**
-	 * Unsupported Version Admin Notice
-	 */
-	static function unsupported_version_admin_notice() {
-
-		$screen = get_current_screen();
-
-		if ( 'plugins' !== $screen->id ) {
-			return;
-		}
-		?>
-		<div class="error">
-			<p style="max-width:800px;">
-				<b><?php _e(
-						'WP Statistics Disabled',
-						'wp-statistics'
-					); ?></b> <?php _e(
-					'&#151; You are running an unsupported version of PHP.',
-					'wp-statistics'
-				); ?>
-			</p>
-
-			<p style="max-width:800px;"><?php
-
-				echo sprintf(
-					__(
-						'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
-						'wp-statistics'
-					),
-					phpversion(),
-					WP_Statistics::$reg['required-php-version']
-				);
-				echo '</p><p>';
-				echo __(
-					'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
-					'wp-statistics'
-				);
-				?></p>
-		</div>
-
-		<?php
-	}
-
-	/**
 	 * Set pages slugs
 	 */
 	static function set_pages() {
