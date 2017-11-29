@@ -133,7 +133,7 @@ class WP_Statistics_Updates {
 					     wp_statistics_geoip_supported() &&
 					     $WP_Statistics->get_option('auto_pop')
 					) {
-						$result .= \WP_Statistics_Updates::populate_geoip_info();
+						$result .= WP_Statistics_Updates::populate_geoip_info();
 					}
 				}
 			}

@@ -8,7 +8,7 @@ if ( ! is_super_admin() ) {
 
 if ( array_key_exists('populate', $_GET) ) {
 	if ( intval($_GET['populate']) == 1 ) {
-		echo \WP_Statistics_Updates::populate_geoip_info();
+		echo WP_Statistics_Updates::populate_geoip_info();
 	}
 }
 
@@ -47,7 +47,7 @@ if ( array_key_exists('hash-ips', $_GET) ) {
 if ( array_key_exists('install', $_GET) ) {
 	if ( intval($_GET['install']) == 1 ) {
 		$WPS_Installed = "1.0";
-		new \WP_Statistics_Install($WP_Statistics);
+		new WP_Statistics_Install($WP_Statistics);
 		echo "<div class='updated settings-error'><p><strong>" .
 		     __('Install routine complete.', 'wp-statistics') .
 		     "</strong></p></div>";
