@@ -260,7 +260,7 @@ If IPv6 is not enabled, you may see an warning like:
 
 = When I upgrade or install WP Statistics 11.0 I get an error message like "Parse error: syntax error, unexpected T_USE, expecting T_FUNCTION in..." =
 
-Since WP Statistics 12.2, PHP 5.6 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 11.0 and generates a parse error.
+Since WP Statistics 11.0, PHP 5.4 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 11.0 and generates a parse error.
 
 Your hosting provider should have a newer version of PHP available, sometimes you must activate it through your hosting control panel.
 
@@ -283,9 +283,6 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 10. Theme widget
 
 == Upgrade Notice ==
-= dev-master =
-Since WP Statistics dev-master, PHP 5.6 or above has been required.
-
 = 12.0.9 =
 This is a security fix, please update immediately.
 
