@@ -11,13 +11,6 @@ class WP_Statistics_Admin {
 	public function __construct() {
 		global $WP_Statistics;
 
-		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-		if( !WP_Statistics::check_php_compatibility() ) {
-			add_action('admin_notices', 'WP_Statistics_Admin::unsupported_version_admin_notice', 10, 2);
-
-			return;
-        }
-
 		// Check to see if we're installed and are the current version.
 		WP_Statistics::$installed_version = get_option('wp_statistics_plugin_version');
 		if ( WP_Statistics::$installed_version != WP_Statistics::$reg['version'] ) {
