@@ -145,58 +145,13 @@ class WP_Statistics {
 			/**
 			 * WP Statistics Version
 			 */
-
 			if ( ! function_exists('get_plugin_data') ) {
 				require( ABSPATH . 'wp-admin/includes/plugin.php' );
 			}
 			WP_Statistics::$reg['plugin-data'] = get_plugin_data(WP_STATISTICS_MAIN_FILE);
 			WP_Statistics::$reg['version']     = WP_Statistics::$reg['plugin-data']['Version'];
 			//define('WP_STATISTICS_VERSION', '12.1.3');
-
 		}
-
-		if ( get_option('timezone_string') ) {
-			$this->tz_offset = timezone_offset_get(
-				timezone_open(get_option('timezone_string')),
-				new DateTime()
-			);
-		} elseif ( get_option('gmt_offset') ) {
-			$this->tz_offset = get_option('gmt_offset') * 60 * 60;
-		}
-
-		$this->load_options();
-
-		// Set the default co-efficient.
-		$this->coefficient = $this->get_option('coefficient', 1);
-		// Double check the co-efficient setting to make sure it's not been set to 0.
-		if ( $this->coefficient <= 0 ) {
-			$this->coefficient = 1;
-		}
-
-		$this->get_IP();
-
-		if ( $this->get_option('hash_ips') == true ) {
-			$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
-		}
-
-	}
-
-	/**
-	 * Checks PHP Compatibility
-	 */
-	static function check_php_compatibility() {
-		/**
-		 * Required PHP Version
-		 */
-		WP_Statistics::$reg['required-php-version'] = '5.4.0';
-		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
-
-		// Check the PHP version,
-		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -204,6 +159,25 @@ class WP_Statistics {
 	 */
 	public function run() {
 		global $WP_Statistics;
+
+		/**
+		 * Required PHP Version
+		 */
+		WP_Statistics::$reg['required-php-version'] = '5.4.0';
+		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
+		// Check the PHP version,
+		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
+		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
+			add_action('admin_notices', 'WP_Statistics_Admin::unsupported_version_admin_notice', 10, 2);
+
+			return;
+		}
+
+		$this->set_timezone();
+		$this->load_options();
+		$this->get_IP();
+		$this->set_ip_hash();
+
 		// Autoload composer
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
 
@@ -223,7 +197,6 @@ class WP_Statistics {
 		}
 
 		$this->agent = $this->get_UserAgent();
-
 		$WP_Statistics = $this;
 
 		if ( is_admin() ) {
@@ -264,6 +237,41 @@ class WP_Statistics {
 	 */
 	public function init() {
 		load_plugin_textdomain('wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages');
+	}
+
+	/**
+	 * Set Time Zone
+	 */
+	public function set_timezone(){
+		if ( get_option('timezone_string') ) {
+			$this->tz_offset = timezone_offset_get(
+					timezone_open(get_option('timezone_string')),
+					new DateTime()
+			);
+		} elseif ( get_option('gmt_offset') ) {
+			$this->tz_offset = get_option('gmt_offset') * 60 * 60;
+		}
+	}
+
+	/**
+	 * Set Coefficient
+	 */
+	public function set_coefficient(){
+		// Set the default co-efficient.
+		$this->coefficient = $this->get_option('coefficient', 1);
+		// Double check the co-efficient setting to make sure it's not been set to 0.
+		if ( $this->coefficient <= 0 ) {
+			$this->coefficient = 1;
+		}
+	}
+
+	/**
+	 * Set IP Hash
+	 */
+	public function set_ip_hash(){
+		if ( $this->get_option('hash_ips') == true ) {
+			$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
+		}
 	}
 
 	/**
