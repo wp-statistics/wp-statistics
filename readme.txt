@@ -290,11 +290,11 @@ This is a security fix, please update immediately.
 = 12.3 =
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
 * Improvement: Management processes and front-end have been separated for more speed.
-* Improvement: MySQL Queries and used multi index for `wp_statistics_pages`.
+* Improvement: MySQL Queries and used multi-index for `wp_statistics_pages`.
 * Improvement: Top Referring widget in Big data. Used Transient cache to build this widget data.
-* Fixed: Issue in checking the cron request.
+* Fixed: Issue in checking the Cron request.
 * Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
-* Fixed issue in generate query string in some state pages.
+* Fixed issue in generating query string in some state pages.
 * Fixed issue in admin widget. The `id` in label missed and used `get_field_id` method to get a correct id.
 * Fixed: Admin bar menu icon.
 * Updated: Chart.js library to v2.7.1
