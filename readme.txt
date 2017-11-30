@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.2.1
+Stable tag: 12.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -287,7 +287,7 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
-= dev-master =
+= 12.3 =
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
 * Improvement: Management processes and front-end have been separated for more speed.
 * Improvement: MySQL Queries and used multi index for `wp_statistics_pages`.
