@@ -297,7 +297,7 @@ This is a security fix, please update immediately.
 * Fixed issue in generate query string in some state pages.
 * Fixed issue in admin widget. The `id` in label missed and used `get_field_id` method to get a correct id.
 * Fixed: Admin bar menu icon.
-* Updated: Chart.js library to 2.7.1.
+* Updated: Chart.js library to v2.7.1
 
 = 12.2.1 =
 * Fixed: Issue to `add_column` callback.
