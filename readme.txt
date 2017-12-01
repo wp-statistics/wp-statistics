@@ -294,8 +294,8 @@ This is a security fix, please update immediately.
 * Improvement: Top Referring widget in Big data. Used Transient cache to build this widget data.
 * Fixed: Issue in checking the Cron request.
 * Fixed: Issue in i18n strings. The `load_plugin_textdomain` missed.
-* Fixed issue in generating query string in some state pages.
-* Fixed issue in admin widget. The `id` in label missed and used `get_field_id` method to get a correct id.
+* Fixed: issue in generating query string in some state pages.
+* Fixed: issue in admin widget. The `id` in label missed and used `get_field_id` method to get a correct id.
 * Fixed: Admin bar menu icon.
 * Updated: Chart.js library to v2.7.1
 
