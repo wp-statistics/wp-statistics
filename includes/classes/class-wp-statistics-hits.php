@@ -50,7 +50,7 @@ class WP_Statistics_Hits {
 		} catch ( Exception $e ) {
 			$ip = (string)IP::parse('127.0.0.1');
 		}
-		
+
 		// Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location information now.
 		if ( $WP_Statistics->get_option('private_country_code') != '000' &&
 		     $WP_Statistics->get_option('private_country_code') != ''

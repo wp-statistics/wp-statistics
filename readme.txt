@@ -287,6 +287,10 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Updated: Composer libraries.
+* Fixed: Issue to instance of IP class.
+
 = 12.3 =
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
 * Improvement: Management processes and front-end have been separated for more speed.

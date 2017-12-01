@@ -1241,7 +1241,7 @@ class WP_Statistics {
 			$html_referrer_limited = $html_referrer;
 			$eplises               = '';
 		}
-
+		
 		if ( substr($html_referrer, 0, 7) !== 'http://' or substr($html_referrer, 0, 8) !== 'https://' ) {
 			// non relative address
 			$html_nr_referrer = 'http://' . $html_referrer;
