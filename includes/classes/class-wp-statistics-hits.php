@@ -50,7 +50,7 @@ class WP_Statistics_Hits {
 		} catch ( Exception $e ) {
 			$ip = new IP('127.0.0.1');
 		}
-		
+
 		// Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location information now.
 		if ( $WP_Statistics->get_option('private_country_code') != '000' &&
 		     $WP_Statistics->get_option('private_country_code') != ''
@@ -102,13 +102,11 @@ class WP_Statistics_Hits {
 			return;
 		}
 
-		if( function_exists('wp_doing_cron') ) {
-			if ( ( defined('DOING_CRON') && DOING_CRON === true ) || wp_doing_cron() === true ) {
-				$this->exclusion_match  = true;
-				$this->exclusion_reason = 'cronjob';
+		if ( ( defined('DOING_CRON') && DOING_CRON === true ) || ( function_exists('wp_doing_cron') && wp_doing_cron() === true ) ) {
+			$this->exclusion_match  = true;
+			$this->exclusion_reason = 'cronjob';
 
-				return;
-			}
+			return;
 		}
 
 		// Detect if the user is a crawler.
