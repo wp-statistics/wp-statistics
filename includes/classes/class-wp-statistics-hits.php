@@ -46,11 +46,11 @@ class WP_Statistics_Hits {
 		// Create a IP Tools instance from the current IP address for use later.
 		// Fall back to the localhost if it can't be parsed.
 		try {
-			$ip = (string)IP::parse($WP_Statistics->ip);
+			$ip = new IP($WP_Statistics->ip);
 		} catch ( Exception $e ) {
-			$ip = (string)IP::parse('127.0.0.1');
+			$ip = new IP('127.0.0.1');
 		}
-
+		
 		// Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location information now.
 		if ( $WP_Statistics->get_option('private_country_code') != '000' &&
 		     $WP_Statistics->get_option('private_country_code') != ''
