@@ -1233,7 +1233,6 @@ class WP_Statistics {
 	 */
 	public function get_referrer_link( $referrer, $length = -1 ) {
 		$html_referrer = $this->html_sanitize_referrer($referrer);
-
 		if ( $length > 0 && strlen($referrer) > $length ) {
 			$html_referrer_limited = $this->html_sanitize_referrer($referrer, $length);
 			$eplises               = '[...]';
@@ -1241,14 +1240,13 @@ class WP_Statistics {
 			$html_referrer_limited = $html_referrer;
 			$eplises               = '';
 		}
-
-		if ( substr($html_referrer, 0, 7) !== 'http://' or substr($html_referrer, 0, 8) !== 'https://' ) {
-			// non relative address
-			$html_nr_referrer = 'http://' . $html_referrer;
+		
+		if ( substr($html_referrer, 0, 7) !== 'http://' and substr($html_referrer, 0, 8) !== 'https://' ) {
+			// relative address, use '//' to adapt both http and https
+			$html_nr_referrer = '//' . $html_referrer;
 		} else {
 			$html_nr_referrer = $html_referrer;
 		}
-
 		return "<a href='{$html_nr_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
 	}
 

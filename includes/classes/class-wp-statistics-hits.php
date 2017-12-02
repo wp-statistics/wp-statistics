@@ -110,7 +110,7 @@ class WP_Statistics_Hits {
 				return;
 			}
 		}
-		
+
 		// Detect if the user is a crawler.
 		$crawler   = false;
 		$ua_string = '';
