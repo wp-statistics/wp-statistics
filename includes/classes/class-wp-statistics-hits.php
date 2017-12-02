@@ -102,14 +102,15 @@ class WP_Statistics_Hits {
 			return;
 		}
 
-		if ( ( defined('DOING_CRON') && DOING_CRON === true ) || wp_doing_cron() === true ) {
-			$this->exclusion_match  = true;
-			$this->exclusion_reason = 'cronjob';
+		if( function_exists('wp_doing_cron') ) {
+			if ( ( defined('DOING_CRON') && DOING_CRON === true ) || wp_doing_cron() === true ) {
+				$this->exclusion_match  = true;
+				$this->exclusion_reason = 'cronjob';
 
-			return;
+				return;
+			}
 		}
-
-
+		
 		// Detect if the user is a crawler.
 		$crawler   = false;
 		$ua_string = '';
