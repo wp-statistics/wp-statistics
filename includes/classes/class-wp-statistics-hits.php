@@ -171,7 +171,7 @@ class WP_Statistics_Hits {
 
 			// Finally check to see if we have corrupt header information.
 			if ( ! $this->exclusion_match && $WP_Statistics->get_option('corrupt_browser_info') ) {
-				if ( $ua_string == '' || $this->ip == '' ) {
+				if ( $ua_string == '' || $WP_Statistics->ip == '' ) {
 					$this->exclusion_match  = true;
 					$this->exclusion_reason = 'robot';
 

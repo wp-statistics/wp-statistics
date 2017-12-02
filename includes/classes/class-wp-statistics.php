@@ -1240,7 +1240,7 @@ class WP_Statistics {
 			$html_referrer_limited = $html_referrer;
 			$eplises               = '';
 		}
-		
+
 		if ( substr($html_referrer, 0, 7) !== 'http://' and substr($html_referrer, 0, 8) !== 'https://' ) {
 			// relative address, use '//' to adapt both http and https
 			$html_nr_referrer = '//' . $html_referrer;
