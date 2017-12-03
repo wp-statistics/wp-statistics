@@ -4,7 +4,7 @@ function wp_statistics_generate_searched_phrases_postbox_content() {
 	global $wpdb;
 
 	$result = $wpdb->get_results(
-		"SELECT `words` , count(`words`) as `count` FROM `wp_statistics_search` WHERE `words` <> '' AND `last_counter` BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE() GROUP BY `words` order by `count` DESC limit 10"
+		"SELECT `words` , count(`words`) as `count` FROM `{$wpdb->prefix}statistics_search` WHERE `words` <> '' AND `last_counter` BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE() GROUP BY `words` order by `count` DESC limit 10"
 	);
 
 	?>
