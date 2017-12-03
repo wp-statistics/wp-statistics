@@ -1,6 +1,6 @@
 <?php
 
-namespace phpbrowscap;
+namespace phpbrowscapTest;
 
 use phpbrowscap\Browscap;
 
@@ -38,13 +38,12 @@ use phpbrowscap\Browscap;
  */
 class TestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
     protected $cacheDir;
 
-    public function setUp()
-    {
-    }
-
-    protected function createCacheDir($cache_dir = null)
+    protected function createCacheDir()
     {
         $cacheDir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'browscap_testing';
 
@@ -66,18 +65,22 @@ class TestCase extends \PHPUnit_Framework_TestCase
         return new Browscap($cacheDir);
     }
 
+    /**
+     * removes the temporary cache directory
+     */
     protected function removeCacheDir()
     {
         if (isset($this->cacheDir) && is_dir($this->cacheDir)) {
-            if (false === @rmdir($this->cacheDir)) {
-                throw new \RuntimeException(sprintf('Unable to remove the "%s" directory', $this->cacheDir));
-            }
-
+            @rmdir($this->cacheDir);
             $this->cacheDir = null;
         }
     }
 
-    public function tearDown()
+    /**
+     * Tears down the fixture, for example, close a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown()
     {
         $this->removeCacheDir();
     }
