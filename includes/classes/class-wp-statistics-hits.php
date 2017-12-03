@@ -46,9 +46,9 @@ class WP_Statistics_Hits {
 		// Create a IP Tools instance from the current IP address for use later.
 		// Fall back to the localhost if it can't be parsed.
 		try {
-			$ip = (string)IP::parse($WP_Statistics->ip);
+			$ip = new IP($WP_Statistics->ip);
 		} catch ( Exception $e ) {
-			$ip = (string)IP::parse('127.0.0.1');
+			$ip = new IP('127.0.0.1');
 		}
 
 		// Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location information now.
@@ -102,13 +102,12 @@ class WP_Statistics_Hits {
 			return;
 		}
 
-		if ( ( defined('DOING_CRON') && DOING_CRON === true ) || wp_doing_cron() === true ) {
+		if ( ( defined('DOING_CRON') && DOING_CRON === true ) || ( function_exists('wp_doing_cron') && wp_doing_cron() === true ) ) {
 			$this->exclusion_match  = true;
 			$this->exclusion_reason = 'cronjob';
 
 			return;
 		}
-
 
 		// Detect if the user is a crawler.
 		$crawler   = false;
@@ -170,7 +169,7 @@ class WP_Statistics_Hits {
 
 			// Finally check to see if we have corrupt header information.
 			if ( ! $this->exclusion_match && $WP_Statistics->get_option('corrupt_browser_info') ) {
-				if ( $ua_string == '' || $this->ip == '' ) {
+				if ( $ua_string == '' || $WP_Statistics->ip == '' ) {
 					$this->exclusion_match  = true;
 					$this->exclusion_reason = 'robot';
 
