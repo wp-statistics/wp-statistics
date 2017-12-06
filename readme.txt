@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.3
+Stable tag: 12.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -287,9 +287,15 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
-= dev-master =
+= 12.3.1 =
+* We're sorry about last issues. Now you can update to new version to resolve the problems.
 * Updated: Composer libraries.
-* Fixed: Issue to instance of IP class.
+* Fixed: A minor bug in `get_referrer_link`.
+* Improvement: `wp_doing_cron` function, Check before call if is not exist.
+* Fixed: Issue to get IP in Hits class.
+* Fixed: Issue to get prefix table in searched phrases postbox.
+* Fixed: Issue in Browscap, Used the original Browscap library in the plugin.
+* If you have any problem, don't forget to send the report to your web site's [contact form](https://wp-statistics.com/contact/).
 
 = 12.3 =
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
