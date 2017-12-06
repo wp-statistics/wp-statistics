@@ -178,6 +178,7 @@ class WP_Statistics {
 		$this->load_options();
 		$this->get_IP();
 		$this->set_ip_hash();
+		$this->set_pages();
 
 		// Autoload composer
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
@@ -206,6 +207,10 @@ class WP_Statistics {
 		} else {
 			// JUST FRONTEND AREA
 			new WP_Statistics_Frontend;
+		}
+
+		if ( $WP_Statistics->get_option('menu_bar') ) {
+			add_action('admin_bar_menu', 'WP_Statistics::menubar', 20);
 		}
 
 		add_action('widgets_init', 'WP_Statistics::widget');
@@ -250,6 +255,114 @@ class WP_Statistics {
 			);
 		} elseif ( get_option('gmt_offset') ) {
 			$this->tz_offset = get_option('gmt_offset') * 60 * 60;
+		}
+	}
+
+	/**
+	 * Set pages slugs
+	 */
+	public function set_pages() {
+		if ( ! isset( WP_Statistics::$page['overview'] ) ) {
+			/**
+			 * Overview Page
+			 */
+			WP_Statistics::$page['overview'] = 'wps_overview_page';
+			//define('WP_STATISTICS_OVERVIEW_PAGE', 'wps_overview_page');
+			/**
+			 * Browsers Page
+			 */
+			WP_Statistics::$page['browser'] = 'wps_browsers_page';
+			//define('WP_STATISTICS_BROWSERS_PAGE', 'wps_browsers_page');
+			/**
+			 * Countries Page
+			 */
+			WP_Statistics::$page['countries'] = 'wps_countries_page';
+			//define('WP_STATISTICS_COUNTRIES_PAGE', 'wps_countries_page');
+			/**
+			 * Exclusions Page
+			 */
+			WP_Statistics::$page['exclusions'] = 'wps_exclusions_page';
+			//define('WP_STATISTICS_EXCLUSIONS_PAGE', 'wps_exclusions_page');
+			/**
+			 * Hits Page
+			 */
+			WP_Statistics::$page['hits'] = 'wps_hits_page';
+			//define('WP_STATISTICS_HITS_PAGE', 'wps_hits_page');
+			/**
+			 * Online Page
+			 */
+			WP_Statistics::$page['online'] = 'wps_online_page';
+			//define('WP_STATISTICS_ONLINE_PAGE', 'wps_online_page');
+			/**
+			 * Pages Page
+			 */
+			WP_Statistics::$page['pages'] = 'wps_pages_page';
+			//define('WP_STATISTICS_PAGES_PAGE', 'wps_pages_page');
+			/**
+			 * Categories Page
+			 */
+			WP_Statistics::$page['categories'] = 'wps_categories_page';
+			//define('WP_STATISTICS_CATEGORIES_PAGE', 'wps_categories_page');
+			/**
+			 * Authors Page
+			 */
+			WP_Statistics::$page['authors'] = 'wps_authors_page';
+			//define('WP_STATISTICS_AUTHORS_PAGE', 'wps_authors_page');
+			/**
+			 * Tags Page
+			 */
+			WP_Statistics::$page['tags'] = 'wps_tags_page';
+			//define('WP_STATISTICS_TAGS_PAGE', 'wps_tags_page');
+			/**
+			 * Referer Page
+			 */
+			WP_Statistics::$page['referrers'] = 'wps_referrers_page';
+			//define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page');
+			/**
+			 * Searched Phrases Page
+			 */
+			WP_Statistics::$page['searched-phrases'] = 'wps_searched_phrases_page';
+			//define('WP_STATISTICS_SEARCHED_PHRASES_PAGE', 'wps_searched_phrases_page');
+			/**
+			 * Searches Page
+			 */
+			WP_Statistics::$page['searches'] = 'wps_searches_page';
+			//define('WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page');
+			/**
+			 * Words Page
+			 */
+			WP_Statistics::$page['words'] = 'wps_words_page';
+			//define('WP_STATISTICS_WORDS_PAGE', 'wps_words_page');
+			/**
+			 * Top Visitors Page
+			 */
+			WP_Statistics::$page['top-visitors'] = 'wps_top_visitors_page';
+			//define('WP_STATISTICS_TOP_VISITORS_PAGE', 'wps_top_visitors_page');
+			/**
+			 * Visitors Page
+			 */
+			WP_Statistics::$page['visitors'] = 'wps_visitors_page';
+			//define('WP_STATISTICS_VISITORS_PAGE', 'wps_visitors_page');
+			/**
+			 * Optimization Page
+			 */
+			WP_Statistics::$page['optimization'] = 'wps_optimization_page';
+			//define('WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page');
+			/**
+			 * Settings Page
+			 */
+			WP_Statistics::$page['settings'] = 'wps_settings_page';
+			//define('WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page');
+			/**
+			 * Plugins Page
+			 */
+			WP_Statistics::$page['plugins'] = 'wps_plugins_page';
+			//define('WP_STATISTICS_PLUGINS_PAGE', 'wps_plugins_page');
+			/**
+			 * Donate Page
+			 */
+			WP_Statistics::$page['donate'] = 'wps_donate_page';
+			//define('WP_STATISTICS_DONATE_PAGE', 'wps_donate_page');
 		}
 	}
 
@@ -1292,4 +1405,108 @@ class WP_Statistics {
 
 		<?php
 	}
+
+	/**
+	 * Adds the admin bar menu if the user has selected it.
+	 */
+	static function menubar() {
+		GLOBAL $wp_admin_bar, $wp_version, $WP_Statistics;
+
+		// Find out if the user can read or manage statistics.
+		$read   = current_user_can(
+				wp_statistics_validate_capability(
+						$WP_Statistics->get_option(
+								'read_capability',
+								'manage_options'
+						)
+				)
+		);
+		$manage = current_user_can(
+				wp_statistics_validate_capability(
+						$WP_Statistics->get_option(
+								'manage_capability',
+								'manage_options'
+						)
+				)
+		);
+
+		if ( is_admin_bar_showing() && ( $read || $manage ) ) {
+
+			$AdminURL = get_admin_url();
+
+			if ( version_compare($wp_version, '3.8-RC', '>=') || version_compare($wp_version, '3.8', '>=') ) {
+				$wp_admin_bar->add_menu(
+						array(
+								'id'    => 'wp-statistic-menu',
+								'title' => '<span class="ab-icon"></span>',
+								'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
+						)
+				);
+			} else {
+				$wp_admin_bar->add_menu(
+						array(
+								'id'    => 'wp-statistic-menu',
+								'title' => '<img src="' . WP_Statistics::$reg['plugin-url'] . 'assets/images/icon.png"/>',
+								'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
+						)
+				);
+			}
+
+			$wp_admin_bar->add_menu(
+					array(
+							'id'     => 'wp-statistics-menu-useronline',
+							'parent' => 'wp-statistic-menu',
+							'title'  => __(
+									            'Online User',
+									            'wp-statistics'
+							            ) . ": " . wp_statistics_useronline(),
+							'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['online'],
+					)
+			);
+
+			$wp_admin_bar->add_menu(
+					array(
+							'id'     => 'wp-statistics-menu-todayvisitor',
+							'parent' => 'wp-statistic-menu',
+							'title'  => __('Today\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor('today'),
+					)
+			);
+
+			$wp_admin_bar->add_menu(
+					array(
+							'id'     => 'wp-statistics-menu-todayvisit',
+							'parent' => 'wp-statistic-menu',
+							'title'  => __('Today\'s Visits', 'wp-statistics') . ": " . wp_statistics_visit('today'),
+					)
+			);
+
+			$wp_admin_bar->add_menu(
+					array(
+							'id'     => 'wp-statistics-menu-yesterdayvisitor',
+							'parent' => 'wp-statistic-menu',
+							'title'  => __('Yesterday\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor(
+											'yesterday'
+									),
+					)
+			);
+
+			$wp_admin_bar->add_menu(
+					array(
+							'id'     => 'wp-statistics-menu-yesterdayvisit',
+							'parent' => 'wp-statistic-menu',
+							'title'  => __('Yesterday\'s Visits', 'wp-statistics') . ": " . wp_statistics_visit('yesterday'),
+					)
+			);
+
+			$wp_admin_bar->add_menu(
+					array(
+							'id'     => 'wp-statistics-menu-viewstats',
+							'parent' => 'wp-statistic-menu',
+							'title'  => __('View Stats', 'wp-statistics'),
+							'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
+					)
+			);
+		}
+	}
+
 }

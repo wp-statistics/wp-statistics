@@ -766,7 +766,8 @@ class Browscap
                 continue;
             }
 
-            $properties = parse_ini_string($iniParts[($position + 1)], true, INI_SCANNER_RAW);
+            $position_index = $position + 1;
+            $properties = parse_ini_string($iniParts[$position_index], true, INI_SCANNER_RAW);
 
             if (empty($properties['Comment'])
                 || false !== strpos($userAgent, '*')
