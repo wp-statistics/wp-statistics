@@ -10,9 +10,9 @@
 				<div id="the-list">
 					<?php foreach ( $plugins->items as $plugin ) : ?>
 						<div class="plugin-card">
-							<?php if ( $plugin->is_feature ) : ?>
+							<?php if ( $plugin->is_feature and $plugin->featured_label ) : ?>
                                 <div class="cover-ribbon">
-                                    <div class="cover-ribbon-inside"><?php _e( 'New!', 'wp-statistics' ); ?></div>
+                                    <div class="cover-ribbon-inside"><?php echo $plugin->featured_label; ?></div>
                                 </div>
 							<?php endif; ?>
 
