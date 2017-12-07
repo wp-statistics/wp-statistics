@@ -122,6 +122,41 @@ class WP_Statistics_Frontend {
 					$headers
 			);
 		}
+
+		// Check to show hits in posts/pages
+		if ( $WP_Statistics->get_option('show_hits') ) {
+			add_filter( 'the_content', 'WP_Statistics_Frontend::show_hits' );
+		}
+	}
+
+	/**
+	 * @param $content
+	 *
+	 * @return string
+	 */
+	public static function show_hits($content) {
+		global $WP_Statistics;
+
+		// Get post ID
+		$post_id = get_the_ID();
+
+		// Check post ID
+		if(!$post_id) {
+			return $content;
+		}
+
+		// Get post hits
+		$hits = wp_statistics_pages('total', "", $post_id);
+		$hits_html = sprintf(__('<p>Views: %s</p>', 'wp-statistics'), $hits);
+
+		// Check hits position
+		if ( $WP_Statistics->get_option('display_hits_position') == 'before_content' ) {
+			return $hits_html . $content;
+		} elseif ( $WP_Statistics->get_option('display_hits_position') == 'after_content' ) {
+			return $content . $hits_html;
+		} else {
+			return $content;
+		}
 	}
 
 }
