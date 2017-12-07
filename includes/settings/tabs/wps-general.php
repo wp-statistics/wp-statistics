@@ -27,6 +27,8 @@ if ( $wps_nonce_valid ) {
 		'wps_pages',
 		'wps_track_all_pages',
 		'wps_disable_column',
+		'wps_show_hits',
+		'wps_display_hits_position',
 		'wps_check_online',
 		'wps_menu_bar',
 		'wps_coefficient',
@@ -61,8 +63,8 @@ if ( $wps_nonce_valid ) {
 }
 ?>
 	<script type="text/javascript">
-		function ToggleStatOptions() {
-			jQuery('[id^="wps_stats_report_option"]').fadeToggle();
+		function ToggleShowHitsOptions() {
+			jQuery('[id^="wps_show_hits_option"]').fadeToggle();
 		}
 	</script>
 
@@ -213,7 +215,7 @@ if ( $wps_nonce_valid ) {
 		</tr>
 
 		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('Pages', 'wp-statistics'); ?></h3></th>
+			<th scope="row" colspan="2"><h3><?php _e('Pages and Posts', 'wp-statistics'); ?></h3></th>
 		</tr>
 
 		<tr valign="top">
@@ -233,7 +235,7 @@ if ( $wps_nonce_valid ) {
 
 		<tr valign="top">
 			<th scope="row">
-				<label for="pages"><?php _e('Track all pages', 'wp-statistics'); ?>:</label>
+				<label for="all_pages"><?php _e('Track all pages', 'wp-statistics'); ?>:</label>
 			</th>
 
 			<td>
@@ -251,7 +253,7 @@ if ( $wps_nonce_valid ) {
 			?>
 			<tr valign="top">
 				<th scope="row">
-					<label for="pages"><?php _e('Strip parameters from URI', 'wp-statistics'); ?>:</label>
+					<label for="strip_uri_parameters"><?php _e('Strip parameters from URI', 'wp-statistics'); ?>:</label>
 				</th>
 
 				<td>
@@ -272,7 +274,7 @@ if ( $wps_nonce_valid ) {
 		?>
 		<tr valign="top">
 			<th scope="row">
-				<label for="pages"><?php _e('Disable hits column in post/pages list', 'wp-statistics'); ?>:</label>
+				<label for="disable_column"><?php _e('Disable hits column in post/pages list', 'wp-statistics'); ?>:</label>
 			</th>
 
 			<td>
@@ -284,6 +286,55 @@ if ( $wps_nonce_valid ) {
 				<p class="description"><?php _e('Enable or disable this feature', 'wp-statistics'); ?></p>
 			</td>
 		</tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="show_hits"><?php _e('Show hits in posts/pages in the site', 'wp-statistics'); ?>:</label>
+            </th>
+
+            <td>
+                <input id="show_hits" type="checkbox" value="1"
+                       name="wps_show_hits" <?php echo $WP_Statistics->get_option('show_hits') == true
+					? "checked='checked'" : ''; ?> onClick='ToggleShowHitsOptions();'>
+                <label for="show_hits"><?php _e('Enable', 'wp-statistics'); ?></label>
+
+                <p class="description"><?php _e('Enable or disable show hits after content', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+		<?php if ( $WP_Statistics->get_option('show_hits') ) {
+			$hidden = "";
+		} else {
+			$hidden = " style='display: none;'";
+		} ?>
+        <tr valign="top"<?php echo $hidden; ?> id='wps_show_hits_option'>
+            <td scope="row" style="vertical-align: top;">
+                <label for="display_hits_position"><?php _e('Display position', 'wp-statistics'); ?>:</label>
+            </td>
+
+            <td>
+                <select name="wps_display_hits_position" id="display_hits_position">
+                    <option value="0" <?php selected($WP_Statistics->get_option('display_hits_position'), '0'); ?>><?php _e(
+					        'Please select',
+					        'wp-statistics'
+				        ); ?></option>
+                    <option value="before_content" <?php selected($WP_Statistics->get_option('display_hits_position'), 'before_content'); ?>><?php _e(
+			                'Before Content',
+			                'wp-statistics'
+		                ); ?></option>
+
+                    <option value="after_content" <?php selected($WP_Statistics->get_option('display_hits_position'), 'after_content'); ?>><?php _e(
+			                'After Content',
+			                'wp-statistics'
+		                ); ?></option>
+                </select>
+
+                <p class="description"><?php _e(
+				        'Choose the position hits.',
+				        'wp-statistics'
+			        ); ?></p>
+            </td>
+        </tr>
 
 		<tr valign="top">
 			<th scope="row" colspan="2"><h3><?php _e('Miscellaneous', 'wp-statistics'); ?></h3></th>
