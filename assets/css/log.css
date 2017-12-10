@@ -297,8 +297,9 @@
 
 #about-links p {
     display: inline;
-    font-size: 11px;
+    font-size: 12px;
     margin: 0 2px;
+    font-style: italic;
 }
 
 #about-links a {

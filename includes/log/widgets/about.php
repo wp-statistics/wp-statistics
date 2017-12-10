@@ -31,15 +31,6 @@ function wp_statistics_generate_about_postbox_content() {
 		}
 		?>
 	</div>
-
-	<hr/>
-
-	<div>
-		<?php echo sprintf(
-			__('This product includes GeoLite2 data created by %s.', 'wp-statistics'),
-			'<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'
-		); ?>
-	</div>
 	<?php
 }
 
