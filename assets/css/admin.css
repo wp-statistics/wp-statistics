@@ -202,3 +202,17 @@
     content: '\f184';
     top: 2px;
 }
+
+/** About **/
+.wp-statistics-about .wp-badge {
+    background-image: url('../images/logo-250-white.png');
+    background-color: #1aabec;
+}
+
+.wp-statistics-about .tab-content {
+    display: none;
+}
+
+.wp-statistics-about .tab-content.current {
+    display: block;
+}
