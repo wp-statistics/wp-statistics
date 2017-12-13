@@ -27,7 +27,7 @@
                 <h3 class="wp-people-group">Project Leaders</h3>
                 <ul class="wp-people-group ">
                     <li class="wp-person">
-                        <a href="http://mostafa-soufi.ir/" class="web"><?php echo get_avatar( 'mst404@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
+                        <a href="https://profiles.wordpress.org/mostafas1990/" class="web"><?php echo get_avatar( 'mst404@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
                             Mostafa Soufi</a>
                         <span class="title">Original Author</span>
                     </li>
@@ -35,14 +35,19 @@
                 <h3 class="wp-people-group">Other Contributors</h3>
                 <ul class="wp-people-group">
                     <li class="wp-person">
-                        <a href="http://toolstack.com/" class="web"><?php echo get_avatar( 'greg@toolstack.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
+                        <a href="https://profiles.wordpress.org/gregross/" class="web"><?php echo get_avatar( 'greg@toolstack.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
                             Greg Ross</a>
                         <span class="title">Core contributor</span>
                     </li>
                     <li class="wp-person">
-                        <a href="https://dedidata.com/" class="web"><?php echo get_avatar( 'farhad0@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
-                            DediData</a>
+                        <a href="https://profiles.wordpress.org/dedidata/" class="web"><?php echo get_avatar( 'farhad0@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
+                            Farhad Sakhaei</a>
                         <span class="title">Core Contributor</span>
+                    </li>
+                    <li class="wp-person">
+                        <a href="https://profiles.wordpress.org/pedromendonca/" class="web"><?php echo get_avatar( 'ped.gaspar@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
+                            Pedro Mendonça</a>
+                        <span class="title">Language Contributor</span>
                     </li>
                 </ul>
 
