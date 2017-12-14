@@ -287,6 +287,10 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Added: New feature! Show Hits in the single posts/pages.
+* Fixed: Menu bar for both frontend & backend.
+
 = 12.3.1 =
 * We're sorry about last issues. Now you can update to new version to resolve the problems.
 * Updated: Composer libraries.
