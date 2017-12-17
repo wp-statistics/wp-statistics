@@ -1,5 +1,5 @@
 <div class="wrap about-wrap full-width-layout">
-    <div class="wp-statistics-about">
+    <div class="wp-statistics-welcome">
         <h1><?php printf( __( 'Welcome to WP-Statistics&nbsp;%s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></h1>
         <div class="notice notice-success is-dismissible"><p>Real-Time stats available!
                 <a href="admin.php?page=wp_statistics_realtime_stats">Click here</a> to show it.</p>
@@ -62,7 +62,7 @@
         </div>
 
         <div data-content="changelog" class="one-col tab-content">
-			<?php echo WP_Statistics_Welcome::get_change_log(); ?>
+			<?php WP_Statistics_Welcome::show_change_log(); ?>
         </div>
 
         <hr>

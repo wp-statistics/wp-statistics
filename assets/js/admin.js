@@ -13,7 +13,7 @@ jQuery(document).ready(function () {
     }
 
     // Check about page
-    if (jQuery('.wp-statistics-about').length) {
+    if (jQuery('.wp-statistics-welcome').length) {
         jQuery('.nav-tab-wrapper a').click(function () {
             jQuery('.nav-tab-wrapper a').removeClass('nav-tab-active');
             jQuery('.tab-content').removeClass('current');

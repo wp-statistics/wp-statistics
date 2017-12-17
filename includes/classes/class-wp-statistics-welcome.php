@@ -42,7 +42,7 @@ class WP_Statistics_Welcome {
 		}
 	}
 
-	public static function get_change_log() {
+	public static function show_change_log() {
 		$response = wp_remote_get( 'https://api.github.com/repos/wp-statistics/wp-statistics/releases/latest' );
 
 		// Check response
@@ -53,9 +53,10 @@ class WP_Statistics_Welcome {
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( $response_code == '200' ) {
-			$data = json_decode( $response['body'] );
+			$data      = json_decode( $response['body'] );
+			$Parsedown = new Parsedown();
 
-			return nl2br($data->body);
+			echo $Parsedown->text( nl2br( $data->body ) );
 		}
 	}
 }
