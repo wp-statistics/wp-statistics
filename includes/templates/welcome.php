@@ -40,7 +40,7 @@
                         <span class="title">Core contributor</span>
                     </li>
                     <li class="wp-person">
-                        <a href="https://profiles.wordpress.org/dedidata/" class="web"><?php echo get_avatar( 'farhad0@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
+                        <a href="https://profiles.wordpress.org/dedidata/" class="web"><?php echo get_avatar( 'dedidata.com@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?>
                             Farhad Sakhaei</a>
                         <span class="title">Core Contributor</span>
                     </li>
@@ -62,19 +62,7 @@
         </div>
 
         <div data-content="changelog" class="one-col tab-content">
-            <p>Changelog</p>
-            <ul>
-                <li>- We're sorry about last issues. Now you can update to new version to resolve the problems.</li>
-                <li>- Updated: Composer libraries.</li>
-                <li>- Fixed: A minor bug in `get_referrer_link`.</li>
-                <li>- Improvement: `wp_doing_cron` function, Check before call if is not exist.</li>
-                <li>- Fixed: Issue to get IP in Hits class.</li>
-                <li>- Fixed: Issue to get prefix table in searched phrases postbox.</li>
-                <li>- Fixed: Issue in Browscap, Used the original Browscap library in the plugin.</li>
-                <li>- If you have any problem, don't forget to send the report to your web site's [contact
-                    form](https://wp-statistics.com/contact/).
-                </li>
-            </ul>
+			<?php echo WP_Statistics_Welcome::get_change_log(); ?>
         </div>
 
         <hr>

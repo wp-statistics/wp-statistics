@@ -3,7 +3,8 @@
     "geoip2/geoip2": "^2.7.0",
     "s1lentium/iptools": "^1.1.0",
     "donatj/phpuseragentparser": "^0.9.0",
-    "browscap/browscap-php": "2.1.1"
+    "browscap/browscap-php": "2.1.1",
+    "erusev/parsedown": "^1.6"
   },
   "config": {
     "vendor-dir": "includes/vendor"
