@@ -158,7 +158,7 @@ if ( $total_stats == 1 ) {
 }
 
 for ( $i = $daysToDisplay; $i >= 0; $i-- ) {
-	$date[] = "'" . $WP_Statistics->Current_Date('M j', '-' . $i) . "'";
+	$date[] = "'" . $WP_Statistics->Real_Current_Date( 'M j', '-' . $i, $rangeend_utime ) . "'";
 }
 
 $stats = array();

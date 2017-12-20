@@ -47,7 +47,7 @@ foreach ( $search_engines as $se ) {
 }
 
 for ( $i = $daysToDisplay; $i >= 0; $i-- ) {
-	$date[] = "'" . $WP_Statistics->Real_Current_Date('M j', '-' . ( $i + $daysInThePast ), $rangeend_utime) . "'";
+	$date[] = "'" . $WP_Statistics->Real_Current_Date( 'M j', '-' . $i, $rangeend_utime ) . "'";
 }
 ?>
 <div class="wrap">

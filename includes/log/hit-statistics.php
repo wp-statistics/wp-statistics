@@ -27,6 +27,7 @@
 		$rangestart,
 		$rangeend
 	);
+
 	wp_statistics_date_range_selector(WP_Statistics::$page['hits'], $daysToDisplay);
 
 	$visit_total = 0;
@@ -48,7 +49,7 @@
 	}
 
 	for ( $i = $daysToDisplay; $i >= 0; $i-- ) {
-		$date[] = "'" . $WP_Statistics->Current_Date('M j', '-' . $i) . "'";
+		$date[] = "'" . $WP_Statistics->Real_Current_Date( 'M j', '-' . $i, $rangeend_utime ) . "'";
 	}
 	?>
 	<div class="postbox-container" id="last-log">

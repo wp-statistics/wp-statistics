@@ -288,10 +288,11 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = dev-master =
-* Added: New feature! Show Hits in the single posts/pages.
+* Added: New feature! Show Hits on the single posts/pages.
 * Fixed: Menu bar for both frontend & backend.
 * Fixed: Issue to create the object of the main class.
 * Fixed: Issue to get page title in empty search words option.
+* Fixed: Issue to show date range in the charts.
 
 = 12.3.1 =
 * We're sorry about last issues. Now you can update to new version to resolve the problems.
