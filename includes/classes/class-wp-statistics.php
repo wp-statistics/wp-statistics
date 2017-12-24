@@ -911,7 +911,7 @@ class WP_Statistics {
 
 					// If there were no search words, let's add the page title
 					if ( $result == '' || $result == 'No search query found!' ) {
-						$result = wp_title('', false);
+						$result = get_bloginfo('title');
 						if ( $result != '' ) {
 							$this->referrer = esc_url(
 								add_query_arg(
