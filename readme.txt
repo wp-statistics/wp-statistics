@@ -289,6 +289,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = dev-master =
 * Added: New feature! Show Hits on the single posts/pages.
+* Added: Pages Dropdown in the page stats.
 * Fixed: Menu bar for both frontend & backend.
 * Fixed: Issue to create the object of the main class.
 * Fixed: Issue to get page title in empty search words option.

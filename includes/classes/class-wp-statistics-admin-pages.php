@@ -504,7 +504,7 @@ class WP_Statistics_Admin_Pages {
 			break;
 			case 'top-pages':
 				// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
-				if ( array_key_exists('page-id', $_GET) || array_key_exists('page-uri', $_GET) ) {
+				if ( array_key_exists('page-id', $_GET) || array_key_exists('page-uri', $_GET) || array_key_exists('prepage', $_GET) ) {
 					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/page-statistics.php';
 				} else {
 					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-pages.php';

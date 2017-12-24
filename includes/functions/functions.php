@@ -1274,7 +1274,7 @@ function wp_statistics_date_range_selector(
 	parse_str($extrafields, $parse);
 
 	foreach ( $parse as $key => $value ) {
-		echo '<input type="hidden" name="' . $key . '" value="' . esc_url($value) . '">';
+		echo '<input type="hidden" name="' . $key . '" value="' . esc_sql($value) . '">';
 	}
 
 	if ( $bold ) {
