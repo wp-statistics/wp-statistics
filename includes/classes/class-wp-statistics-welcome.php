@@ -4,8 +4,19 @@
  * Class WP_Statistics_Welcome
  */
 class WP_Statistics_Welcome {
+	public static function init() {
+		global $WP_Statistics;
+		if ( $WP_Statistics->get_option( 'show_welcome_page', false ) and strpos( $_SERVER['REQUEST_URI'], '/wp-admin/index.php' ) !== false ) {
+			// Disable show welcome page
+			$WP_Statistics->update_option( 'show_welcome_page', false );
+
+			// Redirect to welcome page
+			wp_redirect( admin_url( 'admin.php?page=wps_welcome' ) );
+		}
+	}
+
 	/**
-	 * Register page
+	 * Register menu
 	 */
 	public static function menu() {
 		add_submenu_page( null, 'WP-Statistics Welcome', 'WP-Statistics Welcome', 'administrator', 'wps_welcome', 'WP_Statistics_Welcome::page_callback' );
@@ -30,13 +41,16 @@ class WP_Statistics_Welcome {
 	 * @param $upgrader_object
 	 * @param $options
 	 */
-	public function redirect_to_welcome( $upgrader_object, $options ) {
-		$current_plugin_path_name = plugin_basename( __FILE__ );
+	public static function do_welcome( $upgrader_object, $options ) {
+		$current_plugin_path_name = 'wp-statistics/wp-statistics.php';
 
 		if ( $options['action'] == 'update' && $options['type'] == 'plugin' ) {
 			foreach ( $options['plugins'] as $each_plugin ) {
 				if ( $each_plugin == $current_plugin_path_name ) {
-					wp_redirect( admin_url( 'index.php?page=custom-dashboard' ) );
+					global $WP_Statistics;
+
+					// Enable welcome page in database
+					$WP_Statistics->update_option( 'show_welcome_page', true );
 				}
 			}
 		}

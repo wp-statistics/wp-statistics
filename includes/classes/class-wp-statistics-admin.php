@@ -66,9 +66,10 @@ class WP_Statistics_Admin {
 		add_action('admin_enqueue_scripts', 'WP_Statistics_Admin::enqueue_scripts');
 		add_action('admin_init', 'WP_Statistics_Shortcode::shortcake');
 
-		// WP-Statistics About page hooks
+		// WP-Statistics welcome page hooks
 		add_action('admin_menu', 'WP_Statistics_Welcome::menu');
-		add_action('upgrader_process_complete', 'WP_Statistics_Welcome::redirect_to_welcome', 10, 2);
+		add_action('upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2);
+		add_action('admin_init', 'WP_Statistics_Welcome::init');
 	}
 
 	/**
