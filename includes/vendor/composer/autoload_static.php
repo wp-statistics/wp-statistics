@@ -66,6 +66,13 @@ class ComposerStaticInite38eff48d6e6d75cf438d3ef850d45a7
                 0 => __DIR__ . '/..' . '/browscap/browscap-php/src',
             ),
         ),
+        'P' => 
+        array (
+            'Parsedown' => 
+            array (
+                0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)

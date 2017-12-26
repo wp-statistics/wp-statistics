@@ -202,3 +202,27 @@
     content: '\f184';
     top: 2px;
 }
+
+/** Welcome page **/
+.wp-statistics-welcome .wp-badge {
+    background-image: url('../images/logo-250-white.png');
+    background-color: #1aabec;
+}
+
+.wp-statistics-welcome .tab-content {
+    display: none;
+}
+
+.wp-statistics-welcome .tab-content.current {
+    display: block;
+}
+
+.wp-statistics-welcome ul li {
+    margin: 0 31px;
+}
+
+.wp-statistics-welcome ul {
+    list-style-type: square;
+    line-height: 28px;
+    margin: 0 0 20px 0;
+}
