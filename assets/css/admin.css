@@ -226,3 +226,39 @@
     line-height: 28px;
     margin: 0 0 20px 0;
 }
+
+.wp-statistics-welcome .center-section {
+    padding: 41px 0 60px;
+    clear: both;
+    text-align: center;
+}
+
+.wp-statistics-welcome .normal-section .left {
+    float: left;
+    width: 50%;
+    text-align: left;
+}
+
+.wp-statistics-welcome .normal-section .right {
+    float: right;
+    width: 50%;
+}
+
+.wp-statistics-welcome .normal-section {
+    float: left;
+    width: 100%;
+    padding: 36px 0 44px;
+    border-bottom: 1px solid #dedede;
+}
+
+.wp-statistics-welcome .normal-section h2 {
+    text-align: left;
+}
+
+.wp-statistics-welcome .text-center {
+    text-align: center !important;
+}
+
+.wp-statistics-welcome .content-padding {
+    padding: 0 43px;
+}
