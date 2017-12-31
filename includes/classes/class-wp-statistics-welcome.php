@@ -8,10 +8,15 @@ class WP_Statistics_Welcome {
 		global $WP_Statistics;
 		if ( $WP_Statistics->get_option( 'show_welcome_page', false ) and ( strpos( $_SERVER['REQUEST_URI'], '/wp-admin/index.php' ) !== false or ( isset( $_GET['page'] ) and $_GET['page'] == 'wps_overview_page' ) ) ) {
 			// Disable show welcome page
+			$WP_Statistics->update_option( 'first_show_welcome_page', true );
 			$WP_Statistics->update_option( 'show_welcome_page', false );
 
 			// Redirect to welcome page
 			wp_redirect( admin_url( 'admin.php?page=wps_welcome' ) );
+		}
+
+		if ( ! $WP_Statistics->get_option( 'first_show_welcome_page', false ) ) {
+			$WP_Statistics->update_option( 'show_welcome_page', true );
 		}
 	}
 
