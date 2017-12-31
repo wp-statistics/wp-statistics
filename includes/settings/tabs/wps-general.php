@@ -298,7 +298,7 @@ if ( $wps_nonce_valid ) {
 					? "checked='checked'" : ''; ?> onClick='ToggleShowHitsOptions();'>
                 <label for="show_hits"><?php _e('Enable', 'wp-statistics'); ?></label>
 
-                <p class="description"><?php _e('Enable or disable show hits after content', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable or disable show hits in content', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -330,7 +330,7 @@ if ( $wps_nonce_valid ) {
                 </select>
 
                 <p class="description"><?php _e(
-				        'Choose the position hits.',
+				        'Choose the position to show Hits.',
 				        'wp-statistics'
 			        ); ?></p>
             </td>
