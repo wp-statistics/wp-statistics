@@ -262,3 +262,13 @@
 .wp-statistics-welcome .content-padding {
     padding: 0 43px;
 }
+
+.wp-statistics-welcome .addons-item img {
+    width: 130px;
+    border-radius: 4px;
+}
+
+.wp-statistics-welcome .addons-item a {
+    display: inline-block;
+    margin: 0 5px;
+}

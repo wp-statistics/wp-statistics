@@ -52,8 +52,11 @@
                     </div>
                 </div>
 
-                <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshots-3.png' ); ?>"/>
+                <div class="right text-center addons-item">
+                    <a href="https://wp-statistics.com/downloads/wp-statistics-widgets/" title="Widgets" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/add-on-widgets.png' ); ?>"/></a>
+                    <a href="https://wp-statistics.com/downloads/wp-statistics-mini-chart/" title="Mini Chart" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/add-on-mini-chart.png' ); ?>"/></a>
+                    <a href="https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/" title="Advanced Reporting" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/add-on-advanced-reporting.png' ); ?>"/></a>
+                    <a href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" title="Realtime stats" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/add-on-realtime-stats.png' ); ?>"/></a>
                 </div>
             </section>
 
