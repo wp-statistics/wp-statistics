@@ -303,7 +303,7 @@ This is a security fix, please update immediately.
 * Fixed: Issue to get IP in Hits class.
 * Fixed: Issue to get prefix table in searched phrases postbox.
 * Fixed: Issue in Browscap, Used the original Browscap library in the plugin.
-* If you have any problem, don't forget to send the report to your web site's [contact form](https://wp-statistics.com/contact/).
+* If you have any problem, don't forget to send the report to our web site's [contact form](https://wp-statistics.com/contact/).
 
 = 12.3 =
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.
