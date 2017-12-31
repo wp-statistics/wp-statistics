@@ -24,7 +24,7 @@ class WP_Statistics_Welcome {
 	 * Register menu
 	 */
 	public static function menu() {
-		add_submenu_page( null, 'WP-Statistics Welcome', 'WP-Statistics Welcome', 'administrator', 'wps_welcome', 'WP_Statistics_Welcome::page_callback' );
+		add_submenu_page( __('WP-Statistics Welcome', 'wp-statistics'), __('WP-Statistics Welcome', 'wp-statistics'), __('WP-Statistics Welcome', 'wp-statistics'), 'administrator', 'wps_welcome', 'WP_Statistics_Welcome::page_callback' );
 	}
 
 	/**

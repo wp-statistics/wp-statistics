@@ -103,7 +103,7 @@ if ( $wps_nonce_valid ) {
 				<label for="reset-plugin"><?php _e('Reset', 'wp-statistics'); ?></label>
 
 				<p class="description"><?php _e(
-						'Reset the plugin options to the defaults.  This will remove all user and global settings but will keep all other data.  This action cannot be undone.  Note: For multi-site installs this will reset all sites to the defaults.',
+						'Reset the plugin options to the defaults. This will remove all user and global settings but will keep all other data. This action cannot be undone. Note: For multisite installs this will reset all sites to the defaults.',
 						'wp-statistics'
 					); ?></p>
 			</td>
