@@ -149,7 +149,7 @@ class WP_Statistics_Admin_Pages {
 			'wpstatistics-admin-css',
 			WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css',
 			true,
-			'1.1'
+			WP_Statistics::$reg['version']
 		);
 
 		// Activate or deactivate the selected plugin
@@ -227,7 +227,7 @@ class WP_Statistics_Admin_Pages {
 		);
 
 		if ( is_rtl() ) {
-			wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1');
+			wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, WP_Statistics::$reg['version']);
 		}
 
 		// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.

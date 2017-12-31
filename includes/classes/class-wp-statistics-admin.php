@@ -577,6 +577,10 @@ class WP_Statistics_Admin {
 			WP_Statistics::$reg['version']
 		);
 
+		if ( is_rtl() ) {
+			wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, WP_Statistics::$reg['version']);
+		}
+
 		if ( ! isset( $_GET['page'] ) ) {
 			return;
 		}
