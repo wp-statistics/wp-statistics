@@ -7,7 +7,7 @@
 
         <h2 class="nav-tab-wrapper wp-clearfix">
             <a href="#" class="nav-tab nav-tab-active"
-               data-tab="whats-news"><?php _e( 'What’s New', 'wp-statistics' ); ?></a>
+               data-tab="whats-news"><?php _e( 'What&#8217;s New', 'wp-statistics' ); ?></a>
             <a href="#" class="nav-tab" data-tab="credit"><?php _e( 'Credits', 'wp-statistics' ); ?></a>
             <a href="#" class="nav-tab" data-tab="changelog"><?php _e( 'Changelog', 'wp-statistics' ); ?></a>
         </h2>
@@ -87,7 +87,7 @@
 
         <div data-content="credit" class="tab-content">
             <div class="about-wrap-content">
-                <p class="about-description"><?php echo sprintf( __( 'WP-Statistics is created by some peoples and is one of <a target="_blank" href="%s" target="_blank">VeronaLabs.com</a> projects.', 'wp-statistics' ), 'http://veronalabs.com' ); ?></p>
+                <p class="about-description"><?php echo sprintf( __( 'WP-Statistics is created by some people and is one of the <a target="_blank" href="%s" target="_blank">VeronaLabs.com</a> projects.', 'wp-statistics' ), 'http://veronalabs.com' ); ?></p>
                 <h3 class="wp-people-group"><?php _e( 'Project Leaders', 'wp-statistics' ); ?></h3>
                 <ul class="wp-people-group ">
                     <li class="wp-person">
@@ -115,12 +115,12 @@
                     </li>
                 </ul>
 
-                <p class="clear"><?php echo sprintf( __( 'WP-Statistics is being developed on GitHub, If you’re interested in contributing to plugin, Please look at <a target="_blank" href="%s" target="_blank">Github page</a>.', 'wp-statistics' ), 'https://github.com/wp-statistics/wp-statistics' ); ?></p>
+                <p class="clear"><?php echo sprintf( __( 'WP-Statistics is being developed on GitHub, if you’re interested in contributing to the plugin, please look at the <a target="_blank" href="%s" target="_blank">GitHub page</a>.', 'wp-statistics' ), 'https://github.com/wp-statistics/wp-statistics' ); ?></p>
                 <h3 class="wp-people-group"><?php _e( 'External Libraries', 'wp-statistics' ); ?></h3>
                 <p class="wp-credits-list">
-                    <a href="http://www.maxmind.com/"><?php _e( 'MaxMind', 'wp-statistics' ); ?></a>,
+                    <a href="http://www.maxmind.com/">MaxMind</a>,
                     <a href="https://browscap.org/">Browscap</a>,
-                    <a href="http://www.chartjs.org/"><?php _e( 'Chart.js', 'wp-statistics' ); ?></a>.</p>
+                    <a href="http://www.chartjs.org/">Chart.js</a>.</p>
             </div>
         </div>
 
@@ -131,7 +131,7 @@
         <hr>
 
         <div class="return-to-dashboard">
-            <a href="<?php echo admin_url( 'admin.php?page=wps_overview_page' ); ?>"><?php _e( 'Go to Stats → Overview', 'wp-statistics' ); ?></a>
+            <a href="<?php echo admin_url( 'admin.php?page=wps_overview_page' ); ?>"><?php _e( 'Go to Statistics &rarr; Overview', 'wp-statistics' ); ?></a>
         </div>
     </div>
 </div>
