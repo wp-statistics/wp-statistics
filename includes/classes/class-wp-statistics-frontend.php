@@ -147,7 +147,7 @@ class WP_Statistics_Frontend {
 
 		// Get post hits
 		$hits = wp_statistics_pages('total', "", $post_id);
-		$hits_html = '<p>' . sprintf(__('Views: %s', 'wp-statistics'), $hits) . '</p>';
+		$hits_html = '<p>' . sprintf(__('Hits: %s', 'wp-statistics'), $hits) . '</p>';
 
 		// Check hits position
 		if ( $WP_Statistics->get_option('display_hits_position') == 'before_content' ) {
