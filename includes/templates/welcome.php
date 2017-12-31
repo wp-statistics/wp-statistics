@@ -14,15 +14,15 @@
 
         <div data-content="whats-news" class="tab-content current">
             <section class="center-section">
-                <h2>Welcome to the WP-Statistics!</h2>
-                <h4>You can see the new changes of WP-Statistics on this page.</h4>
+                <h2><?php _e( 'Welcome to the WP-Statistics!', 'wp-statistics' ); ?></h2>
+                <h4><?php _e( 'You can see the new changes of WP-Statistics on this page.', 'wp-statistics' ); ?></h4>
             </section>
 
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2>New Feature!<br>Show Hits on the single posts/pages.</h2>
-                        <h4>You can display the Hits of post or page on the site and specify that position.</h4>
+                        <h2><?php _e( 'New Feature!<br>Show Hits on the single posts/pages.', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'You can display the Hits of post or page on the site and specify that position.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
@@ -34,8 +34,8 @@
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2>Added Pages Dropdown in the page stats.</h2>
-                        <h4>Easily switch to pages for getting stats.</h4>
+                        <h2><?php _e( 'Added Pages Dropdown in the page stats.', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'Easily switch to pages for getting stats.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
@@ -47,8 +47,8 @@
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2>New Add-Ons!</h2>
-                        <h4>These extensions add functionality to your WP-Statistics.</h4>
+                        <h2><?php _e( 'New Add-Ons!', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
@@ -60,11 +60,11 @@
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2>And the following issues have been solved in this version:</h2>
+                        <h2><?php _e( 'And the following issues have been solved in this version:', 'wp-statistics' ); ?></h2>
                         <ul>
-                            <li>Fixed Issue to create the object of the main class.</li>
-                            <li>Fixed Issue to get page title in empty search words option.</li>
-                            <li>Fixed Issue to show date range in the charts.</li>
+                            <li><?php _e( 'Fixed Issue to create the object of the main class.', 'wp-statistics' ); ?></li>
+                            <li><?php _e( 'Fixed Issue to get page title in empty search words option.', 'wp-statistics' ); ?></li>
+                            <li><?php _e( 'Fixed Issue to show date range in the charts.', 'wp-statistics' ); ?></li>
                         </ul>
                         <h4><?php echo sprintf( __( 'Please let us know about new problems by <a href="%s" target="_blank">contacting us</a>.', 'wp-statistics' ), 'https://wp-statistics.com/contact/' ); ?></h4>
                     </div>
