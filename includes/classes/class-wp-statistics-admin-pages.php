@@ -149,7 +149,7 @@ class WP_Statistics_Admin_Pages {
 			'wpstatistics-admin-css',
 			WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css',
 			true,
-			'1.1'
+			WP_Statistics::$reg['version']
 		);
 
 		// Activate or deactivate the selected plugin
@@ -227,7 +227,7 @@ class WP_Statistics_Admin_Pages {
 		);
 
 		if ( is_rtl() ) {
-			wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1');
+			wp_enqueue_style('rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, WP_Statistics::$reg['version']);
 		}
 
 		// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.
@@ -504,7 +504,7 @@ class WP_Statistics_Admin_Pages {
 			break;
 			case 'top-pages':
 				// If we've been given a page id or uri to get statistics for, load the page stats, otherwise load the page stats overview page.
-				if ( array_key_exists('page-id', $_GET) || array_key_exists('page-uri', $_GET) ) {
+				if ( array_key_exists('page-id', $_GET) || array_key_exists('page-uri', $_GET) || array_key_exists('prepage', $_GET) ) {
 					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/page-statistics.php';
 				} else {
 					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-pages.php';

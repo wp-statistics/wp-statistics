@@ -17,11 +17,13 @@
 	} else {
 		$rangestart = '';
 	}
+
 	if ( array_key_exists('rangeend', $_GET) ) {
 		$rangeend = $_GET['rangeend'];
 	} else {
 		$rangeend = '';
 	}
+
 	if ( array_key_exists('cat', $_GET) ) {
 		$category = intval($_GET['cat']);
 	} else {

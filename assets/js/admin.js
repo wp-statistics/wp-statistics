@@ -1,7 +1,6 @@
 jQuery(document).ready(function () {
     // Check setting page
     if (jQuery('.wp-statistics-settings').length) {
-
         var current_tab = getParameterValue('tab');
         if (current_tab) {
             enableTab(current_tab);
@@ -10,6 +9,20 @@ jQuery(document).ready(function () {
         jQuery('.wp-statistics-settings ul.tabs li').click(function () {
             var tab_id = jQuery(this).attr('data-tab');
             enableTab(tab_id);
+        });
+    }
+
+    // Check about page
+    if (jQuery('.wp-statistics-welcome').length) {
+        jQuery('.nav-tab-wrapper a').click(function () {
+            jQuery('.nav-tab-wrapper a').removeClass('nav-tab-active');
+            jQuery('.tab-content').removeClass('current');
+
+            var tab_id = jQuery(this).attr('data-tab');
+            jQuery("[data-tab=" + tab_id + "]").addClass('nav-tab-active');
+            jQuery("[data-content=" + tab_id + "]").addClass('current');
+
+            return false;
         });
     }
 

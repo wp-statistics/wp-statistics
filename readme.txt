@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.3.1
+Stable tag: 12.3.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -287,8 +287,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
-= dev-master =
+= 12.3.2 =
 * Added: New feature! Show Hits on the single posts/pages.
+* Added: Pages Dropdown in the page stats.
 * Fixed: Menu bar for both frontend & backend.
 * Fixed: Issue to create the object of the main class.
 * Fixed: Issue to get page title in empty search words option.
@@ -302,7 +303,7 @@ This is a security fix, please update immediately.
 * Fixed: Issue to get IP in Hits class.
 * Fixed: Issue to get prefix table in searched phrases postbox.
 * Fixed: Issue in Browscap, Used the original Browscap library in the plugin.
-* If you have any problem, don't forget to send the report to your web site's [contact form](https://wp-statistics.com/contact/).
+* If you have any problem, don't forget to send the report to our web site's [contact form](https://wp-statistics.com/contact/).
 
 = 12.3 =
 * The new version proves itself more than twice as faster because we had a lot of changes in the plugin.

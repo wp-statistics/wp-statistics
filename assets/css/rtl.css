@@ -53,3 +53,17 @@
 .right-div {
     float: left;
 }
+
+/** Welcome page **/
+.wp-statistics-welcome .normal-section .left {
+    float: right;
+    text-align: right;
+}
+
+.wp-statistics-welcome .normal-section h2 {
+    text-align: right;
+}
+
+.wp-statistics-welcome .normal-section .right {
+    float: left;
+}
