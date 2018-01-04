@@ -10,11 +10,12 @@ if ( ! $WP_Statistics->get_option('geoip') ) {
 	$nag_html .= '<div class="update-nag" style="width: 90%;">' .
                sprintf(
             		 __(
-            		 	'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.</div>',
+            		 	'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.',
             		 	'wp-statistics'
             		 ),
           		   admin_url('admin.php?page=wps_settings_page&tab=externals-settings')
-          	   );
+          	   ) . 
+               '</div>';
 }
 
 if ( ! $WP_Statistics->get_option('disable_donation_nag', false) ) {
