@@ -95,14 +95,16 @@ class WP_Statistics_Hits {
 		$page_uri    = wp_statistics_get_uri();
 		$ajax_string = 'admin-ajax.php';
 
-		if ( strpos($page_uri, $ajax_string) !== false ) {
+		if ( strpos($page_uri, $ajax_string) !== false && $_REQUEST['action'] !== 'wp_statistics_log_visit' ) {
 			$this->exclusion_match  = true;
 			$this->exclusion_reason = 'ajax';
 
 			return;
 		}
 
-		if ( ( defined('DOING_CRON') && DOING_CRON === true ) || ( function_exists('wp_doing_cron') && wp_doing_cron() === true ) ) {
+		if ( ( defined('DOING_CRON') && DOING_CRON === true ) ||
+		     ( function_exists('wp_doing_cron') && wp_doing_cron() === true )
+		) {
 			$this->exclusion_match  = true;
 			$this->exclusion_reason = 'cronjob';
 
@@ -268,7 +270,7 @@ class WP_Statistics_Hits {
 
 		// Check to see if we're excluding 404 pages.
 		if ( $WP_Statistics->get_option('exclude_404s') ) {
-			if ( is_404() ) {
+			if ( is_404() or ( $_REQUEST['action'] === 'wp_statistics_log_visit' && $_REQUEST['is404'] === '1' ) ) {
 				$this->exclusion_match  = true;
 				$this->exclusion_reason = '404';
 
@@ -278,7 +280,13 @@ class WP_Statistics_Hits {
 
 		// Check to see if we're excluding the current page url.
 		if ( $WP_Statistics->get_option('excluded_urls') ) {
-			$script    = $_SERVER['REQUEST_URI'];
+
+			if ( $_REQUEST['action'] === 'wp_statistics_log_visit' ) {
+				$script = urldecode($_REQUEST['current_uri']);
+			} else {
+				$script = $_SERVER['REQUEST_URI'];
+			}
+
 			$delimiter = strpos($script, '?');
 			if ( $delimiter > 0 ) {
 				$script = substr($script, 0, $delimiter);
@@ -402,7 +410,11 @@ class WP_Statistics_Hits {
 
 		// Get the pages or posts ID if it exists.
 		if ( is_object($wp_query) ) {
-			$this->current_page_id = $wp_query->get_queried_object_id();
+			if ( $WP_Statistics->is_ajax_logger_request ) {
+				$this->current_page_id = (int) $_REQUEST['object_id'];
+			} else {
+				$this->current_page_id = $wp_query->get_queried_object_id();
+			}
 		}
 
 		if ( $WP_Statistics->get_option('use_honeypot') &&
@@ -559,10 +571,19 @@ class WP_Statistics_Hits {
 		if ( ! $this->exclusion_match ) {
 
 			// Don't track anything but actual pages and posts, unless we've been told to.
-			if ( $WP_Statistics->get_option('track_all_pages') || is_page() || is_single() || is_front_page() ) {
+			if ( $WP_Statistics->get_option('track_all_pages') ||
+			     is_page() ||
+			     is_single() ||
+			     is_front_page() ||
+			     (boolean) ( $_REQUEST['is_page_type'] )
+			) {
 				// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
 				if ( ! $this->current_page_id && is_object($wp_query) ) {
-					$this->current_page_id = $wp_query->get_queried_object_id();
+					if($WP_Statistics->is_ajax_logger_request){
+						$this->current_page_id = (int) $_REQUEST['object_id'];
+					}else{
+						$this->current_page_id = $wp_query->get_queried_object_id();
+					}
 				}
 
 				// If we didn't find a page id, we don't have anything else to do.

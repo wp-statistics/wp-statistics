@@ -18,10 +18,53 @@ class WP_Statistics_Frontend {
 		if ( $WP_Statistics->get_option('menu_bar') ) {
 			add_action('wp_enqueue_scripts', 'WP_Statistics_Frontend::enqueue_scripts');
 		}
-		
-		// We can wait until the very end of the page to process the statistics,
-		// that way the page loads and displays quickly.
-		add_action('wp', 'WP_Statistics_Frontend::init');
+
+		// if(check for ajax ability){
+			add_action('wp_footer', 'WP_Statistics_Frontend::add_ajax_script', 1000);
+		// }
+
+		// if this request is anything than our Ajax logger, Do normal logging
+		// This is suitable for feed, ...
+		if ( ! $WP_Statistics->is_ajax_logger_request ) {
+			// We can wait until the very end of the page to process the statistics,
+			// that way the page loads and displays quickly.
+			add_action('wp', 'WP_Statistics_Frontend::init');
+		}
+
+	}
+
+	static function add_ajax_script() {
+		global $wp_query;
+		$nonce    = wp_create_nonce('wp-statistics-ajax-nonce');
+		$ajax_url = admin_url('admin-ajax.php');
+		?>
+		<script>
+			var wp_statistics_xhr = new XMLHttpRequest();
+			wp_statistics_xhr.open('GET', '<?php
+				echo $ajax_url;
+				?>?action=wp_statistics_log_visit<?php
+				?>&nonce=<?php echo $nonce;
+				?>&is404=<?php echo is_404();
+				?>&referrer=' + document.referrer + '<?php
+				?>&current_uri=<?php echo urlencode($_SERVER['REQUEST_URI']);
+				?>&object_id=<?php echo $wp_query->get_queried_object_id();
+				?>&is_page_type=<?php echo (boolean) (is_page() || is_single() || is_front_page()); ?>');
+			wp_statistics_xhr.onload = function () {
+				if (wp_statistics_xhr.status === 200) {
+					//alert(wp_statistics_xhr.responseText);
+				} else {
+					console.log('WP Statistics logging request failed.  Returned status of ' + wp_statistics_xhr.status);
+				}
+			};
+			wp_statistics_xhr.send();
+		</script>
+		<?php
+	}
+
+	static function log_visit() {
+		check_ajax_referer('wp-statistics-ajax-nonce', 'nonce');
+		WP_Statistics_Frontend::init();
+		wp_die();
 	}
 
 	/**
@@ -43,10 +86,10 @@ class WP_Statistics_Frontend {
 	static function enqueue_scripts( $hook ) {
 		// Load our CSS to be used.
 		wp_enqueue_style(
-				'wpstatistics-css',
-				WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css',
-				true,
-				WP_Statistics::$reg['version']
+			'wpstatistics-css',
+			WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css',
+			true,
+			WP_Statistics::$reg['version']
 		);
 	}
 
@@ -56,76 +99,79 @@ class WP_Statistics_Frontend {
 	static function init() {
 		global $WP_Statistics;
 
-		// If something has gone horribly wrong and $WP_Statistics isn't an object, bail out.
-		// This seems to happen sometimes with WP Cron calls.
-		if ( ! is_object($WP_Statistics) ) {
-			return;
-		}
+		if ( is_feed() || $WP_Statistics->is_ajax_logger_request ) {
 
-		$h = new WP_Statistics_GEO_IP_Hits;
-
-		// Call the online users tracking code.
-		if ( $WP_Statistics->get_option('useronline') ) {
-			$h->Check_online();
-		}
-
-		// Call the visitor tracking code.
-		if ( $WP_Statistics->get_option('visitors') ) {
-			$h->Visitors();
-		}
-
-		// Call the visit tracking code.
-		if ( $WP_Statistics->get_option('visits') ) {
-			$h->Visits();
-		}
-
-		// Call the page tracking code.
-		if ( $WP_Statistics->get_option('pages') ) {
-			$h->Pages();
-		}
-
-		// Check to see if the GeoIP database needs to be downloaded and do so if required.
-		if ( $WP_Statistics->get_option('update_geoip') ) {
-			WP_Statistics_Updates::download_geoip();
-		}
-
-		// Check to see if the browscap database needs to be downloaded and do so if required.
-		if ( $WP_Statistics->get_option('update_browscap') ) {
-			WP_Statistics_Updates::download_browscap();
-		}
-
-		// Check to see if the referrerspam database needs to be downloaded and do so if required.
-		if ( $WP_Statistics->get_option('update_referrerspam') ) {
-			WP_Statistics_Updates::download_referrerspam();
-		}
-
-		if ( $WP_Statistics->get_option('send_upgrade_email') ) {
-			$WP_Statistics->update_option('send_upgrade_email', false);
-
-			$blogname  = get_bloginfo('name');
-			$blogemail = get_bloginfo('admin_email');
-
-			$headers[] = "From: $blogname <$blogemail>";
-			$headers[] = "MIME-Version: 1.0";
-			$headers[] = "Content-type: text/html; charset=utf-8";
-
-			if ( $WP_Statistics->get_option('email_list') == '' ) {
-				$WP_Statistics->update_option('email_list', $blogemail);
+			// If something has gone horribly wrong and $WP_Statistics isn't an object, bail out.
+			// This seems to happen sometimes with WP Cron calls.
+			if ( ! is_object($WP_Statistics) ) {
+				return;
 			}
 
-			wp_mail(
+			$h = new WP_Statistics_GEO_IP_Hits;
+
+			// Call the online users tracking code.
+			if ( $WP_Statistics->get_option('useronline') ) {
+				$h->Check_online();
+			}
+
+			// Call the visitor tracking code.
+			if ( $WP_Statistics->get_option('visitors') ) {
+				$h->Visitors();
+			}
+
+			// Call the visit tracking code.
+			if ( $WP_Statistics->get_option('visits') ) {
+				$h->Visits();
+			}
+
+			// Call the page tracking code.
+			if ( $WP_Statistics->get_option('pages') ) {
+				$h->Pages();
+			}
+
+			// Check to see if the GeoIP database needs to be downloaded and do so if required.
+			if ( $WP_Statistics->get_option('update_geoip') ) {
+				WP_Statistics_Updates::download_geoip();
+			}
+
+			// Check to see if the browscap database needs to be downloaded and do so if required.
+			if ( $WP_Statistics->get_option('update_browscap') ) {
+				WP_Statistics_Updates::download_browscap();
+			}
+
+			// Check to see if the referrerspam database needs to be downloaded and do so if required.
+			if ( $WP_Statistics->get_option('update_referrerspam') ) {
+				WP_Statistics_Updates::download_referrerspam();
+			}
+
+			if ( $WP_Statistics->get_option('send_upgrade_email') ) {
+				$WP_Statistics->update_option('send_upgrade_email', false);
+
+				$blogname  = get_bloginfo('name');
+				$blogemail = get_bloginfo('admin_email');
+
+				$headers[] = "From: $blogname <$blogemail>";
+				$headers[] = "MIME-Version: 1.0";
+				$headers[] = "Content-type: text/html; charset=utf-8";
+
+				if ( $WP_Statistics->get_option('email_list') == '' ) {
+					$WP_Statistics->update_option('email_list', $blogemail);
+				}
+
+				wp_mail(
 					$WP_Statistics->get_option('email_list'),
 					sprintf(__('WP Statistics %s installed on', 'wp-statistics'), WP_Statistics::$reg['version']) .
 					' ' .
 					$blogname,
 					"Installation/upgrade complete!",
 					$headers
-			);
+				);
+			}
 		}
 
 		// Check to show hits in posts/pages
 		if ( $WP_Statistics->get_option('show_hits') ) {
-			add_filter( 'the_content', 'WP_Statistics_Frontend::show_hits' );
+			add_filter('the_content', 'WP_Statistics_Frontend::show_hits');
 		}
 	}
 
@@ -134,19 +180,19 @@ class WP_Statistics_Frontend {
 	 *
 	 * @return string
 	 */
-	public static function show_hits($content) {
+	public static function show_hits( $content ) {
 		global $WP_Statistics;
 
 		// Get post ID
 		$post_id = get_the_ID();
 
 		// Check post ID
-		if(!$post_id) {
+		if ( ! $post_id ) {
 			return $content;
 		}
 
 		// Get post hits
-		$hits = wp_statistics_pages('total', "", $post_id);
+		$hits      = wp_statistics_pages('total', "", $post_id);
 		$hits_html = '<p>' . sprintf(__('Hits: %s', 'wp-statistics'), $hits) . '</p>';
 
 		// Check hits position

@@ -349,6 +349,7 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 
 // This function gets the current page URI.
 function wp_statistics_get_uri() {
+	global $WP_Statistics;
 	// Get the site's path from the URL.
 	$site_uri     = parse_url(site_url(), PHP_URL_PATH);
 	$site_uri_len = strlen($site_uri);
@@ -358,7 +359,11 @@ function wp_statistics_get_uri() {
 	$home_uri_len = strlen($home_uri);
 
 	// Get the current page URI.
-	$page_uri = $_SERVER["REQUEST_URI"];
+	if($WP_Statistics->is_ajax_logger_request){
+		$page_uri = urlencode($_REQUEST["current_uri"]);
+	}else{
+		$page_uri = $_SERVER["REQUEST_URI"];
+	}
 
 	/*
 	 * We need to check which URI is longer in case one contains the other.

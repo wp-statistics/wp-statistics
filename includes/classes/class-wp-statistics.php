@@ -209,6 +209,13 @@ class WP_Statistics {
 			new WP_Statistics_Frontend;
 		}
 
+		$this->check_ajax_logger_request();
+		if ( $this->is_ajax_logger_request ) {
+			// these 2 lines should load for both admin and frontend
+			add_action('wp_ajax_wp_statistics_log_visit', 'WP_Statistics_Frontend::log_visit');
+			add_action('wp_ajax_nopriv_wp_statistics_log_visit', 'WP_Statistics_Frontend::log_visit');
+		}
+
 		if ( $WP_Statistics->get_option('menu_bar') ) {
 			add_action('admin_bar_menu', 'WP_Statistics::menubar', 20);
 		}
@@ -384,6 +391,15 @@ class WP_Statistics {
 	public function set_ip_hash(){
 		if ( $this->get_option('hash_ips') == true ) {
 			$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
+		}
+	}
+
+	/**
+	 * Check if it is our ajax logger request
+	 */
+	public function check_ajax_logger_request() {
+		if ( defined('DOING_AJAX') && DOING_AJAX && $_REQUEST['action'] == 'wp_statistics_log_visit' ) {
+			$this->is_ajax_logger_request = true;
 		}
 	}
 
@@ -898,6 +914,10 @@ class WP_Statistics {
 
 		if ( ! $this->referrer ) {
 			$this->referrer = get_bloginfo('url');
+		}
+
+		if ( defined('DOING_AJAX') && DOING_AJAX && $_REQUEST['action'] == 'wp_statistics_log_visit' ) {
+			$this->referrer = $_REQUEST['referrer'];
 		}
 
 		if ( $this->get_option('addsearchwords', false) ) {
