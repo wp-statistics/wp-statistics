@@ -208,7 +208,8 @@ class WP_Statistics_Updates {
 			// Get the current browser so that the version information is populated.
 			try {
 				$bc->getBrowser();
-				$LocalVersion = $bc->getSourceVersion(); // TODO Should be updated!
+				//$LocalVersion = $bc->getSourceVersion(); // TODO Should be updated!
+				$LocalVersion = 0;
 			} catch ( Exception $e ) {
 				$crawler      = false;
 				$LocalVersion = 0;
