@@ -287,6 +287,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.3.3 =
+* Updated: Browscap to 3.1.0
+
 = 12.3.2 =
 * Added: New feature! Show Hits on the single posts/pages.
 * Added: Pages Dropdown in the page stats.

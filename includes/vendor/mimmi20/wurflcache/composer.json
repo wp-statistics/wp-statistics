@@ -1,0 +1,57 @@
+{
+  "name": "mimmi20/wurflcache",
+  "description": "the Cache Classes for the Wurfl PHP Library for PHP 5.3",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "Wurfl",
+    "Cache"
+  ],
+  "homepage": "https://github.com/mimmi20/WurflCache",
+  "authors": [
+    {
+      "name": "Thomas Müller",
+      "homepage": "https://github.com/mimmi20",
+      "role": "Developer"
+    },
+    {
+      "name": "Contributors",
+      "homepage": "https://github.com/mimmi20/WurflCache/graphs/contributors"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/mimmi20/WurflCache/issues",
+    "source": "https://github.com/mimmi20/WurflCache"
+  },
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/filesystem": "^2.8|^3.0",
+    "mimmi20/wurfl-constants": "^1.7"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8 || ^5.0",
+    "zendframework/zend-cache": "^2.5",
+    "desarrolla2/cache": "^1.8",
+    "doctrine/cache": "^1.5",
+    "zetacomponents/cache": "dev-master",
+    "mikey179/vfsStream": "^1.3",
+    "squizlabs/php_codesniffer": "^2.0",
+    "fabpot/php-cs-fixer": "^1.11"
+  },
+  "suggest": {
+    "zendframework/zend-cache": "to use other caches handled by zend",
+    "desarrolla2/cache": "to use other caches handled by desarrolla",
+    "doctrine/cache": "to use other caches handled by doctrine",
+    "zetacomponents/cache": "to use other caches handled by zeta"
+  },
+  "autoload": {
+    "psr-4": {
+      "WurflCache\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WurflCacheTest\\": "tests/"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 <?php
 
-use phpbrowscap\Browscap;
+use BrowscapPHP\Browscap;
 use GeoIp2\Database\Reader;
 
 /**
@@ -167,7 +167,7 @@ class WP_Statistics_Updates {
 	 * This function downloads the browscap database from browscap.org.
 	 *
 	 * @return string
-	 * @throws \phpbrowscap\Exception
+	 * @throws \BrowscapPHP\Exception
 	 */
 	static function download_browscap() {
 		global $WP_Statistics;
@@ -196,9 +196,10 @@ class WP_Statistics_Updates {
 
 		$LocalVersion = 0;
 
-		// Get the Browscap object, tell it NOT to autoupdate.
-		$bc               = new Browscap($upload_dir['basedir'] . '/wp-statistics');
-		$bc->doAutoUpdate = false;    // We don't want to auto update.
+		// Get the Browser Capabilities use Browscap.
+		$bc = new Browscap();
+		$adapter = new \WurflCache\Adapter\File(array(\WurflCache\Adapter\File::DIR => $upload_dir['basedir'] . '/wp-statistics'));
+		$bc->setCache($adapter);
 
 		// If we already have a browscap.ini file (aka we're already done a download in the past) we can get it's version number.
 		// We can't execute this code if no browscap.ini exists as then the library will automatically download a full version, even
@@ -207,12 +208,11 @@ class WP_Statistics_Updates {
 			// Get the current browser so that the version information is populated.
 			try {
 				$bc->getBrowser();
-				$LocalVersion = $bc->getSourceVersion();
+				$LocalVersion = $bc->getSourceVersion(); // TODO Should be updated!
 			} catch ( Exception $e ) {
 				$crawler      = false;
 				$LocalVersion = 0;
 			}
-
 		}
 
 		// Get the remote version info from browscap.org.
@@ -368,9 +368,6 @@ class WP_Statistics_Updates {
 						unlink($cache_lock);
 					}
 				}
-
-				// Force the cache to be updated.
-				$bc->updateCache();
 
 				// Update the options to reflect the new download.
 				$WP_Statistics->update_option('last_browscap_dl', time());

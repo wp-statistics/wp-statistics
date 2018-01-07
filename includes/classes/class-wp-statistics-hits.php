@@ -4,7 +4,7 @@
 	This class handles; visits, visitors and pages.
 */
 
-use phpbrowscap\Browscap;
+use BrowscapPHP\Browscap;
 use IPTools\IP;
 use IPTools\Network;
 use IPTools\Range;
@@ -125,10 +125,13 @@ class WP_Statistics_Hits {
 			$BrowscapFile = $upload_dir['basedir'] . '/wp-statistics';
 
 			// Get the Browser Capabilities use Browscap.
-			$bc               = new Browscap($BrowscapFile);
-			$bc->doAutoUpdate = false;    // We don't want to auto update.
+			$bc = new Browscap();
+			$adapter = new \WurflCache\Adapter\File(array(\WurflCache\Adapter\File::DIR => $BrowscapFile));
+			$bc->setCache($adapter);
+
 			try {
 				$current_browser = $bc->getBrowser();
+
 				// Make sure we got an object back and it has the Crawler property before accessing it.
 				if ( is_object($current_browser) && property_exists($current_browser, 'Crawler') ) {
 					$crawler = $current_browser->Crawler;

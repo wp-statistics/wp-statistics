@@ -1,0 +1,19 @@
+#Ensure every text file uses lf
+*.markdown text eol=lf diff
+*.md text eol=lf diff
+*.js text eol=lf diff
+*.css text eol=lf diff
+*.json text eol=lf diff
+*.lock text eol=lf diff
+*.html text eol=lf diff
+*.php text eol=lf diff
+*.yml text eol=lf diff
+*.xml text eol=lf diff
+*.dist text eol=lf diff
+*.txt text eol=lf diff
+*.ini text eol=lf diff
+.gitattributes text eol=lf diff
+.gitignore text eol=lf diff
+.php_cs text eol=lf diff
+
+*.zip binary
