@@ -210,8 +210,6 @@ class WP_Statistics_Updates {
 			$message = sprintf(__('Browscap database updated failed! %s', 'wp-statistics'), $e->getMessage());
 		}
 
-		$result = "<div class='updated settings-error'><p><strong>" . $message . "</strong></p></div>";
-
 		if ( $WP_Statistics->get_option('browscap_report') == true ) {
 			$blogname  = get_bloginfo('name');
 			$blogemail = get_bloginfo('admin_email');
@@ -231,6 +229,9 @@ class WP_Statistics_Updates {
 				$headers
 			);
 		}
+
+		// Generate admin notice message
+		$result = "<div class='updated settings-error'><p><strong>" . $message . "</strong></p></div>";
 
 		// All of the messages displayed above are stored in a string, now it's time to actually output the messages.
 		return $result;
