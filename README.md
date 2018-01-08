@@ -1,3 +1,6 @@
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Percentage of issues still open")
+
 # WP Statistics
 A free and advanced stats plugin for WordPress
 
