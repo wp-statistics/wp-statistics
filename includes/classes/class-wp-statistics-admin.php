@@ -42,6 +42,45 @@ class WP_Statistics_Admin {
 			}
 		}
 
+		// Check to see if the GeoIP database needs to be downloaded and do so if required.
+		if ( $WP_Statistics->get_option('update_geoip') ) {
+			echo WP_Statistics_Updates::download_geoip();
+		}
+
+		// Check to see if the browscap database needs to be downloaded and do so if required.
+		if ( $WP_Statistics->get_option('update_browscap') ) {
+			echo WP_Statistics_Updates::download_browscap();
+		}
+
+		// Check to see if the referrer spam database needs to be downloaded and do so if required.
+		if ( $WP_Statistics->get_option('update_referrerspam') ) {
+			WP_Statistics_Updates::download_referrerspam();
+		}
+
+		if ( $WP_Statistics->get_option('send_upgrade_email') ) {
+			$WP_Statistics->update_option('send_upgrade_email', false);
+
+			$blogname  = get_bloginfo('name');
+			$blogemail = get_bloginfo('admin_email');
+
+			$headers[] = "From: $blogname <$blogemail>";
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/html; charset=utf-8";
+
+			if ( $WP_Statistics->get_option('email_list') == '' ) {
+				$WP_Statistics->update_option('email_list', $blogemail);
+			}
+
+			wp_mail(
+				$WP_Statistics->get_option('email_list'),
+				sprintf(__('WP Statistics %s installed on', 'wp-statistics'), WP_Statistics::$reg['version']) .
+				' ' .
+				$blogname,
+				"Installation/upgrade complete!",
+				$headers
+			);
+		}
+
 		add_filter(
 			'plugin_action_links_' . plugin_basename(WP_Statistics::$reg['main-file']),
 			'WP_Statistics_Admin::settings_links',

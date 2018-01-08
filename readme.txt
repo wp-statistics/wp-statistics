@@ -288,7 +288,9 @@ This is a security fix, please update immediately.
 
 == Changelog ==
 = 12.3.3 =
-* Updated: Browscap to 3.1.0
+* Updated: Browscap to v3.1.0 and fixed some issues.
+* Improvement: Memory usage in the plugin when the Browscap is enabled.
+* Improvement: Cache system and update Browscap database.
 
 = 12.3.2 =
 * Added: New feature! Show Hits on the single posts/pages.

@@ -118,22 +118,14 @@ class WP_Statistics_Hits {
 		}
 
 		if ( $WP_Statistics->get_option('last_browscap_dl') > 1 && $WP_Statistics->get_option('browscap') ) {
-			// Get the upload directory from WordPress.
-			$upload_dir = wp_upload_dir();
-
-			// Create a variable with the name of the database file to download.
-			$BrowscapFile = $upload_dir['basedir'] . '/wp-statistics';
-
 			// Get the Browser Capabilities use Browscap.
-			$bc = new Browscap();
-			$adapter = new \WurflCache\Adapter\File(array(\WurflCache\Adapter\File::DIR => $BrowscapFile));
-			$bc->setCache($adapter);
+			$browscap = new Browscap();
 
 			try {
-				$current_browser = $bc->getBrowser();
+				$current_browser = $browscap->getBrowser();
 
 				// Make sure we got an object back and it has the Crawler property before accessing it.
-				if ( is_object($current_browser) && property_exists($current_browser, 'Crawler') ) {
+				if ( isset($current_browser->Crawler) ) {
 					$crawler = $current_browser->Crawler;
 				} else {
 					$crawler = false;
