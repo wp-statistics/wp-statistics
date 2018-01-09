@@ -206,7 +206,7 @@ class WP_Statistics_Updates {
 		} catch (Exception $e) {
 			$message = sprintf(__('Browscap database updated failed! %s', 'wp-statistics'), $e->getMessage());
 		}
-		
+
 		if ( $WP_Statistics->get_option('browscap_report') == true ) {
 			$blogname  = get_bloginfo('name');
 			$blogemail = get_bloginfo('admin_email');

@@ -230,7 +230,7 @@ if ( $wps_nonce_valid ) {
 		} ?>
 
 		<tr valign="top">
-			<th scope="row" colspan="2"><h3><?php _e('browscap settings', 'wp-statistics'); ?></h3></th>
+			<th scope="row" colspan="2"><h3><?php _e('Browscap settings', 'wp-statistics'); ?></h3></th>
 		</tr>
 
 		<tr valign="top">
