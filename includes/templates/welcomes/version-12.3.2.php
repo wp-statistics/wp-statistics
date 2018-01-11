@@ -13,9 +13,6 @@
         </h2>
 
         <div data-content="whats-news" class="tab-content current">
-            <?php
-
-            ?>
             <section class="center-section">
                 <h2><?php _e( 'Welcome to the WP-Statistics!', 'wp-statistics' ); ?></h2>
                 <h4><?php _e( 'You can see the new changes of WP-Statistics on this page.', 'wp-statistics' ); ?></h4>
@@ -68,6 +65,10 @@
                     <div class="content-padding">
                         <h2><?php _e( 'And the following issues have been solved in this version:', 'wp-statistics' ); ?></h2>
                         <ul>
+                            <li><?php _e( 'Updated Browscap to v3.1.0 and fixed some issues.', 'wp-statistics' ); ?></li>
+                            <li><?php _e( 'Improvement Memory usage in the plugin when the Browscap is enabled.', 'wp-statistics' ); ?></li>
+                            <li><?php _e( 'Improvement Cache system and update Browscap database.', 'wp-statistics' ); ?></li>
+
                             <li><?php _e( 'Fixed Issue to create the object of the main class.', 'wp-statistics' ); ?></li>
                             <li><?php _e( 'Fixed Issue to get page title in empty search words option.', 'wp-statistics' ); ?></li>
                             <li><?php _e( 'Fixed Issue to show date range in the charts.', 'wp-statistics' ); ?></li>
