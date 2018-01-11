@@ -13,6 +13,9 @@
         </h2>
 
         <div data-content="whats-news" class="tab-content current">
+            <?php
+
+            ?>
             <section class="center-section">
                 <h2><?php _e( 'Welcome to the WP-Statistics!', 'wp-statistics' ); ?></h2>
                 <h4><?php _e( 'You can see the new changes of WP-Statistics on this page.', 'wp-statistics' ); ?></h4>

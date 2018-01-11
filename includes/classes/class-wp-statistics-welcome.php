@@ -18,6 +18,10 @@ class WP_Statistics_Welcome {
 		if ( ! $WP_Statistics->get_option( 'first_show_welcome_page', false ) ) {
 			$WP_Statistics->update_option( 'show_welcome_page', true );
 		}
+
+        if ( ! $WP_Statistics->get_option( 'last_welcome_version', false ) ) {
+            $WP_Statistics->update_option( 'last_welcome_version', WP_Statistics::$reg['version'] );
+        }
 	}
 
 	/**
@@ -39,7 +43,7 @@ class WP_Statistics_Welcome {
 			'1.0'
 		);
 
-		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/welcome.php" );
+		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/welcomes/version-12.3.2.php" );
 	}
 
 	/**
@@ -56,7 +60,7 @@ class WP_Statistics_Welcome {
 
 					// Enable welcome page in database
 					$WP_Statistics->update_option( 'show_welcome_page', true );
-				}
+                }
 			}
 		}
 	}
