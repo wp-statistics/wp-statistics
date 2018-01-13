@@ -39,7 +39,7 @@ class WP_Statistics_Updates {
 		// This is the location of the file to download.
 		$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
 
-		// Get the upload directory from WordPRess.
+		// Get the upload directory from WordPress.
 		$upload_dir = wp_upload_dir();
 
 		// Create a variable with the name of the database file to download.
@@ -81,6 +81,8 @@ class WP_Statistics_Updates {
 
 		// If we failed, through a message, otherwise proceed.
 		if ( is_wp_error($TempFile) ) {
+			$WP_Statistics->update_option('update_geoip', false);
+
 			$result = "<div class='updated settings-error'><p><strong>" . sprintf(
 					__('Error downloading GeoIP database from: %s - %s', 'wp-statistics'),
 					$download_url,
@@ -95,6 +97,8 @@ class WP_Statistics_Updates {
 
 			// If we failed to open the downloaded file, through an error and remove the temporary file.  Otherwise do the actual unzip.
 			if ( ! $ZipHandle ) {
+				$WP_Statistics->update_option('update_geoip', false);
+
 				$result = "<div class='updated settings-error'><p><strong>" . sprintf(
 						__('Error could not open downloaded GeoIP database for reading: %s', 'wp-statistics'),
 						$TempFile
@@ -104,6 +108,8 @@ class WP_Statistics_Updates {
 			} else {
 				// If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
 				if ( ! $DBfh ) {
+					$WP_Statistics->update_option('update_geoip', false);
+
 					$result = "<div class='updated settings-error'><p><strong>" . sprintf(
 							__('Error could not open destination GeoIP database for writing %s', 'wp-statistics'),
 							$DBFile
@@ -161,7 +167,7 @@ class WP_Statistics_Updates {
 			);
 		}
 
-		// All of the messages displayed above are stored in a stirng, now it's time to actually output the messages.
+		// All of the messages displayed above are stored in a string, now it's time to actually output the messages.
 		return $result;
 	}
 
@@ -191,6 +197,9 @@ class WP_Statistics_Updates {
 			mkdir($upload_dir['basedir'] . '/wp-statistics');
 		}
 
+		// First if all update the option to reflect the new download.
+		$WP_Statistics->update_option('update_browscap', false);
+
 		$adapter = new File(array(File::DIR => $upload_dir['basedir'] . '/wp-statistics'));
 
 		try{
@@ -198,9 +207,8 @@ class WP_Statistics_Updates {
 			$browscap_updater->setCache($adapter);
 			$browscap_updater->update(IniLoader::PHP_INI_FULL);
 
-			// Update the options to reflect the new download.
+			// Update browscap last download time
 			$WP_Statistics->update_option('last_browscap_dl', time());
-			$WP_Statistics->update_option('update_browscap', false);
 
 			$message = __('Browscap database updated successfully!', 'wp-statistics');
 		} catch (Exception $e) {
