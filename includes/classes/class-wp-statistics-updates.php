@@ -19,13 +19,18 @@ class WP_Statistics_Updates {
 	static function download_geoip() {
 		GLOBAL $WP_Statistics;
 
-		// We need the download_url() and gzopen() functions, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
+		// We need the download_url() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
+		if ( ! function_exists('download_url') ) {
+			include( ABSPATH . 'wp-admin/includes/file.php' );
+		}
+
+		// We need the gzopen() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
 		// Also stop trying to update the database as it just won't work :)
-		if ( false === function_exists('download_url') || false === function_exists('gzopen') ) {
+		if ( false === function_exists('gzopen') ) {
 			$WP_Statistics->update_option('update_geoip', false);
 
 			$result = "<div class='updated settings-error'><p><strong>" .
-			          __('Error the download_url() or gzopen() functions do not exist!', 'wp-statistics') .
+			          __('Error the gzopen() function do not exist!', 'wp-statistics') .
 			          "</strong></p></div>";
 
 			return $result;
