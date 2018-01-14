@@ -43,12 +43,12 @@ class WP_Statistics_Admin {
 		}
 
 		// Check to see if the GeoIP database needs to be downloaded and do so if required.
-		if ( $WP_Statistics->get_option('update_geoip') ) {
+		if ( $WP_Statistics->get_option('update_geoip') or isset($_POST['wps_update_geoip']) ) {
 			echo WP_Statistics_Updates::download_geoip();
 		}
 
 		// Check to see if the browscap database needs to be downloaded and do so if required.
-		if ( $WP_Statistics->get_option('update_browscap') ) {
+		if ( $WP_Statistics->get_option('update_browscap') or isset($_POST['wps_update_browscap']) ) {
 			echo WP_Statistics_Updates::download_browscap();
 		}
 

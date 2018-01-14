@@ -287,6 +287,10 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Improvement: Isolation Browscap cache processes to reduce memory usage.
+* Improvement: Include `file.php` and `pluggable.php` in GeoIP downloader when is not exists.
+
 = 12.3.4 =
 * Updated: Browscap to v3.1.0 and fixed some issues.
 * Improvement: Memory usage in the plugin when the Browscap is enabled.

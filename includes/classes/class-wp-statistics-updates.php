@@ -24,6 +24,11 @@ class WP_Statistics_Updates {
 			include( ABSPATH . 'wp-admin/includes/file.php' );
 		}
 
+		// We need the wp_generate_password() function.
+		if ( ! function_exists('wp_generate_password') ) {
+			include( ABSPATH . 'wp-includes/pluggable.php' );
+		}
+
 		// We need the gzopen() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
 		// Also stop trying to update the database as it just won't work :)
 		if ( false === function_exists('gzopen') ) {
