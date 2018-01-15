@@ -19,16 +19,16 @@ class WP_Statistics_Welcome {
 			$WP_Statistics->update_option( 'show_welcome_page', true );
 		}
 
-        if ( ! $WP_Statistics->get_option( 'last_welcome_version', false ) ) {
-            $WP_Statistics->update_option( 'last_welcome_version', WP_Statistics::$reg['version'] );
-        }
+		if ( ! $WP_Statistics->get_option( 'last_welcome_version', false ) ) {
+			$WP_Statistics->update_option( 'last_welcome_version', WP_Statistics::$reg['version'] );
+		}
 	}
 
 	/**
 	 * Register menu
 	 */
 	public static function menu() {
-		add_submenu_page( __('WP-Statistics Welcome', 'wp-statistics'), __('WP-Statistics Welcome', 'wp-statistics'), __('WP-Statistics Welcome', 'wp-statistics'), 'administrator', 'wps_welcome', 'WP_Statistics_Welcome::page_callback' );
+		add_submenu_page( __( 'WP-Statistics Welcome', 'wp-statistics' ), __( 'WP-Statistics Welcome', 'wp-statistics' ), __( 'WP-Statistics Welcome', 'wp-statistics' ), 'administrator', 'wps_welcome', 'WP_Statistics_Welcome::page_callback' );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class WP_Statistics_Welcome {
 
 					// Enable welcome page in database
 					$WP_Statistics->update_option( 'show_welcome_page', true );
-                }
+				}
 			}
 		}
 	}

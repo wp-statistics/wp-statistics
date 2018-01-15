@@ -21,30 +21,30 @@ function wp_statistics_generate_pages_postbox_content() {
 		$counter += 1;
 		echo '<div class="log-item">';
 		// Lookup the post title.
-		$post = get_post($item->id);
-		if ( is_object($post) ) {
+		$post = get_post( $item->id );
+		if ( is_object( $post ) ) {
 			$title = $post->post_title;
 		} else {
 			if ( $item->uri == '/' ) {
 				$title = get_bloginfo();
 			} else {
-				$title = '[' . __('No page title found', 'wp-statistics') . ']';
+				$title = '[' . __( 'No page title found', 'wp-statistics' ) . ']';
 			}
 		}
 		echo "<div class=\"log-page-title\">{$counter} - {$title}</div>";
 		echo '<div class="right-div">' .
-		     __('Visits', 'wp-statistics') .
+		     __( 'Visits', 'wp-statistics' ) .
 		     ': <a href="?page=' .
 		     WP_Statistics::$page['pages'] .
 		     '&page-uri=' .
-		     htmlentities($item->uri, ENT_QUOTES) .
+		     htmlentities( $item->uri, ENT_QUOTES ) .
 		     '">' .
-		     number_format_i18n($item->count_sum) .
+		     number_format_i18n( $item->count_sum ) .
 		     '</a></div>';
 		echo '<div><a href="' .
-		     htmlentities($site_url . $item->uri, ENT_QUOTES) .
+		     htmlentities( $site_url . $item->uri, ENT_QUOTES ) .
 		     '">' .
-		     htmlentities(urldecode($item->uri), ENT_QUOTES) .
+		     htmlentities( urldecode( $item->uri ), ENT_QUOTES ) .
 		     '</a></div>';
 		echo '</div>';
 

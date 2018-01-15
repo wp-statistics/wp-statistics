@@ -9,25 +9,25 @@ function wp_statistics_generate_top_visitors_postbox_content(
 	global $wpdb, $WP_Statistics;
 
 	if ( $day == 'today' ) {
-		$sql_time = $WP_Statistics->Current_Date('Y-m-d');
+		$sql_time = $WP_Statistics->Current_Date( 'Y-m-d' );
 	} else {
-		$sql_time = date('Y-m-d', strtotime($day));
+		$sql_time = date( 'Y-m-d', strtotime( $day ) );
 	}
 
 	?>
-	<table width="100%" class="widefat table-stats" id="last-referrer">
-		<tr>
-			<td><?php _e('Rank', 'wp-statistics'); ?></td>
-			<td><?php _e('Hits', 'wp-statistics'); ?></td>
-			<td><?php _e('Flag', 'wp-statistics'); ?></td>
-			<td><?php _e('Country', 'wp-statistics'); ?></td>
-			<td><?php _e('IP', 'wp-statistics'); ?></td>
+    <table width="100%" class="widefat table-stats" id="last-referrer">
+        <tr>
+            <td><?php _e( 'Rank', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'Hits', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'Flag', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'Country', 'wp-statistics' ); ?></td>
+            <td><?php _e( 'IP', 'wp-statistics' ); ?></td>
 			<?php if ( $compact == false ) { ?>
-				<td><?php _e('Agent', 'wp-statistics'); ?></td>
-				<td><?php _e('Platform', 'wp-statistics'); ?></td>
-				<td><?php _e('Version', 'wp-statistics'); ?></td>
+                <td><?php _e( 'Agent', 'wp-statistics' ); ?></td>
+                <td><?php _e( 'Platform', 'wp-statistics' ); ?></td>
+                <td><?php _e( 'Version', 'wp-statistics' ); ?></td>
 			<?php } ?>
-		</tr>
+        </tr>
 
 		<?php
 		$result = $wpdb->get_results(
@@ -37,15 +37,15 @@ function wp_statistics_generate_top_visitors_postbox_content(
 		$i = 0;
 
 		foreach ( $result as $visitor ) {
-			$i++;
+			$i ++;
 
-			$item = strtoupper($visitor->location);
+			$item = strtoupper( $visitor->location );
 
 			echo "<tr>";
 			echo "<td>$i</td>";
 			echo "<td>" . (int) $visitor->hits . "</td>";
 			echo "<td><img src='" .
-			     plugins_url('wp-statistics/assets/images/flags/' . $item . '.png') .
+			     plugins_url( 'wp-statistics/assets/images/flags/' . $item . '.png' ) .
 			     "' title='{$ISOCountryCode[$item]}'/></td>";
 			echo "<td>{$ISOCountryCode[$item]}</td>";
 			echo "<td>{$visitor->ip}</td>";
@@ -62,6 +62,6 @@ function wp_statistics_generate_top_visitors_postbox_content(
 			}
 		}
 		?>
-	</table>
+    </table>
 	<?php
 }

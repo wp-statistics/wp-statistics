@@ -20,97 +20,97 @@ class WP_Statistics_Shortcode {
 	 */
 	static function shortcodes( $atts ) {
 
-		if ( ! is_array($atts) ) {
+		if ( ! is_array( $atts ) ) {
 			return;
 		}
-		if ( ! array_key_exists('stat', $atts) ) {
+		if ( ! array_key_exists( 'stat', $atts ) ) {
 			return;
 		}
 
-		if ( ! array_key_exists('time', $atts) ) {
+		if ( ! array_key_exists( 'time', $atts ) ) {
 			$atts['time'] = null;
 		}
-		if ( ! array_key_exists('provider', $atts) ) {
+		if ( ! array_key_exists( 'provider', $atts ) ) {
 			$atts['provider'] = 'all';
 		}
-		if ( ! array_key_exists('format', $atts) ) {
+		if ( ! array_key_exists( 'format', $atts ) ) {
 			$atts['format'] = null;
 		}
-		if ( ! array_key_exists('id', $atts) ) {
-			$atts['id'] = -1;
+		if ( ! array_key_exists( 'id', $atts ) ) {
+			$atts['id'] = - 1;
 		}
 
-		$formatnumber = array_key_exists('format', $atts);
+		$formatnumber = array_key_exists( 'format', $atts );
 
 		switch ( $atts['stat'] ) {
 			case 'usersonline':
 				$result = wp_statistics_useronline();
-			break;
+				break;
 
 			case 'visits':
-				$result = wp_statistics_visit($atts['time']);
-			break;
+				$result = wp_statistics_visit( $atts['time'] );
+				break;
 
 			case 'visitors':
-				$result = wp_statistics_visitor($atts['time'], null, true);
-			break;
+				$result = wp_statistics_visitor( $atts['time'], null, true );
+				break;
 
 			case 'pagevisits':
-				$result = wp_statistics_pages($atts['time'], null, $atts['id']);
-			break;
+				$result = wp_statistics_pages( $atts['time'], null, $atts['id'] );
+				break;
 
 			case 'searches':
-				$result = wp_statistics_searchengine($atts['provider'], $atts['time']);
-			break;
+				$result = wp_statistics_searchengine( $atts['provider'], $atts['time'] );
+				break;
 
 			case 'postcount':
 				$result = wp_statistics_countposts();
-			break;
+				break;
 
 			case 'pagecount':
 				$result = wp_statistics_countpages();
-			break;
+				break;
 
 			case 'commentcount':
 				$result = wp_statistics_countcomment();
-			break;
+				break;
 
 			case 'spamcount':
 				$result = wp_statistics_countspam();
-			break;
+				break;
 
 			case 'usercount':
 				$result = wp_statistics_countusers();
-			break;
+				break;
 
 			case 'postaverage':
 				$result = wp_statistics_average_post();
-			break;
+				break;
 
 			case 'commentaverage':
 				$result = wp_statistics_average_comment();
-			break;
+				break;
 
 			case 'useraverage':
 				$result = wp_statistics_average_registeruser();
-			break;
+				break;
 
 			case 'lpd':
 				$result       = wp_statistics_lastpostdate();
 				$formatnumber = false;
-			break;
+				break;
 		}
 
 		if ( $formatnumber ) {
-			switch ( strtolower($atts['format']) ) {
+			switch ( strtolower( $atts['format'] ) ) {
 				case 'i18n':
-					$result = number_format_i18n($result);
+					$result = number_format_i18n( $result );
 
-				break;
+					break;
 				case 'english':
-					$result = number_format($result);
+					$result = number_format( $result );
 
-				break;
+					break;
 			}
 		}
 
@@ -122,7 +122,7 @@ class WP_Statistics_Shortcode {
 	 */
 	static function shortcake() {
 		// ShortCake support if loaded.
-		if ( function_exists('shortcode_ui_register_for_shortcode') ) {
+		if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
 			$se_list = wp_statistics_searchengine_list();
 
 			$se_options = array( '' => 'None' );
@@ -148,30 +148,30 @@ class WP_Statistics_Shortcode {
 					// Supported field types: text, checkbox, textarea, radio, select, email, url, number, and date.
 					'attrs'         => array(
 						array(
-							'label'       => __('Statistic', 'wp-statistics'),
+							'label'       => __( 'Statistic', 'wp-statistics' ),
 							'attr'        => 'stat',
 							'type'        => 'select',
-							'description' => __('Select the statistic you wish to display.', 'wp-statistics'),
+							'description' => __( 'Select the statistic you wish to display.', 'wp-statistics' ),
 							'value'       => 'usersonline',
 							'options'     => array(
-								'usersonline'    => __('Online Users', 'wp-statistics'),
-								'visits'         => __('Visits', 'wp-statistics'),
-								'visitors'       => __('Visitors', 'wp-statistics'),
-								'pagevisits'     => __('Page Visits', 'wp-statistics'),
-								'searches'       => __('Searches', 'wp-statistics'),
-								'postcount'      => __('Post Count', 'wp-statistics'),
-								'pagecount'      => __('Page Count', 'wp-statistics'),
-								'commentcount'   => __('Comment Count', 'wp-statistics'),
-								'spamcount'      => __('Spam Count', 'wp-statistics'),
-								'usercount'      => __('User Count', 'wp-statistics'),
-								'postaverage'    => __('Post Average', 'wp-statistics'),
-								'commentaverage' => __('Comment Average', 'wp-statistics'),
-								'useraverage'    => __('User Average', 'wp-statistics'),
-								'lpd'            => __('Last Post Date', 'wp-statistics'),
+								'usersonline'    => __( 'Online Users', 'wp-statistics' ),
+								'visits'         => __( 'Visits', 'wp-statistics' ),
+								'visitors'       => __( 'Visitors', 'wp-statistics' ),
+								'pagevisits'     => __( 'Page Visits', 'wp-statistics' ),
+								'searches'       => __( 'Searches', 'wp-statistics' ),
+								'postcount'      => __( 'Post Count', 'wp-statistics' ),
+								'pagecount'      => __( 'Page Count', 'wp-statistics' ),
+								'commentcount'   => __( 'Comment Count', 'wp-statistics' ),
+								'spamcount'      => __( 'Spam Count', 'wp-statistics' ),
+								'usercount'      => __( 'User Count', 'wp-statistics' ),
+								'postaverage'    => __( 'Post Average', 'wp-statistics' ),
+								'commentaverage' => __( 'Comment Average', 'wp-statistics' ),
+								'useraverage'    => __( 'User Average', 'wp-statistics' ),
+								'lpd'            => __( 'Last Post Date', 'wp-statistics' ),
 							),
 						),
 						array(
-							'label'       => __('Time Frame', 'wp-statistics'),
+							'label'       => __( 'Time Frame', 'wp-statistics' ),
 							'attr'        => 'time',
 							'type'        => 'url',
 							'description' => __(
@@ -181,14 +181,14 @@ class WP_Statistics_Shortcode {
 							'meta'        => array( 'size' => '10' ),
 						),
 						array(
-							'label'       => __('Search Provider', 'wp-statistics'),
+							'label'       => __( 'Search Provider', 'wp-statistics' ),
 							'attr'        => 'provider',
 							'type'        => 'select',
-							'description' => __('The search provider to get statistics on.', 'wp-statistics'),
+							'description' => __( 'The search provider to get statistics on.', 'wp-statistics' ),
 							'options'     => $se_options,
 						),
 						array(
-							'label'       => __('Number Format', 'wp-statistics'),
+							'label'       => __( 'Number Format', 'wp-statistics' ),
 							'attr'        => 'format',
 							'type'        => 'select',
 							'description' => __(
@@ -197,16 +197,16 @@ class WP_Statistics_Shortcode {
 							),
 							'value'       => 'none',
 							'options'     => array(
-								'none'    => __('None', 'wp-statistics'),
-								'english' => __('English', 'wp-statistics'),
-								'i18n'    => __('International', 'wp-statistics'),
+								'none'    => __( 'None', 'wp-statistics' ),
+								'english' => __( 'English', 'wp-statistics' ),
+								'i18n'    => __( 'International', 'wp-statistics' ),
 							),
 						),
 						array(
-							'label'       => __('Post/Page ID', 'wp-statistics'),
+							'label'       => __( 'Post/Page ID', 'wp-statistics' ),
 							'attr'        => 'id',
 							'type'        => 'number',
-							'description' => __('The post/page id to get page statistics on.', 'wp-statistics'),
+							'description' => __( 'The post/page id to get page statistics on.', 'wp-statistics' ),
 							'meta'        => array( 'size' => '5' ),
 						),
 					),

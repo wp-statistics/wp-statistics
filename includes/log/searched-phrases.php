@@ -1,29 +1,29 @@
 <script type="text/javascript">
-	jQuery(document).ready(function () {
-		jQuery('.show-map').click(function () {
-			alert('<?php _e( 'To be added soon', 'wp-statistics' ); ?>');
-		});
+    jQuery(document).ready(function () {
+        jQuery('.show-map').click(function () {
+            alert('<?php _e( 'To be added soon', 'wp-statistics' ); ?>');
+        });
 
-		postboxes.add_postbox_toggles(pagenow);
-	});
+        postboxes.add_postbox_toggles(pagenow);
+    });
 </script>
 <?php
 $date_args     = '';
 $daysToDisplay = 20;
-if ( array_key_exists('hitdays', $_GET) ) {
-	$daysToDisplay = intval(esc_attr($_GET['hitdays']));
-	$date_args .= '&hitdays=' . $daysToDisplay;
+if ( array_key_exists( 'hitdays', $_GET ) ) {
+	$daysToDisplay = intval( esc_attr( $_GET['hitdays'] ) );
+	$date_args     .= '&hitdays=' . $daysToDisplay;
 }
 
-if ( array_key_exists('rangestart', $_GET) ) {
-	$rangestart = esc_attr($_GET['rangestart']);
-	$date_args .= '&rangestart=' . $rangestart;
+if ( array_key_exists( 'rangestart', $_GET ) ) {
+	$rangestart = esc_attr( $_GET['rangestart'] );
+	$date_args  .= '&rangestart=' . $rangestart;
 } else {
 	$rangestart = '';
 }
 
-if ( array_key_exists('rangeend', $_GET) ) {
-	$rangeend = esc_attr($_GET['rangeend']);
+if ( array_key_exists( 'rangeend', $_GET ) ) {
+	$rangeend  = esc_attr( $_GET['rangeend'] );
 	$date_args .= '&rangeend=' . $rangeend;
 } else {
 	$rangeend = '';
@@ -35,10 +35,10 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 	$rangeend
 );
 
-$rangestartdate = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangestart_utime);
-$rangeenddate   = $WP_Statistics->real_current_date('Y-m-d', '-0', $rangeend_utime);
+$rangestartdate = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangestart_utime );
+$rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_utime );
 
-if ( array_key_exists('phrase', $_GET) ) {
+if ( array_key_exists( 'phrase', $_GET ) ) {
 	$phrase       = $_GET['phrase'];
 	$title        = $_GET['phrase'];
 	$referr_field = '&phrase=' . $phrase;
@@ -57,23 +57,23 @@ if ( $phrase ) {
 		$rangestartdate,
 		$rangeenddate
 	);
-	$result   = $wpdb->get_results($q_string);
-	$total    = count($result);
+	$result   = $wpdb->get_results( $q_string );
+	$total    = count( $result );
 } else {
 	$q_string = $wpdb->prepare(
 		"SELECT `words` , count(`words`) as `count` FROM `{$wpdb->prefix}statistics_search` WHERE `words` <> '' AND `last_counter` BETWEEN %s AND %s GROUP BY `words` order by `count` DESC",
 		$rangestartdate,
 		$rangeenddate
 	);
-	$result   = $wpdb->get_results($q_string);
-	$total    = count($result);
+	$result   = $wpdb->get_results( $q_string );
+	$total    = count( $result );
 }
 
 ?>
 <div class="wrap">
-	<h2><?php _e('Top Searched Phrases', 'wp-statistics'); ?></h2>
+    <h2><?php _e( 'Top Searched Phrases', 'wp-statistics' ); ?></h2>
 
-	<div><?php wp_statistics_date_range_selector(
+    <div><?php wp_statistics_date_range_selector(
 			WP_Statistics::$page['searched-phrases'],
 			$daysToDisplay,
 			null,
@@ -81,56 +81,56 @@ if ( $phrase ) {
 			$phrase_field
 		); ?></div>
 
-	<div class="clear"/>
+    <div class="clear"/>
 
-	<ul class="subsubsub">
+    <ul class="subsubsub">
 		<?php if ( $phrase ) { ?>
-			<li class="all"><a <?php if ( ! $phrase ) {
+            <li class="all"><a <?php if ( ! $phrase ) {
 					echo 'class="current"';
 				} ?>href="?page=<?php echo WP_Statistics::$page['searched-phrases'] . $date_args; ?>"><?php _e(
 						'All',
 						'wp-statistics'
 					); ?></a>
-			</li>
-			|
-			<li>
-				<a class="current"
-				   href="?page=<?php echo WP_Statistics::$page['searched-phrases']; ?>&referr=<?php echo esc_html($phrase) .
-				                                                                                    $date_args; ?>"> <?php echo htmlentities(
+            </li>
+            |
+            <li>
+                <a class="current"
+                   href="?page=<?php echo WP_Statistics::$page['searched-phrases']; ?>&referr=<?php echo esc_html( $phrase ) .
+				                                                                                         $date_args; ?>"> <?php echo htmlentities(
 						$title,
 						ENT_QUOTES
 					); ?>
-					<span class="count">(<?php echo $total; ?>)</span></a></li>
+                    <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
-			<li class="all"><a <?php if ( ! $phrase ) {
+            <li class="all"><a <?php if ( ! $phrase ) {
 					echo 'class="current"';
 				} ?>href="?page=<?php echo WP_Statistics::$page['searched-phrases'] . $date_args; ?>"><?php _e(
 						'All',
 						'wp-statistics'
 					); ?>
-					<span class="count">(<?php echo $total; ?>)</span></a></li>
+                    <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } ?>
-	</ul>
-	<div class="postbox-container" id="last-log">
-		<div class="metabox-holder">
-			<div class="meta-box-sortables">
-				<div class="postbox">
+    </ul>
+    <div class="postbox-container" id="last-log">
+        <div class="metabox-holder">
+            <div class="meta-box-sortables">
+                <div class="postbox">
 					<?php if ( $phrase ) {
-						$paneltitle = sprintf(__('Searched Phrase: %s', 'wp-statistics'), esc_html($phrase));
+						$paneltitle = sprintf( __( 'Searched Phrase: %s', 'wp-statistics' ), esc_html( $phrase ) );
 					} else {
-						$paneltitle = __('Top Searched Phrases', 'wp-statistics');
+						$paneltitle = __( 'Top Searched Phrases', 'wp-statistics' );
 					}; ?>
-					<button class="handlediv" type="button" aria-expanded="true">
+                    <button class="handlediv" type="button" aria-expanded="true">
 						<span class="screen-reader-text"><?php printf(
-								__('Toggle panel: %s', 'wp-statistics'),
+								__( 'Toggle panel: %s', 'wp-statistics' ),
 								$paneltitle
 							); ?></span>
-						<span class="toggle-indicator" aria-hidden="true"></span>
-					</button>
-					<h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
 
-					<div class="inside">
-						<div class="log-latest">
+                    <div class="inside">
+                        <div class="log-latest">
 							<?php
 
 							if ( $total > 0 ) {
@@ -157,10 +157,10 @@ if ( $phrase ) {
 								$end   = $Pagination->getEntryEnd();
 
 								if ( $result ) {
-									$result = array_slice($result, $start, $end);
+									$result = array_slice( $result, $start, $end );
 									$i      = $start;
 									foreach ( $result as $item ) {
-										$i++;
+										$i ++;
 										echo "<div class='log-item'>";
 										echo "<div class='log-referred'>{$i} - {$item->words}</div>";
 										echo "<div class='clear'></div>";
@@ -171,21 +171,21 @@ if ( $phrase ) {
 							}
 
 							?>
-						</div>
-					</div>
-				</div>
+                        </div>
+                    </div>
+                </div>
 
-				<div class="pagination-log">
+                <div class="pagination-log">
 					<?php if ( $total > 0 ) {
 						echo $Pagination->display(); ?>
-						<p id="result-log"><?php printf(
-								__('Page %1$s of %2$s', 'wp-statistics'),
+                        <p id="result-log"><?php printf(
+								__( 'Page %1$s of %2$s', 'wp-statistics' ),
 								$Pagination->getCurrentPage(),
 								$Pagination->getTotalPages()
 							); ?></p>
 					<?php } ?>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

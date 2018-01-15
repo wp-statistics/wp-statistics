@@ -1,18 +1,18 @@
 <script type="text/javascript">
-	jQuery(document).ready(function () {
-		postboxes.add_postbox_toggles(pagenow);
-	});
+    jQuery(document).ready(function () {
+        postboxes.add_postbox_toggles(pagenow);
+    });
 </script>
 <?php
 $search_engines = wp_statistics_searchengine_list();
 
-$search_result['All'] = wp_statistics_searchword('all', 'total');
+$search_result['All'] = wp_statistics_searchword( 'all', 'total' );
 
 foreach ( $search_engines as $key => $se ) {
-	$search_result[ $key ] = wp_statistics_searchword($key, 'total');
+	$search_result[ $key ] = wp_statistics_searchword( $key, 'total' );
 }
 
-if ( array_key_exists('referred', $_GET) ) {
+if ( array_key_exists( 'referred', $_GET ) ) {
 	if ( $_GET['referred'] != '' ) {
 		$referred = $_GET['referred'];
 	} else {
@@ -25,15 +25,15 @@ if ( array_key_exists('referred', $_GET) ) {
 $total = $search_result[ $referred ];
 ?>
 <div class="wrap">
-	<h2><?php _e('Latest Search Words', 'wp-statistics'); ?></h2>
-	<ul class="subsubsub">
+    <h2><?php _e( 'Latest Search Words', 'wp-statistics' ); ?></h2>
+    <ul class="subsubsub">
 		<?php
-		$search_result_count = count($search_result);
+		$search_result_count = count( $search_result );
 		$i                   = 0;
 		$separator           = ' | ';
 
 		foreach ( $search_result as $key => $value ) {
-			$i++;
+			$i ++;
 
 			if ( $i == $search_result_count ) {
 				$separator = '';
@@ -42,7 +42,7 @@ $total = $search_result[ $referred ];
 			if ( $key == 'All' ) {
 				$tag       = '';
 				$name      = 'All';
-				$translate = __('All', 'wp-statistics');
+				$translate = __( 'All', 'wp-statistics' );
 			} else {
 				$tag       = $search_engines[ $key ]['tag'];
 				$name      = $search_engines[ $key ]['name'];
@@ -56,23 +56,23 @@ $total = $search_result[ $referred ];
 			     " <span class='count'>({$value})</span></a></li>{$separator}";
 		}
 		?>
-	</ul>
-	<div class="postbox-container" id="last-log">
-		<div class="metabox-holder">
-			<div class="meta-box-sortables">
-				<div class="postbox">
-					<?php $paneltitle = __('Latest Search Word Statistics', 'wp-statistics'); ?>
-					<button class="handlediv" type="button" aria-expanded="true">
+    </ul>
+    <div class="postbox-container" id="last-log">
+        <div class="metabox-holder">
+            <div class="meta-box-sortables">
+                <div class="postbox">
+					<?php $paneltitle = __( 'Latest Search Word Statistics', 'wp-statistics' ); ?>
+                    <button class="handlediv" type="button" aria-expanded="true">
 						<span class="screen-reader-text"><?php printf(
-								__('Toggle panel: %s', 'wp-statistics'),
+								__( 'Toggle panel: %s', 'wp-statistics' ),
 								$paneltitle
 							); ?></span>
-						<span class="toggle-indicator" aria-hidden="true"></span>
-					</button>
-					<h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
 
-					<div class="inside">
-						<div class='log-latest'>
+                    <div class="inside">
+                        <div class='log-latest'>
 							<?php
 							if ( $total > 0 ) {
 								// Instantiate pagination object with appropriate arguments
@@ -99,55 +99,55 @@ $total = $search_result[ $referred ];
 
 								// Retrieve MySQL data
 								if ( $referred && $referred != '' ) {
-									$search_query = wp_statistics_searchword_query($referred);
+									$search_query = wp_statistics_searchword_query( $referred );
 								} else {
-									$search_query = wp_statistics_searchword_query('all');
+									$search_query = wp_statistics_searchword_query( 'all' );
 								}
 
 								// Determine if we're using the old or new method of storing search engine info and build the appropriate table name.
 								$tablename = $wpdb->prefix . 'statistics_';
 
-								if ( $WP_Statistics->get_option('search_converted') ) {
-									$tabletwo = $tablename . 'visitor';
+								if ( $WP_Statistics->get_option( 'search_converted' ) ) {
+									$tabletwo  = $tablename . 'visitor';
 									$tablename .= 'search';
-									$result = $wpdb->get_results(
+									$result    = $wpdb->get_results(
 										"SELECT * FROM `{$tablename}` INNER JOIN `{$tabletwo}` on {$tablename}.`visitor` = {$tabletwo}.`ID` WHERE {$search_query} ORDER BY `{$tablename}`.`ID` DESC  LIMIT {$start}, {$end}"
 									);
 								} else {
 									$tablename .= 'visitor';
-									$result = $wpdb->get_results(
+									$result    = $wpdb->get_results(
 										"SELECT * FROM `{$tablename}` WHERE {$search_query} ORDER BY `{$tablename}`.`ID` DESC  LIMIT {$start}, {$end}"
 									);
 								}
 
 								$ISOCountryCode = $WP_Statistics->get_country_codes();
 
-								$dash_icon = wp_statistics_icons('dashicons-location-alt', 'map');
+								$dash_icon = wp_statistics_icons( 'dashicons-location-alt', 'map' );
 
 								foreach ( $result as $items ) {
-									if ( ! $WP_Statistics->Search_Engine_QueryString($items->referred) ) {
+									if ( ! $WP_Statistics->Search_Engine_QueryString( $items->referred ) ) {
 										continue;
 									}
 
-									if ( substr($items->ip, 0, 6) == '#hash#' ) {
-										$ip_string  = __('#hash#', 'wp-statistics');
+									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
+										$ip_string  = __( '#hash#', 'wp-statistics' );
 										$map_string = "";
 									} else {
 										$ip_string
 											= "<a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a>";
 										$map_string
 											= "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
-											  __('Map', 'wp-statistics') .
+											  __( 'Map', 'wp-statistics' ) .
 											  "'>{$dash_icon}</a>";
 									}
 
-									if ( $WP_Statistics->get_option('search_converted') ) {
+									if ( $WP_Statistics->get_option( 'search_converted' ) ) {
 										$this_search_engine = $WP_Statistics->Search_Engine_Info_By_Engine(
 											$items->engine
 										);
 										$words              = $items->words;
 									} else {
-										$this_search_engine = $WP_Statistics->Search_Engine_Info($items->referred);
+										$this_search_engine = $WP_Statistics->Search_Engine_Info( $items->referred );
 										$words              = $WP_Statistics->Search_Engine_QueryString(
 											$items->referred
 										);
@@ -156,13 +156,13 @@ $total = $search_result[ $referred ];
 									echo "<div class='log-item'>";
 									echo "<div class='log-referred'>" . $words . "</div>";
 									echo "<div class='log-ip'>" .
-									     date(get_option('date_format'), strtotime($items->last_counter)) .
+									     date( get_option( 'date_format' ), strtotime( $items->last_counter ) ) .
 									     " - {$ip_string}</div>";
 									echo "<div class='clear'></div>";
 									echo "<div class='log-url'>";
 									echo $map_string;
 
-									if ( $WP_Statistics->get_option('geoip') ) {
+									if ( $WP_Statistics->get_option( 'geoip' ) ) {
 										echo "<img src='" .
 										     plugins_url(
 											     'wp-statistics/assets/images/flags/' . $items->location . '.png'
@@ -173,13 +173,13 @@ $total = $search_result[ $referred ];
 									echo "<a href='?page=" .
 									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-search&referred={$this_search_engine['tag']}'><img src='" .
-									     plugins_url('wp-statistics/assets/images/' . $this_search_engine['image']) .
+									     plugins_url( 'wp-statistics/assets/images/' . $this_search_engine['image'] ) .
 									     "' class='log-tools' title='" .
-									     __($this_search_engine['name'], 'wp-statistics') .
+									     __( $this_search_engine['name'], 'wp-statistics' ) .
 									     "'/></a>";
 
 									if ( array_search(
-										     strtolower($items->agent),
+										     strtolower( $items->agent ),
 										     array(
 											     "chrome",
 											     "firefox",
@@ -190,18 +190,18 @@ $total = $search_result[ $referred ];
 									     ) !== false
 									) {
 										$agent = "<img src='" .
-										         plugins_url('wp-statistics/assets/images/') .
+										         plugins_url( 'wp-statistics/assets/images/' ) .
 										         $items->agent .
 										         ".png' class='log-tools' title='{$items->agent}'/>";
 									} else {
-										$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
+										$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 									}
 
 									echo "<a href='?page=" .
 									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 
-									echo $WP_Statistics->get_referrer_link($items->referred);
+									echo $WP_Statistics->get_referrer_link( $items->referred );
 
 									echo "</div>";
 									echo "</div>";
@@ -210,20 +210,20 @@ $total = $search_result[ $referred ];
 
 							echo "</div>";
 							?>
-						</div>
-					</div>
+                        </div>
+                    </div>
 
-					<div class="pagination-log">
+                    <div class="pagination-log">
 						<?php if ( $total > 0 ) {
 							echo $Pagination->display(); ?>
-							<p id="result-log"><?php printf(
-									__('Page %1$s of %2$s', 'wp-statistics'),
+                            <p id="result-log"><?php printf(
+									__( 'Page %1$s of %2$s', 'wp-statistics' ),
 									$Pagination->getCurrentPage(),
 									$Pagination->getTotalPages()
 								); ?></p>
 						<?php } ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

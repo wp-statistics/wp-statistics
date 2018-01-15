@@ -8,11 +8,11 @@ function wp_statistics_generate_searched_phrases_postbox_content() {
 	);
 
 	?>
-	<table width="100%" class="widefat table-stats" id="searched-phrases">
-		<tr>
-			<td width="90%"><?php _e('Phrase', 'wp-statistics'); ?></td>
-			<td width="10%"><?php _e('Count', 'wp-statistics'); ?></td>
-		</tr>
+    <table width="100%" class="widefat table-stats" id="searched-phrases">
+        <tr>
+            <td width="90%"><?php _e( 'Phrase', 'wp-statistics' ); ?></td>
+            <td width="10%"><?php _e( 'Count', 'wp-statistics' ); ?></td>
+        </tr>
 
 		<?php
 
@@ -24,6 +24,6 @@ function wp_statistics_generate_searched_phrases_postbox_content() {
 			echo "</tr>";
 		}
 		?>
-	</table>
+    </table>
 	<?php
 }
