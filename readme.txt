@@ -290,6 +290,7 @@ This is a security fix, please update immediately.
 = dev-master =
 * Improvement: Isolation Browscap cache processes to reduce memory usage.
 * Improvement: Include `file.php` and `pluggable.php` in GeoIP downloader when is not exists.
+* Fixed: GeoIP database update problem. Added an alternative server for download database when impossible access to maxmind.com
 
 = 12.3.4 =
 * Updated: Browscap to v3.1.0 and fixed some issues.
