@@ -5,6 +5,7 @@
 */
 
 use BrowscapPHP\Browscap;
+use WurflCache\Adapter\File;
 use IPTools\IP;
 use IPTools\Network;
 use IPTools\Range;
@@ -118,10 +119,15 @@ class WP_Statistics_Hits {
 		}
 
 		if ( $WP_Statistics->get_option( 'last_browscap_dl' ) > 1 && $WP_Statistics->get_option( 'browscap' ) ) {
-			// Get the Browser Capabilities use Browscap.
-			$browscap = new Browscap();
+			// Get the upload directory from WordPress.
+			$upload_dir = wp_upload_dir();
 
+			$adapter = new File( array( File::DIR => $upload_dir['basedir'] . '/wp-statistics' ) );
+
+			// Get the Browser Capabilities use Browscap.
 			try {
+				$browscap = new Browscap();
+				$browscap->setCache($adapter);
 				$current_browser = $browscap->getBrowser();
 
 				// Make sure we got an object back and it has the Crawler property before accessing it.
