@@ -195,6 +195,9 @@ class WP_Statistics_Updates {
 	static function download_browscap() {
 		global $WP_Statistics;
 
+        // Changing PHP memory limits
+        ini_set('memory_limit', '256M');
+
 		// We need the download_url() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
 		if ( ! function_exists( 'download_url' ) ) {
 			include( ABSPATH . 'wp-admin/includes/file.php' );
