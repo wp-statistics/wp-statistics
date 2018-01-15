@@ -48,7 +48,12 @@ class WP_Statistics_Updates {
 
 		// This is the location of the file to download.
 		$download_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz';
+		$response = wp_remote_get($download_url);
 
+		if(wp_remote_retrieve_response_code($response) != '200') {
+			$download_url = 'https://raw.githubusercontent.com/wp-statistics/GeoLite2-Country/master/GeoLite2-Country.mmdb.gz';
+		}
+		
 		// Get the upload directory from WordPress.
 		$upload_dir = wp_upload_dir();
 
