@@ -19,6 +19,23 @@
             </section>
 
             <section class="normal-section">
+                <div class="right">
+                    <div class="content-padding">
+                        <h2><?php _e( 'GeoIP & Browscap improvements', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'Recent issue about GeoIP update database resolved and the Browscap improvements.', 'wp-statistics' ); ?></h4>
+                    </div>
+                </div>
+
+                <div class="left text-center">
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshot-maxmind-geoip.png' ); ?>"/>
+                </div>
+            </section>
+
+            <section class="center-section">
+                <h2><?php _e( 'And recent changes', 'wp-statistics' ); ?></h2>
+            </section>
+
+            <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
                         <h2><?php _e( 'New Feature!<br>Show Hits on the single posts/pages.', 'wp-statistics' ); ?></h2>
@@ -27,7 +44,7 @@
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshots-1.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshot-hits.png' ); ?>"/>
                 </div>
             </section>
 
@@ -40,7 +57,7 @@
                 </div>
 
                 <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshots-2.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshot-page-dropdown.png' ); ?>"/>
                 </div>
             </section>
 
@@ -85,7 +102,7 @@
 
             <section class="center-section">
                 <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/icon-love.png' ); ?>"/>
-                <h4><?php echo sprintf( __( 'To help us, you can make <a href="%s" target="_blank">donate</a> or <a href="%s" target="_blank">purchase</a> Add-Ons.', 'wp-statistics' ), 'https://wp-statistics.com/donate/', 'https://wp-statistics.com/add-ons/' ); ?></h4>
+                <h4><?php echo sprintf( __( 'To help us, you can make <a href="%s" target="_blank">donate</a> or <a href="%s" target="_blank">purchase</a> Add-Ons. 😊', 'wp-statistics' ), 'https://wp-statistics.com/donate/', 'https://wp-statistics.com/add-ons/' ); ?></h4>
             </section>
         </div>
 

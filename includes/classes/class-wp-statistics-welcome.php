@@ -4,6 +4,9 @@
  * Class WP_Statistics_Welcome
  */
 class WP_Statistics_Welcome {
+	/**
+	 * Initial
+	 */
 	public static function init() {
 		global $WP_Statistics;
 		if ( $WP_Statistics->get_option( 'show_welcome_page', false ) and ( strpos( $_SERVER['REQUEST_URI'], '/wp-admin/index.php' ) !== false or ( isset( $_GET['page'] ) and $_GET['page'] == 'wps_overview_page' ) ) ) {
@@ -17,10 +20,6 @@ class WP_Statistics_Welcome {
 
 		if ( ! $WP_Statistics->get_option( 'first_show_welcome_page', false ) ) {
 			$WP_Statistics->update_option( 'show_welcome_page', true );
-		}
-
-		if ( ! $WP_Statistics->get_option( 'last_welcome_version', false ) ) {
-			$WP_Statistics->update_option( 'last_welcome_version', WP_Statistics::$reg['version'] );
 		}
 	}
 
@@ -43,7 +42,7 @@ class WP_Statistics_Welcome {
 			'1.0'
 		);
 
-		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/welcomes/version-12.3.2.php" );
+		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/welcomes/last-version.php" );
 	}
 
 	/**
@@ -65,6 +64,9 @@ class WP_Statistics_Welcome {
 		}
 	}
 
+	/**
+	 * Show change log
+	 */
 	public static function show_change_log() {
 		$response = wp_remote_get( 'https://api.github.com/repos/wp-statistics/wp-statistics/releases/latest' );
 

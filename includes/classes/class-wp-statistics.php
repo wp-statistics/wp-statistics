@@ -842,7 +842,7 @@ class WP_Statistics {
 	 */
 	public function get_UserAgent() {
 
-		// Parse the agent stirng.
+		// Parse the agent string.
 		try {
 			$agent = parse_user_agent();
 		} catch ( Exception $e ) {
