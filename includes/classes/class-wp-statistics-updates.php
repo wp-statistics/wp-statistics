@@ -224,7 +224,7 @@ class WP_Statistics_Updates {
 		try {
 			$browscap_updater = new BrowscapUpdater();
 			$browscap_updater->setCache( $adapter );
-			$browscap_updater->update( IniLoader::PHP_INI_FULL );
+			$browscap_updater->update( IniLoader::PHP_INI );
 
 			// Update browscap last download time
 			$WP_Statistics->update_option( 'last_browscap_dl', time() );

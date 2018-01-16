@@ -118,7 +118,7 @@ class WP_Statistics_Hits {
 			$ua_string = $_SERVER['HTTP_USER_AGENT'];
 		}
 
-		if ( $WP_Statistics->get_option( 'last_browscap_dl' ) > 1 OR $WP_Statistics->get_option( 'browscap' ) ) {
+		if ( $WP_Statistics->get_option( 'last_browscap_dl' ) > 1 && $WP_Statistics->get_option( 'browscap' ) ) {
 			// Get the upload directory from WordPress.
 			$upload_dir = wp_upload_dir();
 
