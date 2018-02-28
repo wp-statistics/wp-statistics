@@ -1,7 +1,7 @@
 <?php
 /*
 	This is a list of all known country codes and their country names.
-	
+
 	It is used in several places in the plugin and is therefore centralized here for ease of update.
 */
 $ISOCountryCode['000'] = _x( 'Unknown', 'Country', 'wp-statistics' );
@@ -244,7 +244,7 @@ $ISOCountryCode['SZ']  = "Swaziland";
 $ISOCountryCode['SE']  = "Sweden";
 $ISOCountryCode['CH']  = "Switzerland";
 $ISOCountryCode['SY']  = "Syrian Arab Republic";
-$ISOCountryCode['TW']  = "Taiwan (Province of China)";
+$ISOCountryCode['TW']  = "Taiwan";
 $ISOCountryCode['TJ']  = "Tajikistan";
 $ISOCountryCode['TZ']  = "Tanzania, United Republic of";
 $ISOCountryCode['TH']  = "Thailand";
