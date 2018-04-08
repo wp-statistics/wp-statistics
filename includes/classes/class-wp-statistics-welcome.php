@@ -52,7 +52,7 @@ class WP_Statistics_Welcome {
 	public static function do_welcome( $upgrader_object, $options ) {
 		$current_plugin_path_name = 'wp-statistics/wp-statistics.php';
 
-		if ( $options['action'] == 'update' && $options['type'] == 'plugin' ) {
+		if ( $options['action'] == 'update' and $options['type'] == 'plugin' and isset($options['plugins']) ) {
 			foreach ( $options['plugins'] as $each_plugin ) {
 				if ( $each_plugin == $current_plugin_path_name ) {
 					global $WP_Statistics;
