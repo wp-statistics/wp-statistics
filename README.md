@@ -54,6 +54,6 @@ WP Statistics supports several functions for other plug-in and theme authors to 
 WP Statistics supports shortcodes in WordPress, these can be used in either a post and page body as well as an HTML widget. Description of shortcode available in [this link](https://wp-statistics.com/2017/05/26/shortcodes/)
 
 # Community Links
-Thank you [jetbrains](https://www.jetbrains.com) for giving us Intellij IDEA Ultimate licenses for develop this project.
-* [Wordpress plugin page](http://wordpress.org/plugins/wp-statistics/)
-* [Plugin website](https://wp-statistics.com)
+* [WordPress plugin page](http://wordpress.org/plugins/wp-statistics/)
+* [Plugin Website](https://wp-statistics.com)
+* [Author Website](http://veronalabs.com)
