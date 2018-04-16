@@ -289,6 +289,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = dev-master =
 * Updated: Chart.js library to v2.7.2
+* Fixed: Issue to build search engine queries.
 
 = 12.3.5 =
 * Improvement: Isolation Browscap cache processes to reduce memory usage.

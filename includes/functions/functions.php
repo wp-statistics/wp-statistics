@@ -847,34 +847,35 @@ function wp_statistics_searchengine( $search_engine = 'all', $time = 'total' ) {
 	switch ( $time ) {
 		case 'today':
 			$result = $wpdb->query(
-				"SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d' )}' AND {$search_query}"
+				"SELECT * FROM `{$tablename}` WHERE (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d' )}') AND ({$search_query})"
 			);
+
 			break;
 
 		case 'yesterday':
 			$result = $wpdb->query(
-				"SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -1 )}' AND {$search_query}"
+				"SELECT * FROM `{$tablename}` WHERE (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -1 )}') AND ({$search_query})"
 			);
 
 			break;
 
 		case 'week':
 			$result = $wpdb->query(
-				"SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -7 )}' AND {$search_query}"
+				"SELECT * FROM `{$tablename}` WHERE (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -7 )}') AND ({$search_query})"
 			);
 
 			break;
 
 		case 'month':
 			$result = $wpdb->query(
-				"SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -30 )}' AND {$search_query}"
+				"SELECT * FROM `{$tablename}` WHERE (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -30 )}') AND ({$search_query})"
 			);
 
 			break;
 
 		case 'year':
 			$result = $wpdb->query(
-				"SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND {$search_query}"
+				"SELECT * FROM `{$tablename}` WHERE (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}') AND ({$search_query})"
 			);
 
 			break;
@@ -886,7 +887,7 @@ function wp_statistics_searchengine( $search_engine = 'all', $time = 'total' ) {
 
 		default:
 			$result = $wpdb->query(
-				"SELECT * FROM `{$tablename}` WHERE `last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', $time)}' AND {$search_query}"
+				"SELECT * FROM `{$tablename}` WHERE (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', $time)}') AND ({$search_query})"
 			);
 
 			break;
