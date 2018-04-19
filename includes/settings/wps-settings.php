@@ -34,6 +34,10 @@ if ( $wps_admin === false ) {
 											'General',
 											'wp-statistics'
 										); ?></li>
+                                    <li class="tab-link" data-tab="privacy-settings"><?php _e(
+											'Privacy',
+											'wp-statistics'
+										); ?></li>
                                     <li class="tab-link" data-tab="notifications-settings"><?php _e(
 											'Notifications',
 											'wp-statistics'
@@ -69,6 +73,9 @@ if ( $wps_admin === false ) {
 							<?php if ( $wps_admin ) { ?>
                                 <div id="general-settings" class="tab-content current">
 									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-general.php' ); ?>
+                                </div>
+                                <div id="privacy-settings" class="tab-content">
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-privacy.php' ); ?>
                                 </div>
                                 <div id="notifications-settings" class="tab-content">
 									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-notifications.php' ); ?>

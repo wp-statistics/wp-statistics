@@ -388,7 +388,7 @@ class WP_Statistics {
 	}
 
 	/**
-	 * loads the options from WordPress,
+	 * loads the options from WordPress
 	 */
 	public function load_options() {
 		$this->options = get_option( 'wp_statistics' );
