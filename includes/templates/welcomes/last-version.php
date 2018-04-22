@@ -21,50 +21,33 @@
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2><?php _e( 'GeoIP & Browscap improvements', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'Recent issue about GeoIP update database resolved and the Browscap improvements.', 'wp-statistics' ); ?></h4>
+                        <h2><?php _e( 'GDPR compliance', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'New Privacy tab added in the Setting page and you can see Opt-out option in this section.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
                 <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshot-maxmind-geoip.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/gdpr.png' ); ?>"/>
                 </div>
-            </section>
-
-            <section class="center-section">
-                <h2><?php _e( 'And recent changes', 'wp-statistics' ); ?></h2>
             </section>
 
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'New Feature!<br>Show Hits on the single posts/pages.', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'You can display the Hits of post or page on the site and specify that position.', 'wp-statistics' ); ?></h4>
+                        <h2><?php _e( 'Chart.js Updated!', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'The Chart.js library to v2.7.2', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshot-hits.png' ); ?>"/>
-                </div>
-            </section>
-
-            <section class="normal-section">
-                <div class="right">
-                    <div class="content-padding">
-                        <h2><?php _e( 'Added Pages Dropdown in the page stats.', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'Easily switch to pages for getting stats.', 'wp-statistics' ); ?></h4>
-                    </div>
-                </div>
-
-                <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/screenshot-page-dropdown.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/chartjs.png' ); ?>"/>
                 </div>
             </section>
 
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'New Add-Ons!', 'wp-statistics' ); ?></h2>
+                        <h2><?php _e( 'Add-Ons!', 'wp-statistics' ); ?></h2>
                         <h4><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
@@ -75,29 +58,6 @@
                     <a href="https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/" title="Advanced Reporting" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/add-on-advanced-reporting.png' ); ?>"/></a>
                     <a href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" title="Realtime stats" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/add-on-realtime-stats.png' ); ?>"/></a>
                 </div>
-            </section>
-
-            <section class="normal-section">
-                <div class="right">
-                    <div class="content-padding">
-                        <h2><?php _e( 'And the following issues have been solved in this version:', 'wp-statistics' ); ?></h2>
-                        <ul>
-                            <li><?php _e( 'Updated Browscap to v3.1.0 and fixed some issues.', 'wp-statistics' ); ?></li>
-                            <li><?php _e( 'Improvement Memory usage in the plugin when the Browscap is enabled.', 'wp-statistics' ); ?></li>
-                            <li><?php _e( 'Improvement Cache system and update Browscap database.', 'wp-statistics' ); ?></li>
-
-                            <li><?php _e( 'Fixed Issue to create the object of the main class.', 'wp-statistics' ); ?></li>
-                            <li><?php _e( 'Fixed Issue to get page title in empty search words option.', 'wp-statistics' ); ?></li>
-                            <li><?php _e( 'Fixed Issue to show date range in the charts.', 'wp-statistics' ); ?></li>
-                        </ul>
-                        <h4><?php echo sprintf( __( 'Please let us know about new problems by <a href="%s" target="_blank">contacting us</a>.', 'wp-statistics' ), 'https://wp-statistics.com/contact/' ); ?></h4>
-                    </div>
-                </div>
-
-                <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/icon-question.png' ); ?>"/>
-                </div>
-
             </section>
 
             <section class="center-section">
