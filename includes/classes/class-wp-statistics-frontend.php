@@ -65,7 +65,7 @@ class WP_Statistics_Frontend {
 			'%cancel_url%' => $action_url . '0',
 		);
 
-		$message = str_replace( array_keys( $template_vars ), array_values( $template_vars ), $opt_out_message );
+		$message = str_replace( array_keys( $template_vars ), array_values( $template_vars ), wp_kses_post($opt_out_message) );
 
 		echo printf( '<div class="wp-statistics-opt-out">%s</div>', $message );
 	}

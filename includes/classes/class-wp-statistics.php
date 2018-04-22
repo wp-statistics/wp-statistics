@@ -399,20 +399,37 @@ class WP_Statistics {
 	 * Check Opt-Out for data protection
 	 */
 	public function check_opt_out() {
+		// Ger IP hashed
+		$get_hash = $this->get_hash_string();
+
 		// Hash IP if the Opt-Out cookie is 0
 		if ( isset( $_COOKIE['wp_statistics_opt_out'] ) and $_COOKIE['wp_statistics_opt_out'] == 0 ) {
-			$this->ip_hash = $this->get_hash_string();
+			$this->ip_hash = $get_hash;
 
 			return;
 		}
 
 		// Set cookie and redirect to current URL
 		if ( empty( $_COOKIE['wp_statistics_opt_out'] ) and isset( $_GET['wp_statistics_opt_out'] ) ) {
+			global $wpdb;
+
 			// Set cookie
 			if ( $_GET['wp_statistics_opt_out'] == 1 ) {
-				@setcookie( 'wp_statistics_opt_out', '1', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false );
+				@setcookie( 'wp_statistics_opt_out', '1', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
 			} elseif ( $_GET['wp_statistics_opt_out'] == 0 ) {
-				@setcookie( 'wp_statistics_opt_out', '0', time() + 30 * 60, COOKIEPATH, COOKIE_DOMAIN, false );
+				@setcookie( 'wp_statistics_opt_out', '0', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
+
+				// Submit hash IP in the last visit
+				$wpdb->update(
+					$wpdb->prefix . "statistics_visitor",
+					array(
+						'ip' => $get_hash,
+					),
+					array(
+						'ip'           => $this->ip,
+						'last_counter' => $this->Current_date( 'Y-m-d' )
+					) );
+
 			}
 
 			// Build current URL
@@ -742,7 +759,7 @@ class WP_Statistics {
 		$options['check_online']          = '30';
 		$options['menu_bar']              = false;
 		$options['coefficient']           = '1';
-		$options['opt_out_message']       = 'Default message... <a href="%accept_url%">I Agree</a>, <a href="%cancel_url%">Deny</a>';
+		$options['opt_out_message']       = 'This website stores some user agent data. These data are used to provide a more personalized experience and to track your whereabouts around our website in compliance with the European General Data Protection Regulation. If you decide to opt-out of any future tracking, a cookie will be set up in your browser to remember this choice for one year. <a href="%accept_url%">I Agree</a>, <a href="%cancel_url%">Deny</a>';
 		$options['stats_report']          = false;
 		$options['time_report']           = 'daily';
 		$options['send_report']           = 'mail';
