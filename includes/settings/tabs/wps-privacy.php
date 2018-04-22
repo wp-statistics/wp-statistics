@@ -58,11 +58,11 @@ if ( $wps_nonce_valid ) {
             </td>
         </tr>
 
-        <?php if ( $WP_Statistics->get_option( 'allow_opt_out' ) ) {
-	        $hidden = "";
-        } else {
-	        $hidden = " style='display: none;'";
-        } ?>
+		<?php if ( $WP_Statistics->get_option( 'allow_opt_out' ) ) {
+			$hidden = "";
+		} else {
+			$hidden = " style='display: none;'";
+		} ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_show_opt_out_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="opt-out-message"><?php _e( 'Report body', 'wp-statistics' ); ?>:</label>
@@ -70,7 +70,7 @@ if ( $wps_nonce_valid ) {
 
             <td>
 				<?php wp_editor(
-					$WP_Statistics->get_option( 'opt_out_message' ),
+					wp_kses_post( $WP_Statistics->get_option( 'opt_out_message' ) ),
 					'opt-out-message',
 					array(
 						'media_buttons' => false,
