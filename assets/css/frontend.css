@@ -2,3 +2,12 @@
     content: '\f184';
     top: 2px;
 }
+
+.wp-statistics-opt-out {
+    width: 100%;
+    background: #e2e2e2a3;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    padding: 8px 0;
+}

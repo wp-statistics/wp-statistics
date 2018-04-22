@@ -177,7 +177,17 @@ class WP_Statistics {
 		$this->set_timezone();
 		$this->load_options();
 		$this->get_IP();
-		$this->set_ip_hash();
+
+		// Check if the has IP is enabled.
+		if ( $this->get_option( 'hash_ips' ) == true ) {
+			$this->ip_hash = $this->get_hash_string();
+		}
+
+		// Check the Opt-Out us enabled.
+		if ( $this->get_option( 'allow_opt_out' ) == true ) {
+			$this->check_opt_out();
+		}
+
 		$this->set_pages();
 
 		// Autoload composer
@@ -379,16 +389,66 @@ class WP_Statistics {
 	}
 
 	/**
-	 * Set IP Hash
+	 * Generate hash string
 	 */
-	public function set_ip_hash() {
-		if ( $this->get_option( 'hash_ips' ) == true ) {
-			$this->ip_hash = '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
+	private function get_hash_string() {
+		return '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
+	}
+
+	/**
+	 * Check Opt-Out for data protection
+	 */
+	public function check_opt_out() {
+		// Ger IP hashed
+		$get_hash = $this->get_hash_string();
+
+		// Hash IP if the Opt-Out cookie is 0
+		if ( isset( $_COOKIE['wp_statistics_opt_out'] ) and $_COOKIE['wp_statistics_opt_out'] == 0 ) {
+			$this->ip_hash = $get_hash;
+
+			return;
+		}
+
+		// Set cookie and redirect to current URL
+		if ( empty( $_COOKIE['wp_statistics_opt_out'] ) and isset( $_GET['wp_statistics_opt_out'] ) ) {
+			global $wpdb;
+
+			// Set cookie
+			if ( $_GET['wp_statistics_opt_out'] == 1 ) {
+				@setcookie( 'wp_statistics_opt_out', '1', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
+			} elseif ( $_GET['wp_statistics_opt_out'] == 0 ) {
+				@setcookie( 'wp_statistics_opt_out', '0', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
+
+				// Submit hash IP in the last visit
+				$wpdb->update(
+					$wpdb->prefix . "statistics_visitor",
+					array(
+						'ip' => $get_hash,
+					),
+					array(
+						'ip'           => $this->ip,
+						'last_counter' => $this->Current_date( 'Y-m-d' )
+					) );
+
+			}
+
+			// Build current URL
+			$current_url = esc_url( remove_query_arg( 'wp_statistics_opt_out', $_SERVER['REQUEST_URI'] ) );
+
+			// Redirect user to current location
+			header( 'Location: ' . $current_url );
+			exit;
+		}
+
+		// Show Opt-Out message for the user
+		if ( empty( $_COOKIE['wp_statistics_opt_out'] ) ) {
+			// Show Popup to visitor
+			add_action( 'wp_footer', 'WP_Statistics_Frontend::opt_out_confirmation' );
 		}
 	}
 
 	/**
-	 * loads the options from WordPress
+	 * Loads the options from WordPress
 	 */
 	public function load_options() {
 		$this->options = get_option( 'wp_statistics' );
@@ -672,9 +732,11 @@ class WP_Statistics {
 	 * During installation of WP Statistics some initial options need to be set.
 	 * This function will save a set of default options for the plugin.
 	 *
+	 * @param null $option_name
+	 *
 	 * @return array
 	 */
-	public function Default_Options() {
+	public function Default_Options( $option_name = null ) {
 		$options = array();
 
 		if ( ! isset( $wps_robotarray ) ) {
@@ -697,6 +759,7 @@ class WP_Statistics {
 		$options['check_online']          = '30';
 		$options['menu_bar']              = false;
 		$options['coefficient']           = '1';
+		$options['opt_out_message']       = 'This website stores some user agent data. These data are used to provide a more personalized experience and to track your whereabouts around our website in compliance with the European General Data Protection Regulation. If you decide to opt-out of any future tracking, a cookie will be set up in your browser to remember this choice for one year. <a href="%accept_url%">I Agree</a>, <a href="%cancel_url%">Deny</a>';
 		$options['stats_report']          = false;
 		$options['time_report']           = 'daily';
 		$options['send_report']           = 'mail';
@@ -710,6 +773,10 @@ class WP_Statistics {
 		$options['map_type']              = 'jqvmap';
 
 		$options['force_robot_update'] = true;
+
+		if ( $option_name and isset( $options[ $option_name ] ) ) {
+			return $options[ $option_name ];
+		}
 
 		return $options;
 	}

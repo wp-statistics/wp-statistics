@@ -127,7 +127,7 @@ class WP_Statistics_Hits {
 			// Get the Browser Capabilities use Browscap.
 			try {
 				$browscap = new Browscap();
-				$browscap->setCache($adapter);
+				$browscap->setCache( $adapter );
 				$current_browser = $browscap->getBrowser();
 
 				// Make sure we got an object back and it has the Crawler property before accessing it.

@@ -15,9 +15,8 @@ class WP_Statistics_Frontend {
 		// Add the honey trap code in the footer.
 		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_honeypot' );
 
-		if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
-			add_action( 'wp_enqueue_scripts', 'WP_Statistics_Frontend::enqueue_scripts' );
-		}
+		// Enqueue scripts & styles
+		add_action( 'wp_enqueue_scripts', 'WP_Statistics_Frontend::enqueue_scripts' );
 
 		// We can wait until the very end of the page to process the statistics,
 		// that way the page loads and displays quickly.
@@ -42,12 +41,33 @@ class WP_Statistics_Frontend {
 	 */
 	static function enqueue_scripts( $hook ) {
 		// Load our CSS to be used.
-		wp_enqueue_style(
-			'wpstatistics-css',
-			WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css',
-			true,
-			WP_Statistics::$reg['version']
+		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
+	}
+
+	/**
+	 * Show Opt-Out message for the visitors
+	 */
+	static function opt_out_confirmation() {
+		global $WP_Statistics;
+
+		if ( strpos( $_SERVER['REQUEST_URI'], '?' ) !== false ) {
+			$concat_char = '&';
+		} else {
+			$concat_char = '?';
+		}
+
+		// Generate request URL
+		$action_url      = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . $concat_char . 'wp_statistics_opt_out=';
+		$opt_out_message = $WP_Statistics->get_option( 'opt_out_message' );
+
+		$template_vars = array(
+			'%accept_url%' => $action_url . '1',
+			'%cancel_url%' => $action_url . '0',
 		);
+
+		$message = str_replace( array_keys( $template_vars ), array_values( $template_vars ), wp_kses_post($opt_out_message) );
+
+		echo printf( '<div class="wp-statistics-opt-out">%s</div>', $message );
 	}
 
 	/**
