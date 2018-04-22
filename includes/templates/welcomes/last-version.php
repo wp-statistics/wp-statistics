@@ -2,7 +2,19 @@
     <div class="wp-statistics-welcome">
         <h1><?php printf( __( 'Welcome to WP-Statistics&nbsp;%s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></h1>
 
-        <p class="about-text"><?php _e( 'Thank you for updating to the latest version!', 'wp-statistics' ); ?></p>
+        <p class="about-text">
+			<?php printf(
+				__(
+					'Thank you for updating to the latest version! we encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!',
+					'wp-statistics'
+				),
+				'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">',
+				'</a>'
+			); ?>
+
+            Submit your rating: <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
+        </p>
+
         <div class="wp-badge"><?php printf( __( 'Version %s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></div>
 
         <h2 class="nav-tab-wrapper wp-clearfix">
@@ -13,11 +25,6 @@
         </h2>
 
         <div data-content="whats-news" class="tab-content current">
-            <section class="center-section">
-                <h2><?php _e( 'Welcome to the WP-Statistics!', 'wp-statistics' ); ?></h2>
-                <h4><?php _e( 'You can see the new changes of WP-Statistics on this page.', 'wp-statistics' ); ?></h4>
-            </section>
-
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
