@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.3.5
+Stable tag: 12.3.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -286,8 +286,9 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 = 12.0.9 =
 This is a security fix, please update immediately.
 
-== Changelog ==
-= dev-master =
+== 12.3.6 ==
+* Added Privacy tab in the setting page and moved Hash IP Addresses and Store entire user agent in this tab.
+* Added Opt-out option in the Setting page -> Privacy for GDPR compliance.
 * Updated: Chart.js library to v2.7.2
 * Fixed: Issue to build search engine queries.
 
