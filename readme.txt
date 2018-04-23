@@ -287,6 +287,7 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 This is a security fix, please update immediately.
 
 == 12.3.6 ==
+* Note: GDPR, We Updated Our [Privacy Policy](https://wp-statistics.com/privacy-and-policy/).
 * Added Privacy tab in the setting page and moved Hash IP Addresses and Store entire user agent in this tab.
 * Added Opt-out option in the Setting page -> Privacy for GDPR compliance.
 * Updated: Chart.js library to v2.7.2
