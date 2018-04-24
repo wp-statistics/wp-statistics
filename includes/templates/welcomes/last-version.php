@@ -42,7 +42,7 @@
                 <div class="left">
                     <div class="content-padding">
                         <h2><?php _e( 'Chart.js Updated!', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'The Chart.js library to v2.7.2', 'wp-statistics' ); ?></h4>
+                        <h4><?php printf( __( 'The Chart.js library was updated to %s', 'wp-statistics' ), 'v2.7.2' ); ?></h4>
                     </div>
                 </div>
 
