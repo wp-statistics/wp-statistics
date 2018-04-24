@@ -68,7 +68,7 @@ class WP_Statistics_Updates {
 
 				$result = "<div class='updated settings-error'><p><strong>" . sprintf(
 						__(
-							'Error creating GeoIP database directory, make sure your web server has permissions to create directories in : %s',
+							'Error creating GeoIP database directory, make sure your web server has permissions to create directories in: %s',
 							'wp-statistics'
 						),
 						$upload_dir['basedir']

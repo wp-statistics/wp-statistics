@@ -110,7 +110,7 @@ if ( $wps_nonce_valid ) {
                 <label for="allonline"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e(
-						'Ignores the exclusion settings and records all users that are online (including self referrals and robots).  Should only be used for troubleshooting.',
+						'Ignores the exclusion settings and records all users that are online (including self referrals and robots). Should only be used for troubleshooting.',
 						'wp-statistics'
 					); ?></p>
             </td>

@@ -251,7 +251,7 @@ function formatSize( $size ) {
 					} ?></strong>
 
                 <p class="description"><?php _e(
-						'Is PHP Safe Mode active.  The GeoIP code is not supported in Safe Mode.',
+						'Is PHP Safe Mode active. The GeoIP code is not supported in Safe Mode.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -270,7 +270,7 @@ function formatSize( $size ) {
 					} ?></strong>
 
                 <p class="description"><?php _e(
-						'Is PHP compiled with IPv6 support.  You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.',
+						'Is PHP compiled with IPv6 support. You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -304,7 +304,7 @@ function formatSize( $size ) {
 					} ?></strong>
 
                 <p class="description"><?php _e(
-						'The PHP cURL Extension version you are running.  cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled.',
+						'The PHP cURL Extension version you are running. cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -323,7 +323,7 @@ function formatSize( $size ) {
 					} ?></strong>
 
                 <p class="description"><?php _e(
-						'If the gzopen() function is installed.  gzopen() is required for the GeoIP database to be downloaded successfully.',
+						'If the gzopen() function is installed. The gzopen() function is required for the GeoIP database to be downloaded successfully.',
 						'wp-statistics'
 					); ?></p>
             </td>

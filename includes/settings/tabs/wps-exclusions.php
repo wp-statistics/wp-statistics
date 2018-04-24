@@ -150,7 +150,7 @@ if ( $wps_nonce_valid ) {
 					echo htmlentities( $robotlist, ENT_QUOTES ); ?></textarea>
 
                 <p class="description"><?php echo __(
-						'A list of words (one per line) to match against to detect robots.  Entries must be at least 4 characters long or they will be ignored.',
+						'A list of words (one per line) to match against to detect robots. Entries must be at least 4 characters long or they will be ignored.',
 						'wp-statistics'
 					); ?></p>
                 <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo implode(
@@ -174,7 +174,7 @@ if ( $wps_nonce_valid ) {
 
                 <p class="description"><?php echo sprintf(
 						__(
-							'Force the robot list to be reset to the default after an update to WP Statistics takes place.  Note if this option is enabled any custom robots you have added to the list will be lost.',
+							'Force the robot list to be reset to the default after an update to WP Statistics takes place. Note if this option is enabled any custom robots you have added to the list will be lost.',
 							'wp-statistics'
 						),
 						$role
@@ -190,7 +190,7 @@ if ( $wps_nonce_valid ) {
                        value="<?php echo $WP_Statistics->get_option( 'robot_threshold' ); ?>">
 
                 <p class="description"><?php echo __(
-						'Treat visitors with more than this number of visits per day as robots.  0 = disabled.',
+						'Treat visitors with more than this number of visits per day as robots. 0 = disabled.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -211,7 +211,7 @@ if ( $wps_nonce_valid ) {
 					); ?></p>
 
                 <p class="description"><?php echo __(
-						'For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted.  To specify an IP address only, use a subnet value of 32 or 255.255.255.255.',
+						'For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are accepted. To specify an IP address only, use a subnet value of 32 or 255.255.255.255.',
 						'wp-statistics'
 					); ?></p>
 
@@ -337,7 +337,7 @@ if ( $wps_nonce_valid ) {
                 <br>
 
                 <p class="description"><?php echo __(
-						'Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour.  If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it\'s IP address and when the cache is updated resulting in some hits recorded.',
+						'Note: this option will NOT perform a reverse DNS lookup on each page load but instead cache the IP address for the provided hostnames for one hour. If you are excluding dynamically assigned hosts you may find some degree of overlap when the host changes it\'s IP address and when the cache is updated resulting in some hits recorded.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -427,7 +427,7 @@ if ( $wps_nonce_valid ) {
                 <br>
 
                 <p class="description"><?php echo __(
-						'Note: this option will NOT handle url parameters (anything after the ?), only to the script name.  Entries less than two characters will be ignored.',
+						'Note: this option will NOT handle url parameters (anything after the ?), only to the script name. Entries less than two characters will be ignored.',
 						'wp-statistics'
 					); ?></p>
             </td>

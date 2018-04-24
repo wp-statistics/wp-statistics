@@ -278,7 +278,7 @@ if ( $wps_nonce_valid ) {
 
                 <p class="description data">
 					<?php _e(
-						'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message.  Here are some examples:',
+						'Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message. Here are some examples:',
 						'wp-statistics'
 					); ?>
                     <br><br>

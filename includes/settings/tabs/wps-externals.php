@@ -215,7 +215,7 @@ if ( $wps_nonce_valid ) {
 					if ( ini_get( 'safe_mode' ) ) {
 						echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;* ';
 						_e(
-							'PHP safe mode detected!  GeoIP collection is not supported with PHP\'s safe mode enabled!',
+							'PHP safe mode detected! GeoIP collection is not supported with PHP\'s safe mode enabled!',
 							'wp-statistics'
 						);
 						echo '<br>';
