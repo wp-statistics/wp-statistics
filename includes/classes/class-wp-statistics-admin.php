@@ -665,7 +665,7 @@ class WP_Statistics_Admin {
                 sprintf( __( 'WP Statistics %s installed on', 'wp-statistics' ), WP_Statistics::$reg['version'] ) .
                 ' ' .
                 $blogname,
-                "Installation/upgrade complete!",
+                __( 'Installation/upgrade complete!', 'wp-statistics' ),
                 $headers
             );
         }
