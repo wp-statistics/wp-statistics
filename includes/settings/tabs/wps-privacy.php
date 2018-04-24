@@ -65,7 +65,7 @@ if ( $wps_nonce_valid ) {
 		} ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_show_opt_out_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="opt-out-message"><?php _e( 'Report body', 'wp-statistics' ); ?>:</label>
+                <label for="opt-out-message"><?php _e( 'Message body', 'wp-statistics' ); ?>:</label>
             </td>
 
             <td>
