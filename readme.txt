@@ -76,7 +76,7 @@ Still not having any luck? Open a new thread on one of the support forums and we
 4. Go to the plugin settings page and configure as required (note this will also download the GeoIP database for the fist time).
 
 == Frequently Asked Questions ==
-= What do I do if the plug does not work? =
+= What do I do if the plugin does not work? =
 Disable then enable the plugin.  You may also want to try removing and re-installing it as well.  If it is still not working, please open a new support thread on the [WordPress support forums](https://wordpress.org/support/plugin/wp-statistics).
 
 = All visitors are being set to unknown for their location? =
@@ -104,30 +104,6 @@ Version 8.8 is the first release that should install, upgrade and remove correct
 = Does WP Statistics track the time of the hits? =
 No.
 
-= The GeoIP database isn't downloading and when I force a download through the settings page I get the following error: "Error downloading GeoIP database from: https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz - Forbidden" =
-This means that MaxMind has block the IP address of your webserver, this is often the case if it has been blacklisted in the past due to abuse.
-
-You have two options:
-- Contact MaxMind and have them unblock your IP address
-- Manually download the database
-
-To manually download the database and install it take the following steps:
-
-- On another system (any PC will do) download the maxmind database from https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz
-- Decompress the database
-- Connect to your web host and create a "wp-statistics" directory in your wordpress uploads folder (usually it is located in wp-content, so you would create a directory "wp-content/uploads/wp-statistics").
-- Upload the GeoLite-Country.mmdb file to the folder you just created.
-
-You can also ask MaxMind to unblock your host.  Note that automatic updates will not function until you can successfully download the database from your web server.
-
-= I've activated the plugin but the menus don't show up and nothing happens? =
-
-WP Statistics requires PHP 5.4, if it has detected an older version of PHP installed it will active cleanly in WordPress but disable all functionality, you will have to upgrade to PHP 5.4 or above for it to function.  WP Statistics will display an error at the top of your plugin list to let you know.
-
-If there is no error message there may be something else wrong, your first thing to try is disabling your other plugins as they can sometimes cause conflicts.
-
-If you still don't see the menus, go to the support forums and open a new thread and we'll try to help out.
-
 = I'm using another statistics plugin/service and get different numbers for them, why? =
 
 Pretty much every plugin/service is going to give you different results for visits and visitors, there are several reasons for this:
@@ -137,30 +113,6 @@ Pretty much every plugin/service is going to give you different results for visi
 * Centralized exclusions
 
 Services that use centralized databases, like Google Analytics, for spam and robot detection have better detection than WP Statistics can.  The trade off of course is relaying on an external service.
-
-= When I upgrade or install WP Statistics I get an error message like "Parse error: syntax error, unexpected T_STRING, expecting T_CONSTANT_ENCAPSED_STRING or '('" =
-
-Since WP Statistics 8.0, PHP 5.3 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 8.0 and generates a parse error.
-
-Your hosting provider should have a newer version of PHP available, sometimes you must activate it through your hosting control panel.
-
-Since the last release of PHP 5.2 is over 5 years ago (Jan 2011) and is no longer supported or receiving security fixes, if your provider does not support a newer version you should probably be moving hosting providers.
-
-If you have done an upgrade and you can no longer access your site due to the parse error you will have to manually delete the wp-statistics directory from your wordpress/wp-content/plugins directory, either through your hosting providers control panel or FTP.
-
-Do not use older versions of WP Statistics as they have know security issues and will leave your site vulnerable to attack.
-
-= I've decided to stay with WP Statistics 7.4 even though its a bad idea but now WordPress continuously reports there are updates available, how can I stop that? =
-
-Don't, upgrade immediately to the latest version of WP Statistics.
-
-= Something has gone horribly wrong and my site no longer loads, how can I disable the plugin without access to the admin area? =
-
-You can manually disable plugins in WordPress by simply renaming the folder they are installed in.  Using FTP or your hosting providers file manager, go to your WordPress directory, from there go to wp-content/plugins and rename or delete the wp-statistics folder.
-
-= I'm getting an error in my PHP log like: Fatal error: Call to undefined method Composer\Autoload\ClassLoader::set() =
-
-We use several libraries and use a utility called Composer to manage the dependencies between them.  We try and keep our Composer library up to date but not all plugins do and sometimes we find conflicts with other plugins.  Try disabling your other plugins until the error goes away and then contact that plugin developer to update their Composer files.
 
 = The search words and search engine referrals are zero or very low, what's wrong? =
 
@@ -206,38 +158,6 @@ This means WP Statistics can't record the page hit or visitor information, which
 
 We do not recommend using a caching plugin along with WP Statistics.
 
-= I get an error message like "PHP Fatal error: Function name must be a string in /../parse-user-agent.php" =
-
-Do you have eAccelerator installed?  If so this is a known issue with eAccelerator and PHP's "anonymous" functions, which are used in the user agent parsing library.  As no new versions of eAccelerator have been released for over 6 years (since January 2010), you should look to replace it or disable it.
-
-= I've installed WP Statistics for the first time on a site and when I go to the statistics pages I get an error saying like "The following plugin table(s) do not exist in the database" =
-
-This is because something has gone wrong during the installation.
-
-At the end of the message will be a list of tables that are missing, you can use the provided link to re-run the installation routine.  If that does not resolve the issue and the visitors table is the only table listed, you may want to check your MySQL version.  Some older versions of MySQL (in the 5.0.x series) have issues with complex compound indexes, which we use on the visitors table.  If this is the case, check with your hosting provider and see if they can upgrade to a newer version of MySQL.
-
-If you still have issues open a new thread on the support forum and we'll try and resolve it for you.
-
-= I've changed the permissions for WP Statistics access and now I've lost access to it myself, how to I fix it? =
-
-If you have access to phpMyAdmin (or similar tool) you can query the wp_options table:
-
-	SELECT * FROM wp_options WHERE option_name = 'wp_statistics';
-
-Then edit the value, inside the string will be something like (note: "edit_plugins" will be whatever permission you selected):
-
-	s:15:"read_capability";s:12:"edit_plugins";s:17:"manage_capability";s:12:"edit_plugins";
-
-Replace it with:
-
-	s:15:"read_capability";s:14:"manage_options";s:17:"manage_capability";s:14:"manage_options";
-
-= I see error messages in my PHP log like "WordPress database error Duplicate entry 'YYYY-MM-DD' for key 'unique_date' for ..." =
-
-This is caused by a race condition in the code, it's safe to ignore (it shouldn't be labeled as an error really, but that is part of WordPress that we can't control).
-
-It happens when a new day starts and two visitors hit the site at nearly the same time for the first visit of the day. Both try and create a new row in the table to track the days visits, but only one of them success and the other throws this warning.
-
 = PHP 7 Support =
 
 WP Statistics is PHP 7 compliant, however some versions of PHP 7 have bugs that can cause issues.  One know issue is with PHP 7.0.4 causing memory exhaustion errors, newer versions of PHP 7 do not have this issue.
@@ -258,17 +178,13 @@ If IPv6 is not enabled, you may see an warning like:
 
 	Warning: inet_pton() [function.inet-pton]: Unrecognized address 2003:0006:1507:5d71:6114:d8bd:80c2:1090
 
-= When I upgrade or install WP Statistics 11.0 I get an error message like "Parse error: syntax error, unexpected T_USE, expecting T_FUNCTION in..." =
+= GDPR Support =
 
-Since WP Statistics 11.0, PHP 5.4 or above has been required.  If you are using an older version of PHP it cannot understand the new syntax included in WP Statistics 11.0 and generates a parse error.
+The greatest advantage of WP Statistics is, that all the data is saved locally in WordPress.
 
-Your hosting provider should have a newer version of PHP available, sometimes you must activate it through your hosting control panel.
+This helps a lot while implementing the new GDPR restrictions because it’s not necessary to create a data processing contract with an external company!
 
-Since the last release of PHP 5.3 is over 2 years ago (Aug 2014) and is no longer supported or receiving security fixes, if your provider does not support a newer version you should probably be moving hosting providers.
-
-If you have done an upgrade and you can no longer access your site due to the parse error you will have to manually delete the wp-statistics directory from your wordpress/wp-content/plugins directory, either through your hosting providers control panel or FTP.
-
-You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new fixes or features will be added to that version and you should move to a newer version of PHP as soon as possible.  You can download the 10.3 here: https://downloads.wordpress.org/plugin/wp-statistics.10.3.zip
+Introduction of a popup with “Accept” and “Deny” before collection data and Hash IP addresses is a useful option on the WP-Statistics.
 
 == Screenshots ==
 1. Overview
@@ -286,7 +202,8 @@ You may also downgrade to WP Statistics 10.3 as a temporary measure, but no new 
 = 12.0.9 =
 This is a security fix, please update immediately.
 
-== 12.3.6 ==
+== Changelog ==
+= 12.3.6 =
 * Note: GDPR, We Updated Our [Privacy Policy](https://wp-statistics.com/privacy-and-policy/).
 * Added Privacy tab in the setting page and moved Hash IP Addresses and Store entire user agent in this tab.
 * Added Opt-out option in the Setting page -> Privacy for GDPR compliance.
