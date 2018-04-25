@@ -261,7 +261,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php _e( 'Report body:', 'wp-statistics' ); ?></label>
+                <label for="content-report"><?php _e( 'Message body:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
