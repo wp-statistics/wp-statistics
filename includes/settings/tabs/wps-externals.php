@@ -232,7 +232,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="browscap-enable"><?php _e( 'browscap usage:', 'wp-statistics' ); ?></label>
+                <label for="browscap-enable"><?php _e( 'Browscap usage:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -242,7 +242,7 @@ if ( $wps_nonce_valid ) {
                 <label for="browscap-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e(
-						'The browscap database will be downloaded and used to detect robots.',
+						'The Browscap database will be downloaded and used to detect robots.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -250,14 +250,14 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="browscap-update"><?php _e( 'Update browscap Info:', 'wp-statistics' ); ?></label>
+                <label for="browscap-update"><?php _e( 'Update Browscap Info:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
                 <input id="browscap-update" type="checkbox"
                        name="wps_update_browscap" <?php echo $WP_Statistics->get_option( 'update_browscap' ) == true
 					? "checked='checked'" : ''; ?>>
-                <label for="browscap-update"><?php _e( 'Download browscap Database', 'wp-statistics' ); ?></label>
+                <label for="browscap-update"><?php _e( 'Download Browscap Database', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e(
 						'Save changes on this page to download the update.',
@@ -301,7 +301,7 @@ if ( $wps_nonce_valid ) {
 				}
 				?>
                 <p class="description"><?php _e(
-						'Download of the browscap database will be scheduled for once a week.',
+						'Download of the Browscap database will be scheduled for once a week.',
 						'wp-statistics'
 					); ?></p>
             </td>

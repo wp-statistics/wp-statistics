@@ -426,7 +426,7 @@ function formatSize( $size ) {
 
         <tr valign="top">
             <th scope="row">
-				<?php _e( 'browscap Cache File', 'wp-statistics' ); ?>:
+				<?php _e( 'Browscap Cache File', 'wp-statistics' ); ?>:
             </th>
 
             <td>
@@ -435,7 +435,7 @@ function formatSize( $size ) {
 					$browscap_filedate = @filemtime( $browscap_filename );
 
 					if ( $browscap_filedate === false ) {
-						_e( 'browscap cache file does not exist.', 'wp-statistics' );
+						_e( 'Browscap cache file does not exist.', 'wp-statistics' );
 					} else {
 						echo formatSize( @filesize( $browscap_filename ) ) .
 						     __( ', created on ', 'wp-statistics' ) .
@@ -446,7 +446,7 @@ function formatSize( $size ) {
 					} ?></strong>
 
                 <p class="description"><?php _e(
-						'The file size and date of the browscap cache file.',
+						'The file size and date of the Browscap cache file.',
 						'wp-statistics'
 					); ?></p>
             </td>
