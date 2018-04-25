@@ -26,7 +26,7 @@ if ( $wps_nonce_valid ) {
 			                  ' [' .
 			                  $WP_Statistics->Current_Date() .
 			                  ']',
-			'post_content' => __( 'This is the honey pot for WP Statistics to use, do not delete.', 'wp-statistics' ),
+			'post_content' => __( 'This is the Honey Pot for WP Statistics to use, do not delete.', 'wp-statistics' ),
 			'post_status'  => 'publish',
 			'post_author'  => 1,
 		);
@@ -231,7 +231,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Use honey pot:', 'wp-statistics' ); ?></th>
+            <th scope="row"><?php _e( 'Use Honey Pot:', 'wp-statistics' ); ?></th>
             <td>
                 <input id="use_honeypot" type="checkbox" value="1"
                        name="wps_use_honeypot" <?php echo $WP_Statistics->get_option( 'use_honeypot' ) == true
@@ -241,14 +241,14 @@ if ( $wps_nonce_valid ) {
 					); ?></label>
 
                 <p class="description"><?php echo __(
-						'Use a honey pot page to identify robots.',
+						'Use a Honey Pot page to identify robots.',
 						'wp-statistics'
 					); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="honeypot_postid"><?php _e( 'Honey pot post id', 'wp-statistics' ); ?></label>
+            <th scope="row"><label for="honeypot_postid"><?php _e( 'Honey Pot post id', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="honeypot_postid" type="text"
@@ -256,11 +256,11 @@ if ( $wps_nonce_valid ) {
                        size="5" name="wps_honeypot_postid">
 
                 <p class="description"><?php echo __(
-						'The post id to use for the honeypot page.',
+						'The post id to use for the Honey Pot page.',
 						'wp-statistics'
 					); ?></p>
                 <input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"><label
-                        for="wps_create_honeypot"><?php _e( 'Create a new honey pot page', 'wp-statistics' ); ?></label>
+                        for="wps_create_honeypot"><?php _e( 'Create a new Honey Pot page', 'wp-statistics' ); ?></label>
             </td>
         </tr>
 
