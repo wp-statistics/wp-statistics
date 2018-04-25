@@ -5,7 +5,7 @@
         <p class="about-text">
 			<?php printf(
 				__(
-					'Thank you for updating to the latest version! we encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!',
+					'Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!',
 					'wp-statistics'
 				),
 				'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">',

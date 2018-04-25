@@ -251,7 +251,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="honeypot_postid"><?php _e( 'Honey Pot post id', 'wp-statistics' ); ?></label>
+            <th scope="row"><label for="honeypot_postid"><?php _e( 'Honey Pot post ID', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="honeypot_postid" type="text"
@@ -259,7 +259,7 @@ if ( $wps_nonce_valid ) {
                        size="5" name="wps_honeypot_postid">
 
                 <p class="description"><?php echo __(
-						'The post id to use for the Honey Pot page.',
+						'The post ID to use for the Honey Pot page.',
 						'wp-statistics'
 					); ?></p>
                 <input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"><label
@@ -436,7 +436,7 @@ if ( $wps_nonce_valid ) {
                 <br>
 
                 <p class="description"><?php echo __(
-						'Note: this option will NOT handle url parameters (anything after the ?), only to the script name. Entries less than two characters will be ignored.',
+						'Note: this option will NOT handle URL parameters (anything after the ?), only to the script name. Entries less than two characters will be ignored.',
 						'wp-statistics'
 					); ?></p>
             </td>

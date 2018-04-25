@@ -206,7 +206,7 @@ class WP_Statistics_Shortcode {
 							'label'       => __( 'Post/Page ID', 'wp-statistics' ),
 							'attr'        => 'id',
 							'type'        => 'number',
-							'description' => __( 'The post/page id to get page statistics on.', 'wp-statistics' ),
+							'description' => __( 'The post/page ID to get page statistics on.', 'wp-statistics' ),
 							'meta'        => array( 'size' => '5' ),
 						),
 					),

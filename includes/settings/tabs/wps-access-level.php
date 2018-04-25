@@ -109,7 +109,7 @@ if ( $wps_nonce_valid ) {
 					); ?></p>
 
                 <p class="description"><?php echo __(
-						'Each of the above casscades the rights upwards in the default WordPress configuration. So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.',
+						'Each of the above cascades the rights upwards in the default WordPress configuration. So for example selecting publish_posts grants the right to Authors, Editors, Admins and Super Admins.',
 						'wp-statistics'
 					); ?></p>
 
