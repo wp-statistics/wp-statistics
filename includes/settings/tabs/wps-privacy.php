@@ -45,7 +45,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="allow_opt_out"><?php _e( 'Allow Opt-out', 'wp-statistics' ); ?>:</label>
+                <label for="allow_opt_out"><?php _e( 'Allow Opt-out:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -65,7 +65,7 @@ if ( $wps_nonce_valid ) {
 		} ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_show_opt_out_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="opt-out-message"><?php _e( 'Message body', 'wp-statistics' ); ?>:</label>
+                <label for="opt-out-message"><?php _e( 'Message body:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -94,7 +94,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hash_ips"><?php _e( 'Hash IP Addresses', 'wp-statistics' ); ?>:</label>
+                <label for="hash_ips"><?php _e( 'Hash IP Addresses:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -103,8 +103,14 @@ if ( $wps_nonce_valid ) {
 					? "checked='checked'" : ''; ?>>
                 <label for="hash_ips"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
-                <p class="description"><?php _e(
-						'This feature will not store IP addresses in the database but instead used a unique hash.  The "Store entire user agent string" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled.',
+                <p class="description"><?php echo __(
+						'This feature will not store IP addresses in the database but instead used a unique hash.',
+						'wp-statistics'
+					) . ' ' . __(
+						'The "Store entire user agent string" setting will be disabled if this is selected.',
+						'wp-statistics'
+					) . ' ' . __(
+						'You will not be able to recover the IP addresses in the future to recover location information if this is enabled.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -112,7 +118,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="store_ua"><?php _e( 'Store entire user agent string', 'wp-statistics' ); ?>:</label>
+                <label for="store_ua"><?php _e( 'Store entire user agent string:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>

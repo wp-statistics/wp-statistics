@@ -63,7 +63,7 @@ if ( $wps_nonce_valid ) {
 			?>
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-enable"><?php _e( 'GeoIP collection', 'wp-statistics' ); ?>:</label>
+                    <label for="geoip-enable"><?php _e( 'GeoIP collection:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
@@ -81,7 +81,7 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-update"><?php _e( 'Update GeoIP Info', 'wp-statistics' ); ?>:</label>
+                    <label for="geoip-update"><?php _e( 'Update GeoIP Info:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
@@ -99,8 +99,7 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Schedule monthly update of GeoIP DB', 'wp-statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Schedule monthly update of GeoIP DB:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
@@ -151,10 +150,9 @@ if ( $wps_nonce_valid ) {
             <tr valign="top">
                 <th scope="row">
                     <label for="geoip-schedule"><?php _e(
-							'Populate missing GeoIP after update of GeoIP DB',
+							'Populate missing GeoIP after update of GeoIP DB:',
 							'wp-statistics'
-						); ?>
-                        :</label>
+						); ?></label>
                 </th>
 
                 <td>
@@ -172,8 +170,7 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e( 'Country code for private IP addresses', 'wp-statistics' ); ?>
-                        :</label>
+                    <label for="geoip-schedule"><?php _e( 'Country code for private IP addresses:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
@@ -183,8 +180,11 @@ if ( $wps_nonce_valid ) {
 						       ENT_QUOTES
 					       ); ?>">
 
-                    <p class="description"><?php _e(
-							'The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use "000" (three zeros) to use "Unknown" as the country code.',
+                    <p class="description"><?php echo __(
+							'The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).',
+							'wp-statistics'
+						) . ' ' . __(
+							'Use "000" (three zeros) to use "Unknown" as the country code.',
 							'wp-statistics'
 						); ?></p>
                 </td>
@@ -218,7 +218,7 @@ if ( $wps_nonce_valid ) {
 					if ( ini_get( 'safe_mode' ) ) {
 						echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;* ';
 						_e(
-							'PHP safe mode detected!  GeoIP collection is not supported with PHP\'s safe mode enabled!',
+							'PHP safe mode detected! GeoIP collection is not supported with PHP\'s safe mode enabled!',
 							'wp-statistics'
 						);
 						echo '<br>';
@@ -235,7 +235,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="browscap-enable"><?php _e( 'browscap usage', 'wp-statistics' ); ?>:</label>
+                <label for="browscap-enable"><?php _e( 'Browscap usage:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -245,7 +245,7 @@ if ( $wps_nonce_valid ) {
                 <label for="browscap-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e(
-						'The browscap database will be downloaded and used to detect robots.',
+						'The Browscap database will be downloaded and used to detect robots.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -253,14 +253,14 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="browscap-update"><?php _e( 'Update browscap Info', 'wp-statistics' ); ?>:</label>
+                <label for="browscap-update"><?php _e( 'Update Browscap Info:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
                 <input id="browscap-update" type="checkbox"
                        name="wps_update_browscap" <?php echo $WP_Statistics->get_option( 'update_browscap' ) == true
 					? "checked='checked'" : ''; ?>>
-                <label for="browscap-update"><?php _e( 'Download browscap Database', 'wp-statistics' ); ?></label>
+                <label for="browscap-update"><?php _e( 'Download Browscap Database', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e(
 						'Save changes on this page to download the update.',
@@ -271,8 +271,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="browscap-schedule"><?php _e( 'Schedule weekly update of browscap DB', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="browscap-schedule"><?php _e( 'Schedule weekly update of browscap DB:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -305,7 +304,7 @@ if ( $wps_nonce_valid ) {
 				}
 				?>
                 <p class="description"><?php _e(
-						'Download of the browscap database will be scheduled for once a week.',
+						'Download of the Browscap database will be scheduled for once a week.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -328,8 +327,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-enable"><?php _e( 'Piwik Referrer Spam Blacklist usage', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="referrerspam-enable"><?php _e( 'Piwik Referrer Spam Blacklist usage:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -347,8 +345,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-update"><?php _e( 'Update Piwik Referrer Spam Blacklist Info', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="geoip-update"><?php _e( 'Update Piwik Referrer Spam Blacklist Info:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -370,10 +367,9 @@ if ( $wps_nonce_valid ) {
         <tr valign="top">
             <th scope="row">
                 <label for="referrerspam-schedule"><?php _e(
-						'Schedule weekly update of Piwik Referrer Spam Blacklist DB',
+						'Schedule weekly update of Piwik Referrer Spam Blacklist DB:',
 						'wp-statistics'
-					); ?>
-                    :</label>
+					); ?></label>
             </th>
 
             <td>

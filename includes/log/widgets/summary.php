@@ -9,7 +9,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
         <tbody>
 		<?php if ( $WP_Statistics->get_option( 'useronline' ) ) { ?>
             <tr>
-                <th><?php _e( 'Online Users', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Online Users:', 'wp-statistics' ); ?></th>
                 <th colspan="2" id="th-colspan">
 					<span><a
                                 href="admin.php?page=<?php echo WP_Statistics::$page['online']; ?>"><?php echo wp_statistics_useronline(); ?></a></span>
@@ -34,7 +34,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             </tr>
 
             <tr>
-                <th><?php _e( 'Today', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Today:', 'wp-statistics' ); ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' .
 						     WP_Statistics::$page['visitors'] .
@@ -56,7 +56,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             </tr>
 
             <tr>
-                <th><?php _e( 'Yesterday', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Yesterday:', 'wp-statistics' ); ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' .
 						     WP_Statistics::$page['visitors'] .
@@ -78,7 +78,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             </tr>
 
             <tr>
-                <th><?php _e( 'Last 7 Days', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Last 7 Days:', 'wp-statistics' ); ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' .
 						     WP_Statistics::$page['visitors'] .
@@ -100,7 +100,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             </tr>
 
             <tr>
-                <th><?php _e( 'Last 30 Days', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Last 30 Days:', 'wp-statistics' ); ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' .
 						     WP_Statistics::$page['visitors'] .
@@ -122,7 +122,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             </tr>
 
             <tr>
-                <th><?php _e( 'Last 365 Days', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Last 365 Days:', 'wp-statistics' ); ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' .
 						     WP_Statistics::$page['visitors'] .
@@ -144,7 +144,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             </tr>
 
             <tr>
-                <th><?php _e( 'Total', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Total:', 'wp-statistics' ); ?></th>
                 <th class="th-center"><?php if ( $WP_Statistics->get_option( 'visitors' ) ) {
 						echo '<a href="admin.php?page=' .
 						     WP_Statistics::$page['visitors'] .
@@ -219,7 +219,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
 			}
 			?>
             <tr>
-                <th><?php _e( 'Daily Total', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Daily Total:', 'wp-statistics' ); ?></th>
                 <td id="th-colspan" class="th-center"><span><?php echo number_format_i18n( $se_today_total ); ?></span>
                 </td>
                 <td id="th-colspan" class="th-center">
@@ -227,7 +227,7 @@ function wp_statistics_generate_summary_postbox_content( $search_engines, $searc
             </tr>
 
             <tr>
-                <th><?php _e( 'Total', 'wp-statistics' ); ?>:</th>
+                <th><?php _e( 'Total:', 'wp-statistics' ); ?></th>
                 <th colspan="2" id="th-colspan">
                     <span><?php echo number_format_i18n( wp_statistics_searchengine( 'all' ) ); ?></span></th>
             </tr>

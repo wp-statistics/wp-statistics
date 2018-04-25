@@ -197,7 +197,7 @@ class File extends AbstractAdapter
     {
         if (!isset($this->root)) {
             throw new Exception(
-                'You have to provide a path to read/store the browscap cache file',
+                __( 'You have to provide a path to read/store the Browscap cache file', 'wp-statistics' ),
                 Exception::CACHE_DIR_MISSING
             );
         }

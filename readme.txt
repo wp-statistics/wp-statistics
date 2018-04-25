@@ -47,7 +47,7 @@ Translations are done by people just like you, help make WP Statistics available
 WP-Statistics is being developed on GitHub, If you’re interested in contributing to plugin, Please look at [Github page](https://github.com/wp-statistics/wp-statistics)
 
 = Support =
-We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:
+We're sorry you're having problem with WP Statistics and we're happy to help out. Here are a few things to do before contacting us:
 
 * Have you read the [FAQs](https://wordpress.org/plugins/wp-statistics/faq/)?
 * Have you read the [documentation](http://wp-statistics.com/category/documentation)?

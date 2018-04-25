@@ -94,7 +94,7 @@
     <tr valign="top">
         <td scope="row" colspan="2">
             <p><?php _e(
-					"We're sorry you're having problem with WP Statistics and we're happy to help out.  Here are a few things to do before contacting us:",
+					"We're sorry you're having problem with WP Statistics and we're happy to help out. Here are a few things to do before contacting us:",
 					'wp-statistics'
 				); ?></p>
 

@@ -5,14 +5,14 @@
         <p class="about-text">
 			<?php printf(
 				__(
-					'Thank you for updating to the latest version! we encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!',
+					'Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!',
 					'wp-statistics'
 				),
 				'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">',
 				'</a>'
 			); ?>
 
-            Submit your rating: <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
+            <?php _e( 'Submit your rating:', 'wp-statistics' ); ?> <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
         </p>
 
         <div class="wp-badge"><?php printf( __( 'Version %s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></div>
@@ -42,7 +42,7 @@
                 <div class="left">
                     <div class="content-padding">
                         <h2><?php _e( 'Chart.js Updated!', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'The Chart.js library to v2.7.2', 'wp-statistics' ); ?></h4>
+                        <h4><?php printf( __( 'The Chart.js library was updated to %s', 'wp-statistics' ), 'v2.7.2' ); ?></h4>
                     </div>
                 </div>
 

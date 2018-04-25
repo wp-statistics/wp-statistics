@@ -434,7 +434,7 @@ class WP_Statistics_Admin_Pages {
 			wp_die(
 				'<div class="error"><p>' . sprintf(
 					__(
-						'The following plugin table(s) do not exist in the database, please re-run the %s install routine %s: ',
+						'The following plugin table(s) do not exist in the database, please re-run the %s install routine %s:',
 						'wp-statistics'
 					),
 					'<a href="' . $get_bloginfo_url . '">',

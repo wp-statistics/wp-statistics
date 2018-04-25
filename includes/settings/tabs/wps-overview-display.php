@@ -33,7 +33,7 @@ if ( $wps_admin ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="disable-map"><?php _e( 'Disable dashboard widgets', 'wp-statistics' ); ?>:</label>
+                <label for="disable-map"><?php _e( 'Disable dashboard widgets:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -59,7 +59,7 @@ if ( $wps_admin ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="disable-map"><?php _e( 'Disable post/page editor widget', 'wp-statistics' ); ?>:</label>
+                <label for="disable-map"><?php _e( 'Disable post/page editor widget:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -85,7 +85,7 @@ if ( $wps_admin ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="disable-map"><?php _e( 'Disable map', 'wp-statistics' ); ?>:</label>
+                <label for="disable-map"><?php _e( 'Disable map:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>

@@ -18,7 +18,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="populate-submit"><?php _e( 'Countries', 'wp-statistics' ); ?>:</label>
+                <label for="populate-submit"><?php _e( 'Countries:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -39,7 +39,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="populate-submit"><?php _e( 'Hash IP Addresses', 'wp-statistics' ); ?>:</label>
+                <label for="populate-submit"><?php _e( 'Hash IP Addresses:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>

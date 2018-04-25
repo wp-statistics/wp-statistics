@@ -40,7 +40,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint"><?php _e( 'Enabled', 'wp-statistics' ); ?>:</label>
+                <label for="wps_schedule_dbmaint"><?php _e( 'Enabled:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -58,7 +58,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_days"><?php _e( 'Purge data older than', 'wp-statistics' ); ?>:</label>
+                <label for="wps_schedule_dbmaint_days"><?php _e( 'Purge data older than:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -69,7 +69,13 @@ if ( $wps_nonce_valid ) {
 				); ?>"/>
 				<?php _e( 'Days', 'wp-statistics' ); ?>
                 <p class="description"><?php echo __(
-						'The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance.',
+						'The number of days to keep statistics for.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Minimum value is 30 days.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Invalid values will disable the daily maintenance.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -82,7 +88,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor"><?php _e( 'Enabled', 'wp-statistics' ); ?>:</label>
+                <label for="wps_schedule_dbmaint_visitor"><?php _e( 'Enabled:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -102,9 +108,9 @@ if ( $wps_nonce_valid ) {
         <tr valign="top">
             <th scope="row">
                 <label for="wps_schedule_dbmaint_visitor_hits"><?php _e(
-						'Purge visitors with more than',
+						'Purge visitors with more than:',
 						'wp-statistics'
-					); ?>:</label>
+					); ?></label>
             </th>
 
             <td>
@@ -115,7 +121,13 @@ if ( $wps_nonce_valid ) {
 				); ?>"/>
 				<?php _e( 'Hits', 'wp-statistics' ); ?>
                 <p class="description"><?php echo __(
-						'The number of hits required to delete the visitor.  Minimum value is 10 hits.  Invalid values will disable the daily maintenance.',
+						'The number of hits required to delete the visitor.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Minimum value is 10 hits.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Invalid values will disable the daily maintenance.',
 						'wp-statistics'
 					); ?></p>
             </td>

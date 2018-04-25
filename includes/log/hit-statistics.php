@@ -150,7 +150,7 @@
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'Chart Total', 'wp-statistics' ); ?>:</th>
+                                <th><?php _e( 'Chart Total:', 'wp-statistics' ); ?></th>
                                 <th class="th-center"><span><?php echo number_format_i18n( $visit_total ); ?></span>
                                 </th>
                                 <th class="th-center"><span><?php echo number_format_i18n( $visitor_total ); ?></span>
@@ -158,7 +158,7 @@
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'All Time Total', 'wp-statistics' ); ?>:</th>
+                                <th><?php _e( 'All Time Total:', 'wp-statistics' ); ?></th>
                                 <th class="th-center">
                                     <span><?php echo number_format_i18n( wp_statistics_visit( 'total' ) ); ?></span>
                                 </th>

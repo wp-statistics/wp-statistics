@@ -759,7 +759,7 @@ class WP_Statistics {
 		$options['check_online']          = '30';
 		$options['menu_bar']              = false;
 		$options['coefficient']           = '1';
-		$options['opt_out_message']       = 'This website stores some user agent data. These data are used to provide a more personalized experience and to track your whereabouts around our website in compliance with the European General Data Protection Regulation. If you decide to opt-out of any future tracking, a cookie will be set up in your browser to remember this choice for one year. <a href="%accept_url%">I Agree</a>, <a href="%cancel_url%">Deny</a>';
+		$options['opt_out_message']       = __( 'This website stores some user agent data. These data are used to provide a more personalized experience and to track your whereabouts around our website in compliance with the European General Data Protection Regulation. If you decide to opt-out of any future tracking, a cookie will be set up in your browser to remember this choice for one year.', 'wp-statistics' ) .' <a href="%accept_url%">' . __( 'I Agree', 'wp-statistics' ) . '</a>, <a href="%cancel_url%">' . __( 'Deny', 'wp-statistics' ) . '</a>';
 		$options['stats_report']          = false;
 		$options['time_report']           = 'daily';
 		$options['send_report']           = 'mail';
