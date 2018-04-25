@@ -182,7 +182,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="empty-table"><?php _e( 'Empty Table', 'wp-statistics' ); ?>:</label>
+                <label for="empty-table"><?php _e( 'Empty Table:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -209,7 +209,7 @@
 
         <tr>
             <th scope="row">
-                <label for="purge-data"><?php _e( 'Purge records older than', 'wp-statistics' ); ?>:</label>
+                <label for="purge-data"><?php _e( 'Purge records older than:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -231,8 +231,7 @@
 
         <tr>
             <th scope="row">
-                <label for="purge-visitor-hits"><?php _e( 'Purge visitors with more than', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="purge-visitor-hits"><?php _e( 'Purge visitors with more than:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -259,7 +258,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="delete-agent"><?php _e( 'Delete Agents', 'wp-statistics' ); ?>:</label>
+                <label for="delete-agent"><?php _e( 'Delete Agents:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -290,7 +289,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="delete-platform"><?php _e( 'Delete Platforms', 'wp-statistics' ); ?>:</label>
+                <label for="delete-platform"><?php _e( 'Delete Platforms:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>

@@ -40,7 +40,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint"><?php _e( 'Enabled', 'wp-statistics' ); ?>:</label>
+                <label for="wps_schedule_dbmaint"><?php _e( 'Enabled:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -58,7 +58,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_days"><?php _e( 'Purge data older than', 'wp-statistics' ); ?>:</label>
+                <label for="wps_schedule_dbmaint_days"><?php _e( 'Purge data older than:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -82,7 +82,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor"><?php _e( 'Enabled', 'wp-statistics' ); ?>:</label>
+                <label for="wps_schedule_dbmaint_visitor"><?php _e( 'Enabled:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -102,9 +102,9 @@ if ( $wps_nonce_valid ) {
         <tr valign="top">
             <th scope="row">
                 <label for="wps_schedule_dbmaint_visitor_hits"><?php _e(
-						'Purge visitors with more than',
+						'Purge visitors with more than:',
 						'wp-statistics'
-					); ?>:</label>
+					); ?></label>
             </th>
 
             <td>

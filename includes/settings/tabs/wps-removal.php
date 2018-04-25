@@ -95,7 +95,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="reset-plugin"><?php _e( 'Reset options', 'wp-statistics' ); ?>:</label>
+                <label for="reset-plugin"><?php _e( 'Reset options:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -111,7 +111,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="remove-plugin"><?php _e( 'Remove data and settings', 'wp-statistics' ); ?>:</label>
+                <label for="remove-plugin"><?php _e( 'Remove data and settings:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>

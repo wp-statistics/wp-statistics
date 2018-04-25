@@ -60,7 +60,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <td scope="row" style="vertical-align: top;">
-                <label for="email-report"><?php _e( 'E-mail addresses', 'wp-statistics' ); ?>:</label>
+                <label for="email-report"><?php _e( 'E-mail addresses:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -83,7 +83,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <td scope="row">
-                <label for="browscap-report"><?php _e( 'Browscap', 'wp-statistics' ); ?>:</label>
+                <label for="browscap-report"><?php _e( 'Browscap:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -101,7 +101,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <td scope="row">
-                <label for="geoip-report"><?php _e( 'GeoIP', 'wp-statistics' ); ?>:</label>
+                <label for="geoip-report"><?php _e( 'GeoIP:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -119,7 +119,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <td scope="row">
-                <label for="prune-report"><?php _e( 'Pruning', 'wp-statistics' ); ?>:</label>
+                <label for="prune-report"><?php _e( 'Pruning:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -137,7 +137,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <td scope="row">
-                <label for="upgrade-report"><?php _e( 'Upgrade', 'wp-statistics' ); ?>:</label>
+                <label for="upgrade-report"><?php _e( 'Upgrade:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -159,7 +159,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="stats-report"><?php _e( 'Statistical reporting', 'wp-statistics' ); ?>:</label>
+                <label for="stats-report"><?php _e( 'Statistical reporting:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -179,7 +179,7 @@ if ( $wps_nonce_valid ) {
 		} ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="time-report"><?php _e( 'Schedule', 'wp-statistics' ); ?>:</label>
+                <label for="time-report"><?php _e( 'Schedule:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -222,7 +222,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="send-report"><?php _e( 'Send reports via', 'wp-statistics' ); ?>:</label>
+                <label for="send-report"><?php _e( 'Send reports via:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -261,7 +261,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php _e( 'Report body', 'wp-statistics' ); ?>:</label>
+                <label for="content-report"><?php _e( 'Report body:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>

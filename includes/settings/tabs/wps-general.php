@@ -69,7 +69,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="useronline"><?php _e( 'Online User', 'wp-statistics' ); ?>:</label>
+                <label for="useronline"><?php _e( 'Online User:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -84,7 +84,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="check_online"><?php _e( 'Check for online users every', 'wp-statistics' ); ?>:</label>
+                <label for="check_online"><?php _e( 'Check for online users every:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -100,7 +100,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="allonline"><?php _e( 'Record all user', 'wp-statistics' ); ?>:</label>
+                <label for="allonline"><?php _e( 'Record all user:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -122,7 +122,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="visits"><?php _e( 'Visits', 'wp-statistics' ); ?>:</label>
+                <label for="visits"><?php _e( 'Visits:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -141,7 +141,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="visitors"><?php _e( 'Visitors', 'wp-statistics' ); ?>:</label>
+                <label for="visitors"><?php _e( 'Visitors:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -156,7 +156,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="coefficient"><?php _e( 'Coefficient per visitor', 'wp-statistics' ); ?>:</label>
+                <label for="coefficient"><?php _e( 'Coefficient per visitor:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -176,7 +176,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="pages"><?php _e( 'Pages', 'wp-statistics' ); ?>:</label>
+                <label for="pages"><?php _e( 'Pages:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -191,7 +191,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="all_pages"><?php _e( 'Track all pages', 'wp-statistics' ); ?>:</label>
+                <label for="all_pages"><?php _e( 'Track all pages:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -209,8 +209,7 @@ if ( $wps_nonce_valid ) {
 			?>
             <tr valign="top">
                 <th scope="row">
-                    <label for="strip_uri_parameters"><?php _e( 'Strip parameters from URI', 'wp-statistics' ); ?>
-                        :</label>
+                    <label for="strip_uri_parameters"><?php _e( 'Strip parameters from URI:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
@@ -231,8 +230,7 @@ if ( $wps_nonce_valid ) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="disable_column"><?php _e( 'Disable hits column in post/pages list', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="disable_column"><?php _e( 'Disable hits column in post/pages list:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -247,7 +245,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="show_hits"><?php _e( 'Show hits in posts/pages in the site', 'wp-statistics' ); ?>:</label>
+                <label for="show_hits"><?php _e( 'Show hits in posts/pages in the site:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -267,7 +265,7 @@ if ( $wps_nonce_valid ) {
 		} ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_show_hits_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="display_hits_position"><?php _e( 'Display position', 'wp-statistics' ); ?>:</label>
+                <label for="display_hits_position"><?php _e( 'Display position:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -300,7 +298,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="menu-bar"><?php _e( 'Show stats in menu bar', 'wp-statistics' ); ?>:</label>
+                <label for="menu-bar"><?php _e( 'Show stats in menu bar:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -321,8 +319,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hide_notices"><?php _e( 'Hide admin notices about non active features', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="hide_notices"><?php _e( 'Hide admin notices about non active features:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -344,8 +341,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="addsearchwords"><?php _e( 'Add page title to empty search words', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="addsearchwords"><?php _e( 'Add page title to empty search words:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -404,7 +400,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="chart-totals"><?php _e( 'Include totals', 'wp-statistics' ); ?>:</label>
+                <label for="chart-totals"><?php _e( 'Include totals:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>

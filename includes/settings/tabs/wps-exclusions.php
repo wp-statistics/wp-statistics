@@ -78,7 +78,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps-exclusions"><?php _e( 'Record exclusions', 'wp-statistics' ); ?></label>:
+            <th scope="row"><label for="wps-exclusions"><?php _e( 'Record exclusions:', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="wps-exclusions" type="checkbox" value="1"
@@ -133,7 +133,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Robot list', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Robot list:', 'wp-statistics' ); ?></th>
             <td>
 				<textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
 					$robotlist = $WP_Statistics->get_option( 'robotlist' );
@@ -162,8 +162,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="force_robot_update"><?php _e( 'Force robot list update after upgrades', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="force_robot_update"><?php _e( 'Force robot list update after upgrades:', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="force_robot_update" type="checkbox" value="1"
@@ -184,8 +183,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps_robot_threshold"><?php _e( 'Robot visit threshold', 'wp-statistics' ); ?>
-                    :</label>
+            <th scope="row"><label for="wps_robot_threshold"><?php _e( 'Robot visit threshold:', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold"
@@ -199,7 +197,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded IP address list', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded IP address list:', 'wp-statistics' ); ?></th>
             <td>
 				<textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code"
                           dir="ltr"><?php echo htmlentities(
@@ -233,7 +231,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Use honey pot', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Use honey pot:', 'wp-statistics' ); ?></th>
             <td>
                 <input id="use_honeypot" type="checkbox" value="1"
                        name="wps_use_honeypot" <?php echo $WP_Statistics->get_option( 'use_honeypot' ) == true
@@ -250,7 +248,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="honeypot_postid"><?php _e( 'Honey pot post id', 'wp-statistics' ); ?>:</label>
+            <th scope="row"><label for="honeypot_postid"><?php _e( 'Honey pot post id', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="honeypot_postid" type="text"
@@ -268,8 +266,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="corrupt_browser_info"><?php _e( 'Treat corrupt browser info as a bot', 'wp-statistics' ); ?>
-                    :</label>
+                <label for="corrupt_browser_info"><?php _e( 'Treat corrupt browser info as a bot:', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="corrupt_browser_info" type="checkbox" value="1"
@@ -289,7 +286,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded countries list', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded countries list:', 'wp-statistics' ); ?></th>
             <td>
 				<textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="10" class="code"
                           dir="ltr"><?php echo htmlentities(
@@ -305,7 +302,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Included countries list', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Included countries list:', 'wp-statistics' ); ?></th>
             <td>
 				<textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="10" class="code"
                           dir="ltr"><?php echo htmlentities(
@@ -325,7 +322,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded hosts list', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded hosts list:', 'wp-statistics' ); ?></th>
             <td>
 				<textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code"
                           dir="ltr"><?php echo htmlentities(
@@ -351,7 +348,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded login page', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded login page:', 'wp-statistics' ); ?></th>
             <td>
                 <input id="wps-exclude-loginpage" type="checkbox" value="1"
                        name="wps_exclude_loginpage" <?php echo $WP_Statistics->get_option( 'exclude_loginpage' ) == true
@@ -367,7 +364,7 @@ if ( $wps_nonce_valid ) {
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded RSS feeds', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded RSS feeds:', 'wp-statistics' ); ?></th>
             <td>
                 <input id="wps-exclude-feeds" type="checkbox" value="1"
                        name="wps_exclude_feeds" <?php echo $WP_Statistics->get_option( 'exclude_feeds' ) == true
@@ -383,7 +380,7 @@ if ( $wps_nonce_valid ) {
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded 404 pages', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded 404 pages:', 'wp-statistics' ); ?></th>
             <td>
                 <input id="wps-exclude-404s" type="checkbox" value="1"
                        name="wps_exclude_404s" <?php echo $WP_Statistics->get_option( 'exclude_404s' ) == true
@@ -399,7 +396,7 @@ if ( $wps_nonce_valid ) {
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded AJAX calls', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded AJAX calls:', 'wp-statistics' ); ?></th>
             <td>
                 <input id="wps-exclude-ajax" type="checkbox" value="1"
                        name="wps_exclude_ajax" <?php echo $WP_Statistics->get_option( 'exclude_ajax' ) == true
@@ -415,7 +412,7 @@ if ( $wps_nonce_valid ) {
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e( 'Excluded URLs list', 'wp-statistics' ); ?>:</th>
+            <th scope="row"><?php _e( 'Excluded URLs list:', 'wp-statistics' ); ?></th>
             <td>
 				<textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code"
                           dir="ltr"><?php echo htmlentities(

@@ -7,7 +7,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Re-run Install', 'wp-statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Re-run Install:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -28,7 +28,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Countries', 'wp-statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Countries:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -78,7 +78,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Visits Table', 'wp-statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Visits Table:', 'wp-statistics' ); ?></label>
             </th>
             <td>
 				<?php
@@ -130,7 +130,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="index-submit"><?php _e( 'Convert', 'wp-statistics' ); ?>:</label>
+                <label for="index-submit"><?php _e( 'Convert:', 'wp-statistics' ); ?></label>
             </th>
             <td>
 				<?php

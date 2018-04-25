@@ -262,13 +262,13 @@ foreach ( $excluded_reasons as $reason ) {
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'Chart Total', 'wp-statistics' ); ?>:</th>
+                                <th><?php _e( 'Chart Total:', 'wp-statistics' ); ?></th>
                                 <th class="th-center"><span><?php echo number_format_i18n( $excluded_total ); ?></span>
                                 </th>
                             </tr>
 
                             <tr>
-                                <th><?php _e( 'All Time Total', 'wp-statistics' ); ?>:</th>
+                                <th><?php _e( 'All Time Total:', 'wp-statistics' ); ?></th>
                                 <th class="th-center">
                                     <span><?php echo number_format_i18n( $excuded_all_time ); ?></span>
                                 </th>

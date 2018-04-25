@@ -45,7 +45,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="allow_opt_out"><?php _e( 'Allow Opt-out', 'wp-statistics' ); ?>:</label>
+                <label for="allow_opt_out"><?php _e( 'Allow Opt-out:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -65,7 +65,7 @@ if ( $wps_nonce_valid ) {
 		} ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_show_opt_out_option'>
             <td scope="row" style="vertical-align: top;">
-                <label for="opt-out-message"><?php _e( 'Message body', 'wp-statistics' ); ?>:</label>
+                <label for="opt-out-message"><?php _e( 'Message body:', 'wp-statistics' ); ?></label>
             </td>
 
             <td>
@@ -94,7 +94,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hash_ips"><?php _e( 'Hash IP Addresses', 'wp-statistics' ); ?>:</label>
+                <label for="hash_ips"><?php _e( 'Hash IP Addresses:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -112,7 +112,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="store_ua"><?php _e( 'Store entire user agent string', 'wp-statistics' ); ?>:</label>
+                <label for="store_ua"><?php _e( 'Store entire user agent string:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>

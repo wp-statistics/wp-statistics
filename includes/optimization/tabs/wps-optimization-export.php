@@ -10,7 +10,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="table-to-export"><?php _e( 'Export from', 'wp-statistics' ); ?>:</label>
+                    <label for="table-to-export"><?php _e( 'Export from:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
@@ -30,7 +30,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="export-file-type"><?php _e( 'Export To', 'wp-statistics' ); ?>:</label>
+                    <label for="export-file-type"><?php _e( 'Export To:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
@@ -47,7 +47,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="export-headers"><?php _e( 'Include Header Row', 'wp-statistics' ); ?>:</label>
+                    <label for="export-headers"><?php _e( 'Include Header Row:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
