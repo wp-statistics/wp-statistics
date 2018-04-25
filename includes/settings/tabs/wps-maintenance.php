@@ -69,7 +69,13 @@ if ( $wps_nonce_valid ) {
 				); ?>"/>
 				<?php _e( 'Days', 'wp-statistics' ); ?>
                 <p class="description"><?php echo __(
-						'The number of days to keep statistics for.  Minimum value is 30 days.  Invalid values will disable the daily maintenance.',
+						'The number of days to keep statistics for.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Minimum value is 30 days.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Invalid values will disable the daily maintenance.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -115,7 +121,13 @@ if ( $wps_nonce_valid ) {
 				); ?>"/>
 				<?php _e( 'Hits', 'wp-statistics' ); ?>
                 <p class="description"><?php echo __(
-						'The number of hits required to delete the visitor.  Minimum value is 10 hits.  Invalid values will disable the daily maintenance.',
+						'The number of hits required to delete the visitor.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Minimum value is 10 hits.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Invalid values will disable the daily maintenance.',
 						'wp-statistics'
 					); ?></p>
             </td>

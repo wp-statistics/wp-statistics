@@ -88,8 +88,11 @@ if ( $wps_nonce_valid ) {
 						'wp-statistics'
 					); ?></label>
 
-                <p class="description"><?php _e(
-						'This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.  This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits.',
+                <p class="description"><?php echo __(
+						'This will record all the excluded hits in a separate table with the reasons why it was excluded but no other information.',
+						'wp-statistics'
+					) . ' ' . __(
+						'This will generate a lot of data but is useful if you want to see the total number of hits your site gets, not just actual user visits.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -295,7 +298,10 @@ if ( $wps_nonce_valid ) {
 					); ?></textarea>
 
                 <p class="description"><?php echo __(
-						'A list of country codes (one per line, two letters each) to exclude from statistics collection.  Use "000" (three zeros) to exclude unknown countries.',
+						'A list of country codes (one per line, two letters each) to exclude from statistics collection.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Use "000" (three zeros) to exclude unknown countries.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -311,7 +317,10 @@ if ( $wps_nonce_valid ) {
 					); ?></textarea>
 
                 <p class="description"><?php echo __(
-						'A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.  Use "000" (three zeros) to exclude unknown countries.',
+						'A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.',
+						'wp-statistics'
+					) . ' ' . __(
+						'Use "000" (three zeros) to exclude unknown countries.',
 						'wp-statistics'
 					); ?></p>
             </td>

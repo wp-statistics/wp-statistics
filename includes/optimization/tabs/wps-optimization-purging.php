@@ -216,8 +216,11 @@
                 <input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
                 <label for="purge-data"><?php _e( 'Days', 'wp-statistics' ); ?></label>
 
-                <p class="description"><?php _e(
-						'Delete user statistics data older than the selected number of days.  Minimum value is 30 days.',
+                <p class="description"><?php echo __(
+						'Delete user statistics data older than the selected number of days.',
+						'wp-statistics'
+          ) . ' ' . __(
+            'Minimum value is 30 days.',
 						'wp-statistics'
 					); ?></p>
                 <input id="purge-data-submit" class="button button-primary" type="submit"
@@ -239,8 +242,17 @@
                        value="10"/>
                 <label for="purge-visitor-hits"><?php _e( 'Hits', 'wp-statistics' ); ?></label>
 
-                <p class="description"><?php _e(
-						'Delete user statistics data where the user has more than the defined number of hits in a day.  This can be useful to clear up old data when your site has been hit by a bot.  This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.  Minimum value is 10 hits.',
+                <p class="description"><?php echo __(
+						'Delete user statistics data where the user has more than the defined number of hits in a day.',
+						'wp-statistics'
+          ) . ' ' . __(
+            'This can be useful to clear up old data when your site has been hit by a bot.',
+						'wp-statistics'
+          ) . ' ' . __(
+            'This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.',
+            'wp-statistics'
+          ) . ' ' . __(
+            'Minimum value is 10 hits.',
 						'wp-statistics'
 					); ?></p>
                 <input id="purge-visitor-hits-submit" class="button button-primary" type="submit"

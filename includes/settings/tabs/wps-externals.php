@@ -180,8 +180,11 @@ if ( $wps_nonce_valid ) {
 						       ENT_QUOTES
 					       ); ?>">
 
-                    <p class="description"><?php _e(
-							'The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).  Use "000" (three zeros) to use "Unknown" as the country code.',
+                    <p class="description"><?php echo __(
+							'The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).',
+							'wp-statistics'
+						) . ' ' . __(
+							'Use "000" (three zeros) to use "Unknown" as the country code.',
 							'wp-statistics'
 						); ?></p>
                 </td>

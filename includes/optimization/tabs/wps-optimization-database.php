@@ -50,8 +50,17 @@
                     <input id="index-submit" class="button button-primary" type="button"
                            value="<?php _e( 'Update Now!', 'wp-statistics' ); ?>" name="index-submit"
                            onclick="location.href=document.URL+'&index=1&tab=database'">
-                    <p class="description"><?php _e(
-							'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistitors table, delete duplicate entries and add the index.',
+                    <p class="description"><?php echo __(
+							'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.',
+              'wp-statistics'
+            ) . ' ' . __(
+              'Newer installs protect against this with a unique index on the table.',
+              'wp-statistics'
+            ) . ' ' . __(
+              'To create the index on the older installs duplicate entries must be deleted first.',
+              'wp-statistics'
+            ) . ' ' . __(
+              'Clicking "Update Now" will scan the vistitors table, delete duplicate entries and add the index.',
 							'wp-statistics'
 						); ?></p>
                     <p class="description"><?php _e(
@@ -62,8 +71,11 @@
 				} else {
 					$dbupdates['date_ip_agent'] = false;
 					?>
-                    <p class="description"><?php _e(
-							'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.  Newer installs protect against this with a unique index on the table.',
+                    <p class="description"><?php echo __(
+							'Older installs of WP Statistics allow for duplicate entries in the visitors table in a corner case.',
+							'wp-statistics'
+            ) . ' ' . __(
+              'Newer installs protect against this with a unique index on the table.',
 							'wp-statistics'
 						); ?></p>
                     <p class="description"><?php _e(
@@ -95,8 +107,17 @@
                     <input id="visits-submit" class="button button-primary" type="button"
                            value="<?php _e( 'Update Now!', 'wp-statistics' ); ?>" name="visit-submit"
                            onclick="location.href=document.URL+'&visits=1&tab=database'">
-                    <p class="description"><?php _e(
-							'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.  To create the index on the older installs duplicate entries must be deleted first.  Clicking "Update Now" will scan the vistits table, delete duplicate entries and add the index.',
+                    <p class="description"><?php echo __(
+							'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.',
+							'wp-statistics'
+            ) . ' ' . __(
+              'Newer installs protect against this with a unique index on the table.',
+							'wp-statistics'
+            ) . ' ' . __(
+              'To create the index on the older installs duplicate entries must be deleted first.',
+							'wp-statistics'
+            ) . ' ' . __(
+              'Clicking "Update Now" will scan the vistits table, delete duplicate entries and add the index.',
 							'wp-statistics'
 						); ?></p>
                     <p class="description"><?php _e(
@@ -107,8 +128,11 @@
 				} else {
 					$dbupdates['unique_date'] = false;
 					?>
-                    <p class="description"><?php _e(
-							'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.  Newer installs protect against this with a unique index on the table.',
+                    <p class="description"><?php echo __(
+							'Older installs of WP Statistics allow for duplicate entries in the visits table in a corner case.',
+							'wp-statistics'
+            ) . ' ' . __(
+              'Newer installs protect against this with a unique index on the table.',
 							'wp-statistics'
 						); ?></p>
                     <p class="description"><?php _e(
@@ -140,8 +164,11 @@
                     <input id="visits-submit" class="button button-primary" type="button"
                            value="<?php _e( 'Convert Now!', 'wp-statistics' ); ?>" name="search-submit"
                            onclick="location.href=document.URL+'&search=1&tab=database'">
-                    <p class="description"><?php _e(
-							'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used.',
+                    <p class="description"><?php echo __(
+							'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.',
+							'wp-statistics'
+            ) . ' ' . __(
+              'A new table has been created to hold this information in a more scalable fashion, however the old data must first be converted to the new format before it can be used.',
 							'wp-statistics'
 						); ?></p>
                     <p class="description"><?php _e(
@@ -151,8 +178,11 @@
 					<?php
 				} else {
 					?>
-                    <p class="description"><?php _e(
-							'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.  A new table has been created to hold this information in a more scalable fashion.',
+                    <p class="description"><?php echo __(
+							'Older installs of WP Statistics store details of searches in the visitors table which can become a performance issue on large datasets.',
+							'wp-statistics'
+            ) . ' ' . __(
+              'A new table has been created to hold this information in a more scalable fashion.',
 							'wp-statistics'
 						); ?></p>
                     <p class="description"><?php _e(

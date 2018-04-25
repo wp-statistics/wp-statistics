@@ -103,8 +103,14 @@ if ( $wps_nonce_valid ) {
 					? "checked='checked'" : ''; ?>>
                 <label for="hash_ips"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
-                <p class="description"><?php _e(
-						'This feature will not store IP addresses in the database but instead used a unique hash.  The "Store entire user agent string" setting will be disabled if this is selected.  You will not be able to recover the IP addresses in the future to recover location information if this is enabled.',
+                <p class="description"><?php echo __(
+						'This feature will not store IP addresses in the database but instead used a unique hash.',
+						'wp-statistics'
+					) . ' ' . __(
+						'The "Store entire user agent string" setting will be disabled if this is selected.',
+						'wp-statistics'
+					) . ' ' . __(
+						'You will not be able to recover the IP addresses in the future to recover location information if this is enabled.',
 						'wp-statistics'
 					); ?></p>
             </td>
