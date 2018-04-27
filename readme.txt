@@ -203,6 +203,9 @@ Introduction of a popup with “Accept” and “Deny” before collection data 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Improvement i18n strings.
+
 = 12.3.6 =
 * Note: GDPR, We Updated Our [Privacy Policy](https://wp-statistics.com/privacy-and-policy/).
 * Added Privacy tab in the setting page and moved Hash IP Addresses and Store entire user agent in this tab.
