@@ -841,18 +841,12 @@ class WP_Statistics {
 		if ( $this->ip !== false ) {
 			return $this->ip;
 		}
+		
+		$temp_ip = false;
 
-		// Try to detect originating IP
-		if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
-			$temp_ip = $this->get_ip_value( $_SERVER['HTTP_X_FORWARDED_FOR'] );
-		} else if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
-			$temp_ip = $this->get_ip_value( $_SERVER['HTTP_X_REAL_IP'] );
-		} else if ( array_key_exists( 'HTTP_CLIENT_IP', $_SERVER ) ) {
-			$temp_ip = $this->get_ip_value( $_SERVER['HTTP_CLIENT_IP'] );
-		} else if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+		// By default we use the remote address the server has.
+		if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
 			$temp_ip = $this->get_ip_value( $_SERVER['REMOTE_ADDR'] );
-		} else {
-			$temp_ip = '127.0.0.1';
 		}
 
 		if ( false !== $temp_ip ) {
@@ -873,6 +867,7 @@ class WP_Statistics {
 			'HTTP_X_FORWARDED',
 			'HTTP_FORWARDED_FOR',
 			'HTTP_FORWARDED',
+			'HTTP_X_REAL_IP',
 		);
 
 		foreach ( $envs as $env ) {
