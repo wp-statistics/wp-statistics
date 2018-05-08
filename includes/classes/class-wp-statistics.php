@@ -402,8 +402,8 @@ class WP_Statistics {
 		// Ger IP hashed
 		$get_hash = $this->get_hash_string();
 
-		// Hash IP if the Opt-Out cookie is 0
-		if ( isset( $_COOKIE['wp_statistics_opt_out'] ) and $_COOKIE['wp_statistics_opt_out'] == 0 ) {
+		// Hash IP if the Opt-Out cookie is 0 or DNT is set
+		if ( ( isset( $_COOKIE['wp_statistics_opt_out'] ) and  $_COOKIE['wp_statistics_opt_out'] == 0 ) or ( isset( $_SERVER['HTTP_DNT'] ) and $_SERVER['HTTP_DNT'] == '1' and ( !isset( $_COOKIE['wp_statistics_opt_out'] ) or $_COOKIE['wp_statistics_opt_out'] != 1 ) ) ) {
 			$this->ip_hash = $get_hash;
 
 			return;
