@@ -205,7 +205,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = dev-master =
 * Improvement i18n strings.
-* Improvement detect IPs in proxies/CDNs/Docker/etc.
+* Improvement GDPR, Supported for DNT-Header.
 
 = 12.3.6 =
 * Note: GDPR, We Updated Our [Privacy Policy](https://wp-statistics.com/privacy-and-policy/).
