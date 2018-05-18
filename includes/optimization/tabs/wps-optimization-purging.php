@@ -170,6 +170,39 @@
                 });
         });
 
+        jQuery("#delete-ip-submit").click(function () {
+
+            var value = jQuery('#delete-ip').val();
+
+            if (value == 0)
+                return false;
+
+            var agree = confirm('<?php _e( 'Are you sure?', 'wp-statistics' ); ?>');
+
+            if (!agree)
+                return false;
+
+            jQuery("#delete-ip-submit").attr("disabled", "disabled");
+            jQuery("#delete-ip-status").html("<img src='<?php echo plugins_url( 'wp-statistics' ); ?>/assets/images/loading.gif'/>");
+
+            var data = {
+                'action': 'wp_statistics_delete_ip',
+                'ip-address': value,
+            };
+
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'post',
+                data: data,
+                datatype: 'json',
+            })
+                .always(function (result) {
+                    jQuery("#delete-ip-status").html("");
+                    jQuery("#delete-ip-result").html(result);
+                    jQuery("#delete-ip-submit").removeAttr("disabled");
+                    jQuery("#delete-ip").value('');
+                });
+        });
     });
 </script>
 
@@ -202,7 +235,6 @@
                        value="<?php _e( 'Clear now!', 'wp-statistics' ); ?>" name="empty-table-submit"
                        Onclick="return false;"/>
                 <span id="empty-status"></span>
-
                 <div id="empty-result"></div>
             </td>
         </tr>
@@ -227,7 +259,6 @@
                        value="<?php _e( 'Purge now!', 'wp-statistics' ); ?>" name="purge-data-submit"
                        Onclick="return false;"/>
                 <span id="purge-data-status"></span>
-
                 <div id="purge-data-result"></div>
             </td>
         </tr>
@@ -259,7 +290,6 @@
                        value="<?php _e( 'Purge now!', 'wp-statistics' ); ?>" name="purge-visitor-hits-submit"
                        Onclick="return false;"/>
                 <span id="purge-visitor-hits-status"></span>
-
                 <div id="purge-visitor-hits-result"></div>
             </td>
         </tr>
@@ -294,7 +324,6 @@
                        value="<?php _e( 'Delete now!', 'wp-statistics' ); ?>" name="delete-agents-submit"
                        Onclick="return false;">
                 <span id="delete-agents-status"></span>
-
                 <div id="delete-agents-result"></div>
             </td>
         </tr>
@@ -307,26 +336,45 @@
             <td>
                 <select dir="ltr" id="delete-platform" name="delete-platform">
                     <option value="0"><?php _e( 'Please select', 'wp-statistics' ); ?></option>
-					<?php
-					$platforms = wp_statistics_platform_list();
+                    <?php
+                    $platforms = wp_statistics_platform_list();
 
-					foreach ( $platforms as $platform ) {
-						$pid = preg_replace( "/[^a-zA-Z]/", "", $platform );
-						echo "<option value='$platform' id='platform-" . $pid . "-id'>" . $platform . "</option>";
-					}
-					?>
+                    foreach ( $platforms as $platform ) {
+                        $pid = preg_replace( "/[^a-zA-Z]/", "", $platform );
+                        echo "<option value='$platform' id='platform-" . $pid . "-id'>" . $platform . "</option>";
+                    }
+                    ?>
                 </select>
 
                 <p class="description"><?php _e(
-						'All visitor data will be lost for this platform type.',
-						'wp-statistics'
-					); ?></p>
+                        'All visitor data will be lost for this platform type.',
+                        'wp-statistics'
+                    ); ?></p>
                 <input id="delete-platforms-submit" class="button button-primary" type="submit"
                        value="<?php _e( 'Delete now!', 'wp-statistics' ); ?>" name="delete-platforms-submit"
                        Onclick="return false;">
                 <span id="delete-platforms-status"></span>
-
                 <div id="delete-platforms-result"></div>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="delete-ip"><?php _e( 'Delete IP:', 'wp-statistics' ); ?></label>
+            </th>
+
+            <td>
+                <input dir="ltr" id="delete-ip" name="delete-ip"/>
+
+                <p class="description"><?php _e(
+                        'All visitor data will be lost for this IP.',
+                        'wp-statistics'
+                    ); ?></p>
+                <input id="delete-ip-submit" class="button button-primary" type="submit"
+                       value="<?php _e( 'Delete now!', 'wp-statistics' ); ?>" name="delete-ip-submit"
+                       Onclick="return false;">
+                <span id="delete-ip-status"></span>
+                <div id="delete-ip-result"></div>
             </td>
         </tr>
         </tbody>

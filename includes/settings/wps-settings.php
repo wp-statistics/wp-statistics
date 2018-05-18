@@ -43,7 +43,7 @@ if ($wps_admin === false) {
                                             'wp-statistics'
                                         ); ?></li>
                                     <li class="tab-link" data-tab="overview-display-settings"><?php _e(
-                                            'Dashboard/Overview',
+                                            'Dashboard',
                                             'wp-statistics'
                                         ); ?></li>
                                     <li class="tab-link" data-tab="access-settings"><?php _e(

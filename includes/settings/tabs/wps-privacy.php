@@ -44,6 +44,10 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
+            <td scope="row" colspan="2"><?php echo __(sprintf('If you want to delete visitor data, Please <a href="%s">click here</a>.', admin_url('admin.php?page=wps_optimization_page&tab=purging')), 'wp-statistics'); ?></td>
+        </tr>
+
+        <tr valign="top">
             <th scope="row">
                 <label for="allow_opt_out"><?php _e( 'Allow Opt-out:', 'wp-statistics' ); ?></label>
             </th>

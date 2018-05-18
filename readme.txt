@@ -206,6 +206,7 @@ This is a security fix, please update immediately.
 = dev-master =
 * Improvement i18n strings.
 * Improvement GDPR, Supported for DNT-Header.
+* Improvement GDPR, Added new option for delete visitor data with IP addresse.
 
 = 12.3.6 =
 * Note: GDPR, We Updated Our [Privacy Policy](https://wp-statistics.com/privacy-and-policy/).
