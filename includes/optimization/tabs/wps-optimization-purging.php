@@ -364,7 +364,7 @@
             </th>
 
             <td>
-                <input dir="ltr" id="delete-ip" name="delete-ip"/>
+                <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
                 <p class="description"><?php _e(
                         'All visitor data will be lost for this IP.',
