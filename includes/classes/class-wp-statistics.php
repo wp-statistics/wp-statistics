@@ -399,18 +399,11 @@ class WP_Statistics {
 	 * Check Opt-Out for data protection
 	 */
 	public function check_opt_out() {
-		// Ger IP hashed
+		// Get IP hashed
 		$get_hash = $this->get_hash_string();
-
-		// Hash IP if the Opt-Out cookie is 0 or DNT is set
-		if ( ( isset( $_COOKIE['wp_statistics_opt_out'] ) and  $_COOKIE['wp_statistics_opt_out'] == 0 ) or ( isset( $_SERVER['HTTP_DNT'] ) and $_SERVER['HTTP_DNT'] == '1' and ( !isset( $_COOKIE['wp_statistics_opt_out'] ) or $_COOKIE['wp_statistics_opt_out'] != 1 ) ) ) {
-			$this->ip_hash = $get_hash;
-
-			return;
-		}
-
-		// Set cookie and redirect to current URL
-		if ( empty( $_COOKIE['wp_statistics_opt_out'] ) and isset( $_GET['wp_statistics_opt_out'] ) ) {
+		
+		// Set cookie and redirect to current URL if requested
+		if ( isset( $_GET['wp_statistics_opt_out'] ) ) {
 			global $wpdb;
 
 			// Set cookie
@@ -438,6 +431,13 @@ class WP_Statistics {
 			// Redirect user to current location
 			header( 'Location: ' . $current_url );
 			exit;
+		}		
+
+		// Hash IP if the Opt-Out cookie is 0 or DNT is set
+		if ( ( isset( $_COOKIE['wp_statistics_opt_out'] ) and  $_COOKIE['wp_statistics_opt_out'] == 0 ) or ( isset( $_SERVER['HTTP_DNT'] ) and $_SERVER['HTTP_DNT'] == '1' and ( !isset( $_COOKIE['wp_statistics_opt_out'] ) or $_COOKIE['wp_statistics_opt_out'] != 1 ) ) ) {
+			$this->ip_hash = $get_hash;
+
+			return;
 		}
 
 		// Show Opt-Out message for the user
