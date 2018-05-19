@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.3.6
+Stable tag: 12.3.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -203,7 +203,7 @@ Introduction of a popup with “Accept” and “Deny” before collection data 
 This is a security fix, please update immediately.
 
 == Changelog ==
-= dev-master =
+= 12.3.6.1 =
 * Improvement i18n strings.
 * Improvement GDPR, Supported for DNT-Header.
 * Improvement GDPR, Added new option for delete visitor data with IP addresses.
