@@ -262,3 +262,39 @@
     display: inline-block;
     margin: 0 5px;
 }
+
+.wp-statistics-travod {
+    border: 1px solid #e5e5e5;
+    padding: 11px;
+    margin: 9px 0 0 0;
+    background-color: #ffffff;
+}
+
+.wp-statistics-travod .header {
+    border-bottom: 1px solid #e5e5e5;
+    display: flow-root;
+    margin-bottom: 12px;
+}
+
+.wp-statistics-travod .header .left {
+    float: left;
+}
+
+.wp-statistics-travod .header .right {
+    float: right;
+}
+
+.wp-statistics-travod .header .right img {
+    width: 75px;
+    vertical-align: middle;
+}
+
+.wp-statistics-travod .header p {
+    margin: 0;
+    padding: 6px 4px;
+}
+
+.wp-statistics-travod .column {
+    width: 33%;
+    display: inline-block;
+}
