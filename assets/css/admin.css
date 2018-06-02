@@ -269,6 +269,7 @@
     margin: 9px 0 5px 0;
     background-color: #ffffff;
     display: flow-root;
+    position: relative;
 }
 
 .wp-statistics-travod .header {
@@ -292,7 +293,7 @@
 }
 
 .wp-statistics-travod .header p {
-    margin: 0;
+    margin: 0 17px 0 0;
     padding: 6px 4px;
 }
 
@@ -367,4 +368,8 @@
 
 .wp-statistics-travod .columns.column-1 h2 {
     margin: 0;
+}
+
+.wp-statistics-travod .notice-dismiss {
+    padding: 14px 9px 15px;
 }

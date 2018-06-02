@@ -8,11 +8,21 @@ class WP_Statistics_Suggestions {
 	 * WP_Statistics_Suggestions constructor.
 	 */
 	public function __construct() {
-		add_action( 'wp_statistics_after_title', array( $this, 'travod_callback' ) );
+		global $WP_Statistics;
+
+		// Check the suggestion is enabled.
+		if ( ! $WP_Statistics->get_option( 'disable_suggestion_nag', false ) ) {
+			add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
+			add_action( 'wp_statistics_after_scripts', array( $this, 'travod_script' ) );
+		}
 	}
 
-	public function travod_callback() {
+	public function travod_widget() {
 		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/suggestions/top-summary.php" );
+	}
+
+	public function travod_script() {
+		include( WP_Statistics::$reg['plugin-dir'] . "assets/js/travod.js" );
 	}
 
 	public function get_base_url() {

@@ -37,6 +37,10 @@ class WP_Statistics_Ajax {
 				case 'donate':
 					$WP_Statistics->update_option( 'disable_donation_nag', true );
 					break;
+
+				case 'suggestion':
+					$WP_Statistics->update_option( 'disable_suggestion_nag', true );
+					break;
 			}
 		}
 
