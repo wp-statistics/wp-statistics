@@ -15,7 +15,7 @@ class WP_Statistics_Suggestions {
 		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/suggestions/top-summary.php" );
 	}
 
-	public function getBaseURL() {
+	public function get_base_url() {
 		$url = get_bloginfo( 'url' );
 
 		if ( substr( $url, 0, 8 ) == 'https://' ) {
@@ -33,5 +33,13 @@ class WP_Statistics_Suggestions {
 		}
 
 		return ucfirst( $url );
+	}
+
+	public function get_current_username() {
+		$user = wp_get_current_user();
+
+		if ( isset( $user->data->display_name ) ) {
+			return $user->data->display_name;
+		}
 	}
 }

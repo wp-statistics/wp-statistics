@@ -266,14 +266,16 @@
 .wp-statistics-travod {
     border: 1px solid #e5e5e5;
     padding: 11px;
-    margin: 9px 0 0 0;
+    margin: 9px 0 5px 0;
     background-color: #ffffff;
+    display: flow-root;
 }
 
 .wp-statistics-travod .header {
     border-bottom: 1px solid #e5e5e5;
     display: flow-root;
     margin-bottom: 12px;
+    clear: both;
 }
 
 .wp-statistics-travod .header .left {
@@ -295,6 +297,74 @@
 }
 
 .wp-statistics-travod .column {
-    width: 33%;
-    display: inline-block;
+    float: left;
+    width: 100%;
+}
+
+.wp-statistics-travod .columns {
+    float: left;
+}
+
+.wp-statistics-travod .columns.column-1 {
+    width: 20%;
+}
+
+.wp-statistics-travod .columns.column-2 {
+    width: 45%;
+}
+
+.wp-statistics-travod .columns.column-3 {
+    width: 35%;
+}
+
+.wp-statistics-travod .columns.column-1 ul li {
+    margin-left: 6px;
+}
+
+.wp-statistics-travod table {
+    border-right: 1px solid #f1f1f1;
+    margin: 0 auto;
+    border-top: 1px solid #f1f1f1;
+}
+
+.wp-statistics-travod thead {
+    background-color: #f7f7f7;
+    font-weight: bold;
+}
+
+.wp-statistics-travod table tr td {
+    padding: 8px 9px;
+    border-left: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.wp-statistics-travod table .dashicons-arrow-up:before {
+    color: green;
+}
+
+.wp-statistics-travod .columns section {
+    padding: 0 20px;
+}
+
+.wp-statistics-travod .columns.column-3 section {
+    background: #f7f7f7;
+    border: 1px solid #f1f1f1;
+    height: auto;
+    padding-bottom: 20px;
+}
+
+.wp-statistics-travod .columns.column-3 input[type="text"], .wp-statistics-travod .columns.column-3 input[type="email"] {
+    width: 49%;
+}
+
+.wp-statistics-travod .columns.column-3 p {
+    margin: 6px 0 8px 0;
+}
+
+.wp-statistics-travod .columns.column-3 input[type="submit"] {
+    margin: 11px 0 0 0;
+}
+
+.wp-statistics-travod .columns.column-1 h2 {
+    margin: 0;
 }
