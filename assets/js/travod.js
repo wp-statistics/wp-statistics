@@ -14,4 +14,18 @@ jQuery(document).ready(function () {
             datatype: 'json',
         });
     });
+
+    jQuery('.travod-quote-form .button').click(function () {
+        /*var name = jQuery('#name').val();
+        var email = jQuery('#email').val();
+
+        if (!name || !email) {
+            alert('Please enter name or email.');
+            return false;
+        }
+
+        alert(ajaxurl);
+
+        return false;*/
+    });
 });

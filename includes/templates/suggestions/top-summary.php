@@ -53,13 +53,10 @@
         <div class="columns column-3">
             <section>
                 <h1>REQUEST A FREE QUITE</h1>
-                <p>To Global. Generate 4x more sales from untapped markets. Simply complete the form, and our
-                    Translation Advisory Team will be in touch with you soon.</p>
-                <form method="post" action="">
-                    <input type="text" class="regular-text" value="<?php echo $this->get_current_username(); ?>"
-                           required="required"/>
-                    <input type="email" class="regular-text code" value="<?php echo get_option( 'admin_email' ); ?>"
-                           required="required"/>
+                <p>To Global. Generate 4x more sales from untapped markets. Simply complete the form, and our Translation Advisory Team will be in touch with you soon.</p>
+                <form class="travod-quote-form" method="post" action="">
+                    <input type="text" name="name" class="regular-text" value="<?php echo $this->get_current_username(); ?>" required="required"/>
+                    <input type="email" name="email" class="regular-text code" value="<?php echo get_option( 'admin_email' ); ?>" required="required"/>
                     <input type="submit" class="button button-primary" value="GET A FREE ESTIMATE"/>
                 </form>
             </section>

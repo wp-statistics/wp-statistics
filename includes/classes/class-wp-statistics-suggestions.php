@@ -18,6 +18,13 @@ class WP_Statistics_Suggestions {
 	}
 
 	public function travod_widget() {
+		if ( isset( $_POST['name'] ) and isset( $_POST['email'] ) ) {
+
+			$link = "<script>window.open ('https://www.travod.com/thanks/');</script>";
+
+			echo $link;
+		}
+
 		$base_url = $this->get_base_url( get_bloginfo( 'url' ) );
 
 		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/suggestions/top-summary.php" );
