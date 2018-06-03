@@ -272,12 +272,12 @@ class WP_Statistics_Suggestions {
 	public function get_suggestion() {
 		global $wpdb, $WP_Statistics;
 
-		$result       = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' AND `last_counter` BETWEEN '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND '{$WP_Statistics->Current_Date( 'Y-m-d' )}' GROUP BY referred ORDER BY `visitors` DESC LIMIT 4" );
+		$result       = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' AND referred REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND `last_counter` BETWEEN '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND '{$WP_Statistics->Current_Date( 'Y-m-d' )}' GROUP BY referred ORDER BY `visitors` DESC LIMIT 4" );
 		$data         = array();
 		$data_rate    = array( 2.4, 2.2, 1.8, 0.8 );
 		$traffic_rate = array( 3.4, 3.2, 2.8, 2.0 );
 		$leads_rate   = array( 4.5, 3.5, 2.5, 1.5 );
-
+		
 		foreach ( $result as $key => $value ) {
 			$country = $this->get_domain_info( $this->get_base_url( $value->referred ) );
 
