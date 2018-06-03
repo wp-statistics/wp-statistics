@@ -262,25 +262,49 @@ class WP_Statistics_Suggestions {
 		return $domains[ $domian_name ];
 	}
 
-	public function get_potentials( $number = 10 ) {
+	public function get_suggestion() {
 		global $wpdb;
 
-		$result = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' GROUP BY referred ORDER BY `visitors` DESC LIMIT {$number}" );
-		$data   = array();
+		$result       = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' GROUP BY referred ORDER BY `visitors` DESC LIMIT 4" );
+		$data         = array();
+		$data_rate    = array( 2.4, 2.2, 1.8, 0.8 );
+		$traffic_rate = array( 3.4, 3.2, 2.8, 2.0 );
+		$leads_rate   = array( 4.5, 3.5, 2.5, 1.5 );
 
-		foreach ( $result as $item ) {
-			$country = $this->get_domain_info( $this->get_base_url( $item->referred ) );
+		foreach ( $result as $key => $value ) {
+			$country = $this->get_domain_info( $this->get_base_url( $value->referred ) );
+
+			$visitor = (int) ( $value->visitors * $data_rate[ $key ] );
+			$leads   = $this->percentage( $visitor, 3 ) * $leads_rate[ $key ];
 
 			$data[] = array(
-				'domain'            => $item->referred,
-				'country'           => ( isset( $country['country'] ) ? $country['country'] : '' ),
-				'potential_percent' => '',
-				'potential_leads'   => '',
-				'visitors'          => $item->visitors,
-				'hits'              => $item->hits,
+				'domain'                    => $value->referred,
+				'country'                   => ( isset( $country['country'] ) ? $country['country'] : '' ),
+				'visitors'                  => $visitor,
+				'potential_traffic'         => $visitor * $traffic_rate[ $key ],
+				'potential_traffic_percent' => $this->percentage_increase( $visitor, $visitor * $traffic_rate[ $key ] ) . '%',
+				'potential_leads'           => $leads,
+				'potential_leads_percent'   => $this->percentage_increase( $this->percentage( $visitor, 3 ), $leads ) . '%',
+				'hits'                      => $value->hits,
 			);
 		}
 
 		return $data;
+	}
+
+	private function percentage_increase( $x1, $x2 ) {
+		$diff = ( $x2 - $x1 ) / $x1;
+
+		return (int) round( $diff * 100, 2 );
+	}
+
+	private function percentage( $x1, $x2 ) {
+		$diff = ( $x1 * $x2 ) / 100;
+
+		if ( $diff < 1 ) {
+			$diff = 1;
+		}
+
+		return (int) round( $diff, 2 );
 	}
 }

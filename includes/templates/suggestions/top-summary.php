@@ -38,11 +38,11 @@
                     </thead>
 
                     <tbody>
-					<?php foreach ( $this->get_potentials( 4 ) as $item ) : ?>
+					<?php foreach ( $this->get_suggestion() as $item ) : ?>
                         <tr>
                             <td><?php echo $item['country']; ?></td>
-                            <td><span class="dashicons dashicons-arrow-up"></span> 120% (<?php echo $item['visitors']; ?> Visitors)</td>
-                            <td><span class="dashicons dashicons-arrow-up"></span> 400% (45 Leads)</td>
+                            <td><span class="dashicons dashicons-arrow-up"></span> <?php echo $item['potential_traffic_percent']; ?> (<?php echo $item['potential_traffic']; ?> Visitors)</td>
+                            <td><span class="dashicons dashicons-arrow-up"></span> <?php echo $item['potential_leads_percent']; ?> (<?php echo $item['potential_leads']; ?> Leads)</td>
                         </tr>
 					<?php endforeach; ?>
                     </tbody>
