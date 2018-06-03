@@ -31,7 +31,7 @@ class WP_Statistics_Suggestions {
 		    $message .= 'The 4 Languages: ' . implode($languages, ', ') . PHP_EOL;
 		    $message .= 'IP Address: ' . $WP_Statistics->get_IP() . PHP_EOL;
 		    $message .= 'Timestamp: ' . time() . PHP_EOL;
-		    
+
             wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );
 
 			$link = "<script>window.open ('https://www.travod.com/thanks/');</script>";
