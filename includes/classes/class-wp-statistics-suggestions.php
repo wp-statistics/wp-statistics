@@ -18,10 +18,23 @@ class WP_Statistics_Suggestions {
 	}
 
 	public function travod_widget() {
-		if ( isset( $_POST['name'] ) and isset( $_POST['email'] ) ) {
+        if ( isset( $_POST['name'] ) and isset( $_POST['email'] ) ) {
+		    global $WP_Statistics;
+
+            foreach ($this->get_suggestion() as $item) {
+                $languages[] = $item['country'];
+            }
+
+		    $message = 'Website: ' . get_bloginfo('url') . PHP_EOL;
+		    $message .= 'Full Name: ' . $_POST['name'] . PHP_EOL;
+		    $message .= 'Email: ' . $_POST['email'] . PHP_EOL;
+		    $message .= 'The 4 Languages: ' . implode($languages, ', ') . PHP_EOL;
+		    $message .= 'IP Address: ' . $WP_Statistics->get_IP() . PHP_EOL;
+		    $message .= 'Timestamp: ' . time() . PHP_EOL;
+		    
+            wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );
 
 			$link = "<script>window.open ('https://www.travod.com/thanks/');</script>";
-
 			echo $link;
 		}
 
@@ -269,16 +282,21 @@ class WP_Statistics_Suggestions {
 		return $domains[ $domian_name ];
 	}
 
-	public function get_suggestion() {
-		global $wpdb, $WP_Statistics;
+	public function get_countries() {
+        global $wpdb, $WP_Statistics;
 
-		$result       = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' AND referred REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND `last_counter` BETWEEN '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND '{$WP_Statistics->Current_Date( 'Y-m-d' )}' GROUP BY referred ORDER BY `visitors` DESC LIMIT 4" );
+        $result = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' AND referred REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND `last_counter` BETWEEN '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND '{$WP_Statistics->Current_Date( 'Y-m-d' )}' GROUP BY referred ORDER BY `visitors` DESC LIMIT 4" );
+
+        return $result;
+    }
+
+	public function get_suggestion() {
 		$data         = array();
 		$data_rate    = array( 2.4, 2.2, 1.8, 0.8 );
 		$traffic_rate = array( 3.4, 3.2, 2.8, 2.0 );
 		$leads_rate   = array( 4.5, 3.5, 2.5, 1.5 );
-		
-		foreach ( $result as $key => $value ) {
+
+		foreach ( $this->get_countries() as $key => $value ) {
 			$country = $this->get_domain_info( $this->get_base_url( $value->referred ) );
 
 			$visitor = (int) ( $value->visitors * $data_rate[ $key ] );
