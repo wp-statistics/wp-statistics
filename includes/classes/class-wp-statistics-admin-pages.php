@@ -471,7 +471,7 @@ class WP_Statistics_Admin_Pages {
 				WP_Statistics::$reg['version']
 			);
 		}
-		
+
         // Load our JS to be used.
         wp_enqueue_script(
             'wp-statistics-admin-js',
