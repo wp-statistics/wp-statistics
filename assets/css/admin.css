@@ -307,7 +307,7 @@
 }
 
 .wp-statistics-travod .columns.column-1 {
-    width: 20%;
+    width: 23%;
 }
 
 .wp-statistics-travod .columns.column-2 {
@@ -315,7 +315,7 @@
 }
 
 .wp-statistics-travod .columns.column-3 {
-    width: 35%;
+    width: 32%;
 }
 
 .wp-statistics-travod .columns.column-1 ul li {
@@ -334,7 +334,7 @@
 }
 
 .wp-statistics-travod table tr td {
-    padding: 8px 9px;
+    padding: 9px 9px;
     border-left: 1px solid #f1f1f1;
     border-bottom: 1px solid #f1f1f1;
 }
@@ -351,7 +351,7 @@
     background: #f7f7f7;
     border: 1px solid #f1f1f1;
     height: auto;
-    padding-bottom: 20px;
+    padding: 0 14px 20px 14px;
 }
 
 .wp-statistics-travod .columns.column-3 input[type="text"], .wp-statistics-travod .columns.column-3 input[type="email"] {
@@ -360,6 +360,7 @@
 
 .wp-statistics-travod .columns.column-3 p {
     margin: 6px 0 8px 0;
+    font-size: 11px;
 }
 
 .wp-statistics-travod .columns.column-3 input[type="submit"] {
@@ -372,4 +373,46 @@
 
 .wp-statistics-travod .notice-dismiss {
     padding: 14px 9px 15px;
+}
+
+@media only screen and (max-width: 1286px) {
+    .wp-statistics-travod .columns.column-1 {
+        width: 23%;
+    }
+
+    .wp-statistics-travod .columns.column-3 {
+        width: 32%;
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .wp-statistics-travod .columns.column-1 {
+        width: 30%;
+    }
+
+    .wp-statistics-travod .columns.column-2 {
+        width: 70%;
+    }
+
+    .wp-statistics-travod .columns.column-3 {
+        width: 100%;
+    }
+
+    .wp-statistics-travod .columns section {
+        padding: 0;
+    }
+
+    .wp-statistics-travod .columns.column-3 section {
+        margin-top: 11px;
+    }
+}
+
+@media only screen and (max-width: 782px) {
+    .wp-statistics-travod .columns.column-1 {
+        width: 100%;
+    }
+
+    .wp-statistics-travod .columns.column-2 {
+        width: 100%;
+    }
 }

@@ -9,7 +9,7 @@ class WP_Statistics_Suggestions {
 	 */
 	public function __construct() {
 		global $WP_Statistics;
-
+		
 		// Check the suggestion is enabled.
 		if ( ! $WP_Statistics->get_option( 'disable_suggestion_nag', false ) ) {
 			add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
@@ -32,10 +32,15 @@ class WP_Statistics_Suggestions {
 		    $message .= 'IP Address: ' . $WP_Statistics->get_IP() . PHP_EOL;
 		    $message .= 'Timestamp: ' . time() . PHP_EOL;
 
-            wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );
+            $result = wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );
 
-			$link = "<script>window.location = 'https://www.travod.com/thanks/';</script>";
-			echo $link;
+            if($result) {
+                // Disable the suggestion
+                $WP_Statistics->update_option( 'disable_suggestion_nag', true );
+
+                $link = "<script>window.location = 'https://www.travod.com/thanks/';</script>";
+                echo $link;
+            }
 		}
 
 		$base_url = $this->get_base_url( get_bloginfo( 'url' ) );
