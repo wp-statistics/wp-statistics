@@ -40,7 +40,7 @@ class WP_Statistics_Suggestions {
 
 		$base_url = $this->get_base_url( get_bloginfo( 'url' ) );
 
-		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/suggestions/top-summary.php" );
+		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/suggestions/travod.php" );
 	}
 
 	public function get_base_url( $url ) {
