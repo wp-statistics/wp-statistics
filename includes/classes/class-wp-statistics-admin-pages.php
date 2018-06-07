@@ -223,7 +223,7 @@ class WP_Statistics_Admin_Pages {
 			'wp-statistics-admin-js',
 			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
 			array( 'jquery' ),
-			'1.0'
+            WP_Statistics::$reg['version']
 		);
 
 		if ( is_rtl() ) {
@@ -270,7 +270,7 @@ class WP_Statistics_Admin_Pages {
 			'wp-statistics-admin-js',
 			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
 			array( 'jquery' ),
-			'1.0'
+            WP_Statistics::$reg['version']
 		);
 
 		if ( is_rtl() ) {
