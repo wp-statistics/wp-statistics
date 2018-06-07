@@ -29,9 +29,6 @@ jQuery(document).ready(function () {
     // Check about page
     if (jQuery('.wp-statistics-travod').length) {
         jQuery('.wp-statistics-travod .notice-dismiss').click(function () {
-            alert('sss');
-            return;
-
             jQuery('.wp-statistics-travod').slideUp(100);
 
             var data = {

@@ -471,6 +471,14 @@ class WP_Statistics_Admin_Pages {
 				WP_Statistics::$reg['version']
 			);
 		}
+		
+        // Load our JS to be used.
+        wp_enqueue_script(
+            'wp-statistics-admin-js',
+            WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
+            array( 'jquery' ),
+            WP_Statistics::$reg['version']
+        );
 
 		// The different pages have different files to load.
 		switch ( $log_type ) {
