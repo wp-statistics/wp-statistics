@@ -37,7 +37,7 @@ class WP_Statistics_Welcome {
 		// Load our JS to be used.
 		wp_enqueue_script(
 			'wp-statistics-admin-js',
-			WP_Statistics::$reg['plugin-url'] . 'assets/js/http://wp-sms-pro.com/',
+			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
 			array( 'jquery' ),
 			'1.0'
 		);
