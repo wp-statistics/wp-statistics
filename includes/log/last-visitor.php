@@ -36,6 +36,8 @@ if ( $_get != '%' ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Recent Visitors', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
+
     <ul class="subsubsub">
         <li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';

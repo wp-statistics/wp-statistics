@@ -8,6 +8,7 @@
 ?>
 <div class="wrap">
     <h2><?php _e( 'Online Users', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">

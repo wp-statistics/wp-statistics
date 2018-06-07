@@ -45,7 +45,6 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 ?>
 <div class="wrap">
 	<?php echo $nag_html; ?>
-	<?php do_action( 'wp_statistics_before_title' ); ?>
     <h2><?php echo get_admin_page_title(); ?></h2>
 	<?php do_action( 'wp_statistics_after_title' ); ?>
 

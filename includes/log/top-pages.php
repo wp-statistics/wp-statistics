@@ -51,6 +51,8 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Top Pages', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
+
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay ); ?>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">

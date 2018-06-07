@@ -72,6 +72,7 @@ if ( $phrase ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Top Searched Phrases', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div><?php wp_statistics_date_range_selector(
 			WP_Statistics::$page['searched-phrases'],
