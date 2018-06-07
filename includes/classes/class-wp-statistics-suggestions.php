@@ -20,6 +20,7 @@ class WP_Statistics_Suggestions {
 	public function travod_widget() {
         if ( isset( $_POST['name'] ) and isset( $_POST['email'] ) ) {
 		    global $WP_Statistics;
+            $languages = array();
 
             foreach ($this->get_suggestion() as $item) {
                 $languages[] = $item['country'];
@@ -34,7 +35,7 @@ class WP_Statistics_Suggestions {
 
             wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );
 
-			$link = "<script>window.open ('https://www.travod.com/thanks/');</script>";
+			$link = "<script>window.location = 'https://www.travod.com/thanks/';</script>";
 			echo $link;
 		}
 

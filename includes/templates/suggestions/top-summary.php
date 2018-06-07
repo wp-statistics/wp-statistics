@@ -15,7 +15,7 @@
     <div class="column">
         <div class="columns column-1">
             <section>
-                <h2>Translate <?php echo $base_url; ?> into<br> four languages and get:</h2>
+                <h2>Translate your website into 4 languages and get:</h2>
                 <ul>
                     <li><span class="dashicons dashicons-yes"></span> International Sales Growth</li>
                     <li><span class="dashicons dashicons-yes"></span> Increase Web Traffic</li>
