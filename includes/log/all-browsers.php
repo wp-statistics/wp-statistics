@@ -312,4 +312,4 @@ function wp_statistics_browser_version_stats( $Browser, $rangestartdate, $rangee
             </script>
         </div>
     </div>
-<?php }
+<?php } ?>

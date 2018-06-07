@@ -150,6 +150,4 @@ $page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$pa
         });
 
     });
-
-    <?php do_action( 'wp_statistics_after_scripts' ); ?>
 </script>

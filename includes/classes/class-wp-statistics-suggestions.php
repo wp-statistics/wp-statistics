@@ -13,7 +13,6 @@ class WP_Statistics_Suggestions {
 		// Check the suggestion is enabled.
 		if ( ! $WP_Statistics->get_option( 'disable_suggestion_nag', false ) ) {
 			add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
-			add_action( 'wp_statistics_after_scripts', array( $this, 'travod_script' ) );
 		}
 	}
 
@@ -42,10 +41,6 @@ class WP_Statistics_Suggestions {
 		$base_url = $this->get_base_url( get_bloginfo( 'url' ) );
 
 		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/suggestions/top-summary.php" );
-	}
-
-	public function travod_script() {
-		include( WP_Statistics::$reg['plugin-dir'] . "assets/js/travod.js" );
 	}
 
 	public function get_base_url( $url ) {
