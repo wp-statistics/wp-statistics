@@ -52,7 +52,7 @@
 
         <div class="columns column-3">
             <section>
-                <h1>REQUEST A FREE QUOT</h1>
+                <h1>REQUEST A FREE QUOTE</h1>
                 <p>Go Global. Generate 4x more sales from untapped markets. Simply complete the form, and our Translation Advisory Team will be in touch with you soon.</p>
                 <form class="travod-quote-form" method="post" action="">
                     <input type="text" name="name" class="regular-text" value="<?php echo $this->get_current_username(); ?>" required="required"/>

@@ -285,35 +285,68 @@ class WP_Statistics_Suggestions {
 
 	public function get_countries() {
         global $wpdb, $WP_Statistics;
-
+        
         $result = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' AND referred REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND `last_counter` BETWEEN '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND '{$WP_Statistics->Current_Date( 'Y-m-d' )}' GROUP BY referred ORDER BY `visitors` DESC LIMIT 4" );
 
         return $result;
     }
 
 	public function get_suggestion() {
-		$data         = array();
 		$data_rate    = array( 2.4, 2.2, 1.8, 0.8 );
 		$traffic_rate = array( 3.4, 3.2, 2.8, 2.0 );
 		$leads_rate   = array( 4.5, 3.5, 2.5, 1.5 );
+		$countries   = $this->get_countries();
 
-		foreach ( $this->get_countries() as $key => $value ) {
-			$country = $this->get_domain_info( $this->get_base_url( $value->referred ) );
+		if($countries) {
+            foreach ( $countries as $key => $value ) {
+                $country = $this->get_domain_info( $this->get_base_url( $value->referred ) );
 
-			$visitor = (int) ( $value->visitors * $data_rate[ $key ] );
-			$leads   = $this->percentage( $visitor, 3 ) * $leads_rate[ $key ];
+                $visitor = (int) ( $value->visitors * $data_rate[ $key ] );
+                $leads   = $this->percentage( $visitor, 3 ) * $leads_rate[ $key ];
 
-			$data[] = array(
-				'domain'                    => $value->referred,
-				'country'                   => ( isset( $country['country'] ) ? $country['country'] : '' ),
-				'visitors'                  => $visitor,
-				'potential_traffic'         => $visitor * $traffic_rate[ $key ],
-				'potential_traffic_percent' => $this->percentage_increase( $visitor, $visitor * $traffic_rate[ $key ] ) . '%',
-				'potential_leads'           => $leads,
-				'potential_leads_percent'   => $this->percentage_increase( $this->percentage( $visitor, 3 ), $leads ) . '%',
-				'hits'                      => $value->hits,
-			);
-		}
+                $data[] = array(
+                    'domain'                    => $value->referred,
+                    'country'                   => ( isset( $country['country'] ) ? $country['country'] : '' ),
+                    'visitors'                  => $visitor,
+                    'potential_traffic'         => $visitor * $traffic_rate[ $key ],
+                    'potential_traffic_percent' => $this->percentage_increase( $visitor, $visitor * $traffic_rate[ $key ] ) . '%',
+                    'potential_leads'           => $leads,
+                    'potential_leads_percent'   => $this->percentage_increase( $this->percentage( $visitor, 3 ), $leads ) . '%',
+                    'hits'                      => $value->hits,
+                );
+            }
+        } else {
+            $data = array(
+                array(
+                    'country'                   => 'Spanish',
+                    'potential_traffic'         => '1706',
+                    'potential_traffic_percent' => '239%',
+                    'potential_leads'           => '67',
+                    'potential_leads_percent'   => '346%',
+                ),
+                array(
+                    'country'                   => 'German',
+                    'potential_traffic'         => '1600',
+                    'potential_traffic_percent' => '218%',
+                    'potential_leads'           => '52',
+                    'potential_leads_percent'   => '246%',
+                ),
+                array(
+                    'country'                   => 'Italian',
+                    'potential_traffic'         => '1383',
+                    'potential_traffic_percent' => '179%',
+                    'potential_leads'           => '37',
+                    'potential_leads_percent'   => '146%',
+                ),
+                array(
+                    'country'                   => 'French',
+                    'potential_traffic'         => '906',
+                    'potential_traffic_percent' => '100%',
+                    'potential_leads'           => '20',
+                    'potential_leads_percent'   => '53%',
+                )
+            );
+        }
 
 		return $data;
 	}
