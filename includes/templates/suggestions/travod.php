@@ -1,7 +1,7 @@
 <div class="wp-statistics-travod">
     <div class="header">
         <div class="left">
-            <p><a href="<?php bloginfo( 'url' ); ?>"><?php echo $base_url; ?></a>, Go Global With TRAVOD!</p>
+            <p><a href="<?php bloginfo( 'url' ); ?>"><?php echo $base_url; ?></a>, Go global with TRAVOD</p>
         </div>
 
         <div class="right">
@@ -18,8 +18,8 @@
                 <h2>Translate your website into 4 languages and get:</h2>
                 <ul>
                     <li><span class="dashicons dashicons-yes"></span> International Sales Growth</li>
-                    <li><span class="dashicons dashicons-yes"></span> Increase Web Traffic</li>
-                    <li><span class="dashicons dashicons-yes"></span> Improve SEO</li>
+                    <li><span class="dashicons dashicons-yes"></span> Increased Web Traffic</li>
+                    <li><span class="dashicons dashicons-yes"></span> Improved SEO</li>
                     <li><span class="dashicons dashicons-yes"></span> Greater Brand Awareness</li>
                     <li><span class="dashicons dashicons-yes"></span> Global Online Reach</li>
                 </ul>
@@ -53,7 +53,7 @@
         <div class="columns column-3">
             <section>
                 <h1>REQUEST A FREE QUOTE</h1>
-                <p>Go Global. Generate 4x more sales from untapped markets. Simply complete the form, and our Translation Advisory Team will be in touch with you soon.</p>
+                <p>Go global. Generate 4x more sales from untapped markets. Simply complete the form and our Translation Advisory Team will be in touch with you soon.</p>
                 <form class="travod-quote-form" method="post" action="">
                     <input type="text" name="name" class="regular-text" value="<?php echo $this->get_current_username(); ?>" required="required"/>
                     <input type="email" name="email" class="regular-text code" value="<?php echo get_option( 'admin_email' ); ?>" required="required"/>
