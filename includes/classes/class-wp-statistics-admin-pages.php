@@ -283,6 +283,12 @@ class WP_Statistics_Admin_Pages {
 			echo WP_Statistics_Updates::download_geoip();
 		}
 
+		// Check admin notices.
+        if ( $WP_Statistics->get_option( 'admin_notices' ) == true ) {
+            $WP_Statistics->update_option( 'disable_donation_nag', false );
+            $WP_Statistics->update_option( 'disable_suggestion_nag', false );
+        }
+
 		include WP_Statistics::$reg['plugin-dir'] . "includes/settings/wps-settings.php";
 	}
 

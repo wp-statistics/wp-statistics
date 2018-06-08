@@ -203,6 +203,10 @@ Introduction of a popup with “Accept” and “Deny” before collection data 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Added suggestion notice in the log pages.
+* Added new option for enable/disable notices.
+
 = 12.3.6.1 =
 * Improvement i18n strings.
 * Improvement GDPR, Supported for DNT-Header.

@@ -42,6 +42,8 @@ class WP_Statistics_Ajax {
 					$WP_Statistics->update_option( 'disable_suggestion_nag', true );
 					break;
 			}
+
+            $WP_Statistics->update_option( 'admin_notices', false );
 		}
 
 		wp_die(); // this is required to terminate immediately and return a proper response
