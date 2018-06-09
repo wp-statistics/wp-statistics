@@ -56,7 +56,7 @@
                 <p>Go global. Generate 4x more sales from untapped markets. Simply complete the form and our Translation Advisory Team will be in touch with you soon.</p>
                 <form class="travod-quote-form" method="post" action="">
                     <input type="text" name="name" class="regular-text" value="<?php echo $this->get_current_username(); ?>" required="required"/>
-                    <input type="email" name="email" class="regular-text code" value="<?php echo get_option( 'admin_email' ); ?>" required="required"/>
+                    <input type="email" name="email" class="regular-text" value="<?php echo get_option( 'admin_email' ); ?>" required="required"/>
                     <input type="submit" class="button button-primary" value="GET A FREE ESTIMATE"/>
                 </form>
             </section>

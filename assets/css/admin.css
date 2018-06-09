@@ -385,7 +385,7 @@
     }
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 1150px) {
     .wp-statistics-travod .columns.column-1 {
         width: 30%;
     }
