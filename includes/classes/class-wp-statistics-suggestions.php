@@ -306,7 +306,7 @@ class WP_Statistics_Suggestions {
 
                 $data[] = array(
                     'domain'                    => $value->referred,
-                    'country'                   => ( isset( $country['country'] ) ? $country['country'] : '' ),
+                    'country'                   => ( isset( $country['language'] ) ? $country['language'] : '' ),
                     'visitors'                  => $visitor,
                     'potential_traffic'         => $visitor * $traffic_rate[ $key ],
                     'potential_traffic_percent' => $this->percentage_increase( $visitor, $visitor * $traffic_rate[ $key ] ) . '%',
