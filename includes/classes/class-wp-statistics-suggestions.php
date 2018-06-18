@@ -25,14 +25,14 @@ class WP_Statistics_Suggestions {
                 $languages[] = $item['country'];
             }
 
-		    $message = 'Website: ' . get_bloginfo('url') . PHP_EOL;
+		    /*$message = 'Website: ' . get_bloginfo('url') . PHP_EOL;
 		    $message .= 'Full Name: ' . $_POST['name'] . PHP_EOL;
 		    $message .= 'Email: ' . $_POST['email'] . PHP_EOL;
 		    $message .= 'The 4 Languages: ' . implode($languages, ', ') . PHP_EOL;
 		    $message .= 'IP Address: ' . $WP_Statistics->get_IP() . PHP_EOL;
 		    $message .= 'Timestamp: ' . time() . PHP_EOL;
 
-            $result = wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );
+            $result = wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );*/
 
             // Build the request parameter
             $args = array(
@@ -51,9 +51,9 @@ class WP_Statistics_Suggestions {
             );
 
             // Send data to url
-            wp_remote_post( 'https://hooks.zapier.com/hooks/catch/3049993/aqqp46/', $args );
+            $response = wp_remote_post( 'https://hooks.zapier.com/hooks/catch/3049993/aqqp46/', $args );
 
-            if($result) {
+            if(!is_wp_error($response)) {
                 // Disable the suggestion
                 $WP_Statistics->update_option( 'disable_suggestion_nag', true );
 
