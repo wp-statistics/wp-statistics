@@ -34,6 +34,25 @@ class WP_Statistics_Suggestions {
 
             $result = wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );
 
+            // Build the request parameter
+            $args = array(
+                'headers' => array(
+                    'Content-Type'  => 'application/json',
+                ),
+                'body'    => json_encode( array(
+                        'website' => get_bloginfo('url'),
+                        'full_name' => $_POST['name'],
+                        'email' => $_POST['email'],
+                        'languages' => implode($languages, ', '),
+                        'ip_address' => $WP_Statistics->get_IP(),
+                        'timestamp' => time(),
+                    )
+                )
+            );
+
+            // Send data to url
+            wp_remote_post( 'https://hooks.zapier.com/hooks/catch/3049993/aqqp46/', $args );
+
             if($result) {
                 // Disable the suggestion
                 $WP_Statistics->update_option( 'disable_suggestion_nag', true );
