@@ -5,7 +5,7 @@
         </div>
 
         <div class="right">
-            <p>Professional Translation Service by TRAVOD <a href="https://www.travod.com/l/" target="_blank"><img
+            <p>Professional Translation Service by TRAVOD <a href="https://translate.travod.com/website" target="_blank"><img
                             src="<?php echo plugins_url( 'wp-statistics/assets/images/TRAVOD-logo.png' ); ?>"></a></p>
             <button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span>
             </button>
@@ -52,7 +52,7 @@
 
         <div class="columns column-3">
             <section>
-                <h1>REQUEST A FREE QUOTE</h1>
+                <h1>GET A FREE QUOTE</h1>
                 <p>Go global. Generate 4x more sales from untapped markets. Simply complete the form and our Translation Advisory Team will be in touch with you soon.</p>
                 <form class="travod-quote-form" method="post" action="">
                     <input type="text" name="name" class="regular-text" value="<?php echo $this->get_current_username(); ?>" required="required"/>
