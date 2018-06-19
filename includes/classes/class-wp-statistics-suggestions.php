@@ -13,7 +13,7 @@ class WP_Statistics_Suggestions
         global $WP_Statistics;
 
         // Check the suggestion is enabled.
-        if ($WP_Statistics->get_option('admin_notices', false) and !$WP_Statistics->get_option('disable_suggestion_nag', false)) {
+        if (!$WP_Statistics->get_option('disable_suggestion_nag', false)) {
             add_action('wp_statistics_after_title', array($this, 'travod_widget'));
         }
     }
@@ -27,15 +27,6 @@ class WP_Statistics_Suggestions
             foreach ($this->get_suggestion() as $item) {
                 $languages[] = $item['country'];
             }
-
-            /*$message = 'Website: ' . get_bloginfo('url') . PHP_EOL;
-            $message .= 'Full Name: ' . $_POST['name'] . PHP_EOL;
-            $message .= 'Email: ' . $_POST['email'] . PHP_EOL;
-            $message .= 'The 4 Languages: ' . implode($languages, ', ') . PHP_EOL;
-            $message .= 'IP Address: ' . $WP_Statistics->get_IP() . PHP_EOL;
-            $message .= 'Timestamp: ' . time() . PHP_EOL;
-
-            $result = wp_mail( 'victor.b@travod.com', 'New Quote from WP-Statistics!', $message );*/
 
             // Build the request parameter
             $args = array(
@@ -59,7 +50,7 @@ class WP_Statistics_Suggestions
             if (!is_wp_error($response)) {
                 // Disable the suggestion
                 $WP_Statistics->update_option('disable_suggestion_nag', true);
-                $WP_Statistics->update_option( 'admin_notices', false );
+                $WP_Statistics->update_option('admin_notices', false);
 
                 $link = "<script>window.location = 'https://www.travod.com/thanks/';</script>";
                 echo $link;
@@ -323,10 +314,10 @@ class WP_Statistics_Suggestions
 
         if ($countries) {
             $i = 0;
+            $lang = explode('-', get_bloginfo("language"));
 
             foreach ($countries as $key => $value) {
                 $country = $this->get_domain_info($this->get_base_url($value->referred));
-                $lang = explode('-', get_bloginfo("language"));
 
                 if (isset($lang[0]) and $country['code'] == $lang[0] or $i == 4) {
                     continue;
@@ -335,7 +326,7 @@ class WP_Statistics_Suggestions
                 $visitor = (int)($value->visitors * $data_rate[$key]);
                 $leads = $this->percentage($visitor, 3) * $leads_rate[$key];
 
-                if($visitor <= 0 or $leads <= 0) {
+                if ($visitor <= 0 or $leads <= 0) {
                     continue;
                 }
 
