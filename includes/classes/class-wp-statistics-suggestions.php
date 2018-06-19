@@ -13,7 +13,7 @@ class WP_Statistics_Suggestions
         global $WP_Statistics;
 
         // Check the suggestion is enabled.
-        if (!$WP_Statistics->get_option('disable_suggestion_nag', false)) {
+        if ($WP_Statistics->get_option('admin_notices', false) and !$WP_Statistics->get_option('disable_suggestion_nag', false)) {
             add_action('wp_statistics_after_title', array($this, 'travod_widget'));
         }
     }
@@ -59,6 +59,7 @@ class WP_Statistics_Suggestions
             if (!is_wp_error($response)) {
                 // Disable the suggestion
                 $WP_Statistics->update_option('disable_suggestion_nag', true);
+                $WP_Statistics->update_option( 'admin_notices', false );
 
                 $link = "<script>window.location = 'https://www.travod.com/thanks/';</script>";
                 echo $link;
