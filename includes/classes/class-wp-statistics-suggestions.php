@@ -312,7 +312,7 @@ class WP_Statistics_Suggestions
         $leads_rate = array(4.5, 3.5, 2.5, 1.5);
         $countries = $this->get_countries();
 
-        if ($countries) {
+        if ($countries and count($countries) == 5) {
             $i = 0;
             $lang = explode('-', get_bloginfo("language"));
 
