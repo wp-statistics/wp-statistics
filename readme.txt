@@ -199,7 +199,8 @@ Introduction of a popup with “Accept” and “Deny” before collection data 
 This is a security fix, please update immediately.
 
 == Changelog ==
-= dev-master =
+= 12.3.6.2 =
+* Tested with PHP v7.2.4
 * Added suggestion notice in the log pages.
 * Added new option for enable/disable notices.
 
