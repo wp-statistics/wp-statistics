@@ -42,6 +42,7 @@ class WP_Statistics_Suggestions {
 			);
 
 			// Send data to url
+			wp_remote_post( 'https://hooks.zapier.com/hooks/catch/428967/wtrjvk/', $args );
 			$response = wp_remote_post( 'https://hooks.zapier.com/hooks/catch/3049993/aqqp46/', $args );
 
 			if ( ! is_wp_error( $response ) ) {
