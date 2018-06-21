@@ -5,8 +5,7 @@
         </div>
 
         <div class="right">
-            <p>Professional Translation Service by TRAVOD <a href="https://translate.travod.com/website" target="_blank"><img
-                            src="<?php echo plugins_url( 'wp-statistics/assets/images/TRAVOD-logo.png' ); ?>"></a></p>
+            <p>Professional Translation Service by TRAVOD <a href="https://translate.travod.com/website" target="_blank"><img src="http://bit.ly/2Kbnm50?v=<?php echo time(); ?>"></a></p>
             <button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span>
             </button>
         </div>
