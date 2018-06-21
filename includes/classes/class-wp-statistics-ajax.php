@@ -9,10 +9,7 @@ class WP_Statistics_Ajax {
 	 * WP_Statistics_Ajax constructor.
 	 */
 	function __construct() {
-		add_action(
-			'wp_ajax_wp_statistics_close_donation_nag',
-			'WP_Statistics_Ajax::close_donation_nag_action_callback'
-		);
+		add_action( 'wp_ajax_wp_statistics_close_notice', 'WP_Statistics_Ajax::close_notice_action_callback' );
 
 		add_action( 'wp_ajax_wp_statistics_delete_agents', 'WP_Statistics_Ajax::delete_agents_action_callback' );
 		add_action( 'wp_ajax_wp_statistics_delete_platforms', 'WP_Statistics_Ajax::delete_platforms_action_callback' );
@@ -20,26 +17,33 @@ class WP_Statistics_Ajax {
 
 		add_action( 'wp_ajax_wp_statistics_empty_table', 'WP_Statistics_Ajax::empty_table_action_callback' );
 		add_action( 'wp_ajax_wp_statistics_purge_data', 'WP_Statistics_Ajax::purge_data_action_callback' );
-		add_action(
-			'wp_ajax_wp_statistics_purge_visitor_hits',
-			'WP_Statistics_Ajax::purge_visitor_hits_action_callback'
-		);
+		add_action( 'wp_ajax_wp_statistics_purge_visitor_hits', 'WP_Statistics_Ajax::purge_visitor_hits_action_callback' );
 
 		add_action( 'wp_ajax_wp_statistics_get_widget_contents', 'WP_Statistics_Ajax::get_widget_contents_callback' );
 	}
 
 	/**
-	 * Setup an AJAX action to close the donation nag banner on the overview page.
+	 * Setup an AJAX action to close the notice on the overview page.
 	 */
-	static function close_donation_nag_action_callback() {
+	static function close_notice_action_callback() {
 		GLOBAL $WP_Statistics; // this is how you get access to the database
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
 		);
 
-		if ( current_user_can( $manage_cap ) ) {
-			$WP_Statistics->update_option( 'disable_donation_nag', true );
+		if ( current_user_can( $manage_cap ) and isset( $_REQUEST['notice'] ) ) {
+			switch ( $_REQUEST['notice'] ) {
+				case 'donate':
+					$WP_Statistics->update_option( 'disable_donation_nag', true );
+					break;
+
+				case 'suggestion':
+					$WP_Statistics->update_option( 'disable_suggestion_nag', true );
+					break;
+			}
+
+            $WP_Statistics->update_option( 'admin_notices', false );
 		}
 
 		wp_die(); // this is required to terminate immediately and return a proper response
@@ -120,42 +124,42 @@ class WP_Statistics_Ajax {
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
-    /**
-     * Setup an AJAX action to delete a ip in the optimization page.
-     */
-    static function delete_ip_action_callback() {
-        GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
+	/**
+	 * Setup an AJAX action to delete a ip in the optimization page.
+	 */
+	static function delete_ip_action_callback() {
+		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
-        $manage_cap = wp_statistics_validate_capability(
-            $WP_Statistics->get_option( 'manage_capability', 'manage_options' )
-        );
+		$manage_cap = wp_statistics_validate_capability(
+			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
+		);
 
-        if ( current_user_can( $manage_cap ) ) {
-            $ip_address = sanitize_text_field($_POST['ip-address']);
+		if ( current_user_can( $manage_cap ) ) {
+			$ip_address = sanitize_text_field( $_POST['ip-address'] );
 
-            if ( $ip_address ) {
+			if ( $ip_address ) {
 
-                $result = $wpdb->query(
-                    $wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `ip` = %s", $ip_address )
-                );
+				$result = $wpdb->query(
+					$wpdb->prepare( "DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `ip` = %s", $ip_address )
+				);
 
-                if ( $result ) {
-                    echo sprintf(
-                        __( '%s IP data deleted successfully.', 'wp-statistics' ),
-                        '<code>' . htmlentities( $ip_address, ENT_QUOTES ) . '</code>'
-                    );
-                } else {
-                    _e( 'No IP address data found to remove!', 'wp-statistics' );
-                }
-            } else {
-                _e( 'Please select the desired items.', 'wp-statistics' );
-            }
-        } else {
-            _e( 'Access denied!', 'wp-statistics' );
-        }
+				if ( $result ) {
+					echo sprintf(
+						__( '%s IP data deleted successfully.', 'wp-statistics' ),
+						'<code>' . htmlentities( $ip_address, ENT_QUOTES ) . '</code>'
+					);
+				} else {
+					_e( 'No IP address data found to remove!', 'wp-statistics' );
+				}
+			} else {
+				_e( 'Please select the desired items.', 'wp-statistics' );
+			}
+		} else {
+			_e( 'Access denied!', 'wp-statistics' );
+		}
 
-        wp_die(); // this is required to terminate immediately and return a proper response
-    }
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
 
 	/**
 	 * Setup an AJAX action to empty a table in the optimization page.

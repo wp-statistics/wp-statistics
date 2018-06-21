@@ -77,6 +77,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Browser Statistics', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['browser'], $daysToDisplay ); ?></div>
     <div class="postbox-container" style="width: 48%; float: left; margin-right:20px">
@@ -311,4 +312,4 @@ function wp_statistics_browser_version_stats( $Browser, $rangestartdate, $rangee
             </script>
         </div>
     </div>
-<?php }
+<?php } ?>

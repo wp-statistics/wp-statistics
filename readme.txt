@@ -160,13 +160,9 @@ We do not recommend using a caching plugin along with WP Statistics.
 
 = PHP 7 Support =
 
-WP Statistics is PHP 7 compliant, however some versions of PHP 7 have bugs that can cause issues.  One know issue is with PHP 7.0.4 causing memory exhaustion errors, newer versions of PHP 7 do not have this issue.
+WP Statistics is PHP 7 compliant, however some versions of PHP 7 have bugs that can cause issues. One know issue is with PHP 7.0.4 causing memory exhaustion errors, newer versions of PHP 7 do not have this issue.
 
-At this time (August 2016) WP Statistics seems to run fine with PHP 7.0.10, however you may experience issues that we haven't found yet.  If you do, feel free to report it after you've confirmed it is not a problem with PHP.
-
-= PHP 7.1 Support =
-
-WP Statistics has not yet been tested on PHP 7.1 and reports so far (As of February 2017) indicate there are issues.  As PHP 7.1 is still relatively new it is not recommended at this time.
+At this time (Jun 2018) WP Statistics seems to run fine with PHP 7.2.6, however you may experience issues that we haven't found yet. If you do, feel free to report it after you've confirmed it is not a problem with PHP.
 
 = IPv6 Support =
 
@@ -203,6 +199,11 @@ Introduction of a popup with “Accept” and “Deny” before collection data 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= 12.3.6.2 =
+* Tested with PHP v7.2.4
+* Added suggestion notice in the log pages.
+* Added new option for enable/disable notices.
+
 = 12.3.6.1 =
 * Improvement i18n strings.
 * Improvement GDPR, Supported for DNT-Header.

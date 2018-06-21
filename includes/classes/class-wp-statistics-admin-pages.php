@@ -223,7 +223,7 @@ class WP_Statistics_Admin_Pages {
 			'wp-statistics-admin-js',
 			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
 			array( 'jquery' ),
-			'1.0'
+            WP_Statistics::$reg['version']
 		);
 
 		if ( is_rtl() ) {
@@ -270,7 +270,7 @@ class WP_Statistics_Admin_Pages {
 			'wp-statistics-admin-js',
 			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
 			array( 'jquery' ),
-			'1.0'
+            WP_Statistics::$reg['version']
 		);
 
 		if ( is_rtl() ) {
@@ -282,6 +282,12 @@ class WP_Statistics_Admin_Pages {
 		if ( $WP_Statistics->get_option( 'update_geoip' ) == true ) {
 			echo WP_Statistics_Updates::download_geoip();
 		}
+
+		// Check admin notices.
+        if ( $WP_Statistics->get_option( 'admin_notices' ) == true ) {
+            $WP_Statistics->update_option( 'disable_donation_nag', false );
+            $WP_Statistics->update_option( 'disable_suggestion_nag', false );
+        }
 
 		include WP_Statistics::$reg['plugin-dir'] . "includes/settings/wps-settings.php";
 	}
@@ -471,6 +477,14 @@ class WP_Statistics_Admin_Pages {
 				WP_Statistics::$reg['version']
 			);
 		}
+
+        // Load our JS to be used.
+        wp_enqueue_script(
+            'wp-statistics-admin-js',
+            WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
+            array( 'jquery' ),
+            WP_Statistics::$reg['version']
+        );
 
 		// The different pages have different files to load.
 		switch ( $log_type ) {

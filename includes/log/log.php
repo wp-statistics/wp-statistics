@@ -1,31 +1,14 @@
 <?php
-$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .
-               plugins_url( 'wp-statistics/assets/images/' ) .
-               'ajax-loading.gif" alt="' .
-               __( 'Reloading...', 'wp-statistics' ) .
-               '"></div>';
+$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
 
 $nag_html = '';
+
 if ( ! $WP_Statistics->get_option( 'geoip' ) ) {
-	$nag_html .= '<div class="update-nag" style="width: 90%;">' .
-	             sprintf(
-		             __(
-			             'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.',
-			             'wp-statistics'
-		             ),
-		             admin_url( 'admin.php?page=wps_settings_page&tab=externals-settings' )
-	             ) .
-	             '</div>';
+	$nag_html .= '<div class="notice notice-warning"><p>' . sprintf( __( 'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics' ), admin_url( 'admin.php?page=wps_settings_page&tab=externals-settings' ) ) . '</p></div>';
 }
 
 if ( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {
-	$nag_html .= '<div id="wps_nag" class="update-nag" style="width: 90%;"><div id="donate-text">' .
-	             __( 'Have you thought about donating to WP Statistics?', 'wp-statistics' ) .
-	             ' <a href="http://wp-statistics.com/donate/" target="_blank">' .
-	             __( 'Donate Now!', 'wp-statistics' ) .
-	             '</a></div><div id="donate-button"><a class="button-primary" id="wps_close_nag">' .
-	             __( 'Close', 'wp-statistics' ) .
-	             '</a></div></div>';
+	$nag_html .= '<div class="notice notice-success is-dismissible wps-donate-notice"><p>' . __( 'Have you thought about donating to WP Statistics?', 'wp-statistics' ) . ' <a href="http://wp-statistics.com/donate/" target="_blank">' . __( 'Donate Now!', 'wp-statistics' ) . '</a></p></div>';
 }
 
 // WP Statistics 10.0 had a bug which could corrupt  the metabox display if the user re-ordered the widgets.  Check to see if the meta data is corrupt and if so delete it.
@@ -63,6 +46,8 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 <div class="wrap">
 	<?php echo $nag_html; ?>
     <h2><?php echo get_admin_page_title(); ?></h2>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
+
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 	<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
@@ -150,10 +135,10 @@ $page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$pa
 
         jQuery('.hide-postbox-tog').on('click', wp_statistics_refresh_on_toggle_widget);
 
-        jQuery('#wps_close_nag').click(function () {
+        jQuery('.wps-donate-notice').on('click', '.notice-dismiss', function () {
             var data = {
-                'action': 'wp_statistics_close_donation_nag',
-                'query': '',
+                'action': 'wp_statistics_close_notice',
+                'notice': 'donate',
             };
 
             jQuery.ajax({
@@ -162,8 +147,6 @@ $page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$pa
                 data: data,
                 datatype: 'json',
             });
-
-            jQuery('#wps_nag').hide();
         });
 
     });

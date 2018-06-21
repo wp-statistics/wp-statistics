@@ -28,6 +28,7 @@ if ( $wps_nonce_valid ) {
 		"wps_geoip_report",
 		"wps_prune_report",
 		"wps_upgrade_report",
+		"wps_admin_notices",
 	);
 
 	foreach ( $wps_option_list as $option ) {
@@ -297,6 +298,23 @@ if ( $wps_nonce_valid ) {
                     &nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Total Visits', 'wp-statistics' ); ?>: <code>[wpstatistics
                         stat=visits time=total]</code><br>
                 </p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e( 'Admin Notices', 'wp-statistics' ); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <td scope="row">
+                <label for="admin-notices"><?php _e( 'All Notices:', 'wp-statistics' ); ?></label>
+            </td>
+
+            <td>
+                <input id="admin-notices" type="checkbox" value="1" name="wps_admin_notices" <?php echo $WP_Statistics->get_option( 'admin_notices' ) == true ? "checked='checked'" : ''; ?>>
+                <label for="admin-notices"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+
+                <p class="description"><?php _e('Show all notices and suggestion from WP-Statistics in the admin.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

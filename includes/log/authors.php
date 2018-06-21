@@ -3,8 +3,11 @@
         postboxes.add_postbox_toggles(pagenow);
     });
 </script>
+
 <div class="wrap">
     <h2><?php _e( 'Author Statistics', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
+
 	<?php
 	$daysToDisplay = 20;
 	if ( array_key_exists( 'hitdays', $_GET ) ) {

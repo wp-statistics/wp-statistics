@@ -9,6 +9,8 @@ include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.
 ?>
 <div class="wrap">
     <h2><?php _e( 'Top 100 Visitors Today', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
+
 	<?php
 	wp_enqueue_script( 'jquery-ui-datepicker' );
 	wp_register_style(
