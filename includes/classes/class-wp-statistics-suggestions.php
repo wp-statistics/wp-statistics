@@ -12,7 +12,7 @@ class WP_Statistics_Suggestions {
 
 		// Check the suggestion is enabled.
 		if ( ! $WP_Statistics->get_option( 'disable_suggestion_nag', false ) ) {
-			//add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
+			add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
 		}
 	}
 
@@ -129,9 +129,10 @@ class WP_Statistics_Suggestions {
 			'google.nl'     => array( 'country' => 'Netherlands', 'language' => 'Dutch', 'code' => 'nl' ),
 			'google.bt'     => array( 'country' => 'Bhutan', 'language' => 'Dzongkha', 'code' => 'dz' ),
 			'google.com.ag' => array( 'country' => 'Antigua and Barbuda', 'language' => 'English', 'code' => 'en' ),
-			'google.fm'     => array( 'country'  => 'Federated States of Micronesia',
-			                          'language' => 'English',
-			                          'code'     => 'en'
+			'google.fm'     => array(
+				'country'  => 'Federated States of Micronesia',
+				'language' => 'English',
+				'code'     => 'en'
 			),
 			'google.com.lc' => array( 'country' => 'Saint Lucia', 'language' => 'English', 'code' => 'en' ),
 			'google.com.ng' => array( 'country' => 'Nigeria', 'language' => 'English', 'code' => 'en' ),
@@ -163,9 +164,10 @@ class WP_Statistics_Suggestions {
 			'google.gm'     => array( 'country' => 'Gambia', 'language' => 'English', 'code' => 'en' ),
 			'google.gy'     => array( 'country' => 'Guyana', 'language' => 'English', 'code' => 'en' ),
 			'google.ie'     => array( 'country' => 'Ireland', 'language' => 'English', 'code' => 'en' ),
-			'google.io'     => array( 'country'  => 'British Indian Ocean Territory',
-			                          'language' => 'English',
-			                          'code'     => 'en'
+			'google.io'     => array(
+				'country'  => 'British Indian Ocean Territory',
+				'language' => 'English',
+				'code'     => 'en'
 			),
 			'google.com.jm' => array( 'country' => 'Jamaica', 'language' => 'English', 'code' => 'en' ),
 			'google.co.ke'  => array( 'country' => 'Kenya', 'language' => 'English', 'code' => 'en' ),
@@ -183,28 +185,32 @@ class WP_Statistics_Suggestions {
 			'google.com.pg' => array( 'country' => 'Papua New Guinea', 'language' => 'English', 'code' => 'en' ),
 			'google.pn'     => array( 'country' => 'Pitcairn Islands', 'language' => 'English', 'code' => 'en' ),
 			'google.rw'     => array( 'country' => 'Rwanda', 'language' => 'English', 'code' => 'en' ),
-			'google.sh'     => array( 'country'  => 'Saint Helena, Ascension and Tristan da Cunha',
-			                          'language' => 'English',
-			                          'code'     => 'en'
+			'google.sh'     => array(
+				'country'  => 'Saint Helena, Ascension and Tristan da Cunha',
+				'language' => 'English',
+				'code'     => 'en'
 			),
 			'google.com.sl' => array( 'country' => 'Sierra Leone', 'language' => 'English', 'code' => 'en' ),
-			'google.com.vc' => array( 'country'  => 'Saint Vincent and the Grenadines',
-			                          'language' => 'English',
-			                          'code'     => 'en'
+			'google.com.vc' => array(
+				'country'  => 'Saint Vincent and the Grenadines',
+				'language' => 'English',
+				'code'     => 'en'
 			),
 			'google.vg'     => array( 'country' => 'British Virgin Islands', 'language' => 'English', 'code' => 'en' ),
-			'google.co.vi'  => array( 'country'  => 'United States Virgin Islands',
-			                          'language' => 'English',
-			                          'code'     => 'en'
+			'google.co.vi'  => array(
+				'country'  => 'United States Virgin Islands',
+				'language' => 'English',
+				'code'     => 'en'
 			),
 			'google.ws'     => array( 'country' => 'Samoa', 'language' => 'English', 'code' => 'en' ),
 			'google.co.za'  => array( 'country' => 'South Africa', 'language' => 'English', 'code' => 'en' ),
 			'google.com.ph' => array( 'country' => 'Philippines', 'language' => 'Filipino', 'code' => 'fl' ),
 			'google.fi'     => array( 'country' => 'Finland', 'language' => 'Finnish', 'code' => 'fi' ),
 			'google.bf'     => array( 'country' => 'Burkina Faso', 'language' => 'French', 'code' => 'fr' ),
-			'google.cd'     => array( 'country'  => 'Democratic Republic of the Congo',
-			                          'language' => 'French',
-			                          'code'     => 'fr'
+			'google.cd'     => array(
+				'country'  => 'Democratic Republic of the Congo',
+				'language' => 'French',
+				'code'     => 'fr'
 			),
 			'google.cg'     => array( 'country' => 'Republic of the Congo', 'language' => 'French', 'code' => 'fr' ),
 			'google.ci'     => array( 'country' => 'Ivory Coast', 'language' => 'French', 'code' => 'fr' ),
@@ -262,9 +268,10 @@ class WP_Statistics_Suggestions {
 			'google.cv'     => array( 'country' => 'Cape Verde', 'language' => 'Portuguese', 'code' => 'pt' ),
 			'google.co.mz'  => array( 'country' => 'Mozambique', 'language' => 'Portuguese', 'code' => 'pt' ),
 			'google.pt'     => array( 'country' => 'Portugal', 'language' => 'Portuguese', 'code' => 'pt' ),
-			'google.st'     => array( 'country'  => 'São Tomé and Príncipe',
-			                          'language' => 'Portuguese',
-			                          'code'     => 'pt'
+			'google.st'     => array(
+				'country'  => 'São Tomé and Príncipe',
+				'language' => 'Portuguese',
+				'code'     => 'pt'
 			),
 			'google.tl'     => array( 'country' => 'Timor-Leste', 'language' => 'Portuguese', 'code' => 'pt' ),
 			'google.md'     => array( 'country' => 'Moldova', 'language' => 'Romanian', 'code' => 'ro' ),
@@ -315,79 +322,127 @@ class WP_Statistics_Suggestions {
 	public function get_countries() {
 		global $wpdb, $WP_Statistics;
 
-		$result = $wpdb->get_results( "SELECT referred, hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' AND referred REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND `last_counter` BETWEEN '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND '{$WP_Statistics->Current_Date( 'Y-m-d' )}' GROUP BY referred ORDER BY `visitors` DESC LIMIT 5" );
+		$result = $wpdb->get_results( "SELECT referred, SUM(hits) as hits, COUNT(*) as visitors FROM {$wpdb->prefix}statistics_visitor WHERE referred != '' AND referred LIKE '%google%' and referred NOT LIKE '%google.com%' AND referred REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND `last_counter` BETWEEN '{$WP_Statistics->Current_Date( 'Y-m-d', -365 )}' AND '{$WP_Statistics->Current_Date( 'Y-m-d' )}' GROUP BY referred HAVING visitors > '1' ORDER BY `visitors` DESC" );
 
 		return $result;
 	}
 
+	private function get_default_languages( $excludes = array() ) {
+		$data = array(
+			array(
+				'language'                  => 'Spanish',
+				'potential_traffic'         => '1706',
+				'potential_traffic_percent' => '239%',
+				'potential_leads'           => '67',
+				'potential_leads_percent'   => '346%',
+			),
+			array(
+				'language'                  => 'German',
+				'potential_traffic'         => '1600',
+				'potential_traffic_percent' => '218%',
+				'potential_leads'           => '52',
+				'potential_leads_percent'   => '246%',
+			),
+			array(
+				'language'                  => 'Italian',
+				'potential_traffic'         => '1383',
+				'potential_traffic_percent' => '179%',
+				'potential_leads'           => '37',
+				'potential_leads_percent'   => '146%',
+			),
+			array(
+				'language'                  => 'French',
+				'potential_traffic'         => '906',
+				'potential_traffic_percent' => '100%',
+				'potential_leads'           => '20',
+				'potential_leads_percent'   => '53%',
+			)
+		);
+
+		if ( ! $excludes ) {
+			return $data;
+		}
+
+		foreach ( $data as $key => $value ) {
+			if ( array_search( $value['language'], $excludes ) !== false ) {
+				unset( $data[ $key ] );
+			}
+		}
+
+		return $data;
+	}
+
 	public function get_suggestion() {
+		$languages  = array();
+		$_languages = array();
+		$data       = array();
+
+		foreach ( $this->get_countries() as $value ) {
+			$domain_info = $this->get_domain_info( $this->get_base_url( $value->referred ) );
+
+			if ( isset( $languages[ $domain_info['language'] ] ) ) {
+
+				$hits     = $languages[ $domain_info['language'] ]['hits'];
+				$visitors = $languages[ $domain_info['language'] ]['visitors'];
+
+				$languages[ $domain_info['language'] ]['hits']     = $value->hits + $hits;
+				$languages[ $domain_info['language'] ]['visitors'] = $value->visitors + $visitors;
+
+			} else {
+				$languages[ $domain_info['language'] ] = array(
+					'hits'     => $value->hits,
+					'visitors' => $value->visitors,
+					'language' => $domain_info['language'],
+					'code'     => $domain_info['code'],
+				);
+			}
+		}
+
+		// Return default language
+		if ( ! $languages ) {
+			return $this->get_default_languages();
+		}
+
+		// Remove current language
+		$lang = explode( '-', get_bloginfo( "language" ) );
+		foreach ( $languages as $key => $value ) {
+			if ( isset( $lang[0] ) and $value['code'] == $lang[0] ) {
+				unset( $languages[ $key ] );
+			}
+		}
+
+		// Slice array
+		$languages = array_slice( $languages, 0, 4 );
+		$languages = array_slice( $languages, 0, 1 );
+
+		$i            = 0;
 		$data_rate    = array( 2.4, 2.2, 1.8, 0.8 );
 		$traffic_rate = array( 3.4, 3.2, 2.8, 2.0 );
 		$leads_rate   = array( 4.5, 3.5, 2.5, 1.5 );
-		$countries    = $this->get_countries();
 
-		if ( $countries and count( $countries ) == 5 ) {
-			$i    = 0;
-			$lang = explode( '-', get_bloginfo( "language" ) );
+		foreach ( $languages as $key => $value ) {
+			$visitor      = (int) ( $value['visitors'] * $data_rate[ $i ] );
+			$leads        = $this->percentage( $visitor, 3 ) * $leads_rate[ $i ];
+			$_languages[] = $key;
 
-			foreach ( $countries as $key => $value ) {
-				$country = $this->get_domain_info( $this->get_base_url( $value->referred ) );
-
-				if ( isset( $lang[0] ) and $country['code'] == $lang[0] or $i == 4 ) {
-					continue;
-				}
-
-				$visitor = (int) ( $value->visitors * $data_rate[ $key ] );
-				$leads   = $this->percentage( $visitor, 3 ) * $leads_rate[ $key ];
-
-				if ( $visitor <= 0 or $leads <= 0 ) {
-					continue;
-				}
-
-				$data[] = array(
-					'domain'                    => $value->referred,
-					'country'                   => ( isset( $country['language'] ) ? $country['language'] : '' ),
-					'visitors'                  => $visitor,
-					'potential_traffic'         => $visitor * $traffic_rate[ $key ],
-					'potential_traffic_percent' => $this->percentage_increase( $visitor, $visitor * $traffic_rate[ $key ] ) . '%',
-					'potential_leads'           => $leads,
-					'potential_leads_percent'   => $this->percentage_increase( $this->percentage( $visitor, 3 ), $leads ) . '%',
-					'hits'                      => $value->hits,
-				);
-
-				$i ++;
-			}
-		} else {
-			$data = array(
-				array(
-					'country'                   => 'Spanish',
-					'potential_traffic'         => '1706',
-					'potential_traffic_percent' => '239%',
-					'potential_leads'           => '67',
-					'potential_leads_percent'   => '346%',
-				),
-				array(
-					'country'                   => 'German',
-					'potential_traffic'         => '1600',
-					'potential_traffic_percent' => '218%',
-					'potential_leads'           => '52',
-					'potential_leads_percent'   => '246%',
-				),
-				array(
-					'country'                   => 'Italian',
-					'potential_traffic'         => '1383',
-					'potential_traffic_percent' => '179%',
-					'potential_leads'           => '37',
-					'potential_leads_percent'   => '146%',
-				),
-				array(
-					'country'                   => 'French',
-					'potential_traffic'         => '906',
-					'potential_traffic_percent' => '100%',
-					'potential_leads'           => '20',
-					'potential_leads_percent'   => '53%',
-				)
+			$data[] = array(
+				'language'                  => $key,
+				'visitors'                  => $visitor,
+				'potential_traffic'         => $visitor * $traffic_rate[ $i ],
+				'potential_traffic_percent' => $this->percentage_increase( $visitor, $visitor * $traffic_rate[ $i ] ) . '%',
+				'potential_leads'           => $leads,
+				'potential_leads_percent'   => $this->percentage_increase( $this->percentage( $visitor, 3 ), $leads ) . '%',
+				'hits'                      => $value['hits'],
 			);
+
+			$i ++;
+		}
+
+		// Add default languages to current languages
+		if ( count( $data ) < 2 ) {
+			$default_languages = array_slice( $this->get_default_languages( $_languages ), 0, 3 );
+
+			$data = array_merge( $data, $default_languages );
 		}
 
 		return $data;

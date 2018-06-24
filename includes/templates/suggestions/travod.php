@@ -39,7 +39,7 @@
                     <tbody>
 					<?php foreach ( $this->get_suggestion() as $item ) : ?>
                         <tr>
-                            <td><?php echo $item['country']; ?></td>
+                            <td><?php echo $item['language']; ?></td>
                             <td><span class="dashicons dashicons-arrow-up"></span> <?php echo $item['potential_traffic_percent']; ?> (<?php echo $item['potential_traffic']; ?> Visitors)</td>
                             <td><span class="dashicons dashicons-arrow-up"></span> <?php echo $item['potential_leads_percent']; ?> (<?php echo $item['potential_leads']; ?> Leads)</td>
                         </tr>
