@@ -413,7 +413,6 @@ class WP_Statistics_Suggestions {
 
 		// Slice array
 		$languages = array_slice( $languages, 0, 4 );
-		$languages = array_slice( $languages, 0, 1 );
 
 		$i            = 0;
 		$data_rate    = array( 2.4, 2.2, 1.8, 0.8 );
