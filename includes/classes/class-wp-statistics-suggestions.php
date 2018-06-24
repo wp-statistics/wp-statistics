@@ -12,7 +12,7 @@ class WP_Statistics_Suggestions {
 
 		// Check the suggestion is enabled.
 		if ( ! $WP_Statistics->get_option( 'disable_suggestion_nag', false ) ) {
-			add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
+			//add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
 		}
 	}
 
