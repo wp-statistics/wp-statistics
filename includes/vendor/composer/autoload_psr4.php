@@ -9,6 +9,7 @@ return array(
     'Wurfl\\' => array($vendorDir . '/mimmi20/wurfl-constants/src'),
     'WurflCache\\' => array($vendorDir . '/mimmi20/wurflcache/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),

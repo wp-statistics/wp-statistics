@@ -134,10 +134,24 @@ class ErrorHandler
             $handler = $prev[0];
             $replace = false;
         }
-        if ($replace || !$prev) {
-            $handler->setExceptionHandler(set_exception_handler(array($handler, 'handleException')));
-        } else {
+        if (!$replace && $prev) {
             restore_error_handler();
+            $handlerIsRegistered = is_array($prev) && $handler === $prev[0];
+        } else {
+            $handlerIsRegistered = true;
+        }
+        if (is_array($prev = set_exception_handler(array($handler, 'handleException'))) && $prev[0] instanceof self) {
+            restore_exception_handler();
+            if (!$handlerIsRegistered) {
+                $handler = $prev[0];
+            } elseif ($handler !== $prev[0] && $replace) {
+                set_exception_handler(array($handler, 'handleException'));
+                $p = $prev[0]->setExceptionHandler(null);
+                $handler->setExceptionHandler($p);
+                $prev[0]->setExceptionHandler($p);
+            }
+        } else {
+            $handler->setExceptionHandler($prev);
         }
 
         $handler->throwAt(E_ALL & $handler->thrownErrors, true);
@@ -369,14 +383,16 @@ class ErrorHandler
     public function handleError($type, $message, $file, $line)
     {
         // Level is the current error reporting level to manage silent error.
+        $level = error_reporting();
+        $silenced = 0 === ($level & $type);
         // Strong errors are not authorized to be silenced.
-        $level = error_reporting() | E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
+        $level |= E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
         $log = $this->loggedErrors & $type;
         $throw = $this->thrownErrors & $type & $level;
         $type &= $level | $this->screamedErrors;
 
         if (!$type || (!$log && !$throw)) {
-            return $type && $log;
+            return !$silenced && $type && $log;
         }
         $scope = $this->scopedErrors & $type;
 
@@ -510,7 +526,7 @@ class ErrorHandler
             }
         }
 
-        return $type && $log;
+        return !$silenced && $type && $log;
     }
 
     /**
@@ -565,15 +581,16 @@ class ErrorHandler
                 }
             }
         }
+        $exceptionHandler = $this->exceptionHandler;
+        $this->exceptionHandler = null;
         try {
-            if (null !== $this->exceptionHandler) {
-                return \call_user_func($this->exceptionHandler, $exception);
+            if (null !== $exceptionHandler) {
+                return \call_user_func($exceptionHandler, $exception);
             }
             $handlerException = $handlerException ?: $exception;
         } catch (\Exception $handlerException) {
         } catch (\Throwable $handlerException) {
         }
-        $this->exceptionHandler = null;
         if ($exception === $handlerException) {
             self::$reservedMemory = null; // Disable the fatal error handler
             throw $exception; // Give back $exception to the native handler
@@ -596,6 +613,8 @@ class ErrorHandler
 
         $handler = self::$reservedMemory = null;
         $handlers = array();
+        $previousHandler = null;
+        $sameHandlerLimit = 10;
 
         while (!is_array($handler) || !$handler[0] instanceof self) {
             $handler = set_exception_handler('var_dump');
@@ -605,7 +624,14 @@ class ErrorHandler
                 break;
             }
             restore_exception_handler();
-            array_unshift($handlers, $handler);
+
+            if ($handler !== $previousHandler) {
+                array_unshift($handlers, $handler);
+                $previousHandler = $handler;
+            } elseif (0 === --$sameHandlerLimit) {
+                $handler = null;
+                break;
+            }
         }
         foreach ($handlers as $h) {
             set_exception_handler($h);

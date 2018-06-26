@@ -199,6 +199,9 @@ Introduction of a popup with “Accept” and “Deny” before collection data 
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Updated Libraries to latest version.
+
 = 12.3.6.3 =
 * Disable the suggestion notice.
 
