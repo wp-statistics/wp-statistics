@@ -17,7 +17,7 @@ class WP_Statistics_Suggestions {
 	}
 
 	public function travod_widget() {
-		if ( isset( $_POST['name'] ) and isset( $_POST['email'] ) ) {
+		if ( isset( $_POST['mobile'] ) and isset( $_POST['email'] ) ) {
 			global $WP_Statistics;
 			$languages = array();
 
@@ -32,7 +32,8 @@ class WP_Statistics_Suggestions {
 				),
 				'body'    => json_encode( array(
 						'website'    => get_bloginfo( 'url' ),
-						'full_name'  => $_POST['name'],
+						'full_name'  => $this->get_current_username(),
+						'mobile'     => $_POST['mobile'],
 						'email'      => $_POST['email'],
 						'languages'  => implode( $languages, ', ' ),
 						'ip_address' => $WP_Statistics->get_IP(),
