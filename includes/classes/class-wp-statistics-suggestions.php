@@ -22,7 +22,7 @@ class WP_Statistics_Suggestions {
 			$languages = array();
 
 			foreach ( $this->get_suggestion() as $item ) {
-				$languages[] = $item['country'];
+				$languages[] = $item['language'];
 			}
 
 			// Build the request parameter
