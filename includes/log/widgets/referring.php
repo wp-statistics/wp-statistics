@@ -7,10 +7,9 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 
 	if ( false === ( $get_urls = get_transient( 'wps_top_referring' ) ) ) {
 		do {
-			$result = $wpdb->get_results(
-				"SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' LIMIT {$start}, 10000"
-			);
+			$result = $wpdb->get_results("SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' LIMIT {$start}, 10000");
 			$start  += count( $result );
+
 			foreach ( $result as $item ) {
 				$url = parse_url( $item->referred );
 				if ( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {

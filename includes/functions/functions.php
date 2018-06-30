@@ -1120,7 +1120,7 @@ function wp_statistics_average_registeruser( $days = false ) {
 	}
 }
 
-// This function handle's the dashicons in the overview page.
+// This function handle's the Dashicons in the overview page.
 function wp_statistics_icons( $dashicons, $icon_name = null ) {
 
 	global $wp_version;
@@ -1159,15 +1159,7 @@ function wp_statistics_geoip_supported() {
 }
 
 // This function creates the date range selector 'widget' used in the various statistics pages.
-function wp_statistics_date_range_selector(
-	$page,
-	$current,
-	$range = array(),
-	$desc = array(),
-	$extrafields = '',
-	$pre_extra = '',
-	$post_extra = ''
-) {
+function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '', $pre_extra = '', $post_extra = '' ) {
 	GLOBAL $WP_Statistics;
 
 	wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -1177,7 +1169,7 @@ function wp_statistics_date_range_selector(
 	);
 	wp_enqueue_style( 'jquery-ui-smoothness-css' );
 
-	if ( count( $range ) == 0 ) {
+	if ( $range == null or count( $range ) == 0 ) {
 		$range = array( 10, 20, 30, 60, 90, 180, 270, 365 );
 		$desc  = array(
 			__( '10 Days', 'wp-statistics' ),

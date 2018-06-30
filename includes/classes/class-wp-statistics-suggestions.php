@@ -461,7 +461,7 @@ class WP_Statistics_Suggestions {
 
 			$data = array_merge( $data, $default_languages );
 		}
-		
+
 		return $data;
 	}
 

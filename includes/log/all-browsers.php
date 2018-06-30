@@ -77,7 +77,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Browser Statistics', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['browser'], $daysToDisplay ); ?></div>
     <div class="postbox-container" style="width: 48%; float: left; margin-right:20px">
@@ -198,7 +198,8 @@ foreach ( $PlatformVisits as $key => $value ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
 				<?php
-				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
+				$BrowsersCount = count( $Browsers );
+				for ( $BrowserCount = 0; $BrowserCount < $BrowsersCount; $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 0 ) {
 						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ], $rangestartdate, $rangeenddate );
 					}
@@ -212,7 +213,7 @@ foreach ( $PlatformVisits as $key => $value ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
 				<?php
-				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
+				for ( $BrowserCount = 0; $BrowserCount < $BrowsersCount; $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 1 ) {
 						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ], $rangestartdate, $rangeenddate );
 					}
@@ -226,7 +227,7 @@ foreach ( $PlatformVisits as $key => $value ) {
         <div class="metabox-holder">
             <div class="meta-box-sortables">
 				<?php
-				for ( $BrowserCount = 0; $BrowserCount < count( $Browsers ); $BrowserCount ++ ) {
+				for ( $BrowserCount = 0; $BrowserCount < $BrowsersCount; $BrowserCount ++ ) {
 					if ( $BrowserCount % 3 == 2 ) {
 						wp_statistics_browser_version_stats( $Browsers[ $BrowserCount ], $rangestartdate, $rangeenddate );
 					}
