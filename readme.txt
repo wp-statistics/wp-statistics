@@ -201,6 +201,7 @@ This is a security fix, please update immediately.
 == Changelog ==
 = dev-master =
 * Updated Libraries to latest version.
+* Improvement Counting non-changing collections with `count()`. Thanks [Daniel Ruf](https://github.com/DanielRuf)
 
 = 12.3.6.3 =
 * Disable the suggestion notice.
