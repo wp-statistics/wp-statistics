@@ -87,7 +87,7 @@ class WP_Statistics_Suggestions {
 		}
 	}
 
-	private function get_domain_info( $domian_name ) {
+	private function get_domain_info( $domain_name ) {
 		$domains = array(
 			'google.me'     => array( 'country' => 'Montenegro', 'language' => 'Albanian', 'code' => 'sq' ),
 			'google.al'     => array( 'country' => 'Albania', 'language' => 'Albanian', 'code' => 'sq' ),
@@ -317,7 +317,7 @@ class WP_Statistics_Suggestions {
 			'google.com.vn' => array( 'country' => 'Vietnam', 'language' => 'Vietnamese', 'code' => 'vi' ),
 		);
 
-		return $domains[ $domian_name ];
+		return $domains[ $domain_name ];
 	}
 
 	public function get_countries() {
@@ -332,6 +332,7 @@ class WP_Statistics_Suggestions {
 		$data = array(
 			array(
 				'language'                  => 'Spanish',
+				'code'                      => 'es',
 				'potential_traffic'         => '1706',
 				'potential_traffic_percent' => '239%',
 				'potential_leads'           => '67',
@@ -339,6 +340,7 @@ class WP_Statistics_Suggestions {
 			),
 			array(
 				'language'                  => 'German',
+				'code'                      => 'de',
 				'potential_traffic'         => '1600',
 				'potential_traffic_percent' => '218%',
 				'potential_leads'           => '52',
@@ -346,6 +348,7 @@ class WP_Statistics_Suggestions {
 			),
 			array(
 				'language'                  => 'Italian',
+				'code'                      => 'it',
 				'potential_traffic'         => '1383',
 				'potential_traffic_percent' => '179%',
 				'potential_leads'           => '37',
@@ -353,6 +356,7 @@ class WP_Statistics_Suggestions {
 			),
 			array(
 				'language'                  => 'French',
+				'code'                      => 'fr',
 				'potential_traffic'         => '906',
 				'potential_traffic_percent' => '100%',
 				'potential_leads'           => '20',
@@ -374,11 +378,17 @@ class WP_Statistics_Suggestions {
 	}
 
 	public function get_suggestion() {
+		$countries  = $this->get_countries();
 		$languages  = array();
 		$_languages = array();
 		$data       = array();
-		
-		foreach ( $this->get_countries() as $value ) {
+
+		// Remove first item
+		if ( is_array( $countries ) ) {
+			unset( $countries[0] );
+		}
+
+		foreach ( $countries as $value ) {
 			$domain_info = $this->get_domain_info( $this->get_base_url( $value->referred ) );
 
 			if ( isset( $languages[ $domain_info['language'] ] ) ) {
@@ -405,9 +415,9 @@ class WP_Statistics_Suggestions {
 		}
 
 		// Remove current language
-		$lang = explode( '-', get_bloginfo( "language" ) );
+		$current_language_code = $this->get_current_lang_code();
 		foreach ( $languages as $key => $value ) {
-			if ( isset( $lang[0] ) and $value['code'] == $lang[0] ) {
+			if ( $current_language_code and $value['code'] == $current_language_code ) {
 				unset( $languages[ $key ] );
 			}
 		}
@@ -442,10 +452,25 @@ class WP_Statistics_Suggestions {
 		if ( count( $data ) < 2 ) {
 			$default_languages = array_slice( $this->get_default_languages( $_languages ), 0, 3 );
 
+			// Remove current language
+			foreach ( $default_languages as $key => $value ) {
+				if ( $current_language_code and $value['code'] == $current_language_code ) {
+					unset( $default_languages[ $key ] );
+				}
+			}
+
 			$data = array_merge( $data, $default_languages );
 		}
-
+		
 		return $data;
+	}
+
+	private function get_current_lang_code() {
+		$lang = explode( '-', get_bloginfo( "language" ) );
+
+		if ( isset( $lang[0] ) ) {
+			return $lang[0];
+		}
 	}
 
 	private function percentage_increase( $x1, $x2 ) {
