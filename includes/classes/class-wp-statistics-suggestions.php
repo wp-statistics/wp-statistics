@@ -316,8 +316,10 @@ class WP_Statistics_Suggestions {
 			'google.com.vn' => array( 'country' => 'Vietnam', 'language' => 'Vietnamese', 'code' => 'vi' ),
 		);
 
-		return $domains[ $domain_name ];
-	}
+		if(isset($domains[ $domain_name ])){
+            return $domains[ $domain_name ];
+        }
+    }
 
 	public function get_countries() {
 		global $wpdb, $WP_Statistics;
