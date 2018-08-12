@@ -183,11 +183,6 @@ class WP_Statistics {
 			$this->ip_hash = $this->get_hash_string();
 		}
 
-		// Check the Opt-Out us enabled.
-		if ( $this->get_option( 'allow_opt_out' ) == true ) {
-			$this->check_opt_out();
-		}
-
 		$this->set_pages();
 
 		// Autoload composer
@@ -393,58 +388,6 @@ class WP_Statistics {
 	 */
 	private function get_hash_string() {
 		return '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
-	}
-
-	/**
-	 * Check Opt-Out for data protection
-	 */
-	public function check_opt_out() {
-		// Get IP hashed
-		$get_hash = $this->get_hash_string();
-
-		// Set cookie and redirect to current URL if requested
-		if ( isset( $_GET['wp_statistics_opt_out'] ) ) {
-			global $wpdb;
-
-			// Set cookie
-			if ( $_GET['wp_statistics_opt_out'] == 1 ) {
-				@setcookie( 'wp_statistics_opt_out', '1', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
-			} elseif ( $_GET['wp_statistics_opt_out'] == 0 ) {
-				@setcookie( 'wp_statistics_opt_out', '0', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
-
-				// Submit hash IP in the last visit
-				$wpdb->update(
-					$wpdb->prefix . "statistics_visitor",
-					array(
-						'ip' => $get_hash,
-					),
-					array(
-						'ip'           => $this->ip,
-						'last_counter' => $this->Current_date( 'Y-m-d' )
-					) );
-
-			}
-
-			// Build current URL
-			$current_url = esc_url( remove_query_arg( 'wp_statistics_opt_out', $_SERVER['REQUEST_URI'] ) );
-
-			// Redirect user to current location
-			header( 'Location: ' . $current_url );
-			exit;
-		}
-
-		// Hash IP if the Opt-Out cookie is 0 or DNT is set
-		if ( ( isset( $_COOKIE['wp_statistics_opt_out'] ) and $_COOKIE['wp_statistics_opt_out'] == 0 ) or ( isset( $_SERVER['HTTP_DNT'] ) and $_SERVER['HTTP_DNT'] == '1' and ( ! isset( $_COOKIE['wp_statistics_opt_out'] ) or $_COOKIE['wp_statistics_opt_out'] != 1 ) ) ) {
-			$this->ip_hash = $get_hash;
-
-			return;
-		}
-
-		// Show Opt-Out message for the user
-		if ( empty( $_COOKIE['wp_statistics_opt_out'] ) ) {
-			// Show Popup to visitor
-			add_action( 'wp_footer', 'WP_Statistics_Frontend::opt_out_confirmation' );
-		}
 	}
 
 	/**
@@ -759,7 +702,6 @@ class WP_Statistics {
 		$options['check_online']          = '30';
 		$options['menu_bar']              = false;
 		$options['coefficient']           = '1';
-		$options['opt_out_message']       = __( 'This website stores some user agent data. These data are used to provide a more personalized experience and to track your whereabouts around our website in compliance with the European General Data Protection Regulation. If you decide to opt-out of any future tracking, a cookie will be set up in your browser to remember this choice for one year.', 'wp-statistics' ) . ' <a href="%accept_url%">' . __( 'I Agree', 'wp-statistics' ) . '</a>, <a href="%cancel_url%">' . __( 'Deny', 'wp-statistics' ) . '</a>';
 		$options['stats_report']          = false;
 		$options['time_report']           = 'daily';
 		$options['send_report']           = 'mail';
