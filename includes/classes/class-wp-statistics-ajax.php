@@ -297,6 +297,7 @@ class WP_Statistics_Ajax {
 			'hitsmap',
 			'page',
 			'pages',
+			'today.top.pages',
 			'quickstats',
 			'recent',
 			'referring',
@@ -404,6 +405,10 @@ class WP_Statistics_Ajax {
 					break;
 				case 'pages':
 					wp_statistics_generate_pages_postbox_content();
+
+					break;
+				case 'today.top.pages':
+					wp_statistics_generate_today_top_pages_postbox_content();
 
 					break;
 				case 'recent':

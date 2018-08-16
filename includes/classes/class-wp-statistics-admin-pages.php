@@ -96,6 +96,18 @@ class WP_Statistics_Admin_Pages {
 			);
 		}
 
+		if ( $WP_Statistics->get_option( 'pages' ) ) {
+			add_meta_box(
+				'wps_today_pages_postbox',
+				__( 'Today Top 10 Pages', 'wp-statistics' ),
+				'wp_statistics_generate_overview_postbox_contents',
+				$WP_Statistics->menu_slugs['overview'],
+				'normal',
+				null,
+				array( 'widget' => 'today.top.pages' )
+			);
+		}
+
 		// Left side "thin" widgets.
 		if ( $WP_Statistics->get_option( 'visitors' ) ) {
 			add_meta_box(

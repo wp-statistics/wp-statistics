@@ -41,7 +41,7 @@ function wp_statistics_generate_pages_postbox_content() {
 		     '">' .
 		     number_format_i18n( $item->count_sum ) .
 		     '</a></div>';
-		echo '<div><a href="' .
+		echo '<div style="direction: ltr;"><a href="' .
 		     htmlentities( $site_url . $item->uri, ENT_QUOTES ) .
 		     '">' .
 		     htmlentities( urldecode( $item->uri ), ENT_QUOTES ) .

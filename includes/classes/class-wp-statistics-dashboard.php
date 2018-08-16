@@ -132,6 +132,15 @@ class WP_Statistics_Dashboard {
 					array( 'widget' => 'pages' )
 				);
 			}
+			if ( $WP_Statistics->get_option( 'pages' ) ) {
+				wp_add_dashboard_widget(
+					'wp-statistics-today-top-pages-widget',
+					__( 'Today Top 10 Pages', 'wp-statistics' ),
+					'WP_Statistics_Dashboard::generate_postbox_contents',
+					$control_callback = null,
+					array( 'widget' => 'today.top.pages' )
+				);
+			}
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
 				wp_add_dashboard_widget(
 					'wp-statistics-recent-widget',
