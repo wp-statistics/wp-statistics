@@ -45,7 +45,7 @@ if ( $wps_nonce_valid ) {
                     ? "checked='checked'" : ''; ?>>
                 <label for="anonymize_ips"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
-                <p class="description"><?php echo __('This option, anonymize user IP address for compliance with GDPR. For example, 888.888.888.888 > 888.888.888.000.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('This option anonymizes the user IP address for GDPR compliance. For example, 888.888.888.888 > 888.888.888.000.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

@@ -693,6 +693,7 @@ class WP_Statistics {
 		$options['search_converted'] = 1;
 
 		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
+		$options['anonymize_ips']         = false;
 		$options['geoip']                 = false;
 		$options['browscap']              = false;
 		$options['useronline']            = true;
