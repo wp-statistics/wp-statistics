@@ -194,6 +194,10 @@ Coming up popup with “Accept” and “Deny” before collection data and Hash
 This is a security fix, please update immediately.
 
 == Changelog ==
+= dev-master =
+* Removed The Opt-Out removed.
+* Added Anonymize IP addresses option in the Setting > Privacy.
+
 = 12.3.6.4 =
 * Updated Libraries to latest version.
 * Enabled the suggestion notice in the log pages.

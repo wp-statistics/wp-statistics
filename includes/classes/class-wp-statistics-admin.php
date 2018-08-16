@@ -68,13 +68,13 @@ class WP_Statistics_Admin {
 
 		// WP-Statistics welcome page hooks
 		add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
-		add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
+		add_action( 'upgrader_process_complete', array($this, 'upgrade_plugin'), 10, 2 );
 		add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
 
 		// Initial the Suggestions class
 		new WP_Statistics_Suggestions();
 
-		// Runs some scripts at the end of the admin panel inside the body tag.
+		// Runs some scripts at the end of the admin panel inside the body tag
 		add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ) );
 	}
 
@@ -82,7 +82,6 @@ class WP_Statistics_Admin {
 	 * Set the headers to download the export file and then stop running WordPress.
 	 */
 	static function export_data() {
-
 		if ( array_key_exists( 'wps_export', $_POST ) ) {
 			if ( ! function_exists( 'wp_statistics_export_data' ) ) {
 				include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/export.php';
@@ -673,4 +672,15 @@ class WP_Statistics_Admin {
 			);
 		}
 	}
+
+    /**
+     * Doing something when the WP-Statistics will be upgraded.
+     */
+    public function upgrade_plugin() {
+        // Update options
+        WP_Statistics_Updates::do_upgrade();
+
+        // Launch the welcome page
+        WP_Statistics_Welcome::do_welcome();
+    }
 }

@@ -28,8 +28,9 @@
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2><?php _e( 'GDPR compliance', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'New Privacy tab added in the Setting page and you can see Opt-out option in this section.', 'wp-statistics' ); ?></h4>
+                        <h2><?php _e( 'GDPR compliance, Updated!', 'wp-statistics' ); ?></h2>
+                        <h4><?php echo sprintf( __( 'We implement GDPR into the WP-Stats. for more information read <a href="%s" target="_blank">the blog post</a>.', 'wp-statistics' ), 'https://wp-statistics.com/2018/08/16/wp-statistics-gdpr' ); ?></h4>
+                        <h4><?php _e( '<span style="color:red;">Important:</span> with this update, Opt-out feature is removed.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
@@ -41,18 +42,18 @@
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Chart.js Updated!', 'wp-statistics' ); ?></h2>
-                        <h4><?php printf( __( 'The Chart.js library was updated to %s', 'wp-statistics' ), 'v2.7.2' ); ?></h4>
+                        <h2><?php _e( 'Anonymize IP addresses', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'This option anonymizes the user IP address for GDPR compliance.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/chartjs.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/wp-stats-ip.png' ); ?>"/>
                 </div>
             </section>
 
             <section class="normal-section">
-                <div class="left">
+                <div class="right">
                     <div class="content-padding">
                         <h2><?php _e( 'Add-Ons!', 'wp-statistics' ); ?></h2>
                         <h4><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></h4>

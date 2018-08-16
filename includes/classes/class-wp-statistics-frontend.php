@@ -45,32 +45,6 @@ class WP_Statistics_Frontend {
 	}
 
 	/**
-	 * Show Opt-Out message for the visitors
-	 */
-	static function opt_out_confirmation() {
-		global $WP_Statistics;
-
-		if ( strpos( $_SERVER['REQUEST_URI'], '?' ) !== false ) {
-			$concat_char = '&';
-		} else {
-			$concat_char = '?';
-		}
-
-		// Generate request URL
-		$action_url      = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . $concat_char . 'wp_statistics_opt_out=';
-		$opt_out_message = $WP_Statistics->get_option( 'opt_out_message' );
-
-		$template_vars = array(
-			'%accept_url%' => $action_url . '1',
-			'%cancel_url%' => $action_url . '0',
-		);
-
-		$message = str_replace( array_keys( $template_vars ), array_values( $template_vars ), wp_kses_post($opt_out_message) );
-
-		echo printf( '<div class="wp-statistics-opt-out">%s</div>', $message );
-	}
-
-	/**
 	 * Shutdown Action
 	 */
 	static function init() {
