@@ -827,6 +827,11 @@ class WP_Statistics {
 			$this->ip = '127.0.0.1';
 		}
 
+		// If the anonymize IP enabled for GDPR.
+		if ( $this->get_option( 'anonymize_ips' ) == true ) {
+            $this->ip = substr($this->ip, 0, strrpos($this->ip, '.')).'.000';
+        }
+
 		return $this->ip;
 	}
 

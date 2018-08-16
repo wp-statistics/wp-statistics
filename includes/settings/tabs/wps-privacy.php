@@ -1,6 +1,7 @@
 <?php
 if ( $wps_nonce_valid ) {
 	$wps_option_list = array(
+		'wps_anonymize_ips',
 		'wps_hash_ips',
 		'wps_store_ua',
 		'wps_all_online',
@@ -31,6 +32,21 @@ if ( $wps_nonce_valid ) {
         <tr valign="top">
             <td scope="row"
                 colspan="2"><?php echo __( sprintf( 'If you want to delete visitor data, Please <a href="%s">click here</a>.', admin_url( 'admin.php?page=wps_optimization_page&tab=purging' ) ), 'wp-statistics' ); ?></td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="anonymize_ips"><?php _e( 'Anonymize IP Addresses:', 'wp-statistics' ); ?></label>
+            </th>
+
+            <td>
+                <input id="anonymize_ips" type="checkbox" value="1"
+                       name="wps_anonymize_ips" <?php echo $WP_Statistics->get_option( 'anonymize_ips' ) == true
+                    ? "checked='checked'" : ''; ?>>
+                <label for="anonymize_ips"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+
+                <p class="description"><?php echo __('This option, anonymize user IP address for compliance with GDPR. For example, 888.888.888.888 > 888.888.888.000.', 'wp-statistics'); ?></p>
+            </td>
         </tr>
 
         <tr valign="top">
