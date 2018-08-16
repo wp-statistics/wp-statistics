@@ -131,12 +131,12 @@ class WP_Statistics {
 			/**
 			 * Plugin URL
 			 */
-			WP_Statistics::$reg['plugin-url'] = plugin_dir_url(WP_STATISTICS_MAIN_FILE);
+			WP_Statistics::$reg['plugin-url'] = plugin_dir_url( WP_STATISTICS_MAIN_FILE );
 			//define('WP_STATISTICS_PLUGIN_URL', plugin_dir_url(WP_STATISTICS_MAIN_FILE));
 			/**
 			 * Plugin DIR
 			 */
-			WP_Statistics::$reg['plugin-dir'] = plugin_dir_path(WP_STATISTICS_MAIN_FILE);
+			WP_Statistics::$reg['plugin-dir'] = plugin_dir_path( WP_STATISTICS_MAIN_FILE );
 			//define('WP_STATISTICS_PLUGIN_DIR', plugin_dir_path(WP_STATISTICS_MAIN_FILE));
 			/**
 			 * Plugin Main File
@@ -145,10 +145,10 @@ class WP_Statistics {
 			/**
 			 * WP Statistics Version
 			 */
-			if ( ! function_exists('get_plugin_data') ) {
+			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require( ABSPATH . 'wp-admin/includes/plugin.php' );
 			}
-			WP_Statistics::$reg['plugin-data'] = get_plugin_data(WP_STATISTICS_MAIN_FILE);
+			WP_Statistics::$reg['plugin-data'] = get_plugin_data( WP_STATISTICS_MAIN_FILE );
 			WP_Statistics::$reg['version']     = WP_Statistics::$reg['plugin-data']['Version'];
 			//define('WP_STATISTICS_VERSION', '12.1.3');
 		}
@@ -168,8 +168,8 @@ class WP_Statistics {
 
 		// Check the PHP version,
 		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
-		if ( ! version_compare(phpversion(), WP_Statistics::$reg['required-php-version'], ">=") ) {
-			add_action('admin_notices', 'WP_Statistics::unsupported_version_admin_notice', 10, 2);
+		if ( ! version_compare( phpversion(), WP_Statistics::$reg['required-php-version'], ">=" ) ) {
+			add_action( 'admin_notices', 'WP_Statistics::unsupported_version_admin_notice', 10, 2 );
 
 			return;
 		}
@@ -177,28 +177,38 @@ class WP_Statistics {
 		$this->set_timezone();
 		$this->load_options();
 		$this->get_IP();
-		$this->set_ip_hash();
+
+		// Check if the has IP is enabled.
+		if ( $this->get_option( 'hash_ips' ) == true ) {
+			$this->ip_hash = $this->get_hash_string();
+		}
+
+		// Check the Opt-Out us enabled.
+		if ( $this->get_option( 'allow_opt_out' ) == true ) {
+			$this->check_opt_out();
+		}
+
 		$this->set_pages();
 
 		// Autoload composer
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
 
 		// define an autoload method to automatically load classes in /includes/classes
-		spl_autoload_register(array( $this, 'autoload' ));
+		spl_autoload_register( array( $this, 'autoload' ) );
 
 		// Add init actions.
 		// For the main init we're going to set our priority to 9 to execute before most plugins
 		// so we can export data before and set the headers without
 		// worrying about bugs in other plugins that output text and don't allow us to set the headers.
-		add_action('init', array( $this, 'init' ), 9);
+		add_action( 'init', array( $this, 'init' ), 9 );
 
 		// Load the rest of the required files for our global functions,
 		// online user tracking and hit tracking.
-		if ( ! function_exists('wp_statistics_useronline') ) {
+		if ( ! function_exists( 'wp_statistics_useronline' ) ) {
 			include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/functions.php';
 		}
 
-		$this->agent = $this->get_UserAgent();
+		$this->agent   = $this->get_UserAgent();
 		$WP_Statistics = $this;
 
 		if ( is_admin() ) {
@@ -209,19 +219,12 @@ class WP_Statistics {
 			new WP_Statistics_Frontend;
 		}
 
-		$this->check_ajax_logger_request();
-		if ( $this->is_ajax_logger_request ) {
-			// these 2 lines should load for both admin and frontend
-			add_action('wp_ajax_wp_statistics_log_visit', 'WP_Statistics_Frontend::log_visit');
-			add_action('wp_ajax_nopriv_wp_statistics_log_visit', 'WP_Statistics_Frontend::log_visit');
+		if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
+			add_action( 'admin_bar_menu', 'WP_Statistics::menubar', 20 );
 		}
 
-		if ( $WP_Statistics->get_option('menu_bar') ) {
-			add_action('admin_bar_menu', 'WP_Statistics::menubar', 20);
-		}
-
-		add_action('widgets_init', 'WP_Statistics::widget');
-		add_shortcode('wpstatistics', 'WP_Statistics_Shortcode::shortcodes');
+		add_action( 'widgets_init', 'WP_Statistics::widget' );
+		add_shortcode( 'wpstatistics', 'WP_Statistics_Shortcode::shortcodes' );
 	}
 
 	/**
@@ -230,15 +233,15 @@ class WP_Statistics {
 	 * @param string $class Class name
 	 */
 	public function autoload( $class ) {
-		if ( ! class_exists($class) && // This check is for performance of loading plugin classes
-		     substr($class, 0, 14) === 'WP_Statistics_'
+		if ( ! class_exists( $class ) && // This check is for performance of loading plugin classes
+		     substr( $class, 0, 14 ) === 'WP_Statistics_'
 		) {
-			$lower_class_name = str_replace('_', '-', strtolower($class));
+			$lower_class_name = str_replace( '_', '-', strtolower( $class ) );
 			$class_full_path  = WP_Statistics::$reg['plugin-dir'] .
 			                    'includes/classes/class-' .
 			                    $lower_class_name .
 			                    '.php';
-			if ( file_exists($class_full_path) ) {
+			if ( file_exists( $class_full_path ) ) {
 				require $class_full_path;
 			}
 		}
@@ -248,20 +251,20 @@ class WP_Statistics {
 	 * Loads the init code.
 	 */
 	public function init() {
-		load_plugin_textdomain('wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages');
+		load_plugin_textdomain( 'wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages' );
 	}
 
 	/**
 	 * Set Time Zone
 	 */
-	public function set_timezone(){
-		if ( get_option('timezone_string') ) {
+	public function set_timezone() {
+		if ( get_option( 'timezone_string' ) ) {
 			$this->tz_offset = timezone_offset_get(
-					timezone_open(get_option('timezone_string')),
-					new DateTime()
+				timezone_open( get_option( 'timezone_string' ) ),
+				new DateTime()
 			);
-		} elseif ( get_option('gmt_offset') ) {
-			$this->tz_offset = get_option('gmt_offset') * 60 * 60;
+		} elseif ( get_option( 'gmt_offset' ) ) {
+			$this->tz_offset = get_option( 'gmt_offset' ) * 60 * 60;
 		}
 	}
 
@@ -376,9 +379,9 @@ class WP_Statistics {
 	/**
 	 * Set Coefficient
 	 */
-	public function set_coefficient(){
+	public function set_coefficient() {
 		// Set the default co-efficient.
-		$this->coefficient = $this->get_option('coefficient', 1);
+		$this->coefficient = $this->get_option( 'coefficient', 1 );
 		// Double check the co-efficient setting to make sure it's not been set to 0.
 		if ( $this->coefficient <= 0 ) {
 			$this->coefficient = 1;
@@ -386,30 +389,71 @@ class WP_Statistics {
 	}
 
 	/**
-	 * Set IP Hash
+	 * Generate hash string
 	 */
-	public function set_ip_hash(){
-		if ( $this->get_option('hash_ips') == true ) {
-			$this->ip_hash = '#hash#' . sha1($this->ip . $_SERVER['HTTP_USER_AGENT']);
+	private function get_hash_string() {
+		return '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
+	}
+
+	/**
+	 * Check Opt-Out for data protection
+	 */
+	public function check_opt_out() {
+		// Get IP hashed
+		$get_hash = $this->get_hash_string();
+
+		// Set cookie and redirect to current URL if requested
+		if ( isset( $_GET['wp_statistics_opt_out'] ) ) {
+			global $wpdb;
+
+			// Set cookie
+			if ( $_GET['wp_statistics_opt_out'] == 1 ) {
+				@setcookie( 'wp_statistics_opt_out', '1', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
+			} elseif ( $_GET['wp_statistics_opt_out'] == 0 ) {
+				@setcookie( 'wp_statistics_opt_out', '0', strtotime( "+1 year" ), COOKIEPATH, COOKIE_DOMAIN, false );
+
+				// Submit hash IP in the last visit
+				$wpdb->update(
+					$wpdb->prefix . "statistics_visitor",
+					array(
+						'ip' => $get_hash,
+					),
+					array(
+						'ip'           => $this->ip,
+						'last_counter' => $this->Current_date( 'Y-m-d' )
+					) );
+
+			}
+
+			// Build current URL
+			$current_url = esc_url( remove_query_arg( 'wp_statistics_opt_out', $_SERVER['REQUEST_URI'] ) );
+
+			// Redirect user to current location
+			header( 'Location: ' . $current_url );
+			exit;
+		}
+
+		// Hash IP if the Opt-Out cookie is 0 or DNT is set
+		if ( ( isset( $_COOKIE['wp_statistics_opt_out'] ) and $_COOKIE['wp_statistics_opt_out'] == 0 ) or ( isset( $_SERVER['HTTP_DNT'] ) and $_SERVER['HTTP_DNT'] == '1' and ( ! isset( $_COOKIE['wp_statistics_opt_out'] ) or $_COOKIE['wp_statistics_opt_out'] != 1 ) ) ) {
+			$this->ip_hash = $get_hash;
+
+			return;
+		}
+
+		// Show Opt-Out message for the user
+		if ( empty( $_COOKIE['wp_statistics_opt_out'] ) ) {
+			// Show Popup to visitor
+			add_action( 'wp_footer', 'WP_Statistics_Frontend::opt_out_confirmation' );
 		}
 	}
 
 	/**
-	 * Check if it is our ajax logger request
-	 */
-	public function check_ajax_logger_request() {
-		if ( defined('DOING_AJAX') && DOING_AJAX && $_REQUEST['action'] == 'wp_statistics_log_visit' ) {
-			$this->is_ajax_logger_request = true;
-		}
-	}
-
-	/**
-	 * loads the options from WordPress,
+	 * Loads the options from WordPress
 	 */
 	public function load_options() {
-		$this->options = get_option('wp_statistics');
+		$this->options = get_option( 'wp_statistics' );
 
-		if ( ! is_array($this->options) ) {
+		if ( ! is_array( $this->options ) ) {
 			$this->user_options = array();
 		}
 	}
@@ -418,7 +462,7 @@ class WP_Statistics {
 	 * Registers Widget
 	 */
 	static function widget() {
-		register_widget('WP_Statistics_Widget');
+		register_widget( 'WP_Statistics_Widget' );
 	}
 
 	/**
@@ -437,9 +481,9 @@ class WP_Statistics {
 		}
 
 		// Not sure why, but get_user_meta() is returning an array or array's unless $single is set to true.
-		$this->user_options = get_user_meta($this->user_id, 'wp_statistics', true);
+		$this->user_options = get_user_meta( $this->user_id, 'wp_statistics', true );
 
-		if ( ! is_array($this->user_options) ) {
+		if ( ! is_array( $this->user_options ) ) {
 			$this->user_options = array();
 		}
 
@@ -456,12 +500,12 @@ class WP_Statistics {
 	 */
 	public function get_option( $option, $default = null ) {
 		// If no options array exists, return FALSE.
-		if ( ! is_array($this->options) ) {
+		if ( ! is_array( $this->options ) ) {
 			return false;
 		}
 
 		// if the option isn't set yet, return the $default if it exists, otherwise FALSE.
-		if ( ! array_key_exists($option, $this->options) ) {
+		if ( ! array_key_exists( $option, $this->options ) ) {
 			if ( isset( $default ) ) {
 				return $default;
 			} else {
@@ -487,12 +531,12 @@ class WP_Statistics {
 		if ( $this->user_id == 0 ) {
 			return false;
 		}
-		if ( ! is_array($this->user_options) ) {
+		if ( ! is_array( $this->user_options ) ) {
 			return false;
 		}
 
 		// if the option isn't set yet, return the $default if it exists, otherwise FALSE.
-		if ( ! array_key_exists($option, $this->user_options) ) {
+		if ( ! array_key_exists( $option, $this->user_options ) ) {
 			if ( isset( $default ) ) {
 				return $default;
 			} else {
@@ -516,7 +560,7 @@ class WP_Statistics {
 		$this->options[ $option ] = $value;
 
 		// Write the array to the database.
-		update_option('wp_statistics', $this->options);
+		update_option( 'wp_statistics', $this->options );
 	}
 
 	/**
@@ -538,7 +582,7 @@ class WP_Statistics {
 		$this->user_options[ $option ] = $value;
 
 		// Write the array to the database.
-		update_user_meta($this->user_id, 'wp_statistics', $this->user_options);
+		update_user_meta( $this->user_id, 'wp_statistics', $this->user_options );
 	}
 
 	/**
@@ -576,7 +620,7 @@ class WP_Statistics {
 	 * Saves the current options array to the database.
 	 */
 	public function save_options() {
-		update_option('wp_statistics', $this->options);
+		update_option( 'wp_statistics', $this->options );
 	}
 
 	/**
@@ -589,7 +633,7 @@ class WP_Statistics {
 			return false;
 		}
 
-		update_user_meta($this->user_id, 'wp_statistics', $this->user_options);
+		update_user_meta( $this->user_id, 'wp_statistics', $this->user_options );
 	}
 
 	/**
@@ -600,11 +644,11 @@ class WP_Statistics {
 	 * @return bool
 	 */
 	public function isset_option( $option ) {
-		if ( ! is_array($this->options) ) {
+		if ( ! is_array( $this->options ) ) {
 			return false;
 		}
 
-		return array_key_exists($option, $this->options);
+		return array_key_exists( $option, $this->options );
 	}
 
 	/**
@@ -618,11 +662,11 @@ class WP_Statistics {
 		if ( $this->user_id == 0 ) {
 			return false;
 		}
-		if ( ! is_array($this->user_options) ) {
+		if ( ! is_array( $this->user_options ) ) {
 			return false;
 		}
 
-		return array_key_exists($option, $this->user_options);
+		return array_key_exists( $option, $this->user_options );
 	}
 
 	/**
@@ -633,7 +677,7 @@ class WP_Statistics {
 	public function Primary_Values() {
 		global $wpdb;
 
-		$this->result = $wpdb->query("SELECT * FROM {$wpdb->prefix}statistics_useronline");
+		$this->result = $wpdb->query( "SELECT * FROM {$wpdb->prefix}statistics_useronline" );
 
 		if ( ! $this->result ) {
 
@@ -641,7 +685,7 @@ class WP_Statistics {
 				$wpdb->prefix . "statistics_useronline",
 				array(
 					'ip'        => $this->get_IP(),
-					'timestamp' => $this->Current_Date('U'),
+					'timestamp' => $this->Current_Date( 'U' ),
 					'date'      => $this->Current_Date(),
 					'referred'  => $this->get_Referred(),
 					'agent'     => $this->agent['browser'],
@@ -651,7 +695,7 @@ class WP_Statistics {
 			);
 		}
 
-		$this->result = $wpdb->query("SELECT * FROM {$wpdb->prefix}statistics_visit");
+		$this->result = $wpdb->query( "SELECT * FROM {$wpdb->prefix}statistics_visit" );
 
 		if ( ! $this->result ) {
 
@@ -659,20 +703,20 @@ class WP_Statistics {
 				$wpdb->prefix . "statistics_visit",
 				array(
 					'last_visit'   => $this->Current_Date(),
-					'last_counter' => $this->Current_date('Y-m-d'),
+					'last_counter' => $this->Current_date( 'Y-m-d' ),
 					'visit'        => 1,
 				)
 			);
 		}
 
-		$this->result = $wpdb->query("SELECT * FROM {$wpdb->prefix}statistics_visitor");
+		$this->result = $wpdb->query( "SELECT * FROM {$wpdb->prefix}statistics_visitor" );
 
 		if ( ! $this->result ) {
 
 			$wpdb->insert(
 				$wpdb->prefix . "statistics_visitor",
 				array(
-					'last_counter' => $this->Current_date('Y-m-d'),
+					'last_counter' => $this->Current_date( 'Y-m-d' ),
 					'referred'     => $this->get_Referred(),
 					'agent'        => $this->agent['browser'],
 					'platform'     => $this->agent['platform'],
@@ -688,9 +732,11 @@ class WP_Statistics {
 	 * During installation of WP Statistics some initial options need to be set.
 	 * This function will save a set of default options for the plugin.
 	 *
+	 * @param null $option_name
+	 *
 	 * @return array
 	 */
-	public function Default_Options() {
+	public function Default_Options( $option_name = null ) {
 		$options = array();
 
 		if ( ! isset( $wps_robotarray ) ) {
@@ -698,7 +744,7 @@ class WP_Statistics {
 			include( WP_Statistics::$reg['plugin-dir'] . 'includes/robotslist.php' );
 		}
 
-		$options['robotlist'] = trim($wps_robotslist);
+		$options['robotlist'] = trim( $wps_robotslist );
 
 		// By default, on new installs, use the new search table.
 		$options['search_converted'] = 1;
@@ -713,6 +759,7 @@ class WP_Statistics {
 		$options['check_online']          = '30';
 		$options['menu_bar']              = false;
 		$options['coefficient']           = '1';
+		$options['opt_out_message']       = __( 'This website stores some user agent data. These data are used to provide a more personalized experience and to track your whereabouts around our website in compliance with the European General Data Protection Regulation. If you decide to opt-out of any future tracking, a cookie will be set up in your browser to remember this choice for one year.', 'wp-statistics' ) . ' <a href="%accept_url%">' . __( 'I Agree', 'wp-statistics' ) . '</a>, <a href="%cancel_url%">' . __( 'Deny', 'wp-statistics' ) . '</a>';
 		$options['stats_report']          = false;
 		$options['time_report']           = 'daily';
 		$options['send_report']           = 'mail';
@@ -727,6 +774,10 @@ class WP_Statistics {
 
 		$options['force_robot_update'] = true;
 
+		if ( $option_name and isset( $options[ $option_name ] ) ) {
+			return $options[ $option_name ];
+		}
+
 		return $options;
 	}
 
@@ -740,31 +791,31 @@ class WP_Statistics {
 	 */
 	private function get_ip_value( $ip ) {
 		// Reject anything that's not a string.
-		if ( ! is_string($ip) ) {
+		if ( ! is_string( $ip ) ) {
 			return false;
 		}
 
 		// Trim off any spaces.
-		$ip = trim($ip);
+		$ip = trim( $ip );
 
 		// Process IPv4 and v6 addresses separately.
-		if ( $this->isValidIPv6($ip) ) {
+		if ( $this->isValidIPv6( $ip ) ) {
 			// Reject any IPv6 addresses if IPv6 is not compiled in to this version of PHP.
-			if ( ! defined('AF_INET6') ) {
+			if ( ! defined( 'AF_INET6' ) ) {
 				return false;
 			}
 		} else {
 			// Trim off any port values that exist.
-			if ( strstr($ip, ':') !== false ) {
-				$temp = explode(':', $ip);
+			if ( strstr( $ip, ':' ) !== false ) {
+				$temp = explode( ':', $ip );
 				$ip   = $temp[0];
 			}
 
 			// Check to make sure the http header is actually an IP address and not some kind of SQL injection attack.
-			$long = ip2long($ip);
+			$long = ip2long( $ip );
 
 			// ip2long returns either -1 or FALSE if it is not a valid IP address depending on the PHP version, so check for both.
-			if ( $long == -1 || $long === false ) {
+			if ( $long == - 1 || $long === false ) {
 				return false;
 			}
 		}
@@ -791,11 +842,11 @@ class WP_Statistics {
 			return $this->ip;
 		}
 
+		$temp_ip = false;
+
 		// By default we use the remote address the server has.
-		if ( array_key_exists('REMOTE_ADDR', $_SERVER) ) {
-			$temp_ip = $this->get_ip_value($_SERVER['REMOTE_ADDR']);
-		} else {
-			$temp_ip = '127.0.0.1';
+		if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+			$temp_ip = $this->get_ip_value( $_SERVER['REMOTE_ADDR'] );
 		}
 
 		if ( false !== $temp_ip ) {
@@ -816,10 +867,11 @@ class WP_Statistics {
 			'HTTP_X_FORWARDED',
 			'HTTP_FORWARDED_FOR',
 			'HTTP_FORWARDED',
+			'HTTP_X_REAL_IP',
 		);
 
 		foreach ( $envs as $env ) {
-			$temp_ip = $this->get_ip_value(getenv($env));
+			$temp_ip = $this->get_ip_value( getenv( $env ) );
 
 			if ( false !== $temp_ip ) {
 				$this->ip = $temp_ip;
@@ -844,7 +896,7 @@ class WP_Statistics {
 	 * @return boolean - true/false
 	 */
 	private function isValidIPv6( $ip ) {
-		if ( false === filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ) {
+		if ( false === filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
 			return false;
 		} else {
 			return true;
@@ -858,32 +910,32 @@ class WP_Statistics {
 	 */
 	public function get_UserAgent() {
 
-		// Parse the agent stirng.
+		// Parse the agent string.
 		try {
 			$agent = parse_user_agent();
 		} catch ( Exception $e ) {
 			$agent = array(
-				'browser'  => _x('Unknown', 'Browser', 'wp-statistics'),
-				'platform' => _x('Unknown', 'Platform', 'wp-statistics'),
-				'version'  => _x('Unknown', 'Version', 'wp-statistics'),
+				'browser'  => _x( 'Unknown', 'Browser', 'wp-statistics' ),
+				'platform' => _x( 'Unknown', 'Platform', 'wp-statistics' ),
+				'version'  => _x( 'Unknown', 'Version', 'wp-statistics' ),
 			);
 		}
 
 		// null isn't a very good default, so set it to Unknown instead.
 		if ( $agent['browser'] == null ) {
-			$agent['browser'] = _x('Unknown', 'Browser', 'wp-statistics');
+			$agent['browser'] = _x( 'Unknown', 'Browser', 'wp-statistics' );
 		}
 		if ( $agent['platform'] == null ) {
-			$agent['platform'] = _x('Unknown', 'Platform', 'wp-statistics');
+			$agent['platform'] = _x( 'Unknown', 'Platform', 'wp-statistics' );
 		}
 		if ( $agent['version'] == null ) {
-			$agent['version'] = _x('Unknown', 'Version', 'wp-statistics');
+			$agent['version'] = _x( 'Unknown', 'Version', 'wp-statistics' );
 		}
 
 		// Uncommon browsers often have some extra cruft, like brackets, http:// and other strings that we can strip out.
 		$strip_strings = array( '"', "'", '(', ')', ';', ':', '/', '[', ']', '{', '}', 'http' );
 		foreach ( $agent as $key => $value ) {
-			$agent[ $key ] = str_replace($strip_strings, '', $agent[ $key ]);
+			$agent[ $key ] = str_replace( $strip_strings, '', $agent[ $key ] );
 		}
 
 		return $agent;
@@ -910,33 +962,29 @@ class WP_Statistics {
 			$this->referrer = $default_referrer;
 		}
 
-		$this->referrer = esc_sql(strip_tags($this->referrer));
+		$this->referrer = esc_sql( strip_tags( $this->referrer ) );
 
 		if ( ! $this->referrer ) {
-			$this->referrer = get_bloginfo('url');
+			$this->referrer = get_bloginfo( 'url' );
 		}
 
-		if ( defined('DOING_AJAX') && DOING_AJAX && $_REQUEST['action'] == 'wp_statistics_log_visit' ) {
-			$this->referrer = $_REQUEST['referrer'];
-		}
-
-		if ( $this->get_option('addsearchwords', false) ) {
+		if ( $this->get_option( 'addsearchwords', false ) ) {
 			// Check to see if this is a search engine referrer
-			$SEInfo = $this->Search_Engine_Info($this->referrer);
+			$SEInfo = $this->Search_Engine_Info( $this->referrer );
 
-			if ( is_array($SEInfo) ) {
+			if ( is_array( $SEInfo ) ) {
 				// If we're a known SE, check the query string
 				if ( $SEInfo['tag'] != '' ) {
-					$result = $this->Search_Engine_QueryString($this->referrer);
+					$result = $this->Search_Engine_QueryString( $this->referrer );
 
 					// If there were no search words, let's add the page title
 					if ( $result == '' || $result == 'No search query found!' ) {
-						$result = get_bloginfo('title');
+						$result = wp_title( '', false );
 						if ( $result != '' ) {
 							$this->referrer = esc_url(
 								add_query_arg(
 									$SEInfo['querykey'],
-									urlencode('~"' . $result . '"'),
+									urlencode( '~"' . $result . '"' ),
 									$this->referrer
 								)
 							);
@@ -958,14 +1006,15 @@ class WP_Statistics {
 	 * @return bool|string
 	 */
 	public function Local_Date( $format, $timestamp ) {
-		return date($format, $timestamp + $this->tz_offset);
+		return date( $format, $timestamp + $this->tz_offset );
 	}
 
 	// Returns a date string in the desired format.
+
 	/**
 	 * @param string $format
-	 * @param null   $strtotime
-	 * @param null   $relative
+	 * @param null $strtotime
+	 * @param null $relative
 	 *
 	 * @return bool|string
 	 */
@@ -973,12 +1022,12 @@ class WP_Statistics {
 
 		if ( $strtotime ) {
 			if ( $relative ) {
-				return date($format, strtotime("{$strtotime} day", $relative) + $this->tz_offset);
+				return date( $format, strtotime( "{$strtotime} day", $relative ) + $this->tz_offset );
 			} else {
-				return date($format, strtotime("{$strtotime} day") + $this->tz_offset);
+				return date( $format, strtotime( "{$strtotime} day" ) + $this->tz_offset );
 			}
 		} else {
-			return date($format, time() + $this->tz_offset);
+			return date( $format, time() + $this->tz_offset );
 		}
 	}
 
@@ -986,8 +1035,8 @@ class WP_Statistics {
 	 * Returns a date string in the desired format.
 	 *
 	 * @param string $format
-	 * @param null   $strtotime
-	 * @param null   $relative
+	 * @param null $strtotime
+	 * @param null $relative
 	 *
 	 * @return bool|string
 	 */
@@ -995,12 +1044,12 @@ class WP_Statistics {
 
 		if ( $strtotime ) {
 			if ( $relative ) {
-				return date($format, strtotime("{$strtotime} day", $relative));
+				return date( $format, strtotime( "{$strtotime} day", $relative ) );
 			} else {
-				return date($format, strtotime("{$strtotime} day"));
+				return date( $format, strtotime( "{$strtotime} day" ) );
 			}
 		} else {
-			return date($format, time());
+			return date( $format, time() );
 		}
 	}
 
@@ -1008,7 +1057,7 @@ class WP_Statistics {
 	 * Returns an internationalized date string in the desired format.
 	 *
 	 * @param string $format
-	 * @param null   $strtotime
+	 * @param null $strtotime
 	 * @param string $day
 	 *
 	 * @return string
@@ -1016,9 +1065,9 @@ class WP_Statistics {
 	public function Current_Date_i18n( $format = 'Y-m-d H:i:s', $strtotime = null, $day = ' day' ) {
 
 		if ( $strtotime ) {
-			return date_i18n($format, strtotime("{$strtotime}{$day}") + $this->tz_offset);
+			return date_i18n( $format, strtotime( "{$strtotime}{$day}" ) + $this->tz_offset );
 		} else {
-			return date_i18n($format, time() + $this->tz_offset);
+			return date_i18n( $format, time() + $this->tz_offset );
 		}
 	}
 
@@ -1030,7 +1079,7 @@ class WP_Statistics {
 	 * @return int
 	 */
 	public function strtotimetz( $timestring ) {
-		return strtotime($timestring) + $this->tz_offset;
+		return strtotime( $timestring ) + $this->tz_offset;
 	}
 
 	/**
@@ -1052,7 +1101,7 @@ class WP_Statistics {
 	 */
 	public function Check_Search_Engines( $search_engine_name, $search_engine = null ) {
 
-		if ( strstr($search_engine, $search_engine_name) ) {
+		if ( strstr( $search_engine, $search_engine_name ) ) {
 			return 1;
 		}
 	}
@@ -1079,16 +1128,16 @@ class WP_Statistics {
 		}
 
 		// Parse the URL in to it's component parts.
-		$parts = parse_url($url);
+		$parts = parse_url( $url );
 
 		// Get the list of search engines we currently support.
 		$search_engines = wp_statistics_searchengine_list();
 
 		// Loop through the SE list until we find which search engine matches.
 		foreach ( $search_engines as $key => $value ) {
-			$search_regex = wp_statistics_searchengine_regex($key);
+			$search_regex = wp_statistics_searchengine_regex( $key );
 
-			preg_match('/' . $search_regex . '/', $parts['host'], $matches);
+			preg_match( '/' . $search_regex . '/', $parts['host'], $matches );
 
 			if ( isset( $matches[1] ) ) {
 				// Return the first matched SE.
@@ -1098,7 +1147,7 @@ class WP_Statistics {
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => _x('Unknown', 'Search Engine', 'wp-statistics'),
+			'name'         => _x( 'Unknown', 'Search Engine', 'wp-statistics' ),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
@@ -1126,13 +1175,13 @@ class WP_Statistics {
 		// Get the list of search engines we currently support.
 		$search_engines = wp_statistics_searchengine_list();
 
-		if ( array_key_exists($engine, $search_engines) ) {
+		if ( array_key_exists( $engine, $search_engines ) ) {
 			return $search_engines[ $engine ];
 		}
 
 		// If no SE matched, return some defaults.
 		return array(
-			'name'         => _x('Unknown', 'Search Engine', 'wp-statistics'),
+			'name'         => _x( 'Unknown', 'Search Engine', 'wp-statistics' ),
 			'tag'          => '',
 			'sqlpattern'   => '',
 			'regexpattern' => '',
@@ -1161,12 +1210,12 @@ class WP_Statistics {
 		}
 
 		// Parse the URL in to it's component parts.
-		$parts = parse_url($url);
+		$parts = parse_url( $url );
 
 		// Check to see if there is a query component in the URL (everything after the ?).  If there isn't one
 		// set an empty array so we don't get errors later.
-		if ( array_key_exists('query', $parts) ) {
-			parse_str($parts['query'], $query);
+		if ( array_key_exists( 'query', $parts ) ) {
+			parse_str( $parts['query'], $query );
 		} else {
 			$query = array();
 		}
@@ -1176,14 +1225,14 @@ class WP_Statistics {
 
 		// Loop through the SE list until we find which search engine matches.
 		foreach ( $search_engines as $key => $value ) {
-			$search_regex = wp_statistics_searchengine_regex($key);
+			$search_regex = wp_statistics_searchengine_regex( $key );
 
-			preg_match('/' . $search_regex . '/', $parts['host'], $matches);
+			preg_match( '/' . $search_regex . '/', $parts['host'], $matches );
 
 			if ( isset( $matches[1] ) ) {
 				// Check to see if the query key the SE uses exists in the query part of the URL.
-				if ( array_key_exists($search_engines[ $key ]['querykey'], $query) ) {
-					$words = strip_tags($query[ $search_engines[ $key ]['querykey'] ]);
+				if ( array_key_exists( $search_engines[ $key ]['querykey'], $query ) ) {
+					$words = strip_tags( $query[ $search_engines[ $key ]['querykey'] ] );
 				} else {
 					$words = '';
 				}
@@ -1217,7 +1266,7 @@ class WP_Statistics {
 
 		switch ( $type ) {
 			case 'visitors':
-				if ( array_key_exists('visitors', $this->historical) ) {
+				if ( array_key_exists( 'visitors', $this->historical ) ) {
 					return $this->historical['visitors'];
 				} else {
 					$result
@@ -1230,9 +1279,9 @@ class WP_Statistics {
 					$this->historical['visitors'] = $count;
 				}
 
-			break;
+				break;
 			case 'visits':
-				if ( array_key_exists('visits', $this->historical) ) {
+				if ( array_key_exists( 'visits', $this->historical ) ) {
 					return $this->historical['visits'];
 				} else {
 					$result
@@ -1245,9 +1294,9 @@ class WP_Statistics {
 					$this->historical['visits'] = $count;
 				}
 
-			break;
+				break;
 			case 'uri':
-				if ( array_key_exists($id, $this->historical) ) {
+				if ( array_key_exists( $id, $this->historical ) ) {
 					return $this->historical[ $id ];
 				} else {
 					$result
@@ -1263,9 +1312,9 @@ class WP_Statistics {
 					$this->historical[ $id ] = $count;
 				}
 
-			break;
+				break;
 			case 'page':
-				if ( array_key_exists($id, $this->historical) ) {
+				if ( array_key_exists( $id, $this->historical ) ) {
 					return $this->historical[ $id ];
 				} else {
 					$result
@@ -1281,7 +1330,7 @@ class WP_Statistics {
 					$this->historical[ $id ] = $count;
 				}
 
-			break;
+				break;
 		}
 
 		return $count;
@@ -1313,7 +1362,7 @@ class WP_Statistics {
 		$site_list = array();
 
 		// wp_get_sites() is deprecated in 4.6 or above and replaced with get_sites().
-		if ( version_compare($wp_version, '4.6', '>=') ) {
+		if ( version_compare( $wp_version, '4.6', '>=' ) ) {
 			$sites = get_sites();
 
 			foreach ( $sites as $site ) {
@@ -1338,22 +1387,22 @@ class WP_Statistics {
 	 *
 	 * @return string
 	 */
-	public function html_sanitize_referrer( $referrer, $length = -1 ) {
-		$referrer = trim($referrer);
+	public function html_sanitize_referrer( $referrer, $length = - 1 ) {
+		$referrer = trim( $referrer );
 
-		if ( 'data:' == strtolower(substr($referrer, 0, 5)) ) {
+		if ( 'data:' == strtolower( substr( $referrer, 0, 5 ) ) ) {
 			$referrer = 'http://127.0.0.1';
 		}
 
-		if ( 'javascript:' == strtolower(substr($referrer, 0, 11)) ) {
+		if ( 'javascript:' == strtolower( substr( $referrer, 0, 11 ) ) ) {
 			$referrer = 'http://127.0.0.1';
 		}
 
 		if ( $length > 0 ) {
-			$referrer = substr($referrer, 0, $length);
+			$referrer = substr( $referrer, 0, $length );
 		}
 
-		return htmlentities($referrer, ENT_QUOTES);
+		return htmlentities( $referrer, ENT_QUOTES );
 	}
 
 	/**
@@ -1364,22 +1413,23 @@ class WP_Statistics {
 	 *
 	 * @return string
 	 */
-	public function get_referrer_link( $referrer, $length = -1 ) {
-		$html_referrer = $this->html_sanitize_referrer($referrer);
-		if ( $length > 0 && strlen($referrer) > $length ) {
-			$html_referrer_limited = $this->html_sanitize_referrer($referrer, $length);
+	public function get_referrer_link( $referrer, $length = - 1 ) {
+		$html_referrer = $this->html_sanitize_referrer( $referrer );
+		if ( $length > 0 && strlen( $referrer ) > $length ) {
+			$html_referrer_limited = $this->html_sanitize_referrer( $referrer, $length );
 			$eplises               = '[...]';
 		} else {
 			$html_referrer_limited = $html_referrer;
 			$eplises               = '';
 		}
 
-		if ( substr($html_referrer, 0, 7) !== 'http://' and substr($html_referrer, 0, 8) !== 'https://' ) {
+		if ( substr( $html_referrer, 0, 7 ) !== 'http://' and substr( $html_referrer, 0, 8 ) !== 'https://' ) {
 			// relative address, use '//' to adapt both http and https
 			$html_nr_referrer = '//' . $html_referrer;
 		} else {
 			$html_nr_referrer = $html_referrer;
 		}
+
 		return "<a href='{$html_nr_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
 	}
 
@@ -1394,18 +1444,18 @@ class WP_Statistics {
 			return;
 		}
 		?>
-		<div class="error">
-			<p style="max-width:800px;">
-				<b><?php _e(
+        <div class="error">
+            <p style="max-width:800px;">
+                <b><?php _e(
 						'WP Statistics Disabled',
 						'wp-statistics'
 					); ?></b> <?php _e(
 					'&#151; You are running an unsupported version of PHP.',
 					'wp-statistics'
 				); ?>
-			</p>
+            </p>
 
-			<p style="max-width:800px;"><?php
+            <p style="max-width:800px;"><?php
 
 				echo sprintf(
 					__(
@@ -1421,7 +1471,7 @@ class WP_Statistics {
 					'wp-statistics'
 				);
 				?></p>
-		</div>
+        </div>
 
 		<?php
 	}
@@ -1434,97 +1484,97 @@ class WP_Statistics {
 
 		// Find out if the user can read or manage statistics.
 		$read   = current_user_can(
-				wp_statistics_validate_capability(
-						$WP_Statistics->get_option(
-								'read_capability',
-								'manage_options'
-						)
+			wp_statistics_validate_capability(
+				$WP_Statistics->get_option(
+					'read_capability',
+					'manage_options'
 				)
+			)
 		);
 		$manage = current_user_can(
-				wp_statistics_validate_capability(
-						$WP_Statistics->get_option(
-								'manage_capability',
-								'manage_options'
-						)
+			wp_statistics_validate_capability(
+				$WP_Statistics->get_option(
+					'manage_capability',
+					'manage_options'
 				)
+			)
 		);
 
 		if ( is_admin_bar_showing() && ( $read || $manage ) ) {
 
 			$AdminURL = get_admin_url();
 
-			if ( version_compare($wp_version, '3.8-RC', '>=') || version_compare($wp_version, '3.8', '>=') ) {
+			if ( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
 				$wp_admin_bar->add_menu(
-						array(
-								'id'    => 'wp-statistic-menu',
-								'title' => '<span class="ab-icon"></span>',
-								'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
-						)
+					array(
+						'id'    => 'wp-statistic-menu',
+						'title' => '<span class="ab-icon"></span>',
+						'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
+					)
 				);
 			} else {
 				$wp_admin_bar->add_menu(
-						array(
-								'id'    => 'wp-statistic-menu',
-								'title' => '<img src="' . WP_Statistics::$reg['plugin-url'] . 'assets/images/icon.png"/>',
-								'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
-						)
+					array(
+						'id'    => 'wp-statistic-menu',
+						'title' => '<img src="' . WP_Statistics::$reg['plugin-url'] . 'assets/images/icon.png"/>',
+						'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
+					)
 				);
 			}
 
 			$wp_admin_bar->add_menu(
-					array(
-							'id'     => 'wp-statistics-menu-useronline',
-							'parent' => 'wp-statistic-menu',
-							'title'  => __(
-									            'Online User',
-									            'wp-statistics'
-							            ) . ": " . wp_statistics_useronline(),
-							'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['online'],
-					)
+				array(
+					'id'     => 'wp-statistics-menu-useronline',
+					'parent' => 'wp-statistic-menu',
+					'title'  => __(
+						            'Online User',
+						            'wp-statistics'
+					            ) . ": " . wp_statistics_useronline(),
+					'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['online'],
+				)
 			);
 
 			$wp_admin_bar->add_menu(
-					array(
-							'id'     => 'wp-statistics-menu-todayvisitor',
-							'parent' => 'wp-statistic-menu',
-							'title'  => __('Today\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor('today'),
-					)
+				array(
+					'id'     => 'wp-statistics-menu-todayvisitor',
+					'parent' => 'wp-statistic-menu',
+					'title'  => __( 'Today\'s Visitors', 'wp-statistics' ) . ": " . wp_statistics_visitor( 'today' ),
+				)
 			);
 
 			$wp_admin_bar->add_menu(
-					array(
-							'id'     => 'wp-statistics-menu-todayvisit',
-							'parent' => 'wp-statistic-menu',
-							'title'  => __('Today\'s Visits', 'wp-statistics') . ": " . wp_statistics_visit('today'),
-					)
+				array(
+					'id'     => 'wp-statistics-menu-todayvisit',
+					'parent' => 'wp-statistic-menu',
+					'title'  => __( 'Today\'s Visits', 'wp-statistics' ) . ": " . wp_statistics_visit( 'today' ),
+				)
 			);
 
 			$wp_admin_bar->add_menu(
-					array(
-							'id'     => 'wp-statistics-menu-yesterdayvisitor',
-							'parent' => 'wp-statistic-menu',
-							'title'  => __('Yesterday\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor(
-											'yesterday'
-									),
-					)
+				array(
+					'id'     => 'wp-statistics-menu-yesterdayvisitor',
+					'parent' => 'wp-statistic-menu',
+					'title'  => __( 'Yesterday\'s Visitors', 'wp-statistics' ) . ": " . wp_statistics_visitor(
+							'yesterday'
+						),
+				)
 			);
 
 			$wp_admin_bar->add_menu(
-					array(
-							'id'     => 'wp-statistics-menu-yesterdayvisit',
-							'parent' => 'wp-statistic-menu',
-							'title'  => __('Yesterday\'s Visits', 'wp-statistics') . ": " . wp_statistics_visit('yesterday'),
-					)
+				array(
+					'id'     => 'wp-statistics-menu-yesterdayvisit',
+					'parent' => 'wp-statistic-menu',
+					'title'  => __( 'Yesterday\'s Visits', 'wp-statistics' ) . ": " . wp_statistics_visit( 'yesterday' ),
+				)
 			);
 
 			$wp_admin_bar->add_menu(
-					array(
-							'id'     => 'wp-statistics-menu-viewstats',
-							'parent' => 'wp-statistic-menu',
-							'title'  => __('View Stats', 'wp-statistics'),
-							'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
-					)
+				array(
+					'id'     => 'wp-statistics-menu-viewstats',
+					'parent' => 'wp-statistic-menu',
+					'title'  => __( 'View Stats', 'wp-statistics' ),
+					'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
+				)
 			);
 		}
 	}

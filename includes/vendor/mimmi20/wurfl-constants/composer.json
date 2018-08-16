@@ -1,0 +1,33 @@
+{
+  "name": "mimmi20/wurfl-constants",
+  "description": "the Constants extracted from Wurfl for PHP 5.3",
+  "type": "library",
+  "license": "LGPL-2.1",
+  "keywords": [
+    "Wurfl",
+    "Browser",
+    "user agent",
+    "http",
+    "parser",
+    "user-agent"
+  ],
+  "homepage": "https://github.com/mimmi20/wurfl-constants",
+  "require": {
+    "php": ">=5.3.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8|^5.0",
+    "squizlabs/php_codesniffer": "^2.5",
+    "fabpot/php-cs-fixer": "^1.11"
+  },
+  "autoload": {
+    "psr-4": {
+      "Wurfl\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WurflTest\\": "tests/"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <script type="text/javascript">
-	jQuery(document).ready(function () {
-		postboxes.add_postbox_toggles(pagenow);
-	});
+    jQuery(document).ready(function () {
+        postboxes.add_postbox_toggles(pagenow);
+    });
 </script>
 <?php
 $ISOCountryCode = $WP_Statistics->get_country_codes();
@@ -10,24 +10,24 @@ $_var  = 'agent';
 $_get  = '%';
 $title = 'All';
 
-if ( array_key_exists('agent', $_GET) ) {
+if ( array_key_exists( 'agent', $_GET ) ) {
 	$_var  = 'agent';
 	$_get  = '%' . $_GET['agent'] . '%';
-	$title = htmlentities($_GET['agent'], ENT_QUOTES);
+	$title = htmlentities( $_GET['agent'], ENT_QUOTES );
 }
 
-if ( array_key_exists('ip', $_GET) ) {
+if ( array_key_exists( 'ip', $_GET ) ) {
 	$_var  = 'ip';
 	$_get  = '%' . $_GET['ip'] . '%';
-	$title = htmlentities($_GET['ip'], ENT_QUOTES);
+	$title = htmlentities( $_GET['ip'], ENT_QUOTES );
 }
 
-$_get          = esc_attr($_get);
-$total_visitor = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor`");
+$_get          = esc_attr( $_get );
+$total_visitor = $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor`" );
 
 if ( $_get != '%' ) {
 	$total = $wpdb->get_var(
-		$wpdb->prepare("SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get)
+		$wpdb->prepare( "SELECT COUNT(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get )
 	);
 } else {
 	$total = $total_visitor;
@@ -35,12 +35,14 @@ if ( $_get != '%' ) {
 
 ?>
 <div class="wrap">
-	<h2><?php _e('Recent Visitors', 'wp-statistics'); ?></h2>
-	<ul class="subsubsub">
-		<li class="all"><a <?php if ( $_get == '%' ) {
+    <h2><?php _e( 'Recent Visitors', 'wp-statistics' ); ?></h2>
+    <?php do_action( 'wp_statistics_after_title' ); ?>
+
+    <ul class="subsubsub">
+        <li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';
-			} ?>href="?page=<?php echo WP_Statistics::$page['visitors']; ?>"><?php _e('All', 'wp-statistics'); ?>
-				<span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
+			} ?>href="?page=<?php echo WP_Statistics::$page['visitors']; ?>"><?php _e( 'All', 'wp-statistics' ); ?>
+                <span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
 		<?php
 		if ( isset( $_var ) ) {
 			$spacer = " | ";
@@ -48,14 +50,14 @@ if ( $_get != '%' ) {
 			if ( $_var == 'agent' ) {
 				$Browsers = wp_statistics_ua_list();
 				$i        = 0;
-				$Total    = count($Browsers);
+				$Total    = count( $Browsers );
 
 				foreach ( $Browsers as $Browser ) {
 					if ( $Browser == null ) {
 						continue;
 					}
 
-					$i++;
+					$i ++;
 					if ( $title == $Browser ) {
 						$current = 'class="current" ';
 					} else {
@@ -72,9 +74,9 @@ if ( $_get != '%' ) {
 					     "&agent=" .
 					     $Browser .
 					     "'> " .
-					     __($Browser, 'wp-statistics') .
+					     __( $Browser, 'wp-statistics' ) .
 					     " <span class='count'>(" .
-					     number_format_i18n(wp_statistics_useragent($Browser)) .
+					     number_format_i18n( wp_statistics_useragent( $Browser ) ) .
 					     ")</span></a></li>";
 				}
 			} else {
@@ -90,25 +92,25 @@ if ( $_get != '%' ) {
 			}
 		}
 		?>
-	</ul>
-	<div class="postbox-container" id="last-log">
-		<div class="metabox-holder">
-			<div class="meta-box-sortables">
-				<div class="postbox">
-					<?php $paneltitle = __('Recent Visitor Statistics', 'wp-statistics');
+    </ul>
+    <div class="postbox-container" id="last-log">
+        <div class="metabox-holder">
+            <div class="meta-box-sortables">
+                <div class="postbox">
+					<?php $paneltitle = __( 'Recent Visitor Statistics', 'wp-statistics' );
 					if ( $_get != '%' ) {
-						$paneltitle = $paneltitle . ' [' . __('Filtered by', 'wp-statistics') . ': ' . $title . ']';
+						$paneltitle = $paneltitle . ' [' . __( 'Filtered by', 'wp-statistics' ) . ': ' . $title . ']';
 					} ?>
-					<button class="handlediv" type="button" aria-expanded="true">
+                    <button class="handlediv" type="button" aria-expanded="true">
 						<span class="screen-reader-text"><?php printf(
-								__('Toggle panel: %s', 'wp-statistics'),
+								__( 'Toggle panel: %s', 'wp-statistics' ),
 								$paneltitle
 							); ?></span>
-						<span class="toggle-indicator" aria-hidden="true"></span>
-					</button>
-					<h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
 
-					<div class="inside">
+                    <div class="inside">
 						<?php
 						// Instantiate pagination object with appropriate arguments
 						$pagesPerSection = 10;
@@ -147,15 +149,15 @@ if ( $_get != '%' ) {
 						}
 
 						// Check to see if User Agent logging is enabled.
-						$DisplayUA = $WP_Statistics->get_option("store_ua");
+						$DisplayUA = $WP_Statistics->get_option( "store_ua" );
 
 						echo "<div class='log-latest'>";
 
-						$dash_icon = wp_statistics_icons('dashicons-visibility', 'visibility');
+						$dash_icon = wp_statistics_icons( 'dashicons-visibility', 'visibility' );
 
 						foreach ( $result as $items ) {
-							if ( substr($items->ip, 0, 6) == '#hash#' ) {
-								$ip_string  = __('#hash#', 'wp-statistics');
+							if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
+								$ip_string  = __( '#hash#', 'wp-statistics' );
 								$map_string = "";
 							} else {
 								$ip_string = "<a href='?page=" .
@@ -163,29 +165,29 @@ if ( $_get != '%' ) {
 								             "&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
 								$map_string
 								           = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
-								             __('Map', 'wp-statistics') .
+								             __( 'Map', 'wp-statistics' ) .
 								             "'>" .
-								             wp_statistics_icons('dashicons-location-alt', 'map') .
+								             wp_statistics_icons( 'dashicons-location-alt', 'map' ) .
 								             "</a>";
 							}
 
 							echo "<div class='log-item'>";
 							echo "<div class='log-referred'>{$ip_string}</div>";
 							echo "<div class='log-ip'>" .
-							     date(get_option('date_format'), strtotime($items->last_counter)) .
+							     date( get_option( 'date_format' ), strtotime( $items->last_counter ) ) .
 							     "</div>";
 							echo "<div class='clear'></div>";
 							echo "<div class='log-url'>";
 							echo $map_string;
 
-							if ( $WP_Statistics->get_option('geoip') ) {
+							if ( $WP_Statistics->get_option( 'geoip' ) ) {
 								echo "<img src='" .
-								     plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png') .
+								     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
 								     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 							}
 
 							if ( array_search(
-								     strtolower($items->agent),
+								     strtolower( $items->agent ),
 								     array(
 									     "chrome",
 									     "firefox",
@@ -196,18 +198,18 @@ if ( $_get != '%' ) {
 							     ) !== false
 							) {
 								$agent = "<img src='" .
-								         plugins_url('wp-statistics/assets/images/') .
+								         plugins_url( 'wp-statistics/assets/images/' ) .
 								         $items->agent .
 								         ".png' class='log-tools' title='{$items->agent}'/>";
 							} else {
-								$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
+								$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 							}
 
 							echo "<a href='?page=" .
 							     WP_Statistics::$page['visitors'] .
 							     "&agent={$items->agent}'>{$agent}</a>";
 
-							echo $WP_Statistics->get_referrer_link($items->referred);
+							echo $WP_Statistics->get_referrer_link( $items->referred );
 
 							echo "</div>";
 							echo "</div>";
@@ -215,18 +217,18 @@ if ( $_get != '%' ) {
 
 						echo "</div>";
 						?>
-					</div>
-				</div>
+                    </div>
+                </div>
 
-				<div class="pagination-log">
+                <div class="pagination-log">
 					<?php echo $Pagination->display(); ?>
-					<p id="result-log"><?php printf(
-							__('Page %1$s of %2$s', 'wp-statistics'),
+                    <p id="result-log"><?php printf(
+							__( 'Page %1$s of %2$s', 'wp-statistics' ),
 							$Pagination->getCurrentPage(),
 							$Pagination->getTotalPages()
 						); ?></p>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

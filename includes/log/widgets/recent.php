@@ -8,11 +8,11 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 
 	echo "<div class='log-latest'>";
 
-	$dash_icon = wp_statistics_icons('dashicons-visibility', 'visibility');
+	$dash_icon = wp_statistics_icons( 'dashicons-visibility', 'visibility' );
 
 	foreach ( $result as $items ) {
-		if ( substr($items->ip, 0, 6) == '#hash#' ) {
-			$ip_string  = __('#hash#', 'wp-statistics');
+		if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
+			$ip_string  = __( '#hash#', 'wp-statistics' );
 			$map_string = "";
 		} else {
 			$ip_string = "<a href='admin.php?page=" .
@@ -20,27 +20,27 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 			             "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
 			$map_string
 			           = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
-			             __('Map', 'wp-statistics') .
+			             __( 'Map', 'wp-statistics' ) .
 			             "'>" .
-			             wp_statistics_icons('dashicons-location-alt', 'map') .
+			             wp_statistics_icons( 'dashicons-location-alt', 'map' ) .
 			             "</a>";
 		}
 
 		echo "<div class='log-item'>";
 		echo "<div class='log-referred'>{$ip_string}</div>";
-		echo "<div class='log-ip'>" . date(get_option('date_format'), strtotime($items->last_counter)) . "</div>";
+		echo "<div class='log-ip'>" . date( get_option( 'date_format' ), strtotime( $items->last_counter ) ) . "</div>";
 		echo "<div class='clear'></div>";
 		echo "<div class='log-url'>";
 		echo $map_string;
 
-		if ( $WP_Statistics->get_option('geoip') ) {
+		if ( $WP_Statistics->get_option( 'geoip' ) ) {
 			echo "<img src='" .
-			     plugins_url('wp-statistics/assets/images/flags/' . $items->location . '.png') .
+			     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
 			     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 		}
 
 		if ( array_search(
-			     strtolower($items->agent),
+			     strtolower( $items->agent ),
 			     array(
 				     "chrome",
 				     "firefox",
@@ -51,18 +51,18 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		     ) !== false
 		) {
 			$agent = "<img src='" .
-			         plugins_url('wp-statistics/assets/images/') .
+			         plugins_url( 'wp-statistics/assets/images/' ) .
 			         $items->agent .
 			         ".png' class='log-tools' title='{$items->agent}'/>";
 		} else {
-			$agent = wp_statistics_icons('dashicons-editor-help', 'unknown');
+			$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 		}
 
 		echo "<a href='?page=" .
 		     WP_Statistics::$page['overview'] .
 		     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 
-		echo $WP_Statistics->get_referrer_link($items->referred);
+		echo $WP_Statistics->get_referrer_link( $items->referred );
 
 		echo "</div>";
 		echo "</div>";

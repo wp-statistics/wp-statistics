@@ -6,6 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'phpbrowscap\\' => array($vendorDir . '/browscap/browscap-php/src'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
 );

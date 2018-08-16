@@ -17,7 +17,7 @@
  *
  ******************************************************************************************/
 
-if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class definitions
+if ( ! class_exists( "WP_Statistics_Pagination" ) ):    // Prevent multiple class definitions
 
 	class WP_Statistics_Pagination {
 		/*******************************************************
@@ -26,19 +26,19 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 
 		// Edit these as you desire
 		const DEFAULT_ENTRIES_DISPLAY = 10;                             // Default number of entries to display per page
-		const PAGE_GETVAR_NAME        = "page";                         // Name of GET variable name for page values (i.e., example.php?page=1)
+		const PAGE_GETVAR_NAME = "page";                         // Name of GET variable name for page values (i.e., example.php?page=1)
 
 		private $_paginationID = "pagination";        // ID Name of pagination object			"pagination" is default
 		// used also for form name for select options
 
 		// Do not edit these values; they are simply null initializations
-		private $_totalEntries    = null;        // Total number of entries (usually supplied by MySQL query)
+		private $_totalEntries = null;        // Total number of entries (usually supplied by MySQL query)
 		private $_pagesPerSection = null;        // Total number of pages displayed per section (supplied by admin)
-		private $_entriesPerPage  = null;        // Total number of entries displayed per page (supplied by user)
-		private $_currentPage     = null;        // Current page viewed by user
-		private $_displayOptions  = array();        // Array of options for viewing how many entries per page (supplied by user)
-		private $_errors          = array();        // Array of encountered error messages
-		private $_styles          = array();        // Array of CSS styles for pagination navigation display
+		private $_entriesPerPage = null;        // Total number of entries displayed per page (supplied by user)
+		private $_currentPage = null;        // Current page viewed by user
+		private $_displayOptions = array();        // Array of options for viewing how many entries per page (supplied by user)
+		private $_errors = array();        // Array of encountered error messages
+		private $_styles = array();        // Array of CSS styles for pagination navigation display
 
 
 		/*******************************************************
@@ -55,10 +55,10 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			$styleErrors = "",
 			$styleSelect = ""
 		) {
-			$this->setPaginationID($paginationID);            // Set ID name of pagination object
-			$this->setTotalEntries($totalEntries);            // Set total entries
-			$this->setPagesPerSection($pagesPerSection);    // Set pages per section
-			$this->setDisplayOptions($options);                // Set viewing display options
+			$this->setPaginationID( $paginationID );            // Set ID name of pagination object
+			$this->setTotalEntries( $totalEntries );            // Set total entries
+			$this->setPagesPerSection( $pagesPerSection );    // Set pages per section
+			$this->setDisplayOptions( $options );                // Set viewing display options
 			$this->setEntriesPerPage();                        // Set entries per page (input from POST or cookies)
 			$this->setCurrentPage();                        // Set current page (input from GET)
 			// ! This function must follow after setEntriesPerPage()
@@ -82,7 +82,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			if ( isset( $_COOKIE[ $cookieVar ] ) )                    // If cookie is set
 			{
 				$_COOKIE[ $cookieVar ] = "";                    // Clear cookie
-				setcookie($cookieVar, "", time() - 3600, "/");    // Delete cookie
+				setcookie( $cookieVar, "", time() - 3600, "/" );    // Delete cookie
 			}
 		}
 
@@ -96,7 +96,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			unset($getVars["foo"], $getVars["bar"], ... );	// Remove any so they do not appear in URL
 			*/
 
-			$output = '?' . http_build_query(array_merge($getVars, array( $this->_getIDGETVarName() => $input )));
+			$output = '?' . http_build_query( array_merge( $getVars, array( $this->_getIDGETVarName() => $input ) ) );
 			$output .= '#' . $this->getPaginationID();    // Add #xxx at the end of URL for auto-scrolling
 
 			return $output;
@@ -134,11 +134,10 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 
 		private function _validEntry( $input )                // determines if input is valid
 		{
-			if ( is_array($input) )                // If array
+			if ( is_array( $input ) )                // If array
 			{
-				foreach ( $input as $element )
-				{                                                        // Recursion: evaluate each array element
-					if ( ! $this->_validEntry($element) )                    // If invalid
+				foreach ( $input as $element ) {                                                        // Recursion: evaluate each array element
+					if ( ! $this->_validEntry( $element ) )                    // If invalid
 					{
 						return false;
 					}
@@ -147,8 +146,8 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 				return true;                                            // If function makes it to this point, it is valid
 			} else                                // If not array
 			{
-				if ( ( preg_match("/^\d+$/", $input) && $input > 0 ) ||
-				     strtolower($input) == "all"
+				if ( ( preg_match( "/^\d+$/", $input ) && $input > 0 ) ||
+				     strtolower( $input ) == "all"
 				)    // If positive digit or "all"
 				{
 					return true;
@@ -167,19 +166,19 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			switch ( $end ) {
 				case 1:
 					$title = "First page";
-				break;
+					break;
 				case 2:
 					$title = "Previous page";
-				break;
+					break;
 				case 3:
 					$title = "Next page";
-				break;
+					break;
 				case 4:
 					$title = "Last page (" . $this->getTotalPages() . ")";
-				break;
+					break;
 				default:
 					$title = "";
-				break;
+					break;
 			}
 
 			$title = ( $end > 0 && $title != "" ) ? 'title="' . $title . '"' : '';
@@ -199,7 +198,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			)                        // and destination page is not less than first page
 			{
 				$text = '<a href="' .
-				        $this->_getURL($destinationPage) .
+				        $this->_getURL( $destinationPage ) .
 				        '">' .
 				        $text .
 				        '</a>'; // then make $text a link
@@ -264,15 +263,15 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			                $pagesPerSection +
 			                1;            // Adjust section start to # of pages behind section end
 
-			$output = $this->_navBox("&lt;&lt;", $firstPage, 1);    // First page
-			$output .= $this->_navBox("&lt;", $previousPage, 2);        // Previous page
+			$output = $this->_navBox( "&lt;&lt;", $firstPage, 1 );    // First page
+			$output .= $this->_navBox( "&lt;", $previousPage, 2 );        // Previous page
 
-			for ( $i = $sectionStart; $i <= $sectionEnd; ++$i ) {
-				$output .= $this->_navBox($i, $i);
+			for ( $i = $sectionStart; $i <= $sectionEnd; ++ $i ) {
+				$output .= $this->_navBox( $i, $i );
 			}                    // Pagination
 
-			$output .= $this->_navBox("&gt;", $nextPage, 3);            // Next Page
-			$output .= $this->_navBox("&gt;&gt;", $lastPage, 4);        // Last Page
+			$output .= $this->_navBox( "&gt;", $nextPage, 3 );            // Next Page
+			$output .= $this->_navBox( "&gt;&gt;", $lastPage, 4 );        // Last Page
 
 			return $output;
 		}
@@ -283,7 +282,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 				return "No errors were encountered.";
 			}
 
-			$words = ( count($this->_errors) > 1 ) ? "errors were" : "error was";
+			$words = ( count( $this->_errors ) > 1 ) ? "errors were" : "error was";
 
 			// Determine CSS styling for error reporting
 			if ( $this->_styles["errors"] ) {
@@ -295,7 +294,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			$output
 				= '
 		<div ' . $css . '>
-		The following ' . $words . ' encountered while using the ' . get_class($this) . ' class:<br/><br/>
+		The following ' . $words . ' encountered while using the ' . get_class( $this ) . ' class:<br/><br/>
 		<ul>';
 
 			foreach ( $this->_errors as $error ) {
@@ -312,7 +311,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 
 		public function displaySelectInterface()        // displays the <select> interface for choosing display amount
 		{
-			if ( count($this->_displayOptions) < 2 )                // If only 1 or fewer options, do not display
+			if ( count( $this->_displayOptions ) < 2 )                // If only 1 or fewer options, do not display
 			{
 				return;
 			}
@@ -345,7 +344,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 				  $formName .
 				  $formNumber .
 				  '" method="post" style="display:inline-block;" action="' .
-				  $this->_getURL($this->_currentPage) .
+				  $this->_getURL( $this->_currentPage ) .
 				  '">
 		Show: 
 		<select ' .
@@ -378,7 +377,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 		<noscript><input type="submit" name="paginationDisplaySubmit" value="Display"/></noscript>
 		</form>';
 
-			++$count;    // Increase # of times this function has run
+			++ $count;    // Increase # of times this function has run
 
 			return $output;
 		}
@@ -401,16 +400,16 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			}                                // Otherwise use first page
 
 			if ( $page < 1 ||
-			     ! preg_match("/^\d+$/", $page)
+			     ! preg_match( "/^\d+$/", $page )
 			)                        // If page is less than 1 or page value not a digit
 			{
-				header("Location: " . $this->_getURL());        // No argument for _getURL() sets it to 1 (first page)
+				header( "Location: " . $this->_getURL() );        // No argument for _getURL() sets it to 1 (first page)
 				exit;
 			}
 
 			if ( $page > $this->getTotalPages() && $this->getTotalPages() != 0 )    // If page exceeds last page
 			{                                                                    // 2nd condition prevents infinite loop should it equal 0
-				header("Location: " . $this->_getURL($this->getTotalPages()));
+				header( "Location: " . $this->_getURL( $this->getTotalPages() ) );
 				exit;
 			}
 
@@ -424,7 +423,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 			)
 			)                // If invalid entry encountered, register error and exit function
 			{
-				if ( is_array($input) )                    // If array
+				if ( is_array( $input ) )                    // If array
 				{
 					$argument = "";
 
@@ -445,7 +444,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 				return;
 			}
 
-			if ( ! is_array($input) && strtolower($input) == "all" )    // If Not Array and "All" selected
+			if ( ! is_array( $input ) && strtolower( $input ) == "all" )    // If Not Array and "All" selected
 			{
 				$input = $this->_totalEntries;
 			}                        // Set total entries value
@@ -462,16 +461,16 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 
 			$varName = $this->_getPOSTVarName();
 
-			if ( count($this->_displayOptions) > 1 )                    // If more than 1 display option
+			if ( count( $this->_displayOptions ) > 1 )                    // If more than 1 display option
 			{
 				$value = $this->_displayOptions[0];                    // Default is first selection
 
 				if ( isset( $_POST[ $varName ] ) )                // If POST is set
 				{
-					if ( in_array($_POST[ $varName ], $this->_displayOptions) )        // Check for valid post value
+					if ( in_array( $_POST[ $varName ], $this->_displayOptions ) )        // Check for valid post value
 					{
 						$value = $_POST[ $varName ];
-						setcookie($varName, $value, 604800 + time(), "/");        // Set cookie
+						setcookie( $varName, $value, 604800 + time(), "/" );        // Set cookie
 						$_COOKIE[ $varName ] = $value;
 					} else                                                                        // If invalid post value
 					{
@@ -481,14 +480,13 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 				} elseif ( isset( $_COOKIE[ $varName ] ) )            // If POST not set, but COOKIE set
 				{
 					// Check for valid cookie value
-					if ( in_array($_COOKIE[ $varName ], $this->_displayOptions) )    // Check for valid cookie value
+					if ( in_array( $_COOKIE[ $varName ], $this->_displayOptions ) )    // Check for valid cookie value
 					{
 						$value = $_COOKIE[ $varName ];                            // Set to value if valid
 					} else {
 						$value
 							= self::DEFAULT_ENTRIES_DISPLAY;                                    // Set to default if invalid
-						$this->deleteCookie(
-						);                                                    // Delete invalid cookie
+						$this->deleteCookie();                                                    // Delete invalid cookie
 					}
 				}
 			} else            // If only one option, set either to default or displayOptions value
@@ -496,7 +494,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 				$value = ( $this->_displayOptions ) ? $this->_displayOptions : self::DEFAULT_ENTRIES_DISPLAY;
 			}
 
-			if ( strtolower($value) == "all" )                // If set to "All", use total entries
+			if ( strtolower( $value ) == "all" )                // If set to "All", use total entries
 			{
 				$value = $this->_totalEntries;
 			}
@@ -506,7 +504,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 
 		public function setPagesPerSection( $input )        // sets # of pages per section
 		{
-			if ( ! $this->_validEntry($input) ) {
+			if ( ! $this->_validEntry( $input ) ) {
 				$this->_errors[] = "The value set for <strong>pages per section</strong> is invalid: " . $input;
 
 				return;
@@ -517,7 +515,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 
 		public function setPaginationID( $input ) {
 			if ( $input ) {
-				if ( preg_match("/^\d+$/", $input[0]) )        // Check if first character is a digit
+				if ( preg_match( "/^\d+$/", $input[0] ) )        // Check if first character is a digit
 				{
 					$this->_errors[]
 						= "The first character of the <strong>pagination ID</strong> cannot be a number: " . $input;
@@ -546,7 +544,7 @@ if ( ! class_exists("WP_Statistics_Pagination") ):    // Prevent multiple class 
 
 		public function setTotalEntries( $input )            // sets total number of entries
 		{
-			if ( ! $this->_validEntry($input) ) {
+			if ( ! $this->_validEntry( $input ) ) {
 				$this->_errors[] = "The value set for <strong>total entries</strong> is invalid: " . $input;
 
 				return;
