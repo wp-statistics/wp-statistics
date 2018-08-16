@@ -12,12 +12,45 @@ class WP_Statistics_Suggestions {
 
 		// Check the suggestion is enabled.
 		if ( ! $WP_Statistics->get_option( 'disable_suggestion_nag', false ) ) {
-			add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
+			$include_language = array(
+				'en_US',
+				'en_AU',
+				'en_CA',
+				'en_NZ',
+				'zh_SG',
+				'ko_KR',
+				'ja',
+				'hu_HU',
+				'nl_BE',
+				'da_DK',
+				'fi',
+				'sv_SE',
+				'fr_FR',
+				'de_DE',
+				'is_IS',
+				'ga',
+				'it_IT',
+				'lb_LU',
+				'fy',
+				'pap',
+				'nn_NO',
+				'nb_NO',
+				'nn_NO',
+				'pl_PL',
+				'pt_PT',
+				'rup_MK',
+				'es_ES',
+				'fr-ch'
+			);
+
+			if ( array_search( get_locale(), $include_language ) !== false ) {
+				add_action( 'wp_statistics_after_title', array( $this, 'travod_widget' ) );
+			}
 		}
 	}
 
 	public function travod_widget() {
-		if ( isset( $_POST['mobile'] ) and isset( $_POST['email'] ) ) {
+		if ( isset( $_POST['full_name'] ) and isset( $_POST['email'] ) ) {
 			global $WP_Statistics;
 			$languages = array();
 
@@ -32,8 +65,7 @@ class WP_Statistics_Suggestions {
 				),
 				'body'    => json_encode( array(
 						'website'    => get_bloginfo( 'url' ),
-						'full_name'  => $this->get_current_username(),
-						'mobile'     => $_POST['mobile'],
+						'full_name'  => $_POST['full_name'],
 						'email'      => $_POST['email'],
 						'languages'  => implode( $languages, ', ' ),
 						'ip_address' => $WP_Statistics->get_IP(),
@@ -78,10 +110,12 @@ class WP_Statistics_Suggestions {
 		return $url;
 	}
 
-	public function get_current_username() {
+	public function get_current_user_fullname() {
 		$user = wp_get_current_user();
 
-		if ( isset( $user->data->display_name ) ) {
+		if ( isset( $user->user_firstname ) and isset( $user->user_lastname ) ) {
+			return $user->user_firstname . ' ' . $user->user_lastname;
+		} else {
 			return $user->data->display_name;
 		}
 	}
@@ -316,10 +350,10 @@ class WP_Statistics_Suggestions {
 			'google.com.vn' => array( 'country' => 'Vietnam', 'language' => 'Vietnamese', 'code' => 'vi' ),
 		);
 
-		if(isset($domains[ $domain_name ])){
-            return $domains[ $domain_name ];
-        }
-    }
+		if ( isset( $domains[ $domain_name ] ) ) {
+			return $domains[ $domain_name ];
+		}
+	}
 
 	public function get_countries() {
 		global $wpdb, $WP_Statistics;

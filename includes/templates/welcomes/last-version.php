@@ -29,7 +29,7 @@
                 <div class="right">
                     <div class="content-padding">
                         <h2><?php _e( 'GDPR compliance, Updated!', 'wp-statistics' ); ?></h2>
-                        <h4><?php echo sprintf( __( 'We implement GDPR into the WP-Stats. for more information read <a href="%s" target="_blank">the blog post</a>.', 'wp-statistics' ), 'https://wp-statistics.com/2018/08/16/wp-statistics-gdpr' ); ?></h4>
+                        <h4><?php echo sprintf( __( 'We implement GDPR into the WP-Statistics. for more information read <a href="%s" target="_blank">the blog post</a>.', 'wp-statistics' ), 'https://wp-statistics.com/2018/08/16/wp-statistics-gdpr' ); ?></h4>
                         <h4><?php _e( '<span style="color:red;">Important:</span> with this update, Opt-out feature is removed.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
