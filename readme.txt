@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.3.6.4
+Stable tag: 12.4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -190,11 +190,13 @@ Coming up popup with “Accept” and “Deny” before collection data and Hash
 10. Theme widget
 
 == Upgrade Notice ==
-= 12.0.9 =
-This is a security fix, please update immediately.
+= 12.4.0 =
+GDPR compliance, Updated!
+We implement GDPR into the WP-Statistics. for more information read [the blog post](https://wp-statistics.com/2018/08/16/wp-statistics-gdpr).
+Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
-= dev-master =
+= 12.4.0 =
 * Removed The Opt-Out removed.
 * Added Anonymize IP addresses option in the Setting > Privacy.
 
