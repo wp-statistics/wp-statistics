@@ -681,6 +681,6 @@ class WP_Statistics_Admin {
         WP_Statistics_Updates::do_upgrade();
 
         // Launch the welcome page
-        WP_Statistics_Welcome::do_welcome();
+        WP_Statistics_Welcome::do_welcome(array());
     }
 }
