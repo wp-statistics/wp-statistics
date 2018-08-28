@@ -196,6 +196,9 @@ We implement GDPR into the WP-Statistics. for more information read [the blog po
 Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
+= dev-master =
+* Added `delete_transient()` for deleting transients when uninstalling the plugin.
+
 = 12.4.0 =
 * Removed The Opt-Out removed.
 * Added Anonymize IP addresses option in the Setting > Privacy.
