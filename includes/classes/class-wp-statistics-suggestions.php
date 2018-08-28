@@ -88,6 +88,7 @@ class WP_Statistics_Suggestions {
 		}
 
 		$base_url = $this->get_base_url( get_bloginfo( 'url' ) );
+		$current_user_fullname = $this->get_current_user_fullname();
 
 		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/suggestions/travod.php" );
 	}
