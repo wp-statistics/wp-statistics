@@ -675,12 +675,14 @@ class WP_Statistics_Admin {
 
     /**
      * Doing something when the WP-Statistics will be upgraded.
+     * @param $upgrader_object
+     * @param $options
      */
-    public function upgrade_plugin() {
+    public function upgrade_plugin( $upgrader_object, $options ) {
         // Update options
         WP_Statistics_Updates::do_upgrade();
 
         // Launch the welcome page
-        WP_Statistics_Welcome::do_welcome();
+        WP_Statistics_Welcome::do_welcome( $upgrader_object, $options );
     }
 }
