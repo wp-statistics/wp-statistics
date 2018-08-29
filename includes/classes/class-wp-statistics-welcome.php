@@ -46,9 +46,10 @@ class WP_Statistics_Welcome {
 	}
 
 	/**
+	 * @param $upgrader_object
 	 * @param $options
 	 */
-	public static function do_welcome( $options ) {
+	public static function do_welcome( $upgrader_object, $options ) {
 		$current_plugin_path_name = 'wp-statistics/wp-statistics.php';
 
 		if ( $options['action'] == 'update' and $options['type'] == 'plugin' and isset($options['plugins']) ) {
