@@ -198,6 +198,7 @@ Important: with this update, Opt-out feature is removed.
 == Changelog ==
 = dev-master =
 * Added `delete_transient()` for deleting transients when uninstalling the plugin.
+* Implemented the `do_welcome()` function.
 
 = 12.4.0 =
 * Removed The Opt-Out removed.
