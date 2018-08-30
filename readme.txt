@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.4.0
+Stable tag: 12.4.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,9 +196,10 @@ We implement GDPR into the WP-Statistics. for more information read [the blog po
 Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
-= dev-master =
-* Added `delete_transient()` for deleting transients when uninstalling the plugin.
+= 12.4.1 =
 * Implemented the `do_welcome()` function.
+* Updated Libraries to latest version.
+* Added `delete_transient()` for deleting transients when uninstalling the plugin.
 
 = 12.4.0 =
 * Removed The Opt-Out removed.
