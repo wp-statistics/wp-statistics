@@ -197,7 +197,7 @@ Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
 = 12.4.2 =
-* Disable the welcome page.
+* Disabled the welcome page.
 
 = 12.4.1 =
 * Implemented the `do_welcome()` function.
@@ -214,7 +214,7 @@ Important: with this update, Opt-out feature is removed.
 * Improvement Counting non-changing collections with `count()`. Thanks [Daniel Ruf](https://github.com/DanielRuf)
 
 = 12.3.6.3 =
-* Disable the suggestion notice.
+* Disabled the suggestion notice.
 
 = 12.3.6.2 =
 * Tested with PHP v7.2.4
