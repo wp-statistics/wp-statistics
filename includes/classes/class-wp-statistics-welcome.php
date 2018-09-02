@@ -59,6 +59,9 @@ class WP_Statistics_Welcome {
 
 					// Enable welcome page in database
 					$WP_Statistics->update_option( 'show_welcome_page', true );
+
+					// Run the upgrader
+					WP_Statistics_Updates::do_upgrade();
 				}
 			}
 		}

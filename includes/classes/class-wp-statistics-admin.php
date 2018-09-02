@@ -68,7 +68,7 @@ class WP_Statistics_Admin {
 
 		// WP-Statistics welcome page hooks
 		add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
-		add_action( 'upgrader_process_complete', array($this, 'upgrade_plugin'), 10, 2 );
+		//add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
 		add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
 
 		// Initial the Suggestions class
@@ -672,17 +672,4 @@ class WP_Statistics_Admin {
 			);
 		}
 	}
-
-    /**
-     * Doing something when the WP-Statistics will be upgraded.
-     * @param $upgrader_object
-     * @param $options
-     */
-    public function upgrade_plugin( $upgrader_object, $options ) {
-        // Update options
-        WP_Statistics_Updates::do_upgrade();
-
-        // Launch the welcome page
-        WP_Statistics_Welcome::do_welcome( $upgrader_object, $options );
-    }
 }
