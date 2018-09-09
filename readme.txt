@@ -11,67 +11,31 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Complete WordPress Analytics and Statistics for your site!
 
 == Description ==
-A comprehensive plugin providing statistics on your WordPress visitors!
+Do you need a simple tool to know your website statistics? Do you need to represent these statistics? Are you caring about your users’ privacy while analyzing who are interested in your business or website? With WP Statistics you can know your website statistics without any need to send your users’ data anywhere. You can know how many people visit your personal or business website, where they’re coming from, what browsers and search engines they use, and which of your contents, categories, tags and users get more visits.
 
-Track Statistics on your WordPress site without depending on external services.
+All these data are recorded in your server, and YES! WP Statistics is [GDPR compliant](https://wp-statistics.com/2018/08/16/wp-statistics-gdpr/).
 
-The data are not sent anywhere and saved internally to respect your users’ privacy.
+= ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
+* Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, and Country
+* Stunning Graphs and Visual Statistics
+* Visitor’s Country Recognition
+* The number of Visitors coming from each Search Engine
+* The number of Referrals from each Referring Site
+* Top 10 common browsers; Top 10 countries with most visitors; Top 10 most-visited pages; Top 10 referring sites
+* Hits Time-Based Filtering
+* Statistics on Contents based on Categories, Tags, and Writers
+* Widget Support for showing Statistics
+* Data Export in TSV, XML, and CSV formats
+* Statistical Reporting Emails
+* [Premium] [Real-time stats](https://wp-statistics.com/downloads/wp-statistics-realtime-stats/)
+* [Premium] [More Advanced reporting](https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/)
+* And much more information represented in graphs & charts along with data filtering
 
-Statistics presented as graphs can easily be viewed through the WordPress admin interface.
+= NOTE =
+Some advanced features are Premium, which means you need to buy extra add-ons to unlock those features. You can get [Premium add-ons](https://wp-statistics.com/add-ons/) here!
 
-Visit our [website](https://wp-statistics.com/) for all the latest news and information.
-
-= Features =
-* Statistics on online users, the number of visits (pageviews) and visitors (unique users) for the website and all pages.
-* Search engine data, such as search queries and redirects from popular search engines like Google, Bing, DuckDuckGo, Yahoo, Yandex and Baidu
-* Overviews and details of pages, plus all kinds of data, including browser versions, country stats, hits, exclusions, referrers, searches, search words and visitors
-* GeoIP location by Country
-* Support against hashing IP addresses in the database to protect your users’ privacy
-* Interactive maps of visitors’ locations
-* Emailing statistical reports
-* Access level setting for viewing and managing roles based on WordPress roles
-* Users exclusion from statistical collections based on various criteria, including user roles, common robots, IP subnets, page URLs, login pages, RSS pages, admin pages, country, the number of visits per day, and hostnames.
-* Recording statistics on exclusions
-* Automatic updates to the GeoIP database
-* Automatic prune the databases of old data
-* Exporting the data to XML, CSV or TSV files
-* Widget to provide information to your users
-* Shortcodes for many different types of data in both widgets and posts/pages
-* Dashboard widgets for the admin area
-* Comprehensive Admin Manual
-
-
-= Translations =
-WP Statistics has been translated into many languages, to see the current list and contributors, please visit the [translate page](https://translate.wordpress.org/projects/wp-plugins/wp-statistics).
-
-Translations are done by people just like you, so help to make WP Statistics available to more people around the world and [do a translation](https://wp-statistics.com/translations/) today!
-
-= Contributing And Reporting Bugs =
-WP-Statistics is being developed on GitHub, If you’re interested in contributing to the plugin, please look at [Github page](https://github.com/wp-statistics/wp-statistics)
-
-= Support =
-We do our best that you don’t face any problem with WP Statistics. In case of having any problem, we’re happy to help. Please consider a few things to do before contacting us:
-
-* Have you read the [FAQs](https://wordpress.org/plugins/wp-statistics/faq/)?
-* Have you read the [documentation](http://wp-statistics.com/category/documentation)?
-* Have you searched the [support forum](https://wordpress.org/support/plugin/wp-statistics) for a similar issue?
-* Have you searched the Internet for any error messages you are receiving?
-* Make sure you have access to your PHP error logs.
-
-And a few things to double check:
-
-* How’s your memory_limit in php.ini?
-* Have you disabled any other plugins you may have installed?
-* Have you used the default WordPress theme?
-* Have you double checked the plugin settings?
-* Do you have all the required PHP extensions installed?
-* Are you getting a blank or incomplete page displaying in your browser? Have you viewed the source for the page and check for any fatal errors?
-* Have you checked your PHP and web server error logs?
-
-
-Still not having any luck? Open a new thread on one of the support forums and we’ll answer you as soon as possible.
-
-* [English Support Forum](https://wordpress.org/support/plugin/wp-statistics)
+= REPORT BUGS =
+If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
