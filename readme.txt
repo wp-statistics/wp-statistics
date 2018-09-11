@@ -11,9 +11,10 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Complete WordPress Analytics and Statistics for your site!
 
 == Description ==
+= WP statistics: THE #1 WORDPRESS STATISTICS PLUGIN =
 Do you need a simple tool to know your website statistics? Do you need to represent these statistics? Are you caring about your users’ privacy while analyzing who are interested in your business or website? With WP Statistics you can know your website statistics without any need to send your users’ data anywhere. You can know how many people visit your personal or business website, where they’re coming from, what browsers and search engines they use, and which of your contents, categories, tags and users get more visits.
 
-All these data are recorded in your server, and YES! WP Statistics is [GDPR compliant](https://wp-statistics.com/2018/08/16/wp-statistics-gdpr/).
+All these data are recorded in your server, and YES! WP Statistics is [GDPR compliant](http://bit.ly/2x0AFgT).
 
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
 * Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, and Country
@@ -27,12 +28,12 @@ All these data are recorded in your server, and YES! WP Statistics is [GDPR comp
 * Widget Support for showing Statistics
 * Data Export in TSV, XML, and CSV formats
 * Statistical Reporting Emails
-* [Premium] [Real-time stats](https://wp-statistics.com/downloads/wp-statistics-realtime-stats/)
-* [Premium] [More Advanced reporting](https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/)
+* [Premium] [Real-time stats](http://bit.ly/2Mj4Nss)
+* [Premium] [More Advanced reporting](http://bit.ly/2MjZE3l)
 * And much more information represented in graphs & charts along with data filtering
 
 = NOTE =
-Some advanced features are Premium, which means you need to buy extra add-ons to unlock those features. You can get [Premium add-ons](https://wp-statistics.com/add-ons/) here!
+Some advanced features are Premium, which means you need to buy extra add-ons to unlock those features. You can get [Premium add-ons](http://bit.ly/2x6tGly) here!
 
 = REPORT BUGS =
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
@@ -44,32 +45,28 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 4. Go to the plugin settings page and configure as required (note this will also include downloading the GeoIP database for the first time).
 
 == Frequently Asked Questions ==
-= What do I do if the plugin doesn’t work? =
-Disable the plugin, then enable it again. You may also want to try removing and reinstalling it as well. If it is still not working, please open a new support thread on the [WordPress support forums](https://wordpress.org/support/plugin/wp-statistics).
-
-= Are All visitors’ locations set to ‘unknown’? =
-Make sure you’ve downloaded the GeoIP database and the GeoIP code is enabled.
-
-Also, if you are running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will be always shown as ‘unknown’. You can define a location IP for these IP addresses in the “Country code for private IP addresses” setting.
-
-= Although GeoIP is enabled, no hits are being counted, why? =
-The GeoIP code requires two things to function: PHP v5.3 or above, the cURL extension. All of these requirements are checked but additional items may be required. Check your PHP log files and see if there are any fatal errors listed.
-
-= How much memory does PHP Statistics require? =
-This depends on how many hits your site gets. The data collection code is very light weighted. However, the reporting and statistics codes can take a lot of memory to process. The more data you collect, the more memory you will need to process it. At a bare minimum, a basic WordPress site with WP Statistics should have at least 32 MB of RAM available for a page load. Sites with lots of plugins and high traffics should think of increasing their memory significantly (128 to 256 MB is not too much).
-
-= I’ve enabled IP subnet exclusions and now no visitors are recorded. =
-Be very careful to set the subnet mask on the subnet list correctly. It is very easy to catch too much traffic. Likewise, if you are excluding a single IP address, make sure to include a subnet mask of 32 or 255.255.255.255; otherwise you may not get the expected results.
-
-= I don’t receive email reports =
-Make sure you have WordPress configured correctly for SMTP and also check whether your WP Cron is working properly. You can use [Cron View](https://wordpress.org/plugins/cron-view) to examine your WP Cron table and see if there are any issues.
+= GDPR Compliant? =
+The greatest advantage of WP Statistics is that all the data is saved locally in WordPress.
+This helps a lot while implementing the new GDPR restrictions; because it’s not necessary to create a data processing contract with an external company! [Read more about WP Statistics compliance with GDPR](http://bit.ly/2x0AFgT).
 
 = Does WP Statistics support Multisite? =
 WP Statistics doesn’t officially support the multisite feature; however, it does have limited functionally associated with it and should function without any issue. However, no support is provided at this time.
 Version 8.8 is the first release that can be installed, upgraded and removed correctly on multi-site. It also has some basic support for the network admin menu. This should not be taken as an indication that WP Statistics fully supports the multisite, but only should be considered as a very first step.
 
-= Does WP Statistics track the time of hits? =
-No.
+= Does WP Statistics work with caching plugins? =
+Probably not. Most caching plugins don’t execute the standard WordPress loop for a page it has already cached (by design of course) which means the WP Statistics code never runs for that page.
+This means WP Statistics can’t record the page hit or visitor’s information, which is against the purpose of WP Statistics.
+We don’t recommend using a caching plugin with WP Statistics.
+
+= What’s the difference between Visits and Visitors? =
+Visits is the number of page hits your site has received.
+Visitors is the number of unique users which have visited your site.
+Visits should always be greater than Visitors (though, there are a few cases when this won’t be true due to having low visits).
+The average number of pages a visitor views on your site is Visits/Visitors.
+
+= Are All visitors’ locations set to ‘unknown’? =
+Make sure you’ve downloaded the GeoIP database and the GeoIP code is enabled.
+Also, if you are running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will be always shown as ‘unknown’. You can define a location IP for these IP addresses in the “Country code for private IP addresses” setting.
 
 = I’m using another statistics plugin/service and get different numbers from them, why? =
 Probably, each plugin/service is going to give you different statistics on visits and visitors; there are several reasons for this:
@@ -80,49 +77,12 @@ Probably, each plugin/service is going to give you different statistics on visit
 
 Services that use centralized databases for spam and robot detections , such as Google Analytics, have better detection than WP Statistics.
 
-= The search words and search engine referrals are zero or very low, what’s wrong? =
-Search Engine Referrals and Words are highly dependent on the search engine providing the information to us and that often is not the case. Unfortunately, there is nothing we can do about this, we report everything we receive.
-
-= Why did my visits suddenly jump way up today? =
-There can be many reasons for this, but the most common reason is that a botnet has decided to visit your site and we have been unable to filter it out. You usually see your visits spike for a few days and then they fade away.
-
-= What’s the difference between Visits and Visitors? =
-Visits is the number of page hits your site has received.
-
-Visitors is the number of unique users which have visited your site.
-
-Visits should always be greater than Visitors (though, there are a few cases when this won’t be true due to having low visits).
-
-The average number of pages a visitor views on your site is Visits/Visitors.
-
-= My overview screen is blank, what’s wrong? =
-This is usually caused by a PHP fatal error, check the page source and PHP logs.
-
-The most common fatal error is an out of memory error. Check the Statistics > Optimization page and see how much memory is currently assigned to PHP.
-
-If it is a memory issue, you have two choices:
-
-* Increase PHP’s memory allocation
-* Delete some of your historical data.
-
-See https://php.net/manual/en/ini.core.php#ini.memory-limit for information about PHP's memory limit.
-
-To remove historical data you can use the Statistics->Optimization > Purging > Purge records older than.
-
 = Not all referrals are showing up in the search words list, why? =
-We’re completely dependent on the search engine sending us the search parameters as a part of the referrer header, which they do not always do.
-
-= Does WP Statistics work with caching plugins? =
-Probably not. Most caching plugins don’t execute the standard WordPress loop for a page it has already cached (by design of course) which means the WP Statistics code never runs for that page.
-
-This means WP Statistics can’t record the page hit or visitor’s information, which is against the purpose of WP Statistics.
-
-We don’t recommend using a caching plugin with WP Statistics.
+Search Engine Referrals and Words are highly dependent on the search engines providing the information to us. Unfortunately, we can’t do anything about it; we report everything we receive.
 
 = PHP 7 Support? =
-WP Statistics is PHP 7 compliant; however, some versions of PHP 7 have bugs that can cause issues. One known issue is with PHP 7.0.4 causing memory exhaustion errors. Newer versions of PHP 7 do not have this issue.
-
-At this time (Jun 2018) WP Statistics seems to run fine with PHP 7.2.6. But  you may experience issues that we haven’t found yet. If you do, feel free to report it after you make sure it is not a problem with PHP.
+WP Statistics is PHP 7 compliant; however, some versions of PHP 7 have bugs that can cause issues. One known issue is that PHP 7.0.4 cause memory exhaustion errors. Newer versions of PHP 7 do not have this issue.
+At this time (September, 2018) WP Statistics seems to run fine with PHP 7.2.6. But  you may experience issues that we haven’t found yet. If you do, feel free to report it after you make sure it is not a problem with PHP.
 
 = IPv6 Support? =
 WP Statistics supports IPv6 as of version 11.0; however, PHP must be compiled with IPv6 support enabled; otherwise you may see warnings when a visitor from an IPv6 address hits your site.
@@ -132,14 +92,6 @@ You can check if IPv6 support is enabled in PHP by visiting the Optimization > R
 If IPv6 is not enabled, you may see an warning like:
 
 	Warning: inet_pton() [function.inet-pton]: Unrecognized address 2003:0006:1507:5d71:6114:d8bd:80c2:1090
-
-= GDPR Support? =
-The greatest advantage of WP Statistics is that all the data is saved locally in WordPress.
-
-This helps a lot while implementing the new GDPR restrictions; because it’s not necessary to create a data processing contract with an external company!
-
-Coming up popup with “Accept” and “Deny” before collection data and Hash IP addresses is a useful option on the WP-Statistics
-
 
 == Screenshots ==
 1. Overview
