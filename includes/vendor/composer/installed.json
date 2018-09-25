@@ -620,7 +620,8 @@
             "parser",
             "user agent",
             "user-agent"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "mimmi20/wurflcache",
@@ -686,7 +687,8 @@
         "keywords": [
             "Wurfl",
             "cache"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "monolog/monolog",

@@ -605,6 +605,7 @@
                 "user agent",
                 "user-agent"
             ],
+            "abandoned": true,
             "time": "2016-04-23T18:18:10+00:00"
         },
         {
@@ -669,6 +670,7 @@
                 "Wurfl",
                 "cache"
             ],
+            "abandoned": true,
             "time": "2016-08-06T11:25:21+00:00"
         },
         {

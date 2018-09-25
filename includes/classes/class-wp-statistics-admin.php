@@ -70,10 +70,7 @@ class WP_Statistics_Admin {
 		add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
 		//add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
 		add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
-
-		// Initial the Suggestions class
-		new WP_Statistics_Suggestions();
-
+		
 		// Runs some scripts at the end of the admin panel inside the body tag
 		add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ) );
 	}
