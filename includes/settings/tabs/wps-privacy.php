@@ -31,7 +31,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <td scope="row"
-                colspan="2"><?php echo __( sprintf( 'If you want to delete visitor data, Please <a href="%s">click here</a>.', admin_url( 'admin.php?page=wps_optimization_page&tab=purging' ) ), 'wp-statistics' ); ?></td>
+                colspan="2"><?php echo sprintf( __( 'If you want to delete visitor data, please <a href="%s">click here</a>.', 'wp-statistics' ), admin_url( 'admin.php?page=wps_optimization_page&tab=purging' ) ); ?></td>
         </tr>
 
         <tr valign="top">
