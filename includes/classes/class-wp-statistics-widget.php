@@ -150,21 +150,21 @@ class WP_Statistics_Widget extends WP_Widget {
 
 		if ( $widget_options['ap_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Average Posts', 'wp-statistics' ) . ': </label>';
+			echo '<label>' . __( 'Post Average', 'wp-statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_average_post() );
 			echo '</li>';
 		}
 
 		if ( $widget_options['ac_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Average Comments', 'wp-statistics' ) . ': </label>';
+			echo '<label>' . __( 'Comment Average', 'wp-statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_average_comment() );
 			echo '</li>';
 		}
 
 		if ( $widget_options['au_widget'] ) {
 			echo '<li>';
-			echo '<label>' . __( 'Average Users', 'wp-statistics' ) . ': </label>';
+			echo '<label>' . __( 'User Average', 'wp-statistics' ) . ': </label>';
 			echo number_format_i18n( wp_statistics_average_registeruser() );
 			echo '</li>';
 		}
@@ -403,21 +403,21 @@ class WP_Statistics_Widget extends WP_Widget {
 					'on',
 					$widget_options['ap_widget']
 				); ?>/>
-                <label for="<?php echo esc_attr( $this->get_field_id( 'ap_widget' ) ); ?>"><?php _e( 'Average Posts', 'wp-statistics' ); ?></label>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'ap_widget' ) ); ?>"><?php _e( 'Post Average', 'wp-statistics' ); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'ac_widget' ) ); ?>" name="ac_widget" <?php checked(
 					'on',
 					$widget_options['ac_widget']
 				); ?>/>
-                <label for="<?php echo esc_attr( $this->get_field_id( 'ac_widget' ) ); ?>"><?php _e( 'Average Comments', 'wp-statistics' ); ?></label>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'ac_widget' ) ); ?>"><?php _e( 'Comment Average', 'wp-statistics' ); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'au_widget' ) ); ?>" name="au_widget" <?php checked(
 					'on',
 					$widget_options['au_widget']
 				); ?>/>
-                <label for="<?php echo esc_attr( $this->get_field_id( 'au_widget' ) ); ?>"><?php _e( 'Average Users', 'wp-statistics' ); ?></label>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'au_widget' ) ); ?>"><?php _e( 'User Average', 'wp-statistics' ); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'lpd_widget' ) ); ?>" class="lpd_widget" name="lpd_widget" <?php checked(
