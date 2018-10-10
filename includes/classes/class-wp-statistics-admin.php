@@ -630,11 +630,6 @@ class WP_Statistics_Admin {
 	public function admin_footer_scripts() {
 		global $WP_Statistics;
 
-		// Check to see if the browscap database needs to be downloaded and do so if required.
-		if ( $WP_Statistics->get_option( 'update_browscap' ) ) {
-			echo WP_Statistics_Updates::download_browscap();
-		}
-
 		// Check to see if the GeoIP database needs to be downloaded and do so if required.
 		if ( $WP_Statistics->get_option( 'update_geoip' ) ) {
 			echo WP_Statistics_Updates::download_geoip();

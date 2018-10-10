@@ -45,18 +45,6 @@ class WP_Statistics_Schedule {
 			wp_unschedule_event( wp_next_scheduled( 'wp_statistics_geoip_hook' ), 'wp_statistics_geoip_hook' );
 		}
 
-		// Add the browscap update schedule if it doesn't exist and it should be.
-		if ( ! wp_next_scheduled( 'wp_statistics_browscap_hook' ) && $WP_Statistics->get_option( 'schedule_browscap' ) ) {
-
-			wp_schedule_event( time(), 'weekly', 'wp_statistics_browscap_hook' );
-		}
-
-		// Remove the browscap update schedule if it does exist and it should shouldn't.
-		if ( wp_next_scheduled( 'wp_statistics_browscap_hook' ) && ! $WP_Statistics->get_option( 'schedule_browscap' ) ) {
-
-			wp_unschedule_event( wp_next_scheduled( 'wp_statistics_browscap_hook' ), 'wp_statistics_browscap_hook' );
-		}
-
 		// Add the referrerspam update schedule if it doesn't exist and it should be.
 		if ( ! wp_next_scheduled( 'wp_statistics_referrerspam_hook' ) &&
 		     $WP_Statistics->get_option( 'schedule_referrerspam' )
@@ -122,8 +110,6 @@ class WP_Statistics_Schedule {
 		//after construct
 		add_action( 'wp_statistics_add_visit_hook', 'WP_Statistics_Schedule::add_visit_event' );
 		add_action( 'wp_statistics_geoip_hook', 'WP_Statistics_Schedule::geoip_event' );
-		add_action( 'wp_statistics_browscap_hook', 'WP_Statistics_Schedule::browscap_event' );
-		add_action( 'wp_statistics_referrerspam_hook', 'WP_Statistics_Schedule::referrerspam_event' );
 		add_action( 'wp_statistics_dbmaint_hook', 'WP_Statistics_Schedule::dbmaint_event' );
 		add_action( 'wp_statistics_dbmaint_visitor_hook', 'WP_Statistics_Schedule::dbmaint_visitor_event' );
 		add_action( 'report_hook', 'WP_Statistics_Schedule::send_report' );
@@ -205,28 +191,6 @@ class WP_Statistics_Schedule {
 			// actual download at the end of the page.
 			$WP_Statistics->update_option( 'update_geoip', true );
 		}
-	}
-
-	/**
-	 * Updates the browscap database.
-	 */
-	static function browscap_event() {
-
-		GLOBAL $WP_Statistics;
-
-		// Check for a new browscap once a week
-		$WP_Statistics->update_option( 'update_browscap', true );
-	}
-
-	/**
-	 * Updates the browscap database.
-	 */
-	static function referrerspam_event() {
-
-		GLOBAL $WP_Statistics;
-
-		// Check for a new referrerspam once a week
-		$WP_Statistics->update_option( 'update_referrerspam', true );
 	}
 
 	/**

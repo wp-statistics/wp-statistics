@@ -695,7 +695,6 @@ class WP_Statistics {
 		// If this is a first time install or an upgrade and we've added options, set some intelligent defaults.
 		$options['anonymize_ips']         = false;
 		$options['geoip']                 = false;
-		$options['browscap']              = false;
 		$options['useronline']            = true;
 		$options['visits']                = true;
 		$options['visitors']              = true;
@@ -858,16 +857,20 @@ class WP_Statistics {
 	 */
 	public function get_UserAgent() {
 
-		// Parse the agent string.
-		try {
-			$agent = parse_user_agent();
-		} catch ( Exception $e ) {
-			$agent = array(
-				'browser'  => _x( 'Unknown', 'Browser', 'wp-statistics' ),
-				'platform' => _x( 'Unknown', 'Platform', 'wp-statistics' ),
-				'version'  => _x( 'Unknown', 'Version', 'wp-statistics' ),
-			);
-		}
+		// Default
+        $agent = array(
+            'browser'  => _x( 'Unknown', 'Browser', 'wp-statistics' ),
+            'platform' => _x( 'Unknown', 'Platform', 'wp-statistics' ),
+            'version'  => _x( 'Unknown', 'Version', 'wp-statistics' ),
+        );
+
+        $result = new WhichBrowser\Parser(getallheaders());
+
+        $agent = array(
+            'browser'  => $result->browser->name,
+            'platform' => $result->os->name,
+            'version'  => $result->os->version,
+        );
 
 		// null isn't a very good default, so set it to Unknown instead.
 		if ( $agent['browser'] == null ) {

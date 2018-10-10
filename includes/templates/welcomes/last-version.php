@@ -108,7 +108,6 @@
                 <h3 class="wp-people-group"><?php _e( 'External Libraries', 'wp-statistics' ); ?></h3>
                 <p class="wp-credits-list">
                     <a href="http://www.maxmind.com/">MaxMind</a>,
-                    <a href="https://browscap.org/">Browscap</a>,
                     <a href="http://www.chartjs.org/">Chart.js</a>.</p>
             </div>
         </div>

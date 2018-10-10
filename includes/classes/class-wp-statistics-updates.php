@@ -1,9 +1,5 @@
 <?php
 
-use BrowscapPHP\Browscap;
-use BrowscapPHP\BrowscapUpdater;
-use BrowscapPHP\Helper\IniLoader;
-use WurflCache\Adapter\File;
 use GeoIp2\Database\Reader;
 
 /**
@@ -193,80 +189,6 @@ class WP_Statistics_Updates {
 				$headers
 			);
 		}
-
-		// All of the messages displayed above are stored in a string, now it's time to actually output the messages.
-		return $result;
-	}
-
-	/**
-	 * This function downloads the browscap database from browscap.org.
-	 *
-	 * @return string
-	 */
-	static function download_browscap() {
-		global $WP_Statistics;
-
-        // Changing PHP memory limits
-        ini_set('memory_limit', '256M');
-
-		// We need the download_url() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
-		if ( ! function_exists( 'download_url' ) ) {
-			include( ABSPATH . 'wp-admin/includes/file.php' );
-		}
-
-		// If browscap is disabled, bail out.
-		if ( $WP_Statistics->get_option( 'browscap' ) == false ) {
-			return '';
-		}
-
-		// Get the upload directory from WordPress.
-		$upload_dir = wp_upload_dir();
-
-		// Check to see if the subdirectory we're going to upload to exists, if not create it.
-		if ( ! file_exists( $upload_dir['basedir'] . '/wp-statistics' ) ) {
-			mkdir( $upload_dir['basedir'] . '/wp-statistics' );
-		}
-
-		// First if all update the option to reflect the new download.
-		$WP_Statistics->update_option( 'update_browscap', false );
-
-		$adapter = new File( array( File::DIR => $upload_dir['basedir'] . '/wp-statistics' ) );
-
-		try {
-			$browscap_updater = new BrowscapUpdater();
-			$browscap_updater->setCache( $adapter );
-			$browscap_updater->update( IniLoader::PHP_INI );
-
-			// Update browscap last download time
-			$WP_Statistics->update_option( 'last_browscap_dl', time() );
-
-			$message = __( 'Browscap database updated successfully!', 'wp-statistics' );
-		} catch ( Exception $e ) {
-			$message = sprintf( __( 'Browscap database updated failed! %s', 'wp-statistics' ), $e->getMessage() );
-		}
-
-		if ( $WP_Statistics->get_option( 'browscap_report' ) == true ) {
-			$blogname  = get_bloginfo( 'name' );
-			$blogemail = get_bloginfo( 'admin_email' );
-
-			$headers[] = "From: $blogname <$blogemail>";
-			$headers[] = "MIME-Version: 1.0";
-			$headers[] = "Content-type: text/html; charset=utf-8";
-
-			if ( $WP_Statistics->get_option( 'email_list' ) == '' ) {
-				$WP_Statistics->update_option( 'email_list', $blogemail );
-			}
-
-			wp_mail(
-				$WP_Statistics->get_option( 'email_list' ),
-				__( 'Browscap.ini update on', 'wp-statistics' ) . ' ' . $blogname,
-				$message,
-				$headers
-			);
-		}
-
-		// Generate admin notice message
-		$result = "<div class='updated settings-error'><p><strong>" . $message . "</strong></p></div>";
 
 		// All of the messages displayed above are stored in a string, now it's time to actually output the messages.
 		return $result;

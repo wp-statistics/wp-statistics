@@ -4,8 +4,7 @@
 	This class handles; visits, visitors and pages.
 */
 
-use BrowscapPHP\Browscap;
-use WurflCache\Adapter\File;
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use IPTools\IP;
 use IPTools\Network;
 use IPTools\Range;
@@ -118,35 +117,25 @@ class WP_Statistics_Hits {
 			$ua_string = $_SERVER['HTTP_USER_AGENT'];
 		}
 
-		if ( $WP_Statistics->get_option( 'last_browscap_dl' ) > 1 && $WP_Statistics->get_option( 'browscap' ) ) {
-			// Get the upload directory from WordPress.
-			$upload_dir = wp_upload_dir();
+        $whichbrowser = new WhichBrowser\Parser(getallheaders());
 
-			$adapter = new File( array( File::DIR => $upload_dir['basedir'] . '/wp-statistics' ) );
+        /*
+         * Get Browser Name
+         */
+        $current_browser = $whichbrowser->browser->name;
 
-			// Get the Browser Capabilities use Browscap.
-			try {
-				$browscap = new Browscap();
-				$browscap->setCache( $adapter );
-				$current_browser = $browscap->getBrowser();
+        /*
+         * Check Is robot
+         */
+        $CrawlerDetect = new CrawlerDetect;
+        if($CrawlerDetect->isCrawler()) {
+            $crawler = true;
+        }
 
-				// Make sure we got an object back and it has the Crawler property before accessing it.
-				if ( isset( $current_browser->Crawler ) ) {
-					$crawler = $current_browser->Crawler;
-				} else {
-					$crawler = false;
-				}
-			} catch ( Exception $e ) {
-				$crawler = false;
-			}
-		} else {
-			$WP_Statistics->update_option( 'update_browscap', true );
-		}
-
-		// If we're a crawler as per browscap, exclude us, otherwise double check based on the WP Statistics robot list.
+		// If we're a crawler as per whichbrowser, exclude us, otherwise double check based on the WP Statistics robot list.
 		if ( $crawler == true ) {
 			$this->exclusion_match  = true;
-			$this->exclusion_reason = 'browscap';
+			$this->exclusion_reason = 'whichbrowser';
 
 			return;
 		} else {
