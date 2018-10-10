@@ -538,7 +538,7 @@ class WP_Statistics_Admin {
 			WP_Statistics::$page['overview'],
 			__( 'Settings', 'wp-statistics' ),
 			__( 'Settings', 'wp-statistics' ),
-			$read_cap,
+            $manage_cap,
 			WP_Statistics::$page['settings'],
 			'WP_Statistics_Admin_Pages::settings'
 		);
