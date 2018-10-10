@@ -6,41 +6,24 @@ namespace Composer\Autoload;
 
 class ComposerStaticInite38eff48d6e6d75cf438d3ef850d45a7
 {
-    public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        '19cefe1485315b72c45605e5be32d866' => __DIR__ . '/..' . '/donatj/phpuseragentparser/Source/UserAgentParser.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
-            'Wurfl\\' => 6,
-            'WurflCache\\' => 11,
-        ),
-        'S' => 
-        array (
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Component\\Finder\\' => 25,
-            'Symfony\\Component\\Filesystem\\' => 29,
-            'Symfony\\Component\\Debug\\' => 24,
-            'Symfony\\Component\\Console\\' => 26,
+            'WhichBrowser\\' => 13,
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 8,
-            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Cache\\' => 10,
         ),
         'M' => 
         array (
-            'Monolog\\' => 8,
             'MaxMind\\WebService\\' => 19,
             'MaxMind\\Exception\\' => 18,
             'MaxMind\\Db\\' => 11,
+        ),
+        'J' => 
+        array (
+            'Jaybizzle\\CrawlerDetect\\' => 24,
         ),
         'I' => 
         array (
@@ -48,65 +31,23 @@ class ComposerStaticInite38eff48d6e6d75cf438d3ef850d45a7
         ),
         'G' => 
         array (
-            'GuzzleHttp\\Psr7\\' => 16,
-            'GuzzleHttp\\Promise\\' => 19,
-            'GuzzleHttp\\' => 11,
             'GeoIp2\\' => 7,
         ),
         'C' => 
         array (
             'Composer\\CaBundle\\' => 18,
         ),
-        'B' => 
-        array (
-            'BrowscapPHP\\' => 12,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Wurfl\\' => 
+        'WhichBrowser\\' => 
         array (
-            0 => __DIR__ . '/..' . '/mimmi20/wurfl-constants/src',
+            0 => __DIR__ . '/..' . '/whichbrowser/parser/src',
+            1 => __DIR__ . '/..' . '/whichbrowser/parser/tests/src',
         ),
-        'WurflCache\\' => 
+        'Psr\\Cache\\' => 
         array (
-            0 => __DIR__ . '/..' . '/mimmi20/wurflcache/src',
-        ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-        ),
-        'Symfony\\Polyfill\\Ctype\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
-        ),
-        'Symfony\\Component\\Finder\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/finder',
-        ),
-        'Symfony\\Component\\Filesystem\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/filesystem',
-        ),
-        'Symfony\\Component\\Debug\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/debug',
-        ),
-        'Symfony\\Component\\Console\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/console',
-        ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
-        'Psr\\Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'Monolog\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'MaxMind\\WebService\\' => 
         array (
@@ -120,21 +61,13 @@ class ComposerStaticInite38eff48d6e6d75cf438d3ef850d45a7
         array (
             0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
         ),
+        'Jaybizzle\\CrawlerDetect\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src',
+        ),
         'IPTools\\' => 
         array (
             0 => __DIR__ . '/..' . '/s1lentium/iptools/src',
-        ),
-        'GuzzleHttp\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
-        ),
-        'GuzzleHttp\\Promise\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
-        ),
-        'GuzzleHttp\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
         'GeoIp2\\' => 
         array (
@@ -143,10 +76,6 @@ class ComposerStaticInite38eff48d6e6d75cf438d3ef850d45a7
         'Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
-        ),
-        'BrowscapPHP\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/browscap/browscap-php/src',
         ),
     );
 

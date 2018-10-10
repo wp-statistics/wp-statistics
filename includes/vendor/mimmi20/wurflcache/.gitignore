@@ -1,7 +1,0 @@
-vendor/
-.idea/
-.buildpath
-.settings
-.project
-composer.phar
-composer.lock
