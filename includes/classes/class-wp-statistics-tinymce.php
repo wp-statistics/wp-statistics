@@ -98,7 +98,7 @@ class WP_Statistics_TinyMCE {
      * Add Js Bottun to Editor
      */
     static function wp_statistic_add_tinymce_plugin($plugin_array) {
-        $plugin_array['wp_statistic_tc_button'] =  WP_Statistics::$reg['plugin-url'].'assets/js/tinymce.js'; // CHANGE THE BUTTON SCRIPT HERE
+        $plugin_array['wp_statistic_tc_button'] =  WP_Statistics::$reg['plugin-url'].'assets/js/tinymce.js';
         return $plugin_array;
     }
 

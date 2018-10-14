@@ -272,6 +272,7 @@ class WP_Statistics_Install {
 						'wps_robotlist',
 						'wps_exclude_ip',
 						'wps_exclude_loginpage',
+						'wps_exclude_adminpage',
 					);
 					$var_options    = array( 'wps_disable_se_%', 'wps_exclude_%' );
 					$widget_options = array(

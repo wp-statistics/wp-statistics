@@ -223,6 +223,16 @@ class WP_Statistics_Hits {
 			}
 		}
 
+        // Check to see if we're excluding the Admin page.
+        if ( $WP_Statistics->get_option( 'exclude_adminpage' ) ) {
+            if(stristr( $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], "wp-admin")) {
+                $this->exclusion_match  = true;
+                $this->exclusion_reason = 'admin page';
+
+                return;
+            }
+        }
+
 		// Check to see if we're excluding referrer spam.
 		if ( $WP_Statistics->get_option( 'referrerspam' ) ) {
 			$referrer = $WP_Statistics->get_Referred();
