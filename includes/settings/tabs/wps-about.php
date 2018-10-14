@@ -33,7 +33,7 @@
     <tr valign="top">
         <td scope="row" colspan="2"><?php echo sprintf(
 				__(
-					'Fell like showing us how much you enjoy WP Statistics? Drop by our %sdonation%s page and show us some love!',
+					'Feel like showing us how much you enjoy WP Statistics? Drop by our %sdonation%s page and show us some love!',
 					'wp-statistics'
 				),
 				'<a href="http://wp-statistics.com/donate" target="_blank">',
