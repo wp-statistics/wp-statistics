@@ -45,7 +45,7 @@ class WP_Statistics_TinyMCE {
             'postaverage' => __('Post Average', 'wp-statistics'),
             'commentaverage' => __('Comment Average', 'wp-statistics'),
             'useraverage' => __('User Average', 'wp-statistics'),
-            'lpd' => __('lpd', 'wp-statistics'),
+            'lpd' => __('Last Post Date', 'wp-statistics'),
             'help_stat' => __('The statistics you want, see the next table for available options.', 'wp-statistics'),
             'time' => __('Time', 'wp-statistics'),
             'se' => __('Select item ...', 'wp-statistics'),
@@ -57,11 +57,11 @@ class WP_Statistics_TinyMCE {
             'total' => __('Total', 'wp-statistics'),
             'help_time' => __('Is the time frame (time periods) for the statistic', 'wp-statistics'),
             'provider' => __('Provider', 'wp-statistics'),
-            'help_provider' => __('ask / bing / clearch / duckduckgo / google / yahoo / yandex', 'wp-statistics'),
+            'help_provider' => __( 'The search provider to get statistics on.', 'wp-statistics' ),
             'format' => __('Format', 'wp-statistics'),
-            'help_format' => __('The format  for numbers, the options are i18n', 'wp-statistics'),
+            'help_format' => __('The format to display numbers in: i18n, english, none.', 'wp-statistics'),
             'id' => __('Id', 'wp-statistics'),
-            'help_id' => __('The page/post ID to get statistics on.  Only used on page visits.', 'wp-statistics'),
+            'help_id' => __('The post/page ID to get page statistics on.', 'wp-statistics'),
         );
 
         $locale = _WP_Editors::$mce_locale;
