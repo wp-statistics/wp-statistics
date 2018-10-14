@@ -138,6 +138,18 @@ class WP_Statistics_Admin_Pages {
 				);
 			}
 		}
+
+		//Set Default Hidden MetaBox
+        add_filter( 'hidden_meta_boxes', array( self::class, 'default_hide_meta_box' ) );
+	}
+	
+	/*
+	 * Default Hidden Meta Box
+	 */
+	static public function default_hide_meta_box($hidden)
+    {
+        $hidden[] = 'wps_words_postbox';
+        return $hidden;
 	}
 
 	/**

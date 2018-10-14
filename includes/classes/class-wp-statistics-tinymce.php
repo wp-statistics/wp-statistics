@@ -32,7 +32,7 @@ class WP_Statistics_TinyMCE {
         $strings = array(
             'insert' => __('WP Statistics Shortcodes', 'wp-statistics'),
             'stat' => __('Stat', 'wp-statistics'),
-            'usersonline' => __('User Online', 'wp-statistics'),
+            'usersonline' => __('Online Users', 'wp-statistics'),
             'visits' => __('Visits', 'wp-statistics'),
             'visitors' => __('Visitors', 'wp-statistics'),
             'pagevisits' => __('Page Visits', 'wp-statistics'),
