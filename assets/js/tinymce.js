@@ -29,6 +29,7 @@
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.commentaverage'), value: 'commentaverage'},
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.useraverage'), value: 'useraverage'},
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.lpd'), value: 'lpd'},
+                                {text: editor.getLang('wp_statistic_tinymce_plugin.referrer'), value: 'referrer'},
                             ]
                         },
                         {

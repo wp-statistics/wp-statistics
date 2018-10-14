@@ -46,6 +46,7 @@ class WP_Statistics_TinyMCE {
             'commentaverage' => __('Comment Average', 'wp-statistics'),
             'useraverage' => __('User Average', 'wp-statistics'),
             'lpd' => __('Last Post Date', 'wp-statistics'),
+            'referrer' => __('Referrer', 'wp-statistics'),
             'help_stat' => __('The statistics you want, see the next table for available options.', 'wp-statistics'),
             'time' => __('Time', 'wp-statistics'),
             'se' => __('Select item ...', 'wp-statistics'),

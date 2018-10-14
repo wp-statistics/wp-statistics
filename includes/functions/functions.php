@@ -896,6 +896,39 @@ function wp_statistics_searchengine( $search_engine = 'all', $time = 'total' ) {
 	return $result;
 }
 
+//This Function will return the referrer list
+function wp_statistics_referrer($time = null) {
+    global $wpdb, $WP_Statistics;
+
+    $timezone = array(
+            'today' => 0,
+            'yesterday' => -1,
+            'week' => -7,
+            'month' => -30,
+            'year' => -365,
+            'total' => 'ALL',
+    );
+    $sql = "SELECT `referred` FROM `".$wpdb->prefix."statistics_visitor` WHERE referred <> ''";
+    if (array_key_exists($time,$timezone)) {
+        if($time !="total") {
+            $sql .= " AND (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', $timezone[$time] )}')";
+        }
+    }
+    $result = $wpdb->get_results($sql);
+
+    $urls = array();
+    foreach ( $result as $item ) {
+        $url = parse_url( $item->referred );
+        if ( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
+            continue;
+        }
+        $urls[] = $url['scheme'] . '://' . $url['host'];
+    }
+    $get_urls = array_count_values( $urls );
+
+    return count( $get_urls );
+}
+
 // This function will return the statistics for a given search engine for a given time frame.
 function wp_statistics_searchword( $search_engine = 'all', $time = 'total' ) {
 
