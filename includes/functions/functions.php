@@ -913,6 +913,9 @@ function wp_statistics_referrer($time = null) {
         if($time !="total") {
             $sql .= " AND (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', $timezone[$time] )}')";
         }
+    } else {
+        //Set Default
+        $sql .= " AND (`last_counter` = '{$WP_Statistics->Current_Date( 'Y-m-d', $time )}')";
     }
     $result = $wpdb->get_results($sql);
 

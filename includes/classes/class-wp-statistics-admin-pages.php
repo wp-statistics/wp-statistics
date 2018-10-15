@@ -538,29 +538,31 @@ class WP_Statistics_Admin_Pages {
 
 				break;
 			default:
-				wp_enqueue_style(
-					'wpstatistics-jqvmap-css',
-					WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css',
-					true,
-					'1.5.1'
-				);
-				wp_enqueue_script(
-					'wpstatistics-jquery-vmap',
-					WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
-					true,
-					'1.5.1'
-				);
-				wp_enqueue_script(
-					'wpstatistics-jquery-vmap-world',
-					WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
-					true,
-					'1.5.1'
-				);
+                if (get_current_screen()->parent_base ==WP_Statistics::$page['overview']) {
+                    wp_enqueue_style(
+                        'wpstatistics-jqvmap-css',
+                        WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css',
+                        true,
+                        '1.5.1'
+                    );
+                    wp_enqueue_script(
+                        'wpstatistics-jquery-vmap',
+                        WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
+                        true,
+                        '1.5.1'
+                    );
+                    wp_enqueue_script(
+                        'wpstatistics-jquery-vmap-world',
+                        WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
+                        true,
+                        '1.5.1'
+                    );
 
-				// Load our custom widgets handling javascript.
-				wp_enqueue_script( 'wp_statistics_log', WP_Statistics::$reg['plugin-url'] . 'assets/js/log.js' );
+                    // Load our custom widgets handling javascript.
+                    wp_enqueue_script('wp_statistics_log', WP_Statistics::$reg['plugin-url'] . 'assets/js/log.js');
 
-				include WP_Statistics::$reg['plugin-dir'] . 'includes/log/log.php';
+                    include WP_Statistics::$reg['plugin-dir'] . 'includes/log/log.php';
+                }
 
 				break;
 		}
