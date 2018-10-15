@@ -61,7 +61,7 @@ class WP_Statistics_TinyMCE {
             'help_provider' => __( 'The search provider to get statistics on.', 'wp-statistics' ),
             'format' => __('Format', 'wp-statistics'),
             'help_format' => __('The format to display numbers in: i18n, english, none.', 'wp-statistics'),
-            'id' => __('Id', 'wp-statistics'),
+            'id' => __('ID', 'wp-statistics'),
             'help_id' => __('The post/page ID to get page statistics on.', 'wp-statistics'),
         );
 
