@@ -1254,16 +1254,16 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	$today         = $WP_Statistics->Current_Date( 'm/d/Y' );
 
 	// Re-create the range start/end strings from our utime's to make sure we get ride of any cruft and have them in the format we want.
-	$rangestart = $WP_Statistics->Local_Date( 'm/d/Y', $rangestart_utime );
-	$rangeend   = $WP_Statistics->Local_Date( 'm/d/Y', $rangeend_utime );
+	$rangestart = $WP_Statistics->Local_Date( get_option("date_format"), $rangestart_utime );
+	$rangeend   = $WP_Statistics->Local_Date( get_option("date_format"), $rangeend_utime );
 
 	// If the rangeend isn't today OR it is but not one of the standard range values, then it's a custom selected value and we need to flag it as such.
 	if ( $rangeend != $today || ( $rangeend == $today && ! in_array( $current, $range ) ) ) {
 		$current = - 1;
 	} else {
 		// If on the other hand we are a standard range, let's reset the custom range selector to match it.
-		$rangestart = $WP_Statistics->Current_Date( 'm/d/Y', '-' . $current );
-		$rangeend   = $WP_Statistics->Current_Date( 'm/d/Y' );
+		$rangestart = $WP_Statistics->Current_Date( get_option("date_format"), '-' . $current );
+		$rangeend   = $WP_Statistics->Current_Date( get_option("date_format") );
 	}
 
 	echo '<form method="get"><ul class="subsubsub wp-statistics-sub-fullwidth">' . "\r\n";
@@ -1315,13 +1315,13 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' .
 	     $rangestart .
 	     '" placeholder="' .
-	     __( 'MM/DD/YYYY', 'wp-statistics' ) .
+	     __( wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")), 'wp-statistics' ) .
 	     '"> ' .
 	     __( 'to', 'wp-statistics' ) .
 	     ' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' .
 	     $rangeend .
 	     '" placeholder="' .
-	     __( 'MM/DD/YYYY', 'wp-statistics' ) .
+	     __( wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")), 'wp-statistics' ) .
 	     '"> <input type="submit" value="' .
 	     __( 'Go', 'wp-statistics' ) .
 	     '" class="button-primary">' .
@@ -1332,8 +1332,72 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 
 	echo '</form>' . "\r\n";
 
-	echo '<script>jQuery(function() { jQuery( "#datestartpicker" ).datepicker(); jQuery( "#dateendpicker" ).datepicker(); });</script>' .
+	echo '<script>jQuery(function() { jQuery( "#datestartpicker" ).datepicker({dateFormat: \''.wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")).'\'}); jQuery( "#dateendpicker" ).datepicker({dateFormat: \''.wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")).'\'}); });</script>' .
 	     "\r\n";
+}
+
+/*
+ * Convert php dateformat to Jquery Ui
+ */
+function wp_statistics_dateformat_php_to_jqueryui($php_format)
+{
+    $SYMBOLS_MATCHING = array(
+        // Day
+        'd' => 'dd',
+        'D' => 'D',
+        'j' => 'd',
+        'l' => 'DD',
+        'N' => '',
+        'S' => '',
+        'w' => '',
+        'z' => 'o',
+        // Week
+        'W' => '',
+        // Month
+        'F' => 'MM',
+        'm' => 'mm',
+        'M' => 'M',
+        'n' => 'm',
+        't' => '',
+        // Year
+        'L' => '',
+        'o' => '',
+        'Y' => 'yy',
+        'y' => 'y',
+        // Time
+        'a' => '',
+        'A' => '',
+        'B' => '',
+        'g' => '',
+        'G' => '',
+        'h' => '',
+        'H' => '',
+        'i' => '',
+        's' => '',
+        'u' => ''
+    );
+    $jqueryui_format = "";
+    $escaping = false;
+    for($i = 0; $i < strlen($php_format); $i++)
+    {
+        $char = $php_format[$i];
+        if($char === '\\')
+        {
+            $i++;
+            if($escaping) $jqueryui_format .= $php_format[$i];
+            else $jqueryui_format .= '\'' . $php_format[$i];
+            $escaping = true;
+        }
+        else
+        {
+            if($escaping) { $jqueryui_format .= "'"; $escaping = false; }
+            if(isset($SYMBOLS_MATCHING[$char]))
+                $jqueryui_format .= $SYMBOLS_MATCHING[$char];
+            else
+                $jqueryui_format .= $char;
+        }
+    }
+    return $jqueryui_format;
 }
 
 // This function is used to calculate the number of days and thier respective unix timestamps.
