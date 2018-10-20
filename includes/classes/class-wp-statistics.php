@@ -829,8 +829,8 @@ class WP_Statistics {
 
 		// If the anonymize IP enabled for GDPR.
 		if ( $this->get_option( 'anonymize_ips' ) == true ) {
-            $this->ip = substr($this->ip, 0, strrpos($this->ip, '.')).'.000';
-        }
+			$this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.000';
+		}
 
 		return $this->ip;
 	}
@@ -856,33 +856,14 @@ class WP_Statistics {
 	 * @return array|\string[]
 	 */
 	public function get_UserAgent() {
+		$result = new WhichBrowser\Parser( getallheaders() );
 
-		// Default
-        $agent = array(
-            'browser'  => _x( 'Unknown', 'Browser', 'wp-statistics' ),
-            'platform' => _x( 'Unknown', 'Platform', 'wp-statistics' ),
-            'version'  => _x( 'Unknown', 'Version', 'wp-statistics' ),
-        );
-
-        $result = new WhichBrowser\Parser(getallheaders());
-
-        $agent = array(
-            'browser'  => $result->browser->name,
-            'platform' => $result->os->name,
-            'version'  => $result->os->version,
-        );
-
-		// null isn't a very good default, so set it to Unknown instead.
-		if ( $agent['browser'] == null ) {
-			$agent['browser'] = _x( 'Unknown', 'Browser', 'wp-statistics' );
-		}
-		if ( $agent['platform'] == null ) {
-			$agent['platform'] = _x( 'Unknown', 'Platform', 'wp-statistics' );
-		}
-		if ( $agent['version'] == null ) {
-			$agent['version'] = _x( 'Unknown', 'Version', 'wp-statistics' );
-		}
-
+		$agent = array(
+			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
+			'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
+			'version'  => ( isset( $result->os->version->value ) ) ? $result->os->version->value : _x( 'Unknown', 'Version', 'wp-statistics' ),
+		);
+		
 		return $agent;
 	}
 
