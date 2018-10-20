@@ -145,9 +145,4 @@ class WP_Statistics_Rest {
         return $_SESSION[self::session][$params];
     }
 
-
-
-
-
-
 }

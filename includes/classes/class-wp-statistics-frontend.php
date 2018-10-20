@@ -29,6 +29,11 @@ class WP_Statistics_Frontend {
 
 		//Add inline Rest Request
         add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
+
+        //Add Html Comment in head
+        if ( self::is_cache_active() ===false ) {
+            add_action( 'wp_head', 'WP_Statistics_Frontend::html_comment' );
+        }
 	}
 
 	/*
@@ -37,6 +42,14 @@ class WP_Statistics_Frontend {
 	static public function init_session()
     {
       if( !session_id() ) {   session_start();    }
+    }
+
+    /*
+     * Create Comment support Wappalyzer
+     */
+    static public function html_comment()
+    {
+        echo '<!-- Analytics by WP-Statistics v'.WP_Statistics::$reg['version'].' - '.WP_Statistics::$reg['plugin-data']['PluginURI'].' -->'."\n";
     }
 
 	/**
@@ -88,7 +101,8 @@ class WP_Statistics_Frontend {
 	static public function add_inline_rest_js()
     {
         if ( self::is_cache_active() ) {
-            echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' .path_join( get_rest_url() , WP_Statistics_Rest::route.'/'.WP_Statistics_Rest::func ) . '\',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistics\',\'true\');},});});</script>'."\n";
+           self::html_comment();
+           echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' .path_join( get_rest_url() , WP_Statistics_Rest::route.'/'.WP_Statistics_Rest::func ) . '\',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistics\',\'true\');},});});</script>'."\n";
         }
 	}
 

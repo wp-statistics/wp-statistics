@@ -121,7 +121,7 @@ class WP_Statistics {
 	 */
 	public static $page = array();
     /**
-     * Rest Api ini
+     * Rest Api init
      *
      * @var array
      */
