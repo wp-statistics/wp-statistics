@@ -121,6 +121,8 @@ class WP_Statistics_Rest {
             $h->Pages();
         }
 
+        //Remove Session
+        unset($_SESSION[self::session]);
     }
 
     /*
