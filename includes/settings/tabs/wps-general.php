@@ -306,7 +306,7 @@ if ( $wps_nonce_valid ) {
                 <input id="use_cache_plugin" type="checkbox" value="1"
                        name="wps_use_cache_plugin" <?php echo $WP_Statistics->get_option( 'use_cache_plugin' ) == true
                     ? "checked='checked'" : ''; ?>>
-                <label for="all_pages"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <label for="all_pages"><?php _e( 'Yes', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e( 'Are You Using Cache Plugin in Wordpress for Example W3 Total Cache ?', 'wp-statistics' ); ?></p>
             </td>
