@@ -12,7 +12,7 @@ class WP_Statistics_Rest {
     const func = 'hit';
 
     //Set Default Session Name
-    const session = 'wp_statistic_hit';
+    const session = 'wp_statistics_hit';
 
 
 	/**
@@ -66,7 +66,7 @@ class WP_Statistics_Rest {
         }
 
         //Check Auth Key Request
-        if ( !isset($header['X-Ajax-WP-Statistic']) ) {
+        if ( !isset($header['X-Ajax-WP-Statistics']) ) {
             return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
         }
 
@@ -131,7 +131,7 @@ class WP_Statistics_Rest {
     static public function is_rest()
     {
         $header = getallheaders();
-        if( isset($header['X-Ajax-WP-Statistic']) and isset($_SESSION[self::session]) ) {
+        if( isset($header['X-Ajax-WP-Statistics']) and isset($_SESSION[self::session]) ) {
             return true;
         }
         return false;

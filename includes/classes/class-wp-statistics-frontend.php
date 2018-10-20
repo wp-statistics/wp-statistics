@@ -61,7 +61,11 @@ class WP_Statistics_Frontend {
 		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
 
 		if ( self::is_cache_active() ) {
+		    //Load Jquery
             wp_enqueue_script( 'jquery' );
+
+            //Call Session Params function
+            self::set_default_params();
         }
 	}
 
@@ -84,7 +88,7 @@ class WP_Statistics_Frontend {
 	static public function add_inline_rest_js()
     {
         if ( self::is_cache_active() ) {
-            echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' .path_join( get_rest_url() , WP_Statistics_Rest::route.'/'.WP_Statistics_Rest::func ) . '\',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistic\',\'true\');}});});</script>'."\n";
+            echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' .path_join( get_rest_url() , WP_Statistics_Rest::route.'/'.WP_Statistics_Rest::func ) . '\',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistics\',\'true\');},});});</script>'."\n";
         }
 	}
 
