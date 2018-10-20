@@ -26,6 +26,9 @@ class WP_Statistics_Frontend {
 		// We can wait until the very end of the page to process the statistics,
 		// that way the page loads and displays quickly.
 		add_action( 'wp', 'WP_Statistics_Frontend::init' );
+
+		//Add inline Rest Request
+        add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
 	}
 
 	/*
@@ -58,10 +61,8 @@ class WP_Statistics_Frontend {
 		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
 
 		if ( self::is_cache_active() ) {
-            wp_enqueue_script( 'wp-statistic', WP_Statistics::$reg['plugin-url'].'assets/js/wp-statistic.js' , array( 'jquery' ), '', true );
-            wp_localize_script( 'wp-statistic', 'wp_statistic', self::set_default_params() );
+            wp_enqueue_script( 'jquery' );
         }
-
 	}
 
 	/*
@@ -76,7 +77,16 @@ class WP_Statistics_Frontend {
 
         return true;
 	}
-
+	
+	/*
+	 * Inline Js
+	 */
+	static public function add_inline_rest_js()
+    {
+        if ( self::is_cache_active() ) {
+            echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' .path_join( get_rest_url() , WP_Statistics_Rest::route.'/'.WP_Statistics_Rest::func ) . '\',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistic\',\'true\');}});});</script>'."\n";
+        }
+	}
 
 	/*
 	 * Set Default Params Rest Api

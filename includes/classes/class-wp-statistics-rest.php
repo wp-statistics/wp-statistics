@@ -6,7 +6,7 @@
 class WP_Statistics_Rest {
 
     //Set Default namespace
-    const route = 'wp_statistic';
+    const route = 'wpstatistics/v1';
 
     //Set Default Statistic Save method
     const func = 'hit';

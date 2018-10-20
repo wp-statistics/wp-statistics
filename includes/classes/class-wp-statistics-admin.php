@@ -260,21 +260,25 @@ class WP_Statistics_Admin {
     static public function notification_use_cache_plugin()
     {
        global $WP_Statistics;
-       $plugin = self::user_is_use_cache_plugin();
-       if( ! $WP_Statistics->get_option( 'use_cache_plugin' ) and $plugin['status'] ===true) {
-            echo '<div class="notice notice-warning is-dismissible"><p>';
 
-           $alert =  sprintf(__( 'You Are Using %s Plugin in Wordpress', 'wp-statistics' ), $plugin['plugin']);
-           if($plugin['plugin'] =="core") {
-                $alert = __('WP_CACHE is Enable in Your Wordpress', 'wp-statistics');
-           }
+        $screen = get_current_screen();
+        if($screen->id !="statistics_page_".WP_Statistics::$page['settings']) {
+            $plugin = self::user_is_use_cache_plugin();
+            if (!$WP_Statistics->get_option('use_cache_plugin') and $plugin['status'] === true) {
+                echo '<div class="notice notice-warning is-dismissible"><p>';
 
-           echo $alert." , ".sprintf(
-               __( 'Please %1$sEnable Cache Setting%2$s in WP Statistic.', 'wp-statistics' ),
-                '<a href="' . esc_url( admin_url(add_query_arg( 'page', WP_Statistics::$page['settings'], 'admin.php' ) )  ) . '">', '</a>'
-           );
+                $alert = sprintf(__('You Are Using %s Plugin in Wordpress', 'wp-statistics'), $plugin['plugin']);
+                if ($plugin['plugin'] == "core") {
+                    $alert = __('WP_CACHE is Enable in Your Wordpress', 'wp-statistics');
+                }
 
-           echo '</p></div>';
+                echo $alert . " , " . sprintf(
+                        __('Please %1$sEnable Cache Setting%2$s in WP Statistics.', 'wp-statistics'),
+                        '<a href="' . esc_url(admin_url(add_query_arg('page', WP_Statistics::$page['settings'], 'admin.php'))) . '">', '</a>'
+                    );
+
+                echo '</p></div>';
+            }
         }
     }
 
