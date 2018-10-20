@@ -26,6 +26,7 @@ if ( $wps_nonce_valid ) {
 		'wps_visitors',
 		'wps_pages',
 		'wps_track_all_pages',
+		'wps_use_cache_plugin',
 		'wps_disable_column',
 		'wps_show_hits',
 		'wps_display_hits_position',
@@ -291,6 +292,26 @@ if ( $wps_nonce_valid ) {
 					); ?></p>
             </td>
         </tr>
+
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e( 'Cache Plugin', 'wp-statistics' ); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="all_pages"><?php _e( 'Use Cache Plugin:', 'wp-statistics' ); ?></label>
+            </th>
+
+            <td>
+                <input id="use_cache_plugin" type="checkbox" value="1"
+                       name="wps_use_cache_plugin" <?php echo $WP_Statistics->get_option( 'use_cache_plugin' ) == true
+                    ? "checked='checked'" : ''; ?>>
+                <label for="all_pages"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+
+                <p class="description"><?php _e( 'Are You Using Cache Plugin in Wordpress for Example W3 Total Cache ?', 'wp-statistics' ); ?></p>
+            </td>
+        </tr>
+
 
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e( 'Miscellaneous', 'wp-statistics' ); ?></h3></th>

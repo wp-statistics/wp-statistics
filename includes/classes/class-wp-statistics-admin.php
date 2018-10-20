@@ -76,6 +76,9 @@ class WP_Statistics_Admin {
 
 		//Load TinyMce Function
         WP_Statistics_TinyMCE::init();
+
+        //Add Notice Use cache plugin
+        add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );
 	}
 
 	/**
@@ -204,6 +207,66 @@ class WP_Statistics_Admin {
 			}
 		}
 	}
+
+    /*
+     * Check User Active A cache Plugin in Wordpress
+     */
+    static public function user_is_use_cache_plugin()
+    {
+        $use = array( 'status' => false, 'plugin' => '');
+
+        /* WP Rocket */
+        if ( function_exists( 'get_rocket_cdn_url' ) ) {
+            return array( 'status' => true, 'plugin' => 'WP Rocket');
+        }
+
+        /* WP Super Cache */
+        if ( function_exists( 'wpsc_init' ) ) {
+            return array( 'status' => true, 'plugin' => 'WP Super Cache');
+        }
+
+        /* Comet Cache */
+        if ( function_exists( '___wp_php_rv_initialize' ) ) {
+            return array( 'status' => true, 'plugin' => 'Comet Cache');
+        }
+
+        /* WP Fastest Cache */
+        if ( class_exists('WpFastestCache') ) {
+            return array( 'status' => true, 'plugin' => 'WP Fastest Cache');
+        }
+
+        /* Cache Enabler */
+        if ( defined( 'CE_MIN_WP' ) ) {
+            return array( 'status' => true, 'plugin' => 'Cache Enabler');
+        }
+
+        /* W3 Total Cache */
+        if ( defined( 'W3TC' ) ) {
+            return array( 'status' => true, 'plugin' => 'W3 Total Cache');
+        }
+
+        return $use;
+    }
+
+
+    /*
+     * Show Notification Cache Plugin
+     */
+    static public function notification_use_cache_plugin()
+    {
+       global $WP_Statistics;
+       $plugin = self::user_is_use_cache_plugin();
+       if( ! $WP_Statistics->get_option( 'use_cache_plugin' ) and $plugin['status'] ===true) {
+            echo '
+                <div class="notice notice-warning is-dismissible">
+                <p>'.sprintf(
+                    __( 'You Are Using %s Plugin in Wordpress , Please %2$sEnable Cache Setting%3$s in WP Statistic.', 'wp-statistics' ),
+                    $plugin['plugin'], '<a href="' . esc_url( admin_url(add_query_arg( 'page', WP_Statistics::$page['settings'], 'admin.php' ) )  ) . '">', '</a>'
+                ).'</p>
+                </div>
+            ';
+        }
+    }
 
 	/**
 	 * Add a settings link to the plugin list.

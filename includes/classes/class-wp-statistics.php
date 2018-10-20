@@ -120,6 +120,12 @@ class WP_Statistics {
 	 * @var array
 	 */
 	public static $page = array();
+    /**
+     * Rest Api ini
+     *
+     * @var array
+     */
+    public $restapi;
 
 	/**
 	 * __construct
@@ -152,6 +158,12 @@ class WP_Statistics {
 			WP_Statistics::$reg['version']     = WP_Statistics::$reg['plugin-data']['Version'];
 			//define('WP_STATISTICS_VERSION', '12.1.3');
 		}
+
+		//Setup rest api
+        if( !class_exists('WP_Statistics_Rest') ) {
+		    require_once (WP_Statistics::$reg['plugin-dir'].'/includes/classes/class-wp-statistics-rest.php');
+        }
+        $this->restapi = new WP_Statistics_Rest();
 	}
 
 	/**
@@ -220,6 +232,9 @@ class WP_Statistics {
 
 		add_action( 'widgets_init', 'WP_Statistics::widget' );
 		add_shortcode( 'wpstatistics', 'WP_Statistics_Shortcode::shortcodes' );
+
+        //Add Route Rest Api
+        WP_Statistics_Rest::init();
 	}
 
 	/**
@@ -386,7 +401,11 @@ class WP_Statistics {
 	/**
 	 * Generate hash string
 	 */
-	private function get_hash_string() {
+	public function get_hash_string() {
+        //Check If Rest Request
+        if ($this->restapi->is_rest()) {
+            return $this->restapi->params('hash_ip');
+        }
 		return '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
 	}
 
@@ -779,6 +798,12 @@ class WP_Statistics {
 	 */
 	public function get_IP() {
 
+        //Check If Rest Request
+        if ($this->restapi->is_rest()) {
+            $this->ip = $this->restapi->params('ip');
+            return $this->ip;
+        }
+
 		// Check to see if we've already retrieved the IP address and if so return the last result.
 		if ( $this->ip !== false ) {
 			return $this->ip;
@@ -827,9 +852,9 @@ class WP_Statistics {
 			$this->ip = '127.0.0.1';
 		}
 
-		// If the anonymize IP enabled for GDPR.
-		if ( $this->get_option( 'anonymize_ips' ) == true ) {
-            $this->ip = substr($this->ip, 0, strrpos($this->ip, '.')).'.000';
+        // If the anonymize IP enabled for GDPR.
+        if ( $this->get_option( 'anonymize_ips' ) == true ) {
+            $this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.000';
         }
 
 		return $this->ip;
@@ -857,33 +882,23 @@ class WP_Statistics {
 	 */
 	public function get_UserAgent() {
 
-		// Default
+        //Check If Rest Request
+        if ($this->restapi->is_rest()) {
+            return array(
+                'browser' => $this->restapi->params('browser'),
+                'platform' => $this->restapi->params('platform'),
+                'version' => $this->restapi->params('version')
+            );
+        }
+
+        $result = new WhichBrowser\Parser( getallheaders() );
         $agent = array(
-            'browser'  => _x( 'Unknown', 'Browser', 'wp-statistics' ),
-            'platform' => _x( 'Unknown', 'Platform', 'wp-statistics' ),
-            'version'  => _x( 'Unknown', 'Version', 'wp-statistics' ),
+            'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
+            'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
+            'version'  => ( isset( $result->os->version->value ) ) ? $result->os->version->value : _x( 'Unknown', 'Version', 'wp-statistics' ),
         );
 
-        $result = new WhichBrowser\Parser(getallheaders());
-
-        $agent = array(
-            'browser'  => $result->browser->name,
-            'platform' => $result->os->name,
-            'version'  => $result->os->version,
-        );
-
-		// null isn't a very good default, so set it to Unknown instead.
-		if ( $agent['browser'] == null ) {
-			$agent['browser'] = _x( 'Unknown', 'Browser', 'wp-statistics' );
-		}
-		if ( $agent['platform'] == null ) {
-			$agent['platform'] = _x( 'Unknown', 'Platform', 'wp-statistics' );
-		}
-		if ( $agent['version'] == null ) {
-			$agent['version'] = _x( 'Unknown', 'Version', 'wp-statistics' );
-		}
-
-		return $agent;
+        return $agent;
 	}
 
 	/**
@@ -894,6 +909,14 @@ class WP_Statistics {
 	 * @return array|bool|string|void
 	 */
 	public function get_Referred( $default_referrer = false ) {
+
+        //Check If Rest Request
+        if ( $this->restapi->is_rest() ) {
+            $this->referrer = $this->restapi->params('referred');
+
+            return $this->referrer;
+        }
+
 		if ( $this->referrer !== false ) {
 			return $this->referrer;
 		}

@@ -258,6 +258,7 @@ class WP_Statistics_Install {
 						'wps_coefficient',
 						'wps_pages',
 						'wps_track_all_pages',
+						'wps_use_cache_plugin',
 						'wps_disable_column',
 						'wps_menu_bar',
 						'wps_hide_notices',
