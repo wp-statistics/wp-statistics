@@ -650,6 +650,7 @@ class WP_Statistics_Admin {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
+        global $pagenow;
 
 		// Load our CSS to be used.
 		wp_enqueue_style(
@@ -663,10 +664,12 @@ class WP_Statistics_Admin {
 			wp_enqueue_style( 'rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, WP_Statistics::$reg['version'] );
 		}
 
-		if ( ! isset( $_GET['page'] ) ) {
-			return;
-		}
 
+		//Load Chart Js
+        $load_in_footer  = false;
+		$load_chart = false;
+
+		//Load in Setting Page
 		$pages_required_chart = array(
 			'wps_overview_page',
 			'wps_browsers_page',
@@ -677,31 +680,21 @@ class WP_Statistics_Admin {
 			'wps_authors_page',
 			'wps_searches_page',
 		);
+		if ( isset($_GET['page']) and array_search( $_GET['page'], $pages_required_chart ) !== false ) $load_chart = true;
 
-		if ( array_search( $_GET['page'], $pages_required_chart ) !== false ) {
-			$load_in_footer              = true;
-			$pages_required_load_in_head = array(
-				'wps_browsers_page',
-				'wps_hits_page',
-				'wps_pages_page',
-				'wps_categories_page',
-				'wps_tags_page',
-				'wps_authors_page',
-				'wps_searches_page',
-			);
+		//Load in Post Page
+        if($pagenow =="post.php") $load_chart = true;
 
-			if ( array_search( $_GET['page'], $pages_required_load_in_head ) !== false ) {
-				$load_in_footer = false;
-			}
+		if ($load_chart ===true) {
+            wp_enqueue_script(
+                'wp-statistics-chart-js',
+                WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
+                false,
+                '2.7.0',
+                $load_in_footer
+            );
+        }
 
-			wp_enqueue_script(
-				'wp-statistics-chart-js',
-				WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
-				false,
-				'2.7.0',
-				$load_in_footer
-			);
-		}
 	}
 
 	/**
