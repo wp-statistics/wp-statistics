@@ -101,9 +101,8 @@ class WP_Statistics_Hits {
 
         // Detect if we're running an ajax request.
         $page_uri = wp_statistics_get_uri();
-        $ajax_string = 'admin-ajax.php';
 
-        if (strpos($page_uri, $ajax_string) !== false) {
+        if (defined('DOING_AJAX') && DOING_AJAX) {
             $this->exclusion_match = true;
             $this->exclusion_reason = 'ajax';
 
