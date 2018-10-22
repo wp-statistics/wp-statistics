@@ -115,10 +115,11 @@ Important: with this update, Opt-out feature is removed.
 = dev-master =
 * Added WP-Statistics shortcode in the TinyMCE editor. you can use the shortcode easily in the posts and pages.
 * Supported referrers to WP-Statistics shortcode attributes. e.g. `[wpstatistics stat=referrer time=today top=10]`
-* Removed the Browscap library and we used a new library called  the [WhichBrowser](https://whichbrowser.net/) and [CrawlerDetect](https://crawlerdetect.io/). These libraries give us more help in identifying user agents.
-* Improvement the Datepicker in the WP-Statistics pages, supported WordPress custom date format.
-* Improvement the pagination class.
-* Disable the option menu when the current user doesn't access.
+* Removed the Browscap library and we used a new library called the [WhichBrowser](https://whichbrowser.net/) and [CrawlerDetect](https://crawlerdetect.io/). These libraries give us more help in identifying user agents.
+* Implemented the Datepicker in the WP-Statistics pages, supported WordPress custom date format.
+* Implemented the pagination class.
+* Implemented the assets and fixed conflict ChartJS issue, when the Hit Statistics Meta box was enabled in posts/pages.
+* Disabled the option menu when the current user doesn't access.
 
 = 12.4.3 =
 * Disabled the welcome page and Travod widget.
