@@ -645,6 +645,15 @@ function wp_statistics_searchengine_list( $all = false ) {
 			'querykey'     => 'text',
 			'image'        => 'yandex.png',
 		),
+        'qwant'     => array(
+            'name'         => 'Qwant',
+            'translated'   => __( 'Qwant', 'wp-statistics' ),
+            'tag'          => 'qwant',
+            'sqlpattern'   => '%qwant.com%',
+            'regexpattern' => 'qwant\.com',
+            'querykey'     => 'q',
+            'image'        => 'qwant.png',
+        )
 	);
 
 	if ( $all == false ) {
