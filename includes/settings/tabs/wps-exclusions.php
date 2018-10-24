@@ -304,7 +304,7 @@ if ( $wps_nonce_valid ) {
 					) . ' ' . __(
 						'Use "000" (three zeros) to exclude unknown countries.',
 						'wp-statistics'
-					); ?></p>
+					).' '.sprintf(__( '(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics' ), '<a href="' . esc_url( 'https://dev.maxmind.com/geoip/legacy/codes/iso3166/' ) . '" target="_blank">','</a>' ); ?></p>
             </td>
         </tr>
 
@@ -318,12 +318,12 @@ if ( $wps_nonce_valid ) {
 					); ?></textarea>
 
                 <p class="description"><?php echo __(
-						'A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded.',
+						'A list of country codes (one per line, two letters each) to include in statistics collection, if this list is not empty, only visitors from the included countries will be recorded',
 						'wp-statistics'
 					) . ' ' . __(
 						'Use "000" (three zeros) to exclude unknown countries.',
 						'wp-statistics'
-					); ?></p>
+					).' '.sprintf(__( '(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics' ), '<a href="' . esc_url( 'https://dev.maxmind.com/geoip/legacy/codes/iso3166/' ) . '" target="_blank">','</a>' ); ?></p>
             </td>
         </tr>
 
