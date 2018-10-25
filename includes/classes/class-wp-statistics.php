@@ -730,6 +730,7 @@ class WP_Statistics {
 		$options['robotlist']             = $wps_robotslist;
 		$options['exclude_administrator'] = true;
 		$options['disable_se_clearch']    = true;
+		$options['disable_se_qwant']    = true;
 		$options['disable_se_ask']        = true;
 		$options['map_type']              = 'jqvmap';
 
