@@ -42,7 +42,7 @@ class WP_Statistics_Welcome {
             WP_Statistics::$reg['version']
 		);
 
-		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/welcomes/last-version.php" );
+		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/welcomes.php" );
 	}
 
 	/**
