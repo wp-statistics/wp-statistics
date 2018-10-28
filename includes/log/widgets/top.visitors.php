@@ -16,7 +16,7 @@ function wp_statistics_generate_top_visitors_postbox_content(
 
     //Load City Geoip
     $geoip_reader = false;
-    if( $WP_Statistics->get_option( 'is_show_visitor_city' ) ) {
+    if( $WP_Statistics->get_option( 'geoip_city' ) ) {
         $geoip_reader = $WP_Statistics::geoip_loader('city');
     }
 

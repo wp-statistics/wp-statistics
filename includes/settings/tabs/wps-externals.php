@@ -5,7 +5,7 @@ if ( $wps_nonce_valid ) {
 		'wps_geoip',
 		'wps_update_geoip',
 		'wps_schedule_geoip',
-		'wps_is_show_visitor_city',
+		'wps_geoip_city',
 		'wps_auto_pop',
 		'wps_private_country_code',
 	);
@@ -95,7 +95,7 @@ if ( $wps_nonce_valid ) {
 
                 <td>
                     <input id="geoip-city" type="checkbox"
-                           name="wps_is_show_visitor_city" <?php echo $WP_Statistics->get_option( 'is_show_visitor_city' ) == true
+                           name="wps_geoip_city" <?php echo $WP_Statistics->get_option( 'geoip_city' ) == true
                         ? "checked='checked'" : ''; ?>>
                     <label for="geoip-city"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 

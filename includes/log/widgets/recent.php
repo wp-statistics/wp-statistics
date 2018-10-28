@@ -39,7 +39,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 			     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 		}
 
-        if( $WP_Statistics->get_option( 'is_show_visitor_city' ) ) {
+        if( $WP_Statistics->get_option( 'geoip_city' ) ) {
             $geoip_reader = $WP_Statistics::geoip_loader('city');
             if($geoip_reader !=false) {
                 $reader = $geoip_reader->city($items->ip);
