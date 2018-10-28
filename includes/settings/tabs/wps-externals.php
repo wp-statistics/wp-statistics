@@ -5,6 +5,7 @@ if ( $wps_nonce_valid ) {
 		'wps_geoip',
 		'wps_update_geoip',
 		'wps_schedule_geoip',
+		'wps_is_show_visitor_city',
 		'wps_auto_pop',
 		'wps_private_country_code',
 	);
@@ -84,6 +85,24 @@ if ( $wps_nonce_valid ) {
 							'Save changes on this page to download the update.',
 							'wp-statistics'
 						); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="geoip-city"><?php _e( 'GeoIP City:', 'wp-statistics' ); ?></label>
+                </th>
+
+                <td>
+                    <input id="geoip-city" type="checkbox"
+                           name="wps_is_show_visitor_city" <?php echo $WP_Statistics->get_option( 'is_show_visitor_city' ) == true
+                        ? "checked='checked'" : ''; ?>>
+                    <label for="geoip-city"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+
+                    <p class="description"><?php _e(
+                            'Show Visitor City Name',
+                            'wp-statistics'
+                        ); ?></p>
                 </td>
             </tr>
 

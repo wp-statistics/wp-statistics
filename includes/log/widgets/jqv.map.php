@@ -1,5 +1,5 @@
 <?php
-function wp_statistics_generate_map_postbox_content( $ISOCountryCode ) {
+function wp_statistics_generate_map_postbox_content($ISOCountryCode ) {
 
 	global $wpdb, $WP_Statistics;
 
@@ -19,6 +19,12 @@ function wp_statistics_generate_map_postbox_content( $ISOCountryCode ) {
 				$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE last_counter = '{$WP_Statistics->Current_Date('Y-m-d')}'" );
 				$final_result = array();
 				$final_result['000'] = array();
+
+				//Load City Geoip
+                $geoip_reader = false;
+                if( $WP_Statistics->get_option( 'is_show_visitor_city' ) ) {
+                    $geoip_reader = $WP_Statistics::geoip_loader('city');
+                }
 
 				if ( $result ) {
 					foreach ( $result as $new_r ) {
@@ -67,7 +73,13 @@ function wp_statistics_generate_map_postbox_content( $ISOCountryCode ) {
 						$markets['ip'] = __( '#hash#', 'wp-statistics' );
 					}
 
-					$get_ipp[ $markets['location'] ][] = "<p>{$agent} {$markets['ip']}</p>";
+                    $city = '';
+                    if($geoip_reader !=false) {
+                        $reader = $geoip_reader->city($markets['ip']);
+                        if(!empty($reader->city->name)) $city = ' - '.$reader->city->name;
+                    }
+
+					$get_ipp[ $markets['location'] ][] = "<p>{$agent} {$markets['ip']} {$city}</p>";
 				}
 
 				$market_total = count( $get_ipp[ $markets['location'] ] );

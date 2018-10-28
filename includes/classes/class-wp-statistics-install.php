@@ -259,6 +259,7 @@ class WP_Statistics_Install {
 						'wps_pages',
 						'wps_track_all_pages',
 						'wps_use_cache_plugin',
+						'wps_is_show_visitor_city',
 						'wps_disable_column',
 						'wps_menu_bar',
 						'wps_hide_notices',

@@ -427,6 +427,27 @@ class WP_Statistics {
 		register_widget( 'WP_Statistics_Widget' );
 	}
 
+    /**
+     * geo ip Loader
+     */
+    static function geoip_loader($library) {
+
+            //List Pack Load
+            $pack = array(
+                    'city' => 'GeoLite2-City.mmdb',
+                    'country' => 'GeoLite2-Country.mmdb'
+            );
+
+            $geoip_city = wp_upload_dir()['basedir']. '/wp-statistics/'.$pack[$library];
+            if ( file_exists($geoip_city) ) {
+               $reader = new \GeoIp2\Database\Reader( $geoip_city );
+            } else {
+                return false;
+            }
+
+            return $reader;
+    }
+
 	/**
 	 * Loads the user options from WordPress.
 	 * It is NOT called during the class constructor.
