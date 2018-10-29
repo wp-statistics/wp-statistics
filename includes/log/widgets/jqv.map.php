@@ -75,8 +75,12 @@ function wp_statistics_generate_map_postbox_content($ISOCountryCode ) {
 
                     $city = '';
                     if($geoip_reader !=false) {
-                        $reader = $geoip_reader->city($markets['ip']);
-                        if(!empty($reader->city->name)) $city = ' - '.$reader->city->name;
+	                    try {
+		                    $reader = $geoip_reader->city($markets['ip']);
+		                    if(!empty($reader->city->name)) $city = ' - '.$reader->city->name;
+	                    } catch ( Exception $e ) {
+		                    //No City Show
+	                    }
                     }
 
 					$get_ipp[ $markets['location'] ][] = "<p>{$agent} {$markets['ip']} {$city}</p>";

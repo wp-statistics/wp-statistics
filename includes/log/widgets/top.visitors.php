@@ -50,8 +50,12 @@ function wp_statistics_generate_top_visitors_postbox_content(
 
             $city = '-';
             if($geoip_reader !=false) {
-                $reader = $geoip_reader->city($visitor->ip);
-                if(!empty($reader->city->name)) $city = $reader->city->name;
+	            try {
+		            $reader = $geoip_reader->city($visitor->ip);
+		            if(!empty($reader->city->name)) $city = $reader->city->name;
+	            } catch ( Exception $e ) {
+		            //No City Show
+	            }
             }
 
 			echo "<tr>";

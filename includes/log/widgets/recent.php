@@ -42,8 +42,12 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
         if( $WP_Statistics->get_option( 'geoip_city' ) ) {
             $geoip_reader = $WP_Statistics::geoip_loader('city');
             if($geoip_reader !=false) {
-                $reader = $geoip_reader->city($items->ip);
-                echo '<div style="float:left;">'.$reader->city->name.'</div>';
+	            try {
+		            $reader = $geoip_reader->city($items->ip);
+		            echo '<div style="float:left;">'.$reader->city->name.'</div>';
+	            } catch ( Exception $e ) {
+	            	//No City Show
+	            }
             }
         }
 
