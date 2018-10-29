@@ -30,6 +30,11 @@ class WP_Statistics_Frontend {
 		//Add inline Rest Request
         add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
 
+        //Get params For cache enabled
+        if ( self::is_cache_active() ) {
+            add_action("init", 'WP_Statistics_Frontend::set_default_params', 99);
+        }
+
         //Add Html Comment in head
         if ( self::is_cache_active() ===false ) {
             add_action( 'wp_head', 'WP_Statistics_Frontend::html_comment' );
@@ -76,9 +81,6 @@ class WP_Statistics_Frontend {
 		if ( self::is_cache_active() ) {
 		    //Load Jquery
             wp_enqueue_script( 'jquery' );
-
-            //Call Session Params function
-            self::set_default_params();
         }
 	}
 
@@ -165,7 +167,9 @@ class WP_Statistics_Frontend {
         $params['timestamp'] = $WP_Statistics->current_date( 'U' );
 
         //Wp_query
+        $params['is_object_wp_query'] = 'false';
         if ( is_object( $wp_query ) ) {
+            $params['is_object_wp_query'] = 'true';
             $params['current_page_id'] = $wp_query->get_queried_object_id();
         }
 

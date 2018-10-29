@@ -81,7 +81,7 @@ class WP_Statistics_Rest {
           'hash_ip',
           'ua',
           'timestamp',
-          'current_page_id',
+          'is_object_wp_query',
           'page_uri',
           'exclude',
           'exclude_reason',

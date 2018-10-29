@@ -400,7 +400,10 @@ class WP_Statistics_Hits {
 
         //Check If Rest Request
         if( WP_Statistics_Rest::is_rest() ) {
-            $this->current_page_id = WP_Statistics_Rest::params('current_page_id');
+            // Get the pages or posts ID if it exists.
+            if ( WP_Statistics_Rest::params('is_object_wp_query') =="true" ) {
+                $this->current_page_id = WP_Statistics_Rest::params('current_page_id');
+            }
         } else {
             // Get the pages or posts ID if it exists.
             if ( is_object( $wp_query ) ) {
