@@ -81,8 +81,8 @@ function wp_statistics_generate_map_postbox_content($ISOCountryCode ) {
 	                    } catch ( Exception $e ) {
 		                    $city = __( 'Unknown' , 'wp-statistics' );
 	                    }
-	                    $city = ' - '.$city;
                     }
+					if($city !="") $city = ' - '.$city;
 
 					$get_ipp[ $markets['location'] ][] = "<p>{$agent} {$markets['ip']} {$city}</p>";
 				}
