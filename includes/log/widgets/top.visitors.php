@@ -48,13 +48,12 @@ function wp_statistics_generate_top_visitors_postbox_content(
 
 			$item = strtoupper( $visitor->location );
 
-            $city = '-';
             if($geoip_reader !=false) {
 	            try {
 		            $reader = $geoip_reader->city($visitor->ip);
-		            if(!empty($reader->city->name)) $city = $reader->city->name;
+		            $city = $reader->city->name;
 	            } catch ( Exception $e ) {
-		            //No City Show
+		            $city = __( 'Unknown' , 'wp-statistics' );
 	            }
             }
 

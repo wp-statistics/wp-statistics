@@ -44,10 +44,11 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
             if($geoip_reader !=false) {
 	            try {
 		            $reader = $geoip_reader->city($items->ip);
-		            echo '<div style="float:left;">'.$reader->city->name.'</div>';
+		            $city = $reader->city->name;
 	            } catch ( Exception $e ) {
-	            	//No City Show
+		            $city = __( 'Unknown' , 'wp-statistics' );
 	            }
+	            echo '<div style="float:left;">'.$city.'</div>';
             }
         }
 
