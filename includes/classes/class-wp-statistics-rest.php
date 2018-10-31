@@ -54,10 +54,6 @@ class WP_Statistics_Rest {
          */
         $header = getallheaders();
 
-        //check is Referer From This Site Request
-        if (array_key_exists("Referer",$header) ===false) {
-            return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
-        }
 
         //Check Auth Key Request
         if ( !isset($header['X-Ajax-WP-Statistics']) ) {

@@ -31,8 +31,12 @@ class WP_Statistics_Frontend {
         add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
 
         //Get params For cache enabled
-        if ( self::is_cache_active() ===true and self::is_rest() ===false ) {
-			add_action("init", 'WP_Statistics_Frontend::set_default_params', 99);
+        if ( self::is_cache_active() ) {
+        	if (self::is_rest()) { /* Core is not define */ } else {
+		        add_action("wp", function(){
+			        WP_Statistics_Frontend::set_default_params();
+		        }, 999);
+	        }
         }
 
         //Add Html Comment in head
