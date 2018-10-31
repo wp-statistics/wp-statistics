@@ -113,9 +113,11 @@ Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
 = dev-master =
+* Added cache option for support when the cache enabled in the WordPress.
+* Added Visitor's city name with GeoIP.
 * Added WP-Statistics shortcode in the TinyMCE editor. you can use the shortcode easily in the posts and pages.
 * Added Qwant search engine in the Search Engine Referrals.
-* Supported referrers to WP-Statistics shortcode attributes. e.g. `[wpstatistics stat=referrer time=today top=10]`
+* Added referrers to WP-Statistics shortcode attributes. e.g. `[wpstatistics stat=referrer time=today top=10]`
 * Removed the Browscap library and we used a new library called the [WhichBrowser](https://whichbrowser.net/) and [CrawlerDetect](https://crawlerdetect.io/). These libraries give us more help in identifying user agents.
 * Improved the Datepicker in the WP-Statistics pages, supported WordPress custom date format.
 * Improved the pagination class.
