@@ -11,6 +11,9 @@ class WP_Statistics_Rest {
     //Set Default Statistic Save method
     const func = 'hit';
 
+    //Set Route Test Rest Api is Active
+	const test_rest_api = 'wp_rest_api_active';
+
     //Set Default Session Name
     const session = 'wp_statistics_hit';
 
@@ -34,10 +37,18 @@ class WP_Statistics_Rest {
 	 * Add Endpoint Route
 	 */
 	static function route() {
+
+		//Get Hit
         register_rest_route( self::route, '/'.self::func, array(
             'methods' => 'POST',
             'callback' => array( self::class, 'hit' ),
         ));
+
+        //Test REST Api is Active
+		register_rest_route( self::route, '/'.self::test_rest_api, array(
+			'methods' => 'GET',
+			'callback' => array( self::class, 'wp_rest_api_active' ),
+		));
     }
 
 
@@ -95,6 +106,14 @@ class WP_Statistics_Rest {
 
         //Remove Session
         unset($_SESSION[self::session]);
+    }
+
+    /*
+     * Test Rest Api is Active
+     */
+	public static function wp_rest_api_active() {
+
+		return array("is_activate_wp_rest_api" => "OK");
     }
 
     /*

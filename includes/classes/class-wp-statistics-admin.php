@@ -283,6 +283,30 @@ class WP_Statistics_Admin {
                 echo '</p></div>';
             }
         }
+
+        //Test Rest Api is Active for Cache
+        if( WP_Statistics_Frontend::is_cache_active() and $screen->id =="statistics_page_".WP_Statistics::$page['settings'] ) {
+
+	        if ( false === ( $check_rest_api = get_transient( '_check_rest_api_wp_statistics' ) ) ) {
+
+	            $set_transient = true;
+		        $alert = '<div class="notice notice-warning is-dismissible"><p>'. __('Please Activate WordPress Rest Api for performancing WP-Statistics Plugin Cache', 'wp-statistics').'</div>';
+		        $request = wp_remote_get( path_join( get_rest_url(), WP_Statistics_Rest::route.'/'.WP_Statistics_Rest::test_rest_api ) );
+		        if( is_wp_error( $request ) ) {
+		            echo $alert;
+			        $set_transient = false;
+		        }
+		        $body = wp_remote_retrieve_body( $request );
+		        $data = json_decode( $body , true);
+		        if( !isset($data['is_activate_wp_rest_api']) ) {
+		            echo $alert;
+			        $set_transient = false;
+		        }
+
+		        if ( $set_transient ===true ) set_transient( '_check_rest_api_wp_statistics', array("is_activate_wp_rest_api" => "OK"), 2 * HOUR_IN_SECONDS );
+	        }
+
+        }
     }
 
 	/**
