@@ -59,38 +59,14 @@ class WP_Statistics_Rest {
             return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
         }
 
-        //Check Only Request From This Website
-        $this_domain = parse_url(get_option('siteurl'))['host'];
-        if ( !stristr($header['Referer'], $this_domain) ) {
-            return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
-        }
-
         //Check Auth Key Request
         if ( !isset($header['X-Ajax-WP-Statistics']) ) {
             return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
         }
 
         //Check all Parameter is exist
-        $array = array(
-          'base',
-          'browser',
-          'platform',
-          'version',
-          'referred',
-          'ip',
-          'hash_ip',
-          'ua',
-          'timestamp',
-          'is_object_wp_query',
-          'page_uri',
-          'exclude',
-          'exclude_reason',
-          'track_all',
-        );
-        foreach($array as $field) {
-            if( !isset($_SESSION[self::session][$field]) ) {
-                return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
-            }
+        if( !isset($_SESSION[self::session]) ) {
+	        return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
         }
 
         // If something has gone horribly wrong and $WP_Statistics isn't an object, bail out.

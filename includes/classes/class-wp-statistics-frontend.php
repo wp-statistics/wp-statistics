@@ -31,8 +31,8 @@ class WP_Statistics_Frontend {
         add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
 
         //Get params For cache enabled
-        if ( self::is_cache_active() ) {
-            add_action("init", 'WP_Statistics_Frontend::set_default_params', 99);
+        if ( self::is_cache_active() ===true and self::is_rest() ===false ) {
+			add_action("init", 'WP_Statistics_Frontend::set_default_params', 99);
         }
 
         //Add Html Comment in head
@@ -56,6 +56,23 @@ class WP_Statistics_Frontend {
     {
         echo '<!-- Analytics by WP-Statistics v'.WP_Statistics::$reg['version'].' - '.WP_Statistics::$reg['plugin-data']['PluginURI'].' -->'."\n";
     }
+
+
+    /*
+     * Check Is Rest Request in Wordpress
+     */
+	public static function is_rest() {
+		$prefix = rest_get_url_prefix();
+		if (defined('REST_REQUEST') && REST_REQUEST
+		    || isset($_GET['rest_route'])
+		       && strpos( trim( $_GET['rest_route'], '\\/' ), $prefix , 0 ) === 0)
+			return true;
+
+		$rest_url = wp_parse_url( site_url( $prefix ) );
+		$current_url = wp_parse_url( add_query_arg( array( ) ) );
+		return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
+	}
+
 
 	/**
 	 * Footer Action
