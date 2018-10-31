@@ -43,7 +43,7 @@ if ( $wps_nonce_valid ) {
         <tr valign="top">
             <th scope="row" colspan="2">
 				<?php echo sprintf(
-					__( 'IP location services provided by data created by %s.', 'wp-statistics' ),
+					__( 'IP location services are provided by data created by %s.', 'wp-statistics' ),
 					'<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'
 				); ?>
             </th>
@@ -64,7 +64,7 @@ if ( $wps_nonce_valid ) {
                     <label for="geoip-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                     <p class="description"><?php _e(
-							'For get more information and location (country) from visitor, enable this feature.',
+							'For getting more information and location (country) from visitor, enable this feature.',
 							'wp-statistics'
 						); ?></p>
                 </td>
@@ -100,7 +100,7 @@ if ( $wps_nonce_valid ) {
                     <label for="geoip-city"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                     <p class="description"><?php _e(
-                            'Show Visitor City Name',
+                            'See Visitor\'s City Name',
                             'wp-statistics'
                         ); ?></p>
                 </td>
