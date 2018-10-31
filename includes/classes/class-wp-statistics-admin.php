@@ -79,6 +79,9 @@ class WP_Statistics_Admin {
 
         //Add Notice Use cache plugin
         add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );
+
+		//Admin Notice Setting
+		add_action( 'admin_notices', 'WP_Statistics_Admin_Pages::wp_statistics_notice_setting' );
 	}
 
 	/**
@@ -705,7 +708,9 @@ class WP_Statistics_Admin {
 
 		// Check to see if the GeoIP database needs to be downloaded and do so if required.
 		if ( $WP_Statistics->get_option( 'update_geoip' ) ) {
-			echo WP_Statistics_Updates::download_geoip();
+			foreach (WP_Statistics_Updates::$geoip as $geoip_name => $geoip_array) {
+				echo WP_Statistics_Updates::download_geoip($geoip_name, "update");
+			}
 		}
 
 		// Check to see if the referrer spam database needs to be downloaded and do so if required.

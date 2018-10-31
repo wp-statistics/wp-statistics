@@ -58,31 +58,17 @@ if ( $wps_nonce_valid ) {
                 </th>
 
                 <td>
-                    <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo $WP_Statistics->get_option(
-						'geoip'
-					) == true ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                    <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo ($WP_Statistics->get_option( 'geoip' ) === 'on' ? "checked='checked'" : ''); ?>>
+                    <label for="geoip-enable">
+                        <?php _e( 'Enable', 'wp-statistics' ); ?>
+                        <form action="" method="post" style="display: inline;">
+                            <input type="hidden" name="geoip_name" value="country">
+		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "primary", "update_geoip", false, array("style" => "margin-left: 5px;margin-top: -5px;")); ?>
+                        </form>
+                    </label>
 
                     <p class="description"><?php _e(
 							'For getting more information and location (country) from visitor, enable this feature.',
-							'wp-statistics'
-						); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="geoip-update"><?php _e( 'Update GeoIP Info:', 'wp-statistics' ); ?></label>
-                </th>
-
-                <td>
-                    <input id="geoip-update" type="checkbox"
-                           name="wps_update_geoip" <?php echo $WP_Statistics->get_option( 'update_geoip' ) == true
-						? "checked='checked'" : ''; ?>>
-                    <label for="geoip-update"><?php _e( 'Download GeoIP Database', 'wp-statistics' ); ?></label>
-
-                    <p class="description"><?php _e(
-							'Save changes on this page to download the update.',
 							'wp-statistics'
 						); ?></p>
                 </td>
@@ -95,9 +81,14 @@ if ( $wps_nonce_valid ) {
 
                 <td>
                     <input id="geoip-city" type="checkbox"
-                           name="wps_geoip_city" <?php echo $WP_Statistics->get_option( 'geoip_city' ) == true
-                        ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-city"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                           name="wps_geoip_city" <?php echo ($WP_Statistics->get_option( 'geoip_city' ) == 'on' ? "checked='checked'" : ''); ?>>
+                    <label for="geoip-city">
+                        <?php _e( 'Enable', 'wp-statistics' ); ?>
+                        <form action="" method="post" style="display: inline;">
+                            <input type="hidden" name="geoip_name" value="city">
+		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "primary", "update_geoip", false, array("style" => "margin-left: 5px;margin-top: -5px;")); ?>
+                        </form>
+                    </label>
 
                     <p class="description"><?php _e(
                             'See Visitor\'s City Name',

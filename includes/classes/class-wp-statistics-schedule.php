@@ -182,9 +182,16 @@ class WP_Statistics_Schedule {
 
 		// We're also going to look to see if our filesize is to small, this means the plugin stub still exists and should
 		// be replaced with a proper file.
-		$dbsize = filesize( $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb' );
+		$is_require_update = false;
+		foreach (WP_Statistics_Updates::$geoip as $geoip_name => $geoip_array) {
+			$dbsize = filesize( $upload_dir['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geoip_name]['file'].'.mmdb' );
+			if ( $lastupdate < $thisupdate || $dbsize < 1024 ) {
+				$is_require_update = true;
+			}
+		}
 
-		if ( $lastupdate < $thisupdate || $dbsize < 1024 ) {
+
+		if ( $is_require_update ===true ) {
 
 			// We can't fire the download function directly here as we rely on some functions that haven't been loaded yet
 			// in WordPress, so instead just set the flag in the options table and the shutdown hook will take care of the

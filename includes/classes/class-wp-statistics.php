@@ -430,15 +430,9 @@ class WP_Statistics {
     /**
      * geo ip Loader
      */
-    static function geoip_loader($library) {
+    static function geoip_loader($pack) {
 
-            //List Pack Load
-            $pack = array(
-                    'city' => 'GeoLite2-City.mmdb',
-                    'country' => 'GeoLite2-Country.mmdb'
-            );
-
-            $geoip_city = wp_upload_dir()['basedir']. '/wp-statistics/'.$pack[$library];
+            $geoip_city = wp_upload_dir()['basedir']. '/wp-statistics/'.WP_Statistics_Updates::$geoip[$pack]['file'].'mmdb';
             if ( file_exists($geoip_city) ) {
                $reader = new \GeoIp2\Database\Reader( $geoip_city );
             } else {

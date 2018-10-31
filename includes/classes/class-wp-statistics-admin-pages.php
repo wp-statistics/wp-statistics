@@ -5,6 +5,11 @@
  */
 class WP_Statistics_Admin_Pages {
 
+
+	//Transient For Show Notice Setting
+	public static $setting_notice = '_show_notice_wp_statistics';
+
+
 	/**
 	 * Load Overview Page
 	 */
@@ -289,12 +294,6 @@ class WP_Statistics_Admin_Pages {
 			wp_enqueue_style( 'rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1' );
 		}
 
-		// We could let the download happen at the end of the page, but this way we get to give some
-		// feedback to the users about the result.
-		if ( $WP_Statistics->get_option( 'update_geoip' ) == true ) {
-			echo WP_Statistics_Updates::download_geoip();
-		}
-
 		// Check admin notices.
         if ( $WP_Statistics->get_option( 'admin_notices' ) == true ) {
             $WP_Statistics->update_option( 'disable_donation_nag', false );
@@ -302,6 +301,80 @@ class WP_Statistics_Admin_Pages {
         }
 
 		include WP_Statistics::$reg['plugin-dir'] . "includes/settings/wps-settings.php";
+
+		// We could let the download happen at the end of the page, but this way we get to give some
+		// feedback to the users about the result.
+		if ( isset($_POST['update_geoip']) and isset($_POST['geoip_name']) ) {
+
+			//Check Geo ip Exist in Database
+			if( isset( WP_Statistics_Updates::$geoip[$_POST['geoip_name']] )) {
+				$result =  WP_Statistics_Updates::download_geoip($_POST['geoip_name'], "update");
+				if($result['status'] ===false) {
+					add_filter("wp_statistics_redirect_setting", function($redirect) { $redirect = true; return $redirect; });
+				} else {
+					echo $result['notice'];
+				}
+			}
+
+		}
+
+		//Enabled Geo ip Country Or City And download
+		foreach (array("geoip" => "country", "geoip_city" => "city") as $geo_opt => $geo_name) {
+			if( !isset($_POST['update_geoip']) and isset($_POST['wps_'.$geo_opt]) ) {
+
+				//Check File Not Exist
+				$file = wp_upload_dir()['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geo_name]['file'].'.mmdb';
+				if ( !file_exists($file) ) {
+					$result = WP_Statistics_Updates::download_geoip($geo_name);
+					if($result['status'] ===false) {
+						add_filter("wp_statistics_redirect_setting", function($redirect) { $redirect = true; return $redirect; });
+					} else {
+						echo $result['notice'];
+					}
+				}
+			}
+		}
+
+		//Redirect Set Setting
+		self::wp_statistics_redirect_setting();
+	}
+
+	/**
+	 * Set Transient Notice
+	 */
+	public static function set_admin_notice( $text, $type = 'error' ) {
+		$get = get_transient( WP_Statistics_Admin_Pages::$setting_notice );
+		if ( $get !=false) {
+			$results = $get;
+		}
+		delete_transient( WP_Statistics_Admin_Pages::$setting_notice );
+		$results[] = array("text" => $text, "type" => $type);
+		set_transient( WP_Statistics_Admin_Pages::$setting_notice, $results, 1 * HOUR_IN_SECONDS );
+	}
+
+
+	/**
+	 * Notification Setting
+	 */
+	public static function wp_statistics_notice_setting(  ) {
+		$get = get_transient( WP_Statistics_Admin_Pages::$setting_notice );
+		if ( $get !=false) {
+			foreach ($get as $item) {
+				wp_statistics_admin_notice_result( $item['type'], $item['text'] );
+			}
+			delete_transient( WP_Statistics_Admin_Pages::$setting_notice );
+		}
+	}
+
+
+	/**
+	 * Redirect Jquery
+	 */
+	public static function wp_statistics_redirect_setting( $redirect = false ) {
+		$redirect = apply_filters( 'wp_statistics_redirect_setting', $redirect );
+		if($redirect ===true) {
+			echo '<script>window.location.replace("'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'");</script>';
+		}
 	}
 
 	/**
