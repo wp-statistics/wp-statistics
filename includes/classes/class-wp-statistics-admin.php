@@ -70,15 +70,15 @@ class WP_Statistics_Admin {
 		add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
 		//add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
 		add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
-		
+
 		// Runs some scripts at the end of the admin panel inside the body tag
 		add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ) );
 
 		//Load TinyMce Function
-        WP_Statistics_TinyMCE::init();
+		WP_Statistics_TinyMCE::init();
 
-        //Add Notice Use cache plugin
-        add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );
+		//Add Notice Use cache plugin
+		add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );
 
 		//Admin Notice Setting
 		add_action( 'admin_notices', 'WP_Statistics_Admin_Pages::wp_statistics_notice_setting' );
@@ -170,9 +170,9 @@ class WP_Statistics_Admin {
 			}
 
 			$get_bloginfo_url = get_admin_url() .
-			                    "admin.php?page=" .
-			                    WP_Statistics::$page['optimization'] .
-			                    "&tab=database";
+								"admin.php?page=" .
+								WP_Statistics::$page['optimization'] .
+								"&tab=database";
 
 			$dbupdatestodo = array();
 
@@ -211,103 +211,103 @@ class WP_Statistics_Admin {
 		}
 	}
 
-    /*
-     * Check User Active A cache Plugin in Wordpress
-     */
-    static public function user_is_use_cache_plugin()
-    {
-        $use = array( 'status' => false, 'plugin' => '');
+	/*
+	 * Check User Active A cache Plugin in Wordpress
+	 */
+	static public function user_is_use_cache_plugin() {
+		$use = array( 'status' => false, 'plugin' => '' );
 
-        /* Wordpress core */
-        if ( defined( 'WP_CACHE' ) && WP_CACHE ) {
-            return array( 'status' => true, 'plugin' => 'core');
-        }
+		/* Wordpress core */
+		if ( defined( 'WP_CACHE' ) && WP_CACHE ) {
+			return array( 'status' => true, 'plugin' => 'core' );
+		}
 
-        /* WP Rocket */
-        if ( function_exists( 'get_rocket_cdn_url' ) ) {
-            return array( 'status' => true, 'plugin' => 'WP Rocket');
-        }
+		/* WP Rocket */
+		if ( function_exists( 'get_rocket_cdn_url' ) ) {
+			return array( 'status' => true, 'plugin' => 'WP Rocket' );
+		}
 
-        /* WP Super Cache */
-        if ( function_exists( 'wpsc_init' ) ) {
-            return array( 'status' => true, 'plugin' => 'WP Super Cache');
-        }
+		/* WP Super Cache */
+		if ( function_exists( 'wpsc_init' ) ) {
+			return array( 'status' => true, 'plugin' => 'WP Super Cache' );
+		}
 
-        /* Comet Cache */
-        if ( function_exists( '___wp_php_rv_initialize' ) ) {
-            return array( 'status' => true, 'plugin' => 'Comet Cache');
-        }
+		/* Comet Cache */
+		if ( function_exists( '___wp_php_rv_initialize' ) ) {
+			return array( 'status' => true, 'plugin' => 'Comet Cache' );
+		}
 
-        /* WP Fastest Cache */
-        if ( class_exists('WpFastestCache') ) {
-            return array( 'status' => true, 'plugin' => 'WP Fastest Cache');
-        }
+		/* WP Fastest Cache */
+		if ( class_exists( 'WpFastestCache' ) ) {
+			return array( 'status' => true, 'plugin' => 'WP Fastest Cache' );
+		}
 
-        /* Cache Enabler */
-        if ( defined( 'CE_MIN_WP' ) ) {
-            return array( 'status' => true, 'plugin' => 'Cache Enabler');
-        }
+		/* Cache Enabler */
+		if ( defined( 'CE_MIN_WP' ) ) {
+			return array( 'status' => true, 'plugin' => 'Cache Enabler' );
+		}
 
-        /* W3 Total Cache */
-        if ( defined( 'W3TC' ) ) {
-            return array( 'status' => true, 'plugin' => 'W3 Total Cache');
-        }
+		/* W3 Total Cache */
+		if ( defined( 'W3TC' ) ) {
+			return array( 'status' => true, 'plugin' => 'W3 Total Cache' );
+		}
 
-        return $use;
-    }
+		return $use;
+	}
 
 
-    /*
-     * Show Notification Cache Plugin
-     */
-    static public function notification_use_cache_plugin()
-    {
-       global $WP_Statistics;
+	/*
+	 * Show Notification Cache Plugin
+	 */
+	static public function notification_use_cache_plugin() {
+		global $WP_Statistics;
 
-        $screen = get_current_screen();
-        if($screen->id !="statistics_page_".WP_Statistics::$page['settings']) {
-            $plugin = self::user_is_use_cache_plugin();
-            if (!$WP_Statistics->get_option('use_cache_plugin') and $plugin['status'] === true) {
-                echo '<div class="notice notice-warning is-dismissible"><p>';
+		$screen = get_current_screen();
+		if ( $screen->id != "statistics_page_" . WP_Statistics::$page['settings'] ) {
+			$plugin = self::user_is_use_cache_plugin();
+			if ( ! $WP_Statistics->get_option( 'use_cache_plugin' ) and $plugin['status'] === true ) {
+				echo '<div class="notice notice-warning is-dismissible"><p>';
 
-                $alert = sprintf(__('You Are Using %s Plugin in Wordpress', 'wp-statistics'), $plugin['plugin']);
-                if ($plugin['plugin'] == "core") {
-                    $alert = __('WP_CACHE is Enable in Your Wordpress', 'wp-statistics');
-                }
+				$alert = sprintf( __( 'You Are Using %s Plugin in Wordpress', 'wp-statistics' ), $plugin['plugin'] );
+				if ( $plugin['plugin'] == "core" ) {
+					$alert = __( 'WP_CACHE is Enable in Your Wordpress', 'wp-statistics' );
+				}
 
-                echo $alert . " , " . sprintf(
-                        __('Please %1$sEnable Cache Setting%2$s in WP Statistics.', 'wp-statistics'),
-                        '<a href="' . esc_url(admin_url(add_query_arg('page', WP_Statistics::$page['settings'], 'admin.php'))) . '">', '</a>'
-                    );
+				echo $alert . " , " . sprintf(
+						__( 'Please %1$sEnable Cache Setting%2$s in WP Statistics.', 'wp-statistics' ),
+						'<a href="' . esc_url( admin_url( add_query_arg( 'page', WP_Statistics::$page['settings'], 'admin.php' ) ) ) . '">', '</a>'
+					);
 
-                echo '</p></div>';
-            }
-        }
+				echo '</p></div>';
+			}
+		}
 
-        //Test Rest Api is Active for Cache
-        if( WP_Statistics_Frontend::is_cache_active() and $screen->id =="statistics_page_".WP_Statistics::$page['settings'] ) {
+		//Test Rest Api is Active for Cache
+		if ( WP_Statistics_Frontend::is_cache_active() and $screen->id == "statistics_page_" . WP_Statistics::$page['settings'] ) {
 
-	        if ( false === ( $check_rest_api = get_transient( '_check_rest_api_wp_statistics' ) ) ) {
+			if ( false === ( $check_rest_api = get_transient( '_check_rest_api_wp_statistics' ) ) ) {
 
-	            $set_transient = true;
-		        $alert = '<div class="notice notice-warning is-dismissible"><p>'. __('Please Activate WordPress Rest Api for performancing WP-Statistics Plugin Cache', 'wp-statistics').'</div>';
-		        $request = wp_remote_get( path_join( get_rest_url(), WP_Statistics_Rest::route.'/'.WP_Statistics_Rest::test_rest_api ) );
-		        if( is_wp_error( $request ) ) {
-		            echo $alert;
-			        $set_transient = false;
-		        }
-		        $body = wp_remote_retrieve_body( $request );
-		        $data = json_decode( $body , true);
-		        if( !isset($data['is_activate_wp_rest_api']) ) {
-		            echo $alert;
-			        $set_transient = false;
-		        }
+				$set_transient = true;
+				$alert         = '<div class="notice notice-warning is-dismissible"><p>' . __( 'Please Activate WordPress Rest Api for performancing WP-Statistics Plugin Cache', 'wp-statistics' ) . '</div>';
+				$request       = wp_remote_get( path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::test_rest_api ) );
+				if ( is_wp_error( $request ) ) {
+					echo $alert;
+					$set_transient = false;
+				}
+				$body = wp_remote_retrieve_body( $request );
+				$data = json_decode( $body, true );
+				if ( ! isset( $data['is_activate_wp_rest_api'] ) ) {
+					echo $alert;
+					$set_transient = false;
+				}
 
-		        if ( $set_transient ===true ) set_transient( '_check_rest_api_wp_statistics', array("is_activate_wp_rest_api" => "OK"), 2 * HOUR_IN_SECONDS );
-	        }
+				if ( $set_transient === true ) {
+					set_transient( '_check_rest_api_wp_statistics', array( "is_activate_wp_rest_api" => "OK" ), 2 * HOUR_IN_SECONDS );
+				}
+			}
 
-        }
-    }
+		}
+	}
 
 	/**
 	 * Add a settings link to the plugin list.
@@ -414,12 +414,12 @@ class WP_Statistics_Admin {
 	static function render_column( $column_name, $post_id ) {
 		if ( $column_name == 'wp-statistics' ) {
 			echo "<a href='" .
-			     get_admin_url() .
-			     "admin.php?page=" .
-			     WP_Statistics::$page['pages'] .
-			     "&page-id={$post_id}'>" .
-			     wp_statistics_pages( 'total', "", $post_id ) .
-			     "</a>";
+				 get_admin_url() .
+				 "admin.php?page=" .
+				 WP_Statistics::$page['pages'] .
+				 "&page-id={$post_id}'>" .
+				 wp_statistics_pages( 'total', "", $post_id ) .
+				 "</a>";
 		}
 	}
 
@@ -432,14 +432,14 @@ class WP_Statistics_Admin {
 		$id = $post->ID;
 
 		echo "<div class='misc-pub-section'>" .
-		     __( 'WP Statistics - Hits', 'wp-statistics' ) .
-		     ": <b><a href='" .
-		     get_admin_url() .
-		     "admin.php?page=" .
-		     WP_Statistics::$page['pages'] .
-		     "&page-id={$id}'>" .
-		     wp_statistics_pages( 'total', "", $id ) .
-		     "</a></b></div>";
+			 __( 'WP Statistics - Hits', 'wp-statistics' ) .
+			 ": <b><a href='" .
+			 get_admin_url() .
+			 "admin.php?page=" .
+			 WP_Statistics::$page['pages'] .
+			 "&page-id={$id}'>" .
+			 wp_statistics_pages( 'total', "", $id ) .
+			 "</a></b></div>";
 	}
 
 	/**
@@ -645,7 +645,7 @@ class WP_Statistics_Admin {
 			WP_Statistics::$page['overview'],
 			__( 'Settings', 'wp-statistics' ),
 			__( 'Settings', 'wp-statistics' ),
-            $manage_cap,
+			$manage_cap,
 			WP_Statistics::$page['settings'],
 			'WP_Statistics_Admin_Pages::settings'
 		);
@@ -677,7 +677,7 @@ class WP_Statistics_Admin {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
-        global $pagenow;
+		global $pagenow;
 
 		// Load our CSS to be used.
 		wp_enqueue_style(
@@ -693,8 +693,8 @@ class WP_Statistics_Admin {
 
 
 		//Load Chart Js
-        $load_in_footer  = false;
-		$load_chart = false;
+		$load_in_footer = false;
+		$load_chart     = false;
 
 		//Load in Setting Page
 		$pages_required_chart = array(
@@ -707,20 +707,24 @@ class WP_Statistics_Admin {
 			'wps_authors_page',
 			'wps_searches_page',
 		);
-		if ( isset($_GET['page']) and array_search( $_GET['page'], $pages_required_chart ) !== false ) $load_chart = true;
+		if ( isset( $_GET['page'] ) and array_search( $_GET['page'], $pages_required_chart ) !== false ) {
+			$load_chart = true;
+		}
 
 		//Load in Post Page
-        if($pagenow =="post.php") $load_chart = true;
+		if ( $pagenow == "post.php" ) {
+			$load_chart = true;
+		}
 
-		if ($load_chart ===true) {
-            wp_enqueue_script(
-                'wp-statistics-chart-js',
-                WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
-                false,
-                '2.7.0',
-                $load_in_footer
-            );
-        }
+		if ( $load_chart === true ) {
+			wp_enqueue_script(
+				'wp-statistics-chart-js',
+				WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
+				false,
+				'2.7.0',
+				$load_in_footer
+			);
+		}
 
 	}
 
@@ -732,8 +736,8 @@ class WP_Statistics_Admin {
 
 		// Check to see if the GeoIP database needs to be downloaded and do so if required.
 		if ( $WP_Statistics->get_option( 'update_geoip' ) ) {
-			foreach (WP_Statistics_Updates::$geoip as $geoip_name => $geoip_array) {
-			    WP_Statistics_Updates::download_geoip($geoip_name, "update");
+			foreach ( WP_Statistics_Updates::$geoip as $geoip_name => $geoip_array ) {
+				WP_Statistics_Updates::download_geoip( $geoip_name, "update" );
 			}
 		}
 
