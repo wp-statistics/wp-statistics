@@ -122,8 +122,8 @@ Important: with this update, Opt-out feature is removed.
 * Improved the Datepicker in the WP-Statistics pages, supported WordPress custom date format.
 * Improved the pagination class.
 * Improved the assets and fixed conflict ChartJS issue, when the Hit Statistics Meta box was enabled in posts/pages.
-* Improved responsive summary page.
-* Improved Exclude Ajax Requests, Now compatible with [Related Post by Jetpack](https://jetpack.com/support/related-posts/).
+* Improved the responsive summary page.
+* Improved exclude Ajax requests, now compatible with [Related Post by Jetpack](https://jetpack.com/support/related-posts/).
 * Disabled the option menu when the current user doesn't access.
 
 = 12.4.3 =

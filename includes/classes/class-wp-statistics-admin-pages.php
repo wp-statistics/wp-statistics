@@ -304,12 +304,13 @@ class WP_Statistics_Admin_Pages {
 
 		// We could let the download happen at the end of the page, but this way we get to give some
 		// feedback to the users about the result.
-		if ( isset($_POST['update_geoip']) and isset($_POST['geoip_name']) ) {
+		if ( $WP_Statistics->get_option( 'geoip' ) and isset($_POST['update_geoip']) and isset($_POST['geoip_name']) ) {
 
 			//Check Geo ip Exist in Database
 			if( isset( WP_Statistics_Updates::$geoip[$_POST['geoip_name']] )) {
 				$result =  WP_Statistics_Updates::download_geoip($_POST['geoip_name'], "update");
-				if($result['status'] ===false) {
+
+				if(isset($result['status']) and $result['status'] === false) {
 					add_filter("wp_statistics_redirect_setting", function($redirect) { $redirect = true; return $redirect; });
 				} else {
 					echo $result['notice'];
@@ -326,7 +327,7 @@ class WP_Statistics_Admin_Pages {
 				$file = wp_upload_dir()['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geo_name]['file'].'.mmdb';
 				if ( !file_exists($file) ) {
 					$result = WP_Statistics_Updates::download_geoip($geo_name);
-					if($result['status'] ===false) {
+					if(isset($result['status']) and $result['status'] === false) {
 						add_filter("wp_statistics_redirect_setting", function($redirect) { $redirect = true; return $redirect; });
 					} else {
 						echo $result['notice'];

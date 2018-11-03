@@ -63,7 +63,7 @@ if ( $wps_nonce_valid ) {
                         <?php _e( 'Enable', 'wp-statistics' ); ?>
                         <form action="" method="post" style="display: inline;">
                             <input type="hidden" name="geoip_name" value="country">
-		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "primary", "update_geoip", false, array("style" => "margin-left: 5px;margin-top: -5px;")); ?>
+		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "secondary", "update_geoip", false); ?>
                         </form>
                     </label>
 
@@ -86,7 +86,7 @@ if ( $wps_nonce_valid ) {
                         <?php _e( 'Enable', 'wp-statistics' ); ?>
                         <form action="" method="post" style="display: inline;">
                             <input type="hidden" name="geoip_name" value="city">
-		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "primary", "update_geoip", false, array("style" => "margin-left: 5px;margin-top: -5px;")); ?>
+		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "secondary", "update_geoip", false); ?>
                         </form>
                     </label>
 

@@ -55,6 +55,14 @@
     float: right;
 }
 
+.wp-statistics-settings #update_geoip {
+    margin-left: 5px;
+    margin-top: -5px;
+    line-height: 19px;
+    font-size: 12px;
+    height: 25px;
+}
+
 @media only screen and (max-width: 1327px) {
     .wp-statistics-settings ul.tabs li {
         padding: 10px 5px;
