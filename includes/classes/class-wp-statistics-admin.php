@@ -268,13 +268,13 @@ class WP_Statistics_Admin {
 			if ( ! $WP_Statistics->get_option( 'use_cache_plugin' ) and $plugin['status'] === true ) {
 				echo '<div class="notice notice-warning is-dismissible"><p>';
 
-				$alert = sprintf( __( 'You Are Using %s Plugin in Wordpress', 'wp-statistics' ), $plugin['plugin'] );
+				$alert = sprintf( __( 'You Are Using %s Plugin in WordPress', 'wp-statistics' ), $plugin['plugin'] );
 				if ( $plugin['plugin'] == "core" ) {
-					$alert = __( 'WP_CACHE is Enable in Your Wordpress', 'wp-statistics' );
+					$alert = __( 'WP_CACHE is Enable in Your WordPress', 'wp-statistics' );
 				}
 
-				echo $alert . " , " . sprintf(
-						__( 'Please %1$sEnable Cache Setting%2$s in WP Statistics.', 'wp-statistics' ),
+				echo $alert . ", " . sprintf(
+						__( 'Please enable %1$sCache Setting%2$s in WP Statistics.', 'wp-statistics' ),
 						'<a href="' . esc_url( admin_url( add_query_arg( 'page', WP_Statistics::$page['settings'], 'admin.php' ) ) ) . '">', '</a>'
 					);
 
