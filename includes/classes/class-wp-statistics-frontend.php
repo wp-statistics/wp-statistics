@@ -8,11 +8,6 @@ class WP_Statistics_Frontend {
 	public function __construct() {
 		global $WP_Statistics;
 
-		//init Session
-		if ( WP_Statistics_Frontend::is_cache_active() ) {
-			add_action( 'init', 'WP_Statistics_Frontend::init_session' );
-		}
-
 		add_filter( 'widget_text', 'do_shortcode' );
 
 		new WP_Statistics_Schedule;
@@ -30,54 +25,18 @@ class WP_Statistics_Frontend {
 		//Add inline Rest Request
 		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
 
-		//Get params For cache enabled
-		if ( self::is_cache_active() ) {
-			if ( self::is_rest() ) { /* Core is not define */
-			} else {
-				add_action( "wp", function () {
-					WP_Statistics_Frontend::set_default_params();
-				}, 999 );
-			}
-		}
-
 		//Add Html Comment in head
 		if ( self::is_cache_active() === false ) {
 			add_action( 'wp_head', 'WP_Statistics_Frontend::html_comment' );
 		}
 	}
 
-	/*
-	 * init Session
-	 */
-	static public function init_session() {
-		if ( ! session_id() ) {
-			session_start();
-		}
-	}
 
 	/*
 	 * Create Comment support Wappalyzer
 	 */
 	static public function html_comment() {
 		echo '<!-- Analytics by WP-Statistics v' . WP_Statistics::$reg['version'] . ' - ' . WP_Statistics::$reg['plugin-data']['PluginURI'] . ' -->' . "\n";
-	}
-
-
-	/*
-	 * Check Is Rest Request in Wordpress
-	 */
-	public static function is_rest() {
-		$prefix = rest_get_url_prefix();
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST
-			 || isset( $_GET['rest_route'] )
-				&& strpos( trim( $_GET['rest_route'], '\\/' ), $prefix, 0 ) === 0 ) {
-			return true;
-		}
-
-		$rest_url    = wp_parse_url( site_url( $prefix ) );
-		$current_url = wp_parse_url( add_query_arg( array() ) );
-
-		return strpos( $current_url['path'], $rest_url['path'], 0 ) === 0;
 	}
 
 
@@ -126,7 +85,7 @@ class WP_Statistics_Frontend {
 	static public function add_inline_rest_js() {
 		if ( self::is_cache_active() ) {
 			self::html_comment();
-			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistics\',\'true\');},});});</script>' . "\n";
+			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',data: ' . self::set_default_params() . ',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistics\',\'true\');},});});</script>' . "\n";
 		}
 	}
 
@@ -135,11 +94,6 @@ class WP_Statistics_Frontend {
 	 */
 	static public function set_default_params() {
 		global $wpdb, $wp_query, $WP_Statistics;
-
-		/*
-		 * Remove Last Session
-		 */
-		unset( $_SESSION[ WP_Statistics_Rest::session ] );
 
 		/*
 		 * Load Rest Api JavaScript
@@ -197,10 +151,17 @@ class WP_Statistics_Frontend {
 		//page url
 		$params['page_uri'] = wp_statistics_get_uri();
 
-		//Add To Session
-		$_SESSION[ WP_Statistics_Rest::session ] = $params;
+		foreach ( (array) $params as $key => $value ) {
+			if ( ! is_scalar( $value ) ) {
+				continue;
+			}
+			$params[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
+		}
 
-		return $params['base'];
+		$array                              = array();
+		$array[ WP_Statistics_Rest::_POST ] = $params;
+
+		return wp_json_encode( $array );
 	}
 
 

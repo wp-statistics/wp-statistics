@@ -14,8 +14,8 @@ class WP_Statistics_Rest {
 	//Set Route Test Rest Api is Active
 	const test_rest_api = 'wp_rest_api_active';
 
-	//Set Default Session Name
-	const session = 'wp_statistics_hit';
+	//Set Default POST Name
+	const _POST = 'wp_statistics_hit';
 
 
 	/**
@@ -70,11 +70,6 @@ class WP_Statistics_Rest {
 			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
 		}
 
-		//Check all Parameter is exist
-		if ( ! isset( $_SESSION[ self::session ] ) ) {
-			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
-		}
-
 		// If something has gone horribly wrong and $WP_Statistics isn't an object, bail out.
 		// This seems to happen sometimes with WP Cron calls.
 		if ( ! is_object( $WP_Statistics ) ) {
@@ -102,9 +97,6 @@ class WP_Statistics_Rest {
 		if ( $WP_Statistics->get_option( 'pages' ) ) {
 			$h->Pages();
 		}
-
-		//Remove Session
-		unset( $_SESSION[ self::session ] );
 	}
 
 	/*
@@ -120,7 +112,7 @@ class WP_Statistics_Rest {
 	 */
 	static public function is_rest() {
 		$header = getallheaders();
-		if ( isset( $header['X-Ajax-WP-Statistics'] ) and isset( $_SESSION[ self::session ] ) ) {
+		if ( isset( $header['X-Ajax-WP-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
 			return true;
 		}
 
@@ -131,7 +123,7 @@ class WP_Statistics_Rest {
 	 * Get Params Request
 	 */
 	static public function params( $params ) {
-		return $_SESSION[ self::session ][ $params ];
+		return $_POST[ self::_POST ][ $params ];
 	}
 
 }
