@@ -120,12 +120,12 @@ class WP_Statistics {
 	 * @var array
 	 */
 	public static $page = array();
-    /**
-     * Rest Api init
-     *
-     * @var array
-     */
-    public $restapi;
+	/**
+	 * Rest Api init
+	 *
+	 * @var array
+	 */
+	public $restapi;
 	/**
 	 * Check Plugin Cache is enabled
 	 *
@@ -138,6 +138,11 @@ class WP_Statistics {
 	 * WP_Statistics constructor.
 	 */
 	public function __construct() {
+
+		//Check Use Cache Type
+		if ( get_option( 'wp_statistics' )['use_cache_plugin'] == true ) {
+			$this->use_cache = true;
+		}
 
 		if ( ! isset( WP_Statistics::$reg['plugin-url'] ) ) {
 			/**
@@ -166,10 +171,10 @@ class WP_Statistics {
 		}
 
 		//Setup rest api
-        if( !class_exists('WP_Statistics_Rest') ) {
-		    require_once (WP_Statistics::$reg['plugin-dir'].'/includes/classes/class-wp-statistics-rest.php');
-        }
-        $this->restapi = new WP_Statistics_Rest();
+		if ( ! class_exists( 'WP_Statistics_Rest' ) ) {
+			require_once( WP_Statistics::$reg['plugin-dir'] . '/includes/classes/class-wp-statistics-rest.php' );
+		}
+		$this->restapi = new WP_Statistics_Rest();
 	}
 
 	/**
@@ -199,11 +204,6 @@ class WP_Statistics {
 		// Check if the has IP is enabled.
 		if ( $this->get_option( 'hash_ips' ) == true ) {
 			$this->ip_hash = $this->get_hash_string();
-		}
-
-		//check cache is enabled
-		if ( $this->get_option( 'use_cache_plugin' ) == true ) {
-			$this->use_cache = true;
 		}
 
 		$this->set_pages();
@@ -244,8 +244,8 @@ class WP_Statistics {
 		add_action( 'widgets_init', 'WP_Statistics::widget' );
 		add_shortcode( 'wpstatistics', 'WP_Statistics_Shortcode::shortcodes' );
 
-        //Add Route Rest Api
-        WP_Statistics_Rest::init();
+		//Add Route Rest Api
+		WP_Statistics_Rest::init();
 	}
 
 	/**
@@ -413,10 +413,11 @@ class WP_Statistics {
 	 * Generate hash string
 	 */
 	public function get_hash_string() {
-        //Check If Rest Request
-        if ($this->restapi->is_rest()) {
-            return $this->restapi->params('hash_ip');
-        }
+		//Check If Rest Request
+		if ( $this->restapi->is_rest() ) {
+			return $this->restapi->params( 'hash_ip' );
+		}
+
 		return '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
 	}
 
@@ -438,20 +439,20 @@ class WP_Statistics {
 		register_widget( 'WP_Statistics_Widget' );
 	}
 
-    /**
-     * geo ip Loader
-     */
-    static function geoip_loader($pack) {
+	/**
+	 * geo ip Loader
+	 */
+	static function geoip_loader( $pack ) {
 
-            $geoip_city = wp_upload_dir()['basedir']. '/wp-statistics/'.WP_Statistics_Updates::$geoip[$pack]['file'].'mmdb';
-            if ( file_exists($geoip_city) ) {
-               $reader = new \GeoIp2\Database\Reader( $geoip_city );
-            } else {
-                return false;
-            }
+		$geoip_city = wp_upload_dir()['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . 'mmdb';
+		if ( file_exists( $geoip_city ) ) {
+			$reader = new \GeoIp2\Database\Reader( $geoip_city );
+		} else {
+			return false;
+		}
 
-            return $reader;
-    }
+		return $reader;
+	}
 
 	/**
 	 * Loads the user options from WordPress.
@@ -756,7 +757,7 @@ class WP_Statistics {
 		$options['robotlist']             = $wps_robotslist;
 		$options['exclude_administrator'] = true;
 		$options['disable_se_clearch']    = true;
-		$options['disable_se_qwant']    = true;
+		$options['disable_se_qwant']      = true;
 		$options['disable_se_ask']        = true;
 		$options['map_type']              = 'jqvmap';
 
@@ -825,11 +826,12 @@ class WP_Statistics {
 	 */
 	public function get_IP() {
 
-        //Check If Rest Request
-        if ($this->restapi->is_rest()) {
-            $this->ip = $this->restapi->params('ip');
-            return $this->ip;
-        }
+		//Check If Rest Request
+		if ( $this->restapi->is_rest() ) {
+			$this->ip = $this->restapi->params( 'ip' );
+
+			return $this->ip;
+		}
 
 		// Check to see if we've already retrieved the IP address and if so return the last result.
 		if ( $this->ip !== false ) {
@@ -879,10 +881,10 @@ class WP_Statistics {
 			$this->ip = '127.0.0.1';
 		}
 
-        // If the anonymize IP enabled for GDPR.
-        if ( $this->get_option( 'anonymize_ips' ) == true ) {
-            $this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.000';
-        }
+		// If the anonymize IP enabled for GDPR.
+		if ( $this->get_option( 'anonymize_ips' ) == true ) {
+			$this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.000';
+		}
 
 		return $this->ip;
 	}
@@ -909,23 +911,23 @@ class WP_Statistics {
 	 */
 	public function get_UserAgent() {
 
-        //Check If Rest Request
-        if ($this->restapi->is_rest()) {
-            return array(
-                'browser' => $this->restapi->params('browser'),
-                'platform' => $this->restapi->params('platform'),
-                'version' => $this->restapi->params('version')
-            );
-        }
+		//Check If Rest Request
+		if ( $this->restapi->is_rest() ) {
+			return array(
+				'browser'  => $this->restapi->params( 'browser' ),
+				'platform' => $this->restapi->params( 'platform' ),
+				'version'  => $this->restapi->params( 'version' )
+			);
+		}
 
-        $result = new WhichBrowser\Parser( getallheaders() );
-        $agent = array(
-            'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
-            'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
-            'version'  => ( isset( $result->os->version->value ) ) ? $result->os->version->value : _x( 'Unknown', 'Version', 'wp-statistics' ),
-        );
+		$result = new WhichBrowser\Parser( getallheaders() );
+		$agent  = array(
+			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
+			'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
+			'version'  => ( isset( $result->os->version->value ) ) ? $result->os->version->value : _x( 'Unknown', 'Version', 'wp-statistics' ),
+		);
 
-        return $agent;
+		return $agent;
 	}
 
 	/**
@@ -937,12 +939,12 @@ class WP_Statistics {
 	 */
 	public function get_Referred( $default_referrer = false ) {
 
-        //Check If Rest Request
-        if ( $this->restapi->is_rest() ) {
-            $this->referrer = $this->restapi->params('referred');
+		//Check If Rest Request
+		if ( $this->restapi->is_rest() ) {
+			$this->referrer = $this->restapi->params( 'referred' );
 
-            return $this->referrer;
-        }
+			return $this->referrer;
+		}
 
 		if ( $this->referrer !== false ) {
 			return $this->referrer;

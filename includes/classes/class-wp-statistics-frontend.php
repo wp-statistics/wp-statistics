@@ -72,11 +72,11 @@ class WP_Statistics_Frontend {
 	 */
 	static public function is_cache_active() {
 		global $WP_Statistics;
-		if ($WP_Statistics->use_cache ===true)  {
-			return false;
+		if ($WP_Statistics->use_cache === true)  {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/*
@@ -85,7 +85,7 @@ class WP_Statistics_Frontend {
 	static public function add_inline_rest_js() {
 		if ( self::is_cache_active() ) {
 			self::html_comment();
-			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',data: ' . self::set_default_params() . ',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistics\',\'true\');},});});</script>' . "\n";
+			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',data: ' . self::set_default_params() . ',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-Wp-Statistics\',\'true\');},});});</script>' . "\n";
 		}
 	}
 

@@ -66,7 +66,7 @@ class WP_Statistics_Rest {
 
 
 		//Check Auth Key Request
-		if ( ! isset( $header['X-Ajax-WP-Statistics'] ) ) {
+		if ( ! isset( $header['X-Ajax-Wp-Statistics'] ) ) {
 			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
 		}
 
@@ -112,9 +112,9 @@ class WP_Statistics_Rest {
 	 */
 	static public function is_rest() {
 		global $WP_Statistics;
-		if ($WP_Statistics->use_cache ===true) {
+		if ( $WP_Statistics->use_cache === true ) {
 			$header = self::getallheader();
-			if ( isset( $header['X-Ajax-WP-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
+			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
 				return true;
 			}
 		}
@@ -126,11 +126,11 @@ class WP_Statistics_Rest {
 	 * Get All Header
 	 */
 	public static function getallheader() {
-		if (!function_exists('getallheaders')) {
+		if ( ! function_exists( 'getallheaders' ) ) {
 			$headers = [];
-			foreach ($_SERVER as $name => $value) {
-				if (substr($name, 0, 5) == 'HTTP_') {
-					$headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+			foreach ( $_SERVER as $name => $value ) {
+				if ( substr( $name, 0, 5 ) == 'HTTP_' ) {
+					$headers[ str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) ) ] = $value;
 				}
 			}
 		} else {
@@ -144,7 +144,11 @@ class WP_Statistics_Rest {
 	 * Get Params Request
 	 */
 	static public function params( $params ) {
-		return $_POST[ self::_POST ][ $params ];
+		if ( isset( $_POST[ self::_POST ][ $params ] ) ) {
+			return $_POST[ self::_POST ][ $params ];
+		}
+
+		return false;
 	}
 
 }
