@@ -72,7 +72,7 @@ class WP_Statistics_Frontend {
 	 */
 	static public function is_cache_active() {
 		global $WP_Statistics;
-		if ( ! $WP_Statistics->get_option( 'use_cache_plugin' ) ) {
+		if ($WP_Statistics->use_cache ===true)  {
 			return false;
 		}
 

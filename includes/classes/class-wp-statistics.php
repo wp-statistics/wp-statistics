@@ -126,6 +126,12 @@ class WP_Statistics {
      * @var array
      */
     public $restapi;
+	/**
+	 * Check Plugin Cache is enabled
+	 *
+	 * @var bool|string
+	 */
+	public $use_cache = false;
 
 	/**
 	 * __construct
@@ -193,6 +199,11 @@ class WP_Statistics {
 		// Check if the has IP is enabled.
 		if ( $this->get_option( 'hash_ips' ) == true ) {
 			$this->ip_hash = $this->get_hash_string();
+		}
+
+		//check cache is enabled
+		if ( $this->get_option( 'use_cache_plugin' ) == true ) {
+			$this->use_cache = true;
 		}
 
 		$this->set_pages();

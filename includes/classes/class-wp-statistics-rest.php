@@ -62,7 +62,7 @@ class WP_Statistics_Rest {
 		/*
 		 * Check Security Referer Only This Domain Access
 		 */
-		$header = getallheaders();
+		$header = self::getallheader();
 
 
 		//Check Auth Key Request
@@ -111,12 +111,33 @@ class WP_Statistics_Rest {
 	 * Check is Rest Request
 	 */
 	static public function is_rest() {
-		$header = getallheaders();
-		if ( isset( $header['X-Ajax-WP-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
-			return true;
+		global $WP_Statistics;
+		if ($WP_Statistics->use_cache ===true) {
+			$header = self::getallheader();
+			if ( isset( $header['X-Ajax-WP-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
+				return true;
+			}
 		}
 
 		return false;
+	}
+
+	/*
+	 * Get All Header
+	 */
+	public static function getallheader() {
+		if (!function_exists('getallheaders')) {
+			$headers = [];
+			foreach ($_SERVER as $name => $value) {
+				if (substr($name, 0, 5) == 'HTTP_') {
+					$headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+				}
+			}
+		} else {
+			$headers = getallheaders();
+		}
+
+		return $headers;
 	}
 
 	/*
