@@ -238,7 +238,7 @@ class WP_Statistics {
 		add_action( 'widgets_init', 'WP_Statistics::widget' );
 		add_shortcode( 'wpstatistics', 'WP_Statistics_Shortcode::shortcodes' );
 
-		//Add Route Rest Api
+		// Add Route Rest Api
 		WP_Statistics_Rest::init();
 	}
 
@@ -921,7 +921,7 @@ class WP_Statistics {
 			);
 		}
 
-		$result = new WhichBrowser\Parser( getallheaders() );
+		$result = new WhichBrowser\Parser( self::getAllHeader() );
 		$agent  = array(
 			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
 			'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
@@ -1429,6 +1429,24 @@ class WP_Statistics {
 		}
 
 		return "<a href='{$html_nr_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
+	}
+
+	/*
+	 * Get All Headers
+	 */
+	public static function getAllHeader() {
+		if ( ! function_exists( 'getallheaders' ) ) {
+			$headers = [];
+			foreach ( $_SERVER as $name => $value ) {
+				if ( substr( $name, 0, 5 ) == 'HTTP_' ) {
+					$headers[ str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) ) ] = $value;
+				}
+			}
+		} else {
+			$headers = getallheaders();
+		}
+
+		return $headers;
 	}
 
 	/**

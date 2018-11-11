@@ -282,8 +282,8 @@ class WP_Statistics_Admin {
 			}
 		}
 
-		//Test Rest Api is Active for Cache
-		if ( WP_Statistics_Frontend::is_cache_active() and $screen->id == "statistics_page_" . WP_Statistics::$page['settings'] ) {
+		// Test Rest Api is Active for Cache
+		if ( $WP_Statistics->use_cache and $screen->id == "statistics_page_" . WP_Statistics::$page['settings'] ) {
 
 			if ( false === ( $check_rest_api = get_transient( '_check_rest_api_wp_statistics' ) ) ) {
 

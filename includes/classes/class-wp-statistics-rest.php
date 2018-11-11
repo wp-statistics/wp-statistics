@@ -17,40 +17,36 @@ class WP_Statistics_Rest {
 	//Set Default POST Name
 	const _POST = 'wp_statistics_hit';
 
-
 	/**
 	 * Setup an Wordpress REst Api action.
 	 */
 	static function init() {
+		global $WP_Statistics;
 
 		/*
 		 * add Router Rest Api
 		 */
-		if ( WP_Statistics_Frontend::is_cache_active() ) {
+		if ( $WP_Statistics->use_cache ) {
 			add_action( 'rest_api_init', array( self::class, 'route' ) );
 		}
-
 	}
-
 
 	/*
 	 * Add Endpoint Route
 	 */
 	static function route() {
-
-		//Get Hit
+		// Get Hit
 		register_rest_route( self::route, '/' . self::func, array(
 			'methods'  => 'POST',
 			'callback' => array( self::class, 'hit' ),
 		) );
 
-		//Test REST Api is Active
+		// Test REST Api is Active
 		register_rest_route( self::route, '/' . self::test_rest_api, array(
 			'methods'  => 'GET',
 			'callback' => array( self::class, 'wp_rest_api_active' ),
 		) );
 	}
-
 
 	/*
 	 * Wp Statistic Hit Save
@@ -58,12 +54,10 @@ class WP_Statistics_Rest {
 	static public function hit() {
 		global $WP_Statistics;
 
-
 		/*
 		 * Check Security Referer Only This Domain Access
 		 */
-		$header = self::getallheader();
-
+		$header = $WP_Statistics::getAllHeader();
 
 		//Check Auth Key Request
 		if ( ! isset( $header['X-Ajax-Wp-Statistics'] ) ) {
@@ -103,7 +97,6 @@ class WP_Statistics_Rest {
 	 * Test Rest Api is Active
 	 */
 	public static function wp_rest_api_active() {
-
 		return array( "is_activate_wp_rest_api" => "OK" );
 	}
 
@@ -112,32 +105,15 @@ class WP_Statistics_Rest {
 	 */
 	static public function is_rest() {
 		global $WP_Statistics;
+		
 		if ( $WP_Statistics->use_cache === true ) {
-			$header = self::getallheader();
+			$header = $WP_Statistics::getAllHeader();
 			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	/*
-	 * Get All Header
-	 */
-	public static function getallheader() {
-		if ( ! function_exists( 'getallheaders' ) ) {
-			$headers = [];
-			foreach ( $_SERVER as $name => $value ) {
-				if ( substr( $name, 0, 5 ) == 'HTTP_' ) {
-					$headers[ str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) ) ] = $value;
-				}
-			}
-		} else {
-			$headers = getallheaders();
-		}
-
-		return $headers;
 	}
 
 	/*
@@ -150,5 +126,4 @@ class WP_Statistics_Rest {
 
 		return false;
 	}
-
 }
