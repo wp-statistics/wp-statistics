@@ -24,7 +24,6 @@ if ( $wps_nonce_valid ) {
 		"wps_send_report",
 		"wps_content_report",
 		"wps_email_list",
-		"wps_browscap_report",
 		"wps_geoip_report",
 		"wps_prune_report",
 		"wps_upgrade_report",
@@ -80,24 +79,6 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e( 'Update Reports', 'wp-statistics' ); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row">
-                <label for="browscap-report"><?php _e( 'Browscap:', 'wp-statistics' ); ?></label>
-            </td>
-
-            <td>
-                <input id="browscap-report" type="checkbox" value="1"
-                       name="wps_browscap_report" <?php echo $WP_Statistics->get_option( 'browscap_report' ) == true
-					? "checked='checked'" : ''; ?>>
-                <label for="browscap-report"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
-
-                <p class="description"><?php _e(
-						'Send a report whenever the browscap.ini is updated.',
-						'wp-statistics'
-					); ?></p>
-            </td>
         </tr>
 
         <tr valign="top">

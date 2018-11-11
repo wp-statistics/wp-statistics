@@ -112,6 +112,20 @@ We implement GDPR into the WP-Statistics. for more information read [the blog po
 Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
+= 12.5 =
+* Added cache option for support when the cache enabled in the WordPress.
+* Added Visitor's city name with GeoIP.
+* Added WP-Statistics shortcode in the TinyMCE editor. you can use the shortcode easily in the posts and pages.
+* Added Qwant search engine in the Search Engine Referrals.
+* Added referrers to WP-Statistics shortcode attributes. e.g. `[wpstatistics stat=referrer time=today top=10]`
+* Removed the Browscap library and we used a new library called the [WhichBrowser](https://whichbrowser.net/) and [CrawlerDetect](https://crawlerdetect.io/). These libraries give us more help in identifying user agents.
+* Improved the Datepicker in the WP-Statistics pages, supported WordPress custom date format.
+* Improved the pagination class.
+* Improved the assets and fixed conflict ChartJS issue, when the Hit Statistics Meta box was enabled in posts/pages.
+* Improved the responsive summary page.
+* Improved exclude Ajax requests, now compatible with [Related Post by Jetpack](https://jetpack.com/support/related-posts/).
+* Disabled the setting menu when the current user doesn't access.
+
 = 12.4.3 =
 * Disabled the welcome page and Travod widget.
 

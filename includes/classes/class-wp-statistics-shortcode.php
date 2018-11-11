@@ -63,6 +63,10 @@ class WP_Statistics_Shortcode {
 				$result = wp_statistics_searchengine( $atts['provider'], $atts['time'] );
 				break;
 
+            case 'referrer':
+                $result = wp_statistics_referrer(  $atts['time']  );
+                break;
+
 			case 'postcount':
 				$result = wp_statistics_countposts();
 				break;
@@ -168,6 +172,7 @@ class WP_Statistics_Shortcode {
 								'commentaverage' => __( 'Comment Average', 'wp-statistics' ),
 								'useraverage'    => __( 'User Average', 'wp-statistics' ),
 								'lpd'            => __( 'Last Post Date', 'wp-statistics' ),
+								'referrer'            => __( 'Referrer', 'wp-statistics' ),
 							),
 						),
 						array(

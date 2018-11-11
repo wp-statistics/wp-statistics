@@ -208,19 +208,21 @@ class WP_Statistics_Dashboard {
 		}
 
 		// Load the map code.
-		wp_enqueue_style( 'jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
-		wp_enqueue_script(
-			'jquery-vmap',
-			WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
-			true,
-			'1.5.1'
-		);
-		wp_enqueue_script(
-			'jquery-vmap-world',
-			WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
-			true,
-			'1.5.1'
-		);
+        if (!$WP_Statistics->get_option( 'disable_dashboard' )) {
+            wp_enqueue_style('jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1');
+            wp_enqueue_script(
+                'jquery-vmap',
+                WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
+                true,
+                '1.5.1'
+            );
+            wp_enqueue_script(
+                'jquery-vmap-world',
+                WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
+                true,
+                '1.5.1'
+            );
+        }
 
 		// Load chart library
 		if ( ! isset( $_GET['post'] ) ) {
@@ -228,7 +230,8 @@ class WP_Statistics_Dashboard {
 				'wp-statistics-chart-js',
 				WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
 				false,
-				'2.7.0'
+				'2.7.0',
+                false
 			);
 		}
 

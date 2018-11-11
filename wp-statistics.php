@@ -3,7 +3,7 @@
  * Plugin Name: WP Statistics
  * Plugin URI: https://wp-statistics.com/
  * Description: Complete WordPress Analytics and Statistics for your site!
- * Version: 12.4.3
+ * Version: 12.5
  * Author: Verona Labs
  * Author URI: http://veronalabs.com/
  *

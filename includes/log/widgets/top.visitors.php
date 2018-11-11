@@ -14,6 +14,12 @@ function wp_statistics_generate_top_visitors_postbox_content(
 		$sql_time = date( 'Y-m-d', strtotime( $day ) );
 	}
 
+    //Load City Geoip
+    $geoip_reader = false;
+    if( $WP_Statistics->get_option( 'geoip_city' ) ) {
+        $geoip_reader = $WP_Statistics::geoip_loader('city');
+    }
+
 	?>
     <table width="100%" class="widefat table-stats" id="last-referrer">
         <tr>
@@ -21,6 +27,7 @@ function wp_statistics_generate_top_visitors_postbox_content(
             <td><?php _e( 'Hits', 'wp-statistics' ); ?></td>
             <td><?php _e( 'Flag', 'wp-statistics' ); ?></td>
             <td><?php _e( 'Country', 'wp-statistics' ); ?></td>
+            <?php if($geoip_reader !=false) { echo '<td>'.__( 'City', 'wp-statistics' ).'</td>'; } ?>
             <td><?php _e( 'IP', 'wp-statistics' ); ?></td>
 			<?php if ( $compact == false ) { ?>
                 <td><?php _e( 'Agent', 'wp-statistics' ); ?></td>
@@ -41,6 +48,15 @@ function wp_statistics_generate_top_visitors_postbox_content(
 
 			$item = strtoupper( $visitor->location );
 
+            if($geoip_reader !=false) {
+	            try {
+		            $reader = $geoip_reader->city($visitor->ip);
+		            $city = $reader->city->name;
+	            } catch ( Exception $e ) {
+		            $city = __( 'Unknown' , 'wp-statistics' );
+	            }
+            }
+
 			echo "<tr>";
 			echo "<td>$i</td>";
 			echo "<td>" . (int) $visitor->hits . "</td>";
@@ -48,6 +64,7 @@ function wp_statistics_generate_top_visitors_postbox_content(
 			     plugins_url( 'wp-statistics/assets/images/flags/' . $item . '.png' ) .
 			     "' title='{$ISOCountryCode[$item]}'/></td>";
 			echo "<td>{$ISOCountryCode[$item]}</td>";
+            if($geoip_reader !=false) { echo "<td>{$city}</td>"; }
 			echo "<td>{$visitor->ip}</td>";
 
 			if ( $compact == false ) {

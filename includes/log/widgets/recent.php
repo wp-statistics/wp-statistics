@@ -10,6 +10,11 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 
 	$dash_icon = wp_statistics_icons( 'dashicons-visibility', 'visibility' );
 
+	//Load city Name
+	if( $WP_Statistics->get_option( 'geoip_city' ) ) {
+		$geoip_reader = $WP_Statistics::geoip_loader( 'city' );
+	}
+
 	foreach ( $result as $items ) {
 		if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 			$ip_string  = __( '#hash#', 'wp-statistics' );
@@ -33,10 +38,23 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		echo "<div class='log-url'>";
 		echo $map_string;
 
+		$city = '';
+		if( $WP_Statistics->get_option( 'geoip_city' ) ) {
+			if($geoip_reader !=false) {
+				try {
+					$reader = $geoip_reader->city($items->ip);
+					$city = $reader->city->name;
+				} catch ( Exception $e ) {
+					$city = __( 'Unknown' , 'wp-statistics' );
+				}
+			}
+		}
+		if($city !="") $city = ' - '.$city;
+
 		if ( $WP_Statistics->get_option( 'geoip' ) ) {
 			echo "<img src='" .
 			     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-			     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+			     "' title='{$ISOCountryCode[$items->location]}{$city}' class='log-tools'/>";
 		}
 
 		if ( array_search(

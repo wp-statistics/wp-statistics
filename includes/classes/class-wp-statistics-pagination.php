@@ -461,7 +461,7 @@ if ( ! class_exists( "WP_Statistics_Pagination" ) ):    // Prevent multiple clas
 
 			$varName = $this->_getPOSTVarName();
 
-			if ( count( $this->_displayOptions ) > 1 )                    // If more than 1 display option
+			if ( is_array( $this->_displayOptions ) and count( $this->_displayOptions ) > 1 )                    // If more than 1 display option
 			{
 				$value = $this->_displayOptions[0];                    // Default is first selection
 

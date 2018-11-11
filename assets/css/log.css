@@ -22,7 +22,7 @@
     float: right;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 998px) {
     #wps-postbox-container-1 {
         width: 35%;
     }

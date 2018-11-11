@@ -21,7 +21,24 @@ class WP_Statistics_Frontend {
 		// We can wait until the very end of the page to process the statistics,
 		// that way the page loads and displays quickly.
 		add_action( 'wp', 'WP_Statistics_Frontend::init' );
+
+		//Add inline Rest Request
+		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
+
+		//Add Html Comment in head
+		if ( self::is_cache_active() === false ) {
+			add_action( 'wp_head', 'WP_Statistics_Frontend::html_comment' );
+		}
 	}
+
+
+	/*
+	 * Create Comment support Wappalyzer
+	 */
+	static public function html_comment() {
+		echo '<!-- Analytics by WP-Statistics v' . WP_Statistics::$reg['version'] . ' - ' . WP_Statistics::$reg['plugin-data']['PluginURI'] . ' -->' . "\n";
+	}
+
 
 	/**
 	 * Footer Action
@@ -40,9 +57,113 @@ class WP_Statistics_Frontend {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
+
 		// Load our CSS to be used.
 		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
+
+		if ( self::is_cache_active() ) {
+			//Load Jquery
+			wp_enqueue_script( 'jquery' );
+		}
 	}
+
+	/*
+	 * Check Is Cache Activate in wp Statistic Option
+	 */
+	static public function is_cache_active() {
+		global $WP_Statistics;
+		if ( ! $WP_Statistics->get_option( 'use_cache_plugin' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/*
+	 * Inline Js
+	 */
+	static public function add_inline_rest_js() {
+		if ( self::is_cache_active() ) {
+			self::html_comment();
+			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',data: ' . self::set_default_params() . ',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-WP-Statistics\',\'true\');},});});</script>' . "\n";
+		}
+	}
+
+	/*
+	 * Set Default Params Rest Api
+	 */
+	static public function set_default_params() {
+		global $wpdb, $wp_query, $WP_Statistics;
+
+		/*
+		 * Load Rest Api JavaScript
+		 */
+		$params = array();
+
+		//Set Url
+		$params['base'] = rtrim( get_rest_url(), "/" );
+
+		//Set Browser
+		$result             = $WP_Statistics->get_UserAgent();
+		$params['browser']  = $result['browser'];
+		$params['platform'] = $result['platform'];
+		$params['version']  = $result['version'];
+
+		//set referred
+		$params['referred'] = $WP_Statistics->get_Referred();
+
+		//set prefix Rest
+		$params['api'] = rtrim( rest_get_url_prefix(), "/" );
+
+		//Set ip
+		$params['ip'] = $WP_Statistics->get_IP();
+
+		//set hash ip
+		$params['hash_ip'] = $WP_Statistics->get_hash_string();
+
+		//exclude
+		$check_exclude            = new WP_Statistics_Hits();
+		$params['exclude']        = $check_exclude->exclusion_match;
+		$params['exclude_reason'] = $check_exclude->exclusion_reason;
+
+		//User Agent String
+		$params['ua'] = '';
+		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
+			$params['ua'] = $_SERVER['HTTP_USER_AGENT'];
+		}
+
+		//track all page
+		$params['track_all'] = 0;
+		if ( WP_Statistics_Hits::is_track_all_page() === true ) {
+			$params['track_all'] = 1;
+		}
+
+		//timestamp
+		$params['timestamp'] = $WP_Statistics->current_date( 'U' );
+
+		//Wp_query
+		$params['is_object_wp_query'] = 'false';
+		if ( is_object( $wp_query ) ) {
+			$params['is_object_wp_query'] = 'true';
+			$params['current_page_id']    = $wp_query->get_queried_object_id();
+		}
+
+		//page url
+		$params['page_uri'] = wp_statistics_get_uri();
+
+		foreach ( (array) $params as $key => $value ) {
+			if ( ! is_scalar( $value ) ) {
+				continue;
+			}
+			$params[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
+		}
+
+		$array                              = array();
+		$array[ WP_Statistics_Rest::_POST ] = $params;
+
+		return wp_json_encode( $array );
+	}
+
 
 	/**
 	 * Shutdown Action
@@ -56,26 +177,30 @@ class WP_Statistics_Frontend {
 			return;
 		}
 
-		$h = new WP_Statistics_GEO_IP_Hits;
+		//Disable if User Active cache Plugin
+		if ( self::is_cache_active() === false ) {
 
-		// Call the online users tracking code.
-		if ( $WP_Statistics->get_option( 'useronline' ) ) {
-			$h->Check_online();
-		}
+			$h = new WP_Statistics_GEO_IP_Hits;
 
-		// Call the visitor tracking code.
-		if ( $WP_Statistics->get_option( 'visitors' ) ) {
-			$h->Visitors();
-		}
+			// Call the online users tracking code.
+			if ( $WP_Statistics->get_option( 'useronline' ) ) {
+				$h->Check_online();
+			}
 
-		// Call the visit tracking code.
-		if ( $WP_Statistics->get_option( 'visits' ) ) {
-			$h->Visits();
-		}
+			// Call the visitor tracking code.
+			if ( $WP_Statistics->get_option( 'visitors' ) ) {
+				$h->Visitors();
+			}
 
-		// Call the page tracking code.
-		if ( $WP_Statistics->get_option( 'pages' ) ) {
-			$h->Pages();
+			// Call the visit tracking code.
+			if ( $WP_Statistics->get_option( 'visits' ) ) {
+				$h->Visits();
+			}
+
+			// Call the page tracking code.
+			if ( $WP_Statistics->get_option( 'pages' ) ) {
+				$h->Pages();
+			}
 		}
 
 		// Check to show hits in posts/pages

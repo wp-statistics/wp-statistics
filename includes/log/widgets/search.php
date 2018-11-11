@@ -34,6 +34,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
         colors['yandex'] = ['rgba(255, 219, 77, 0.2)', 'rgba(255, 219, 77, 1)'];
         colors['ask'] = ['rgba(205, 0, 0, 0.2)', 'rgba(205, 0, 0, 1)'];
         colors['clearch'] = ['rgba(13, 0, 76, 0.2)', 'rgba(13, 0, 76, 1)'];
+        colors['qwant'] = ['rgba(53, 60, 82, 0.2)', 'rgba(53, 60, 82, 1)'];
 
         var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
         var ChartJs = new Chart(ctx, {

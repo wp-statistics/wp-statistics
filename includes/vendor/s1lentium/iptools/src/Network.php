@@ -8,7 +8,7 @@ namespace IPTools;
 class Network implements \Iterator, \Countable
 {
 	use PropertyTrait;
-	
+
 	/**
 	 * @var IP
 	 */
@@ -30,10 +30,10 @@ class Network implements \Iterator, \Countable
 	{
 		$this->setIP($ip);
 		$this->setNetmask($netmask);
-	}	
+	}
 
 	/**
-	 * 
+	 *
 	 * @return string
 	 */
 	public function __toString()
@@ -47,10 +47,9 @@ class Network implements \Iterator, \Countable
 	 */
 	public static function parse($data)
 	{
-		if (strpos($data,'/')) {
-			list($ip, $prefixLength) = explode('/', $data, 2);
-			$ip      = IP::parse($ip);
-			$netmask = self::prefix2netmask((int)$prefixLength, $ip->getVersion());
+		if (preg_match('~^(.+?)/(\d+)$~', $data, $matches)) {
+			$ip      = IP::parse($matches[1]);
+			$netmask = self::prefix2netmask((int)$matches[2], $ip->getVersion());
 		} elseif (strpos($data,' ')) {
 			list($ip, $netmask) = explode(' ', $data, 2);
 			$ip      = IP::parse($ip);
@@ -72,11 +71,11 @@ class Network implements \Iterator, \Countable
 	public static function prefix2netmask($prefixLength, $version)
 	{
 		if (!in_array($version, array(IP::IP_V4, IP::IP_V6))) {
-			throw new \Exception("Wrong IP version");	
+			throw new \Exception("Wrong IP version");
 		}
 
 		$maxPrefixLength = $version === IP::IP_V4
-			? IP::IP_V4_MAX_PREFIX_LENGTH 
+			? IP::IP_V4_MAX_PREFIX_LENGTH
 			: IP::IP_V6_MAX_PREFIX_LENGTH;
 
 		if (!is_numeric($prefixLength)
@@ -94,7 +93,7 @@ class Network implements \Iterator, \Countable
 	 * @param IP ip
 	 * @return int
 	 */
-	public static function netmask2prefix(IP $ip) 
+	public static function netmask2prefix(IP $ip)
 	{
 		return strlen(rtrim($ip->toBin(), 0));
 	}
@@ -143,7 +142,7 @@ class Network implements \Iterator, \Countable
 	public function getIP()
 	{
 		return $this->ip;
-	}	
+	}
 
 	/**
 	 * @return IP
@@ -244,7 +243,7 @@ class Network implements \Iterator, \Countable
 
 	/**
 	 * @param IP|Network $exclude
-	 * @return array
+	 * @return Network[]
 	 * @throws \Exception
 	 */
 	public function exclude($exclude)
@@ -260,6 +259,9 @@ class Network implements \Iterator, \Countable
 		$networks = array();
 
 		$newPrefixLength = $this->getPrefixLength() + 1;
+		if ($newPrefixLength > $this->ip->getMaxPrefixLength()) {
+		    return $networks;
+        }
 
 		$lower = clone $this;
 		$lower->setPrefixLength($newPrefixLength);
@@ -293,10 +295,10 @@ class Network implements \Iterator, \Countable
 
 	/**
 	 * @param int $prefixLength
-	 * @return array
+	 * @return Network[]
 	 * @throws \Exception
 	 */
-	public function moveTo($prefixLength) 
+	public function moveTo($prefixLength)
 	{
 		$maxPrefixLength = $this->ip->getMaxPrefixLength();
 
@@ -310,13 +312,13 @@ class Network implements \Iterator, \Countable
 		$subnet = clone $this;
 		$subnet->setPrefixLength($prefixLength);
 
-		while ($subnet->ip->inAddr() < $this->getLastIP()->inAddr()) {
+		while ($subnet->ip->inAddr() <= $this->getLastIP()->inAddr()) {
 			$networks[] = $subnet;
 			$subnet = new self($subnet->getLastIP()->next(), $netmask);
 		}
 
 		return $networks;
-	}	
+	}
 
 	/**
 	* @return IP

@@ -55,6 +55,14 @@
     float: right;
 }
 
+.wp-statistics-settings #update_geoip {
+    margin-left: 5px;
+    margin-top: -5px;
+    line-height: 19px;
+    font-size: 12px;
+    height: 25px;
+}
+
 @media only screen and (max-width: 1327px) {
     .wp-statistics-settings ul.tabs li {
         padding: 10px 5px;
@@ -416,4 +424,20 @@
     .wp-statistics-travod .columns.column-2 {
         width: 100%;
     }
+}
+/* button Editor tinymce */
+i.mce-i-icon-statistic {
+    font: 400 20px/1 dashicons;
+    padding: 0;
+    vertical-align: top;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-left: -2px;
+    padding-right: 2px
+}
+.wp-statistic-mce-desc { color: #b1b1b1 !important; margin-left: 82px !important; }
+html[dir="rtl"] .wp-statistic-mce-desc {
+    text-align: right !important;
+    margin: 0 82px 0px 0px !important;
 }

@@ -1,9 +1,9 @@
 {
   "require": {
-    "geoip2/geoip2": "^2.7.0",
+    "geoip2/geoip2": "^2.9.0",
     "s1lentium/iptools": "^1.1.0",
-    "donatj/phpuseragentparser": "^0.9.0",
-    "browscap/browscap-php": "3.1.0",
+    "whichbrowser/parser": "2.0.37",
+    "jaybizzle/crawler-detect": "1.2.69",
     "erusev/parsedown": "^1.6"
   },
   "config": {

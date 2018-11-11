@@ -397,62 +397,6 @@ function formatSize( $size ) {
         </tr>
 
         <tr valign="top">
-            <th scope="row">
-				<?php _e( 'browscap.ini File', 'wp-statistics' ); ?>:
-            </th>
-
-            <td>
-                <strong><?php
-					$browscap_filename = $upload_dir['basedir'] . '/wp-statistics/browscap.ini';
-					$browscap_filedate = @filemtime( $browscap_filename );
-
-					if ( $browscap_filedate === false ) {
-						_e( 'browscap.ini file does not exist.', 'wp-statistics' );
-					} else {
-						echo formatSize( @filesize( $browscap_filename ) ) .
-						     __( ', created on ', 'wp-statistics' ) .
-						     date_i18n(
-							     get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ),
-							     $browscap_filedate
-						     );
-					} ?></strong>
-
-                <p class="description"><?php _e(
-						'The file size and date of the browscap.ini file.',
-						'wp-statistics'
-					); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-				<?php _e( 'Browscap Cache File', 'wp-statistics' ); ?>:
-            </th>
-
-            <td>
-                <strong><?php
-					$browscap_filename = $upload_dir['basedir'] . '/wp-statistics/cache.php';
-					$browscap_filedate = @filemtime( $browscap_filename );
-
-					if ( $browscap_filedate === false ) {
-						_e( 'Browscap cache file does not exist.', 'wp-statistics' );
-					} else {
-						echo formatSize( @filesize( $browscap_filename ) ) .
-						     __( ', created on ', 'wp-statistics' ) .
-						     date_i18n(
-							     get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ),
-							     $browscap_filedate
-						     );
-					} ?></strong>
-
-                <p class="description"><?php _e(
-						'The file size and date of the Browscap cache file.',
-						'wp-statistics'
-					); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e( 'Client Info', 'wp-statistics' ); ?></h3></th>
         </tr>
 

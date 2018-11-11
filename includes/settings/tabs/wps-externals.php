@@ -5,14 +5,9 @@ if ( $wps_nonce_valid ) {
 		'wps_geoip',
 		'wps_update_geoip',
 		'wps_schedule_geoip',
+		'wps_geoip_city',
 		'wps_auto_pop',
 		'wps_private_country_code',
-		'wps_browscap',
-		'wps_update_browscap',
-		'wps_schedule_browscap',
-		'wps_referrerspam',
-		'wps_update_referrerspam',
-		'wps_schedule_referrerspam',
 	);
 
 	// For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
@@ -36,10 +31,6 @@ if ( $wps_nonce_valid ) {
 		$WP_Statistics->store_option( $new_option, $value );
 	}
 
-	// If we're focing the download of the browscap.ini file, make sure to flush the last download time from the options.
-	if ( array_key_exists( 'wps_update_browscap', $_POST ) ) {
-		$WP_Statistics->store_option( 'last_browscap_dl', 0 );
-	}
 }
 
 ?>
@@ -52,7 +43,7 @@ if ( $wps_nonce_valid ) {
         <tr valign="top">
             <th scope="row" colspan="2">
 				<?php echo sprintf(
-					__( 'IP location services provided by data created by %s.', 'wp-statistics' ),
+					__( 'IP location services are provided by data created by %s.', 'wp-statistics' ),
 					'<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'
 				); ?>
             </th>
@@ -67,13 +58,17 @@ if ( $wps_nonce_valid ) {
                 </th>
 
                 <td>
-                    <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo $WP_Statistics->get_option(
-						'geoip'
-					) == true ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                    <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo ($WP_Statistics->get_option( 'geoip' ) === 'on' ? "checked='checked'" : ''); ?>>
+                    <label for="geoip-enable">
+                        <?php _e( 'Enable', 'wp-statistics' ); ?>
+                        <form action="" method="post" style="display: inline;">
+                            <input type="hidden" name="geoip_name" value="country">
+		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "secondary", "update_geoip", false); ?>
+                        </form>
+                    </label>
 
                     <p class="description"><?php _e(
-							'For get more information and location (country) from visitor, enable this feature.',
+							'For getting more information and location (country) from visitor, enable this feature.',
 							'wp-statistics'
 						); ?></p>
                 </td>
@@ -81,19 +76,24 @@ if ( $wps_nonce_valid ) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-update"><?php _e( 'Update GeoIP Info:', 'wp-statistics' ); ?></label>
+                    <label for="geoip-city"><?php _e( 'GeoIP City:', 'wp-statistics' ); ?></label>
                 </th>
 
                 <td>
-                    <input id="geoip-update" type="checkbox"
-                           name="wps_update_geoip" <?php echo $WP_Statistics->get_option( 'update_geoip' ) == true
-						? "checked='checked'" : ''; ?>>
-                    <label for="geoip-update"><?php _e( 'Download GeoIP Database', 'wp-statistics' ); ?></label>
+                    <input id="geoip-city" type="checkbox"
+                           name="wps_geoip_city" <?php echo ($WP_Statistics->get_option( 'geoip_city' ) == 'on' ? "checked='checked'" : ''); ?>>
+                    <label for="geoip-city">
+                        <?php _e( 'Enable', 'wp-statistics' ); ?>
+                        <form action="" method="post" style="display: inline;">
+                            <input type="hidden" name="geoip_name" value="city">
+		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "secondary", "update_geoip", false); ?>
+                        </form>
+                    </label>
 
                     <p class="description"><?php _e(
-							'Save changes on this page to download the update.',
-							'wp-statistics'
-						); ?></p>
+                            'See Visitor\'s City Name',
+                            'wp-statistics'
+                        ); ?></p>
                 </td>
             </tr>
 
@@ -229,86 +229,7 @@ if ( $wps_nonce_valid ) {
 			<?php
 		} ?>
 
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e( 'Browscap settings', 'wp-statistics' ); ?></h3></th>
-        </tr>
 
-        <tr valign="top">
-            <th scope="row">
-                <label for="browscap-enable"><?php _e( 'Browscap usage:', 'wp-statistics' ); ?></label>
-            </th>
-
-            <td>
-                <input id="browscap-enable" type="checkbox" name="wps_browscap" <?php echo $WP_Statistics->get_option(
-					'browscap'
-				) == true ? "checked='checked'" : ''; ?>>
-                <label for="browscap-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
-
-                <p class="description"><?php _e(
-						'The Browscap database will be downloaded and used to detect robots.',
-						'wp-statistics'
-					); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="browscap-update"><?php _e( 'Update Browscap Info:', 'wp-statistics' ); ?></label>
-            </th>
-
-            <td>
-                <input id="browscap-update" type="checkbox"
-                       name="wps_update_browscap" <?php echo $WP_Statistics->get_option( 'update_browscap' ) == true
-					? "checked='checked'" : ''; ?>>
-                <label for="browscap-update"><?php _e( 'Download Browscap Database', 'wp-statistics' ); ?></label>
-
-                <p class="description"><?php _e(
-						'Save changes on this page to download the update.',
-						'wp-statistics'
-					); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="browscap-schedule"><?php _e( 'Schedule weekly update of browscap DB:', 'wp-statistics' ); ?></label>
-            </th>
-
-            <td>
-                <input id="browscap-schedule" type="checkbox"
-                       name="wps_schedule_browscap" <?php echo $WP_Statistics->get_option( 'schedule_browscap' ) == true
-					? "checked='checked'" : ''; ?>>
-                <label for="browscap-schedule"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
-				<?php
-				if ( $WP_Statistics->get_option( 'schedule_browscap' ) ) {
-					echo '<p class="description">' . __( 'Next update will be', 'wp-statistics' ) . ': <code>';
-					$last_update = $WP_Statistics->get_option( 'last_browscap_dl' );
-					if ( $last_update == 0 ) {
-						$last_update = time();
-					}
-					$next_update = $last_update + ( 86400 * 7 );
-
-					$next_schedule = wp_next_scheduled( 'wp_statistics_browscap_hook' );
-
-					if ( $next_schedule ) {
-						echo date( get_option( 'date_format' ), $next_schedule ) .
-						     ' @ ' .
-						     date( get_option( 'time_format' ), $next_schedule );
-					} else {
-						echo date( get_option( 'date_format' ), $next_update ) .
-						     ' @ ' .
-						     date( get_option( 'time_format' ), time() );
-					}
-
-					echo '</code></p>';
-				}
-				?>
-                <p class="description"><?php _e(
-						'Download of the Browscap database will be scheduled for once a week.',
-						'wp-statistics'
-					); ?></p>
-            </td>
-        </tr>
 
         <tr valign="top">
             <th scope="row" colspan="2">
