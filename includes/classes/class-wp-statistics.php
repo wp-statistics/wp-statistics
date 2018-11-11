@@ -138,12 +138,6 @@ class WP_Statistics {
 	 * WP_Statistics constructor.
 	 */
 	public function __construct() {
-
-		//Check Use Cache Type
-		if ( get_option( 'wp_statistics' )['use_cache_plugin'] == true ) {
-			$this->use_cache = true;
-		}
-
 		if ( ! isset( WP_Statistics::$reg['plugin-url'] ) ) {
 			/**
 			 * Plugin URL
@@ -169,12 +163,6 @@ class WP_Statistics {
 			WP_Statistics::$reg['version']     = WP_Statistics::$reg['plugin-data']['Version'];
 			//define('WP_STATISTICS_VERSION', '12.1.3');
 		}
-
-		//Setup rest api
-		if ( ! class_exists( 'WP_Statistics_Rest' ) ) {
-			require_once( WP_Statistics::$reg['plugin-dir'] . '/includes/classes/class-wp-statistics-rest.php' );
-		}
-		$this->restapi = new WP_Statistics_Rest();
 	}
 
 	/**
@@ -197,9 +185,21 @@ class WP_Statistics {
 			return;
 		}
 
+		// Autoload composer
+		require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
+
+		// Define an autoload method to automatically load classes in /includes/classes
+		spl_autoload_register( array( $this, 'autoload' ) );
+
+		$this->init_rest_api();
 		$this->set_timezone();
 		$this->load_options();
 		$this->get_IP();
+
+		// Check the cache option is enabled.
+		if ( $this->get_option( 'use_cache_plugin' ) == true ) {
+			$this->use_cache = 1;
+		}
 
 		// Check if the has IP is enabled.
 		if ( $this->get_option( 'hash_ips' ) == true ) {
@@ -207,12 +207,6 @@ class WP_Statistics {
 		}
 
 		$this->set_pages();
-
-		// Autoload composer
-		require( WP_Statistics::$reg['plugin-dir'] . 'includes/vendor/autoload.php' );
-
-		// define an autoload method to automatically load classes in /includes/classes
-		spl_autoload_register( array( $this, 'autoload' ) );
 
 		// Add init actions.
 		// For the main init we're going to set our priority to 9 to execute before most plugins
@@ -273,6 +267,13 @@ class WP_Statistics {
 	 */
 	public function init() {
 		load_plugin_textdomain( 'wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages' );
+	}
+
+	/**
+	 * Check the REST API
+	 */
+	public function init_rest_api() {
+		$this->restapi = new WP_Statistics_Rest();
 	}
 
 	/**
