@@ -5,16 +5,13 @@
  */
 class WP_Statistics_Rest {
 
-	//Set Default namespace
+	// Set Default namespace
 	const route = 'wpstatistics/v1';
 
-	//Set Default Statistic Save method
+	// Set Default Statistic Save method
 	const func = 'hit';
 
-	//Set Route Test Rest Api is Active
-	const test_rest_api = 'wp_rest_api_active';
-
-	//Set Default POST Name
+	// Set Default POST Name
 	const _POST = 'wp_statistics_hit';
 
 	/**
@@ -39,12 +36,6 @@ class WP_Statistics_Rest {
 		register_rest_route( self::route, '/' . self::func, array(
 			'methods'  => 'POST',
 			'callback' => array( self::class, 'hit' ),
-		) );
-
-		// Test REST Api is Active
-		register_rest_route( self::route, '/' . self::test_rest_api, array(
-			'methods'  => 'GET',
-			'callback' => array( self::class, 'wp_rest_api_active' ),
 		) );
 	}
 
@@ -94,18 +85,11 @@ class WP_Statistics_Rest {
 	}
 
 	/*
-	 * Test Rest Api is Active
-	 */
-	public static function wp_rest_api_active() {
-		return array( "is_activate_wp_rest_api" => "OK" );
-	}
-
-	/*
 	 * Check is Rest Request
 	 */
 	static public function is_rest() {
 		global $WP_Statistics;
-		
+
 		if ( $WP_Statistics->use_cache === true ) {
 			$header = $WP_Statistics::getAllHeader();
 			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
