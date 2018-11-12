@@ -447,12 +447,17 @@ class WP_Statistics {
 
 	/**
 	 * geo ip Loader
+	 * @throws \MaxMind\Db\Reader\InvalidDatabaseException
 	 */
 	static function geoip_loader( $pack ) {
 
-		$geoip_city = wp_upload_dir()['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . 'mmdb';
-		if ( file_exists( $geoip_city ) ) {
-			$reader = new \GeoIp2\Database\Reader( $geoip_city );
+		$geoip = wp_upload_dir()['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
+		if ( file_exists( $geoip ) ) {
+			try {
+				$reader = new GeoIp2\Database\Reader( $geoip );
+			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
+			    return false;
+			}
 		} else {
 			return false;
 		}
