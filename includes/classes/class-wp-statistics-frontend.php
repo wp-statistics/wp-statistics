@@ -26,7 +26,7 @@ class WP_Statistics_Frontend {
 		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
 
 		//Add Html Comment in head
-		if ( self::is_cache_active() === false ) {
+		if ( $WP_Statistics->use_cache ) {
 			add_action( 'wp_head', 'WP_Statistics_Frontend::html_comment' );
 		}
 	}
@@ -57,33 +57,24 @@ class WP_Statistics_Frontend {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
+		global $WP_Statistics;
 
 		// Load our CSS to be used.
 		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
 
-		if ( self::is_cache_active() ) {
+		if ( $WP_Statistics->use_cache ) {
 			//Load Jquery
 			wp_enqueue_script( 'jquery' );
 		}
 	}
 
 	/*
-	 * Check Is Cache Activate in wp Statistic Option
-	 */
-	static public function is_cache_active() {
-		global $WP_Statistics;
-		if ($WP_Statistics->use_cache === true)  {
-			return true;
-		}
-
-		return false;
-	}
-
-	/*
 	 * Inline Js
 	 */
 	static public function add_inline_rest_js() {
-		if ( self::is_cache_active() ) {
+		global $WP_Statistics;
+
+		if ( $WP_Statistics->use_cache ) {
 			self::html_comment();
 			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',data: ' . self::set_default_params() . ',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-Wp-Statistics\',\'true\');},});});</script>' . "\n";
 		}
@@ -178,7 +169,7 @@ class WP_Statistics_Frontend {
 		}
 
 		//Disable if User Active cache Plugin
-		if ( self::is_cache_active() === false ) {
+		if ( $WP_Statistics->use_cache === false  ) {
 
 			$h = new WP_Statistics_GEO_IP_Hits;
 

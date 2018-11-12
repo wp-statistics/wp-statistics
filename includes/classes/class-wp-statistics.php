@@ -191,21 +191,29 @@ class WP_Statistics {
 		// Define an autoload method to automatically load classes in /includes/classes
 		spl_autoload_register( array( $this, 'autoload' ) );
 
-		$this->init_rest_api();
+		//Set TimeZone
 		$this->set_timezone();
+
+		//Set Options
 		$this->load_options();
-		$this->get_IP();
 
 		// Check the cache option is enabled.
 		if ( $this->get_option( 'use_cache_plugin' ) == true ) {
 			$this->use_cache = 1;
 		}
 
+		//Load Rest Api
+		$this->init_rest_api();
+
+		//Get user Ip
+		$this->get_IP();
+
 		// Check if the has IP is enabled.
 		if ( $this->get_option( 'hash_ips' ) == true ) {
 			$this->ip_hash = $this->get_hash_string();
 		}
 
+		//Set Pages
 		$this->set_pages();
 
 		// Add init actions.
@@ -237,9 +245,6 @@ class WP_Statistics {
 
 		add_action( 'widgets_init', 'WP_Statistics::widget' );
 		add_shortcode( 'wpstatistics', 'WP_Statistics_Shortcode::shortcodes' );
-
-		// Add Route Rest Api
-		WP_Statistics_Rest::init();
 	}
 
 	/**

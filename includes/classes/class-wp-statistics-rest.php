@@ -17,7 +17,7 @@ class WP_Statistics_Rest {
 	/**
 	 * Setup an Wordpress REst Api action.
 	 */
-	static function init() {
+	public function __construct() {
 		global $WP_Statistics;
 
 		/*
