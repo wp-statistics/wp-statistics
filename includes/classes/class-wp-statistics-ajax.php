@@ -330,6 +330,10 @@ class WP_Statistics_Ajax {
 				}
 			}
 
+			if ( $_POST['widget'] == "top_visitors" ) {
+				$widget = 'top.visitors';
+			}
+
 			if ( 'map' == $widget || 'hitsmap' == $widget ) {
 				$widget = 'jqv.map';
 			}
