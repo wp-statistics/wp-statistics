@@ -46,6 +46,14 @@ class WP_Statistics_Rest {
 		global $WP_Statistics;
 
 		/*
+		 * Check Is Test Service Request
+		 */
+		if ( isset( $_POST['rest-api-wp-statistics'] ) ) {
+
+			return array( "rest-api-wp-statistics" => "OK" );
+		}
+
+		/*
 		 * Check Security Referer Only This Domain Access
 		 */
 		$header = $WP_Statistics::getAllHeader();
