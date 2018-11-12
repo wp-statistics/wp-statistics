@@ -769,6 +769,7 @@ class WP_Statistics {
 		$options['exclude_administrator'] = true;
 		$options['disable_se_clearch']    = true;
 		$options['disable_se_qwant']      = true;
+		$options['disable_se_baidu']      = true;
 		$options['disable_se_ask']        = true;
 		$options['map_type']              = 'jqvmap';
 
