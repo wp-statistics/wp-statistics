@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.5
+Stable tag: 12.5.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,9 +17,10 @@ Do you need a simple tool to know your website statistics? Do you need to repres
 All these data are recorded in your server, and YES! WP Statistics is [GDPR compliant](http://bit.ly/2x0AFgT).
 
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
-* Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, and Country
+* Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, Country and City
 * Stunning Graphs and Visual Statistics
 * Visitor’s Country Recognition
+* Visitor’s City Recognition
 * The number of Visitors coming from each Search Engine
 * The number of Referrals from each Referring Site
 * Top 10 common browsers; Top 10 countries with most visitors; Top 10 most-visited pages; Top 10 referring sites
@@ -112,9 +113,9 @@ We implement GDPR into the WP-Statistics. for more information read [the blog po
 Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
-= 12.5 =
+= 12.5.1 =
 * Added: Cache option for support when the cache enabled in the WordPress.
-* Added: Visitor's city name with GeoIP.
+* Added: Visitor's city name with GeoIP, you can enable the city name in Settings > Externals > GeoIP City
 * Added: WP-Statistics shortcode in the TinyMCE editor. you can use the shortcode easily in the posts and pages.
 * Added: Qwant search engine in the Search Engine Referrals.
 * Added: Referrers to WP-Statistics shortcode attributes. e.g. `[wpstatistics stat=referrer time=today top=10]`
