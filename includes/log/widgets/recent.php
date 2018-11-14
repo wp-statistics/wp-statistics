@@ -7,7 +7,6 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 	);
 
 	echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
-		<tbody>
 		  <tr>";
 	echo "<td>Browser</td>";
 	if ( $WP_Statistics->get_option( 'geoip' ) ) {
@@ -100,6 +99,5 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		echo "</tr>";
 	}
 
-	echo "<tbody>
-		</table>";
+	echo "</table>";
 }

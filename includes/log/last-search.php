@@ -26,7 +26,7 @@ $total = $search_result[ $referred ];
 ?>
 <div class="wrap">
     <h2><?php _e( 'Latest Search Words', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
     <ul class="subsubsub">
 		<?php
@@ -126,60 +126,46 @@ $total = $search_result[ $referred ];
 
 								$dash_icon = wp_statistics_icons( 'dashicons-location-alt', 'map' );
 
+								echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
+		                        <tr>";
+								echo "<td>Word</td>";
+								echo "<td>Browser</td>";
+								if ( $WP_Statistics->get_option( 'geoip' ) ) {
+									echo "<td>Country</td>";
+								}
+								if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+									echo "<td>City</td>";
+								}
+								echo "<td>Date</td>";
+								echo "<td>IP</td>";
+								echo "<td>Referrer</td>";
+								echo "</tr>";
+
+								//Load city Name
+								if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+									$geoip_reader = $WP_Statistics::geoip_loader( 'city' );
+								}
+
 								foreach ( $result as $items ) {
+
+
 									if ( ! $WP_Statistics->Search_Engine_QueryString( $items->referred ) ) {
 										continue;
 									}
 
-									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
-										$ip_string  = __( '#hash#', 'wp-statistics' );
-										$map_string = "";
-									} else {
-										$ip_string
-											= "<a href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank'>{$items->ip}</a>";
-										$map_string
-											= "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
-											  __( 'Map', 'wp-statistics' ) .
-											  "'>{$dash_icon}</a>";
-									}
-
 									if ( $WP_Statistics->get_option( 'search_converted' ) ) {
-										$this_search_engine = $WP_Statistics->Search_Engine_Info_By_Engine(
-											$items->engine
-										);
+										$this_search_engine = $WP_Statistics->Search_Engine_Info_By_Engine( $items->engine );
 										$words              = $items->words;
 									} else {
 										$this_search_engine = $WP_Statistics->Search_Engine_Info( $items->referred );
-										$words              = $WP_Statistics->Search_Engine_QueryString(
-											$items->referred
-										);
+										$words              = $WP_Statistics->Search_Engine_QueryString( $items->referred );
 									}
 
-									echo "<div class='log-item'>";
-									echo "<div class='log-referred'>" . $words . "</div>";
-									echo "<div class='log-ip'>" .
-									     date( get_option( 'date_format' ), strtotime( $items->last_counter ) ) .
-									     " - {$ip_string}</div>";
-									echo "<div class='clear'></div>";
-									echo "<div class='log-url'>";
-									echo $map_string;
-
-									if ( $WP_Statistics->get_option( 'geoip' ) ) {
-										echo "<img src='" .
-										     plugins_url(
-											     'wp-statistics/assets/images/flags/' . $items->location . '.png'
-										     ) .
-										     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
-									}
-
-									echo "<a href='?page=" .
-									     WP_Statistics::$page['overview'] .
-									     "&type=last-all-search&referred={$this_search_engine['tag']}'><img src='" .
-									     plugins_url( 'wp-statistics/assets/images/' . $this_search_engine['image'] ) .
-									     "' class='log-tools' title='" .
-									     __( $this_search_engine['name'], 'wp-statistics' ) .
-									     "'/></a>";
-
+									echo "<tr>";
+									echo "<td style=\"text-align: left\">";
+									echo $words;
+									echo "</td>";
+									echo "<td style=\"text-align: left\">";
 									if ( array_search(
 										     strtolower( $items->agent ),
 										     array(
@@ -198,19 +184,71 @@ $total = $search_result[ $referred ];
 									} else {
 										$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 									}
-
 									echo "<a href='?page=" .
 									     WP_Statistics::$page['overview'] .
 									     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+									echo "</td>";
+									$city = '';
+									if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+										if ( $geoip_reader != false ) {
+											try {
+												$reader = $geoip_reader->city( $items->ip );
+												$city   = $reader->city->name;
+											} catch ( Exception $e ) {
+												$city = __( 'Unknown', 'wp-statistics' );
+											}
+										}
+									}
 
-									echo $WP_Statistics->get_referrer_link( $items->referred );
+									if ( $WP_Statistics->get_option( 'geoip' ) ) {
+										echo "<td style=\"text-align: left\">";
+										echo "<img src='" .
+										     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
+										     "' title='{$ISOCountryCode[$items->location]}{$city}' class='log-tools'/>";
+										echo "</td>";
+									}
 
+									if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+										echo "<td style=\"text-align: left\">";
+										echo $city;
+										echo "</td>";
+									}
+
+
+									echo "<td style=\"text-align: left\">";
+									echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
+									echo "</td>";
+
+									echo "<td style=\"text-align: left\">";
+									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
+										$ip_string = __( '#hash#', 'wp-statistics' );
+									} else {
+										$ip_string = "<a href='admin.php?page=" .
+										             WP_Statistics::$page['visitors'] .
+										             "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+									}
+									echo $ip_string;
+									echo "</td>";
+
+									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items->referred );
+									$base_url      = parse_url( $referrer_html );
+									$base_url      = $base_url['host'];
+									echo "<td style=\"text-align: left\">";
+									echo "<a href='" .
+									     $referrer_html .
+									     "' title='" .
+									     $referrer_html .
+									     "'>" .
+									     $base_url .
+									     "</a></div>";
 									echo "</div>";
-									echo "</div>";
+									echo "</td>";
+
+									echo "</tr>";
 								}
-							}
 
-							echo "</div>";
+								echo "</table>";
+							}
 							?>
                         </div>
                     </div>

@@ -36,7 +36,7 @@ if ( $_get != '%' ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Recent Visitors', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
     <ul class="subsubsub">
         <li class="all"><a <?php if ( $_get == '%' ) {
@@ -148,62 +148,28 @@ if ( $_get != '%' ) {
 							);
 						}
 
-						// Check to see if User Agent logging is enabled.
-						$DisplayUA = $WP_Statistics->get_option( "store_ua" );
-
-						echo "<div class='log-latest'>";
-
-						$dash_icon = wp_statistics_icons( 'dashicons-visibility', 'visibility' );
+						echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
+                              <tr>";
+						echo "<td>Browser</td>";
+						if ( $WP_Statistics->get_option( 'geoip' ) ) {
+							echo "<td>Country</td>";
+						}
+						if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+							echo "<td>City</td>";
+						}
+						echo "<td>Date</td>";
+						echo "<td>IP</td>";
+						echo "<td>Referrer</td>";
+						echo "</tr>";
 
 						//Load city Name
-						if( $WP_Statistics->get_option( 'geoip_city' ) ) {
+						if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
 							$geoip_reader = $WP_Statistics::geoip_loader( 'city' );
 						}
 
 						foreach ( $result as $items ) {
-							if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
-								$ip_string  = __( '#hash#', 'wp-statistics' );
-								$map_string = "";
-							} else {
-								$ip_string = "<a href='?page=" .
-								             WP_Statistics::$page['visitors'] .
-								             "&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
-								$map_string
-								           = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
-								             __( 'Map', 'wp-statistics' ) .
-								             "'>" .
-								             wp_statistics_icons( 'dashicons-location-alt', 'map' ) .
-								             "</a>";
-							}
-
-							echo "<div class='log-item'>";
-							echo "<div class='log-referred'>{$ip_string}</div>";
-							echo "<div class='log-ip'>" .
-							     date( get_option( 'date_format' ), strtotime( $items->last_counter ) ) .
-							     "</div>";
-							echo "<div class='clear'></div>";
-							echo "<div class='log-url'>";
-							echo $map_string;
-
-							$city = '';
-							if( $WP_Statistics->get_option( 'geoip_city' ) ) {
-								if($geoip_reader !=false) {
-									try {
-										$reader = $geoip_reader->city($items->ip);
-										$city = $reader->city->name;
-									} catch ( Exception $e ) {
-										$city = __( 'Unknown' , 'wp-statistics' );
-									}
-								}
-							}
-							if($city !="") $city = ' - '.$city;
-
-							if ( $WP_Statistics->get_option( 'geoip' ) ) {
-								echo "<img src='" .
-								     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-								     "' title='{$ISOCountryCode[$items->location]}{$city}' class='log-tools'/>";
-							}
-
+							echo "<tr>";
+							echo "<td style=\"text-align: left\">";
 							if ( array_search(
 								     strtolower( $items->agent ),
 								     array(
@@ -222,31 +188,71 @@ if ( $_get != '%' ) {
 							} else {
 								$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 							}
-
 							echo "<a href='?page=" .
-							     WP_Statistics::$page['visitors'] .
-							     "&agent={$items->agent}'>{$agent}</a>";
+							     WP_Statistics::$page['overview'] .
+							     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+							echo "</td>";
+							$city = '';
+							if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+								if ( $geoip_reader != false ) {
+									try {
+										$reader = $geoip_reader->city( $items->ip );
+										$city   = $reader->city->name;
+									} catch ( Exception $e ) {
+										$city = __( 'Unknown', 'wp-statistics' );
+									}
+								}
+							}
 
+							if ( $WP_Statistics->get_option( 'geoip' ) ) {
+								echo "<td style=\"text-align: left\">";
+								echo "<img src='" .
+								     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
+								     "' title='{$ISOCountryCode[$items->location]}{$city}' class='log-tools'/>";
+								echo "</td>";
+							}
+
+							if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+								echo "<td style=\"text-align: left\">";
+								echo $city;
+								echo "</td>";
+							}
+
+
+							echo "<td style=\"text-align: left\">";
+							echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
+							echo "</td>";
+
+							echo "<td style=\"text-align: left\">";
+							if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
+								$ip_string = __( '#hash#', 'wp-statistics' );
+							} else {
+								$ip_string = "<a href='admin.php?page=" .
+								             WP_Statistics::$page['visitors'] .
+								             "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+							}
+							echo $ip_string;
+							echo "</td>";
+
+							echo "<td style=\"text-align: left\">";
 							echo $WP_Statistics->get_referrer_link( $items->referred );
+							echo "</td>";
 
-							echo "</div>";
-							echo "</div>";
+							echo "</tr>";
 						}
 
-						echo "</div>";
+						echo "</table>";
 						?>
-                    </div>
-                </div>
 
-                <div class="pagination-log">
-					<?php echo $Pagination->display(); ?>
-                    <p id="result-log"><?php printf(
-							__( 'Page %1$s of %2$s', 'wp-statistics' ),
-							$Pagination->getCurrentPage(),
-							$Pagination->getTotalPages()
-						); ?></p>
+                        <div class="pagination-log">
+							<?php echo $Pagination->display(); ?>
+                            <p id="result-log"><?php printf(
+									__( 'Page %1$s of %2$s', 'wp-statistics' ),
+									$Pagination->getCurrentPage(),
+									$Pagination->getTotalPages()
+								); ?></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
