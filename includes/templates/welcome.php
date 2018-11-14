@@ -12,7 +12,8 @@
 				'</a>'
 			); ?>
 
-            <?php _e( 'Submit your rating:', 'wp-statistics' ); ?> <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
+			<?php _e( 'Submit your rating:', 'wp-statistics' ); ?>
+            <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
         </p>
 
         <div class="wp-badge"><?php printf( __( 'Version %s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></div>
@@ -28,27 +29,52 @@
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2><?php _e( 'GDPR compliance, Updated!', 'wp-statistics' ); ?></h2>
-                        <h4><?php echo sprintf( __( 'We implement GDPR into the WP-Statistics. for more information read <a href="%s" target="_blank">the blog post</a>.', 'wp-statistics' ), 'https://wp-statistics.com/2018/08/16/wp-statistics-gdpr' ); ?></h4>
-                        <h4><?php _e( '<span style="color:red;">Important:</span> with this update, Opt-out feature is removed.', 'wp-statistics' ); ?></h4>
+                        <h2><?php _e( 'Showing the cities of your website visitors', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'Enable this feature to know the cities of the people who visit your website.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
                 <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/gdpr.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/country.png' ); ?>"/>
                 </div>
             </section>
 
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Anonymize IP addresses', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'This option anonymizes the user IP address for GDPR compliance.', 'wp-statistics' ); ?></h4>
+                        <h2><?php _e( 'The plugin’s Short Codes in the editor', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'All the plugin’s shortcodes are readily available.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/wp-stats-ip.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/shortcode.png' ); ?>"/>
+                </div>
+            </section>
+
+            <section class="normal-section">
+                <div class="right">
+                    <div class="content-padding">
+                        <h2><?php _e( 'GDPR compliance, Updated!', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'Description', 'wp-statistics' ); ?></h4>
+                    </div>
+                </div>
+
+                <div class="left text-center">
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/cache.png' ); ?>"/>
+                </div>
+            </section>
+
+            <section class="normal-section">
+                <div class="left">
+                    <div class="content-padding">
+                        <h2><?php _e( 'Improved recognition of crawlers', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'To better recognize crawlers, we used WhichBrowser to make your website’s statistics more accurate.', 'wp-statistics' ); ?></h4>
+                    </div>
+                </div>
+
+                <div class="right text-center">
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/whichbrowser.png' ); ?>"/>
                 </div>
             </section>
 
@@ -56,7 +82,7 @@
                 <div class="right">
                     <div class="content-padding">
                         <h2><?php _e( 'Add-Ons!', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></h4>
+                        <h4><?php _e( 'These extensions add more functionality to your WP-Statistics Plugin.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
@@ -107,8 +133,9 @@
                 <p class="clear"><?php echo sprintf( __( 'WP-Statistics is being developed on GitHub, if you’re interested in contributing to the plugin, please look at the <a href="%s" target="_blank">GitHub page</a>.', 'wp-statistics' ), 'https://github.com/wp-statistics/wp-statistics' ); ?></p>
                 <h3 class="wp-people-group"><?php _e( 'External Libraries', 'wp-statistics' ); ?></h3>
                 <p class="wp-credits-list">
-                    <a href="http://www.maxmind.com/">MaxMind</a>,
-                    <a href="http://www.chartjs.org/">Chart.js</a>.</p>
+                    <a target="_blank" href="https://maxmind.com/">MaxMind</a>,
+                    <a target="_blank" href="https://www.chartjs.org/">Chart.js</a>,
+                    <a target="_blank" href="https://whichbrowser.net/">WhichBrowser</a>.</p>
             </div>
         </div>
 
