@@ -1439,7 +1439,7 @@ class WP_Statistics {
 			$html_nr_referrer = $html_referrer;
 		}
 
-		return "<a href='{$html_nr_referrer}'><div class='dashicons dashicons-admin-links'></div>{$html_referrer_limited}{$eplises}</a>";
+		return "<a href='{$html_nr_referrer}'>{$html_referrer_limited}{$eplises}</a>";
 	}
 
 	/*

@@ -51,6 +51,17 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		     WP_Statistics::$page['overview'] .
 		     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 		echo "</td>";
+		$city = '';
+		if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+			if ( $geoip_reader != false ) {
+				try {
+					$reader = $geoip_reader->city( $items->ip );
+					$city   = $reader->city->name;
+				} catch ( Exception $e ) {
+					$city = __( 'Unknown', 'wp-statistics' );
+				}
+			}
+		}
 
 		if ( $WP_Statistics->get_option( 'geoip' ) ) {
 			echo "<td style=\"text-align: left\">";
@@ -60,20 +71,12 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 			echo "</td>";
 		}
 
-		$city = '';
 		if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
 			echo "<td style=\"text-align: left\">";
-			if ( $geoip_reader != false ) {
-				try {
-					$reader = $geoip_reader->city( $items->ip );
-					$city   = $reader->city->name;
-				} catch ( Exception $e ) {
-					$city = __( 'Unknown', 'wp-statistics' );
-				}
-			}
 			echo $city;
 			echo "</td>";
 		}
+
 
 		echo "<td style=\"text-align: left\">";
 		echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
