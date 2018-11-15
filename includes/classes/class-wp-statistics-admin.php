@@ -74,8 +74,8 @@ class WP_Statistics_Admin {
 		// Runs some scripts at the end of the admin panel inside the body tag
 		add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ) );
 
-		//Load TinyMce Function
-		WP_Statistics_TinyMCE::init();
+		// Load TinyMce Function
+		new WP_Statistics_TinyMCE();
 
 		//Add Notice Use cache plugin
 		add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );
