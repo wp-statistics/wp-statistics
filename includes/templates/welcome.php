@@ -94,8 +94,9 @@
                 </div>
             </section>
 
-            <section class="center-section">
-                <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/icon-love.png' ); ?>"/>
+            <section class="center-section logo">
+                <a href="https://veronalabs.com" target="_blank" title="WordPress Solutions and Services"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/veronalabs.svg' ); ?>"/></a>
+                <p><?php echo __( 'WP-Statistics is one of the VeronaLabs.com projects.', 'wp-statistics' ); ?></p>
                 <h4><?php echo sprintf( __( 'To help us, you can make <a href="%s" target="_blank">donate</a> or <a href="%s" target="_blank">purchase</a> Add-Ons. 😊', 'wp-statistics' ), 'https://wp-statistics.com/donate/', 'https://wp-statistics.com/add-ons/' ); ?></h4>
             </section>
         </div>
@@ -119,7 +120,7 @@
                         <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
                     </li>
                     <li class="wp-person">
-                        <a href="https://profiles.wordpress.org/"
+                        <a href="https://profiles.wordpress.org/ghasemi71ir"
                            class="web"><?php echo get_avatar( 'ghasemi71ir@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Greg Ross', 'wp-statistics' ); ?></a>
                         <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
                     </li>
