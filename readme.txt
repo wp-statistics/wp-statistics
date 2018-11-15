@@ -119,7 +119,7 @@ Important: with this update, Opt-out feature is removed.
 * Added: WP-Statistics shortcode in the TinyMCE editor. you can use the shortcode easily in the posts and pages.
 * Added: Qwant search engine in the Search Engine Referrals.
 * Added: Referrers to WP-Statistics shortcode attributes. e.g. `[wpstatistics stat=referrer time=today top=10]`
-* Removed: The Browscap library and we used a new library called the [WhichBrowser](https://whichbrowser.net/) and [CrawlerDetect](https://crawlerdetect.io/). These libraries give us more help in identifying user agents.
+* Added: [WhichBrowser](https://whichbrowser.net/) and [CrawlerDetect](https://crawlerdetect.io/). These libraries give us more help in identifying user agents. the Browscap library removed.
 * Improved: The Datepicker in the WP-Statistics pages, supported WordPress custom date format.
 * Improved: The pagination class.
 * Improved: The assets and fixed conflict ChartJS issue, when the Hit Statistics Meta box was enabled in posts/pages.
@@ -127,6 +127,7 @@ Important: with this update, Opt-out feature is removed.
 * Improved: Exclude Ajax requests, now compatible with [Related Post by Jetpack](https://jetpack.com/support/related-posts/).
 * Improved: Some issues.
 * Updated: Chart.js library to v2.7.3
+* Enabled: Hit Statistics in posts/pages. the conflict problem solved.
 * Disabled: The setting menu when the current user doesn't access.
 * Disabled: Baidu search engine by default after installing.
 
