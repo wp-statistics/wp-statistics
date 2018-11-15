@@ -68,7 +68,7 @@ class WP_Statistics_Admin {
 
 		// WP-Statistics welcome page hooks
 		add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
-		//add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
+		add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
 		add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
 
 		// Runs some scripts at the end of the admin panel inside the body tag
