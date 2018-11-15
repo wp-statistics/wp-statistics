@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.5.1
+Stable tag: 12.5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -113,6 +113,9 @@ We implement GDPR into the WP-Statistics. for more information read [the blog po
 Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
+= 12.5.2 =
+* Improved: Some issues.
+
 = 12.5.1 =
 * Added: Cache option for support when the cache enabled in the WordPress.
 * Added: Visitor's city name with GeoIP, you can enable the city name in Settings > Externals > GeoIP City
