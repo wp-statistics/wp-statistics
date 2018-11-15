@@ -8,17 +8,15 @@ class WP_Statistics_TinyMCE {
 	/**
 	 * Setup an TinyMCE action to close the notice on the overview page.
 	 */
-	static function init() {
-
-	    //Add Filter TinyMce Editor
-        add_action('admin_head', array(self::class, 'wp_statistic_add_my_tc_button'));
+	public function __construct() {
+	    // Add Filter TinyMce Editor
+        add_action('admin_head', array($this, 'wp_statistic_add_my_tc_button'));
 
         //Load Text Widget Button
-        add_action( 'admin_enqueue_scripts', array(self::class, 'load_tinymcejs_widget_wp_admin_style') );
+        add_action( 'admin_enqueue_scripts', array($this, 'load_tinymcejs_widget_wp_admin_style') );
 
-        //Add TextLang
-        add_action( 'admin_footer-widgets.php', array(self::class, 'my_post_edit_page_footer'), 999 );
-
+        // Add TextLang
+        add_action( 'admin_footer-widgets.php', array($this, 'my_post_edit_page_footer'), 999 );
 	}
 
 	/*
@@ -74,7 +72,7 @@ class WP_Statistics_TinyMCE {
 	/*
 	 * Add Filter TinyMCE
 	 */
-    static public function wp_statistic_add_my_tc_button()
+    public function wp_statistic_add_my_tc_button()
     {
         global $typenow;
 
@@ -89,9 +87,9 @@ class WP_Statistics_TinyMCE {
 
         // check if WYSIWYG is enabled
         if ( get_user_option('rich_editing') == 'true') {
-            add_filter("mce_external_plugins",  array(self::class, "wp_statistic_add_tinymce_plugin"));
-            add_filter('mce_buttons',  array(self::class, 'wp_statistic_register_my_tc_button'));
-            add_filter('mce_external_languages',  array(self::class, 'wp_statistic_tinymce_plugin_add_locale'));
+            add_filter("mce_external_plugins",  array('WP_Statistics_TinyMCE', "wp_statistic_add_tinymce_plugin"));
+            add_filter('mce_buttons',  array('WP_Statistics_TinyMCE', 'wp_statistic_register_my_tc_button'));
+            add_filter('mce_external_languages',  array('WP_Statistics_TinyMCE', 'wp_statistic_tinymce_plugin_add_locale'));
         }
     }
 
@@ -122,7 +120,7 @@ class WP_Statistics_TinyMCE {
     /*
      * Add Button For Text Widget
      */
-    static function load_tinymcejs_widget_wp_admin_style(){
+    public function load_tinymcejs_widget_wp_admin_style(){
         global $pagenow;
         if($pagenow =="widgets.php") {
             wp_enqueue_script( 'add_wp_statistic_button_for_widget_text', WP_Statistics::$reg['plugin-url'].'assets/js/tinymce.js' );
@@ -132,7 +130,7 @@ class WP_Statistics_TinyMCE {
     /*
      * Add Lang for Text Widget
      */
-    static function my_post_edit_page_footer(){
+    public function my_post_edit_page_footer(){
         echo '
         <script type="text/javascript">
         jQuery( document ).on( \'tinymce-editor-setup\', function( event, editor ) {
