@@ -51,7 +51,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Top Pages', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay ); ?>
     <div class="postbox-container" id="last-log">
@@ -160,37 +160,42 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 
 							$site_url = site_url();
 
-							echo "<div class='log-latest'>";
 							$count = 0;
+
+							echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
+		                          <tr>";
+							echo "<td width='10%'>" . __( 'ID', 'wp-statistics' ) . "</td>";
+							echo "<td width='40%'>" . __( 'Title', 'wp-statistics' ) . "</td>";
+							echo "<td width='40%'>" . __( 'Link', 'wp-statistics' ) . "</td>";
+							echo "<td width='10%'>" . __( 'Visits', 'wp-statistics' ) . "</td>";
+							echo "</tr>";
 
 							foreach ( $uris as $uri ) {
 								$count ++;
 
 								if ( $count >= $start ) {
-									echo "<div class='log-item'>";
 
 									if ( $uri[3] == '' ) {
 										$uri[3] = '[' .
 										          htmlentities( __( 'No page title found', 'wp-statistics' ), ENT_QUOTES ) .
 										          ']';
 									}
+									echo "<tr>";
+									echo "<td style=\"text-align: left\">" . $count . "</td>";
+									echo "<td style=\"text-align: left\">" . $uri[3] . "</td>";
 
-									echo "<div class='log-page-title'>{$count} - {$uri[3]}</div>";
-									echo "<div class='right-div'>" .
-									     __( 'Visits', 'wp-statistics' ) .
-									     ": <a href='?page=" .
+									echo "<td style=\"text-align: left\"><a dir='ltr' href='" .
+									     htmlentities( $site_url . $uri[0], ENT_QUOTES ) .
+									     "'>" .
+									     htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) .
+									     "</a></td>";
+									echo "<td style=\"text-align: left\"><a href='?page=" .
 									     WP_Statistics::$page['pages'] .
 									     '&page-uri=' .
 									     htmlentities( $uri[0], ENT_QUOTES ) .
 									     "'>" .
 									     number_format_i18n( $uri[1] ) .
-									     "</a></div>";
-									echo "<div class='left-div'><a dir='ltr' href='" .
-									     htmlentities( $site_url . $uri[0], ENT_QUOTES ) .
-									     "'>" .
-									     htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) .
-									     "</a></div>";
-									echo "</div>";
+									     "</a></td>";
 								}
 
 								if ( $count == $start + 10 ) {
@@ -199,7 +204,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 
 							}
 
-							echo "</div>";
+							echo "</table>";
 						}
 						?>
                     </div>

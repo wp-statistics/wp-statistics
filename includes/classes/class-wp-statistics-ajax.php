@@ -334,6 +334,10 @@ class WP_Statistics_Ajax {
 				$widget = 'top.visitors';
 			}
 
+			if ( $_POST['widget'] == "searched_phrases" ) {
+				$widget = 'searched.phrases';
+			}
+
 			if ( 'map' == $widget || 'hitsmap' == $widget ) {
 				$widget = 'jqv.map';
 			}

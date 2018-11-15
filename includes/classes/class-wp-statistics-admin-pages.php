@@ -49,7 +49,7 @@ class WP_Statistics_Admin_Pages {
 				array( 'widget' => 'search' )
 			);
 			add_meta_box(
-				'wps_top_search_phrases_words_postbox',
+				'wps_searched_phrases_postbox',
 				__( 'Top Searched Phrases (30 Days)', 'wp-statistics' ),
 				'wp_statistics_generate_overview_postbox_contents',
 				$WP_Statistics->menu_slugs['overview'],
@@ -58,7 +58,7 @@ class WP_Statistics_Admin_Pages {
 				array( 'widget' => 'searched.phrases' )
 			);
 			add_meta_box(
-				'wps_latest_search_words_postbox',
+				'wps_words_postbox',
 				__( 'Latest Search Words', 'wp-statistics' ),
 				'wp_statistics_generate_overview_postbox_contents',
 				$WP_Statistics->menu_slugs['overview'],

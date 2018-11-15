@@ -8,16 +8,16 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 
 	echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
 		  <tr>";
-	echo "<td>Browser</td>";
+	echo "<td>" . __( 'Browser', 'wp-statistics' ) . "</td>";
 	if ( $WP_Statistics->get_option( 'geoip' ) ) {
-		echo "<td>Country</td>";
+		echo "<td>" . __( 'Country', 'wp-statistics' ) . "</td>";
 	}
 	if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
-		echo "<td>City</td>";
+		echo "<td>" . __( 'City', 'wp-statistics' ) . "</td>";
 	}
-	echo "<td>Date</td>";
-	echo "<td>IP</td>";
-	echo "<td>Referrer</td>";
+	echo "<td>" . __( 'Date', 'wp-statistics' ) . "</td>";
+	echo "<td>" . __( 'IP', 'wp-statistics' ) . "</td>";
+	echo "<td>" . __( 'Referrer', 'wp-statistics' ) . "</td>";
 	echo "</tr>";
 
 	//Load city Name
@@ -54,9 +54,12 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
 			if ( $geoip_reader != false ) {
 				try {
-					$reader = $geoip_reader->city( $items->ip );
-					$city   = $reader->city->name;
+					$reader = $geoip_reader->city($items->ip);
+					$city = $reader->city->name;
 				} catch ( Exception $e ) {
+					$city = __( 'Unknown' , 'wp-statistics' );
+				}
+				if ( ! $city ) {
 					$city = __( 'Unknown', 'wp-statistics' );
 				}
 			}
