@@ -87,16 +87,16 @@ class WP_Statistics_TinyMCE {
 
         // check if WYSIWYG is enabled
         if ( get_user_option('rich_editing') == 'true') {
-            add_filter("mce_external_plugins",  array('WP_Statistics_TinyMCE', "wp_statistic_add_tinymce_plugin"));
-            add_filter('mce_buttons',  array('WP_Statistics_TinyMCE', 'wp_statistic_register_my_tc_button'));
-            add_filter('mce_external_languages',  array('WP_Statistics_TinyMCE', 'wp_statistic_tinymce_plugin_add_locale'));
+            add_filter("mce_external_plugins",  array($this, 'wp_statistic_add_tinymce_plugin'));
+            add_filter('mce_buttons',  array($this, 'wp_statistic_register_my_tc_button'));
+            add_filter('mce_external_languages',  array($this, 'wp_statistic_tinymce_plugin_add_locale'));
         }
     }
 
     /*
      * Add Js Bottun to Editor
      */
-    static function wp_statistic_add_tinymce_plugin($plugin_array) {
+    public function wp_statistic_add_tinymce_plugin($plugin_array) {
         $plugin_array['wp_statistic_tc_button'] =  WP_Statistics::$reg['plugin-url'].'assets/js/tinymce.js';
         return $plugin_array;
     }
@@ -104,7 +104,7 @@ class WP_Statistics_TinyMCE {
     /*
      * Push Button to TinyMCE Advance
      */
-    static function wp_statistic_register_my_tc_button($buttons) {
+    public function wp_statistic_register_my_tc_button($buttons) {
         array_push($buttons, "wp_statistic_tc_button");
         return $buttons;
     }
@@ -112,7 +112,7 @@ class WP_Statistics_TinyMCE {
     /*
      * Add Lang Text Domain
      */
-    static function wp_statistic_tinymce_plugin_add_locale($locales) {
+    public function wp_statistic_tinymce_plugin_add_locale($locales) {
         $locales ['wp-statistic-tinymce-plugin'] =  WP_Statistics::$reg['plugin-dir'].'includes/functions/tinymce.php';
         return $locales;
     }
