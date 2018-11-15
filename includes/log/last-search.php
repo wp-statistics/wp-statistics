@@ -141,13 +141,13 @@ $total = $search_result[ $referred ];
 								echo "<td>" . __( 'Referrer', 'wp-statistics' ) . "</td>";
 								echo "</tr>";
 
-								//Load city Name
+								// Load city name
+								$geoip_reader = false;
 								if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
 									$geoip_reader = $WP_Statistics::geoip_loader( 'city' );
 								}
 
 								foreach ( $result as $items ) {
-
 
 									if ( ! $WP_Statistics->Search_Engine_QueryString( $items->referred ) ) {
 										continue;
@@ -192,11 +192,12 @@ $total = $search_result[ $referred ];
 									if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
 										if ( $geoip_reader != false ) {
 											try {
-												$reader = $geoip_reader->city($items->ip);
-												$city = $reader->city->name;
+												$reader = $geoip_reader->city( $items->ip );
+												$city   = $reader->city->name;
 											} catch ( Exception $e ) {
-												$city = __( 'Unknown' , 'wp-statistics' );
+												$city = __( 'Unknown', 'wp-statistics' );
 											}
+
 											if ( ! $city ) {
 												$city = __( 'Unknown', 'wp-statistics' );
 											}
@@ -207,7 +208,7 @@ $total = $search_result[ $referred ];
 										echo "<td style=\"text-align: left\">";
 										echo "<img src='" .
 										     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-										     "' title='{$ISOCountryCode[$items->location]}{$city}' class='log-tools'/>";
+										     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 										echo "</td>";
 									}
 
@@ -216,7 +217,6 @@ $total = $search_result[ $referred ];
 										echo $city;
 										echo "</td>";
 									}
-
 
 									echo "<td style=\"text-align: left\">";
 									echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
@@ -233,17 +233,8 @@ $total = $search_result[ $referred ];
 									echo $ip_string;
 									echo "</td>";
 
-									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items->referred );
-									$base_url      = parse_url( $referrer_html );
-									$base_url      = $base_url['host'];
 									echo "<td style=\"text-align: left\">";
-									echo "<a href='" .
-									     $referrer_html .
-									     "' title='" .
-									     $referrer_html .
-									     "'>" .
-									     $base_url .
-									     "</a>";
+									echo "<td style=\"text-align: left\">" . $WP_Statistics->get_referrer_link( $items->referred ) . "</td>";
 									echo "</td>";
 
 									echo "</tr>";

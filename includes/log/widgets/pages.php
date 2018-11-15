@@ -34,7 +34,7 @@ function wp_statistics_generate_pages_postbox_content() {
 			if ( $item->uri == '/' ) {
 				$title = get_bloginfo();
 			} else {
-				$title = '[' . __( 'No page title found', 'wp-statistics' ) . ']';
+				$title = __( 'No page title found', 'wp-statistics' );
 			}
 		}
 		echo "<tr>";

@@ -456,7 +456,7 @@ class WP_Statistics {
 			try {
 				$reader = new GeoIp2\Database\Reader( $geoip );
 			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
-			    return false;
+				return false;
 			}
 		} else {
 			return false;
@@ -1422,15 +1422,8 @@ class WP_Statistics {
 	 *
 	 * @return string
 	 */
-	public function get_referrer_link( $referrer, $length = - 1 ) {
+	public function get_referrer_link( $referrer ) {
 		$html_referrer = $this->html_sanitize_referrer( $referrer );
-		if ( $length > 0 && strlen( $referrer ) > $length ) {
-			$html_referrer_limited = $this->html_sanitize_referrer( $referrer, $length );
-			$eplises               = '[...]';
-		} else {
-			$html_referrer_limited = $html_referrer;
-			$eplises               = '';
-		}
 
 		if ( substr( $html_referrer, 0, 7 ) !== 'http://' and substr( $html_referrer, 0, 8 ) !== 'https://' ) {
 			// relative address, use '//' to adapt both http and https
@@ -1439,7 +1432,9 @@ class WP_Statistics {
 			$html_nr_referrer = $html_referrer;
 		}
 
-		return "<a href='{$html_nr_referrer}'>{$html_referrer_limited}{$eplises}</a>";
+		$base_url = parse_url( $html_nr_referrer );
+
+		return "<a href='{$html_nr_referrer}' title='{$html_nr_referrer}'>{$base_url['host']}</a>";
 	}
 
 	/*
