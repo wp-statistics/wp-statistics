@@ -116,7 +116,7 @@
                 <ul class="wp-people-group">
                     <li class="wp-person">
                         <a href="https://profiles.wordpress.org/mehrshaddarzi"
-                           class="web"><?php echo get_avatar( 'mehrshad198@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Greg Ross', 'wp-statistics' ); ?></a>
+                           class="web"><?php echo get_avatar( 'mehrshad198@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Mehrshad Darzi', 'wp-statistics' ); ?></a>
                         <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
                     </li>
                     <li class="wp-person">

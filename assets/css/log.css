@@ -355,6 +355,14 @@
     text-align: right !important;
 }
 
+.rtl .table-stats .log-tools {
+    float: right;
+}
+
+.rtl .table-stats .th-center {
+    text-align: center !important;
+}
+
 .table-stats {
     border: 0px none !important;
 }
