@@ -5,52 +5,39 @@
  */
 class WP_Statistics_Rest {
 
-	//Set Default namespace
+	// Set Default namespace
 	const route = 'wpstatistics/v1';
 
-	//Set Default Statistic Save method
+	// Set Default Statistic Save method
 	const func = 'hit';
 
-	//Set Route Test Rest Api is Active
-	const test_rest_api = 'wp_rest_api_active';
-
-	//Set Default POST Name
+	// Set Default POST Name
 	const _POST = 'wp_statistics_hit';
-
 
 	/**
 	 * Setup an Wordpress REst Api action.
 	 */
-	static function init() {
+	public function __construct() {
+		global $WP_Statistics;
 
 		/*
 		 * add Router Rest Api
 		 */
-		if ( WP_Statistics_Frontend::is_cache_active() ) {
+		if ( $WP_Statistics->use_cache ) {
 			add_action( 'rest_api_init', array( self::class, 'route' ) );
 		}
-
 	}
-
 
 	/*
 	 * Add Endpoint Route
 	 */
 	static function route() {
-
-		//Get Hit
+		// Get Hit
 		register_rest_route( self::route, '/' . self::func, array(
 			'methods'  => 'POST',
 			'callback' => array( self::class, 'hit' ),
 		) );
-
-		//Test REST Api is Active
-		register_rest_route( self::route, '/' . self::test_rest_api, array(
-			'methods'  => 'GET',
-			'callback' => array( self::class, 'wp_rest_api_active' ),
-		) );
 	}
-
 
 	/*
 	 * Wp Statistic Hit Save
@@ -58,15 +45,21 @@ class WP_Statistics_Rest {
 	static public function hit() {
 		global $WP_Statistics;
 
+		/*
+		 * Check Is Test Service Request
+		 */
+		if ( isset( $_POST['rest-api-wp-statistics'] ) ) {
+
+			return array( "rest-api-wp-statistics" => "OK" );
+		}
 
 		/*
 		 * Check Security Referer Only This Domain Access
 		 */
-		$header = getallheaders();
-
+		$header = $WP_Statistics::getAllHeader();
 
 		//Check Auth Key Request
-		if ( ! isset( $header['X-Ajax-WP-Statistics'] ) ) {
+		if ( ! isset( $header['X-Ajax-Wp-Statistics'] ) ) {
 			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
 		}
 
@@ -100,20 +93,16 @@ class WP_Statistics_Rest {
 	}
 
 	/*
-	 * Test Rest Api is Active
-	 */
-	public static function wp_rest_api_active() {
-
-		return array( "is_activate_wp_rest_api" => "OK" );
-	}
-
-	/*
 	 * Check is Rest Request
 	 */
 	static public function is_rest() {
-		$header = getallheaders();
-		if ( isset( $header['X-Ajax-WP-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
-			return true;
+		global $WP_Statistics;
+
+		if ( $WP_Statistics->use_cache === true ) {
+			$header = $WP_Statistics::getAllHeader();
+			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
+				return true;
+			}
 		}
 
 		return false;
@@ -123,7 +112,10 @@ class WP_Statistics_Rest {
 	 * Get Params Request
 	 */
 	static public function params( $params ) {
-		return $_POST[ self::_POST ][ $params ];
-	}
+		if ( isset( $_POST[ self::_POST ][ $params ] ) ) {
+			return $_POST[ self::_POST ][ $params ];
+		}
 
+		return false;
+	}
 }

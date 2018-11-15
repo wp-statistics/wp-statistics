@@ -230,7 +230,7 @@ class WP_Statistics_Dashboard {
 				'wp-statistics-chart-js',
 				WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
 				false,
-				'2.7.0',
+				'2.7.3',
                 false
 			);
 		}

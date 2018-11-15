@@ -73,33 +73,6 @@
 					<?php endforeach; ?>
                 </div>
             </div>
-
-            <div id="postbox-container-1" class="postbox-container">
-                <div class="meta-box-sortables ui-sortable">
-                    <div id="wps-plugins-support" class="postbox">
-						<?php $paneltitle = __( 'Join to Market!', 'wp-statistics' ); ?>
-                        <button class="handlediv" type="button" aria-expanded="true">
-							<span class="screen-reader-text"><?php printf(
-									__( 'Toggle panel: %s', 'wp-statistics' ),
-									$paneltitle
-								); ?></span>
-                            <span class="toggle-indicator" aria-hidden="true"></span>
-                        </button>
-                        <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
-
-                        <div class="inside">
-                            <p><?php _e(
-									'We welcome practical extensions for the WP-Statistics plugin. In case you\'re a WordPress programmer and developer and plan to sell extension in this page, please contact us through the following link.',
-									'wp-statistics'
-								); ?></p>
-                            <a href="http://wp-statistics.com/add-ons/submit" target="_blank" class="button"><?php _e(
-									'Submit Add-on',
-									'wp-statistics'
-								); ?></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

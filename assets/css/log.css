@@ -252,7 +252,8 @@
 #wps_summary_postbox,
 #wps_browsers_postbox,
 #wps_referring_postbox,
-#wps_countries_postbox {
+#wps_countries_postbox,
+#wps_words_postbox {
     overflow: hidden;
 }
 
@@ -344,6 +345,7 @@
     border: 0px none;
     text-align: left;
 }
+
 .rtl .table-stats.left-align tr,
 .rtl .table-stats.left-align td {
     text-align: left !important;
@@ -351,6 +353,14 @@
 
 .rtl .table-stats tr, .rtl .table-stats td {
     text-align: right !important;
+}
+
+.rtl .table-stats .log-tools {
+    float: right;
+}
+
+.rtl .table-stats .th-center {
+    text-align: center !important;
 }
 
 .table-stats {

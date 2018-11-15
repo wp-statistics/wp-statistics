@@ -16,10 +16,16 @@ function wp_statistics_generate_pages_postbox_content() {
 	);
 	$site_url = site_url();
 	$counter  = 0;
-	echo '<div class="log-latest">';
+	echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
+		  <tr>";
+	echo "<td width='10%'>" . __( 'ID', 'wp-statistics' ) . "</td>";
+	echo "<td width='40%'>" . __( 'Title', 'wp-statistics' ) . "</td>";
+	echo "<td width='40%'>" . __( 'Link', 'wp-statistics' ) . "</td>";
+	echo "<td width='10%'>" . __( 'Visits', 'wp-statistics' ) . "</td>";
+	echo "</tr>";
+
 	foreach ( $result as $item ) {
 		$counter += 1;
-		echo '<div class="log-item">';
 		// Lookup the post title.
 		$post = get_post( $item->id );
 		if ( is_object( $post ) ) {
@@ -28,26 +34,26 @@ function wp_statistics_generate_pages_postbox_content() {
 			if ( $item->uri == '/' ) {
 				$title = get_bloginfo();
 			} else {
-				$title = '[' . __( 'No page title found', 'wp-statistics' ) . ']';
+				$title = __( 'No page title found', 'wp-statistics' );
 			}
 		}
-		echo "<div class=\"log-page-title\">{$counter} - {$title}</div>";
-		echo '<div class="right-div">' .
-		     __( 'Visits', 'wp-statistics' ) .
-		     ': <a href="?page=' .
+		echo "<tr>";
+		echo "<td style=\"text-align: left\">" . $counter . "</td>";
+		echo "<td style=\"text-align: left\">" . $title . "</td>";
+		echo '<td style="text-align: left"><a href="' .
+		     htmlentities( $site_url . $item->uri, ENT_QUOTES ) .
+		     '">' .
+		     htmlentities( urldecode( $item->uri ), ENT_QUOTES ) .
+		     '</a></td>';
+		echo '<td style="text-align: left"><a href="?page=' .
 		     WP_Statistics::$page['pages'] .
 		     '&page-uri=' .
 		     htmlentities( $item->uri, ENT_QUOTES ) .
 		     '">' .
 		     number_format_i18n( $item->count_sum ) .
-		     '</a></div>';
-		echo '<div><a href="' .
-		     htmlentities( $site_url . $item->uri, ENT_QUOTES ) .
-		     '">' .
-		     htmlentities( urldecode( $item->uri ), ENT_QUOTES ) .
-		     '</a></div>';
-		echo '</div>';
+		     '</a></td>';
+		echo '</tr>';
 
 	}
-	echo '</div>';
+	echo '</table>';
 }

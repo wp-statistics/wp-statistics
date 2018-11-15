@@ -72,7 +72,7 @@ if ( $phrase ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Top Searched Phrases', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div><?php wp_statistics_date_range_selector(
 			WP_Statistics::$page['searched-phrases'],
@@ -131,48 +131,50 @@ if ( $phrase ) {
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
 
                     <div class="inside">
-                        <div class="log-latest">
-							<?php
+						<?php
 
-							if ( $total > 0 ) {
-								// Initiate pagination object with appropriate arguments
-								$pagesPerSection = 10;
-								$options         = array( 25, "All" );
-								$stylePageOff    = "pageOff";
-								$stylePageOn     = "pageOn";
-								$styleErrors     = "paginationErrors";
-								$styleSelect     = "paginationSelect";
+						if ( $total > 0 ) {
+						// Initiate pagination object with appropriate arguments
+						$pagesPerSection = 10;
+						$options         = array( 25, "All" );
+						$stylePageOff    = "pageOff";
+						$stylePageOn     = "pageOn";
+						$styleErrors     = "paginationErrors";
+						$styleSelect     = "paginationSelect";
 
-								$Pagination = new WP_Statistics_Pagination(
-									$total,
-									$pagesPerSection,
-									$options,
-									false,
-									$stylePageOff,
-									$stylePageOn,
-									$styleErrors,
-									$styleSelect
-								);
+						$Pagination = new WP_Statistics_Pagination(
+							$total,
+							$pagesPerSection,
+							$options,
+							false,
+							$stylePageOff,
+							$stylePageOn,
+							$styleErrors,
+							$styleSelect
+						);
 
-								$start = $Pagination->getEntryStart();
-								$end   = $Pagination->getEntryEnd();
+						$start = $Pagination->getEntryStart();
+						$end   = $Pagination->getEntryEnd();
 
-								if ( $result ) {
-									$result = array_slice( $result, $start, $end );
-									$i      = $start;
-									foreach ( $result as $item ) {
-										$i ++;
-										echo "<div class='log-item'>";
-										echo "<div class='log-referred'>{$i} - {$item->words}</div>";
-										echo "<div class='clear'></div>";
-										echo "<div class='log-url'>{$item->count}</div>";
-										echo "</div>";
-									}
-								}
+						if ( $result ) {
+						$result = array_slice( $result, $start, $end );
+						$i      = $start; ?>
+                        <table width="100%" class="widefat table-stats" id="searched-phrases">
+                            <tr>
+                                <td width="90%"><?php _e( 'Phrase', 'wp-statistics' ); ?></td>
+                                <td width="10%"><?php _e( 'Count', 'wp-statistics' ); ?></td>
+                            </tr>
+							<?php foreach ( $result as $item ) {
+								$i ++;
+								echo "<tr>";
+								echo "<td>{$item->words}</td>";
+								echo "<td>{$item->count}</td>";
+								echo "</tr>";
 							}
-
+							}
+							}
 							?>
-                        </div>
+                        </table>
                     </div>
                 </div>
 

@@ -49,7 +49,7 @@ class WP_Statistics_Admin_Pages {
 				array( 'widget' => 'search' )
 			);
 			add_meta_box(
-				'wps_words_postbox',
+				'wps_searched_phrases_postbox',
 				__( 'Top Searched Phrases (30 Days)', 'wp-statistics' ),
 				'wp_statistics_generate_overview_postbox_contents',
 				$WP_Statistics->menu_slugs['overview'],
@@ -145,7 +145,7 @@ class WP_Statistics_Admin_Pages {
 		}
 
 		//Set Default Hidden MetaBox
-        add_filter( 'hidden_meta_boxes', array( self::class, 'default_hide_meta_box' ) );
+        add_filter( 'default_hidden_meta_boxes', array( self::class, 'default_hide_meta_box' ) );
 	}
 	
 	/*
@@ -153,7 +153,7 @@ class WP_Statistics_Admin_Pages {
 	 */
 	static public function default_hide_meta_box($hidden)
     {
-        $hidden[] = 'wps_words_postbox';
+        $hidden[] = 'wps_top_search_phrases_words_postbox';
         return $hidden;
 	}
 
