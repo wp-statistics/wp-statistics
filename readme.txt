@@ -114,7 +114,7 @@ Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
 = 12.5.2 =
-* Improved: Some issues.
+* Improved: Some issues in php v5.4
 
 = 12.5.1 =
 * Added: Cache option for support when the cache enabled in the WordPress.
