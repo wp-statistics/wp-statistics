@@ -55,8 +55,8 @@
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2><?php _e( 'GDPR compliance, Updated!', 'wp-statistics' ); ?></h2>
-                        <h4><?php _e( 'Description', 'wp-statistics' ); ?></h4>
+                        <h2><?php _e( 'Support Cache, Updated!', 'wp-statistics' ); ?></h2>
+                        <h4><?php _e( 'If your WordPress cache is enabled, you should enable the cache in the plugin\'s setting, too.', 'wp-statistics' ); ?></h4>
                     </div>
                 </div>
 
@@ -106,7 +106,7 @@
                 <h3 class="wp-people-group"><?php _e( 'Project Leaders', 'wp-statistics' ); ?></h3>
                 <ul class="wp-people-group ">
                     <li class="wp-person">
-                        <a href="https://profiles.wordpress.org/mostafas1990/"
+                        <a href="https://profiles.wordpress.org/mostafas1990"
                            class="web"><?php echo get_avatar( 'mst404@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Mostafa Soufi', 'wp-statistics' ); ?></a>
                         <span class="title"><?php _e( 'Original Author', 'wp-statistics' ); ?></span>
                     </li>
@@ -114,17 +114,27 @@
                 <h3 class="wp-people-group"><?php _e( 'Other Contributors', 'wp-statistics' ); ?></h3>
                 <ul class="wp-people-group">
                     <li class="wp-person">
-                        <a href="https://profiles.wordpress.org/gregross/"
+                        <a href="https://profiles.wordpress.org/mehrshaddarzi"
+                           class="web"><?php echo get_avatar( 'mehrshad198@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Greg Ross', 'wp-statistics' ); ?></a>
+                        <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
+                    </li>
+                    <li class="wp-person">
+                        <a href="https://profiles.wordpress.org/"
+                           class="web"><?php echo get_avatar( 'ghasemi71ir@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Greg Ross', 'wp-statistics' ); ?></a>
+                        <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
+                    </li>
+                    <li class="wp-person">
+                        <a href="https://profiles.wordpress.org/gregross"
                            class="web"><?php echo get_avatar( 'greg@toolstack.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Greg Ross', 'wp-statistics' ); ?></a>
                         <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
                     </li>
                     <li class="wp-person">
-                        <a href="https://profiles.wordpress.org/dedidata/"
+                        <a href="https://profiles.wordpress.org/dedidata"
                            class="web"><?php echo get_avatar( 'dedidata.com@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Farhad Sakhaei', 'wp-statistics' ); ?></a>
                         <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
                     </li>
                     <li class="wp-person">
-                        <a href="https://profiles.wordpress.org/pedromendonca/"
+                        <a href="https://profiles.wordpress.org/pedromendonca"
                            class="web"><?php echo get_avatar( 'ped.gaspar@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Pedro Mendonça', 'wp-statistics' ); ?></a>
                         <span class="title"><?php _e( 'Language Contributor', 'wp-statistics' ); ?></span>
                     </li>
