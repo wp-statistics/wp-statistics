@@ -40,7 +40,7 @@ class WP_Statistics_Rest {
 	}
 
 	/*
-	 * Hit callback
+	 * Wp Statistic Hit Save
 	 */
 	public function hit() {
 		global $WP_Statistics;
