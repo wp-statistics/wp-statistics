@@ -145,9 +145,9 @@ class WP_Statistics_Admin_Pages {
 		}
 
 		//Set Default Hidden MetaBox
-        add_filter( 'default_hidden_meta_boxes', array( self::class, 'default_hide_meta_box' ) );
+        add_filter( 'default_hidden_meta_boxes', array( 'WP_Statistics_Admin_Pages', 'default_hide_meta_box') );
 	}
-	
+
 	/*
 	 * Default Hidden Meta Box
 	 */
