@@ -35,14 +35,14 @@ class WP_Statistics_Rest {
 		// Get Hit
 		register_rest_route( self::route, '/' . self::func, array(
 			'methods'  => 'POST',
-			'callback' => array( self::class, 'hit' ),
+			'callback' => array( $this, 'hit' ),
 		) );
 	}
 
 	/*
-	 * Wp Statistic Hit Save
+	 * Hit callback
 	 */
-	static public function hit() {
+	public function hit() {
 		global $WP_Statistics;
 
 		/*
