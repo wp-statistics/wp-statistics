@@ -24,14 +24,14 @@ class WP_Statistics_Rest {
 		 * add Router Rest Api
 		 */
 		if ( $WP_Statistics->use_cache ) {
-			add_action( 'rest_api_init', array( self::class, 'route' ) );
+			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		}
 	}
 
 	/*
 	 * Add Endpoint Route
 	 */
-	static function route() {
+	public function register_routes() {
 		// Get Hit
 		register_rest_route( self::route, '/' . self::func, array(
 			'methods'  => 'POST',
