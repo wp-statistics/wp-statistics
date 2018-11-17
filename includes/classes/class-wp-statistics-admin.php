@@ -680,7 +680,7 @@ class WP_Statistics_Admin {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
-		global $pagenow;
+		global $pagenow, $WP_Statistics;
 
 		// Load our CSS to be used.
 		wp_enqueue_style(
@@ -715,7 +715,7 @@ class WP_Statistics_Admin {
 		}
 
 		//Load in Post Page
-		if ( $pagenow == "post.php" ) {
+		if ( $pagenow == "post.php" and $WP_Statistics->get_option( 'hit_post_metabox' ) ) {
 			$load_chart = true;
 		}
 

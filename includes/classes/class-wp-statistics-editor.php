@@ -54,7 +54,12 @@ class WP_Statistics_Editor {
 			return;
 		}
 
-		$screens = array( 'post', 'page' );
+		// If the admin has disabled the Hit Post MetaBox.
+		if ( ! $WP_Statistics->get_option( 'hit_post_metabox' ) ) {
+			return;
+		}
+
+		$screens = self::get_list_post_type();
 
 		foreach ( $screens as $screen ) {
 
@@ -100,7 +105,8 @@ class WP_Statistics_Editor {
 	static function inline_javascript() {
 		$screen = get_current_screen();
 
-		if ( 'post' != $screen->id && 'page' != $screen->id ) {
+		$screens = self::get_list_post_type();
+		if ( ! in_array( $screen->id, $screens ) ) {
 			return;
 		}
 
@@ -181,5 +187,18 @@ class WP_Statistics_Editor {
             });
         </script>
 		<?php
+	}
+
+	public static function get_list_post_type() {
+		$post_types     = array( 'post', 'page' );
+		$get_post_types = get_post_types( array(
+			'public'   => true,
+			'_builtin' => false
+		), 'names', 'and' );
+		foreach ( $get_post_types as $name ) {
+			$post_types[] = $name;
+		}
+
+		return $post_types;
 	}
 }

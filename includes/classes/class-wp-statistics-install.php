@@ -261,6 +261,7 @@ class WP_Statistics_Install {
 						'wps_use_cache_plugin',
 						'wps_geoip_city',
 						'wps_disable_column',
+						'wps_hit_post_metabox',
 						'wps_menu_bar',
 						'wps_hide_notices',
 						'wps_chart_totals',

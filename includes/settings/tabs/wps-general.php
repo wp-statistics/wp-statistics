@@ -28,6 +28,7 @@ if ( $wps_nonce_valid ) {
 		'wps_track_all_pages',
 		'wps_use_cache_plugin',
 		'wps_disable_column',
+		'wps_hit_post_metabox',
 		'wps_show_hits',
 		'wps_display_hits_position',
 		'wps_check_online',
@@ -239,6 +240,22 @@ if ( $wps_nonce_valid ) {
                        name="wps_disable_column" <?php echo $WP_Statistics->get_option( 'disable_column' ) == true
 					? "checked='checked'" : ''; ?>>
                 <label for="disable_column"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+
+                <p class="description"><?php _e( 'Enable or disable this feature', 'wp-statistics' ); ?></p>
+            </td>
+        </tr>
+
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="hit_post_metabox"><?php _e( 'Enable Hit Statistics Metabox:', 'wp-statistics' ); ?></label>
+            </th>
+
+            <td>
+                <input id="hit_post_metabox" type="checkbox" value="1"
+                       name="wps_hit_post_metabox" <?php echo $WP_Statistics->get_option( 'hit_post_metabox' ) == true
+			        ? "checked='checked'" : ''; ?>>
+                <label for="hit_post_metabox"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp-statistics' ); ?></p>
             </td>
