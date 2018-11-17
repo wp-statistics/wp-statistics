@@ -95,7 +95,7 @@
             </section>
 
             <section class="center-section logo">
-                <a href="https://veronalabs.com" target="_blank" title="WordPress Solutions and Services"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/veronalabs.svg' ); ?>"/></a>
+                <a href="https://veronalabs.com" target="_blank" title="WordPress Solutions and Services"><img src="http://bit.ly/2FsmZlq"/></a>
                 <p><?php echo __( 'WP-Statistics is one of the VeronaLabs.com projects.', 'wp-statistics' ); ?></p>
                 <h4><?php echo sprintf( __( 'To help us, you can make <a href="%s" target="_blank">donate</a> or <a href="%s" target="_blank">purchase</a> Add-Ons. 😊', 'wp-statistics' ), 'https://wp-statistics.com/donate/', 'https://wp-statistics.com/add-ons/' ); ?></h4>
             </section>

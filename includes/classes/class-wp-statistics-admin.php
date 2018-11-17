@@ -77,7 +77,7 @@ class WP_Statistics_Admin {
 		// Load TinyMce Function
 		new WP_Statistics_TinyMCE();
 
-		//Add Notice Use cache plugin
+		// Add Notice Use cache plugin
 		add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );
 
 		//Admin Notice Setting
