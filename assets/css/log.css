@@ -375,3 +375,7 @@
 .button-link.wps-refresh {
     text-decoration: none !important;
 }
+
+.wp-statistics-table {
+    overflow-x: auto;
+}

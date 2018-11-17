@@ -6,6 +6,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		"SELECT * FROM `{$wpdb->prefix}statistics_visitor` ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT 0, {$count}"
 	);
 
+	echo "<div class=\"wp-statistics-table\">";
 	echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
 		  <tr>";
 	echo "<td>" . __( 'Browser', 'wp-statistics' ) . "</td>";
@@ -100,4 +101,5 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 	}
 
 	echo "</table>";
+	echo "</div>";
 }

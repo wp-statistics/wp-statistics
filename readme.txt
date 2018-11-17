@@ -114,7 +114,8 @@ Important: with this update, Opt-out feature is removed.
 
 == Changelog ==
 = 12.5.3 =
-* Added: Option for enabling/disabling the hits meta box chart in the edit of all post types page.
+* Added: Option for enabling/disabling the hits meta box chart in the edit of all post types page and that option is disable by default.
+* Improved: The responsive problem of Recent Visitors and Latest Search Words widgets in WP Dashboard.
 
 = 12.5.2 =
 * Improved: Some issues in php v5.4
