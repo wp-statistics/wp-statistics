@@ -1532,6 +1532,10 @@ function wp_statistics_admin_notice_result( $type, $message ) {
 			$class = 'notice notice-error';
 			break;
 
+		case 'warning':
+			$class = 'notice notice-warning';
+			break;
+
 		case 'success':
 			$class = 'notice notice-success';
 			break;

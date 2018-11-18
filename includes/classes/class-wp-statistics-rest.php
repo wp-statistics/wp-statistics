@@ -98,7 +98,7 @@ class WP_Statistics_Rest {
 	static public function is_rest() {
 		global $WP_Statistics;
 
-		if ( $WP_Statistics->use_cache === true ) {
+		if ( $WP_Statistics->use_cache == true ) {
 			$header = $WP_Statistics::getAllHeader();
 			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
 				return true;
@@ -112,8 +112,11 @@ class WP_Statistics_Rest {
 	 * Get Params Request
 	 */
 	static public function params( $params ) {
-		if ( isset( $_POST[ self::_POST ][ $params ] ) ) {
-			return $_POST[ self::_POST ][ $params ];
+		if ( isset( $_POST[ self::_POST ] ) ) {
+			$data = json_decode(stripslashes($_POST[ self::_POST ]), true);
+			if(isset($data[$params])) {
+				return $data[$params];
+			}
 		}
 
 		return false;
