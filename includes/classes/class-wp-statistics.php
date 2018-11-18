@@ -451,7 +451,8 @@ class WP_Statistics {
 	 */
 	static function geoip_loader( $pack ) {
 
-		$geoip = wp_upload_dir()['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
+		$upload_dir = wp_upload_dir();
+		$geoip = $upload_dir['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
 		if ( file_exists( $geoip ) ) {
 			try {
 				$reader = new GeoIp2\Database\Reader( $geoip );

@@ -324,7 +324,8 @@ class WP_Statistics_Admin_Pages {
 			if( !isset($_POST['update_geoip']) and isset($_POST['wps_'.$geo_opt]) ) {
 
 				//Check File Not Exist
-				$file = wp_upload_dir()['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geo_name]['file'].'.mmdb';
+				$upload_dir = wp_upload_dir();
+				$file = $upload_dir['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geo_name]['file'].'.mmdb';
 				if ( !file_exists($file) ) {
 					$result = WP_Statistics_Updates::download_geoip($geo_name);
 					if(isset($result['status']) and $result['status'] === false) {
