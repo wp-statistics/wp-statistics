@@ -57,15 +57,9 @@ class WP_Statistics_Frontend {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
-		global $WP_Statistics;
 
 		// Load our CSS to be used.
 		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
-
-		if ( $WP_Statistics->use_cache ) {
-			//Load Jquery
-			wp_enqueue_script( 'jquery' );
-		}
 	}
 
 	/*
@@ -76,7 +70,7 @@ class WP_Statistics_Frontend {
 
 		if ( $WP_Statistics->use_cache ) {
 			self::html_comment();
-			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',data: ' . self::set_default_params() . ',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-Wp-Statistics\',\'true\');},});});</script>' . "\n";
+			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.async = false;WP_Statistics_http.open(\'POST\', \'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '?_=\' + new Date().getTime(), true);WP_Statistics_http.setRequestHeader(\'X-Ajax-Wp-Statistics\', \'true\');WP_Statistics_http.send('.self::set_default_params().');</script>' . "\n";
 		}
 	}
 
