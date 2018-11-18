@@ -59,7 +59,9 @@ class WP_Statistics_Frontend {
 	static function enqueue_scripts( $hook ) {
 
 		// Load our CSS to be used.
-		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
+		if ( is_admin_bar_showing() ) {
+			wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
+		}
 	}
 
 	/*
