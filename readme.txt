@@ -107,10 +107,12 @@ If IPv6 is not enabled, you may see an warning like:
 10. Theme widget
 
 == Upgrade Notice ==
-= 12.4.0 =
-GDPR compliance, Updated!
-We implement GDPR into the WP-Statistics. for more information read [the blog post](https://wp-statistics.com/2018/08/16/wp-statistics-gdpr).
-Important: with this update, Opt-out feature is removed.
+= 12.5.3 =
+If the cache option is enabled in your WordPress, you should make sure the below endpoint registered in your WordPress.
+http://yourwebsite.com/wp-json/wpstatistics/v1
+
+To register, go to the Permalink page and update the permalink with press Save Changes.
+
 
 == Changelog ==
 = 12.5.3 =
