@@ -139,7 +139,6 @@ class WP_Statistics_Install {
 						ID bigint(20) NOT NULL AUTO_INCREMENT,
 						visitor_id bigint(20) NOT NULL,
 						page_id bigint(20) NOT NULL,
-						date datetime NOT NULL,
 						PRIMARY KEY  (ID),
 						KEY visitor_id (visitor_id),
 						KEY page_id (page_id)
