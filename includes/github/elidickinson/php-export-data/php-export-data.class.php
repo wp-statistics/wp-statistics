@@ -107,7 +107,7 @@ class ExportDataTSV extends ExportData {
 
 	function sendHttpHeaders() {
 		header("Content-type: text/tab-separated-values");
-		header("Content-Disposition: attachment; filename=".basename($this->filename));
+    header("Content-Disposition: attachment; filename=".basename($this->filename));
 	}
 }
 /**
@@ -207,9 +207,9 @@ class ExportDataExcel extends ExportData {
 		// of really screwing up the data if we try to reformat a string that was not actually
 		// intended to represent a date.
 		elseif(preg_match("/^(\d{1,2}|\d{4})[\/\-]\d{1,2}[\/\-](\d{1,2}|\d{4})([^\d].+)?$/",$item) &&
-		       ($timestamp = strtotime($item)) &&
-		       ($timestamp > 0) &&
-		       ($timestamp < strtotime('+500 years'))) {
+					($timestamp = strtotime($item)) &&
+					($timestamp > 0) &&
+					($timestamp < strtotime('+500 years'))) {
 			$type = 'DateTime';
 			$item = strftime("%Y-%m-%dT%H:%M:%S",$timestamp);
 			$style = 'sDT'; // defined in header; tells excel to format date for display
@@ -223,13 +223,13 @@ class ExportDataExcel extends ExportData {
 		$output .= $style ? "<Cell ss:StyleID=\"$style\">" : "<Cell>";
 		$output .= sprintf("<Data ss:Type=\"%s\">%s</Data>", $type, $item);
 		$output .= "</Cell>\n";
-
+		
 		return $output;
 	}
-
+	
 	function sendHttpHeaders() {
 		header("Content-Type: application/vnd.ms-excel; charset=" . $this->encoding);
 		header("Content-Disposition: inline; filename=\"" . basename($this->filename) . "\"");
 	}
-
+	
 }

@@ -23,7 +23,7 @@ class WP_Statistics_Rest {
 		/*
 		 * add Router Rest Api
 		 */
-		if ( $WP_Statistics->use_cache ) {
+		if ( isset( $WP_Statistics ) and $WP_Statistics->use_cache ) {
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		}
 	}
@@ -98,7 +98,7 @@ class WP_Statistics_Rest {
 	static public function is_rest() {
 		global $WP_Statistics;
 
-		if ( $WP_Statistics->use_cache == true ) {
+		if ( isset( $WP_Statistics ) and $WP_Statistics->use_cache ) {
 			$header = $WP_Statistics::getAllHeader();
 			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
 				return true;

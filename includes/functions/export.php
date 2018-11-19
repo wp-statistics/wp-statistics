@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 function wp_statistics_export_data() {
 	global $WP_Statistics, $wpdb;
 
