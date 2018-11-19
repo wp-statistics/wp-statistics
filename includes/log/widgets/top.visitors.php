@@ -21,6 +21,7 @@ function wp_statistics_generate_top_visitors_postbox_content(
 	}
 
 	?>
+    <div class="wp-statistics-table">
     <table width="100%" class="widefat table-stats" id="last-referrer">
         <tr>
             <td><?php _e( 'Rank', 'wp-statistics' ); ?></td>
@@ -87,5 +88,6 @@ function wp_statistics_generate_top_visitors_postbox_content(
 		}
 		?>
     </table>
+    </div>
 	<?php
 }
