@@ -163,7 +163,7 @@ class WP_Statistics_Frontend {
 		}
 
 		//Disable if User Active cache Plugin
-		if ( $WP_Statistics->use_cache === false  ) {
+		if ( ! $WP_Statistics->use_cache  ) {
 
 			$h = new WP_Statistics_GEO_IP_Hits;
 
