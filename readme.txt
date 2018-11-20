@@ -108,6 +108,8 @@ If IPv6 is not enabled, you may see an warning like:
 
 == Upgrade Notice ==
 = 12.5.3 =
+Please consider that after updating, you will probably see some changes in Hits. The reason is that we have better-recognized crawlers and robots to get more accurate statistics for you.
+
 If the cache option is enabled in your WordPress, you should make sure the below endpoint registered in your WordPress.
 http://yourwebsite.com/wp-json/wpstatistics/v1
 
