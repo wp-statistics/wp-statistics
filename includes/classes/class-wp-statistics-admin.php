@@ -158,21 +158,10 @@ class WP_Statistics_Admin {
 			}
 
 			if ( count( $itemstoenable ) > 0 ) {
-				echo '<div class="update-nag">' . sprintf(
-						__(
-							'The following features are disabled, please go to %ssettings page%s and enable them: %s',
-							'wp-statistics'
-						),
-						'<a href="' . $get_bloginfo_url . '">',
-						'</a>',
-						implode( __( ',', 'wp-statistics' ), $itemstoenable )
-					) . '</div>';
+				echo '<div class="update-nag">' . sprintf( __( 'The following features are disabled, please go to %ssettings page%s and enable them: %s', 'wp-statistics' ), '<a href="' . $get_bloginfo_url . '">', '</a>', implode( __( ',', 'wp-statistics' ), $itemstoenable ) ) . '</div>';
 			}
 
-			$get_bloginfo_url = get_admin_url() .
-			                    "admin.php?page=" .
-			                    WP_Statistics::$page['optimization'] .
-			                    "&tab=database";
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_Statistics::$page['optimization'] . "&tab=database";
 
 			$dbupdatestodo = array();
 
@@ -197,15 +186,7 @@ class WP_Statistics_Admin {
 				}
 
 				if ( count( $dbupdatestodo ) > 0 ) {
-					echo '<div class="update-nag">' . sprintf(
-							__(
-								'Database updates are required, please go to %soptimization page%s and update the following: %s',
-								'wp-statistics'
-							),
-							'<a href="' . $get_bloginfo_url . '">',
-							'</a>',
-							implode( __( ',', 'wp-statistics' ), $dbupdatestodo )
-						) . '</div>';
+					echo '<div class="update-nag">' . sprintf( __( 'Database updates are required, please go to %soptimization page%s and update the following: %s', 'wp-statistics' ), '<a href="' . $get_bloginfo_url . '">', '</a>', implode( __( ',', 'wp-statistics' ), $dbupdatestodo ) ) . '</div>';
 				}
 			}
 		}
@@ -386,12 +367,7 @@ class WP_Statistics_Admin {
 
 			foreach ( $post_types as $type ) {
 				add_action( 'manage_' . $type->name . '_posts_columns', 'WP_Statistics_Admin::add_column', 10, 2 );
-				add_action(
-					'manage_' . $type->name . '_posts_custom_column',
-					'WP_Statistics_Admin::render_column',
-					10,
-					2
-				);
+				add_action( 'manage_' . $type->name . '_posts_custom_column', 'WP_Statistics_Admin::render_column', 10, 2 );
 			}
 		}
 	}
@@ -434,16 +410,7 @@ class WP_Statistics_Admin {
 		global $post;
 
 		$id = $post->ID;
-
-		echo "<div class='misc-pub-section'>" .
-		     __( 'WP Statistics - Hits', 'wp-statistics' ) .
-		     ": <b><a href='" .
-		     get_admin_url() .
-		     "admin.php?page=" .
-		     WP_Statistics::$page['pages'] .
-		     "&page-id={$id}'>" .
-		     wp_statistics_pages( 'total', "", $id ) .
-		     "</a></b></div>";
+		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp-statistics' ) . ": <b><a href='" . get_admin_url() . "admin.php?page=" . WP_Statistics::$page['pages'] . "&page-id={$id}'>" . wp_statistics_pages( 'total', "", $id ) . "</a></b></div>";
 	}
 
 	/**
