@@ -933,7 +933,7 @@ class WP_Statistics {
 			);
 		}
 
-		$result = new WhichBrowser\Parser( self::getAllHeader() );
+		$result = new WhichBrowser\Parser( $_SERVER['HTTP_USER_AGENT'] );
 		$agent  = array(
 			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
 			'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
@@ -1438,23 +1438,6 @@ class WP_Statistics {
 		return "<a href='{$html_nr_referrer}' title='{$html_nr_referrer}'>{$base_url['host']}</a>";
 	}
 
-	/*
-	 * Get All Headers
-	 */
-	public static function getAllHeader() {
-		if ( ! function_exists( 'getallheaders' ) ) {
-			$headers = [];
-			foreach ( $_SERVER as $name => $value ) {
-				if ( substr( $name, 0, 5 ) == 'HTTP_' ) {
-					$headers[ str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) ) ] = $value;
-				}
-			}
-		} else {
-			$headers = getallheaders();
-		}
-
-		return $headers;
-	}
 
 	/**
 	 * Unsupported Version Admin Notice

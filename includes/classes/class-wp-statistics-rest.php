@@ -53,13 +53,9 @@ class WP_Statistics_Rest {
 			return array( "rest-api-wp-statistics" => "OK" );
 		}
 
-		/*
-		 * Check Security Referer Only This Domain Access
-		 */
-		$header = $WP_Statistics::getAllHeader();
 
 		//Check Auth Key Request
-		if ( ! isset( $header['X-Ajax-Wp-Statistics'] ) ) {
+		if ( ! isset( $_POST[ self::_POST ] ) ) {
 			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
 		}
 
@@ -99,8 +95,7 @@ class WP_Statistics_Rest {
 		global $WP_Statistics;
 
 		if ( isset( $WP_Statistics ) and $WP_Statistics->use_cache ) {
-			$header = $WP_Statistics::getAllHeader();
-			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
+			if ( isset( $_POST[ self::_POST ] ) ) {
 				return true;
 			}
 		}
@@ -113,9 +108,9 @@ class WP_Statistics_Rest {
 	 */
 	static public function params( $params ) {
 		if ( isset( $_POST[ self::_POST ] ) ) {
-			$data = json_decode(stripslashes($_POST[ self::_POST ]), true);
-			if(isset($data[$params])) {
-				return $data[$params];
+			$data = json_decode( stripslashes( $_POST[ self::_POST ] ), true );
+			if ( isset( $data[ $params ] ) ) {
+				return $data[ $params ];
 			}
 		}
 
