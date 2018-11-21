@@ -933,7 +933,11 @@ class WP_Statistics {
 			);
 		}
 
-		$result = new WhichBrowser\Parser( $_SERVER['HTTP_USER_AGENT'] );
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if ( function_exists( 'getallheaders' ) ) {
+			$user_agent = getallheaders();
+		}
+		$result = new WhichBrowser\Parser( $user_agent );
 		$agent  = array(
 			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
 			'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
