@@ -356,7 +356,7 @@ class WP_Statistics {
 			WP_Statistics::$page['referrers'] = 'wps_referrers_page';
 			//define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page');
 			/**
-			 * Searched Phrases Page
+			 * Searched Words Page
 			 */
 			WP_Statistics::$page['searched-phrases'] = 'wps_searched_phrases_page';
 			//define('WP_STATISTICS_SEARCHED_PHRASES_PAGE', 'wps_searched_phrases_page');

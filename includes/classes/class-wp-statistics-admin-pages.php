@@ -50,7 +50,7 @@ class WP_Statistics_Admin_Pages {
 			);
 			add_meta_box(
 				'wps_searched_phrases_postbox',
-				__( 'Top Searched Phrases (30 Days)', 'wp-statistics' ),
+				__( 'Top Search Words (30 Days)', 'wp-statistics' ),
 				'wp_statistics_generate_overview_postbox_contents',
 				$WP_Statistics->menu_slugs['overview'],
 				'normal',
