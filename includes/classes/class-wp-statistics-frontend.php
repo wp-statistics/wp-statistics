@@ -53,10 +53,8 @@ class WP_Statistics_Frontend {
 
 	/**
 	 * Enqueue Scripts
-	 *
-	 * @param string $hook Not Used
 	 */
-	static function enqueue_scripts( $hook ) {
+	static function enqueue_scripts() {
 
 		// Load our CSS to be used.
 		if ( is_admin_bar_showing() ) {
@@ -80,7 +78,7 @@ class WP_Statistics_Frontend {
 	 * Set Default Params Rest Api
 	 */
 	static public function set_default_params() {
-		global $wpdb, $wp_query, $WP_Statistics;
+		global $WP_Statistics;
 
 		/*
 		 * Load Rest Api JavaScript
@@ -121,7 +119,7 @@ class WP_Statistics_Frontend {
 
 		//track all page
 		$params['track_all'] = 0;
-		if ( WP_Statistics_Hits::is_track_all_page() === true ) {
+		if ( WP_Statistics_Hits::is_track_page() === true ) {
 			$params['track_all'] = 1;
 		}
 
@@ -129,15 +127,19 @@ class WP_Statistics_Frontend {
 		$params['timestamp'] = $WP_Statistics->current_date( 'U' );
 
 		//Wp_query
-		$params['is_object_wp_query'] = 'false';
-		if ( is_object( $wp_query ) ) {
-			$params['is_object_wp_query'] = 'true';
-			$params['current_page_id']    = $wp_query->get_queried_object_id();
+		$get_page_type               = WP_Statistics_Frontend::get_page_type();
+		$params['search_query']      = '';
+		$params['current_page_type'] = $get_page_type['type'];
+		$params['current_page_id']   = $get_page_type['id'];
+
+		if ( array_key_exists( "search_query", $get_page_type ) ) {
+			$params['search_query'] = $get_page_type['search_query'];
 		}
 
 		//page url
 		$params['page_uri'] = wp_statistics_get_uri();
 
+		//Fixed entity decode Html
 		foreach ( (array) $params as $key => $value ) {
 			if ( ! is_scalar( $value ) ) {
 				continue;
@@ -145,8 +147,7 @@ class WP_Statistics_Frontend {
 			$params[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
 		}
 
-
-		return json_encode($params, JSON_UNESCAPED_SLASHES);
+		return json_encode( $params, JSON_UNESCAPED_SLASHES );
 	}
 
 
@@ -163,7 +164,7 @@ class WP_Statistics_Frontend {
 		}
 
 		//Disable if User Active cache Plugin
-		if ( ! $WP_Statistics->use_cache  ) {
+		if ( ! $WP_Statistics->use_cache ) {
 
 			$h = new WP_Statistics_GEO_IP_Hits;
 
@@ -222,6 +223,79 @@ class WP_Statistics_Frontend {
 		} else {
 			return $content;
 		}
+	}
+
+
+	/**
+	 * Get Page Type
+	 */
+	public static function get_page_type() {
+		$id     = get_queried_object_id();
+
+		//WooCommerce Product
+		if ( class_exists( 'WooCommerce' ) ) {
+			if ( is_product() ) {
+				return array( "type" => "product", "id" => $id );
+			}
+		}
+
+		//Home Page or Front Page
+		if ( is_front_page() || is_home() ) {
+			return array( "type" => "home", "id" => 0 );
+		}
+
+		//attachment View
+		if ( is_attachment() ) {
+			return array( "type" => "attachment", "id" => $id );
+		}
+
+		//Single Post
+		if ( is_single() ) {
+			return array( "type" => "post", "id" => $id );
+		}
+
+		//Single Page
+		if ( is_page() ) {
+			return array( "type" => "page", "id" => $id );
+		}
+
+		//Category Page
+		if ( is_category() ) {
+			return array( "type" => "cat", "id" => $id );
+		}
+
+		//Tag Page
+		if ( is_tag() ) {
+			return array( "type" => "tag", "id" => $id );
+		}
+
+		//is Custom Term From Taxonomy
+		if ( is_tax() ) {
+			return array( "type" => "tax", "id" => $id );
+		}
+
+		//is Author Page
+		if ( is_author() ) {
+			return array( "type" => "author", "id" => $id );
+		}
+
+		//is search page
+		$search_query = get_search_query();
+		if ( trim( $search_query ) !="" ) {
+			return array( "type" => "search", "id" => 0, "search_query" => $search_query );
+		}
+
+		//is Archive Page
+		if ( is_archive() ) {
+			return array( "type" => "archive", "id" => 0 );
+		}
+
+		//is 404 Page
+		if ( is_404() ) {
+			return array( "type" => "404", "id" => 0 );
+		}
+
+		return array( "type" => "unknown", "id" => 0 );
 	}
 
 }
