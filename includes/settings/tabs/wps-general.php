@@ -203,6 +203,7 @@ if ( $wps_nonce_valid ) {
                 <label for="all_pages"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp-statistics' ); ?></p>
+                <p class="description"><?php echo sprintf( __( 'Track All Wordpress Page Contains Category, Post Tags, Author, Custom Taxonomy and ...', 'wp-statistics' ), admin_url( 'options-permalink.php' ) ); ?></p>
             </td>
         </tr>
 
