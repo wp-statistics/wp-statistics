@@ -923,7 +923,6 @@ class WP_Statistics {
 	 * @return array|\string[]
 	 */
 	public function get_UserAgent() {
-
 		//Check If Rest Request
 		if ( $this->restapi->is_rest() ) {
 			return array(
@@ -933,10 +932,13 @@ class WP_Statistics {
 			);
 		}
 
-		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		// Check function exist.
 		if ( function_exists( 'getallheaders' ) ) {
 			$user_agent = getallheaders();
-		}
+		} else {
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+        }
+
 		$result = new WhichBrowser\Parser( $user_agent );
 		$agent  = array(
 			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
