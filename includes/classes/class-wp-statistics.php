@@ -424,7 +424,14 @@ class WP_Statistics {
 			return $this->restapi->params( 'hash_ip' );
 		}
 
-		return '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
+		//Set Key
+		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
+			$key = $_SERVER['HTTP_USER_AGENT'];
+		} else {
+			$key = wp_salt();
+		}
+
+		return '#hash#' . sha1( $this->ip . $key );
 	}
 
 	/**
@@ -452,7 +459,7 @@ class WP_Statistics {
 	static function geoip_loader( $pack ) {
 
 		$upload_dir = wp_upload_dir();
-		$geoip = $upload_dir['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
+		$geoip      = $upload_dir['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
 		if ( file_exists( $geoip ) ) {
 			try {
 				$reader = new GeoIp2\Database\Reader( $geoip );
@@ -937,7 +944,7 @@ class WP_Statistics {
 			$user_agent = getallheaders();
 		} else {
 			$user_agent = $_SERVER['HTTP_USER_AGENT'];
-        }
+		}
 
 		$result = new WhichBrowser\Parser( $user_agent );
 		$agent  = array(
