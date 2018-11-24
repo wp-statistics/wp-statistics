@@ -23,7 +23,7 @@ class WP_Statistics_Frontend {
 		add_action( 'wp', 'WP_Statistics_Frontend::init' );
 
 		//Add inline Rest Request
-		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
+		add_action( 'wp_head', 'WP_Statistics_Frontend::add_inline_rest_js' );
 
 		//Add Html Comment in head
 		if ( $WP_Statistics->use_cache ) {
