@@ -123,6 +123,7 @@ To register, go to the Permalink page and update the permalink with press Save C
 * Improved: Avoid using jQuery in the inline script to for send request when the cache is enabled.
 * Improved: The GeoIP cron updater.
 * Improved: The cache process in plugin.
+* Improved: Get location for Anonymize IP Addresses.
 
 = 12.5.2 =
 * Improved: Some issues in php v5.4
