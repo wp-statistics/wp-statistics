@@ -124,6 +124,7 @@ To register, go to the Permalink page and update the permalink with press Save C
 * Improved: The GeoIP cron updater.
 * Improved: The cache process in plugin.
 * Improved: Get location for Anonymize IP Addresses.
+* Improved: Get authors list in the Author Statistics page.
 
 = 12.5.2 =
 * Improved: Some issues in php v5.4
