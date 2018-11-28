@@ -28,12 +28,7 @@ class WP_Statistics_Updates {
      * Update option process.
      */
     static function do_upgrade() {
-        GLOBAL $WP_Statistics;
 
-        // Enable the Anonymize IP Addresses option by default
-        if( !$WP_Statistics->isset_option('anonymize_ips') ) {
-            $WP_Statistics->update_option('anonymize_ips');
-        }
     }
 
 	/**

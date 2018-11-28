@@ -50,7 +50,7 @@ class WP_Statistics_Admin_Pages {
 			);
 			add_meta_box(
 				'wps_searched_phrases_postbox',
-				__( 'Top Searched Phrases (30 Days)', 'wp-statistics' ),
+				__( 'Top Search Words (30 Days)', 'wp-statistics' ),
 				'wp_statistics_generate_overview_postbox_contents',
 				$WP_Statistics->menu_slugs['overview'],
 				'normal',
@@ -145,17 +145,20 @@ class WP_Statistics_Admin_Pages {
 		}
 
 		//Set Default Hidden MetaBox
-        add_filter( 'default_hidden_meta_boxes', array( 'WP_Statistics_Admin_Pages', 'default_hide_meta_box') );
+		add_filter( 'default_hidden_meta_boxes', array( 'WP_Statistics_Admin_Pages', 'default_hide_meta_box' ), 10, 2 );
 	}
 
 	/*
 	 * Default Hidden Meta Box
 	 */
-	static public function default_hide_meta_box($hidden)
-    {
-        $hidden[] = 'wps_top_search_phrases_words_postbox';
-        return $hidden;
+	static public function default_hide_meta_box($hidden, $screen)
+	{
+		if($screen->id =="toplevel_page_wps_overview_page") {
+			$hidden[] = 'wps_searched_phrases_postbox';
+		}
+		return $hidden;
 	}
+
 
 	/**
 	 * Plugins
@@ -324,7 +327,8 @@ class WP_Statistics_Admin_Pages {
 			if( !isset($_POST['update_geoip']) and isset($_POST['wps_'.$geo_opt]) ) {
 
 				//Check File Not Exist
-				$file = wp_upload_dir()['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geo_name]['file'].'.mmdb';
+				$upload_dir = wp_upload_dir();
+				$file = $upload_dir['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geo_name]['file'].'.mmdb';
 				if ( !file_exists($file) ) {
 					$result = WP_Statistics_Updates::download_geoip($geo_name);
 					if(isset($result['status']) and $result['status'] === false) {

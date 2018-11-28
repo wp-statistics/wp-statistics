@@ -356,7 +356,7 @@ class WP_Statistics {
 			WP_Statistics::$page['referrers'] = 'wps_referrers_page';
 			//define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page');
 			/**
-			 * Searched Phrases Page
+			 * Searched Words Page
 			 */
 			WP_Statistics::$page['searched-phrases'] = 'wps_searched_phrases_page';
 			//define('WP_STATISTICS_SEARCHED_PHRASES_PAGE', 'wps_searched_phrases_page');
@@ -424,7 +424,14 @@ class WP_Statistics {
 			return $this->restapi->params( 'hash_ip' );
 		}
 
-		return '#hash#' . sha1( $this->ip . $_SERVER['HTTP_USER_AGENT'] );
+		//Set Key
+		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
+			$key = $_SERVER['HTTP_USER_AGENT'];
+		} else {
+			$key = wp_salt();
+		}
+
+		return '#hash#' . sha1( $this->ip . $key );
 	}
 
 	/**
@@ -451,7 +458,8 @@ class WP_Statistics {
 	 */
 	static function geoip_loader( $pack ) {
 
-		$geoip = wp_upload_dir()['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
+		$upload_dir = wp_upload_dir();
+		$geoip      = $upload_dir['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
 		if ( file_exists( $geoip ) ) {
 			try {
 				$reader = new GeoIp2\Database\Reader( $geoip );
@@ -895,7 +903,7 @@ class WP_Statistics {
 
 		// If the anonymize IP enabled for GDPR.
 		if ( $this->get_option( 'anonymize_ips' ) == true ) {
-			$this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.000';
+			$this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.0';
 		}
 
 		return $this->ip;
@@ -922,7 +930,6 @@ class WP_Statistics {
 	 * @return array|\string[]
 	 */
 	public function get_UserAgent() {
-
 		//Check If Rest Request
 		if ( $this->restapi->is_rest() ) {
 			return array(
@@ -932,7 +939,14 @@ class WP_Statistics {
 			);
 		}
 
-		$result = new WhichBrowser\Parser( self::getAllHeader() );
+		// Check function exist.
+		if ( function_exists( 'getallheaders' ) ) {
+			$user_agent = getallheaders();
+		} else {
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		}
+
+		$result = new WhichBrowser\Parser( $user_agent );
 		$agent  = array(
 			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
 			'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
@@ -1437,23 +1451,6 @@ class WP_Statistics {
 		return "<a href='{$html_nr_referrer}' title='{$html_nr_referrer}'>{$base_url['host']}</a>";
 	}
 
-	/*
-	 * Get All Headers
-	 */
-	public static function getAllHeader() {
-		if ( ! function_exists( 'getallheaders' ) ) {
-			$headers = [];
-			foreach ( $_SERVER as $name => $value ) {
-				if ( substr( $name, 0, 5 ) == 'HTTP_' ) {
-					$headers[ str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) ) ] = $value;
-				}
-			}
-		} else {
-			$headers = getallheaders();
-		}
-
-		return $headers;
-	}
 
 	/**
 	 * Unsupported Version Admin Notice

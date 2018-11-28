@@ -23,7 +23,7 @@ class WP_Statistics_Rest {
 		/*
 		 * add Router Rest Api
 		 */
-		if ( $WP_Statistics->use_cache ) {
+		if ( isset( $WP_Statistics ) and $WP_Statistics->use_cache ) {
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		}
 	}
@@ -53,13 +53,9 @@ class WP_Statistics_Rest {
 			return array( "rest-api-wp-statistics" => "OK" );
 		}
 
-		/*
-		 * Check Security Referer Only This Domain Access
-		 */
-		$header = $WP_Statistics::getAllHeader();
 
 		//Check Auth Key Request
-		if ( ! isset( $header['X-Ajax-Wp-Statistics'] ) ) {
+		if ( ! isset( $_POST[ self::_POST ] ) ) {
 			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
 		}
 
@@ -98,9 +94,8 @@ class WP_Statistics_Rest {
 	static public function is_rest() {
 		global $WP_Statistics;
 
-		if ( $WP_Statistics->use_cache === true ) {
-			$header = $WP_Statistics::getAllHeader();
-			if ( isset( $header['X-Ajax-Wp-Statistics'] ) and isset( $_POST[ self::_POST ] ) ) {
+		if ( isset( $WP_Statistics ) and $WP_Statistics->use_cache ) {
+			if ( isset( $_POST[ self::_POST ] ) ) {
 				return true;
 			}
 		}
@@ -112,8 +107,11 @@ class WP_Statistics_Rest {
 	 * Get Params Request
 	 */
 	static public function params( $params ) {
-		if ( isset( $_POST[ self::_POST ][ $params ] ) ) {
-			return $_POST[ self::_POST ][ $params ];
+		if ( isset( $_POST[ self::_POST ] ) ) {
+			$data = json_decode( stripslashes( $_POST[ self::_POST ] ), true );
+			if ( isset( $data[ $params ] ) ) {
+				return $data[ $params ];
+			}
 		}
 
 		return false;

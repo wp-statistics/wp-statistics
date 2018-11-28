@@ -137,9 +137,10 @@ class WP_Statistics_TinyMCE {
                 editor.settings.toolbar1 += \',wp_statistic_tc_button\';
         });
         ';
-        echo self::lang()['translate'];
+        $lang = WP_Statistics_TinyMCE::lang();
+        echo $lang['translate'];
         echo '
-        tinyMCEPreInit.load_ext("'.rtrim( WP_Statistics::$reg['plugin-url'], "/").'", "'.self::lang()['locale'].'");
+        tinyMCEPreInit.load_ext("'.rtrim( WP_Statistics::$reg['plugin-url'], "/").'", "'.$lang['locale'].'");
         </script>
     ';
     }

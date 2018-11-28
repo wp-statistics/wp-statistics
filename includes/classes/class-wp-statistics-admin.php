@@ -77,7 +77,7 @@ class WP_Statistics_Admin {
 		// Load TinyMce Function
 		new WP_Statistics_TinyMCE();
 
-		//Add Notice Use cache plugin
+		// Add Notice Use cache plugin
 		add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );
 
 		//Admin Notice Setting
@@ -288,7 +288,7 @@ class WP_Statistics_Admin {
 			if ( false === ( $check_rest_api = get_transient( '_check_rest_api_wp_statistics' ) ) ) {
 
 				$set_transient = true;
-				$alert         = '<div class="notice notice-warning is-dismissible"><p>' . __( 'Please Activate WordPress Rest Api for performancing WP-Statistics Plugin Cache', 'wp-statistics' ) . '</div>';
+				$alert         = '<div class="notice notice-warning is-dismissible"><p>' . sprintf( __( 'Here is an error associated with Connecting WordPress Rest API, Please Flushing rewrite rules or activate wp rest api for performance WP-Statistics Plugin Cache / Go %1$sSettings->Permalinks%2$s', 'wp-statistics' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">', '</a>' ) . '</div>';
 				$request       = wp_remote_post( path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ), array(
 					'method' => 'POST',
 					'body'   => array( 'rest-api-wp-statistics' => 'wp-statistics' )
@@ -299,7 +299,7 @@ class WP_Statistics_Admin {
 				}
 				$body = wp_remote_retrieve_body( $request );
 				$data = json_decode( $body, true );
-				if ( ! isset( $data['rest-api-wp-statistics'] ) ) {
+				if ( ! isset( $data['rest-api-wp-statistics'] ) and $set_transient === true ) {
 					echo $alert;
 					$set_transient = false;
 				}
@@ -680,7 +680,7 @@ class WP_Statistics_Admin {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
-		global $pagenow;
+		global $pagenow, $WP_Statistics;
 
 		// Load our CSS to be used.
 		wp_enqueue_style(
@@ -715,7 +715,7 @@ class WP_Statistics_Admin {
 		}
 
 		//Load in Post Page
-		if ( $pagenow == "post.php" ) {
+		if ( $pagenow == "post.php" and $WP_Statistics->get_option( 'hit_post_metabox' ) ) {
 			$load_chart = true;
 		}
 

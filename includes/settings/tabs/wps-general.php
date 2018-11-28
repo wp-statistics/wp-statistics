@@ -28,6 +28,7 @@ if ( $wps_nonce_valid ) {
 		'wps_track_all_pages',
 		'wps_use_cache_plugin',
 		'wps_disable_column',
+		'wps_hit_post_metabox',
 		'wps_show_hits',
 		'wps_display_hits_position',
 		'wps_check_online',
@@ -231,22 +232,38 @@ if ( $wps_nonce_valid ) {
 		?>
         <tr valign="top">
             <th scope="row">
-                <label for="disable_column"><?php _e( 'Disable hits column in post/pages list:', 'wp-statistics' ); ?></label>
+                <label for="disable_column"><?php _e( 'Hits column', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
                 <input id="disable_column" type="checkbox" value="1"
                        name="wps_disable_column" <?php echo $WP_Statistics->get_option( 'disable_column' ) == true
 					? "checked='checked'" : ''; ?>>
-                <label for="disable_column"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <label for="disable_column"><?php _e( 'Disable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e( 'Enable or disable this feature', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
+
         <tr valign="top">
             <th scope="row">
-                <label for="show_hits"><?php _e( 'Show hits in posts/pages in the site:', 'wp-statistics' ); ?></label>
+                <label for="hit_post_metabox"><?php _e( 'Hit metabox chart:', 'wp-statistics' ); ?></label>
+            </th>
+
+            <td>
+                <input id="hit_post_metabox" type="checkbox" value="1"
+                       name="wps_hit_post_metabox" <?php echo $WP_Statistics->get_option( 'hit_post_metabox' ) == true
+			        ? "checked='checked'" : ''; ?>>
+                <label for="hit_post_metabox"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+
+                <p class="description"><?php _e( 'Show hits meta box chart in the edit of all post types page.', 'wp-statistics' ); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="show_hits"><?php _e( 'Hits in single page:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -309,6 +326,7 @@ if ( $wps_nonce_valid ) {
                 <label for="use_cache_plugin"><?php _e( 'Yes', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e( 'If you use WordPress Cache Plugins, enable this option.', 'wp-statistics' ); ?></p>
+                <p class="description"><?php echo sprintf( __( 'To register WP-Statistics REST API endpoint  ( %s ) , go to the <a href="%s">Permalink page</a> and update the permalink with press Save Changes.', 'wp-statistics' ), WP_Statistics_Rest::route ,admin_url( 'options-permalink.php' ) ); ?></p>
             </td>
         </tr>
 

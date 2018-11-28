@@ -71,7 +71,7 @@ if ( $phrase ) {
 
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Top Searched Phrases', 'wp-statistics' ); ?></h2>
+    <h2><?php _e( 'Top Search Words', 'wp-statistics' ); ?></h2>
 	<?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div><?php wp_statistics_date_range_selector(
@@ -119,7 +119,7 @@ if ( $phrase ) {
 					<?php if ( $phrase ) {
 						$paneltitle = sprintf( __( 'Searched Phrase: %s', 'wp-statistics' ), esc_html( $phrase ) );
 					} else {
-						$paneltitle = __( 'Top Searched Phrases', 'wp-statistics' );
+						$paneltitle = __( 'Top Search Words', 'wp-statistics' );
 					}; ?>
                     <button class="handlediv" type="button" aria-expanded="true">
 						<span class="screen-reader-text"><?php printf(

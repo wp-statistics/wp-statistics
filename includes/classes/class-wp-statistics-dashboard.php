@@ -187,7 +187,7 @@ class WP_Statistics_Dashboard {
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
 				wp_add_dashboard_widget(
 					'wp-statistics-searched-phrases-widget',
-					__( 'Top Searched Phrases (30 Days)', 'wp-statistics' ),
+					__( 'Top Search Words (30 Days)', 'wp-statistics' ),
 					'WP_Statistics_Dashboard::generate_postbox_contents',
 					$control_callback = null,
 					array( 'widget' => 'searched.phrases' )

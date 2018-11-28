@@ -87,7 +87,7 @@ class WP_Statistics_Network_Admin {
 					__( 'Online', 'wp-statistics' )             => WP_Statistics::$page['online'],
 					__( 'Referrers', 'wp-statistics' )          => WP_Statistics::$page['referrers'],
 					__( 'Search Words', 'wp-statistics' )       => WP_Statistics::$page['words'],
-					__( 'Searched Phrases', 'wp-statistics' )   => WP_Statistics::$page['searched-phrases'],
+					__( 'Top Search Words', 'wp-statistics' )   => WP_Statistics::$page['searched-phrases'],
 					__( 'Searches', 'wp-statistics' )           => WP_Statistics::$page['searches'],
 					__( 'Pages', 'wp-statistics' )              => WP_Statistics::$page['pages'],
 					__( 'Visitors', 'wp-statistics' )           => WP_Statistics::$page['visitors'],

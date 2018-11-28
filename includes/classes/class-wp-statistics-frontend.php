@@ -23,7 +23,7 @@ class WP_Statistics_Frontend {
 		add_action( 'wp', 'WP_Statistics_Frontend::init' );
 
 		//Add inline Rest Request
-		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_inline_rest_js' );
+		add_action( 'wp_head', 'WP_Statistics_Frontend::add_inline_rest_js' );
 
 		//Add Html Comment in head
 		if ( $WP_Statistics->use_cache ) {
@@ -57,14 +57,10 @@ class WP_Statistics_Frontend {
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
-		global $WP_Statistics;
 
 		// Load our CSS to be used.
-		wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
-
-		if ( $WP_Statistics->use_cache ) {
-			//Load Jquery
-			wp_enqueue_script( 'jquery' );
+		if ( is_admin_bar_showing() ) {
+			wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
 		}
 	}
 
@@ -76,7 +72,7 @@ class WP_Statistics_Frontend {
 
 		if ( $WP_Statistics->use_cache ) {
 			self::html_comment();
-			echo '<script>jQuery(document).ready(function($){jQuery.ajax({type:\'POST\',cache:false,url:\'' . path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) . '\',data: ' . self::set_default_params() . ',beforeSend: function(xhr){xhr.setRequestHeader(\'X-Ajax-Wp-Statistics\',\'true\');},});});</script>' . "\n";
+			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("'.WP_Statistics_Rest::_POST.'=" + JSON.stringify('.self::set_default_params().'));</script>' . "\n";
 		}
 	}
 
@@ -149,10 +145,8 @@ class WP_Statistics_Frontend {
 			$params[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
 		}
 
-		$array                              = array();
-		$array[ WP_Statistics_Rest::_POST ] = $params;
 
-		return wp_json_encode( $array );
+		return json_encode($params, JSON_UNESCAPED_SLASHES);
 	}
 
 
@@ -169,7 +163,7 @@ class WP_Statistics_Frontend {
 		}
 
 		//Disable if User Active cache Plugin
-		if ( $WP_Statistics->use_cache === false  ) {
+		if ( ! $WP_Statistics->use_cache  ) {
 
 			$h = new WP_Statistics_GEO_IP_Hits;
 

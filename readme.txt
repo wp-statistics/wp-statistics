@@ -1,10 +1,10 @@
 === WP Statistics ===
-Contributors: mostafa.s1990, GregRoss, dedidata
+Contributors: mostafa.s1990, mehrshaddarzi, ghasemi71ir, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 12.5.2
+Stable tag: 12.5.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -107,12 +107,24 @@ If IPv6 is not enabled, you may see an warning like:
 10. Theme widget
 
 == Upgrade Notice ==
-= 12.4.0 =
-GDPR compliance, Updated!
-We implement GDPR into the WP-Statistics. for more information read [the blog post](https://wp-statistics.com/2018/08/16/wp-statistics-gdpr).
-Important: with this update, Opt-out feature is removed.
+= 12.5.3 =
+Please consider that after updating, you will probably see some changes in Hits. The reason is that we have better-recognized crawlers and robots to get more accurate statistics for you.
+
+If the cache option is enabled in your WordPress, you should make sure the below endpoint registered in your WordPress.
+http://yourwebsite.com/wp-json/wpstatistics/v1
+
+To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.5.3 =
+* Added: Option for enabling/disabling the hits meta box chart in the edit of all post types page and that option is disabled by default.
+* Improved: The responsive problem of Recent Visitors and Latest Search Words widgets in WP Dashboard.
+* Improved: Avoid using jQuery in the inline script to for send request when the cache is enabled.
+* Improved: The GeoIP updater.
+* Improved: The cache process in the plugin.
+* Improved: Get location for Anonymize IP Addresses.
+* Improved: The query in the Author Statistics page.
+
 = 12.5.2 =
 * Improved: Some issues in php v5.4
 
