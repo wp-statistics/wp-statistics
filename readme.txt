@@ -115,16 +115,15 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
-
 == Changelog ==
 = 12.5.3 =
 * Added: Option for enabling/disabling the hits meta box chart in the edit of all post types page and that option is disabled by default.
 * Improved: The responsive problem of Recent Visitors and Latest Search Words widgets in WP Dashboard.
 * Improved: Avoid using jQuery in the inline script to for send request when the cache is enabled.
-* Improved: The GeoIP cron updater.
-* Improved: The cache process in plugin.
+* Improved: The GeoIP updater.
+* Improved: The cache process in the plugin.
 * Improved: Get location for Anonymize IP Addresses.
-* Improved: Get authors list in the Author Statistics page.
+* Improved: The query in the Author Statistics page.
 
 = 12.5.2 =
 * Improved: Some issues in php v5.4
