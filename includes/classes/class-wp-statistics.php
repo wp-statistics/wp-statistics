@@ -419,22 +419,18 @@ class WP_Statistics {
 	 * Generate hash string
 	 */
 	public function get_hash_string() {
-		//Check If Rest Request
+		// Check If Rest Request
 		if ( $this->restapi->is_rest() ) {
 			return $this->restapi->params( 'hash_ip' );
 		}
 
-		//Set Key
+		// Check the user agent has exist.
 		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
 			$key = $_SERVER['HTTP_USER_AGENT'];
-		} elseif ( defined( 'AUTH_KEY' ) ) {
-			$key = AUTH_KEY;
-		} elseif ( function_exists( "wp_salt" ) ) {
-			$key = wp_salt();
 		} else {
-			$key = sha1( get_option( 'siteurl' ) );
+			$key = 'Unknown';
 		}
-
+		
 		return '#hash#' . sha1( $this->ip . $key );
 	}
 
