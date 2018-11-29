@@ -263,7 +263,7 @@ class WP_Statistics_Admin {
 		global $WP_Statistics;
 
 		$screen = get_current_screen();
-		if ( $screen->id != "statistics_page_" . WP_Statistics::$page['settings'] ) {
+		if ( $screen->id == "statistics_page_" . WP_Statistics::$page['settings'] ) {
 			$plugin = self::user_is_use_cache_plugin();
 			if ( ! $WP_Statistics->get_option( 'use_cache_plugin' ) and $plugin['status'] === true ) {
 				echo '<div class="notice notice-warning is-dismissible"><p>';
