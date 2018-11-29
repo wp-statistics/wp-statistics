@@ -117,7 +117,8 @@ To register, go to the Permalink page and update the permalink with press Save C
 
 == Changelog ==
 = 12.5.4 =
-* Improved: Some issues.
+* Disabled: Notice cache in all admin pages just enabled in the summary and setting of WP-Statistics pages.
+* Improved: Some methods. `params()` and `get_hash_string()`.
 
 = 12.5.3 =
 * Added: Option for enabling/disabling the hits meta box chart in the edit of all post types page and that option is disabled by default.
