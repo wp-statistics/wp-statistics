@@ -419,16 +419,16 @@ class WP_Statistics {
 	 * Generate hash string
 	 */
 	public function get_hash_string() {
-		//Check If Rest Request
+		// Check If Rest Request
 		if ( $this->restapi->is_rest() ) {
 			return $this->restapi->params( 'hash_ip' );
 		}
 
-		//Set Key
+		// Check the user agent has exist.
 		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
 			$key = $_SERVER['HTTP_USER_AGENT'];
 		} else {
-			$key = wp_salt();
+			$key = 'Unknown';
 		}
 
 		return '#hash#' . sha1( $this->ip . $key );
