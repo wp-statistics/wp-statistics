@@ -430,7 +430,7 @@ class WP_Statistics {
 		} else {
 			$key = 'Unknown';
 		}
-		
+
 		return '#hash#' . sha1( $this->ip . $key );
 	}
 
