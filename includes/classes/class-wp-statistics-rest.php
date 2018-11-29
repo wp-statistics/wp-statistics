@@ -108,9 +108,10 @@ class WP_Statistics_Rest {
 	 */
 	static public function params( $params ) {
 		if ( isset( $_POST[ self::_POST ] ) ) {
-			$data = json_decode( stripslashes( $_POST[ self::_POST ] ), true );
-			if ( isset( $data[ $params ] ) ) {
-				return $data[ $params ];
+			$data = wp_unslash( $_POST[ self::_POST ] );
+			$json_data = json_decode( $data, true );
+			if ( isset( $json_data[ $params ] ) ) {
+				return $json_data[ $params ];
 			}
 		}
 
