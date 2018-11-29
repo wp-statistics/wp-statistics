@@ -254,7 +254,7 @@ class WP_Statistics_Admin {
 
 		return $use;
 	}
-	
+
 	/*
 	 * Show Notification Cache Plugin
 	 */
