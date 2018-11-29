@@ -427,8 +427,12 @@ class WP_Statistics {
 		//Set Key
 		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
 			$key = $_SERVER['HTTP_USER_AGENT'];
-		} else {
+		} elseif ( defined( 'AUTH_KEY' ) ) {
+			$key = AUTH_KEY;
+		} elseif ( function_exists( "wp_salt" ) ) {
 			$key = wp_salt();
+		} else {
+			$key = sha1( get_option( 'siteurl' ) );
 		}
 
 		return '#hash#' . sha1( $this->ip . $key );
