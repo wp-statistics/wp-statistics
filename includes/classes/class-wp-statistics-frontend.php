@@ -70,7 +70,7 @@ class WP_Statistics_Frontend {
 
 		if ( $WP_Statistics->use_cache ) {
 			self::html_comment();
-			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("' . WP_Statistics_Rest::_POST . '=" + JSON.stringify(' . self::set_default_params() . '));</script>' . "\n";
+			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("'.WP_Statistics_Rest::_POST.'=" + JSON.stringify('.self::set_default_params().'));</script>' . "\n";
 		}
 	}
 
