@@ -488,26 +488,28 @@ class WP_Statistics_Hits {
                     }
 
 					// Parse the URL in to it's component parts.
-					$parts = parse_url( $referred );
+					if ( wp_http_validate_url( $referred ) ) {
+						$parts = parse_url( $referred );
 
-					// Loop through the SE list until we find which search engine matches.
-					foreach ( $search_engines as $key => $value ) {
-						$search_regex = wp_statistics_searchengine_regex( $key );
+						// Loop through the SE list until we find which search engine matches.
+						foreach ( $search_engines as $key => $value ) {
+							$search_regex = wp_statistics_searchengine_regex( $key );
 
-						preg_match( '/' . $search_regex . '/', $parts['host'], $matches );
+							preg_match( '/' . $search_regex . '/', $parts['host'], $matches );
 
-						if ( isset( $matches[1] ) ) {
-							$data['last_counter'] = $WP_Statistics->Current_date( 'Y-m-d' );
-							$data['engine']       = $key;
-							$data['words']        = $WP_Statistics->Search_Engine_QueryString( $referred );
-							$data['host']         = $parts['host'];
-							$data['visitor']      = $wpdb->insert_id;
+							if ( isset( $matches[1] ) ) {
+								$data['last_counter'] = $WP_Statistics->Current_date( 'Y-m-d' );
+								$data['engine']       = $key;
+								$data['words']        = $WP_Statistics->Search_Engine_QueryString( $referred );
+								$data['host']         = $parts['host'];
+								$data['visitor']      = $wpdb->insert_id;
 
-							if ( $data['words'] == 'No search query found!' ) {
-								$data['words'] = '';
+								if ( $data['words'] == 'No search query found!' ) {
+									$data['words'] = '';
+								}
+
+								$wpdb->insert( $wpdb->prefix . 'statistics_search', $data );
 							}
-
-							$wpdb->insert( $wpdb->prefix . 'statistics_search', $data );
 						}
 					}
 				}
