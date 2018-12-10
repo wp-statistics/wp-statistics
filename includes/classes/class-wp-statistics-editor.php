@@ -69,7 +69,11 @@ class WP_Statistics_Editor {
 				'WP_Statistics_Editor::meta_box',
 				$screen,
 				'normal',
-				'high'
+				'high',
+				array(
+					'__block_editor_compatible_meta_box' => true,
+					'__back_compat_meta_box'             => false,
+				)
 			);
 		}
 	}
