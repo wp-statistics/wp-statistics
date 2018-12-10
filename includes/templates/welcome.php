@@ -156,7 +156,7 @@
 
         <hr>
 
-        <div class="return-to-dashboard">
+        <div class="wps-return-to-dashboard">
             <a href="<?php echo admin_url( 'admin.php?page=wps_overview_page' ); ?>"><?php _e( 'Go to Statistics &rarr; Overview', 'wp-statistics' ); ?></a>
         </div>
     </div>

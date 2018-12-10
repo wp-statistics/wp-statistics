@@ -300,3 +300,7 @@ html[dir="rtl"] .wp-statistic-mce-desc {
     text-align: right !important;
     margin: 0 82px 0px 0px !important;
 }
+
+.about-text img {
+    width: 90px;
+}
