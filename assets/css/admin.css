@@ -304,3 +304,14 @@ html[dir="rtl"] .wp-statistic-mce-desc {
 .about-text img {
     width: 90px;
 }
+
+.wps-return-to-dashboard {
+    margin: 30px 0 0 -5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.wps-return-to-dashboard a {
+    text-decoration: none;
+    padding: 0 5px;
+}
