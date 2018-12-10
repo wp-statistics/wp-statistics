@@ -103,11 +103,7 @@ class WP_Statistics_Editor {
 				echo '<style>button#wp_statistics_editor_meta_box_more_button { z-index: 9999;position: absolute;top: 1px;right: 3%;}</style>';
 			}
 		} else {
-			$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' .
-			                plugins_url( 'wp-statistics/assets/images/' ) .
-			                'ajax-loading.gif" alt="' .
-			                __( 'Loading...', 'wp-statistics' ) .
-			                '"></div>';
+			$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp-statistics' ) . '"></div>';
 			$widget       = $args['args']['widget'];
 			$container_id = 'wp-statistics-' . str_replace( '.', '-', $widget ) . '-div';
 			echo '<div id="' . $container_id . '">' . $loading_img . '</div>';
@@ -126,40 +122,21 @@ class WP_Statistics_Editor {
 
 		WP_Statistics_Dashboard::load_widget_css_and_scripts();
 
-		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .
-		               plugins_url( 'wp-statistics/assets/images/' ) .
-		               'ajax-loading.gif" alt="' .
-		               __( 'Reloading...', 'wp-statistics' ) .
-		               '"></div>';
+		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
 		$new_buttons = '</button>';
 		//If Classic Editor
 		if ( self::is_gutenberg() === false ) {
-			$new_buttons .= '<button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-			                wp_statistics_icons( 'dashicons-update' ) .
-			                '<span class="screen-reader-text">' .
-			                __( 'Reload', 'wp-statistics' ) .
-			                '</span></button>';
+			$new_buttons .= '<button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button>';
 		}
-		$new_buttons
-			.= '<button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' .
-			   wp_statistics_icons( 'dashicons-migrate' ) .
-			   '<span class="screen-reader-text">' .
-			   __( 'More Details', 'wp-statistics' ) .
-			   '</span></button>';
-		$new_button
-			= '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-			  wp_statistics_icons( 'dashicons-update' ) .
-			  '<span class="screen-reader-text">' .
-			  __( 'Reload', 'wp-statistics' ) .
-			  '</span></button>';
+		$new_buttons .= '<button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp-statistics' ) . '</span></button>';
+		$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button>';
 
 		$admin_url = get_admin_url() . "/admin.php?page=";
 
 		$page_urls = array();
 
-		$page_urls['wp_statistics_editor_meta_box_more_button'] = $admin_url .
-		                                                          WP_Statistics::$page['pages'] .
-		                                                          '&page-id=';
+		$page_urls['wp_statistics_editor_meta_box_more_button'] = $admin_url . WP_Statistics::$page['pages'] . '&page-id=';
+
 		//Button for Gutenberg
 		$btn_more_action = 'wp_statistics_goto_more';
 		if ( self::is_gutenberg() ) {
