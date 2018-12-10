@@ -315,3 +315,7 @@ html[dir="rtl"] .wp-statistic-mce-desc {
     text-decoration: none;
     padding: 0 5px;
 }
+
+.wps-gutenberg-chart-js {
+    height: 350px;
+}
