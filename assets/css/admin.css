@@ -300,3 +300,22 @@ html[dir="rtl"] .wp-statistic-mce-desc {
     text-align: right !important;
     margin: 0 82px 0px 0px !important;
 }
+
+.about-text img {
+    width: 90px;
+}
+
+.wps-return-to-dashboard {
+    margin: 30px 0 0 -5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.wps-return-to-dashboard a {
+    text-decoration: none;
+    padding: 0 5px;
+}
+
+.wps-gutenberg-chart-js {
+    height: 350px;
+}
