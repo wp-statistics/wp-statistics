@@ -110,7 +110,7 @@ class WP_Statistics_Rest {
 		if ( isset( $_POST[ self::_POST ] ) ) {
 			$data = wp_unslash( $_POST[ self::_POST ] );
 
-			if ( is_object( $data ) ) {
+			if ( ! empty( $data ) && is_string( $data ) && is_array( json_decode( $data, true ) ) && json_last_error() == 0 ) {
 				$data = json_decode( $data, true );
 			}
 
