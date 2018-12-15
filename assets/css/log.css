@@ -379,3 +379,11 @@
 .wp-statistics-table {
     overflow-x: auto;
 }
+
+.wps-postbox-veronalabs {
+    margin: 18px 0 0 0;
+}
+
+.wps-postbox-veronalabs img {
+    width: 116px;
+}
