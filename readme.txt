@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.0
-Stable tag: 12.5.5
+Stable tag: 12.5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,6 +116,9 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.5.6 =
+* Fixed: Counting stats issue in Cache mode.
+
 = 12.5.5 =
 * Improved: The WP-Statistics Metaboxes for Gutenberg!
 * Improved: The `params()` method.
