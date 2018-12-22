@@ -66,18 +66,7 @@ if ( $_get != '%' ) {
 					if ( $i == $Total ) {
 						$spacer = "";
 					}
-					echo $spacer .
-					     "<li><a " .
-					     $current .
-					     "href='?page=" .
-					     WP_Statistics::$page['visitors'] .
-					     "&agent=" .
-					     $Browser .
-					     "'> " .
-					     __( $Browser, 'wp-statistics' ) .
-					     " <span class='count'>(" .
-					     number_format_i18n( wp_statistics_useragent( $Browser ) ) .
-					     ")</span></a></li>";
+					echo $spacer . "<li><a " . $current . "href='?page=" . WP_Statistics::$page['visitors'] . "&agent=" . $Browser . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
 				}
 			} else {
 				if ( $_get != '%' ) {
@@ -85,10 +74,7 @@ if ( $_get != '%' ) {
 				} else {
 					$current = "";
 				}
-				echo $spacer .
-				     "<li><a {$current} href='?page=" .
-				     WP_Statistics::$page['visitors'] .
-				     "&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
+				echo $spacer . "<li><a {$current} href='?page=" . WP_Statistics::$page['visitors'] . "&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
 			}
 		}
 		?>
