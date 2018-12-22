@@ -423,10 +423,14 @@ function wp_statistics_ua_list( $rangestartdate = null, $rangeenddate = null ) {
 		$result = $wpdb->get_results( "SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor", ARRAY_N );
 	}
 
-	$Browsers = array();
+	$Browsers        = array();
+	$default_browser = wp_statistics_get_browser_list();
 
 	foreach ( $result as $out ) {
-		$Browsers[] = $out[0];
+		//Check Browser is defined in wp-statistics
+		if ( array_key_exists( strtolower( $out[0] ), $default_browser ) ) {
+			$Browsers[] = $out[0];
+		}
 	}
 
 	return $Browsers;
