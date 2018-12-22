@@ -30,27 +30,12 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 	foreach ( $result as $items ) {
 		echo "<tr>";
 		echo "<td style=\"text-align: left\">";
-		if ( array_search(
-			     strtolower( $items->agent ),
-			     array(
-				     "chrome",
-				     "firefox",
-				     "msie",
-				     "opera",
-				     "safari",
-			     )
-		     ) !== false
-		) {
-			$agent = "<img src='" .
-			         plugins_url( 'wp-statistics/assets/images/' ) .
-			         $items->agent .
-			         ".png' class='log-tools' title='{$items->agent}'/>";
+		if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
+			$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
 		} else {
 			$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 		}
-		echo "<a href='?page=" .
-		     WP_Statistics::$page['overview'] .
-		     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+		echo "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 		echo "</td>";
 		$city = '';
 		if ( $WP_Statistics->get_option( 'geoip_city' ) ) {

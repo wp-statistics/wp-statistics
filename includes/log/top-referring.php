@@ -104,13 +104,11 @@ if ( $referr ) {
 						'All',
 						'wp-statistics'
 					); ?></a>
-            </li>
-            |
+            </li>|
             <li>
-                <a class="current"
-                   href="?page=<?php echo WP_Statistics::$page['referrers']; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer(
-						   $referr
-					   ) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?>
+                <a class="current" href="?page=<?php echo WP_Statistics::$page['referrers']; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer(
+						$referr
+					) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?>
                     <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
             <li class="all"><a <?php if ( ! $referr ) {
@@ -195,32 +193,15 @@ if ( $referr ) {
 									     date( get_option( 'date_format' ), strtotime( $item->last_counter ) ) .
 									     " - <a href='http://www.geoiptool.com/en/?IP={$item->ip}' target='_blank'>{$item->ip}</a></div>";
 									echo "<div class='clear'></div>";
-									echo "<a class='show-map' title='" .
-									     __( 'Map', 'wp-statistics' ) .
-									     "'><div class='dashicons dashicons-location-alt'></div></a>";
+									echo "<a class='show-map' title='" . __( 'Map', 'wp-statistics' ) . "'><div class='dashicons dashicons-location-alt'></div></a>";
 
-									if ( array_search(
-										     strtolower( $item->agent ),
-										     array(
-											     'chrome',
-											     'firefox',
-											     'msie',
-											     'opera',
-											     'safari',
-										     )
-									     ) !== false
-									) {
-										$agent = "<img src='" .
-										         plugins_url( 'wp-statistics/assets/images/' ) .
-										         $item->agent .
-										         ".png' class='log-tools' title='{$item->agent}'/>";
+									if ( array_search( strtolower( $item->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
+										$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $item->agent . ".png' class='log-tools' title='{$item->agent}'/>";
 									} else {
 										$agent = "<div class='dashicons dashicons-editor-help'></div>";
 									}
 
-									echo "<div class='log-agent'><a href='?page=" .
-									     WP_Statistics::$page['overview'] .
-									     "&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
+									echo "<div class='log-agent'><a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
 									echo $WP_Statistics->get_referrer_link( $item->referred, 100 ) . '</div>';
 									echo "</div>";
 								}
