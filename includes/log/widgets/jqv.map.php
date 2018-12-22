@@ -1,5 +1,5 @@
 <?php
-function wp_statistics_generate_map_postbox_content($ISOCountryCode ) {
+function wp_statistics_generate_map_postbox_content( $ISOCountryCode ) {
 
 	global $wpdb, $WP_Statistics;
 
@@ -21,10 +21,10 @@ function wp_statistics_generate_map_postbox_content($ISOCountryCode ) {
 				$final_result['000'] = array();
 
 				//Load City Geoip
-                $geoip_reader = false;
-                if( $WP_Statistics->get_option( 'geoip_city' ) ) {
-                    $geoip_reader = $WP_Statistics::geoip_loader('city');
-                }
+				$geoip_reader = false;
+				if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
+					$geoip_reader = $WP_Statistics::geoip_loader( 'city' );
+				}
 
 				if ( $result ) {
 					foreach ( $result as $new_r ) {
@@ -56,14 +56,7 @@ function wp_statistics_generate_map_postbox_content($ISOCountryCode ) {
 
 					$flag = "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . strtoupper( $markets['location'] ) . '.png' ) . "' title='{$ISOCountryCode[strtoupper($markets['location'])]}' class='log-tools'/> {$ISOCountryCode[strtoupper($markets['location'])]}";
 
-					if ( array_search( strtolower( $markets['agent'] ), array(
-							"chrome",
-							"firefox",
-							"msie",
-							"opera",
-							"safari",
-						) ) !== false
-					) {
+					if ( array_search( strtolower( $markets['agent'] ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
 						$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $markets['agent'] . ".png' class='log-tools' title='{$markets['agent']}'/>";
 					} else {
 						$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/unknown.png' ) . "' class='log-tools' title='{$markets['agent']}'/>";
@@ -73,16 +66,18 @@ function wp_statistics_generate_map_postbox_content($ISOCountryCode ) {
 						$markets['ip'] = __( '#hash#', 'wp-statistics' );
 					}
 
-                    $city = '';
-                    if($geoip_reader !=false) {
-	                    try {
-		                    $reader = $geoip_reader->city($markets['ip']);
-		                    $city = $reader->city->name;
-	                    } catch ( Exception $e ) {
-		                    $city = __( 'Unknown' , 'wp-statistics' );
-	                    }
-                    }
-					if($city !="") $city = ' - '.$city;
+					$city = '';
+					if ( $geoip_reader != false ) {
+						try {
+							$reader = $geoip_reader->city( $markets['ip'] );
+							$city   = $reader->city->name;
+						} catch ( Exception $e ) {
+							$city = __( 'Unknown', 'wp-statistics' );
+						}
+					}
+					if ( $city != "" ) {
+						$city = ' - ' . $city;
+					}
 
 					$get_ipp[ $markets['location'] ][] = "<p>{$agent} {$markets['ip']} {$city}</p>";
 				}
