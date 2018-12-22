@@ -47,7 +47,7 @@ $browser_value = array();
 $browser_color = array();
 
 foreach ( $BrowserVisits as $key => $value ) {
-	if ( $value > 10 and $key ) {
+	if ( $value > 0 ) {
 		$i ++;
 		$browser_name[]  = "'" . $key . "'";
 		$browser_value[] = $value;
@@ -93,7 +93,6 @@ foreach ( $PlatformVisits as $key => $value ) {
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
-
                     <div class="inside">
                         <canvas id="browsers-log" height="200"></canvas>
                         <script>
