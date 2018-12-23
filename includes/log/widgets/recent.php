@@ -30,27 +30,12 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 	foreach ( $result as $items ) {
 		echo "<tr>";
 		echo "<td style=\"text-align: left\">";
-		if ( array_search(
-			     strtolower( $items->agent ),
-			     array(
-				     "chrome",
-				     "firefox",
-				     "msie",
-				     "opera",
-				     "safari",
-			     )
-		     ) !== false
-		) {
-			$agent = "<img src='" .
-			         plugins_url( 'wp-statistics/assets/images/' ) .
-			         $items->agent .
-			         ".png' class='log-tools' title='{$items->agent}'/>";
+		if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
+			$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
 		} else {
 			$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 		}
-		echo "<a href='?page=" .
-		     WP_Statistics::$page['overview'] .
-		     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+		echo "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 		echo "</td>";
 		$city = '';
 		if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
@@ -70,9 +55,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 
 		if ( $WP_Statistics->get_option( 'geoip' ) ) {
 			echo "<td style=\"text-align: left\">";
-			echo "<img src='" .
-			     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-			     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+			echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 			echo "</td>";
 		}
 
@@ -83,16 +66,14 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		}
 
 		echo "<td style=\"text-align: left\">";
-		echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
+		echo date_i18n( get_option( 'date_format' ), strtotime( $items->last_counter ) );
 		echo "</td>";
 
 		echo "<td style=\"text-align: left\">";
 		if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 			$ip_string = __( '#hash#', 'wp-statistics' );
 		} else {
-			$ip_string = "<a href='admin.php?page=" .
-			             WP_Statistics::$page['visitors'] .
-			             "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+			$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
 		}
 		echo $ip_string;
 		echo "</td>";

@@ -8,7 +8,7 @@
 ?>
 <div class="wrap">
     <h2><?php _e( 'Online Users', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
@@ -84,35 +84,16 @@
 									echo $map_string;
 
 									if ( $WP_Statistics->get_option( 'geoip' ) ) {
-										echo "<img src='" .
-										     plugins_url(
-											     'wp-statistics/assets/images/flags/' . $items->location . '.png'
-										     ) .
-										     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+										echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 									}
 
-									if ( array_search(
-										     strtolower( $items->agent ),
-										     array(
-											     "chrome",
-											     "firefox",
-											     "msie",
-											     "opera",
-											     "safari",
-										     )
-									     ) !== false
-									) {
-										$agent = "<img src='" .
-										         plugins_url( 'wp-statistics/assets/images/' ) .
-										         $items->agent .
-										         ".png' class='log-tools' title='{$items->agent}'/>";
+									if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
+										$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
 									} else {
 										$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 									}
 
-									echo "<a href='?page=" .
-									     WP_Statistics::$page['overview'] .
-									     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a> {$items->ip}";
+									echo "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a> {$items->ip}";
 									echo "<br>";
 
 									$timediff = ( $items->timestamp - $items->created );

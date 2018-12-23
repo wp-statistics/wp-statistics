@@ -66,18 +66,7 @@ if ( $_get != '%' ) {
 					if ( $i == $Total ) {
 						$spacer = "";
 					}
-					echo $spacer .
-					     "<li><a " .
-					     $current .
-					     "href='?page=" .
-					     WP_Statistics::$page['visitors'] .
-					     "&agent=" .
-					     $Browser .
-					     "'> " .
-					     __( $Browser, 'wp-statistics' ) .
-					     " <span class='count'>(" .
-					     number_format_i18n( wp_statistics_useragent( $Browser ) ) .
-					     ")</span></a></li>";
+					echo $spacer . "<li><a " . $current . "href='?page=" . WP_Statistics::$page['visitors'] . "&agent=" . $Browser . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
 				}
 			} else {
 				if ( $_get != '%' ) {
@@ -85,10 +74,7 @@ if ( $_get != '%' ) {
 				} else {
 					$current = "";
 				}
-				echo $spacer .
-				     "<li><a {$current} href='?page=" .
-				     WP_Statistics::$page['visitors'] .
-				     "&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
+				echo $spacer . "<li><a {$current} href='?page=" . WP_Statistics::$page['visitors'] . "&{$_var}={$_get}'>{$title} <span class='count'>({$total})</span></a></li>";
 			}
 		}
 		?>
@@ -102,10 +88,7 @@ if ( $_get != '%' ) {
 						$paneltitle = $paneltitle . ' [' . __( 'Filtered by', 'wp-statistics' ) . ': ' . $title . ']';
 					} ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf(
-								__( 'Toggle panel: %s', 'wp-statistics' ),
-								$paneltitle
-							); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -171,27 +154,13 @@ if ( $_get != '%' ) {
 						foreach ( $result as $items ) {
 							echo "<tr>";
 							echo "<td style=\"text-align: left\">";
-							if ( array_search(
-								     strtolower( $items->agent ),
-								     array(
-									     "chrome",
-									     "firefox",
-									     "msie",
-									     "opera",
-									     "safari",
-								     )
-							     ) !== false
+							if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false
 							) {
-								$agent = "<img src='" .
-								         plugins_url( 'wp-statistics/assets/images/' ) .
-								         $items->agent .
-								         ".png' class='log-tools' title='{$items->agent}'/>";
+								$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
 							} else {
 								$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 							}
-							echo "<a href='?page=" .
-							     WP_Statistics::$page['overview'] .
-							     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+							echo "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
 							echo "</td>";
 							$city = '';
 							if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
@@ -211,9 +180,7 @@ if ( $_get != '%' ) {
 
 							if ( $WP_Statistics->get_option( 'geoip' ) ) {
 								echo "<td style=\"text-align: left\">";
-								echo "<img src='" .
-								     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-								     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+								echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 								echo "</td>";
 							}
 
@@ -224,16 +191,14 @@ if ( $_get != '%' ) {
 							}
 
 							echo "<td style=\"text-align: left\">";
-							echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
+							echo date_i18n( get_option( 'date_format' ), strtotime( $items->last_counter ) );
 							echo "</td>";
 
 							echo "<td style=\"text-align: left\">";
 							if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 								$ip_string = __( '#hash#', 'wp-statistics' );
 							} else {
-								$ip_string = "<a href='admin.php?page=" .
-								             WP_Statistics::$page['visitors'] .
-								             "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+								$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
 							}
 							echo $ip_string;
 							echo "</td>";

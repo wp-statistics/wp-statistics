@@ -423,10 +423,14 @@ function wp_statistics_ua_list( $rangestartdate = null, $rangeenddate = null ) {
 		$result = $wpdb->get_results( "SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor", ARRAY_N );
 	}
 
-	$Browsers = array();
+	$Browsers        = array();
+	$default_browser = wp_statistics_get_browser_list();
 
 	foreach ( $result as $out ) {
-		$Browsers[] = $out[0];
+		//Check Browser is defined in wp-statistics
+		if ( array_key_exists( strtolower( $out[0] ), $default_browser ) ) {
+			$Browsers[] = $out[0];
+		}
 	}
 
 	return $Browsers;
@@ -1556,4 +1560,39 @@ function wp_statistics_admin_notice_result( $type, $message ) {
 	}
 
 	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
+}
+
+/**
+ * Get All Browser List For Detecting
+ *
+ * @param bool $all
+ * @return array|mixed
+ */
+function wp_statistics_get_browser_list( $all = true ) {
+
+	//List Of Detect Browser in WP Statistics
+	$list        = array(
+		"chrome"  => __( "Google Chrome", 'wp-statistics' ),
+		"firefox" => __( "Mozilla Firefox", 'wp-statistics' ),
+		"msie"    => __( "Microsoft Internet Explorer", 'wp-statistics' ),
+		"edge"    => __( "Microsoft Edge", 'wp-statistics' ),
+		"opera"   => __( "Opera", 'wp-statistics' ),
+		"safari"  => __( "Safari", 'wp-statistics' )
+	);
+	$browser_key = array_keys( $list );
+
+	//Return All Browser List
+	if ( $all === true ) {
+		return $list;
+		//Return Browser Keys For detect
+	} elseif ( $all == "key" ) {
+		return $browser_key;
+	} else {
+		//Return Custom Browser Name by key
+		if ( array_search( strtolower( $all ), $browser_key ) !== false ) {
+			return $list[ strtolower( $all ) ];
+		} else {
+			return __( "Unknown", 'wp-statistics' );
+		}
+	}
 }

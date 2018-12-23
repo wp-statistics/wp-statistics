@@ -454,7 +454,9 @@ class WP_Statistics {
 
 	/**
 	 * geo ip Loader
-	 * @throws \MaxMind\Db\Reader\InvalidDatabaseException
+     *
+	 * @param $pack
+	 * @return bool|\GeoIp2\Database\Reader
 	 */
 	static function geoip_loader( $pack ) {
 

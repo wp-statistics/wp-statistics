@@ -37,9 +37,16 @@ if ( ! is_array( $Browsers ) ) {
 
 natcasesort( $Browsers );
 $BrowserVisits = array();
+$total         = 0;
 foreach ( $Browsers as $Browser ) {
+	//Get List Of count Visitor By Agent
 	$BrowserVisits[ $Browser ] = wp_statistics_useragent( $Browser, $rangestartdate, $rangeenddate );
+	//Sum This agent
+	$total += $BrowserVisits[ $Browser ];
 }
+
+//Add Unknown Agent to total
+$total += $other_agent_count = $wpdb->get_var( 'SELECT COUNT(*) FROM `' . $wpdb->prefix . 'statistics_visitor` WHERE `last_counter` BETWEEN \'' . $rangestartdate . '\' AND \'' . $rangeenddate . '\' AND `agent` NOT IN (\'' . implode( "','", $Browsers ) . '\')' );
 
 $browser_name  = array();
 $i             = 0;
@@ -47,12 +54,19 @@ $browser_value = array();
 $browser_color = array();
 
 foreach ( $BrowserVisits as $key => $value ) {
-	if ( $value > 10 and $key ) {
+	if ( $value > 0 ) {
 		$i ++;
 		$browser_name[]  = "'" . $key . "'";
 		$browser_value[] = $value;
 		$browser_color[] = wp_statistics_generate_rgba_color( $i, '0.4' );
 	}
+}
+
+//Add Unknown Agent
+if ( $other_agent_count > 0 ) {
+	$browser_name[]  = "'" . __( 'Other', 'wp-statistics' ) . "'";
+	$browser_value[] = $other_agent_count;
+	$browser_color[] = wp_statistics_generate_rgba_color( 10, '0.4' );
 }
 
 // Platforms
@@ -93,7 +107,6 @@ foreach ( $PlatformVisits as $key => $value ) {
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
-
                     <div class="inside">
                         <canvas id="browsers-log" height="200"></canvas>
                         <script>

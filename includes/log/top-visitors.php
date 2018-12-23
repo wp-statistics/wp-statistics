@@ -32,14 +32,7 @@ include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.
 	echo ' ' . __( 'Date', 'wp-statistics' ) . ': ';
 
 	echo '<input type="hidden" name="page" value="' . WP_Statistics::$page['top-visitors'] . '">' . "\r\n";
-	echo '<input type="text" size="10" name="statsdate" id="statsdate" value="' .
-	     htmlentities( $statsdate, ENT_QUOTES ) .
-	     '" placeholder="' .
-	     __( wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")), 'wp-statistics' ) .
-	     '"> <input type="submit" value="' .
-	     __( 'Go', 'wp-statistics' ) .
-	     '" class="button-primary">' .
-	     "\r\n";
+	echo '<input type="text" size="10" name="statsdate" id="statsdate" value="' . htmlentities( $statsdate, ENT_QUOTES ) . '" placeholder="' . __( wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")), 'wp-statistics' ) . '"> <input type="submit" value="' . __( 'Go', 'wp-statistics' ) . '" class="button-primary">' . "\r\n";
 
 	echo '</form>' . "\r\n";
 

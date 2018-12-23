@@ -1,35 +1,33 @@
 <?php
 
-use GeoIp2\Database\Reader;
-
 /**
  * Class WP_Statistics_Updates
  */
 class WP_Statistics_Updates {
 
 	//List Geo ip Library
-	public static $geoip = array (
+	public static $geoip = array(
 		'country' => array(
-			'cdn' => 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz',
+			'cdn'    => 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz',
 			'github' => 'https://raw.githubusercontent.com/wp-statistics/GeoLite2-Country/master/GeoLite2-Country.mmdb.gz',
-			'file' => 'GeoLite2-Country',
-			'opt' => 'geoip'
+			'file'   => 'GeoLite2-Country',
+			'opt'    => 'geoip'
 		),
-		'city' => array(
-			'cdn' => 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz',
+		'city'    => array(
+			'cdn'    => 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz',
 			'github' => 'https://raw.githubusercontent.com/wp-statistics/GeoLite2-City/master/GeoLite2-City.mmdb.gz',
-			'file' => 'GeoLite2-City',
-			'opt' => 'geoip_city'
+			'file'   => 'GeoLite2-City',
+			'opt'    => 'geoip_city'
 		)
 	);
 
 
-    /**
-     * Update option process.
-     */
-    static function do_upgrade() {
+	/**
+	 * Update option process.
+	 */
+	static function do_upgrade() {
 
-    }
+	}
 
 	/**
 	 * This function downloads the GeoIP database from MaxMind.
@@ -39,7 +37,7 @@ class WP_Statistics_Updates {
 	 *
 	 * @return string
 	 */
-	static function download_geoip($pack, $type = "enable") {
+	static function download_geoip( $pack, $type = "enable" ) {
 		GLOBAL $WP_Statistics;
 
 		//Create Empty Return Function
@@ -58,7 +56,9 @@ class WP_Statistics_Updates {
 		// We need the gzopen() function, it should exists on virtually all installs of PHP, but if it doesn't for some reason, bail out.
 		// Also stop trying to update the database as it just won't work :)
 		if ( false === function_exists( 'gzopen' ) ) {
-			if($type =="enable") $WP_Statistics->update_option( WP_Statistics_Updates::$geoip[$pack]['opt'] , '' );
+			if ( $type == "enable" ) {
+				$WP_Statistics->update_option( WP_Statistics_Updates::$geoip[ $pack ]['opt'], '' );
+			}
 
 			$result["notice"] = __( 'Error the gzopen() function do not exist!', 'wp-statistics' );
 			WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
@@ -67,37 +67,33 @@ class WP_Statistics_Updates {
 		}
 
 		// If GeoIP is disabled, bail out.
-		if($type =="update" and $WP_Statistics->get_option( WP_Statistics_Updates::$geoip[$pack]['opt'] ) == '') {
+		if ( $type == "update" and $WP_Statistics->get_option( WP_Statistics_Updates::$geoip[ $pack ]['opt'] ) == '' ) {
 			return '';
 		}
 
 		// This is the location of the file to download.
-		$download_url =  WP_Statistics_Updates::$geoip[$pack]['cdn'];
+		$download_url = WP_Statistics_Updates::$geoip[ $pack ]['cdn'];
 		$response     = wp_remote_get( $download_url );
 
 		// Change download url if the maxmind.com doesn't response.
 		if ( wp_remote_retrieve_response_code( $response ) != '200' ) {
-			$download_url =  WP_Statistics_Updates::$geoip[$pack]['github'];
+			$download_url = WP_Statistics_Updates::$geoip[ $pack ]['github'];
 		}
 
 		// Get the upload directory from WordPress.
 		$upload_dir = wp_upload_dir();
 
 		// Create a variable with the name of the database file to download.
-		$DBFile = $upload_dir['basedir'] . '/wp-statistics/'. WP_Statistics_Updates::$geoip[$pack]['file'].'.mmdb';
+		$DBFile = $upload_dir['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $pack ]['file'] . '.mmdb';
 
 		// Check to see if the subdirectory we're going to upload to exists, if not create it.
 		if ( ! file_exists( $upload_dir['basedir'] . '/wp-statistics' ) ) {
 			if ( ! @mkdir( $upload_dir['basedir'] . '/wp-statistics', 0755 ) ) {
-				if($type =="enable") $WP_Statistics->update_option( WP_Statistics_Updates::$geoip[$pack]['opt'] , '' );
+				if ( $type == "enable" ) {
+					$WP_Statistics->update_option( WP_Statistics_Updates::$geoip[ $pack ]['opt'], '' );
+				}
 
-				$result["notice"] =  sprintf(
-						__(
-							'Error creating GeoIP database directory, make sure your web server has permissions to create directories in: %s',
-							'wp-statistics'
-						),
-						$upload_dir['basedir']
-					);
+				$result["notice"] = sprintf( __( 'Error creating GeoIP database directory, make sure your web server has permissions to create directories in: %s', 'wp-statistics' ), $upload_dir['basedir'] );
 				WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
 
 				return $result;
@@ -105,15 +101,13 @@ class WP_Statistics_Updates {
 		}
 
 		if ( ! is_writable( $upload_dir['basedir'] . '/wp-statistics' ) ) {
-			if($type =="enable") $WP_Statistics->update_option( WP_Statistics_Updates::$geoip[$pack]['opt'] , '' );
+			if ( $type == "enable" ) {
+				$WP_Statistics->update_option( WP_Statistics_Updates::$geoip[ $pack ]['opt'], '' );
+			}
 
-			$result["notice"] = sprintf(
-					__(
-						'Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s',
-						'wp-statistics'
-					),
-					$upload_dir['basedir']
-				);
+			$result["notice"] = sprintf( __( 'Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s', 'wp-statistics' ),
+				$upload_dir['basedir']
+			);
 			WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
 
 			return $result;
@@ -124,80 +118,77 @@ class WP_Statistics_Updates {
 
 		// If we failed, through a message, otherwise proceed.
 		if ( is_wp_error( $TempFile ) ) {
-			if($type =="enable") $WP_Statistics->update_option( WP_Statistics_Updates::$geoip[$pack]['opt'] , '' );
+			if ( $type == "enable" ) {
+				$WP_Statistics->update_option( WP_Statistics_Updates::$geoip[ $pack ]['opt'], '' );
+			}
 
-			$result["notice"] = sprintf(
-					__( 'Error downloading GeoIP database from: %s - %s', 'wp-statistics' ),
-					$download_url,
-					$TempFile->get_error_message()
-				);
+			$result["notice"] = sprintf( __( 'Error downloading GeoIP database from: %s - %s', 'wp-statistics' ), $download_url, $TempFile->get_error_message() );
 			WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
 		} else {
-            // Open the downloaded file to unzip it.
-            $ZipHandle = gzopen($TempFile, 'rb');
+			// Open the downloaded file to unzip it.
+			$ZipHandle = gzopen( $TempFile, 'rb' );
 
-            // Create th new file to unzip to.
-            $DBfh = fopen($DBFile, 'wb');
+			// Create th new file to unzip to.
+			$DBfh = fopen( $DBFile, 'wb' );
 
-            // If we failed to open the downloaded file, through an error and remove the temporary file.  Otherwise do the actual unzip.
-            if (!$ZipHandle) {
-	            if($type =="enable") $WP_Statistics->update_option( WP_Statistics_Updates::$geoip[$pack]['opt'] , '' );
+			// If we failed to open the downloaded file, through an error and remove the temporary file.  Otherwise do the actual unzip.
+			if ( ! $ZipHandle ) {
+				if ( $type == "enable" ) {
+					$WP_Statistics->update_option( WP_Statistics_Updates::$geoip[ $pack ]['opt'], '' );
+				}
 
-	            $result["notice"] = sprintf(
-                        __('Error could not open downloaded GeoIP database for reading: %s', 'wp-statistics'),
-                        $TempFile
-                    ) ;
-	            WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
+				$result["notice"] = sprintf(
+					__( 'Error could not open downloaded GeoIP database for reading: %s', 'wp-statistics' ),
+					$TempFile
+				);
+				WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
 
-                unlink($TempFile);
-            } else {
-                // If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
-                if (!$DBfh) {
-	                if($type =="enable") $WP_Statistics->update_option( WP_Statistics_Updates::$geoip[$pack]['opt'] , '' );
+				unlink( $TempFile );
+			} else {
+				// If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
+				if ( ! $DBfh ) {
+					if ( $type == "enable" ) {
+						$WP_Statistics->update_option( WP_Statistics_Updates::$geoip[ $pack ]['opt'], '' );
+					}
 
-	                $result["notice"] = sprintf(
-                            __('Error could not open destination GeoIP database for writing %s', 'wp-statistics'),
-                            $DBFile
-                        );
-	                WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
+					$result["notice"] = sprintf( __( 'Error could not open destination GeoIP database for writing %s', 'wp-statistics' ), $DBFile );
+					WP_Statistics_Admin_Pages::set_admin_notice( $result["notice"], $type = 'error' );
 
-                    unlink($TempFile);
-                } else {
-                    while (($data = gzread($ZipHandle, 4096)) != false) {
-                        fwrite($DBfh, $data);
-                    }
+					unlink( $TempFile );
+				} else {
+					while ( ( $data = gzread( $ZipHandle, 4096 ) ) != false ) {
+						fwrite( $DBfh, $data );
+					}
 
-                    // Close the files.
-                    gzclose($ZipHandle);
-                    fclose($DBfh);
+					// Close the files.
+					gzclose( $ZipHandle );
+					fclose( $DBfh );
 
-                    // Delete the temporary file.
-                    unlink($TempFile);
+					// Delete the temporary file.
+					unlink( $TempFile );
 
-                    // Display the success message.
-	                $result["status"] = true;
-	                $result["notice"] = "<div class='updated settings-error'><p><strong>" .
-	                          __( 'GeoIP Database updated successfully!', 'wp-statistics' ) .
-	                          "</strong></p></div>";
+					// Display the success message.
+					$result["status"] = true;
+					$result["notice"] = "<div class='updated settings-error'><p><strong>" . __( 'GeoIP Database updated successfully!', 'wp-statistics' ) . "</strong></p></div>";
 
-                        // Update the options to reflect the new download.
-	                    if($type =="update") {
-		                    $WP_Statistics->update_option('last_geoip_dl', time());
-		                    $WP_Statistics->update_option('update_geoip', false);
-	                    }
+					// Update the options to reflect the new download.
+					if ( $type == "update" ) {
+						$WP_Statistics->update_option( 'last_geoip_dl', time() );
+						$WP_Statistics->update_option( 'update_geoip', false );
+					}
 
-                        // Populate any missing GeoIP information if the user has selected the option.
-	                    if($pack =="country") {
-		                    if ($WP_Statistics->get_option('geoip') &&
-		                        wp_statistics_geoip_supported() &&
-		                        $WP_Statistics->get_option('auto_pop')
-		                    ) {
-			                    WP_Statistics_Updates::populate_geoip_info();
-		                    }
-	                    }
-                }
-            }
-        }
+					// Populate any missing GeoIP information if the user has selected the option.
+					if ( $pack == "country" ) {
+						if ( $WP_Statistics->get_option( 'geoip' ) &&
+						     wp_statistics_geoip_supported() &&
+						     $WP_Statistics->get_option( 'auto_pop' )
+						) {
+							WP_Statistics_Updates::populate_geoip_info();
+						}
+					}
+				}
+			}
+		}
 
 
 		if ( $WP_Statistics->get_option( 'geoip_report' ) == true ) {
@@ -225,14 +216,14 @@ class WP_Statistics_Updates {
 	}
 
 	/**
-	 * Downloads the referrerspam database from https://github.com/piwik/referrer-spam-blacklist.
+	 * Downloads the referrer spam database from https://github.com/piwik/referrer-spam-blacklist.
 	 *
 	 * @return string
 	 */
 	static function download_referrerspam() {
 		GLOBAL $WP_Statistics;
 
-		// If referrerspam is disabled, bail out.
+		// If referrer spam is disabled, bail out.
 		if ( $WP_Statistics->get_option( 'referrerspam' ) == false ) {
 			return '';
 		}
@@ -256,7 +247,7 @@ class WP_Statistics_Updates {
 	}
 
 	/**
-	 * Populate GeoIP infomration in to the database.
+	 * Populate GeoIP information in to the database.
 	 * It is used in two different parts of the plugin;
 	 * When a user manual requests the update to happen and after a new GeoIP database has been download
 	 * (if the option is selected).
@@ -264,30 +255,30 @@ class WP_Statistics_Updates {
 	 * @return string
 	 */
 	static function populate_geoip_info() {
-		global $wpdb;
+		global $wpdb, $WP_Statistics;
 
 		// Find all rows in the table that currently don't have GeoIP info or have an unknown ('000') location.
-		$result = $wpdb->get_results(
-			"SELECT id,ip FROM `{$wpdb->prefix}statistics_visitor` WHERE location = '' or location = '000' or location IS NULL"
-		);
+		$result = $wpdb->get_results( "SELECT id,ip FROM `{$wpdb->prefix}statistics_visitor` WHERE location = '' or location = '000' or location IS NULL" );
 
 		// Try create a new reader instance.
-		try {
-			$upload_dir = wp_upload_dir();
-			$reader     = new Reader( $upload_dir['basedir'] . '/wp-statistics/GeoLite2-Country.mmdb' );
-		} catch ( Exception $e ) {
+		$reader = false;
+		if ( $WP_Statistics->get_option( 'geoip' ) ) {
+			$reader = $WP_Statistics::geoip_loader( 'country' );
+		}
+
+		if($reader ===false) {
 			$text_error = __( 'Unable to load the GeoIP database, make sure you have downloaded it in the settings page.', 'wp-statistics' );
 			WP_Statistics_Admin_Pages::set_admin_notice( $text_error, $type = 'error' );
 		}
 
 		$count = 0;
 
-		// Loop through all the missing rows and update them if we find a locaiton for them.
+		// Loop through all the missing rows and update them if we find a location for them.
 		foreach ( $result as $item ) {
 			$count ++;
 
 			// If the IP address is only a hash, don't bother updating the record.
-			if ( substr( $item->ip, 0, 6 ) != '#hash#' ) {
+			if ( substr( $item->ip, 0, 6 ) != '#hash#' and $reader != false ) {
 				try {
 					$record   = $reader->country( $item->ip );
 					$location = $record->country->isoCode;
@@ -307,8 +298,6 @@ class WP_Statistics_Updates {
 			}
 		}
 
-		return "<div class='updated settings-error'><p><strong>" .
-		       sprintf( __( 'Updated %s GeoIP records in the visitors database.', 'wp-statistics' ), $count ) .
-		       "</strong></p></div>";
+		return "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Updated %s GeoIP records in the visitors database.', 'wp-statistics' ), $count ) . "</strong></p></div>";
 	}
 }

@@ -166,16 +166,7 @@ $total = $search_result[ $referred ];
 									echo $words;
 									echo "</td>";
 									echo "<td style=\"text-align: left\">";
-									if ( array_search(
-										     strtolower( $items->agent ),
-										     array(
-											     "chrome",
-											     "firefox",
-											     "msie",
-											     "opera",
-											     "safari",
-										     )
-									     ) !== false
+									if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false
 									) {
 										$agent = "<img src='" .
 										         plugins_url( 'wp-statistics/assets/images/' ) .
