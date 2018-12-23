@@ -225,6 +225,10 @@
     margin: 0 0 20px 0;
 }
 
+.wp-statistics-welcome img {
+    width: auto;
+}
+
 .wp-statistics-welcome .center-section {
     padding: 41px 0 60px;
     clear: both;
