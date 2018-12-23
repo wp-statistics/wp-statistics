@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.0
-Stable tag: 12.5.6
+Stable tag: 12.5.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,6 +116,13 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.5.7 =
+* Added: The Edge To Browser List.
+* Added: `date_i18n` function in dates for retrieving localized date.
+* Improved: The Browsers charts.
+* Improved: Minor issues in GeoIP update function.
+* Optimized: All png files. (60% Save).
+
 = 12.5.6 =
 * Fixed: Counting stats issue in Cache mode.
 
