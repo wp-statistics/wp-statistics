@@ -278,7 +278,7 @@ class WP_Statistics_Updates {
 			$count ++;
 
 			// If the IP address is only a hash, don't bother updating the record.
-			if ( substr( $item->ip, 0, 6 ) != '#hash#' ) {
+			if ( substr( $item->ip, 0, 6 ) != '#hash#' and $reader != false ) {
 				try {
 					$record   = $reader->country( $item->ip );
 					$location = $record->country->isoCode;
