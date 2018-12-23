@@ -328,6 +328,7 @@ if ( $wps_nonce_valid ) {
 
                 <p class="description"><?php _e( 'If you use WordPress Cache Plugins, enable this option.', 'wp-statistics' ); ?></p>
                 <p class="description"><?php echo sprintf( __( 'To register WP-Statistics REST API endpoint  ( %s ) , go to the <a href="%s">Permalink page</a> and update the permalink with press Save Changes.', 'wp-statistics' ), WP_Statistics_Rest::route ,admin_url( 'options-permalink.php' ) ); ?></p>
+                <p class="description"><?php echo  __( 'Don\'t forget to invalidate/clear your plugin\'s cache, to let wp-statistics add its tracking code to all the newly cached pages', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
