@@ -68,7 +68,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		}
 
 		echo "<td style=\"text-align: left\">";
-		echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
+		echo date_i18n( get_option( 'date_format' ), strtotime( $items->last_counter ) );
 		echo "</td>";
 
 		echo "<td style=\"text-align: left\">";
