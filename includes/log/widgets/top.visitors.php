@@ -66,9 +66,7 @@ function wp_statistics_generate_top_visitors_postbox_content(
 			echo "<tr>";
 			echo "<td>$i</td>";
 			echo "<td>" . (int) $visitor->hits . "</td>";
-			echo "<td><img src='" .
-			     plugins_url( 'wp-statistics/assets/images/flags/' . $item . '.png' ) .
-			     "' title='{$ISOCountryCode[$item]}'/></td>";
+			echo "<td><img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $item . '.png' ) . "' title='{$ISOCountryCode[$item]}'/></td>";
 			echo "<td>{$ISOCountryCode[$item]}</td>";
 			if ( $geoip_reader != false ) {
 				echo "<td>{$city}</td>";
