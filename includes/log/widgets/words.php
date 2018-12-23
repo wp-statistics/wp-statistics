@@ -91,9 +91,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 
 			if ( $WP_Statistics->get_option( 'geoip' ) ) {
 				echo "<td style=\"text-align: left\">";
-				echo "<img src='" .
-				     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-				     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+				echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 				echo "</td>";
 			}
 
@@ -104,16 +102,14 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			}
 
 			echo "<td style=\"text-align: left\">";
-			echo date( get_option( 'date_format' ), strtotime( $items->last_counter ) );
+			echo date_i18n( get_option( 'date_format' ), strtotime( $items->last_counter ) );
 			echo "</td>";
 
 			echo "<td style=\"text-align: left\">";
 			if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 				$ip_string = __( '#hash#', 'wp-statistics' );
 			} else {
-				$ip_string = "<a href='admin.php?page=" .
-				             WP_Statistics::$page['visitors'] .
-				             "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+				$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
 			}
 			echo $ip_string;
 			echo "</td>";
