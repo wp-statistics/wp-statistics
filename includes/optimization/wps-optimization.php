@@ -38,9 +38,7 @@ if ( array_key_exists( 'hash-ips', $_GET ) ) {
 			}
 		}
 
-		echo "<div class='updated settings-error'><p><strong>" .
-		     __( 'IP Addresses replaced with hash values.', 'wp-statistics' ) .
-		     "</strong></p></div>";
+		echo "<div class='updated settings-error'><p><strong>" . __( 'IP Addresses replaced with hash values.', 'wp-statistics' ) . "</strong></p></div>";
 	}
 }
 
@@ -48,9 +46,7 @@ if ( array_key_exists( 'install', $_GET ) ) {
 	if ( intval( $_GET['install'] ) == 1 ) {
 		$WPS_Installed = "1.0";
 		new WP_Statistics_Install( $WP_Statistics );
-		echo "<div class='updated settings-error'><p><strong>" .
-		     __( 'Install routine complete.', 'wp-statistics' ) .
-		     "</strong></p></div>";
+		echo "<div class='updated settings-error'><p><strong>" . __( 'Install routine complete.', 'wp-statistics' ) . "</strong></p></div>";
 	}
 }
 
@@ -76,23 +72,18 @@ if ( array_key_exists( 'index', $_GET ) ) {
 					$deleterows[] .= $row->ID;
 				}
 
-				// Update the lastrow data.
+				// Update the last row data.
 				$lastrow['last_counter'] = $row->last_counter;
 				$lastrow['ip']           = $row->ip;
 			}
 
-			// Now do the acutal deletions.
+			// Now do the actual deletions.
 			foreach ( $deleterows as $row ) {
 				$wpdb->delete( $wp_prefix . 'statistics_visitor', array( 'ID' => $row ) );
 			}
 
 			// The table should be ready to be updated now with the new index, so let's do it.
-			$result = $wpdb->get_results(
-				"ALTER TABLE " .
-				$wp_prefix .
-				'statistics_visitor' .
-				" ADD UNIQUE `date_ip_agent` ( `last_counter`, `ip`, `agent` (75), `platform` (75), `version` (75) )"
-			);
+			$result = $wpdb->get_results( "ALTER TABLE " . $wp_prefix . 'statistics_visitor' . " ADD UNIQUE `date_ip_agent` ( `last_counter`, `ip`, `agent` (75), `platform` (75), `version` (75) )" );
 
 			// We might have an old index left over from 7.1-7.3 so lets make sure to delete it.
 			$wpdb->query( "DROP INDEX `date_ip` ON {$wp_prefix}statistics_visitor" );
