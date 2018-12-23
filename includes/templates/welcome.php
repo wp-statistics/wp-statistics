@@ -3,15 +3,7 @@
         <h1><?php printf( __( 'Welcome to WP-Statistics&nbsp;%s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></h1>
 
         <p class="about-text">
-			<?php printf(
-				__(
-					'Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!',
-					'wp-statistics'
-				),
-				'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">',
-				'</a>'
-			); ?>
-
+			<?php printf(__('Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!','wp-statistics'),'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">','</a>'); ?>
 			<?php _e( 'Submit your rating:', 'wp-statistics' ); ?>
             <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
         </p>
@@ -28,8 +20,7 @@
             <section class="center-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Add-Ons Updated!', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'We suggest seeing new changes in our Add-ons', 'wp-statistics' ); ?></p>
+                        <h2><?php _e( 'Great update for all WP-Statistics Add-Ons', 'wp-statistics' ); ?></h2>
                     </div>
                 </div>
             </section>
@@ -38,14 +29,14 @@
                 <div class="left">
                     <div class="content-padding">
                         <h2 style="margin-top: 0"><?php _e( 'View Live Report data with new dashboard', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'New: Redesign & Optimized for with on the big screen', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'New: Visitor on Map', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'New: Live Chart', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'New: Better Performance', 'wp-statistics' ); ?></p>
+                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Redesign & Optimized for with on the big screen', 'wp-statistics' ); ?></p>
+                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Visitor on Map', 'wp-statistics' ); ?></p>
+                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Live Chart', 'wp-statistics' ); ?></p>
+                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Better Performance', 'wp-statistics' ); ?></p>
                         <p><?php _e( 'And much more!', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" target="_blank">Get Add-On!</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" target="_blank">Get Real-Time Stats</a>
                         </div>
                     </div>
                 </div>
@@ -65,7 +56,7 @@
                         <p><?php _e( 'Added “Top Countries” stats for sending with the report.', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/" target="_blank">Get Add-On!</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/" target="_blank">Get Advanced Reporting</a>
                         </div>
                     </div>
                 </div>
@@ -82,7 +73,7 @@
                         <p><?php _e( 'The new & beautiful chart includes a caching mechanism and time range settings', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-widgets/" target="_blank">Get Add-On!</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-widgets/" target="_blank">Get Widgets</a>
                         </div>
                     </div>
                 </div>
@@ -99,7 +90,7 @@
                         <p><?php _e( 'Now include customization and show based on post type settings', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-mini-chart/" target="_blank">Get Add-On!</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-mini-chart/" target="_blank">Get Mini Chart</a>
                         </div>
                     </div>
                 </div>
@@ -114,10 +105,10 @@
                     <div class="content-padding">
                         <h2>Add-Ons Bundle</h2>
                         <p>Buying a bundle is always a good way to access all add-ons with lower money.<br>According to your requests we have defined all 5 add-ons, in a package with a good discount.</p>
-                        <p style="margin: 32px 0;"><a href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank"><img src="https://wp-statistics.com/wp-content/uploads/2018/12/setting-page-banner.png"/></a></p>
+                        <p style="margin: 32px 0;"><a href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank"><img src="https://wp-statistics.com/wp-content/uploads/2018/12/welcome-page-bundle.png"/></a></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank">Get Add-On!</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank">Get Add-Ons Bundle!</a>
                         </div>
                     </div>
                 </div>
