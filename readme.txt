@@ -58,9 +58,11 @@ Version 8.8 is the first release that can be installed, upgraded and removed cor
 Yes, the cache support added in v12.5.1
 
 If you're using a plugin cache:
+
 * Don't forget to clear your enabled plugin cache.
 * You should enabled the plugin cache option in the Settings page.
 * Making sure the below endpoint registered in your WordPress.
+
 http://yourwebsite.com/wp-json/wpstatistics/v1
 
 To register, go to the Permalink page and update the permalink with press Save Changes.
