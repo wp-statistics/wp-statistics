@@ -8,6 +8,9 @@ if ( $wps_nonce_valid ) {
 		'wps_geoip_city',
 		'wps_auto_pop',
 		'wps_private_country_code',
+		'wps_referrerspam',
+		'wps_update_referrerspam',
+		'wps_schedule_referrerspam'
 	);
 
 	// For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
