@@ -216,7 +216,7 @@ class WP_Statistics_Updates {
 	}
 
 	/**
-	 * Downloads the referrer spam database from https://github.com/piwik/referrer-spam-blacklist.
+	 * Downloads the referrer spam database from https://github.com/matomo-org/referrer-spam-blacklist.
 	 *
 	 * @return string
 	 */
@@ -229,7 +229,7 @@ class WP_Statistics_Updates {
 		}
 
 		// This is the location of the file to download.
-		$download_url = 'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
+		$download_url = 'https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt';
 
 		// Download the file from MaxMind, this places it in a temporary location.
 		$referrerspamlist = file_get_contents( $download_url );
