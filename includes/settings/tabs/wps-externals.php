@@ -8,6 +8,9 @@ if ( $wps_nonce_valid ) {
 		'wps_geoip_city',
 		'wps_auto_pop',
 		'wps_private_country_code',
+		'wps_referrerspam',
+		'wps_update_referrerspam',
+		'wps_schedule_referrerspam'
 	);
 
 	// For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
@@ -233,22 +236,22 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <h3><?php _e( 'Piwik Referrer Spam Blacklist settings', 'wp-statistics' ); ?></h3>
+                <h3><?php _e( 'Matomo Referrer Spam Blacklist settings', 'wp-statistics' ); ?></h3>
             </th>
         </tr>
 
         <tr valign="top">
             <th scope="row" colspan="2">
 				<?php echo sprintf(
-					__( 'Referrer spam blacklist is provided by Piwik, available from %s.', 'wp-statistics' ),
-					'<a href="https://github.com/piwik/referrer-spam-blacklist" target=_blank>https://github.com/piwik/referrer-spam-blacklist</a>'
+					__( 'Referrer spam blacklist is provided by Matomo, available from %s.', 'wp-statistics' ),
+					'<a href="https://github.com/matomo-org/referrer-spam-blacklist" target=_blank>https://github.com/matomo-org/referrer-spam-blacklist</a>'
 				); ?>
             </th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-enable"><?php _e( 'Piwik Referrer Spam Blacklist usage:', 'wp-statistics' ); ?></label>
+                <label for="referrerspam-enable"><?php _e( 'Matomo Referrer Spam Blacklist usage:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -258,7 +261,7 @@ if ( $wps_nonce_valid ) {
                 <label for="referrerspam-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e(
-						'The Piwik Referrer Spam Blacklist database will be downloaded and used to detect referrer spam.',
+						'The Matomo Referrer Spam Blacklist database will be downloaded and used to detect referrer spam.',
 						'wp-statistics'
 					); ?></p>
             </td>
@@ -266,7 +269,7 @@ if ( $wps_nonce_valid ) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-update"><?php _e( 'Update Piwik Referrer Spam Blacklist Info:', 'wp-statistics' ); ?></label>
+                <label for="geoip-update"><?php _e( 'Update Matomo Referrer Spam Blacklist Info:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
@@ -274,7 +277,7 @@ if ( $wps_nonce_valid ) {
                        name="wps_update_referrerspam" <?php echo $WP_Statistics->get_option( 'update_referrerspam' ) ==
 				                                                 true ? "checked='checked'" : ''; ?>>
                 <label for="referrerspam-update"><?php _e(
-						'Download Piwik Referrer Spam Blacklist Database',
+						'Download Matomo Referrer Spam Blacklist Database',
 						'wp-statistics'
 					); ?></label>
 
@@ -288,7 +291,7 @@ if ( $wps_nonce_valid ) {
         <tr valign="top">
             <th scope="row">
                 <label for="referrerspam-schedule"><?php _e(
-						'Schedule weekly update of Piwik Referrer Spam Blacklist DB:',
+						'Schedule weekly update of Matomo Referrer Spam Blacklist DB:',
 						'wp-statistics'
 					); ?></label>
             </th>
@@ -324,7 +327,7 @@ if ( $wps_nonce_valid ) {
 				}
 				?>
                 <p class="description"><?php _e(
-						'Download of the Piwik Referrer Spam Blacklist database will be scheduled for once a week.',
+						'Download of the Matomo Referrer Spam Blacklist database will be scheduled for once a week.',
 						'wp-statistics'
 					); ?></p>
             </td>
