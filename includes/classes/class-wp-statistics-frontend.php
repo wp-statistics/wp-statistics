@@ -261,12 +261,12 @@ class WP_Statistics_Frontend {
 
 		//Category Page
 		if ( is_category() ) {
-			return array( "type" => "cat", "id" => $id );
+			return array( "type" => "category", "id" => $id );
 		}
 
 		//Tag Page
 		if ( is_tag() ) {
-			return array( "type" => "tag", "id" => $id );
+			return array( "type" => "post_tag", "id" => $id );
 		}
 
 		//is Custom Term From Taxonomy
