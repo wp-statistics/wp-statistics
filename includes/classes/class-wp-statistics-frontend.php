@@ -70,7 +70,7 @@ class WP_Statistics_Frontend {
 
 		if ( $WP_Statistics->use_cache ) {
 			self::html_comment();
-			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("'.WP_Statistics_Rest::_POST.'=" + JSON.stringify('.self::set_default_params().'));</script>' . "\n";
+			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("' . WP_Statistics_Rest::_POST . '=" + JSON.stringify(' . self::set_default_params() . '));</script>' . "\n";
 		}
 	}
 
@@ -230,53 +230,62 @@ class WP_Statistics_Frontend {
 	 * Get Page Type
 	 */
 	public static function get_page_type() {
+		$result = array(
+			"type" => "unknown",
+			"id"   => 0
+		);
+
+		//Check Query object
 		$id = get_queried_object_id();
+		if ( is_numeric( $id ) and $id > 0 ) {
+			$result['id'] = $id;
+		}
 
 		//WooCommerce Product
 		if ( class_exists( 'WooCommerce' ) ) {
 			if ( is_product() ) {
-				return array( "type" => "product", "id" => $id );
+				$result['type'] = "product";
 			}
 		}
 
 		//Home Page or Front Page
 		if ( is_front_page() || is_home() ) {
-			return array( "type" => "home", "id" => 0 );
+			$result['type'] = "home";
 		}
 
 		//attachment View
 		if ( is_attachment() ) {
-			return array( "type" => "attachment", "id" => $id );
+			$result['type'] = "attachment";
 		}
 
 		//Single Post
 		if ( is_single() ) {
-			return array( "type" => "post", "id" => $id );
+			$result['type'] = "post";
 		}
 
 		//Single Page
 		if ( is_page() ) {
-			return array( "type" => "page", "id" => $id );
+			$result['type'] = "page";
 		}
 
 		//Category Page
 		if ( is_category() ) {
-			return array( "type" => "category", "id" => $id );
+			$result['type'] = "category";
 		}
 
 		//Tag Page
 		if ( is_tag() ) {
-			return array( "type" => "post_tag", "id" => $id );
+			$result['type'] = "post_tag";
 		}
 
 		//is Custom Term From Taxonomy
 		if ( is_tax() ) {
-			return array( "type" => "tax", "id" => $id );
+			$result['type'] = "tax";
 		}
 
 		//is Author Page
 		if ( is_author() ) {
-			return array( "type" => "author", "id" => $id );
+			$result['type'] = "author";
 		}
 
 		//is search page
@@ -287,15 +296,15 @@ class WP_Statistics_Frontend {
 
 		//is Archive Page
 		if ( is_archive() ) {
-			return array( "type" => "archive", "id" => 0 );
+			$result['type'] = "archive";
 		}
 
 		//is 404 Page
 		if ( is_404() ) {
-			return array( "type" => "404", "id" => 0 );
+			$result['type'] = "404";
 		}
 
-		return array( "type" => "unknown", "id" => 0 );
+		return $result;
 	}
 
 }
