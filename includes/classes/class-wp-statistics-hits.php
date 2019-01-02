@@ -26,60 +26,59 @@ class WP_Statistics_Hits {
 	public $current_visitor_id = 0;
 
 	// Construction function.
-	public function __construct()
-    {
-	    global $wp_version, $WP_Statistics;
+	public function __construct() {
+		global $wp_version, $WP_Statistics;
 
-	    // Set the timestamp value.
-	    $this->timestamp = $WP_Statistics->current_date( 'U' );
-	    if ( WP_Statistics_Rest::is_rest() ) {
-		    $this->timestamp = WP_Statistics_Rest::params( 'timestamp' );
-	    }
+		// Set the timestamp value.
+		$this->timestamp = $WP_Statistics->current_date( 'U' );
+		if ( WP_Statistics_Rest::is_rest() ) {
+			$this->timestamp = WP_Statistics_Rest::params( 'timestamp' );
+		}
 
-	    // Set the default seconds a user needs to visit the site before they are considered offline.
-	    $this->second = 30;
+		// Set the default seconds a user needs to visit the site before they are considered offline.
+		$this->second = 30;
 
-        // Get the user set value for seconds to check for users online.
-        if ($WP_Statistics->get_option('check_online')) {
-            $this->second = $WP_Statistics->get_option('check_online');
-        }
+		// Get the user set value for seconds to check for users online.
+		if ( $WP_Statistics->get_option( 'check_online' ) ) {
+			$this->second = $WP_Statistics->get_option( 'check_online' );
+		}
 
-        // Check to see if the user wants us to record why we're excluding hits.
-        if ($WP_Statistics->get_option('record_exclusions')) {
-            $this->exclusion_record = true;
-        }
+		// Check to see if the user wants us to record why we're excluding hits.
+		if ( $WP_Statistics->get_option( 'record_exclusions' ) ) {
+			$this->exclusion_record = true;
+		}
 
-        // Create a IP Tools instance from the current IP address for use later.
-        // Fall back to the localhost if it can't be parsed.
-        try {
-            $ip = new IP($WP_Statistics->ip);
-        } catch (Exception $e) {
-            $ip = new IP('127.0.0.1');
-        }
+		// Create a IP Tools instance from the current IP address for use later.
+		// Fall back to the localhost if it can't be parsed.
+		try {
+			$ip = new IP( $WP_Statistics->ip );
+		} catch ( Exception $e ) {
+			$ip = new IP( '127.0.0.1' );
+		}
 
-        // Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location information now.
-        if ($WP_Statistics->get_option('private_country_code') != '000' &&
-            $WP_Statistics->get_option('private_country_code') != ''
-        ) {
-            $private_subnets = array('10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24', 'fc00::/7');
+		// Let's check to see if our subnet matches a private IP address range, if so go ahead and set the location information now.
+		if ( $WP_Statistics->get_option( 'private_country_code' ) != '000' &&
+		     $WP_Statistics->get_option( 'private_country_code' ) != ''
+		) {
+			$private_subnets = array( '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24', 'fc00::/7' );
 
-            foreach ($private_subnets as $psub) {
-                $contains_ip = false;
+			foreach ( $private_subnets as $psub ) {
+				$contains_ip = false;
 
-                try {
-                    $contains_ip = Range::parse($psub)->contains($ip);
-                } catch (Exception $e) {
-                    $contains_ip = false;
-                }
+				try {
+					$contains_ip = Range::parse( $psub )->contains( $ip );
+				} catch ( Exception $e ) {
+					$contains_ip = false;
+				}
 
-                if ($contains_ip) {
-                    $this->location = $WP_Statistics->get_option('private_country_code');
-                    break;
-                }
-            }
-        }
+				if ( $contains_ip ) {
+					$this->location = $WP_Statistics->get_option( 'private_country_code' );
+					break;
+				}
+			}
+		}
 
-	    /*
+		/*
 		 * The follow exclusion checks are done during the class construction so we don't have to execute them twice if we're tracking visits and visitors.
 		 *
 		 * Order of exclusion checks is:
@@ -96,267 +95,267 @@ class WP_Statistics_Hits {
 		 * Note that we stop processing as soon as a match is made by executing a `return` from the function constructor.
 		 *
 		 */
-	    if ( WP_Statistics_Rest::is_rest() ) {
-		    $this->exclusion_match  = ( WP_Statistics_Rest::params( 'exclude' ) == 1 ? true : false );
-		    $this->exclusion_reason = WP_Statistics_Rest::params( 'exclude_reason' );
+		if ( WP_Statistics_Rest::is_rest() ) {
+			$this->exclusion_match  = ( WP_Statistics_Rest::params( 'exclude' ) == 1 ? true : false );
+			$this->exclusion_reason = WP_Statistics_Rest::params( 'exclude_reason' );
 
-		    if ( $this->exclusion_match === true ) {
-			    return;
-		    }
-	    } else {
+			if ( $this->exclusion_match === true ) {
+				return;
+			}
+		} else {
 
-		    // Detect if we're running an ajax request.
-		    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			    $this->exclusion_match  = true;
-			    $this->exclusion_reason = 'ajax';
+			// Detect if we're running an ajax request.
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				$this->exclusion_match  = true;
+				$this->exclusion_reason = 'ajax';
 
-			    return;
-		    }
+				return;
+			}
 
-		    if ( ( defined( 'DOING_CRON' ) && DOING_CRON === true ) || ( function_exists( 'wp_doing_cron' ) && wp_doing_cron() === true ) ) {
-			    $this->exclusion_match  = true;
-			    $this->exclusion_reason = 'cronjob';
+			if ( ( defined( 'DOING_CRON' ) && DOING_CRON === true ) || ( function_exists( 'wp_doing_cron' ) && wp_doing_cron() === true ) ) {
+				$this->exclusion_match  = true;
+				$this->exclusion_reason = 'cronjob';
 
-			    return;
-		    }
+				return;
+			}
 
-		    $crawler   = false;
-		    $ua_string = '';
+			$crawler   = false;
+			$ua_string = '';
 
-		    if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
-			    $ua_string = $_SERVER['HTTP_USER_AGENT'];
-		    }
+			if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
+				$ua_string = $_SERVER['HTTP_USER_AGENT'];
+			}
 
-		    /*
+			/*
 			 * Check Is robot
 			 */
-		    $CrawlerDetect = new CrawlerDetect;
-		    if ( $CrawlerDetect->isCrawler() ) {
-			    $crawler = true;
-		    }
+			$CrawlerDetect = new CrawlerDetect;
+			if ( $CrawlerDetect->isCrawler() ) {
+				$crawler = true;
+			}
 
-		    // If we're a crawler as per whichbrowser, exclude us, otherwise double check based on the WP Statistics robot list.
-		    if ( $crawler == true ) {
-			    $this->exclusion_match  = true;
-			    $this->exclusion_reason = 'CrawlerDetect';
+			// If we're a crawler as per whichbrowser, exclude us, otherwise double check based on the WP Statistics robot list.
+			if ( $crawler == true ) {
+				$this->exclusion_match  = true;
+				$this->exclusion_reason = 'CrawlerDetect';
 
-			    return;
-		    } else {
-			    // Pull the robots from the database.
-			    $robots = explode( "\n", $WP_Statistics->get_option( 'robotlist' ) );
+				return;
+			} else {
+				// Pull the robots from the database.
+				$robots = explode( "\n", $WP_Statistics->get_option( 'robotlist' ) );
 
-			    // Check to see if we match any of the robots.
-			    foreach ( $robots as $robot ) {
-				    $robot = trim( $robot );
+				// Check to see if we match any of the robots.
+				foreach ( $robots as $robot ) {
+					$robot = trim( $robot );
 
-				    // If the match case is less than 4 characters long, it might match too much so don't execute it.
-				    if ( strlen( $robot ) > 3 ) {
-					    if ( stripos( $ua_string, $robot ) !== false ) {
-						    $this->exclusion_match  = true;
-						    $this->exclusion_reason = 'robot';
+					// If the match case is less than 4 characters long, it might match too much so don't execute it.
+					if ( strlen( $robot ) > 3 ) {
+						if ( stripos( $ua_string, $robot ) !== false ) {
+							$this->exclusion_match  = true;
+							$this->exclusion_reason = 'robot';
 
-						    return;
-					    }
-				    }
-			    }
+							return;
+						}
+					}
+				}
 
-			    // Finally check to see if we have corrupt header information.
-			    if ( ! $this->exclusion_match && $WP_Statistics->get_option( 'corrupt_browser_info' ) ) {
-				    if ( $ua_string == '' || $WP_Statistics->ip == '' ) {
-					    $this->exclusion_match  = true;
-					    $this->exclusion_reason = 'robot';
+				// Finally check to see if we have corrupt header information.
+				if ( ! $this->exclusion_match && $WP_Statistics->get_option( 'corrupt_browser_info' ) ) {
+					if ( $ua_string == '' || $WP_Statistics->ip == '' ) {
+						$this->exclusion_match  = true;
+						$this->exclusion_reason = 'robot';
 
-					    return;
-				    }
-			    }
-		    }
+						return;
+					}
+				}
+			}
 
-		    // If we didn't match a robot, check ip subnets.
+			// If we didn't match a robot, check ip subnets.
 
-		    // Pull the subnets from the database.
-		    $subnets = explode( "\n", $WP_Statistics->get_option( 'exclude_ip' ) );
+			// Pull the subnets from the database.
+			$subnets = explode( "\n", $WP_Statistics->get_option( 'exclude_ip' ) );
 
-		    // Check to see if we match any of the excluded addresses.
-		    foreach ( $subnets as $subnet ) {
-			    $subnet = trim( $subnet );
+			// Check to see if we match any of the excluded addresses.
+			foreach ( $subnets as $subnet ) {
+				$subnet = trim( $subnet );
 
-			    // The shortest ip address is 1.1.1.1, anything less must be a malformed entry.
-			    if ( strlen( $subnet ) > 6 ) {
-				    $range_prased = false;
+				// The shortest ip address is 1.1.1.1, anything less must be a malformed entry.
+				if ( strlen( $subnet ) > 6 ) {
+					$range_prased = false;
 
-				    try {
-					    $range_prased = Range::parse( $subnet )->contains( $ip );
-				    } catch ( Exception $e ) {
-					    $range_parased = false;
-				    }
+					try {
+						$range_prased = Range::parse( $subnet )->contains( $ip );
+					} catch ( Exception $e ) {
+						$range_parased = false;
+					}
 
-				    if ( $range_prased ) {
-					    $this->exclusion_match  = true;
-					    $this->exclusion_reason = 'ip match';
+					if ( $range_prased ) {
+						$this->exclusion_match  = true;
+						$this->exclusion_reason = 'ip match';
 
-					    return;
-				    }
-			    }
-		    }
+						return;
+					}
+				}
+			}
 
-		    // Check to see if we are being referred to ourselves.
-		    if ( $ua_string == 'WordPress/' . $wp_version . '; ' . get_home_url( null, '/' ) ||
-		         $ua_string == 'WordPress/' . $wp_version . '; ' . get_home_url()
-		    ) {
-			    $this->exclusion_match  = true;
-			    $this->exclusion_reason = 'self referral';
+			// Check to see if we are being referred to ourselves.
+			if ( $ua_string == 'WordPress/' . $wp_version . '; ' . get_home_url( null, '/' ) ||
+			     $ua_string == 'WordPress/' . $wp_version . '; ' . get_home_url()
+			) {
+				$this->exclusion_match  = true;
+				$this->exclusion_reason = 'self referral';
 
-			    return;
-		    }
+				return;
+			}
 
-		    // Check to see if we're excluding the login page.
-		    if ( $WP_Statistics->get_option( 'exclude_loginpage' ) ) {
-			    $protocol = strpos( strtolower( $_SERVER['SERVER_PROTOCOL'] ), 'https' ) === false ? 'http' : 'https';
-			    $host     = $_SERVER['HTTP_HOST'];
-			    $script   = $_SERVER['SCRIPT_NAME'];
+			// Check to see if we're excluding the login page.
+			if ( $WP_Statistics->get_option( 'exclude_loginpage' ) ) {
+				$protocol = strpos( strtolower( $_SERVER['SERVER_PROTOCOL'] ), 'https' ) === false ? 'http' : 'https';
+				$host     = $_SERVER['HTTP_HOST'];
+				$script   = $_SERVER['SCRIPT_NAME'];
 
-			    $currentURL = $protocol . '://' . $host . $script;
-			    $loginURL   = wp_login_url();
+				$currentURL = $protocol . '://' . $host . $script;
+				$loginURL   = wp_login_url();
 
-			    if ( $currentURL == $loginURL ) {
-				    $this->exclusion_match  = true;
-				    $this->exclusion_reason = 'login page';
+				if ( $currentURL == $loginURL ) {
+					$this->exclusion_match  = true;
+					$this->exclusion_reason = 'login page';
 
-				    return;
-			    }
-		    }
+					return;
+				}
+			}
 
-		    // Check to see if we're excluding the Admin page.
-		    if ( $WP_Statistics->get_option( 'exclude_adminpage' ) ) {
-			    if ( stristr( $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], "wp-admin" ) ) {
-				    $this->exclusion_match  = true;
-				    $this->exclusion_reason = 'admin page';
+			// Check to see if we're excluding the Admin page.
+			if ( $WP_Statistics->get_option( 'exclude_adminpage' ) ) {
+				if ( stristr( $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], "wp-admin" ) ) {
+					$this->exclusion_match  = true;
+					$this->exclusion_reason = 'admin page';
 
-				    return;
-			    }
-		    }
+					return;
+				}
+			}
 
-		    // Check to see if we're excluding referrer spam.
-		    if ( $WP_Statistics->get_option( 'referrerspam' ) ) {
-			    $referrer = $WP_Statistics->get_Referred();
+			// Check to see if we're excluding referrer spam.
+			if ( $WP_Statistics->get_option( 'referrerspam' ) ) {
+				$referrer = $WP_Statistics->get_Referred();
 
-			    // Pull the referrer spam list from the database.
-			    $referrerspamlist = explode( "\n", $WP_Statistics->get_option( 'referrerspamlist' ) );
+				// Pull the referrer spam list from the database.
+				$referrerspamlist = explode( "\n", $WP_Statistics->get_option( 'referrerspamlist' ) );
 
-			    // Check to see if we match any of the robots.
-			    foreach ( $referrerspamlist as $item ) {
-				    $item = trim( $item );
+				// Check to see if we match any of the robots.
+				foreach ( $referrerspamlist as $item ) {
+					$item = trim( $item );
 
-				    // If the match case is less than 4 characters long, it might match too much so don't execute it.
-				    if ( strlen( $item ) > 3 ) {
-					    if ( stripos( $referrer, $item ) !== false ) {
-						    $this->exclusion_match  = true;
-						    $this->exclusion_reason = 'referrer_spam';
+					// If the match case is less than 4 characters long, it might match too much so don't execute it.
+					if ( strlen( $item ) > 3 ) {
+						if ( stripos( $referrer, $item ) !== false ) {
+							$this->exclusion_match  = true;
+							$this->exclusion_reason = 'referrer_spam';
 
-						    return;
-					    }
-				    }
-			    }
-		    }
+							return;
+						}
+					}
+				}
+			}
 
-		    // Check to see if we're excluding RSS feeds.
-		    if ( $WP_Statistics->get_option( 'exclude_feeds' ) ) {
-			    if ( is_feed() ) {
-				    $this->exclusion_match  = true;
-				    $this->exclusion_reason = 'feed';
+			// Check to see if we're excluding RSS feeds.
+			if ( $WP_Statistics->get_option( 'exclude_feeds' ) ) {
+				if ( is_feed() ) {
+					$this->exclusion_match  = true;
+					$this->exclusion_reason = 'feed';
 
-				    return;
-			    }
-		    }
+					return;
+				}
+			}
 
-		    // Check to see if we're excluding 404 pages.
-		    if ( $WP_Statistics->get_option( 'exclude_404s' ) ) {
-			    if ( is_404() ) {
-				    $this->exclusion_match  = true;
-				    $this->exclusion_reason = '404';
+			// Check to see if we're excluding 404 pages.
+			if ( $WP_Statistics->get_option( 'exclude_404s' ) ) {
+				if ( is_404() ) {
+					$this->exclusion_match  = true;
+					$this->exclusion_reason = '404';
 
-				    return;
-			    }
-		    }
+					return;
+				}
+			}
 
-		    // Check to see if we're excluding the current page url.
-		    if ( $WP_Statistics->get_option( 'excluded_urls' ) ) {
-			    $script    = $_SERVER['REQUEST_URI'];
-			    $delimiter = strpos( $script, '?' );
-			    if ( $delimiter > 0 ) {
-				    $script = substr( $script, 0, $delimiter );
-			    }
+			// Check to see if we're excluding the current page url.
+			if ( $WP_Statistics->get_option( 'excluded_urls' ) ) {
+				$script    = $_SERVER['REQUEST_URI'];
+				$delimiter = strpos( $script, '?' );
+				if ( $delimiter > 0 ) {
+					$script = substr( $script, 0, $delimiter );
+				}
 
-			    $excluded_urls = explode( "\n", $WP_Statistics->get_option( 'excluded_urls' ) );
+				$excluded_urls = explode( "\n", $WP_Statistics->get_option( 'excluded_urls' ) );
 
-			    foreach ( $excluded_urls as $url ) {
-				    $this_url = trim( $url );
+				foreach ( $excluded_urls as $url ) {
+					$this_url = trim( $url );
 
-				    if ( strlen( $this_url ) > 2 ) {
-					    if ( stripos( $script, $this_url ) === 0 ) {
-						    $this->exclusion_match  = true;
-						    $this->exclusion_reason = 'excluded url';
+					if ( strlen( $this_url ) > 2 ) {
+						if ( stripos( $script, $this_url ) === 0 ) {
+							$this->exclusion_match  = true;
+							$this->exclusion_reason = 'excluded url';
 
-						    return;
-					    }
-				    }
-			    }
-		    }
+							return;
+						}
+					}
+				}
+			}
 
-		    // Check to see if we are excluding based on the user role.
-		    if ( is_user_logged_in() ) {
-			    $current_user = wp_get_current_user();
+			// Check to see if we are excluding based on the user role.
+			if ( is_user_logged_in() ) {
+				$current_user = wp_get_current_user();
 
-			    foreach ( $current_user->roles as $role ) {
-				    $option_name = 'exclude_' . str_replace( ' ', '_', strtolower( $role ) );
-				    if ( $WP_Statistics->get_option( $option_name ) == true ) {
-					    $this->exclusion_match  = true;
-					    $this->exclusion_reason = 'user role';
+				foreach ( $current_user->roles as $role ) {
+					$option_name = 'exclude_' . str_replace( ' ', '_', strtolower( $role ) );
+					if ( $WP_Statistics->get_option( $option_name ) == true ) {
+						$this->exclusion_match  = true;
+						$this->exclusion_reason = 'user role';
 
-					    return;
-				    }
-			    }
-		    }
+						return;
+					}
+				}
+			}
 
-		    // Check to see if we are excluded by the host name.
-		    if ( ! $this->exclusion_match ) {
-			    $excluded_host = explode( "\n", $WP_Statistics->get_option( 'excluded_hosts' ) );
+			// Check to see if we are excluded by the host name.
+			if ( ! $this->exclusion_match ) {
+				$excluded_host = explode( "\n", $WP_Statistics->get_option( 'excluded_hosts' ) );
 
-			    // If there's nothing in the excluded host list, don't do anything.
-			    if ( count( $excluded_host ) > 0 ) {
-				    $transient_name = 'wps_excluded_hostname_to_ip_cache';
+				// If there's nothing in the excluded host list, don't do anything.
+				if ( count( $excluded_host ) > 0 ) {
+					$transient_name = 'wps_excluded_hostname_to_ip_cache';
 
-				    // Get the transient with the hostname cache.
-				    $hostname_cache = get_transient( $transient_name );
+					// Get the transient with the hostname cache.
+					$hostname_cache = get_transient( $transient_name );
 
-				    // If the transient has expired (or has never been set), create one now.
-				    if ( $hostname_cache === false ) {
-					    // Flush the failed cache variable.
-					    $hostname_cache = array();
+					// If the transient has expired (or has never been set), create one now.
+					if ( $hostname_cache === false ) {
+						// Flush the failed cache variable.
+						$hostname_cache = array();
 
-					    // Loop through the list of hosts and look them up.
-					    foreach ( $excluded_host as $host ) {
-						    if ( strpos( $host, '.' ) > 0 ) {
-							    // We add the extra period to the end of the host name to make sure we don't append the local dns suffix to the resolution cycle.
-							    $hostname_cache[ $host ] = gethostbyname( $host . '.' );
-						    }
-					    }
+						// Loop through the list of hosts and look them up.
+						foreach ( $excluded_host as $host ) {
+							if ( strpos( $host, '.' ) > 0 ) {
+								// We add the extra period to the end of the host name to make sure we don't append the local dns suffix to the resolution cycle.
+								$hostname_cache[ $host ] = gethostbyname( $host . '.' );
+							}
+						}
 
-					    // Set the transient and store it for 1 hour.
-					    set_transient( $transient_name, $hostname_cache, 360 );
-				    }
+						// Set the transient and store it for 1 hour.
+						set_transient( $transient_name, $hostname_cache, 360 );
+					}
 
-				    // Check if the current IP address matches one of the ones in the excluded hosts list.
-				    if ( in_array( $WP_Statistics->ip, $hostname_cache ) ) {
-					    $this->exclusion_match  = true;
-					    $this->exclusion_reason = 'hostname';
+					// Check if the current IP address matches one of the ones in the excluded hosts list.
+					if ( in_array( $WP_Statistics->ip, $hostname_cache ) ) {
+						$this->exclusion_match  = true;
+						$this->exclusion_reason = 'hostname';
 
-					    return;
-				    }
-			    }
-		    }
-	    }
-    }
+						return;
+					}
+				}
+			}
+		}
+	}
 
 	// This function records visits to the site.
 	public function Visits() {
@@ -401,9 +400,9 @@ class WP_Statistics_Hits {
 	}
 
 	//Modify For IGNORE insert Query
-	public function modifyInsertQuery( $query ){
-		$count 	= 0;
-		$query 	= preg_replace('/^(INSERT INTO)/i', 'INSERT IGNORE INTO', $query, 1 , $count );
+	public function modifyInsertQuery( $query ) {
+		$count = 0;
+		$query = preg_replace( '/^(INSERT INTO)/i', 'INSERT IGNORE INTO', $query, 1, $count );
 		return $query;
 	}
 
@@ -416,7 +415,7 @@ class WP_Statistics_Hits {
 			$this->current_page_type = WP_Statistics_Rest::params( 'current_page_type' );
 		} else {
 			//Get Page Type
-			$get_page_type = WP_Statistics_Frontend::get_page_type();
+			$get_page_type           = WP_Statistics_Frontend::get_page_type();
 			$this->current_page_id   = $get_page_type['id'];
 			$this->current_page_type = $get_page_type['type'];
 		}
@@ -427,7 +426,7 @@ class WP_Statistics_Hits {
 	public function Visitors() {
 		global $wpdb, $WP_Statistics;
 
-        //Get Current Page detail
+		//Get Current Page detail
 		$this->get_page_detail();
 
 		//Check honeypot Page
@@ -467,11 +466,11 @@ class WP_Statistics_Hits {
 
 				// If we've been told to store the entire user agent, do so.
 				if ( $WP_Statistics->get_option( 'store_ua' ) == true ) {
-                    if( WP_Statistics_Rest::is_rest() ) {
-                        $ua = WP_Statistics_Rest::params('ua');
-                    } else {
-                        $ua = $_SERVER['HTTP_USER_AGENT'];
-                    }
+					if ( WP_Statistics_Rest::is_rest() ) {
+						$ua = WP_Statistics_Rest::params( 'ua' );
+					} else {
+						$ua = $_SERVER['HTTP_USER_AGENT'];
+					}
 				} else {
 					$ua = '';
 				}
@@ -502,11 +501,11 @@ class WP_Statistics_Hits {
 				if ( $WP_Statistics->get_option( 'search_converted' ) && $wpdb->insert_id ) {
 
 					$search_engines = wp_statistics_searchengine_list();
-                    if( WP_Statistics_Rest::is_rest() ) {
-                        $referred = WP_Statistics_Rest::params('referred');
-                    } else {
-                        $referred = $WP_Statistics->get_Referred();
-                    }
+					if ( WP_Statistics_Rest::is_rest() ) {
+						$referred = WP_Statistics_Rest::params( 'referred' );
+					} else {
+						$referred = $WP_Statistics->get_Referred();
+					}
 
 					// Parse the URL in to it's component parts.
 					if ( wp_http_validate_url( $referred ) ) {
@@ -606,7 +605,7 @@ class WP_Statistics_Hits {
 		// If we're a web crawler or referral from ourselves or an excluded address don't record the page hit.
 		if ( ! $this->exclusion_match ) {
 
-            // Don't track anything but actual pages and posts, unless we've been told to.
+			// Don't track anything but actual pages and posts, unless we've been told to.
 			$is_track_all = false;
 			if ( WP_Statistics_Rest::is_rest() ) {
 				if ( WP_Statistics_Rest::params( 'track_all' ) == 1 ) {
@@ -618,13 +617,13 @@ class WP_Statistics_Hits {
 				}
 			}
 
-			if ( $is_track_all ===true ) {
+			if ( $is_track_all === true ) {
 
 				// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
 				$this->get_page_detail();
 
 				// If we didn't find a page id, we don't have anything else to do.
-				if ( $this->current_page_type =="unknown" ) {
+				if ( $this->current_page_type == "unknown" ) {
 					return;
 				}
 
@@ -635,7 +634,7 @@ class WP_Statistics_Hits {
 					$page_uri = wp_statistics_get_uri();
 				}
 
-                //Get String Search Wordpress
+				//Get String Search Wordpress
 				$is_search = false;
 				if ( WP_Statistics_Rest::is_rest() ) {
 					if ( WP_Statistics_Rest::params( 'search_query' ) != "" ) {
@@ -661,9 +660,9 @@ class WP_Statistics_Hits {
 				$page_uri = substr( $page_uri, 0, 255 );
 
 				// If we have already been to this page today (a likely scenario), just update the count on the record.
-				$exist = $wpdb->get_row( "SELECT `page_id` FROM {$wpdb->prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date( 'Y-m-d' )}' ".($is_search ===true ? "AND `uri` = '".$page_uri."'" : "")."AND `type` = '{$this->current_page_type}' AND `id` = {$this->current_page_id}", ARRAY_A );
+				$exist = $wpdb->get_row( "SELECT `page_id` FROM {$wpdb->prefix}statistics_pages WHERE `date` = '{$WP_Statistics->Current_Date( 'Y-m-d' )}' " . ( $is_search === true ? "AND `uri` = '" . $page_uri . "'" : "" ) . "AND `type` = '{$this->current_page_type}' AND `id` = {$this->current_page_id}", ARRAY_A );
 				if ( null !== $exist ) {
-					$sql          = $wpdb->prepare( "UPDATE {$wpdb->prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$WP_Statistics->Current_Date( 'Y-m-d' )}' ".($is_search ===true ? "AND `uri` = '".$page_uri."'" : "")."AND `type` = '{$this->current_page_type}' AND `id` = %d", $this->current_page_id );
+					$sql          = $wpdb->prepare( "UPDATE {$wpdb->prefix}statistics_pages SET `count` = `count` + 1 WHERE `date` = '{$WP_Statistics->Current_Date( 'Y-m-d' )}' " . ( $is_search === true ? "AND `uri` = '" . $page_uri . "'" : "" ) . "AND `type` = '{$this->current_page_type}' AND `id` = %d", $this->current_page_id );
 					$this->result = $wpdb->query( $sql );
 					$page_id      = $exist['page_id'];
 
@@ -686,7 +685,7 @@ class WP_Statistics_Hits {
 				}
 
 				//Set Visitor Relationships
-				if ( $this->current_visitor_id >0 ) {
+				if ( $this->current_visitor_id > 0 ) {
 					$this->visitors_relationships( $page_id, $this->current_visitor_id );
 				}
 
@@ -702,7 +701,7 @@ class WP_Statistics_Hits {
 			array(
 				'visitor_id' => $visitor_id,
 				'page_id'    => $page_id,
-				'date'    =>  current_time( 'mysql' )
+				'date'       => current_time( 'mysql' )
 			),
 			array( '%d', '%d', '%s' )
 		);
