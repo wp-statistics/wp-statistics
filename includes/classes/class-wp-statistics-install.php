@@ -136,9 +136,10 @@ class WP_Statistics_Install {
 
 			$create_visitor_relationships_table = ( "
 					CREATE TABLE IF NOT EXISTS {$wpdb->prefix}statistics_visitor_relationships (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-						visitor_id bigint(20) NOT NULL,
-						page_id bigint(20) NOT NULL,
+						`ID` bigint(20) NOT NULL AUTO_INCREMENT,
+						`visitor_id` bigint(20) NOT NULL,
+						`page_id` bigint(20) NOT NULL,
+						`date` datetime NOT NULL,
 						PRIMARY KEY  (ID),
 						KEY visitor_id (visitor_id),
 						KEY page_id (page_id)
