@@ -231,6 +231,9 @@ class WP_Statistics {
 		$this->agent   = $this->get_UserAgent();
 		$WP_Statistics = $this;
 
+		//Load WP_Statistics_Schedule
+		new WP_Statistics_Schedule;
+
 		if ( is_admin() ) {
 			// JUST ADMIN AREA
 			new WP_Statistics_Admin;

@@ -10,8 +10,6 @@ class WP_Statistics_Frontend {
 
 		add_filter( 'widget_text', 'do_shortcode' );
 
-		new WP_Statistics_Schedule;
-
 		// Add the honey trap code in the footer.
 		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_honeypot' );
 
