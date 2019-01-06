@@ -72,19 +72,14 @@ if ( $referr ) {
 
 	$urls = array();
 	foreach ( $result as $item ) {
-
 		$url = parse_url( $item->referred );
-
 		if ( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
 			continue;
 		}
-
 		$urls[] = $url['scheme'] . '://' . $url['host'];
 	}
-
 	$get_urls = array_count_values( $urls );
-
-	$total = count( $get_urls );
+	$total    = count( $get_urls );
 }
 
 ?>
@@ -169,29 +164,11 @@ if ( $referr ) {
 							$end   = $Pagination->getEntryEnd();
 
 							if ( $referr ) {
-								if ( $WP_Statistics->get_option( 'search_converted' ) ) {
-									$result = $wpdb->get_results(
-										$wpdb->prepare(
-											"SELECT * FROM `{$wpdb->prefix}statistics_search` INNER JOIN `{$wpdb->prefix}statistics_visitor` on {$wpdb->prefix}statistics_search.`visitor` = {$wpdb->prefix}statistics_visitor.`ID` WHERE `host` = %s AND {$wpdb->prefix}statistics_visitor.`last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_search`.`ID` DESC LIMIT %d, %d",
-											$referr,
-											$rangestartdate,
-											$rangeenddate,
-											$start,
-											$end
-										)
-									);
-								}
 
 								foreach ( $result as $item ) {
 									echo "<div class='log-item'>";
-									echo "<div class='log-referred'><a href='?page=" .
-									     WP_Statistics::$page['overview'] .
-									     "&type=last-all-visitor&ip={$item->ip}'>" .
-									     wp_statistics_icons( 'dashicons-visibility', 'visibility' ) .
-									     "{$item->ip}</a></div>";
-									echo "<div class='log-ip'>" .
-									     date( get_option( 'date_format' ), strtotime( $item->last_counter ) ) .
-									     " - <a href='http://www.geoiptool.com/en/?IP={$item->ip}' target='_blank'>{$item->ip}</a></div>";
+									echo "<div class='log-referred'><a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&ip={$item->ip}'>" . wp_statistics_icons( 'dashicons-visibility', 'visibility' ) . "{$item->ip}</a></div>";
+									echo "<div class='log-ip'>" . date( get_option( 'date_format' ), strtotime( $item->last_counter ) ) . " - <a href='http://www.geoiptool.com/en/?IP={$item->ip}' target='_blank'>{$item->ip}</a></div>";
 									echo "<div class='clear'></div>";
 									echo "<a class='show-map' title='" . __( 'Map', 'wp-statistics' ) . "'><div class='dashicons dashicons-location-alt'></div></a>";
 
@@ -215,19 +192,8 @@ if ( $referr ) {
 									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items );
 									$referrer_html = parse_url( $referrer_html )['host'];
 									echo "<div class='log-item'>";
-									echo "<div class='log-referred'>{$i} - <a href='?page=" .
-									     WP_Statistics::$page['referrers'] .
-									     "&referr=" .
-									     $referrer_html .
-									     $date_args .
-									     "'>" .
-									     $referrer_html .
-									     "</a></div>";
-									echo "<div class='log-ip'>" .
-									     __( 'References', 'wp-statistics' ) .
-									     ': ' .
-									     number_format_i18n( $value ) .
-									     '</div>';
+									echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_Statistics::$page['referrers'] . "&referr=" . $referrer_html . $date_args . "'>" . $referrer_html . "</a></div>";
+									echo "<div class='log-ip'>" . __( 'References', 'wp-statistics' ) . ': ' . number_format_i18n( $value ) . '</div>';
 									echo "<div class='clear'></div>";
 									echo "<div class='log-url'>" .
 									     $WP_Statistics->get_referrer_link( $items, 100 ) .
