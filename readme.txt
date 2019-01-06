@@ -55,9 +55,15 @@ WP Statistics doesn’t officially support the multisite feature; however, it do
 Version 8.8 is the first release that can be installed, upgraded and removed correctly on multi-site. It also has some basic support for the network admin menu. This should not be taken as an indication that WP Statistics fully supports the multisite, but only should be considered as a very first step.
 
 = Does WP Statistics work with caching plugins? =
-Probably not. Most caching plugins don’t execute the standard WordPress loop for a page it has already cached (by design of course) which means the WP Statistics code never runs for that page.
-This means WP Statistics can’t record the page hit or visitor’s information, which is against the purpose of WP Statistics.
-We don’t recommend using a caching plugin with WP Statistics.
+Yes, the cache support added in v12.5.1
+
+If you're using a plugin cache:
+* Don't forget to clear your enabled plugin cache.
+* You should enabled the plugin cache option in the Settings page.
+* Making sure the below endpoint registered in your WordPress.
+http://yourwebsite.com/wp-json/wpstatistics/v1
+
+To register, go to the Permalink page and update the permalink with press Save Changes.
 
 = What’s the difference between Visits and Visitors? =
 Visits is the number of page hits your site has received.
@@ -116,6 +122,21 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.5.7 =
+* Added: The Edge To Browser List.
+* Added: `date_i18n` function in dates for retrieving localized date.
+* Improved: The Browsers charts.
+* Improved: Minor issues in GeoIP update function.
+* Optimized: All png files. (60% Save).
+
+= 12.5.6 =
+* Fixed: Counting stats issue in Cache mode.
+
+= 12.5.5 =
+* Improved: The WP-Statistics Metaboxes for Gutenberg!
+* Improved: The `params()` method.
+* Improved: Referrers URL to be valid.
+
 = 12.5.4 =
 * Disabled: Notice cache in all admin pages just enabled in the summary and setting of WP-Statistics pages.
 * Improved: Some methods. `params()` and `get_hash_string()`.
