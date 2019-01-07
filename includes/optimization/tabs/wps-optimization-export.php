@@ -2,6 +2,7 @@
 
     <form method="post">
         <input type="hidden" name="wps_export" value="true">
+		<?php wp_nonce_field( 'wp_statistics_export_nonce', 'wps_export_file' ); ?>
         <table class="form-table">
             <tbody>
             <tr valign="top">

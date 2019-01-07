@@ -2,8 +2,7 @@
     <h2><?php esc_html_e( 'Extensions for WP-Statistics', 'wp-statistics' ); ?></h2>
 
     <div id="poststuff" class="wp-statistics-plugins">
-        <div id="post-body"
-             class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
+        <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
             <p><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></p>
 
             <div class="wp-list-table widefat widefat plugin-install">
@@ -19,8 +18,7 @@
                             <div class="plugin-card-top">
                                 <div class="name column-name">
                                     <h3>
-                                        <a target="_blank" href="<?php echo $plugin->url; ?>"
-                                           class="thickbox open-plugin-details-modal">
+                                        <a target="_blank" href="<?php echo $plugin->url; ?>" class="thickbox open-plugin-details-modal">
 											<?php echo $plugin->name; ?>
                                             <img src="<?php echo $plugin->icon; ?>" class="plugin-icon" alt="">
                                         </a>
@@ -51,22 +49,17 @@
                                 </div>
                                 <div class="column-compatibility">
 									<?php if ( is_plugin_active( $plugin->slug . '/' . $plugin->slug . '.php' ) ) { ?>
-                                        <a href="admin.php?page=wps_plugins_page&action=deactivate&plugin=<?php echo $plugin->slug; ?>"
-                                           class="button"><?php _e( 'Deactivate Add-On', 'wp-statistics' ); ?></a>
+                                        <a href="admin.php?page=wps_plugins_page&action=deactivate&plugin=<?php echo $plugin->slug; ?>" class="button"><?php _e( 'Deactivate Add-On', 'wp-statistics' ); ?></a>
+									<?php } else { ?><?php if ( file_exists(
+										WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
+									) ) { ?>
+                                        <a href="admin.php?page=wps_plugins_page&action=activate&plugin=<?php echo $plugin->slug; ?>" class="button"><?php _e( 'Activate Add-On', 'wp-statistics' ); ?></a>
 									<?php } else { ?>
-										<?php if ( file_exists(
-											WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
-										) ) { ?>
-                                            <a href="admin.php?page=wps_plugins_page&action=activate&plugin=<?php echo $plugin->slug; ?>"
-                                               class="button"><?php _e( 'Activate Add-On', 'wp-statistics' ); ?></a>
-										<?php } else { ?>
-                                            <div class="column-price">
-                                                <strong>$<?php echo $plugin->price; ?></strong>
-                                            </div>
-                                            <a target="_blank" href="<?php echo $plugin->url; ?>"
-                                               class="button-primary"><?php _e( 'Buy Add-On', 'wp-statistics' ); ?></a>
-										<?php } ?>
-									<?php } ?>
+                                        <div class="column-price">
+                                            <strong>$<?php echo $plugin->price; ?></strong>
+                                        </div>
+                                        <a target="_blank" href="<?php echo $plugin->url; ?>" class="button-primary"><?php _e( 'Buy Add-On', 'wp-statistics' ); ?></a>
+									<?php } ?><?php } ?>
                                 </div>
                             </div>
                         </div>

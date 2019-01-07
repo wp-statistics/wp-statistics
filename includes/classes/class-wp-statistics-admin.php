@@ -21,18 +21,26 @@ class WP_Statistics_Admin {
 		if ( get_option( 'wp_statistics_removal' ) == 'true' ) {
 			new WP_Statistics_Uninstall;
 		}
+
 		// If we've been removed, return without doing anything else.
 		if ( get_option( 'wp_statistics_removal' ) == 'done' ) {
 			add_action( 'admin_notices', array( $this, 'removal_admin_notice' ), 10, 2 );
-
 			return;
 		}
 
-		add_action( 'admin_init', 'WP_Statistics_Admin::export_data', 9 );
-
+		//Add MetaBox in Dashboard
 		add_action( 'wp_dashboard_setup', 'WP_Statistics_Dashboard::widget_load' );
+
+		//Add Inline Script in Admin Footer
 		add_action( 'admin_footer', 'WP_Statistics_Dashboard::inline_javascript' );
+
+		//Add Custom MetaBox in Wp-statistics Admin Page
 		add_action( 'add_meta_boxes', 'WP_Statistics_Editor::add_meta_box' );
+
+		//init Export Class
+		new WP_Statistics_Export;
+
+		//init Ajax Class
 		new WP_Statistics_Ajax;
 
 		// Display the admin notices if we should.
@@ -42,28 +50,26 @@ class WP_Statistics_Admin {
 			}
 		}
 
-		add_filter(
-			'plugin_action_links_' . plugin_basename( WP_Statistics::$reg['main-file'] ),
-			'WP_Statistics_Admin::settings_links',
-			10,
-			2
-		);
-
+		//Change Plugin Action link in Plugin.php admin
+		add_filter( 'plugin_action_links_' . plugin_basename( WP_Statistics::$reg['main-file'] ), 'WP_Statistics_Admin::settings_links', 10, 2 );
 		add_filter( 'plugin_row_meta', 'WP_Statistics_Admin::add_meta_links', 10, 2 );
 
+		//Add Column in Post Type Wp_List Table
 		add_action( 'load-edit.php', 'WP_Statistics_Admin::load_edit_init' );
-
 		if ( $WP_Statistics->get_option( 'pages' ) && ! $WP_Statistics->get_option( 'disable_column' ) ) {
 			add_action( 'post_submitbox_misc_actions', 'WP_Statistics_Admin::post_init' );
 		}
 
+		//init Admin Menu (Wp-statistics)
 		add_action( 'admin_menu', 'WP_Statistics_Admin::menu' );
-
 		if ( is_multisite() ) {
 			add_action( 'network_admin_menu', 'WP_Statistics_Network_Admin::menu' );
 		}
 
+		//Load Script in Admin Area
 		add_action( 'admin_enqueue_scripts', 'WP_Statistics_Admin::enqueue_scripts' );
+
+		//init ShortCode
 		add_action( 'admin_init', 'WP_Statistics_Shortcode::shortcake' );
 
 		// WP-Statistics welcome page hooks
@@ -82,18 +88,6 @@ class WP_Statistics_Admin {
 
 		//Admin Notice Setting
 		add_action( 'admin_notices', 'WP_Statistics_Admin_Pages::wp_statistics_notice_setting' );
-	}
-
-	/**
-	 * Set the headers to download the export file and then stop running WordPress.
-	 */
-	static function export_data() {
-		if ( array_key_exists( 'wps_export', $_POST ) ) {
-			if ( ! function_exists( 'wp_statistics_export_data' ) ) {
-				include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/export.php';
-			}
-			wp_statistics_export_data();
-		}
 	}
 
 	/**
@@ -158,21 +152,10 @@ class WP_Statistics_Admin {
 			}
 
 			if ( count( $itemstoenable ) > 0 ) {
-				echo '<div class="update-nag">' . sprintf(
-						__(
-							'The following features are disabled, please go to %ssettings page%s and enable them: %s',
-							'wp-statistics'
-						),
-						'<a href="' . $get_bloginfo_url . '">',
-						'</a>',
-						implode( __( ',', 'wp-statistics' ), $itemstoenable )
-					) . '</div>';
+				echo '<div class="update-nag">' . sprintf( __( 'The following features are disabled, please go to %ssettings page%s and enable them: %s', 'wp-statistics' ), '<a href="' . $get_bloginfo_url . '">', '</a>', implode( __( ',', 'wp-statistics' ), $itemstoenable ) ) . '</div>';
 			}
 
-			$get_bloginfo_url = get_admin_url() .
-			                    "admin.php?page=" .
-			                    WP_Statistics::$page['optimization'] .
-			                    "&tab=database";
+			$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_Statistics::$page['optimization'] . "&tab=database";
 
 			$dbupdatestodo = array();
 
@@ -197,15 +180,7 @@ class WP_Statistics_Admin {
 				}
 
 				if ( count( $dbupdatestodo ) > 0 ) {
-					echo '<div class="update-nag">' . sprintf(
-							__(
-								'Database updates are required, please go to %soptimization page%s and update the following: %s',
-								'wp-statistics'
-							),
-							'<a href="' . $get_bloginfo_url . '">',
-							'</a>',
-							implode( __( ',', 'wp-statistics' ), $dbupdatestodo )
-						) . '</div>';
+					echo '<div class="update-nag">' . sprintf( __( 'Database updates are required, please go to %soptimization page%s and update the following: %s', 'wp-statistics' ), '<a href="' . $get_bloginfo_url . '">', '</a>', implode( __( ',', 'wp-statistics' ), $dbupdatestodo ) ) . '</div>';
 				}
 			}
 		}
@@ -386,12 +361,7 @@ class WP_Statistics_Admin {
 
 			foreach ( $post_types as $type ) {
 				add_action( 'manage_' . $type->name . '_posts_columns', 'WP_Statistics_Admin::add_column', 10, 2 );
-				add_action(
-					'manage_' . $type->name . '_posts_custom_column',
-					'WP_Statistics_Admin::render_column',
-					10,
-					2
-				);
+				add_action( 'manage_' . $type->name . '_posts_custom_column', 'WP_Statistics_Admin::render_column', 10, 2 );
 			}
 		}
 	}
@@ -434,16 +404,7 @@ class WP_Statistics_Admin {
 		global $post;
 
 		$id = $post->ID;
-
-		echo "<div class='misc-pub-section'>" .
-		     __( 'WP Statistics - Hits', 'wp-statistics' ) .
-		     ": <b><a href='" .
-		     get_admin_url() .
-		     "admin.php?page=" .
-		     WP_Statistics::$page['pages'] .
-		     "&page-id={$id}'>" .
-		     wp_statistics_pages( 'total', "", $id ) .
-		     "</a></b></div>";
+		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp-statistics' ) . ": <b><a href='" . get_admin_url() . "admin.php?page=" . WP_Statistics::$page['pages'] . "&page-id={$id}'>" . wp_statistics_pages( 'total', "", $id ) . "</a></b></div>";
 	}
 
 	/**
