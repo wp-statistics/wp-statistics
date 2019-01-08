@@ -8,25 +8,14 @@
     });
 </script>
 <?php
-$date_args     = '';
-$daysToDisplay = 20;
-if ( array_key_exists( 'hitdays', $_GET ) ) {
-	$daysToDisplay = intval( esc_attr( $_GET['hitdays'] ) );
-	$date_args     .= '&hitdays=' . $daysToDisplay;
+$date_args = '';
+//Set Default Time Picker Option
+list( $daysToDisplay, $rangestart, $rangeend ) = wp_statistics_prepare_range_time_picker();
+if ( isset( $_GET['hitdays'] ) and $_GET['hitdays'] > 0 ) {
+	$date_args .= '&hitdays=' . $daysToDisplay;
 }
-
-if ( array_key_exists( 'rangestart', $_GET ) ) {
-	$rangestart = esc_attr( $_GET['rangestart'] );
-	$date_args  .= '&rangestart=' . $rangestart;
-} else {
-	$rangestart = '';
-}
-
-if ( array_key_exists( 'rangeend', $_GET ) ) {
-	$rangeend  = esc_attr( $_GET['rangeend'] );
-	$date_args .= '&rangeend=' . $rangeend;
-} else {
-	$rangeend = '';
+if ( isset( $_GET['rangeend'] ) and isset( $_GET['rangestart'] ) and strtotime( $_GET['rangestart'] ) != false and strtotime( $_GET['rangeend'] ) != false ) {
+	$date_args .= '&rangestart=' . $rangestart . '&rangeend=' . $rangeend;
 }
 
 list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator(

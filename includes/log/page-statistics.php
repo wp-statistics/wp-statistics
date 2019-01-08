@@ -28,22 +28,10 @@ if ( is_object( $post ) ) {
 	$title = "";
 }
 
-$daysToDisplay = 20;
-if ( array_key_exists( 'hitdays', $_GET ) ) {
-	$daysToDisplay = intval( $_GET['hitdays'] );
-}
+//Set Default Time Picker Option
+list( $daysToDisplay, $rangestart, $rangeend ) = wp_statistics_prepare_range_time_picker();
 
-if ( array_key_exists( 'rangestart', $_GET ) ) {
-	$rangestart = $_GET['rangestart'];
-} else {
-	$rangestart = '';
-}
-if ( array_key_exists( 'rangeend', $_GET ) ) {
-	$rangeend = $_GET['rangeend'];
-} else {
-	$rangeend = '';
-}
-
+//Check Page
 if ( array_key_exists( 'page-id', $_GET ) ) {
 	$page = intval( $_GET['page-id'] );
 } else {
@@ -54,25 +42,22 @@ if ( array_key_exists( 'page-id', $_GET ) ) {
 	}
 }
 
-$urlfields = '&prepage=' . $pageid;
-$html      = __( 'Select Page', 'wp-statistics' ) . ': ';
-$html      .= wp_dropdown_pages( array( 'selected' => $pageid, 'echo' => 0, 'name' => 'page-id' ) );
-$html      .= '<input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" class="button-primary">';
-$html      .= '<br>';
+$url_fields = '&prepage=' . $pageid;
+$html       = __( 'Select Page', 'wp-statistics' ) . ': ';
+$html       .= wp_dropdown_pages( array( 'selected' => $pageid, 'echo' => 0, 'name' => 'page-id' ) );
+$html       .= '<input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" class="button-primary">';
+$html       .= '<br>';
 ?>
 <div class="wrap">
     <h2><?php echo sprintf( __( 'Page Trend for Post ID %s', 'wp-statistics' ), $pageid ) . ' - ' . $title; ?></h2>
-	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay, null, null, $urlfields, $html ); ?>
+	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay, null, null, $url_fields, $html ); ?>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
 					<?php $paneltitle = __( 'Page Trend', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf(
-								__( 'Toggle panel: %s', 'wp-statistics' ),
-								$paneltitle
-							); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>

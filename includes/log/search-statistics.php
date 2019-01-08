@@ -6,22 +6,8 @@
 <?php
 $search_engines = wp_statistics_searchengine_list();
 
-$daysToDisplay = 20;
-if ( array_key_exists( 'hitdays', $_GET ) ) {
-	$daysToDisplay = intval( $_GET['hitdays'] );
-}
-
-if ( array_key_exists( 'rangestart', $_GET ) ) {
-	$rangestart = $_GET['rangestart'];
-} else {
-	$rangestart = '';
-}
-if ( array_key_exists( 'rangeend', $_GET ) ) {
-	$rangeend = $_GET['rangeend'];
-} else {
-	$rangeend = '';
-}
-
+//Set Default Time Picker Option
+list( $daysToDisplay, $rangestart, $rangeend ) = wp_statistics_prepare_range_time_picker();
 list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator(
 	$daysToDisplay,
 	$rangestart,
@@ -52,7 +38,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Search Engine Referral Statistics', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['searches'], $daysToDisplay ); ?>
     <div class="postbox-container" id="last-log">

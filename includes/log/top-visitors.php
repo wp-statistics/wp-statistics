@@ -9,34 +9,30 @@ include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.
 ?>
 <div class="wrap">
     <h2><?php _e( 'Top 100 Visitors Today', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
 	<?php
 	wp_enqueue_script( 'jquery-ui-datepicker' );
-	wp_register_style(
-		'jquery-ui-smoothness-css',
-		WP_Statistics::$reg['plugin-url'] . 'assets/css/jquery-ui-smoothness.min.css'
-	);
+	wp_register_style( 'jquery-ui-smoothness-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/jquery-ui-smoothness.min.css' );
 	wp_enqueue_style( 'jquery-ui-smoothness-css' );
 
 	$current = 0;
-
-	$statsdate = $WP_Statistics->Current_Date( get_option("date_format"), '-' . $current );
-
-	if ( array_key_exists( 'statsdate', $_GET ) ) {
-		$statsdate = $_GET['statsdate'];
+	$statsdate  = $WP_Statistics->Current_Date( get_option( "date_format" ), '-' . $current );
+	$rang_start = $WP_Statistics->Current_Date( "Y-m-d" );
+	if ( isset( $_GET['statsdate'] ) and strtotime( $_GET['statsdate'] ) != false ) {
+		$statsdate  = date( get_option( "date_format" ), strtotime( $_GET['statsdate'] ) );
+		$rang_start = date( "Y-m-d", strtotime( $_GET['statsdate'] ) );
 	}
 
 	echo '<br><form method="get">' . "\r\n";
-
 	echo ' ' . __( 'Date', 'wp-statistics' ) . ': ';
 
 	echo '<input type="hidden" name="page" value="' . WP_Statistics::$page['top-visitors'] . '">' . "\r\n";
-	echo '<input type="text" size="10" name="statsdate" id="statsdate" value="' . htmlentities( $statsdate, ENT_QUOTES ) . '" placeholder="' . __( wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")), 'wp-statistics' ) . '"> <input type="submit" value="' . __( 'Go', 'wp-statistics' ) . '" class="button-primary">' . "\r\n";
-
+	echo '<input type="text" size="18" name="statsdate" id="statsdate" value="' . htmlentities( $statsdate, ENT_QUOTES ) . '" autocomplete="off" placeholder="' . __( wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ), 'wp-statistics' ) . '"> <input type="submit" value="' . __( 'Go', 'wp-statistics' ) . '" class="button-primary">' . "\r\n";
+	echo '<input type="hidden" name="statsdate" id="stats-date" value="' . $rang_start . '">';
 	echo '</form>' . "\r\n";
 
-	echo '<script>jQuery(function() { jQuery( "#statsdate" ).datepicker({dateFormat: \''.wp_statistics_dateformat_php_to_jqueryui(get_option("date_format")).'\'}); } );</script>' . "\r\n";
+	echo '<script>jQuery(function() { jQuery( "#statsdate" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val(), d = new Date(v);if (v.length > 0) {jQuery("#rangeend").val(d.toISOString().split(\'T\')[0]);}}}); } );</script>' . "\r\n";
 
 	?>
     <div class="postbox-container" id="last-log" style="width: 100%;">

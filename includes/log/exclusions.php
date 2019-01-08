@@ -13,22 +13,8 @@ if ( $WP_Statistics->get_option( 'record_exclusions' ) != 1 ) {
 	     "</strong></p></div>";
 }
 
-$daysToDisplay = 20;
-if ( array_key_exists( 'hitdays', $_GET ) ) {
-	$daysToDisplay = intval( $_GET['hitdays'] );
-}
-
-if ( array_key_exists( 'rangestart', $_GET ) ) {
-	$rangestart = $_GET['rangestart'];
-} else {
-	$rangestart = '';
-}
-if ( array_key_exists( 'rangeend', $_GET ) ) {
-	$rangeend = $_GET['rangeend'];
-} else {
-	$rangeend = '';
-}
-
+//Set Default Time Picker Option
+list( $daysToDisplay, $rangestart, $rangeend ) = wp_statistics_prepare_range_time_picker();
 list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator(
 	$daysToDisplay,
 	$rangestart,
@@ -170,7 +156,7 @@ foreach ( $excluded_reasons as $reason ) {
 ?>
 <div class="wrap">
     <h2><?php _e( 'Exclusions Statistics', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
+	<?php do_action( 'wp_statistics_after_title' ); ?>
 
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['exclusions'], $daysToDisplay ); ?>
     <div class="postbox-container" id="last-log">
@@ -190,8 +176,7 @@ foreach ( $excluded_reasons as $reason ) {
                     <div class="inside">
                         <div class="inside">
                             <canvas id="hit-stats" height="80"></canvas>
-                            <script type='text/javascript'
-                                    src='<?php echo WP_Statistics::$reg['plugin-url']; ?>assets/js/Chart.bundle.min.js'></script>
+                            <script type='text/javascript' src='<?php echo WP_Statistics::$reg['plugin-url']; ?>assets/js/Chart.bundle.min.js'></script>
                             <script>
                                 var ctx = document.getElementById("hit-stats").getContext('2d');
                                 var ChartJs = new Chart(ctx, {
