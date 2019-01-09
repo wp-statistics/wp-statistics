@@ -51,7 +51,7 @@ if ( $_get != '%' ) {
 				$Browsers = wp_statistics_ua_list();
 				$i        = 0;
 				$Total    = count( $Browsers );
-
+				echo $spacer;
 				foreach ( $Browsers as $Browser ) {
 					if ( $Browser == null ) {
 						continue;
@@ -66,7 +66,8 @@ if ( $_get != '%' ) {
 					if ( $i == $Total ) {
 						$spacer = "";
 					}
-					echo $spacer . "<li><a " . $current . "href='?page=" . WP_Statistics::$page['visitors'] . "&agent=" . $Browser . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
+					echo "<li><a " . $current . "href='?page=" . WP_Statistics::$page['visitors'] . "&agent=" . $Browser . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
+					echo $spacer;
 				}
 			} else {
 				if ( $_get != '%' ) {
@@ -95,41 +96,22 @@ if ( $_get != '%' ) {
 
                     <div class="inside">
 						<?php
-						// Instantiate pagination object with appropriate arguments
-						$pagesPerSection = 10;
-						$options         = array( 25, "All" );
-						$stylePageOff    = "pageOff";
-						$stylePageOn     = "pageOn";
-						$styleErrors     = "paginationErrors";
-						$styleSelect     = "paginationSelect";
-
-						$Pagination = new WP_Statistics_Pagination(
-							$total,
-							$pagesPerSection,
-							$options,
-							false,
-							$stylePageOff,
-							$stylePageOn,
-							$styleErrors,
-							$styleSelect
-						);
-
-						$start = $Pagination->getEntryStart();
-						$end   = $Pagination->getEntryEnd();
-
 						// Retrieve MySQL data
 						if ( $_get != '%' ) {
-							$result = $wpdb->get_results(
-								$wpdb->prepare(
-									"SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `{$_var}` LIKE %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}",
-									$_get
-								)
-							);
+							$sql = $wpdb->prepare( "SELECT count(*) FROM `{$wpdb->prefix}statistics_visitor` WHERE `{$_var}` LIKE %s", $_get );
 						} else {
-							$result = $wpdb->get_results(
-								"SELECT * FROM `{$wpdb->prefix}statistics_visitor` ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC  LIMIT {$start}, {$end}"
-							);
+							$sql = "SELECT count(*) FROM `{$wpdb->prefix}statistics_visitor`";
 						}
+
+						// Instantiate pagination object with appropriate arguments
+						$total          = $wpdb->get_var( $sql );
+						$items_per_page = 15;
+						$page           = isset( $_GET['pagination-page'] ) ? abs( (int) $_GET['pagination-page'] ) : 1;
+						$offset         = ( $page * $items_per_page ) - $items_per_page;
+
+						//Get Query Result
+						$query  = str_replace( "SELECT count(*) FROM", "SELECT * FROM", $sql ) . "  ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC LIMIT {$offset}, {$items_per_page}";
+						$result = $wpdb->get_results( $query );
 
 						echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
 		                      <tr>";
@@ -209,18 +191,15 @@ if ( $_get != '%' ) {
 
 							echo "</tr>";
 						}
-
 						echo "</table>";
-						?>
 
-                        <div class="pagination-log">
-							<?php echo $Pagination->display(); ?>
-                            <p id="result-log"><?php printf(
-									__( 'Page %1$s of %2$s', 'wp-statistics' ),
-									$Pagination->getCurrentPage(),
-									$Pagination->getTotalPages()
-								); ?></p>
-                        </div>
+						//Show Pagination
+						wp_statistics_paginate_links( array(
+							'item_per_page' => $items_per_page,
+							'total'         => $total,
+							'current'       => $page,
+						) );
+						?>
                     </div>
                 </div>
             </div>

@@ -78,26 +78,11 @@ $total = $search_result[ $referred ];
 							<?php
 							if ( $total > 0 ) {
 								// Instantiate pagination object with appropriate arguments
-								$pagesPerSection = 10;
-								$options         = array( 25, "All" );
-								$stylePageOff    = "pageOff";
-								$stylePageOn     = "pageOn";
-								$styleErrors     = "paginationErrors";
-								$styleSelect     = "paginationSelect";
-
-								$Pagination = new WP_Statistics_Pagination(
-									$total,
-									$pagesPerSection,
-									$options,
-									false,
-									$stylePageOff,
-									$stylePageOn,
-									$styleErrors,
-									$styleSelect
-								);
-
-								$start = $Pagination->getEntryStart();
-								$end   = $Pagination->getEntryEnd();
+								$items_per_page = 10;
+								$page           = isset( $_GET['pagination-page'] ) ? abs( (int) $_GET['pagination-page'] ) : 1;
+								$offset         = ( $page * $items_per_page ) - $items_per_page;
+								$start          = $offset;
+								$end            = $offset + $items_per_page;
 
 								// Retrieve MySQL data
 								if ( $referred && $referred != '' ) {
@@ -168,10 +153,7 @@ $total = $search_result[ $referred ];
 									echo "<td style=\"text-align: left\">";
 									if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false
 									) {
-										$agent = "<img src='" .
-										         plugins_url( 'wp-statistics/assets/images/' ) .
-										         $items->agent .
-										         ".png' class='log-tools' title='{$items->agent}'/>";
+										$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
 									} else {
 										$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 									}
@@ -197,9 +179,7 @@ $total = $search_result[ $referred ];
 
 									if ( $WP_Statistics->get_option( 'geoip' ) ) {
 										echo "<td style=\"text-align: left\">";
-										echo "<img src='" .
-										     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-										     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+										echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 										echo "</td>";
 									}
 
@@ -217,9 +197,7 @@ $total = $search_result[ $referred ];
 									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 										$ip_string = __( '#hash#', 'wp-statistics' );
 									} else {
-										$ip_string = "<a href='admin.php?page=" .
-										             WP_Statistics::$page['visitors'] .
-										             "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+										$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
 									}
 									echo $ip_string;
 									echo "</td>";
@@ -237,16 +215,14 @@ $total = $search_result[ $referred ];
                         </div>
                     </div>
 
-                    <div class="pagination-log">
-						<?php if ( $total > 0 ) {
-							echo $Pagination->display(); ?>
-                            <p id="result-log"><?php printf(
-									__( 'Page %1$s of %2$s', 'wp-statistics' ),
-									$Pagination->getCurrentPage(),
-									$Pagination->getTotalPages()
-								); ?></p>
-						<?php } ?>
-                    </div>
+					<?php
+					if ( $total > 0 ) {
+						wp_statistics_paginate_links( array(
+							'item_per_page' => $items_per_page,
+							'total'         => $total,
+							'current'       => $page,
+						) );
+					} ?>
                 </div>
             </div>
         </div>
