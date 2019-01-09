@@ -1222,13 +1222,12 @@ function wp_statistics_geoip_supported() {
 function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '', $pre_extra = '', $post_extra = '' ) {
 	GLOBAL $WP_Statistics;
 
+	//import DataPicker Jquery Ui Jquery Plugin
 	wp_enqueue_script( 'jquery-ui-datepicker' );
-	wp_register_style(
-		'jquery-ui-smoothness-css',
-		WP_Statistics::$reg['plugin-url'] . 'assets/css/jquery-ui-smoothness.min.css'
-	);
+	wp_register_style( 'jquery-ui-smoothness-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/jquery-ui-smoothness.min.css' );
 	wp_enqueue_style( 'jquery-ui-smoothness-css' );
 
+	//Create Object List Of Default Hit Day to Display
 	if ( $range == null or count( $range ) == 0 ) {
 		$range = array( 10, 20, 30, 60, 90, 180, 270, 365 );
 		$desc  = array(
@@ -1242,22 +1241,19 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 			__( '1 Year', 'wp-statistics' ),
 		);
 	}
-
 	if ( count( $desc ) == 0 ) {
 		$desc = $range;
 	}
-
 	$rcount = count( $range );
-
-	$bold = true;
+	$bold   = true;
 
 	// Check to see if there's a range in the URL, if so set it, otherwise use the default.
-	if ( array_key_exists( 'rangestart', $_GET ) ) {
+	if ( isset( $_GET['rangestart'] ) and strtotime( $_GET['rangestart'] ) != false ) {
 		$rangestart = $_GET['rangestart'];
 	} else {
 		$rangestart = $WP_Statistics->Current_Date( 'm/d/Y', '-' . $current );
 	}
-	if ( array_key_exists( 'rangeend', $_GET ) ) {
+	if ( isset( $_GET['rangeend'] ) and strtotime( $_GET['rangeend'] ) != false ) {
 		$rangeend = $_GET['rangeend'];
 	} else {
 		$rangeend = $WP_Statistics->Current_Date( 'm/d/Y' );
@@ -1281,51 +1277,35 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	$rangestart = $WP_Statistics->Local_Date( get_option( "date_format" ), $rangestart_utime );
 	$rangeend   = $WP_Statistics->Local_Date( get_option( "date_format" ), $rangeend_utime );
 
-	// If the rangeend isn't today OR it is but not one of the standard range values, then it's a custom selected value and we need to flag it as such.
-	if ( $rangeend != $today || ( $rangeend == $today && ! in_array( $current, $range ) ) ) {
-		$current = - 1;
-	} else {
-		// If on the other hand we are a standard range, let's reset the custom range selector to match it.
-		$rangestart = $WP_Statistics->Current_Date( get_option( "date_format" ), '-' . $current );
-		$rangeend   = $WP_Statistics->Current_Date( get_option( "date_format" ) );
+	//Calculate hit day if range is exist
+	if ( isset( $_GET['rangeend'] ) and isset( $_GET['rangestart'] ) and strtotime( $_GET['rangestart'] ) != false and strtotime( $_GET['rangeend'] ) != false ) {
+		$earlier = new DateTime( $_GET['rangestart'] );
+		$later   = new DateTime( $_GET['rangeend'] );
+		$current = $daysToDisplay = $later->diff( $earlier )->format( "%a" );
 	}
 
 	echo '<form method="get"><ul class="subsubsub wp-statistics-sub-fullwidth">' . "\r\n";
-
 	// Output any extra HTML we've been passed after the form element but before the date selector.
 	echo $pre_extra;
 
 	for ( $i = 0; $i < $rcount; $i ++ ) {
-		echo '		<li class="all"><a ';
-
+		echo '<li class="all"><a ';
 		if ( $current == $range[ $i ] ) {
 			echo 'class="current" ';
 			$bold = false;
 		}
 
 		// Don't bother adding he date range to the standard links as they're not needed any may confuse the custom range selector.
-		echo 'href="?page=' .
-		     $page .
-		     '&hitdays=' .
-		     $range[ $i ] .
-		     esc_html( $extrafields ) .
-		     '">' .
-		     $desc[ $i ] .
-		     '</a></li>';
-
+		echo 'href="?page=' . $page . '&hitdays=' . $range[ $i ] . esc_html( $extrafields ) . '">' . $desc[ $i ] . '</a></li>';
 		if ( $i < $rcount - 1 ) {
 			echo ' | ';
 		}
-
 		echo "\r\n";
 	}
-
 	echo ' | ';
-
-	echo '<input type="hidden" name="hitdays" value="-1"><input type="hidden" name="page" value="' . $page . '">';
+	echo '<input type="hidden" name="page" value="' . $page . '">';
 
 	parse_str( $extrafields, $parse );
-
 	foreach ( $parse as $key => $value ) {
 		echo '<input type="hidden" name="' . $key . '" value="' . esc_sql( $value ) . '">';
 	}
@@ -1336,28 +1316,50 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 		echo ' ' . __( 'Time Frame', 'wp-statistics' ) . ': ';
 	}
 
-	echo '<input type="text" size="10" name="rangestart" id="datestartpicker" value="' .
-	     $rangestart .
-	     '" placeholder="' .
-	     __( wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ), 'wp-statistics' ) .
-	     '"> ' .
-	     __( 'to', 'wp-statistics' ) .
-	     ' <input type="text" size="10" name="rangeend" id="dateendpicker" value="' .
-	     $rangeend .
-	     '" placeholder="' .
-	     __( wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ), 'wp-statistics' ) .
-	     '"> <input type="submit" value="' .
-	     __( 'Go', 'wp-statistics' ) .
-	     '" class="button-primary">' .
-	     "\r\n";
+	//Print Time Range Select Ui
+	echo '<input type="text" size="18" name="rangestart" id="datestartpicker" value="' . $rangestart . '" placeholder="' . __( wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ), 'wp-statistics' ) . '" autocomplete="off"> ' . __( 'to', 'wp-statistics' ) . ' <input type="text" size="18" name="rangeend" id="dateendpicker" value="' . $rangeend . '" placeholder="' . __( wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ), 'wp-statistics' ) . '" autocomplete="off"> <input type="submit" value="' . __( 'Go', 'wp-statistics' ) . '" class="button-primary">' . "\r\n";
+
+	//Sanitize Time Request
+	echo '<input type="hidden" name="rangestart" id="rangestart" value="' . $WP_Statistics->Local_Date( "Y-m-d", $rangestart_utime ) . '">';
+	echo '<input type="hidden" name="rangeend" id="rangeend" value="' . $WP_Statistics->Local_Date( "Y-m-d", $rangeend_utime ) . '">';
 
 	// Output any extra HTML we've been passed after the date selector but before the submit button.
 	echo $post_extra;
 
 	echo '</form>' . "\r\n";
+	echo '<script>
+        jQuery(function() { 
+        jQuery( "#datestartpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val(), d = new Date(v);if (v.length > 0) {jQuery("#rangestart").val(d.toISOString().split(\'T\')[0]);}}});
+        jQuery( "#dateendpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val(), d = new Date(v);if (v.length > 0) {jQuery("#rangeend").val(d.toISOString().split(\'T\')[0]);}}});
+        });
+        </script>' . "\r\n";
+}
 
-	echo '<script>jQuery(function() { jQuery( "#datestartpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\'}); jQuery( "#dateendpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\'}); });</script>' .
-	     "\r\n";
+/*
+ * Prepare Range Time For Time picker
+ */
+function wp_statistics_prepare_range_time_picker() {
+
+	//Set Default Object
+	$daysToDisplay = 20;
+	$rangestart    = '';
+	$rangeend      = '';
+
+	//Check Hit Day
+	if ( isset( $_GET['hitdays'] ) and $_GET['hitdays'] > 0 ) {
+		$daysToDisplay = intval( $_GET['hitdays'] );
+	}
+	if ( isset( $_GET['rangeend'] ) and isset( $_GET['rangestart'] ) and strtotime( $_GET['rangestart'] ) != false and strtotime( $_GET['rangeend'] ) != false ) {
+		$rangestart = $_GET['rangestart'];
+		$rangeend   = $_GET['rangeend'];
+
+		//Calculate hit day if range is exist
+		$earlier       = new DateTime( $_GET['rangestart'] );
+		$later         = new DateTime( $_GET['rangeend'] );
+		$daysToDisplay = $later->diff( $earlier )->format( "%a" );
+	}
+
+	return array( $daysToDisplay, $rangestart, $rangeend );
 }
 
 /*
