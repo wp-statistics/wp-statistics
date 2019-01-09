@@ -123,33 +123,15 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 						<?php
 						if ( $total > 0 ) {
 							// Instantiate pagination object with appropriate arguments
-							$pagesPerSection = 10;
-							$options         = 10;
-							$stylePageOff    = "pageOff";
-							$stylePageOn     = "pageOn";
-							$styleErrors     = "paginationErrors";
-							$styleSelect     = "paginationSelect";
+							$items_per_page = 10;
+							$page           = isset( $_GET['pagination-page'] ) ? abs( (int) $_GET['pagination-page'] ) : 1;
+							$offset         = ( $page * $items_per_page ) - $items_per_page;
+							$start          = $offset;
+							$end            = $offset + $items_per_page;
+							$site_url       = site_url();
+							$count          = 0;
 
-							$Pagination = new WP_Statistics_Pagination(
-								$total,
-								$pagesPerSection,
-								$options,
-								false,
-								$stylePageOff,
-								$stylePageOn,
-								$styleErrors,
-								$styleSelect
-							);
-
-							$start = $Pagination->getEntryStart();
-							$end   = $Pagination->getEntryEnd();
-
-							$site_url = site_url();
-
-							$count = 0;
-
-							echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
-		                          <tr>";
+							echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\"><tr>";
 							echo "<td width='10%'>" . __( 'ID', 'wp-statistics' ) . "</td>";
 							echo "<td width='40%'>" . __( 'Title', 'wp-statistics' ) . "</td>";
 							echo "<td width='40%'>" . __( 'Link', 'wp-statistics' ) . "</td>";
@@ -158,9 +140,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 
 							foreach ( $uris as $uri ) {
 								$count ++;
-
 								if ( $count >= $start ) {
-
 									if ( $uri[3] == '' ) {
 										$uri[3] = '[' .
 										          htmlentities( __( 'No page title found', 'wp-statistics' ), ENT_QUOTES ) .
@@ -169,19 +149,8 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 									echo "<tr>";
 									echo "<td style=\"text-align: left\">" . $count . "</td>";
 									echo "<td style=\"text-align: left\">" . $uri[3] . "</td>";
-
-									echo "<td style=\"text-align: left\"><a dir='ltr' href='" .
-									     htmlentities( $site_url . $uri[0], ENT_QUOTES ) .
-									     "'>" .
-									     htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) .
-									     "</a></td>";
-									echo "<td style=\"text-align: left\"><a href='?page=" .
-									     WP_Statistics::$page['pages'] .
-									     '&page-uri=' .
-									     htmlentities( $uri[0], ENT_QUOTES ) .
-									     "'>" .
-									     number_format_i18n( $uri[1] ) .
-									     "</a></td>";
+									echo "<td style=\"text-align: left\"><a dir='ltr' href='" . htmlentities( $site_url . $uri[0], ENT_QUOTES ) . "'>" . htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) . "</a></td>";
+									echo "<td style=\"text-align: left\"><a href='?page=" . WP_Statistics::$page['pages'] . '&page-uri=' . htmlentities( $uri[0], ENT_QUOTES ) . "'>" . number_format_i18n( $uri[1] ) . "</a></td>";
 								}
 
 								if ( $count == $start + 10 ) {
@@ -195,17 +164,13 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 						?>
                     </div>
                 </div>
-
-				<?php if ( $total > 0 ) { ?>
-                    <div class="pagination-log">
-						<?php echo $Pagination->display(); ?>
-                        <p id="result-log"><?php printf(
-								__( 'Page %1$s of %2$s', 'wp-statistics' ),
-								$Pagination->getCurrentPage(),
-								$Pagination->getTotalPages()
-							); ?></p>
-                    </div>
-				<?php } ?>
+				<?php if ( $total > 0 ) {
+					wp_statistics_paginate_links( array(
+						'item_per_page' => $items_per_page,
+						'total'         => $total,
+						'current'       => $page,
+					) );
+				} ?>
             </div>
         </div>
     </div>

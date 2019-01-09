@@ -1483,8 +1483,7 @@ function wp_statistics_generate_widget_load_javascript( $widget, $container_id =
         jQuery(document).ready(function () {
             wp_statistics_get_widget_contents('<?php echo $widget; ?>', '<?php echo $container_id; ?>');
         });
-    </script>
-	<?php
+    </script>    <?php
 }
 
 /**
@@ -1596,5 +1595,43 @@ function wp_statistics_get_browser_list( $all = true ) {
 		} else {
 			return __( "Unknown", 'wp-statistics' );
 		}
+	}
+}
+
+/**
+ * Pagination Link
+ * @param array $args
+ */
+function wp_statistics_paginate_links( $args = array() ) {
+
+	$defaults = array(
+		'item_per_page' => 10,
+		'container'     => 'pagination-wrap',
+		'query_var'     => 'pagination-page',
+		'total'         => 0,
+		'current'       => 0,
+		'show_now_page' => true
+	);
+	// Parse incoming $args into an array and merge it with $defaults
+	$args       = wp_parse_args( $args, $defaults );
+	$total_page = ceil( $args['total'] / $args['item_per_page'] );
+	if ( $total_page > 1 ) {
+		echo '<div class="' . $args['container'] . '">';
+		echo paginate_links( array(
+			'base'      => add_query_arg( $args['query_var'], '%#%' ),
+			'format'    => '',
+			'type'      => 'list',
+			'mid_size'  => 3,
+			'prev_text' => __( '&laquo;' ),
+			'next_text' => __( '&raquo;' ),
+			'total'     => $total_page,
+			'current'   => $args['current']
+		) );
+
+		if ( $args['show_now_page'] ) {
+			echo '<p id="result-log">' . sprintf( __( 'Page %1$s of %2$s', 'wp-statistics' ), $args['current'], $total_page ) . '</p>';
+		}
+
+		echo '</div>';
 	}
 }

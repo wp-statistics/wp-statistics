@@ -7,7 +7,7 @@
 
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Online Users', 'wp-statistics' ); ?></h2>
+    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/' ); ?>/top.png"><h2><?php _e( 'Online Users', 'wp-statistics' ); ?></h2>
 	<?php do_action( 'wp_statistics_after_title' ); ?>
 
     <div class="postbox-container" id="last-log">
@@ -17,10 +17,7 @@
                 <div class="postbox">
 					<?php $paneltitle = __( 'Online Users', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf(
-								__( 'Toggle panel: %s', 'wp-statistics' ),
-								$paneltitle
-							); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -34,26 +31,11 @@
 
 						if ( $total > 0 ) {
 							// Instantiate pagination object with appropriate arguments
-							$pagesPerSection = 10;
-							$options         = 10;
-							$stylePageOff    = "pageOff";
-							$stylePageOn     = "pageOn";
-							$styleErrors     = "paginationErrors";
-							$styleSelect     = "paginationSelect";
-
-							$Pagination = new WP_Statistics_Pagination(
-								$total,
-								$pagesPerSection,
-								$options,
-								false,
-								$stylePageOff,
-								$stylePageOn,
-								$styleErrors,
-								$styleSelect
-							);
-
-							$start = $Pagination->getEntryStart();
-							$end   = $Pagination->getEntryEnd();
+							$items_per_page = 10;
+							$page           = isset( $_GET['pagination-page'] ) ? abs( (int) $_GET['pagination-page'] ) : 1;
+							$offset         = ( $page * $items_per_page ) - $items_per_page;
+							$start          = $offset;
+							$end            = $offset + $items_per_page;
 
 							echo "<div class='log-latest'>";
 							$count = 0;
@@ -68,15 +50,8 @@
 										$ip_string  = __( '#hash#', 'wp-statistics' );
 										$map_string = "";
 									} else {
-										$ip_string = "<a href='?page=" .
-										             WP_Statistics::$page['overview'] .
-										             "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
-										$map_string
-										           = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" .
-										             __( 'Map', 'wp-statistics' ) .
-										             "'>" .
-										             wp_statistics_icons( 'dashicons-location-alt', 'map' ) .
-										             "</a>";
+										$ip_string  = "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
+										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
 									}
 
 									echo "<div class='log-item'>";
@@ -120,24 +95,19 @@
 
 							echo "</div>";
 						} else {
-							echo "<div class='wps-center'>" .
-							     __( 'Currently there are no users online in the site.', 'wp-statistics' ) .
-							     "</div>";
+							echo "<div class='wps-center'>" . __( 'Currently there are no users online in the site.', 'wp-statistics' ) . "</div>";
 						}
 						?>
                     </div>
                 </div>
-
-				<?php if ( $total > 0 ) { ?>
-                    <div class="pagination-log">
-						<?php echo $Pagination->display(); ?>
-                        <p id="result-log"><?php printf(
-								__( 'Page %1$s of %2$s', 'wp-statistics' ),
-								$Pagination->getCurrentPage(),
-								$Pagination->getTotalPages()
-							); ?></p>
-                    </div>
-				<?php } ?>
+				<?php
+				if ( $total > 0 ) {
+					wp_statistics_paginate_links( array(
+						'item_per_page' => $items_per_page,
+						'total'         => $total,
+						'current'       => $page,
+					) );
+				} ?>
             </div>
         </div>
     </div>

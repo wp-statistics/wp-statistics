@@ -83,11 +83,7 @@ if ( $phrase ) {
 					); ?></a>
             </li>|
             <li>
-                <a class="current" href="?page=<?php echo WP_Statistics::$page['searched-phrases']; ?>&referr=<?php echo esc_html( $phrase ) .
-				                                                                                                         $date_args; ?>"> <?php echo htmlentities(
-						$title,
-						ENT_QUOTES
-					); ?>
+                <a class="current" href="?page=<?php echo WP_Statistics::$page['searched-phrases']; ?>&referr=<?php echo esc_html( $phrase ) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?>
                     <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
             <li class="all"><a <?php if ( ! $phrase ) {
@@ -109,10 +105,7 @@ if ( $phrase ) {
 						$paneltitle = __( 'Top Search Words', 'wp-statistics' );
 					}; ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf(
-								__( 'Toggle panel: %s', 'wp-statistics' ),
-								$paneltitle
-							); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
@@ -122,26 +115,11 @@ if ( $phrase ) {
 
 						if ( $total > 0 ) {
 						// Initiate pagination object with appropriate arguments
-						$pagesPerSection = 10;
-						$options         = array( 25, "All" );
-						$stylePageOff    = "pageOff";
-						$stylePageOn     = "pageOn";
-						$styleErrors     = "paginationErrors";
-						$styleSelect     = "paginationSelect";
-
-						$Pagination = new WP_Statistics_Pagination(
-							$total,
-							$pagesPerSection,
-							$options,
-							false,
-							$stylePageOff,
-							$stylePageOn,
-							$styleErrors,
-							$styleSelect
-						);
-
-						$start = $Pagination->getEntryStart();
-						$end   = $Pagination->getEntryEnd();
+						$items_per_page = 10;
+						$page           = isset( $_GET['pagination-page'] ) ? abs( (int) $_GET['pagination-page'] ) : 1;
+						$offset         = ( $page * $items_per_page ) - $items_per_page;
+						$start          = $offset;
+						$end            = $offset + $items_per_page;
 
 						if ( $result ) {
 						$result = array_slice( $result, $start, $end );
@@ -164,17 +142,13 @@ if ( $phrase ) {
                         </table>
                     </div>
                 </div>
-
-                <div class="pagination-log">
-					<?php if ( $total > 0 ) {
-						echo $Pagination->display(); ?>
-                        <p id="result-log"><?php printf(
-								__( 'Page %1$s of %2$s', 'wp-statistics' ),
-								$Pagination->getCurrentPage(),
-								$Pagination->getTotalPages()
-							); ?></p>
-					<?php } ?>
-                </div>
+				<?php if ( $total > 0 ) {
+					wp_statistics_paginate_links( array(
+						'item_per_page' => $items_per_page,
+						'total'         => $total,
+						'current'       => $page,
+					) );
+				} ?>
             </div>
         </div>
     </div>
