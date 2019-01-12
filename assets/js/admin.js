@@ -45,6 +45,18 @@ jQuery(document).ready(function () {
         });
     }
 
+    //Check Visitor Log is Checked
+    jQuery(document).on("change", "input[name=wps_visitors]", function (e) {
+        e.preventDefault();
+        let visitor_log = jQuery("tr#visitors_log");
+        if (this.checked) {
+            visitor_log.show("slow");
+        } else {
+            visitor_log.hide("slow");
+            visitor_log.find("input[type=checkbox]").prop('checked', false);
+        }
+    });
+
     /**
      * Get Parameter value
      * @param name

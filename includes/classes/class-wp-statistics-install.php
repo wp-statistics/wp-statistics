@@ -134,17 +134,6 @@ class WP_Statistics_Install {
 						KEY host (host)
 					) CHARSET=utf8" );
 
-			$create_visitor_relationships_table = ( "
-					CREATE TABLE IF NOT EXISTS {$wpdb->prefix}statistics_visitor_relationships (
-						`ID` bigint(20) NOT NULL AUTO_INCREMENT,
-						`visitor_id` bigint(20) NOT NULL,
-						`page_id` bigint(20) NOT NULL,
-						`date` datetime NOT NULL,
-						PRIMARY KEY  (ID),
-						KEY visitor_id (visitor_id),
-						KEY page_id (page_id)
-					) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-
 			// Check to see if the historical table exists yet, aka if this is a upgrade instead of a first install.
 			$result = $wpdb->query(
 				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_historical'"
@@ -178,7 +167,6 @@ class WP_Statistics_Install {
 			dbDelta( $create_pages_table );
 			dbDelta( $create_historical_table );
 			dbDelta( $create_search_table );
-			dbDelta( $create_visitor_relationships_table );
 
 			// Some old versions (in the 5.0.x line) of MySQL have issue with the compound index on the visitor table
 			// so let's make sure it was created, if not, use the older format to create the table manually instead of
@@ -273,6 +261,7 @@ class WP_Statistics_Install {
 						'wps_check_online',
 						'wps_visits',
 						'wps_visitors',
+						'wps_visitors_log',
 						'wps_store_ua',
 						'wps_coefficient',
 						'wps_pages',
@@ -469,4 +458,34 @@ class WP_Statistics_Install {
 			}
 		}
 	}
+
+	/**
+	 * Setup Visitor RelationShip Table
+	 */
+	public static function setup_visitor_relationship_table() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'statistics_visitor_relationships';
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+
+			// This includes the dbDelta function from WordPress.
+			if ( ! function_exists( 'dbDelta' ) ) {
+				require( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			}
+
+			$create_visitor_relationships_table =
+				"CREATE TABLE IF NOT EXISTS $table_name (
+				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
+				`visitor_id` bigint(20) NOT NULL,
+				`page_id` bigint(20) NOT NULL,
+				`date` datetime NOT NULL,
+				PRIMARY KEY  (ID),
+				KEY visitor_id (visitor_id),
+				KEY page_id (page_id)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+
+			dbDelta( $create_visitor_relationships_table );
+		}
+	}
+
 }
