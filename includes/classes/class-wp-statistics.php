@@ -457,7 +457,7 @@ class WP_Statistics {
 
 	/**
 	 * geo ip Loader
-     *
+	 *
 	 * @param $pack
 	 * @return bool|\GeoIp2\Database\Reader
 	 */
@@ -872,6 +872,7 @@ class WP_Statistics {
 
 		if ( false !== $temp_ip ) {
 			$this->ip = $temp_ip;
+			return $this->ip;
 		}
 
 		/* Check to see if any of the HTTP headers are set to identify the remote user.
