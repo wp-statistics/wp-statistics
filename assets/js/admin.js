@@ -46,7 +46,7 @@ jQuery(document).ready(function () {
     }
 
     //Check Visitor Log is Checked
-    jQuery(document).on("change", "input[name=wps_visitors]", function (e) {
+    jQuery(document).on("change", "#visitors input[name=wps_visitors]", function (e) {
         e.preventDefault();
         let visitor_log = jQuery("tr#visitors_log");
         if (this.checked) {
