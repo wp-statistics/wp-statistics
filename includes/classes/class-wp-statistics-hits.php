@@ -685,7 +685,7 @@ class WP_Statistics_Hits {
 				}
 
 				//Set Visitor Relationships
-				if ( $this->current_visitor_id > 0 ) {
+				if ( $WP_Statistics->get_option( 'visitors' ) == true and $WP_Statistics->get_option( 'visitors_log' ) == true and $this->current_visitor_id > 0 ) {
 					$this->visitors_relationships( $page_id, $this->current_visitor_id );
 				}
 

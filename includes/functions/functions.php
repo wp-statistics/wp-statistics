@@ -1600,11 +1600,14 @@ function wp_statistics_get_browser_list( $all = true ) {
 
 /**
  * Pagination Link
+ *
  * @param array $args
+ * @return string
  */
 function wp_statistics_paginate_links( $args = array() ) {
 
-	$defaults = array(
+    //Prepare Arg
+	$defaults   = array(
 		'item_per_page' => 10,
 		'container'     => 'pagination-wrap',
 		'query_var'     => 'pagination-page',
@@ -1612,9 +1615,10 @@ function wp_statistics_paginate_links( $args = array() ) {
 		'current'       => 0,
 		'show_now_page' => true
 	);
-	// Parse incoming $args into an array and merge it with $defaults
 	$args       = wp_parse_args( $args, $defaults );
 	$total_page = ceil( $args['total'] / $args['item_per_page'] );
+
+	//Show Pagination Ui
 	if ( $total_page > 1 ) {
 		echo '<div class="' . $args['container'] . '">';
 		echo paginate_links( array(
@@ -1634,4 +1638,32 @@ function wp_statistics_paginate_links( $args = array() ) {
 
 		echo '</div>';
 	}
+}
+
+/**
+ * Get Post List From custom Post Type
+ *
+ * @param array $args
+ * @return mixed
+ */
+function wp_statistics_get_post_list( $args = array() ) {
+
+    //Prepare Arg
+	$defaults = array(
+		'post_type'      => 'page',
+		'post_status'    => 'publish',
+		'posts_per_page' => '-1',
+		'order'          => 'ASC',
+		'fields'         => 'ids'
+	);
+	$args     = wp_parse_args( $args, $defaults );
+
+	//Get Post List
+	$query = new WP_Query( $args );
+	$list  = array();
+	foreach ( $query->posts as $ID ) {
+		$list[ $ID ] = get_the_title( $ID );
+	}
+
+	return $list;
 }

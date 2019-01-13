@@ -42,11 +42,25 @@ if ( array_key_exists( 'page-id', $_GET ) ) {
 	}
 }
 
+//Check Page Type
+$arg       = array();
+$post_type = get_post_type( $page );
+if ( $page > 0 and $post_type != "page" ) {
+	$arg = array( "post_type" => get_post_type( $page ), "posts_per_page" => 50, "order" => "DESC" );
+}
+
+//Add arg to This Url
 $url_fields = '&prepage=' . $pageid;
+
+//Show Select Box Ui
 $html       = __( 'Select Page', 'wp-statistics' ) . ': ';
-$html       .= wp_dropdown_pages( array( 'selected' => $pageid, 'echo' => 0, 'name' => 'page-id' ) );
-$html       .= '<input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" class="button-primary">';
-$html       .= '<br>';
+$html       .= '<select name="page-id">';
+foreach ( wp_statistics_get_post_list( $arg ) as $post_id => $post_title ) {
+	$html .= '<option value="' . $post_id . '"' . selected( $post_id, $page, false ) . '>' . $post_title . '</option>';
+}
+$html .= '</select>';
+$html .= ' <input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" class="button-primary">';
+$html .= '<br>';
 ?>
 <div class="wrap">
     <h2><?php echo sprintf( __( 'Page Trend for Post ID %s', 'wp-statistics' ), $pageid ) . ' - ' . $title; ?></h2>

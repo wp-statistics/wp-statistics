@@ -457,7 +457,7 @@ class WP_Statistics {
 
 	/**
 	 * geo ip Loader
-     *
+	 *
 	 * @param $pack
 	 * @return bool|\GeoIp2\Database\Reader
 	 */
@@ -851,7 +851,7 @@ class WP_Statistics {
 	 */
 	public function get_IP() {
 
-		//Check If Rest Request
+		//Check If Rest Api Request
 		if ( $this->restapi->is_rest() ) {
 			$this->ip = $this->restapi->params( 'ip' );
 
@@ -863,17 +863,6 @@ class WP_Statistics {
 			return $this->ip;
 		}
 
-		$temp_ip = false;
-
-		// By default we use the remote address the server has.
-		if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
-			$temp_ip = $this->get_ip_value( $_SERVER['REMOTE_ADDR'] );
-		}
-
-		if ( false !== $temp_ip ) {
-			$this->ip = $temp_ip;
-		}
-
 		/* Check to see if any of the HTTP headers are set to identify the remote user.
 		 * These often give better results as they can identify the remote user even through firewalls etc,
 		 * but are sometimes used in SQL injection attacks.
@@ -883,6 +872,7 @@ class WP_Statistics {
 		 *
 		 */
 		$envs = array(
+			'REMOTE_ADDR',
 			'HTTP_CLIENT_IP',
 			'HTTP_X_FORWARDED_FOR',
 			'HTTP_X_FORWARDED',
@@ -890,14 +880,13 @@ class WP_Statistics {
 			'HTTP_FORWARDED',
 			'HTTP_X_REAL_IP',
 		);
-
 		foreach ( $envs as $env ) {
-			$temp_ip = $this->get_ip_value( getenv( $env ) );
-
-			if ( false !== $temp_ip ) {
-				$this->ip = $temp_ip;
-
-				break;
+			if ( array_key_exists( $env, $_SERVER ) ) {
+				$check_ip = $this->get_ip_value( getenv( $env ) );
+				if ( $check_ip != false ) {
+					$this->ip = $check_ip;
+					break;
+				}
 			}
 		}
 
