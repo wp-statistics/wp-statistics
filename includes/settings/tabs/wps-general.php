@@ -137,7 +137,7 @@ if ( $wps_nonce_valid ) {
             <th scope="row" colspan="2"><h3><?php _e( 'Visitors', 'wp-statistics' ); ?></h3></th>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" id="visitors">
             <th scope="row">
                 <label for="visitors"><?php _e( 'Visitors:', 'wp-statistics' ); ?></label>
             </th>
