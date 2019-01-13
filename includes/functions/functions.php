@@ -1606,7 +1606,7 @@ function wp_statistics_get_browser_list( $all = true ) {
  */
 function wp_statistics_paginate_links( $args = array() ) {
 
-    //Prepare Arg
+	//Prepare Arg
 	$defaults   = array(
 		'item_per_page' => 10,
 		'container'     => 'pagination-wrap',
@@ -1648,7 +1648,7 @@ function wp_statistics_paginate_links( $args = array() ) {
  */
 function wp_statistics_get_post_list( $args = array() ) {
 
-    //Prepare Arg
+	//Prepare Arg
 	$defaults = array(
 		'post_type'      => 'page',
 		'post_status'    => 'publish',
@@ -1666,4 +1666,20 @@ function wp_statistics_get_post_list( $args = array() ) {
 	}
 
 	return $list;
+}
+
+/**
+ * Get Admin Url
+ *
+ * @param null $page
+ * @param array $arg
+ * @return string
+ */
+function wp_statistics_admin_url( $page = null, $arg = array() ) {
+	//Check If Pages is in Wp-statistics
+	if ( array_key_exists( $page, WP_Statistics::$page ) ) {
+		$page = WP_Statistics::$page[ $page ];
+	}
+
+	return add_query_arg( array_merge( array( 'page' => $page ), $arg ), admin_url( 'admin.php' ) );
 }

@@ -228,10 +228,9 @@ class WP_Statistics_Frontend {
 	 * Get Page Type
 	 */
 	public static function get_page_type() {
-		$result = array(
-			"type" => "unknown",
-			"id"   => 0
-		);
+
+		//Set Default Option
+		$result = array( "type" => "unknown", "id" => 0 );
 
 		//Check Query object
 		$id = get_queried_object_id();
