@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
             return false;
         });
     }
-    
+
     //Check Visitor Log is Checked
     jQuery(document).on("change", "#visitors input[name=wps_visitors]", function (e) {
         e.preventDefault();

@@ -5,9 +5,7 @@
 </script>
 
 <div class="wrap">
-    <h2><?php _e( 'Author Statistics', 'wp-statistics' ); ?></h2>
-	<?php do_action( 'wp_statistics_after_title' ); ?>
-
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Author Statistics', 'wp-statistics' ) ); ?>
 	<?php
 	//Set Default Time Picker Option
 	list( $daysToDisplay, $rangestart, $rangeend ) = wp_statistics_prepare_range_time_picker();

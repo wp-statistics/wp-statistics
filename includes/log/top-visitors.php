@@ -8,9 +8,7 @@ $ISOCountryCode = $WP_Statistics->get_country_codes();
 include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.php' );
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Top 100 Visitors Today', 'wp-statistics' ); ?></h2>
-	<?php do_action( 'wp_statistics_after_title' ); ?>
-
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top 100 Visitors Today', 'wp-statistics' ) ); ?>
 	<?php
 	wp_enqueue_script( 'jquery-ui-datepicker' );
 	wp_register_style( 'jquery-ui-smoothness-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/jquery-ui-smoothness.min.css' );

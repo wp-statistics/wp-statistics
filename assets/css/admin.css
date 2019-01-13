@@ -323,3 +323,28 @@ html[dir="rtl"] .wp-statistic-mce-desc {
 .wps-gutenberg-chart-js {
     height: 350px;
 }
+
+.wps_loading_box {
+    width: 100%;
+    text-align: center;
+    min-height: 65px;
+    padding-top: 15px;
+}
+
+.wps_page_title {
+    display: inline-block;
+    vertical-align: -15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
+html[dir="rtl"] .wps_page_title {
+    margin-right: 0px;
+    margin-left: 5px;
+}
+
+.wps_title {
+    display: inline;
+    font-size: 1.6em;
+}

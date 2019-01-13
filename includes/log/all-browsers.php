@@ -76,9 +76,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 }
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Browser Statistics', 'wp-statistics' ); ?></h2>
-	<?php do_action( 'wp_statistics_after_title' ); ?>
-
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Browser Statistics', 'wp-statistics' ) ); ?>
     <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['browser'], $daysToDisplay ); ?></div>
     <div class="postbox-container" style="width: 48%; float: left; margin-right:20px">
         <div class="metabox-holder">

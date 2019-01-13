@@ -103,7 +103,7 @@ class WP_Statistics_Editor {
 				echo '<style>button#wp_statistics_editor_meta_box_more_button { z-index: 9999;position: absolute;top: 1px;right: 3%;}</style>';
 			}
 		} else {
-			$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Loading...', 'wp-statistics' ) . '"></div>';
+			$loading_img  = wp_statistics_loading_meta_box();
 			$widget       = $args['args']['widget'];
 			$container_id = 'wp-statistics-' . str_replace( '.', '-', $widget ) . '-div';
 			echo '<div id="' . $container_id . '">' . $loading_img . '</div>';
@@ -121,8 +121,7 @@ class WP_Statistics_Editor {
 		}
 
 		WP_Statistics_Dashboard::load_widget_css_and_scripts();
-
-		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
+		$loading_img = wp_statistics_loading_meta_box();
 		$new_buttons = '</button>';
 		//If Classic Editor
 		if ( self::is_gutenberg() === false ) {

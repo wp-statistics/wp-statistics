@@ -63,7 +63,7 @@ $html .= ' <input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" 
 $html .= '<br>';
 ?>
 <div class="wrap">
-    <h2><?php echo sprintf( __( 'Page Trend for Post ID %s', 'wp-statistics' ), $pageid ) . ' - ' . $title; ?></h2>
+	<?php WP_Statistics_Admin_Pages::show_page_title( sprintf( __( 'Page Trend for Post ID %s', 'wp-statistics' ), $pageid ) . ' - ' . $title ); ?>
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay, null, null, $url_fields, $html ); ?>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">

@@ -7,9 +7,7 @@
 
 ?>
 <div class="wrap">
-    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/' ); ?>/top.png"><h2><?php _e( 'Online Users', 'wp-statistics' ); ?></h2>
-	<?php do_action( 'wp_statistics_after_title' ); ?>
-
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Online Users', 'wp-statistics' ) ); ?>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">

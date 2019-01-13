@@ -34,14 +34,6 @@ class WP_Statistics_Welcome {
 	 * Welcome page
 	 */
 	public static function page_callback() {
-		// Load our JS to be used.
-		wp_enqueue_script(
-			'wp-statistics-admin-js',
-			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
-			array( 'jquery' ),
-			WP_Statistics::$reg['version']
-		);
-
 		include( WP_Statistics::$reg['plugin-dir'] . "includes/templates/welcome.php" );
 	}
 

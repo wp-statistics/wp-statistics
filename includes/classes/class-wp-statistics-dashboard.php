@@ -202,37 +202,16 @@ class WP_Statistics_Dashboard {
 		// Load the css we use for the statistics pages.
 		wp_enqueue_style( 'wpstatistics-log-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/log.css', true, '1.2' );
 
-		// Don't forget the right to left support.
-		if ( is_rtl() ) {
-			wp_enqueue_style( 'rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1' );
-		}
-
 		// Load the map code.
-        if (!$WP_Statistics->get_option( 'disable_dashboard' )) {
-            wp_enqueue_style('jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1');
-            wp_enqueue_script(
-                'jquery-vmap',
-                WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
-                true,
-                '1.5.1'
-            );
-            wp_enqueue_script(
-                'jquery-vmap-world',
-                WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
-                true,
-                '1.5.1'
-            );
-        }
+		if ( ! $WP_Statistics->get_option( 'disable_dashboard' ) ) {
+			wp_enqueue_style( 'jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
+			wp_enqueue_script( 'jquery-vmap', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1' );
+			wp_enqueue_script( 'jquery-vmap-world', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1' );
+		}
 
 		// Load chart library
 		if ( ! isset( $_GET['post'] ) ) {
-			wp_enqueue_script(
-				'wp-statistics-chart-js',
-				WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
-				false,
-				'2.7.3',
-                false
-			);
+			wp_enqueue_script( 'wp-statistics-chart-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js', false, '2.7.3', false );
 		}
 
 		$screen = get_current_screen();
@@ -254,49 +233,39 @@ class WP_Statistics_Dashboard {
 
 		WP_Statistics_Dashboard::load_widget_css_and_scripts();
 
-		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .
-		               plugins_url( 'wp-statistics/assets/images/' ) .
-		               'ajax-loading.gif" alt="' .
-		               __( 'Reloading...', 'wp-statistics' ) .
-		               '"></div>';
-
+		$loading_img = wp_statistics_loading_meta_box();
 		$new_buttons
-			= '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-			  wp_statistics_icons( 'dashicons-update' ) .
-			  '<span class="screen-reader-text">' .
-			  __( 'Reload', 'wp-statistics' ) .
-			  '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' .
-			  wp_statistics_icons( 'dashicons-migrate' ) .
-			  '<span class="screen-reader-text">' .
-			  __( 'More Details', 'wp-statistics' ) .
-			  '</span></button>';
+		             = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
+		               wp_statistics_icons( 'dashicons-update' ) .
+		               '<span class="screen-reader-text">' .
+		               __( 'Reload', 'wp-statistics' ) .
+		               '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' .
+		               wp_statistics_icons( 'dashicons-migrate' ) .
+		               '<span class="screen-reader-text">' .
+		               __( 'More Details', 'wp-statistics' ) .
+		               '</span></button>';
 		$new_button
-			= '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-			  wp_statistics_icons( 'dashicons-update' ) .
-			  '<span class="screen-reader-text">' .
-			  __( 'Reload', 'wp-statistics' ) .
-			  '</span></button>';
+		             = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
+		               wp_statistics_icons( 'dashicons-update' ) .
+		               '<span class="screen-reader-text">' .
+		               __( 'Reload', 'wp-statistics' ) .
+		               '</span></button>';
 
 		$admin_url = get_admin_url() . "admin.php?page=";
 
 		$page_urls = array();
 
 		$page_urls['wp-statistics-browsers-widget_more_button']         = $admin_url . WP_Statistics::$page['browser'];
-		$page_urls['wp-statistics-countries-widget_more_button']        = $admin_url .
-		                                                                  WP_Statistics::$page['countries'];
-		$page_urls['wp-statistics-exclusions-widget_more_button']       = $admin_url .
-		                                                                  WP_Statistics::$page['exclusions'];
+		$page_urls['wp-statistics-countries-widget_more_button']        = $admin_url . WP_Statistics::$page['countries'];
+		$page_urls['wp-statistics-exclusions-widget_more_button']       = $admin_url . WP_Statistics::$page['exclusions'];
 		$page_urls['wp-statistics-hits-widget_more_button']             = $admin_url . WP_Statistics::$page['hits'];
 		$page_urls['wp-statistics-online-widget_more_button']           = $admin_url . WP_Statistics::$page['online'];
 		$page_urls['wp-statistics-pages-widget_more_button']            = $admin_url . WP_Statistics::$page['pages'];
-		$page_urls['wp-statistics-referring-widget_more_button']        = $admin_url .
-		                                                                  WP_Statistics::$page['referrers'];
-		$page_urls['wp-statistics-searched-phrases-widget_more_button'] = $admin_url .
-		                                                                  WP_Statistics::$page['searched-phrases'];
+		$page_urls['wp-statistics-referring-widget_more_button']        = $admin_url . WP_Statistics::$page['referrers'];
+		$page_urls['wp-statistics-searched-phrases-widget_more_button'] = $admin_url . WP_Statistics::$page['searched-phrases'];
 		$page_urls['wp-statistics-search-widget_more_button']           = $admin_url . WP_Statistics::$page['searches'];
 		$page_urls['wp-statistics-words-widget_more_button']            = $admin_url . WP_Statistics::$page['words'];
-		$page_urls['wp-statistics-top-visitors-widget_more_button']     = $admin_url .
-		                                                                  WP_Statistics::$page['top-visitors'];
+		$page_urls['wp-statistics-top-visitors-widget_more_button']     = $admin_url . WP_Statistics::$page['top-visitors'];
 		$page_urls['wp-statistics-recent-widget_more_button']           = $admin_url . WP_Statistics::$page['visitors'];
 		$page_urls['wp-statistics-quickstats-widget_more_button']       = $admin_url . WP_Statistics::$page['overview'];
 
@@ -355,11 +324,7 @@ class WP_Statistics_Dashboard {
 	}
 
 	static function generate_postbox_contents( $post, $args ) {
-		$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' .
-		                plugins_url( 'wp-statistics/assets/images/' ) .
-		                'ajax-loading.gif" alt="' .
-		                __( 'Loading...', 'wp-statistics' ) .
-		                '"></div>';
+		$loading_img  = wp_statistics_loading_meta_box();
 		$widget       = $args['args']['widget'];
 		$container_id = 'wp-statistics-' . str_replace( '.', '-', $widget ) . '-div';
 

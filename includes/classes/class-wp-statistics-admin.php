@@ -638,24 +638,19 @@ class WP_Statistics_Admin {
 
 	/**
 	 * Enqueue Scripts
-	 *
 	 * @param string $hook Not Used
 	 */
 	static function enqueue_scripts( $hook ) {
 		global $pagenow, $WP_Statistics;
 
 		// Load our CSS to be used.
-		wp_enqueue_style(
-			'wpstatistics-admin-css',
-			WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css',
-			true,
-			WP_Statistics::$reg['version']
-		);
-
+		wp_enqueue_style( 'wpstatistics-admin-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css', true, WP_Statistics::$reg['version'] );
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, WP_Statistics::$reg['version'] );
 		}
 
+		//Load Admin Js
+		wp_enqueue_script( 'wp-statistics-admin-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js', array( 'jquery' ), WP_Statistics::$reg['version'] );
 
 		//Load Chart Js
 		$load_in_footer = false;
@@ -682,13 +677,7 @@ class WP_Statistics_Admin {
 		}
 
 		if ( $load_chart === true ) {
-			wp_enqueue_script(
-				'wp-statistics-chart-js',
-				WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
-				false,
-				'2.7.3',
-				$load_in_footer
-			);
+			wp_enqueue_script( 'wp-statistics-chart-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js', false, '2.7.3', $load_in_footer );
 		}
 
 	}

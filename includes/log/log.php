@@ -1,7 +1,6 @@
 <?php
-$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'ajax-loading.gif" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
-
-$nag_html = '';
+$loading_img = wp_statistics_loading_meta_box();
+$nag_html    = '';
 
 if ( ! $WP_Statistics->get_option( 'geoip' ) ) {
 	$nag_html .= '<div class="notice notice-warning"><p>' . sprintf( __( 'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics' ), admin_url( 'admin.php?page=wps_settings_page&tab=externals-settings' ) ) . '</p></div>';
@@ -30,11 +29,7 @@ add_meta_box(
 );
 
 function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
-	$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' .
-	                plugins_url( 'wp-statistics/assets/images/' ) .
-	                'ajax-loading.gif" alt="' .
-	                __( 'Loading...', 'wp-statistics' ) .
-	                '"></div>';
+	$loading_img  = wp_statistics_loading_meta_box();
 	$widget       = $args['args']['widget'];
 	$container_id = str_replace( '.', '_', $widget . '_postbox' );
 
@@ -45,9 +40,7 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 ?>
 <div class="wrap">
 	<?php echo $nag_html; ?>
-    <h2><?php echo get_admin_page_title(); ?></h2>
-	<?php do_action( 'wp_statistics_after_title' ); ?>
-
+	<?php WP_Statistics_Admin_Pages::show_page_title(); ?>
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 	<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 

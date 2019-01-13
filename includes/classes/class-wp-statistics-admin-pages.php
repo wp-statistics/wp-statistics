@@ -5,10 +5,8 @@
  */
 class WP_Statistics_Admin_Pages {
 
-
 	//Transient For Show Notice Setting
 	public static $setting_notice = '_show_notice_wp_statistics';
-
 
 	/**
 	 * Load Overview Page
@@ -148,12 +146,30 @@ class WP_Statistics_Admin_Pages {
 		add_filter( 'default_hidden_meta_boxes', array( 'WP_Statistics_Admin_Pages', 'default_hide_meta_box' ), 10, 2 );
 	}
 
+	/**
+	 * Show Page title
+	 * @param string $title
+	 */
+	public static function show_page_title( $title = '' ) {
+
+		//Check if $title not Set
+		if ( empty( $title ) and function_exists( 'get_admin_page_title' ) ) {
+			$title = get_admin_page_title();
+		}
+
+		//show Page title
+		echo '<img src="' . plugins_url( 'wp-statistics/assets/images/' ) . '/title-logo.png" class="wps_page_title"><h2 class="wps_title">' . $title . '</h2>';
+
+		//do_action after wp_statistics
+		do_action( 'wp_statistics_after_title' );
+	}
+
+
 	/*
 	 * Default Hidden Meta Box
 	 */
-	static public function default_hide_meta_box($hidden, $screen)
-	{
-		if($screen->id =="toplevel_page_wps_overview_page") {
+	static public function default_hide_meta_box( $hidden, $screen ) {
+		if ( $screen->id == "toplevel_page_wps_overview_page" ) {
 			$hidden[] = 'wps_searched_phrases_postbox';
 		}
 		return $hidden;
@@ -164,14 +180,6 @@ class WP_Statistics_Admin_Pages {
 	 * Plugins
 	 */
 	static function plugins() {
-		// Load our CSS to be used.
-		wp_enqueue_style(
-			'wpstatistics-admin-css',
-			WP_Statistics::$reg['plugin-url'] . 'assets/css/admin.css',
-			true,
-			WP_Statistics::$reg['version']
-		);
-
 		// Activate or deactivate the selected plugin
 		if ( isset( $_GET['action'] ) ) {
 			if ( $_GET['action'] == 'activate' ) {
@@ -238,18 +246,6 @@ class WP_Statistics_Admin_Pages {
 		// during the creation of the class.  Instead load them now that the user exists.
 		$WP_Statistics->load_user_options();
 
-		// Load our JS to be used.
-		wp_enqueue_script(
-			'wp-statistics-admin-js',
-			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
-			array( 'jquery' ),
-            WP_Statistics::$reg['version']
-		);
-
-		if ( is_rtl() ) {
-			wp_enqueue_style( 'rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, WP_Statistics::$reg['version'] );
-		}
-
 		// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.
 		$result['useronline'] = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_useronline`" );
 		$result['visit']      = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_visit`" );
@@ -285,36 +281,27 @@ class WP_Statistics_Admin_Pages {
 		// during the creation of the class.  Instead load them now that the user exists.
 		$WP_Statistics->load_user_options();
 
-		// Load our JS to be used.
-		wp_enqueue_script(
-			'wp-statistics-admin-js',
-			WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
-			array( 'jquery' ),
-            WP_Statistics::$reg['version']
-		);
-
-		if ( is_rtl() ) {
-			wp_enqueue_style( 'rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1' );
-		}
-
 		// Check admin notices.
-        if ( $WP_Statistics->get_option( 'admin_notices' ) == true ) {
-            $WP_Statistics->update_option( 'disable_donation_nag', false );
-            $WP_Statistics->update_option( 'disable_suggestion_nag', false );
-        }
+		if ( $WP_Statistics->get_option( 'admin_notices' ) == true ) {
+			$WP_Statistics->update_option( 'disable_donation_nag', false );
+			$WP_Statistics->update_option( 'disable_suggestion_nag', false );
+		}
 
 		include WP_Statistics::$reg['plugin-dir'] . "includes/settings/wps-settings.php";
 
 		// We could let the download happen at the end of the page, but this way we get to give some
 		// feedback to the users about the result.
-		if ( $WP_Statistics->get_option( 'geoip' ) and isset($_POST['update_geoip']) and isset($_POST['geoip_name']) ) {
+		if ( $WP_Statistics->get_option( 'geoip' ) and isset( $_POST['update_geoip'] ) and isset( $_POST['geoip_name'] ) ) {
 
 			//Check Geo ip Exist in Database
-			if( isset( WP_Statistics_Updates::$geoip[$_POST['geoip_name']] )) {
-				$result =  WP_Statistics_Updates::download_geoip($_POST['geoip_name'], "update");
+			if ( isset( WP_Statistics_Updates::$geoip[ $_POST['geoip_name'] ] ) ) {
+				$result = WP_Statistics_Updates::download_geoip( $_POST['geoip_name'], "update" );
 
-				if(isset($result['status']) and $result['status'] === false) {
-					add_filter("wp_statistics_redirect_setting", function($redirect) { $redirect = true; return $redirect; });
+				if ( isset( $result['status'] ) and $result['status'] === false ) {
+					add_filter( "wp_statistics_redirect_setting", function ( $redirect ) {
+						$redirect = true;
+						return $redirect;
+					} );
 				} else {
 					echo $result['notice'];
 				}
@@ -323,16 +310,19 @@ class WP_Statistics_Admin_Pages {
 		}
 
 		//Enabled Geo ip Country Or City And download
-		foreach (array("geoip" => "country", "geoip_city" => "city") as $geo_opt => $geo_name) {
-			if( !isset($_POST['update_geoip']) and isset($_POST['wps_'.$geo_opt]) ) {
+		foreach ( array( "geoip" => "country", "geoip_city" => "city" ) as $geo_opt => $geo_name ) {
+			if ( ! isset( $_POST['update_geoip'] ) and isset( $_POST[ 'wps_' . $geo_opt ] ) ) {
 
 				//Check File Not Exist
 				$upload_dir = wp_upload_dir();
-				$file = $upload_dir['basedir'] . '/wp-statistics/'.WP_Statistics_Updates::$geoip[$geo_name]['file'].'.mmdb';
-				if ( !file_exists($file) ) {
-					$result = WP_Statistics_Updates::download_geoip($geo_name);
-					if(isset($result['status']) and $result['status'] === false) {
-						add_filter("wp_statistics_redirect_setting", function($redirect) { $redirect = true; return $redirect; });
+				$file       = $upload_dir['basedir'] . '/wp-statistics/' . WP_Statistics_Updates::$geoip[ $geo_name ]['file'] . '.mmdb';
+				if ( ! file_exists( $file ) ) {
+					$result = WP_Statistics_Updates::download_geoip( $geo_name );
+					if ( isset( $result['status'] ) and $result['status'] === false ) {
+						add_filter( "wp_statistics_redirect_setting", function ( $redirect ) {
+							$redirect = true;
+							return $redirect;
+						} );
 					} else {
 						echo $result['notice'];
 					}
@@ -346,14 +336,17 @@ class WP_Statistics_Admin_Pages {
 
 	/**
 	 * Set Transient Notice
+	 *
+	 * @param $text
+	 * @param string $type
 	 */
 	public static function set_admin_notice( $text, $type = 'error' ) {
 		$get = get_transient( WP_Statistics_Admin_Pages::$setting_notice );
-		if ( $get !=false) {
+		if ( $get != false ) {
 			$results = $get;
 		}
 		delete_transient( WP_Statistics_Admin_Pages::$setting_notice );
-		$results[] = array("text" => $text, "type" => $type);
+		$results[] = array( "text" => $text, "type" => $type );
 		set_transient( WP_Statistics_Admin_Pages::$setting_notice, $results, 1 * HOUR_IN_SECONDS );
 	}
 
@@ -361,10 +354,10 @@ class WP_Statistics_Admin_Pages {
 	/**
 	 * Notification Setting
 	 */
-	public static function wp_statistics_notice_setting(  ) {
+	public static function wp_statistics_notice_setting() {
 		$get = get_transient( WP_Statistics_Admin_Pages::$setting_notice );
-		if ( $get !=false) {
-			foreach ($get as $item) {
+		if ( $get != false ) {
+			foreach ( $get as $item ) {
 				wp_statistics_admin_notice_result( $item['type'], $item['text'] );
 			}
 			delete_transient( WP_Statistics_Admin_Pages::$setting_notice );
@@ -374,11 +367,12 @@ class WP_Statistics_Admin_Pages {
 
 	/**
 	 * Redirect Jquery
+	 * @param bool $redirect
 	 */
 	public static function wp_statistics_redirect_setting( $redirect = false ) {
 		$redirect = apply_filters( 'wp_statistics_redirect_setting', $redirect );
-		if($redirect ===true) {
-			echo '<script>window.location.replace("'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'");</script>';
+		if ( $redirect === true ) {
+			echo '<script>window.location.replace("' . ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" . '");</script>';
 		}
 	}
 
@@ -558,24 +552,6 @@ class WP_Statistics_Admin_Pages {
 			WP_Statistics::$reg['version']
 		);
 
-		// Don't forget the right to left support.
-		if ( is_rtl() ) {
-			wp_enqueue_style(
-				'wpstatistics-rtl-css',
-				WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css',
-				true,
-				WP_Statistics::$reg['version']
-			);
-		}
-
-        // Load our JS to be used.
-        wp_enqueue_script(
-            'wp-statistics-admin-js',
-            WP_Statistics::$reg['plugin-url'] . 'assets/js/admin.js',
-            array( 'jquery' ),
-            WP_Statistics::$reg['version']
-        );
-
 		// The different pages have different files to load.
 		switch ( $log_type ) {
 			case 'all-browsers':
@@ -616,31 +592,31 @@ class WP_Statistics_Admin_Pages {
 
 				break;
 			default:
-                if (get_current_screen()->parent_base ==WP_Statistics::$page['overview']) {
-                    wp_enqueue_style(
-                        'wpstatistics-jqvmap-css',
-                        WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css',
-                        true,
-                        '1.5.1'
-                    );
-                    wp_enqueue_script(
-                        'wpstatistics-jquery-vmap',
-                        WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
-                        true,
-                        '1.5.1'
-                    );
-                    wp_enqueue_script(
-                        'wpstatistics-jquery-vmap-world',
-                        WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
-                        true,
-                        '1.5.1'
-                    );
+				if ( get_current_screen()->parent_base == WP_Statistics::$page['overview'] ) {
+					wp_enqueue_style(
+						'wpstatistics-jqvmap-css',
+						WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css',
+						true,
+						'1.5.1'
+					);
+					wp_enqueue_script(
+						'wpstatistics-jquery-vmap',
+						WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
+						true,
+						'1.5.1'
+					);
+					wp_enqueue_script(
+						'wpstatistics-jquery-vmap-world',
+						WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
+						true,
+						'1.5.1'
+					);
 
-                    // Load our custom widgets handling javascript.
-                    wp_enqueue_script('wp_statistics_log', WP_Statistics::$reg['plugin-url'] . 'assets/js/log.js');
+					// Load our custom widgets handling javascript.
+					wp_enqueue_script( 'wp_statistics_log', WP_Statistics::$reg['plugin-url'] . 'assets/js/log.js' );
 
-                    include WP_Statistics::$reg['plugin-dir'] . 'includes/log/log.php';
-                }
+					include WP_Statistics::$reg['plugin-dir'] . 'includes/log/log.php';
+				}
 
 				break;
 		}

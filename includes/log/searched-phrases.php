@@ -60,9 +60,7 @@ if ( $phrase ) {
 
 ?>
 <div class="wrap">
-    <h2><?php _e( 'Top Search Words', 'wp-statistics' ); ?></h2>
-	<?php do_action( 'wp_statistics_after_title' ); ?>
-
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top Search Words', 'wp-statistics' ) ); ?>
     <div><?php wp_statistics_date_range_selector(
 			WP_Statistics::$page['searched-phrases'],
 			$daysToDisplay,

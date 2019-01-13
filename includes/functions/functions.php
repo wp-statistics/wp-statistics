@@ -1543,6 +1543,7 @@ function wp_statistics_validate_capability( $capability ) {
  *
  * @param $type
  * @param $message
+ * @area admin
  */
 function wp_statistics_admin_notice_result( $type, $message ) {
 
@@ -1567,6 +1568,7 @@ function wp_statistics_admin_notice_result( $type, $message ) {
  * Get All Browser List For Detecting
  *
  * @param bool $all
+ * @area utility
  * @return array|mixed
  */
 function wp_statistics_get_browser_list( $all = true ) {
@@ -1602,6 +1604,7 @@ function wp_statistics_get_browser_list( $all = true ) {
  * Pagination Link
  *
  * @param array $args
+ * @area admin
  * @return string
  */
 function wp_statistics_paginate_links( $args = array() ) {
@@ -1644,6 +1647,7 @@ function wp_statistics_paginate_links( $args = array() ) {
  * Get Post List From custom Post Type
  *
  * @param array $args
+ * @area utility
  * @return mixed
  */
 function wp_statistics_get_post_list( $args = array() ) {
@@ -1673,6 +1677,7 @@ function wp_statistics_get_post_list( $args = array() ) {
  *
  * @param null $page
  * @param array $arg
+ * @area is_admin
  * @return string
  */
 function wp_statistics_admin_url( $page = null, $arg = array() ) {
@@ -1682,4 +1687,13 @@ function wp_statistics_admin_url( $page = null, $arg = array() ) {
 	}
 
 	return add_query_arg( array_merge( array( 'page' => $page ), $arg ), admin_url( 'admin.php' ) );
+}
+
+/**
+ * Show Loading Meta Box
+ * @area is_admin
+ */
+function wp_statistics_loading_meta_box() {
+	$loading = '<div class="wps_loading_box"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'loading.svg" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
+	return $loading;
 }
