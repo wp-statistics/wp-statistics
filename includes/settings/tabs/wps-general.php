@@ -137,7 +137,7 @@ if ( $wps_nonce_valid ) {
             <th scope="row" colspan="2"><h3><?php _e( 'Visitors', 'wp-statistics' ); ?></h3></th>
         </tr>
 
-        <tr valign="top" id="visitors">
+        <tr valign="top" id="visitors_tr">
             <th scope="row">
                 <label for="visitors"><?php _e( 'Visitors:', 'wp-statistics' ); ?></label>
             </th>
@@ -150,14 +150,14 @@ if ( $wps_nonce_valid ) {
             </td>
         </tr>
 
-        <tr valign="top" id="visitors_log" <?php echo( $WP_Statistics->get_option( 'visitors' ) == false ? 'style="display:none;"' : '' ) ?>>
+        <tr valign="top" id="visitors_log_tr" <?php echo( $WP_Statistics->get_option( 'visitors' ) == false ? 'style="display:none;"' : '' ) ?>>
             <th scope="row">
-                <label for="visitors"><?php _e( 'Visitors logs:', 'wp-statistics' ); ?></label>
+                <label for="visitors_log"><?php _e( 'Visitors logs:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo $WP_Statistics->get_option( 'visitors_log' ) == true ? "checked='checked'" : ''; ?>>
-                <label for="visitors"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
+                <label for="visitors_log"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e( 'If enabled, you will receive a report of each user\'s visit to the pages', 'wp-statistics' ); ?></p>
             </td>
