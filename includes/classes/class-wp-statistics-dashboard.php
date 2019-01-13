@@ -21,6 +21,7 @@ class WP_Statistics_Dashboard {
 				$hidden_widgets = array();
 			}
 
+			//Set Default Hidden Dashboard in Admin Wordpress
 			$default_hidden = array(
 				'wp-statistics-browsers-widget',
 				'wp-statistics-countries-widget',
@@ -35,7 +36,6 @@ class WP_Statistics_Dashboard {
 				'wp-statistics-top-visitors-widget',
 				'wp-statistics-searched-phrases-widget',
 			);
-
 			foreach ( $default_hidden as $widget ) {
 				if ( ! in_array( $widget, $hidden_widgets ) ) {
 					$hidden_widgets[] = $widget;
@@ -155,6 +155,7 @@ class WP_Statistics_Dashboard {
 			wp_enqueue_script( 'wp-statistics-chart-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js', false, '2.7.3', false );
 		}
 
+		//Get current screen page
 		$screen = get_current_screen();
 
 		// Load our custom widgets handling javascript.
@@ -166,14 +167,14 @@ class WP_Statistics_Dashboard {
 	}
 
 	static function inline_javascript() {
-		$screen = get_current_screen();
 
+	    //if not Dashboard Page
+		$screen = get_current_screen();
 		if ( 'dashboard' != $screen->id ) {
 			return;
 		}
 
 		WP_Statistics_Dashboard::load_widget_css_and_scripts();
-
 		$loading_img = wp_statistics_loading_meta_box();
 		$new_buttons
 		             = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
@@ -195,7 +196,6 @@ class WP_Statistics_Dashboard {
 		$admin_url = get_admin_url() . "admin.php?page=";
 
 		$page_urls = array();
-
 		$page_urls['wp-statistics-browsers-widget_more_button']         = $admin_url . WP_Statistics::$page['browser'];
 		$page_urls['wp-statistics-countries-widget_more_button']        = $admin_url . WP_Statistics::$page['countries'];
 		$page_urls['wp-statistics-exclusions-widget_more_button']       = $admin_url . WP_Statistics::$page['exclusions'];

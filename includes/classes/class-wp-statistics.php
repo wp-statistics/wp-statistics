@@ -9,7 +9,6 @@
  */
 class WP_Statistics {
 
-	// Setup our protected, private and public variables.
 	/**
 	 * IP address of visitor
 	 *

@@ -36,6 +36,7 @@ if ( $_get != '%' ) {
 ?>
 <div class="wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Recent Visitors', 'wp-statistics' ) ); ?>
+    <br />
     <ul class="subsubsub">
         <li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';
