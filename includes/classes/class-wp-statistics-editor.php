@@ -11,6 +11,7 @@ class WP_Statistics_Editor {
 	static function add_meta_box() {
 		global $WP_Statistics;
 
+		//Load All User Options
 		$WP_Statistics->load_user_options();
 
 		// We need to fudge the display settings for first time users so not all of the widgets are displayed, we only want to do this on
@@ -42,10 +43,7 @@ class WP_Statistics_Editor {
 		}
 
 		// If the user does not have at least read access to the status plugin, just return without adding the widgets.
-		if ( ! current_user_can(
-			wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_option' ) )
-		)
-		) {
+		if ( ! current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_option' ) ) ) ) {
 			return;
 		}
 
@@ -59,17 +57,10 @@ class WP_Statistics_Editor {
 			return;
 		}
 
+		//Show Hit Column in All Post Type in Wordpress
 		$screens = self::get_list_post_type();
-
 		foreach ( $screens as $screen ) {
-
-			add_meta_box(
-				'wp_statistics_editor_meta_box',
-				__( 'Hit Statistics', 'wp-statistics' ),
-				'WP_Statistics_Editor::meta_box',
-				$screen,
-				'normal',
-				'high',
+			add_meta_box( 'wp_statistics_editor_meta_box', __( 'Hit Statistics', 'wp-statistics' ), 'WP_Statistics_Editor::meta_box', $screen, 'normal', 'high',
 				array(
 					'__block_editor_compatible_meta_box' => true,
 					'__back_compat_meta_box'             => false,

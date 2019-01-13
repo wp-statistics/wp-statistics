@@ -8,6 +8,7 @@ class WP_Statistics_Dashboard {
 	static function widget_load() {
 		GLOBAL $WP_Statistics;
 
+		//Load User Options
 		$WP_Statistics->load_user_options();
 
 		// We need to fudge the display settings for first time users so not all of the widgets are displayed, we only want to do this on
@@ -66,132 +67,72 @@ class WP_Statistics_Dashboard {
 		}
 
 		// If the user does not have at least read access to the status plugin, just return without adding the widgets.
-		if ( ! current_user_can(
-			wp_statistics_validate_capability(
-				$WP_Statistics->get_option(
-					'read_capability',
-					'manage_option'
-				)
-			)
-		)
-		) {
+		if ( ! current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_option' ) ) ) ) {
 			return;
 		}
 
 		// If the admin has disabled the widgets, don't display them.
 		if ( ! $WP_Statistics->get_option( 'disable_dashboard' ) ) {
-			wp_add_dashboard_widget(
-				'wp-statistics-quickstats-widget',
-				__( 'Quick Stats', 'wp-statistics' ),
-				'WP_Statistics_Dashboard::generate_postbox_contents',
-				$control_callback = null,
-				array( 'widget' => 'quickstats' )
-			);
+
+			//Add Dashboard `Quick State`
+			wp_add_dashboard_widget( 'wp-statistics-quickstats-widget', __( 'Quick Stats', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'quickstats' ) );
+
+			//Add Dashboard `Top Browser`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-browsers-widget',
-					__( 'Top 10 Browsers', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'browsers' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-browsers-widget', __( 'Top 10 Browsers', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'browsers' ) );
 			}
+
+			//Add Dashboard `Top country~
 			if ( $WP_Statistics->get_option( 'geoip' ) && $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-countries-widget',
-					__( 'Top 10 Countries', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'countries' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-countries-widget', __( 'Top 10 Countries', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'countries' ) );
 			}
+
+			//Add Dashboard `Visitor Map`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-hitsmap-widget',
-					__( 'Today\'s Visitors Map', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'hitsmap' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-hitsmap-widget', __( 'Today\'s Visitors Map', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'hitsmap' ) );
 			}
+
+			//Add Dashboard `Hit Statistics`
 			if ( $WP_Statistics->get_option( 'visits' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-hits-widget',
-					__( 'Hit Statistics', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'hits' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-hits-widget', __( 'Hit Statistics', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'hits' ) );
 			}
+
+			//Add Dashboard `Top 10 Pages`
 			if ( $WP_Statistics->get_option( 'pages' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-pages-widget',
-					__( 'Top 10 Pages', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'pages' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-pages-widget', __( 'Top 10 Pages', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'pages' ) );
 			}
+
+			//Add Dashboard `Recent Visitors`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-recent-widget',
-					__( 'Recent Visitors', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'recent' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-recent-widget', __( 'Recent Visitors', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'recent' ) );
 			}
+
+			//Add Dashboard `Top Refer site`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-referring-widget',
-					__( 'Top Referring Sites', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'referring' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-referring-widget', __( 'Top Referring Sites', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'referring' ) );
 			}
+
+			//Add Dashboard `Search Engine`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-search-widget',
-					__( 'Search Engine Referrals', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'search' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-search-widget', __( 'Search Engine Referrals', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'search' ) );
 			}
-			wp_add_dashboard_widget(
-				'wp-statistics-summary-widget',
-				__( 'Summary', 'wp-statistics' ),
-				'WP_Statistics_Dashboard::generate_postbox_contents',
-				$control_callback = null,
-				array( 'widget' => 'summary' )
-			);
+
+			//Add Dashboard `Summary`
+			wp_add_dashboard_widget( 'wp-statistics-summary-widget', __( 'Summary', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'summary' ) );
+
+			//Add Dashboard `Last Search Words`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-words-widget',
-					__( 'Latest Search Words', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'words' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-words-widget', __( 'Latest Search Words', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'words' ) );
 			}
+
+			//Add Dashboard `Top 10 Visitor Today`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-top-visitors-widget',
-					__( 'Top 10 Visitors Today', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'top.visitors' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-top-visitors-widget', __( 'Top 10 Visitors Today', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'top.visitors' ) );
 			}
+
+			//Add Dashboard `Top search 30 Days`
 			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-searched-phrases-widget',
-					__( 'Top Search Words (30 Days)', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'searched.phrases' )
-				);
+				wp_add_dashboard_widget( 'wp-statistics-searched-phrases-widget', __( 'Top Search Words (30 Days)', 'wp-statistics' ), 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => 'searched.phrases' ) );
 			}
 		}
 	}
