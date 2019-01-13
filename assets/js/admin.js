@@ -25,26 +25,7 @@ jQuery(document).ready(function () {
             return false;
         });
     }
-
-    // Check about page
-    if (jQuery('.wp-statistics-travod').length) {
-        jQuery('.wp-statistics-travod .notice-dismiss').click(function () {
-            jQuery('.wp-statistics-travod').slideUp(100);
-
-            var data = {
-                'action': 'wp_statistics_close_notice',
-                'notice': 'suggestion',
-            };
-
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'get',
-                data: data,
-                datatype: 'json',
-            });
-        });
-    }
-
+    
     //Check Visitor Log is Checked
     jQuery(document).on("change", "#visitors input[name=wps_visitors]", function (e) {
         e.preventDefault();
