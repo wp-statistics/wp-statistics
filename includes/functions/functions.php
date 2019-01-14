@@ -1471,7 +1471,13 @@ function wp_statitiscs_empty_table( $table_name = false ) {
 	return sprintf( __( 'Error, %s not emptied!', 'wp-statistics' ), $table_name );
 }
 
-// This function creates a small JavaScript snipit that will load the contents of a overview or dashboard widget.
+
+/**
+ * This function creates a small JavaScript that will load the contents of a overview or dashboard widget.
+ *
+ * @param $widget
+ * @param null $container_id
+ */
 function wp_statistics_generate_widget_load_javascript( $widget, $container_id = null ) {
 	if ( null == $container_id ) {
 		$container_id = str_replace( '.', '_', $widget . '_postbox' );
@@ -1481,7 +1487,8 @@ function wp_statistics_generate_widget_load_javascript( $widget, $container_id =
         jQuery(document).ready(function () {
             wp_statistics_get_widget_contents('<?php echo $widget; ?>', '<?php echo $container_id; ?>');
         });
-    </script>    <?php
+    </script>
+	<?php
 }
 
 /**
@@ -1663,30 +1670,4 @@ function wp_statistics_get_post_list( $args = array() ) {
 	}
 
 	return $list;
-}
-
-/**
- * Get Admin Url
- *
- * @param null $page
- * @param array $arg
- * @area is_admin
- * @return string
- */
-function wp_statistics_admin_url( $page = null, $arg = array() ) {
-	//Check If Pages is in Wp-statistics
-	if ( array_key_exists( $page, WP_Statistics::$page ) ) {
-		$page = WP_Statistics::$page[ $page ];
-	}
-
-	return add_query_arg( array_merge( array( 'page' => $page ), $arg ), admin_url( 'admin.php' ) );
-}
-
-/**
- * Show Loading Meta Box
- * @area is_admin
- */
-function wp_statistics_loading_meta_box() {
-	$loading = '<div class="wps_loading_box"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'loading.svg" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
-	return $loading;
 }

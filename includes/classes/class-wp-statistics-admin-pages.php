@@ -164,6 +164,51 @@ class WP_Statistics_Admin_Pages {
 		do_action( 'wp_statistics_after_title' );
 	}
 
+	/**
+	 * Get Admin Url
+	 *
+	 * @param null $page
+	 * @param array $arg
+	 * @area is_admin
+	 * @return string
+	 */
+	public static function admin_url( $page = null, $arg = array() ) {
+
+		//Check If Pages is in Wp-statistics
+		if ( array_key_exists( $page, WP_Statistics::$page ) ) {
+			$page = WP_Statistics::$page[ $page ];
+		}
+
+		return add_query_arg( array_merge( array( 'page' => $page ), $arg ), admin_url( 'admin.php' ) );
+	}
+
+	/**
+	 * Show MetaBox button Refresh/Direct Button Link in Top of Meta Box
+	 *
+	 * @param string $export
+	 * @return string
+	 */
+	public static function meta_box_button( $export = 'all' ) {
+
+		//Prepare button
+		$refresh = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' . wp_statistics_icons( 'dashicons-update' ) . '<span class="screen-reader-text">' . __( 'Reload', 'wp-statistics' ) . '</span></button>';
+		$more    = '<button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-migrate' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp-statistics' ) . '</span></button>';
+
+		//Export
+		if ( $export == 'all' ) {
+			return $refresh . $more;
+		} else {
+			return $$export;
+		}
+	}
+
+	/**
+	 * Show Loading Meta Box
+	 */
+	public static function loading_meta_box() {
+		$loading = '<div class="wps_loading_box"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'loading.svg" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
+		return $loading;
+	}
 
 	/*
 	 * Default Hidden Meta Box
@@ -174,7 +219,6 @@ class WP_Statistics_Admin_Pages {
 		}
 		return $hidden;
 	}
-
 
 	/**
 	 * Plugins

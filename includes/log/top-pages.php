@@ -154,7 +154,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 									echo "<td style=\"text-align: left\">" . $count . "</td>";
 									echo "<td style=\"text-align: left\">" . $uri[3] . "</td>";
 									echo "<td style=\"text-align: left\"><a dir='ltr' href='" . htmlentities( $site_url . $uri[0], ENT_QUOTES ) . "'>" . htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) . "</a></td>";
-									echo "<td style=\"text-align: left\"><a href='" . wp_statistics_admin_url( 'pages', $arg ) . "'>" . number_format_i18n( $uri[1] ) . "</a></td>";
+									echo "<td style=\"text-align: left\"><a href='" . WP_Statistics_Admin_Pages::admin_url( 'pages', $arg ) . "'>" . number_format_i18n( $uri[1] ) . "</a></td>";
 								}
 
 								if ( $count == $start + 10 ) {

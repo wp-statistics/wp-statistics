@@ -1,6 +1,5 @@
 <?php
-$loading_img = wp_statistics_loading_meta_box();
-$nag_html    = '';
+$nag_html = '';
 
 if ( ! $WP_Statistics->get_option( 'geoip' ) ) {
 	$nag_html .= '<div class="notice notice-warning"><p>' . sprintf( __( 'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics' ), admin_url( 'admin.php?page=wps_settings_page&tab=externals-settings' ) ) . '</p></div>';
@@ -29,11 +28,10 @@ add_meta_box(
 );
 
 function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
-	$loading_img  = wp_statistics_loading_meta_box();
 	$widget       = $args['args']['widget'];
 	$container_id = str_replace( '.', '_', $widget . '_postbox' );
 
-	echo '<div id="' . $container_id . '">' . $loading_img . '</div>';
+	echo '<div id="' . $container_id . '">' . WP_Statistics_Admin_Pages::loading_meta_box() . '</div>';
 	wp_statistics_generate_widget_load_javascript( $widget, $container_id );
 }
 
@@ -55,42 +53,26 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
     </div>
 </div>
 <?php
-$new_buttons = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-               wp_statistics_icons( 'dashicons-update' ) .
-               '<span class="screen-reader-text">' .
-               __( 'Reload', 'wp-statistics' ) .
-               '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' .
-               wp_statistics_icons( 'dashicons-migrate' ) .
-               '<span class="screen-reader-text">' .
-               __( 'More Details', 'wp-statistics' ) .
-               '</span></button>';
-$new_button  = '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-               wp_statistics_icons( 'dashicons-update' ) .
-               '<span class="screen-reader-text">' .
-               __( 'Reload', 'wp-statistics' ) .
-               '</span></button>';
 
-$admin_url = get_admin_url() . "admin.php?page=";
+//Prepare List Of Page Url
+$page_urls   = array();
+$widget_list = array( 'browsers', 'countries', 'hits', 'pages', 'referring', 'searched-phrases', 'search', 'words', 'top-visitors', 'recent' );
+$all_widget  = WP_Statistics_Dashboard::widget_list();
+foreach ( $widget_list as $widget ) {
+	if ( array_key_exists( $widget, $all_widget ) ) {
+		$page_urls[ 'wps_' . str_replace( "-", "_", $widget ) . '_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $all_widget[ $widget ]['page_url'] );
+	}
+}
 
-$page_urls = array();
-
-$page_urls['wps_browsers_more_button']         = $admin_url . WP_Statistics::$page['browser'];
-$page_urls['wps_countries_more_button']        = $admin_url . WP_Statistics::$page['countries'];
-$page_urls['wps_exclusions_more_button']       = $admin_url . WP_Statistics::$page['exclusions'];
-$page_urls['wps_hits_more_button']             = $admin_url . WP_Statistics::$page['hits'];
-$page_urls['wps_online_more_button']           = $admin_url . WP_Statistics::$page['online'];
-$page_urls['wps_pages_more_button']            = $admin_url . WP_Statistics::$page['pages'];
-$page_urls['wps_referring_more_button']        = $admin_url . WP_Statistics::$page['referrers'];
-$page_urls['wps_searched_phrases_more_button'] = $admin_url . WP_Statistics::$page['searched-phrases'];
-$page_urls['wps_search_more_button']           = $admin_url . WP_Statistics::$page['searches'];
-$page_urls['wps_words_more_button']            = $admin_url . WP_Statistics::$page['words'];
-$page_urls['wps_top_visitors_more_button']     = $admin_url . WP_Statistics::$page['top-visitors'];
-$page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$page['visitors'];
+//Add Extra Pages For Overview Page
+foreach ( array( 'exclusions', 'online' ) as $custom_page ) {
+	$page_urls[ 'wps_' . $custom_page . '_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $custom_page );
+}
 
 ?>
 <script type="text/javascript">
     var wp_statistics_destinations = <?php echo json_encode( $page_urls ); ?>;
-    var wp_statistics_loading_image = '<?php echo $loading_img; ?>'
+    var wp_statistics_loading_image = '<?php echo WP_Statistics_Admin_Pages::loading_meta_box(); ?>'
 
     jQuery(document).ready(function () {
 
@@ -101,13 +83,13 @@ $page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$pa
             var temp_html = temp.html();
             if (temp_id == 'wps_summary_postbox' || temp_id == 'wps_map_postbox' || temp_id == 'wps_about_postbox') {
                 if (temp_id != 'wps_about_postbox') {
-                    new_text = '<?php echo $new_button;?>';
+                    new_text = '<?php echo WP_Statistics_Admin_Pages::meta_box_button( 'refresh' );?>';
                     new_text = new_text.replace('{{refreshid}}', temp_id.replace('_postbox', '_refresh_button'));
 
                     temp_html = temp_html.replace('</button>', new_text);
                 }
             } else {
-                new_text = '<?php echo $new_buttons;?>';
+                new_text = '<?php echo WP_Statistics_Admin_Pages::meta_box_button();?>';
                 new_text = new_text.replace('{{refreshid}}', temp_id.replace('_postbox', '_refresh_button'));
                 new_text = new_text.replace('{{moreid}}', temp_id.replace('_postbox', '_more_button'));
 
@@ -125,9 +107,7 @@ $page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$pa
 
         jQuery('.wps-refresh').unbind('click').on('click', wp_statistics_refresh_widget);
         jQuery('.wps-more').unbind('click').on('click', wp_statistics_goto_more);
-
         jQuery('.hide-postbox-tog').on('click', wp_statistics_refresh_on_toggle_widget);
-
         jQuery('.wps-donate-notice').on('click', '.notice-dismiss', function () {
             var data = {
                 'action': 'wp_statistics_close_notice',
@@ -141,6 +121,5 @@ $page_urls['wps_recent_more_button']           = $admin_url . WP_Statistics::$pa
                 datatype: 'json',
             });
         });
-
     });
 </script>
