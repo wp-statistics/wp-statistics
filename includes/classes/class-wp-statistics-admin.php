@@ -29,7 +29,7 @@ class WP_Statistics_Admin {
 		}
 
 		//Register Dashboard Widget
-		add_action( 'wp_dashboard_setup', 'WP_Statistics_Dashboard::dashboard_widget' );
+		add_action( 'wp_dashboard_setup', 'WP_Statistics_Dashboard::load_dashboard_widget' );
 
 		//Add Inline Script in Admin Footer
 		add_action( 'admin_footer', 'WP_Statistics_Dashboard::inline_javascript' );
