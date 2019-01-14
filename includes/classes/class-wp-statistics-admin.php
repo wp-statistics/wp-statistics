@@ -28,20 +28,26 @@ class WP_Statistics_Admin {
 			return;
 		}
 
-		//Register Dashboard Widget
-		add_action( 'wp_dashboard_setup', 'WP_Statistics_Dashboard::load_dashboard_widget' );
+		//Show Admin Menu
+		add_action( 'admin_menu', 'WP_Statistics_Admin::menu' );
+		if ( is_multisite() ) {
+			add_action( 'network_admin_menu', 'WP_Statistics_Network_Admin::menu' );
+		}
 
-		//Add Inline Script in Admin Footer
-		add_action( 'admin_footer', 'WP_Statistics_Dashboard::inline_javascript' );
-
-		//Add Custom MetaBox in Wp-statistics Admin Page
-		add_action( 'add_meta_boxes', 'WP_Statistics_Editor::add_meta_box' );
+		//Load Script in Admin Area
+		add_action( 'admin_enqueue_scripts', 'WP_Statistics_Admin::enqueue_scripts' );
 
 		//init Export Class
 		new WP_Statistics_Export;
 
 		//init Ajax Class
 		new WP_Statistics_Ajax;
+
+		//init Dashboard Widget
+		new WP_Statistics_Dashboard;
+
+		//Add Custom MetaBox in Wp-statistics Admin Page
+		add_action( 'add_meta_boxes', 'WP_Statistics_Editor::add_meta_box' );
 
 		// Display the admin notices if we should.
 		if ( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
@@ -60,15 +66,6 @@ class WP_Statistics_Admin {
 			add_action( 'post_submitbox_misc_actions', 'WP_Statistics_Admin::post_init' );
 		}
 
-		//init Admin Menu (Wp-statistics)
-		add_action( 'admin_menu', 'WP_Statistics_Admin::menu' );
-		if ( is_multisite() ) {
-			add_action( 'network_admin_menu', 'WP_Statistics_Network_Admin::menu' );
-		}
-
-		//Load Script in Admin Area
-		add_action( 'admin_enqueue_scripts', 'WP_Statistics_Admin::enqueue_scripts' );
-
 		//init ShortCode
 		add_action( 'admin_init', 'WP_Statistics_Shortcode::shortcake' );
 
@@ -81,7 +78,7 @@ class WP_Statistics_Admin {
 		add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ) );
 
 		// Load TinyMce Function
-		new WP_Statistics_TinyMCE();
+		new WP_Statistics_TinyMCE;
 
 		// Add Notice Use cache plugin
 		add_action( 'admin_notices', array( $this, 'notification_use_cache_plugin' ) );

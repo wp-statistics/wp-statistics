@@ -6,10 +6,23 @@
 class WP_Statistics_Dashboard {
 
 	/**
-	 * User Meta Dashboard Option name
+	 * User Meta Set Dashboard Option name
 	 * @var string
 	 */
 	public static $dashboard_set = 'dashboard_set';
+
+	/**
+	 * WP_Statistics_Dashboard constructor.
+	 */
+	public function __construct() {
+
+		//Register Dashboard Widget
+		add_action( 'wp_dashboard_setup', array( $this, 'load_dashboard_widget' ) );
+
+		//Add Inline Script in Admin Footer
+		add_action( 'admin_footer', array( $this, 'inline_javascript' ) );
+
+	}
 
 	/**
 	 * Widget Setup Key
