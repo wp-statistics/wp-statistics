@@ -6,6 +6,12 @@
 class WP_Statistics_Dashboard {
 
 	/**
+	 * User Meta Dashboard Option name
+	 * @var string
+	 */
+	public static $dashboard_set = 'dashboard_set';
+
+	/**
 	 * Widget Setup Key
 	 *
 	 * @param $key
@@ -18,10 +24,10 @@ class WP_Statistics_Dashboard {
 	/**
 	 * Get Widget List
 	 *
-	 * @param bool $dashboard
+	 * @param bool $widget
 	 * @return array|mixed
 	 */
-	public static function widget_list( $dashboard = false ) {
+	public static function widget_list( $widget = false ) {
 
 		/**
 		 * List of WP-Statistics Widget
@@ -110,11 +116,11 @@ class WP_Statistics_Dashboard {
 		);
 
 		//Print List of Dashboard
-		if ( $dashboard === false ) {
+		if ( $widget === false ) {
 			return $list;
 		} else {
-			if ( array_key_exists( $dashboard, $list ) ) {
-				return $list[ $dashboard ];
+			if ( array_key_exists( $widget, $list ) ) {
+				return $list[ $widget ];
 			}
 		}
 
@@ -164,52 +170,15 @@ class WP_Statistics_Dashboard {
 		//Load User Options
 		$WP_Statistics->load_user_options();
 
-		//Get List Of Wp-statistics Dashboard Widget
-		$dashboard_list = self::widget_list();
-
-		// We need to fudge the display settings for first time users so not all of the widgets are displayed, we only want to do this on
-		// the first time they visit the dashboard though so check to see if we've been here before.
-		if ( ! $WP_Statistics->get_user_option( 'dashboard_set' ) ) {
-			$WP_Statistics->update_user_option( 'dashboard_set', WP_Statistics::$reg['version'] );
-
-			$hidden_widgets = get_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', true );
-			if ( ! is_array( $hidden_widgets ) ) {
-				$hidden_widgets = array();
-			}
-
-			//Set Default Hidden Dashboard in Admin Wordpress
-			foreach ( $dashboard_list as $widget => $dashboard ) {
-				if ( array_key_exists( 'hidden', $dashboard ) ) {
-					$hidden_widgets[] = self::widget_setup_key( $widget );
-				}
-			}
-
-			update_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets );
-		} elseif ( $WP_Statistics->get_user_option( 'dashboard_set' ) != WP_Statistics::$reg['version'] ) {
-			// We also have to fudge things when we add new widgets to the code base.
-			if ( version_compare( $WP_Statistics->get_user_option( 'dashboard_set' ), '8.7', '<' ) ) {
-
-				$WP_Statistics->update_user_option( 'dashboard_set', WP_Statistics::$reg['version'] );
-
-				$hidden_widgets = get_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', true );
-				if ( ! is_array( $hidden_widgets ) ) {
-					$hidden_widgets = array();
-				}
-
-				$default_hidden = array( self::widget_setup_key( 'top-visitors' ) );
-				foreach ( $default_hidden as $widget ) {
-					if ( ! in_array( $widget, $hidden_widgets ) ) {
-						$hidden_widgets[] = $widget;
-					}
-				}
-
-				update_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets );
-			}
-		}
-
 		// If the user does not have at least read access to the status plugin, just return without adding the widgets.
 		if ( ! current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_option' ) ) ) ) {
 			return;
+		}
+
+		//Check Hidden User Dashboard Option
+		$user_dashboard = $WP_Statistics->get_user_option( self::$dashboard_set );
+		if ( $user_dashboard === false || $user_dashboard != WP_Statistics::$reg['version'] ) {
+			self::set_user_hidden_dashboard_option();
 		}
 
 		// If the admin has disabled the widgets, don't display them.
@@ -217,6 +186,36 @@ class WP_Statistics_Dashboard {
 			self::register_dashboard_widget();
 		}
 
+	}
+
+	/**
+	 * Set Default Hidden Dashboard User Option
+	 */
+	public
+	static function set_user_hidden_dashboard_option() {
+		global $WP_Statistics;
+
+		//Get List Of Wp-statistics Dashboard Widget
+		$dashboard_list = self::widget_list();
+		$hidden_opt     = 'metaboxhidden_dashboard';
+
+		//Create Empty Option and save in User meta
+		$WP_Statistics->update_user_option( self::$dashboard_set, WP_Statistics::$reg['version'] );
+
+		//Get Dashboard Option User Meta
+		$hidden_widgets = get_user_meta( $WP_Statistics->user_id, $hidden_opt, true );
+		if ( ! is_array( $hidden_widgets ) ) {
+			$hidden_widgets = array();
+		}
+
+		//Set Default Hidden Dashboard in Admin Wordpress
+		foreach ( $dashboard_list as $widget => $dashboard ) {
+			if ( array_key_exists( 'hidden', $dashboard ) ) {
+				$hidden_widgets[] = self::widget_setup_key( $widget );
+			}
+		}
+
+		update_user_meta( $WP_Statistics->user_id, $hidden_opt, $hidden_widgets );
 	}
 
 	/**
