@@ -16,8 +16,8 @@ function wp_statistics_useronline() {
  * Create Condition Where Time in MySql
  *
  * @param string $field : date column name in database table
- * @param string $time : Time return
- * @param array $range : an array contain two Date e.g : array('start' => 'xx-xx-xx', 'end' => 'xx-xx-xx', 'is_day' => true, 'current_date' => true)
+ * @param string $time  : Time return
+ * @param array $range  : an array contain two Date e.g : array('start' => 'xx-xx-xx', 'end' => 'xx-xx-xx', 'is_day' => true, 'current_date' => true)
  *
  * ---- Time Range -----
  * today
@@ -1085,19 +1085,11 @@ function wp_statistics_average_registeruser( $days = false ) {
 
 // This function handle's the Dashicons in the overview page.
 function wp_statistics_icons( $dashicons, $icon_name = null ) {
-
-	global $wp_version;
-
 	if ( null == $icon_name ) {
 		$icon_name = $dashicons;
 	}
 
-	// Since versions of WordPress before 3.8 didn't have dashicons, don't use them in those versions.
-	if ( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
-		return '<span class="dashicons ' . $dashicons . '"></span>';
-	} else {
-		return '<img src="' . plugins_url( 'wp-statistics/assets/images/' ) . $icon_name . '.png"/>';
-	}
+	return '<span class="dashicons ' . $dashicons . '"></span>';
 }
 
 // This function checks to see if all the PHP modules we need for GeoIP exists.

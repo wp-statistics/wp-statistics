@@ -324,6 +324,7 @@ html[dir="rtl"] .wp-statistic-mce-desc {
     height: 350px;
 }
 
+/* Meta Box Loading */
 .wps_loading_box {
     width: 100%;
     text-align: center;
@@ -331,6 +332,7 @@ html[dir="rtl"] .wp-statistic-mce-desc {
     padding-top: 15px;
 }
 
+/* Admin Page Title */
 .wps_page_title {
     display: inline-block;
     vertical-align: -15px;
@@ -347,4 +349,19 @@ html[dir="rtl"] .wps_page_title {
 .wps_title {
     display: inline;
     font-size: 1.6em;
+}
+
+/* Refresh button Meta Box */
+.wps-more span, .wps-refresh span {
+    transition: transform .6s ease-in-out;
+    -webkit-transition: -webkit-transform .6s ease-in-out;
+}
+
+.wps-more span:hover, .wps-refresh span:hover {
+    color: #00a0d2;
+}
+
+.wps-refresh span:hover {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
 }
