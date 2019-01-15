@@ -26,6 +26,7 @@ $total = $search_result[ $referred ];
 ?>
 <div class="wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Latest Search Words', 'wp-statistics' ) ); ?>
+    <br />
     <ul class="subsubsub">
 		<?php
 		$search_result_count = count( $search_result );
