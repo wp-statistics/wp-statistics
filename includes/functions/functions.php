@@ -31,7 +31,7 @@ function wp_statistics_useronline() {
  *
  * @return string|bool
  */
-function mysql_time_conditions( $field = 'date', $time = 'total', $range = array() ) {
+function wp_statistics_mysql_time_conditions( $field = 'date', $time = 'total', $range = array() ) {
 	global $WP_Statistics;
 
 	//Get Current Date From WP
@@ -116,7 +116,7 @@ function wp_statistics_visit( $time, $daily = null ) {
 	} else {
 
 		//Generate MySql Time Conditions
-		$mysql_time_sql = mysql_time_conditions( $date_column, $time );
+		$mysql_time_sql = wp_statistics_mysql_time_conditions( $date_column, $time );
 		if ( ! empty( $mysql_time_sql ) ) {
 			$sql = $sql . ' WHERE ' . $mysql_time_sql;
 		}
@@ -168,7 +168,7 @@ function wp_statistics_visitor( $time, $daily = null, $count_only = false ) {
 	} else {
 
 		//Generate MySql Time Conditions
-		$mysql_time_sql = mysql_time_conditions( $date_column, $time );
+		$mysql_time_sql = wp_statistics_mysql_time_conditions( $date_column, $time );
 		if ( ! empty( $mysql_time_sql ) ) {
 			$sql = $sql . ' WHERE ' . $mysql_time_sql;
 		}
@@ -241,7 +241,7 @@ function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate 
 	}
 
 	//Check MySql Time Conditions
-	$mysql_time_sql = mysql_time_conditions( $date_column, $time, $time_array );
+	$mysql_time_sql = wp_statistics_mysql_time_conditions( $date_column, $time, $time_array );
 	if ( ! empty( $mysql_time_sql ) ) {
 		$sql = $sql . ' AND ' . $mysql_time_sql;
 	}
@@ -869,7 +869,7 @@ function wp_statistics_get_search_engine_query( $search_engine = 'all', $time = 
 	$sql = "SELECT * FROM {$table_name} WHERE ({$search_query})";
 
 	//Generate MySql Time Conditions
-	$mysql_time_sql = mysql_time_conditions( $date_column, $time, array( 'current_date' => true ) );
+	$mysql_time_sql = wp_statistics_mysql_time_conditions( $date_column, $time, array( 'current_date' => true ) );
 	if ( ! empty( $mysql_time_sql ) ) {
 		$sql = $sql . ' AND (' . $mysql_time_sql . ')';
 	}
