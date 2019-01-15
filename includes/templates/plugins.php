@@ -1,10 +1,8 @@
 <div class="wrap">
-    <h2><?php esc_html_e( 'Extensions for WP-Statistics', 'wp-statistics' ); ?></h2>
-
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Extensions for WP-Statistics', 'wp-statistics' ) ); ?>
     <div id="poststuff" class="wp-statistics-plugins">
-        <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
-            <p><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></p>
-
+        <div id="post-body" class="metabox-holder">
+            <p><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></p><br/>
             <div class="wp-list-table widefat widefat plugin-install">
                 <div id="the-list">
 					<?php foreach ( $plugins->items as $plugin ) : ?>
@@ -67,5 +65,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="wp-statistics-welcome">
+        <section class="center-section logo">
+            <a href="https://veronalabs.com" target="_blank" title="WordPress Solutions and Services"><img src="http://bit.ly/2FsmZlq"/></a>
+            <p><?php echo __( 'WP-Statistics is one of the VeronaLabs.com projects.', 'wp-statistics' ); ?></p>
+        </section>
     </div>
 </div>
