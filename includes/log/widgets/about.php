@@ -15,7 +15,7 @@ function wp_statistics_generate_about_postbox_content() {
 		if ( current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) ) ) ) {
 			?>
             | <p>
-                <a href="?page=<?php echo WP_Statistics::$page['settings']; ?>&tab=about"><?php _e( 'More Info', 'wp-statistics' ); ?></a>
+                <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'settings', array( 'tab' => 'about' ) ); ?>"><?php _e( 'More Info', 'wp-statistics' ); ?></a>
             </p>| <p>
                 <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'wps_welcome' ); ?>"><?php _e( 'What’s New', 'wp-statistics' ); ?>
                     ?</a></p>

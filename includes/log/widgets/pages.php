@@ -40,18 +40,8 @@ function wp_statistics_generate_pages_postbox_content() {
 		echo "<tr>";
 		echo "<td style=\"text-align: left\">" . $counter . "</td>";
 		echo "<td style=\"text-align: left\">" . $title . "</td>";
-		echo '<td style="text-align: left"><a href="' .
-		     htmlentities( $site_url . $item->uri, ENT_QUOTES ) .
-		     '">' .
-		     htmlentities( urldecode( $item->uri ), ENT_QUOTES ) .
-		     '</a></td>';
-		echo '<td style="text-align: left"><a href="?page=' .
-		     WP_Statistics::$page['pages'] .
-		     '&page-uri=' .
-		     htmlentities( $item->uri, ENT_QUOTES ) .
-		     '">' .
-		     number_format_i18n( $item->count_sum ) .
-		     '</a></td>';
+		echo '<td style="text-align: left"><a href="' . htmlentities( $site_url . $item->uri, ENT_QUOTES ) . '">' . htmlentities( urldecode( $item->uri ), ENT_QUOTES ) . '</a></td>';
+		echo '<td style="text-align: left"><a href="' . WP_Statistics_Admin_Pages::admin_url( 'pages', array( 'page-uri' => htmlentities( $item->uri, ENT_QUOTES ) ) ) . '">' . number_format_i18n( $item->count_sum ) . '</a></td>';
 		echo '</tr>';
 
 	}

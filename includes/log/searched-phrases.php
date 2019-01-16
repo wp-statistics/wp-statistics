@@ -75,10 +75,7 @@ if ( $phrase ) {
 		<?php if ( $phrase ) { ?>
             <li class="all"><a <?php if ( ! $phrase ) {
 					echo 'class="current"';
-				} ?>href="?page=<?php echo WP_Statistics::$page['searched-phrases'] . $date_args; ?>"><?php _e(
-						'All',
-						'wp-statistics'
-					); ?></a>
+				} ?>href="?page=<?php echo WP_Statistics::$page['searched-phrases'] . $date_args; ?>"><?php _e( 'All', 'wp-statistics' ); ?></a>
             </li>|
             <li>
                 <a class="current" href="?page=<?php echo WP_Statistics::$page['searched-phrases']; ?>&referr=<?php echo esc_html( $phrase ) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?>

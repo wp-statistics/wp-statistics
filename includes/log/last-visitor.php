@@ -40,7 +40,7 @@ if ( $_get != '%' ) {
     <ul class="subsubsub">
         <li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';
-			} ?>href="?page=<?php echo WP_Statistics::$page['visitors']; ?>"><?php _e( 'All', 'wp-statistics' ); ?>
+			} ?>href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'visitors' ); ?>"><?php _e( 'All', 'wp-statistics' ); ?>
                 <span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
 		<?php
 		if ( isset( $_var ) ) {
@@ -65,7 +65,7 @@ if ( $_get != '%' ) {
 					if ( $i == $Total ) {
 						$spacer = "";
 					}
-					echo "<li><a " . $current . "href='?page=" . WP_Statistics::$page['visitors'] . "&agent=" . $Browser . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
+					echo "<li><a " . $current . "href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'agent' => $Browser ) ) . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
 					echo $spacer;
 				}
 			} else {

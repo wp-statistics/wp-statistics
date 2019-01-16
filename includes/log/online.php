@@ -36,7 +36,7 @@
 							$end            = $offset + $items_per_page;
 
 							echo "<div class='log-latest'>";
-							$count = 0;
+							$count     = 0;
 							$dash_icon = wp_statistics_icons( 'dashicons-visibility', 'visibility' );
 
 							foreach ( $result as $items ) {
@@ -47,7 +47,7 @@
 										$ip_string  = __( '#hash#', 'wp-statistics' );
 										$map_string = "";
 									} else {
-										$ip_string  = "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&ip={$items->ip}'>{$dash_icon}{$items->ip}</a>";
+										$ip_string  = "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>{$dash_icon}{$items->ip}</a>";
 										$map_string = "<a class='show-map' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
 									}
 
@@ -65,7 +65,7 @@
 										$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 									}
 
-									echo "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a> {$items->ip}";
+									echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a> {$items->ip}";
 									echo "<br>";
 
 									$timediff = ( $items->timestamp - $items->created );

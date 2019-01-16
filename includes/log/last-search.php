@@ -50,11 +50,7 @@ $total = $search_result[ $referred ];
 				$translate = $search_engines[ $key ]['translated'];
 			}
 
-			echo "<li><a href='?page=" .
-			     WP_Statistics::$page['words'] .
-			     "&referred={$tag}'>" .
-			     $translate .
-			     " <span class='count'>({$value})</span></a></li>{$separator}";
+			echo "<li><a href='" . WP_Statistics_Admin_Pages::admin_url( 'words', array( 'referred' => $tag ) ) . "'>" . $translate . " <span class='count'>({$value})</span></a></li>{$separator}";
 		}
 		?>
     </ul>
@@ -156,9 +152,7 @@ $total = $search_result[ $referred ];
 									} else {
 										$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 									}
-									echo "<a href='?page=" .
-									     WP_Statistics::$page['overview'] .
-									     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+									echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
 									echo "</td>";
 									$city = '';
 									if ( $WP_Statistics->get_option( 'geoip_city' ) ) {

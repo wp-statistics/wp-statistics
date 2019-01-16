@@ -68,9 +68,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			} else {
 				$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 			}
-			echo "<a href='?page=" .
-			     WP_Statistics::$page['overview'] .
-			     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+			echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
 			echo "</td>";
 			$city = '';
 			if ( $WP_Statistics->get_option( 'geoip_city' ) ) {

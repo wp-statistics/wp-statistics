@@ -88,9 +88,7 @@ if ( $referr ) {
 					); ?></a>
             </li>|
             <li>
-                <a class="current" href="?page=<?php echo WP_Statistics::$page['referrers']; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer(
-						$referr
-					) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?>
+                <a class="current" href="?page=<?php echo WP_Statistics::$page['referrers']; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer( $referr ) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?>
                     <span class="count">(<?php echo $total; ?>)</span></a></li>
 		<?php } else { ?>
             <li class="all"><a <?php if ( ! $referr ) {
@@ -147,7 +145,7 @@ if ( $referr ) {
 										$agent = "<div class='dashicons dashicons-editor-help'></div>";
 									}
 
-									echo "<div class='log-agent'><a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$item->agent}'>{$agent}</a>";
+									echo "<div class='log-agent'><a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
 									echo $WP_Statistics->get_referrer_link( $item->referred, 100 ) . '</div>';
 									echo "</div>";
 								}
@@ -176,15 +174,15 @@ if ( $referr ) {
 						?>
                     </div>
                 </div>
-					<?php
-					if ( $total > 0 ) {
-						wp_statistics_paginate_links( array(
-							'item_per_page' => $items_per_page,
-							'total'         => $total,
-							'current'       => $page,
-						) );
-					}
-					?>
+				<?php
+				if ( $total > 0 ) {
+					wp_statistics_paginate_links( array(
+						'item_per_page' => $items_per_page,
+						'total'         => $total,
+						'current'       => $page,
+					) );
+				}
+				?>
             </div>
         </div>
     </div>
