@@ -2,7 +2,7 @@
 $nag_html = '';
 
 if ( ! $WP_Statistics->get_option( 'geoip' ) ) {
-	$nag_html .= '<div class="notice notice-warning"><p>' . sprintf( __( 'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics' ), admin_url( 'admin.php?page=wps_settings_page&tab=externals-settings' ) ) . '</p></div>';
+	$nag_html .= '<div class="notice notice-warning"><p>' . sprintf( __( 'GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics' ), WP_Statistics_Admin_Pages::admin_url( 'settings', array( 'tab' => 'externals-settings' ) ) ) . '</p></div>';
 }
 
 if ( ! $WP_Statistics->get_option( 'disable_donation_nag', false ) ) {

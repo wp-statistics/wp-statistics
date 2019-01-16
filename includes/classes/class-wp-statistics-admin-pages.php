@@ -519,11 +519,8 @@ class WP_Statistics_Admin_Pages {
 		);
 
 		if ( $result != 7 ) {
-			$get_bloginfo_url = get_admin_url() .
-			                    "admin.php?page=" .
-			                    WP_Statistics::$page['optimization'] .
-			                    "&tab=database";
 
+			$get_bloginfo_url = WP_Statistics_Admin_Pages::admin_url( 'optimization', array( 'tab' => 'database' ) );
 			$missing_tables = array();
 
 			$result = $wpdb->query(

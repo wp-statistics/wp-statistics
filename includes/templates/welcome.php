@@ -3,7 +3,7 @@
         <h1><?php printf( __( 'Welcome to WP-Statistics&nbsp;%s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></h1>
 
         <p class="about-text">
-			<?php printf(__('Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!','wp-statistics'),'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">','</a>'); ?>
+			<?php printf( __( 'Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!', 'wp-statistics' ), '<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">', '</a>' ); ?>
 			<?php _e( 'Submit your rating:', 'wp-statistics' ); ?>
             <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
         </p>
@@ -36,7 +36,8 @@
                         <p><?php _e( 'And much more!', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" target="_blank">Get Real-Time Stats</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" target="_blank">Get
+                                Real-Time Stats</a>
                         </div>
                     </div>
                 </div>
@@ -56,7 +57,8 @@
                         <p><?php _e( 'Added “Top Countries” stats for sending with the report.', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/" target="_blank">Get Advanced Reporting</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/" target="_blank">Get
+                                Advanced Reporting</a>
                         </div>
                     </div>
                 </div>
@@ -73,7 +75,8 @@
                         <p><?php _e( 'The new & beautiful chart includes a caching mechanism and time range settings', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-widgets/" target="_blank">Get Widgets</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-widgets/" target="_blank">Get
+                                Widgets</a>
                         </div>
                     </div>
                 </div>
@@ -90,7 +93,8 @@
                         <p><?php _e( 'Now include customization and show based on post type settings', 'wp-statistics' ); ?></p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-mini-chart/" target="_blank">Get Mini Chart</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-mini-chart/" target="_blank">Get
+                                Mini Chart</a>
                         </div>
                     </div>
                 </div>
@@ -104,11 +108,15 @@
                 <div class="left">
                     <div class="content-padding">
                         <h2>Add-Ons Bundle</h2>
-                        <p>Buying a bundle is always a good way to access all add-ons with lower money.<br>According to your requests we have defined all 5 add-ons, in a package with a good discount.</p>
-                        <p style="margin: 32px 0;"><a href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank"><img src="https://wp-statistics.com/wp-content/uploads/2018/12/welcome-page-bundle.png"/></a></p>
+                        <p>Buying a bundle is always a good way to access all add-ons with lower money.<br>According to
+                            your requests we have defined all 5 add-ons, in a package with a good discount.</p>
+                        <p style="margin: 32px 0;">
+                            <a href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank"><img src="https://wp-statistics.com/wp-content/uploads/2018/12/welcome-page-bundle.png"/></a>
+                        </p>
 
                         <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank">Get Add-Ons Bundle!</a>
+                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank">Get
+                                Add-Ons Bundle!</a>
                         </div>
                     </div>
                 </div>
@@ -166,11 +174,9 @@
         <div data-content="changelog" class="one-col tab-content">
 			<?php WP_Statistics_Welcome::show_change_log(); ?>
         </div>
-
         <hr>
-
         <div class="wps-return-to-dashboard">
-            <a href="<?php echo admin_url( 'admin.php?page=wps_overview_page' ); ?>"><?php _e( 'Go to Statistics &rarr; Overview', 'wp-statistics' ); ?></a>
+            <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'overview' ); ?>"><?php _e( 'Go to Statistics &rarr; Overview', 'wp-statistics' ); ?></a>
         </div>
     </div>
 </div>

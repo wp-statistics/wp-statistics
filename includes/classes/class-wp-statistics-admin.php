@@ -132,7 +132,8 @@ class WP_Statistics_Admin {
 				return;
 			}
 
-			$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_Statistics::$page['settings'];
+
+			$get_bloginfo_url = WP_Statistics_Admin_Pages::admin_url( 'settings' );
 
 			$itemstoenable = array();
 			if ( ! $WP_Statistics->get_option( 'useronline' ) ) {
@@ -152,9 +153,9 @@ class WP_Statistics_Admin {
 				echo '<div class="update-nag">' . sprintf( __( 'The following features are disabled, please go to %ssettings page%s and enable them: %s', 'wp-statistics' ), '<a href="' . $get_bloginfo_url . '">', '</a>', implode( __( ',', 'wp-statistics' ), $itemstoenable ) ) . '</div>';
 			}
 
-			$get_bloginfo_url = get_admin_url() . "admin.php?page=" . WP_Statistics::$page['optimization'] . "&tab=database";
 
-			$dbupdatestodo = array();
+			$get_bloginfo_url = WP_Statistics_Admin_Pages::admin_url( 'optimization', array( 'tab' => 'database' ) );
+			$dbupdatestodo    = array();
 
 			if ( ! $WP_Statistics->get_option( 'search_converted' ) ) {
 				$dbupdatestodo[] = __( 'search table', 'wp-statistics' );
@@ -246,11 +247,7 @@ class WP_Statistics_Admin {
 					$alert = __( 'WP_CACHE is Enable in Your WordPress', 'wp-statistics' );
 				}
 
-				echo $alert . ", " . sprintf(
-						__( 'Please enable %1$sCache Setting%2$s in WP Statistics.', 'wp-statistics' ),
-						'<a href="' . esc_url( admin_url( add_query_arg( 'page', WP_Statistics::$page['settings'], 'admin.php' ) ) ) . '">', '</a>'
-					);
-
+				echo $alert . ", " . sprintf( __( 'Please enable %1$sCache Setting%2$s in WP Statistics.', 'wp-statistics' ), '<a href="' . WP_Statistics_Admin_Pages::admin_url( 'settings' ) . '">', '</a>' );
 				echo '</p></div>';
 			}
 		}
@@ -301,13 +298,7 @@ class WP_Statistics_Admin {
 		);
 
 		if ( current_user_can( $manage_cap ) ) {
-			array_unshift(
-				$links,
-				'<a href="' . admin_url( 'admin.php?page=' . WP_Statistics::$page['settings'] ) . '">' . __(
-					'Settings',
-					'wp-statistics'
-				) . '</a>'
-			);
+			array_unshift( $links, '<a href="' . WP_Statistics_Admin_Pages::admin_url( 'settings' ) . '">' . __( 'Settings', 'wp-statistics' ) . '</a>' );
 		}
 
 		return $links;
@@ -384,13 +375,7 @@ class WP_Statistics_Admin {
 	 */
 	static function render_column( $column_name, $post_id ) {
 		if ( $column_name == 'wp-statistics' ) {
-			echo "<a href='" .
-			     get_admin_url() .
-			     "admin.php?page=" .
-			     WP_Statistics::$page['pages'] .
-			     "&page-id={$post_id}'>" .
-			     wp_statistics_pages( 'total', "", $post_id ) .
-			     "</a>";
+			echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'pages', array( 'page-id' => $post_id ) ) . "'>" . wp_statistics_pages( 'total', "", $post_id ) . "</a>";
 		}
 	}
 
@@ -401,7 +386,7 @@ class WP_Statistics_Admin {
 		global $post;
 
 		$id = $post->ID;
-		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp-statistics' ) . ": <b><a href='" . get_admin_url() . "admin.php?page=" . WP_Statistics::$page['pages'] . "&page-id={$id}'>" . wp_statistics_pages( 'total', "", $id ) . "</a></b></div>";
+		echo "<div class='misc-pub-section'>" . __( 'WP Statistics - Hits', 'wp-statistics' ) . ": <b><a href='" . WP_Statistics_Admin_Pages::admin_url( 'pages', array( 'page-id' => $id ) ) . "'>" . wp_statistics_pages( 'total', "", $id ) . "</a></b></div>";
 	}
 
 	/**

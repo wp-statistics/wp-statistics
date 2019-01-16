@@ -47,11 +47,11 @@
                                 </div>
                                 <div class="column-compatibility">
 									<?php if ( is_plugin_active( $plugin->slug . '/' . $plugin->slug . '.php' ) ) { ?>
-                                        <a href="admin.php?page=wps_plugins_page&action=deactivate&plugin=<?php echo $plugin->slug; ?>" class="button"><?php _e( 'Deactivate Add-On', 'wp-statistics' ); ?></a>
+                                        <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'plugins', array( 'action' => 'deactivate', 'plugin' => $plugin->slug ) ); ?>" class="button"><?php _e( 'Deactivate Add-On', 'wp-statistics' ); ?></a>
 									<?php } else { ?><?php if ( file_exists(
 										WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
 									) ) { ?>
-                                        <a href="admin.php?page=wps_plugins_page&action=activate&plugin=<?php echo $plugin->slug; ?>" class="button"><?php _e( 'Activate Add-On', 'wp-statistics' ); ?></a>
+                                        <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'plugins', array( 'action' => 'activate', 'plugin' => $plugin->slug ) ); ?>" class="button"><?php _e( 'Activate Add-On', 'wp-statistics' ); ?></a>
 									<?php } else { ?>
                                         <div class="column-price">
                                             <strong>$<?php echo $plugin->price; ?></strong>

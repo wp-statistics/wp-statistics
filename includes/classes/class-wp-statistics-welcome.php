@@ -15,7 +15,7 @@ class WP_Statistics_Welcome {
 			$WP_Statistics->update_option( 'show_welcome_page', false );
 
 			// Redirect to welcome page
-			wp_redirect( admin_url( 'admin.php?page=wps_welcome' ) );
+			wp_redirect( WP_Statistics_Admin_Pages::admin_url( 'wps_welcome' ) );
 		}
 
 		if ( ! $WP_Statistics->get_option( 'first_show_welcome_page', false ) ) {

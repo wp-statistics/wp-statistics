@@ -1,6 +1,5 @@
 <?php
 function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count = 10 ) {
-
 	global $wpdb, $WP_Statistics;
 
 	// Retrieve MySQL data for the search words.
@@ -109,7 +108,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 				$ip_string = __( '#hash#', 'wp-statistics' );
 			} else {
-				$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+				$ip_string = "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>{$items->ip}</a>";
 			}
 			echo $ip_string;
 			echo "</td>";

@@ -26,7 +26,7 @@ $total = $search_result[ $referred ];
 ?>
 <div class="wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Latest Search Words', 'wp-statistics' ) ); ?>
-    <br />
+    <br/>
     <ul class="subsubsub">
 		<?php
 		$search_result_count = count( $search_result );
@@ -196,7 +196,7 @@ $total = $search_result[ $referred ];
 									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 										$ip_string = __( '#hash#', 'wp-statistics' );
 									} else {
-										$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+										$ip_string = "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>{$items->ip}</a>";
 									}
 									echo $ip_string;
 									echo "</td>";

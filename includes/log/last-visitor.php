@@ -36,7 +36,7 @@ if ( $_get != '%' ) {
 ?>
 <div class="wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Recent Visitors', 'wp-statistics' ) ); ?>
-    <br />
+    <br/>
     <ul class="subsubsub">
         <li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';
@@ -141,7 +141,7 @@ if ( $_get != '%' ) {
 							} else {
 								$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 							}
-							echo "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+							echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
 							echo "</td>";
 							$city = '';
 							if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
@@ -179,7 +179,7 @@ if ( $_get != '%' ) {
 							if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 								$ip_string = __( '#hash#', 'wp-statistics' );
 							} else {
-								$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+								$ip_string = "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>{$items->ip}</a>";
 							}
 							echo $ip_string;
 							echo "</td>";

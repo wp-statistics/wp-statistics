@@ -1492,7 +1492,7 @@ class WP_Statistics {
 	 * Adds the admin bar menu if the user has selected it.
 	 */
 	static function menubar() {
-		GLOBAL $wp_admin_bar, $wp_version, $WP_Statistics;
+		GLOBAL $wp_admin_bar, $WP_Statistics;
 
 		// Find out if the user can read or manage statistics.
 		$read   = current_user_can(
@@ -1514,35 +1514,20 @@ class WP_Statistics {
 
 		if ( is_admin_bar_showing() && ( $read || $manage ) ) {
 
-			$AdminURL = get_admin_url();
-
-			if ( version_compare( $wp_version, '3.8-RC', '>=' ) || version_compare( $wp_version, '3.8', '>=' ) ) {
-				$wp_admin_bar->add_menu(
-					array(
-						'id'    => 'wp-statistic-menu',
-						'title' => '<span class="ab-icon"></span>',
-						'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
-					)
-				);
-			} else {
-				$wp_admin_bar->add_menu(
-					array(
-						'id'    => 'wp-statistic-menu',
-						'title' => '<img src="' . WP_Statistics::$reg['plugin-url'] . 'assets/images/icon.png"/>',
-						'href'  => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
-					)
-				);
-			}
+			$wp_admin_bar->add_menu(
+				array(
+					'id'    => 'wp-statistic-menu',
+					'title' => '<span class="ab-icon"></span>',
+					'href'  => WP_Statistics_Admin_Pages::admin_url( 'overview' ),
+				)
+			);
 
 			$wp_admin_bar->add_menu(
 				array(
 					'id'     => 'wp-statistics-menu-useronline',
 					'parent' => 'wp-statistic-menu',
-					'title'  => __(
-						            'Online User',
-						            'wp-statistics'
-					            ) . ": " . wp_statistics_useronline(),
-					'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['online'],
+					'title'  => __( 'Online User', 'wp-statistics' ) . ": " . wp_statistics_useronline(),
+					'href'   => WP_Statistics_Admin_Pages::admin_url( 'online' ),
 				)
 			);
 
@@ -1566,9 +1551,7 @@ class WP_Statistics {
 				array(
 					'id'     => 'wp-statistics-menu-yesterdayvisitor',
 					'parent' => 'wp-statistic-menu',
-					'title'  => __( 'Yesterday\'s Visitors', 'wp-statistics' ) . ": " . wp_statistics_visitor(
-							'yesterday'
-						),
+					'title'  => __( 'Yesterday\'s Visitors', 'wp-statistics' ) . ": " . wp_statistics_visitor( 'yesterday' ),
 				)
 			);
 
@@ -1585,7 +1568,7 @@ class WP_Statistics {
 					'id'     => 'wp-statistics-menu-viewstats',
 					'parent' => 'wp-statistic-menu',
 					'title'  => __( 'View Stats', 'wp-statistics' ),
-					'href'   => $AdminURL . 'admin.php?page=' . WP_Statistics::$page['overview'],
+					'href'   => WP_Statistics_Admin_Pages::admin_url( 'overview' )
 				)
 			);
 		}
