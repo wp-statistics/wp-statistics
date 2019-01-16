@@ -255,14 +255,10 @@ class WP_Statistics {
 	 * @param string $class Class name
 	 */
 	public function autoload( $class ) {
-		if ( ! class_exists( $class ) && // This check is for performance of loading plugin classes
-		     substr( $class, 0, 14 ) === 'WP_Statistics_'
-		) {
+		// This check is for performance of loading plugin classes
+		if ( ! class_exists( $class ) && substr( $class, 0, 14 ) === 'WP_Statistics_' ) {
 			$lower_class_name = str_replace( '_', '-', strtolower( $class ) );
-			$class_full_path  = WP_Statistics::$reg['plugin-dir'] .
-			                    'includes/classes/class-' .
-			                    $lower_class_name .
-			                    '.php';
+			$class_full_path  = WP_Statistics::$reg['plugin-dir'] . 'includes/classes/class-' . $lower_class_name . '.php';
 			if ( file_exists( $class_full_path ) ) {
 				require $class_full_path;
 			}
@@ -935,8 +931,10 @@ class WP_Statistics {
 		// Check function exist.
 		if ( function_exists( 'getallheaders' ) ) {
 			$user_agent = getallheaders();
-		} else {
+		} elseif ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		} else {
+			$user_agent = '';
 		}
 
 		$result = new WhichBrowser\Parser( $user_agent );
