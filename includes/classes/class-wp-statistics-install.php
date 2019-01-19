@@ -200,6 +200,12 @@ class WP_Statistics_Install {
 				$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_pages` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);" );
 			}
 
+			//Added User_id and Page_id in user online table
+			$result = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->prefix}statistics_useronline LIKE 'user_id'" );
+			if ( $result == 0 ) {
+				$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_useronline` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;" );
+			}
+
 			// Store the new version information.
 			update_option( 'wp_statistics_plugin_version', WP_Statistics::$reg['version'] );
 			update_option( 'wp_statistics_db_version', WP_Statistics::$reg['version'] );
