@@ -142,6 +142,11 @@ class WP_Statistics_Admin_Pages {
 			}
 		}
 
+		//Left Show User online table
+		if ( $WP_Statistics->get_option( 'useronline' ) ) {
+			add_meta_box( 'wps_current_page_postbox', __( 'Current Page', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'current_page' ) );
+		}
+
 		//Set Default Hidden MetaBox
 		add_filter( 'default_hidden_meta_boxes', array( 'WP_Statistics_Admin_Pages', 'default_hide_meta_box' ), 10, 2 );
 	}
@@ -521,7 +526,7 @@ class WP_Statistics_Admin_Pages {
 		if ( $result != 7 ) {
 
 			$get_bloginfo_url = WP_Statistics_Admin_Pages::admin_url( 'optimization', array( 'tab' => 'database' ) );
-			$missing_tables = array();
+			$missing_tables   = array();
 
 			$result = $wpdb->query(
 				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visitor'"
@@ -580,18 +585,8 @@ class WP_Statistics_Admin_Pages {
 		wp_enqueue_script( 'postbox' );
 
 		// Load the css we use for the statistics pages.
-		wp_enqueue_style(
-			'wpstatistics-log-css',
-			WP_Statistics::$reg['plugin-url'] . 'assets/css/log.css',
-			true,
-			WP_Statistics::$reg['version']
-		);
-		wp_enqueue_style(
-			'wpstatistics-pagination-css',
-			WP_Statistics::$reg['plugin-url'] . 'assets/css/pagination.css',
-			true,
-			WP_Statistics::$reg['version']
-		);
+		wp_enqueue_style( 'wpstatistics-log-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/log.css', true, WP_Statistics::$reg['version'] );
+		wp_enqueue_style( 'wpstatistics-pagination-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/pagination.css', true, WP_Statistics::$reg['version'] );
 
 		// The different pages have different files to load.
 		switch ( $log_type ) {
@@ -634,24 +629,10 @@ class WP_Statistics_Admin_Pages {
 				break;
 			default:
 				if ( get_current_screen()->parent_base == WP_Statistics::$page['overview'] ) {
-					wp_enqueue_style(
-						'wpstatistics-jqvmap-css',
-						WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css',
-						true,
-						'1.5.1'
-					);
-					wp_enqueue_script(
-						'wpstatistics-jquery-vmap',
-						WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
-						true,
-						'1.5.1'
-					);
-					wp_enqueue_script(
-						'wpstatistics-jquery-vmap-world',
-						WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
-						true,
-						'1.5.1'
-					);
+
+					wp_enqueue_style( 'wpstatistics-jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
+					wp_enqueue_script( 'wpstatistics-jquery-vmap', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1' );
+					wp_enqueue_script( 'wpstatistics-jquery-vmap-world', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1' );
 
 					// Load our custom widgets handling javascript.
 					wp_enqueue_script( 'wp_statistics_log', WP_Statistics::$reg['plugin-url'] . 'assets/js/log.js' );

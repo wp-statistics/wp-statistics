@@ -17,15 +17,7 @@ if ( is_array( $widget_order ) && count( $widget_order ) > 2 ) {
 }
 
 // Add the about box here as metaboxes added on the actual page load cannot be closed.
-add_meta_box(
-	'wps_about_postbox',
-	sprintf( __( 'WP Statistics - Version %s', 'wp-statistics' ), WP_Statistics::$reg['version'] ),
-	'wp_statistics_generate_overview_postbox_contents',
-	$WP_Statistics->menu_slugs['overview'],
-	'side',
-	null,
-	array( 'widget' => 'about' )
-);
+add_meta_box( 'wps_about_postbox', sprintf( __( 'WP Statistics - Version %s', 'wp-statistics' ), WP_Statistics::$reg['version'] ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'about' ) );
 
 function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 	$widget       = $args['args']['widget'];

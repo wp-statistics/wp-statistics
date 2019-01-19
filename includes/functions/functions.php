@@ -16,8 +16,8 @@ function wp_statistics_useronline() {
  * Create Condition Where Time in MySql
  *
  * @param string $field : date column name in database table
- * @param string $time  : Time return
- * @param array $range  : an array contain two Date e.g : array('start' => 'xx-xx-xx', 'end' => 'xx-xx-xx', 'is_day' => true, 'current_date' => true)
+ * @param string $time : Time return
+ * @param array $range : an array contain two Date e.g : array('start' => 'xx-xx-xx', 'end' => 'xx-xx-xx', 'is_day' => true, 'current_date' => true)
  *
  * ---- Time Range -----
  * today
@@ -1567,4 +1567,82 @@ function wp_statistics_get_post_list( $args = array() ) {
 	}
 
 	return $list;
+}
+
+/**
+ * Get Page information
+ *
+ * @param $page_id
+ * @param string $type
+ * @return array
+ */
+function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
+
+	//Create Empty Object
+	$arg      = array();
+	$defaults = array(
+		'link'      => '',
+		'edit_link' => '',
+		'object_id' => $page_id,
+		'title'     => __( "No page title found", 'wp-statistics' ),
+		'meta'      => array()
+	);
+
+	if ( $page_id > 0 and ! empty( $type ) ) {
+		switch ( $type ) {
+			case "product":
+			case "attachment":
+			case "post":
+			case "page":
+				$arg = array(
+					'title'     => get_the_title( $page_id ),
+					'link'      => get_the_permalink( $page_id ),
+					'edit_link' => get_edit_post_link( $page_id ),
+					'meta'      => array(
+						'post_type' => get_post_type( $page_id )
+					)
+				);
+				break;
+			case "category":
+			case "post_tag":
+			case "tax":
+				$term = get_term( $page_id );
+				$arg  = array(
+					'title'     => $term->name,
+					'link'      => get_term_link( $page_id ),
+					'edit_link' => get_edit_term_link( $page_id ),
+					'meta'      => array(
+						'taxonomy'         => $term->taxonomy,
+						'term_taxonomy_id' => $term->term_taxonomy_id,
+						'count'            => $term->count,
+					)
+				);
+				break;
+			case "home":
+				$arg = array(
+					'title' => __( 'Home Page', 'wp-statistics' ),
+					'link'  => get_site_url()
+				);
+				break;
+			case "author":
+				$user_info = get_userdata( $page_id );
+				$arg       = array(
+					'title'     => ( $user_info->display_name != "" ? $user_info->display_name : $user_info->first_name . ' ' . $user_info->last_name ),
+					'link'      => get_author_posts_url( $page_id ),
+					'edit_link' => get_edit_user_link( $page_id ),
+				);
+				break;
+			case "search":
+				$result['title'] = __( 'Search Page', 'wp-statistics' );
+				break;
+			case "404":
+				$result['title'] = __( '404 not found', 'wp-statistics' );
+				break;
+			case "archive":
+				$result['title'] = __( 'Post Archive', 'wp-statistics' );
+				break;
+		}
+	}
+
+	return wp_parse_args( $arg, $defaults );
 }

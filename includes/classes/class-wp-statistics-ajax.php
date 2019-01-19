@@ -43,7 +43,7 @@ class WP_Statistics_Ajax {
 					break;
 			}
 
-            $WP_Statistics->update_option( 'admin_notices', false );
+			$WP_Statistics->update_option( 'admin_notices', false );
 		}
 
 		wp_die(); // this is required to terminate immediately and return a proper response
@@ -290,6 +290,7 @@ class WP_Statistics_Ajax {
 
 		$widgets = array(
 			'about',
+			'current_page',
 			'browsers',
 			'map',
 			'countries',
@@ -304,7 +305,7 @@ class WP_Statistics_Ajax {
 			'summary',
 			'top.visitors',
 			'words',
-			'searched.phrases',
+			'searched.phrases'
 		);
 
 		if ( array_key_exists( 'format', $_POST ) and $_POST['format'] == 'dashboard' ) {
@@ -418,6 +419,10 @@ class WP_Statistics_Ajax {
 					}
 
 					wp_statistics_generate_top_visitors_postbox_content( $ISOCountryCode, 'today', 10, $format );
+
+					break;
+				case 'current_page':
+					wp_statistics_generate_current_page_postbox_content( $ISOCountryCode );
 
 					break;
 				case 'about':
