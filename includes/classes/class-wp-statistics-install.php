@@ -204,6 +204,7 @@ class WP_Statistics_Install {
 			$result = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->prefix}statistics_useronline LIKE 'user_id'" );
 			if ( $result == 0 ) {
 				$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_useronline` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;" );
+				$wpdb->query( "DELETE FROM `{$wpdb->prefix}usermeta` WHERE `meta_key` = 'meta-box-order_toplevel_page_wps_overview_page';" );
 			}
 
 			// Store the new version information.

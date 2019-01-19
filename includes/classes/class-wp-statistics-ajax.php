@@ -290,7 +290,7 @@ class WP_Statistics_Ajax {
 
 		$widgets = array(
 			'about',
-			'current_page',
+			'users_online',
 			'browsers',
 			'map',
 			'countries',
@@ -421,8 +421,8 @@ class WP_Statistics_Ajax {
 					wp_statistics_generate_top_visitors_postbox_content( $ISOCountryCode, 'today', 10, $format );
 
 					break;
-				case 'current_page':
-					wp_statistics_generate_current_page_postbox_content( $ISOCountryCode );
+				case 'users_online':
+					wp_statistics_generate_users_online_postbox_content( $ISOCountryCode );
 
 					break;
 				case 'about':

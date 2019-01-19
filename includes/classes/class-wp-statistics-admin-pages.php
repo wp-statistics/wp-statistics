@@ -144,7 +144,7 @@ class WP_Statistics_Admin_Pages {
 
 		//Left Show User online table
 		if ( $WP_Statistics->get_option( 'useronline' ) ) {
-			add_meta_box( 'wps_current_page_postbox', __( 'Current Page', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'current_page' ) );
+			add_meta_box( 'wps_users_online_postbox', __( 'Users Online', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'users_online' ) );
 		}
 
 		//Set Default Hidden MetaBox

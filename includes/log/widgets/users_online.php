@@ -1,5 +1,5 @@
 <?php
-function wp_statistics_generate_current_page_postbox_content( $ISOCountryCode ) {
+function wp_statistics_generate_users_online_postbox_content( $ISOCountryCode ) {
 	global $wpdb, $WP_Statistics;
 
 	$result = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}statistics_useronline` ORDER BY `ID` DESC LIMIT 10" );
