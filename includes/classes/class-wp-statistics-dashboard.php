@@ -288,8 +288,8 @@ class WP_Statistics_Dashboard {
 		}
 
 		//Add Extra Pages For Overview Page
-		foreach ( array( 'exclusions', 'online' ) as $custom_page ) {
-			$page_urls[ 'wp-statistics-' . $custom_page . '-widget_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $custom_page );
+		foreach ( array( 'exclusions' => 'exclusions', 'users_online' => 'online' ) as $p_key => $p_link ) {
+			$page_urls[ 'wp-statistics-' . $p_key . '-widget_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $p_link );
 		}
 
 		?>

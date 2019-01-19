@@ -57,10 +57,9 @@ foreach ( $widget_list as $widget ) {
 }
 
 //Add Extra Pages For Overview Page
-foreach ( array( 'exclusions', 'online' ) as $custom_page ) {
-	$page_urls[ 'wps_' . $custom_page . '_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $custom_page );
+foreach ( array( 'exclusions' => 'exclusions', 'users_online' => 'online' ) as $p_key => $p_link ) {
+	$page_urls[ 'wps_' . $p_key . '_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $p_link );
 }
-
 ?>
 <script type="text/javascript">
     var wp_statistics_destinations = <?php echo json_encode( $page_urls ); ?>;
