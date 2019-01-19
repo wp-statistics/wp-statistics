@@ -137,6 +137,12 @@ class WP_Statistics_Frontend {
 		//page url
 		$params['page_uri'] = wp_statistics_get_uri();
 
+		//Get User id
+		$params['user_id'] = 0;
+		if ( is_user_logged_in() ) {
+			$params['user_id'] = get_current_user_id();
+		}
+
 		//Fixed entity decode Html
 		foreach ( (array) $params as $key => $value ) {
 			if ( ! is_scalar( $value ) ) {

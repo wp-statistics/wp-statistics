@@ -419,6 +419,7 @@ class WP_Statistics_Hits {
 			$this->current_page_id   = $get_page_type['id'];
 			$this->current_page_type = $get_page_type['type'];
 		}
+
 	}
 
 
@@ -751,6 +752,9 @@ class WP_Statistics_Hits {
 		global $wpdb, $WP_Statistics;
 		if ( ! $this->Is_user() ) {
 
+			// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
+			$this->get_page_detail();
+
 			// Insert the user in to the database.
 			$wpdb->insert(
 				$wpdb->prefix . 'statistics_useronline',
@@ -764,10 +768,37 @@ class WP_Statistics_Hits {
 					'platform'  => $WP_Statistics->agent['platform'],
 					'version'   => $WP_Statistics->agent['version'],
 					'location'  => $this->location,
+					'user_id'   => self::get_user_id(),
+					'page_id'   => $this->current_page_id,
+					'type'      => $this->current_page_type
 				)
 			);
+
+
 		}
 
+	}
+
+	/**
+	 * Get User ID
+	 */
+	public static function get_user_id() {
+
+		//create Empty
+		$user_id = 0;
+
+		//if Rest Request
+		if ( WP_Statistics_Rest::is_rest() ) {
+			if ( WP_Statistics_Rest::params( 'user_id' ) != "" ) {
+				$user_id = WP_Statistics_Rest::params( 'user_id' );
+			}
+		} else {
+			if ( is_user_logged_in() ) {
+				return get_current_user_id();
+			}
+		}
+
+		return $user_id;
 	}
 
 	// This function updates a user in the database.
@@ -776,6 +807,9 @@ class WP_Statistics_Hits {
 		// Make sure we found the user earlier when we called Is_user().
 		if ( $this->result ) {
 
+			// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
+			$this->get_page_detail();
+
 			// Update the database with the new information.
 			$wpdb->update(
 				$wpdb->prefix . 'statistics_useronline',
@@ -783,6 +817,9 @@ class WP_Statistics_Hits {
 					'timestamp' => $this->timestamp,
 					'date'      => $WP_Statistics->Current_Date(),
 					'referred'  => $WP_Statistics->get_Referred(),
+					'user_id'   => self::get_user_id(),
+					'page_id'   => $this->current_page_id,
+					'type'      => $this->current_page_type
 				),
 				array(
 					'ip'       => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->ip,
