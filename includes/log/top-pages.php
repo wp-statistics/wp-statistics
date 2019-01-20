@@ -139,10 +139,6 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 							foreach ( $uris as $uri ) {
 								$count ++;
 								if ( $count >= $start ) {
-									//Show check Page Title
-									if ( $uri[3] == '' ) {
-										$uri[3] = '[' . htmlentities( __( 'No page title found', 'wp-statistics' ), ENT_QUOTES ) . ']';
-									}
 
 									//Check Pages Id exist
 									if ( $uri[2] > 0 ) {
@@ -150,10 +146,11 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 									} else {
 										$arg = array( 'page-uri' => $uri[0] );
 									}
+
 									echo "<tr>";
 									echo "<td style=\"text-align: left\">" . $count . "</td>";
 									echo "<td style=\"text-align: left\">" . $uri[3] . "</td>";
-									echo "<td style=\"text-align: left\"><a dir='ltr' href='" . htmlentities( $site_url . $uri[0], ENT_QUOTES ) . "'>" . htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) . "</a></td>";
+									echo "<td style=\"text-align: left\"><a dir='ltr' href='" . $uri[4] . "' target='_blank'>" . htmlentities( urldecode( $uri[0] ), ENT_QUOTES ) . "</a></td>";
 									echo "<td style=\"text-align: left\"><a href='" . WP_Statistics_Admin_Pages::admin_url( 'pages', $arg ) . "'>" . number_format_i18n( $uri[1] ) . "</a></td>";
 								}
 

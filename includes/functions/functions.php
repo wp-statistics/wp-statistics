@@ -293,10 +293,10 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 	// Get every unique URI from the pages database.
 	if ( $rangestartdate != null && $rangeenddate != null ) {
 		$result = $wpdb->get_results(
-			$wpdb->prepare( "SELECT DISTINCT uri FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N
+			$wpdb->prepare( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N
 		);
 	} else {
-		$result = $wpdb->get_results( "SELECT DISTINCT uri FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
+		$result = $wpdb->get_results( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
 	}
 
 	$total = 0;
@@ -307,19 +307,27 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 		// Increment the total number of results.
 		$total ++;
 
-		// Retreive the post ID for the URI.
-		$id = wp_statistics_uri_to_id( $out[0] );
+		//Prepare item
+		list( $url, $page_id, $page_type ) = $out;
 
-		// Lookup the post title.
-		$post = get_post( $id );
+		//Get Page Title
+		$page_info = wp_statistics_get_page_info( $page_id, $page_type );
+		$title     = mb_substr( $page_info['title'], 0, 200, "utf-8" );
+		$page_url  = $page_info['link'];
 
-		if ( is_object( $post ) ) {
-			$title = $post->post_title;
-		} else {
-			if ( $out[0] == '/' ) {
-				$title = get_bloginfo();
+		// Check age Title if page id or type not exist
+		if ( $page_info['link'] == "" ) {
+			$page_url = htmlentities( path_join( get_site_url(), $url ), ENT_QUOTES );
+			$id       = wp_statistics_uri_to_id( $out[0] );
+			$post     = get_post( $id );
+			if ( is_object( $post ) ) {
+				$title = $post->post_title;
 			} else {
-				$title = '';
+				if ( $out[0] == '/' ) {
+					$title = get_bloginfo();
+				} else {
+					$title = '';
+				}
 			}
 		}
 
@@ -328,11 +336,12 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 			$uris[] = array(
 				$out[0],
 				wp_statistics_pages( 'range', $out[0], - 1, $rangestartdate, $rangeenddate ),
-				$id,
+				$page_id,
 				$title,
+				$page_url,
 			);
 		} else {
-			$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $id, $title );
+			$uris[] = array( $out[0], wp_statistics_pages( 'total', $out[0] ), $page_id, $title, $page_url );
 		}
 	}
 
@@ -1609,7 +1618,7 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 				$term = get_term( $page_id );
 				$arg  = array(
 					'title'     => $term->name,
-					'link'      => get_term_link( $page_id ),
+					'link'      => ( is_wp_error( get_term_link( $page_id ) ) === true ? '' : get_term_link( $page_id ) ),
 					'edit_link' => get_edit_term_link( $page_id ),
 					'meta'      => array(
 						'taxonomy'         => $term->taxonomy,
