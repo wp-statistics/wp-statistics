@@ -165,61 +165,43 @@ class WP_Statistics_Ajax {
 	 * Setup an AJAX action to empty a table in the optimization page.
 	 */
 	static function empty_table_action_callback() {
-		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
+		global $WP_Statistics, $wpdb;
 
-		$manage_cap = wp_statistics_validate_capability(
-			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
-		);
+		//Check isset Table-post
+		if ( ! isset( $_POST['table-name'] ) ) {
+			_e( 'Please select the desired items.', 'wp-statistics' );
+			exit;
+		}
+
+		//Check Valid Table name
+		$table_name    = sanitize_text_field( $_POST['table-name'] );
+		$list_db_table = wp_statistics_db_table( 'all', 'historical' );
+		if ( ! array_key_exists( $table_name, $list_db_table ) ) {
+			_e( 'Access denied!', 'wp-statistics' );
+			exit;
+		}
+
+		//Check User Cap
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
 
 		if ( current_user_can( $manage_cap ) ) {
-			$table_name = $_POST['table-name'];
 
-			if ( $table_name ) {
-
-				switch ( $table_name ) {
-					case 'useronline':
-						echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_useronline' );
-						break;
-					case 'visit':
-						echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visit' );
-						break;
-					case 'visitors':
-						echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visitor' );
-						break;
-					case 'exclusions':
-						echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_exclusions' );
-						break;
-					case 'pages':
-						echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_pages' );
-						break;
-					case 'search':
-						echo wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_search' );
-						break;
-					case 'all':
-						$result_string = wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_useronline' );
-						$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visit' );
-						$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_visitor' );
-						$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_exclusions' );
-						$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_pages' );
-						$result_string .= '<br>' . wp_statitiscs_empty_table( $wpdb->prefix . 'statistics_search' );
-
-						echo $result_string;
-
-						break;
-					default:
-						_e( 'Please select the desired items.', 'wp-statistics' );
+			if ( $table_name == "all" ) {
+				$x_tbl = 1;
+				foreach ( $list_db_table as $tbl_key => $tbl_name ) {
+					echo ( $x_tbl > 1 ? '<br>' : '' ) . wp_statitiscs_empty_table( $tbl_name );
+					$x_tbl ++;
 				}
-
-				$WP_Statistics->Primary_Values();
-
 			} else {
-				_e( 'Please select the desired items.', 'wp-statistics' );
+				echo wp_statitiscs_empty_table( wp_statistics_db_table( $table_name ) );
 			}
+
+			$WP_Statistics->Primary_Values();
 		} else {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die();
 	}
 
 	/**

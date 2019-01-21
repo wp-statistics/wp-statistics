@@ -6,6 +6,12 @@
 class WP_Statistics_Install {
 
 	/**
+	 * List Of wp-statistics Mysql Table
+	 * @var array
+	 */
+	public static $db_table = array( 'useronline', 'visit', 'visitor', 'exclusions', 'pages', 'search', 'historical', 'visitor_relationships' );
+
+	/**
 	 * WP_Statistics_Install constructor.
 	 *
 	 * @internal param $WP_Statistics

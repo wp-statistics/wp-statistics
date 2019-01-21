@@ -1359,7 +1359,13 @@ function wp_statistics_date_range_calculator( $days, $start, $end ) {
 	return array( $daysToDisplay, $rangestart_utime, $rangeend_utime );
 }
 
-// This function will empty a table based on the table name.
+
+/**
+ * Delete All record From Table
+ *
+ * @param bool $table_name
+ * @return string
+ */
 function wp_statitiscs_empty_table( $table_name = false ) {
 	global $wpdb;
 
@@ -1367,10 +1373,7 @@ function wp_statitiscs_empty_table( $table_name = false ) {
 		$result = $wpdb->query( 'DELETE FROM ' . $table_name );
 
 		if ( $result ) {
-			return sprintf(
-				__( '%s table data deleted successfully.', 'wp-statistics' ),
-				'<code>' . $table_name . '</code>'
-			);
+			return sprintf( __( '%s table data deleted successfully.', 'wp-statistics' ), '<code>' . $table_name . '</code>' );
 		}
 	}
 
@@ -1654,4 +1657,45 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 	}
 
 	return wp_parse_args( $arg, $defaults );
+}
+
+/**
+ * Table List Wp-statistics
+ *
+ * @param string $export
+ * @param array $except
+ * @return array|null
+ */
+function wp_statistics_db_table( $export = 'all', $except = array() ) {
+	global $wpdb;
+
+	//Create Empty Object
+	$list = array();
+
+	//List Of Table
+	if ( is_string( $except ) ) {
+		$except = array( $except );
+	}
+	$mysql_list_table = array_diff( WP_Statistics_Install::$db_table, $except );
+	foreach ( $mysql_list_table as $tbl ) {
+		$table_name = $wpdb->prefix . 'statistics_' . $tbl;
+		if ( $export == "all" ) {
+			if ( $wpdb->get_var( "SHOW TABLES LIKE '$tbl'" ) == $tbl ) {
+				$list[ $tbl ] = $table_name;
+			}
+		} else {
+			$list[ $tbl ] = $table_name;
+		}
+	}
+
+	//Export Data
+	if ( $export == 'all' ) {
+		return $list;
+	} else {
+		if ( array_key_exists( $export, $list ) ) {
+			return $list[ $export ];
+		}
+	}
+
+	return null;
 }

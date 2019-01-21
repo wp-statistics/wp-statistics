@@ -5,8 +5,7 @@ function wp_statistics_generate_pages_postbox_content() {
 	$result   = $wpdb->get_results( "SELECT `pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `{$wpdb->prefix}statistics_pages` `pages` LEFT JOIN `{$wpdb->prefix}statistics_historical` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' GROUP BY `uri` ORDER BY `count_sum` DESC LIMIT 10" );
 	$site_url = site_url();
 	$counter  = 0;
-	echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
-		  <tr>";
+	echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\"><tr>";
 	echo "<td width='10%'>" . __( 'ID', 'wp-statistics' ) . "</td>";
 	echo "<td width='40%'>" . __( 'Title', 'wp-statistics' ) . "</td>";
 	echo "<td width='40%'>" . __( 'Link', 'wp-statistics' ) . "</td>";
