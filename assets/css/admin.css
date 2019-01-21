@@ -365,3 +365,12 @@ html[dir="rtl"] .wps_page_title {
     transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
 }
+
+/* Color Style */
+.wps-text-danger {
+    color: #DC3545;
+}
+
+.wps-text-muted {
+    color: #797979;
+}
