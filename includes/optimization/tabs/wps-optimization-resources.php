@@ -1,25 +1,3 @@
-<?php
-/* format size of file 
-* @author Mike Zriel
-* @date 7 March 2011
-* @website www.zriel.com
-*/
-
-/**
- * @param $size
- *
- * @return string
- */
-function formatSize( $size ) {
-	$sizes = array( " Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB" );
-	if ( $size == 0 ) {
-		return ( 'n/a' );
-	} else {
-		return ( round( $size / pow( 1024, ( $i = floor( log( $size, 1024 ) ) ) ), 2 ) . $sizes[ $i ] );
-	}
-}
-
-?>
 <div class="wrap">
     <table class="form-table">
         <tbody>
@@ -384,7 +362,7 @@ function formatSize( $size ) {
 					if ( $GeoIP_filedate === false ) {
 						_e( 'Database file does not exist.', 'wp-statistics' );
 					} else {
-						echo formatSize( @filesize( $GeoIP_filename ) ) .
+						echo size_format( @filesize( $GeoIP_filename ), 2 ) .
 						     __( ', created on ', 'wp-statistics' ) .
 						     date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), $GeoIP_filedate );
 					} ?></strong>
