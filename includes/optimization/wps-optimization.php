@@ -224,23 +224,18 @@ if ( array_key_exists( 'search', $_GET ) ) {
 	}
 
 	$WP_Statistics->update_option( 'search_converted', 1 );
-	echo "<div class='updated settings-error'><p><strong>" .
-	     sprintf( __( 'Search table conversion complete, %d rows added.', 'wp-statistics' ), $total ) .
-	     "</strong></p></div>";
+	echo "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Search table conversion complete, %d rows added.', 'wp-statistics' ), $total ) . "</strong></p></div>";
 }
 ?>
 <div class="wrap wp-statistics-settings">
-    <h2><?php _e( 'Optimization', 'wp-statistics' ); ?></h2>
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Optimization', 'wp-statistics' ) ); ?>
 
     <div id="poststuff">
         <div id="post-body" class="metabox-holder columns-2">
             <div class="wp-list-table widefat widefat">
                 <div class="wp-statistics-container">
                     <ul class="tabs">
-                        <li class="tab-link current" data-tab="resources"><?php _e(
-								'Resources/Information',
-								'wp-statistics'
-							); ?></li>
+                        <li class="tab-link current" data-tab="resources"><?php _e( 'Resources/Information', 'wp-statistics' ); ?></li>
                         <li class="tab-link" data-tab="export"><?php _e( 'Export', 'wp-statistics' ); ?></li>
                         <li class="tab-link" data-tab="purging"><?php _e( 'Purging', 'wp-statistics' ); ?></li>
                         <li class="tab-link" data-tab="database"><?php _e( 'Database', 'wp-statistics' ); ?></li>

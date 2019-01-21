@@ -17,6 +17,11 @@
                 <td>
                     <select dir="ltr" id="table-to-export" name="table-to-export" required>
                         <option value=""><?php _e( 'Please select', 'wp-statistics' ); ?></option>
+						<?php
+						foreach ( wp_statistics_db_table( 'all', array( 'historical', 'visitor_relationships' ) ) as $tbl_key => $tbl_name ) {
+							echo '<option value="' . $tbl_key . '">' . $tbl_name . '</option>';
+						}
+						?>
                         <option value="useronline"><?php echo $wpdb->prefix . 'statistics_useronline'; ?></option>
                         <option value="visit"><?php echo $wpdb->prefix . 'statistics_visit'; ?></option>
                         <option value="visitor"><?php echo $wpdb->prefix . 'statistics_visitor'; ?></option>
@@ -53,11 +58,7 @@
 
                 <td>
                     <input id="export-headers" type="checkbox" value="1" name="export-headers">
-
-                    <p class="description"><?php _e(
-							'Include a header row as the first line of the exported file.',
-							'wp-statistics'
-						); ?></p>
+                    <p class="description"><?php _e( 'Include a header row as the first line of the exported file.', 'wp-statistics' ); ?></p>
 					<?php submit_button( __( 'Start Now!', 'wp-statistics' ), 'primary', 'export-file-submit' ); ?>
                 </td>
             </tr>

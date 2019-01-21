@@ -1680,7 +1680,7 @@ function wp_statistics_db_table( $export = 'all', $except = array() ) {
 	foreach ( $mysql_list_table as $tbl ) {
 		$table_name = $wpdb->prefix . 'statistics_' . $tbl;
 		if ( $export == "all" ) {
-			if ( $wpdb->get_var( "SHOW TABLES LIKE '$tbl'" ) == $tbl ) {
+			if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
 				$list[ $tbl ] = $table_name;
 			}
 		} else {

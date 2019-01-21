@@ -276,18 +276,10 @@ class WP_Statistics_Admin_Pages {
 	 * Loads the optimization page code.
 	 */
 	static function optimization() {
-		GLOBAL $wpdb, $WP_Statistics;
+		global $wpdb, $WP_Statistics;
 
 		// Check the current user has the rights to be here.
-		if ( ! current_user_can(
-			wp_statistics_validate_capability(
-				$WP_Statistics->get_option(
-					'manage_capability',
-					'manage_options'
-				)
-			)
-		)
-		) {
+		if ( ! current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) ) ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
@@ -296,13 +288,11 @@ class WP_Statistics_Admin_Pages {
 		$WP_Statistics->load_user_options();
 
 		// Get the row count for each of the tables, we'll use this later on in the wps_optimization.php file.
-		$result['useronline'] = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_useronline`" );
-		$result['visit']      = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_visit`" );
-		$result['visitor']    = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_visitor`" );
-		$result['exclusions'] = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_exclusions`" );
-		$result['pages']      = $wpdb->get_var( "SELECT COUNT(uri) FROM `{$wpdb->prefix}statistics_pages`" );
-		$result['historical'] = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_historical`" );
-		$result['search']     = $wpdb->get_var( "SELECT COUNT(ID) FROM `{$wpdb->prefix}statistics_search`" );
+		$list_table = wp_statistics_db_table( 'all' );
+		$result     = array();
+		foreach ( $list_table as $tbl_key => $tbl_name ) {
+			$result[ $tbl_name ] = $wpdb->get_var( "SELECT COUNT(*) FROM `$tbl_name`" );
+		}
 
 		include WP_Statistics::$reg['plugin-dir'] . "includes/optimization/wps-optimization.php";
 	}

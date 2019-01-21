@@ -11,10 +11,7 @@
             </th>
 
             <td>
-                <strong><?php echo number_format_i18n( memory_get_usage() ); ?></strong> <?php _e(
-					'Bytes',
-					'wp-statistics'
-				); ?>
+                <strong><?php echo number_format_i18n( memory_get_usage() ); ?></strong> <?php _e( 'Bytes', 'wp-statistics' ); ?>
                 <p class="description"><?php _e( 'Memory usage in PHP', 'wp-statistics' ); ?></p>
             </td>
         </tr>
@@ -26,167 +23,26 @@
 
             <td>
                 <strong><?php echo ini_get( 'memory_limit' ); ?></strong>
-
-                <p class="description"><?php _e(
-						'The memory limit a script is allowed to consume, set in php.ini.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'The memory limit a script is allowed to consume, set in php.ini.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
-        <tr valign="top">
-            <th scope="row">
-				<?php echo sprintf(
-					__( 'Number of rows in the %s table', 'wp-statistics' ),
-					'<code>' . $wpdb->prefix . 'statistics_' . 'useronline' . '</code>'
-				); ?>
-                :
-            </th>
-
-            <td>
-                <strong><?php echo number_format_i18n( $result['useronline'] ); ?></strong> <?php echo _n(
-					'Row',
-					'Rows',
-					number_format_i18n(
-						$result['useronline']
-					),
-					'wp-statistics'
-				); ?>
-                <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-				<?php echo sprintf(
-					__( 'Number of rows in the %s table', 'wp-statistics' ),
-					'<code>' . $wpdb->prefix . 'statistics_' . 'visit' . '</code>'
-				); ?>
-                :
-            </th>
-
-            <td>
-                <strong><?php echo number_format_i18n( $result['visit'] ); ?></strong> <?php echo _n(
-					'Row',
-					'Rows',
-					number_format_i18n(
-						$result['visit']
-					),
-					'wp-statistics'
-				); ?>
-                <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-				<?php echo sprintf(
-					__( 'Number of rows in the %s table', 'wp-statistics' ),
-					'<code>' . $wpdb->prefix . 'statistics_' . 'visitor' . '</code>'
-				); ?>
-                :
-            </th>
-
-            <td>
-                <strong><?php echo number_format_i18n( $result['visitor'] ); ?></strong> <?php echo _n(
-					'Row',
-					'Rows',
-					number_format_i18n(
-						$result['visitor']
-					),
-					'wp-statistics'
-				); ?>
-                <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-				<?php echo sprintf(
-					__( 'Number of rows in the %s table', 'wp-statistics' ),
-					'<code>' . $wpdb->prefix . 'statistics_' . 'exclusions' . '</code>'
-				); ?>
-                :
-            </th>
-
-            <td>
-                <strong><?php echo number_format_i18n( $result['exclusions'] ); ?></strong> <?php echo _n(
-					'Row',
-					'Rows',
-					number_format_i18n(
-						$result['exclusions']
-					),
-					'wp-statistics'
-				); ?>
-                <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-				<?php echo sprintf(
-					__( 'Number of rows in the %s table', 'wp-statistics' ),
-					'<code>' . $wpdb->prefix . 'statistics_' . 'pages' . '</code>'
-				); ?>
-                :
-            </th>
-
-            <td>
-                <strong><?php echo number_format_i18n( $result['pages'] ); ?></strong> <?php echo _n(
-					'Row',
-					'Rows',
-					number_format_i18n(
-						$result['pages']
-					),
-					'wp-statistics'
-				); ?>
-                <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-				<?php echo sprintf(
-					__( 'Number of rows in the %s table', 'wp-statistics' ),
-					'<code>' . $wpdb->prefix . 'statistics_' . 'historical' . '</code>'
-				); ?>
-                :
-            </th>
-
-            <td>
-                <strong><?php echo number_format_i18n( $result['historical'] ); ?></strong> <?php echo _n(
-					'Row',
-					'Rows',
-					number_format_i18n(
-						$result['historical']
-					),
-					'wp-statistics'
-				); ?>
-                <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-				<?php echo sprintf(
-					__( 'Number of rows in the %s table', 'wp-statistics' ),
-					'<code>' . $wpdb->prefix . 'statistics_' . 'search' . '</code>'
-				); ?>
-                :
-            </th>
-
-            <td>
-                <strong><?php echo number_format_i18n( $result['search'] ); ?></strong> <?php echo _n(
-					'Row',
-					'Rows',
-					number_format_i18n(
-						$result['search']
-					),
-					'wp-statistics'
-				); ?>
-                <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
-            </td>
-        </tr>
+		<?php
+		foreach ( $result as $table_name => $number_row ) {
+			?>
+            <tr valign="top">
+                <th scope="row">
+					<?php echo sprintf( __( 'Number of rows in the %s table', 'wp-statistics' ), '<code>' . $table_name . '</code>' ); ?>
+                    :
+                </th>
+                <td>
+                    <strong><?php echo number_format_i18n( $number_row ); ?></strong> <?php echo _n( 'Row', 'Rows', number_format_i18n( $number_row ), 'wp-statistics' ); ?>
+                    <p class="description"><?php _e( 'Number of rows', 'wp-statistics' ); ?></p>
+                </td>
+            </tr>
+			<?php
+		}
+		?>
 
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e( 'Version Info', 'wp-statistics' ); ?></h3></th>
@@ -199,7 +55,6 @@
 
             <td>
                 <strong><?php echo WP_Statistics::$reg['version']; ?></strong>
-
                 <p class="description"><?php _e( 'The WP Statistics version you are running.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
@@ -211,7 +66,6 @@
 
             <td>
                 <strong><?php echo phpversion(); ?></strong>
-
                 <p class="description"><?php _e( 'The PHP version you are running.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
@@ -228,10 +82,7 @@
 						_e( 'No', 'wp-statistics' );
 					} ?></strong>
 
-                <p class="description"><?php _e(
-						'Is PHP Safe Mode active. The GeoIP code is not supported in Safe Mode.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'Is PHP Safe Mode active. The GeoIP code is not supported in Safe Mode.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -247,10 +98,7 @@
 						_e( 'No', 'wp-statistics' );
 					} ?></strong>
 
-                <p class="description"><?php _e(
-						'Is PHP compiled with IPv6 support. You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'Is PHP compiled with IPv6 support. You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -300,10 +148,7 @@
 						_e( 'Not installed', 'wp-statistics' );
 					} ?></strong>
 
-                <p class="description"><?php _e(
-						'If the gzopen() function is installed. The gzopen() function is required for the GeoIP database to be downloaded successfully.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'If the gzopen() function is installed. The gzopen() function is required for the GeoIP database to be downloaded successfully.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -319,10 +164,7 @@
 						_e( 'Not installed', 'wp-statistics' );
 					} ?></strong>
 
-                <p class="description"><?php _e(
-						'If the GMP Math PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'If the GMP Math PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -338,10 +180,7 @@
 						_e( 'Not installed', 'wp-statistics' );
 					} ?></strong>
 
-                <p class="description"><?php _e(
-						'If the BCMath PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'If the BCMath PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -362,15 +201,10 @@
 					if ( $GeoIP_filedate === false ) {
 						_e( 'Database file does not exist.', 'wp-statistics' );
 					} else {
-						echo size_format( @filesize( $GeoIP_filename ), 2 ) .
-						     __( ', created on ', 'wp-statistics' ) .
-						     date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), $GeoIP_filedate );
+						echo size_format( @filesize( $GeoIP_filename ), 2 ) . __( ', created on ', 'wp-statistics' ) . date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), $GeoIP_filedate );
 					} ?></strong>
 
-                <p class="description"><?php _e(
-						'The file size and date of the GeoIP database.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'The file size and date of the GeoIP database.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -385,7 +219,6 @@
 
             <td>
                 <strong><?php echo $WP_Statistics->get_IP(); ?></strong>
-
                 <p class="description"><?php _e( 'The client IP address.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
@@ -397,7 +230,6 @@
 
             <td>
                 <strong><?php echo htmlentities( $_SERVER['HTTP_USER_AGENT'], ENT_QUOTES ); ?></strong>
-
                 <p class="description"><?php _e( 'The client user agent string.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
@@ -423,7 +255,6 @@
 
             <td>
                 <strong><?php echo $agent['version']; ?></strong>
-
                 <p class="description"><?php _e( 'The detected client browser version.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
@@ -435,7 +266,6 @@
 
             <td>
                 <strong><?php echo $agent['platform']; ?></strong>
-
                 <p class="description"><?php _e( 'The detected client platform.', 'wp-statistics' ); ?></p>
             </td>
         </tr>

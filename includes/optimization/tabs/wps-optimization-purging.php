@@ -290,10 +290,7 @@
 					?>
                 </select>
 
-                <p class="description"><?php _e(
-						'All visitor data will be lost for this agent type.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'All visitor data will be lost for this agent type.', 'wp-statistics' ); ?></p>
                 <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e( 'Delete now!', 'wp-statistics' ); ?>" name="delete-agents-submit" Onclick="return false;">
                 <span id="delete-agents-status"></span>
                 <div id="delete-agents-result"></div>
@@ -318,10 +315,7 @@
 					?>
                 </select>
 
-                <p class="description"><?php _e(
-						'All visitor data will be lost for this platform type.',
-						'wp-statistics'
-					); ?></p>
+                <p class="description"><?php _e( 'All visitor data will be lost for this platform type.', 'wp-statistics' ); ?></p>
                 <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e( 'Delete now!', 'wp-statistics' ); ?>" name="delete-platforms-submit" Onclick="return false;">
                 <span id="delete-platforms-status"></span>
                 <div id="delete-platforms-result"></div>
