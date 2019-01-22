@@ -9,17 +9,23 @@ class WP_Statistics_Ajax {
 	 * WP_Statistics_Ajax constructor.
 	 */
 	function __construct() {
-		add_action( 'wp_ajax_wp_statistics_close_notice', 'WP_Statistics_Ajax::close_notice_action_callback' );
 
-		add_action( 'wp_ajax_wp_statistics_delete_agents', 'WP_Statistics_Ajax::delete_agents_action_callback' );
-		add_action( 'wp_ajax_wp_statistics_delete_platforms', 'WP_Statistics_Ajax::delete_platforms_action_callback' );
-		add_action( 'wp_ajax_wp_statistics_delete_ip', 'WP_Statistics_Ajax::delete_ip_action_callback' );
-
-		add_action( 'wp_ajax_wp_statistics_empty_table', 'WP_Statistics_Ajax::empty_table_action_callback' );
-		add_action( 'wp_ajax_wp_statistics_purge_data', 'WP_Statistics_Ajax::purge_data_action_callback' );
-		add_action( 'wp_ajax_wp_statistics_purge_visitor_hits', 'WP_Statistics_Ajax::purge_visitor_hits_action_callback' );
-
-		add_action( 'wp_ajax_wp_statistics_get_widget_contents', 'WP_Statistics_Ajax::get_widget_contents_callback' );
+		/**
+		 * List Of Setup Ajax request in Wordpress
+		 */
+		$list = array(
+			'close_notice',
+			'delete_agents',
+			'delete_platforms',
+			'delete_ip',
+			'empty_table',
+			'purge_data',
+			'purge_visitor_hits',
+			'get_widget_contents'
+		);
+		foreach ( $list as $method ) {
+			add_action( 'wp_ajax_wp_statistics_' . $method, 'WP_Statistics_Ajax::' . $method . '_action_callback' );
+		}
 	}
 
 	/**
@@ -165,7 +171,7 @@ class WP_Statistics_Ajax {
 	 * Setup an AJAX action to empty a table in the optimization page.
 	 */
 	static function empty_table_action_callback() {
-		global $WP_Statistics, $wpdb;
+		global $WP_Statistics;
 
 		//Check isset Table-post
 		if ( ! isset( $_POST['table-name'] ) ) {
@@ -208,14 +214,11 @@ class WP_Statistics_Ajax {
 	 * Setup an AJAX action to purge old data in the optimization page.
 	 */
 	static function purge_data_action_callback() {
-		GLOBAL $WP_Statistics; // this is how you get access to the database
+		global $WP_Statistics;
 
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
 
-		$manage_cap = wp_statistics_validate_capability(
-			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
-		);
-
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
 		if ( current_user_can( $manage_cap ) ) {
 			$purge_days = 0;
 
@@ -267,8 +270,8 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to purge visitors with more than a defined number of hits.
 	 */
-	static function get_widget_contents_callback() {
-		GLOBAL $WP_Statistics; // this is how you get access to the database
+	static function get_widget_contents_action_callback() {
+		global $WP_Statistics;
 
 		$widgets = array(
 			'about',

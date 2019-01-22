@@ -304,15 +304,7 @@ class WP_Statistics_Admin_Pages {
 		global $WP_Statistics;
 
 		// Check the current user has the rights to be here.
-		if ( ! current_user_can(
-			wp_statistics_validate_capability(
-				$WP_Statistics->get_option(
-					'read_capability',
-					'manage_options'
-				)
-			)
-		)
-		) {
+		if ( ! current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) ) ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 

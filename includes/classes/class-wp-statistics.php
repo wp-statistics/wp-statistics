@@ -138,29 +138,22 @@ class WP_Statistics {
 	 */
 	public function __construct() {
 		if ( ! isset( WP_Statistics::$reg['plugin-url'] ) ) {
-			/**
-			 * Plugin URL
-			 */
-			WP_Statistics::$reg['plugin-url'] = plugin_dir_url( WP_STATISTICS_MAIN_FILE );
-			//define('WP_STATISTICS_PLUGIN_URL', plugin_dir_url(WP_STATISTICS_MAIN_FILE));
-			/**
-			 * Plugin DIR
-			 */
-			WP_Statistics::$reg['plugin-dir'] = plugin_dir_path( WP_STATISTICS_MAIN_FILE );
-			//define('WP_STATISTICS_PLUGIN_DIR', plugin_dir_path(WP_STATISTICS_MAIN_FILE));
-			/**
-			 * Plugin Main File
-			 */
-			WP_Statistics::$reg['main-file'] = WP_STATISTICS_MAIN_FILE;
-			/**
-			 * WP Statistics Version
-			 */
+
+			//Get Plugin Data
 			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require( ABSPATH . 'wp-admin/includes/plugin.php' );
 			}
-			WP_Statistics::$reg['plugin-data'] = get_plugin_data( WP_STATISTICS_MAIN_FILE );
-			WP_Statistics::$reg['version']     = WP_Statistics::$reg['plugin-data']['Version'];
-			//define('WP_STATISTICS_VERSION', '12.1.3');
+			$plugin_data = get_plugin_data( WP_STATISTICS_MAIN_FILE );
+
+			//Prepare Plugin config
+			WP_Statistics::$reg = array(
+				'plugin-data'          => $plugin_data,
+				'plugin-url'           => plugin_dir_url( WP_STATISTICS_MAIN_FILE ),
+				'plugin-dir'           => plugin_dir_path( WP_STATISTICS_MAIN_FILE ),
+				'main-file'            => WP_STATISTICS_MAIN_FILE,
+				'version'              => $plugin_data['Version'],
+				'required-php-version' => '5.4.0',
+			);
 		}
 	}
 
@@ -169,12 +162,6 @@ class WP_Statistics {
 	 */
 	public function run() {
 		global $WP_Statistics;
-
-		/**
-		 * Required PHP Version
-		 */
-		WP_Statistics::$reg['required-php-version'] = '5.4.0';
-		//define('WP_STATISTICS_REQUIRED_PHP_VERSION', '5.4.0');
 
 		// Check the PHP version,
 		// if we don't meet the minimum version to run WP Statistics return so we don't cause a critical error.
@@ -301,10 +288,10 @@ class WP_Statistics {
 
 			/**
 			 * List Of Admin Page Slug WP-statistics
-             *
-             * -- Array Arg ---
-             * key   : page key for using another methods
-             * value : Admin Page Slug
+			 *
+			 * -- Array Arg ---
+			 * key   : page key for using another methods
+			 * value : Admin Page Slug
 			 */
 			$list = array(
 				'overview'         => 'overview',
