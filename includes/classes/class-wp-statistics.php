@@ -1422,9 +1422,7 @@ class WP_Statistics {
 	/**
 	 * Get referrer link
 	 *
-	 * @param     $referrer
-	 * @param int $length
-	 *
+	 * @param  string $referrer
 	 * @return string
 	 */
 	public function get_referrer_link( $referrer ) {
@@ -1438,7 +1436,6 @@ class WP_Statistics {
 		}
 
 		$base_url = parse_url( $html_nr_referrer );
-
 		return "<a href='{$html_nr_referrer}' title='{$html_nr_referrer}'>{$base_url['host']}</a>";
 	}
 
@@ -1456,30 +1453,13 @@ class WP_Statistics {
 		?>
         <div class="error">
             <p style="max-width:800px;">
-                <b><?php _e(
-						'WP Statistics Disabled',
-						'wp-statistics'
-					); ?></b> <?php _e(
-					'&#151; You are running an unsupported version of PHP.',
-					'wp-statistics'
-				); ?>
+                <b><?php _e( 'WP Statistics Disabled', 'wp-statistics' ); ?></b> <?php _e( '&#151; You are running an unsupported version of PHP.', 'wp-statistics' ); ?>
             </p>
 
             <p style="max-width:800px;"><?php
-
-				echo sprintf(
-					__(
-						'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!',
-						'wp-statistics'
-					),
-					phpversion(),
-					WP_Statistics::$reg['required-php-version']
-				);
+				echo sprintf( __( 'WP Statistics has detected PHP version %s which is unsupported, WP Statistics requires PHP Version %s or higher!', 'wp-statistics' ), phpversion(), WP_Statistics::$reg['required-php-version'] );
 				echo '</p><p>';
-				echo __(
-					'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.',
-					'wp-statistics'
-				);
+				echo __( 'Please contact your hosting provider to upgrade to a supported version or disable WP Statistics to remove this message.', 'wp-statistics' );
 				?></p>
         </div>
 
