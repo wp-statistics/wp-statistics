@@ -144,7 +144,6 @@ class WP_Statistics_Dashboard {
 	 * This function Register Wp-statistics Dashboard to wordpress Admin
 	 */
 	public static function register_dashboard_widget() {
-		global $WP_Statistics;
 
 		//Check Dashboard Widget
 		if ( ! function_exists( 'wp_add_dashboard_widget' ) ) {
@@ -194,8 +193,7 @@ class WP_Statistics_Dashboard {
 	/**
 	 * Set Default Hidden Dashboard User Option
 	 */
-	public
-	static function set_user_hidden_dashboard_option() {
+	public static function set_user_hidden_dashboard_option() {
 		global $WP_Statistics;
 
 		//Get List Of Wp-statistics Dashboard Widget

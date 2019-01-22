@@ -394,7 +394,7 @@ class WP_Statistics_Admin {
 		 *
 		 * --- Array Arg -----
 		 * name       : Menu name
-		 * title      : Page title / if not exist page_title == name
+		 * title      : Page title / if not exist [title == name]
 		 * cap        : min require capability @default $read_cap
 		 * icon       : Wordpress DashIcon name
 		 * method     : method that call in page @default log
