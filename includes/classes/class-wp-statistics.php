@@ -298,106 +298,39 @@ class WP_Statistics {
 	 */
 	public function set_pages() {
 		if ( ! isset( WP_Statistics::$page['overview'] ) ) {
+
 			/**
-			 * Overview Page
+			 * List Of Admin Page Slug WP-statistics
+             *
+             * -- Array Arg ---
+             * key   : page key for using another methods
+             * value : Admin Page Slug
 			 */
-			WP_Statistics::$page['overview'] = 'wps_overview_page';
-			//define('WP_STATISTICS_OVERVIEW_PAGE', 'wps_overview_page');
-			/**
-			 * Browsers Page
-			 */
-			WP_Statistics::$page['browser'] = 'wps_browsers_page';
-			//define('WP_STATISTICS_BROWSERS_PAGE', 'wps_browsers_page');
-			/**
-			 * Countries Page
-			 */
-			WP_Statistics::$page['countries'] = 'wps_countries_page';
-			//define('WP_STATISTICS_COUNTRIES_PAGE', 'wps_countries_page');
-			/**
-			 * Exclusions Page
-			 */
-			WP_Statistics::$page['exclusions'] = 'wps_exclusions_page';
-			//define('WP_STATISTICS_EXCLUSIONS_PAGE', 'wps_exclusions_page');
-			/**
-			 * Hits Page
-			 */
-			WP_Statistics::$page['hits'] = 'wps_hits_page';
-			//define('WP_STATISTICS_HITS_PAGE', 'wps_hits_page');
-			/**
-			 * Online Page
-			 */
-			WP_Statistics::$page['online'] = 'wps_online_page';
-			//define('WP_STATISTICS_ONLINE_PAGE', 'wps_online_page');
-			/**
-			 * Pages Page
-			 */
-			WP_Statistics::$page['pages'] = 'wps_pages_page';
-			//define('WP_STATISTICS_PAGES_PAGE', 'wps_pages_page');
-			/**
-			 * Categories Page
-			 */
-			WP_Statistics::$page['categories'] = 'wps_categories_page';
-			//define('WP_STATISTICS_CATEGORIES_PAGE', 'wps_categories_page');
-			/**
-			 * Authors Page
-			 */
-			WP_Statistics::$page['authors'] = 'wps_authors_page';
-			//define('WP_STATISTICS_AUTHORS_PAGE', 'wps_authors_page');
-			/**
-			 * Tags Page
-			 */
-			WP_Statistics::$page['tags'] = 'wps_tags_page';
-			//define('WP_STATISTICS_TAGS_PAGE', 'wps_tags_page');
-			/**
-			 * Referer Page
-			 */
-			WP_Statistics::$page['referrers'] = 'wps_referrers_page';
-			//define('WP_STATISTICS_REFERRERS_PAGE', 'wps_referrers_page');
-			/**
-			 * Searched Words Page
-			 */
-			WP_Statistics::$page['searched-phrases'] = 'wps_searched_phrases_page';
-			//define('WP_STATISTICS_SEARCHED_PHRASES_PAGE', 'wps_searched_phrases_page');
-			/**
-			 * Searches Page
-			 */
-			WP_Statistics::$page['searches'] = 'wps_searches_page';
-			//define('WP_STATISTICS_SEARCHES_PAGE', 'wps_searches_page');
-			/**
-			 * Words Page
-			 */
-			WP_Statistics::$page['words'] = 'wps_words_page';
-			//define('WP_STATISTICS_WORDS_PAGE', 'wps_words_page');
-			/**
-			 * Top Visitors Page
-			 */
-			WP_Statistics::$page['top-visitors'] = 'wps_top_visitors_page';
-			//define('WP_STATISTICS_TOP_VISITORS_PAGE', 'wps_top_visitors_page');
-			/**
-			 * Visitors Page
-			 */
-			WP_Statistics::$page['visitors'] = 'wps_visitors_page';
-			//define('WP_STATISTICS_VISITORS_PAGE', 'wps_visitors_page');
-			/**
-			 * Optimization Page
-			 */
-			WP_Statistics::$page['optimization'] = 'wps_optimization_page';
-			//define('WP_STATISTICS_OPTIMIZATION_PAGE', 'wps_optimization_page');
-			/**
-			 * Settings Page
-			 */
-			WP_Statistics::$page['settings'] = 'wps_settings_page';
-			//define('WP_STATISTICS_SETTINGS_PAGE', 'wps_settings_page');
-			/**
-			 * Plugins Page
-			 */
-			WP_Statistics::$page['plugins'] = 'wps_plugins_page';
-			//define('WP_STATISTICS_PLUGINS_PAGE', 'wps_plugins_page');
-			/**
-			 * Donate Page
-			 */
-			WP_Statistics::$page['donate'] = 'wps_donate_page';
-			//define('WP_STATISTICS_DONATE_PAGE', 'wps_donate_page');
+			$list = array(
+				'overview'         => 'overview',
+				'browser'          => 'browsers',
+				'countries'        => 'countries',
+				'exclusions'       => 'exclusions',
+				'hits'             => 'hits',
+				'online'           => 'online',
+				'pages'            => 'pages',
+				'categories'       => 'categories',
+				'authors'          => 'authors',
+				'tags'             => 'tags',
+				'referrers'        => 'referrers',
+				'searched-phrases' => 'searched_phrases',
+				'searches'         => 'searches',
+				'words'            => 'words',
+				'top-visitors'     => 'top_visitors',
+				'visitors'         => 'visitors',
+				'optimization'     => 'optimization',
+				'settings'         => 'settings',
+				'plugins'          => 'plugins',
+				'donate'           => 'donate',
+			);
+			foreach ( $list as $page_key => $page_slug ) {
+				WP_Statistics::$page[ $page_key ] = 'wps_' . $page_slug . '_page';
+			}
 		}
 	}
 

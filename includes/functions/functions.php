@@ -1702,6 +1702,7 @@ function wp_statistics_db_table( $export = 'all', $except = array() ) {
 
 /**
  * Check WP-statistics Option Require
+ *
  * @param array $item
  * @param string $condition_key
  * @return array|bool
