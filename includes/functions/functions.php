@@ -1699,3 +1699,25 @@ function wp_statistics_db_table( $export = 'all', $except = array() ) {
 
 	return null;
 }
+
+/**
+ * Check WP-statistics Option Require
+ * @param array $item
+ * @param string $condition_key
+ * @return array|bool
+ */
+function wp_statistics_check_option_require( $item = array(), $condition_key = 'require' ) {
+	global $WP_Statistics;
+
+	$condition = true;
+	if ( array_key_exists( 'require', $item ) ) {
+		foreach ( $item[ $condition_key ] as $if ) {
+			if ( ! $WP_Statistics->get_option( $if ) ) {
+				$condition = false;
+				break;
+			}
+		}
+	}
+
+	return $condition;
+}

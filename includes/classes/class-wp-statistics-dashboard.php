@@ -155,21 +155,11 @@ class WP_Statistics_Dashboard {
 		$list = self::widget_list();
 		foreach ( $list as $widget_key => $dashboard ) {
 
-			//Check conditional Of Dashboard
-			$condition = true;
-			if ( array_key_exists( 'require', $dashboard ) ) {
-				foreach ( $dashboard['require'] as $if ) {
-					if ( ! $WP_Statistics->get_option( $if ) ) {
-						$condition = false;
-						break;
-					}
-				}
-			}
-
 			//Register Dashboard Widget
-			if ( $condition === true ) {
+			if ( wp_statistics_check_option_require( $dashboard ) === true ) {
 				wp_add_dashboard_widget( self::widget_setup_key( $widget_key ), $dashboard['name'], 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => $widget_key ) );
 			}
+
 		}
 	}
 

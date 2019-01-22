@@ -371,6 +371,19 @@ html[dir="rtl"] .wps_page_title {
     color: #DC3545;
 }
 
+.wps-text-success {
+    color: #459605;
+}
+
+.wps-text-warning {
+    color: #dc6b26;
+}
+
 .wps-text-muted {
     color: #797979;
+}
+
+/* disable Break Link */
+a[href*='?page=wps_break_menu'] {
+    pointer-events: none;
 }
