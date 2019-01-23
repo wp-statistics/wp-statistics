@@ -1725,3 +1725,16 @@ function wp_statistics_check_option_require( $item = array(), $condition_key = '
 
 	return $condition;
 }
+
+/**
+ * Modify For IGNORE insert Query
+ *
+ * @hook add_action('query', function_name, 10);
+ * @param $query
+ * @return null|string|string[]
+ */
+function wp_statistics_ignore_insert( $query ) {
+	$count = 0;
+	$query = preg_replace( '/^(INSERT INTO)/i', 'INSERT IGNORE INTO', $query, 1, $count );
+	return $query;
+}

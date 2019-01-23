@@ -399,13 +399,6 @@ class WP_Statistics_Hits {
 		}
 	}
 
-	//Modify For IGNORE insert Query
-	public function modifyInsertQuery( $query ) {
-		$count = 0;
-		$query = preg_replace( '/^(INSERT INTO)/i', 'INSERT IGNORE INTO', $query, 1, $count );
-		return $query;
-	}
-
 	//Get current Page detail
 	public function get_page_detail() {
 
@@ -477,7 +470,7 @@ class WP_Statistics_Hits {
 				}
 
 				// Store the result.
-				add_filter( 'query', array( $this, 'modifyInsertQuery' ), 10 );
+				add_filter( 'query', 'wp_statistics_ignore_insert', 10 );
 				$wpdb->insert(
 					$wpdb->prefix . 'statistics_visitor',
 					array(
@@ -495,7 +488,7 @@ class WP_Statistics_Hits {
 					array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s' )
 				);
 				$this->current_visitor_id = $wpdb->insert_id;
-				remove_filter( 'query', array( $this, 'modifyInsertQuery' ), 10 );
+				remove_filter( 'query', 'wp_statistics_ignore_insert', 10 );
 
 				// Now parse the referrer and store the results in the search table if the database has been converted.
 				// Also make sure we actually inserted a row on the INSERT IGNORE above or we'll create duplicate entries.
@@ -668,10 +661,7 @@ class WP_Statistics_Hits {
 					$page_id      = $exist['page_id'];
 
 				} else {
-
-					// If the update failed (aka the record doesn't exist), insert a new one.  Note this may drop a page hit if a race condition
-					// exists where two people load the same page a the roughly the same time.  In that case two inserts would be attempted but
-					// there is a unique index requirement on the database and one of them would fail.
+					add_filter( 'query', 'wp_statistics_ignore_insert', 10 );
 					$wpdb->insert(
 						$wpdb->prefix . 'statistics_pages',
 						array(
@@ -683,6 +673,7 @@ class WP_Statistics_Hits {
 						)
 					);
 					$page_id = $wpdb->insert_id;
+					remove_filter( 'query', 'wp_statistics_ignore_insert', 10 );
 				}
 
 				//Set Visitor Relationships
