@@ -330,11 +330,10 @@ class WP_Statistics_Admin {
 		$read_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) );
 
 		if ( current_user_can( $read_cap ) && $WP_Statistics->get_option( 'pages' ) && ! $WP_Statistics->get_option( 'disable_column' ) ) {
-			$post_types = (array) get_post_types( array( 'show_ui' => true ), 'object' );
-
+			$post_types = WP_Statistics_Editor::get_list_post_type();
 			foreach ( $post_types as $type ) {
-				add_action( 'manage_' . $type->name . '_posts_columns', 'WP_Statistics_Admin::add_column', 10, 2 );
-				add_action( 'manage_' . $type->name . '_posts_custom_column', 'WP_Statistics_Admin::render_column', 10, 2 );
+				add_action( 'manage_' . $type . '_posts_columns', 'WP_Statistics_Admin::add_column', 10, 2 );
+				add_action( 'manage_' . $type . '_posts_custom_column', 'WP_Statistics_Admin::render_column', 10, 2 );
 			}
 		}
 	}

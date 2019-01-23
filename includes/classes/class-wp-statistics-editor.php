@@ -119,8 +119,8 @@ class WP_Statistics_Editor {
 		$new_buttons .= '<button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' . wp_statistics_icons( 'dashicons-external' ) . '<span class="screen-reader-text">' . __( 'More Details', 'wp-statistics' ) . '</span></button>';
 
 
-		$admin_url = get_admin_url() . "/admin.php?page=";
-		$page_urls = array();
+		$admin_url                                              = get_admin_url() . "/admin.php?page=";
+		$page_urls                                              = array();
 		$page_urls['wp_statistics_editor_meta_box_more_button'] = $admin_url . WP_Statistics::$page['pages'] . '&page-id=';
 
 		//Button for Gutenberg

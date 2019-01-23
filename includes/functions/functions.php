@@ -1266,8 +1266,11 @@ function wp_statistics_prepare_range_time_picker() {
 	return array( $daysToDisplay, $rangestart, $rangeend );
 }
 
-/*
- * Convert php dateformat to Jquery Ui
+/**
+ * Convert php date format to Jquery Ui
+ *
+ * @param $php_format
+ * @return string
  */
 function wp_statistics_dateformat_php_to_jqueryui( $php_format ) {
 	$SYMBOLS_MATCHING = array(
@@ -1596,7 +1599,7 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 		'link'      => '',
 		'edit_link' => '',
 		'object_id' => $page_id,
-		'title'     => __( "No page title found", 'wp-statistics' ),
+		'title'     => '-',
 		'meta'      => array()
 	);
 
