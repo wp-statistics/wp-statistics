@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.0
-Stable tag: 12.5.7
+Stable tag: 12.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -59,7 +59,7 @@ Yes, the cache support added in v12.5.1
 
 If you're using a plugin cache:
 * Don't forget to clear your enabled plugin cache.
-* You should enabled the plugin cache option in the Settings page.
+* You should enable the plugin cache option in the Settings page.
 * Making sure the below endpoint registered in your WordPress.
 http://yourwebsite.com/wp-json/wpstatistics/v1
 
@@ -122,6 +122,9 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.6 =
+* TODO
+
 = 12.5.7 =
 * Added: The Edge To Browser List.
 * Added: `date_i18n` function in dates for retrieving localized date.
