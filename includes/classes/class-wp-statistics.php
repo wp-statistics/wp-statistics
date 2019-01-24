@@ -228,9 +228,6 @@ class WP_Statistics {
 			new WP_Statistics_Frontend;
 		}
 
-		//Check Reset User Online
-
-
 		//Show Wordpress Admin Bar
 		if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
 			add_action( 'admin_bar_menu', 'WP_Statistics::menubar', 20 );
