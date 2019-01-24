@@ -1731,10 +1731,48 @@ function wp_statistics_check_option_require( $item = array(), $condition_key = '
  *
  * @hook add_action('query', function_name, 10);
  * @param $query
- * @return null|string|string[]
+ * @return string
  */
 function wp_statistics_ignore_insert( $query ) {
 	$count = 0;
 	$query = preg_replace( '/^(INSERT INTO)/i', 'INSERT IGNORE INTO', $query, 1, $count );
 	return $query;
+}
+
+/**
+ * Reset Online User Process By Option time
+ *
+ * @hook add_action('query', function_name, 10);
+ * @param $query
+ * @return string
+ */
+function wp_statistics_reset_user_online( $query ) {
+	global $WP_Statistics, $wpdb;
+
+	//Check Query is SELECT FROM statistics_user_online
+	if ( strpos( strtolower( $query ), 'select' ) !== false and stristr( strtolower( $query ), wp_statistics_db_table( 'useronline' ) ) != false ) {
+
+		//Get Not timestamp
+		$now = $WP_Statistics->current_date( 'U' );
+
+		// Set the default seconds a user needs to visit the site before they are considered offline.
+		$reset_time = 30;
+
+		// Get the user set value for seconds to check for users online.
+		if ( $WP_Statistics->get_option( 'check_online' ) ) {
+			$reset_time = $WP_Statistics->get_option( 'check_online' );
+		}
+
+		// We want to delete users that are over the number of seconds set by the admin.
+		$time_diff = $now - $reset_time;
+
+		// Call the deletion query.
+		$wpdb->query( "DELETE FROM `" . wp_statistics_db_table( 'useronline' ) . "` WHERE timestamp < {$time_diff}" );
+	}
+	return $query;
+}
+
+//Check User Online is Active in this Wordpress
+if ( $WP_Statistics->get_option( 'useronline' ) ) {
+	add_filter( 'query', 'wp_statistics_reset_user_online' );
 }

@@ -20,7 +20,6 @@ class WP_Statistics_Hits {
 
 	public $exclusion_record = false;
 	private $timestamp;
-	private $second;
 	private $current_page_id;
 	private $current_page_type;
 	public $current_visitor_id = 0;
@@ -33,14 +32,6 @@ class WP_Statistics_Hits {
 		$this->timestamp = $WP_Statistics->current_date( 'U' );
 		if ( WP_Statistics_Rest::is_rest() ) {
 			$this->timestamp = WP_Statistics_Rest::params( 'timestamp' );
-		}
-
-		// Set the default seconds a user needs to visit the site before they are considered offline.
-		$this->second = 30;
-
-		// Get the user set value for seconds to check for users online.
-		if ( $WP_Statistics->get_option( 'check_online' ) ) {
-			$this->second = $WP_Statistics->get_option( 'check_online' );
 		}
 
 		// Check to see if the user wants us to record why we're excluding hits.
@@ -734,8 +725,6 @@ class WP_Statistics_Hits {
 			}
 		}
 
-		// Remove users that have gone offline since the last check.
-		$this->Delete_user();
 	}
 
 	// This function adds a user to the database.
@@ -823,13 +812,4 @@ class WP_Statistics_Hits {
 		}
 	}
 
-	// This function removes expired users.
-	public function Delete_user() {
-		global $wpdb;
-		// We want to delete users that are over the number of seconds set by the admin.
-		$timediff = $this->timestamp - $this->second;
-
-		// Call the deletion query.
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}statistics_useronline WHERE timestamp < '{$timediff}'" );
-	}
 }
