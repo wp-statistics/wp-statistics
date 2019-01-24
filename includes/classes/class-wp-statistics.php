@@ -228,11 +228,18 @@ class WP_Statistics {
 			new WP_Statistics_Frontend;
 		}
 
+		//Check Reset User Online
+
+
+		//Show Wordpress Admin Bar
 		if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
 			add_action( 'admin_bar_menu', 'WP_Statistics::menubar', 20 );
 		}
 
+		//Add Wp-statistics Widget
 		add_action( 'widgets_init', 'WP_Statistics::widget' );
+
+		//Add Short Code `wpstatistics`
 		add_shortcode( 'wpstatistics', 'WP_Statistics_Shortcode::shortcodes' );
 	}
 

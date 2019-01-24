@@ -180,10 +180,7 @@ class WP_Statistics_Editor {
 	 */
 	public static function get_list_post_type() {
 		$post_types     = array( 'post', 'page' );
-		$get_post_types = get_post_types( array(
-			'public'   => true,
-			'_builtin' => false
-		), 'names', 'and' );
+		$get_post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
 		foreach ( $get_post_types as $name ) {
 			$post_types[] = $name;
 		}

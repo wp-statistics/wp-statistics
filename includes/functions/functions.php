@@ -1742,15 +1742,14 @@ function wp_statistics_ignore_insert( $query ) {
 /**
  * Reset Online User Process By Option time
  *
- * @hook add_action('query', function_name, 10);
- * @param $query
  * @return string
  */
-function wp_statistics_reset_user_online( $query ) {
+add_action( 'wp_loaded', 'wp_statistics_reset_user_online' );
+function wp_statistics_reset_user_online() {
 	global $WP_Statistics, $wpdb;
 
-	//Check Query is SELECT FROM statistics_user_online
-	if ( strpos( strtolower( $query ), 'select' ) !== false and stristr( strtolower( $query ), wp_statistics_db_table( 'useronline' ) ) != false ) {
+	//Check User Online is Active in this Wordpress
+	if ( $WP_Statistics->get_option( 'useronline' ) ) {
 
 		//Get Not timestamp
 		$now = $WP_Statistics->current_date( 'U' );
@@ -1766,13 +1765,18 @@ function wp_statistics_reset_user_online( $query ) {
 		// We want to delete users that are over the number of seconds set by the admin.
 		$time_diff = $now - $reset_time;
 
+		//Last check Time
+		$wps_run = get_option( "wp_statistics_check_useronline" );
+		if ( isset( $wps_run ) and is_numeric( $wps_run ) ) {
+			if ( ( $wps_run + $reset_time ) > $now ) {
+				return;
+			}
+		}
+
 		// Call the deletion query.
 		$wpdb->query( "DELETE FROM `" . wp_statistics_db_table( 'useronline' ) . "` WHERE timestamp < {$time_diff}" );
-	}
-	return $query;
-}
 
-//Check User Online is Active in this Wordpress
-if ( $WP_Statistics->get_option( 'useronline' ) ) {
-	add_filter( 'query', 'wp_statistics_reset_user_online' );
+		//Update Last run this Action
+		update_option( "wp_statistics_check_useronline", $now );
+	}
 }
