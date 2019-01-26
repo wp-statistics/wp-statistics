@@ -214,6 +214,10 @@ class WP_Statistics {
 			include WP_Statistics::$reg['plugin-dir'] . 'includes/functions/functions.php';
 		}
 
+		//Reset User Online Count
+		add_action( 'wp_loaded', 'WP_Statistics::reset_user_online' );
+
+		//Get Current User Agent
 		$this->agent   = $this->get_UserAgent();
 		$WP_Statistics = $this;
 
@@ -688,7 +692,7 @@ class WP_Statistics {
 		$options['visits']                = true;
 		$options['visitors']              = true;
 		$options['pages']                 = true;
-		$options['check_online']          = '30';
+		$options['check_online']          = '120';
 		$options['menu_bar']              = false;
 		$options['coefficient']           = '1';
 		$options['stats_report']          = false;
@@ -1473,6 +1477,47 @@ class WP_Statistics {
 					'href'   => WP_Statistics_Admin_Pages::admin_url( 'overview' )
 				)
 			);
+		}
+	}
+
+	/**
+	 * Reset Online User Process By Option time
+	 *
+	 * @return string
+	 */
+	static function reset_user_online() {
+		global $WP_Statistics, $wpdb;
+
+		//Check User Online is Active in this Wordpress
+		if ( $WP_Statistics->get_option( 'useronline' ) ) {
+
+			//Get Not timestamp
+			$now = $WP_Statistics->current_date( 'U' );
+
+			// Set the default seconds a user needs to visit the site before they are considered offline.
+			$reset_time = 120;
+
+			// Get the user set value for seconds to check for users online.
+			if ( $WP_Statistics->get_option( 'check_online' ) ) {
+				$reset_time = $WP_Statistics->get_option( 'check_online' );
+			}
+
+			// We want to delete users that are over the number of seconds set by the admin.
+			$time_diff = $now - $reset_time;
+
+			//Last check Time
+			$wps_run = get_option( "wp_statistics_check_useronline" );
+			if ( isset( $wps_run ) and is_numeric( $wps_run ) ) {
+				if ( ( $wps_run + $reset_time ) > $now ) {
+					return;
+				}
+			}
+
+			// Call the deletion query.
+			$wpdb->query( "DELETE FROM `" . wp_statistics_db_table( 'useronline' ) . "` WHERE timestamp < {$time_diff}" );
+
+			//Update Last run this Action
+			update_option( "wp_statistics_check_useronline", $now );
 		}
 	}
 
