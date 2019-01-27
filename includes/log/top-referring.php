@@ -51,31 +51,28 @@ if ( $referr ) {
 
 	$total = count( $result );
 } else {
+
+	//Get Wordpress Domain
+	$site_url = wp_parse_url( get_site_url() );
+	$site_url = $site_url['scheme'] . "://" . $site_url['host'];
+
+	//Get List referred
 	$result = $wpdb->get_results(
 		$wpdb->prepare(
-			"SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' AND `last_counter` BETWEEN %s AND %s",
+			"SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM {$wpdb->prefix}statistics_visitor WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 AND `referred` NOT LIKE '{$site_url}%' AND `last_counter` BETWEEN %s AND %s GROUP BY domain ORDER BY `number` DESC",
 			$rangestartdate,
 			$rangeenddate
 		)
 	);
 
-	$urls = array();
-	foreach ( $result as $item ) {
-		$url = parse_url( $item->referred );
-		if ( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
-			continue;
-		}
-		$urls[] = $url['scheme'] . '://' . $url['host'];
-	}
-	$get_urls = array_count_values( $urls );
-	$total    = count( $get_urls );
+	//Number Total Row
+	$total = count( $result );
 }
 
 ?>
 <div class="wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top Referring Sites', 'wp-statistics' ) ); ?>
     <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['referrers'], $daysToDisplay, null, null, $referr_field ); ?></div>
-
     <div class="clear"/>
 
     <ul class="subsubsub">
@@ -89,7 +86,7 @@ if ( $referr ) {
             </li>|
             <li>
                 <a class="current" href="?page=<?php echo WP_Statistics::$page['referrers']; ?>&referr=<?php echo $WP_Statistics->html_sanitize_referrer( $referr ) . $date_args; ?>"> <?php echo htmlentities( $title, ENT_QUOTES ); ?>
-                    <span class="count">(<?php echo $total; ?>)</span></a></li>
+                    <span class="count">(<?php echo number_format_i18n( $total ); ?>)</span></a></li>
 		<?php } else { ?>
             <li class="all"><a <?php if ( ! $referr ) {
 					echo 'class="current"';
@@ -97,7 +94,7 @@ if ( $referr ) {
 						'All',
 						'wp-statistics'
 					); ?>
-                    <span class="count">(<?php echo $total; ?>)</span></a></li>
+                    <span class="count">(<?php echo number_format_i18n( $total ); ?>)</span></a></li>
 		<?php } ?>
     </ul>
     <div class="postbox-container" id="last-log">
@@ -150,22 +147,18 @@ if ( $referr ) {
 									echo "</div>";
 								}
 							} else {
-								arsort( $get_urls );
-								$get_urls = array_slice( $get_urls, $start, $end );
-
-								$i = $start;
-								foreach ( $get_urls as $items => $value ) {
+								$i = 1;
+								foreach ( $result as $items ) {
+									if ( $i > $start and $i <= $end ) {
+										$referrer_html = $WP_Statistics->html_sanitize_referrer( $items->domain );
+										echo "<div class='log-item'>";
+										echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_Statistics::$page['referrers'] . "&referr=" . $referrer_html . $date_args . "'>" . $referrer_html . "</a></div>";
+										echo "<div class='log-ip'>" . __( 'References', 'wp-statistics' ) . ': ' . number_format_i18n( $items->number ) . '</div>';
+										echo "<div class='clear'></div>";
+										echo "<div class='log-url'>" . $WP_Statistics->get_referrer_link( $items->domain ) . '</div>';
+										echo "</div>";
+									}
 									$i ++;
-									$referrer_html = $WP_Statistics->html_sanitize_referrer( $items );
-									$referrer_html = parse_url( $referrer_html )['host'];
-									echo "<div class='log-item'>";
-									echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_Statistics::$page['referrers'] . "&referr=" . $referrer_html . $date_args . "'>" . $referrer_html . "</a></div>";
-									echo "<div class='log-ip'>" . __( 'References', 'wp-statistics' ) . ': ' . number_format_i18n( $value ) . '</div>';
-									echo "<div class='clear'></div>";
-									echo "<div class='log-url'>" .
-									     $WP_Statistics->get_referrer_link( $items, 100 ) .
-									     '</div>';
-									echo "</div>";
 								}
 							}
 						}
