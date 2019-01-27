@@ -145,7 +145,7 @@ if ( $referr ) {
 										$agent = "<div class='dashicons dashicons-editor-help'></div>";
 									}
 
-									echo "<div class='log-agent'><a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
+									echo "<div class='log-agent'><a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $item->agent ) ) . "'>{$agent}</a>";
 									echo $WP_Statistics->get_referrer_link( $item->referred, 100 ) . '</div>';
 									echo "</div>";
 								}
