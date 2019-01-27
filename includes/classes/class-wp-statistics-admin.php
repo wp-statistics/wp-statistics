@@ -29,13 +29,13 @@ class WP_Statistics_Admin {
 		}
 
 		//Show Admin Menu
-		add_action( 'admin_menu', 'WP_Statistics_Admin::menu' );
+		add_action( 'admin_menu', array( $this, 'menu' ) );
 		if ( is_multisite() ) {
 			add_action( 'network_admin_menu', 'WP_Statistics_Network_Admin::menu' );
 		}
 
 		//Load Script in Admin Area
-		add_action( 'admin_enqueue_scripts', 'WP_Statistics_Admin::enqueue_scripts' );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		//init Export Class
 		new WP_Statistics_Export;
@@ -52,18 +52,18 @@ class WP_Statistics_Admin {
 		// Display the admin notices if we should.
 		if ( isset( $pagenow ) && array_key_exists( 'page', $_GET ) ) {
 			if ( $pagenow == "admin.php" && substr( $_GET['page'], 0, 14 ) == 'wp-statistics/' ) {
-				add_action( 'admin_notices', 'WP_Statistics_Admin::not_enable' );
+				add_action( 'admin_notices', array( $this, 'not_enable' ) );
 			}
 		}
 
 		//Change Plugin Action link in Plugin.php admin
-		add_filter( 'plugin_action_links_' . plugin_basename( WP_Statistics::$reg['main-file'] ), 'WP_Statistics_Admin::settings_links', 10, 2 );
-		add_filter( 'plugin_row_meta', 'WP_Statistics_Admin::add_meta_links', 10, 2 );
+		add_filter( 'plugin_action_links_' . plugin_basename( WP_Statistics::$reg['main-file'] ), array( $this, 'settings_links' ), 10, 2 );
+		add_filter( 'plugin_row_meta', array( $this, 'add_meta_links' ), 10, 2 );
 
 		//Add Column in Post Type Wp_List Table
-		add_action( 'load-edit.php', 'WP_Statistics_Admin::load_edit_init' );
+		add_action( 'load-edit.php', array( $this, 'load_edit_init' ) );
 		if ( $WP_Statistics->get_option( 'pages' ) && ! $WP_Statistics->get_option( 'disable_column' ) ) {
-			add_action( 'post_submitbox_misc_actions', 'WP_Statistics_Admin::post_init' );
+			add_action( 'post_submitbox_misc_actions', array( $this, 'post_init' ) );
 		}
 
 		//init ShortCode
@@ -111,7 +111,7 @@ class WP_Statistics_Admin {
 	 * This function outputs error messages in the admin interface
 	 * if the primary components of WP Statistics are enabled.
 	 */
-	static function not_enable() {
+	public function not_enable() {
 		global $WP_Statistics;
 
 		// If the user had told us to be quite, do so.
@@ -287,13 +287,10 @@ class WP_Statistics_Admin {
 	 *
 	 * @return string Links
 	 */
-	static function settings_links( $links, $file ) {
+	public function settings_links( $links, $file ) {
 		global $WP_Statistics;
 
-		$manage_cap = wp_statistics_validate_capability(
-			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
-		);
-
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
 		if ( current_user_can( $manage_cap ) ) {
 			array_unshift( $links, '<a href="' . WP_Statistics_Admin_Pages::admin_url( 'settings' ) . '">' . __( 'Settings', 'wp-statistics' ) . '</a>' );
 		}
@@ -309,7 +306,7 @@ class WP_Statistics_Admin {
 	 *
 	 * @return array Links
 	 */
-	static function add_meta_links( $links, $file ) {
+	public function add_meta_links( $links, $file ) {
 		if ( $file == plugin_basename( WP_Statistics::$reg['main-file'] ) ) {
 			$plugin_url = 'http://wordpress.org/plugins/wp-statistics/';
 
@@ -324,7 +321,7 @@ class WP_Statistics_Admin {
 	/**
 	 * Call the add/render functions at the appropriate times.
 	 */
-	static function load_edit_init() {
+	public function load_edit_init() {
 		global $WP_Statistics;
 
 		$read_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) );
@@ -366,7 +363,7 @@ class WP_Statistics_Admin {
 	/**
 	 * Add the hit count to the publish widget in the post/pages editor.
 	 */
-	static function post_init() {
+	public function post_init() {
 		global $post;
 
 		$id = $post->ID;
@@ -376,7 +373,7 @@ class WP_Statistics_Admin {
 	/**
 	 * This function adds the primary menu to WordPress.
 	 */
-	static function menu() {
+	public function menu() {
 		global $WP_Statistics;
 
 		// Get the read/write capabilities required to view/manage the plugin as set by the user.
@@ -570,10 +567,9 @@ class WP_Statistics_Admin {
 	}
 
 	/**
-	 * Enqueue Scripts
-	 * @param string $hook Not Used
+	 * Enqueue Scripts in Admin Area
 	 */
-	static function enqueue_scripts( $hook ) {
+	public function enqueue_scripts() {
 		global $pagenow, $WP_Statistics;
 
 		// Load our CSS to be used.
