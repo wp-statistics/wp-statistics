@@ -24,14 +24,14 @@ class WP_Statistics_Ajax {
 			'get_widget_contents'
 		);
 		foreach ( $list as $method ) {
-			add_action( 'wp_ajax_wp_statistics_' . $method, 'WP_Statistics_Ajax::' . $method . '_action_callback' );
+			add_action( 'wp_ajax_wp_statistics_' . $method, array( $this, $method . '_action_callback' ) );
 		}
 	}
 
 	/**
 	 * Setup an AJAX action to close the notice on the overview page.
 	 */
-	static function close_notice_action_callback() {
+	public function close_notice_action_callback() {
 		GLOBAL $WP_Statistics; // this is how you get access to the database
 
 		$manage_cap = wp_statistics_validate_capability(
@@ -58,7 +58,7 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to delete an agent in the optimization page.
 	 */
-	static function delete_agents_action_callback() {
+	public function delete_agents_action_callback() {
 		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
 		$manage_cap = wp_statistics_validate_capability(
@@ -96,7 +96,7 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to delete a platform in the optimization page.
 	 */
-	static function delete_platforms_action_callback() {
+	public function delete_platforms_action_callback() {
 		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
 		$manage_cap = wp_statistics_validate_capability(
@@ -133,7 +133,7 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to delete a ip in the optimization page.
 	 */
-	static function delete_ip_action_callback() {
+	public function delete_ip_action_callback() {
 		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
 
 		$manage_cap = wp_statistics_validate_capability(
@@ -170,7 +170,7 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to empty a table in the optimization page.
 	 */
-	static function empty_table_action_callback() {
+	public function empty_table_action_callback() {
 		global $WP_Statistics;
 
 		//Check isset Table-post
@@ -213,7 +213,7 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to purge old data in the optimization page.
 	 */
-	static function purge_data_action_callback() {
+	public function purge_data_action_callback() {
 		global $WP_Statistics;
 
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
@@ -238,7 +238,7 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to purge visitors with more than a defined number of hits.
 	 */
-	static function purge_visitor_hits_action_callback() {
+	public function purge_visitor_hits_action_callback() {
 		GLOBAL $WP_Statistics; // this is how you get access to the database
 
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
@@ -270,7 +270,7 @@ class WP_Statistics_Ajax {
 	/**
 	 * Setup an AJAX action to purge visitors with more than a defined number of hits.
 	 */
-	static function get_widget_contents_action_callback() {
+	public function get_widget_contents_action_callback() {
 		global $WP_Statistics;
 
 		$widgets = array(
