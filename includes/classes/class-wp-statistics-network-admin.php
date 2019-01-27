@@ -12,46 +12,21 @@ class WP_Statistics_Network_Admin {
 		global $WP_Statistics;
 
 		// Get the read/write capabilities required to view/manage the plugin as set by the user.
-		$read_cap   = wp_statistics_validate_capability(
-			$WP_Statistics->get_option( 'read_capability', 'manage_options' )
-		);
-		$manage_cap = wp_statistics_validate_capability(
-			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
-		);
+		$read_cap   = wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) );
+		$manage_cap = wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) );
 
 		// Add the top level menu.
-		add_menu_page(
-			__( 'Statistics', 'wp-statistics' ),
-			__( 'Statistics', 'wp-statistics' ),
-			$read_cap,
-			WP_Statistics::$reg['main-file'],
-			'WP_Statistics_Network_Admin::overview',
-			'dashicons-chart-pie'
-		);
+		add_menu_page( __( 'Statistics', 'wp-statistics' ), __( 'Statistics', 'wp-statistics' ), $read_cap, WP_Statistics::$reg['main-file'], 'WP_Statistics_Network_Admin::overview', 'dashicons-chart-pie' );
 
 		// Add the sub items.
-		add_submenu_page(
-			WP_Statistics::$reg['main-file'],
-			__( 'Overview', 'wp-statistics' ),
-			__( 'Overview', 'wp-statistics' ),
-			$read_cap,
-			WP_Statistics::$reg['main-file'],
-			'WP_Statistics_Network_Admin::overview'
-		);
+		add_submenu_page( WP_Statistics::$reg['main-file'], __( 'Overview', 'wp-statistics' ), __( 'Overview', 'wp-statistics' ), $read_cap, WP_Statistics::$reg['main-file'], 'WP_Statistics_Network_Admin::overview' );
 
 		$count = 0;
 		$sites = $WP_Statistics->get_wp_sites_list();
 
 		foreach ( $sites as $blog_id ) {
 			$details = get_blog_details( $blog_id );
-			add_submenu_page(
-				WP_Statistics::$reg['main-file'],
-				$details->blogname,
-				$details->blogname,
-				$manage_cap,
-				'wp_statistics_blogid_' . $blog_id,
-				'WP_Statistics_Network_Admin::goto_blog'
-			);
+			add_submenu_page( WP_Statistics::$reg['main-file'], $details->blogname, $details->blogname, $manage_cap, 'wp_statistics_blogid_' . $blog_id, 'WP_Statistics_Network_Admin::goto_blog' );
 
 			$count ++;
 			if ( $count > 15 ) {
@@ -68,7 +43,6 @@ class WP_Statistics_Network_Admin {
 		?>
         <div id="wrap">
             <br/>
-
             <table class="widefat wp-list-table" style="width: auto;">
                 <thead>
                 <tr>
@@ -76,7 +50,6 @@ class WP_Statistics_Network_Admin {
                     <th style='text-align: left'><?php _e( 'Options', 'wp-statistics' ); ?></th>
                 </tr>
                 </thead>
-
                 <tbody>
 				<?php
 				$i = 0;
@@ -147,12 +120,8 @@ class WP_Statistics_Network_Admin {
 		global $plugin_page;
 
 		$blog_id = str_replace( 'wp_statistics_blogid_', '', $plugin_page );
-
-		$details = get_blog_details( $blog_id );
-
 		// Get the admin url for the current site.
 		$url = get_admin_url( $blog_id ) . '/admin.php?page=' . WP_Statistics::$page['overview'];
-
 		echo "<script>window.location.href = '$url';</script>";
 	}
 
