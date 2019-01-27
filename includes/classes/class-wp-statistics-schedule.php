@@ -33,8 +33,7 @@ class WP_Statistics_Schedule {
 				}
 
 				//Construct Event
-				add_action( 'wp_statistics_geoip_hook', 'WP_Statistics_Schedule::geoip_event' );
-
+				add_action( 'wp_statistics_geoip_hook', array( $this, 'geoip_event' ) );
 			}
 
 		} else {
@@ -90,10 +89,10 @@ class WP_Statistics_Schedule {
 			}
 
 			//after construct
-			add_action( 'wp_statistics_add_visit_hook', 'WP_Statistics_Schedule::add_visit_event' );
-			add_action( 'wp_statistics_dbmaint_hook', 'WP_Statistics_Schedule::dbmaint_event' );
-			add_action( 'wp_statistics_dbmaint_visitor_hook', 'WP_Statistics_Schedule::dbmaint_visitor_event' );
-			add_action( 'report_hook', 'WP_Statistics_Schedule::send_report' );
+			add_action( 'wp_statistics_add_visit_hook', array( $this, 'add_visit_event' ) );
+			add_action( 'wp_statistics_dbmaint_hook', array( $this, 'dbmaint_event' ) );
+			add_action( 'wp_statistics_dbmaint_visitor_hook', array( $this, 'dbmaint_visitor_event' ) );
+			add_action( 'report_hook', array( $this, 'send_report' ) );
 		}
 
 	}
@@ -133,7 +132,7 @@ class WP_Statistics_Schedule {
 	 * adds a record for tomorrow to the visit table to avoid a race condition.
 	 *
 	 */
-	static function add_visit_event() {
+	public function add_visit_event() {
 		global $wpdb, $WP_Statistics;
 
 		$wpdb->insert(
@@ -150,9 +149,8 @@ class WP_Statistics_Schedule {
 	/**
 	 * Updates the GeoIP database from MaxMind.
 	 */
-	static function geoip_event() {
-
-		GLOBAL $WP_Statistics;
+	public function geoip_event() {
+		global $WP_Statistics;
 
 		// Maxmind updates the geoip database on the first Tuesday of the month, to make sure we don't update before they post
 		// the update, download it two days later.
@@ -187,7 +185,7 @@ class WP_Statistics_Schedule {
 	/**
 	 * Purges old records on a schedule based on age.
 	 */
-	static function dbmaint_event() {
+	public function dbmaint_event() {
 		global $WP_Statistics;
 		if ( ! function_exists( 'wp_statistics_purge_data' ) ) {
 			require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
@@ -199,7 +197,7 @@ class WP_Statistics_Schedule {
 	/**
 	 * Purges visitors with more than a defined number of hits in a day.
 	 */
-	static function dbmaint_visitor_event() {
+	public function dbmaint_visitor_event() {
 		global $WP_Statistics;
 		if ( ! function_exists( 'wp_statistics_purge_visitor_hits' ) ) {
 			require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
@@ -211,7 +209,7 @@ class WP_Statistics_Schedule {
 	/**
 	 * Sends the statistics report to the selected users.
 	 */
-	static function send_report() {
+	public function send_report() {
 		global $WP_Statistics, $sms;
 
 		// Retrieve the template from the options.
@@ -235,12 +233,7 @@ class WP_Statistics_Schedule {
 				$WP_Statistics->update_option( 'email_list', $blogemail );
 			}
 
-			wp_mail(
-				$WP_Statistics->get_option( 'email_list' ),
-				__( 'Statistical reporting', 'wp-statistics' ),
-				$final_text_report,
-				$headers
-			);
+			wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Statistical reporting', 'wp-statistics' ), $final_text_report, $headers );
 
 		} else if ( $WP_Statistics->get_option( 'send_report' ) == 'sms' ) {
 
