@@ -202,11 +202,8 @@ class WP_Statistics {
 		//Set Pages
 		$this->set_pages();
 
-		// Add init actions.
-		// For the main init we're going to set our priority to 9 to execute before most plugins
-		// so we can export data before and set the headers without
-		// worrying about bugs in other plugins that output text and don't allow us to set the headers.
-		add_action( 'init', array( $this, 'init' ), 9 );
+		// Load Plugin Text Domain
+		add_action( 'init', array( $this, 'load_textdomain' ) );
 
 		// Load the rest of the required files for our global functions,
 		// online user tracking and hit tracking.
@@ -215,7 +212,7 @@ class WP_Statistics {
 		}
 
 		//Reset User Online Count
-		add_action( 'wp_loaded', 'WP_Statistics::reset_user_online' );
+		add_action( 'wp_loaded', array( $this, 'reset_user_online' ) );
 
 		//Get Current User Agent
 		$this->agent   = $this->get_UserAgent();
@@ -234,11 +231,11 @@ class WP_Statistics {
 
 		//Show Wordpress Admin Bar
 		if ( $WP_Statistics->get_option( 'menu_bar' ) ) {
-			add_action( 'admin_bar_menu', 'WP_Statistics::menubar', 20 );
+			add_action( 'admin_bar_menu', array( $this, 'menubar' ), 20 );
 		}
 
 		//Add Wp-statistics Widget
-		add_action( 'widgets_init', 'WP_Statistics::widget' );
+		add_action( 'widgets_init', array( $this, 'widget' ) );
 
 		//Add Short Code `wpstatistics`
 		add_shortcode( 'wpstatistics', 'WP_Statistics_Shortcode::shortcodes' );
@@ -261,9 +258,9 @@ class WP_Statistics {
 	}
 
 	/**
-	 * Loads the init code.
+	 * Loads the load_plugin_textdomain code.
 	 */
-	public function init() {
+	public function load_textdomain() {
 		load_plugin_textdomain( 'wp-statistics', false, WP_Statistics::$reg['plugin-dir'] . 'languages' );
 	}
 
@@ -374,7 +371,7 @@ class WP_Statistics {
 	/**
 	 * Registers Widget
 	 */
-	static function widget() {
+	public function widget() {
 		register_widget( 'WP_Statistics_Widget' );
 	}
 
@@ -1397,8 +1394,8 @@ class WP_Statistics {
 	/**
 	 * Adds the admin bar menu if the user has selected it.
 	 */
-	static function menubar() {
-		GLOBAL $wp_admin_bar, $WP_Statistics;
+	public function menubar() {
+		global $wp_admin_bar, $WP_Statistics;
 
 		// Find out if the user can read or manage statistics.
 		$read   = current_user_can(
@@ -1485,7 +1482,7 @@ class WP_Statistics {
 	 *
 	 * @return string
 	 */
-	static function reset_user_online() {
+	public function reset_user_online() {
 		global $WP_Statistics, $wpdb;
 
 		//Check User Online is Active in this Wordpress
