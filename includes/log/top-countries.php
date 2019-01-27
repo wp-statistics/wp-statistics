@@ -58,9 +58,7 @@ list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_
 
 								echo "<tr>";
 								echo "<td>$i</td>";
-								echo "<td><img src='" .
-								     plugins_url( 'wp-statistics/assets/images/flags/' . $item->location . '.png' ) .
-								     "' title='{$ISOCountryCode[$item->location]}'/></td>";
+								echo "<td><img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $item->location . '.png' ) . "' title='{$ISOCountryCode[$item->location]}'/></td>";
 								echo "<td style='direction: ltr;'>{$ISOCountryCode[$item->location]}</td>";
 								echo "<td>" . number_format_i18n( $item->count ) . "</td>";
 								echo "</tr>";

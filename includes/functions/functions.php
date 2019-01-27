@@ -1738,3 +1738,103 @@ function wp_statistics_ignore_insert( $query ) {
 	$query = preg_replace( '/^(INSERT INTO)/i', 'INSERT IGNORE INTO', $query, 1, $count );
 	return $query;
 }
+
+/**
+ * Get Html Body Page By Url
+ *
+ * @param $url string e.g : wp-statistics.com
+ * @return bool
+ */
+function wp_statistics_get_html_page( $url ) {
+
+	//sanitize Url
+	$parse_url = wp_parse_url( $url );
+	$urls[]    = esc_url_raw( $url );
+
+	//Check Protocol Url
+	if ( ! array_key_exists( 'scheme', $parse_url ) ) {
+		$urls      = array();
+		$url_parse = wp_parse_url( $url );
+		foreach ( array( 'http://', 'https://' ) as $scheme ) {
+			$urls[] = preg_replace( '/([^:])(\/{2,})/', '$1/', $scheme . path_join( ( isset( $url_parse['host'] ) ? $url_parse['host'] : '' ), ( isset( $url_parse['path'] ) ? $url_parse['path'] : '' ) ) );
+		}
+	}
+
+	//Send Request for Get Page Html
+	foreach ( $urls as $page ) {
+		$response = wp_remote_get( $page );
+		if ( is_wp_error( $response ) ) {
+			continue;
+		}
+		$data = wp_remote_retrieve_body( $response );
+		if ( is_wp_error( $data ) ) {
+			continue;
+		}
+		return ( wp_strip_all_tags( $data ) == "" ? false : $data );
+	}
+
+	return false;
+}
+
+/**
+ * Get Site title By Url
+ *
+ * @param $url string e.g : wp-statistics.com
+ * @return bool|string
+ */
+function wp_statistics_get_site_title( $url ) {
+
+	//Get Body Page
+	$html = wp_statistics_get_html_page( $url );
+	if ( $html === false ) {
+		return false;
+	}
+
+	//Get Page Title
+	if ( class_exists( 'DOMDocument' ) ) {
+		$dom = new DOMDocument;
+		@$dom->loadHTML( $html );
+		$title = $dom->getElementsByTagName( 'title' )->item( '0' )->nodeValue;
+		return ( wp_strip_all_tags( $title ) == "" ? false : $title );
+	}
+
+	return false;
+}
+
+
+/**
+ * Get WebSite IP Server And Country Name
+ *
+ * @param $url string domain name e.g : wp-statistics.com
+ * @return array
+ */
+function wp_statistics_get_domain_server( $url ) {
+	global $WP_Statistics;
+
+	//Create Empty Object
+	$result = array(
+		'ip'      => '',
+		'country' => ''
+	);
+
+	//Get Ip by Domain
+	if ( function_exists( 'gethostbyname' ) ) {
+		$ip = gethostbyname( $url );
+		if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			$result['ip'] = $ip;
+			//Get country Code
+			if ( $WP_Statistics->get_option( 'geoip' ) ) {
+				$geoip_reader = $WP_Statistics::geoip_loader( 'country' );
+				if ( $geoip_reader != false ) {
+					try {
+						$record            = $geoip_reader->country( $ip );
+						$result['country'] = $record->country->isoCode;
+					} catch ( Exception $e ) {
+					}
+				}
+			}
+		}
+	}
+
+	return $result;
+}
