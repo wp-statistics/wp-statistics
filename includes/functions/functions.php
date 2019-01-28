@@ -583,7 +583,7 @@ function wp_statistics_agent_version( $agent, $version, $rangestartdate = null, 
 //		image		 = the name of the image file to associate with this search engine (just the filename, no path info)
 //
 function wp_statistics_searchengine_list( $all = false ) {
-	GLOBAL $WP_Statistics;
+	global $WP_Statistics;
 
 	$default = $engines = array(
 		'ask'        => array(
@@ -1762,7 +1762,10 @@ function wp_statistics_get_html_page( $url ) {
 
 	//Send Request for Get Page Html
 	foreach ( $urls as $page ) {
-		$response = wp_remote_get( $page );
+		$response = wp_remote_get( $page, array(
+			'timeout'    => 30,
+			'user-agent' => "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36"
+		) );
 		if ( is_wp_error( $response ) ) {
 			continue;
 		}
@@ -1784,7 +1787,7 @@ function wp_statistics_get_html_page( $url ) {
  */
 function wp_statistics_get_site_title( $url ) {
 
-	//Get Body Page
+	//Get ody Page
 	$html = wp_statistics_get_html_page( $url );
 	if ( $html === false ) {
 		return false;
@@ -1837,4 +1840,22 @@ function wp_statistics_get_domain_server( $url ) {
 	}
 
 	return $result;
+}
+
+/**
+ * Show Site Icon by Url
+ *
+ * @param $url
+ * @param int $size
+ * @param string $style
+ * @return bool|string
+ */
+function wp_statistics_show_site_icon( $url, $size = 16, $style = '' ) {
+	$url = preg_replace( '/^https?:\/\//', '', $url );
+	if ( $url != "" ) {
+		$imgurl = "https://www.google.com/s2/favicons?domain=" . $url;
+		return '<img src="' . $imgurl . '" width="' . $size . '" height="' . $size . '" style="' . ( $style == "" ? 'vertical-align: -3px;' : '' ) . '" />';
+	}
+
+	return false;
 }

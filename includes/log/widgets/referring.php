@@ -19,18 +19,45 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 	?>
     <table width="100%" class="widefat table-stats" id="top-referrer">
         <tr>
+            <td width="50%"><?php _e( 'Address', 'wp-statistics' ); ?></td>
+            <td width="40%"><?php _e( 'Server IP', 'wp-statistics' ); ?></td>
             <td width="10%"><?php _e( 'References', 'wp-statistics' ); ?></td>
-            <td width="90%"><?php _e( 'Address', 'wp-statistics' ); ?></td>
         </tr>
-
 		<?php
+
+		//Load country Code
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
+
+		//Get Refer Site Detail
+		$refer_opt     = get_option( 'wp_statistics_referrals_detail' );
+		$referrer_list = ( isset( $refer_opt ) ? $refer_opt : array() );
+
 		foreach ( $get_urls as $domain => $number ) {
+
+			//Get Site Link
 			$referrer_html = $WP_Statistics->html_sanitize_referrer( $domain );
+
+			//Get Site information if Not Exist
+			if ( ! array_key_exists( $domain, $referrer_list ) ) {
+				$get_site_inf             = wp_statistics_get_domain_server( $domain );
+				$get_site_title           = wp_statistics_get_site_title( $domain );
+				$referrer_list[ $domain ] = array(
+					'ip'      => $get_site_inf['ip'],
+					'country' => $get_site_inf['country'],
+					'title'   => ( $get_site_title === false ? '' : $get_site_title ),
+				);
+			}
+
 			echo "<tr>";
+			echo "<td>" . wp_statistics_show_site_icon( $domain ) . " " . $WP_Statistics->get_referrer_link( $domain, $referrer_list[ $domain ]['title'] ) . "</td>";
+			echo "<td><span class='wps-cursor-default' " . ( $referrer_list[ $domain ]['country'] != "" ? 'title="' . $ISOCountryCode[ $referrer_list[ $domain ]['country'] ] . '"' : '' ) . ">" . ( $referrer_list[ $domain ]['ip'] != "" ? $referrer_list[ $domain ]['ip'] : '-' ) . "</span></td>";
 			echo "<td><a href='" . WP_Statistics_Admin_Pages::admin_url( 'referrers', array( 'referr' => $referrer_html ) ) . "'>" . number_format_i18n( $number ) . "</a></td>";
-			echo "<td>" . $WP_Statistics->get_referrer_link( $domain ) . "</td>";
 			echo "</tr>";
 		}
+
+		//Save Referrer List Update
+		update_option( 'wp_statistics_referrals_detail', $referrer_list, 'no' );
+
 		?>
     </table>
 	<?php

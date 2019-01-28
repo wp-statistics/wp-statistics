@@ -387,3 +387,8 @@ html[dir="rtl"] .wps_page_title {
 a[href*='?page=wps_break_menu'] {
     pointer-events: none;
 }
+
+/* Cursor Default */
+.wps-cursor-default {
+    cursor: default;
+}

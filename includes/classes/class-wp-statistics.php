@@ -1345,9 +1345,11 @@ class WP_Statistics {
 	 * Get referrer link
 	 *
 	 * @param  string $referrer
+	 * @param string $title
+	 * @param bool $is_blank
 	 * @return string
 	 */
-	public function get_referrer_link( $referrer ) {
+	public function get_referrer_link( $referrer, $title = '', $is_blank = false ) {
 		$html_referrer = $this->html_sanitize_referrer( $referrer );
 
 		if ( substr( $html_referrer, 0, 7 ) !== 'http://' and substr( $html_referrer, 0, 8 ) !== 'https://' ) {
@@ -1358,7 +1360,8 @@ class WP_Statistics {
 		}
 
 		$base_url = parse_url( $html_nr_referrer );
-		return "<a href='{$html_nr_referrer}' title='{$html_nr_referrer}'>{$base_url['host']}</a>";
+		$title    = ( trim( $title ) == "" ? $html_nr_referrer : $title );
+		return "<a href='{$html_nr_referrer}' title='{$title}'" . ( $is_blank === true ? ' target="_blank"' : '' ) . ">{$base_url['host']}</a>";
 	}
 
 
