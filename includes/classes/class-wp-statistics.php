@@ -1202,16 +1202,12 @@ class WP_Statistics {
 		global $wpdb;
 
 		$count = 0;
-
 		switch ( $type ) {
 			case 'visitors':
 				if ( array_key_exists( 'visitors', $this->historical ) ) {
 					return $this->historical['visitors'];
 				} else {
-					$result
-						= $wpdb->get_var(
-						"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'visitors'"
-					);
+					$result = $wpdb->get_var( "SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'visitors'" );
 					if ( $result > $count ) {
 						$count = $result;
 					}
@@ -1223,10 +1219,7 @@ class WP_Statistics {
 				if ( array_key_exists( 'visits', $this->historical ) ) {
 					return $this->historical['visits'];
 				} else {
-					$result
-						= $wpdb->get_var(
-						"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'visits'"
-					);
+					$result = $wpdb->get_var( "SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'visits'" );
 					if ( $result > $count ) {
 						$count = $result;
 					}
@@ -1238,13 +1231,7 @@ class WP_Statistics {
 				if ( array_key_exists( $id, $this->historical ) ) {
 					return $this->historical[ $id ];
 				} else {
-					$result
-						= $wpdb->get_var(
-						$wpdb->prepare(
-							"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND uri = %s",
-							$id
-						)
-					);
+					$result = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND uri = %s", $id ) );
 					if ( $result > $count ) {
 						$count = $result;
 					}
@@ -1256,13 +1243,7 @@ class WP_Statistics {
 				if ( array_key_exists( $id, $this->historical ) ) {
 					return $this->historical[ $id ];
 				} else {
-					$result
-						= $wpdb->get_var(
-						$wpdb->prepare(
-							"SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND page_id = %d",
-							$id
-						)
-					);
+					$result = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$wpdb->prefix}statistics_historical WHERE category = 'uri' AND page_id = %d", $id ) );
 					if ( $result > $count ) {
 						$count = $result;
 					}
@@ -1371,7 +1352,6 @@ class WP_Statistics {
 	static function unsupported_version_admin_notice() {
 
 		$screen = get_current_screen();
-
 		if ( 'plugins' !== $screen->id ) {
 			return;
 		}
@@ -1398,82 +1378,52 @@ class WP_Statistics {
 		global $wp_admin_bar, $WP_Statistics;
 
 		// Find out if the user can read or manage statistics.
-		$read   = current_user_can(
-			wp_statistics_validate_capability(
-				$WP_Statistics->get_option(
-					'read_capability',
-					'manage_options'
-				)
-			)
-		);
-		$manage = current_user_can(
-			wp_statistics_validate_capability(
-				$WP_Statistics->get_option(
-					'manage_capability',
-					'manage_options'
-				)
-			)
-		);
+		$read   = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) ) );
+		$manage = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) ) );
 
 		if ( is_admin_bar_showing() && ( $read || $manage ) ) {
 
-			$wp_admin_bar->add_menu(
-				array(
-					'id'    => 'wp-statistic-menu',
+			/**
+			 * List Of Admin Bar Wordpress
+			 *
+			 * --- Array Arg ---
+			 * Key : ID of Admin bar
+			 */
+			$admin_bar_list = array(
+				'wp-statistic-menu'                   => array(
 					'title' => '<span class="ab-icon"></span>',
-					'href'  => WP_Statistics_Admin_Pages::admin_url( 'overview' ),
-				)
-			);
-
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'wp-statistics-menu-useronline',
+					'href'  => WP_Statistics_Admin_Pages::admin_url( 'overview' )
+				),
+				'wp-statistics-menu-useronline'       => array(
 					'parent' => 'wp-statistic-menu',
 					'title'  => __( 'Online User', 'wp-statistics' ) . ": " . wp_statistics_useronline(),
-					'href'   => WP_Statistics_Admin_Pages::admin_url( 'online' ),
-				)
-			);
-
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'wp-statistics-menu-todayvisitor',
+					'href'   => WP_Statistics_Admin_Pages::admin_url( 'online' )
+				),
+				'wp-statistics-menu-todayvisitor'     => array(
 					'parent' => 'wp-statistic-menu',
 					'title'  => __( 'Today\'s Visitors', 'wp-statistics' ) . ": " . wp_statistics_visitor( 'today' ),
-				)
-			);
-
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'wp-statistics-menu-todayvisit',
+				),
+				'wp-statistics-menu-todayvisit'       => array(
 					'parent' => 'wp-statistic-menu',
-					'title'  => __( 'Today\'s Visits', 'wp-statistics' ) . ": " . wp_statistics_visit( 'today' ),
-				)
-			);
-
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'wp-statistics-menu-yesterdayvisitor',
+					'title'  => __( 'Today\'s Visits', 'wp-statistics' ) . ": " . wp_statistics_visit( 'today' )
+				),
+				'wp-statistics-menu-yesterdayvisitor' => array(
 					'parent' => 'wp-statistic-menu',
 					'title'  => __( 'Yesterday\'s Visitors', 'wp-statistics' ) . ": " . wp_statistics_visitor( 'yesterday' ),
-				)
-			);
-
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'wp-statistics-menu-yesterdayvisit',
+				),
+				'wp-statistics-menu-yesterdayvisit'   => array(
 					'parent' => 'wp-statistic-menu',
-					'title'  => __( 'Yesterday\'s Visits', 'wp-statistics' ) . ": " . wp_statistics_visit( 'yesterday' ),
-				)
-			);
-
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'wp-statistics-menu-viewstats',
+					'title'  => __( 'Yesterday\'s Visits', 'wp-statistics' ) . ": " . wp_statistics_visit( 'yesterday' )
+				),
+				'wp-statistics-menu-viewstats'        => array(
 					'parent' => 'wp-statistic-menu',
 					'title'  => __( 'View Stats', 'wp-statistics' ),
 					'href'   => WP_Statistics_Admin_Pages::admin_url( 'overview' )
 				)
 			);
+			foreach ( $admin_bar_list as $id => $v_admin_bar ) {
+				$wp_admin_bar->add_menu( array_merge( array( 'id' => $id ), $v_admin_bar ) );
+			}
 		}
 	}
 
