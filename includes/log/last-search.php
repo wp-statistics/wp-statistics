@@ -106,8 +106,7 @@ $total = $search_result[ $referred ];
 
 								$dash_icon = wp_statistics_icons( 'dashicons-location-alt', 'map' );
 
-								echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
-		                              <tr>";
+								echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\"><tr>";
 								echo "<td>" . __( 'Word', 'wp-statistics' ) . "</td>";
 								echo "<td>" . __( 'Browser', 'wp-statistics' ) . "</td>";
 								if ( $WP_Statistics->get_option( 'geoip' ) ) {
@@ -207,16 +206,15 @@ $total = $search_result[ $referred ];
 							?>
                         </div>
                     </div>
-
-					<?php
-					if ( $total > 0 ) {
-						wp_statistics_paginate_links( array(
-							'item_per_page' => $items_per_page,
-							'total'         => $total,
-							'current'       => $page,
-						) );
-					} ?>
                 </div>
+	            <?php
+	            if ( $total > 0 ) {
+		            wp_statistics_paginate_links( array(
+			            'item_per_page' => $items_per_page,
+			            'total'         => $total,
+			            'current'       => $page,
+		            ) );
+	            } ?>
             </div>
         </div>
     </div>

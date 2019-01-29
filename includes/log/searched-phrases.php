@@ -137,14 +137,14 @@ if ( $phrase ) {
                         </table>
                     </div>
                 </div>
-				<?php if ( $total > 0 ) {
-					wp_statistics_paginate_links( array(
-						'item_per_page' => $items_per_page,
-						'total'         => $total,
-						'current'       => $page,
-					) );
-				} ?>
             </div>
+	        <?php if ( $total > 0 ) {
+		        wp_statistics_paginate_links( array(
+			        'item_per_page' => $items_per_page,
+			        'total'         => $total,
+			        'current'       => $page,
+		        ) );
+	        } ?>
         </div>
     </div>
 </div>
