@@ -147,19 +147,70 @@ if ( $referr ) {
 									echo "</div>";
 								}
 							} else {
+
+								//Show Table
+								echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"top-referring\"><tr>";
+								echo "<td>" . __( 'Rating', 'wp-statistics' ) . "</td>";
+								echo "<td>" . __( 'Site Url', 'wp-statistics' ) . "</td>";
+								echo "<td>" . __( 'Site Title', 'wp-statistics' ) . "</td>";
+								echo "<td>" . __( 'Server IP', 'wp-statistics' ) . "</td>";
+								if ( $WP_Statistics->get_option( 'geoip' ) ) {
+									echo "<td>" . __( 'Country', 'wp-statistics' ) . "</td>";
+								}
+								echo "<td>" . __( 'References', 'wp-statistics' ) . "</td>";
+								echo "<td></td>";
+								echo "</tr>";
+
+								//Load country Code
+								$ISOCountryCode = $WP_Statistics->get_country_codes();
+
+								//Get Refer Site Detail
+								$refer_opt     = get_option( 'wp_statistics_referrals_detail' );
+								$referrer_list = ( empty( $refer_opt ) ? array() : $refer_opt );
+
+								//Default unknown Column Value
+								$unknown = '<span aria-hidden="true">—</span><span class="screen-reader-text">' . __( "Unknown", 'wp-statistics' ) . '</span>';
+
 								$i = 1;
 								foreach ( $result as $items ) {
 									if ( $i > $start and $i <= $end ) {
-										$referrer_html = $WP_Statistics->html_sanitize_referrer( $items->domain );
-										echo "<div class='log-item'>";
-										echo "<div class='log-referred'>{$i} - <a href='?page=" . WP_Statistics::$page['referrers'] . "&referr=" . $referrer_html . $date_args . "'>" . $referrer_html . "</a></div>";
-										echo "<div class='log-ip'>" . __( 'References', 'wp-statistics' ) . ': ' . number_format_i18n( $items->number ) . '</div>';
-										echo "<div class='clear'></div>";
-										echo "<div class='log-url'>" . $WP_Statistics->get_referrer_link( $items->domain ) . '</div>';
-										echo "</div>";
+
+										//Prepare Data
+										$domain = $items->domain;
+										$number = $items->number;
+
+										//Get Site Link
+										$referrer_html = $WP_Statistics->html_sanitize_referrer( $domain );
+
+										//Get Site information if Not Exist
+										if ( ! array_key_exists( $domain, $referrer_list ) ) {
+											$get_site_inf             = wp_statistics_get_domain_server( $domain );
+											$get_site_title           = wp_statistics_get_site_title( $domain );
+											$referrer_list[ $domain ] = array(
+												'ip'      => $get_site_inf['ip'],
+												'country' => $get_site_inf['country'],
+												'title'   => ( $get_site_title === false ? '' : $get_site_title ),
+											);
+										}
+
+										echo "<tr>";
+										echo "<td>" . number_format_i18n( $i ) . "</td>";
+										echo "<td>" . wp_statistics_show_site_icon( $domain ) . " " . $WP_Statistics->get_referrer_link( $domain, $referrer_list[ $domain ]['title'] ) . "</td>";
+										echo "<td>" . ( trim( $referrer_list[ $domain ]['title'] ) == "" ? $unknown : $referrer_list[ $domain ]['title'] ) . "</td>";
+										echo "<td>" . ( trim( $referrer_list[ $domain ]['ip'] ) == "" ? $unknown : $referrer_list[ $domain ]['ip'] ) . "</td>";
+										if ( $WP_Statistics->get_option( 'geoip' ) ) {
+											echo "<td>" . ( trim( $referrer_list[ $domain ]['country'] ) == "" ? $unknown : "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $referrer_list[ $domain ]['country'] . '.png' ) . "' title='{$ISOCountryCode[$referrer_list[ $domain ]['country']]}' class='log-tools'/>" ) . "</td>";
+										}
+										echo "<td><a class='wps-text-success' href='?page=" . WP_Statistics::$page['referrers'] . "&referr=" . $referrer_html . $date_args . "'>" . number_format_i18n( $number ) . "</a></td>";
+										echo "</tr>";
 									}
 									$i ++;
 								}
+
+								echo "</table>";
+
+								//Save Referrer List Update
+								update_option( 'wp_statistics_referrals_detail', $referrer_list, 'no' );
 							}
 						}
 

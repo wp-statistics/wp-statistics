@@ -1797,7 +1797,10 @@ function wp_statistics_get_site_title( $url ) {
 	if ( class_exists( 'DOMDocument' ) ) {
 		$dom = new DOMDocument;
 		@$dom->loadHTML( $html );
-		$title = $dom->getElementsByTagName( 'title' )->item( '0' )->nodeValue;
+		$title = '';
+		if ( isset( $dom ) and $dom->getElementsByTagName( 'title' )->length > 0 ) {
+			$title = $dom->getElementsByTagName( 'title' )->item( '0' )->nodeValue;
+		}
 		return ( wp_strip_all_tags( $title ) == "" ? false : $title );
 	}
 
