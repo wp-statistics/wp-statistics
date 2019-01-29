@@ -61,15 +61,8 @@ if ( $phrase ) {
 ?>
 <div class="wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top Search Words', 'wp-statistics' ) ); ?>
-    <div><?php wp_statistics_date_range_selector(
-			WP_Statistics::$page['searched-phrases'],
-			$daysToDisplay,
-			null,
-			null,
-			$phrase_field
-		); ?></div>
-
-    <div class="clear"/>
+    <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['searched-phrases'], $daysToDisplay, null, null, $phrase_field ); ?></div>
+    <br class="clear"/>
 
     <ul class="subsubsub">
 		<?php if ( $phrase ) { ?>
@@ -138,13 +131,13 @@ if ( $phrase ) {
                     </div>
                 </div>
             </div>
-	        <?php if ( $total > 0 ) {
-		        wp_statistics_paginate_links( array(
-			        'item_per_page' => $items_per_page,
-			        'total'         => $total,
-			        'current'       => $page,
-		        ) );
-	        } ?>
+			<?php if ( $total > 0 ) {
+				wp_statistics_paginate_links( array(
+					'item_per_page' => $items_per_page,
+					'total'         => $total,
+					'current'       => $page,
+				) );
+			} ?>
         </div>
     </div>
 </div>

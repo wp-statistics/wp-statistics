@@ -1,9 +1,5 @@
 <script type="text/javascript">
     jQuery(document).ready(function () {
-        jQuery('.show-map').click(function () {
-            alert('<?php _e( 'To be added soon', 'wp-statistics' ); ?>');
-        });
-
         postboxes.add_postbox_toggles(pagenow);
     });
 </script>
@@ -28,8 +24,7 @@ $rangestartdate = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangestart_
 $rangeenddate   = $WP_Statistics->real_current_date( 'Y-m-d', '-0', $rangeend_utime );
 
 if ( array_key_exists( 'referr', $_GET ) ) {
-	$referr       = $_GET['referr'];
-	$title        = $_GET['referr'];
+	$referr       = $title = $_GET['referr'];
 	$referr_field = '&referr=' . $referr;
 } else {
 	$referr       = '';
@@ -40,10 +35,13 @@ $get_urls = array();
 $total    = 0;
 
 if ( $referr ) {
-	$result = $wpdb->get_results(
+
+	//Get domain Name
+	$search_url = wp_statistics_get_domain_name( trim( $_GET['referr'] ) );
+	$result     = $wpdb->get_results(
 		$wpdb->prepare(
-			"SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` LIKE %s AND referred <> '' AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC",
-			'%' . $referr . '%',
+			"SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 AND (`referred` LIKE  %s OR `referred` LIKE %s OR `referred` LIKE %s OR `referred` LIKE %s) AND `last_counter` BETWEEN %s AND %s ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC",
+			'https://www.' . $wpdb->esc_like( $search_url ) . '%', 'https://' . $wpdb->esc_like( $search_url ) . '%', 'http://www.' . $wpdb->esc_like( $search_url ) . '%', 'http://' . $wpdb->esc_like( $search_url ) . '%',
 			$rangestartdate,
 			$rangeenddate
 		)
@@ -69,11 +67,14 @@ if ( $referr ) {
 	$total = count( $result );
 }
 
+//Load country Code
+$ISOCountryCode = $WP_Statistics->get_country_codes();
+
 ?>
 <div class="wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top Referring Sites', 'wp-statistics' ) ); ?>
     <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['referrers'], $daysToDisplay, null, null, $referr_field ); ?></div>
-    <div class="clear"/>
+    <br class="clear"/>
 
     <ul class="subsubsub">
 		<?php if ( $referr ) { ?>
@@ -129,23 +130,77 @@ if ( $referr ) {
 
 							if ( $referr ) {
 
-								foreach ( $result as $item ) {
-									echo "<div class='log-item'>";
-									echo "<div class='log-referred'><a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&ip={$item->ip}'>" . wp_statistics_icons( 'dashicons-visibility', 'visibility' ) . "{$item->ip}</a></div>";
-									echo "<div class='log-ip'>" . date( get_option( 'date_format' ), strtotime( $item->last_counter ) ) . " - <a href='http://www.geoiptool.com/en/?IP={$item->ip}' target='_blank'>{$item->ip}</a></div>";
-									echo "<div class='clear'></div>";
-									echo "<a class='show-map' title='" . __( 'Map', 'wp-statistics' ) . "'><div class='dashicons dashicons-location-alt'></div></a>";
-
-									if ( array_search( strtolower( $item->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
-										$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $item->agent . ".png' class='log-tools' title='{$item->agent}'/>";
-									} else {
-										$agent = "<div class='dashicons dashicons-editor-help'></div>";
-									}
-
-									echo "<div class='log-agent'><a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $item->agent ) ) . "'>{$agent}</a>";
-									echo $WP_Statistics->get_referrer_link( $item->referred, 100 ) . '</div>';
-									echo "</div>";
+								//Show Table
+								echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"top-referring\"><tr>";
+								echo "<td>" . __( 'Link', 'wp-statistics' ) . "</td>";
+								echo "<td>" . __( 'IP', 'wp-statistics' ) . "</td>";
+								echo "<td>" . __( 'Browser', 'wp-statistics' ) . "</td>";
+								if ( $WP_Statistics->get_option( 'geoip' ) ) {
+									echo "<td>" . __( 'Country', 'wp-statistics' ) . "</td>";
 								}
+								echo "<td>" . __( 'Date', 'wp-statistics' ) . "</td>";
+								echo "<td></td>";
+								echo "</tr>";
+
+								$i = 1;
+								foreach ( $result as $items ) {
+									if ( $i > $start and $i <= $end ) {
+
+										//Sanitize IP
+										if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
+											$ip_string  = __( '#hash#', 'wp-statistics' );
+											$map_string = "";
+										} else {
+											$ip_string  = "{$items->ip}";
+											$map_string = "<a class='wps-text-muted' href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>" . wp_statistics_icons( 'dashicons-visibility', 'visibility' ) . "</a><a class='show-map wps-text-muted' href='http://www.geoiptool.com/en/?IP={$items->ip}' target='_blank' title='" . __( 'Map', 'wp-statistics' ) . "'>" . wp_statistics_icons( 'dashicons-location-alt', 'map' ) . "</a>";
+										}
+
+										echo "<tr>";
+
+										//show Referrer Link
+										echo "<td style=\"text-align: left\">";
+										echo '<a href="' . $items->referred . '" target="_blank" title="' . $items->referred . '">' . preg_replace( "(^https?://)", "", trim( $items->referred ) ) . '</a>';
+										echo "</td>";
+
+										//Show IP
+										echo "<td style=\"text-align: left\">";
+										echo $ip_string;
+										echo "</td>";
+
+										//Show Browser
+										echo "<td style=\"text-align: left\">";
+										if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
+											$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
+										} else {
+											$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
+										}
+										echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
+										echo "</td>";
+
+										//Show Country
+										if ( $WP_Statistics->get_option( 'geoip' ) ) {
+											echo "<td style=\"text-align: left\">";
+											echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+											echo "</td>";
+										}
+
+										//Show Date
+										echo "<td style=\"text-align: left\">";
+										echo date_i18n( get_option( 'date_format' ), strtotime( $items->last_counter ) );
+										echo "</td>";
+
+										//Show Link View IP
+										echo "<td style=\"text-align: center\">";
+										echo $map_string;
+										echo "</td>";
+
+										echo '</tr>';
+
+									}
+									$i ++;
+								}
+
+								echo '</table>';
 							} else {
 
 								//Show Table
@@ -161,8 +216,6 @@ if ( $referr ) {
 								echo "<td></td>";
 								echo "</tr>";
 
-								//Load country Code
-								$ISOCountryCode = $WP_Statistics->get_country_codes();
 
 								//Get Refer Site Detail
 								$refer_opt     = get_option( 'wp_statistics_referrals_detail' );
@@ -177,7 +230,7 @@ if ( $referr ) {
 
 										//Prepare Data
 										$domain = $items->domain;
-										$number = $items->number;
+										$number = wp_statistics_get_number_referer_from_domain( $items->domain, array( $rangestartdate, $rangeenddate ) );
 
 										//Get Site Link
 										$referrer_html = $WP_Statistics->html_sanitize_referrer( $domain );
