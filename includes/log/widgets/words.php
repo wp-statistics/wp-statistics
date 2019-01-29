@@ -59,9 +59,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			}
 
 			echo "<tr>";
-			echo "<td style=\"text-align: left\">";
-			echo $words;
-			echo "</td>";
+			echo "<td style=\"text-align: left\"><span title='{$words}' class='wps-cursor-default wps-text-wrap'>".$words."</span></td>";
 			echo "<td style=\"text-align: left\">";
 			if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
 				$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";

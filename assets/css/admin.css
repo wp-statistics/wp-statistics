@@ -392,3 +392,11 @@ a[href*='?page=wps_break_menu'] {
 .wps-cursor-default {
     cursor: default;
 }
+
+/* Text Wrap */
+.wps-text-wrap {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 200px;
+}
