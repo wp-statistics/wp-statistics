@@ -1451,6 +1451,45 @@ function wp_statistics_validate_capability( $capability ) {
 }
 
 /**
+ * Check User Access To WP-Statistics Admin
+ *
+ * @param string $type [manage | read ]
+ * @return bool
+ */
+function wp_statistics_check_access_user( $type = 'both' ) {
+	global $WP_Statistics;
+
+	//List Of Default Cap
+	$list = array(
+		'manage' => array( 'manage_capability', 'manage_options' ),
+		'read'   => array( 'read_capability', 'manage_options' )
+	);
+
+	//User User Cap
+	$cap = 'both';
+	if ( ! empty( $type ) and array_key_exists( $type, $list ) ) {
+		$cap = $type;
+	}
+
+	//Check Access
+	switch ( $type ) {
+		case "manage":
+		case "read":
+			return current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( $list[ $cap ][0], $list[ $cap ][1] ) ) );
+			break;
+		case "both":
+			foreach ( array( 'manage', 'read' ) as $c ) {
+				if ( wp_statistics_check_access_user( $c ) === true ) {
+					return true;
+				}
+			}
+			break;
+	}
+
+	return false;
+}
+
+/**
  * Notices displayed near the top of admin pages.
  *
  * @param $type

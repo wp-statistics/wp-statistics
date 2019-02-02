@@ -1375,13 +1375,9 @@ class WP_Statistics {
 	 * Adds the admin bar menu if the user has selected it.
 	 */
 	public function menubar() {
-		global $wp_admin_bar, $WP_Statistics;
+		global $wp_admin_bar;
 
-		// Find out if the user can read or manage statistics.
-		$read   = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_options' ) ) );
-		$manage = current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'manage_capability', 'manage_options' ) ) );
-
-		if ( is_admin_bar_showing() && ( $read || $manage ) ) {
+		if ( is_admin_bar_showing() && ( wp_statistics_check_access_user() ) ) {
 
 			/**
 			 * List Of Admin Bar Wordpress
