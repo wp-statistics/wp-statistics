@@ -47,15 +47,6 @@ class WP_Statistics_Admin_Pages {
 				array( 'widget' => 'search' )
 			);
 			add_meta_box(
-				'wps_searched_phrases_postbox',
-				__( 'Top Search Words (30 Days)', 'wp-statistics' ),
-				'wp_statistics_generate_overview_postbox_contents',
-				$WP_Statistics->menu_slugs['overview'],
-				'normal',
-				null,
-				array( 'widget' => 'searched.phrases' )
-			);
-			add_meta_box(
 				'wps_words_postbox',
 				__( 'Latest Search Words', 'wp-statistics' ),
 				'wp_statistics_generate_overview_postbox_contents',
@@ -146,9 +137,6 @@ class WP_Statistics_Admin_Pages {
 		if ( $WP_Statistics->get_option( 'useronline' ) ) {
 			add_meta_box( 'wps_users_online_postbox', __( 'Users Online', 'wp-statistics' ), 'wp_statistics_generate_overview_postbox_contents', $WP_Statistics->menu_slugs['overview'], 'side', null, array( 'widget' => 'users_online' ) );
 		}
-
-		//Set Default Hidden MetaBox
-		add_filter( 'default_hidden_meta_boxes', array( 'WP_Statistics_Admin_Pages', 'default_hide_meta_box' ), 10, 2 );
 	}
 
 	/**
@@ -213,16 +201,6 @@ class WP_Statistics_Admin_Pages {
 	public static function loading_meta_box() {
 		$loading = '<div class="wps_loading_box"><img src=" ' . plugins_url( 'wp-statistics/assets/images/' ) . 'loading.svg" alt="' . __( 'Reloading...', 'wp-statistics' ) . '"></div>';
 		return $loading;
-	}
-
-	/*
-	 * Default Hidden Meta Box
-	 */
-	static public function default_hide_meta_box( $hidden, $screen ) {
-		if ( $screen->id == "toplevel_page_wps_overview_page" ) {
-			$hidden[] = 'wps_searched_phrases_postbox';
-		}
-		return $hidden;
 	}
 
 	/**
@@ -454,10 +432,6 @@ class WP_Statistics_Admin_Pages {
 				$log_type = 'top-referring-site';
 
 				break;
-			case WP_Statistics::$page['searched-phrases']:
-				$log_type = 'searched-phrases';
-
-				break;
 			case WP_Statistics::$page['searches']:
 				$log_type = 'search-statistics';
 
@@ -594,10 +568,6 @@ class WP_Statistics_Admin_Pages {
 				break;
 			case 'top-referring-site':
 				include WP_Statistics::$reg['plugin-dir'] . 'includes/log/top-referring.php';
-
-				break;
-			case 'searched-phrases':
-				include WP_Statistics::$reg['plugin-dir'] . 'includes/log/searched-phrases.php';
 
 				break;
 			case 'top-pages':

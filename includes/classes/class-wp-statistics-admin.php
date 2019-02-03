@@ -431,12 +431,6 @@ class WP_Statistics_Admin {
 				'title'    => __( 'Search Words', 'wp-statistics' ),
 				'page_url' => 'words',
 			),
-			'searched.phrases' => array(
-				'require'  => array( 'visitors' ),
-				'sub'      => 'overview',
-				'title'    => __( 'Top Search Words', 'wp-statistics' ),
-				'page_url' => 'searched-phrases',
-			),
 			'searches'         => array(
 				'require'  => array( 'visitors' ),
 				'sub'      => 'overview',

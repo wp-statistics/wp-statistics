@@ -289,8 +289,7 @@ class WP_Statistics_Ajax {
 			'search',
 			'summary',
 			'top.visitors',
-			'words',
-			'searched.phrases'
+			'words'
 		);
 
 		if ( array_key_exists( 'format', $_POST ) and $_POST['format'] == 'dashboard' ) {
@@ -318,10 +317,6 @@ class WP_Statistics_Ajax {
 
 			if ( $_POST['widget'] == "top_visitors" ) {
 				$widget = 'top.visitors';
-			}
-
-			if ( $_POST['widget'] == "searched_phrases" ) {
-				$widget = 'searched.phrases';
 			}
 
 			if ( 'map' == $widget || 'hitsmap' == $widget ) {
@@ -354,10 +349,6 @@ class WP_Statistics_Ajax {
 					break;
 				case 'referring':
 					wp_statistics_generate_referring_postbox_content();
-
-					break;
-				case 'searched.phrases':
-					wp_statistics_generate_searched_phrases_postbox_content();
 
 					break;
 				case 'countries':

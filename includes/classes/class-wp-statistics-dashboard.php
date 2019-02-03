@@ -91,12 +91,6 @@ class WP_Statistics_Dashboard {
 				'require'  => array( 'visitors' ),
 				'hidden'   => true
 			),
-			'searched-phrases' => array(
-				'page_url' => 'searched-phrases',
-				'name'     => __( 'Top Search Words (30 Days)', 'wp-statistics' ),
-				'require'  => array( 'visitors' ),
-				'hidden'   => true
-			),
 			'search'           => array(
 				'page_url' => 'searches',
 				'name'     => __( 'Search Engine Referrals', 'wp-statistics' ),

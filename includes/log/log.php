@@ -48,7 +48,7 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 
 //Prepare List Of Page Url
 $page_urls   = array();
-$widget_list = array( 'browsers', 'countries', 'hits', 'pages', 'referring', 'searched-phrases', 'search', 'words', 'top-visitors', 'recent' );
+$widget_list = array( 'browsers', 'countries', 'hits', 'pages', 'referring', 'search', 'words', 'top-visitors', 'recent' );
 $all_widget  = WP_Statistics_Dashboard::widget_list();
 foreach ( $widget_list as $widget ) {
 	if ( array_key_exists( $widget, $all_widget ) ) {

@@ -310,7 +310,6 @@ class WP_Statistics {
 				'authors'          => 'authors',
 				'tags'             => 'tags',
 				'referrers'        => 'referrers',
-				'searched-phrases' => 'searched_phrases',
 				'searches'         => 'searches',
 				'words'            => 'words',
 				'top-visitors'     => 'top_visitors',
