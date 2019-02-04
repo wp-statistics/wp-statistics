@@ -50,7 +50,13 @@ $total = $search_result[ $referred ];
 				$translate = $search_engines[ $key ]['translated'];
 			}
 
-			echo "<li><a href='" . WP_Statistics_Admin_Pages::admin_url( 'words', array( 'referred' => $tag ) ) . "'>" . $translate . " <span class='count'>({$value})</span></a></li>{$separator}";
+			//Check current class
+			$current = "";
+			if ( ( ! isset( $_GET['referred'] ) and $name == 'All' ) || ( isset( $_GET['referred'] ) and $tag == trim( $_GET['referred'] ) ) ) {
+				$current = 'class="current" ';
+			}
+
+			echo "<li><a {$current} href='" . ( $name == 'All' ? WP_Statistics_Admin_Pages::admin_url( 'words' ) : WP_Statistics_Admin_Pages::admin_url( 'words', array( 'referred' => $tag ) ) ) . "'>" . $translate . " <span class='count'>(" . number_format_i18n( $value ) . ")</span></a></li>{$separator}";
 		}
 		?>
     </ul>
@@ -60,7 +66,7 @@ $total = $search_result[ $referred ];
                 <div class="postbox">
 					<?php $paneltitle = __( 'Latest Search Word Statistics', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -192,7 +198,7 @@ $total = $search_result[ $referred ];
 									echo "</td>";
 
 									echo "<td style=\"text-align: left\">";
-									echo "<td style=\"text-align: left\">" . $WP_Statistics->get_referrer_link( $items->referred ) . "</td>";
+									echo $WP_Statistics->get_referrer_link( $items->referred );
 									echo "</td>";
 
 									echo "</tr>";
@@ -204,14 +210,14 @@ $total = $search_result[ $referred ];
                         </div>
                     </div>
                 </div>
-	            <?php
-	            if ( $total > 0 ) {
-		            wp_statistics_paginate_links( array(
-			            'item_per_page' => $items_per_page,
-			            'total'         => $total,
-			            'current'       => $page,
-		            ) );
-	            } ?>
+				<?php
+				if ( $total > 0 ) {
+					wp_statistics_paginate_links( array(
+						'item_per_page' => $items_per_page,
+						'total'         => $total,
+						'current'       => $page,
+					) );
+				} ?>
             </div>
         </div>
     </div>
