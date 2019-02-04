@@ -44,10 +44,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
                 <div class="postbox">
 					<?php $paneltitle = __( 'Top 5 Pages Trends', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf(
-								__( 'Toggle panel: %s', 'wp-statistics' ),
-								$paneltitle
-							); ?></span>
+						<span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>

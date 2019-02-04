@@ -41,7 +41,7 @@ if ( $_get != '%' ) {
         <li class="all"><a <?php if ( $_get == '%' ) {
 				echo 'class="current"';
 			} ?>href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'visitors' ); ?>"><?php _e( 'All', 'wp-statistics' ); ?>
-                <span class="count">(<?php echo $total_visitor; ?>)</span></a></li>
+                <span class="count">(<?php echo number_format_i18n( $total_visitor ); ?>)</span></a></li>
 		<?php
 		if ( isset( $_var ) ) {
 			$spacer = " | ";
@@ -112,8 +112,7 @@ if ( $_get != '%' ) {
 						$query  = str_replace( "SELECT count(*) FROM", "SELECT * FROM", $sql ) . "  ORDER BY `{$wpdb->prefix}statistics_visitor`.`ID` DESC LIMIT {$offset}, {$items_per_page}";
 						$result = $wpdb->get_results( $query );
 
-						echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
-		                      <tr>";
+						echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\"><tr>";
 						echo "<td>" . __( 'Browser', 'wp-statistics' ) . "</td>";
 						if ( $WP_Statistics->get_option( 'geoip' ) ) {
 							echo "<td>" . __( 'Country', 'wp-statistics' ) . "</td>";
@@ -184,21 +183,24 @@ if ( $_get != '%' ) {
 							echo "</td>";
 
 							echo "<td style=\"text-align: left\">";
-							echo "<td style=\"text-align: left\">" . $WP_Statistics->get_referrer_link( $items->referred ) . "</td>";
+							echo $WP_Statistics->get_referrer_link( $items->referred );
 							echo "</td>";
 
 							echo "</tr>";
 						}
 						echo "</table>";
 
-						//Show Pagination
-						wp_statistics_paginate_links( array(
-							'item_per_page' => $items_per_page,
-							'total'         => $total,
-							'current'       => $page,
-						) );
+
 						?>
                     </div>
                 </div>
+				<?php
+				//Show Pagination
+				wp_statistics_paginate_links( array(
+					'item_per_page' => $items_per_page,
+					'total'         => $total,
+					'current'       => $page,
+				) );
+				?>
             </div>
         </div>

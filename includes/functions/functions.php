@@ -437,9 +437,15 @@ function wp_statistics_ua_list( $rangestartdate = null, $rangeenddate = null ) {
 	return $Browsers;
 }
 
-// This function returns the count of a given user agent in the database.
+/**
+ * Count User By User Agent
+ *
+ * @param $agent
+ * @param null $rangestartdate
+ * @param null $rangeenddate
+ * @return mixed
+ */
 function wp_statistics_useragent( $agent, $rangestartdate = null, $rangeenddate = null ) {
-
 	global $wpdb;
 
 	if ( $rangestartdate != null && $rangeenddate != null ) {
@@ -452,9 +458,7 @@ function wp_statistics_useragent( $agent, $rangestartdate = null, $rangeenddate 
 			)
 		);
 	} else {
-		$result = $wpdb->get_var(
-			$wpdb->prepare( "SELECT COUNT(agent) FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = %s", $agent )
-		);
+		$result = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(agent) FROM {$wpdb->prefix}statistics_visitor WHERE `agent` = %s", $agent ) );
 	}
 
 	return $result;
@@ -1133,8 +1137,16 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 
 	//Create Object List Of Default Hit Day to Display
 	if ( $range == null or count( $range ) == 0 ) {
+
+		//Get Number Of Time Range
 		$range = array( 10, 20, 30, 60, 90, 180, 270, 365 );
-		$desc  = array(
+
+		//Added All time From installed plugin to now
+		$installed_date = WP_Statistics::get_number_days_install_plugin();
+		array_push( $range, $installed_date['days'] );
+
+		//Get List Of Text Lang time Range
+		$desc = array(
 			__( '10 Days', 'wp-statistics' ),
 			__( '20 Days', 'wp-statistics' ),
 			__( '30 Days', 'wp-statistics' ),
@@ -1143,6 +1155,7 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 			__( '6 Months', 'wp-statistics' ),
 			__( '9 Months', 'wp-statistics' ),
 			__( '1 Year', 'wp-statistics' ),
+			__( 'All', 'wp-statistics' ),
 		);
 	}
 	if ( count( $desc ) == 0 ) {
@@ -1244,10 +1257,21 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
  */
 function wp_statistics_prepare_range_time_picker() {
 
-	//Set Default Object
-	$daysToDisplay = 20;
-	$rangestart    = '';
-	$rangeend      = '';
+	//Get Default Number To display in All
+	$installed_date = WP_Statistics::get_number_days_install_plugin();
+	$daysToDisplay  = $installed_date['days'];
+
+	//List Of Pages For show 20 Days as First Parameter
+	$list_of_pages = array( 'hits', 'searches', 'pages', 'countries', 'categories', 'tags', 'authors', 'browser', 'exclusions' );
+	foreach ( $list_of_pages as $page ) {
+		if ( isset( $_GET['page'] ) and $_GET['page'] == WP_Statistics::$page[ $page ] ) {
+			$daysToDisplay = 30;
+		}
+	}
+
+	//Set Default Object Time Range
+	$rangestart = '';
+	$rangeend   = '';
 
 	//Check Hit Day
 	if ( isset( $_GET['hitdays'] ) and $_GET['hitdays'] > 0 ) {

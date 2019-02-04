@@ -1465,7 +1465,7 @@ class WP_Statistics {
 
 	/**
 	 * Get Number Days From install this plugin
-	 * this method user for `ALL` Option in all time Range Pages
+	 * this method used for `ALL` Option in Time Range Pages
 	 */
 	public static function get_number_days_install_plugin() {
 		global $wpdb, $WP_Statistics;
