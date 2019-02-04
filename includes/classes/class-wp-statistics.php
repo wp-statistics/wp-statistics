@@ -299,25 +299,25 @@ class WP_Statistics {
 			 * value : Admin Page Slug
 			 */
 			$list = array(
-				'overview'         => 'overview',
-				'browser'          => 'browsers',
-				'countries'        => 'countries',
-				'exclusions'       => 'exclusions',
-				'hits'             => 'hits',
-				'online'           => 'online',
-				'pages'            => 'pages',
-				'categories'       => 'categories',
-				'authors'          => 'authors',
-				'tags'             => 'tags',
-				'referrers'        => 'referrers',
-				'searches'         => 'searches',
-				'words'            => 'words',
-				'top-visitors'     => 'top_visitors',
-				'visitors'         => 'visitors',
-				'optimization'     => 'optimization',
-				'settings'         => 'settings',
-				'plugins'          => 'plugins',
-				'donate'           => 'donate',
+				'overview'     => 'overview',
+				'browser'      => 'browsers',
+				'countries'    => 'countries',
+				'exclusions'   => 'exclusions',
+				'hits'         => 'hits',
+				'online'       => 'online',
+				'pages'        => 'pages',
+				'categories'   => 'categories',
+				'authors'      => 'authors',
+				'tags'         => 'tags',
+				'referrers'    => 'referrers',
+				'searches'     => 'searches',
+				'words'        => 'words',
+				'top-visitors' => 'top_visitors',
+				'visitors'     => 'visitors',
+				'optimization' => 'optimization',
+				'settings'     => 'settings',
+				'plugins'      => 'plugins',
+				'donate'       => 'donate',
 			);
 			foreach ( $list as $page_key => $page_slug ) {
 				WP_Statistics::$page[ $page_key ] = 'wps_' . $page_slug . '_page';
@@ -1461,6 +1461,47 @@ class WP_Statistics {
 			//Update Last run this Action
 			update_option( "wp_statistics_check_useronline", $now );
 		}
+	}
+
+	/**
+	 * Get Number Days From install this plugin
+	 * this method user for `ALL` Option in all time Range Pages
+	 */
+	public static function get_number_days_install_plugin() {
+		global $wpdb, $WP_Statistics;
+
+		//Create Empty default Option
+		$first_day = '';
+
+		//First Check Visitor Table , if not exist Web check Pages Table
+		$list_tbl  = array(
+			'visitor' => array( 'order_by' => 'ID', 'column' => 'last_counter' ),
+			'pages'   => array( 'order_by' => 'page_id', 'column' => 'date' ),
+		);
+		foreach ( $list_tbl as $tbl => $val ) {
+			$first_day = $wpdb->get_var( "SELECT `" . $val['column'] . "` FROM `" . wp_statistics_db_table( $tbl ) . "` ORDER BY `" . $val['order_by'] . "` ASC LIMIT 1" );
+			if ( ! empty( $first_day ) ) {
+				break;
+			}
+		}
+
+		//Calculate hit day if range is exist
+		if ( empty( $first_day ) ) {
+			$result = array(
+				'days' => 1,
+				'date' => current_time( 'timestamp' )
+			);
+		} else {
+			$earlier = new \DateTime( $first_day );
+			$later   = new \DateTime( $WP_Statistics->Current_date( 'Y-m-d' ) );
+			$result  = array(
+				'days'      => $later->diff( $earlier )->format( "%a" ),
+				'timestamp' => strtotime( $first_day ),
+				'first_day' => $first_day,
+			);
+		}
+
+		return $result;
 	}
 
 }
