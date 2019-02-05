@@ -217,11 +217,10 @@ class WP_Statistics_Updates {
 
 	/**
 	 * Downloads the referrer spam database from https://github.com/matomo-org/referrer-spam-blacklist.
-	 *
 	 * @return string
 	 */
 	static function download_referrerspam() {
-		GLOBAL $WP_Statistics;
+		global $WP_Statistics;
 
 		// If referrer spam is disabled, bail out.
 		if ( $WP_Statistics->get_option( 'referrerspam' ) == false ) {
@@ -232,18 +231,20 @@ class WP_Statistics_Updates {
 		$download_url = 'https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt';
 
 		// Download the file from MaxMind, this places it in a temporary location.
-		$referrerspamlist = file_get_contents( $download_url );
-		if ( $referrerspamlist === false ) {
-			$referrerspamlist = '';
+		$response = wp_remote_get( $download_url, array( 'timeout' => 30 ) );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		$referrerspamlist = wp_remote_retrieve_body( $response );
+		if ( is_wp_error( $referrerspamlist ) ) {
+			return false;
 		}
 
 		if ( $referrerspamlist != '' || $WP_Statistics->get_option( 'referrerspamlist' ) != '' ) {
 			$WP_Statistics->update_option( 'referrerspamlist', $referrerspamlist );
 		}
 
-		$WP_Statistics->update_option( 'update_referrerspam', false );
-
-		return;
+		return true;
 	}
 
 	/**
@@ -266,7 +267,7 @@ class WP_Statistics_Updates {
 			$reader = $WP_Statistics::geoip_loader( 'country' );
 		}
 
-		if($reader ===false) {
+		if ( $reader === false ) {
 			$text_error = __( 'Unable to load the GeoIP database, make sure you have downloaded it in the settings page.', 'wp-statistics' );
 			WP_Statistics_Admin_Pages::set_admin_notice( $text_error, $type = 'error' );
 		}

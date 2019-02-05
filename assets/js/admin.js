@@ -26,18 +26,25 @@ jQuery(document).ready(function () {
         });
     }
 
-    // Check the visitor log is checked
-    jQuery(document).on("change", "input[name=wps_visitors]", function (e) {
-        e.preventDefault();
-        let visitor_log = jQuery("#visitors_log_tr");
+    // Check the Condition Require Setting Api
+    function wp_statistics_check_condition_view_option(selector, field) {
+        jQuery(document).on("change", selector, function (e) {
+            e.preventDefault();
+            let option_field = jQuery(field);
+            if (this.checked) {
+                option_field.show("slow");
+            } else {
+                option_field.hide("slow");
+                option_field.find("input[type=checkbox]").prop('checked', false);
+            }
+        });
+    }
 
-        if (this.checked) {
-            visitor_log.show("slow");
-        } else {
-            visitor_log.hide("slow");
-            visitor_log.find("input[type=checkbox]").prop('checked', false);
-        }
-    });
+    // Check the visitor log is checked
+    wp_statistics_check_condition_view_option("input[name=wps_visitors]", "#visitors_log_tr");
+
+    // Check the Spam List
+    wp_statistics_check_condition_view_option("input[name=wps_referrerspam]", "tr.referrerspam_field");
 
     /**
      * Get Parameter value

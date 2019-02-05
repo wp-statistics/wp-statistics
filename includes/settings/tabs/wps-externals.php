@@ -9,7 +9,6 @@ if ( $wps_nonce_valid ) {
 		'wps_auto_pop',
 		'wps_private_country_code',
 		'wps_referrerspam',
-		'wps_update_referrerspam',
 		'wps_schedule_referrerspam'
 	);
 
@@ -61,12 +60,12 @@ if ( $wps_nonce_valid ) {
                 </th>
 
                 <td>
-                    <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo ($WP_Statistics->get_option( 'geoip' ) === 'on' ? "checked='checked'" : ''); ?>>
+                    <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo( $WP_Statistics->get_option( 'geoip' ) === 'on' ? "checked='checked'" : '' ); ?>>
                     <label for="geoip-enable">
-                        <?php _e( 'Enable', 'wp-statistics' ); ?>
+						<?php _e( 'Enable', 'wp-statistics' ); ?>
                         <form action="" method="post" style="display: inline;">
                             <input type="hidden" name="geoip_name" value="country">
-		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "secondary", "update_geoip", false); ?>
+							<?php submit_button( __( "Update Database", 'wp-statistics' ), "secondary", "update_geoip", false ); ?>
                         </form>
                     </label>
 
@@ -83,20 +82,19 @@ if ( $wps_nonce_valid ) {
                 </th>
 
                 <td>
-                    <input id="geoip-city" type="checkbox"
-                           name="wps_geoip_city" <?php echo ($WP_Statistics->get_option( 'geoip_city' ) == 'on' ? "checked='checked'" : ''); ?>>
+                    <input id="geoip-city" type="checkbox" name="wps_geoip_city" <?php echo( $WP_Statistics->get_option( 'geoip_city' ) == 'on' ? "checked='checked'" : '' ); ?>>
                     <label for="geoip-city">
-                        <?php _e( 'Enable', 'wp-statistics' ); ?>
+						<?php _e( 'Enable', 'wp-statistics' ); ?>
                         <form action="" method="post" style="display: inline;">
                             <input type="hidden" name="geoip_name" value="city">
-		                    <?php submit_button(__("Update Database", 'wp-statistics' ), "secondary", "update_geoip", false); ?>
+							<?php submit_button( __( "Update Database", 'wp-statistics' ), "secondary", "update_geoip", false ); ?>
                         </form>
                     </label>
 
                     <p class="description"><?php _e(
-                            'See Visitor\'s City Name',
-                            'wp-statistics'
-                        ); ?></p>
+							'See Visitor\'s City Name',
+							'wp-statistics'
+						); ?></p>
                 </td>
             </tr>
 
@@ -106,9 +104,7 @@ if ( $wps_nonce_valid ) {
                 </th>
 
                 <td>
-                    <input id="geoip-schedule" type="checkbox"
-                           name="wps_schedule_geoip" <?php echo $WP_Statistics->get_option( 'schedule_geoip' ) == true
-						? "checked='checked'" : ''; ?>>
+                    <input id="geoip-schedule" type="checkbox" name="wps_schedule_geoip" <?php echo $WP_Statistics->get_option( 'schedule_geoip' ) == true ? "checked='checked'" : ''; ?>>
                     <label for="geoip-schedule"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 					<?php
 					if ( $WP_Statistics->get_option( 'schedule_geoip' ) ) {
@@ -159,8 +155,7 @@ if ( $wps_nonce_valid ) {
                 </th>
 
                 <td>
-                    <input id="geoip-auto-pop" type="checkbox"
-                           name="wps_auto_pop" <?php echo $WP_Statistics->get_option( 'auto_pop' ) == true
+                    <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo $WP_Statistics->get_option( 'auto_pop' ) == true
 						? "checked='checked'" : ''; ?>>
                     <label for="geoip-auto-pop"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
@@ -177,19 +172,18 @@ if ( $wps_nonce_valid ) {
                 </th>
 
                 <td>
-                    <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code"
-                           value="<?php echo htmlentities(
-						       $WP_Statistics->get_option( 'private_country_code', '000' ),
-						       ENT_QUOTES
-					       ); ?>">
+                    <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo htmlentities(
+						$WP_Statistics->get_option( 'private_country_code', '000' ),
+						ENT_QUOTES
+					); ?>">
 
                     <p class="description"><?php echo __(
-							'The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).',
-							'wp-statistics'
-						) . ' ' . __(
-							'Use "000" (three zeros) to use "Unknown" as the country code.',
-							'wp-statistics'
-						); ?></p>
+						                                  'The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).',
+						                                  'wp-statistics'
+					                                  ) . ' ' . __(
+						                                  'Use "000" (three zeros) to use "Unknown" as the country code.',
+						                                  'wp-statistics'
+					                                  ); ?></p>
                 </td>
             </tr>
 			<?php
@@ -232,8 +226,6 @@ if ( $wps_nonce_valid ) {
 			<?php
 		} ?>
 
-
-
         <tr valign="top">
             <th scope="row" colspan="2">
                 <h3><?php _e( 'Matomo Referrer Spam Blacklist settings', 'wp-statistics' ); ?></h3>
@@ -255,9 +247,7 @@ if ( $wps_nonce_valid ) {
             </th>
 
             <td>
-                <input id="referrerspam-enable" type="checkbox"
-                       name="wps_referrerspam" <?php echo $WP_Statistics->get_option( 'referrerspam' ) == true
-					? "checked='checked'" : ''; ?>>
+                <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo $WP_Statistics->get_option( 'referrerspam' ) == true ? "checked='checked'" : ''; ?>>
                 <label for="referrerspam-enable"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
                 <p class="description"><?php _e(
@@ -267,38 +257,24 @@ if ( $wps_nonce_valid ) {
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" class="referrerspam_field"<?php if ( ! $WP_Statistics->get_option( 'referrerspam' ) ) { echo ' style="display:none;"';  }  ?>>
             <th scope="row">
                 <label for="geoip-update"><?php _e( 'Update Matomo Referrer Spam Blacklist Info:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
-                <input id="referrerspam-update" type="checkbox"
-                       name="wps_update_referrerspam" <?php echo $WP_Statistics->get_option( 'update_referrerspam' ) ==
-				                                                 true ? "checked='checked'" : ''; ?>>
-                <label for="referrerspam-update"><?php _e(
-						'Download Matomo Referrer Spam Blacklist Database',
-						'wp-statistics'
-					); ?></label>
-
-                <p class="description"><?php _e(
-						'Save changes on this page to download the update.',
-						'wp-statistics'
-					); ?></p>
+                <a href = "<?php echo WP_Statistics_Admin_Pages::admin_url( 'settings', array( 'tab' => 'externals-settings', 'update-referrerspam' => 'yes' ) ) ?>" class="button"><?php _e( 'Update', 'wp-staitsitcs' ); ?></a>
+                <p class="description"><?php _e( 'Click button to download the update.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" class="referrerspam_field"<?php if ( ! $WP_Statistics->get_option( 'referrerspam' ) ) { echo ' style="display:none;"';  }  ?>>
             <th scope="row">
-                <label for="referrerspam-schedule"><?php _e(
-						'Schedule weekly update of Matomo Referrer Spam Blacklist DB:',
-						'wp-statistics'
-					); ?></label>
+                <label for="referrerspam-schedule"><?php _e( 'Schedule weekly update of Matomo Referrer Spam Blacklist DB:', 'wp-statistics' ); ?></label>
             </th>
 
             <td>
-                <input id="referrerspam-schedule" type="checkbox"
-                       name="wps_schedule_referrerspam" <?php echo $WP_Statistics->get_option(
+                <input id="referrerspam-schedule" type="checkbox" name="wps_schedule_referrerspam" <?php echo $WP_Statistics->get_option(
 					'schedule_referrerspam'
 				) == true ? "checked='checked'" : ''; ?>>
                 <label for="referrerspam-schedule"><?php _e( 'Enable', 'wp-statistics' ); ?></label>

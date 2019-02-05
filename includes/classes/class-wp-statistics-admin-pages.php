@@ -359,11 +359,13 @@ class WP_Statistics_Admin_Pages {
 		set_transient( WP_Statistics_Admin_Pages::$setting_notice, $results, 1 * HOUR_IN_SECONDS );
 	}
 
-
 	/**
 	 * Notification Setting
 	 */
 	public static function wp_statistics_notice_setting() {
+		global $pagenow, $WP_Statistics;
+
+		//Show Notice By Plugin
 		$get = get_transient( WP_Statistics_Admin_Pages::$setting_notice );
 		if ( $get != false ) {
 			foreach ( $get as $item ) {
@@ -371,8 +373,19 @@ class WP_Statistics_Admin_Pages {
 			}
 			delete_transient( WP_Statistics_Admin_Pages::$setting_notice );
 		}
-	}
 
+		//Check referring Spam Update
+		if ( $pagenow == "admin.php" and isset( $_GET['page'] ) and $_GET['page'] == WP_Statistics::$page['settings'] and isset( $_GET['update-referrerspam'] ) ) {
+
+			// Update referrer spam
+			$update_spam = WP_Statistics_Updates::download_referrerspam();
+			if ( $update_spam === true ) {
+				wp_statistics_admin_notice_result( 'success', __('Updated Matomo Referrer Spam.', 'wp-statistics') );
+			} else {
+				wp_statistics_admin_notice_result( 'error', __('error in get referrer spam list. please try again.', 'wp-statistics') );
+			}
+		}
+	}
 
 	/**
 	 * Redirect Jquery

@@ -6,7 +6,6 @@
  * Version: 12.6
  * Author: VeronaLabs
  * Author URI: http://veronalabs.com/
- *
  * Text Domain: wp-statistics
  * Domain Path: /languages/
  */
