@@ -32,6 +32,10 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 		$refer_opt     = get_option( 'wp_statistics_referrals_detail' );
 		$referrer_list = ( empty( $refer_opt ) ? array() : $refer_opt );
 
+		if ( ! $get_urls ) {
+		    return;
+		}
+
 		foreach ( $get_urls as $domain => $number ) {
 
 			//Get Site Link
