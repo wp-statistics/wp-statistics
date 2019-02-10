@@ -32,7 +32,7 @@ class WP_Statistics_Ajax {
 	 * Setup an AJAX action to close the notice on the overview page.
 	 */
 	public function close_notice_action_callback() {
-		GLOBAL $WP_Statistics; // this is how you get access to the database
+		global $WP_Statistics; 
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -52,14 +52,14 @@ class WP_Statistics_Ajax {
 			$WP_Statistics->update_option( 'admin_notices', false );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die();
 	}
 
 	/**
 	 * Setup an AJAX action to delete an agent in the optimization page.
 	 */
 	public function delete_agents_action_callback() {
-		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
+		global $WP_Statistics, $wpdb; 
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -90,14 +90,14 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die(); 
 	}
 
 	/**
 	 * Setup an AJAX action to delete a platform in the optimization page.
 	 */
 	public function delete_platforms_action_callback() {
-		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
+		global $WP_Statistics, $wpdb; 
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -127,14 +127,14 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die(); 
 	}
 
 	/**
 	 * Setup an AJAX action to delete a ip in the optimization page.
 	 */
 	public function delete_ip_action_callback() {
-		GLOBAL $WP_Statistics, $wpdb; // this is how you get access to the database
+		global $WP_Statistics, $wpdb; 
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -164,7 +164,7 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die(); 
 	}
 
 	/**
@@ -232,14 +232,14 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die(); 
 	}
 
 	/**
 	 * Setup an AJAX action to purge visitors with more than a defined number of hits.
 	 */
 	public function purge_visitor_hits_action_callback() {
-		GLOBAL $WP_Statistics; // this is how you get access to the database
+		global $WP_Statistics; 
 
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
 
@@ -264,7 +264,7 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die(); 
 	}
 
 	/**
@@ -412,6 +412,6 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die(); 
 	}
 }
