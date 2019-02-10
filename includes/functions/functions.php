@@ -1478,9 +1478,10 @@ function wp_statistics_validate_capability( $capability ) {
  * Check User Access To WP-Statistics Admin
  *
  * @param string $type [manage | read ]
+ * @param string|boolean $export
  * @return bool
  */
-function wp_statistics_check_access_user( $type = 'both' ) {
+function wp_statistics_check_access_user( $type = 'both', $export = false ) {
 	global $WP_Statistics;
 
 	//List Of Default Cap
@@ -1493,6 +1494,11 @@ function wp_statistics_check_access_user( $type = 'both' ) {
 	$cap = 'both';
 	if ( ! empty( $type ) and array_key_exists( $type, $list ) ) {
 		$cap = $type;
+	}
+
+	//Check Export Cap name or Validation current_can_user
+	if ( $export == "cap" ) {
+		return wp_statistics_validate_capability( $WP_Statistics->get_option( $list[ $cap ][0], $list[ $cap ][1] ) );
 	}
 
 	//Check Access
