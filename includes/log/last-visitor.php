@@ -189,8 +189,6 @@ if ( $_get != '%' ) {
 							echo "</tr>";
 						}
 						echo "</table>";
-
-
 						?>
                     </div>
                 </div>
