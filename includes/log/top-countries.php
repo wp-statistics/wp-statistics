@@ -77,9 +77,9 @@ if ( isset( $_REQUEST['country'] ) ) {
                             <table class="widefat table-stats" id="last-referrer" style="width: 100%;">
                                 <tr>
                                     <td width="10%"><?php _e( 'Rank', 'wp-statistics' ); ?></td>
-                                    <td width="30%"><?php _e( 'Flag', 'wp-statistics' ); ?></td>
-                                    <td width="30%"><?php _e( 'Country', 'wp-statistics' ); ?></td>
-                                    <td width="30%"><?php _e( 'Visitor Count', 'wp-statistics' ); ?></td>
+                                    <td width="30%" style="text-align: center;"><?php _e( 'Flag', 'wp-statistics' ); ?></td>
+                                    <td width="30%" style="text-align: center;"><?php _e( 'Country', 'wp-statistics' ); ?></td>
+                                    <td width="30%" style="text-align: center;"><?php _e( 'Visitor Count', 'wp-statistics' ); ?></td>
                                 </tr>
 
 								<?php
@@ -100,9 +100,9 @@ if ( isset( $_REQUEST['country'] ) ) {
 
 									echo "<tr>";
 									echo "<td>$i</td>";
-									echo "<td><img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $item->location . '.png' ) . "' title='{$ISOCountryCode[$item->location]}'/></td>";
-									echo "<td style='direction: ltr;'>{$ISOCountryCode[$item->location]}</td>";
-									echo "<td><a href='" . WP_Statistics_Admin_Pages::admin_url( 'countries', array( 'country' => $item->location ) ) . "'>" . number_format_i18n( $item->count ) . "</a></td>";
+									echo "<td style=\"text-align: center;\"><img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $item->location . '.png' ) . "' title='{$ISOCountryCode[$item->location]}'/></td>";
+									echo "<td style='text-align: left; padding-" . ( is_rtl() === true ? 'right' : 'left' ) . ": 12.8%;'>{$ISOCountryCode[$item->location]}</td>";
+									echo "<td style=\"text-align: center;\"><a href='" . WP_Statistics_Admin_Pages::admin_url( 'countries', array( 'country' => $item->location ) ) . "'>" . number_format_i18n( $item->count ) . "</a></td>";
 									echo "</tr>";
 								}
 								?>
