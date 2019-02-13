@@ -23,9 +23,29 @@ function wp_statistics_get_widget_contents(widget, container_id) {
                 jQuery("#" + container_id).html("").html(result);
             })
             .fail(function (result) {
-                // If we failed for some reason, like a timeout, try again.
-                container.html(wp_statistics_loading_image);
-                wp_statistics_get_widget_contents(widget, container_id);
+    
+         // check if user logged-in (Prevent cpu pressure)     
+              var data = {
+                  'action': 'logged-in',
+              };
+              jQuery.ajax({
+                  url: ajaxurl,
+                  type: 'get',
+                  data: data,
+                  datatype: 'json',
+              })
+                  .always(function (result) {
+                      if (result.responseText == 0)
+                          return;
+
+
+                      // If we failed for some reason, like a timeout, try again.
+                      container.html(wp_statistics_loading_image);
+                      wp_statistics_get_widget_contents(widget, container_id);
+                  });
+             
+        
+               
             });
 
     }
