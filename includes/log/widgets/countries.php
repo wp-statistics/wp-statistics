@@ -20,7 +20,7 @@ function wp_statistics_generate_countries_postbox_content() {
 			echo "<td style='text-align: left'>$i</td>";
 			echo "<td style='text-align: left'><img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $item->location . '.png' ) . "' title='{$ISOCountryCode[$item->location]}'/></td>";
 			echo "<td style='text-align: left !important'>{$ISOCountryCode[$item->location]}</td>";
-			echo "<td style='text-align: left !important'>" . number_format_i18n( $item->count ) . "</td>";
+			echo "<td style='text-align: left !important'><a href='" . WP_Statistics_Admin_Pages::admin_url( 'countries', array( 'country' => $item->location ) ) . "'>" . number_format_i18n( $item->count ) . "</a></td>";
 			echo "</tr>";
 		}
 		?>
