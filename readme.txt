@@ -125,9 +125,10 @@ To register, go to the Permalink page and update the permalink with press Save C
 = 12.6 =
 # Added
 - Post/Page Select in statistics page reporting according to post Type
-- Added new meta box in overview page with name `users online`
+- A new widget in overview page which name `users online`
 - A new table `visitor_relationship` for saving visitors logs.
-- Added `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
+- `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
+- Visitor count column in Top Country widget.
 
 # Improvement
 - Improvement MySQL time query in all functions
