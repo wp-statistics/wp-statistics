@@ -30,7 +30,10 @@ function wp_statistics_generate_browsers_postbox_content() {
 			break;
 		}
 
-		$topten_browser_name[]  = "'" . $key . "'";
+		//Get Browser name
+		$browser_name = wp_statistics_get_browser_list( strtolower( $key ) );
+
+		$topten_browser_name[]  = "'" . $browser_name . "'";
 		$topten_browser_value[] = $value;
 		$topten_browser_color[] = wp_statistics_generate_rgba_color( $count, '0.4' );
 	}
@@ -44,6 +47,7 @@ function wp_statistics_generate_browsers_postbox_content() {
     <canvas id="<?php echo $id; ?>" height="220"></canvas>
     <script>
         var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
+        <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
         var ChartJs = new Chart(ctx, {
             type: 'pie',
             data: {

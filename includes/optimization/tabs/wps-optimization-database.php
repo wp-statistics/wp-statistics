@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="wrap wps-wrap">
     <table class="form-table">
         <tbody>
         <tr valign="top">

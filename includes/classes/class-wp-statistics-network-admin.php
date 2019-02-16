@@ -41,7 +41,7 @@ class WP_Statistics_Network_Admin {
 	static function overview() {
 		global $WP_Statistics;
 		?>
-        <div id="wrap">
+        <div id="wrap wps-wrap">
             <br/>
             <table class="widefat wp-list-table" style="width: auto;">
                 <thead>

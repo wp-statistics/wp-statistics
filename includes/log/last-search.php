@@ -24,7 +24,7 @@ if ( array_key_exists( 'referred', $_GET ) ) {
 
 $total = $search_result[ $referred ];
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Latest Search Words', 'wp-statistics' ) ); ?>
     <br/>
     <ul class="subsubsub">

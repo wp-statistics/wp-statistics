@@ -410,14 +410,7 @@ function wp_statistics_ua_list( $rangestartdate = null, $rangeenddate = null ) {
 		if ( $rangeenddate == 'CURDATE()' ) {
 			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN %s AND CURDATE()", $rangestartdate ), ARRAY_N );
 		} else {
-			$result = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN %s AND %s",
-					$rangestartdate,
-					$rangeenddate
-				),
-				ARRAY_N
-			);
+			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT agent FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N );
 		}
 
 	} else {
@@ -1556,10 +1549,10 @@ function wp_statistics_get_browser_list( $all = true ) {
 
 	//List Of Detect Browser in WP Statistics
 	$list        = array(
-		"chrome"  => __( "Google Chrome", 'wp-statistics' ),
-		"firefox" => __( "Mozilla Firefox", 'wp-statistics' ),
-		"msie"    => __( "Microsoft Internet Explorer", 'wp-statistics' ),
-		"edge"    => __( "Microsoft Edge", 'wp-statistics' ),
+		"chrome"  => __( "Chrome", 'wp-statistics' ),
+		"firefox" => __( "Firefox", 'wp-statistics' ),
+		"msie"    => __( "Internet Explorer", 'wp-statistics' ),
+		"edge"    => __( "Edge", 'wp-statistics' ),
 		"opera"   => __( "Opera", 'wp-statistics' ),
 		"safari"  => __( "Safari", 'wp-statistics' )
 	);

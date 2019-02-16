@@ -1,4 +1,4 @@
-<div class="wrap about-wrap full-width-layout">
+<div class="wrap wps-wrap about-wrap full-width-layout">
     <div class="wp-statistics-welcome">
         <h1><?php printf( __( 'Welcome to WP-Statistics&nbsp;%s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></h1>
 

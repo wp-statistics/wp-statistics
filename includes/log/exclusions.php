@@ -154,7 +154,7 @@ foreach ( $excluded_reasons as $reason ) {
 	}
 }
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Exclusions Statistics', 'wp-statistics' ) ); ?>
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['exclusions'], $daysToDisplay ); ?>
     <div class="postbox-container" id="last-log">
@@ -177,6 +177,7 @@ foreach ( $excluded_reasons as $reason ) {
                             <script type='text/javascript' src='<?php echo WP_Statistics::$reg['plugin-url']; ?>assets/js/Chart.bundle.min.js'></script>
                             <script>
                                 var ctx = document.getElementById("hit-stats").getContext('2d');
+                                <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                                 var ChartJs = new Chart(ctx, {
                                     type: 'line',
                                     data: {

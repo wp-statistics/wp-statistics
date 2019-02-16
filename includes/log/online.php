@@ -3,7 +3,7 @@
         postboxes.add_postbox_toggles(pagenow);
     });
 </script>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Online Users', 'wp-statistics' ) ); ?>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">

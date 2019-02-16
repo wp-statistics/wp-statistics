@@ -28,7 +28,7 @@ function wp_statistics_generate_overview_postbox_contents( $post, $args ) {
 }
 
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php echo $nag_html; ?>
 	<?php WP_Statistics_Admin_Pages::show_page_title(); ?>
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>

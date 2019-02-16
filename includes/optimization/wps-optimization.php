@@ -227,7 +227,7 @@ if ( array_key_exists( 'search', $_GET ) ) {
 	echo "<div class='updated settings-error'><p><strong>" . sprintf( __( 'Search table conversion complete, %d rows added.', 'wp-statistics' ), $total ) . "</strong></p></div>";
 }
 ?>
-<div class="wrap wp-statistics-settings">
+<div class="wrap wps-wrap wp-statistics-settings">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Optimization', 'wp-statistics' ) ); ?>
 
     <div id="poststuff">

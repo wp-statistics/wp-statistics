@@ -34,7 +34,7 @@ if ( $_get != '%' ) {
 }
 
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Recent Visitors', 'wp-statistics' ) ); ?>
     <br/>
     <ul class="subsubsub">
@@ -47,9 +47,10 @@ if ( $_get != '%' ) {
 			$spacer = " | ";
 
 			if ( $_var == 'agent' ) {
-				$Browsers = wp_statistics_ua_list();
-				$i        = 0;
-				$Total    = count( $Browsers );
+				$Browsers      = wp_statistics_ua_list();
+				$browser_names = wp_statistics_get_browser_list();
+				$i             = 0;
+				$Total         = count( $Browsers );
 				echo $spacer;
 				foreach ( $Browsers as $Browser ) {
 					if ( $Browser == null ) {
@@ -65,7 +66,10 @@ if ( $_get != '%' ) {
 					if ( $i == $Total ) {
 						$spacer = "";
 					}
-					echo "<li><a " . $current . "href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'agent' => $Browser ) ) . "'> " . __( $Browser, 'wp-statistics' ) . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
+
+					//Get Browser name
+					$browser_name = wp_statistics_get_browser_list( strtolower( $Browser ) );
+					echo "<li><a " . $current . "href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'agent' => $Browser ) ) . "'> " . $browser_name . " <span class='count'>(" . number_format_i18n( wp_statistics_useragent( $Browser ) ) . ")</span></a></li>";
 					echo $spacer;
 				}
 			} else {

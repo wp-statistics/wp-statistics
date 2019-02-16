@@ -25,7 +25,7 @@ if ( isset( $_POST['wps_visitors_log'] ) and $_POST['wps_visitors_log'] == 1 ) {
 }
 
 ?>
-    <div class="wrap wp-statistics-settings">
+    <div class="wrap wps-wrap wp-statistics-settings">
 		<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Settings', 'wp-statistics' ) ); ?>
 
         <div id="poststuff">

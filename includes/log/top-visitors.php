@@ -7,7 +7,7 @@
 $ISOCountryCode = $WP_Statistics->get_country_codes();
 include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.php' );
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top 100 Visitors Today', 'wp-statistics' ) ); ?>
 	<?php
 	wp_enqueue_script( 'jquery-ui-datepicker' );

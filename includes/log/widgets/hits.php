@@ -20,6 +20,7 @@ function wp_statistics_generate_hits_postbox_content( $size = '300', $days = 20 
     <canvas id="<?php echo $id; ?>" height="<?php echo $size; ?>"></canvas>
     <script>
         var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
+		<?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
         var ChartJs = new Chart(ctx, {
             type: 'line',
             data: {

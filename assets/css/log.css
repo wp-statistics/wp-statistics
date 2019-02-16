@@ -339,6 +339,11 @@
 .table-stats tr, .table-stats td {
     border-bottom: 1px solid #efeeee;
     background-color: white;
+    transition: 1s all;
+}
+
+.table-stats tr:hover:not(:first-child) td {
+    background-color: rgba(241, 241, 241, 0.65) !important;
 }
 
 .table-stats tr:first-child td {

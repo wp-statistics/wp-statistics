@@ -36,7 +36,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 	$date[] = "'" . $WP_Statistics->Real_Current_Date( 'M j', '-' . $i, $rangeend_utime ) . "'";
 }
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Search Engine Referral Statistics', 'wp-statistics' ) ); ?>
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['searches'], $daysToDisplay ); ?>
     <div class="postbox-container" id="last-log">
@@ -68,6 +68,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
                             colors['qwant'] = ['rgba(53, 60, 82, 0.2)', 'rgba(53, 60, 82, 1)'];
 
                             var ctx = document.getElementById("search-stats").getContext('2d');
+                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'line',
                                 data: {

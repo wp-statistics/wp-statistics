@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="wrap wps-wrap">
 
     <form method="post">
         <input type="hidden" name="wps_export" value="true">

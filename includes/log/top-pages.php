@@ -35,7 +35,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
 	$date[] = "'" . $WP_Statistics->Real_Current_Date( 'M j', '-' . $i, $rangeend_utime ) . "'";
 }
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top Pages', 'wp-statistics' ) ); ?>
 	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay ); ?>
     <div class="postbox-container" id="last-log">
@@ -60,6 +60,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
                             colors[4] = ['rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)'];
 
                             var ctx = document.getElementById("hit-stats").getContext('2d');
+                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'line',
                                 data: {

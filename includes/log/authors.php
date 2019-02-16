@@ -4,7 +4,7 @@
     });
 </script>
 
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Author Statistics', 'wp-statistics' ) ); ?>
 	<?php
 	//Set Default Time Picker Option
@@ -105,6 +105,7 @@
                         <canvas id="hit-stats" height="80"></canvas>
                         <script>
                             var ctx = document.getElementById("hit-stats").getContext('2d');
+                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'line',
                                 data: {

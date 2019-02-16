@@ -28,7 +28,7 @@ if ( isset( $_REQUEST['country'] ) ) {
 }
 
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php
 	//Show Time Range only in all list
 	if ( ! isset( $_REQUEST['country'] ) ) {

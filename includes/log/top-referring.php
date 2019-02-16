@@ -71,7 +71,7 @@ if ( $referr ) {
 $ISOCountryCode = $WP_Statistics->get_country_codes();
 
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Top Referring Sites', 'wp-statistics' ) ); ?>
     <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['referrers'], $daysToDisplay, null, null, $referr_field ); ?></div>
     <br class="clear"/>

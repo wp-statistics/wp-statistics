@@ -42,7 +42,7 @@ $browser_color = array();
 foreach ( $BrowserVisits as $key => $value ) {
 	if ( $value > 0 ) {
 		$i ++;
-		$browser_name[]  = "'" . $key . "'";
+		$browser_name[]  = "'" . wp_statistics_get_browser_list( strtolower( $key ) ) . "'";
 		$browser_value[] = $value;
 		$browser_color[] = wp_statistics_generate_rgba_color( $i, '0.4' );
 	}
@@ -75,7 +75,7 @@ foreach ( $PlatformVisits as $key => $value ) {
 	$platform_color[] = wp_statistics_generate_rgba_color( $i, '0.4' );
 }
 ?>
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Browser Statistics', 'wp-statistics' ) ); ?>
     <div><?php wp_statistics_date_range_selector( WP_Statistics::$page['browser'], $daysToDisplay ); ?></div>
     <div class="postbox-container" style="width: 48%; float: left; margin-right:20px">
@@ -92,6 +92,7 @@ foreach ( $PlatformVisits as $key => $value ) {
                         <canvas id="browsers-log" height="200"></canvas>
                         <script>
                             var ctx = document.getElementById("browsers-log").getContext('2d');
+                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'pie',
                                 data: {
@@ -147,6 +148,7 @@ foreach ( $PlatformVisits as $key => $value ) {
                         <canvas id="platforms-log" height="200"></canvas>
                         <script>
                             var ctx = document.getElementById("platforms-log").getContext('2d');
+                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'pie',
                                 data: {
@@ -260,7 +262,7 @@ function wp_statistics_browser_version_stats( $Browser, $rangestartdate, $rangee
 	}
 	?>
     <div class="postbox">
-		<?php $paneltitle = sprintf( __( '%s Version', 'wp-statistics' ), $Browser ); ?>
+		<?php $paneltitle = sprintf( __( '%s Version', 'wp-statistics' ), wp_statistics_get_browser_list( strtolower( $Browser ) ) ); ?>
         <button class="handlediv" type="button" aria-expanded="true">
 			<span class="screen-reader-text"><?php printf(
 					__( 'Toggle panel: %s', 'wp-statistics' ),
@@ -274,6 +276,7 @@ function wp_statistics_browser_version_stats( $Browser, $rangestartdate, $rangee
             <canvas id="<?php echo $id; ?>" height="250"></canvas>
             <script>
                 var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
+                <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                 var ChartJs = new Chart(ctx, {
                     type: 'doughnut',
                     data: {

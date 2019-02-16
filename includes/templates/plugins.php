@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="wrap wps-wrap">
 	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Extensions for WP-Statistics', 'wp-statistics' ) ); ?>
     <div id="poststuff" class="wp-statistics-plugins">
         <div id="post-body" class="metabox-holder">
