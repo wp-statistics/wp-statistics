@@ -243,14 +243,13 @@ class WP_Statistics_Frontend {
 		//WooCommerce Product
 		if ( class_exists( 'WooCommerce' ) ) {
 			if ( is_product() ) {
-				$result['type'] = "product";
+				return wp_parse_args( array( "type" => "product" ), $result );
 			}
 		}
 
 		//Home Page or Front Page
-		$is_home_page = is_front_page() || is_home();
-		if ( $is_home_page ) {
-			$result['type'] = "home";
+		if ( is_front_page() || is_home() ) {
+			return wp_parse_args( array( "type" => "home" ), $result );
 		}
 
 		//attachment View
@@ -259,12 +258,12 @@ class WP_Statistics_Frontend {
 		}
 
 		//Single Post Fro All Post Type
-		if ( is_singular() and $is_home_page === false ) {
+		if ( is_singular() ) {
 			$result['type'] = "post";
 		}
 
 		//Single Page
-		if ( is_page() and $is_home_page === false ) {
+		if ( is_page() ) {
 			$result['type'] = "page";
 		}
 
