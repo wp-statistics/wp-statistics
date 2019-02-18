@@ -48,7 +48,7 @@ function wp_statistics_useronline( $args = array() ) {
 	$arg = wp_parse_args( $args, $defaults );
 
 	//Basic SQL
-	$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}statistics_useronline";
+	$sql = "SELECT COUNT(*) FROM " . wp_statistics_db_table( 'useronline' );
 
 	//Check Params
 	if ( $arg['type'] != "all" ) {
