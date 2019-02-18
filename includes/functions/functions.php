@@ -19,27 +19,27 @@ function wp_statistics_useronline( $args = array() ) {
 	$defaults = array(
 		/**
 		 * Type Of Page in Wordpress
-         * @See WP_Statistics_Frontend\get_page_type
-         *
-         * -- Acceptable values --
-         *
-         * post     -> WordPress Post single page From All of public post Type
-         * page     -> Wordpress page single page
-         * product  -> woocommerce product single page
-         * home     -> Home Page website
-         * category -> Wordpress Category Page
-         * post_tag -> Wordpress Post Tags Page
-         * tax      -> Wordpress Term Page for all Taxonomies
-         * author   -> Wordpress Users page
-         * 404      -> 404 Not Found Page
-         * archive  -> Wordpress Archive Page
-         * all      -> All Site Page
-         *
+		 * @See WP_Statistics_Frontend\get_page_type
+		 *
+		 * -- Acceptable values --
+		 *
+		 * post     -> WordPress Post single page From All of public post Type
+		 * page     -> Wordpress page single page
+		 * product  -> woocommerce product single page
+		 * home     -> Home Page website
+		 * category -> Wordpress Category Page
+		 * post_tag -> Wordpress Post Tags Page
+		 * tax      -> Wordpress Term Page for all Taxonomies
+		 * author   -> Wordpress Users page
+		 * 404      -> 404 Not Found Page
+		 * archive  -> Wordpress Archive Page
+		 * all      -> All Site Page
+		 *
 		 */
 		'type' => 'all',
 		/**
 		 * Wordpress Query object ID
-         * @example array('type' => 'product', 'ID' => 5)
+		 * @example array('type' => 'product', 'ID' => 5)
 		 */
 		'ID'   => 0,
 	);
@@ -52,7 +52,7 @@ function wp_statistics_useronline( $args = array() ) {
 
 	//Check Params
 	if ( $arg['type'] != "all" ) {
-		$sql .= " WHERE `type`='".$arg['type']."' AND `page_id` =".$arg['ID'];
+		$sql .= " WHERE `type`='" . $arg['type'] . "' AND `page_id` =" . $arg['ID'];
 	}
 
 	//Return Number od user Online
