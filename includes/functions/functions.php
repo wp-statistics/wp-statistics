@@ -36,12 +36,20 @@ function wp_statistics_useronline( $args = array() ) {
 		 * all      -> All Site Page
 		 *
 		 */
-		'type' => 'all',
+		'type'         => 'all',
 		/**
 		 * Wordpress Query object ID
 		 * @example array('type' => 'product', 'ID' => 5)
 		 */
-		'ID'   => 0,
+		'ID'           => 0,
+		/**
+		 * Get number of logged users or all users
+		 *
+		 * -- Acceptable values --
+		 * false  -> Get Number of all users
+		 * true   -> Get Number of all logged users in wordpress
+		 */
+		'logged_users' => false
 	);
 
 	// Parse incoming $args into an array and merge it with $defaults
@@ -50,9 +58,22 @@ function wp_statistics_useronline( $args = array() ) {
 	//Basic SQL
 	$sql = "SELECT COUNT(*) FROM " . wp_statistics_db_table( 'useronline' );
 
-	//Check Params
+	//Check Where Condition
+	$where = false;
+
+	//Check Type of Page
 	if ( $arg['type'] != "all" ) {
-		$sql .= " WHERE `type`='" . $arg['type'] . "' AND `page_id` =" . $arg['ID'];
+		$where[] = "`type`='" . $arg['type'] . "' AND `page_id` =" . $arg['ID'];
+	}
+
+	//Check Custom user
+	if ( $arg['logged_users'] === true ) {
+		$where[] = "`user_id` > 0";
+	}
+
+	//Push Conditions to SQL
+	if ( ! empty( $where ) ) {
+		$sql .= ' WHERE ' . implode( ' AND ', $where );
 	}
 
 	//Return Number od user Online
