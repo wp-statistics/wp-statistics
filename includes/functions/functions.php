@@ -13,7 +13,7 @@
  * @return mixed
  */
 function wp_statistics_useronline( $args = array() ) {
-	global $wpdb;
+	global $wpdb, $WP_Statistics;
 
 	//Check Parameter
 	$defaults = array(
@@ -81,7 +81,10 @@ function wp_statistics_useronline( $args = array() ) {
 
 	//Check Location
 	if ( $arg['location'] != "all" ) {
-		$where[] = "`location` = '".$arg['location']."'";
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
+		if ( array_key_exists( $arg['location'], $ISOCountryCode ) ) {
+			$where[] = "`location` = '" . $arg['location'] . "'";
+		}
 	}
 
 	//Push Conditions to SQL
