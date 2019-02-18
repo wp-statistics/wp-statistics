@@ -49,7 +49,15 @@ function wp_statistics_useronline( $args = array() ) {
 		 * false  -> Get Number of all users
 		 * true   -> Get Number of all logged users in wordpress
 		 */
-		'logged_users' => false
+		'logged_users' => false,
+		/**
+		 * Get number User From Custom Country
+		 *
+		 * -- Acceptable values --
+		 * ISO Country Code -> For Get List @See \wp-statistics\includes\functions\country-code.php
+		 *
+		 */
+		'location'     => 'all'
 	);
 
 	// Parse incoming $args into an array and merge it with $defaults
@@ -69,6 +77,11 @@ function wp_statistics_useronline( $args = array() ) {
 	//Check Custom user
 	if ( $arg['logged_users'] === true ) {
 		$where[] = "`user_id` > 0";
+	}
+
+	//Check Location
+	if ( $arg['location'] != "all" ) {
+		$where[] = "`location` = '".$arg['location']."'";
 	}
 
 	//Push Conditions to SQL
