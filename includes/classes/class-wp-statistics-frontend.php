@@ -248,7 +248,8 @@ class WP_Statistics_Frontend {
 		}
 
 		//Home Page or Front Page
-		if ( is_front_page() || is_home() ) {
+		$is_home_page = is_front_page() || is_home();
+		if ( $is_home_page ) {
 			$result['type'] = "home";
 		}
 
@@ -257,13 +258,13 @@ class WP_Statistics_Frontend {
 			$result['type'] = "attachment";
 		}
 
-		//Single Post
-		if ( is_single() ) {
+		//Single Post Fro All Post Type
+		if ( is_singular() and $is_home_page === false ) {
 			$result['type'] = "post";
 		}
 
 		//Single Page
-		if ( is_page() ) {
+		if ( is_page() and $is_home_page === false ) {
 			$result['type'] = "page";
 		}
 

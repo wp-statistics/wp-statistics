@@ -25,7 +25,7 @@ function wp_statistics_useronline( $args = array() ) {
 		 *
 		 * post     -> WordPress Post single page From All of public post Type
 		 * page     -> Wordpress page single page
-		 * product  -> woocommerce product single page
+		 * product  -> WooCommerce product single page
 		 * home     -> Home Page website
 		 * category -> Wordpress Category Page
 		 * post_tag -> Wordpress Post Tags Page
