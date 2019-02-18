@@ -6,10 +6,56 @@
 		   the number of rows returned, but you can also use it an a foreach loop to to get the details of the rows.
 */
 
-// This function returns the current users online.
-function wp_statistics_useronline() {
+/**
+ * Get Current Users online
+ *
+ * @param array $args
+ * @return mixed
+ */
+function wp_statistics_useronline( $args = array() ) {
 	global $wpdb;
-	return $wpdb->query( "SELECT * FROM {$wpdb->prefix}statistics_useronline" );
+
+	//Check Parameter
+	$defaults = array(
+		/**
+		 * Type Of Page in Wordpress
+         * @See WP_Statistics_Frontend\get_page_type
+         *
+         * -- Acceptable values --
+         *
+         * post     -> WordPress Post single page From All of public post Type
+         * page     -> Wordpress page single page
+         * product  -> woocommerce product single page
+         * home     -> Home Page website
+         * category -> Wordpress Category Page
+         * post_tag -> Wordpress Post Tags Page
+         * tax      -> Wordpress Term Page for all Taxonomies
+         * author   -> Wordpress Users page
+         * 404      -> 404 Not Found Page
+         * archive  -> Wordpress Archive Page
+         *
+		 */
+		'type' => 'all',
+		/**
+		 * Wordpress Query object ID
+         * @example array('type' => 'product', 'ID' => 5)
+		 */
+		'ID'   => 0,
+	);
+
+	// Parse incoming $args into an array and merge it with $defaults
+	$arg = wp_parse_args( $args, $defaults );
+
+	//Basic SQL
+	$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}statistics_useronline";
+
+	//Check Params
+	if ( $arg['type'] != "all" ) {
+		$sql .= " WHERE `type`='".$arg['type']."' AND `page_id` =".$arg['ID'];
+	}
+
+	//Return Number od user Online
+	return $wpdb->get_var( $sql );
 }
 
 /**
