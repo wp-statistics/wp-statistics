@@ -70,7 +70,7 @@ function wp_statistics_useronline( $args = array() ) {
 	$where = false;
 
 	//Check Type of Page
-	if ( $arg['type'] != "all" ) {
+	if ( $arg['type'] != "all" and $arg['ID'] > 0 ) {
 		$where[] = "`type`='" . $arg['type'] . "' AND `page_id` =" . $arg['ID'];
 	}
 
