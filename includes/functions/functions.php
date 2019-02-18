@@ -33,6 +33,7 @@ function wp_statistics_useronline( $args = array() ) {
          * author   -> Wordpress Users page
          * 404      -> 404 Not Found Page
          * archive  -> Wordpress Archive Page
+         * all      -> All Site Page
          *
 		 */
 		'type' => 'all',
