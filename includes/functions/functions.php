@@ -71,7 +71,7 @@ function wp_statistics_useronline( $args = array() ) {
 
 	//Check Type of Page
 	if ( $arg['type'] != "all" and $arg['ID'] > 0 ) {
-		$where[] = "`type`='" . $arg['type'] . "' AND `page_id` =" . $arg['ID'];
+		$where[] = "`type`='" . $arg['type'] . "' AND `page_id` = " . $arg['ID'];
 	}
 
 	//Check Custom user
@@ -174,7 +174,7 @@ function wp_statistics_visit( $time, $daily = null ) {
 	global $wpdb, $WP_Statistics;
 
 	//Date Column Name in visits table
-	$table_name  = $wpdb->prefix . "statistics_visit";
+	$table_name  = wp_statistics_db_table( 'visit' );
 	$date_column = 'last_counter';
 
 	//Prepare Selector Sql
@@ -225,43 +225,130 @@ function wp_statistics_visit( $time, $daily = null ) {
  * @param $time
  * @param null $daily
  * @param bool $count_only
+ * @param array $options
  * @return int|null|string
  */
-function wp_statistics_visitor( $time, $daily = null, $count_only = false ) {
+function wp_statistics_visitor( $time, $daily = null, $count_only = false, $options = array() ) {
 	global $wpdb, $WP_Statistics;
 
-	//Date Column Name in visits table
-	$table_name  = $wpdb->prefix . "statistics_visitor";
-	$date_column = 'last_counter';
+	//Check Parameter
+	$defaults = array(
+		/**
+		 * Type Of Page in Wordpress
+		 * @See WP_Statistics_Frontend\get_page_type
+		 *
+		 * -- Acceptable values --
+		 *
+		 * post     -> WordPress Post single page From All of public post Type
+		 * page     -> Wordpress page single page
+		 * product  -> WooCommerce product single page
+		 * home     -> Home Page website
+		 * category -> Wordpress Category Page
+		 * post_tag -> Wordpress Post Tags Page
+		 * tax      -> Wordpress Term Page for all Taxonomies
+		 * author   -> Wordpress Users page
+		 * 404      -> 404 Not Found Page
+		 * archive  -> Wordpress Archive Page
+		 * all      -> All Site Page
+		 *
+		 */
+		'type'     => 'all',
+		/**
+		 * Wordpress Query object ID
+		 * @example array('type' => 'product', 'ID' => 5)
+		 */
+		'ID'       => 0,
+		/**
+		 * Get number User From Custom Country
+		 *
+		 * -- Acceptable values --
+		 * ISO Country Code -> For Get List @See \wp-statistics\includes\functions\country-code.php
+		 *
+		 */
+		'location' => 'all',
+		/**
+		 * Search Filter by User agent name
+		 * e.g : Firefox , Chrome , Safari , Unknown ..
+		 * @see wp_statistics_get_browser_list()
+		 *
+		 */
+		'agent'    => 'all',
+		/**
+		 * Search filter by User Platform name
+		 * e.g : Windows, iPad, Macintosh, Unknown, ..
+		 *
+		 */
+		'platform' => 'all'
+	);
+
+	// Parse incoming $args into an array and merge it with $defaults
+	$arg = wp_parse_args( $options, $defaults );
+
+	//Create History Visitors variable
+	$history = 0;
 
 	//Prepare Selector Sql
-	$selector = '*';
+	$date_column = 'last_counter';
+	$selector    = '*';
 	if ( $count_only == true ) {
 		$selector = 'count(last_counter)';
 	}
 
 	//Generate Base Sql
-	$sql = "SELECT {$selector} FROM {$table_name}";
+	if ( $arg['type'] != "all" and $arg['ID'] > 0 and $WP_Statistics->get_option( 'visitors_log' ) == true ) {
+		$sql = "SELECT {$selector} FROM `" . wp_statistics_db_table( 'visitor' ) . "` INNER JOIN `" . wp_statistics_db_table( "visitor_relationships" ) . "` ON `" . wp_statistics_db_table( "visitor_relationships" ) . "`.`visitor_id` = `" . wp_statistics_db_table( 'visitor' ) . "`.`ID`  INNER JOIN `" . wp_statistics_db_table( 'pages' ) . "` ON `" . wp_statistics_db_table( 'pages' ) . "`.`page_id` = `" . wp_statistics_db_table( "visitor_relationships" ) . "` . `page_id`";
+	} else {
+		$sql = "SELECT {$selector} FROM `" . wp_statistics_db_table( 'visitor' ) . "`";
+	}
 
-	//Create History Visitors variable
-	$history = 0;
+	//Check Where Condition
+	$where = false;
 
-	//Check if daily Report
+	//Check Type of Page
+	if ( $arg['type'] != "all" and $arg['ID'] > 0 ) {
+		$where[] = "`" . wp_statistics_db_table( 'pages' ) . "`.`type`='" . $arg['type'] . "' AND `" . wp_statistics_db_table( 'pages' ) . "`.`page_id` = " . $arg['ID'];
+	}
+
+	//Check Location
+	if ( $arg['location'] != "all" ) {
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
+		if ( array_key_exists( $arg['location'], $ISOCountryCode ) ) {
+			$where[] = "`" . wp_statistics_db_table( 'visitor' ) . "`.`location` = '" . $arg['location'] . "'";
+		}
+	}
+
+	//Check User Agent
+	if ( $arg['agent'] != "all" ) {
+		$where[] = "`" . wp_statistics_db_table( 'visitor' ) . "`.`agent` = '" . $arg['agent'] . "'";
+	}
+
+	//Check User Platform
+	if ( $arg['platform'] != "all" ) {
+		$where[] = "`" . wp_statistics_db_table( 'visitor' ) . "`.`platform` = '" . $arg['platform'] . "'";
+	}
+
+	//Check Date Time report
 	if ( $daily == true ) {
-		return $wpdb->query( $sql . " WHERE `$date_column` = '{$WP_Statistics->Current_Date( 'Y-m-d', $time )}'" );
+
+		//Get Only Current Day Visitors
+		$where[] = "`" . wp_statistics_db_table( 'visitor' ) . "`.`last_counter` = '" . $WP_Statistics->Current_Date( 'Y-m-d', $time ) . "'";
 	} else {
 
 		//Generate MySql Time Conditions
 		$mysql_time_sql = wp_statistics_mysql_time_conditions( $date_column, $time );
 		if ( ! empty( $mysql_time_sql ) ) {
-			$sql = $sql . ' WHERE ' . $mysql_time_sql;
+			$where[] = $mysql_time_sql;
 		}
+	}
 
-		//Custom Action
-		if ( $time == "total" ) {
-			$history = $WP_Statistics->Get_Historical_Data( 'visitors' );
-		}
+	//Push Conditions to SQL
+	if ( ! empty( $where ) ) {
+		$sql .= ' WHERE ' . implode( ' AND ', $where );
+	}
 
+	//Custom Action
+	if ( $time == "total" and $arg['type'] == "all" ) {
+		$history = $WP_Statistics->Get_Historical_Data( 'visitors' );
 	}
 
 	// Execute the SQL call, if we're only counting we can use get_var(), otherwise we use query().
