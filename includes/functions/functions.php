@@ -9,10 +9,10 @@
 /**
  * Get Current Users online
  *
- * @param array $args
+ * @param array $options
  * @return mixed
  */
-function wp_statistics_useronline( $args = array() ) {
+function wp_statistics_useronline( $options = array() ) {
 	global $wpdb, $WP_Statistics;
 
 	//Check Parameter
@@ -57,11 +57,24 @@ function wp_statistics_useronline( $args = array() ) {
 		 * ISO Country Code -> For Get List @See \wp-statistics\includes\functions\country-code.php
 		 *
 		 */
-		'location'     => 'all'
+		'location'     => 'all',
+		/**
+		 * Search Filter by User agent name
+		 * e.g : Firefox , Chrome , Safari , Unknown ..
+		 * @see wp_statistics_get_browser_list()
+		 *
+		 */
+		'agent'        => 'all',
+		/**
+		 * Search filter by User Platform name
+		 * e.g : Windows, iPad, Macintosh, Unknown, ..
+		 *
+		 */
+		'platform'     => 'all'
 	);
 
 	// Parse incoming $args into an array and merge it with $defaults
-	$arg = wp_parse_args( $args, $defaults );
+	$arg = wp_parse_args( $options, $defaults );
 
 	//Basic SQL
 	$sql = "SELECT COUNT(*) FROM " . wp_statistics_db_table( 'useronline' );
@@ -85,6 +98,16 @@ function wp_statistics_useronline( $args = array() ) {
 		if ( array_key_exists( $arg['location'], $ISOCountryCode ) ) {
 			$where[] = "`location` = '" . $arg['location'] . "'";
 		}
+	}
+
+	//Check User Agent
+	if ( $arg['agent'] != "all" ) {
+		$where[] = "`agent` = '" . $arg['agent'] . "'";
+	}
+
+	//Check User Platform
+	if ( $arg['platform'] != "all" ) {
+		$where[] = "`platform` = '" . $arg['platform'] . "'";
 	}
 
 	//Push Conditions to SQL
