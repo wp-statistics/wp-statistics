@@ -83,7 +83,7 @@ function wp_statistics_useronline( $options = array() ) {
 	$where = false;
 
 	//Check Type of Page
-	if ( $arg['type'] != "all" and $arg['ID'] > 0 ) {
+	if ( $arg['type'] != "all" ) {
 		$where[] = "`type`='" . $arg['type'] . "' AND `page_id` = " . $arg['ID'];
 	}
 
@@ -318,7 +318,7 @@ function wp_statistics_visitor( $time, $daily = null, $count_only = false, $opti
 	}
 
 	//Generate Base Sql
-	if ( $arg['type'] != "all" and $arg['ID'] > 0 and $WP_Statistics->get_option( 'visitors_log' ) == true ) {
+	if ( $arg['type'] != "all" and $WP_Statistics->get_option( 'visitors_log' ) == true ) {
 		$sql = "SELECT {$selector} FROM `" . wp_statistics_db_table( 'visitor' ) . "` INNER JOIN `" . wp_statistics_db_table( "visitor_relationships" ) . "` ON `" . wp_statistics_db_table( "visitor_relationships" ) . "`.`visitor_id` = `" . wp_statistics_db_table( 'visitor' ) . "`.`ID`  INNER JOIN `" . wp_statistics_db_table( 'pages' ) . "` ON `" . wp_statistics_db_table( 'pages' ) . "`.`page_id` = `" . wp_statistics_db_table( "visitor_relationships" ) . "` . `page_id`";
 	} else {
 		$sql = "SELECT {$selector} FROM `" . wp_statistics_db_table( 'visitor' ) . "`";
@@ -328,7 +328,7 @@ function wp_statistics_visitor( $time, $daily = null, $count_only = false, $opti
 	$where = false;
 
 	//Check Type of Page
-	if ( $arg['type'] != "all" and $arg['ID'] > 0 ) {
+	if ( $arg['type'] != "all" ) {
 		$where[] = "`" . wp_statistics_db_table( 'pages' ) . "`.`type`='" . $arg['type'] . "' AND `" . wp_statistics_db_table( 'pages' ) . "`.`page_id` = " . $arg['ID'];
 	}
 
@@ -393,37 +393,47 @@ function wp_statistics_visitor( $time, $daily = null, $count_only = false, $opti
  * @param int $id
  * @param null $rangestartdate
  * @param null $rangeenddate
+ * @param bool $type
  * @return int|null|string
  */
-function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate = null, $rangeenddate = null ) {
+function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate = null, $rangeenddate = null, $type = false ) {
 	global $wpdb, $WP_Statistics;
 
 	//Date Column Name in visits table
-	$table_name  = $wpdb->prefix . "statistics_pages";
+	$table_name  = wp_statistics_db_table( 'pages' );
 	$date_column = 'date';
+	$history     = 0;
 
-	//Create Empty History
-	$history = 0;
+	//Check Where Condition
+	$where = false;
 
-	// If no page URI has been passed in, get the current page URI.
-	if ( $page_uri == '' ) {
-		$page_uri = wp_statistics_get_uri();
-	}
-	$page_uri_sql = esc_sql( $page_uri );
-
-	// If a page/post ID has been passed, use it to select the rows, otherwise use the URI.
-	if ( $id != - 1 ) {
-		$page_sql    = '`id` = ' . absint( $id );
-		$history_key = 'page';
-		$history_id  = absint( $id );
+	//Check Query By Page ID or Page Url
+	if ( $type != false and $id != - 1 ) {
+		$where[] = "`type`='" . $type . "' AND `page_id` = " . $id;
 	} else {
-		$page_sql    = "`URI` = '{$page_uri_sql}'";
-		$history_key = 'uri';
-		$history_id  = $page_uri;
-	}
 
-	//Generate Base Sql
-	$sql = "SELECT SUM(count) FROM {$table_name} WHERE $page_sql";
+		// If no page URI has been passed in, get the current page URI.
+		if ( $page_uri == '' ) {
+			$page_uri = wp_statistics_get_uri();
+		}
+		$page_uri_sql = esc_sql( $page_uri );
+
+		// If a page/post ID has been passed, use it to select the rows, otherwise use the URI.
+		if ( $id != - 1 ) {
+			$where[]     = "`id`= " . absint( $id );
+			$history_key = 'page';
+			$history_id  = absint( $id );
+		} else {
+			$where[]     = "`url` = '{$page_uri_sql}'";
+			$history_key = 'uri';
+			$history_id  = $page_uri;
+		}
+
+		//Custom Action
+		if ( $time == "total" ) {
+			$history = $WP_Statistics->Get_Historical_Data( $history_key, $history_id );
+		}
+	}
 
 	//Prepare Time
 	$time_array = array();
@@ -437,12 +447,15 @@ function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate 
 	//Check MySql Time Conditions
 	$mysql_time_sql = wp_statistics_mysql_time_conditions( $date_column, $time, $time_array );
 	if ( ! empty( $mysql_time_sql ) ) {
-		$sql = $sql . ' AND ' . $mysql_time_sql;
+		$where[] = $mysql_time_sql;
 	}
 
-	//Custom Action
-	if ( $time == "total" ) {
-		$history = $WP_Statistics->Get_Historical_Data( $history_key, $history_id );
+	//Generate Base Sql
+	$sql = "SELECT SUM(count) FROM {$table_name}";
+
+	//Push Conditions to SQL
+	if ( ! empty( $where ) ) {
+		$sql .= ' WHERE ' . implode( ' AND ', $where );
 	}
 
 	//Request Get data
