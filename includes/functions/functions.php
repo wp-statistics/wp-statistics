@@ -424,7 +424,7 @@ function wp_statistics_pages( $time, $page_uri = '', $id = - 1, $rangestartdate 
 			$history_key = 'page';
 			$history_id  = absint( $id );
 		} else {
-			$where[]     = "`url` = '{$page_uri_sql}'";
+			$where[]     = "`URI` = '{$page_uri_sql}'";
 			$history_key = 'uri';
 			$history_id  = $page_uri;
 		}
