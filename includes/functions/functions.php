@@ -472,10 +472,7 @@ function wp_statistics_uri_to_id( $uri ) {
 	global $wpdb;
 
 	// Create the SQL query to use.
-	$sqlstatement = $wpdb->prepare(
-		"SELECT id FROM {$wpdb->prefix}statistics_pages WHERE `URI` = %s AND id > 0 ORDER BY date DESC",
-		$uri
-	);
+	$sqlstatement = $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}statistics_pages WHERE `URI` = %s AND id > 0 ORDER BY date DESC", $uri );
 
 	// Execute the query.
 	$result = $wpdb->get_var( $sqlstatement );
@@ -499,9 +496,7 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 
 	// Get every unique URI from the pages database.
 	if ( $rangestartdate != null && $rangeenddate != null ) {
-		$result = $wpdb->get_results(
-			$wpdb->prepare( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N
-		);
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N );
 	} else {
 		$result = $wpdb->get_results( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
 	}
