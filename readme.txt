@@ -3,7 +3,7 @@ Contributors: mostafa.s1990, mehrshaddarzi, ghasemi71ir, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
-Tested up to: 5.0
+Tested up to: 5.1
 Stable tag: 12.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -124,16 +124,16 @@ To register, go to the Permalink page and update the permalink with press Save C
 == Changelog ==
 = 12.6 =
 # Added
-- Post/Page Select in statistics page reporting according to post Type
-- A new widget in overview page which name `users online`
+- Post/Page Select in statistics page reporting according to post Type.
+- A new widget in overview page which name `users online`.
 - A new table `visitor_relationship` for saving visitors logs.
 - `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
 - Visitor count column in Top Country widget.
 
 # Improvement
-- Improvement MySQL time query in all functions
-- Improvement of online user page UI
-- Improvement of Top referrals UI
+- Improvement MySQL time query in all functions.
+- Improvement of online user page UI.
+- Improvement of Top referrals UI.
 - Improvement CSV exporter.
 - Improvement pagination in admin pages that used the Wordpress `paginate_links`.
 - Improvement time filter in admin pages stats.

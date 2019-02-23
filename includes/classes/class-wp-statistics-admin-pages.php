@@ -226,10 +226,12 @@ class WP_Statistics_Admin_Pages {
 				}
 			}
 		}
+
 		$response      = wp_remote_get( 'https://wp-statistics.com/wp-json/plugin/addons' );
 		$response_code = wp_remote_retrieve_response_code( $response );
 		$error         = null;
 		$plugins       = array();
+
 		// Check response
 		if ( is_wp_error( $response ) ) {
 			$error = $response->get_error_message();
@@ -240,6 +242,7 @@ class WP_Statistics_Admin_Pages {
 				$error = $response['body'];
 			}
 		}
+
 		include WP_Statistics::$reg['plugin-dir'] . 'includes/templates/plugins.php';
 	}
 
