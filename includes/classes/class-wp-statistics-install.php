@@ -141,22 +141,16 @@ class WP_Statistics_Install {
 					) CHARSET=utf8" );
 
 			// Check to see if the historical table exists yet, aka if this is a upgrade instead of a first install.
-			$result = $wpdb->query(
-				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_historical'"
-			);
+			$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_historical'" );
 
 			if ( $result == 1 ) {
 				// Before we update the historical table, check to see if it exists with the old keys
 				$result = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->prefix}statistics_historical LIKE 'key'" );
 
 				if ( $result > 0 ) {
-					$wpdb->query(
-						"ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)"
-					);
+					$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)" );
 					$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `key` `ID` bigint(20)" );
-					$wpdb->query(
-						"ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `type` `category` varchar(25)"
-					);
+					$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `type` `category` varchar(25)" );
 				}
 			}
 
@@ -177,9 +171,7 @@ class WP_Statistics_Install {
 			// Some old versions (in the 5.0.x line) of MySQL have issue with the compound index on the visitor table
 			// so let's make sure it was created, if not, use the older format to create the table manually instead of
 			// using the dbDelta() call.
-			$result = $wpdb->query(
-				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visitor'"
-			);
+			$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visitor'" );
 
 			if ( $result != 1 ) {
 				$wpdb->query( $create_visitor_table_old );
@@ -221,9 +213,7 @@ class WP_Statistics_Install {
 			$dbupdates = array( 'date_ip_agent' => false, 'unique_date' => false );
 
 			// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
-			$result = $wpdb->query(
-				"SHOW INDEX FROM {$wpdb->prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'"
-			);
+			$result = $wpdb->query( "SHOW INDEX FROM {$wpdb->prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'" );
 
 			// Note, the result will be the number of fields contained in the index, so in our case 5.
 			if ( $result != 5 ) {
@@ -231,9 +221,7 @@ class WP_Statistics_Install {
 			}
 
 			// Check the number of index's on the visits table, if it's only 5 we need to check for duplicate entries and remove them
-			$result = $wpdb->query(
-				"SHOW INDEX FROM {$wpdb->prefix}statistics_visit WHERE Key_name = 'unique_date'"
-			);
+			$result = $wpdb->query( "SHOW INDEX FROM {$wpdb->prefix}statistics_visit WHERE Key_name = 'unique_date'" );
 
 			// Note, the result will be the number of fields contained in the index, so in our case 1.
 			if ( $result != 1 ) {
@@ -247,7 +235,6 @@ class WP_Statistics_Install {
 			if ( WP_Statistics::$installed_version == false ) {
 
 				// If this is a first time install, we just need to setup the primary values in the tables.
-
 				$WP_Statistics->Primary_Values();
 
 				// By default, on new installs, use the new search table.
@@ -256,7 +243,6 @@ class WP_Statistics_Install {
 			} else {
 
 				// If this is an upgrade, we need to check to see if we need to convert anything from old to new formats.
-
 				// Check to see if the "new" settings code is in place or not, if not, upgrade the old settings to the new system.
 				if ( get_option( 'wp_statistics' ) === false ) {
 					$core_options   = array(
@@ -329,9 +315,7 @@ class WP_Statistics_Install {
 					// Handle the core options, we're going to strip off the 'wps_' header as we store them in the new settings array.
 					foreach ( $core_options as $option ) {
 						$new_name = substr( $option, 4 );
-
 						$WP_Statistics->store_option( $new_name, get_option( $option ) );
-
 						delete_option( $option );
 					}
 
@@ -348,15 +332,11 @@ class WP_Statistics_Install {
 
 					foreach ( $var_options as $option ) {
 						// Handle the special variables options.
-						$result = $wpdb->get_results(
-							"SELECT * FROM {$wpdb->prefix}options WHERE option_name LIKE '{$option}'"
-						);
+						$result = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}options WHERE option_name LIKE '{$option}'" );
 
 						foreach ( $result as $opt ) {
 							$new_name = substr( $opt->option_name, 4 );
-
 							$WP_Statistics->store_option( $new_name, $opt->option_value );
-
 							delete_option( $opt->option_name );
 						}
 					}
@@ -411,35 +391,6 @@ class WP_Statistics_Install {
 			if ( WP_Statistics::$installed_version == false ) {
 				// We now need to set the robot list to update during the next release.  This is only done for new installs to ensure we don't overwrite existing custom robot lists.
 				$WP_Statistics->store_option( 'force_robot_update', true );
-			}
-
-			// For version 8.0, we're removing the old %option% types from the reports, so let's upgrade anyone who still has them to short codes.
-			$report_content = $WP_Statistics->get_option( 'content_report' );
-
-			// Check to make sure we have a report to process.
-			if ( trim( $report_content ) == '' ) {
-				// These are the variables we can replace in the template and the short codes we're going to replace them with.
-				$template_vars = array(
-					'user_online'       => '[wpstatistics stat=usersonline]',
-					'today_visitor'     => '[wpstatistics stat=visitors time=today]',
-					'today_visit'       => '[wpstatistics stat=visits time=today]',
-					'yesterday_visitor' => '[wpstatistics stat=visitors time=yesterday]',
-					'yesterday_visit'   => '[wpstatistics stat=visits time=yesterday]',
-					'total_visitor'     => '[wpstatistics stat=visitors time=total]',
-					'total_visit'       => '[wpstatistics stat=visits time=total]',
-				);
-
-				// Replace the items in the template.
-				$final_report = preg_replace_callback(
-					'/%(.*?)%/im',
-					function ( $m ) {
-						return $template_vars[ $m[1] ];
-					},
-					$report_content
-				);
-
-				// Store the updated report content.
-				$WP_Statistics->store_option( 'content_report', $final_report );
 			}
 
 			// Save the settings now that we've set them.
