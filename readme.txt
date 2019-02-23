@@ -125,22 +125,22 @@ To register, go to the Permalink page and update the permalink with press Save C
 = 12.6 =
 # Added
 - Post/Page Select in statistics page reporting according to post Type.
-- A new widget in overview page which name `users online`.
+- Online Users widget, A cool widget to show current online users!
 - A new table `visitor_relationship` for saving visitors logs.
 - `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
 - Visitor count column in Top Country widget.
 
 # Improvement
 - Improvement MySQL time query in all functions.
-- Improvement of online user page UI.
-- Improvement of Top referrals UI.
+- Improvement online users page UI.
+- Improvement Top referrals UI.
 - Improvement CSV exporter.
-- Improvement pagination in admin pages that used the Wordpress `paginate_links`.
+- Improvement pagination in admin pages that used the WordPress `paginate_links`.
 - Improvement time filter in admin pages stats.
 - Improvement  `admin_url` link in all admin pages.
 - Improvement text wrap in all meta boxes.
-- Fixed reset number users online list in period time.
-- Schedule list in Statistical reporting.
+- Fixed reset number online users list in period time.
+- Schedule list in statistical reporting.
 - Refer Param in Top Referring Sites page.
 - Fix method to get IP addresses.
 - Fix Page CSS.

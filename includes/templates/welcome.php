@@ -51,6 +51,38 @@
                 </div>
             </section>
 
+            <section class="normal-section">
+                <div class="left">
+                    <div class="content-padding">
+                        <h2><?php _e( 'Top 10 Counties', 'wp-statistics' ); ?></h2>
+                        <p><?php _e( 'You can see all visitor of a country!', 'wp-statistics' ); ?></p>
+                    </div>
+                </div>
+
+                <div class="right text-center">
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/topcountry-widget.png' ); ?>"/>
+                </div>
+            </section>
+
+            <section class="normal-section">
+                <div class="left">
+                    <div class="content-padding">
+                        <h2><?php _e( 'Other changes', 'wp-statistics' ); ?></h2>
+                    </div>
+                </div>
+
+                <div class="right">
+                    <ul>
+                        <li>Added new table `visitor_relationship` for saving visitors logs.</li>
+                        <li>Update database version.</li>
+                        <li>Improvement MySQL time query in all functions.</li>
+                        <li>Improvement CSV exporter.</li>
+                        <li>Improvement pagination in admin pages.</li>
+                        <li>Improvement time filter in admin pages stats.</li>
+                    </ul>
+                </div>
+            </section>
+
             <section class="center-section">
                 <div class="content-padding">
                     <h2><?php _e( 'Add-Ons', 'wp-statistics' ); ?></h2>
