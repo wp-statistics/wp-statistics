@@ -18,12 +18,6 @@ if ( $wps_admin === false ) {
 	$wps_admin = 0;
 }
 
-//Set Custom Action After Save Setting
-//Add Visitor RelationShip Table
-if ( isset( $_POST['wps_visitors_log'] ) and $_POST['wps_visitors_log'] == 1 ) {
-	WP_Statistics_Install::setup_visitor_relationship_table();
-}
-
 ?>
     <div class="wrap wps-wrap wp-statistics-settings">
 		<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Settings', 'wp-statistics' ) ); ?>

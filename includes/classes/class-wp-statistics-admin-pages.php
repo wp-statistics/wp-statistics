@@ -139,6 +139,24 @@ class WP_Statistics_Admin_Pages {
 		}
 	}
 
+
+	/**
+	 * Check in admin page
+	 *
+	 * @param $page | For Get List @see \WP_STATISTICS\WP_Statistics::$page
+	 * @return bool
+	 */
+	public static function in_page( $page ) {
+		global $pagenow;
+
+		//Check is custom page
+		if ( $pagenow == "admin.php" and isset( $_REQUEST['page'] ) and $_REQUEST['page'] == WP_Statistics::$page[ $page ] ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Show Page title
 	 * @param string $title
@@ -383,9 +401,9 @@ class WP_Statistics_Admin_Pages {
 			// Update referrer spam
 			$update_spam = WP_Statistics_Updates::download_referrerspam();
 			if ( $update_spam === true ) {
-				wp_statistics_admin_notice_result( 'success', __('Updated Matomo Referrer Spam.', 'wp-statistics') );
+				wp_statistics_admin_notice_result( 'success', __( 'Updated Matomo Referrer Spam.', 'wp-statistics' ) );
 			} else {
-				wp_statistics_admin_notice_result( 'error', __('error in get referrer spam list. please try again.', 'wp-statistics') );
+				wp_statistics_admin_notice_result( 'error', __( 'error in get referrer spam list. please try again.', 'wp-statistics' ) );
 			}
 		}
 	}
