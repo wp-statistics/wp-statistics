@@ -3,27 +3,11 @@
         postboxes.add_postbox_toggles(pagenow);
     });
 </script>
-<div class="wrap">
-    <h2><?php _e( 'Hit Statistics', 'wp-statistics' ); ?></h2>
-    <?php do_action( 'wp_statistics_after_title' ); ?>
-
+<div class="wrap wps-wrap">
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Hit Statistics', 'wp-statistics' ) ); ?>
 	<?php
-	$daysToDisplay = 20;
-	if ( array_key_exists( 'hitdays', $_GET ) ) {
-		$daysToDisplay = intval( $_GET['hitdays'] );
-	}
-
-	if ( array_key_exists( 'rangestart', $_GET ) ) {
-		$rangestart = $_GET['rangestart'];
-	} else {
-		$rangestart = '';
-	}
-	if ( array_key_exists( 'rangeend', $_GET ) ) {
-		$rangeend = $_GET['rangeend'];
-	} else {
-		$rangeend = '';
-	}
-
+	//Set Default Time Picker Option
+	list( $daysToDisplay, $rangestart, $rangeend ) = wp_statistics_prepare_range_time_picker();
 	list( $daysToDisplay, $rangestart_utime, $rangeend_utime ) = wp_statistics_date_range_calculator(
 		$daysToDisplay,
 		$rangestart,
@@ -72,6 +56,7 @@
                         <canvas id="hit-stats" height="80"></canvas>
                         <script>
                             var ctx = document.getElementById("hit-stats").getContext('2d');
+                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'line',
                                 data: {

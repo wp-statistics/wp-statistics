@@ -5,236 +5,236 @@
  */
 class WP_Statistics_Dashboard {
 
-	static function widget_load() {
-		GLOBAL $WP_Statistics;
+	/**
+	 * User Meta Set Dashboard Option name
+	 * @var string
+	 */
+	public static $dashboard_set = 'dashboard_set';
 
-		$WP_Statistics->load_user_options();
+	/**
+	 * WP_Statistics_Dashboard constructor.
+	 */
+	public function __construct() {
 
-		// We need to fudge the display settings for first time users so not all of the widgets are displayed, we only want to do this on
-		// the first time they visit the dashboard though so check to see if we've been here before.
-		if ( ! $WP_Statistics->get_user_option( 'dashboard_set' ) ) {
-			$WP_Statistics->update_user_option( 'dashboard_set', WP_Statistics::$reg['version'] );
+		//Register Dashboard Widget
+		add_action( 'wp_dashboard_setup', array( $this, 'load_dashboard_widget' ) );
 
-			$hidden_widgets = get_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', true );
-			if ( ! is_array( $hidden_widgets ) ) {
-				$hidden_widgets = array();
-			}
+		//Add Inline Script in Admin Footer
+		add_action( 'admin_footer', array( $this, 'inline_javascript' ) );
 
-			$default_hidden = array(
-				'wp-statistics-browsers-widget',
-				'wp-statistics-countries-widget',
-				'wp-statistics-hitsmap-widget',
-				'wp-statistics-hits-widget',
-				'wp-statistics-pages-widget',
-				'wp-statistics-recent-widget',
-				'wp-statistics-referring-widget',
-				'wp-statistics-search-widget',
-				'wp-statistics-summary-widget',
-				'wp-statistics-words-widget',
-				'wp-statistics-top-visitors-widget',
-				'wp-statistics-searched-phrases-widget',
-			);
+	}
 
-			foreach ( $default_hidden as $widget ) {
-				if ( ! in_array( $widget, $hidden_widgets ) ) {
-					$hidden_widgets[] = $widget;
-				}
-			}
+	/**
+	 * Widget Setup Key
+	 *
+	 * @param $key
+	 * @return string
+	 */
+	public static function widget_setup_key( $key ) {
+		return 'wp-statistics-' . $key . '-widget';
+	}
 
-			update_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets );
-		} elseif ( $WP_Statistics->get_user_option( 'dashboard_set' ) != WP_Statistics::$reg['version'] ) {
-			// We also have to fudge things when we add new widgets to the code base.
-			if ( version_compare( $WP_Statistics->get_user_option( 'dashboard_set' ), '8.7', '<' ) ) {
+	/**
+	 * Get Widget List
+	 *
+	 * @param bool $widget
+	 * @return array|mixed
+	 */
+	public static function widget_list( $widget = false ) {
 
-				$WP_Statistics->update_user_option( 'dashboard_set', WP_Statistics::$reg['version'] );
+		/**
+		 * List of WP-Statistics Widget
+		 *
+		 * --- Array Arg -----
+		 * page_url : link of Widget Page @see WP_Statistics::$page
+		 * name     : Name Of Widget Box
+		 * require  : the Condition From Wp-statistics Option if == true
+		 * hidden   : if set true , Default Hidden Dashboard in Wordpress Admin
+		 *
+		 */
+		$list = array(
+			'quickstats'       => array(
+				'page_url' => 'overview',
+				'name'     => __( 'Quick Stats', 'wp-statistics' )
+			),
+			'summary'          => array(
+				'name'   => __( 'Summary', 'wp-statistics' ),
+				'hidden' => true
+			),
+			'browsers'         => array(
+				'page_url' => 'browser',
+				'name'     => __( 'Top 10 Browsers', 'wp-statistics' ),
+				'require'  => array( 'visitors' ),
+				'hidden'   => true
+			),
+			'countries'        => array(
+				'page_url' => 'countries',
+				'name'     => __( 'Top 10 Countries', 'wp-statistics' ),
+				'require'  => array( 'geoip', 'visitors' ),
+				'hidden'   => true
+			),
+			'hits'             => array(
+				'page_url' => 'hits',
+				'name'     => __( 'Hit Statistics', 'wp-statistics' ),
+				'require'  => array( 'visits' ),
+				'hidden'   => true
+			),
+			'pages'            => array(
+				'page_url' => 'pages',
+				'name'     => __( 'Top 10 Pages', 'wp-statistics' ),
+				'require'  => array( 'pages' ),
+				'hidden'   => true
+			),
+			'referring'        => array(
+				'page_url' => 'referrers',
+				'name'     => __( 'Top Referring Sites', 'wp-statistics' ),
+				'require'  => array( 'visitors' ),
+				'hidden'   => true
+			),
+			'search'           => array(
+				'page_url' => 'searches',
+				'name'     => __( 'Search Engine Referrals', 'wp-statistics' ),
+				'require'  => array( 'visitors' ),
+				'hidden'   => true
+			),
+			'words'            => array(
+				'page_url' => 'words',
+				'name'     => __( 'Latest Search Words', 'wp-statistics' ),
+				'require'  => array( 'visitors' ),
+				'hidden'   => true
+			),
+			'top-visitors'     => array(
+				'page_url' => 'top-visitors',
+				'name'     => __( 'Top 10 Visitors Today', 'wp-statistics' ),
+				'require'  => array( 'visitors' ),
+				'hidden'   => true
+			),
+			'recent'           => array(
+				'page_url' => 'visitors',
+				'name'     => __( 'Recent Visitors', 'wp-statistics' ),
+				'require'  => array( 'visitors' ),
+				'hidden'   => true
+			),
+			'hitsmap'          => array(
+				'name'    => __( 'Today\'s Visitors Map', 'wp-statistics' ),
+				'require' => array( 'visitors' ),
+				'hidden'  => true
+			)
+		);
 
-				$hidden_widgets = get_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', true );
-				if ( ! is_array( $hidden_widgets ) ) {
-					$hidden_widgets = array();
-				}
-
-				$default_hidden = array( 'wp-statistics-top-visitors-widget' );
-
-				foreach ( $default_hidden as $widget ) {
-					if ( ! in_array( $widget, $hidden_widgets ) ) {
-						$hidden_widgets[] = $widget;
-					}
-				}
-
-				update_user_meta( $WP_Statistics->user_id, 'metaboxhidden_dashboard', $hidden_widgets );
+		//Print List of Dashboard
+		if ( $widget === false ) {
+			return $list;
+		} else {
+			if ( array_key_exists( $widget, $list ) ) {
+				return $list[ $widget ];
 			}
 		}
 
-		// If the user does not have at least read access to the status plugin, just return without adding the widgets.
-		if ( ! current_user_can(
-			wp_statistics_validate_capability(
-				$WP_Statistics->get_option(
-					'read_capability',
-					'manage_option'
-				)
-			)
-		)
-		) {
+		return array();
+	}
+
+	/**
+	 * This function Register Wp-statistics Dashboard to wordpress Admin
+	 */
+	public static function register_dashboard_widget() {
+
+		//Check Dashboard Widget
+		if ( ! function_exists( 'wp_add_dashboard_widget' ) ) {
 			return;
+		}
+
+		//Get List Of Wp-statistics Dashboard Widget
+		$list = self::widget_list();
+		foreach ( $list as $widget_key => $dashboard ) {
+
+			//Register Dashboard Widget
+			if ( wp_statistics_check_option_require( $dashboard ) === true ) {
+				wp_add_dashboard_widget( self::widget_setup_key( $widget_key ), $dashboard['name'], 'WP_Statistics_Dashboard::generate_postbox_contents', $control_callback = null, array( 'widget' => $widget_key ) );
+			}
+
+		}
+	}
+
+	/**
+	 * Load Dashboard Widget
+	 * This Function add_action to `wp_dashboard_setup`
+	 */
+	static function load_dashboard_widget() {
+		global $WP_Statistics;
+
+		//Load User Options
+		$WP_Statistics->load_user_options();
+
+		// If the user does not have at least read access to the status plugin, just return without adding the widgets.
+		if ( ! current_user_can( wp_statistics_validate_capability( $WP_Statistics->get_option( 'read_capability', 'manage_option' ) ) ) ) {
+			return;
+		}
+
+		//Check Hidden User Dashboard Option
+		$user_dashboard = $WP_Statistics->get_user_option( self::$dashboard_set );
+		if ( $user_dashboard === false || $user_dashboard != WP_Statistics::$reg['version'] ) {
+			self::set_user_hidden_dashboard_option();
 		}
 
 		// If the admin has disabled the widgets, don't display them.
 		if ( ! $WP_Statistics->get_option( 'disable_dashboard' ) ) {
-			wp_add_dashboard_widget(
-				'wp-statistics-quickstats-widget',
-				__( 'Quick Stats', 'wp-statistics' ),
-				'WP_Statistics_Dashboard::generate_postbox_contents',
-				$control_callback = null,
-				array( 'widget' => 'quickstats' )
-			);
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-browsers-widget',
-					__( 'Top 10 Browsers', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'browsers' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'geoip' ) && $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-countries-widget',
-					__( 'Top 10 Countries', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'countries' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-hitsmap-widget',
-					__( 'Today\'s Visitors Map', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'hitsmap' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'visits' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-hits-widget',
-					__( 'Hit Statistics', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'hits' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'pages' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-pages-widget',
-					__( 'Top 10 Pages', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'pages' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-recent-widget',
-					__( 'Recent Visitors', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'recent' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-referring-widget',
-					__( 'Top Referring Sites', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'referring' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-search-widget',
-					__( 'Search Engine Referrals', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'search' )
-				);
-			}
-			wp_add_dashboard_widget(
-				'wp-statistics-summary-widget',
-				__( 'Summary', 'wp-statistics' ),
-				'WP_Statistics_Dashboard::generate_postbox_contents',
-				$control_callback = null,
-				array( 'widget' => 'summary' )
-			);
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-words-widget',
-					__( 'Latest Search Words', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'words' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-top-visitors-widget',
-					__( 'Top 10 Visitors Today', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'top.visitors' )
-				);
-			}
-			if ( $WP_Statistics->get_option( 'visitors' ) ) {
-				wp_add_dashboard_widget(
-					'wp-statistics-searched-phrases-widget',
-					__( 'Top Search Words (30 Days)', 'wp-statistics' ),
-					'WP_Statistics_Dashboard::generate_postbox_contents',
-					$control_callback = null,
-					array( 'widget' => 'searched.phrases' )
-				);
-			}
+			self::register_dashboard_widget();
 		}
+
 	}
 
+	/**
+	 * Set Default Hidden Dashboard User Option
+	 */
+	public static function set_user_hidden_dashboard_option() {
+		global $WP_Statistics;
+
+		//Get List Of Wp-statistics Dashboard Widget
+		$dashboard_list = self::widget_list();
+		$hidden_opt     = 'metaboxhidden_dashboard';
+
+		//Create Empty Option and save in User meta
+		$WP_Statistics->update_user_option( self::$dashboard_set, WP_Statistics::$reg['version'] );
+
+		//Get Dashboard Option User Meta
+		$hidden_widgets = get_user_meta( $WP_Statistics->user_id, $hidden_opt, true );
+		if ( ! is_array( $hidden_widgets ) ) {
+			$hidden_widgets = array();
+		}
+
+		//Set Default Hidden Dashboard in Admin Wordpress
+		foreach ( $dashboard_list as $widget => $dashboard ) {
+			if ( array_key_exists( 'hidden', $dashboard ) ) {
+				$hidden_widgets[] = self::widget_setup_key( $widget );
+			}
+		}
+
+		update_user_meta( $WP_Statistics->user_id, $hidden_opt, $hidden_widgets );
+	}
+
+	/**
+	 * Load Widget Script/style
+	 */
 	static function load_widget_css_and_scripts() {
 		global $WP_Statistics;
 
 		// Load the css we use for the statistics pages.
 		wp_enqueue_style( 'wpstatistics-log-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/log.css', true, '1.2' );
 
-		// Don't forget the right to left support.
-		if ( is_rtl() ) {
-			wp_enqueue_style( 'rtl-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/rtl.css', true, '1.1' );
-		}
-
 		// Load the map code.
-        if (!$WP_Statistics->get_option( 'disable_dashboard' )) {
-            wp_enqueue_style('jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1');
-            wp_enqueue_script(
-                'jquery-vmap',
-                WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js',
-                true,
-                '1.5.1'
-            );
-            wp_enqueue_script(
-                'jquery-vmap-world',
-                WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js',
-                true,
-                '1.5.1'
-            );
-        }
+		if ( ! $WP_Statistics->get_option( 'disable_dashboard' ) ) {
+			wp_enqueue_style( 'jqvmap-css', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jqvmap.css', true, '1.5.1' );
+			wp_enqueue_script( 'jquery-vmap', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/jquery.vmap.js', true, '1.5.1' );
+			wp_enqueue_script( 'jquery-vmap-world', WP_Statistics::$reg['plugin-url'] . 'assets/jqvmap/maps/jquery.vmap.world.js', true, '1.5.1' );
+		}
 
 		// Load chart library
 		if ( ! isset( $_GET['post'] ) ) {
-			wp_enqueue_script(
-				'wp-statistics-chart-js',
-				WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js',
-				false,
-				'2.7.3',
-                false
-			);
+			wp_enqueue_script( 'wp-statistics-chart-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/Chart.bundle.min.js', false, '2.7.3', false );
 		}
 
+		//Get current screen page
 		$screen = get_current_screen();
 
 		// Load our custom widgets handling javascript.
@@ -245,65 +245,39 @@ class WP_Statistics_Dashboard {
 		}
 	}
 
+	/**
+	 * Add inline Script
+	 * For Add button Refresh/Direct Button Link in Top of Meta Box
+	 */
 	static function inline_javascript() {
-		$screen = get_current_screen();
 
+		//if not Dashboard Page
+		$screen = get_current_screen();
 		if ( 'dashboard' != $screen->id ) {
 			return;
 		}
 
+		//Load Of Require Jquery Library Function
 		WP_Statistics_Dashboard::load_widget_css_and_scripts();
 
-		$loading_img = '<div style="width: 100%; text-align: center;"><img src=" ' .
-		               plugins_url( 'wp-statistics/assets/images/' ) .
-		               'ajax-loading.gif" alt="' .
-		               __( 'Reloading...', 'wp-statistics' ) .
-		               '"></div>';
+		//Prepare List Of Dashboard
+		$page_urls  = array();
+		$dashboards = self::widget_list();
+		foreach ( $dashboards as $widget_key => $dashboard ) {
+			if ( array_key_exists( 'page_url', $dashboard ) ) {
+				$page_urls[ 'wp-statistics-' . $widget_key . '-widget_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $dashboard['page_url'] );
+			}
+		}
 
-		$new_buttons
-			= '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-			  wp_statistics_icons( 'dashicons-update' ) .
-			  '<span class="screen-reader-text">' .
-			  __( 'Reload', 'wp-statistics' ) .
-			  '</span></button><button class="handlediv button-link wps-more" type="button" id="{{moreid}}">' .
-			  wp_statistics_icons( 'dashicons-migrate' ) .
-			  '<span class="screen-reader-text">' .
-			  __( 'More Details', 'wp-statistics' ) .
-			  '</span></button>';
-		$new_button
-			= '</button><button class="handlediv button-link wps-refresh" type="button" id="{{refreshid}}">' .
-			  wp_statistics_icons( 'dashicons-update' ) .
-			  '<span class="screen-reader-text">' .
-			  __( 'Reload', 'wp-statistics' ) .
-			  '</span></button>';
-
-		$admin_url = get_admin_url() . "admin.php?page=";
-
-		$page_urls = array();
-
-		$page_urls['wp-statistics-browsers-widget_more_button']         = $admin_url . WP_Statistics::$page['browser'];
-		$page_urls['wp-statistics-countries-widget_more_button']        = $admin_url .
-		                                                                  WP_Statistics::$page['countries'];
-		$page_urls['wp-statistics-exclusions-widget_more_button']       = $admin_url .
-		                                                                  WP_Statistics::$page['exclusions'];
-		$page_urls['wp-statistics-hits-widget_more_button']             = $admin_url . WP_Statistics::$page['hits'];
-		$page_urls['wp-statistics-online-widget_more_button']           = $admin_url . WP_Statistics::$page['online'];
-		$page_urls['wp-statistics-pages-widget_more_button']            = $admin_url . WP_Statistics::$page['pages'];
-		$page_urls['wp-statistics-referring-widget_more_button']        = $admin_url .
-		                                                                  WP_Statistics::$page['referrers'];
-		$page_urls['wp-statistics-searched-phrases-widget_more_button'] = $admin_url .
-		                                                                  WP_Statistics::$page['searched-phrases'];
-		$page_urls['wp-statistics-search-widget_more_button']           = $admin_url . WP_Statistics::$page['searches'];
-		$page_urls['wp-statistics-words-widget_more_button']            = $admin_url . WP_Statistics::$page['words'];
-		$page_urls['wp-statistics-top-visitors-widget_more_button']     = $admin_url .
-		                                                                  WP_Statistics::$page['top-visitors'];
-		$page_urls['wp-statistics-recent-widget_more_button']           = $admin_url . WP_Statistics::$page['visitors'];
-		$page_urls['wp-statistics-quickstats-widget_more_button']       = $admin_url . WP_Statistics::$page['overview'];
+		//Add Extra Pages For Overview Page
+		foreach ( array( 'exclusions' => 'exclusions', 'users_online' => 'online' ) as $p_key => $p_link ) {
+			$page_urls[ 'wp-statistics-' . $p_key . '-widget_more_button' ] = WP_Statistics_Admin_Pages::admin_url( $p_link );
+		}
 
 		?>
         <script type="text/javascript">
             var wp_statistics_destinations = <?php echo json_encode( $page_urls ); ?>;
-            var wp_statistics_loading_image = '<?php echo $loading_img; ?>';
+            var wp_statistics_loading_image = '<?php echo WP_Statistics_Admin_Pages::loading_meta_box(); ?>';
 
             function wp_statistics_wait_for_postboxes() {
 
@@ -329,20 +303,16 @@ class WP_Statistics_Dashboard {
                     }
 
                     var temp_html = temp.html();
-
-                    if (temp_id == 'wp-statistics-summary-widget') {
-                        new_text = '<?php echo $new_button;?>';
+                    if (temp_id == '<?php echo self::widget_setup_key( 'summary' ); ?>') {
+                        new_text = '<?php echo WP_Statistics_Admin_Pages::meta_box_button( 'refresh' );?>';
                         new_text = new_text.replace('{{refreshid}}', temp_id + '_refresh_button');
-
                         temp_html = temp_html.replace('</button>', new_text);
                     } else {
-                        new_text = '<?php echo $new_buttons;?>';
+                        new_text = '<?php echo WP_Statistics_Admin_Pages::meta_box_button();?>';
                         new_text = new_text.replace('{{refreshid}}', temp_id + '_refresh_button');
                         new_text = new_text.replace('{{moreid}}', temp_id + '_more_button');
-
                         temp_html = temp_html.replace('</button>', new_text);
                     }
-
                     temp.html(temp_html);
                 });
 
@@ -354,16 +324,17 @@ class WP_Statistics_Dashboard {
 		<?php
 	}
 
+	/**
+	 * Generate widget Post Box
+	 *
+	 * @param $post
+	 * @param $args
+	 */
 	static function generate_postbox_contents( $post, $args ) {
-		$loading_img  = '<div style="width: 100%; text-align: center;"><img src=" ' .
-		                plugins_url( 'wp-statistics/assets/images/' ) .
-		                'ajax-loading.gif" alt="' .
-		                __( 'Loading...', 'wp-statistics' ) .
-		                '"></div>';
 		$widget       = $args['args']['widget'];
 		$container_id = 'wp-statistics-' . str_replace( '.', '-', $widget ) . '-div';
 
-		echo '<div id="' . $container_id . '">' . $loading_img . '</div>';
+		echo '<div id="' . $container_id . '">' . WP_Statistics_Admin_Pages::loading_meta_box() . '</div>';
 		wp_statistics_generate_widget_load_javascript( $widget, $container_id );
 	}
 

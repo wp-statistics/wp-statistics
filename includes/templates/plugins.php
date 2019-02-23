@@ -1,11 +1,8 @@
-<div class="wrap">
-    <h2><?php esc_html_e( 'Extensions for WP-Statistics', 'wp-statistics' ); ?></h2>
-
+<div class="wrap wps-wrap">
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Extensions for WP-Statistics', 'wp-statistics' ) ); ?>
     <div id="poststuff" class="wp-statistics-plugins">
-        <div id="post-body"
-             class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
-            <p><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></p>
-
+        <div id="post-body" class="metabox-holder">
+            <p><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></p><br/>
             <div class="wp-list-table widefat widefat plugin-install">
                 <div id="the-list">
 					<?php foreach ( $plugins->items as $plugin ) : ?>
@@ -19,8 +16,7 @@
                             <div class="plugin-card-top">
                                 <div class="name column-name">
                                     <h3>
-                                        <a target="_blank" href="<?php echo $plugin->url; ?>"
-                                           class="thickbox open-plugin-details-modal">
+                                        <a target="_blank" href="<?php echo $plugin->url; ?>" class="thickbox open-plugin-details-modal">
 											<?php echo $plugin->name; ?>
                                             <img src="<?php echo $plugin->icon; ?>" class="plugin-icon" alt="">
                                         </a>
@@ -51,22 +47,17 @@
                                 </div>
                                 <div class="column-compatibility">
 									<?php if ( is_plugin_active( $plugin->slug . '/' . $plugin->slug . '.php' ) ) { ?>
-                                        <a href="admin.php?page=wps_plugins_page&action=deactivate&plugin=<?php echo $plugin->slug; ?>"
-                                           class="button"><?php _e( 'Deactivate Add-On', 'wp-statistics' ); ?></a>
+                                        <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'plugins', array( 'action' => 'deactivate', 'plugin' => $plugin->slug ) ); ?>" class="button"><?php _e( 'Deactivate Add-On', 'wp-statistics' ); ?></a>
+									<?php } else { ?><?php if ( file_exists(
+										WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
+									) ) { ?>
+                                        <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'plugins', array( 'action' => 'activate', 'plugin' => $plugin->slug ) ); ?>" class="button"><?php _e( 'Activate Add-On', 'wp-statistics' ); ?></a>
 									<?php } else { ?>
-										<?php if ( file_exists(
-											WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
-										) ) { ?>
-                                            <a href="admin.php?page=wps_plugins_page&action=activate&plugin=<?php echo $plugin->slug; ?>"
-                                               class="button"><?php _e( 'Activate Add-On', 'wp-statistics' ); ?></a>
-										<?php } else { ?>
-                                            <div class="column-price">
-                                                <strong>$<?php echo $plugin->price; ?></strong>
-                                            </div>
-                                            <a target="_blank" href="<?php echo $plugin->url; ?>"
-                                               class="button-primary"><?php _e( 'Buy Add-On', 'wp-statistics' ); ?></a>
-										<?php } ?>
-									<?php } ?>
+                                        <div class="column-price">
+                                            <strong>$<?php echo $plugin->price; ?></strong>
+                                        </div>
+                                        <a target="_blank" href="<?php echo $plugin->url; ?>" class="button-primary"><?php _e( 'Buy Add-On', 'wp-statistics' ); ?></a>
+									<?php } ?><?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -74,5 +65,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="wp-statistics-welcome">
+        <section class="center-section logo">
+            <a href="https://veronalabs.com" target="_blank" title="WordPress Solutions and Services"><img src="http://bit.ly/2FsmZlq"/></a>
+            <p><?php echo __( 'WP-Statistics is one of the VeronaLabs.com projects.', 'wp-statistics' ); ?></p>
+        </section>
     </div>
 </div>

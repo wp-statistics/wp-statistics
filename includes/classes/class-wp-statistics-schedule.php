@@ -16,109 +16,89 @@ class WP_Statistics_Schedule {
 		// before construct
 		add_filter( 'cron_schedules', 'WP_Statistics_Schedule::addcron' );
 
-		// Add the report schedule if it doesn't exist and is enabled.
-		if ( ! wp_next_scheduled( 'report_hook' ) && $WP_Statistics->get_option( 'stats_report' ) ) {
+		//Run This Method Only Admin Area
+		if ( is_admin() ) {
 
-			wp_schedule_event( time(), $WP_Statistics->get_option( 'time_report' ), 'report_hook' );
+			//Disable Run to Ajax
+			if ( ! wp_doing_ajax() ) {
+
+				// Add the GeoIP update schedule if it doesn't exist and it should be.
+				if ( ! wp_next_scheduled( 'wp_statistics_geoip_hook' ) && $WP_Statistics->get_option( 'schedule_geoip' ) && $WP_Statistics->get_option( 'geoip' ) ) {
+					wp_schedule_event( time(), 'daily', 'wp_statistics_geoip_hook' );
+				}
+
+				// Remove the GeoIP update schedule if it does exist and it should shouldn't.
+				if ( wp_next_scheduled( 'wp_statistics_geoip_hook' ) && ( ! $WP_Statistics->get_option( 'schedule_geoip' ) || ! $WP_Statistics->get_option( 'geoip' ) ) ) {
+					wp_unschedule_event( wp_next_scheduled( 'wp_statistics_geoip_hook' ), 'wp_statistics_geoip_hook' );
+				}
+
+				//Construct Event
+				add_action( 'wp_statistics_geoip_hook', array( $this, 'geoip_event' ) );
+			}
+
+		} else {
+
+			// Add the report schedule if it doesn't exist and is enabled.
+			if ( ! wp_next_scheduled( 'report_hook' ) && $WP_Statistics->get_option( 'stats_report' ) ) {
+				wp_schedule_event( time(), $WP_Statistics->get_option( 'time_report' ), 'report_hook' );
+			}
+
+			// Remove the report schedule if it does exist and is disabled.
+			if ( wp_next_scheduled( 'report_hook' ) && ! $WP_Statistics->get_option( 'stats_report' ) ) {
+				wp_unschedule_event( wp_next_scheduled( 'report_hook' ), 'report_hook' );
+			}
+
+			// Add the referrerspam update schedule if it doesn't exist and it should be.
+			if ( ! wp_next_scheduled( 'wp_statistics_referrerspam_hook' ) && $WP_Statistics->get_option( 'schedule_referrerspam' ) ) {
+				wp_schedule_event( time(), 'weekly', 'wp_statistics_referrerspam_hook' );
+			}
+
+			// Remove the referrerspam update schedule if it does exist and it should shouldn't.
+			if ( wp_next_scheduled( 'wp_statistics_referrerspam_hook' ) && ! $WP_Statistics->get_option( 'schedule_referrerspam' ) ) {
+				wp_unschedule_event( wp_next_scheduled( 'wp_statistics_referrerspam_hook' ), 'wp_statistics_referrerspam_hook' );
+			}
+
+			// Add the database maintenance schedule if it doesn't exist and it should be.
+			if ( ! wp_next_scheduled( 'wp_statistics_dbmaint_hook' ) && $WP_Statistics->get_option( 'schedule_dbmaint' ) ) {
+				wp_schedule_event( time(), 'daily', 'wp_statistics_dbmaint_hook' );
+			}
+
+			// Remove the database maintenance schedule if it does exist and it shouldn't.
+			if ( wp_next_scheduled( 'wp_statistics_dbmaint_hook' ) && ( ! $WP_Statistics->get_option( 'schedule_dbmaint' ) ) ) {
+				wp_unschedule_event( wp_next_scheduled( 'wp_statistics_dbmaint_hook' ), 'wp_statistics_dbmaint_hook' );
+			}
+
+			// Add the visitor database maintenance schedule if it doesn't exist and it should be.
+			if ( ! wp_next_scheduled( 'wp_statistics_dbmaint_visitor_hook' ) && $WP_Statistics->get_option( 'schedule_dbmaint_visitor' ) ) {
+				wp_schedule_event( time(), 'daily', 'wp_statistics_dbmaint_visitor_hook' );
+			}
+
+			// Remove the visitor database maintenance schedule if it does exist and it shouldn't.
+			if ( wp_next_scheduled( 'wp_statistics_dbmaint_visitor_hook' ) && ( ! $WP_Statistics->get_option( 'schedule_dbmaint_visitor' ) ) ) {
+				wp_unschedule_event( wp_next_scheduled( 'wp_statistics_dbmaint_visitor_hook' ), 'wp_statistics_dbmaint_visitor_hook' );
+			}
+
+			// Remove the add visit row schedule if it does exist and it shouldn't.
+			if ( wp_next_scheduled( 'wp_statistics_add_visit_hook' ) && ( ! $WP_Statistics->get_option( 'visits' ) ) ) {
+				wp_unschedule_event( wp_next_scheduled( 'wp_statistics_add_visit_hook' ), 'wp_statistics_add_visit_hook' );
+			}
+
+			// Add the add visit table row schedule if it does exist and it should.
+			if ( ! wp_next_scheduled( 'wp_statistics_add_visit_hook' ) && $WP_Statistics->get_option( 'visits' ) ) {
+				wp_schedule_event( time(), 'daily', 'wp_statistics_add_visit_hook' );
+			}
+
+			//after construct
+			add_action( 'wp_statistics_add_visit_hook', array( $this, 'add_visit_event' ) );
+			add_action( 'wp_statistics_dbmaint_hook', array( $this, 'dbmaint_event' ) );
+			add_action( 'wp_statistics_dbmaint_visitor_hook', array( $this, 'dbmaint_visitor_event' ) );
+			add_action( 'report_hook', array( $this, 'send_report' ) );
 		}
-
-		// Remove the report schedule if it does exist and is disabled.
-		if ( wp_next_scheduled( 'report_hook' ) && ! $WP_Statistics->get_option( 'stats_report' ) ) {
-
-			wp_unschedule_event( wp_next_scheduled( 'report_hook' ), 'report_hook' );
-		}
-
-		// Add the GeoIP update schedule if it doesn't exist and it should be.
-		if ( ! wp_next_scheduled( 'wp_statistics_geoip_hook' ) &&
-		     $WP_Statistics->get_option( 'schedule_geoip' ) &&
-		     $WP_Statistics->get_option( 'geoip' )
-		) {
-
-			wp_schedule_event( time(), 'daily', 'wp_statistics_geoip_hook' );
-		}
-
-		// Remove the GeoIP update schedule if it does exist and it should shouldn't.
-		if ( wp_next_scheduled( 'wp_statistics_geoip_hook' ) &&
-		     ( ! $WP_Statistics->get_option( 'schedule_geoip' ) || ! $WP_Statistics->get_option( 'geoip' ) )
-		) {
-
-			wp_unschedule_event( wp_next_scheduled( 'wp_statistics_geoip_hook' ), 'wp_statistics_geoip_hook' );
-		}
-
-		// Add the referrerspam update schedule if it doesn't exist and it should be.
-		if ( ! wp_next_scheduled( 'wp_statistics_referrerspam_hook' ) &&
-		     $WP_Statistics->get_option( 'schedule_referrerspam' )
-		) {
-
-			wp_schedule_event( time(), 'weekly', 'wp_statistics_referrerspam_hook' );
-		}
-
-		// Remove the referrerspam update schedule if it does exist and it should shouldn't.
-		if ( wp_next_scheduled( 'wp_statistics_referrerspam_hook' ) &&
-		     ! $WP_Statistics->get_option( 'schedule_referrerspam' )
-		) {
-
-			wp_unschedule_event(
-				wp_next_scheduled( 'wp_statistics_referrerspam_hook' ),
-				'wp_statistics_referrerspam_hook'
-			);
-		}
-
-		// Add the database maintenance schedule if it doesn't exist and it should be.
-		if ( ! wp_next_scheduled( 'wp_statistics_dbmaint_hook' ) && $WP_Statistics->get_option( 'schedule_dbmaint' ) ) {
-
-			wp_schedule_event( time(), 'daily', 'wp_statistics_dbmaint_hook' );
-		}
-
-		// Remove the database maintenance schedule if it does exist and it shouldn't.
-		if ( wp_next_scheduled( 'wp_statistics_dbmaint_hook' ) && ( ! $WP_Statistics->get_option( 'schedule_dbmaint' ) ) ) {
-
-			wp_unschedule_event( wp_next_scheduled( 'wp_statistics_dbmaint_hook' ), 'wp_statistics_dbmaint_hook' );
-		}
-
-		// Add the visitor database maintenance schedule if it doesn't exist and it should be.
-		if ( ! wp_next_scheduled( 'wp_statistics_dbmaint_visitor_hook' ) &&
-		     $WP_Statistics->get_option( 'schedule_dbmaint_visitor' )
-		) {
-
-			wp_schedule_event( time(), 'daily', 'wp_statistics_dbmaint_visitor_hook' );
-		}
-
-		// Remove the visitor database maintenance schedule if it does exist and it shouldn't.
-		if ( wp_next_scheduled( 'wp_statistics_dbmaint_visitor_hook' ) &&
-		     ( ! $WP_Statistics->get_option( 'schedule_dbmaint_visitor' ) )
-		) {
-
-			wp_unschedule_event(
-				wp_next_scheduled( 'wp_statistics_dbmaint_visitor_hook' ),
-				'wp_statistics_dbmaint_visitor_hook'
-			);
-		}
-
-		// Remove the add visit row schedule if it does exist and it shouldn't.
-		if ( wp_next_scheduled( 'wp_statistics_add_visit_hook' ) && ( ! $WP_Statistics->get_option( 'visits' ) ) ) {
-
-			wp_unschedule_event( wp_next_scheduled( 'wp_statistics_add_visit_hook' ), 'wp_statistics_add_visit_hook' );
-		}
-
-		// Add the add visit table row schedule if it does exist and it should.
-		if ( ! wp_next_scheduled( 'wp_statistics_add_visit_hook' ) && $WP_Statistics->get_option( 'visits' ) ) {
-
-			wp_schedule_event( time(), 'daily', 'wp_statistics_add_visit_hook' );
-		}
-
-		//after construct
-		add_action( 'wp_statistics_add_visit_hook', 'WP_Statistics_Schedule::add_visit_event' );
-		add_action( 'wp_statistics_geoip_hook', 'WP_Statistics_Schedule::geoip_event' );
-		add_action( 'wp_statistics_dbmaint_hook', 'WP_Statistics_Schedule::dbmaint_event' );
-		add_action( 'wp_statistics_dbmaint_visitor_hook', 'WP_Statistics_Schedule::dbmaint_visitor_event' );
-		add_action( 'report_hook', 'WP_Statistics_Schedule::send_report' );
 
 	}
 
 	/**
 	 * @param array $schedules
-	 *
 	 * @return mixed
 	 */
 	static function addcron( $schedules ) {
@@ -152,25 +132,25 @@ class WP_Statistics_Schedule {
 	 * adds a record for tomorrow to the visit table to avoid a race condition.
 	 *
 	 */
-	static function add_visit_event() {
-		GLOBAL $wpdb, $WP_Statistics;
+	public function add_visit_event() {
+		global $wpdb, $WP_Statistics;
 
-		$sqlstring = $wpdb->prepare(
-			'INSERT INTO ' . $wpdb->prefix . 'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d)',
-			$WP_Statistics->Current_Date( null, '+1' ),
-			$WP_Statistics->Current_date( 'Y-m-d', '+1' ),
-			0
+		$wpdb->insert(
+			$wpdb->prefix . 'statistics_visit',
+			array(
+				'last_visit'   => $WP_Statistics->Current_Date( null, '+1' ),
+				'last_counter' => $WP_Statistics->Current_date( 'Y-m-d', '+1' ),
+				'visit'        => 0,
+			),
+			array( '%s', '%s', '%d' )
 		);
-
-		$wpdb->query( $sqlstring );
 	}
 
 	/**
 	 * Updates the GeoIP database from MaxMind.
 	 */
-	static function geoip_event() {
-
-		GLOBAL $WP_Statistics;
+	public function geoip_event() {
+		global $WP_Statistics;
 
 		// Maxmind updates the geoip database on the first Tuesday of the month, to make sure we don't update before they post
 		// the update, download it two days later.
@@ -193,7 +173,7 @@ class WP_Statistics_Schedule {
 		}
 
 
-		if ( $is_require_update ===true ) {
+		if ( $is_require_update === true ) {
 
 			// We can't fire the download function directly here as we rely on some functions that haven't been loaded yet
 			// in WordPress, so instead just set the flag in the options table and the shutdown hook will take care of the
@@ -205,7 +185,7 @@ class WP_Statistics_Schedule {
 	/**
 	 * Purges old records on a schedule based on age.
 	 */
-	static function dbmaint_event() {
+	public function dbmaint_event() {
 		global $WP_Statistics;
 		if ( ! function_exists( 'wp_statistics_purge_data' ) ) {
 			require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge.php' );
@@ -217,7 +197,7 @@ class WP_Statistics_Schedule {
 	/**
 	 * Purges visitors with more than a defined number of hits in a day.
 	 */
-	static function dbmaint_visitor_event() {
+	public function dbmaint_visitor_event() {
 		global $WP_Statistics;
 		if ( ! function_exists( 'wp_statistics_purge_visitor_hits' ) ) {
 			require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
@@ -229,7 +209,7 @@ class WP_Statistics_Schedule {
 	/**
 	 * Sends the statistics report to the selected users.
 	 */
-	static function send_report() {
+	public function send_report() {
 		global $WP_Statistics, $sms;
 
 		// Retrieve the template from the options.
@@ -253,12 +233,7 @@ class WP_Statistics_Schedule {
 				$WP_Statistics->update_option( 'email_list', $blogemail );
 			}
 
-			wp_mail(
-				$WP_Statistics->get_option( 'email_list' ),
-				__( 'Statistical reporting', 'wp-statistics' ),
-				$final_text_report,
-				$headers
-			);
+			wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Statistical reporting', 'wp-statistics' ), $final_text_report, $headers );
 
 		} else if ( $WP_Statistics->get_option( 'send_report' ) == 'sms' ) {
 

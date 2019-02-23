@@ -30,8 +30,7 @@ if ( $wps_nonce_valid ) {
         </tr>
 
         <tr valign="top">
-            <td scope="row"
-                colspan="2"><?php echo sprintf( __( 'If you want to delete visitor data, please <a href="%s">click here</a>.', 'wp-statistics' ), admin_url( 'admin.php?page=wps_optimization_page&tab=purging' ) ); ?></td>
+            <td scope="row" colspan="2"><?php echo sprintf( __( 'If you want to delete visitor data, please <a href="%s">click here</a>.', 'wp-statistics' ), WP_Statistics_Admin_Pages::admin_url( 'optimization', array( 'tab' => 'purging' ) ) ); ?></td>
         </tr>
 
         <tr valign="top">
@@ -40,12 +39,11 @@ if ( $wps_nonce_valid ) {
             </th>
 
             <td>
-                <input id="anonymize_ips" type="checkbox" value="1"
-                       name="wps_anonymize_ips" <?php echo $WP_Statistics->get_option( 'anonymize_ips' ) == true
-                    ? "checked='checked'" : ''; ?>>
+                <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo $WP_Statistics->get_option( 'anonymize_ips' ) == true
+					? "checked='checked'" : ''; ?>>
                 <label for="anonymize_ips"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
-                <p class="description"><?php echo __('This option anonymizes the user IP address for GDPR compliance. For example, 888.888.888.888 > 888.888.888.000.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __( 'This option anonymizes the user IP address for GDPR compliance. For example, 888.888.888.888 > 888.888.888.000.', 'wp-statistics' ); ?></p>
             </td>
         </tr>
 
@@ -55,8 +53,7 @@ if ( $wps_nonce_valid ) {
             </th>
 
             <td>
-                <input id="hash_ips" type="checkbox" value="1"
-                       name="wps_hash_ips" <?php echo $WP_Statistics->get_option( 'hash_ips' ) == true
+                <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo $WP_Statistics->get_option( 'hash_ips' ) == true
 					? "checked='checked'" : ''; ?>>
                 <label for="hash_ips"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 
@@ -79,8 +76,7 @@ if ( $wps_nonce_valid ) {
             </th>
 
             <td>
-                <input id="store_ua" type="checkbox" value="1"
-                       name="wps_store_ua" <?php echo $WP_Statistics->get_option( 'store_ua' ) == true
+                <input id="store_ua" type="checkbox" value="1" name="wps_store_ua" <?php echo $WP_Statistics->get_option( 'store_ua' ) == true
 					? "checked='checked'" : ''; ?>>
                 <label for="store_ua"><?php _e( 'Enable', 'wp-statistics' ); ?></label>
 

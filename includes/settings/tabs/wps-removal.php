@@ -64,9 +64,7 @@ if ( $wps_nonce_valid ) {
 
 			// We need to reload the page after we reset the options but it's too late to do it through a HTTP redirect so do a 
 			// JavaScript redirect instead.
-			echo '<script type="text/javascript">window.location.href="' .
-			     admin_url() .
-			     'admin.php?page=wps_settings_page";</script>';
+			echo '<script type="text/javascript">window.location.href="' . WP_Statistics_Admin_Pages::admin_url( 'settings' ) . '";</script>';
 		}
 	}
 }

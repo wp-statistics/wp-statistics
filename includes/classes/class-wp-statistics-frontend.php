@@ -8,42 +8,43 @@ class WP_Statistics_Frontend {
 	public function __construct() {
 		global $WP_Statistics;
 
+		//Enable Shortcode in Widget
 		add_filter( 'widget_text', 'do_shortcode' );
 
-		new WP_Statistics_Schedule;
-
 		// Add the honey trap code in the footer.
-		add_action( 'wp_footer', 'WP_Statistics_Frontend::add_honeypot' );
+		add_action( 'wp_footer', array( $this, 'add_honeypot' ) );
 
 		// Enqueue scripts & styles
-		add_action( 'wp_enqueue_scripts', 'WP_Statistics_Frontend::enqueue_scripts' );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		// We can wait until the very end of the page to process the statistics,
-		// that way the page loads and displays quickly.
-		add_action( 'wp', 'WP_Statistics_Frontend::init' );
+		//Get Visitor information and Save To Database
+		add_action( 'wp', array( $this, 'init' ) );
 
 		//Add inline Rest Request
-		add_action( 'wp_head', 'WP_Statistics_Frontend::add_inline_rest_js' );
+		add_action( 'wp_head', array( $this, 'add_inline_rest_js' ) );
 
 		//Add Html Comment in head
-		if ( $WP_Statistics->use_cache ) {
-			add_action( 'wp_head', 'WP_Statistics_Frontend::html_comment' );
+		if ( ! $WP_Statistics->use_cache ) {
+			add_action( 'wp_head', array( $this, 'html_comment' ) );
+		}
+
+		// Check to show hits in posts/pages
+		if ( $WP_Statistics->get_option( 'show_hits' ) ) {
+			add_filter( 'the_content', array( $this, 'show_hits' ) );
 		}
 	}
-
 
 	/*
 	 * Create Comment support Wappalyzer
 	 */
-	static public function html_comment() {
+	public function html_comment() {
 		echo '<!-- Analytics by WP-Statistics v' . WP_Statistics::$reg['version'] . ' - ' . WP_Statistics::$reg['plugin-data']['PluginURI'] . ' -->' . "\n";
 	}
-
 
 	/**
 	 * Footer Action
 	 */
-	static function add_honeypot() {
+	public function add_honeypot() {
 		global $WP_Statistics;
 		if ( $WP_Statistics->get_option( 'use_honeypot' ) && $WP_Statistics->get_option( 'honeypot_postid' ) > 0 ) {
 			$post_url = get_permalink( $WP_Statistics->get_option( 'honeypot_postid' ) );
@@ -53,10 +54,8 @@ class WP_Statistics_Frontend {
 
 	/**
 	 * Enqueue Scripts
-	 *
-	 * @param string $hook Not Used
 	 */
-	static function enqueue_scripts( $hook ) {
+	public function enqueue_scripts() {
 
 		// Load our CSS to be used.
 		if ( is_admin_bar_showing() ) {
@@ -67,12 +66,12 @@ class WP_Statistics_Frontend {
 	/*
 	 * Inline Js
 	 */
-	static public function add_inline_rest_js() {
+	public function add_inline_rest_js() {
 		global $WP_Statistics;
 
 		if ( $WP_Statistics->use_cache ) {
-			self::html_comment();
-			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("'.WP_Statistics_Rest::_POST.'=" + JSON.stringify('.self::set_default_params().'));</script>' . "\n";
+			$this->html_comment();
+			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("' . WP_Statistics_Rest::_POST . '=" + JSON.stringify(' . self::set_default_params() . '));</script>' . "\n";
 		}
 	}
 
@@ -80,7 +79,7 @@ class WP_Statistics_Frontend {
 	 * Set Default Params Rest Api
 	 */
 	static public function set_default_params() {
-		global $wpdb, $wp_query, $WP_Statistics;
+		global $WP_Statistics;
 
 		/*
 		 * Load Rest Api JavaScript
@@ -121,7 +120,7 @@ class WP_Statistics_Frontend {
 
 		//track all page
 		$params['track_all'] = 0;
-		if ( WP_Statistics_Hits::is_track_all_page() === true ) {
+		if ( WP_Statistics_Hits::is_track_page() === true ) {
 			$params['track_all'] = 1;
 		}
 
@@ -129,15 +128,25 @@ class WP_Statistics_Frontend {
 		$params['timestamp'] = $WP_Statistics->current_date( 'U' );
 
 		//Wp_query
-		$params['is_object_wp_query'] = 'false';
-		if ( is_object( $wp_query ) ) {
-			$params['is_object_wp_query'] = 'true';
-			$params['current_page_id']    = $wp_query->get_queried_object_id();
+		$get_page_type               = WP_Statistics_Frontend::get_page_type();
+		$params['search_query']      = '';
+		$params['current_page_type'] = $get_page_type['type'];
+		$params['current_page_id']   = $get_page_type['id'];
+
+		if ( array_key_exists( "search_query", $get_page_type ) ) {
+			$params['search_query'] = $get_page_type['search_query'];
 		}
 
 		//page url
 		$params['page_uri'] = wp_statistics_get_uri();
 
+		//Get User id
+		$params['user_id'] = 0;
+		if ( is_user_logged_in() ) {
+			$params['user_id'] = get_current_user_id();
+		}
+
+		//Fixed entity decode Html
 		foreach ( (array) $params as $key => $value ) {
 			if ( ! is_scalar( $value ) ) {
 				continue;
@@ -145,15 +154,13 @@ class WP_Statistics_Frontend {
 			$params[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
 		}
 
-
-		return json_encode($params, JSON_UNESCAPED_SLASHES);
+		return json_encode( $params, JSON_UNESCAPED_SLASHES );
 	}
-
 
 	/**
 	 * Shutdown Action
 	 */
-	static function init() {
+	public function init() {
 		global $WP_Statistics;
 
 		// If something has gone horribly wrong and $WP_Statistics isn't an object, bail out.
@@ -163,7 +170,7 @@ class WP_Statistics_Frontend {
 		}
 
 		//Disable if User Active cache Plugin
-		if ( ! $WP_Statistics->use_cache  ) {
+		if ( ! $WP_Statistics->use_cache ) {
 
 			$h = new WP_Statistics_GEO_IP_Hits;
 
@@ -187,11 +194,6 @@ class WP_Statistics_Frontend {
 				$h->Pages();
 			}
 		}
-
-		// Check to show hits in posts/pages
-		if ( $WP_Statistics->get_option( 'show_hits' ) ) {
-			add_filter( 'the_content', 'WP_Statistics_Frontend::show_hits' );
-		}
 	}
 
 	/**
@@ -199,7 +201,7 @@ class WP_Statistics_Frontend {
 	 *
 	 * @return string
 	 */
-	public static function show_hits( $content ) {
+	public function show_hits( $content ) {
 		global $WP_Statistics;
 
 		// Get post ID
@@ -222,6 +224,86 @@ class WP_Statistics_Frontend {
 		} else {
 			return $content;
 		}
+	}
+
+	/**
+	 * Get Page Type
+	 */
+	public static function get_page_type() {
+
+		//Set Default Option
+		$result = array( "type" => "unknown", "id" => 0 );
+
+		//Check Query object
+		$id = get_queried_object_id();
+		if ( is_numeric( $id ) and $id > 0 ) {
+			$result['id'] = $id;
+		}
+
+		//WooCommerce Product
+		if ( class_exists( 'WooCommerce' ) ) {
+			if ( is_product() ) {
+				return wp_parse_args( array( "type" => "product" ), $result );
+			}
+		}
+
+		//Home Page or Front Page
+		if ( is_front_page() || is_home() ) {
+			return wp_parse_args( array( "type" => "home" ), $result );
+		}
+
+		//attachment View
+		if ( is_attachment() ) {
+			$result['type'] = "attachment";
+		}
+
+		//Single Post Fro All Post Type
+		if ( is_singular() ) {
+			$result['type'] = "post";
+		}
+
+		//Single Page
+		if ( is_page() ) {
+			$result['type'] = "page";
+		}
+
+		//Category Page
+		if ( is_category() ) {
+			$result['type'] = "category";
+		}
+
+		//Tag Page
+		if ( is_tag() ) {
+			$result['type'] = "post_tag";
+		}
+
+		//is Custom Term From Taxonomy
+		if ( is_tax() ) {
+			$result['type'] = "tax";
+		}
+
+		//is Author Page
+		if ( is_author() ) {
+			$result['type'] = "author";
+		}
+
+		//is search page
+		$search_query = get_search_query();
+		if ( trim( $search_query ) != "" ) {
+			return array( "type" => "search", "id" => 0, "search_query" => $search_query );
+		}
+
+		//is Archive Page
+		if ( is_archive() ) {
+			$result['type'] = "archive";
+		}
+
+		//is 404 Page
+		if ( is_404() ) {
+			$result['type'] = "404";
+		}
+
+		return $result;
 	}
 
 }

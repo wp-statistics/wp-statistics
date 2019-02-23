@@ -37,6 +37,7 @@ function wp_statistics_generate_search_postbox_content( $search_engines, $size =
         colors['qwant'] = ['rgba(53, 60, 82, 0.2)', 'rgba(53, 60, 82, 1)'];
 
         var ctx = document.getElementById("<?php echo $id; ?>").getContext('2d');
+        <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
         var ChartJs = new Chart(ctx, {
             type: 'line',
             data: {

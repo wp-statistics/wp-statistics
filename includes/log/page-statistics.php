@@ -28,22 +28,10 @@ if ( is_object( $post ) ) {
 	$title = "";
 }
 
-$daysToDisplay = 20;
-if ( array_key_exists( 'hitdays', $_GET ) ) {
-	$daysToDisplay = intval( $_GET['hitdays'] );
-}
+//Set Default Time Picker Option
+list( $daysToDisplay, $rangestart, $rangeend ) = wp_statistics_prepare_range_time_picker();
 
-if ( array_key_exists( 'rangestart', $_GET ) ) {
-	$rangestart = $_GET['rangestart'];
-} else {
-	$rangestart = '';
-}
-if ( array_key_exists( 'rangeend', $_GET ) ) {
-	$rangeend = $_GET['rangeend'];
-} else {
-	$rangeend = '';
-}
-
+//Check Page
 if ( array_key_exists( 'page-id', $_GET ) ) {
 	$page = intval( $_GET['page-id'] );
 } else {
@@ -54,25 +42,36 @@ if ( array_key_exists( 'page-id', $_GET ) ) {
 	}
 }
 
-$urlfields = '&prepage=' . $pageid;
-$html      = __( 'Select Page', 'wp-statistics' ) . ': ';
-$html      .= wp_dropdown_pages( array( 'selected' => $pageid, 'echo' => 0, 'name' => 'page-id' ) );
-$html      .= '<input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" class="button-primary">';
-$html      .= '<br>';
+//Check Page Type
+$arg       = array();
+$post_type = get_post_type( $page );
+if ( $page > 0 and $post_type != "page" ) {
+	$arg = array( "post_type" => get_post_type( $page ), "posts_per_page" => 50, "order" => "DESC" );
+}
+
+//Add arg to This Url
+$url_fields = '&prepage=' . $pageid;
+
+//Show Select Box Ui
+$html       = __( 'Select Page', 'wp-statistics' ) . ': ';
+$html       .= '<select name="page-id">';
+foreach ( wp_statistics_get_post_list( $arg ) as $post_id => $post_title ) {
+	$html .= '<option value="' . $post_id . '"' . selected( $post_id, $page, false ) . '>' . $post_title . '</option>';
+}
+$html .= '</select>';
+$html .= ' <input type="submit" value="' . __( 'Select', 'wp-statistics' ) . '" class="button-primary">';
+$html .= '<br>';
 ?>
-<div class="wrap">
-    <h2><?php echo sprintf( __( 'Page Trend for Post ID %s', 'wp-statistics' ), $pageid ) . ' - ' . $title; ?></h2>
-	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay, null, null, $urlfields, $html ); ?>
+<div class="wrap wps-wrap">
+	<?php WP_Statistics_Admin_Pages::show_page_title( sprintf( __( 'Page Trend for Post ID %s', 'wp-statistics' ), $pageid ) . ' - ' . $title ); ?>
+	<?php wp_statistics_date_range_selector( WP_Statistics::$page['pages'], $daysToDisplay, null, null, $url_fields, $html ); ?>
     <div class="postbox-container" id="last-log">
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
 					<?php $paneltitle = __( 'Page Trend', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf(
-								__( 'Toggle panel: %s', 'wp-statistics' ),
-								$paneltitle
-							); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>

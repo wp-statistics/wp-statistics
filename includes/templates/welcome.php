@@ -1,9 +1,9 @@
-<div class="wrap about-wrap full-width-layout">
+<div class="wrap wps-wrap about-wrap full-width-layout">
     <div class="wp-statistics-welcome">
         <h1><?php printf( __( 'Welcome to WP-Statistics&nbsp;%s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></h1>
 
         <p class="about-text">
-			<?php printf(__('Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!','wp-statistics'),'<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">','</a>'); ?>
+			<?php printf( __( 'Thank you for updating to the latest version! We encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!', 'wp-statistics' ), '<a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">', '</a>' ); ?>
 			<?php _e( 'Submit your rating:', 'wp-statistics' ); ?>
             <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/stars.png' ); ?>"/></a>
         </p>
@@ -20,7 +20,7 @@
             <section class="center-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Great update for all WP-Statistics Add-Ons', 'wp-statistics' ); ?></h2>
+                        <h2><?php _e( 'Great update for all WP-Statistics', 'wp-statistics' ); ?></h2>
                     </div>
                 </div>
             </section>
@@ -28,87 +28,128 @@
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2 style="margin-top: 0"><?php _e( 'View Live Report data with new dashboard', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Redesign & Optimized for with on the big screen', 'wp-statistics' ); ?></p>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Visitor on Map', 'wp-statistics' ); ?></p>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Live Chart', 'wp-statistics' ); ?></p>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Better Performance', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'And much more!', 'wp-statistics' ); ?></p>
-
-                        <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" target="_blank">Get Real-Time Stats</a>
-                        </div>
+                        <h2><?php _e( 'Online Users Widget', 'wp-statistics' ); ?></h2>
+                        <p><?php _e( 'A cool widget to show current online users!', 'wp-statistics' ); ?></p>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/addon-realltime-stats.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/usersonline-widget.png' ); ?>"/>
                 </div>
             </section>
 
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2 style="margin-top: 0"><?php _e( 'Advanced Reporting', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'Now, Fully customized and new options!', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'New: Ability to customize reports based on data widgets.', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'Ability to send preview & test email.', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'Added “Top Countries” stats for sending with the report.', 'wp-statistics' ); ?></p>
-
-                        <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-advanced-reporting/" target="_blank">Get Advanced Reporting</a>
-                        </div>
+                        <h2><?php _e( 'Top Referring Sites', 'wp-statistics' ); ?></h2>
+                        <p><?php _e( 'Site icon, Server IP and minor improvements.', 'wp-statistics' ); ?></p>
                     </div>
                 </div>
 
                 <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/addon-advanced-reporting.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/topreferring-widget.png' ); ?>"/>
                 </div>
             </section>
 
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Widgets', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'The new & beautiful chart includes a caching mechanism and time range settings', 'wp-statistics' ); ?></p>
-
-                        <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-widgets/" target="_blank">Get Widgets</a>
-                        </div>
+                        <h2><?php _e( 'Top 10 Counties', 'wp-statistics' ); ?></h2>
+                        <p><?php _e( 'You can see all visitor of a country!', 'wp-statistics' ); ?></p>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/addon-widgets.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/topcountry-widget.png' ); ?>"/>
                 </div>
             </section>
 
             <section class="normal-section">
-                <div class="right">
+                <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Mini Chart', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'Now include customization and show based on post type settings', 'wp-statistics' ); ?></p>
-
-                        <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-mini-chart/" target="_blank">Get Mini Chart</a>
-                        </div>
+                        <h2><?php _e( 'Other changes', 'wp-statistics' ); ?></h2>
                     </div>
                 </div>
 
-                <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/addons-mini-chart.png' ); ?>"/>
+                <div class="right">
+                    <ul>
+                        <li>Added new table `visitor_relationship` for saving visitors logs.</li>
+                        <li>Update database version.</li>
+                        <li>Improvement MySQL time query in all functions.</li>
+                        <li>Improvement CSV exporter.</li>
+                        <li>Improvement pagination in admin pages.</li>
+                        <li>Improvement time filter in admin pages stats.</li>
+                    </ul>
                 </div>
             </section>
 
             <section class="center-section">
-                <div class="left">
-                    <div class="content-padding">
-                        <h2>Add-Ons Bundle</h2>
-                        <p>Buying a bundle is always a good way to access all add-ons with lower money.<br>According to your requests we have defined all 5 add-ons, in a package with a good discount.</p>
-                        <p style="margin: 32px 0;"><a href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank"><img src="https://wp-statistics.com/wp-content/uploads/2018/12/welcome-page-bundle.png"/></a></p>
+                <div class="content-padding">
+                    <h2><?php _e( 'Add-Ons', 'wp-statistics' ); ?></h2>
+                </div>
+                <div id="poststuff" class="wp-statistics-plugins">
+                    <div id="post-body" class="metabox-holder">
+                        <p><?php _e( 'These extensions add functionality to your WP-Statistics.', 'wp-statistics' ); ?></p><br/>
+                        <div class="wp-list-table widefat widefat plugin-install">
+                            <div id="the-list">
+					            <?php foreach ( $plugins->items as $plugin ) : ?>
+                                    <div class="plugin-card">
+							            <?php if ( $plugin->is_feature and $plugin->featured_label ) : ?>
+                                            <div class="cover-ribbon">
+                                                <div class="cover-ribbon-inside"><?php echo $plugin->featured_label; ?></div>
+                                            </div>
+							            <?php endif; ?>
 
-                        <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/add-ons-bundle/" target="_blank">Get Add-Ons Bundle!</a>
+                                        <div class="plugin-card-top">
+                                            <div class="name column-name">
+                                                <h3>
+                                                    <a target="_blank" href="<?php echo $plugin->url; ?>" class="thickbox open-plugin-details-modal">
+											            <?php echo $plugin->name; ?>
+                                                        <img src="<?php echo $plugin->icon; ?>" class="plugin-icon" alt="">
+                                                    </a>
+                                                </h3>
+                                            </div>
+
+                                            <div class="desc column-description">
+                                                <p><?php echo wp_trim_words( $plugin->description, 15 ); ?></p>
+                                            </div>
+                                        </div>
+                                        <div class="plugin-card-bottom">
+                                            <div class="column-downloaded">
+                                                <strong><?php _e( 'Version:', 'wp-statistics' ); ?></strong><?php echo ' ' .
+									                                                                                   $plugin->version; ?>
+                                                <p><strong><?php _e( 'Status:', 'wp-statistics' ); ?></strong>
+										            <?php
+										            if ( is_plugin_active( $plugin->slug . '/' . $plugin->slug . '.php' ) ) {
+											            _e( 'Active', 'wp-statistics' );
+										            } else if ( file_exists(
+											            WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
+										            ) ) {
+											            _e( 'Inactive', 'wp-statistics' );
+										            } else {
+											            _e( 'Not installed', 'wp-statistics' );
+										            }
+										            ?>
+                                                </p>
+                                            </div>
+                                            <div class="column-compatibility">
+									            <?php if ( is_plugin_active( $plugin->slug . '/' . $plugin->slug . '.php' ) ) { ?>
+                                                    <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'plugins', array( 'action' => 'deactivate', 'plugin' => $plugin->slug ) ); ?>" class="button"><?php _e( 'Deactivate Add-On', 'wp-statistics' ); ?></a>
+									            <?php } else { ?><?php if ( file_exists(
+										            WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
+									            ) ) { ?>
+                                                    <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'plugins', array( 'action' => 'activate', 'plugin' => $plugin->slug ) ); ?>" class="button"><?php _e( 'Activate Add-On', 'wp-statistics' ); ?></a>
+									            <?php } else { ?>
+                                                    <div class="column-price">
+                                                        <strong>$<?php echo $plugin->price; ?></strong>
+                                                    </div>
+                                                    <a target="_blank" href="<?php echo $plugin->url; ?>" class="button-primary"><?php _e( 'Buy Add-On', 'wp-statistics' ); ?></a>
+									            <?php } ?><?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+					            <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,7 +163,7 @@
 
         <div data-content="credit" class="tab-content">
             <div class="about-wrap-content">
-                <p class="about-description"><?php echo sprintf( __( 'WP-Statistics is created by some people and is one of the <a href="%s" target="_blank">VeronaLabs.com</a> projects.', 'wp-statistics' ), 'http://veronalabs.com' ); ?></p>
+                <p class="about-description"><?php echo sprintf( __( 'WP-Statistics is created by some people and is one of the <a href="%s" target="_blank">VeronaLabs.com</a> projects.', 'wp-statistics' ), 'https://veronalabs.com' ); ?></p>
                 <h3 class="wp-people-group"><?php _e( 'Project Leaders', 'wp-statistics' ); ?></h3>
                 <ul class="wp-people-group ">
                     <li class="wp-person">
@@ -163,14 +204,12 @@
             </div>
         </div>
 
-        <div data-content="changelog" class="one-col tab-content">
+        <div data-content="changelog" class="tab-content">
 			<?php WP_Statistics_Welcome::show_change_log(); ?>
         </div>
-
         <hr>
-
         <div class="wps-return-to-dashboard">
-            <a href="<?php echo admin_url( 'admin.php?page=wps_overview_page' ); ?>"><?php _e( 'Go to Statistics &rarr; Overview', 'wp-statistics' ); ?></a>
+            <a href="<?php echo WP_Statistics_Admin_Pages::admin_url( 'overview' ); ?>"><?php _e( 'Go to Statistics &rarr; Overview', 'wp-statistics' ); ?></a>
         </div>
     </div>
 </div>

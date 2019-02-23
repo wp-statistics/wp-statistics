@@ -1,52 +1,67 @@
 <?php
 function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 	global $wpdb, $WP_Statistics;
-	$get_urls = array();
-	$urls     = array();
-	$start    = 0;
 
+	//Get Top Referring
 	if ( false === ( $get_urls = get_transient( 'wps_top_referring' ) ) ) {
-		do {
-			$result = $wpdb->get_results("SELECT referred FROM {$wpdb->prefix}statistics_visitor WHERE referred <> '' LIMIT {$start}, 10000");
-			$start  += count( $result );
 
-			foreach ( $result as $item ) {
-				$url = parse_url( $item->referred );
-				if ( empty( $url['host'] ) || stristr( get_bloginfo( 'url' ), $url['host'] ) ) {
-					continue;
-				}
-				$urls[] = $url['host'];
-			}
-		} while ( 10000 == count( $result ) );
+		//Get Wordpress Domain
+		$site_url = wp_parse_url( get_site_url() );
+		$site_url = $site_url['scheme'] . "://" . $site_url['host'];
+		$result   = $wpdb->get_results( "SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM {$wpdb->prefix}statistics_visitor WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 AND `referred` NOT LIKE '{$site_url}%' GROUP BY domain ORDER BY `number` DESC LIMIT $count" );
+		foreach ( $result as $items ) {
+			$get_urls[ $items->domain ] = wp_statistics_get_number_referer_from_domain( $items->domain );
+		}
 
-		$get_urls = array_count_values( $urls );
-		arsort( $get_urls );
-		$get_urls = array_slice( $get_urls, 0, $count );
-
-		// Put the results in a transient. Expire after 24 hours.
-		set_transient( 'wps_top_referring', $get_urls, 24 * HOUR_IN_SECONDS );
+		// Put the results in a transient. Expire after 12 hours.
+		set_transient( 'wps_top_referring', $get_urls, 12 * HOUR_IN_SECONDS );
 	}
 	?>
-    <table width="100%" class="widefat table-stats" id="last-referrer">
+    <table width="100%" class="widefat table-stats" id="top-referrer">
         <tr>
+            <td width="50%"><?php _e( 'Address', 'wp-statistics' ); ?></td>
+            <td width="40%"><?php _e( 'Server IP', 'wp-statistics' ); ?></td>
             <td width="10%"><?php _e( 'References', 'wp-statistics' ); ?></td>
-            <td width="90%"><?php _e( 'Address', 'wp-statistics' ); ?></td>
         </tr>
-
 		<?php
-		foreach ( $get_urls as $items => $value ) {
-			$referrer_html = $WP_Statistics->html_sanitize_referrer( $items );
+
+		//Load country Code
+		$ISOCountryCode = $WP_Statistics->get_country_codes();
+
+		//Get Refer Site Detail
+		$refer_opt     = get_option( 'wp_statistics_referrals_detail' );
+		$referrer_list = ( empty( $refer_opt ) ? array() : $refer_opt );
+
+		if ( ! $get_urls ) {
+		    return;
+		}
+
+		foreach ( $get_urls as $domain => $number ) {
+
+			//Get Site Link
+			$referrer_html = $WP_Statistics->html_sanitize_referrer( $domain );
+
+			//Get Site information if Not Exist
+			if ( ! array_key_exists( $domain, $referrer_list ) ) {
+				$get_site_inf             = wp_statistics_get_domain_server( $domain );
+				$get_site_title           = wp_statistics_get_site_title( $domain );
+				$referrer_list[ $domain ] = array(
+					'ip'      => $get_site_inf['ip'],
+					'country' => $get_site_inf['country'],
+					'title'   => ( $get_site_title === false ? '' : $get_site_title ),
+				);
+			}
+
 			echo "<tr>";
-			echo "<td><a href='?page=" .
-			     WP_Statistics::$page['referrers'] .
-			     "&referr=" .
-			     $referrer_html .
-			     "'>" .
-			     number_format_i18n( $value ) .
-			     "</a></td>";
-			echo "<td>" . $WP_Statistics->get_referrer_link( $items ) . "</td>";
+			echo "<td>" . wp_statistics_show_site_icon( $domain ) . " " . $WP_Statistics->get_referrer_link( $domain, $referrer_list[ $domain ]['title'], true ) . "</td>";
+			echo "<td><span class='wps-cursor-default' " . ( $referrer_list[ $domain ]['country'] != "" ? 'title="' . $ISOCountryCode[ $referrer_list[ $domain ]['country'] ] . '"' : '' ) . ">" . ( $referrer_list[ $domain ]['ip'] != "" ? $referrer_list[ $domain ]['ip'] : '-' ) . "</span></td>";
+			echo "<td><a href='" . WP_Statistics_Admin_Pages::admin_url( 'referrers', array( 'referr' => $referrer_html ) ) . "'>" . number_format_i18n( $number ) . "</a></td>";
 			echo "</tr>";
 		}
+
+		//Save Referrer List Update
+		update_option( 'wp_statistics_referrals_detail', $referrer_list, 'no' );
+
 		?>
     </table>
 	<?php

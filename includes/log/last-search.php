@@ -24,10 +24,9 @@ if ( array_key_exists( 'referred', $_GET ) ) {
 
 $total = $search_result[ $referred ];
 ?>
-<div class="wrap">
-    <h2><?php _e( 'Latest Search Words', 'wp-statistics' ); ?></h2>
-	<?php do_action( 'wp_statistics_after_title' ); ?>
-
+<div class="wrap wps-wrap">
+	<?php WP_Statistics_Admin_Pages::show_page_title( __( 'Latest Search Words', 'wp-statistics' ) ); ?>
+    <br/>
     <ul class="subsubsub">
 		<?php
 		$search_result_count = count( $search_result );
@@ -51,11 +50,13 @@ $total = $search_result[ $referred ];
 				$translate = $search_engines[ $key ]['translated'];
 			}
 
-			echo "<li><a href='?page=" .
-			     WP_Statistics::$page['words'] .
-			     "&referred={$tag}'>" .
-			     $translate .
-			     " <span class='count'>({$value})</span></a></li>{$separator}";
+			//Check current class
+			$current = "";
+			if ( ( ! isset( $_GET['referred'] ) and $name == 'All' ) || ( isset( $_GET['referred'] ) and $tag == trim( $_GET['referred'] ) ) ) {
+				$current = 'class="current" ';
+			}
+
+			echo "<li><a {$current} href='" . ( $name == 'All' ? WP_Statistics_Admin_Pages::admin_url( 'words' ) : WP_Statistics_Admin_Pages::admin_url( 'words', array( 'referred' => $tag ) ) ) . "'>" . $translate . " <span class='count'>(" . number_format_i18n( $value ) . ")</span></a></li>{$separator}";
 		}
 		?>
     </ul>
@@ -65,10 +66,7 @@ $total = $search_result[ $referred ];
                 <div class="postbox">
 					<?php $paneltitle = __( 'Latest Search Word Statistics', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf(
-								__( 'Toggle panel: %s', 'wp-statistics' ),
-								$paneltitle
-							); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></span></h2>
@@ -78,26 +76,11 @@ $total = $search_result[ $referred ];
 							<?php
 							if ( $total > 0 ) {
 								// Instantiate pagination object with appropriate arguments
-								$pagesPerSection = 10;
-								$options         = array( 25, "All" );
-								$stylePageOff    = "pageOff";
-								$stylePageOn     = "pageOn";
-								$styleErrors     = "paginationErrors";
-								$styleSelect     = "paginationSelect";
-
-								$Pagination = new WP_Statistics_Pagination(
-									$total,
-									$pagesPerSection,
-									$options,
-									false,
-									$stylePageOff,
-									$stylePageOn,
-									$styleErrors,
-									$styleSelect
-								);
-
-								$start = $Pagination->getEntryStart();
-								$end   = $Pagination->getEntryEnd();
+								$items_per_page = 10;
+								$page           = isset( $_GET['pagination-page'] ) ? abs( (int) $_GET['pagination-page'] ) : 1;
+								$offset         = ( $page * $items_per_page ) - $items_per_page;
+								$start          = $offset;
+								$end            = $offset + $items_per_page;
 
 								// Retrieve MySQL data
 								if ( $referred && $referred != '' ) {
@@ -126,8 +109,7 @@ $total = $search_result[ $referred ];
 
 								$dash_icon = wp_statistics_icons( 'dashicons-location-alt', 'map' );
 
-								echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\">
-		                              <tr>";
+								echo "<table width=\"100%\" class=\"widefat table-stats\" id=\"last-referrer\"><tr>";
 								echo "<td>" . __( 'Word', 'wp-statistics' ) . "</td>";
 								echo "<td>" . __( 'Browser', 'wp-statistics' ) . "</td>";
 								if ( $WP_Statistics->get_option( 'geoip' ) ) {
@@ -168,16 +150,11 @@ $total = $search_result[ $referred ];
 									echo "<td style=\"text-align: left\">";
 									if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false
 									) {
-										$agent = "<img src='" .
-										         plugins_url( 'wp-statistics/assets/images/' ) .
-										         $items->agent .
-										         ".png' class='log-tools' title='{$items->agent}'/>";
+										$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
 									} else {
 										$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 									}
-									echo "<a href='?page=" .
-									     WP_Statistics::$page['overview'] .
-									     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+									echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
 									echo "</td>";
 									$city = '';
 									if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
@@ -197,9 +174,7 @@ $total = $search_result[ $referred ];
 
 									if ( $WP_Statistics->get_option( 'geoip' ) ) {
 										echo "<td style=\"text-align: left\">";
-										echo "<img src='" .
-										     plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) .
-										     "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
+										echo "<img src='" . plugins_url( 'wp-statistics/assets/images/flags/' . $items->location . '.png' ) . "' title='{$ISOCountryCode[$items->location]}' class='log-tools'/>";
 										echo "</td>";
 									}
 
@@ -217,15 +192,13 @@ $total = $search_result[ $referred ];
 									if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 										$ip_string = __( '#hash#', 'wp-statistics' );
 									} else {
-										$ip_string = "<a href='admin.php?page=" .
-										             WP_Statistics::$page['visitors'] .
-										             "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+										$ip_string = "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>{$items->ip}</a>";
 									}
 									echo $ip_string;
 									echo "</td>";
 
 									echo "<td style=\"text-align: left\">";
-									echo "<td style=\"text-align: left\">" . $WP_Statistics->get_referrer_link( $items->referred ) . "</td>";
+									echo $WP_Statistics->get_referrer_link( $items->referred );
 									echo "</td>";
 
 									echo "</tr>";
@@ -236,18 +209,15 @@ $total = $search_result[ $referred ];
 							?>
                         </div>
                     </div>
-
-                    <div class="pagination-log">
-						<?php if ( $total > 0 ) {
-							echo $Pagination->display(); ?>
-                            <p id="result-log"><?php printf(
-									__( 'Page %1$s of %2$s', 'wp-statistics' ),
-									$Pagination->getCurrentPage(),
-									$Pagination->getTotalPages()
-								); ?></p>
-						<?php } ?>
-                    </div>
                 </div>
+				<?php
+				if ( $total > 0 ) {
+					wp_statistics_paginate_links( array(
+						'item_per_page' => $items_per_page,
+						'total'         => $total,
+						'current'       => $page,
+					) );
+				} ?>
             </div>
         </div>
     </div>

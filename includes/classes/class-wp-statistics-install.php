@@ -6,6 +6,12 @@
 class WP_Statistics_Install {
 
 	/**
+	 * List Of wp-statistics Mysql Table
+	 * @var array
+	 */
+	public static $db_table = array( 'useronline', 'visit', 'visitor', 'exclusions', 'pages', 'search', 'historical', 'visitor_relationships' );
+
+	/**
 	 * WP_Statistics_Install constructor.
 	 *
 	 * @internal param $WP_Statistics
@@ -96,6 +102,7 @@ class WP_Statistics_Install {
 			$create_pages_table = ( "
 					CREATE TABLE {$wpdb->prefix}statistics_pages (
 						uri varchar(255) NOT NULL,
+						type varchar(255) NOT NULL,
 						date date NOT NULL,
 						count int(11) NOT NULL,
 						id int(11) NOT NULL,
@@ -134,22 +141,16 @@ class WP_Statistics_Install {
 					) CHARSET=utf8" );
 
 			// Check to see if the historical table exists yet, aka if this is a upgrade instead of a first install.
-			$result = $wpdb->query(
-				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_historical'"
-			);
+			$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_historical'" );
 
 			if ( $result == 1 ) {
 				// Before we update the historical table, check to see if it exists with the old keys
 				$result = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->prefix}statistics_historical LIKE 'key'" );
 
 				if ( $result > 0 ) {
-					$wpdb->query(
-						"ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)"
-					);
+					$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `id` `page_id` bigint(20)" );
 					$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `key` `ID` bigint(20)" );
-					$wpdb->query(
-						"ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `type` `category` varchar(25)"
-					);
+					$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_historical` CHANGE `type` `category` varchar(25)" );
 				}
 			}
 
@@ -170,9 +171,7 @@ class WP_Statistics_Install {
 			// Some old versions (in the 5.0.x line) of MySQL have issue with the compound index on the visitor table
 			// so let's make sure it was created, if not, use the older format to create the table manually instead of
 			// using the dbDelta() call.
-			$result = $wpdb->query(
-				"SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visitor'"
-			);
+			$result = $wpdb->query( "SHOW TABLES WHERE `Tables_in_{$wpdb->dbname}` = '{$wpdb->prefix}statistics_visitor'" );
 
 			if ( $result != 1 ) {
 				$wpdb->query( $create_visitor_table_old );
@@ -193,6 +192,19 @@ class WP_Statistics_Install {
 				$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_visitor` DROP `AString`" );
 			}
 
+			//Added page_id column in statistics_pages if not exist
+			$result = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->prefix}statistics_pages LIKE 'page_id'" );
+			if ( $result == 0 ) {
+				$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_pages` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);" );
+			}
+
+			//Added User_id and Page_id in user online table
+			$result = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->prefix}statistics_useronline LIKE 'user_id'" );
+			if ( $result == 0 ) {
+				$wpdb->query( "ALTER TABLE `{$wpdb->prefix}statistics_useronline` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;" );
+				$wpdb->query( "DELETE FROM `{$wpdb->prefix}usermeta` WHERE `meta_key` = 'meta-box-order_toplevel_page_wps_overview_page';" );
+			}
+
 			// Store the new version information.
 			update_option( 'wp_statistics_plugin_version', WP_Statistics::$reg['version'] );
 			update_option( 'wp_statistics_db_version', WP_Statistics::$reg['version'] );
@@ -201,9 +213,7 @@ class WP_Statistics_Install {
 			$dbupdates = array( 'date_ip_agent' => false, 'unique_date' => false );
 
 			// Check the number of index's on the visitors table, if it's only 5 we need to check for duplicate entries and remove them
-			$result = $wpdb->query(
-				"SHOW INDEX FROM {$wpdb->prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'"
-			);
+			$result = $wpdb->query( "SHOW INDEX FROM {$wpdb->prefix}statistics_visitor WHERE Key_name = 'date_ip_agent'" );
 
 			// Note, the result will be the number of fields contained in the index, so in our case 5.
 			if ( $result != 5 ) {
@@ -211,9 +221,7 @@ class WP_Statistics_Install {
 			}
 
 			// Check the number of index's on the visits table, if it's only 5 we need to check for duplicate entries and remove them
-			$result = $wpdb->query(
-				"SHOW INDEX FROM {$wpdb->prefix}statistics_visit WHERE Key_name = 'unique_date'"
-			);
+			$result = $wpdb->query( "SHOW INDEX FROM {$wpdb->prefix}statistics_visit WHERE Key_name = 'unique_date'" );
 
 			// Note, the result will be the number of fields contained in the index, so in our case 1.
 			if ( $result != 1 ) {
@@ -227,7 +235,6 @@ class WP_Statistics_Install {
 			if ( WP_Statistics::$installed_version == false ) {
 
 				// If this is a first time install, we just need to setup the primary values in the tables.
-
 				$WP_Statistics->Primary_Values();
 
 				// By default, on new installs, use the new search table.
@@ -236,7 +243,6 @@ class WP_Statistics_Install {
 			} else {
 
 				// If this is an upgrade, we need to check to see if we need to convert anything from old to new formats.
-
 				// Check to see if the "new" settings code is in place or not, if not, upgrade the old settings to the new system.
 				if ( get_option( 'wp_statistics' ) === false ) {
 					$core_options   = array(
@@ -254,6 +260,7 @@ class WP_Statistics_Install {
 						'wps_check_online',
 						'wps_visits',
 						'wps_visitors',
+						'wps_visitors_log',
 						'wps_store_ua',
 						'wps_coefficient',
 						'wps_pages',
@@ -308,9 +315,7 @@ class WP_Statistics_Install {
 					// Handle the core options, we're going to strip off the 'wps_' header as we store them in the new settings array.
 					foreach ( $core_options as $option ) {
 						$new_name = substr( $option, 4 );
-
 						$WP_Statistics->store_option( $new_name, get_option( $option ) );
-
 						delete_option( $option );
 					}
 
@@ -327,15 +332,11 @@ class WP_Statistics_Install {
 
 					foreach ( $var_options as $option ) {
 						// Handle the special variables options.
-						$result = $wpdb->get_results(
-							"SELECT * FROM {$wpdb->prefix}options WHERE option_name LIKE '{$option}'"
-						);
+						$result = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}options WHERE option_name LIKE '{$option}'" );
 
 						foreach ( $result as $opt ) {
 							$new_name = substr( $opt->option_name, 4 );
-
 							$WP_Statistics->store_option( $new_name, $opt->option_value );
-
 							delete_option( $opt->option_name );
 						}
 					}
@@ -392,35 +393,6 @@ class WP_Statistics_Install {
 				$WP_Statistics->store_option( 'force_robot_update', true );
 			}
 
-			// For version 8.0, we're removing the old %option% types from the reports, so let's upgrade anyone who still has them to short codes.
-			$report_content = $WP_Statistics->get_option( 'content_report' );
-
-			// Check to make sure we have a report to process.
-			if ( trim( $report_content ) == '' ) {
-				// These are the variables we can replace in the template and the short codes we're going to replace them with.
-				$template_vars = array(
-					'user_online'       => '[wpstatistics stat=usersonline]',
-					'today_visitor'     => '[wpstatistics stat=visitors time=today]',
-					'today_visit'       => '[wpstatistics stat=visits time=today]',
-					'yesterday_visitor' => '[wpstatistics stat=visitors time=yesterday]',
-					'yesterday_visit'   => '[wpstatistics stat=visits time=yesterday]',
-					'total_visitor'     => '[wpstatistics stat=visitors time=total]',
-					'total_visit'       => '[wpstatistics stat=visits time=total]',
-				);
-
-				// Replace the items in the template.
-				$final_report = preg_replace_callback(
-					'/%(.*?)%/im',
-					function ( $m ) {
-						return $template_vars[ $m[1] ];
-					},
-					$report_content
-				);
-
-				// Store the updated report content.
-				$WP_Statistics->store_option( 'content_report', $final_report );
-			}
-
 			// Save the settings now that we've set them.
 			$WP_Statistics->save_options();
 
@@ -450,4 +422,34 @@ class WP_Statistics_Install {
 			}
 		}
 	}
+
+	/**
+	 * Setup Visitor RelationShip Table
+	 */
+	public static function setup_visitor_relationship_table() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'statistics_visitor_relationships';
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+
+			// This includes the dbDelta function from WordPress.
+			if ( ! function_exists( 'dbDelta' ) ) {
+				require( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			}
+
+			$create_visitor_relationships_table =
+				"CREATE TABLE IF NOT EXISTS $table_name (
+				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
+				`visitor_id` bigint(20) NOT NULL,
+				`page_id` bigint(20) NOT NULL,
+				`date` datetime NOT NULL,
+				PRIMARY KEY  (ID),
+				KEY visitor_id (visitor_id),
+				KEY page_id (page_id)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+
+			dbDelta( $create_visitor_relationships_table );
+		}
+	}
+
 }

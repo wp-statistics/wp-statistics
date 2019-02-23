@@ -26,24 +26,25 @@ jQuery(document).ready(function () {
         });
     }
 
-    // Check about page
-    if (jQuery('.wp-statistics-travod').length) {
-        jQuery('.wp-statistics-travod .notice-dismiss').click(function () {
-            jQuery('.wp-statistics-travod').slideUp(100);
-
-            var data = {
-                'action': 'wp_statistics_close_notice',
-                'notice': 'suggestion',
-            };
-
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'get',
-                data: data,
-                datatype: 'json',
-            });
+    // Check the Condition Require Setting Api
+    function wp_statistics_check_condition_view_option(selector, field) {
+        jQuery(document).on("change", selector, function (e) {
+            e.preventDefault();
+            let option_field = jQuery(field);
+            if (this.checked) {
+                option_field.show("slow");
+            } else {
+                option_field.hide("slow");
+                option_field.find("input[type=checkbox]").prop('checked', false);
+            }
         });
     }
+
+    // Check the visitor log is checked
+    wp_statistics_check_condition_view_option("input[name=wps_visitors]", "#visitors_log_tr");
+
+    // Check the Spam List
+    wp_statistics_check_condition_view_option("input[name=wps_referrerspam]", "tr.referrerspam_field");
 
     /**
      * Get Parameter value

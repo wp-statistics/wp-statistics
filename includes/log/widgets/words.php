@@ -1,6 +1,5 @@
 <?php
 function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count = 10 ) {
-
 	global $wpdb, $WP_Statistics;
 
 	// Retrieve MySQL data for the search words.
@@ -60,18 +59,14 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			}
 
 			echo "<tr>";
-			echo "<td style=\"text-align: left\">";
-			echo $words;
-			echo "</td>";
+			echo "<td style=\"text-align: left\"><span title='{$words}' class='wps-cursor-default wps-text-wrap'>".$words."</span></td>";
 			echo "<td style=\"text-align: left\">";
 			if ( array_search( strtolower( $items->agent ), wp_statistics_get_browser_list( 'key' ) ) !== false ) {
 				$agent = "<img src='" . plugins_url( 'wp-statistics/assets/images/' ) . $items->agent . ".png' class='log-tools' title='{$items->agent}'/>";
 			} else {
 				$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 			}
-			echo "<a href='?page=" .
-			     WP_Statistics::$page['overview'] .
-			     "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+			echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
 			echo "</td>";
 			$city = '';
 			if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
@@ -109,7 +104,7 @@ function wp_statistics_generate_words_postbox_content( $ISOCountryCode, $count =
 			if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 				$ip_string = __( '#hash#', 'wp-statistics' );
 			} else {
-				$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+				$ip_string = "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>{$items->ip}</a>";
 			}
 			echo $ip_string;
 			echo "</td>";

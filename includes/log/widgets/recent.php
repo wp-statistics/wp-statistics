@@ -35,7 +35,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		} else {
 			$agent = wp_statistics_icons( 'dashicons-editor-help', 'unknown' );
 		}
-		echo "<a href='?page=" . WP_Statistics::$page['overview'] . "&type=last-all-visitor&agent={$items->agent}'>{$agent}</a>";
+		echo "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'overview', array( 'type' => 'last-all-visitor', 'agent' => $items->agent ) ) . "'>{$agent}</a>";
 		echo "</td>";
 		$city = '';
 		if ( $WP_Statistics->get_option( 'geoip_city' ) ) {
@@ -73,7 +73,7 @@ function wp_statistics_generate_recent_postbox_content( $ISOCountryCode, $count 
 		if ( substr( $items->ip, 0, 6 ) == '#hash#' ) {
 			$ip_string = __( '#hash#', 'wp-statistics' );
 		} else {
-			$ip_string = "<a href='admin.php?page=" . WP_Statistics::$page['visitors'] . "&type=last-all-visitor&ip={$items->ip}'>{$items->ip}</a>";
+			$ip_string = "<a href='" . WP_Statistics_Admin_Pages::admin_url( 'visitors', array( 'type' => 'last-all-visitor', 'ip' => $items->ip ) ) . "'>{$items->ip}</a>";
 		}
 		echo $ip_string;
 		echo "</td>";

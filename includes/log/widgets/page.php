@@ -59,6 +59,7 @@ function wp_statistics_generate_page_postbox_content(
     <canvas id="visits-stats" height="80"></canvas>
     <script>
         var ctx = document.getElementById("visits-stats").getContext('2d');
+        <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
         var ChartJs = new Chart(ctx, {
             type: 'line',
             data: {
