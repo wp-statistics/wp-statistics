@@ -85,6 +85,21 @@ class WP_Statistics_Admin {
 
 		//Admin Notice Setting
 		add_action( 'admin_notices', 'WP_Statistics_Admin_Pages::wp_statistics_notice_setting' );
+
+		//Add Visitors Log Table
+		add_action( 'admin_init', array( $this, 'register_visitors_log_tbl' ) );
+	}
+
+	/**
+	 * Create a New Table Visitors Log in mysql
+	 */
+	public function register_visitors_log_tbl() {
+
+		//Add Visitor RelationShip Table
+		if ( WP_Statistics_Admin_Pages::in_page( 'settings' ) and isset( $_POST['wps_visitors_log'] ) and $_POST['wps_visitors_log'] == 1 ) {
+			WP_Statistics_Install::setup_visitor_relationship_table();
+		}
+
 	}
 
 	/**
@@ -396,124 +411,124 @@ class WP_Statistics_Admin {
 		 *
 		 */
 		$list = array(
-			'top'              => array(
+			'top'          => array(
 				'title'    => __( 'Statistics', 'wp-statistics' ),
 				'page_url' => 'overview',
 				'method'   => 'log',
 				'icon'     => 'dashicons-chart-pie',
 			),
-			'overview'         => array(
+			'overview'     => array(
 				'sub'      => 'overview',
 				'title'    => __( 'Overview', 'wp-statistics' ),
 				'page_url' => 'overview',
 			),
-			'hits'             => array(
+			'hits'         => array(
 				'require'  => array( 'visits' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Hits', 'wp-statistics' ),
 				'page_url' => 'hits',
 			),
-			'online'           => array(
+			'online'       => array(
 				'require'  => array( 'useronline' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Online', 'wp-statistics' ),
 				'page_url' => 'online',
 			),
-			'referrers'        => array(
+			'referrers'    => array(
 				'require'  => array( 'visitors' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Referrers', 'wp-statistics' ),
 				'page_url' => 'referrers',
 			),
-			'words'            => array(
+			'words'        => array(
 				'require'  => array( 'visitors' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Search Words', 'wp-statistics' ),
 				'page_url' => 'words',
 			),
-			'searches'         => array(
+			'searches'     => array(
 				'require'  => array( 'visitors' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Search Engines', 'wp-statistics' ),
 				'page_url' => 'searches',
 			),
-			'pages'            => array(
+			'pages'        => array(
 				'require'  => array( 'pages' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Pages', 'wp-statistics' ),
 				'page_url' => 'pages',
 			),
-			'visitors'         => array(
+			'visitors'     => array(
 				'require'  => array( 'visitors' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Visitors', 'wp-statistics' ),
 				'page_url' => 'visitors',
 			),
-			'countries'        => array(
+			'countries'    => array(
 				'require'  => array( 'geoip', 'visitors' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Countries', 'wp-statistics' ),
 				'page_url' => 'countries',
 			),
-			'categories'       => array(
+			'categories'   => array(
 				'require'  => array( 'pages' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Categories', 'wp-statistics' ),
 				'page_url' => 'categories',
 			),
-			'tags'             => array(
+			'tags'         => array(
 				'require'  => array( 'pages' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Tags', 'wp-statistics' ),
 				'page_url' => 'tags',
 			),
-			'authors'          => array(
+			'authors'      => array(
 				'require'  => array( 'pages' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Authors', 'wp-statistics' ),
 				'page_url' => 'authors',
 			),
-			'browsers'         => array(
+			'browsers'     => array(
 				'require'  => array( 'visitors' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Browsers', 'wp-statistics' ),
 				'page_url' => 'browser',
 			),
-			'top.visotors'     => array(
+			'top.visotors' => array(
 				'require'  => array( 'visitors' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Top Visitors Today', 'wp-statistics' ),
 				'page_url' => 'top-visitors',
 			),
-			'exclusions'       => array(
+			'exclusions'   => array(
 				'require'  => array( 'record_exclusions' ),
 				'sub'      => 'overview',
 				'title'    => __( 'Exclusions', 'wp-statistics' ),
 				'page_url' => 'exclusions',
 				'break'    => true,
 			),
-			'optimize'         => array(
+			'optimize'     => array(
 				'sub'      => 'overview',
 				'title'    => __( 'Optimization', 'wp-statistics' ),
 				'cap'      => $manage_cap,
 				'page_url' => 'optimization',
 				'method'   => 'optimization'
 			),
-			'settings'         => array(
+			'settings'     => array(
 				'sub'      => 'overview',
 				'title'    => __( 'Settings', 'wp-statistics' ),
 				'cap'      => $manage_cap,
 				'page_url' => 'settings',
 				'method'   => 'settings'
 			),
-			'plugins'          => array(
+			'plugins'      => array(
 				'sub'      => 'overview',
 				'title'    => __( 'Add-Ons', 'wp-statistics' ),
 				'name'     => '<span class="wps-text-warning">' . __( 'Add-Ons', 'wp-statistics' ) . '</span>',
 				'page_url' => 'plugins',
 				'method'   => 'plugins'
 			),
-			'donate'           => array(
+			'donate'       => array(
 				'sub'      => 'overview',
 				'title'    => __( 'Donate', 'wp-statistics' ),
 				'name'     => '<span class="wps-text-success">' . __( 'Donate', 'wp-statistics' ) . '</span>',
