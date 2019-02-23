@@ -207,6 +207,11 @@
     background-color: #1aabec;
 }
 
+.wp-statistics-welcome .nav-tab.donate {
+    background-color: #459605;
+    color: #ffffff;
+}
+
 .wp-statistics-welcome .tab-content {
     display: none;
 }
