@@ -28,40 +28,26 @@
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2 style="margin-top: 0"><?php _e( 'View Live Report data with new dashboard', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Redesign & Optimized for with on the big screen', 'wp-statistics' ); ?></p>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Visitor on Map', 'wp-statistics' ); ?></p>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Live Chart', 'wp-statistics' ); ?></p>
-                        <p><?php _e( '<span style="font-weight: bold;">New:</span> Better Performance', 'wp-statistics' ); ?></p>
-                        <p><?php _e( 'And much more!', 'wp-statistics' ); ?></p>
-
-                        <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-realtime-stats/" target="_blank">Get
-                                Real-Time Stats</a>
-                        </div>
+                        <h2><?php _e( 'Online Users Widget', 'wp-statistics' ); ?></h2>
+                        <p><?php _e( 'A cool widget to show current online users!', 'wp-statistics' ); ?></p>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/addon-realltime-stats.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/usersonline-widget.png' ); ?>"/>
                 </div>
             </section>
 
             <section class="normal-section">
                 <div class="right">
                     <div class="content-padding">
-                        <h2><?php _e( 'Mini Chart', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'Now include customization and show based on post type settings', 'wp-statistics' ); ?></p>
-
-                        <div class="col">
-                            <a class="button button-primary button-hero" href="https://wp-statistics.com/downloads/wp-statistics-mini-chart/" target="_blank">Get
-                                Mini Chart</a>
-                        </div>
+                        <h2><?php _e( 'Top Referring Sites', 'wp-statistics' ); ?></h2>
+                        <p><?php _e( 'Site icon, Server IP and minor improvements.', 'wp-statistics' ); ?></p>
                     </div>
                 </div>
 
                 <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/addons-mini-chart.png' ); ?>"/>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/topreferring-widget.png' ); ?>"/>
                 </div>
             </section>
 
@@ -145,7 +131,7 @@
 
         <div data-content="credit" class="tab-content">
             <div class="about-wrap-content">
-                <p class="about-description"><?php echo sprintf( __( 'WP-Statistics is created by some people and is one of the <a href="%s" target="_blank">VeronaLabs.com</a> projects.', 'wp-statistics' ), 'http://veronalabs.com' ); ?></p>
+                <p class="about-description"><?php echo sprintf( __( 'WP-Statistics is created by some people and is one of the <a href="%s" target="_blank">VeronaLabs.com</a> projects.', 'wp-statistics' ), 'https://veronalabs.com' ); ?></p>
                 <h3 class="wp-people-group"><?php _e( 'Project Leaders', 'wp-statistics' ); ?></h3>
                 <ul class="wp-people-group ">
                     <li class="wp-person">

@@ -150,7 +150,7 @@
 
 							echo "</table>";
 						} else {
-							echo "<div class='wps-center'>" . __( 'Currently there are no users online in the site.', 'wp-statistics' ) . "</div>";
+							echo "<div class='wps-center'>" . __( 'Currently there are no online users in the site.', 'wp-statistics' ) . "</div>";
 						}
 						?>
                     </div>
