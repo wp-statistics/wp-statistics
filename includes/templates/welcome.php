@@ -20,7 +20,7 @@
             <section class="center-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Great update for all WP-Statistics', 'wp-statistics' ); ?></h2>
+                        <h2><?php _e( 'Great update for WP-Statistics', 'wp-statistics' ); ?></h2>
                     </div>
                 </div>
             </section>
