@@ -595,6 +595,9 @@ function wp_statistics_get_uri() {
 		}
 	}
 
+	//Sanitize Xss injection
+	$page_uri = filter_var( $page_uri, FILTER_SANITIZE_STRING );
+
 	// If we're at the root (aka the URI is blank), let's make sure to indicate it.
 	if ( $page_uri == '' ) {
 		$page_uri = '/';
