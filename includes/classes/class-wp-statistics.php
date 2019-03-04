@@ -790,23 +790,26 @@ class WP_Statistics {
 		 * one.
 		 *
 		 */
-		$envs = array(
-			'REMOTE_ADDR',
-			'HTTP_CLIENT_IP',
-			'HTTP_X_FORWARDED_FOR',
-			'HTTP_X_FORWARDED',
-			'HTTP_FORWARDED_FOR',
-			'HTTP_FORWARDED',
-			'HTTP_X_REAL_IP',
-		);
-		foreach ( $envs as $env ) {
-			if ( array_key_exists( $env, $_SERVER ) ) {
-				$check_ip = $this->get_ip_value( getenv( $env ) );
-				if ( $check_ip != false ) {
-					$this->ip = $check_ip;
-					break;
-				}
-			}
+		if ( $_SERVER['HTTP_CLIENT_IP'] ) {
+			$user_ip = $_SERVER['HTTP_CLIENT_IP'];
+		} else if ( $_SERVER['HTTP_X_FORWARDED_FOR'] ) {
+			$user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else if ( $_SERVER['HTTP_X_FORWARDED'] ) {
+			$user_ip = $_SERVER['HTTP_X_FORWARDED'];
+		} else if ( $_SERVER['HTTP_FORWARDED_FOR'] ) {
+			$user_ip = $_SERVER['HTTP_FORWARDED_FOR'];
+		} else if ( $_SERVER['HTTP_FORWARDED'] ) {
+			$user_ip = $_SERVER['HTTP_FORWARDED'];
+		} else if ( $_SERVER['REMOTE_ADDR'] ) {
+			$user_ip = $_SERVER['REMOTE_ADDR'];
+		} else {
+			$user_ip = false;
+		}
+
+		//Check Validation IP
+		$check_ip = $this->get_ip_value( $user_ip );
+		if ( $check_ip != false ) {
+			$this->ip = $check_ip;
 		}
 
 		// If no valid ip address has been found, use 127.0.0.1 (aka localhost).
@@ -1474,7 +1477,7 @@ class WP_Statistics {
 		$first_day = '';
 
 		//First Check Visitor Table , if not exist Web check Pages Table
-		$list_tbl  = array(
+		$list_tbl = array(
 			'visitor' => array( 'order_by' => 'ID', 'column' => 'last_counter' ),
 			'pages'   => array( 'order_by' => 'page_id', 'column' => 'date' ),
 		);
