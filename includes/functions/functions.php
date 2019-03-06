@@ -496,9 +496,9 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 
 	// Get every unique URI from the pages database.
 	if ( $rangestartdate != null && $rangeenddate != null ) {
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s GROUP BY `uri`", $rangestartdate, $rangeenddate ), ARRAY_N );
 	} else {
-		$result = $wpdb->get_results( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
+		$result = $wpdb->get_results( "SELECT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages GROUP BY `uri`", ARRAY_N );
 	}
 
 	$total = 0;
@@ -531,6 +531,11 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 					$title = '';
 				}
 			}
+		}
+
+		//Check Title is empty
+		if ( empty( $title ) ) {
+			$title = '-';
 		}
 
 		// Add the current post to the array.
