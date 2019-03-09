@@ -452,4 +452,69 @@ class WP_Statistics_Install {
 		}
 	}
 
+	/**
+	 * Update WordPress Page Type for older wp-statistics Version
+	 *
+	 * @since 12.6
+	 *
+	 * -- List Methods ---
+	 * _init_page_type_updater        -> define WordPress Hook
+	 * _get_require_number_update     -> Get number of rows that require update page type
+	 * _is_require_update_page        -> Check Wp-statistics require update page table
+	 *
+	 *
+	 *
+	 */
+	public static function _init_page_type_updater() {
+
+		# Check Require Admin Process
+		if ( self::_is_require_update_page() === true ) {
+
+			# Add Admin Notice
+			add_action( 'admin_notices', function () {
+				echo '<div class="notice notice-info" id="wp-statistics-update-page-area">';
+				echo '<p style="float:' . ( is_rtl() ? 'right' : 'left' ) . '">';
+				echo '<img src="' . plugins_url( 'wp-statistics/assets/images/' ) . '/title-logo.png" class="wps_page_title" style="vertical-align: -17px !important;">';
+				echo __( 'The following sites require a DB upgrade for WP-Statistics plugin.', 'wp-statistics' );
+				echo '</p>';
+				echo '<div style="float:' . ( is_rtl() ? 'left' : 'right' ) . '">';
+				echo '<button type="button" id="" class="button button-primary" style="padding: 20px;line-height: 0px;box-shadow: none !important;border: 0px !important;margin-top: 10px;"/>' . __( 'Upgrade Database', 'wp-statistics' ) . '</button>';
+				echo '</div>';
+				echo '<div style="clear:both;"></div>';
+				echo '</div>';
+			} );
+
+			# Add Script
+			add_action( 'admin_footer', function () {
+
+			} );
+
+		}
+	}
+
+	public static function _get_require_number_update() {
+		global $wpdb;
+		return $wpdb->get_var( "SELECT COUNT(*) FROM `" . wp_statistics_db_table( 'pages' ) . "` WHERE `type` = ''" );
+	}
+
+	public static function _is_require_update_page() {
+
+		# require update option name
+		$opt_name = 'wp_statistics_update_page_type';
+
+		# Check exist option
+		$get_opt = get_option( $opt_name );
+		if ( ! empty( $get_opt ) ) {
+			return false;
+		}
+
+		# Check number require row
+		if ( self::_get_require_number_update() > 0 ) {
+			return true;
+		}
+
+		return false;
+	}
+
+
 }
