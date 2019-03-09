@@ -478,7 +478,7 @@ class WP_Statistics_Install {
 				echo __( 'The following sites require a DB upgrade for WP-Statistics plugin.', 'wp-statistics' );
 				echo '</p>';
 				echo '<div style="float:' . ( is_rtl() ? 'left' : 'right' ) . '">';
-				echo '<button type="button" id="" class="button button-primary" style="padding: 20px;line-height: 0px;box-shadow: none !important;border: 0px !important;margin-top: 10px;"/>' . __( 'Upgrade Database', 'wp-statistics' ) . '</button>';
+				echo '<button type="button" id="wps-upgrade-db" class="button button-primary" style="padding: 20px;line-height: 0px;box-shadow: none !important;border: 0px !important;margin-top: 10px;"/>' . __( 'Upgrade Database', 'wp-statistics' ) . '</button>';
 				echo '</div>';
 				echo '<div style="clear:both;"></div>';
 				echo '</div>';
@@ -486,7 +486,28 @@ class WP_Statistics_Install {
 
 			# Add Script
 			add_action( 'admin_footer', function () {
+				?>
+                <script>
+                    jQuery(document).ready(function () {
+                        jQuery(document).on('click', 'button#wps-upgrade-db', function (e) {
+                            e.preventDefault();
 
+                            // Create new Content
+                            let wps_progress = `<div id="wps_process_upgrade" style="display:none;"><p>`;
+                            wps_progress += `<?php _e( 'Please do not close the browser window until the database operation was completed.', 'wp-statistic' ); ?>`;
+                            wps_progress += `</p><p><b>`;
+                            wps_progress += `<?php echo __( 'Item processed', 'wp-statistics' ); ?>`;
+                            wps_progress += ` : <span id="wps_num_page_process">1</span> / <?php echo number_format( self::_get_require_number_update() ); ?></b></p>`;
+                            wps_progress += '<p><progress value="0" max="100" style="height: 18px;width: 100%;"></progress></p></div>';
+
+                            // set new Content
+                            jQuery("#wp-statistics-update-page-area").html(wps_progress);
+                            jQuery("#wps_process_upgrade").fadeIn(2000);
+
+                        });
+                    });
+                </script>
+				<?php
 			} );
 
 		}
