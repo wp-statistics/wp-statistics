@@ -461,9 +461,6 @@ class WP_Statistics_Install {
 	 * _init_page_type_updater        -> define WordPress Hook
 	 * _get_require_number_update     -> Get number of rows that require update page type
 	 * _is_require_update_page        -> Check Wp-statistics require update page table
-	 *
-	 *
-	 *
 	 */
 	public static function _init_page_type_updater() {
 
@@ -472,7 +469,7 @@ class WP_Statistics_Install {
 
 			# Add Admin Notice
 			add_action( 'admin_notices', function () {
-				echo '<div class="notice notice-info" id="wp-statistics-update-page-area">';
+				echo '<div class="notice notice-info is-dismissible" id="wp-statistics-update-page-area" style="display: none;">';
 				echo '<p style="float:' . ( is_rtl() ? 'right' : 'left' ) . '">';
 				echo '<img src="' . plugins_url( 'wp-statistics/assets/images/' ) . '/title-logo.png" class="wps_page_title" style="vertical-align: -17px !important;">';
 				echo __( 'The following sites require a DB upgrade for WP-Statistics plugin.', 'wp-statistics' );
@@ -489,28 +486,124 @@ class WP_Statistics_Install {
 				?>
                 <script>
                     jQuery(document).ready(function () {
+
+                        // Check Page is complete Loaded
+                        jQuery(window).load(function () {
+                            jQuery("#wp-statistics-update-page-area").fadeIn(2000);
+                            jQuery("#wp-statistics-update-page-area button.notice-dismiss").hide();
+                        });
+
+                        // Update Page type function
+                        function wp_statistics_update_page_type() {
+
+                            //Complete Progress
+                            let wps_end_progress = `<div id="wps_end_process" style="display:none;">`;
+                            wps_end_progress += `<p>`;
+                            wps_end_progress += `<?php _e( 'Completed Database upgrade operation.', 'wp-statistics' ); ?>`;
+                            wps_end_progress += `</p>`;
+                            wps_end_progress += `</div>`;
+                            wps_end_progress += `<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>`;
+
+                            //new Ajax Request
+                            jQuery.ajax({
+                                url: ajaxurl,
+                                type: 'get',
+                                dataType: "json",
+                                cache: false,
+                                data: {
+                                    'action': 'wp_statistics_update_post_type_db',
+                                    'number_all': <?php echo self::_get_require_number_update(); ?>
+                                },
+                                success: function (data) {
+                                    if (data.process_status === "complete") {
+
+                                        // Get Process Area
+                                        let wps_notice_area = jQuery("#wp-statistics-update-page-area");
+                                        //Add Html Content
+                                        wps_notice_area.html(wps_end_progress);
+                                        //Fade in content
+                                        jQuery("#wps_end_process").fadeIn(2000);
+                                        //enable demiss button
+                                        wps_notice_area.removeClass('notice-info').addClass('notice-success');
+                                    } else {
+
+                                        //Get number Process
+                                        jQuery("span#wps_num_page_process").html(data.number_process);
+                                        //Get process Percentage
+                                        jQuery("progress#wps_upgrade_html_progress").attr("value", data.percentage);
+                                        jQuery("span#wps_num_percentage").html(data.percentage);
+                                        //again request
+                                        wp_statistics_update_page_type();
+                                    }
+                                },
+                                error: function () {
+                                    jQuery("#wp-statistics-update-page-area").html('<p><?php _e( 'Error occurred during operation. Please refresh the page.', 'wp-statistics' ); ?></p>');
+                                }
+                            });
+                        }
+
+                        //Click Start Progress
                         jQuery(document).on('click', 'button#wps-upgrade-db', function (e) {
                             e.preventDefault();
 
-                            // Create new Content
+                            // Added Progress Html
                             let wps_progress = `<div id="wps_process_upgrade" style="display:none;"><p>`;
                             wps_progress += `<?php _e( 'Please do not close the browser window until the database operation was completed.', 'wp-statistic' ); ?>`;
                             wps_progress += `</p><p><b>`;
                             wps_progress += `<?php echo __( 'Item processed', 'wp-statistics' ); ?>`;
-                            wps_progress += ` : <span id="wps_num_page_process">1</span> / <?php echo number_format( self::_get_require_number_update() ); ?></b></p>`;
-                            wps_progress += '<p><progress value="0" max="100" style="height: 18px;width: 100%;"></progress></p></div>';
+                            wps_progress += ` : <span id="wps_num_page_process">0</span> / <?php echo number_format( self::_get_require_number_update() ); ?> &nbsp;<span class="wps-text-warning">(<span id="wps_num_percentage">0</span>%)</span></b></p>`;
+                            wps_progress += '<p><progress id="wps_upgrade_html_progress" value="0" max="100" style="height: 20px;width: 100%;"></progress></p></div>';
 
                             // set new Content
                             jQuery("#wp-statistics-update-page-area").html(wps_progress);
                             jQuery("#wps_process_upgrade").fadeIn(2000);
 
+                            // Run WordPress Ajax Updator
+                            wp_statistics_update_page_type();
+                        });
+
+                        //Remove Notice event
+                        jQuery(document).on('click', '#wp-statistics-update-page-area button.notice-dismiss', function (e) {
+                            e.preventDefault();
+                            jQuery("#wp-statistics-update-page-area").fadeOut('normal');
                         });
                     });
                 </script>
 				<?php
 			} );
 
+			# Add Admin Ajax Process
+			add_action( 'wp_ajax_wp_statistics_update_post_type_db', function () {
+
+				# Check is Ajax WordPress
+				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+
+					# Create Default Obj
+					$return = array( 'process_status' => 'incomplete', 'number_process' => 0, 'percentage' => 0 );
+
+					# Check Number Process
+					$number_process = self::_get_require_number_update();
+					if ( $number_process > 0 ) {
+
+						$return['number_process'] = 120;
+						$return['percentage']     = 40;
+
+					} else {
+
+						# Add Option complete Process
+						update_option( 'wp_statistics_update_page_type', 'yes' );
+
+						# Complete Process
+						$return['process_status'] = 'complete';
+					}
+
+					# Export Data
+					wp_send_json( $return );
+					exit;
+				}
+			} );
 		}
+
 	}
 
 	public static function _get_require_number_update() {
@@ -536,6 +629,5 @@ class WP_Statistics_Install {
 
 		return false;
 	}
-
 
 }
