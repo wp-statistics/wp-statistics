@@ -1563,14 +1563,27 @@ function wp_statistics_dateformat_php_to_jqueryui( $php_format ) {
 	return $jqueryui_format;
 }
 
-// This function is used to calculate the number of days and thier respective unix timestamps.
+/**
+ * This function is used to calculate the number of days and their respective unix timestamps.
+ *
+ * @param $days
+ * @param $start
+ * @param $end
+ * @return array
+ */
 function wp_statistics_date_range_calculator( $days, $start, $end ) {
-	GLOBAL $WP_Statistics;
+	global $WP_Statistics;
 
 	$daysToDisplay = $days;
 	$rangestart    = $start;
 	$rangeend      = $end;
 
+	//Check Exist params
+	if ( ! empty( $daysToDisplay ) and ! empty( $rangestart ) and ! empty( $rangeend ) ) {
+		return array( $daysToDisplay, strtotime( $rangestart ), strtotime( $rangeend ) );
+	}
+
+	//Check Not Exist day to display
 	if ( $daysToDisplay == - 1 ) {
 		$rangestart_utime = $WP_Statistics->strtotimetz( $rangestart );
 		$rangeend_utime   = $WP_Statistics->strtotimetz( $rangeend );

@@ -19,6 +19,7 @@ list( $total, $uris ) = wp_statistics_get_top_pages(
 );
 $count = 0;
 
+$stats = array();
 foreach ( $uris as $uri ) {
 	$count ++;
 
@@ -44,7 +45,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
                 <div class="postbox">
 					<?php $paneltitle = __( 'Top 5 Pages Trends', 'wp-statistics' ); ?>
                     <button class="handlediv" type="button" aria-expanded="true">
-						<span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
+                        <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'wp-statistics' ), $paneltitle ); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                     <h2 class="hndle"><span><?php echo $paneltitle; ?></h2>
@@ -60,7 +61,7 @@ for ( $i = $daysToDisplay; $i >= 0; $i -- ) {
                             colors[4] = ['rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)'];
 
                             var ctx = document.getElementById("hit-stats").getContext('2d');
-                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
+							<?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'line',
                                 data: {
