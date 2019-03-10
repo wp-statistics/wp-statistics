@@ -461,6 +461,7 @@ class WP_Statistics_Install {
 	 * _init_page_type_updater        -> define WordPress Hook
 	 * _get_require_number_update     -> Get number of rows that require update page type
 	 * _is_require_update_page        -> Check Wp-statistics require update page table
+     * _get_page_type_by_obj          -> Get Page Type by information
 	 */
 	public static function _init_page_type_updater() {
 
@@ -548,7 +549,7 @@ class WP_Statistics_Install {
 
                             // Added Progress Html
                             let wps_progress = `<div id="wps_process_upgrade" style="display:none;"><p>`;
-                            wps_progress += `<?php _e( 'Please do not close the browser window until the database operation was completed.', 'wp-statistic' ); ?>`;
+                            wps_progress += `<?php _e( 'Please don\'t close the browser window until the database operation was completed.', 'wp-statistic' ); ?>`;
                             wps_progress += `</p><p><b>`;
                             wps_progress += `<?php echo __( 'Item processed', 'wp-statistics' ); ?>`;
                             wps_progress += ` : <span id="wps_num_page_process">0</span> / <?php echo number_format( self::_get_require_number_update() ); ?> &nbsp;<span class="wps-text-warning">(<span id="wps_num_percentage">0</span>%)</span></b></p>`;
@@ -628,6 +629,74 @@ class WP_Statistics_Install {
 		}
 
 		return false;
+	}
+
+	public static function _get_page_type_by_obj( $obj_ID, $page_url ) {
+
+		//Default page type
+		$page_type = 'unknown';
+
+		//check if Home Page
+		if($page_url =="/") {
+			return 'home';
+
+		} else {
+
+			// Page url
+			$page_url = ltrim( $page_url, "/" );
+			$page_url = trim( get_bloginfo( 'url' ), "/" ) . "/" . $page_url;
+
+			// Check Page Path is exist
+			$exist_page = url_to_postid( $page_url );
+
+			//Check Post Exist
+			if ( $exist_page > 0 ) {
+
+				# Get Post Type
+				$p_type = get_post_type( $exist_page );
+
+				# Check Post Type
+				if ( $p_type == "product" ) {
+					$page_type = 'product';
+				} elseif ( $p_type == "page" ) {
+					$page_type = 'page';
+				} elseif ( $p_type == "attachment" ) {
+					$page_type = 'attachment';
+				} else {
+					$page_type = 'post';
+				}
+
+			} else {
+
+				# Check is Term
+				$term = get_term( $obj_ID );
+				if ( is_wp_error( get_term_link( $term ) ) === true ) {
+					//Don't Stuff
+				} else {
+					//Which Taxonomy
+					$taxonomy = $term->taxonomy;
+
+					//Check Url is contain
+					$term_link = get_term_link( $term );
+					$term_link = ltrim( str_ireplace( get_bloginfo( 'url' ), "", $term_link ), "/" );
+					if ( stristr( $page_url, $term_link ) === false ) {
+						//Return Unknown
+					} else {
+						//Check Type of taxonomy
+						if ( $taxonomy == "category" ) {
+							$page_type = 'category';
+						} elseif ( $taxonomy == "post_tag" ) {
+							$page_type = 'post_tag';
+						} else {
+							$page_type = 'tax';
+						}
+					}
+
+				}
+			}
+		}
+
+		return $page_type;
 	}
 
 }
