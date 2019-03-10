@@ -461,7 +461,7 @@ class WP_Statistics_Install {
 	 * _init_page_type_updater        -> define WordPress Hook
 	 * _get_require_number_update     -> Get number of rows that require update page type
 	 * _is_require_update_page        -> Check Wp-statistics require update page table
-     * _get_page_type_by_obj          -> Get Page Type by information
+	 * _get_page_type_by_obj          -> Get Page Type by information
 	 */
 	public static function _init_page_type_updater() {
 
@@ -573,37 +573,77 @@ class WP_Statistics_Install {
 				<?php
 			} );
 
-			# Add Admin Ajax Process
-			add_action( 'wp_ajax_wp_statistics_update_post_type_db', function () {
+		}
 
-				# Check is Ajax WordPress
-				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		# Add Admin Ajax Process
+		add_action( 'wp_ajax_wp_statistics_update_post_type_db', function () {
+			global $wpdb;
 
-					# Create Default Obj
-					$return = array( 'process_status' => 'incomplete', 'number_process' => 0, 'percentage' => 0 );
+			# Create Default Obj
+			$return = array( 'process_status' => 'complete', 'number_process' => 0, 'percentage' => 0 );
+
+			# Check is Ajax WordPress
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+
+				# Check Status Of Process
+				if ( self::_is_require_update_page() === true ) {
+
+					# Number Process Per Query
+					$number_per_query = 80;
 
 					# Check Number Process
 					$number_process = self::_get_require_number_update();
+					$i              = 0;
 					if ( $number_process > 0 ) {
 
-						$return['number_process'] = 120;
-						$return['percentage']     = 40;
+						# Start Query
+						$query = $wpdb->get_results( "SELECT * FROM `" . wp_statistics_db_table( 'pages' ) . "` WHERE `type` = '' ORDER BY `page_id` DESC LIMIT 0,{$number_per_query}", ARRAY_A );
+						foreach ( $query as $row ) {
 
-					} else {
+							# Get Page Type
+							$page_type = self::_get_page_type_by_obj( $row['id'], $row['uri'] );
 
-						# Add Option complete Process
-						update_option( 'wp_statistics_update_page_type', 'yes' );
+							# Update Table
+							$wpdb->update(
+								wp_statistics_db_table( 'pages' ),
+								array(
+									'type' => $page_type
+								),
+								array( 'page_id' => $row['page_id'] )
+							);
 
-						# Complete Process
-						$return['process_status'] = 'complete';
+							$i ++;
+						}
+
+						if ( $_GET['number_all'] > $number_per_query ) {
+							# calculate number process
+							$return['number_process'] = $_GET['number_all'] - ( $number_process - $i );
+
+							# Calculate Per
+							$return['percentage'] = round( ( $return['number_process'] / $_GET['number_all'] ) * 100 );
+
+							# Set Process
+							$return['process_status'] = 'incomplete';
+
+						} else {
+
+							$return['number_process'] = $_GET['number_all'];
+							$return['percentage']     = 100;
+							update_option( 'wp_statistics_update_page_type', 'yes' );
+						}
 					}
+				} else {
 
-					# Export Data
-					wp_send_json( $return );
-					exit;
+					# Closed Process
+					update_option( 'wp_statistics_update_page_type', 'yes' );
 				}
-			} );
-		}
+
+				# Export Data
+				wp_send_json( $return );
+				exit;
+			}
+		} );
+
 
 	}
 
@@ -637,7 +677,7 @@ class WP_Statistics_Install {
 		$page_type = 'unknown';
 
 		//check if Home Page
-		if($page_url =="/") {
+		if ( $page_url == "/" ) {
 			return 'home';
 
 		} else {

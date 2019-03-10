@@ -257,6 +257,11 @@ class WP_Statistics_Frontend {
 			$result['type'] = "attachment";
 		}
 
+		//is Archive Page
+		if ( is_archive() ) {
+			$result['type'] = "archive";
+		}
+
 		//Single Post Fro All Post Type
 		if ( is_singular() ) {
 			$result['type'] = "post";
@@ -291,11 +296,6 @@ class WP_Statistics_Frontend {
 		$search_query = filter_var( get_search_query( false ), FILTER_SANITIZE_STRING );
 		if ( trim( $search_query ) != "" ) {
 			return array( "type" => "search", "id" => 0, "search_query" => $search_query );
-		}
-
-		//is Archive Page
-		if ( is_archive() ) {
-			$result['type'] = "archive";
 		}
 
 		//is 404 Page
