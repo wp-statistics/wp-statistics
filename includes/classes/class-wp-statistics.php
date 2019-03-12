@@ -782,9 +782,7 @@ class WP_Statistics {
 			return $this->ip;
 		}
 
-		/*
-		 * Get User IP
-		 */
+		// Get User IP
 		$whip    = new \Vectorface\Whip\Whip();
 		$user_ip = $whip->getValidIpAddress();
 		if ( $user_ip != false ) {
@@ -796,12 +794,20 @@ class WP_Statistics {
 			$this->ip = '127.0.0.1';
 		}
 
+		return $this->ip;
+	}
+
+	/**
+	 * Store User IP To Database
+	 */
+	public function store_ip_to_db() {
+
 		// If the anonymize IP enabled for GDPR.
 		if ( $this->get_option( 'anonymize_ips' ) == true ) {
 			$this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.0';
+		} else {
+			return $this->ip;
 		}
-
-		return $this->ip;
 	}
 
 	/**

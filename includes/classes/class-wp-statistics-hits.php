@@ -54,7 +54,6 @@ class WP_Statistics_Hits {
 			$private_subnets = array( '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24', 'fc00::/7' );
 
 			foreach ( $private_subnets as $psub ) {
-				$contains_ip = false;
 
 				try {
 					$contains_ip = Range::parse( $psub )->contains( $ip );
@@ -436,7 +435,7 @@ class WP_Statistics_Hits {
 				);
 			} else {
 				$this->result = $wpdb->get_row(
-					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$WP_Statistics->ip}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
+					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$WP_Statistics->store_ip_to_db()}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
 				);
 			}
 
@@ -470,7 +469,7 @@ class WP_Statistics_Hits {
 						'agent'        => $WP_Statistics->agent['browser'],
 						'platform'     => $WP_Statistics->agent['platform'],
 						'version'      => $WP_Statistics->agent['version'],
-						'ip'           => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->ip,
+						'ip'           => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db(),
 						'location'     => $this->location,
 						'UAString'     => $ua,
 						'hits'         => 1,
@@ -701,7 +700,7 @@ class WP_Statistics_Hits {
 			);
 		} else {
 			$this->result = $wpdb->query(
-				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$WP_Statistics->ip}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
+				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$WP_Statistics->store_ip_to_db()}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
 			);
 		}
 
@@ -739,7 +738,7 @@ class WP_Statistics_Hits {
 			$wpdb->insert(
 				$wpdb->prefix . 'statistics_useronline',
 				array(
-					'ip'        => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->ip,
+					'ip'        => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db(),
 					'timestamp' => $this->timestamp,
 					'created'   => $this->timestamp,
 					'date'      => $WP_Statistics->Current_Date(),
@@ -802,7 +801,7 @@ class WP_Statistics_Hits {
 					'type'      => $this->current_page_type
 				),
 				array(
-					'ip'       => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->ip,
+					'ip'       => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db(),
 					'agent'    => $WP_Statistics->agent['browser'],
 					'platform' => $WP_Statistics->agent['platform'],
 					'version'  => $WP_Statistics->agent['version'],
