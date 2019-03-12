@@ -782,34 +782,13 @@ class WP_Statistics {
 			return $this->ip;
 		}
 
-		/* Check to see if any of the HTTP headers are set to identify the remote user.
-		 * These often give better results as they can identify the remote user even through firewalls etc,
-		 * but are sometimes used in SQL injection attacks.
-		 *
-		 * We only want to take the first one we find, so search them in order and break when we find the first
-		 * one.
-		 *
+		/*
+		 * Get User IP
 		 */
-		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-			$user_ip = $_SERVER['HTTP_CLIENT_IP'];
-		} else if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} else if ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
-			$user_ip = $_SERVER['HTTP_X_FORWARDED'];
-		} else if ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
-			$user_ip = $_SERVER['HTTP_FORWARDED_FOR'];
-		} else if ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
-			$user_ip = $_SERVER['HTTP_FORWARDED'];
-		} else if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-			$user_ip = $_SERVER['REMOTE_ADDR'];
-		} else {
-			$user_ip = false;
-		}
-
-		//Check Validation IP
-		$check_ip = $this->get_ip_value( $user_ip );
-		if ( $check_ip != false ) {
-			$this->ip = $check_ip;
+		$whip    = new \Vectorface\Whip\Whip();
+		$user_ip = $whip->getValidIpAddress();
+		if ( $user_ip != false ) {
+			$this->ip = $user_ip;
 		}
 
 		// If no valid ip address has been found, use 127.0.0.1 (aka localhost).
