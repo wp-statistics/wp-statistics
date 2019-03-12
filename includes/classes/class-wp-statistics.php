@@ -616,7 +616,7 @@ class WP_Statistics {
 			$wpdb->insert(
 				$wpdb->prefix . "statistics_useronline",
 				array(
-					'ip'        => $this->get_IP(),
+					'ip'        => $this->store_ip_to_db(),
 					'timestamp' => $this->Current_Date( 'U' ),
 					'date'      => $this->Current_Date(),
 					'referred'  => $this->get_Referred(),
@@ -653,7 +653,7 @@ class WP_Statistics {
 					'agent'        => $this->agent['browser'],
 					'platform'     => $this->agent['platform'],
 					'version'      => $this->agent['version'],
-					'ip'           => $this->get_IP(),
+					'ip'           => $this->store_ip_to_db(),
 					'location'     => '000',
 				)
 			);
@@ -760,7 +760,6 @@ class WP_Statistics {
 
 		// We're got a real IP address, return it.
 		return $ip;
-
 	}
 
 	/**
