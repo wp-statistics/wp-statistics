@@ -802,12 +802,20 @@ class WP_Statistics {
 	 */
 	public function store_ip_to_db() {
 
-		// If the anonymize IP enabled for GDPR.
-		if ( $this->get_option( 'anonymize_ips' ) == true ) {
-			$this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.0';
+		//Get User ip
+		$user_ip = $this->ip;
+
+		// use 127.0.0.1 If no valid ip address has been found.
+		if ( false === $user_ip ) {
+			return '127.0.0.1';
 		}
 
-		return $this->ip;
+		// If the anonymize IP enabled for GDPR.
+		if ( $this->get_option( 'anonymize_ips' ) == true ) {
+			$user_ip = substr( $user_ip, 0, strrpos( $user_ip, '.' ) ) . '.0';
+		}
+
+		return $user_ip;
 	}
 
 	/**

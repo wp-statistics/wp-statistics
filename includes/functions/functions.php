@@ -1888,7 +1888,7 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 		'meta'      => array()
 	);
 
-	if ( $page_id > 0 and ! empty( $type ) ) {
+	if ( ! empty( $type ) ) {
 		switch ( $type ) {
 			case "product":
 			case "attachment":
