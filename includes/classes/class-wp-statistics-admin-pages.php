@@ -222,6 +222,26 @@ class WP_Statistics_Admin_Pages {
 	}
 
 	/**
+	 * Sanitize Email Subject
+	 *
+	 * @param $subject
+	 * @return string|string[]|null
+	 */
+	public static function sanitize_mail_subject( $subject ) {
+
+		# Remove Special character
+		$str = preg_replace( '/[^A-Za-z0-9\. -]/', '', $subject );
+
+		# Replace sequences of spaces with hyphen
+		$str = preg_replace( '/  */', ' - ', $str );
+
+		# You may also want to try this alternative:
+		$str = preg_replace( '/\\s+/', ' ', $str );
+
+		return $str;
+	}
+
+	/**
 	 * Plugins
 	 */
 	static function plugins() {

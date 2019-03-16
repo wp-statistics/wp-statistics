@@ -144,7 +144,7 @@ function wp_statistics_purge_data( $purge_days ) {
 				$WP_Statistics->update_option( 'email_list', $blogemail );
 			}
 
-			wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Database pruned on', 'wp-statistics' ) . ' ' . $blogname, $result_string, $headers );
+			wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Database pruned on', 'wp-statistics' ) . ' ' . WP_Statistics_Admin_Pages::sanitize_mail_subject( $blogname ), $result_string, $headers );
 		}
 
 		return $result_string;
