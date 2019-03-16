@@ -429,15 +429,13 @@ class WP_Statistics_Hits {
 		if ( $this->exclusion_reason == 'honeypot' || ! $this->exclusion_match ) {
 
 			// Check to see if we already have an entry in the database.
+			$check_ip_db = $WP_Statistics->store_ip_to_db();
 			if ( $WP_Statistics->ip_hash != false ) {
-				$this->result = $wpdb->get_row(
-					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$WP_Statistics->ip_hash}'"
-				);
-			} else {
-				$this->result = $wpdb->get_row(
-					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$WP_Statistics->store_ip_to_db()}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
-				);
+				$check_ip_db = $WP_Statistics->ip_hash;
 			}
+
+			//Check Exist This User in Current Day
+			$this->result = $wpdb->get_row( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$check_ip_db}'" );
 
 			// Check to see if this is a visit to the honey pot page, flag it when we create the new entry.
 			$honeypot = 0;
@@ -550,7 +548,8 @@ class WP_Statistics_Hits {
 		}
 	}
 
-	private function RecordExclusion() {
+	private
+	function RecordExclusion() {
 		global $wpdb, $WP_Statistics;
 		// If we're not storing exclusions, just return.
 		if ( $this->exclusion_record != true ) {
@@ -570,7 +569,7 @@ class WP_Statistics_Hits {
 		}
 	}
 
-	// Check is Track All Page
+// Check is Track All Page
 	static public function is_track_page() {
 		global $WP_Statistics;
 
