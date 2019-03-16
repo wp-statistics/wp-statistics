@@ -230,10 +230,10 @@ class WP_Statistics_Admin_Pages {
 	public static function sanitize_mail_subject( $subject ) {
 
 		# Remove Special character
-		$str = preg_replace( '/[^A-Za-z0-9\. -]/', '', $subject );
+		$str = preg_replace( '/[\'^£$%&*()}{@#~?><>,|=+¬]/', '', $subject );
 
 		# Replace sequences of spaces with hyphen
-		$str = preg_replace( '/  */', ' - ', $str );
+		$str = preg_replace( '/  */', '-', $str );
 
 		# You may also want to try this alternative:
 		$str = preg_replace( '/\\s+/', ' ', $str );
