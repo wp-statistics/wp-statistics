@@ -122,6 +122,15 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.6.1 =
+- Added Whip Package for getting visitor's IP address.
+- Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
+- Added database upgrade class for update page type.
+- Fixed duplicate page list in report pages.
+- Fixed bug to get home page title.
+- Improvement Sanitize subject for sending email reporting.
+- Improvement jQuery Datepicker UI.
+
 = 12.6 =
 # Added
 - Post/Page Select in statistics page reporting according to post Type.
