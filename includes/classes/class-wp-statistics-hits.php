@@ -516,16 +516,16 @@ class WP_Statistics_Hits {
 					}
 				}
 			} else {
+
 				// Normally we've done all of our exclusion matching during the class creation, however for the robot threshold is calculated here to avoid another call the database.
-				if ( $WP_Statistics->get_option( 'robot_threshold' ) > 0 &&
-				     $this->result->hits + 1 > $WP_Statistics->get_option( 'robot_threshold' )
-				) {
+				if ( $WP_Statistics->get_option( 'robot_threshold' ) > 0 && $this->result->hits + 1 > $WP_Statistics->get_option( 'robot_threshold' ) ) {
 					$this->exclusion_match  = true;
 					$this->exclusion_reason = 'robot_threshold';
 				} else if ( $this->result->honeypot ) {
 					$this->exclusion_match  = true;
 					$this->exclusion_reason = 'honeypot';
 				} else {
+
 					//Get Current Visitors ID
 					$this->current_visitor_id = $this->result->ID;
 
@@ -548,8 +548,7 @@ class WP_Statistics_Hits {
 		}
 	}
 
-	private
-	function RecordExclusion() {
+	private function RecordExclusion() {
 		global $wpdb, $WP_Statistics;
 		// If we're not storing exclusions, just return.
 		if ( $this->exclusion_record != true ) {
@@ -569,7 +568,7 @@ class WP_Statistics_Hits {
 		}
 	}
 
-// Check is Track All Page
+	// Check is Track All Page
 	static public function is_track_page() {
 		global $WP_Statistics;
 
@@ -693,15 +692,14 @@ class WP_Statistics_Hits {
 	public function Is_user() {
 		global $wpdb, $WP_Statistics;
 
+		// Check to see if we already have an entry in the database.
+		$check_ip_db = $WP_Statistics->store_ip_to_db();
 		if ( $WP_Statistics->ip_hash != false ) {
-			$this->result = $wpdb->query(
-				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$WP_Statistics->ip_hash}'"
-			);
-		} else {
-			$this->result = $wpdb->query(
-				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$WP_Statistics->store_ip_to_db()}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
-			);
+			$check_ip_db = $WP_Statistics->ip_hash;
 		}
+
+		//Check Exist
+		$this->result = $wpdb->query( "SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$check_ip_db}'" );
 
 		if ( $this->result ) {
 			return true;
@@ -711,7 +709,8 @@ class WP_Statistics_Hits {
 	// This function add/update/delete the online users in the database.
 	public function Check_online() {
 		global $WP_Statistics;
-		// If we're a webcrawler or referral from ourselves or an excluded address don't record the user as online, unless we've been told to anyway.
+
+		// If we're a web crawler or referral from ourselves or an excluded address don't record the user as online, unless we've been told to anyway.
 		if ( ! $this->exclusion_match || $WP_Statistics->get_option( 'all_online' ) ) {
 
 			// If the current user exists in the database already,
@@ -728,6 +727,8 @@ class WP_Statistics_Hits {
 	// This function adds a user to the database.
 	public function Add_user() {
 		global $wpdb, $WP_Statistics;
+
+		//Check is User
 		if ( ! $this->Is_user() ) {
 
 			// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
@@ -751,10 +752,7 @@ class WP_Statistics_Hits {
 					'type'      => $this->current_page_type
 				)
 			);
-
-
 		}
-
 	}
 
 	/**
@@ -782,6 +780,7 @@ class WP_Statistics_Hits {
 	// This function updates a user in the database.
 	public function Update_user() {
 		global $wpdb, $WP_Statistics;
+
 		// Make sure we found the user earlier when we called Is_user().
 		if ( $this->result ) {
 
@@ -799,13 +798,7 @@ class WP_Statistics_Hits {
 					'page_id'   => $this->current_page_id,
 					'type'      => $this->current_page_type
 				),
-				array(
-					'ip'       => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db(),
-					'agent'    => $WP_Statistics->agent['browser'],
-					'platform' => $WP_Statistics->agent['platform'],
-					'version'  => $WP_Statistics->agent['version'],
-					'location' => $this->location,
-				)
+				array( 'ip' => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db() )
 			);
 		}
 	}
