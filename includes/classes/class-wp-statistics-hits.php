@@ -355,19 +355,15 @@ class WP_Statistics_Hits {
 		if ( ! $this->exclusion_match ) {
 
 			// Check to see if we're a returning visitor.
-			$this->result = $wpdb->get_row(
-				"SELECT * FROM {$wpdb->prefix}statistics_visit ORDER BY `{$wpdb->prefix}statistics_visit`.`ID` DESC"
-			);
+			$this->result = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}statistics_visit ORDER BY `{$wpdb->prefix}statistics_visit`.`ID` DESC" );
 
 			// If we're a returning visitor, update the current record in the database, otherwise, create a new one.
 			if ( $this->result->last_counter != $WP_Statistics->Current_Date( 'Y-m-d' ) ) {
+
 				// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
 				// for this IP address we want to do an "INSERT ... ON DUPLICATE KEY" which WordPress doesn't support.
 				$sqlstring = $wpdb->prepare(
-					'INSERT INTO ' .
-					$wpdb->prefix .
-					'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' .
-					$WP_Statistics->coefficient,
+					'INSERT INTO ' . $wpdb->prefix . 'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' . $WP_Statistics->coefficient,
 					$WP_Statistics->Current_Date(),
 					$WP_Statistics->Current_date( 'Y-m-d' ),
 					$WP_Statistics->coefficient
@@ -376,9 +372,7 @@ class WP_Statistics_Hits {
 				$wpdb->query( $sqlstring );
 			} else {
 				$sqlstring = $wpdb->prepare(
-					'UPDATE ' .
-					$wpdb->prefix .
-					'statistics_visit SET `visit` = `visit` + %d, `last_visit` = %s WHERE `last_counter` = %s',
+					'UPDATE ' . $wpdb->prefix . 'statistics_visit SET `visit` = `visit` + %d, `last_visit` = %s WHERE `last_counter` = %s',
 					$WP_Statistics->coefficient,
 					$WP_Statistics->Current_Date(),
 					$this->result->last_counter
@@ -414,11 +408,7 @@ class WP_Statistics_Hits {
 		$this->get_page_detail();
 
 		//Check honeypot Page
-		if ( $WP_Statistics->get_option( 'use_honeypot' ) &&
-		     $WP_Statistics->get_option( 'honeypot_postid' ) > 0 &&
-		     $WP_Statistics->get_option( 'honeypot_postid' ) == $this->current_page_id &&
-		     $this->current_page_id > 0
-		) {
+		if ( $WP_Statistics->get_option( 'use_honeypot' ) && $WP_Statistics->get_option( 'honeypot_postid' ) > 0 && $WP_Statistics->get_option( 'honeypot_postid' ) == $this->current_page_id && $this->current_page_id > 0 ) {
 			$this->exclusion_match  = true;
 			$this->exclusion_reason = 'honeypot';
 		}
@@ -530,10 +520,8 @@ class WP_Statistics_Hits {
 					$this->current_visitor_id = $this->result->ID;
 
 					$sqlstring = $wpdb->prepare(
-						'UPDATE ' .
-						$wpdb->prefix .
-						'statistics_visitor SET `hits` = `hits` + %d, `honeypot` = %d WHERE `ID` = %d',
-						1 - $honeypot,
+						'UPDATE `' . $wpdb->prefix . 'statistics_visitor` SET `hits` = `hits` + %d, `honeypot` = %d WHERE `ID` = %d',
+						1,
 						$honeypot,
 						$this->result->ID
 					);
