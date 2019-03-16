@@ -451,7 +451,7 @@ class WP_Statistics_Hits {
 					if ( WP_Statistics_Rest::is_rest() ) {
 						$ua = WP_Statistics_Rest::params( 'ua' );
 					} else {
-						$ua = $_SERVER['HTTP_USER_AGENT'];
+						$ua = ( isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '' );
 					}
 				} else {
 					$ua = '';
