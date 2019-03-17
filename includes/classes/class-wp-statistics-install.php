@@ -499,7 +499,7 @@ class WP_Statistics_Install {
                             //Complete Progress
                             let wps_end_progress = `<div id="wps_end_process" style="display:none;">`;
                             wps_end_progress += `<p>`;
-                            wps_end_progress += `<?php _e( 'Completed Database upgrade operation.', 'wp-statistics' ); ?>`;
+                            wps_end_progress += `<?php _e( 'Database upgrade operation completed!', 'wp-statistics' ); ?>`;
                             wps_end_progress += `</p>`;
                             wps_end_progress += `</div>`;
                             wps_end_progress += `<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>`;
