@@ -130,6 +130,7 @@ To register, go to the Permalink page and update the permalink with press Save C
 - Fixed bug to get home page title.
 - Improvement Sanitize subject for sending email reporting.
 - Improvement jQuery Datepicker UI.
+- Improvement visitor's hit when there was a broken file in that request.
 
 = 12.6 =
 # Added
