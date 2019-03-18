@@ -79,6 +79,7 @@ class WP_Statistics_Hits {
 		 *		5 - Self Referrals, Referrer Spam & login page
 		 *		6 - User roles
 		 *		7 - Host name list
+		 *      8 - Broken link file
 		 *
 		 * The GoeIP exclusions will be processed in the GeoIP hits class constructor.
 		 *
@@ -160,7 +161,26 @@ class WP_Statistics_Hits {
 				}
 			}
 
-			// If we didn't match a robot, check ip subnets.
+			//Check Broken Link File
+			if ( is_404() ) {
+
+				//Check Current Page
+				if ( isset( $_SERVER["HTTP_HOST"] ) and isset( $_SERVER["REQUEST_URI"] ) ) {
+
+					//Get Full Url Page
+					$page_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}";
+
+					//Check Link file
+					$page_url = parse_url( $page_url, PHP_URL_PATH );
+					$ext      = pathinfo( $page_url, PATHINFO_EXTENSION );
+					if ( ! empty( $ext ) and $ext != 'php' ) {
+						$this->exclusion_match  = true;
+						$this->exclusion_reason = 'BrokenFile';
+
+						return;
+					}
+				}
+			}
 
 			// Pull the subnets from the database.
 			$subnets = explode( "\n", $WP_Statistics->get_option( 'exclude_ip' ) );
