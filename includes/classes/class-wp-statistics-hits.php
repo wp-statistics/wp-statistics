@@ -54,7 +54,6 @@ class WP_Statistics_Hits {
 			$private_subnets = array( '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24', 'fc00::/7' );
 
 			foreach ( $private_subnets as $psub ) {
-				$contains_ip = false;
 
 				try {
 					$contains_ip = Range::parse( $psub )->contains( $ip );
@@ -80,6 +79,7 @@ class WP_Statistics_Hits {
 		 *		5 - Self Referrals, Referrer Spam & login page
 		 *		6 - User roles
 		 *		7 - Host name list
+		 *      8 - Broken link file
 		 *
 		 * The GoeIP exclusions will be processed in the GeoIP hits class constructor.
 		 *
@@ -161,7 +161,26 @@ class WP_Statistics_Hits {
 				}
 			}
 
-			// If we didn't match a robot, check ip subnets.
+			//Check Broken Link File
+			if ( is_404() ) {
+
+				//Check Current Page
+				if ( isset( $_SERVER["HTTP_HOST"] ) and isset( $_SERVER["REQUEST_URI"] ) ) {
+
+					//Get Full Url Page
+					$page_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}";
+
+					//Check Link file
+					$page_url = parse_url( $page_url, PHP_URL_PATH );
+					$ext      = pathinfo( $page_url, PATHINFO_EXTENSION );
+					if ( ! empty( $ext ) and $ext != 'php' ) {
+						$this->exclusion_match  = true;
+						$this->exclusion_reason = 'BrokenFile';
+
+						return;
+					}
+				}
+			}
 
 			// Pull the subnets from the database.
 			$subnets = explode( "\n", $WP_Statistics->get_option( 'exclude_ip' ) );
@@ -356,19 +375,15 @@ class WP_Statistics_Hits {
 		if ( ! $this->exclusion_match ) {
 
 			// Check to see if we're a returning visitor.
-			$this->result = $wpdb->get_row(
-				"SELECT * FROM {$wpdb->prefix}statistics_visit ORDER BY `{$wpdb->prefix}statistics_visit`.`ID` DESC"
-			);
+			$this->result = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}statistics_visit ORDER BY `{$wpdb->prefix}statistics_visit`.`ID` DESC" );
 
 			// If we're a returning visitor, update the current record in the database, otherwise, create a new one.
 			if ( $this->result->last_counter != $WP_Statistics->Current_Date( 'Y-m-d' ) ) {
+
 				// We'd normally use the WordPress insert function, but since we may run in to a race condition where another hit to the site has already created a new entry in the database
 				// for this IP address we want to do an "INSERT ... ON DUPLICATE KEY" which WordPress doesn't support.
 				$sqlstring = $wpdb->prepare(
-					'INSERT INTO ' .
-					$wpdb->prefix .
-					'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' .
-					$WP_Statistics->coefficient,
+					'INSERT INTO ' . $wpdb->prefix . 'statistics_visit (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' . $WP_Statistics->coefficient,
 					$WP_Statistics->Current_Date(),
 					$WP_Statistics->Current_date( 'Y-m-d' ),
 					$WP_Statistics->coefficient
@@ -377,9 +392,7 @@ class WP_Statistics_Hits {
 				$wpdb->query( $sqlstring );
 			} else {
 				$sqlstring = $wpdb->prepare(
-					'UPDATE ' .
-					$wpdb->prefix .
-					'statistics_visit SET `visit` = `visit` + %d, `last_visit` = %s WHERE `last_counter` = %s',
+					'UPDATE ' . $wpdb->prefix . 'statistics_visit SET `visit` = `visit` + %d, `last_visit` = %s WHERE `last_counter` = %s',
 					$WP_Statistics->coefficient,
 					$WP_Statistics->Current_Date(),
 					$this->result->last_counter
@@ -415,11 +428,7 @@ class WP_Statistics_Hits {
 		$this->get_page_detail();
 
 		//Check honeypot Page
-		if ( $WP_Statistics->get_option( 'use_honeypot' ) &&
-		     $WP_Statistics->get_option( 'honeypot_postid' ) > 0 &&
-		     $WP_Statistics->get_option( 'honeypot_postid' ) == $this->current_page_id &&
-		     $this->current_page_id > 0
-		) {
+		if ( $WP_Statistics->get_option( 'use_honeypot' ) && $WP_Statistics->get_option( 'honeypot_postid' ) > 0 && $WP_Statistics->get_option( 'honeypot_postid' ) == $this->current_page_id && $this->current_page_id > 0 ) {
 			$this->exclusion_match  = true;
 			$this->exclusion_reason = 'honeypot';
 		}
@@ -430,15 +439,13 @@ class WP_Statistics_Hits {
 		if ( $this->exclusion_reason == 'honeypot' || ! $this->exclusion_match ) {
 
 			// Check to see if we already have an entry in the database.
+			$check_ip_db = $WP_Statistics->store_ip_to_db();
 			if ( $WP_Statistics->ip_hash != false ) {
-				$this->result = $wpdb->get_row(
-					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$WP_Statistics->ip_hash}'"
-				);
-			} else {
-				$this->result = $wpdb->get_row(
-					"SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$WP_Statistics->ip}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
-				);
+				$check_ip_db = $WP_Statistics->ip_hash;
 			}
+
+			//Check Exist This User in Current Day
+			$this->result = $wpdb->get_row( "SELECT * FROM `{$wpdb->prefix}statistics_visitor` WHERE `last_counter` = '{$WP_Statistics->Current_Date('Y-m-d')}' AND `ip` = '{$check_ip_db}'" );
 
 			// Check to see if this is a visit to the honey pot page, flag it when we create the new entry.
 			$honeypot = 0;
@@ -454,7 +461,7 @@ class WP_Statistics_Hits {
 					if ( WP_Statistics_Rest::is_rest() ) {
 						$ua = WP_Statistics_Rest::params( 'ua' );
 					} else {
-						$ua = $_SERVER['HTTP_USER_AGENT'];
+						$ua = ( isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '' );
 					}
 				} else {
 					$ua = '';
@@ -470,7 +477,7 @@ class WP_Statistics_Hits {
 						'agent'        => $WP_Statistics->agent['browser'],
 						'platform'     => $WP_Statistics->agent['platform'],
 						'version'      => $WP_Statistics->agent['version'],
-						'ip'           => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->ip,
+						'ip'           => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db(),
 						'location'     => $this->location,
 						'UAString'     => $ua,
 						'hits'         => 1,
@@ -519,24 +526,22 @@ class WP_Statistics_Hits {
 					}
 				}
 			} else {
+
 				// Normally we've done all of our exclusion matching during the class creation, however for the robot threshold is calculated here to avoid another call the database.
-				if ( $WP_Statistics->get_option( 'robot_threshold' ) > 0 &&
-				     $this->result->hits + 1 > $WP_Statistics->get_option( 'robot_threshold' )
-				) {
+				if ( $WP_Statistics->get_option( 'robot_threshold' ) > 0 && $this->result->hits + 1 > $WP_Statistics->get_option( 'robot_threshold' ) ) {
 					$this->exclusion_match  = true;
 					$this->exclusion_reason = 'robot_threshold';
 				} else if ( $this->result->honeypot ) {
 					$this->exclusion_match  = true;
 					$this->exclusion_reason = 'honeypot';
 				} else {
+
 					//Get Current Visitors ID
 					$this->current_visitor_id = $this->result->ID;
 
 					$sqlstring = $wpdb->prepare(
-						'UPDATE ' .
-						$wpdb->prefix .
-						'statistics_visitor SET `hits` = `hits` + %d, `honeypot` = %d WHERE `ID` = %d',
-						1 - $honeypot,
+						'UPDATE `' . $wpdb->prefix . 'statistics_visitor` SET `hits` = `hits` + %d, `honeypot` = %d WHERE `ID` = %d',
+						1,
 						$honeypot,
 						$this->result->ID
 					);
@@ -695,15 +700,14 @@ class WP_Statistics_Hits {
 	public function Is_user() {
 		global $wpdb, $WP_Statistics;
 
+		// Check to see if we already have an entry in the database.
+		$check_ip_db = $WP_Statistics->store_ip_to_db();
 		if ( $WP_Statistics->ip_hash != false ) {
-			$this->result = $wpdb->query(
-				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$WP_Statistics->ip_hash}'"
-			);
-		} else {
-			$this->result = $wpdb->query(
-				"SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$WP_Statistics->ip}' AND `agent` = '{$WP_Statistics->agent['browser']}' AND `platform` = '{$WP_Statistics->agent['platform']}' AND `version` = '{$WP_Statistics->agent['version']}'"
-			);
+			$check_ip_db = $WP_Statistics->ip_hash;
 		}
+
+		//Check Exist
+		$this->result = $wpdb->query( "SELECT * FROM {$wpdb->prefix}statistics_useronline WHERE `ip` = '{$check_ip_db}'" );
 
 		if ( $this->result ) {
 			return true;
@@ -713,7 +717,8 @@ class WP_Statistics_Hits {
 	// This function add/update/delete the online users in the database.
 	public function Check_online() {
 		global $WP_Statistics;
-		// If we're a webcrawler or referral from ourselves or an excluded address don't record the user as online, unless we've been told to anyway.
+
+		// If we're a web crawler or referral from ourselves or an excluded address don't record the user as online, unless we've been told to anyway.
 		if ( ! $this->exclusion_match || $WP_Statistics->get_option( 'all_online' ) ) {
 
 			// If the current user exists in the database already,
@@ -730,6 +735,8 @@ class WP_Statistics_Hits {
 	// This function adds a user to the database.
 	public function Add_user() {
 		global $wpdb, $WP_Statistics;
+
+		//Check is User
 		if ( ! $this->Is_user() ) {
 
 			// Get the pages or posts ID if it exists and we haven't set it in the visitors code.
@@ -739,7 +746,7 @@ class WP_Statistics_Hits {
 			$wpdb->insert(
 				$wpdb->prefix . 'statistics_useronline',
 				array(
-					'ip'        => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->ip,
+					'ip'        => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db(),
 					'timestamp' => $this->timestamp,
 					'created'   => $this->timestamp,
 					'date'      => $WP_Statistics->Current_Date(),
@@ -753,10 +760,7 @@ class WP_Statistics_Hits {
 					'type'      => $this->current_page_type
 				)
 			);
-
-
 		}
-
 	}
 
 	/**
@@ -784,6 +788,7 @@ class WP_Statistics_Hits {
 	// This function updates a user in the database.
 	public function Update_user() {
 		global $wpdb, $WP_Statistics;
+
 		// Make sure we found the user earlier when we called Is_user().
 		if ( $this->result ) {
 
@@ -801,13 +806,7 @@ class WP_Statistics_Hits {
 					'page_id'   => $this->current_page_id,
 					'type'      => $this->current_page_type
 				),
-				array(
-					'ip'       => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->ip,
-					'agent'    => $WP_Statistics->agent['browser'],
-					'platform' => $WP_Statistics->agent['platform'],
-					'version'  => $WP_Statistics->agent['version'],
-					'location' => $this->location,
-				)
+				array( 'ip' => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db() )
 			);
 		}
 	}

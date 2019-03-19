@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6497ec3331bd44e9dbbb7e43066a0708",
+    "content-hash": "d39f1d65423e64b3d7d67eaf4364c735",
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "8afa52cd417f4ec417b4bfe86b68106538a87660"
+                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/8afa52cd417f4ec417b4bfe86b68106538a87660",
-                "reference": "8afa52cd417f4ec417b4bfe86b68106538a87660",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
+                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2018-10-18T06:09:13+00:00"
+            "time": "2019-01-28T09:30:10+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -407,6 +407,62 @@
                 "subnet"
             ],
             "time": "2018-09-19T06:15:53+00:00"
+        },
+        {
+            "name": "vectorface/whip",
+            "version": "v0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Vectorface/whip.git",
+                "reference": "c3cdf71f532c83c3ab512cfa57130dad36fdbc83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Vectorface/whip/zipball/c3cdf71f532c83c3ab512cfa57130dad36fdbc83",
+                "reference": "c3cdf71f532c83c3ab512cfa57130dad36fdbc83",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "psr/http-message": "~1.0",
+                "squizlabs/php_codesniffer": "~2.0",
+                "vectorface/dunit": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vectorface\\Whip\\": "./src",
+                    "VectorFace\\Whip\\": "./src",
+                    "Vectorface\\WhipTests\\": "./tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Bruce",
+                    "email": "dbruce@vectorface.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Cory Darby",
+                    "email": "ckdarby@vectorface.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP class for retrieving accurate IP address information for the client.",
+            "homepage": "https://github.com/Vectorface/whip",
+            "keywords": [
+                "IP",
+                "cdn",
+                "cloudflare"
+            ],
+            "time": "2017-10-30T14:05:31+00:00"
         },
         {
             "name": "whichbrowser/parser",

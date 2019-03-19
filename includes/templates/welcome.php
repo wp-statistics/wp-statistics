@@ -22,7 +22,7 @@
             <section class="center-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Great update for WP-Statistics', 'wp-statistics' ); ?></h2>
+                        <h2><?php _e( 'Improvement update for WP-Statistics', 'wp-statistics' ); ?></h2>
                     </div>
                 </div>
             </section>
@@ -69,18 +69,19 @@
             <section class="normal-section" style="border-bottom: 0px none;">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Other changes', 'wp-statistics' ); ?></h2>
+                        <h2><?php _e( 'New changes', 'wp-statistics' ); ?></h2>
                     </div>
                 </div>
 
                 <div class="right">
                     <ul>
-                        <li>Added new table `visitor_relationship` for saving visitors logs.</li>
-                        <li>Update database version.</li>
-                        <li>Improvement MySQL time query in all functions.</li>
-                        <li>Improvement CSV exporter.</li>
-                        <li>Improvement pagination in admin pages.</li>
-                        <li>Improvement time filter in admin pages stats.</li>
+                        <li>Added Whip Package for getting visitor's IP address.</li>
+                        <li>Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.</li>
+                        <li>Added database upgrade class for update page type.</li>
+                        <li>Fixed duplicate page list in report pages.</li>
+                        <li>Fixed bug to get home page title.</li>
+                        <li>Improvement Sanitize subject for sending email reporting.</li>
+                        <li>Improvement jQuery Datepicker UI.</li>
                     </ul>
                 </div>
             </section>

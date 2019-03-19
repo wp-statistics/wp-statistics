@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 12.6
+Stable tag: 12.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -122,6 +122,16 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.6.1 =
+- Added Whip Package for getting visitor's IP address.
+- Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
+- Added database upgrade class for update page type.
+- Fixed duplicate page list in report pages.
+- Fixed bug to get home page title.
+- Improvement Sanitize subject for sending email reporting.
+- Improvement jQuery Datepicker UI.
+- Improvement visitor's hit when there was a broken file in that request.
+
 = 12.6 =
 # Added
 - Post/Page Select in statistics page reporting according to post Type.

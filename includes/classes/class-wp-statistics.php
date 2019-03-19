@@ -616,7 +616,7 @@ class WP_Statistics {
 			$wpdb->insert(
 				$wpdb->prefix . "statistics_useronline",
 				array(
-					'ip'        => $this->get_IP(),
+					'ip'        => $this->store_ip_to_db(),
 					'timestamp' => $this->Current_Date( 'U' ),
 					'date'      => $this->Current_Date(),
 					'referred'  => $this->get_Referred(),
@@ -653,7 +653,7 @@ class WP_Statistics {
 					'agent'        => $this->agent['browser'],
 					'platform'     => $this->agent['platform'],
 					'version'      => $this->agent['version'],
-					'ip'           => $this->get_IP(),
+					'ip'           => $this->store_ip_to_db(),
 					'location'     => '000',
 				)
 			);
@@ -760,7 +760,6 @@ class WP_Statistics {
 
 		// We're got a real IP address, return it.
 		return $ip;
-
 	}
 
 	/**
@@ -782,31 +781,11 @@ class WP_Statistics {
 			return $this->ip;
 		}
 
-		/* Check to see if any of the HTTP headers are set to identify the remote user.
-		 * These often give better results as they can identify the remote user even through firewalls etc,
-		 * but are sometimes used in SQL injection attacks.
-		 *
-		 * We only want to take the first one we find, so search them in order and break when we find the first
-		 * one.
-		 *
-		 */
-		$envs = array(
-			'REMOTE_ADDR',
-			'HTTP_CLIENT_IP',
-			'HTTP_X_FORWARDED_FOR',
-			'HTTP_X_FORWARDED',
-			'HTTP_FORWARDED_FOR',
-			'HTTP_FORWARDED',
-			'HTTP_X_REAL_IP',
-		);
-		foreach ( $envs as $env ) {
-			if ( array_key_exists( $env, $_SERVER ) ) {
-				$check_ip = $this->get_ip_value( getenv( $env ) );
-				if ( $check_ip != false ) {
-					$this->ip = $check_ip;
-					break;
-				}
-			}
+		// Get User IP
+		$whip    = new \Vectorface\Whip\Whip();
+		$user_ip = $whip->getValidIpAddress();
+		if ( $user_ip != false ) {
+			$this->ip = $user_ip;
 		}
 
 		// If no valid ip address has been found, use 127.0.0.1 (aka localhost).
@@ -814,12 +793,28 @@ class WP_Statistics {
 			$this->ip = '127.0.0.1';
 		}
 
-		// If the anonymize IP enabled for GDPR.
-		if ( $this->get_option( 'anonymize_ips' ) == true ) {
-			$this->ip = substr( $this->ip, 0, strrpos( $this->ip, '.' ) ) . '.0';
+		return $this->ip;
+	}
+
+	/**
+	 * Store User IP To Database
+	 */
+	public function store_ip_to_db() {
+
+		//Get User ip
+		$user_ip = $this->ip;
+
+		// use 127.0.0.1 If no valid ip address has been found.
+		if ( false === $user_ip ) {
+			return '127.0.0.1';
 		}
 
-		return $this->ip;
+		// If the anonymize IP enabled for GDPR.
+		if ( $this->get_option( 'anonymize_ips' ) == true ) {
+			$user_ip = substr( $user_ip, 0, strrpos( $user_ip, '.' ) ) . '.0';
+		}
+
+		return $user_ip;
 	}
 
 	/**
@@ -1474,7 +1469,7 @@ class WP_Statistics {
 		$first_day = '';
 
 		//First Check Visitor Table , if not exist Web check Pages Table
-		$list_tbl  = array(
+		$list_tbl = array(
 			'visitor' => array( 'order_by' => 'ID', 'column' => 'last_counter' ),
 			'pages'   => array( 'order_by' => 'page_id', 'column' => 'date' ),
 		);

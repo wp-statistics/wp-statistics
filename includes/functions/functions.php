@@ -496,9 +496,9 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 
 	// Get every unique URI from the pages database.
 	if ( $rangestartdate != null && $rangeenddate != null ) {
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s", $rangestartdate, $rangeenddate ), ARRAY_N );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages WHERE `date` BETWEEN %s AND %s GROUP BY `uri`", $rangestartdate, $rangeenddate ), ARRAY_N );
 	} else {
-		$result = $wpdb->get_results( "SELECT DISTINCT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages", ARRAY_N );
+		$result = $wpdb->get_results( "SELECT `uri`,`id`,`type` FROM {$wpdb->prefix}statistics_pages GROUP BY `uri`", ARRAY_N );
 	}
 
 	$total = 0;
@@ -531,6 +531,11 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 					$title = '';
 				}
 			}
+		}
+
+		//Check Title is empty
+		if ( empty( $title ) ) {
+			$title = '-';
 		}
 
 		// Add the current post to the array.
@@ -594,6 +599,9 @@ function wp_statistics_get_uri() {
 			$page_uri = substr( $page_uri, $site_uri_len );
 		}
 	}
+
+	//Sanitize Xss injection
+	$page_uri = filter_var( $page_uri, FILTER_SANITIZE_STRING );
 
 	// If we're at the root (aka the URI is blank), let's make sure to indicate it.
 	if ( $page_uri == '' ) {
@@ -1441,8 +1449,16 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	echo '</form>' . "\r\n";
 	echo '<script>
         jQuery(function() { 
-        jQuery( "#datestartpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val(), d = new Date(v);if (v.length > 0) {jQuery("#rangestart").val(d.toISOString().split(\'T\')[0]);}}});
-        jQuery( "#dateendpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val(), d = new Date(v);if (v.length > 0) {jQuery("#rangeend").val(d.toISOString().split(\'T\')[0]);}}});
+        //Get MYSQL Date
+        function wp_statistics_get_mysql_date(timestamp) {
+            var k = timestamp.valueOf() / 1000;
+            var t = new Date(k * 1000);
+            return t.getFullYear() + "-" + ("0" + (t.getMonth() + 1)).slice(-2) + "-" + ("0" + t.getDate()).slice(-2);
+        }
+        //From Date
+        jQuery( "#datestartpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val();var d = new Date(v);if (v.length > 0) {jQuery("#rangestart").val(wp_statistics_get_mysql_date(d));}}});
+        //To Date
+        jQuery( "#dateendpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val();var d = new Date(v);if (v.length > 0) {jQuery("#rangeend").val(wp_statistics_get_mysql_date(d));}}});
         });
         </script>' . "\r\n";
 }
@@ -1555,14 +1571,27 @@ function wp_statistics_dateformat_php_to_jqueryui( $php_format ) {
 	return $jqueryui_format;
 }
 
-// This function is used to calculate the number of days and thier respective unix timestamps.
+/**
+ * This function is used to calculate the number of days and their respective unix timestamps.
+ *
+ * @param $days
+ * @param $start
+ * @param $end
+ * @return array
+ */
 function wp_statistics_date_range_calculator( $days, $start, $end ) {
-	GLOBAL $WP_Statistics;
+	global $WP_Statistics;
 
 	$daysToDisplay = $days;
 	$rangestart    = $start;
 	$rangeend      = $end;
 
+	//Check Exist params
+	if ( ! empty( $daysToDisplay ) and ! empty( $rangestart ) and ! empty( $rangeend ) ) {
+		return array( $daysToDisplay, strtotime( $rangestart ), strtotime( $rangeend ) );
+	}
+
+	//Check Not Exist day to display
 	if ( $daysToDisplay == - 1 ) {
 		$rangestart_utime = $WP_Statistics->strtotimetz( $rangestart );
 		$rangeend_utime   = $WP_Statistics->strtotimetz( $rangeend );
@@ -1867,7 +1896,7 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 		'meta'      => array()
 	);
 
-	if ( $page_id > 0 and ! empty( $type ) ) {
+	if ( ! empty( $type ) ) {
 		switch ( $type ) {
 			case "product":
 			case "attachment":
