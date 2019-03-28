@@ -270,6 +270,25 @@
             </td>
         </tr>
 
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e( 'Server Info', 'wp-statistics' ); ?></h3></th>
+        </tr>
+
+		<?php
+		$list = array( 'SERVER_SOFTWARE', 'HTTP_HOST', 'REMOTE_ADDR', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'HTTP_X_REAL_IP', );
+		foreach ( $list as $server ) {
+			if ( isset( $_SERVER[ $server ] ) ) {
+				echo '<tr valign="top">
+                     <th scope="row">
+                    ' . $server . '
+                    </th>
+                    <td>
+                        <strong>' . $_SERVER[ $server ] . '</strong>
+                    </td>
+                </tr>';
+			}
+		}
+		?>
         </tbody>
     </table>
 </div>
