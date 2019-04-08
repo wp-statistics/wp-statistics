@@ -328,7 +328,7 @@ function wp_statistics_visitor( $time, $daily = null, $count_only = false, $opti
 	$where = false;
 
 	//Check Type of Page
-	if ( $arg['type'] != "all" ) {
+	if ( $arg['type'] != "all" and $WP_Statistics->get_option( 'visitors_log' ) == true ) {
 		$where[] = "`" . wp_statistics_db_table( 'pages' ) . "`.`type`='" . $arg['type'] . "' AND `" . wp_statistics_db_table( 'pages' ) . "`.`page_id` = " . $arg['ID'];
 	}
 
