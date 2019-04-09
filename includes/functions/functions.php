@@ -2094,7 +2094,7 @@ function wp_statistics_get_site_title( $url ) {
 		if ( isset( $dom ) and $dom->getElementsByTagName( 'title' )->length > 0 ) {
 			$title = $dom->getElementsByTagName( 'title' )->item( '0' )->nodeValue;
 		}
-		return ( wp_strip_all_tags( $title ) == "" ? false : $title );
+		return ( wp_strip_all_tags( $title ) == "" ? false : wp_strip_all_tags( $title ) );
 	}
 
 	return false;
