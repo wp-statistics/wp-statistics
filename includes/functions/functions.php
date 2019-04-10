@@ -239,7 +239,7 @@ function wp_statistics_visit( $time, $daily = null ) {
 		$sum = $result;
 	}
 
-	return $sum;
+	return ! is_numeric( $sum ) ? 0 : $sum;
 }
 
 /**
