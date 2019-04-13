@@ -782,9 +782,9 @@ class WP_Statistics {
 		}
 
 		// Get User IP
-		$whip    = new \Vectorface\Whip\Whip( Vectorface\Whip\Whip::REMOTE_ADDR );
-		$whip->addCustomHeader('HTTP_CLIENT_IP');
-		$whip->addCustomHeader('HTTP_X_REAL_IP');
+		$whip = new \Vectorface\Whip\Whip( \Vectorface\Whip\Whip::PROXY_HEADERS | \Vectorface\Whip\Whip::REMOTE_ADDR );
+		$whip->addCustomHeader( 'HTTP_CLIENT_IP' );
+		$whip->addCustomHeader( 'HTTP_X_REAL_IP' );
 		$user_ip = $whip->getValidIpAddress();
 		if ( $user_ip != false ) {
 			$this->ip = $user_ip;

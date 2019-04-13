@@ -239,7 +239,7 @@ function wp_statistics_visit( $time, $daily = null ) {
 		$sum = $result;
 	}
 
-	return $sum;
+	return ! is_numeric( $sum ) ? 0 : $sum;
 }
 
 /**
@@ -328,7 +328,7 @@ function wp_statistics_visitor( $time, $daily = null, $count_only = false, $opti
 	$where = false;
 
 	//Check Type of Page
-	if ( $arg['type'] != "all" ) {
+	if ( $arg['type'] != "all" and $WP_Statistics->get_option( 'visitors_log' ) == true ) {
 		$where[] = "`" . wp_statistics_db_table( 'pages' ) . "`.`type`='" . $arg['type'] . "' AND `" . wp_statistics_db_table( 'pages' ) . "`.`page_id` = " . $arg['ID'];
 	}
 
@@ -2094,7 +2094,7 @@ function wp_statistics_get_site_title( $url ) {
 		if ( isset( $dom ) and $dom->getElementsByTagName( 'title' )->length > 0 ) {
 			$title = $dom->getElementsByTagName( 'title' )->item( '0' )->nodeValue;
 		}
-		return ( wp_strip_all_tags( $title ) == "" ? false : $title );
+		return ( wp_strip_all_tags( $title ) == "" ? false : wp_strip_all_tags( $title ) );
 	}
 
 	return false;
