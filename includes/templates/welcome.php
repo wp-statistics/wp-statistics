@@ -69,19 +69,14 @@
             <section class="normal-section" style="border-bottom: 0px none;">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'New changes', 'wp-statistics' ); ?></h2>
+                        <h2 style="margin-top: 0;"><?php _e( 'New changes', 'wp-statistics' ); ?></h2>
                     </div>
                 </div>
 
                 <div class="right">
                     <ul>
-                        <li>Added Whip Package for getting visitor's IP address.</li>
-                        <li>Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.</li>
-                        <li>Added database upgrade class for update page type.</li>
-                        <li>Fixed duplicate page list in report pages.</li>
-                        <li>Fixed bug to get home page title.</li>
-                        <li>Improvement Sanitize subject for sending email reporting.</li>
-                        <li>Improvement jQuery Datepicker UI.</li>
+                        <li>Fixed date picker issue in Top Visitors page.</li>
+                        <li>Improved: Minor issues.</li>
                     </ul>
                 </div>
             </section>

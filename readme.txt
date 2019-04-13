@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 12.6.2
+Stable tag: 12.6.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -122,48 +122,52 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.6.3 =
+* Fixed date picker issue in Top Visitors page.
+* Improved: Minor issues.
+
 = 12.6.2 =
-- Fixed issue to get IP in some servers that stored 127.0.0.1
+* Fixed issue to get IP in some servers that stored 127.0.0.1
 
 = 12.6.1 =
-- Added Whip Package for getting visitor's IP address.
-- Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
-- Added database upgrade class for update page type.
-- Fixed duplicate page list in report pages.
-- Fixed bug to get home page title.
-- Improvement Sanitize subject for sending email reporting.
-- Improvement jQuery Datepicker UI.
-- Improvement visitor's hit when there was a broken file in that request.
+* Added Whip Package for getting visitor's IP address.
+* Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
+* Added database upgrade class for update page type.
+* Fixed duplicate page list in report pages.
+* Fixed bug to get home page title.
+* Improvement Sanitize subject for sending email reporting.
+* Improvement jQuery Datepicker UI.
+* Improvement visitor's hit when there was a broken file in that request.
 
 = 12.6 =
 # Added
-- Post/Page Select in statistics page reporting according to post Type.
-- Online Users widget, A cool widget to show current online users!
-- A new table `visitor_relationship` for saving visitors logs.
-- `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
-- Visitor count column in Top Country widget.
+* Post/Page Select in statistics page reporting according to post Type.
+* Online Users widget, A cool widget to show current online users!
+* A new table `visitor_relationship` for saving visitors logs.
+* `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
+* Visitor count column in Top Country widget.
 
 # Improvement
-- Improvement MySQL time query in all functions.
-- Improvement online users page UI.
-- Improvement Top referrals UI.
-- Improvement CSV exporter.
-- Improvement pagination in admin pages that used the WordPress `paginate_links`.
-- Improvement time filter in admin pages stats.
-- Improvement  `admin_url` link in all admin pages.
-- Improvement text wrap in all meta boxes.
-- Fixed reset number online users list in period time.
-- Schedule list in statistical reporting.
-- Refer Param in Top Referring Sites page.
-- Fix method to get IP addresses.
-- Fix Page CSS.
-- Fix the error of No page title found in the meta box.
-- Fix show number refer link from custom URL.
-- Fix update option for Piwik blacklist.
+* Improvement MySQL time query in all functions.
+* Improvement online users page UI.
+* Improvement Top referrals UI.
+* Improvement CSV exporter.
+* Improvement pagination in admin pages that used the WordPress `paginate_links`.
+* Improvement time filter in admin pages stats.
+* Improvement  `admin_url` link in all admin pages.
+* Improvement text wrap in all meta boxes.
+* Fixed reset number online users list in period time.
+* Schedule list in statistical reporting.
+* Refer Param in Top Referring Sites page.
+* Fix method to get IP addresses.
+* Fix Page CSS.
+* Fix the error of No page title found in the meta box.
+* Fix show number refer link from custom URL.
+* Fix update option for Piwik blacklist.
 
 # Deprecated
-- Remove `WP_Statistics_Pagination` class.
-- Deprecate Top Search Words (30 Days) widget.
+* Remove `WP_Statistics_Pagination` class.
+* Deprecate Top Search Words (30 Days) widget.
 
 = 12.5.7 =
 * Added: The Edge To Browser List.
