@@ -490,7 +490,7 @@ class WP_Statistics_Hits {
 
 				// Now parse the referrer and store the results in the search table if the database has been converted.
 				// Also make sure we actually inserted a row on the INSERT IGNORE above or we'll create duplicate entries.
-				if ( $WP_Statistics->get_option( 'search_converted' ) && $wpdb->insert_id ) {
+				if ( $wpdb->insert_id ) {
 
 					$search_engines = wp_statistics_searchengine_list();
 					if ( WP_Statistics_Rest::is_rest() ) {
