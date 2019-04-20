@@ -7,9 +7,6 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'WhichBrowser\\' => array($vendorDir . '/whichbrowser/parser/src', $vendorDir . '/whichbrowser/parser/tests/src'),
-    'Vectorface\\Whip\\' => array($vendorDir . '/vectorface/whip/src'),
-    'Vectorface\\WhipTests\\' => array($vendorDir . '/vectorface/whip/tests'),
-    'VectorFace\\Whip\\' => array($vendorDir . '/vectorface/whip/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'MaxMind\\WebService\\' => array($vendorDir . '/maxmind/web-service-common/src/WebService'),
     'MaxMind\\Exception\\' => array($vendorDir . '/maxmind/web-service-common/src/Exception'),
