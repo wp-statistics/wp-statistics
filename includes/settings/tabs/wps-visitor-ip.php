@@ -1,14 +1,5 @@
 <?php
 
-// Get User Real IP
-$user_ip = WP_Statistics_Admin::getIPify();
-if ( $user_ip === false ) {
-	$user_ip = WP_Statistics_Admin::getIPConfig();
-	if ( $user_ip != false ) {
-		$user_ip = $user_ip['ip'];
-	}
-}
-
 // Save Option
 if ( $wps_nonce_valid and $wps_admin ) {
 
@@ -35,18 +26,24 @@ $ip_method = WP_Statistics_Admin::getIPMethod();
         <tbody>
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;"><?php _e( 'Please choose the basis for receiving users IP according to your site\'s server.', 'wp-statistics' ); ?>
-                <br/> <?php _e( 'Your Real IP according to several API ( ipify.org and ifconfig.co ) is :', 'wp-statistics' ); ?>
+                <br/> <?php _e( 'Your Real IP according to ipify.org API is :', 'wp-statistics' ); ?>
             </th>
         </tr>
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <code style="padding: 15px;font-size: 30px;font-weight: 200; letter-spacing: 2px;font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
-					<?php if ( $user_ip === false ) {
-						_e( 'Error connection to server. Please check your internet connection and try again.', 'wp-statistics' );
-					} else {
-						echo $user_ip;
-					} ?></code><br/><br/></th>
+                <code id="user_real_ip" style="padding: 15px;font-size: 30px;font-weight: 200; letter-spacing: 2px;font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
+                    <script type="application/javascript">
+                        function wp_statistics_get_user_ip(json) {
+                            if (typeof json['ip'] != "undefined") {
+                                jQuery("code#user_real_ip").html(json['ip']);
+                            } else {
+                                jQuery("code#user_real_ip").html("<?php _e( 'Error connection to server. Please check your internet connection and try again.', 'wp-statistics' ); ?>");
+                            }
+                        }
+                    </script>
+                    <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=wp_statistics_get_user_ip"></script>
+                </code><br/><br/></th>
         </tr>
 
 		<?php

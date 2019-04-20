@@ -660,38 +660,6 @@ class WP_Statistics_Admin {
 	}
 
 	/**
-	 * Get User IP and Geo With IPconfig.co API
-	 *
-	 * @return string
-	 */
-	public static function getIPConfig() {
-		$response = wp_remote_get( 'https://ifconfig.co/json', array( 'timeout' => 60 ) );
-		if ( ! is_wp_error( $response ) ) {
-			$body = wp_remote_retrieve_body( $response );
-			$json = json_decode( $body, true );
-			return $json;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get User IP With Ipify.org
-	 *
-	 * @return string
-	 */
-	public static function getIPify() {
-		$response = wp_remote_get( 'https://api.ipify.org/?format=json', array( 'timeout' => 60 ) );
-		if ( ! is_wp_error( $response ) ) {
-			$body = wp_remote_retrieve_body( $response );
-			$json = json_decode( $body, true );
-			return $json['ip'];
-		}
-
-		return false;
-	}
-
-	/**
 	 * List of $_SERVER
 	 *
 	 * @return array
