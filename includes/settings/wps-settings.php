@@ -31,6 +31,7 @@ if ( $wps_admin === false ) {
                             <ul class="tabs">
 								<?php if ( $wps_admin ) { ?>
                                     <li class="tab-link current" data-tab="general-settings"><?php _e( 'General', 'wp-statistics' ); ?></li>
+                                    <li class="tab-link" data-tab="visitor-ip-settings"><?php _e( 'Visitor IP', 'wp-statistics' ); ?></li>
                                     <li class="tab-link" data-tab="privacy-settings"><?php _e( 'Privacy', 'wp-statistics' ); ?></li>
                                     <li class="tab-link" data-tab="notifications-settings"><?php _e( 'Notifications', 'wp-statistics' ); ?></li>
                                     <li class="tab-link" data-tab="overview-display-settings"><?php _e( 'Dashboard', 'wp-statistics' ); ?></li>
@@ -46,6 +47,9 @@ if ( $wps_admin === false ) {
 							<?php if ( $wps_admin ) { ?>
                                 <div id="general-settings" class="tab-content current">
 									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-general.php' ); ?>
+                                </div>
+                                <div id="visitor-ip-settings" class="tab-content">
+									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-visitor-ip.php' ); ?>
                                 </div>
                                 <div id="privacy-settings" class="tab-content">
 									<?php include( WP_Statistics::$reg['plugin-dir'] . 'includes/settings/tabs/wps-privacy.php' ); ?>

@@ -658,4 +658,63 @@ class WP_Statistics_Admin {
 			wp_mail( $WP_Statistics->get_option( 'email_list' ), sprintf( __( 'WP Statistics %s installed on', 'wp-statistics' ), WP_Statistics::$reg['version'] ) . ' ' . $blogname, __( 'Installation/upgrade complete!', 'wp-statistics' ), $headers );
 		}
 	}
+
+	/**
+	 * Get User IP and Geo With IPconfig.co API
+	 *
+	 * @return string
+	 */
+	public static function getIPConfig() {
+		$response = wp_remote_get( 'https://ifconfig.co/json', array( 'timeout' => 60 ) );
+		if ( ! is_wp_error( $response ) ) {
+			$body = wp_remote_retrieve_body( $response );
+			$json = json_decode( $body, true );
+			return $json;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get User IP With Ipify.org
+	 *
+	 * @return string
+	 */
+	public static function getIPify() {
+		$response = wp_remote_get( 'https://api.ipify.org/?format=json', array( 'timeout' => 60 ) );
+		if ( ! is_wp_error( $response ) ) {
+			$body = wp_remote_retrieve_body( $response );
+			$json = json_decode( $body, true );
+			return $json['ip'];
+		}
+
+		return false;
+	}
+
+	/**
+	 * List of $_SERVER
+	 *
+	 * @return array
+	 */
+	public static function list_of_server_ip_variable() {
+		return array( 'REMOTE_ADDR', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'HTTP_X_REAL_IP', 'HTTP_X_CLUSTER_CLIENT_IP' );
+	}
+
+	/**
+	 * Get Basis For Get User IP
+	 */
+	public static function getIPMethod() {
+
+		// Set Default Method
+		$method = 'REMOTE_ADDR';
+
+		// Get Option
+		$wp_statistics = get_option( 'wp_statistics' );
+		if ( isset( $wp_statistics ) and is_array( $wp_statistics ) and isset( $wp_statistics['ip_method'] ) and trim( $wp_statistics['ip_method'] ) != "" ) {
+			$method = $wp_statistics['ip_method'];
+		}
+
+		return $method;
+	}
+
 }
