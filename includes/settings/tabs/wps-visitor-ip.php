@@ -20,7 +20,7 @@ if ( $wps_nonce_valid and $wps_admin ) {
 }
 
 // Get IP Method
-$ip_method = WP_Statistics_Admin::getIPMethod();
+$ip_method = WP_Statistics::getIPMethod();
 ?>
     <table class="form-table">
         <tbody>
@@ -47,7 +47,7 @@ $ip_method = WP_Statistics_Admin::getIPMethod();
         </tr>
 
 		<?php
-		foreach ( WP_Statistics_Admin::list_of_server_ip_variable() as $method ) {
+		foreach ( WP_Statistics::list_of_server_ip_variable() as $method ) {
 			?>
             <tr valign="top">
                 <th scope="row" colspan="2" style="padding-top: 8px;padding-bottom: 8px;">
@@ -78,18 +78,18 @@ $ip_method = WP_Statistics_Admin::getIPMethod();
                 <table>
                     <tr>
                         <td style="width: 10px; padding: 0px;">
-                            <input type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php if ( ! in_array( $ip_method, WP_Statistics_Admin::list_of_server_ip_variable() ) ) {
+                            <input type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php if ( ! in_array( $ip_method, WP_Statistics::list_of_server_ip_variable() ) ) {
 								echo " checked=\"checked\"";
 							} ?>>
                         </td>
                         <td style="width: 250px;"> <?php echo __( 'Use Custom Header', 'wp-statistics' ); ?></td>
                         <td style="padding-left: 0px;">
-                            <input type="text" name="user_custom_header_ip_method" style="padding: 5px; width: 250px;height: 35px;" value="<?php if ( ! in_array( $ip_method, WP_Statistics_Admin::list_of_server_ip_variable() ) ) {
+                            <input type="text" name="user_custom_header_ip_method" style="padding: 5px; width: 250px;height: 35px;" value="<?php if ( ! in_array( $ip_method, WP_Statistics::list_of_server_ip_variable() ) ) {
 								echo $ip_method;
 							} ?>">
                             <p class="description"><?php _e( 'if You are Using Custom $_SERVER in your site e.g. `HTTP_CF_CONNECTING_IP` for CloudFlare Service.', 'wp-statistics' ); ?></p>
                             <p class="description">
-								<?php if ( ! in_array( $ip_method, WP_Statistics_Admin::list_of_server_ip_variable() ) ) {
+								<?php if ( ! in_array( $ip_method, WP_Statistics::list_of_server_ip_variable() ) ) {
 									echo '<code>';
 									if ( isset( $_SERVER[ $ip_method ] ) and ! empty( $_SERVER[ $ip_method ] ) ) {
 										echo $_SERVER[ $ip_method ];

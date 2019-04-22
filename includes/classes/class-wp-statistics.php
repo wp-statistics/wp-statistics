@@ -158,6 +158,32 @@ class WP_Statistics {
 	}
 
 	/**
+	 * List of $_SERVER
+	 *
+	 * @return array
+	 */
+	public static function list_of_server_ip_variable() {
+		return array( 'REMOTE_ADDR', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'HTTP_X_REAL_IP', 'HTTP_X_CLUSTER_CLIENT_IP' );
+	}
+
+	/**
+	 * Get Basis For Get User IP
+	 */
+	public static function getIPMethod() {
+
+		// Set Default Method
+		$method = 'REMOTE_ADDR';
+
+		// Get Option
+		$wp_statistics = get_option( 'wp_statistics' );
+		if ( isset( $wp_statistics ) and is_array( $wp_statistics ) and isset( $wp_statistics['ip_method'] ) and trim( $wp_statistics['ip_method'] ) != "" ) {
+			$method = $wp_statistics['ip_method'];
+		}
+
+		return $method;
+	}
+
+	/**
 	 * Run when plugin loads
 	 */
 	public function run() {
@@ -783,7 +809,7 @@ class WP_Statistics {
 		}
 
 		// Get User Set $_SERVER HEADER
-		$ip_method = WP_Statistics_Admin::getIPMethod();
+		$ip_method = self::getIPMethod();
 
 		// Get User IP
 		if ( isset( $_SERVER[ $ip_method ] ) ) {
