@@ -790,17 +790,24 @@ class WP_Statistics {
 			$this->ip = $_SERVER[ $ip_method ];
 		}
 
+		/**
+		 * This Filter Used For Custom $_SERVER String
+		 */
+		$user_ip = apply_filters( 'wp_statistics_sanitize_user_ip', $this->ip );
+
 		// Check If X_FORWARDED_FOR
-		foreach ( explode( ',', $this->ip ) as $ip ) {
+		foreach ( explode( ',', $user_ip ) as $ip ) {
 			$ip = trim( $ip );
 			if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== false ) {
-				$this->ip = $ip;
+				$user_ip = $ip;
 			}
 		}
 
 		// If no valid ip address has been found, use 127.0.0.1 (aka localhost).
-		if ( false === $this->ip ) {
+		if ( false === $user_ip ) {
 			$this->ip = '127.0.0.1';
+		} else {
+			$this->ip = $user_ip;
 		}
 
 		return $this->ip;

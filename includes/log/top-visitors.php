@@ -30,16 +30,16 @@ include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.
 	echo '<input type="hidden" name="statsdate" id="stats-date" value="' . $rang_start . '">';
 	echo '</form>' . "\r\n";
 
+	echo '<script src="' . WP_Statistics::$reg['plugin-url'] . 'assets/js/moment.min.js"></script>';
 	echo '<script>
         jQuery(function() { 
-        //Get MYSQL Date
-        function wp_statistics_get_mysql_date(timestamp) {
-            var k = timestamp.valueOf() / 1000;
-            var t = new Date(k * 1000);
-            return t.getFullYear() + "-" + ("0" + (t.getMonth() + 1)).slice(-2) + "-" + ("0" + t.getDate()).slice(-2);
+        jQuery( "#statsdate" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', 
+        onSelect: function(selectedDate) {
+            if (selectedDate.length > 0) {
+                jQuery("#stats-date").val(moment(selectedDate, \'' . wp_statistics_convert_php_to_moment_js( get_option( "date_format" ) ) . '\').format(\'YYYY-MM-DD\'));
+            }
         }
-        //From Date
-        jQuery( "#statsdate" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val();var d = new Date(v);if (v.length > 0) {jQuery("#stats-date").val(wp_statistics_get_mysql_date(d));}}});
+        });
         });
         </script>' . "\r\n";
 
