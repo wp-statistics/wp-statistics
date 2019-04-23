@@ -98,7 +98,7 @@ add_thickbox();
 									} ?>
                                 </code>
 								<?php
-								if ( isset( $_SERVER[ $method ] ) and ! empty( $_SERVER[ $method ] ) and ( $ip_method == $method ) and $WP_Statistics->check_sanitize_ip( $_SERVER[ $method ] ) === false ) {
+								if ( isset( $_SERVER[ $method ] ) and ! empty( $_SERVER[ $method ] ) and $WP_Statistics->check_sanitize_ip( $_SERVER[ $method ] ) === false ) {
 									echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . __( 'Your value required to sanitize user IP', 'wp-statistics' ) . '"><span class="dashicons dashicons-warning"></span></a>';
 								}
 								?>
