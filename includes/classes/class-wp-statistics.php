@@ -861,6 +861,17 @@ class WP_Statistics {
 	}
 
 	/**
+	 * Check IP contain Special Character
+	 *
+	 * @param $ip
+	 * @return bool
+	 */
+	public function check_sanitize_ip( $ip ) {
+		$preg = preg_replace( '/[^0-9- .:]/', '', $ip );
+		return $preg == $ip;
+	}
+
+	/**
 	 * Validate an IPv6 IP address
 	 *
 	 * @param  string $ip

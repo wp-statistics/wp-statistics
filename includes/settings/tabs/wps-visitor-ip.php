@@ -31,8 +31,8 @@ add_thickbox();
         <table>
             <tr>
                 <td width="330" style="color: #3238fb; border-bottom: 1px solid #bcbeff;padding-top:10px;padding-bottom:10px;">
-                    <b><?php _e('$_SERVER', 'wp-statistics'); ?></b></td>
-                <td style="color: #3238fb; border-bottom: 1px solid #bcbeff;padding-top:10px;padding-bottom:10px;"> <?php _e('Value', 'wp-statistics'); ?></td>
+                    <b><?php _e( '$_SERVER', 'wp-statistics' ); ?></b></td>
+                <td style="color: #3238fb; border-bottom: 1px solid #bcbeff;padding-top:10px;padding-bottom:10px;"> <?php _e( 'Value', 'wp-statistics' ); ?></td>
             </tr>
 			<?php
 			foreach ( $_SERVER as $key => $value ) {
@@ -90,11 +90,19 @@ add_thickbox();
 								} ?>>
                             </td>
                             <td style="width: 250px;"> <?php printf( __( 'Use %1$s', 'wp-statistics' ), $method ); ?></td>
-                            <td><code><?php if ( isset( $_SERVER[ $method ] ) and ! empty( $_SERVER[ $method ] ) ) {
+                            <td><code><?php
+									if ( isset( $_SERVER[ $method ] ) and ! empty( $_SERVER[ $method ] ) ) {
 										echo $_SERVER[ $method ];
 									} else {
 										_e( 'No available data.', 'wp-statistics' );
-									} ?></code></td>
+									} ?>
+                                </code>
+								<?php
+								if ( isset( $_SERVER[ $method ] ) and ! empty( $_SERVER[ $method ] ) and ( $ip_method == $method ) and $WP_Statistics->check_sanitize_ip( $_SERVER[ $method ] ) === false ) {
+									echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . __( 'Your value required to sanitize user IP', 'wp-statistics' ) . '"><span class="dashicons dashicons-warning"></span></a>';
+								}
+								?>
+                            </td>
                         </tr>
                     </table>
                 </th>
@@ -129,9 +137,14 @@ add_thickbox();
 									}
 								}
 								echo '</code>';
+								if ( ! in_array( $ip_method, WP_Statistics::list_of_server_ip_variable() ) and isset( $_SERVER[ $ip_method ] ) and ! empty( $_SERVER[ $ip_method ] ) and $WP_Statistics->check_sanitize_ip( $_SERVER[ $ip_method ] ) === false ) {
+									echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . __( 'Your value required to sanitize user IP', 'wp-statistics' ) . '"><span class="dashicons dashicons-warning"></span></a>';
+								}
 								?></p>
                             <p class="description"><?php _e( 'if You are Using Custom $_SERVER in your site e.g. `HTTP_CF_CONNECTING_IP` for CloudFlare Service.', 'wp-statistics' ); ?></p>
-                            <p class="description"><a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e( 'Show all $_SERVER in Your Server.', 'wp-statistics' ); ?></a></p>
+                            <p class="description">
+                                <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e( 'Show all $_SERVER in Your Server.', 'wp-statistics' ); ?></a>
+                            </p>
                         </td>
                     </tr>
                 </table>
