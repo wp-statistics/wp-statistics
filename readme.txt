@@ -126,7 +126,7 @@ To register, go to the Permalink page and update the permalink with press Save C
 
 == Changelog ==
 = 12.6.4 =
-* Added: The Visitor IP configuration in the setting page for choosing method that get visitor's IP addressees.
+* Added: The Visitor IP configuration in the setting page for choosing method that gets visitor's IP addresses.
 * Improved: Minor issues in datepicker.
 * Improved: Minor issues in search referrer.
 
