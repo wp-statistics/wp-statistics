@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.1
-Stable tag: 12.6.3
+Stable tag: 12.6.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -113,6 +113,9 @@ If IPv6 is not enabled, you may see an warning like:
 10. Theme widget
 
 == Upgrade Notice ==
+= 12.5.4 =
+If you have a problem in getting visitor's IP, just go to Statistics > Settings > Visitor IP.
+
 = 12.5.3 =
 Please consider that after updating, you will probably see some changes in Hits. The reason is that we have better-recognized crawlers and robots to get more accurate statistics for you.
 
@@ -122,6 +125,11 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.6.4 =
+* Added: The Visitor IP configuration in the setting page for choosing method that get visitor's IP addressees.
+* Improved: Minor issues in datepicker.
+* Improved: Minor issues in search referrer.
+
 = 12.6.3 =
 * Fixed date picker issue in Top Visitors page.
 * Improved: Minor issues.
