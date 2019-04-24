@@ -1329,6 +1329,64 @@ function wp_statistics_geoip_supported() {
 	return $enabled;
 }
 
+/**
+ * Convert PHP date Format to Moment js
+ *
+ * @param $phpFormat
+ * @return string
+ * @see https://stackoverflow.com/questions/30186611/php-dateformat-to-moment-js-format
+ */
+function wp_statistics_convert_php_to_moment_js( $phpFormat ) {
+	$replacements = array(
+		'A' => 'A',
+		'a' => 'a',
+		'B' => '',
+		'c' => 'YYYY-MM-DD[T]HH:mm:ssZ',
+		'D' => 'ddd',
+		'd' => 'DD',
+		'e' => 'zz',
+		'F' => 'MMMM',
+		'G' => 'H',
+		'g' => 'h',
+		'H' => 'HH',
+		'h' => 'hh',
+		'I' => '',
+		'i' => 'mm',
+		'j' => 'D',
+		'L' => '',
+		'l' => 'dddd',
+		'M' => 'MMM',
+		'm' => 'MM',
+		'N' => 'E',
+		'n' => 'M',
+		'O' => 'ZZ',
+		'o' => 'YYYY',
+		'P' => 'Z',
+		'r' => 'ddd, DD MMM YYYY HH:mm:ss ZZ',
+		'S' => 'o',
+		's' => 'ss',
+		'T' => 'z',
+		't' => '',
+		'U' => 'X',
+		'u' => 'SSSSSS',
+		'v' => 'SSS',
+		'W' => 'W',
+		'w' => 'e',
+		'Y' => 'YYYY',
+		'y' => 'YY',
+		'Z' => '',
+		'z' => 'DDD'
+	);
+
+	// Converts escaped characters.
+	foreach ( $replacements as $from => $to ) {
+		$replacements[ '\\' . $from ] = '[' . $from . ']';
+	}
+
+	return strtr( $phpFormat, $replacements );
+}
+
+
 // This function creates the date range selector 'widget' used in the various statistics pages.
 function wp_statistics_date_range_selector( $page, $current, $range = array(), $desc = array(), $extrafields = '', $pre_extra = '', $post_extra = '' ) {
 	GLOBAL $WP_Statistics;
@@ -1447,19 +1505,26 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	echo $post_extra;
 
 	echo '</form>' . "\r\n";
+	echo '<script src="' . WP_Statistics::$reg['plugin-url'] . 'assets/js/moment.min.js?ver=2.24.0"></script>';
 	echo '<script>
-        jQuery(function() { 
-        //Get MYSQL Date
-        function wp_statistics_get_mysql_date(timestamp) {
-            var k = timestamp.valueOf() / 1000;
-            var t = new Date(k * 1000);
-            return t.getFullYear() + "-" + ("0" + (t.getMonth() + 1)).slice(-2) + "-" + ("0" + t.getDate()).slice(-2);
-        }
+        jQuery(function() {
+            
         //From Date
-        jQuery( "#datestartpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val();var d = new Date(v);if (v.length > 0) {jQuery("#rangestart").val(wp_statistics_get_mysql_date(d));}}});
-        //To Date
-        jQuery( "#dateendpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', onSelect: function(selectedDate) {var v = jQuery(this).val();var d = new Date(v);if (v.length > 0) {jQuery("#rangeend").val(wp_statistics_get_mysql_date(d));}}});
+        jQuery( "#datestartpicker" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', 
+        onSelect: function(selectedDate) {
+        if (selectedDate.length > 0) {
+            jQuery("#rangestart").val(moment(selectedDate, \'' . wp_statistics_convert_php_to_moment_js( get_option( "date_format" ) ) . '\').format(\'YYYY-MM-DD\'));
+         }
+         }
         });
+        //To Date
+        jQuery( "#dateendpicker" ).datepicker({
+        dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\',
+         onSelect: function(selectedDate) {
+        if (selectedDate.length > 0) {
+            jQuery("#rangeend").val(moment(selectedDate, \'' . wp_statistics_convert_php_to_moment_js( get_option( "date_format" ) ) . '\').format(\'YYYY-MM-DD\'));
+         }
+        }});});
         </script>' . "\r\n";
 }
 

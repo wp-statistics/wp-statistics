@@ -30,54 +30,13 @@
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Online Users Widget', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'A cool widget to show current online users!', 'wp-statistics' ); ?></p>
+                        <h2><?php _e( 'Visitor IP', 'wp-statistics' ); ?></h2>
+                        <p><?php _e( 'Solve your IP problem with this option.', 'wp-statistics' ); ?></p>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/usersonline-widget.png' ); ?>"/>
-                </div>
-            </section>
-
-            <section class="normal-section">
-                <div class="right">
-                    <div class="content-padding">
-                        <h2><?php _e( 'Top Referring Sites', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'Site icon, Server IP and minor improvements.', 'wp-statistics' ); ?></p>
-                    </div>
-                </div>
-
-                <div class="left text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/topreferring-widget.png' ); ?>"/>
-                </div>
-            </section>
-
-            <section class="normal-section">
-                <div class="left">
-                    <div class="content-padding">
-                        <h2><?php _e( 'Top 10 Counties', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'You can see all visitor of a country!', 'wp-statistics' ); ?></p>
-                    </div>
-                </div>
-
-                <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/topcountry-widget.png' ); ?>"/>
-                </div>
-            </section>
-
-            <section class="normal-section" style="border-bottom: 0px none;">
-                <div class="left">
-                    <div class="content-padding">
-                        <h2 style="margin-top: 0;"><?php _e( 'New changes', 'wp-statistics' ); ?></h2>
-                    </div>
-                </div>
-
-                <div class="right">
-                    <ul>
-                        <li>Fixed date picker issue in Top Visitors page.</li>
-                        <li>Improved: Minor issues.</li>
-                    </ul>
+                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/visitor-ip.png' ); ?>"/>
                 </div>
             </section>
         </div>

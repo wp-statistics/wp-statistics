@@ -5,8 +5,7 @@
     "s1lentium/iptools": "^1.1.0",
     "whichbrowser/parser": "2.0.37",
     "jaybizzle/crawler-detect": "1.2.78",
-    "erusev/parsedown": "^1.6",
-    "vectorface/whip": "0.3.2"
+    "erusev/parsedown": "^1.6"
   },
   "config": {
     "vendor-dir": "includes/vendor"

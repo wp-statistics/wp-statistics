@@ -658,4 +658,5 @@ class WP_Statistics_Admin {
 			wp_mail( $WP_Statistics->get_option( 'email_list' ), sprintf( __( 'WP Statistics %s installed on', 'wp-statistics' ), WP_Statistics::$reg['version'] ) . ' ' . $blogname, __( 'Installation/upgrade complete!', 'wp-statistics' ), $headers );
 		}
 	}
+
 }

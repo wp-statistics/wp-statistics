@@ -158,6 +158,32 @@ class WP_Statistics {
 	}
 
 	/**
+	 * List of $_SERVER
+	 *
+	 * @return array
+	 */
+	public static function list_of_server_ip_variable() {
+		return array( 'REMOTE_ADDR', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'HTTP_X_REAL_IP', 'HTTP_X_CLUSTER_CLIENT_IP' );
+	}
+
+	/**
+	 * Get Basis For Get User IP
+	 */
+	public static function getIPMethod() {
+
+		// Set Default Method
+		$method = 'REMOTE_ADDR';
+
+		// Get Option
+		$wp_statistics = get_option( 'wp_statistics' );
+		if ( isset( $wp_statistics ) and is_array( $wp_statistics ) and isset( $wp_statistics['ip_method'] ) and trim( $wp_statistics['ip_method'] ) != "" ) {
+			$method = $wp_statistics['ip_method'];
+		}
+
+		return $method;
+	}
+
+	/**
 	 * Run when plugin loads
 	 */
 	public function run() {
@@ -704,6 +730,7 @@ class WP_Statistics {
 		$options['disable_se_baidu']      = true;
 		$options['disable_se_ask']        = true;
 		$options['map_type']              = 'jqvmap';
+		$options['ip_method']             = 'REMOTE_ADDR';
 
 		$options['force_robot_update'] = true;
 
@@ -781,18 +808,32 @@ class WP_Statistics {
 			return $this->ip;
 		}
 
+		// Get User Set $_SERVER HEADER
+		$ip_method = self::getIPMethod();
+
 		// Get User IP
-		$whip = new \Vectorface\Whip\Whip( \Vectorface\Whip\Whip::PROXY_HEADERS | \Vectorface\Whip\Whip::REMOTE_ADDR );
-		$whip->addCustomHeader( 'HTTP_CLIENT_IP' );
-		$whip->addCustomHeader( 'HTTP_X_REAL_IP' );
-		$user_ip = $whip->getValidIpAddress();
-		if ( $user_ip != false ) {
-			$this->ip = $user_ip;
+		if ( isset( $_SERVER[ $ip_method ] ) ) {
+			$this->ip = $_SERVER[ $ip_method ];
+		}
+
+		/**
+		 * This Filter Used For Custom $_SERVER String
+		 */
+		$user_ip = apply_filters( 'wp_statistics_sanitize_user_ip', $this->ip );
+
+		// Check If X_FORWARDED_FOR
+		foreach ( explode( ',', $user_ip ) as $ip ) {
+			$ip = trim( $ip );
+			if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== false ) {
+				$user_ip = $ip;
+			}
 		}
 
 		// If no valid ip address has been found, use 127.0.0.1 (aka localhost).
-		if ( false === $this->ip ) {
+		if ( false === $user_ip ) {
 			$this->ip = '127.0.0.1';
+		} else {
+			$this->ip = $user_ip;
 		}
 
 		return $this->ip;
@@ -817,6 +858,17 @@ class WP_Statistics {
 		}
 
 		return $user_ip;
+	}
+
+	/**
+	 * Check IP contain Special Character
+	 *
+	 * @param $ip
+	 * @return bool
+	 */
+	public function check_sanitize_ip( $ip ) {
+		$preg = preg_replace( '/[^0-9- .:]/', '', $ip );
+		return $preg == $ip;
 	}
 
 	/**
