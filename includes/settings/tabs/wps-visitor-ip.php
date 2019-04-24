@@ -50,8 +50,8 @@ add_thickbox();
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;"><?php _e( 'Please choose the basis for receiving users IP according to your site\'s server.', 'wp-statistics' ); ?>
-                <br/> <?php _e( 'Your Real IP according to ipify.org API is :', 'wp-statistics' ); ?>
+            <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
+                <?php _e( 'Your real IP detected with ipify.org service:', 'wp-statistics' ); ?>
             </th>
         </tr>
 
@@ -74,7 +74,13 @@ add_thickbox();
                             });
                         });
                     </script>
-                </code><br/><br/></th>
+                </code></th>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+                <p><?php _e( 'The items below return the IP address that is different on each server. Is the best way that you choose.', 'wp-statistics' ); ?></p>
+            </td>
         </tr>
 
 		<?php
@@ -141,9 +147,9 @@ add_thickbox();
 									echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . __( 'Your value required to sanitize user IP', 'wp-statistics' ) . '"><span class="dashicons dashicons-warning"></span></a>';
 								}
 								?></p>
-                            <p class="description"><?php _e( 'if You are Using Custom $_SERVER in your site e.g. `HTTP_CF_CONNECTING_IP` for CloudFlare Service.', 'wp-statistics' ); ?></p>
+                            <p class="description"><?php _e( 'If your server use the custom key in <code>$_SERVER</code> for getting IP. e.g. <code>HTTP_CF_CONNECTING_IP</code> in CloudFlare.', 'wp-statistics' ); ?></p>
                             <p class="description">
-                                <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e( 'Show all $_SERVER in Your Server.', 'wp-statistics' ); ?></a>
+                                <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e( 'Show all <code>$_SERVER</code> in your server.', 'wp-statistics' ); ?></a>
                             </p>
                         </td>
                     </tr>
