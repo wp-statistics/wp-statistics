@@ -1505,7 +1505,7 @@ function wp_statistics_date_range_selector( $page, $current, $range = array(), $
 	echo $post_extra;
 
 	echo '</form>' . "\r\n";
-	echo '<script src="' . WP_Statistics::$reg['plugin-url'] . 'assets/js/moment.min.js"></script>';
+	echo '<script src="' . WP_Statistics::$reg['plugin-url'] . 'assets/js/moment.min.js?ver=2.24.0"></script>';
 	echo '<script>
         jQuery(function() {
             

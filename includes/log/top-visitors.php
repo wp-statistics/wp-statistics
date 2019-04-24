@@ -30,7 +30,7 @@ include( WP_Statistics::$reg['plugin-dir'] . 'includes/log/widgets/top.visitors.
 	echo '<input type="hidden" name="statsdate" id="stats-date" value="' . $rang_start . '">';
 	echo '</form>' . "\r\n";
 
-	echo '<script src="' . WP_Statistics::$reg['plugin-url'] . 'assets/js/moment.min.js"></script>';
+	echo '<script src="' . WP_Statistics::$reg['plugin-url'] . 'assets/js/moment.min.js?ver=2.24.0"></script>';
 	echo '<script>
         jQuery(function() { 
         jQuery( "#statsdate" ).datepicker({dateFormat: \'' . wp_statistics_dateformat_php_to_jqueryui( get_option( "date_format" ) ) . '\', 
