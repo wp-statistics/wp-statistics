@@ -27,8 +27,13 @@ add_thickbox();
 
 ?>
     <!-- Show Help $_SERVER -->
+    <style>
+        #TB_window {
+            direction: ltr;
+        }
+    </style>
     <div id="list-of-php-server" style="display:none;">
-        <table>
+        <table style="direction: ltr;">
             <tr>
                 <td width="330" style="color: #3238fb; border-bottom: 1px solid #bcbeff;padding-top:10px;padding-bottom:10px;">
                     <b><?php _e( '$_SERVER', 'wp-statistics' ); ?></b></td>
@@ -51,7 +56,7 @@ add_thickbox();
         <tbody>
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                <?php _e( 'Your real IP detected with ipify.org service:', 'wp-statistics' ); ?>
+				<?php _e( 'Your real IP detected with ipify.org service:', 'wp-statistics' ); ?>
             </th>
         </tr>
 

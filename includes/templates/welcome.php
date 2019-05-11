@@ -22,7 +22,7 @@
             <section class="center-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Improvement update for WP-Statistics', 'wp-statistics' ); ?></h2>
+                        <h2>An Event and Trigger Add-On</h2>
                     </div>
                 </div>
             </section>
@@ -30,13 +30,29 @@
             <section class="normal-section">
                 <div class="left">
                     <div class="content-padding">
-                        <h2><?php _e( 'Visitor IP', 'wp-statistics' ); ?></h2>
-                        <p><?php _e( 'Solve your IP problem with this option.', 'wp-statistics' ); ?></p>
+                        <h2>Actions</h2>
+                        <p>Actions is a smart Add-On for WP-Statistics, with this add-on you can make actions in WordPress when a condition is established.</p>
+                        <p>Yes! It’s very simple, you can do a lot of things, for example, if a user referred from Google in your post, you can do something such as, modify the post title and post content, modify the post author or send a notification with Email or SMS.</p>
+
+                        <a class="button-primary" href="https://wp-statistics.com/downloads/wp-statistics-actions/" target="_blank">Get Add-On</a>
                     </div>
                 </div>
 
                 <div class="right text-center">
-                    <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/visitor-ip.png' ); ?>"/>
+                    <iframe width="660" height="415" src="https://www.youtube.com/embed/Gcj-wK2pmLs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </section>
+
+            <section class="center-section">
+                <div class="left">
+                    <div class="content-padding">
+                        <h3>Follow us on Social Media</h3>
+                    </div>
+
+                    <a href="https://github.com/veronalabs" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/icon-github.png' ); ?>"/></a>
+                    <a href="https://www.instagram.com/veronalabs/" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/icon-instagram.png' ); ?>"/></a>
+                    <a href="https://www.linkedin.com/company/veronalabs/" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/icon-linkedin.png' ); ?>"/></a>
+                    <a href="https://twitter.com/veronalabs" target="_blank"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/icon-twitter.png' ); ?>"/></a>
                 </div>
             </section>
         </div>
