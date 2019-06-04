@@ -23,7 +23,7 @@ if ( $pageuri && ! $pageid ) {
 
 $post = get_post( $pageid );
 if ( is_object( $post ) ) {
-	$title = $post->post_title;
+	$title = esc_html( $post->post_title );
 } else {
 	$title = "";
 }
@@ -53,8 +53,8 @@ if ( $page > 0 and $post_type != "page" ) {
 $url_fields = '&prepage=' . $pageid;
 
 //Show Select Box Ui
-$html       = __( 'Select Page', 'wp-statistics' ) . ': ';
-$html       .= '<select name="page-id">';
+$html = __( 'Select Page', 'wp-statistics' ) . ': ';
+$html .= '<select name="page-id">';
 foreach ( wp_statistics_get_post_list( $arg ) as $post_id => $post_title ) {
 	$html .= '<option value="' . $post_id . '"' . selected( $post_id, $page, false ) . '>' . $post_title . '</option>';
 }

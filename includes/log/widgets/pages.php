@@ -23,13 +23,13 @@ function wp_statistics_generate_pages_postbox_content() {
 		/**
 		 * Check Get title by url
 		 * @since v12.5.7
-		*/
+		 */
 		if ( $page_link == '' ) {
 			$page_link = htmlentities( $site_url . $item->uri, ENT_QUOTES );
 			$id        = wp_statistics_uri_to_id( $item->uri );
 			$post      = get_post( $id );
 			if ( is_object( $post ) ) {
-				$title = $post->post_title;
+				$title = esc_html( $post->post_title );
 			} else {
 				if ( $item->uri == '/' ) {
 					$title = get_bloginfo();

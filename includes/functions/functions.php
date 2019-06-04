@@ -523,7 +523,7 @@ function wp_statistics_get_top_pages( $rangestartdate = null, $rangeenddate = nu
 			$id       = wp_statistics_uri_to_id( $out[0] );
 			$post     = get_post( $id );
 			if ( is_object( $post ) ) {
-				$title = $post->post_title;
+				$title = esc_html( $post->post_title );
 			} else {
 				if ( $out[0] == '/' ) {
 					$title = get_bloginfo();
@@ -1936,7 +1936,7 @@ function wp_statistics_get_post_list( $args = array() ) {
 	$query = new WP_Query( $args );
 	$list  = array();
 	foreach ( $query->posts as $ID ) {
-		$list[ $ID ] = get_the_title( $ID );
+		$list[ $ID ] = esc_html( get_the_title( $ID ) );
 	}
 
 	return $list;
@@ -1968,7 +1968,7 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 			case "post":
 			case "page":
 				$arg = array(
-					'title'     => get_the_title( $page_id ),
+					'title'     => esc_html( get_the_title( $page_id ) ),
 					'link'      => get_the_permalink( $page_id ),
 					'edit_link' => get_edit_post_link( $page_id ),
 					'meta'      => array(
@@ -1981,7 +1981,7 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 			case "tax":
 				$term = get_term( $page_id );
 				$arg  = array(
-					'title'     => $term->name,
+					'title'     => esc_html( $term->name ),
 					'link'      => ( is_wp_error( get_term_link( $page_id ) ) === true ? '' : get_term_link( $page_id ) ),
 					'edit_link' => get_edit_term_link( $page_id ),
 					'meta'      => array(
@@ -2000,7 +2000,7 @@ function wp_statistics_get_page_info( $page_id, $type = 'post' ) {
 			case "author":
 				$user_info = get_userdata( $page_id );
 				$arg       = array(
-					'title'     => ( $user_info->display_name != "" ? $user_info->display_name : $user_info->first_name . ' ' . $user_info->last_name ),
+					'title'     => ( $user_info->display_name != "" ? esc_html( $user_info->display_name ) : esc_html( $user_info->first_name . ' ' . $user_info->last_name ) ),
 					'link'      => get_author_posts_url( $page_id ),
 					'edit_link' => get_edit_user_link( $page_id ),
 				);
