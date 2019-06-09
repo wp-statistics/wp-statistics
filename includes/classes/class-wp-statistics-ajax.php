@@ -15,6 +15,7 @@ class WP_Statistics_Ajax {
 		 */
 		$list = array(
 			'close_notice',
+			'close_overview_ads',
 			'delete_agents',
 			'delete_platforms',
 			'delete_ip',
@@ -32,7 +33,7 @@ class WP_Statistics_Ajax {
 	 * Setup an AJAX action to close the notice on the overview page.
 	 */
 	public function close_notice_action_callback() {
-		global $WP_Statistics; 
+		global $WP_Statistics;
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -56,10 +57,27 @@ class WP_Statistics_Ajax {
 	}
 
 	/**
+	 * Close Overview Ads
+	 */
+	public function close_overview_ads_action_callback() {
+		if ( wp_doing_ajax() and isset( $_REQUEST['ads_id'] ) and $_REQUEST['ads_id'] > 0 ) {
+
+			// Check Security Nonce
+			check_ajax_referer( 'overview_ads_nonce', 'wps_nonce' );
+
+			// Update Option
+			$get_opt         = get_option( 'wp-statistics-overview-page-ads' );
+			$get_opt['view'] = absint( $_REQUEST['ads_id'] );
+			update_option( 'wp-statistics-overview-page-ads', $get_opt, 'no' );
+		}
+		exit;
+	}
+
+	/**
 	 * Setup an AJAX action to delete an agent in the optimization page.
 	 */
 	public function delete_agents_action_callback() {
-		global $WP_Statistics, $wpdb; 
+		global $WP_Statistics, $wpdb;
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -90,14 +108,14 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); 
+		wp_die();
 	}
 
 	/**
 	 * Setup an AJAX action to delete a platform in the optimization page.
 	 */
 	public function delete_platforms_action_callback() {
-		global $WP_Statistics, $wpdb; 
+		global $WP_Statistics, $wpdb;
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -127,14 +145,14 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); 
+		wp_die();
 	}
 
 	/**
 	 * Setup an AJAX action to delete a ip in the optimization page.
 	 */
 	public function delete_ip_action_callback() {
-		global $WP_Statistics, $wpdb; 
+		global $WP_Statistics, $wpdb;
 
 		$manage_cap = wp_statistics_validate_capability(
 			$WP_Statistics->get_option( 'manage_capability', 'manage_options' )
@@ -164,7 +182,7 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); 
+		wp_die();
 	}
 
 	/**
@@ -232,14 +250,14 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); 
+		wp_die();
 	}
 
 	/**
 	 * Setup an AJAX action to purge visitors with more than a defined number of hits.
 	 */
 	public function purge_visitor_hits_action_callback() {
-		global $WP_Statistics; 
+		global $WP_Statistics;
 
 		require( WP_Statistics::$reg['plugin-dir'] . 'includes/functions/purge-hits.php' );
 
@@ -264,7 +282,7 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); 
+		wp_die();
 	}
 
 	/**
@@ -412,6 +430,6 @@ class WP_Statistics_Ajax {
 			_e( 'Access denied!', 'wp-statistics' );
 		}
 
-		wp_die(); 
+		wp_die();
 	}
 }
