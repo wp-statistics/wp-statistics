@@ -60,14 +60,14 @@ class WP_Statistics_Ajax {
 	 * Close Overview Ads
 	 */
 	public function close_overview_ads_action_callback() {
-		if ( wp_doing_ajax() and isset( $_REQUEST['ads_id'] ) and $_REQUEST['ads_id'] > 0 ) {
+		if ( wp_doing_ajax() and isset( $_REQUEST['ads_id'] ) ) {
 
 			// Check Security Nonce
 			check_ajax_referer( 'overview_ads_nonce', 'wps_nonce' );
 
 			// Update Option
 			$get_opt         = get_option( 'wp-statistics-overview-page-ads' );
-			$get_opt['view'] = absint( $_REQUEST['ads_id'] );
+			$get_opt['view'] = $_REQUEST['ads_id'];
 			update_option( 'wp-statistics-overview-page-ads', $get_opt, 'no' );
 		}
 		exit;

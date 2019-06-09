@@ -116,7 +116,7 @@ foreach ( array( 'exclusions' => 'exclusions', 'users_online' => 'online' ) as $
         // Added New Ads
 		<?php
 		$overview_ads = get_option( 'wp-statistics-overview-page-ads', false );
-		if($overview_ads != false and is_array( $overview_ads ) and $overview_ads['ads']['ID'] != $overview_ads['view']) {
+		if($overview_ads != false and is_array( $overview_ads ) and $overview_ads['ads']['ID'] != $overview_ads['view'] and $overview_ads['ads']['status'] == "yes") {
 		?>
         jQuery(`<div id="wps_overview_ads_postbox" class="postbox"><div class="inside"><div class="close-overview-ads"><span class="dashicons dashicons-dismiss"></span></div><a href="<?php echo( isset( $overview_ads['ads']['link'] ) ? $overview_ads['ads']['link'] : '' ); ?>" title="<?php echo( isset( $overview_ads['ads']['title'] ) ? $overview_ads['ads']['title'] : '' ); ?>" <?php echo( $overview_ads['ads']['_target'] == "yes" ? ' target="_blank"' : '' ); ?>><img src="<?php echo( isset( $overview_ads['ads']['image'] ) ? $overview_ads['ads']['image'] : '' ); ?>" alt="<?php echo( isset( $overview_ads['ads']['title'] ) ? $overview_ads['ads']['title'] : '' ); ?>"></a></div></div>`).insertAfter("#wps-postbox-container-2 #normal-sortables div.postbox:first");
         jQuery(document).on('click', '.close-overview-ads', function () {
@@ -126,7 +126,7 @@ foreach ( array( 'exclusions' => 'exclusions', 'users_online' => 'online' ) as $
                 type: 'get',
                 data: {
                     'action': 'wp_statistics_close_overview_ads',
-                    'ads_id': <?php echo $overview_ads['ads']['ID']; ?>,
+                    'ads_id': '<?php echo $overview_ads['ads']['ID']; ?>',
                     'wps_nonce': '<?php echo wp_create_nonce( 'overview_ads_nonce' ); ?>'
                 },
                 datatype: 'json'
