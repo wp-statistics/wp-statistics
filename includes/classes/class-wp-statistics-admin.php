@@ -148,11 +148,14 @@ class WP_Statistics_Admin {
 				return;
 			}
 
+			// Get Json Data
+			$data    = json_decode( wp_remote_retrieve_body( $request ), true );
+
 			// Set new Timestamp
 			$overview_ads['timestamp'] = current_time( 'timestamp' );
 
 			// Set Ads
-			$overview_ads['ads'] = json_decode( wp_remote_retrieve_body( $request ), true );
+			$overview_ads['ads'] = ( empty( $data ) ? array( 'status' => 'no', 'ID' => 0 ) : $data );
 
 			// Set Last Viewed
 			$overview_ads['view'] = ( isset( $get_overview_ads['view'] ) ? $get_overview_ads['view'] : 0 );
