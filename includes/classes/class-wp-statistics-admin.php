@@ -151,7 +151,7 @@ class WP_Statistics_Admin {
 			$data = json_decode( $body, true );
 
 			// Set new Timestamp
-			$overview_ads['timestamp'] = current_time( 'timestamp' ) + WEEK_IN_SECONDS;
+			$overview_ads['timestamp'] = current_time( 'timestamp' );
 
 			// Set Ads
 			$overview_ads['ads'] = $data;
