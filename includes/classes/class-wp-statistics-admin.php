@@ -137,7 +137,7 @@ class WP_Statistics_Admin {
 		$get_overview_ads = get_option( 'wp-statistics-overview-page-ads', false );
 
 		// Check Expire or not exist
-		if ( $get_overview_ads === false || ( is_array( $get_overview_ads ) and ( current_time( 'timestamp' ) < ( $get_overview_ads['timestamp'] + WEEK_IN_SECONDS ) ) ) ) {
+		if ( $get_overview_ads === false || ( is_array( $get_overview_ads ) and ( current_time( 'timestamp' ) >= ( $get_overview_ads['timestamp'] + WEEK_IN_SECONDS ) ) ) ) {
 
 			// Check Exist
 			$overview_ads = ( $get_overview_ads === false ? array() : $get_overview_ads );
