@@ -155,10 +155,10 @@ class WP_Statistics_Admin {
 			$overview_ads['timestamp'] = current_time( 'timestamp' );
 
 			// Set Ads
-			$overview_ads['ads'] = ( empty( $data ) ? array( 'status' => 'no', 'ID' => 0 ) : $data );
+			$overview_ads['ads'] = ( empty( $data ) ? array( 'status' => 'no', 'ID' => 'none' ) : $data );
 
 			// Set Last Viewed
-			$overview_ads['view'] = ( isset( $get_overview_ads['view'] ) ? $get_overview_ads['view'] : 0 );
+			$overview_ads['view'] = ( isset( $get_overview_ads['view'] ) ? $get_overview_ads['view'] : '' );
 
 			// Set Option
 			update_option( 'wp-statistics-overview-page-ads', $overview_ads, 'no' );
