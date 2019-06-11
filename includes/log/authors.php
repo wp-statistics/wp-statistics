@@ -105,7 +105,7 @@
                         <canvas id="hit-stats" height="80"></canvas>
                         <script>
                             var ctx = document.getElementById("hit-stats").getContext('2d');
-                            <?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
+							<?php if(is_rtl()) { ?> Chart.defaults.global.defaultFontFamily = "tahoma"; <?php } ?>
                             var ChartJs = new Chart(ctx, {
                                 type: 'line',
                                 data: {
@@ -242,7 +242,7 @@
                                     <th>
                                         <a href="<?php echo get_permalink(
 											$post_obj
-										); ?>"><?php echo $post_obj->post_title; ?></a>
+										); ?>"><?php echo esc_html( $post_obj->post_title ); ?></a>
                                     </th>
                                     <th class="th-center"><span><?php echo number_format_i18n( $post_stat ); ?></span>
                                     </th>

@@ -62,7 +62,7 @@ class WP_Statistics_Admin {
 
 		//Add Column in Post Type Wp_List Table
 		add_action( 'load-edit.php', array( $this, 'load_edit_init' ) );
-		if ( $WP_Statistics->get_option( 'pages' ) && ! $WP_Statistics->get_option( 'disable_column' ) ) {
+		if ( $WP_Statistics->get_option( 'pages' ) && $WP_Statistics->get_option( 'hit_post_metabox' ) ) {
 			add_action( 'post_submitbox_misc_actions', array( $this, 'post_init' ) );
 		}
 
@@ -88,6 +88,9 @@ class WP_Statistics_Admin {
 
 		//Add Visitors Log Table
 		add_action( 'admin_init', array( $this, 'register_visitors_log_tbl' ) );
+
+		// Add Overview Ads
+		add_action( 'load-toplevel_page_' . WP_Statistics::$page['overview'], array( $this, 'overview_page_ads' ) );
 
 		//Check Require update page type in database
 		WP_Statistics_Install::_init_page_type_updater();
@@ -123,6 +126,43 @@ class WP_Statistics_Admin {
 				?></p>
         </div>
 		<?php
+	}
+
+	/**
+	 * OverView Page Ads
+	 */
+	public function overview_page_ads() {
+
+		// Get Overview Ads
+		$get_overview_ads = get_option( 'wp_statistics_overview_page_ads', false );
+
+		// Check Expire or not exist
+		if ( $get_overview_ads === false || ( is_array( $get_overview_ads ) and ( current_time( 'timestamp' ) >= ( $get_overview_ads['timestamp'] + WEEK_IN_SECONDS ) ) ) ) {
+
+			// Check Exist
+			$overview_ads = ( $get_overview_ads === false ? array() : $get_overview_ads );
+
+			// Get New Ads from API
+			$request = wp_remote_get( 'https://wp-statistics.com/wp-json/ads/overview', array( 'timeout' => 30 ) );
+			if ( is_wp_error( $request ) ) {
+				return;
+			}
+
+			// Get Json Data
+			$data    = json_decode( wp_remote_retrieve_body( $request ), true );
+
+			// Set new Timestamp
+			$overview_ads['timestamp'] = current_time( 'timestamp' );
+
+			// Set Ads
+			$overview_ads['ads'] = ( empty( $data ) ? array( 'status' => 'no', 'ID' => 'none' ) : $data );
+
+			// Set Last Viewed
+			$overview_ads['view'] = ( isset( $get_overview_ads['view'] ) ? $get_overview_ads['view'] : '' );
+
+			// Set Option
+			update_option( 'wp_statistics_overview_page_ads', $overview_ads, 'no' );
+		}
 	}
 
 	/**

@@ -43,6 +43,7 @@ class WP_Statistics_Uninstall {
 		delete_option( 'wp_statistics' );
 		delete_option( 'wp_statistics_db_version' );
 		delete_option( 'wp_statistics_plugin_version' );
+		delete_option( 'wp_statistics_overview_page_ads' );
 
 		// Delete the transients.
 		delete_transient( 'wps_top_referring' );
