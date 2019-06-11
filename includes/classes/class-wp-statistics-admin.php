@@ -134,7 +134,7 @@ class WP_Statistics_Admin {
 	public function overview_page_ads() {
 
 		// Get Overview Ads
-		$get_overview_ads = get_option( 'wp-statistics-overview-page-ads', false );
+		$get_overview_ads = get_option( 'wp_statistics_overview_page_ads', false );
 
 		// Check Expire or not exist
 		if ( $get_overview_ads === false || ( is_array( $get_overview_ads ) and ( current_time( 'timestamp' ) >= ( $get_overview_ads['timestamp'] + WEEK_IN_SECONDS ) ) ) ) {
@@ -161,7 +161,7 @@ class WP_Statistics_Admin {
 			$overview_ads['view'] = ( isset( $get_overview_ads['view'] ) ? $get_overview_ads['view'] : '' );
 
 			// Set Option
-			update_option( 'wp-statistics-overview-page-ads', $overview_ads, 'no' );
+			update_option( 'wp_statistics_overview_page_ads', $overview_ads, 'no' );
 		}
 	}
 

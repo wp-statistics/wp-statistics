@@ -66,9 +66,9 @@ class WP_Statistics_Ajax {
 			check_ajax_referer( 'overview_ads_nonce', 'wps_nonce' );
 
 			// Update Option
-			$get_opt         = get_option( 'wp-statistics-overview-page-ads' );
+			$get_opt         = get_option( 'wp_statistics_overview_page_ads' );
 			$get_opt['view'] = $_REQUEST['ads_id'];
-			update_option( 'wp-statistics-overview-page-ads', $get_opt, 'no' );
+			update_option( 'wp_statistics_overview_page_ads', $get_opt, 'no' );
 		}
 		exit;
 	}
