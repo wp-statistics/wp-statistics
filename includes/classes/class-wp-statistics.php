@@ -813,7 +813,7 @@ class WP_Statistics {
 
 		// Get User IP
 		if ( isset( $_SERVER[ $ip_method ] ) ) {
-			$this->ip = $_SERVER[ $ip_method ];
+			$this->ip = sanitize_text_field( $_SERVER[ $ip_method ] );
 		}
 
 		/**
