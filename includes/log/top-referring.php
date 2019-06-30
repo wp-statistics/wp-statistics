@@ -51,13 +51,16 @@ if ( $referr ) {
 } else {
 
 	//Get Wordpress Domain
-	$site_url = wp_parse_url( get_site_url() );
-	$site_url = $site_url['scheme'] . "://" . $site_url['host'];
+	$where       = '';
+	$domain_name = rtrim( preg_replace( '/^https?:\/\//', '', get_site_url() ), " / " );
+	foreach ( array( "http", "https", "ftp" ) as $protocol ) {
+		$where = " AND `referred` NOT LIKE '{$protocol}://{$domain_name}%' ";
+	}
 
 	//Get List referred
 	$result = $wpdb->get_results(
 		$wpdb->prepare(
-			"SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM {$wpdb->prefix}statistics_visitor WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 AND `referred` NOT LIKE '{$site_url}%' AND `last_counter` BETWEEN %s AND %s GROUP BY domain ORDER BY `number` DESC",
+			"SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM {$wpdb->prefix}statistics_visitor WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 AND `last_counter` BETWEEN %s AND %s {$where} GROUP BY domain ORDER BY `number` DESC",
 			$rangestartdate,
 			$rangeenddate
 		)
