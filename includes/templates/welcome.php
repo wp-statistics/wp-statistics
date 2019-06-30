@@ -11,7 +11,7 @@
         <div class="wp-badge"><?php printf( __( 'Version %s', 'wp-statistics' ), WP_Statistics::$reg['version'] ); ?></div>
 
         <h2 class="nav-tab-wrapper wp-clearfix">
-            <a href="<?php echo add_query_arg( array( 'page' => 'wps_welcome', 'tab' => 'whats-news' ), admin_url( 'admin.php' ) ); ?>" class="nav-tab <?php echo( ( ! isset( $_GET['tab'] ) || ( isset( $_GET['tab'] ) and $_GET['tab'] == "whats-news" ) ) ? "nav-tab-active" : "" ); ?>" data-tab="whats-news"><?php _e( 'What&#8217;s New', 'wp-statistics' ); ?></a>
+            <a href="<?php echo add_query_arg( array( 'page' => 'wps_welcome', 'tab' => 'whats-news' ), admin_url( 'admin.php' ) ); ?>" class="nav-tab <?php echo( ( ! isset( $_GET['tab'] ) || ( isset( $_GET['tab'] ) and $_GET['tab'] == "whats-news" ) ) ? "nav-tab-active" : "" ); ?>" data-tab="whats-news"><?php _e( 'New Product', 'wp-statistics' ); ?></a>
             <a href="<?php echo add_query_arg( array( 'page' => 'wps_welcome', 'tab' => 'addons' ), admin_url( 'admin.php' ) ); ?>" class="nav-tab <?php echo( ( isset( $_GET['tab'] ) and $_GET['tab'] == "addons" ) ? "nav-tab-active" : "" ); ?>" data-tab="addons"><?php _e( 'Add-Ons', 'wp-statistics' ); ?></a>
             <a href="<?php echo add_query_arg( array( 'page' => 'wps_welcome', 'tab' => 'credit' ), admin_url( 'admin.php' ) ); ?>" class="nav-tab <?php echo( ( isset( $_GET['tab'] ) and $_GET['tab'] == "credit" ) ? "nav-tab-active" : "" ); ?>" data-tab="credit"><?php _e( 'Credits', 'wp-statistics' ); ?></a>
             <a href="<?php echo add_query_arg( array( 'page' => 'wps_welcome', 'tab' => 'changelog' ), admin_url( 'admin.php' ) ); ?>" class="nav-tab <?php echo( ( isset( $_GET['tab'] ) and $_GET['tab'] == "changelog" ) ? "nav-tab-active" : "" ); ?>" data-tab="changelog"><?php _e( 'Changelog', 'wp-statistics' ); ?></a>
@@ -23,7 +23,12 @@
                 <section class="center-section">
                     <div class="left">
                         <div class="content-padding">
-                            <h2>An Event and Trigger Add-On</h2>
+                            <h2><?php _e( 'WP-Telegram Notifications', 'wp-statistics' ); ?></h2>
+                            <h4><?php echo sprintf( __( 'A new plugin from <a href="%s" target="_blank">VeronaLabs</a>.', 'wp-statistics' ), 'https://veronalabs.com' ); ?></h4>
+
+                            <a href="https://wp-telegram.com/purchase/" target="_blank">
+                                <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/what-is-new/coupon-code.png' ); ?>"/>
+                            </a>
                         </div>
                     </div>
                 </section>
@@ -31,16 +36,72 @@
                 <section class="normal-section">
                     <div class="left">
                         <div class="content-padding">
-                            <h2>Actions</h2>
-                            <p>Actions is a smart Add-On for WP-Statistics, with this add-on you can make actions in WordPress when a condition is established.</p>
-                            <p>Yes! It’s very simple, you can do a lot of things, for example, if a user referred from Google in your post, you can do something such as, modify the post title and post content, modify the post author or send a notification with Email or SMS.</p>
+                            <h2><?php _e( 'Connect with customers', 'wp-statistics' ); ?></h2>
+                            <p><?php _e( 'Your customers can easily send their message using the box placed on your website.', 'wp-statistics' ); ?></p>
+                        </div>
+                    </div>
 
-                            <a class="button-primary" href="https://wp-statistics.com/downloads/wp-statistics-actions/" target="_blank">Get Add-On</a>
+                    <style>
+                        div#wp-telegram-chatbox img {
+                            width: 270px;
+                            display: inline-block;
+                        }
+                    </style>
+
+                    <div class="right text-center" id="wp-telegram-chatbox">
+                        <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/what-is-new/wp-telegram-chatbox.gif' ); ?>"/>
+                        <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/what-is-new/wp-telegram-iphone-2.png' ); ?>"/>
+                    </div>
+                </section>
+
+                <section class="normal-section">
+                    <div class="right">
+                        <div class="content-padding">
+                            <h2><?php _e( 'Send messages to your channels/Groups', 'wp-statistics' ); ?></h2>
+                            <p><?php _e( 'Simply send any message through the WordPress admin panel to your channels or groups on the telegram. No need to add a person as an admin to the channel/group to add send messages.', 'wp-statistics' ); ?></p>
+                        </div>
+                    </div>
+
+                    <div class="left text-center">
+                        <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/what-is-new/wp-telegram-send.png' ); ?>"/>
+                    </div>
+                </section>
+
+                <section class="normal-section">
+                    <div class="left">
+                        <div class="content-padding">
+                            <h2><?php _e( 'Integrations & Notifications', 'wp-statistics' ); ?></h2>
+                            <p><?php _e( 'Integrate with famous plugins such as WooCommerce, CF7, GravityForms, Quforms and EDD.', 'wp-statistics' ); ?></p>
+                            <p><?php _e( 'For example: Receive the text of the messages sent in a form created with GravityForm on a particular channel or group. ', 'wp-statistics' ); ?></p>
                         </div>
                     </div>
 
                     <div class="right text-center">
-                        <iframe width="660" height="415" src="https://www.youtube.com/embed/Gcj-wK2pmLs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/what-is-new/wp-telegram-settings.png' ); ?>"/>
+                    </div>
+                </section>
+
+                <section class="normal-section">
+                    <div class="right">
+                        <div class="content-padding">
+                            <h2><?php _e( 'Supports multiple channels or groups', 'wp-statistics' ); ?></h2>
+                            <p><?php _e( 'You can add as many channels/groups as you want to the panel and arrange different tasks in different channels/groups.', 'wp-statistics' ); ?></p>
+                            <p><?php _e( 'For example, different groups for sales, marketing, support or technical team.', 'wp-statistics' ); ?></p>
+                        </div>
+                    </div>
+
+                    <div class="left text-center">
+                        <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/what-is-new/wp-telegram-channels.png' ); ?>"/>
+                    </div>
+                </section>
+
+                <section class="center-section">
+                    <div class="left">
+                        <div class="content-padding">
+                            <a href="https://wp-telegram.com/purchase/" target="_blank">
+                                <img src="<?php echo plugins_url( 'wp-statistics/assets/images/welcome/what-is-new/coupon-code.png' ); ?>"/>
+                            </a>
+                        </div>
                     </div>
                 </section>
 
@@ -57,7 +118,6 @@
                     </div>
                 </section>
             </div>
-
 		<?php } ?>
 
 		<?php if ( isset( $_GET['tab'] ) and $_GET['tab'] == "addons" ) { ?>
