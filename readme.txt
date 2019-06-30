@@ -3,9 +3,9 @@ Contributors: mostafa.s1990, mehrshaddarzi, ghasemi71ir, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
-Tested up to: 5.2
+Tested up to: 5.2.1
 Requires PHP: 5.6
-Stable tag: 12.6.6
+Stable tag: 12.6.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -126,10 +126,10 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
-= 12.6.6 =
-* Fixed issue to showing Hit column for custom post type.
-* Improvement Sanitize page's title and Escaping that in overview page.
-* Added postbox Ads in overview page. Don't worry! Not very annoying.
+= 12.6.6.1 =
+* Fixed: issue to showing Hit column for custom post type.
+* Improvement: Sanitize page's title and Escaping that in overview page.
+* Added: postbox Ads in overview page. Don't worry! Not very annoying.
 
 = 12.6.5 =
 * WordPress 5.2 compatibility.
