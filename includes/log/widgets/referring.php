@@ -6,9 +6,12 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 	if ( false === ( $get_urls = get_transient( 'wps_top_referring' ) ) ) {
 
 		//Get Wordpress Domain
-		$site_url = wp_parse_url( get_site_url() );
-		$site_url = $site_url['scheme'] . "://" . $site_url['host'];
-		$result   = $wpdb->get_results( "SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM {$wpdb->prefix}statistics_visitor WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 AND `referred` NOT LIKE '{$site_url}%' GROUP BY domain ORDER BY `number` DESC LIMIT $count" );
+		$where       = '';
+		$domain_name = rtrim( preg_replace( '/^https?:\/\//', '', get_site_url() ), " / " );
+		foreach ( array( "http", "https", "ftp" ) as $protocol ) {
+			$where = " AND `referred` NOT LIKE '{$protocol}://{$domain_name}%' ";
+		}
+		$result = $wpdb->get_results( "SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM {$wpdb->prefix}statistics_visitor WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 {$where} GROUP BY domain ORDER BY `number` DESC LIMIT $count" );
 		foreach ( $result as $items ) {
 			$get_urls[ $items->domain ] = wp_statistics_get_number_referer_from_domain( $items->domain );
 		}
@@ -33,7 +36,7 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 		$referrer_list = ( empty( $refer_opt ) ? array() : $refer_opt );
 
 		if ( ! $get_urls ) {
-		    return;
+			return;
 		}
 
 		foreach ( $get_urls as $domain => $number ) {

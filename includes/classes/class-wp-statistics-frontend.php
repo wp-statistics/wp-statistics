@@ -102,7 +102,7 @@ class WP_Statistics_Frontend {
 		$params['api'] = rtrim( rest_get_url_prefix(), "/" );
 
 		//Set ip
-		$params['ip'] = $WP_Statistics->get_IP();
+		$params['ip'] = esc_html( $WP_Statistics->get_IP() );
 
 		//set hash ip
 		$params['hash_ip'] = $WP_Statistics->get_hash_string();
@@ -134,7 +134,7 @@ class WP_Statistics_Frontend {
 		$params['current_page_id']   = $get_page_type['id'];
 
 		if ( array_key_exists( "search_query", $get_page_type ) ) {
-			$params['search_query'] = $get_page_type['search_query'];
+			$params['search_query'] = esc_html( $get_page_type['search_query'] );
 		}
 
 		//page url
