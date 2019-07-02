@@ -1,3 +1,4 @@
+
 === WP Statistics ===
 Contributors: mostafa.s1990, mehrshaddarzi, ghasemi71ir, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
@@ -128,6 +129,7 @@ To register, go to the Permalink page and update the permalink with press Save C
 == Changelog ==
 = 12.6.7 =
 * Improvement and sanitize visitor's IP address.
+* Improvement and sanitize parameters in `WP_Statistics_Rest::hit()`, Thanks Thomas Chauchefoin for the report.
 * Improved: Minor issues.
 
 = 12.6.6.1 =
