@@ -369,7 +369,7 @@ class WP_Statistics {
 	public function get_hash_string() {
 		// Check If Rest Request
 		if ( $this->restapi->is_rest() ) {
-			return $this->restapi->params( 'hash_ip' );
+			return '#hash#' . $this->restapi->params( 'hash_ip' );
 		}
 
 		// Check the user agent has exist.
@@ -798,9 +798,10 @@ class WP_Statistics {
 
 		//Check If Rest Api Request
 		if ( $this->restapi->is_rest() ) {
-			$this->ip = $this->restapi->params( 'ip' );
-
-			return $this->ip;
+			$this->ip = sanitize_text_field( $this->restapi->params( 'ip' ) );
+			if ( filter_var( $this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== false ) {
+				return $this->ip;
+			}
 		}
 
 		// Check to see if we've already retrieved the IP address and if so return the last result.
