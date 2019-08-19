@@ -209,6 +209,9 @@ class WP_Statistics {
 		//Set Options
 		$this->load_options();
 
+		//Set coefficient
+		$this->set_coefficient();
+
 		// Check the cache option is enabled.
 		if ( $this->get_option( 'use_cache_plugin' ) == true ) {
 			$this->use_cache = 1;
@@ -814,7 +817,7 @@ class WP_Statistics {
 
 		// Get User IP
 		if ( isset( $_SERVER[ $ip_method ] ) ) {
-			$this->ip = sanitize_text_field( $_SERVER[ $ip_method ] );
+			$this->ip = esc_html( $_SERVER[ $ip_method ] );
 		}
 
 		/**
