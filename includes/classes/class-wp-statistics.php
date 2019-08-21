@@ -209,6 +209,9 @@ class WP_Statistics {
 		//Set Options
 		$this->load_options();
 
+		//Set coefficient
+		$this->set_coefficient();
+
 		// Check the cache option is enabled.
 		if ( $this->get_option( 'use_cache_plugin' ) == true ) {
 			$this->use_cache = 1;
@@ -369,7 +372,7 @@ class WP_Statistics {
 	public function get_hash_string() {
 		// Check If Rest Request
 		if ( $this->restapi->is_rest() ) {
-			return $this->restapi->params( 'hash_ip' );
+			return '#hash#' . $this->restapi->params( 'hash_ip' );
 		}
 
 		// Check the user agent has exist.
@@ -798,9 +801,10 @@ class WP_Statistics {
 
 		//Check If Rest Api Request
 		if ( $this->restapi->is_rest() ) {
-			$this->ip = $this->restapi->params( 'ip' );
-
-			return $this->ip;
+			$this->ip = sanitize_text_field( $this->restapi->params( 'ip' ) );
+			if ( filter_var( $this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== false ) {
+				return $this->ip;
+			}
 		}
 
 		// Check to see if we've already retrieved the IP address and if so return the last result.
@@ -813,7 +817,7 @@ class WP_Statistics {
 
 		// Get User IP
 		if ( isset( $_SERVER[ $ip_method ] ) ) {
-			$this->ip = sanitize_text_field( $_SERVER[ $ip_method ] );
+			$this->ip = esc_html( $_SERVER[ $ip_method ] );
 		}
 
 		/**

@@ -12,7 +12,7 @@ class WP_Statistics_Rest {
 	const func = 'hit';
 
 	// Set Default POST Name
-	const _POST = 'wp_statistics_hit';
+	const _Argument = 'wp_statistics_hit';
 
 	/**
 	 * Setup an Wordpress REst Api action.
@@ -34,8 +34,26 @@ class WP_Statistics_Rest {
 	public function register_routes() {
 		// Get Hit
 		register_rest_route( self::route, '/' . self::func, array(
-			'methods'  => 'POST',
-			'callback' => array( $this, 'hit' ),
+			'methods'             => \WP_REST_Server::READABLE,
+			'permission_callback' => function () {
+				global $WP_Statistics;
+				return ( $WP_Statistics->get_option( 'use_cache_plugin' ) == 1 ? true : false );
+			},
+			'callback'            => array( $this, 'hit' ),
+			'args'                => array(
+				'_wpnonce'      => array(
+					'required'          => true,
+					'validate_callback' => function ( $value ) {
+						return wp_verify_nonce( $value, 'wp_rest' );
+					}
+				),
+				self::_Argument => array(
+					'required'          => true,
+					'validate_callback' => function ( $value, $request, $key ) {
+						return ( json_decode( wp_unslash( $value ) ) !== null );
+					}
+				)
+			)
 		) );
 	}
 
@@ -48,14 +66,13 @@ class WP_Statistics_Rest {
 		/*
 		 * Check Is Test Service Request
 		 */
-		if ( isset( $_POST['rest-api-wp-statistics'] ) ) {
-
+		if ( isset( $_REQUEST['rest-api-wp-statistics'] ) ) {
 			return array( "rest-api-wp-statistics" => "OK" );
 		}
 
 
 		//Check Auth Key Request
-		if ( ! isset( $_POST[ self::_POST ] ) ) {
+		if ( ! isset( $_REQUEST[ self::_Argument ] ) ) {
 			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
 		}
 
@@ -95,7 +112,7 @@ class WP_Statistics_Rest {
 		global $WP_Statistics;
 
 		if ( isset( $WP_Statistics ) and $WP_Statistics->use_cache ) {
-			if ( isset( $_POST[ self::_POST ] ) ) {
+			if ( isset( $_REQUEST[ self::_Argument ] ) ) {
 				return true;
 			}
 		}
@@ -107,8 +124,8 @@ class WP_Statistics_Rest {
 	 * Get Params Request
 	 */
 	static public function params( $params ) {
-		if ( isset( $_POST[ self::_POST ] ) ) {
-			$data = wp_unslash( $_POST[ self::_POST ] );
+		if ( isset( $_REQUEST[ self::_Argument ] ) ) {
+			$data = wp_unslash( $_REQUEST[ self::_Argument ] );
 
 			if ( ! empty( $data ) && is_string( $data ) && is_array( json_decode( $data, true ) ) && json_last_error() == 0 ) {
 				$data = json_decode( $data, true );

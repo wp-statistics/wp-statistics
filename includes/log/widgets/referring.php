@@ -9,7 +9,9 @@ function wp_statistics_generate_referring_postbox_content( $count = 10 ) {
 		$where       = '';
 		$domain_name = rtrim( preg_replace( '/^https?:\/\//', '', get_site_url() ), " / " );
 		foreach ( array( "http", "https", "ftp" ) as $protocol ) {
-			$where = " AND `referred` NOT LIKE '{$protocol}://{$domain_name}%' ";
+			foreach ( array( '', 'www.' ) as $w3 ) {
+				$where = " AND `referred` NOT LIKE '{$protocol}://{$w3}{$domain_name}%' ";
+			}
 		}
 		$result = $wpdb->get_results( "SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM {$wpdb->prefix}statistics_visitor WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 {$where} GROUP BY domain ORDER BY `number` DESC LIMIT $count" );
 		foreach ( $result as $items ) {

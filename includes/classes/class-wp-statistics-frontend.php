@@ -71,7 +71,7 @@ class WP_Statistics_Frontend {
 
 		if ( $WP_Statistics->use_cache ) {
 			$this->html_comment();
-			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'POST\', \'' . add_query_arg( array( '_' => time() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");WP_Statistics_http.send("' . WP_Statistics_Rest::_POST . '=" + JSON.stringify(' . self::set_default_params() . '));</script>' . "\n";
+			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'GET\', \'' . add_query_arg( array( '_' => time(), '_wpnonce' => wp_create_nonce( 'wp_rest' ), WP_Statistics_Rest::_Argument => self::set_default_params() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");WP_Statistics_http.send(null);</script>' . "\n";
 		}
 	}
 
@@ -105,7 +105,7 @@ class WP_Statistics_Frontend {
 		$params['ip'] = esc_html( $WP_Statistics->get_IP() );
 
 		//set hash ip
-		$params['hash_ip'] = $WP_Statistics->get_hash_string();
+		$params['hash_ip'] = esc_html( str_replace( '#hash#', '', $WP_Statistics->get_hash_string() ) );
 
 		//exclude
 		$check_exclude            = new WP_Statistics_Hits();
@@ -115,7 +115,7 @@ class WP_Statistics_Frontend {
 		//User Agent String
 		$params['ua'] = '';
 		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
-			$params['ua'] = $_SERVER['HTTP_USER_AGENT'];
+			$params['ua'] = esc_html( $_SERVER['HTTP_USER_AGENT'] );
 		}
 
 		//track all page
