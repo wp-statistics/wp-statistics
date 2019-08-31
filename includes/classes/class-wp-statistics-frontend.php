@@ -109,9 +109,6 @@ class WP_Statistics_Frontend {
 		//Set ip
 		$params['ip'] = esc_html( $WP_Statistics->get_IP() );
 
-		//set hash ip
-		$params['hash_ip'] = esc_html( str_replace( '#hash#', '', $WP_Statistics->get_hash_string() ) );
-
 		//exclude
 		$check_exclude            = new WP_Statistics_Hits();
 		$params['exclude']        = $check_exclude->exclusion_match;

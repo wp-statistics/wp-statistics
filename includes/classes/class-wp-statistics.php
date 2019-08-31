@@ -370,13 +370,11 @@ class WP_Statistics {
 	 * Generate hash string
 	 */
 	public function get_hash_string() {
-		// Check If Rest Request
-		if ( $this->restapi->is_rest() ) {
-			return '#hash#' . $this->restapi->params( 'hash_ip' );
-		}
 
 		// Check the user agent has exist.
-		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
+		if ( $this->restapi->is_rest() and trim( $this->restapi->params( 'ua' ) ) != "" ) {
+			$key = $this->restapi->params( 'ua' );
+		} else if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
 			$key = $_SERVER['HTTP_USER_AGENT'];
 		} else {
 			$key = 'Unknown';
