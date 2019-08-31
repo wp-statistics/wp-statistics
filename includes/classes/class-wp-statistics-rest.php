@@ -11,8 +11,8 @@ class WP_Statistics_Rest {
 	// Set Default Statistic Save method
 	const func = 'hit';
 
-	// Set Default POST Name
-	const _Argument = 'wp_statistics_hit';
+	// Set Default Name
+	const _Argument = 'wp_statistics_hit_rest';
 
 	/**
 	 * Setup an Wordpress REst Api action.
@@ -28,10 +28,35 @@ class WP_Statistics_Rest {
 		}
 	}
 
+	/**
+	 * List Of Required Params
+	 *
+	 * @return array
+	 */
+	public static function require_params_hit() {
+		return array(
+			'browser',
+			'platform',
+			'version',
+			'ip',
+			'track_all',
+			'timestamp',
+			'page_uri',
+			'user_id',
+		);
+	}
+
 	/*
 	 * Add Endpoint Route
 	 */
 	public function register_routes() {
+
+		// Create Require Params
+		$params = array();
+		foreach ( self::require_params_hit() as $p ) {
+			$params[ $p ] = array( 'required' => true );
+		}
+
 		// Get Hit
 		register_rest_route( self::route, '/' . self::func, array(
 			'methods'             => \WP_REST_Server::READABLE,
@@ -40,20 +65,13 @@ class WP_Statistics_Rest {
 				return ( $WP_Statistics->get_option( 'use_cache_plugin' ) == 1 ? true : false );
 			},
 			'callback'            => array( $this, 'hit' ),
-			'args'                => array(
-				'_wpnonce'      => array(
+			'args'                => array_merge(
+				array( '_wpnonce' => array(
 					'required'          => true,
 					'validate_callback' => function ( $value ) {
 						return wp_verify_nonce( $value, 'wp_rest' );
 					}
-				),
-				self::_Argument => array(
-					'required'          => true,
-					'validate_callback' => function ( $value, $request, $key ) {
-						return ( json_decode( wp_unslash( $value ) ) !== null );
-					}
-				)
-			)
+				) ), $params )
 		) );
 	}
 
@@ -70,14 +88,7 @@ class WP_Statistics_Rest {
 			return array( "rest-api-wp-statistics" => "OK" );
 		}
 
-
-		//Check Auth Key Request
-		if ( ! isset( $_REQUEST[ self::_Argument ] ) ) {
-			return new WP_Error( 'error', 'You have no right to access', array( 'status' => 403 ) );
-		}
-
-		// If something has gone horribly wrong and $WP_Statistics isn't an object, bail out.
-		// This seems to happen sometimes with WP Cron calls.
+		// Check Isset global
 		if ( ! is_object( $WP_Statistics ) ) {
 			return;
 		}
@@ -103,6 +114,9 @@ class WP_Statistics_Rest {
 		if ( $WP_Statistics->get_option( 'pages' ) ) {
 			$h->Pages();
 		}
+
+		// Set Return
+		return new \WP_REST_Response( array( 'status' => true, 'message' => __( 'Visitor Hit was recorded successfully.', 'wp-statistics' ) ) );
 	}
 
 	/*
@@ -111,7 +125,7 @@ class WP_Statistics_Rest {
 	static public function is_rest() {
 		global $WP_Statistics;
 
-		if ( isset( $WP_Statistics ) and $WP_Statistics->use_cache ) {
+		if ( isset( $WP_Statistics ) and defined( 'REST_REQUEST' ) && REST_REQUEST and $WP_Statistics->use_cache ) {
 			if ( isset( $_REQUEST[ self::_Argument ] ) ) {
 				return true;
 			}
@@ -124,11 +138,12 @@ class WP_Statistics_Rest {
 	 * Get Params Request
 	 */
 	static public function params( $params ) {
-		if ( isset( $_REQUEST[ self::_Argument ] ) ) {
-			$data = wp_unslash( $_REQUEST[ self::_Argument ] );
-
-			if ( ! empty( $data ) && is_string( $data ) && is_array( json_decode( $data, true ) ) && json_last_error() == 0 ) {
-				$data = json_decode( $data, true );
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST and isset( $_REQUEST[ self::_Argument ] ) ) {
+			$data = array();
+			foreach ( $_REQUEST as $key => $value ) {
+				if ( ! in_array( $key, array( '_', '_wpnonce' ) ) ) {
+					$data[ $key ] = trim( $value );
+				}
 			}
 
 			if ( isset( $data[ $params ] ) ) {
