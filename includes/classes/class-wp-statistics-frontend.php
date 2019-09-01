@@ -70,8 +70,19 @@ class WP_Statistics_Frontend {
 		global $WP_Statistics;
 
 		if ( $WP_Statistics->use_cache ) {
+
+			// Wp-Statistics HTML comment
 			$this->html_comment();
-			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'GET\', \'' . add_query_arg( array( '_' => time(), '_wpnonce' => wp_create_nonce( 'wp_rest' ), WP_Statistics_Rest::_Argument => self::set_default_params() ), path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");WP_Statistics_http.send(null);</script>' . "\n";
+
+			// Prepare Params
+			$params = array_merge( array(
+				'_'                           => time(),
+				'_wpnonce'                    => wp_create_nonce( 'wp_rest' ),
+				WP_Statistics_Rest::_Argument => 'yes',
+			), self::set_default_params() );
+
+			// Return to Page
+			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'GET\', \'' . add_query_arg( $params, path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");WP_Statistics_http.send(null);</script>' . "\n";
 		}
 	}
 
@@ -86,9 +97,6 @@ class WP_Statistics_Frontend {
 		 */
 		$params = array();
 
-		//Set Url
-		$params['base'] = rtrim( get_rest_url(), "/" );
-
 		//Set Browser
 		$result             = $WP_Statistics->get_UserAgent();
 		$params['browser']  = $result['browser'];
@@ -98,14 +106,8 @@ class WP_Statistics_Frontend {
 		//set referred
 		$params['referred'] = $WP_Statistics->get_Referred();
 
-		//set prefix Rest
-		$params['api'] = rtrim( rest_get_url_prefix(), "/" );
-
 		//Set ip
 		$params['ip'] = esc_html( $WP_Statistics->get_IP() );
-
-		//set hash ip
-		$params['hash_ip'] = esc_html( str_replace( '#hash#', '', $WP_Statistics->get_hash_string() ) );
 
 		//exclude
 		$check_exclude            = new WP_Statistics_Hits();
@@ -146,15 +148,7 @@ class WP_Statistics_Frontend {
 			$params['user_id'] = get_current_user_id();
 		}
 
-		//Fixed entity decode Html
-		foreach ( (array) $params as $key => $value ) {
-			if ( ! is_scalar( $value ) ) {
-				continue;
-			}
-			$params[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
-		}
-
-		return json_encode( $params, JSON_UNESCAPED_SLASHES );
+		return $params;
 	}
 
 	/**
