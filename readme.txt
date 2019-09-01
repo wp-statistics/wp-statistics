@@ -127,6 +127,10 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.6.9 =
+* Fixed: Hit counter issue in some servers that blocking some `XMLHttpRequest` request.
+* Improvement REST API.
+
 = 12.6.8 =
 * Fixed: Coefficient per visitors.
 * Improvement www domain in Top Referring.
