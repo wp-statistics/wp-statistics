@@ -7,7 +7,7 @@
  * Author: VeronaLabs
  * Author URI: http://veronalabs.com/
  * Text Domain: wp-statistics
- * Domain Path: /languages/
+ * Domain Path: languages
  */
 
 define( 'WP_STATISTICS_MAIN_FILE', __FILE__ );
