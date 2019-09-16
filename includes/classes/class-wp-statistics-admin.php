@@ -133,6 +133,11 @@ class WP_Statistics_Admin {
 	 */
 	public function overview_page_ads() {
 
+		// Check Active Ads in OverView Page
+		if ( apply_filters( 'wp_statistics_ads_overview_page_show', true ) === false ) {
+			return;
+		}
+
 		// Get Overview Ads
 		$get_overview_ads = get_option( 'wp_statistics_overview_page_ads', false );
 

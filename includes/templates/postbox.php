@@ -21,6 +21,11 @@
     </div>
 
 	<?php
+	// Check Disable PostBox
+	if ( apply_filters( 'wp_statistics_ads_setting_page_show', true ) === false ) {
+		return;
+	}
+
 	$response      = wp_remote_get( 'https://wp-statistics.com/wp-json/plugin/postbox' );
 	$response_code = wp_remote_retrieve_response_code( $response );
 
