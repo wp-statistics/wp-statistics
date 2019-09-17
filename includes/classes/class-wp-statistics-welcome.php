@@ -10,11 +10,6 @@ class WP_Statistics_Welcome {
 	public static function init() {
 		global $WP_Statistics;
 
-		// Check Filter Show Welcome Page
-		if ( apply_filters( 'wp_statistics_show_welcome_page', true ) === false ) {
-			return;
-		}
-		
 		// Check Show WelCome Page
 		if ( $WP_Statistics->get_option( 'show_welcome_page', false ) and ( strpos( $_SERVER['REQUEST_URI'], '/wp-admin/index.php' ) !== false or ( isset( $_GET['page'] ) and $_GET['page'] == 'wps_overview_page' ) ) ) {
 			// Disable show welcome page

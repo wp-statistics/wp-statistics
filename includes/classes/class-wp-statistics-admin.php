@@ -25,6 +25,7 @@ class WP_Statistics_Admin {
 		// If we've been removed, return without doing anything else.
 		if ( get_option( 'wp_statistics_removal' ) == 'done' ) {
 			add_action( 'admin_notices', array( $this, 'removal_admin_notice' ), 10, 2 );
+
 			return;
 		}
 
@@ -69,10 +70,13 @@ class WP_Statistics_Admin {
 		//init ShortCode
 		add_action( 'admin_init', 'WP_Statistics_Shortcode::shortcake' );
 
-		// WP-Statistics welcome page hooks
-		add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
-		add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
-		add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
+		// Check Filter for showing welcome page.
+		if ( apply_filters( 'wp_statistics_show_welcome_page', true ) ) {
+			// WP-Statistics welcome page hooks
+			add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
+			add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
+			add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
+		}
 
 		// Runs some scripts at the end of the admin panel inside the body tag
 		add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ) );
