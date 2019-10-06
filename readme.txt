@@ -6,7 +6,7 @@ Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, 
 Requires at least: 3.0
 Tested up to: 5.2.1
 Requires PHP: 5.6
-Stable tag: 12.6.8
+Stable tag: 12.6.10
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -127,6 +127,10 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
+= 12.6.10 =
+* Improvement: Admin cache detector issue.
+* Added: Some filter for integration with new Add-On called WP-Statistics Customization.
+
 = 12.6.9 =
 * Fixed: Hit counter issue in some servers that blocking some `XMLHttpRequest` request.
 * Improvement REST API.

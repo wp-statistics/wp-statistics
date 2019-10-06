@@ -25,6 +25,7 @@ class WP_Statistics_Admin {
 		// If we've been removed, return without doing anything else.
 		if ( get_option( 'wp_statistics_removal' ) == 'done' ) {
 			add_action( 'admin_notices', array( $this, 'removal_admin_notice' ), 10, 2 );
+
 			return;
 		}
 
@@ -69,10 +70,13 @@ class WP_Statistics_Admin {
 		//init ShortCode
 		add_action( 'admin_init', 'WP_Statistics_Shortcode::shortcake' );
 
-		// WP-Statistics welcome page hooks
-		add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
-		add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
-		add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
+		// Check Filter for showing welcome page.
+		if ( apply_filters( 'wp_statistics_show_welcome_page', true ) ) {
+			// WP-Statistics welcome page hooks
+			add_action( 'admin_menu', 'WP_Statistics_Welcome::menu' );
+			add_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 10, 2 );
+			add_action( 'admin_init', 'WP_Statistics_Welcome::init' );
+		}
 
 		// Runs some scripts at the end of the admin panel inside the body tag
 		add_action( 'admin_footer', array( $this, 'admin_footer_scripts' ) );
@@ -133,6 +137,11 @@ class WP_Statistics_Admin {
 	 */
 	public function overview_page_ads() {
 
+		// Check Active Ads in OverView Page
+		if ( apply_filters( 'wp_statistics_ads_overview_page_show', true ) === false ) {
+			return;
+		}
+
 		// Get Overview Ads
 		$get_overview_ads = get_option( 'wp_statistics_overview_page_ads', false );
 
@@ -149,7 +158,7 @@ class WP_Statistics_Admin {
 			}
 
 			// Get Json Data
-			$data    = json_decode( wp_remote_retrieve_body( $request ), true );
+			$data = json_decode( wp_remote_retrieve_body( $request ), true );
 
 			// Set new Timestamp
 			$overview_ads['timestamp'] = current_time( 'timestamp' );
@@ -314,9 +323,8 @@ class WP_Statistics_Admin {
 
 				$set_transient = true;
 				$alert         = '<div class="notice notice-warning is-dismissible"><p>' . sprintf( __( 'Here is an error associated with Connecting WordPress Rest API, Please Flushing rewrite rules or activate wp rest api for performance WP-Statistics Plugin Cache / Go %1$sSettings->Permalinks%2$s', 'wp-statistics' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">', '</a>' ) . '</div>';
-				$request       = wp_remote_post( path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ), array(
-					'method' => 'POST',
-					'body'   => array( 'rest-api-wp-statistics' => 'wp-statistics' )
+				$request       = wp_remote_get( path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ), array(
+					'body' => array( 'rest-api-wp-statistics' => 'wp-statistics' )
 				) );
 				if ( is_wp_error( $request ) ) {
 					echo $alert;
