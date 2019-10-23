@@ -22,7 +22,7 @@ function wp_statistics_generate_about_postbox_content() {
 		}
 		?>
         <div class="wps-postbox-veronalabs">
-            <a href="https://veronalabs.com" target="_blank" title="<?php _e( 'Power by VeronaLabs', 'wp-statistics' ); ?>"><img src="https://veronalabs.com/wp-content/themes/veronalabs.com/assets/images/logo.svg"/></a>
+            <a href="https://veronalabs.com" target="_blank" title="<?php _e( 'Power by VeronaLabs', 'wp-statistics' ); ?>"><img src="<?php echo plugins_url( 'wp-statistics/assets/images/veronalabs.svg' ); ?>"/></a>
         </div>
     </div>
 	<?php
