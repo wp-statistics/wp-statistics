@@ -770,14 +770,8 @@ class WP_Statistics_Hits {
 		$user_id = 0;
 
 		//if Rest Request
-		if ( WP_Statistics_Rest::is_rest() ) {
-			if ( WP_Statistics_Rest::params( 'user_id' ) != "" ) {
-				$user_id = WP_Statistics_Rest::params( 'user_id' );
-			}
-		} else {
-			if ( is_user_logged_in() ) {
-				return get_current_user_id();
-			}
+		if ( is_user_logged_in() ) {
+			return get_current_user_id();
 		}
 
 		return $user_id;
