@@ -38,11 +38,6 @@ class WP_Statistics_Rest {
 			'browser',
 			'platform',
 			'version',
-			'ip',
-			'track_all',
-			'timestamp',
-			'page_uri',
-			'user_id',
 		);
 	}
 
