@@ -136,7 +136,7 @@ class WP_Statistics_Rest {
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST and isset( $_REQUEST[ self::_Argument ] ) ) {
 			$data = array();
 			foreach ( $_REQUEST as $key => $value ) {
-				if ( ! in_array( $key, array( '_', '_wpnonce' ) ) ) {
+				if ( ! in_array( $key, array( '_wpnonce' ) ) ) {
 					$data[ $key ] = trim( $value );
 				}
 			}

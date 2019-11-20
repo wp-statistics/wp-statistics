@@ -31,7 +31,7 @@ class WP_Statistics_Hits {
 		// Set the timestamp value.
 		$this->timestamp = $WP_Statistics->current_date( 'U' );
 		if ( WP_Statistics_Rest::is_rest() ) {
-			$this->timestamp = WP_Statistics_Rest::params( 'timestamp' );
+			$this->timestamp = WP_Statistics_Rest::params( '_' );
 		}
 
 		// Check to see if the user wants us to record why we're excluding hits.
