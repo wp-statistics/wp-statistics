@@ -127,7 +127,7 @@ To register, go to the Permalink page and update the permalink with press Save C
 
 == Changelog ==
 = 12.6.11 =
-* Improvement: REST API request method.
+* Improvement: REST API request.
 
 = 12.6.10 =
 * Improvement: Admin cache detector issue.
