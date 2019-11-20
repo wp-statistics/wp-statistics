@@ -20,13 +20,8 @@ class WP_Statistics_Frontend {
 		//Get Visitor information and Save To Database
 		add_action( 'wp', array( $this, 'init' ) );
 
-		//Add inline Rest Request
-		add_action( 'wp_head', array( $this, 'add_inline_rest_js' ) );
-
 		//Add Html Comment in head
-		if ( ! $WP_Statistics->use_cache ) {
-			add_action( 'wp_head', array( $this, 'html_comment' ) );
-		}
+        add_action( 'wp_head', array( $this, 'html_comment' ) );
 
 		// Check to show hits in posts/pages
 		if ( $WP_Statistics->get_option( 'show_hits' ) ) {
@@ -56,34 +51,22 @@ class WP_Statistics_Frontend {
 	 * Enqueue Scripts
 	 */
 	public function enqueue_scripts() {
-
 		// Load our CSS to be used.
 		if ( is_admin_bar_showing() ) {
 			wp_enqueue_style( 'wpstatistics-css', WP_Statistics::$reg['plugin-url'] . 'assets/css/frontend.css', true, WP_Statistics::$reg['version'] );
 		}
-	}
 
-	/*
-	 * Inline Js
-	 */
-	public function add_inline_rest_js() {
-		global $WP_Statistics;
-
-		if ( $WP_Statistics->use_cache ) {
-
-			// Wp-Statistics HTML comment
-			$this->html_comment();
-
-			// Prepare Params
-			$params = array_merge( array(
-				'_'                           => time(),
-				'_wpnonce'                    => wp_create_nonce( 'wp_rest' ),
-				WP_Statistics_Rest::_Argument => 'yes',
-			), self::set_default_params() );
-
-			// Return to Page
-			echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'GET\', \'' . add_query_arg( $params, path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ) ) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");WP_Statistics_http.send(null);</script>' . "\n";
-		}
+        global $WP_Statistics;
+        if ( $WP_Statistics->use_cache ) {
+            wp_enqueue_script( 'ua-parser', WP_Statistics::$reg['plugin-url'] . 'assets/js/ua-parser.min.js', true, '0.7.20' );
+            wp_enqueue_script( 'wp-statistics-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/front.js', true, '1.0' );
+            wp_localize_script( 'wp-statistics-js', 'wps_statistics_object',
+                array(
+                    'rest_url' => get_rest_url(),
+                    'time' => time(),
+                    'wpnonce' => wp_create_nonce( 'wp_rest' ),
+                ));
+        }
 	}
 
 	/*

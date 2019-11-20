@@ -416,9 +416,7 @@ class WP_Statistics_Hits {
 			$this->current_page_id   = $get_page_type['id'];
 			$this->current_page_type = $get_page_type['type'];
 		}
-
 	}
-
 
 	// This function records unique visitors to the site.
 	public function Visitors() {
