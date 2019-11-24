@@ -323,7 +323,7 @@ class WP_Statistics_Admin {
 
 				$set_transient = true;
 				$alert         = '<div class="notice notice-warning is-dismissible"><p>' . sprintf( __( 'Here is an error associated with Connecting WordPress Rest API, Please Flushing rewrite rules or activate wp rest api for performance WP-Statistics Plugin Cache / Go %1$sSettings->Permalinks%2$s', 'wp-statistics' ), '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '">', '</a>' ) . '</div>';
-				$request       = wp_remote_get( path_join( get_rest_url(), WP_Statistics_Rest::route . '/' . WP_Statistics_Rest::func ), array(
+				$request       = wp_remote_get( get_rest_url( null, WP_Statistics_Rest::route . '/' . 'connection' ), array(
 					'body' => array( 'rest-api-wp-statistics' => 'wp-statistics' )
 				) );
 				if ( is_wp_error( $request ) ) {

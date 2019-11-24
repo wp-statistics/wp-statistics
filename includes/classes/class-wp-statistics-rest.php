@@ -68,6 +68,24 @@ class WP_Statistics_Rest {
 					}
 				) ), $params )
 		) );
+
+		// Test REST API WordPress is activate
+		register_rest_route( self::route, '/connection', array(
+			'methods'  => \WP_REST_Server::READABLE,
+			'callback' => array( $this, 'connection' )
+		) );
+	}
+
+	/**
+	 * Check Is Test Service Request
+	 * @return array|null
+	 */
+	public function connection() {
+		if ( isset( $_REQUEST['rest-api-wp-statistics'] ) ) {
+			return array( "rest-api-wp-statistics" => "OK" );
+		}
+
+		return null;
 	}
 
 	/*
@@ -75,13 +93,6 @@ class WP_Statistics_Rest {
 	 */
 	public function hit() {
 		global $WP_Statistics;
-
-		/*
-		 * Check Is Test Service Request
-		 */
-		if ( isset( $_REQUEST['rest-api-wp-statistics'] ) ) {
-			return array( "rest-api-wp-statistics" => "OK" );
-		}
 
 		// Check Isset global
 		if ( ! is_object( $WP_Statistics ) ) {

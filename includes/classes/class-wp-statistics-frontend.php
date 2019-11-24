@@ -62,8 +62,9 @@ class WP_Statistics_Frontend {
             wp_enqueue_script( 'wp-statistics-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/front.js', true, WP_Statistics::$reg['version'] );
             wp_localize_script( 'wp-statistics-js', 'wps_statistics_object',
                 array(
-                    'rest_url' => get_rest_url(),
-                    'wpnonce' => wp_create_nonce( 'wp_rest' ),
+	                'rest_url' => get_rest_url(),
+	                'wpnonce'  => wp_create_nonce( 'wp_rest' ),
+	                'time'     => current_time( 'timestamp' )
                 ));
         }
 	}
