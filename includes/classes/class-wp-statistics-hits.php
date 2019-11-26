@@ -478,6 +478,7 @@ class WP_Statistics_Hits {
 						'ip'           => $WP_Statistics->ip_hash ? $WP_Statistics->ip_hash : $WP_Statistics->store_ip_to_db(),
 						'location'     => $this->location,
 						'UAString'     => $ua,
+						'user_id'      => self::get_user_id(),
 						'hits'         => 1,
 						'honeypot'     => $honeypot,
 					),
