@@ -168,6 +168,12 @@ class WP_Statistics_Rest {
 			$_REQUEST['current_page_id']   = $post_tag->term_id;
 		}
 
+		// Fix Self referral Url
+		$referral = $request->get_param( 'referred' );
+		if ( empty( $referral ) ) {
+			$_REQUEST['referred'] = get_home_url();
+		}
+
 		$h = new WP_Statistics_GEO_IP_Hits;
 
 		// Call the online users tracking code.
