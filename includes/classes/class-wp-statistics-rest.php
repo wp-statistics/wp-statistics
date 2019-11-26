@@ -35,9 +35,7 @@ class WP_Statistics_Rest {
 	 */
 	public static function require_params_hit() {
 		return array(
-			'browser',
-			'platform',
-			'version',
+			'ua',
 			'url',
 		);
 	}
@@ -100,8 +98,25 @@ class WP_Statistics_Rest {
 			return;
 		}
 
+		// Get Params
+		$url        = $request->get_param( 'url' );
+		$user_agent = $request->get_param( 'ua' );
+		if ( empty( $url ) || empty( $user_agent ) ) {
+			return;
+		}
+
+		// Check User Agent
+		$result = new WhichBrowser\Parser( $user_agent );
+		$agent  = array(
+			'browser'  => ( isset( $result->browser->name ) ) ? $result->browser->name : _x( 'Unknown', 'Browser', 'wp-statistics' ),
+			'platform' => ( isset( $result->os->name ) ) ? $result->os->name : _x( 'Unknown', 'Platform', 'wp-statistics' ),
+			'version'  => ( isset( $result->os->version->value ) ) ? $result->os->version->value : _x( 'Unknown', 'Version', 'wp-statistics' ),
+		);
+		$_REQUEST['browser']  = $agent['browser'];
+		$_REQUEST['platform'] = $agent['platform'];
+		$_REQUEST['version']  = $agent['version'];
+
 		// Convert Url To WordPress ID
-		$url                      = $request->get_param( 'url' );
 		$page_id                  = url_to_postid( $url );
 		$_REQUEST['track_all']    = ( WP_Statistics_Hits::is_track_page() === true ? 1 : 0 );
 		$_REQUEST['page_uri']     = str_ireplace( get_home_url(), '', $url );

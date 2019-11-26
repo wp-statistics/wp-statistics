@@ -12,7 +12,6 @@ var gulp = require('gulp'),
 //Gulp Script Concat
 gulp.task('script', function () {
     return gulp.src([
-        './assets/js/ua-parser.min.js',
         './assets/js/front.js'
     ])
         .pipe(concat('front.min.js'))
