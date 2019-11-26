@@ -151,6 +151,23 @@ class WP_Statistics_Rest {
 			$_REQUEST['current_page_id']   = $cat->term_id;
 		}
 
+		// Convert Post Tag Url TO ID
+		$tag_base   = 'tag';
+		$tag_option = get_option( 'tag_base' );
+		if ( ! empty( $tag_option ) ) {
+			$tag_base = $tag_option;
+		}
+		$sanitize_tag_url = str_ireplace( rtrim( get_home_url(), "/" ) . "/" . ltrim( $tag_base, "/" ), '', $url );
+		$sanitize_tag_url = rawurlencode( urldecode( $sanitize_tag_url ) );
+		$sanitize_tag_url = str_replace( '%2F', '/', $sanitize_tag_url );
+		$sanitize_tag_url = str_replace( '%20', ' ', $sanitize_tag_url );
+		$sanitize_tag_url = trim( $sanitize_tag_url, '/' );
+		$post_tag         = get_term_by( 'slug', $sanitize_tag_url, 'post_tag' );
+		if ( is_object( $post_tag ) and $post_tag != false ) {
+			$_REQUEST['current_page_type'] = 'post_tag';
+			$_REQUEST['current_page_id']   = $post_tag->term_id;
+		}
+
 		$h = new WP_Statistics_GEO_IP_Hits;
 
 		// Call the online users tracking code.
