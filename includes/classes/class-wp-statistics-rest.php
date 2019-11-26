@@ -38,6 +38,7 @@ class WP_Statistics_Rest {
 			'browser',
 			'platform',
 			'version',
+			'url',
 		);
 	}
 
@@ -91,12 +92,63 @@ class WP_Statistics_Rest {
 	/*
 	 * Wp Statistic Hit Save
 	 */
-	public function hit() {
+	public function hit( \WP_REST_Request $request ) {
 		global $WP_Statistics;
 
 		// Check Isset global
 		if ( ! is_object( $WP_Statistics ) ) {
 			return;
+		}
+
+		// Convert Url To WordPress ID
+		$url                      = $request->get_param( 'url' );
+		$page_id                  = url_to_postid( $url );
+		$_REQUEST['track_all']    = ( WP_Statistics_Hits::is_track_page() === true ? 1 : 0 );
+		$_REQUEST['page_uri']     = str_ireplace( get_home_url(), '', $url );
+		$_REQUEST['search_query'] = '';
+		if ( $page_id != false ) {
+			$_REQUEST['current_page_id'] = $page_id;
+			$get_post_type               = get_post_type( $page_id );
+			switch ( $get_post_type ) {
+				case "product":
+					$_REQUEST['current_page_type'] = 'product';
+					break;
+				case "page":
+					$_REQUEST['current_page_type'] = 'page';
+					break;
+				default:
+					$_REQUEST['current_page_type'] = 'post';
+			}
+		}
+
+		// Check If is a search Query
+		$parse = parse_url( $url );
+		if ( isset( $parse['query'] ) and ! empty( $parse['query'] ) ) {
+			parse_str( $parse['query'], $params_arr );
+			if ( isset( $params_arr['s'] ) and ! empty( $params_arr['s'] ) ) {
+				$_REQUEST['current_page_type'] = 'search';
+				$_REQUEST['current_page_id']   = 0;
+				$_REQUEST['search_query']      = esc_html( $params_arr['s'] );
+			}
+		}
+
+		// Check If Home Page
+		if ( rtrim( $url, "/" ) == get_home_url() ) {
+			$_REQUEST['current_page_type'] = 'home';
+			$_REQUEST['current_page_id']   = 0;
+		}
+
+		// Convert Category Url to ID
+		$cat_base        = 'category';
+		$category_option = get_option( 'category_base' );
+		if ( ! empty( $category_option ) ) {
+			$cat_base = $category_option;
+		}
+		$sanitize_category_url = str_ireplace( rtrim( get_home_url(), "/" ) . "/" . ltrim( $cat_base, "/" ), '', $url );
+		$cat                   = get_category_by_path( $sanitize_category_url );
+		if ( is_object( $cat ) and $cat != false ) {
+			$_REQUEST['current_page_type'] = 'category';
+			$_REQUEST['current_page_id']   = $cat->term_id;
 		}
 
 		$h = new WP_Statistics_GEO_IP_Hits;
