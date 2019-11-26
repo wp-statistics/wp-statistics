@@ -146,10 +146,6 @@
                             <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
                         </li>
                         <li class="wp-person">
-                            <a href="https://profiles.wordpress.org/ghasemi71ir" class="web"><?php echo get_avatar( 'ghasemi71ir@gmail.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Mohammad Ghasemi', 'wp-statistics' ); ?></a>
-                            <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
-                        </li>
-                        <li class="wp-person">
                             <a href="https://profiles.wordpress.org/gregross" class="web"><?php echo get_avatar( 'greg@toolstack.com', 62, '', '', array( 'class' => 'gravatar' ) ); ?><?php _e( 'Greg Ross', 'wp-statistics' ); ?></a>
                             <span class="title"><?php _e( 'Core Contributor', 'wp-statistics' ); ?></span>
                         </li>
