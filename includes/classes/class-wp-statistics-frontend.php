@@ -58,8 +58,7 @@ class WP_Statistics_Frontend {
 
         global $WP_Statistics;
         if ( $WP_Statistics->use_cache ) {
-            wp_enqueue_script( 'ua-parser', WP_Statistics::$reg['plugin-url'] . 'assets/js/ua-parser.min.js', true, '0.7.20' );
-            wp_enqueue_script( 'wp-statistics-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/front.js', true, WP_Statistics::$reg['version'] );
+            wp_enqueue_script( 'wp-statistics-js', WP_Statistics::$reg['plugin-url'] . 'assets/js/front.min.js', true, WP_Statistics::$reg['version'] );
             wp_localize_script( 'wp-statistics-js', 'wps_statistics_object',
                 array(
 	                'rest_url' => get_rest_url(),
