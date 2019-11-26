@@ -128,6 +128,8 @@ To register, go to the Permalink page and update the permalink with press Save C
 == Changelog ==
 = 12.6.11 =
 * Improvement: REST API request.
+* Improvement: Minor issues.
+* Fixed: Issue to uninstalling the tables.
 
 = 12.6.10 =
 * Improvement: Admin cache detector issue.
