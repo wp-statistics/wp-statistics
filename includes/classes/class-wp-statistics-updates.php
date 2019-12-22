@@ -72,13 +72,7 @@ class WP_Statistics_Updates {
 		}
 
 		// This is the location of the file to download.
-		$download_url = WP_Statistics_Updates::$geoip[ $pack ]['cdn'];
-		$response     = wp_remote_get( $download_url );
-
-		// Change download url if the maxmind.com doesn't response.
-		if ( wp_remote_retrieve_response_code( $response ) != '200' ) {
-			$download_url = WP_Statistics_Updates::$geoip[ $pack ]['github'];
-		}
+		$download_url = WP_Statistics_Updates::$geoip[ $pack ]['github'];
 
 		// Get the upload directory from WordPress.
 		$upload_dir = wp_upload_dir();
