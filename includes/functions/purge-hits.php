@@ -55,8 +55,9 @@ function wp_statistics_purge_visitor_hits( $purge_hits ) {
 			$WP_Statistics->update_option( 'email_list', $blogemail );
 		}
 
+		$emailsList = explode(',', $WP_Statistics->get_option( 'email_list' ));
 		wp_mail(
-			$WP_Statistics->get_option( 'email_list' ),
+			$emailsList,
 			__( 'Database pruned on', 'wp-statistics' ) . ' ' . $blogname,
 			$result_string,
 			$headers

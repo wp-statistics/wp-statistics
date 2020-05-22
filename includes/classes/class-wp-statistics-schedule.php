@@ -233,7 +233,8 @@ class WP_Statistics_Schedule {
 				$WP_Statistics->update_option( 'email_list', $blogemail );
 			}
 
-			wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'Statistical reporting', 'wp-statistics' ), $final_text_report, $headers );
+			$emailsList = explode(',', $WP_Statistics->get_option( 'email_list' ));
+			wp_mail( $emailsList, __( 'Statistical reporting', 'wp-statistics' ), $final_text_report, $headers );
 
 		} else if ( $WP_Statistics->get_option( 'send_report' ) == 'sms' ) {
 

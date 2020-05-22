@@ -197,7 +197,8 @@ class WP_Statistics_Updates {
 				$WP_Statistics->update_option( 'email_list', $blogemail );
 			}
 
-			wp_mail( $WP_Statistics->get_option( 'email_list' ), __( 'GeoIP update on', 'wp-statistics' ) . ' ' . WP_Statistics_Admin_Pages::sanitize_mail_subject( $blogname ), $result['notice'], $headers );
+			$emailsList = explode(',', $WP_Statistics->get_option( 'email_list' ));
+			wp_mail( $emailsList, __( 'GeoIP update on', 'wp-statistics' ) . ' ' . WP_Statistics_Admin_Pages::sanitize_mail_subject( $blogname ), $result['notice'], $headers );
 		}
 
 		// All of the messages displayed above are stored in a string, now it's time to actually output the messages.
