@@ -703,7 +703,8 @@ class WP_Statistics_Admin {
 				$WP_Statistics->update_option( 'email_list', $blogemail );
 			}
 
-			wp_mail( $WP_Statistics->get_option( 'email_list' ), sprintf( __( 'WP Statistics %s installed on', 'wp-statistics' ), WP_Statistics::$reg['version'] ) . ' ' . $blogname, __( 'Installation/upgrade complete!', 'wp-statistics' ), $headers );
+			$emailsList = explode(',', $WP_Statistics->get_option( 'email_list' ));
+			wp_mail( $emailsList, sprintf( __( 'WP Statistics %s installed on', 'wp-statistics' ), WP_Statistics::$reg['version'] ) . ' ' . $blogname, __( 'Installation/upgrade complete!', 'wp-statistics' ), $headers );
 		}
 	}
 
