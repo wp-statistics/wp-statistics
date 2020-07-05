@@ -4,8 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.4
-Requires PHP: 5.6
-Stable tag: 12.6.13
+Stable tag: 12.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,9 +113,6 @@ If IPv6 is not enabled, you may see an warning like:
 10. Theme widget
 
 == Upgrade Notice ==
-= 12.5.4 =
-If you have a problem in getting visitor's IP, just go to Statistics > Settings > Visitor IP.
-
 = 12.5.3 =
 Please consider that after updating, you will probably see some changes in Hits. The reason is that we have better-recognized crawlers and robots to get more accurate statistics for you.
 
@@ -126,95 +122,45 @@ http://yourwebsite.com/wp-json/wpstatistics/v1
 To register, go to the Permalink page and update the permalink with press Save Changes.
 
 == Changelog ==
-= 12.6.13 =
-* WordPress 5.4 compatibility.
-* Fixed: Updating the GeoIP DB and forced to use the Github repository instead of the Maxmind
-
-= 12.6.12 =
-* Improvement: Minor issues.
-
-= 12.6.11 =
-* Improvement: REST API request.
-* Improvement: Minor issues.
-* Fixed: Issue to uninstalling the tables.
-
-= 12.6.10 =
-* Improvement: Admin cache detector issue.
-* Added: Some filter for integration with new Add-On called WP-Statistics Customization.
-
-= 12.6.9 =
-* Fixed: Hit counter issue in some servers that blocking some `XMLHttpRequest` request.
-* Improvement REST API.
-
-= 12.6.8 =
-* Fixed: Coefficient per visitors.
-* Improvement www domain in Top Referring.
-* Improvement REST API.
-
-= 12.6.7 =
-* Improvement and sanitize visitor's IP address.
-* Improvement and sanitize parameters in `WP_Statistics_Rest::hit()`, Thanks Thomas Chauchefoin for the report.
-* Improved: Minor issues.
-
-= 12.6.6.1 =
-* Fixed: issue to showing Hit column for custom post type.
-* Improvement: Sanitize page's title and Escaping that in overview page.
-* Added: postbox Ads in overview page. Don't worry! Not very annoying.
-
-= 12.6.5 =
-* WordPress 5.2 compatibility.
-
-= 12.6.4 =
-* Added: The Visitor IP configuration in the setting page for choosing method that gets visitor's IP addresses.
-* Improved: Minor issues in datepicker.
-* Improved: Minor issues in search referrer.
-
-= 12.6.3 =
-* Fixed date picker issue in Top Visitors page.
-* Improved: Minor issues.
-
-= 12.6.2 =
-* Fixed issue to get IP in some servers that stored 127.0.0.1
-
 = 12.6.1 =
-* Added Whip Package for getting visitor's IP address.
-* Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
-* Added database upgrade class for update page type.
-* Fixed duplicate page list in report pages.
-* Fixed bug to get home page title.
-* Improvement Sanitize subject for sending email reporting.
-* Improvement jQuery Datepicker UI.
-* Improvement visitor's hit when there was a broken file in that request.
+- Added Whip Package for getting visitor's IP address.
+- Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
+- Added database upgrade class for update page type.
+- Fixed duplicate page list in report pages.
+- Fixed bug to get home page title.
+- Improvement Sanitize subject for sending email reporting.
+- Improvement jQuery Datepicker UI.
+- Improvement visitor's hit when there was a broken file in that request.
 
 = 12.6 =
 # Added
-* Post/Page Select in statistics page reporting according to post Type.
-* Online Users widget, A cool widget to show current online users!
-* A new table `visitor_relationship` for saving visitors logs.
-* `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
-* Visitor count column in Top Country widget.
+- Post/Page Select in statistics page reporting according to post Type.
+- Online Users widget, A cool widget to show current online users!
+- A new table `visitor_relationship` for saving visitors logs.
+- `user_id`, `page_id`, `type` columns to `statistics_useronline` table.
+- Visitor count column in Top Country widget.
 
 # Improvement
-* Improvement MySQL time query in all functions.
-* Improvement online users page UI.
-* Improvement Top referrals UI.
-* Improvement CSV exporter.
-* Improvement pagination in admin pages that used the WordPress `paginate_links`.
-* Improvement time filter in admin pages stats.
-* Improvement  `admin_url` link in all admin pages.
-* Improvement text wrap in all meta boxes.
-* Fixed reset number online users list in period time.
-* Schedule list in statistical reporting.
-* Refer Param in Top Referring Sites page.
-* Fix method to get IP addresses.
-* Fix Page CSS.
-* Fix the error of No page title found in the meta box.
-* Fix show number refer link from custom URL.
-* Fix update option for Piwik blacklist.
+- Improvement MySQL time query in all functions.
+- Improvement online users page UI.
+- Improvement Top referrals UI.
+- Improvement CSV exporter.
+- Improvement pagination in admin pages that used the WordPress `paginate_links`.
+- Improvement time filter in admin pages stats.
+- Improvement  `admin_url` link in all admin pages.
+- Improvement text wrap in all meta boxes.
+- Fixed reset number online users list in period time.
+- Schedule list in statistical reporting.
+- Refer Param in Top Referring Sites page.
+- Fix method to get IP addresses.
+- Fix Page CSS.
+- Fix the error of No page title found in the meta box.
+- Fix show number refer link from custom URL.
+- Fix update option for Piwik blacklist.
 
 # Deprecated
-* Remove `WP_Statistics_Pagination` class.
-* Deprecate Top Search Words (30 Days) widget.
+- Remove `WP_Statistics_Pagination` class.
+- Deprecate Top Search Words (30 Days) widget.
 
 = 12.5.7 =
 * Added: The Edge To Browser List.
