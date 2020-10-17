@@ -178,7 +178,7 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     e.preventDefault();
 
     // Get Meta Box name By Parent ID
-    let parentID = jQuery(this).parent(".postbox").attr("id");
+    let parentID = jQuery(this).closest(".postbox").attr("id");
     let meta_box_name = wps_js.meta_box_name_by_id(parentID);
 
     // Run Meta Box
@@ -187,7 +187,7 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
 
 /**
  * Watch Show/Hide Meta Box in WordPress Dashboard
- * We dont Use PreventDefault Because WordPress Core use Checked checkbox.
+ * We dont Use PreventDefault Because WordPress Core uses Checked checkbox.
  */
 jQuery(document).on("click", 'input[type=checkbox][id^="wp-statistics-"][id$="-widget-hide"]', function () {
 
