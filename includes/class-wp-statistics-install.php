@@ -79,7 +79,7 @@ class Install
         // Users Online Table
         $create_user_online_table = ("
 					CREATE TABLE " . DB::table('useronline') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 	  					ip varchar(60) NOT NULL,
 						created int(11),
 						timestamp int(10) NOT NULL,
@@ -99,7 +99,7 @@ class Install
         // Visit Table
         $create_visit_table = ("
 					CREATE TABLE " . DB::table('visit') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 						last_visit datetime NOT NULL,
 						last_counter date NOT NULL,
 						visit int(10) NOT NULL,
@@ -111,7 +111,7 @@ class Install
         // Visitor Table
         $create_visitor_table = ("
 					CREATE TABLE " . DB::table('visitor') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 						last_counter date NOT NULL,
 						referred text NOT NULL,
 						agent varchar(255) NOT NULL,
@@ -135,7 +135,7 @@ class Install
         // Exclusion Table
         $create_exclusion_table = ("
 					CREATE TABLE " . DB::table('exclusions') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 						date date NOT NULL,
 						reason varchar(255) DEFAULT NULL,
 						count bigint(20) NOT NULL,
@@ -330,6 +330,16 @@ class Install
         if ($installed_version == WP_STATISTICS_VERSION) {
             return;
         }
+
+        /**
+         * Set to BigINT Fields (AUTO_INCREMENT)
+         *
+         * @version 13.0.0
+         */
+        $wpdb->query("ALTER TABLE `" . DB::table('visitor') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+        $wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+        $wpdb->query("ALTER TABLE `" . DB::table('useronline') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+        $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
 
         /**
          * Change Charset All Table To New WordPress Collate
