@@ -255,14 +255,17 @@ final class WP_Statistics
     /**
      * The main logging function
      *
-     * @param string $type type of the error. e.g: debug, error, info
-     * @param string $msg
+     * @param $message
      * @uses error_log
      */
-    public static function log($type = '', $msg = '')
+    public static function log($message)
     {
-        $msg = sprintf("[%s][%s] %s\n", date('d.m.Y h:i:s'), $type, $msg);
-        error_log($msg, 3, dirname(__FILE__) . '/log.txt');
+        if (is_array($message)) {
+            $message = json_encode($message);
+        }
+        $file = fopen(ABSPATH . "/wp-statistics.log", "a");
+        fwrite($file, "\n" . date('Y-m-d h:i:s') . " :: " . $message);
+        fclose($file);
     }
 
     /**
@@ -323,5 +326,4 @@ final class WP_Statistics
         # Referer
         $this->container['referred'] = \WP_STATISTICS\Referred::get();
     }
-
 }
