@@ -34,7 +34,7 @@ wps_js.no_meta_box_data = function () {
  * Show Error Connection if Meta Box is Empty
  */
 wps_js.error_meta_box_data = function (text) {
-    return 'error dad';
+    return wps_js._('rest_connect');
 };
 
 /**
