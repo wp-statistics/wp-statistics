@@ -17,6 +17,7 @@
                             <li class="tab-link" data-tab="externals-settings"><?php _e('Externals', 'wp-statistics'); ?></li>
                             <li class="tab-link" data-tab="maintenance-settings"><?php _e('Maintenance', 'wp-statistics'); ?></li>
                             <li class="tab-link" data-tab="reset-settings"><?php _e('Reset', 'wp-statistics'); ?></li>
+                            <li class="tab-link" data-tab="about"><?php _e('About', 'wp-statistics'); ?></li>
                         <?php } ?>
                     </ul>
 
