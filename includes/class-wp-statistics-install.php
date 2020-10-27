@@ -91,7 +91,7 @@ class Install
 						location varchar(10),
 						`user_id` BIGINT(48) NOT NULL,
 						`page_id` BIGINT(48) NOT NULL,
-						`type` VARCHAR(100) NOT NULL
+						`type` VARCHAR(100) NOT NULL,
 						PRIMARY KEY  (ID)
 					) {$collate}");
         dbDelta($create_user_online_table);
@@ -159,7 +159,7 @@ class Install
 						KEY date (date),
 						KEY id (id),
 						KEY `uri` (`uri`,`count`,`id`),
-						ADD PRIMARY KEY (`page_id`)
+						PRIMARY KEY (`page_id`)
 					) {$collate}");
         dbDelta($create_pages_table);
 
