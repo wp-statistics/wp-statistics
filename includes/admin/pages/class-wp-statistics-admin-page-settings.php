@@ -505,10 +505,7 @@ class settings_page
         // Delete the user options.
         $wpdb->query("DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key LIKE 'wp_statistics%'");
 
-        // Disable Show Welcome Page Again
-        $default_options['first_show_welcome_page'] = true;
-        $default_options['show_welcome_page']       = false;
-
+        // Update Option
         update_option(Option::$opt_name, $default_options);
     }
 
