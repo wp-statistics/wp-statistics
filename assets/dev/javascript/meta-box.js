@@ -76,22 +76,26 @@ wps_js.meta_box_name_by_id = function (ID) {
  * Create Custom Button for Meta Box
  */
 wps_js.meta_box_button = function (key) {
-    let selector = "#" + wps_js.getMetaBoxKey(key) + " button[class=handlediv]";
+    let selector = "#" + wps_js.getMetaBoxKey(key) + " .handle-actions button:first";
     let meta_box_info = wps_js.get_meta_box_info(key);
 
     // Gutenberg Button Style
     let gutenberg_style = 'z-index: 9999;position: absolute;top: 1px;';
+    let position_gutenberg = 'right';
+    if (wps_js.is_active('rtl')) {
+        position_gutenberg = 'left';
+    }
 
     // Clean Button
     jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh], #" + wps_js.getMetaBoxKey(key) + " button[class*=wps-more]").remove();
 
     // Add Refresh Button
-    jQuery(`<button class="handlediv button-link wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}right: 3%;" ` : '') + ` type="button"><span class="dashicons dashicons-update"></span> <span class="screen-reader-text">` + wps_js._('reload') + `</span></button>`).insertAfter(selector);
+    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button"><span class="screen-reader-text">` + wps_js._('reload') + `</span> <span class="dashicons dashicons-update"></span> </button>`).insertBefore(selector);
 
     // Check Page Url Button
     if (wps_js.is_active('more_btn')) {
         if ("page_url" in meta_box_info) {
-            jQuery(`<button class="handlediv button-link wps-more"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}right: 7%;" ` : '') + ` type="button" onclick="location.href = '` + wps_js.global.admin_url + 'admin.php?page=' + meta_box_info.page_url + `';"><span class="dashicons dashicons-external"></span> <span class="screen-reader-text">` + wps_js._('more_detail') + `</span></button>`).insertAfter("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]");
+            jQuery(`<button class="handlediv wps-more"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 6%;" ` : 'style="line-height: 28px;"') + ` type="button" onclick="location.href = '` + wps_js.global.admin_url + 'admin.php?page=' + meta_box_info.page_url + `';"><span class="screen-reader-text">` + wps_js._('more_detail') + `</span> <span class="dashicons dashicons-external"></span></button>`).insertAfter("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]");
         }
     }
 };
