@@ -614,6 +614,11 @@ class WP_Statistics_Hits {
 				if ( $this->current_page_type == "unknown" ) {
 					return;
 				}
+				
+				// Check Current Page Object ID
+				if(!isset($this->current_page_id) || (isset($this->current_page_id) and (empty($this->current_page_id) || !is_numeric($this->current_page_id)))) {
+					$this->current_page_id = 0;
+				}
 
 				// Get the current page URI.
 				if ( WP_Statistics_Rest::is_rest() ) {
