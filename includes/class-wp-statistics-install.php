@@ -132,6 +132,9 @@ class Install
 					) {$collate}");
         dbDelta($create_visitor_table);
 
+        // Create Visitor and pages Relationship Table
+        self::create_visitor_relationship_table();
+
         // Exclusion Table
         $create_exclusion_table = ("
 					CREATE TABLE " . DB::table('exclusions') . " (
@@ -340,6 +343,13 @@ class Install
         $wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         $wpdb->query("ALTER TABLE `" . DB::table('useronline') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+
+        /**
+         * Create Visitor and pages Relationship Table
+         *
+         * @version 13.0.0
+         */
+        self::create_visitor_relationship_table();
 
         /**
          * Change Charset All Table To New WordPress Collate
