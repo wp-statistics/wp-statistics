@@ -214,7 +214,7 @@ class Pages
         $current_page = self::get_page_type();
 
         // If we didn't find a page id, we don't have anything else to do.
-        if ($current_page['type'] == "unknown") {
+        if ($current_page['type'] == "unknown" || !isset($current_page['id'])) {
             return false;
         }
 

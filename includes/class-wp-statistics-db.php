@@ -75,7 +75,7 @@ class DB
      *
      * @param string $export
      * @param array $except
-     * @return array|null
+     * @return array|null|string
      */
     public static function table($export = 'all', $except = array())
     {
