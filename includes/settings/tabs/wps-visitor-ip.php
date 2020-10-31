@@ -41,6 +41,10 @@ add_thickbox();
             </tr>
 			<?php
 			foreach ( $_SERVER as $key => $value ) {
+				// Check Value is Array
+				if (is_array($value)) {
+				    $value = json_encode($value);
+				}
 				?>
                 <tr>
                     <td width="330" style="padding-top:10px;padding-bottom:10px;">
