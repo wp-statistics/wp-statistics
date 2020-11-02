@@ -34,13 +34,13 @@ class Schedule
         } else {
 
             // Add the report schedule if it doesn't exist and is enabled.
-            if (!wp_next_scheduled('report_hook') && Option::get('stats_report')) {
-                wp_schedule_event(time(), Option::get('time_report'), 'report_hook');
+            if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
+                wp_schedule_event(time(), Option::get('time_report'), 'wp_statistics_report_hook');
             }
 
             // Remove the report schedule if it does exist and is disabled.
-            if (wp_next_scheduled('report_hook') && !Option::get('stats_report')) {
-                wp_unschedule_event(wp_next_scheduled('report_hook'), 'report_hook');
+            if (wp_next_scheduled('wp_statistics_report_hook') && !Option::get('stats_report')) {
+                wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
             }
 
             // Add the referrerspam update schedule if it doesn't exist and it should be.
@@ -83,11 +83,11 @@ class Schedule
                 wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
             }
 
-            //after construct
+            //After construct
             add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
-            add_action('report_hook', array($this, 'send_report'));
+            add_action('wp_statistics_report_hook', array($this, 'send_report'));
         }
 
     }

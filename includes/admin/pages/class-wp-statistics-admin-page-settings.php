@@ -154,11 +154,11 @@ class settings_page
         if (isset($_POST['wps_time_report'])) {
             if (Option::get('time_report') != $_POST['wps_time_report']) {
 
-                if (wp_next_scheduled('report_hook')) {
-                    wp_unschedule_event(wp_next_scheduled('report_hook'), 'report_hook');
+                if (wp_next_scheduled('wp_statistics_report_hook')) {
+                    wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
 
-                wp_schedule_event(time(), $_POST['wps_time_report'], 'report_hook');
+                wp_schedule_event(time(), $_POST['wps_time_report'], 'wp_statistics_report_hook');
             }
         }
 
