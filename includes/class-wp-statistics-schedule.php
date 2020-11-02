@@ -138,15 +138,21 @@ class Schedule
     {
         global $wpdb;
 
-        $wpdb->insert(
+        $insert = $wpdb->insert(
             DB::table('visit'),
             array(
                 'last_visit' => TimeZone::getCurrentDate(null, '+1'),
                 'last_counter' => TimeZone::getCurrentDate('Y-m-d', '+1'),
                 'visit' => 0,
-            ),
-            array('%s', '%s', '%d')
+            )
         );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('visit'));
+            DB::repairTable(DB::table('visit'));
+        }
     }
 
     /**

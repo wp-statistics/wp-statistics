@@ -21,15 +21,22 @@ class Purge
                 // Update the historical count with what we purged.
                 $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}statistics_historical SET value = value + %d WHERE `category` = 'visits'", $result));
                 if ($historical_result == 0) {
-                    $wpdb->insert(
-                        $wpdb->prefix . "statistics_historical",
+                    $insert = $wpdb->insert(
+                        DB::table('historical'),
                         array(
-                            'value'    => $result,
+                            'value' => $result,
                             'category' => 'visits',
-                            'page_id'  => -2,
-                            'uri'      => '-2',
+                            'page_id' => -2,
+                            'uri' => '-2',
                         )
                     );
+                    if (!$insert) {
+                        if (!empty($wpdb->last_error)) {
+                            \WP_Statistics::log($wpdb->last_error);
+                        }
+                        DB::optimizeTable(DB::table('historical'));
+                        DB::repairTable(DB::table('historical'));
+                    }
                 }
 
                 $result_string = sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
@@ -46,15 +53,22 @@ class Purge
                 // Update the historical count with what we purged.
                 $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}statistics_historical SET value = value + %d WHERE `category` = 'visitors'", $result));
                 if ($historical_result == 0) {
-                    $wpdb->insert(
-                        $wpdb->prefix . "statistics_historical",
+                    $insert = $wpdb->insert(
+                        DB::table('historical'),
                         array(
-                            'value'    => $result,
+                            'value' => $result,
                             'category' => 'visitors',
-                            'page_id'  => -1,
-                            'uri'      => '-1',
+                            'page_id' => -1,
+                            'uri' => '-1',
                         )
                     );
+                    if (!$insert) {
+                        if (!empty($wpdb->last_error)) {
+                            \WP_Statistics::log($wpdb->last_error);
+                        }
+                        DB::optimizeTable(DB::table('historical'));
+                        DB::repairTable(DB::table('historical'));
+                    }
                 }
 
                 $result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
@@ -117,15 +131,22 @@ class Purge
 
                     // If we failed it's because this is the first time we've seen this URI/pageid so let's create a historical row for it.
                     if ($uresult == 0) {
-                        $wpdb->insert(
-                            $wpdb->prefix . "statistics_historical",
+                        $insert = $wpdb->insert(
+                            DB::table('historical'),
                             array(
-                                'value'    => $historical,
+                                'value' => $historical,
                                 'category' => 'uri',
-                                'uri'      => $row->uri,
-                                'page_id'  => Pages::uri_to_id($row->uri),
+                                'uri' => $row->uri,
+                                'page_id' => Pages::uri_to_id($row->uri),
                             )
                         );
+                        if (!$insert) {
+                            if (!empty($wpdb->last_error)) {
+                                \WP_Statistics::log($wpdb->last_error);
+                            }
+                            DB::optimizeTable(DB::table('historical'));
+                            DB::repairTable(DB::table('historical'));
+                        }
                     }
                 }
             }

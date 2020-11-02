@@ -384,7 +384,17 @@ class SearchEngine
         global $wpdb;
 
         # Save to Database
-        $wpdb->insert(DB::table('search'), $data);
+        $insert = $wpdb->insert(
+            DB::table('search'),
+            $data
+        );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('search'));
+            DB::repairTable(DB::table('search'));
+        }
 
         # Action after Save Search Engine Word
         do_action('wp_statistics_save_search_word', $data, $wpdb->insert_id);

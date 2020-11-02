@@ -263,7 +263,17 @@ class Pages
         add_filter('query', array('\WP_STATISTICS\DB', 'insert_ignore'), 10);
 
         # Save to WordPress Database
-        $wpdb->insert(DB::table('pages'), $page);
+        $insert = $wpdb->insert(
+            DB::table('pages'),
+            $page
+        );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('pages'));
+            DB::repairTable(DB::table('pages'));
+        }
 
         # Get Page ID
         $page_id = $wpdb->insert_id;
