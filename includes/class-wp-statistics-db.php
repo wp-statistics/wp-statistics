@@ -171,4 +171,25 @@ class DB
         return $wpdb->get_row("show table status like '$table_name';", ARRAY_A);
     }
 
+    /**
+     * Optimize MySQL Query
+     *
+     * @param $table_name
+     */
+    public static function optimizeTable($table_name)
+    {
+        global $wpdb;
+        $wpdb->query("OPTIMIZE TABLE `{$table_name}`");
+    }
+
+    /**
+     * Repair MySQL Table
+     *
+     * @param $table_name
+     */
+    public static function repairTable($table_name)
+    {
+        global $wpdb;
+        $wpdb->query("REPAIR TABLE `{$table_name}`");
+    }
 }

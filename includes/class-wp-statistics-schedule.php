@@ -83,11 +83,17 @@ class Schedule
                 wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
             }
 
+            // Add Optimize and repair Table Daily
+            if (!wp_next_scheduled('wp_statistics_optimize_table')) {
+                wp_schedule_event(time(), 'daily', 'wp_statistics_optimize_table');
+            }
+
             //After construct
             add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
             add_action('wp_statistics_report_hook', array($this, 'send_report'));
+            add_action('wp_statistics_optimize_table', array($this, 'optimize_table'));
         }
 
     }
@@ -103,17 +109,17 @@ class Schedule
 
         // Adds once weekly to the existing schedules.
         $WP_Statistics_schedules = array(
-            'weekly'   => array(
+            'weekly' => array(
                 'interval' => 604800,
-                'display'  => __('Once Weekly'),
+                'display' => __('Once Weekly'),
             ),
             'biweekly' => array(
                 'interval' => 1209600,
-                'display'  => __('Once Every 2 Weeks'),
+                'display' => __('Once Every 2 Weeks'),
             ),
-            '4weeks'   => array(
+            '4weeks' => array(
                 'interval' => 2419200,
-                'display'  => __('Once Every 4 Weeks'),
+                'display' => __('Once Every 4 Weeks'),
             )
         );
         foreach ($WP_Statistics_schedules as $key => $val) {
@@ -135,9 +141,9 @@ class Schedule
         $wpdb->insert(
             DB::table('visit'),
             array(
-                'last_visit'   => TimeZone::getCurrentDate(null, '+1'),
+                'last_visit' => TimeZone::getCurrentDate(null, '+1'),
                 'last_counter' => TimeZone::getCurrentDate('Y-m-d', '+1'),
-                'visit'        => 0,
+                'visit' => 0,
             ),
             array('%s', '%s', '%d')
         );
@@ -208,6 +214,18 @@ class Schedule
         // If SMS
         if ($type == 'sms') {
             Helper::send_sms(array(get_option('wp_admin_mobile')), $final_text_report);
+        }
+    }
+
+    /**
+     * Cron Daily Optimize Table
+     */
+    public function optimize_table()
+    {
+        $table_list = DB::table('all');
+        foreach ($table_list as $key => $table_name) {
+            DB::optimizeTable($table_name);
+            DB::repairTable($table_name);
         }
     }
 
