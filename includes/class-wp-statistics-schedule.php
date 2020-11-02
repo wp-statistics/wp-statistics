@@ -85,7 +85,7 @@ class Schedule
 
             // Add Optimize and repair Table Daily
             if (!wp_next_scheduled('wp_statistics_optimize_table')) {
-                wp_schedule_event(time(), 'daily', 'wp_statistics_optimize_table');
+                wp_schedule_event(time(), '4weeks', 'wp_statistics_optimize_table');
             }
 
             //After construct
