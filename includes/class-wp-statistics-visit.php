@@ -25,7 +25,7 @@ class Visit
         $result = $wpdb->get_row("SELECT * FROM `" . DB::table('visit') . "` ORDER BY `" . DB::table('visit') . "`.`ID` DESC");
 
         // if we have not a Visitor in This Day then create new row or Update before row in DB
-        if ($result->last_counter != TimeZone::getCurrentDate('Y-m-d')) {
+        if (is_null($result) || ($result->last_counter != TimeZone::getCurrentDate('Y-m-d'))) {
             $wpdb->query($wpdb->prepare('INSERT INTO `' . DB::table('visit') . '` (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' . Visitor::getCoefficient(), TimeZone::getCurrentDate(), TimeZone::getCurrentDate('Y-m-d'), Visitor::getCoefficient()));
         } else {
             $wpdb->query('UPDATE `' . DB::table('visit') . '` SET `visit` = `visit` + ' . Visitor::getCoefficient() . ', `last_visit` = "' . TimeZone::getCurrentDate() . '" WHERE `last_counter` = "' . $result->last_counter . '"');

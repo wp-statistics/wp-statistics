@@ -141,7 +141,7 @@ class Schedule
         $insert = $wpdb->insert(
             DB::table('visit'),
             array(
-                'last_visit' => TimeZone::getCurrentDate(null, '+1'),
+                'last_visit' => TimeZone::getCurrentDate('Y-m-d H:i:s', '+1'),
                 'last_counter' => TimeZone::getCurrentDate('Y-m-d', '+1'),
                 'visit' => 0,
             )
