@@ -15,8 +15,11 @@ class Helper
      * @param $message
      * @param $version
      */
-    public static function doing_it_wrong($function, $message, $version)
+    public static function doing_it_wrong($function, $message, $version = '')
     {
+        if (empty($version)) {
+            $version = WP_STATISTICS_VERSION;
+        }
         $message .= ' Backtrace: ' . wp_debug_backtrace_summary();
         if (is_ajax()) {
             do_action('doing_it_wrong_run', $function, $message, $version);

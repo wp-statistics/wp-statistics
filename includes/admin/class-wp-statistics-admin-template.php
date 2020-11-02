@@ -64,7 +64,7 @@ class Admin_Template
 
             $template_file = WP_STATISTICS_DIR . "includes/admin/templates/" . $file . ".php";
             if (!file_exists($template_file)) {
-                Helper::doing_it_wrong(__FUNCTION__, __('Template not found.', 'wp-statistics'), '12.6.5');
+                Helper::doing_it_wrong(__FUNCTION__, __('Template not found.', 'wp-statistics'));
                 return;
             }
 

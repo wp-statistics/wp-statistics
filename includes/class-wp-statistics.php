@@ -74,7 +74,7 @@ final class WP_Statistics
      */
     public function __clone()
     {
-        \WP_STATISTICS\Helper::doing_it_wrong(__CLASS__, esc_html__('Cloning is forbidden.', 'wp-statistics'), '13.0');
+        \WP_STATISTICS\Helper::doing_it_wrong(__CLASS__, esc_html__('Cloning is forbidden.', 'wp-statistics'));
     }
 
     /**
