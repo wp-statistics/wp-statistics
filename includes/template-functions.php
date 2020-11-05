@@ -805,8 +805,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     global $wpdb;
 
     //Prepare Table Name
-    $table_name = $wpdb->prefix . 'statistics_';
-    $table_name .= 'search';
+    $table_name = \WP_STATISTICS\DB::table('search');
 
     //Date Column table
     $date_column = 'last_counter';
