@@ -1,4 +1,4 @@
-<form method="get">
+<form method="get" style="margin-top: 15px;">
     <?php _e('Date', 'wp-statistics'); ?>:
     <input type="hidden" name="page" value="<?php echo $pageName; ?>">
     <input type="text" size="18" name="day" data-wps-date-picker="day" value="<?php echo $day; ?>" autocomplete="off" placeholder="YYYY-MM-DD">
