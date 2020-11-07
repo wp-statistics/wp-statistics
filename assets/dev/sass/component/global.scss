@@ -20,6 +20,15 @@
   text-align: center !important;
 }
 
+/* Block */
+.wps-d-none {
+  display: none;
+}
+
+.wps-d-inline-block {
+  display: inline-block;
+}
+
 /* disable Break Link */
 a[href*='?page=wps_break_menu'] {
   pointer-events: none;
