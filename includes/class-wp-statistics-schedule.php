@@ -34,13 +34,13 @@ class Schedule
         } else {
 
             // Add the report schedule if it doesn't exist and is enabled.
-            if (!wp_next_scheduled('report_hook') && Option::get('stats_report')) {
-                wp_schedule_event(time(), Option::get('time_report'), 'report_hook');
+            if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
+                wp_schedule_event(time(), Option::get('time_report'), 'wp_statistics_report_hook');
             }
 
             // Remove the report schedule if it does exist and is disabled.
-            if (wp_next_scheduled('report_hook') && !Option::get('stats_report')) {
-                wp_unschedule_event(wp_next_scheduled('report_hook'), 'report_hook');
+            if (wp_next_scheduled('wp_statistics_report_hook') && !Option::get('stats_report')) {
+                wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
             }
 
             // Add the referrerspam update schedule if it doesn't exist and it should be.
@@ -83,11 +83,17 @@ class Schedule
                 wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
             }
 
-            //after construct
+            // Add Optimize and repair Table Daily
+            if (!wp_next_scheduled('wp_statistics_optimize_table')) {
+                wp_schedule_event(time(), '4weeks', 'wp_statistics_optimize_table');
+            }
+
+            //After construct
             add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
-            add_action('report_hook', array($this, 'send_report'));
+            add_action('wp_statistics_report_hook', array($this, 'send_report'));
+            add_action('wp_statistics_optimize_table', array($this, 'optimize_table'));
         }
 
     }
@@ -103,17 +109,17 @@ class Schedule
 
         // Adds once weekly to the existing schedules.
         $WP_Statistics_schedules = array(
-            'weekly'   => array(
+            'weekly' => array(
                 'interval' => 604800,
-                'display'  => __('Once Weekly'),
+                'display' => __('Once Weekly'),
             ),
             'biweekly' => array(
                 'interval' => 1209600,
-                'display'  => __('Once Every 2 Weeks'),
+                'display' => __('Once Every 2 Weeks'),
             ),
-            '4weeks'   => array(
+            '4weeks' => array(
                 'interval' => 2419200,
-                'display'  => __('Once Every 4 Weeks'),
+                'display' => __('Once Every 4 Weeks'),
             )
         );
         foreach ($WP_Statistics_schedules as $key => $val) {
@@ -132,15 +138,21 @@ class Schedule
     {
         global $wpdb;
 
-        $wpdb->insert(
+        $insert = $wpdb->insert(
             DB::table('visit'),
             array(
-                'last_visit'   => TimeZone::getCurrentDate(null, '+1'),
+                'last_visit' => TimeZone::getCurrentDate('Y-m-d H:i:s', '+1'),
                 'last_counter' => TimeZone::getCurrentDate('Y-m-d', '+1'),
-                'visit'        => 0,
-            ),
-            array('%s', '%s', '%d')
+                'visit' => 0,
+            )
         );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('visit'));
+            DB::repairTable(DB::table('visit'));
+        }
     }
 
     /**
@@ -208,6 +220,18 @@ class Schedule
         // If SMS
         if ($type == 'sms') {
             Helper::send_sms(array(get_option('wp_admin_mobile')), $final_text_report);
+        }
+    }
+
+    /**
+     * Cron Daily Optimize Table
+     */
+    public function optimize_table()
+    {
+        $table_list = DB::table('all');
+        foreach ($table_list as $key => $table_name) {
+            DB::optimizeTable($table_name);
+            DB::repairTable($table_name);
         }
     }
 

@@ -196,6 +196,7 @@ class Option
 
         // Get All User Options
         $user_options = get_user_meta(User::get_user_id(), self::$opt_name, true);
+        $user_options = (is_array($user_options) ? $user_options : array());
 
         // Store the value in the array.
         $user_options[$option] = $value;

@@ -44,7 +44,17 @@ class Visitor
         add_filter('query', array('\WP_STATISTICS\DB', 'insert_ignore'), 10);
 
         # Save to WordPress Database
-        $wpdb->insert(DB::table('visitor'), $visitor, array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%d', '%s'));
+        $insert = $wpdb->insert(
+            DB::table('visitor'),
+            $visitor
+        );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('visitor'));
+            DB::repairTable(DB::table('visitor'));
+        }
 
         # Get Visitor ID
         $visitor_id = $wpdb->insert_id;
@@ -157,7 +167,7 @@ class Visitor
         global $wpdb;
 
         // Save To DB
-        $wpdb->insert(
+        $insert = $wpdb->insert(
             DB::table('visitor_relationships'),
             array(
                 'visitor_id' => $visitor_id,
@@ -166,6 +176,13 @@ class Visitor
             ),
             array('%d', '%d', '%s')
         );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('visitor_relationships'));
+            DB::repairTable(DB::table('visitor_relationships'));
+        }
         $insert_id = $wpdb->insert_id;
 
         // Save visitor Relationship Action

@@ -280,7 +280,7 @@ class Hits
         }
 
         # Record Visitor Relation Ship
-        if (isset($visitor_id) and $visitor_id > 0 and isset($page_id) and $page_id > 0) {
+        if (isset($visitor_id) and $visitor_id > 0 and isset($page_id) and $page_id > 0 and Option::get('visitors_log')) {
             Visitor::save_visitors_relationships($page_id, $visitor_id);
         }
 

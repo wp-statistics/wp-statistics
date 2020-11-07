@@ -6,7 +6,7 @@
                     <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Chart', 'wp-statistics')); ?></span>
                     <span class="toggle-indicator" aria-hidden="true"></span>
                 </button>
-                <h2 class="hndle"><span><?php _e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
+                <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
@@ -23,7 +23,7 @@
                     <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Summary', 'wp-statistics')); ?></span>
                     <span class="toggle-indicator" aria-hidden="true"></span>
                 </button>
-                <h2 class="hndle"><span><?php _e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
+                <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
                 <div class="inside">
                     <table class="widefat table-stats wps-summary-stats" id="summary-stats">
                         <tbody>
@@ -70,7 +70,7 @@
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), $top_title); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle"><span><?php echo $top_title; ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo $top_title; ?></span></h2>
                     <div class="inside">
                         <table class="widefat table-stats wps-summary-stats" id="summary-stats">
                             <tbody>

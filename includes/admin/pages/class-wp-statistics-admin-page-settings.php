@@ -154,11 +154,11 @@ class settings_page
         if (isset($_POST['wps_time_report'])) {
             if (Option::get('time_report') != $_POST['wps_time_report']) {
 
-                if (wp_next_scheduled('report_hook')) {
-                    wp_unschedule_event(wp_next_scheduled('report_hook'), 'report_hook');
+                if (wp_next_scheduled('wp_statistics_report_hook')) {
+                    wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
 
-                wp_schedule_event(time(), $_POST['wps_time_report'], 'report_hook');
+                wp_schedule_event(time(), $_POST['wps_time_report'], 'wp_statistics_report_hook');
             }
         }
 
@@ -505,10 +505,7 @@ class settings_page
         // Delete the user options.
         $wpdb->query("DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key LIKE 'wp_statistics%'");
 
-        // Disable Show Welcome Page Again
-        $default_options['first_show_welcome_page'] = true;
-        $default_options['show_welcome_page']       = false;
-
+        // Update Option
         update_option(Option::$opt_name, $default_options);
     }
 

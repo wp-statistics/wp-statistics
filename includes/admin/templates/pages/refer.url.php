@@ -19,7 +19,7 @@
                     <span class="screen-reader-text"><?php echo sprintf(__('Toggle panel: %s', 'wp-statistics'), $title); ?></span>
                     <span class="toggle-indicator" aria-hidden="true"></span>
                 </button>
-                <h2 class="hndle"><span><?php echo $title; ?></span></h2>
+                <h2 class="hndle wps-d-inline-block"><span><?php echo $title; ?></span></h2>
                 <div class="inside">
                     <?php if (count($list) < 1) { ?>
                         <div class='wps-center'><?php _e("No information is available.", "wp-statistics"); ?></div>

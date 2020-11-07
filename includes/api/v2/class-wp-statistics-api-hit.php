@@ -85,6 +85,9 @@ class Hit extends \WP_STATISTICS\RestAPI
             array(
                 'methods'  => \WP_REST_Server::READABLE,
                 'callback' => array($this, 'check_enable_callback'),
+                'permission_callback' => function () {
+                    return true;
+                },
                 'args'     => array(
                     'connect' => array(
                         'required' => true

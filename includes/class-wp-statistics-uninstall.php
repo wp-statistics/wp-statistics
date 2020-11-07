@@ -41,6 +41,18 @@ class Uninstall
         delete_transient('wps_top_referring');
         delete_transient('wps_excluded_hostname_to_ip_cache');
 
+        // Remove All Scheduled
+        if (function_exists('wp_clear_scheduled_hook')) {
+            wp_clear_scheduled_hook('wp_statistics_geoip_hook');
+            wp_clear_scheduled_hook('wp_statistics_report_hook');
+            wp_clear_scheduled_hook('wp_statistics_referrerspam_hook');
+            wp_clear_scheduled_hook('wp_statistics_dbmaint_hook');
+            wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
+            wp_clear_scheduled_hook('wp_statistics_add_visit_hook');
+            wp_clear_scheduled_hook('wp_statistics_report_hook');
+            wp_clear_scheduled_hook('wp_statistics_optimize_table');
+        }
+
         // Delete the user options.
         $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE `meta_key` LIKE 'wp_statistics%'");
 

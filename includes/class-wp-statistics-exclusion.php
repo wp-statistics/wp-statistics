@@ -87,13 +87,21 @@ class Exclusion
         // Check Exist this Exclusion in this day
         $result = $wpdb->query("UPDATE " . DB::table('exclusions') . " SET `count` = `count` + 1 WHERE `date` = '" . TimeZone::getCurrentDate('Y-m-d') . "' AND `reason` = '{$exclusion['exclusion_reason']}'");
         if (!$result) {
-            $wpdb->insert(DB::table('exclusions'),
+            $insert = $wpdb->insert(
+                DB::table('exclusions'),
                 array(
-                    'date'   => TimeZone::getCurrentDate('Y-m-d'),
+                    'date' => TimeZone::getCurrentDate('Y-m-d'),
                     'reason' => $exclusion['exclusion_reason'],
-                    'count'  => 1,
+                    'count' => 1,
                 )
             );
+            if (!$insert) {
+                if (!empty($wpdb->last_error)) {
+                    \WP_Statistics::log($wpdb->last_error);
+                }
+                DB::optimizeTable(DB::table('exclusions'));
+                DB::repairTable(DB::table('exclusions'));
+            }
 
             do_action('wp_statistics_save_exclusion', $exclusion, $wpdb->insert_id);
         }

@@ -160,7 +160,17 @@ class UserOnline
         $user_online = apply_filters('wp_statistics_user_online_information', wp_parse_args($args, $user_online));
 
         # Insert the user in to the database.
-        $wpdb->insert(DB::table('useronline'), $user_online);
+        $insert = $wpdb->insert(
+            DB::table('useronline'),
+            $user_online
+        );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('useronline'));
+            DB::repairTable(DB::table('useronline'));
+        }
 
         # Get User Online ID
         $user_online_id = $wpdb->insert_id;

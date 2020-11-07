@@ -214,7 +214,7 @@ class Pages
         $current_page = self::get_page_type();
 
         // If we didn't find a page id, we don't have anything else to do.
-        if ($current_page['type'] == "unknown") {
+        if ($current_page['type'] == "unknown" || !isset($current_page['id'])) {
             return false;
         }
 
@@ -263,7 +263,17 @@ class Pages
         add_filter('query', array('\WP_STATISTICS\DB', 'insert_ignore'), 10);
 
         # Save to WordPress Database
-        $wpdb->insert(DB::table('pages'), $page);
+        $insert = $wpdb->insert(
+            DB::table('pages'),
+            $page
+        );
+        if (!$insert) {
+            if (!empty($wpdb->last_error)) {
+                \WP_Statistics::log($wpdb->last_error);
+            }
+            DB::optimizeTable(DB::table('pages'));
+            DB::repairTable(DB::table('pages'));
+        }
 
         # Get Page ID
         $page_id = $wpdb->insert_id;

@@ -79,7 +79,7 @@ class Install
         // Users Online Table
         $create_user_online_table = ("
 					CREATE TABLE " . DB::table('useronline') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 	  					ip varchar(60) NOT NULL,
 						created int(11),
 						timestamp int(10) NOT NULL,
@@ -91,7 +91,7 @@ class Install
 						location varchar(10),
 						`user_id` BIGINT(48) NOT NULL,
 						`page_id` BIGINT(48) NOT NULL,
-						`type` VARCHAR(100) NOT NULL
+						`type` VARCHAR(100) NOT NULL,
 						PRIMARY KEY  (ID)
 					) {$collate}");
         dbDelta($create_user_online_table);
@@ -99,7 +99,7 @@ class Install
         // Visit Table
         $create_visit_table = ("
 					CREATE TABLE " . DB::table('visit') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 						last_visit datetime NOT NULL,
 						last_counter date NOT NULL,
 						visit int(10) NOT NULL,
@@ -111,7 +111,7 @@ class Install
         // Visitor Table
         $create_visitor_table = ("
 					CREATE TABLE " . DB::table('visitor') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 						last_counter date NOT NULL,
 						referred text NOT NULL,
 						agent varchar(255) NOT NULL,
@@ -132,10 +132,13 @@ class Install
 					) {$collate}");
         dbDelta($create_visitor_table);
 
+        // Create Visitor and pages Relationship Table
+        self::create_visitor_relationship_table();
+
         // Exclusion Table
         $create_exclusion_table = ("
 					CREATE TABLE " . DB::table('exclusions') . " (
-						ID int(11) NOT NULL AUTO_INCREMENT,
+						ID bigint(20) NOT NULL AUTO_INCREMENT,
 						date date NOT NULL,
 						reason varchar(255) DEFAULT NULL,
 						count bigint(20) NOT NULL,
@@ -159,7 +162,7 @@ class Install
 						KEY date (date),
 						KEY id (id),
 						KEY `uri` (`uri`,`count`,`id`),
-						ADD PRIMARY KEY (`page_id`)
+						PRIMARY KEY (`page_id`)
 					) {$collate}");
         dbDelta($create_pages_table);
 
@@ -310,9 +313,9 @@ class Install
         if ($file == plugin_basename(WP_STATISTICS_MAIN_FILE)) {
             $plugin_url = 'http://wordpress.org/plugins/wp-statistics/';
 
-            $links[]  = '<a href="' . $plugin_url . '" target="_blank" title="' . __('Click here to visit the plugin on WordPress.org', 'wp-statistics') . '">' . __('Visit WordPress.org page', 'wp-statistics') . '</a>';
+            $links[] = '<a href="' . $plugin_url . '" target="_blank" title="' . __('Click here to visit the plugin on WordPress.org', 'wp-statistics') . '">' . __('Visit WordPress.org page', 'wp-statistics') . '</a>';
             $rate_url = 'https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post';
-            $links[]  = '<a href="' . $rate_url . '" target="_blank" title="' . __('Click here to rate and review this plugin on WordPress.org', 'wp-statistics') . '">' . __('Rate this plugin', 'wp-statistics') . '</a>';
+            $links[] = '<a href="' . $rate_url . '" target="_blank" title="' . __('Click here to rate and review this plugin on WordPress.org', 'wp-statistics') . '">' . __('Rate this plugin', 'wp-statistics') . '</a>';
         }
 
         return $links;
@@ -330,6 +333,23 @@ class Install
         if ($installed_version == WP_STATISTICS_VERSION) {
             return;
         }
+
+        /**
+         * Set to BigINT Fields (AUTO_INCREMENT)
+         *
+         * @version 13.0.0
+         */
+        $wpdb->query("ALTER TABLE `" . DB::table('visitor') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+        $wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+        $wpdb->query("ALTER TABLE `" . DB::table('useronline') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+        $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+
+        /**
+         * Create Visitor and pages Relationship Table
+         *
+         * @version 13.0.0
+         */
+        self::create_visitor_relationship_table();
 
         /**
          * Change Charset All Table To New WordPress Collate
@@ -359,9 +379,11 @@ class Install
          *
          * @version 12.6.1
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('useronline') . " LIKE 'user_id'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE `" . DB::table('useronline') . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
+        if(DB::ExistTable('useronline')) {
+            $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('useronline') . " LIKE 'user_id'");
+            if ($result == 0) {
+                $wpdb->query("ALTER TABLE `" . DB::table('useronline') . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
+            }
         }
 
         /**
@@ -369,9 +391,11 @@ class Install
          *
          * @version 12.5.3
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('pages') . " LIKE 'page_id'");
-        if ($result == 0) {
-            $wpdb->query("ALTER TABLE `" . DB::table('pages') . "` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);");
+        if(DB::ExistTable('pages')) {
+            $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('pages') . " LIKE 'page_id'");
+            if ($result == 0) {
+                $wpdb->query("ALTER TABLE `" . DB::table('pages') . "` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);");
+            }
         }
 
         /**
@@ -380,13 +404,15 @@ class Install
          *
          * @version 6.0
          */
-        $result = $wpdb->query("SHOW INDEX FROM " . DB::table('visitor') . " WHERE Key_name = 'date_ip'");
-        if ($result > 1) {
-            $wpdb->query("DROP INDEX `date_ip` ON " . DB::table('table'));
-        }
-        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'AString'");
-        if ($result > 0) {
-            $wpdb->query("ALTER TABLE `" . DB::table('visitor') . "` DROP `AString`");
+        if(DB::ExistTable('visitor')) {
+            $result = $wpdb->query("SHOW INDEX FROM " . DB::table('visitor') . " WHERE Key_name = 'date_ip'");
+            if ($result > 1) {
+                $wpdb->query("DROP INDEX `date_ip` ON " . DB::table('visitor'));
+            }
+            $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'AString'");
+            if ($result > 0) {
+                $wpdb->query("ALTER TABLE `" . DB::table('visitor') . "` DROP `AString`");
+            }
         }
 
         /**
@@ -543,7 +569,7 @@ class Install
 
                     # Check Number Process
                     $number_process = self::get_require_number_update();
-                    $i              = 0;
+                    $i = 0;
                     if ($number_process > 0) {
 
                         # Start Query
@@ -578,7 +604,7 @@ class Install
                         } else {
 
                             $return['number_process'] = $_GET['number_all'];
-                            $return['percentage']     = 100;
+                            $return['percentage'] = 100;
                             update_option('wp_statistics_update_page_type', 'yes');
                         }
                     }
@@ -600,6 +626,9 @@ class Install
     public static function get_require_number_update()
     {
         global $wpdb;
+        if (!DB::ExistTable('pages')) {
+            return 0;
+        }
         return $wpdb->get_var("SELECT COUNT(*) FROM `" . DB::table('pages') . "` WHERE `type` = ''");
     }
 
