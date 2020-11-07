@@ -11,7 +11,7 @@
 <?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false); ?>
 <?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false); ?>
 
-<!-- OverView Page PostBox -->
+<!-- Disable PostBox -->
 <script type="text/javascript">
     jQuery(document).ready(function () {
 

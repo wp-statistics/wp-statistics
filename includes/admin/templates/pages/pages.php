@@ -6,7 +6,7 @@
                     <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Top 5 Pages Trends', 'wp-statistics')); ?></span>
                     <span class="toggle-indicator" aria-hidden="true"></span>
                 </button>
-                <h2 class="hndle"><span><?php _e('Top 5 Pages Trends', 'wp-statistics'); ?></span></h2>
+                <h2 class="hndle wps-d-inline-block"><span><?php _e('Top 5 Pages Trends', 'wp-statistics'); ?></span></h2>
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
@@ -23,7 +23,7 @@
                     <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), $title); ?></span>
                     <span class="toggle-indicator" aria-hidden="true"></span>
                 </button>
-                <h2 class="hndle"><span><?php echo $title; ?></span></h2>
+                <h2 class="hndle wps-d-inline-block"><span><?php echo $title; ?></span></h2>
                 <div class="inside">
                     <!-- Do Js -->
                 </div>

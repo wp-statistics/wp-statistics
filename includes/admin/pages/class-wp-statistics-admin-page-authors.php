@@ -110,7 +110,7 @@ class authors_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/author', 'layout/postbox.toggle', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/author', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 
 }
