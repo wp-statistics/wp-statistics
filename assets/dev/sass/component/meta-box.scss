@@ -16,13 +16,14 @@
   -webkit-transition: -webkit-transform .6s ease-in-out;
 }
 
-.wps-more span:hover, .wps-refresh span:hover {
+.wps-more:hover span, .wps-refresh:hover span {
   color: #00a0d2;
 }
 
-.wps-refresh span:hover {
+.wps-refresh:hover span {
   transform: rotate(360deg);
   -webkit-transform: rotate(360deg);
+  color: #00a0d2;
 }
 
 .button-link.wps-more,
