@@ -11,7 +11,7 @@
                             <li class="tab-link" data-tab="privacy-settings"><?php _e('Privacy', 'wp-statistics'); ?></li>
                             <li class="tab-link" data-tab="notifications-settings"><?php _e('Notifications', 'wp-statistics'); ?></li>
                             <li class="tab-link" data-tab="overview-display-settings"><?php _e('Dashboard', 'wp-statistics'); ?></li>
-                            <li class="tab-link" data-tab="access-settings"><?php _e('Access Levels', 'wp-statistics'); ?></li>
+                            <li class="tab-link" data-tab="access-settings"><?php _e('User Roles', 'wp-statistics'); ?></li>
                             <li class="tab-link" data-tab="exclusions-settings"><?php _e('Exclusions', 'wp-statistics'); ?></li>
                             <li class="tab-link" data-tab="wp-cli-settings"><?php _e('CLI', 'wp-statistics'); ?></li>
                             <li class="tab-link" data-tab="externals-settings"><?php _e('Externals', 'wp-statistics'); ?></li>
