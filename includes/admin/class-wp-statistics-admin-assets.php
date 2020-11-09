@@ -122,7 +122,7 @@ class Admin_Assets
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
-            wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.7');
+            wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
     }
 
@@ -139,7 +139,7 @@ class Admin_Assets
 
         // Load Chart Js Library [ Load in <head> Tag ]
         if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
-            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.bundle.min.js'), false, '2.8.0', false);
+            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.bundle.min.js'), false, '2.9.4', false);
         }
 
         // Load Jquery VMap Js Library
@@ -156,7 +156,7 @@ class Admin_Assets
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
-            wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), '4.0.7');
+            wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), '4.0.9');
         }
 
         // Load WordPress PostBox Script
