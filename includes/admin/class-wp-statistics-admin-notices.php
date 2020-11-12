@@ -14,7 +14,8 @@ class Admin_Notices
         'enable_rest_api',
         'active_geo_ip',
         'donate_plugin',
-        'active_collation'
+        'active_collation',
+        'disable_addons'
     );
 
     /**
@@ -50,7 +51,7 @@ class Admin_Notices
         if (Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('check-wp-statistics-rest'))) {
 
             // Check Connect To WordPress Rest API
-            $status  = true;
+            $status = true;
             $request = wp_remote_get(get_rest_url(null, RestAPI::$namespace . '/enable'), array('body' => array('connect' => 'wp-statistics'), 'timeout' => 30));
             if (is_wp_error($request)) {
                 $status = false;
@@ -109,6 +110,33 @@ class Admin_Notices
             if (count($active_collation) > 0) {
                 Helper::wp_admin_notice(sprintf(__('The following features are disabled, please go to %ssettings page%s and enable them: %s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'info', true);
             }
+        }
+    }
+
+    public function disable_addons()
+    {
+        $option = get_option('wp_statistics_disable_addons_notice');
+        if (!empty($option) and $option == "no") {
+            Helper::wp_admin_notice(__('your AddOns is disable Because ...', 'wp-statistics'), 'info', true, 'wp-statistics-disable-all-addons-admin-notice');
+            ?>
+            <script>
+                jQuery(document).ready(function ($) {
+                    $(document).on("click", "#wp-statistics-disable-all-addons-admin-notice button.notice-dismiss", function (e) {
+                        e.preventDefault();
+                        jQuery.ajax({
+                            url: ajaxurl,
+                            type: 'post',
+                            data: {
+                                'action': 'wp_statistics_close_notice',
+                                'notice': 'disable_all_addons',
+                                'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                            },
+                            datatype: 'json'
+                        });
+                    });
+                });
+            </script>
+            <?php
         }
     }
 }

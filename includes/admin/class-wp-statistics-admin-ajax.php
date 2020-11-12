@@ -49,6 +49,10 @@ class Ajax
                 case 'suggestion':
                     Option::update('disable_suggestion_nag', true);
                     break;
+
+                case 'disable_all_addons':
+                    update_option('wp_statistics_disable_addons_notice', 'yes');
+                    break;
             }
 
             Option::update('admin_notices', false);

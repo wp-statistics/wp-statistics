@@ -53,7 +53,12 @@ final class WP_Statistics
         /**
          * Plugin Loaded Action
          */
-        add_action('plugins_loaded', array($this, 'plugin_setup'));
+        add_action('plugins_loaded', array($this, 'plugin_setup'), 10);
+
+        /**
+         * Disable AddOns For Compatible in Wp-Statistics 13.0
+         */
+        add_action('plugins_loaded', array($this, 'disable_addons'), 0);
 
         /**
          * Install And Upgrade plugin
@@ -324,5 +329,50 @@ final class WP_Statistics
 
         # Referer
         $this->container['referred'] = \WP_STATISTICS\Referred::get();
+    }
+
+    /**
+     * Disable AddOns For Compatible in Wp-Statistics 13.0
+     */
+    public function disable_addons()
+    {
+        // Check installed plugin version
+        if (version_compare(WP_STATISTICS_VERSION, '13.0', '!=')) {
+            return;
+        }
+
+        // Check Before Action
+        $option = get_option('wp_statistics_disable_addons', 'no');
+        if ($option == "no") {
+            $addOns = array(
+                'wp-statistics-actions/wp-statistics-actions.php',
+                'wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php',
+                'wp-statistics-customization/wp-statistics-customization.php',
+                'wp-statistics-mini-chart/wp-statistics-mini-chart.php',
+                'wp-statistics-realtime-stats/wp-statistics-realtime-stats.php',
+                'wp-statistics-rest-api/wp-statistics-rest-api.php',
+                'wp-statistics-widgets/wp-statistics-widgets.php'
+            );
+
+            // Check User Has Any AddOns
+            $activate_plugins = get_option('active_plugins');
+            $user_has_addons = false;
+            foreach ($addOns as $plugin) {
+                if (in_array($plugin, $activate_plugins)) {
+                    $user_has_addons = true;
+                    break;
+                }
+            }
+
+            // Disable AddOns
+            if ($user_has_addons) {
+                foreach ($addOns as $plugin) {
+                    deactivate_plugins($plugin);
+                }
+                update_option('wp_statistics_disable_addons_notice', 'no');
+            }
+
+            update_option('wp_statistics_disable_addons', 'yes');
+        }
     }
 }
