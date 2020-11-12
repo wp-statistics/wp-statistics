@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'b2baa054f972687bf65372937e16f70b09fd947e',
+    'reference' => 'd50c2fc7f17ad7cce00ffe728c45b23c92ce02ca',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'b2baa054f972687bf65372937e16f70b09fd947e',
+      'reference' => 'd50c2fc7f17ad7cce00ffe728c45b23c92ce02ca',
     ),
     'composer/ca-bundle' => 
     array (
@@ -53,12 +53,12 @@ private static $installed = array (
     ),
     'jaybizzle/crawler-detect' => 
     array (
-      'pretty_version' => 'v1.2.78',
-      'version' => '1.2.78.0',
+      'pretty_version' => 'v1.2.102',
+      'version' => '1.2.102.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0f91f34d375ddd5d7034b9eaf6b74acd0b2a0ed6',
+      'reference' => '346cfd72d11bb41f15e82654e532dc55360612ac',
     ),
     'maxmind-db/reader' => 
     array (
@@ -98,12 +98,12 @@ private static $installed = array (
     ),
     'whichbrowser/parser' => 
     array (
-      'pretty_version' => 'v2.0.37',
-      'version' => '2.0.37.0',
+      'pretty_version' => 'v2.0.42',
+      'version' => '2.0.42.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9c6ad8eadc23294b1c66d92876c11f13c5d4cf48',
+      'reference' => '4899110cd2f87b01e04ced62dbb9dec541031dee',
     ),
   ),
 );
