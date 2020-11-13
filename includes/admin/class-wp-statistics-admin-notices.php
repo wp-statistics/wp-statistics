@@ -117,7 +117,7 @@ class Admin_Notices
     {
         $option = get_option('wp_statistics_disable_addons_notice');
         if (!empty($option) and $option == "no") {
-            Helper::wp_admin_notice(__('your AddOns is disable Because ...', 'wp-statistics'), 'info', true, 'wp-statistics-disable-all-addons-admin-notice');
+            Helper::wp_admin_notice(__("Your WP-Statistics's Add-On(s) are not compatible with the new version of WP-Statistics and disabled automatically, please try to update them.", "wp-statistics"), "info", true, "wp-statistics-disable-all-addons-admin-notice");
             ?>
             <script>
                 jQuery(document).ready(function ($) {
@@ -125,7 +125,7 @@ class Admin_Notices
                         e.preventDefault();
                         jQuery.ajax({
                             url: ajaxurl,
-                            type: 'post',
+                            type: "post',
                             data: {
                                 'action': 'wp_statistics_close_notice',
                                 'notice': 'disable_all_addons',
