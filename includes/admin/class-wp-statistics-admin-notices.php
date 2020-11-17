@@ -125,7 +125,7 @@ class Admin_Notices
                         e.preventDefault();
                         jQuery.ajax({
                             url: ajaxurl,
-                            type: "post',
+                            type: "post",
                             data: {
                                 'action': 'wp_statistics_close_notice',
                                 'notice': 'disable_all_addons',
