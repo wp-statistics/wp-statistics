@@ -68,6 +68,7 @@ class Meta_Box
          * js                : if set false, Load without RestAPI Request.
          * place             : Meta Box Place in Overview Page [ normal | side ]
          * disable_overview  : Disable MetaBox From Overview Page [ default : false ]
+         * hidden_overview   : if set true , Default Hidden Meta Box in OverView Page
          *
          */
         $list = array(
@@ -147,7 +148,8 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'hidden_overview'   => true
             ),
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',

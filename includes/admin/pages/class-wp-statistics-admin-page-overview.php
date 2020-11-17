@@ -22,6 +22,9 @@ class log_page
 
         // Prepare OverView ADS
         add_action('load-' . Menus::get_action_menu_slug('overview'), array($this, 'overview_page_ads'));
+
+        // Set default hidden Meta Box
+        add_filter('default_hidden_meta_boxes', array($this, 'default_hidden_meta_boxes'), 10, 2);
     }
 
     /**
@@ -90,6 +93,24 @@ class log_page
         }
     }
 
+    /**
+     * OverView Default Hidden Meta Box
+     *
+     * @param $hidden | array list of default hidden meta box
+     * @param $screen | WordPress `global $current_screen`
+     * @return mixed
+     */
+    public function default_hidden_meta_boxes($hidden, $screen)
+    {
+        if ($screen->id == Menus::get_action_menu_slug('overview')) {
+            foreach (apply_filters('wp_statistics_overview_meta_box_list', Meta_Box::getList()) as $meta_key => $meta_box) {
+                if (isset($meta_box['hidden_overview']) and $meta_box['hidden_overview'] === true) {
+                    $hidden[] = Meta_Box::getMetaBoxKey($meta_key);
+                }
+            }
+        }
+        return $hidden;
+    }
 }
 
 new log_page();
