@@ -270,7 +270,7 @@ class Hits
         }
 
         # Record Search Engine
-        if (isset($visitor_id) and $visitor_id > 0) {
+        if (isset($visitor_id) and $visitor_id > 0 and $exclusion['exclusion_match'] === false) {
             SearchEngine::record(array('visitor_id' => $visitor_id));
         }
 
