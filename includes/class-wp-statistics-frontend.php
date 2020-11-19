@@ -128,7 +128,6 @@ class Frontend
         //Get User id
         $params['user_id'] = User::get_user_id();
 
-        \WP_Statistics::log($params);
         //return Json Data
         return $params;
     }
