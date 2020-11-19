@@ -122,10 +122,10 @@ class Hits
     public function set_exclusion($exclude)
     {
 
-        if (isset($this->rest_hits->exclude) and isset($this->rest_hits->exclude_reason)) {
+        if (isset($this->rest_hits->exclusion_match) and isset($this->rest_hits->exclusion_reason)) {
             return array(
-                'exclusion_match'  => $this->rest_hits->exclude == 1 ? true : false,
-                'exclusion_reason' => $this->rest_hits->exclude_reason,
+                'exclusion_match' => $this->rest_hits->exclusion_match == 'yes',
+                'exclusion_reason' => $this->rest_hits->exclusion_reason,
             );
         }
 
@@ -218,7 +218,7 @@ class Hits
      */
     public static function is_rest_hit()
     {
-        return defined('REST_REQUEST') && REST_REQUEST and isset($_REQUEST[self::$rest_hits_key]);
+        return (Helper::is_rest_request() and isset($_REQUEST[self::$rest_hits_key]));
     }
 
     /**
@@ -230,7 +230,7 @@ class Hits
     public static function rest_params($params = false)
     {
         $data = array();
-        if (defined('REST_REQUEST') && REST_REQUEST and isset($_REQUEST[Hits::$rest_hits_key])) {
+        if (Helper::is_rest_request() and isset($_REQUEST[Hits::$rest_hits_key])) {
             foreach ($_REQUEST as $key => $value) {
                 if (!in_array($key, array('_', '_wpnonce'))) {
                     $data[$key] = trim($value);

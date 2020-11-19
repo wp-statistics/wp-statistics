@@ -104,8 +104,8 @@ class Frontend
 
         //exclude
         $exclude                  = Exclusion::check();
-        $params['exclude']        = $exclude['exclusion_match'];
-        $params['exclude_reason'] = $exclude['exclusion_reason'];
+        $params['exclusion_match'] = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
+        $params['exclusion_reason'] = (string)$exclude['exclusion_reason'];
 
         //User Agent String
         $params['ua'] = esc_html(UserAgent::getHttpUserAgent());
@@ -128,6 +128,7 @@ class Frontend
         //Get User id
         $params['user_id'] = User::get_user_id();
 
+        \WP_Statistics::log($params);
         //return Json Data
         return $params;
     }
