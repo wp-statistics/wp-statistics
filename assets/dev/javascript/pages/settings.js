@@ -9,7 +9,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     });
 
     // Set Current Tab
-    if (typeof (localStorage) != 'undefined') {
+    if (typeof (localStorage) != 'undefined' && wps_js.isset(wps_js.global, 'request_params', 'save_setting') && wps_js.global.request_params.save_setting === "yes") {
         let ActiveTab = localStorage.getItem("wp-statistics-settings-active-tab");
         if (ActiveTab.length > 0) {
             $('#wp-statistics-settings-form ul.tabs li[data-tab=' + ActiveTab + ']').click();
