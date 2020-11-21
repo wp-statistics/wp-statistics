@@ -104,6 +104,7 @@ class GeoIP
                 //Load GeoIP Reader
                 $reader = new \GeoIp2\Database\Reader($file);
             } catch (InvalidDatabaseException $e) {
+                \WP_Statistics::log($e->getMessage());
                 return false;
             }
         } else {
@@ -150,7 +151,7 @@ class GeoIP
         // Check in WordPress Database
         $user_country = self::getUserCountryFromDB($ip);
         if ($user_country != false) {
-            wp_cache_set('country-' . $ip, $user_country, 'wp-statistics', 30);
+            wp_cache_set('country-' . $ip, $user_country, 'wp-statistics', DAY_IN_SECONDS);
             return $user_country;
         }
 
@@ -189,15 +190,15 @@ class GeoIP
                     $location = $record->country->{$return};
                 }
             } catch (AddressNotFoundException $e) {
-                //Don't Stuff
+                \WP_Statistics::log($e->getMessage());
             } catch (InvalidDatabaseException $e) {
-                //Don't Stuff
+                \WP_Statistics::log($e->getMessage());
             }
         }
 
         # Check Has Location
         if (isset($location) and !empty($location)) {
-            wp_cache_set('country-' . $ip, $location, 'wp-statistics', 30);
+            wp_cache_set('country-' . $ip, $location, 'wp-statistics', DAY_IN_SECONDS);
             return $location;
         }
 
@@ -228,7 +229,7 @@ class GeoIP
      * @param $pack
      * @param string $type
      *
-     * @return string
+     * @return mixed
      */
     public static function download($pack, $type = "enable")
     {
@@ -410,6 +411,7 @@ class GeoIP
                         $location = GeoIP::$private_country;
                     }
                 } catch (\Exception $e) {
+                    \WP_Statistics::log($e->getMessage());
                     $location = GeoIP::$private_country;
                 }
 
@@ -534,7 +536,7 @@ class GeoIP
             $opt = array();
         }
         $opt[$ip] = array($city, current_time('timestamp'));
-        wp_cache_set('city-' . $ip, $city, 'wp-statistics', 30);
+        wp_cache_set('city-' . $ip, $city, 'wp-statistics', DAY_IN_SECONDS);
         $opt = self::cleanCacheCity($opt);
         update_option(self::$city_cache_object_name, $opt, 'no');
     }

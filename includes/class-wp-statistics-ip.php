@@ -150,6 +150,7 @@ class IP
         try {
             $ip = new \IPTools\IP($ip);
         } catch (\Exception $e) {
+            \WP_Statistics::log($e->getMessage());
             $ip = new \IPTools\IP(self::$default_ip);
         }
 
@@ -158,6 +159,7 @@ class IP
             try {
                 $contains_ip = Range::parse($list)->contains($ip);
             } catch (\Exception $e) {
+                \WP_Statistics::log($e->getMessage());
                 $contains_ip = false;
             }
 
