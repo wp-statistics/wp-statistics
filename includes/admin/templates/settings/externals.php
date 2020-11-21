@@ -1,7 +1,7 @@
 <table class="form-table">
     <tbody>
     <tr valign="top">
-        <th scope="row" colspan="2"><h3><?php _e('GeoIP settings', 'wp-statistics'); ?></h3></th>
+        <th scope="row" colspan="2"><h3><?php _e('GeoIP Settings', 'wp-statistics'); ?></h3></th>
     </tr>
 
     <tr valign="top">
@@ -14,7 +14,7 @@
         ?>
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-enable"><?php _e('GeoIP collection:', 'wp-statistics'); ?></label>
+                <label for="geoip-enable"><?php _e('GeoIP Collection:', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -27,7 +27,7 @@
                     </form>
                 </label>
 
-                <p class="description"><?php _e('For getting more information and location (country) from visitor, enable this feature.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to get more information and location (country) from a visitor.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -45,7 +45,7 @@
                         <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
                     </form>
                 </label>
-                <p class="description"><?php _e('See Visitor\'s City Name', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to see visitors\'city name', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -90,19 +90,19 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-schedule"><?php _e('Populate missing GeoIP after update of GeoIP DB:', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php _e('Populate Missing GeoIP After Updating GeoIP DB:', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo WP_STATISTICS\Option::get('auto_pop') == true ? "checked='checked'" : ''; ?>>
                 <label for="geoip-auto-pop"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Update any missing GeoIP data after downloading a new database.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to update any missing GeoIP data after downloading a new database.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-schedule"><?php _e('Country code for private IP addresses:', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php _e('Country Code for Private IP Addresses:', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -155,13 +155,13 @@
 
     <tr valign="top">
         <th scope="row">
-            <label for="referrerspam-enable"><?php _e('Matomo Referrer Spam Blacklist usage:', 'wp-statistics'); ?></label>
+            <label for="referrerspam-enable"><?php _e('Matomo Referrer Spam Blacklist Usage:', 'wp-statistics'); ?></label>
         </th>
 
         <td>
             <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
             <label for="referrerspam-enable"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('The Matomo Referrer Spam Blacklist database will be downloaded and used to detect referrer spam.', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Enable this option to download The Matomo Referrer Spam Blacklist database and detect referrer spam.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 

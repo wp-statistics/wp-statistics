@@ -12,7 +12,7 @@
 
     <tr valign="top">
         <td scope="row" style="vertical-align: top;">
-            <label for="email-report"><?php _e('E-mail addresses:', 'wp-statistics'); ?></label>
+            <label for="email-report"><?php _e('Email Addresses:', 'wp-statistics'); ?></label>
         </td>
 
         <td>
@@ -20,7 +20,7 @@
                 $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
             }
             echo htmlentities(WP_STATISTICS\Option::get('email_list'), ENT_QUOTES); ?>"/>
-            <p class="description"><?php _e('A comma separated list of e-mail addresses to send reports to.', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Add email addresses you want to receive reports and separate them with a comma.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 
@@ -36,7 +36,7 @@
         <td>
             <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo WP_STATISTICS\Option::get('geoip_report') == true ? "checked='checked'" : ''; ?>>
             <label for="geoip-report"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('Send a report whenever the GeoIP database is updated.', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Enable it to send a report whenever the GeoIP database is updated.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 
@@ -48,7 +48,7 @@
         <td>
             <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo WP_STATISTICS\Option::get('prune_report') == true ? "checked='checked'" : ''; ?>>
             <label for="prune-report"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('Send a report whenever the pruning of database is run.', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Enable it to send a report whenever the pruning of the database is run.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 
@@ -58,13 +58,13 @@
 
     <tr valign="top">
         <th scope="row">
-            <label for="stats-report"><?php _e('Statistical reporting:', 'wp-statistics'); ?></label>
+            <label for="stats-report"><?php _e('Statistical Reports:', 'wp-statistics'); ?></label>
         </th>
 
         <td>
             <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php echo WP_STATISTICS\Option::get('stats_report') == true ? "checked='checked'" : ''; ?> onClick='ToggleStatOptions();'>
             <label for="stats-report"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('Enable or disable this feature', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Enable this option to receive stats report via email', 'wp-statistics'); ?></p>
         </td>
     </tr>
 
@@ -170,7 +170,7 @@
         <td>
             <input id="admin-notices" type="checkbox" value="1" name="wps_admin_notices" <?php echo WP_STATISTICS\Option::get('admin_notices') == true ? "checked='checked'" : ''; ?>>
             <label for="admin-notices"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('Show all notices and suggestion from WP-Statistics in the admin.', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Enable this option to show all notices and suggestions from WP-Statistics in the admin.', 'wp-statistics'); ?></p>
         </td>
     </tr>
     </tbody>

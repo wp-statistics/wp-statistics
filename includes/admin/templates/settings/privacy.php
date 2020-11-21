@@ -26,19 +26,19 @@
         <td>
             <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; ?>>
             <label for="hash_ips"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php echo __('This feature will not store IP addresses in the database but instead used a unique hash.', 'wp-statistics') . ' ' . __('The "Store entire user agent string" setting will be disabled if this is selected.', 'wp-statistics') . ' ' . __('You will not be able to recover the IP addresses in the future to recover location information if this is enabled.', 'wp-statistics'); ?></p>
+            <p class="description"><?php echo __('By enabling this option, you cannot recover the IP addresses in the future to find out location information, and IP addresses will not be stored in the database but instead used a unique hash.', 'wp-statistics') . ' ' . __('Also, it disables the "Store entire user agent string" setting.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 
     <tr valign="top">
         <th scope="row">
-            <label for="store_ua"><?php _e('Store entire user agent string:', 'wp-statistics'); ?></label>
+            <label for="store_ua"><?php _e('Store Entire User Agent String:', 'wp-statistics'); ?></label>
         </th>
 
         <td>
             <input id="store_ua" type="checkbox" value="1" name="wps_store_ua" <?php echo WP_STATISTICS\Option::get('store_ua') == true ? "checked='checked'" : ''; ?>>
             <label for="store_ua"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('Only enabled for debugging. (If the IP hash\'s are enabled, This option disabling automatically.)', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Only enable it for debugging. If the IP hashes are enabled, this option will be disabled automatically.', 'wp-statistics'); ?></p>
         </td>
     </tr>
     </tbody>

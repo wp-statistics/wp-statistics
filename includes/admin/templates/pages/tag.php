@@ -45,12 +45,12 @@
                         ?>
 
                         <tr>
-                            <th><?php _e('Chart Visits Total:', 'wp-statistics'); ?></th>
+                            <th><?php _e('Visits Total:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-chart-visits"></span></th>
                         </tr>
 
                         <tr>
-                            <th><?php _e('All Time Visits Total:', 'wp-statistics'); ?></th>
+                            <th><?php _e('All Time Visits:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-visits"></span></th>
                         </tr>
                         </tbody>

@@ -36,7 +36,7 @@
                         if (isset($number_post_in_category)) {
                             ?>
                             <tr>
-                                <th><?php _e('Number of posts in category:', 'wp-statistics'); ?></th>
+                                <th><?php _e('The Number of Posts in Category:', 'wp-statistics'); ?></th>
                                 <th class="th-center">
                                     <span><?php echo number_format_i18n($number_post_in_category); ?></span></th>
                             </tr>
@@ -45,12 +45,12 @@
                         ?>
 
                         <tr>
-                            <th><?php _e('Chart Visits Total:', 'wp-statistics'); ?></th>
+                            <th><?php _e('Chart Visits:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-chart-visits"></span></th>
                         </tr>
 
                         <tr>
-                            <th><?php _e('All Time Visits Total:', 'wp-statistics'); ?></th>
+                            <th><?php _e('All Time Visits:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-visits"></span></th>
                         </tr>
                         </tbody>
