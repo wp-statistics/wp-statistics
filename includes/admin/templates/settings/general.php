@@ -90,12 +90,12 @@
 
     <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
         <th scope="row">
-            <label for="enable_user_column"><?php _e('User visits column', 'wp-statistics'); ?></label>
+            <label for="enable_user_column"><?php _e('User Visits Column', 'wp-statistics'); ?></label>
         </th>
         <td>
             <input id="enable_user_column" type="checkbox" value="1" name="wps_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
             <label for="enable_user_column"><?php _e('Enable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('Enable or disable show list of user visits link in WordPress admin user list page.', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Enable this option to show the list of user visits, link in the WordPress admin user list page.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 
@@ -156,13 +156,13 @@
 
     <tr valign="top">
         <th scope="row">
-            <label for="disable_column"><?php _e('Hits chart', 'wp-statistics'); ?></label>
+            <label for="disable_column"><?php _e('Hits Chart', 'wp-statistics'); ?></label>
         </th>
 
         <td>
             <input id="disable-editor" type="checkbox" value="1" name="wps_disable_editor" <?php echo WP_STATISTICS\Option::get('disable_editor') == true ? "checked='checked'" : ''; ?>>
             <label for="disable-editor"><?php _e('Disable', 'wp-statistics'); ?></label>
-            <p class="description"><?php _e('Show Hit Chart in the WordPress page/post editor.', 'wp-statistics'); ?></p>
+            <p class="description"><?php _e('Show Hits Chart in the WordPress page/post editor.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 

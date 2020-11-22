@@ -51,7 +51,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-schedule"><?php _e('Schedule monthly update of GeoIP DB:', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php _e('Schedule Monthly Update of GeoIP DB:', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -143,7 +143,7 @@
 
     <tr valign="top">
         <th scope="row" colspan="2">
-            <h3><?php _e('Matomo Referrer Spam Blacklist settings', 'wp-statistics'); ?></h3>
+            <h3><?php _e('Matomo Referrer Spam Blacklist Settings', 'wp-statistics'); ?></h3>
         </th>
     </tr>
 

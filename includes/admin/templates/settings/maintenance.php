@@ -27,13 +27,13 @@
 
     <tr valign="top">
         <th scope="row">
-            <label for="wps_schedule_dbmaint_days"><?php _e('Purge data older than:', 'wp-statistics'); ?></label>
+            <label for="wps_schedule_dbmaint_days"><?php _e('Purge Data Older Than:', 'wp-statistics'); ?></label>
         </th>
 
         <td>
             <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo htmlentities(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365"), ENT_QUOTES); ?>"/>
             <?php _e('Days', 'wp-statistics'); ?>
-            <p class="description"><?php echo __('The number of days to keep statistics for.', 'wp-statistics') . ' ' . __('Minimum value is 30 days.', 'wp-statistics') . ' ' . __('Invalid values will disable the daily maintenance.', 'wp-statistics'); ?></p>
+            <p class="description"><?php echo __('The number of days to keep statistics for.', 'wp-statistics') . ' ' . __('The minimum value is 30 days.', 'wp-statistics') . ' ' . __('Invalid values will disable the daily maintenance.', 'wp-statistics'); ?></p>
         </td>
     </tr>
 
@@ -56,7 +56,7 @@
 
     <tr valign="top">
         <th scope="row">
-            <label for="wps_schedule_dbmaint_visitor_hits"><?php _e('Purge visitors with more than:', 'wp-statistics'); ?></label>
+            <label for="wps_schedule_dbmaint_visitor_hits"><?php _e('Purge Visitors More Than:', 'wp-statistics'); ?></label>
         </th>
 
         <td>
