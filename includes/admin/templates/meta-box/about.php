@@ -17,6 +17,6 @@
     }
     ?>
     <div class="wps-postbox-veronalabs">
-        <a href="https://veronalabs.com" target="_blank" title="<?php _e('Power by VeronaLabs', 'wp-statistics'); ?>"><img src="https://veronalabs.com/wp-content/themes/veronalabs.com/assets/images/logo.svg" alt="VeronaLabs Co"/></a>
+        <a href="https://veronalabs.com" target="_blank" title="<?php _e('Power by VeronaLabs', 'wp-statistics'); ?>"><img src="<?php echo WP_STATISTICS_URL; ?>assets/images/veronalabs.svg" alt="VeronaLabs Co"/></a>
     </div>
 </div>
