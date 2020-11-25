@@ -9,7 +9,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 <span class="dashicons dashicons-dismiss"></span>
                 </div>
                     <a href="${wps_js.global.overview.ads['link']}" title="${wps_js.global.overview.ads['title']}" ${(wps_js.global.overview.ads['_target'] == "yes" ? ' target="_blank"' : '')}>
-                    <img src="${wps_js.global.overview.ads['image']}" alt="${wps_js.global.overview.ads['title']}">
+                    <img src="${wps_js.global.overview.ads['image']}" id="wps_overview_ads_image" alt="${wps_js.global.overview.ads['title']}">
                     </a>
                 </div>
             </div>`;
@@ -42,6 +42,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 },
                 datatype: 'json',
             });
+        });
+
+        // Fix Show Image Ads
+        jQuery('#wps_overview_ads_image').on('error', function(){
+            jQuery('#wps_overview_ads_postbox').remove();
         });
     }
 
