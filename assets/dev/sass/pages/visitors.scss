@@ -1,4 +1,4 @@
-body.statistics_page_wps_visitors_page {
+body[class*="wps_visitors_page"] {
 
   // Disable focus TickBox
   #TB_closeWindowButton:focus .tb-close-icon {
@@ -11,6 +11,7 @@ body.statistics_page_wps_visitors_page {
     cursor: pointer;
     color: #666;
     transition: 0.5s all;
+    margin-top: 5px;
 
     .dashicons {
       vertical-align: -5px;
@@ -50,4 +51,8 @@ body.statistics_page_wps_visitors_page {
     border: 0 !important;
     box-shadow: none !important;
   }
+}
+
+html[dir=rtl] body[class*="wps_visitors_page"] #TB_ajaxContent {
+  text-align: right !important;
 }

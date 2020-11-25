@@ -206,7 +206,7 @@
             </th>
 
             <td>
-                <select dir="ltr" id="empty-table" name="empty-table">
+                <select dir="<?php echo (is_rtl() ? 'rtl' : 'ltr'); ?>" id="empty-table" name="empty-table">
                     <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
                     <?php
                     foreach (WP_STATISTICS\DB::table('all', 'historical') as $tbl_key => $tbl_name) {

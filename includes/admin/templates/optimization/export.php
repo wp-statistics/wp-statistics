@@ -15,7 +15,7 @@
                 </th>
 
                 <td>
-                    <select dir="ltr" id="table-to-export" name="table-to-export" required>
+                    <select dir="<?php echo (is_rtl() ? 'rtl' : 'ltr'); ?>" id="table-to-export" name="table-to-export" required>
                         <option value=""><?php _e('Please select', 'wp-statistics'); ?></option>
                         <?php
                         foreach (WP_STATISTICS\DB::table('all', array('historical', 'visitor_relationships')) as $tbl_key => $tbl_name) {
