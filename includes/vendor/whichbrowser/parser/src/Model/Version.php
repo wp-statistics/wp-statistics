@@ -251,7 +251,7 @@ class Version extends Base
                     }
                 }
 
-                $version .= implode($v, '.');
+                $version .= implode('.', $v);
 
                 if (array_key_exists(5, $match) && strlen($match[5])) {
                     $version .= $match[5] . (!empty($match[6]) ? $match[6] : '');
@@ -278,7 +278,7 @@ class Version extends Base
         if (!empty($this->value)) {
             if (!empty($this->details)) {
                 $parts = explode('.', $this->value);
-                $result['value'] = join(array_slice($parts, 0, $this->details), '.');
+                $result['value'] = join('.', array_slice($parts, 0, $this->details));
             } else {
                 $result['value'] = $this->value;
             }
