@@ -350,8 +350,7 @@ class Menus
         add_action('admin_menu', array($this, 'wp_admin_menu'));
 
         # Filter Donate Link
-        add_action("load-" . str_replace("[slug]", self::get_page_slug('donate'), self::$load_admin_submenu_slug), array($this, 'donate'));
-
+        add_action("admin_init", array($this, 'donate'));
     }
 
     /**
@@ -404,8 +403,11 @@ class Menus
      */
     public function donate()
     {
-        wp_redirect(self::$donate);
-        exit;
+        global $pagenow;
+        if ($pagenow == "admin.php" and isset($_GET['page']) and $_GET['page'] == self::get_page_slug('donate')) {
+            wp_redirect(self::$donate);
+            exit;
+        }
     }
 
 }
