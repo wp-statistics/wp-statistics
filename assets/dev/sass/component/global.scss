@@ -29,6 +29,10 @@
   display: inline-block;
 }
 
+.wps-middle-vertical {
+  vertical-align: middle;
+}
+
 /* disable Break Link */
 a[href*='?page=wps_break_menu'] {
   pointer-events: none;
