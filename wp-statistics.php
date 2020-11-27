@@ -2,16 +2,30 @@
 /**
  * Plugin Name: WP Statistics
  * Plugin URI: https://wp-statistics.com/
- * Description: Complete WordPress Analytics and Statistics for your site!
- * Version: 12.6.13
+ * Description: This plugin gives you the complete information on your website's visitors.
+ * Version: 13.0
  * Author: VeronaLabs
- * Author URI: http://veronalabs.com/
+ * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics
- * Domain Path: languages
+ * Domain Path: /languages
  */
 
-define( 'WP_STATISTICS_MAIN_FILE', __FILE__ );
-require_once plugin_dir_path( __FILE__ ) . 'includes/classes/class-wp-statistics.php';
+# Exit if accessed directly
+if (!defined('ABSPATH')) exit;
 
-$WP_Statistics = new WP_Statistics;
-$WP_Statistics->run();
+# Load Plugin Defines
+require_once 'includes/defines.php';
+
+# Load Plugin
+if (!class_exists('WP_Statistics')) {
+    require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics.php';
+}
+
+# Returns the main instance of WP-Statistics.
+function WP_Statistics()
+{
+    return WP_Statistics::instance();
+}
+
+# Global for backwards compatibility.
+$GLOBALS['WP_Statistics'] = WP_Statistics();

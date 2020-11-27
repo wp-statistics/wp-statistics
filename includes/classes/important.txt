@@ -1,2 +1,0 @@
-Please add "WP_Statistics_" before any class name
-This is for an internal rule to load classes fast!
