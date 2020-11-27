@@ -156,7 +156,7 @@
 
     <tr valign="top">
         <th scope="row">
-            <label for="disable_column"><?php _e('Hits Chart', 'wp-statistics'); ?></label>
+            <label for="disable-editor"><?php _e('Hits Chart', 'wp-statistics'); ?></label>
         </th>
 
         <td>
@@ -228,7 +228,7 @@
 
     <tr valign="top">
         <th scope="row">
-            <label for="all_pages"><?php _e('Use Cache Plugin:', 'wp-statistics'); ?></label>
+            <label for="use_cache_plugin"><?php _e('Use Cache Plugin:', 'wp-statistics'); ?></label>
         </th>
 
         <td>
