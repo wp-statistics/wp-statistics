@@ -3,12 +3,12 @@ Contributors: mostafa.s1990, mehrshaddarzi, ghasemi71ir, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
-Tested up to: 5.4
+Tested up to: 5.5
 Stable tag: 13.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Complete WordPress Analytics and Statistics for your site!
+This plugin gives you the complete information on your website's visitors.
 
 == Description ==
 = WP statistics: THE #1 WORDPRESS STATISTICS PLUGIN =
@@ -113,15 +113,47 @@ If IPv6 is not enabled, you may see an warning like:
 10. Theme widget
 
 == Upgrade Notice ==
-= 12.5.3 =
-Please consider that after updating, you will probably see some changes in Hits. The reason is that we have better-recognized crawlers and robots to get more accurate statistics for you.
+= 13.0 =
+**IMPORTANT NOTE**
+Welcome to WP-Statistics v13.0, our biggest update!
+Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP-Statistics better for you.
+Before updating, make sure you disabled all your add-ons, then after that, try to update add-ons.
 
-If the cache option is enabled in your WordPress, you should make sure the below endpoint registered in your WordPress.
-http://yourwebsite.com/wp-json/wpstatistics/v1
-
-To register, go to the Permalink page and update the permalink with press Save Changes.
+If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= 13.0 =
+
+**New Feature**
+
+- Added error logs system
+- Added the ability to change visitors’ data based on WordPress hook
+- Added the ability to manage the plugin based on WP-CLI
+- Added a link to show user’s location’s coordinates on Google Map based on their IP
+- Added advanced filters in the page of WordPress website visitors list
+- Added the class of sending standard email reports in the WordPress
+- Added the ability to get WordPress users in the database record
+
+**Bug Fix**
+
+- Fixed recording visitors data problem when the cache plugin is installed
+- Fixed exclusion problem in Ajax requests mode
+- Fixed REST-API requests problem in JavaScript mode without jQuery library
+- Fixed the issue of limiting the number of database table records
+- Fixed the problem of getting WordPress page type in taxonomy mode
+- Fixed display of visitor history for yesterday and today
+
+**Improvement**
+
+- Improved widget information based on REST-API
+- Optimized and troubleshot database tables after an interval of one day
+- Improved plugin information deleting operation
+- Improved receiving country and city visitors information based on WordPress cache IP
+- Improved display plugin management menus list in WordPress
+- Improved search engine display in the mode of referring users from the search engine to the website
+- Improved widgets display and Ajax loading capability
+- Improved loading of JS files based on plugin-specific pages
+
 = 12.6.1 =
 - Added Whip Package for getting visitor's IP address.
 - Fixed get the country code when the Hash or Anonymize IP Addresses is enabled.
