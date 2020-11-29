@@ -105,12 +105,8 @@ class Admin_Taxonomy
             return;
         }
 
-        // Get global Variable
-        $orderby = $query['orderby'];
-
         // If order-by.
-        if ('hits' === $orderby) {
-
+        if (isset($query['orderby']) and $query['orderby'] == 'hits') {
             // Select Field
             $clauses['fields'] .= ", (select SUM(" . DB::table("pages") . ".count) from " . DB::table("pages") . " where (" . DB::table("pages") . ".type = 'category' OR " . DB::table("pages") . ".type = 'post_tag' OR " . DB::table("pages") . ".type = 'tax') AND t.term_id = " . DB::table("pages") . ".id) as tax_hist_sortable ";
 
