@@ -337,14 +337,11 @@ final class WP_Statistics
      */
     public function disable_addons()
     {
-        // Check installed plugin version
-        if (version_compare(WP_STATISTICS_VERSION, '13.0', '!=')) {
-            return;
-        }
-
         // Check Before Action
         $option = get_option('wp_statistics_disable_addons', 'no');
-        if ($option == "no") {
+
+        // Check
+        if ($option == "no" and version_compare(WP_STATISTICS_VERSION, '12.6.13', '>')) {
             $addOns = array(
                 'wp-statistics-actions/wp-statistics-actions.php',
                 'wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php',
