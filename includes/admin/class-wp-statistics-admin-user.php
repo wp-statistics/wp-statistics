@@ -79,12 +79,10 @@ class Admin_User
             return;
         }
 
-        // Get global Variable
-        $order   = $user_query->query_vars['order'];
-        $orderby = $user_query->query_vars['orderby'];
-
         // If order-by.
-        if ('visit' === $orderby) {
+        if (isset($user_query->query_vars['orderby']) and isset($user_query->query_vars['order']) and $user_query->query_vars['orderby'] == 'visit') {
+            // Get global Variable
+            $order = $user_query->query_vars['order'];
 
             // Select Field
             $user_query->query_fields .= ", (select Count(*) from " . DB::table("visitor") . " where {$wpdb->users}.ID = " . DB::table("visitor") . ".user_id) as user_visit ";
