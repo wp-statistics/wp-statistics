@@ -7,6 +7,9 @@
     "jaybizzle/crawler-detect": "1.2.102"
   },
   "config": {
+    "platform-check": false
+  },
+  "config": {
     "vendor-dir": "includes/vendor"
   }
 }
