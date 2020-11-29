@@ -101,12 +101,10 @@ class Admin_Post
             return;
         }
 
-        // Get global Variable
-        $order   = $query->query_vars['order'];
-        $orderby = $query->query_vars['orderby'];
-
         // If order-by.
-        if ('hits' === $orderby) {
+        if (isset($query->query_vars['orderby']) and isset($query->query_vars['order']) and $query->query_vars['orderby'] == 'hits') {
+            // Get global Variable
+            $order = $query->query_vars['order'];
 
             // Select Field
             $clauses['fields'] .= ", (select SUM(" . DB::table("pages") . ".count) from " . DB::table("pages") . " where (" . DB::table("pages") . ".type = 'page' OR " . DB::table("pages") . ".type = 'post' OR " . DB::table("pages") . ".type = 'product') AND {$wpdb->posts}.ID = " . DB::table("pages") . ".id) as post_hits_sortable ";
