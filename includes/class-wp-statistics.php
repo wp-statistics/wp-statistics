@@ -126,6 +126,7 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/vendor/autoload.php';
 
         // Utility classes.
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-updates.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-timezone.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
