@@ -1,10 +1,10 @@
 === WP Statistics ===
-Contributors: mostafa.s1990, mehrshaddarzi, ghasemi71ir, GregRoss, dedidata
+Contributors: mostafa.s1990, mehrshaddarzi, kashani, veronalabs, GregRoss, dedidata
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 13.0.2
+Stable tag: 13.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -113,6 +113,7 @@ If IPv6 is not enabled, you may see an warning like:
 10. Theme widget
 
 == Upgrade Notice ==
+
 = 13.0 =
 **IMPORTANT NOTE**
 Welcome to WP-Statistics v13.0, our biggest update!
@@ -122,6 +123,16 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= 13.0.3 =
+
+**We're very sorry regarding the previous update because we had a lot of changes on v13.0, we worked almost 1 year for this update and considered all situations and many tests, anyway try to update and enjoy the new features!**
+
+- Fixed critical issue when some PHP modules such as bcmath are not enabled. it caused a fatal error, the purpose flag `platform-check` from Composer has been disabled.
+- Fixed the "Connect to WordPress RestAPI" message while loading the admin statistics' widgets, the uBlock browser extension was blocking the WP-Statistics's requests.
+- Fixed the upgrade process issue, one of the previous action was calling and that caused the issue, that's now disabled.
+- Disabled some repair and optimization table queries during the initial request.
+- Minor Improvements.
+
 = 13.0.2 =
 
 **New Feature**
