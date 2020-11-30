@@ -277,7 +277,7 @@ class Admin_Assets
             'er_valid_ip'   => __('Please enter a valid ip.', 'wp-statistics'),
             'please_wait'   => __('Please Wait ...', 'wp-statistics'),
             'user'          => __('User', 'wp-statistics'),
-            'rest_connect' => __('Problem Connect to WordPress RestAPI.', 'wp-statistics'),
+            'rest_connect' => __('Problem Connect to WordPress REST API.', 'wp-statistics'),
         );
 
         // Rest-API Meta Box Url
