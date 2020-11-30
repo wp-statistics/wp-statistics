@@ -26,6 +26,7 @@ wps_js.ajaxQ = function (url, params, callback, error_callback, type = 'GET', in
         url: url,
         type: type,
         dataType: "json",
+        crossDomain: true,
         cache: false,
         data: params,
         success: function (data) {
@@ -72,6 +73,7 @@ wps_js.ajaxQ = function (url, params, callback, error_callback, type = 'GET', in
     if (url === wps_js.global.meta_box_api) {
         ajaxQ.beforeSend = function (xhr) {
             xhr.setRequestHeader('X-WP-Nonce', wps_js.global.rest_api_nonce);
+            xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
         };
     }
 

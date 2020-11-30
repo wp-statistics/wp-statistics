@@ -9,7 +9,7 @@ class RestAPI
      *
      * @var string
      */
-    public static $namespace = 'wpstatistics/v2';
+    public static $namespace = 'wp-statistics/v2';
 
     /**
      * Get WP-Statistics Options
