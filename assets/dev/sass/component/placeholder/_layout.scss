@@ -13,6 +13,7 @@
   background-color: $ph-bg;
  // border: 1px solid darken($ph-bg, 10%);
   //border-radius: $ph-border-radius;
+  direction: ltr;
 
   &::before {
     content: " ";
