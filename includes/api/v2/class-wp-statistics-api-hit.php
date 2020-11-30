@@ -68,7 +68,7 @@ class Hit extends \WP_STATISTICS\RestAPI
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => array($this, 'hit_callback'),
                 'permission_callback' => function () {
-                    return (Option::get('use_cache_plugin') == 1 ? true : false);
+                    return Option::get('use_cache_plugin') == 1;
                 },
                 'args'                => array_merge(
                     array('_wpnonce' => array(
@@ -130,4 +130,4 @@ class Hit extends \WP_STATISTICS\RestAPI
     }
 }
 
-new Hit;
+new Hit();
