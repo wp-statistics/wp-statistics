@@ -120,7 +120,6 @@ final class WP_Statistics
      */
     public function includes()
     {
-
         // third-party Libraries
         require_once WP_STATISTICS_DIR . 'includes/vendor/autoload.php';
 
@@ -245,7 +244,6 @@ final class WP_Statistics
      */
     function php_version_notice()
     {
-
         $error = __('Your installed PHP Version is: ', 'wp-statistics') . PHP_VERSION . '. ';
         $error .= __('The <strong>WP-Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
         ?>
@@ -278,6 +276,9 @@ final class WP_Statistics
      */
     public static function install($network_wide)
     {
+        add_filter('wp_statistics_show_welcome_page', '__return_false', 1);
+        remove_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 99 );
+
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
         $installer = new \WP_STATISTICS\Install();
