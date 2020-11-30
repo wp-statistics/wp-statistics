@@ -34,8 +34,6 @@ class Purge
                         if (!empty($wpdb->last_error)) {
                             \WP_Statistics::log($wpdb->last_error);
                         }
-                        DB::optimizeTable(DB::table('historical'));
-                        DB::repairTable(DB::table('historical'));
                     }
                 }
 
@@ -66,8 +64,6 @@ class Purge
                         if (!empty($wpdb->last_error)) {
                             \WP_Statistics::log($wpdb->last_error);
                         }
-                        DB::optimizeTable(DB::table('historical'));
-                        DB::repairTable(DB::table('historical'));
                     }
                 }
 
@@ -144,8 +140,6 @@ class Purge
                             if (!empty($wpdb->last_error)) {
                                 \WP_Statistics::log($wpdb->last_error);
                             }
-                            DB::optimizeTable(DB::table('historical'));
-                            DB::repairTable(DB::table('historical'));
                         }
                     }
                 }

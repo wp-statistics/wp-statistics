@@ -168,8 +168,6 @@ class UserOnline
             if (!empty($wpdb->last_error)) {
                 \WP_Statistics::log($wpdb->last_error);
             }
-            DB::optimizeTable(DB::table('useronline'));
-            DB::repairTable(DB::table('useronline'));
         }
 
         # Get User Online ID

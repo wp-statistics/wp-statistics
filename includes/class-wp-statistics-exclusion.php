@@ -99,8 +99,6 @@ class Exclusion
                 if (!empty($wpdb->last_error)) {
                     \WP_Statistics::log($wpdb->last_error);
                 }
-                DB::optimizeTable(DB::table('exclusions'));
-                DB::repairTable(DB::table('exclusions'));
             }
 
             do_action('wp_statistics_save_exclusion', $exclusion, $wpdb->insert_id);

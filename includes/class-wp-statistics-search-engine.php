@@ -392,8 +392,6 @@ class SearchEngine
             if (!empty($wpdb->last_error)) {
                 \WP_Statistics::log($wpdb->last_error);
             }
-            DB::optimizeTable(DB::table('search'));
-            DB::repairTable(DB::table('search'));
         }
 
         # Action after Save Search Engine Word

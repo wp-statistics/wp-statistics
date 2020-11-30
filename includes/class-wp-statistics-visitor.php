@@ -52,8 +52,6 @@ class Visitor
             if (!empty($wpdb->last_error)) {
                 \WP_Statistics::log($wpdb->last_error);
             }
-            DB::optimizeTable(DB::table('visitor'));
-            DB::repairTable(DB::table('visitor'));
         }
 
         # Get Visitor ID
@@ -180,8 +178,6 @@ class Visitor
             if (!empty($wpdb->last_error)) {
                 \WP_Statistics::log($wpdb->last_error);
             }
-            DB::optimizeTable(DB::table('visitor_relationships'));
-            DB::repairTable(DB::table('visitor_relationships'));
         }
         $insert_id = $wpdb->insert_id;
 
