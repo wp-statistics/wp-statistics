@@ -7,9 +7,10 @@
     "jaybizzle/crawler-detect": "1.2.102"
   },
   "config": {
-    "platform-check": false
-  },
-  "config": {
-    "vendor-dir": "includes/vendor"
+    "vendor-dir": "includes/vendor",
+    "platform-check": false,
+    "platform": {
+        "php": "5.6"
+    }
   }
 }
