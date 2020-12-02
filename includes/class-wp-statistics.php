@@ -104,15 +104,21 @@ final class WP_Statistics
          */
         add_action('init', array($this, 'load_textdomain'));
 
-        /**
-         * Include Require File
-         */
-        $this->includes();
+        try {
 
-        /**
-         * instantiate Plugin
-         */
-        $this->instantiate();
+            /**
+             * Include Require File
+             */
+            $this->includes();
+
+            /**
+             * instantiate Plugin
+             */
+            $this->instantiate();
+
+        } catch (Exception $e) {
+            self::log($e->getMessage());
+        }
     }
 
     /**
@@ -277,7 +283,7 @@ final class WP_Statistics
     public static function install($network_wide)
     {
         add_filter('wp_statistics_show_welcome_page', '__return_false', 99);
-        remove_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 99 );
+        remove_action('upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 99);
 
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
@@ -305,27 +311,13 @@ final class WP_Statistics
      */
     public function instantiate()
     {
-
-        # Get Country Codes
         $this->container['country_codes'] = \WP_STATISTICS\Country::getList();
-
-        # Get User Detail
-        $this->container['user_id'] = \WP_STATISTICS\User::get_user_id();
-
-        # Set Options
-        $this->container['option'] = new \WP_STATISTICS\Option();
-
-        # User IP
-        $this->container['ip'] = \WP_STATISTICS\IP::getIP();
-
-        # User Agent
-        $this->container['agent'] = \WP_STATISTICS\UserAgent::getUserAgent();
-
-        # User Online
-        $this->container['users_online'] = new \WP_STATISTICS\UserOnline();
-
-        # Visitor
-        $this->container['visitor'] = new \WP_STATISTICS\Visitor();
+        $this->container['user_id']       = \WP_STATISTICS\User::get_user_id();
+        $this->container['option']        = new \WP_STATISTICS\Option();
+        $this->container['ip']            = \WP_STATISTICS\IP::getIP();
+        $this->container['agent']         = \WP_STATISTICS\UserAgent::getUserAgent();
+        $this->container['users_online']  = new \WP_STATISTICS\UserOnline();
+        $this->container['visitor']       = new \WP_STATISTICS\Visitor();
     }
 
     /**
@@ -350,7 +342,7 @@ final class WP_Statistics
 
             // Check User Has Any AddOns
             $activate_plugins = get_option('active_plugins');
-            $user_has_addons = false;
+            $user_has_addons  = false;
             foreach ($addOns as $plugin) {
                 if (in_array($plugin, $activate_plugins)) {
                     $user_has_addons = true;
