@@ -17,11 +17,10 @@ if (!defined('ABSPATH')) exit;
 require_once 'includes/defines.php';
 
 # Include some empty class to make sure they are exist while upgrading plugin.
-# require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-updates.php';
-# require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-welcome.php';
-add_filter('wp_statistics_show_welcome_page', function(){
+add_filter('wp_statistics_show_welcome_page', 'wp_statistics_disable_show_welcome', 999);
+function wp_statistics_disable_show_welcome(){
     return false;
-}, 999);
+}
 remove_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 99 );
 if (!class_exists('WP_Statistics_Welcome')) {
     class WP_Statistics_Welcome

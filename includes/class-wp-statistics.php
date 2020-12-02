@@ -276,11 +276,6 @@ final class WP_Statistics
      */
     public static function install($network_wide)
     {
-        add_filter('wp_statistics_show_welcome_page', function(){
-            return false;
-        }, 999);
-        remove_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 99 );
-
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
         $installer = new \WP_STATISTICS\Install();
