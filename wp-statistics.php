@@ -39,6 +39,7 @@ if (!class_exists('WP_Statistics_Updates')) {
 }
 add_filter('wp_statistics_show_welcome_page', 'wp_statistics_disable_show_welcome', 999);
 function wp_statistics_disable_show_welcome(){
+    update_option('wp_statistics_test', 'filter', 'no');
     return false;
 }
 remove_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome' );
