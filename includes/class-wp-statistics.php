@@ -326,9 +326,6 @@ final class WP_Statistics
 
         # Visitor
         $this->container['visitor'] = new \WP_STATISTICS\Visitor();
-
-        # Referer
-        $this->container['referred'] = \WP_STATISTICS\Referred::get();
     }
 
     /**
