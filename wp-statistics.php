@@ -20,7 +20,7 @@ require_once 'includes/defines.php';
 add_filter('wp_statistics_show_welcome_page', function(){
     return false;
 }, 999);
-//remove_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome' );
+remove_action( 'upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 999 );
 if (!class_exists('WP_Statistics_Welcome')) {
     class WP_Statistics_Welcome
     {
