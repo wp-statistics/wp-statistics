@@ -3,7 +3,7 @@
     "php": ">=5.4",
     "geoip2/geoip2": "2.10.0",
     "s1lentium/iptools": "^1.1.0",
-    "whichbrowser/parser": "2.0.42",
+    "whichbrowser/parser": "2.0.37",
     "jaybizzle/crawler-detect": "1.2.102"
   },
   "config": {
