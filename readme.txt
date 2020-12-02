@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 13.0.3
+Stable tag: 13.0.4
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -124,6 +124,14 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= 13.0.4 =
+
+- Compatibility with PHP v7.2 and adjustment requires PHP version in the Composer to 5.6
+- Fixed the issue to get the `Referred::get()` method during the initial plugin.
+- Fixed issue to create tables queries in MariaDB v10.3
+- Disabled the Cronjob for table optimization in the background process (we're going to create an option on the Optimization page to handle it)
+- Minor Improvements.
+
 = 13.0.3 =
 
 **We're very sorry regarding the previous update because we had a lot of changes on v13.0, we worked almost 1 year for this update and considered all situations and many tests, anyway try to update and enjoy the new features!**
