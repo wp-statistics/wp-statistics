@@ -17,8 +17,28 @@ if (!defined('ABSPATH')) exit;
 require_once 'includes/defines.php';
 
 # Include some empty class to make sure they are exist while upgrading plugin.
-require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-updates.php';
-require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-welcome.php';
+# require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-updates.php';
+# require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-welcome.php';
+if (!class_exists('WP_Statistics_Welcome')) {
+    class WP_Statistics_Welcome
+    {
+        public static function init(){}
+        public static function menu(){}
+        public static function page_callback(){}
+        public static function do_welcome($upgrader_object, $options){}
+        public static function show_change_log(){}
+    }
+}
+if (!class_exists('WP_Statistics_Updates')) {
+    class WP_Statistics_Updates
+    {
+        public static $geoip = array();
+        static function do_upgrade(){}
+        static function download_geoip($pack, $type = "enable"){}
+        static function download_referrerspam(){}
+        static function populate_geoip_info(){}
+    }
+}
 
 # Load Plugin
 if (!class_exists('WP_Statistics')) {
