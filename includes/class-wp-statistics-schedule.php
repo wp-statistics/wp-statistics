@@ -83,17 +83,11 @@ class Schedule
                 wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
             }
 
-            // Add Optimize and repair Table Daily
-            if (!wp_next_scheduled('wp_statistics_optimize_table')) {
-                wp_schedule_event(time(), '4weeks', 'wp_statistics_optimize_table');
-            }
-
             //After construct
             add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
             add_action('wp_statistics_report_hook', array($this, 'send_report'));
-            add_action('wp_statistics_optimize_table', array($this, 'optimize_table'));
         }
 
     }
@@ -218,18 +212,6 @@ class Schedule
         // If SMS
         if ($type == 'sms') {
             Helper::send_sms(array(get_option('wp_admin_mobile')), $final_text_report);
-        }
-    }
-
-    /**
-     * Cron Daily Optimize Table
-     */
-    public function optimize_table()
-    {
-        $table_list = DB::table('all');
-        foreach ($table_list as $key => $table_name) {
-            DB::optimizeTable($table_name);
-            DB::repairTable($table_name);
         }
     }
 
