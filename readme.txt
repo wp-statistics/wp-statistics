@@ -129,6 +129,7 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 - Compatibility with PHP v7.2 and adjustment requires PHP version in the Composer to 5.6
 - Fixed the issue to get the `Referred::get()` method during the initial plugin.
 - Fixed issue to create tables queries in MariaDB v10.3
+- Fixed the ChartJs conflict with some plugins.
 - Disabled the Cronjob for table optimization in the background process (we're going to create an option on the Optimization page to handle it)
 - Minor Improvements.
 
