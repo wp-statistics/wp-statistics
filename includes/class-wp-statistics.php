@@ -140,6 +140,7 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-meta-box.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-admin-bar.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-rest-api.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-purge.php';
 
         // Hits Class
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-country.php';
@@ -165,7 +166,6 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-dashboard.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-export.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-network.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-purge.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-assets.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-notices.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-post.php';
