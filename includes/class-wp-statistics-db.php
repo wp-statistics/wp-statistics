@@ -121,7 +121,7 @@ class DB
         global $wpdb;
 
         if ($table_name) {
-            $result = $wpdb->query('DELETE FROM ' . $table_name);
+            $result = $wpdb->query('TRUNCATE TABLE ' . $table_name);
 
             if ($result) {
                 return sprintf(__('%s table data deleted successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>');
