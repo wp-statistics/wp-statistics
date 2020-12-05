@@ -49,7 +49,7 @@
                     ?>
                     <option value="all"><?php echo __('All', 'wp-statistics'); ?></option>
                 </select>
-                <p class="description"><?php _e('Please Select Database Table that you want optimize and repair', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Please select the table you would like to optimize and repair', 'wp-statistics'); ?></p>
 
                 <input id="wp-statistics-run-optimize-database-table" class="button button-primary" type="button"
                        value="<?php _e('Run Now!', 'wp-statistics'); ?>"
