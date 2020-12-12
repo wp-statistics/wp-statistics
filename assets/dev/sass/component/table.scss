@@ -113,10 +113,11 @@ table.wps-table-fixed {
   float: left;
 }
 
-
+/*
 .ui-sortable {
   min-height: 100px;
 }
+*/
 
 .table-stats tr, .table-stats td {
   border-bottom: 1px solid #efeeee;
@@ -125,7 +126,7 @@ table.wps-table-fixed {
 }
 
 .table-stats tr:last-child td {
-  border-bottom: 0px;
+  border-bottom: 0;
 }
 
 .table-stats tr:hover:not(:first-child) td {
@@ -133,7 +134,7 @@ table.wps-table-fixed {
 }
 
 .table-stats tr:first-child td {
-  border: 0px none;
+  border: 0 none;
   text-align: left;
 }
 
@@ -155,7 +156,7 @@ table.wps-table-fixed {
 }
 
 .table-stats {
-  border: 0px none !important;
+  border: 0 none !important;
 }
 
 #visits-log {
