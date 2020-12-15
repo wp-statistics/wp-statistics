@@ -501,9 +501,10 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
  * @param null $rangestartdate
  * @param null $rangeenddate
  * @param null $limit
+ * @param null $post_type
  * @return array
  */
-function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = null, $limit = null)
+function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = null, $limit = null, $post_type = null)
 {
     global $wpdb;
 
@@ -519,11 +520,13 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
 
     // Now get the total page visit count for each unique URI.
     foreach ($result as $out) {
+      //Prepare item
+      list($url, $page_id, $page_type) = $out;
+
+      // Check if item is of specific post type or if post type is set to null (aka post type doesn't matter)
+      if(is_null($post_type) || get_post_type($page_id) == $post_type) {
         // Increment the total number of results.
         $total++;
-
-        //Prepare item
-        list($url, $page_id, $page_type) = $out;
 
         //Get Page Title
         $page_info = Pages::get_page_info($page_id, $page_type);
@@ -563,6 +566,7 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
         } else {
             $uris[] = array($out[0], wp_statistics_pages('total', $out[0]), $page_id, $title, $page_url);
         }
+      }
     }
 
     // If we have more than one result, let's sort them using usort.
