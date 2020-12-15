@@ -523,8 +523,8 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
       //Prepare item
       list($url, $page_id, $page_type) = $out;
 
-      // Check if item is of specific post type or if post type is set to null (aka post type doesn't matter)
-      if(is_null($post_type) || get_post_type($page_id) == $post_type) {
+      // Check if item is of specific post type (string or part of an array) or if post type is set to null
+      if(is_null($post_type) || get_post_type($page_id) == $post_type || (is_array($post_type) && in_array(get_post_type($page_id), $post_type))) {
         // Increment the total number of results.
         $total++;
 
