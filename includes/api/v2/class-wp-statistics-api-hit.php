@@ -78,18 +78,13 @@ class Hit extends \WP_STATISTICS\RestAPI
         ));
 
         // Check WP-Statistics Rest API Not disabled
-        register_rest_route(self::$namespace, '/enable', array(
+        register_rest_route(self::$namespace, '/check', array(
             array(
                 'methods' => \WP_REST_Server::READABLE,
                 'callback' => array($this, 'check_enable_callback'),
                 'permission_callback' => function () {
                     return true;
-                },
-                'args' => array(
-                    'connect' => array(
-                        'required' => true
-                    )
-                )
+                }
             )
         ));
     }
@@ -119,11 +114,7 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function check_enable_callback(\WP_REST_Request $request)
     {
-        if ($request->get_param('connect') == "wp-statistics") {
-            return self::response('enable');
-        }
-
-        return self::response('Missing connect parameter.', 400);
+        return new \WP_REST_Response(array('status' => true, 'message' => __('Connected To WordPress REST API', 'wp-statistics')), 200);
     }
 }
 
