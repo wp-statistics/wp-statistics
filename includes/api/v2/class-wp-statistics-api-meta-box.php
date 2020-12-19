@@ -31,18 +31,15 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
         // Get Admin Meta Box
         register_rest_route(self::$namespace, '/metabox', array(
             array(
-                'methods'             => \WP_REST_Server::READABLE,
-                'callback'            => array($this, 'meta_box_callback'),
-                'args'                => array(
+                'methods' => \WP_REST_Server::READABLE,
+                'callback' => array($this, 'meta_box_callback'),
+                'args' => array(
                     'name' => array(
-                        'required'          => true,
-                        'validate_callback' => function ($value, $request, $key) {
-                            return (in_array($value, array_keys(\WP_STATISTICS\Meta_Box::getList())) and \WP_STATISTICS\Meta_Box::IsExistMetaBoxClass($value));
-                        }
+                        'required' => true
                     )
                 ),
-                'permission_callback' => function () {
-                    return User::Access('read');
+                'permission_callback' => function (\WP_REST_Request $request) {
+                    return true;
                 }
             )
         ));
@@ -57,8 +54,20 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
      */
     public function meta_box_callback(\WP_REST_Request $request)
     {
-        $class = \WP_STATISTICS\Meta_Box::getMetaBoxClass($request->get_param('name'));
-        return $class::get($request->get_params());
+        // Check User Auth
+        $user = wp_get_current_user();
+        if ($user->ID == 0) {
+            return new \WP_REST_Response(array('code' => 'user_auth', 'message' => __('You do not have access to display information, <br /> Please Check User Level to View in Wp Statistics Settings.', 'wp-statistics')), 400);
+       }
+
+        // Check Exist MetaBox Name
+        if (in_array($request->get_param('name'), array_keys(\WP_STATISTICS\Meta_Box::getList())) and \WP_STATISTICS\Meta_Box::IsExistMetaBoxClass($request->get_param('name'))) {
+            $class = \WP_STATISTICS\Meta_Box::getMetaBoxClass($request->get_param('name'));
+            return $class::get($request->get_params());
+        }
+
+        // Not Define MetaBox
+        return new \WP_REST_Response(array('code' => 'not_found_meta_box', 'message' => __('Metabox name is invalid.', 'wp-statistics')), 400);
     }
 
 }

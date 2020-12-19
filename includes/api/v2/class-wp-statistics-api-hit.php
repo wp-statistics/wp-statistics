@@ -62,36 +62,33 @@ class Hit extends \WP_STATISTICS\RestAPI
             $params[$p] = array('required' => true);
         }
 
+        // Add X-WP-Nonce
+        $params['_wpnonce'] = array('required' => true);
+
         // Record WP-Statistics when Cache is enable
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
             array(
-                'methods'             => \WP_REST_Server::READABLE,
-                'callback'            => array($this, 'hit_callback'),
-                'permission_callback' => function () {
-                    return Option::get('use_cache_plugin') == 1;
-                },
-                'args'                => array_merge(
-                    array('_wpnonce' => array(
-                        'required'          => true,
-                        'validate_callback' => function ($value) {
-                            return wp_verify_nonce($value, 'wp_rest');
-                        }
-                    )), $params)
+                'methods' => \WP_REST_Server::READABLE,
+                'callback' => array($this, 'hit_callback'),
+                'args' => $params,
+                'permission_callback' => function (\WP_REST_Request $request) {
+                    return true;
+                }
             )
         ));
 
         // Check WP-Statistics Rest API Not disabled
         register_rest_route(self::$namespace, '/enable', array(
             array(
-                'methods'  => \WP_REST_Server::READABLE,
+                'methods' => \WP_REST_Server::READABLE,
                 'callback' => array($this, 'check_enable_callback'),
                 'permission_callback' => function () {
                     return true;
                 },
-                'args'     => array(
+                'args' => array(
                     'connect' => array(
                         'required' => true
-                    ),
+                    )
                 )
             )
         ));

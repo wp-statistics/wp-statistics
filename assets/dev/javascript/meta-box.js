@@ -33,7 +33,11 @@ wps_js.no_meta_box_data = function () {
 /**
  * Show Error Connection if Meta Box is Empty
  */
-wps_js.error_meta_box_data = function (text) {
+wps_js.error_meta_box_data = function (xhr) {
+    let data = JSON.parse(xhr);
+    if (wps_js.isset(data, 'message')) {
+        return data['message'];
+    }
     return wps_js._('rest_connect');
 };
 
