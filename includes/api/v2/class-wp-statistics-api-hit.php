@@ -103,7 +103,7 @@ class Hit extends \WP_STATISTICS\RestAPI
         Hits::record();
 
         // Return
-        return self::response(__('Visitor Hit was recorded successfully.', 'wp-statistics'));
+        return self::response(array('status' => true, 'message' => __('Visitor Hit was recorded successfully.', 'wp-statistics')));
     }
 
     /**
@@ -114,7 +114,7 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function check_enable_callback(\WP_REST_Request $request)
     {
-        return new \WP_REST_Response(array('status' => true, 'message' => __('Connected To WordPress REST API', 'wp-statistics')), 200);
+        return new \WP_REST_Response(array('status' => true, 'message' => __('WP-Statistics has no problem establishing a connection to the WordPress REST API.', 'wp-statistics')), 200);
     }
 }
 

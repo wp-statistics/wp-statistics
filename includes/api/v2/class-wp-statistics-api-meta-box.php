@@ -57,7 +57,7 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
         // Check User Auth
         $user = wp_get_current_user();
         if ($user->ID == 0) {
-            return new \WP_REST_Response(array('code' => 'user_auth', 'message' => __('You do not have access to display information, <br /> Please Check User Level to View in Wp Statistics Settings.', 'wp-statistics')), 400);
+            return new \WP_REST_Response(array('code' => 'user_auth', 'message' => __('You do not have enough access privileges for checking out information. Please check the accessibility of the information display in the settings section of WP-Statistics.', 'wp-statistics')), 400);
        }
 
         // Check Exist MetaBox Name
@@ -67,7 +67,7 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
         }
 
         // Not Define MetaBox
-        return new \WP_REST_Response(array('code' => 'not_found_meta_box', 'message' => __('Metabox name is invalid.', 'wp-statistics')), 400);
+        return new \WP_REST_Response(array('code' => 'not_found_meta_box', 'message' => __('The name of MetaBox is invalid on request.', 'wp-statistics')), 400);
     }
 
 }
