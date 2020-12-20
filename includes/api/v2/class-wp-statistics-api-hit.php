@@ -103,7 +103,7 @@ class Hit extends \WP_STATISTICS\RestAPI
         Hits::record();
 
         // Return
-        return self::response(array('status' => true, 'message' => __('Visitor Hit was recorded successfully.', 'wp-statistics')));
+        return new \WP_REST_Response(array('status' => true, 'message' => __('Visitor Hit was recorded successfully.', 'wp-statistics')), 200);
     }
 
     /**
