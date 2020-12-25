@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, mehrshaddarzi, kashani, veronalabs, GregRoss, dedid
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
-Tested up to: 5.5
-Stable tag: 13.0.4
+Tested up to: 5.6
+Stable tag: 13.0.5
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -124,8 +124,16 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 13.0.4 =
+= 13.0.5 =
+- Compatibility the ChartJs with some kind of plugins.
+- Compatibility with WordPress v5.6
+- Improvement error handling with REST API
+- Added an option in the Optimization page to optimize & repair the tables.
+- Added ability to filter `wp_statistics_get_top_pages()` by post type [#343](https://github.com/wp-statistics/wp-statistics/pull/343)
+- Fixed the issue to load Purge class.
+- Minor Improvements in SQL queries.
 
+= 13.0.4 =
 - Compatibility with PHP v7.2 and adjustment requires PHP version in the Composer to 5.6
 - Fixed the issue to get the `Referred::get()` method during the initial plugin.
 - Fixed issue to create tables queries in MariaDB v10.3

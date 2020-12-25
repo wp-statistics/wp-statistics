@@ -41,7 +41,7 @@ class Admin_Notices
         $plugin = Helper::is_active_cache_plugin();
         if (!Option::get('use_cache_plugin') and $plugin['status'] === true) {
             $text = ($plugin['plugin'] == "core" ? __('WP_CACHE is enable in your WordPress', 'wp-statistics') : sprintf(__('You are using %s plugin in WordPress', 'wp-statistics'), $plugin['plugin']));
-            Helper::wp_admin_notice($text . ", " . sprintf(__('Please enable %1$sCache Setting%2$s in WP Statistics.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>'), 'warning', true);
+            Helper::wp_admin_notice($text . ", " . sprintf(__('Please enable %1$sCache Settings%2$s in the WP-Statistics plugin or delete the WP_CACHE value from the wp-config.php file if you do not have any WordPress cache plugins enabled.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>'), 'warning', true);
         }
     }
 
@@ -52,20 +52,28 @@ class Admin_Notices
 
             // Check Connect To WordPress Rest API
             $status = true;
-            $request = wp_remote_get(get_rest_url(null, RestAPI::$namespace . '/enable'), array('body' => array('connect' => 'wp-statistics'), 'timeout' => 30));
+            $message = '';
+            $request = wp_remote_get(get_rest_url(null, RestAPI::$namespace . '/check'), array('timeout' => 30));
             if (is_wp_error($request)) {
                 $status = false;
-            }
-            $body = wp_remote_retrieve_body($request);
-            $data = json_decode($body, true);
-            if (isset($data['error'])) {
-                $status = false;
+                $message = $request->get_error_message();
+            } else {
+                $body = wp_remote_retrieve_body($request);
+                $data = json_decode($body, true);
+                if (isset($data['error'])) {
+                    $status = false;
+                }
             }
 
             if ($status === true) {
                 set_transient('check-wp-statistics-rest', array("status" => "enable"), 3 * HOUR_IN_SECONDS);
             } else {
-                Helper::wp_admin_notice(sprintf(__('Here is an error associated with Connecting WordPress Rest API, Please Flushing rewrite rules or activate wp rest api for performance WP-Statistics Plugin Cache / Go %1$sSettings->Permalinks%2$s', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>'), 'warning', true);
+                $error_msg = __('Here is an error associated with Connecting WordPress Rest API', 'wp-statistics') . '<br />';
+                if (!empty($message)) {
+                    $error_msg .= $message . '<br />';
+                }
+                $error_msg .= sprintf(__('Please Flushing rewrite rules or activate WordPress REST API for performance WP-Statistics Plugin Cache / Go %1$sSettings->Permalinks%2$s', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
+                Helper::wp_admin_notice($error_msg, 'warning', true);
             }
         }
 
