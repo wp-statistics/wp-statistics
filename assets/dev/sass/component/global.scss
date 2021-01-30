@@ -75,7 +75,7 @@ a[href*='?page=wps_break_menu'] {
 
 .wps-btn-inline {
   vertical-align: -2px;
-  margin: 0px 5px;
+  margin: 0 5px;
 }
 
 /* Margin */
@@ -130,4 +130,13 @@ a[href*='?page=wps_break_menu'] {
 
 .wps-pull-left {
   float: left;
+}
+
+/* WP Admin List Table */
+.column-wp-statistics-post-hits, .column-visits {
+  width: 10%;
+}
+
+.column-wp-statistics-tax-hits {
+  width: 15%;
 }
