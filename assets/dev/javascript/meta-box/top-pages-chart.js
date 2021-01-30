@@ -10,7 +10,7 @@ wps_js.top_pages_chart_meta_box = {
         let html = '';
 
         // Check Show Button Group
-        html += wps_js.btn_group_chart('top-pages-chart', args);
+        //html += wps_js.btn_group_chart('top-pages-chart', args);
         setTimeout(function () {
             wps_js.date_picker();
         }, 1000);
