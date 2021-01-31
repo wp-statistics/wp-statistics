@@ -121,9 +121,16 @@ class DB
         global $wpdb;
 
         if ($table_name) {
+            // TRUNCATE TABLE
             $result = $wpdb->query('TRUNCATE TABLE ' . $table_name);
 
+            // Check Result
             if ($result) {
+
+                // add action
+                do_action('wp_statistics_truncate_table', str_ireplace(self::prefix() . 'statistics_', "", $table_name));
+
+                // Return
                 return sprintf(__('%s table data deleted successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
         }

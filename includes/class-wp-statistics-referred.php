@@ -26,6 +26,15 @@ class Referred
     public static $referrer_spam_link = 'https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt';
 
     /**
+     * Referred constructor.
+     */
+    public function __construct()
+    {
+        # Remove Cache When Delete Visitor Table
+        add_action('wp_statistics_truncate_table', array($this, 'deleteCacheData'));
+    }
+
+    /**
      * Get referer URL
      *
      * @return string
@@ -213,7 +222,7 @@ class Referred
 
             // Check Validate IP
             if (filter_var($ip, FILTER_VALIDATE_IP)) {
-                $result['ip']      = $ip;
+                $result['ip'] = $ip;
                 $result['country'] = GeoIP::getCountry($ip);
             }
         }
@@ -265,7 +274,7 @@ class Referred
         $ISOCountryCode = Country::getList();
 
         //Get Refer Site Detail
-        $refer_opt     = get_option(self::$referral_detail_opt);
+        $refer_opt = get_option(self::$referral_detail_opt);
         $referrer_list = (empty($refer_opt) ? array() : $refer_opt);
 
         if (!$get_urls) {
@@ -280,24 +289,24 @@ class Referred
 
             //Get Site information if Not Exist
             if (!array_key_exists($domain, $referrer_list)) {
-                $get_site_inf           = Referred::get_domain_server($domain);
-                $get_site_title         = Helper::get_site_title_by_url($domain);
+                $get_site_inf = Referred::get_domain_server($domain);
+                $get_site_title = Helper::get_site_title_by_url($domain);
                 $referrer_list[$domain] = array(
-                    'ip'      => $get_site_inf['ip'],
+                    'ip' => $get_site_inf['ip'],
                     'country' => $get_site_inf['country'],
-                    'title'   => ($get_site_title === false ? '' : $get_site_title),
+                    'title' => ($get_site_title === false ? '' : $get_site_title),
                 );
             }
 
             // Push to list
             $list[] = array(
-                'domain'    => $domain,
-                'title'     => $referrer_list[$domain]['title'],
-                'ip'        => ($referrer_list[$domain]['ip'] != "" ? $referrer_list[$domain]['ip'] : '-'),
-                'country'   => ($referrer_list[$domain]['country'] != "" ? $ISOCountryCode[$referrer_list[$domain]['country']] : ''),
-                'flag'      => ($referrer_list[$domain]['country'] != "" ? Country::flag($referrer_list[$domain]['country']) : ''),
+                'domain' => $domain,
+                'title' => $referrer_list[$domain]['title'],
+                'ip' => ($referrer_list[$domain]['ip'] != "" ? $referrer_list[$domain]['ip'] : '-'),
+                'country' => ($referrer_list[$domain]['country'] != "" ? $ISOCountryCode[$referrer_list[$domain]['country']] : ''),
+                'flag' => ($referrer_list[$domain]['country'] != "" ? Country::flag($referrer_list[$domain]['country']) : ''),
                 'page_link' => Menus::admin_url('referrers', array('referr' => $referrer_html)),
-                'number'    => number_format_i18n($number)
+                'number' => number_format_i18n($number)
             );
         }
 
@@ -361,4 +370,18 @@ class Referred
         // Return SQL
         return "SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM " . DB::table('visitor') . " WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 " . $where . " GROUP BY domain " . $extra;
     }
+
+    /**
+     * Remove Complete Cache Data
+     * @param $table_name
+     */
+    public function deleteCacheData($table_name)
+    {
+        if ($table_name == "visitor") {
+            delete_transient(self::$top_referring_transient);
+            delete_option(self::$referral_detail_opt);
+        }
+    }
 }
+
+new Referred();
