@@ -67,10 +67,10 @@ class Admin_Taxonomy
     /**
      * Render the custom column on the post/pages lists.
      *
-     * @param $value
+     * @param string $value
      * @param string $column_name Column Name
-     * @param $term_id
-     * @return mixed
+     * @param int $term_id
+     * @return string
      */
     public function render_column($value, $column_name, $term_id)
     {
