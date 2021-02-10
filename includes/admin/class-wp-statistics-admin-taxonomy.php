@@ -67,16 +67,16 @@ class Admin_Taxonomy
     /**
      * Render the custom column on the post/pages lists.
      *
-     * @param $value
+     * @param string $value
      * @param string $column_name Column Name
-     * @param $term_id
-     * @return mixed
+     * @param int $term_id
+     * @return string
      */
     public function render_column($value, $column_name, $term_id)
     {
-        $term = get_term($term_id);
         if ($column_name == 'wp-statistics-tax-hits') {
-            echo "<a href='" . Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)) . "'>" . wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy) . "</a>";
+            $term = get_term($term_id);
+            return "<a href='" . Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)) . "'>" . wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy) . "</a>";
         }
 
         return $value;
