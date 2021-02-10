@@ -63,15 +63,29 @@ class optimization_page
 
         // Update Historical Value
         if (isset($_POST['historical-submit'])) {
+            $historical_table = DB::table('historical');
 
+            // Historical Visitors
             if (isset($_POST['wps_historical_visitors'])) {
-                $wpdb->update(DB::table('historical'), array('value' => $_POST['wps_historical_visitors']), array('category' => 'visitors'));
+
+                // Update DB
+                $result = $wpdb->update($historical_table, array('value' => $_POST['wps_historical_visitors']), array('category' => 'visitors'));
+                if ($result == 0) {
+                    $result = $wpdb->insert($historical_table, array('value' => $_POST['wps_historical_visitors'], 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'));
+                }
             }
 
+            // Historical Visits
             if (isset($_POST['wps_historical_visits'])) {
-                $wpdb->update(DB::table('historical'), array('value' => $_POST['wps_historical_visits']), array('category' => 'visits'));
+                // Update DB
+                $result = $wpdb->update($historical_table, array('value' => $_POST['wps_historical_visits']), array('category' => 'visits'));
+
+                if ($result == 0) {
+                    $result = $wpdb->insert($historical_table, array('value' => $_POST['wps_historical_visits'], 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'));
+                }
             }
 
+            // Show Notice
             Helper::wp_admin_notice(__('Updated Historical Values.', "wp-statistics"), "success");
         }
     }
@@ -91,45 +105,45 @@ class optimization_page
                 $tables = array_filter(array(DB::table($tbl)));
             }
 
-            if(!empty($tables)) {
+            if (!empty($tables)) {
                 $notice = '';
                 $okay = true;
 
                 // Use wp-admin/maint/repair.php
-                foreach ( $tables as $table ) {
-                    $check = $wpdb->get_row( "CHECK TABLE $table" );
+                foreach ($tables as $table) {
+                    $check = $wpdb->get_row("CHECK TABLE $table");
 
-                    if ( 'OK' === $check->Msg_text ) {
+                    if ('OK' === $check->Msg_text) {
                         /* translators: %s: Table name. */
-                        $notice .=  sprintf( __( 'The %s table is okay.', "wp-statistics" ), "<code>$table</code>" );
-                        $notice .=  '<br />';
+                        $notice .= sprintf(__('The %s table is okay.', "wp-statistics"), "<code>$table</code>");
+                        $notice .= '<br />';
                     } else {
-                        $notice .=  sprintf( __( 'The %1$s table is not okay. It is reporting the following error: %2$s. WordPress will attempt to repair this table&hellip;', "wp-statistics" ), "<code>$table</code>", "<code>$check->Msg_text</code>" );
-                        $repair = $wpdb->get_row( "REPAIR TABLE $table" );
+                        $notice .= sprintf(__('The %1$s table is not okay. It is reporting the following error: %2$s. WordPress will attempt to repair this table&hellip;', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>");
+                        $repair = $wpdb->get_row("REPAIR TABLE $table");
 
-                        $notice .=  '<br />';
-                        if ( 'OK' === $repair->Msg_text ) {
-                            $notice .=  sprintf( __( 'Successfully repaired the %s table.', "wp-statistics" ), "<code>$table</code>" );
+                        $notice .= '<br />';
+                        if ('OK' === $repair->Msg_text) {
+                            $notice .= sprintf(__('Successfully repaired the %s table.', "wp-statistics"), "<code>$table</code>");
                         } else {
-                            $notice .=  sprintf( __( 'Failed to repair the %1$s table. Error: %2$s', "wp-statistics" ), "<code>$table</code>", "<code>$check->Msg_text</code>" ) . '<br />';
-                            $problems[ $table ] = $check->Msg_text;
-                            $okay               = false;
+                            $notice .= sprintf(__('Failed to repair the %1$s table. Error: %2$s', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>") . '<br />';
+                            $problems[$table] = $check->Msg_text;
+                            $okay = false;
                         }
                     }
 
-                    if ( $okay ) {
-                        $check = $wpdb->get_row( "ANALYZE TABLE $table" );
-                        if ( 'Table is already up to date' === $check->Msg_text ) {
-                            $notice .=  sprintf( __( 'The %s table is already optimized.', "wp-statistics" ), "<code>$table</code>" );
-                            $notice .=  '<br />';
+                    if ($okay) {
+                        $check = $wpdb->get_row("ANALYZE TABLE $table");
+                        if ('Table is already up to date' === $check->Msg_text) {
+                            $notice .= sprintf(__('The %s table is already optimized.', "wp-statistics"), "<code>$table</code>");
+                            $notice .= '<br />';
                         } else {
-                            $check = $wpdb->get_row( "OPTIMIZE TABLE $table" );
-                            if ( 'OK' === $check->Msg_text || 'Table is already up to date' === $check->Msg_text ) {
-                                $notice .=  sprintf( __( 'Successfully optimized the %s table.', 'wp-statistics' ), "<code>$table</code>" );
-                                $notice .=  '<br />';
+                            $check = $wpdb->get_row("OPTIMIZE TABLE $table");
+                            if ('OK' === $check->Msg_text || 'Table is already up to date' === $check->Msg_text) {
+                                $notice .= sprintf(__('Successfully optimized the %s table.', 'wp-statistics'), "<code>$table</code>");
+                                $notice .= '<br />';
                             } else {
-                                $notice .=  sprintf( __( 'The %1$s table does not support optimize, doing recreate + analyze instead.' ), "<code>$table</code>");
-                                $notice .=  '<br />';
+                                $notice .= sprintf(__('The %1$s table does not support optimize, doing recreate + analyze instead.'), "<code>$table</code>");
+                                $notice .= '<br />';
                             }
                         }
                     }

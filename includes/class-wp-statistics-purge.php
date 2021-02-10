@@ -9,17 +9,23 @@ class Purge
     {
         global $wpdb;
 
+        // Table Name
+        $historical_table = DB::table('historical');
+
         // If it's less than 30 days, don't do anything.
         if ($purge_days > 30) {
+
             // Purge the visit data.
-            $table_name  = $wpdb->prefix . 'statistics_visit';
+            $table_name = DB::table('visit');
             $date_string = TimeZone::getCurrentDate('Y-m-d', '-' . $purge_days);
 
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
 
             if ($result) {
                 // Update the historical count with what we purged.
-                $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}statistics_historical SET value = value + %d WHERE `category` = 'visits'", $result));
+                $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$historical_table} SET value = value + %d WHERE `category` = 'visits'", $result));
+
+                // Insert
                 if ($historical_result == 0) {
                     $insert = $wpdb->insert(
                         DB::table('historical'),
@@ -43,13 +49,13 @@ class Purge
             }
 
             // Purge the visitors data.
-            $table_name = $wpdb->prefix . 'statistics_visitor';
+            $table_name = DB::table('visitor');
 
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
 
             if ($result) {
                 // Update the historical count with what we purged.
-                $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}statistics_historical SET value = value + %d WHERE `category` = 'visitors'", $result));
+                $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$historical_table} SET value = value + %d WHERE `category` = 'visitors'", $result));
                 if ($historical_result == 0) {
                     $insert = $wpdb->insert(
                         DB::table('historical'),
@@ -73,7 +79,7 @@ class Purge
             }
 
             // Purge the exclusions data.
-            $table_name = $wpdb->prefix . 'statistics_exclusions';
+            $table_name = DB::table('exclusions');
 
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `date` < %s", $date_string));
 
@@ -84,8 +90,8 @@ class Purge
             }
 
             // Purge the search data.
-            $table_name = $wpdb->prefix . 'statistics_search';
-            $result     = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
+            $table_name = DB::table('search');
+            $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
 
             if ($result) {
                 $result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
@@ -94,7 +100,7 @@ class Purge
             }
 
             // Purge the pages data, this is more complex as we want to save the historical data per page.
-            $table_name = $wpdb->prefix . 'statistics_pages';
+            $table_name = DB::table('pages');
             $historical = 0;
 
             // The first thing we need to do is update the historical data by finding all the unique pages.
@@ -104,8 +110,10 @@ class Purge
 
             // If we have a result, let's store the historical data.
             if ($result) {
+
                 // Loop through all the unique rows that were returned.
                 foreach ($result as $row) {
+
                     // Use the unique rows to get a total count from the database of all the data from the given URIs/Pageids that we're going to delete later.
                     $historical = $wpdb->get_var(
                         $wpdb->prepare(
@@ -118,7 +126,7 @@ class Purge
                     // Do an update of the historical data.
                     $uresult = $wpdb->query(
                         $wpdb->prepare(
-                            "UPDATE {$wpdb->prefix}statistics_historical SET `value` = value + %d WHERE `uri` = %s AND `category` = 'uri'",
+                            "UPDATE {$historical_table} SET `value` = value + %d WHERE `uri` = %s AND `category` = 'uri'",
                             $historical,
                             $row->uri,
                             $date_string
@@ -168,12 +176,15 @@ class Purge
     public static function purge_visitor_hits($purge_hits)
     {
         global $wpdb;
+        $visitor_table = DB::table('visitor');
+        $visit_table = DB::table('visit');
 
         // If it's less than 10 hits, don't do anything.
         if ($purge_hits > 9) {
+
             // Purge the visitor's with more than the defined hits.
             $result = $wpdb->get_results(
-                $wpdb->prepare("SELECT * FROM {$wpdb->prefix}statistics_visitor WHERE `hits` > %s", $purge_hits)
+                $wpdb->prepare("SELECT * FROM {$visitor_table} WHERE `hits` > %s", $purge_hits)
             );
 
             $to_delete = array();
@@ -185,17 +196,19 @@ class Purge
             }
             if (count($to_delete) > 0) {
                 foreach ($to_delete as $item) {
+
                     // First update the daily hit count.
                     $wpdb->query(
                         $wpdb->prepare(
-                            "UPDATE {$wpdb->prefix}statistics_visit SET `visit` = `visit` - %d WHERE `last_counter` = %s;",
+                            "UPDATE {$visit_table} SET `visit` = `visit` - %d WHERE `last_counter` = %s;",
                             $item[2],
                             $item[1]
                         )
                     );
+
                     // Next remove the visitor.  Note we can't do both in a single query, looks like $wpdb doesn't like executing them together.
                     $wpdb->query(
-                        $wpdb->prepare("DELETE FROM {$wpdb->prefix}statistics_visitor WHERE `id` = %s;", $item[0])
+                        $wpdb->prepare("DELETE FROM {$visitor_table} WHERE `id` = %s;", $item[0])
                     );
                 }
 
