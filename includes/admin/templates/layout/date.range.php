@@ -1,7 +1,10 @@
 <form action="<?php echo admin_url('admin.php'); ?>" method="get" class="wps-inline" id="jquery-datepicker">
     <?php
     if (isset($select_box)) {
-        ?><?php echo $select_box['title']; ?>:<select name="<?php echo $select_box['name']; ?>" id="<?php echo $select_box['name']; ?>">
+        ?>
+        <br />
+        <?php echo $select_box['title']; ?>:&nbsp;
+        <select name="<?php echo $select_box['name']; ?>" id="<?php echo $select_box['name']; ?>">
             <?php
             foreach ($select_box['list'] as $value => $name) {
                 $selected = ((isset($select_box['active']) and $select_box['active'] == $value) ? ' selected' : '');
@@ -10,7 +13,7 @@
                 <?php
             }
             ?>
-        </select><input type="submit" value="<?php _e('Select', 'wp-statistics'); ?>" class="button-primary btn-danger wps-btn-inline"><br>
+        </select><input type="submit" value="<?php _e('Select', 'wp-statistics'); ?>" class="button-primary btn-danger wps-btn-inline"><br />
         <?php
     }
     ?>
