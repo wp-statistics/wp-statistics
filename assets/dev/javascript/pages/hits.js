@@ -1,7 +1,7 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "hits") {
 
     // Create Params
-    let params;
+    let params = {};
 
     // Check Days ago or Between
     if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {

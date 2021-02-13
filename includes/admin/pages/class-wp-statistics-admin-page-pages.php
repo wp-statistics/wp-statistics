@@ -21,6 +21,12 @@ class pages_page
                     wp_die(__('Your request is not valid.', 'wp-statistics'));
                 }
             }
+
+            // Is Validate Date Request
+            $DateRequest = Admin_Template::isValidDateRequest();
+            if (!$DateRequest['status']) {
+                wp_die($DateRequest['message']);
+            }
         }
     }
 
@@ -46,23 +52,33 @@ class pages_page
             $args['title'] = __('Top Pages', 'wp-statistics');
 
             // Get Current Page Url
-            $args['pageName']   = Menus::get_page_slug('pages');
+            $args['pageName'] = Menus::get_page_slug('pages');
             $args['pagination'] = Admin_Template::getCurrentPaged();
 
+            // Get Date-Range
+            $args['DateRang'] = Admin_Template::DateRange();
+
+            // Get List
+            $args['lists'] = \WP_STATISTICS\Pages::getTop(array(
+                'paged' => Admin_Template::getCurrentPaged(),
+                'from' => $args['DateRang']['from'],
+                'to' => $args['DateRang']['to']
+            ));
+
             // Total Number
-            $args['total'] = Pages::TotalCount();
+            $args['total'] = Pages::TotalCount('uri', array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']));
 
             // Create WordPress Pagination
             $args['pagination'] = '';
             if ($args['total'] > 0) {
                 $args['pagination'] = Admin_Template::paginate_links(array(
                     'total' => $args['total'],
-                    'echo'  => false
+                    'echo' => false
                 ));
             }
 
             // Show Template Page
-            Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/pages', 'layout/postbox.hide', 'layout/footer'), $args);
+            Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/pages', 'layout/postbox.hide', 'layout/footer'), $args);
         }
     }
 
@@ -74,16 +90,16 @@ class pages_page
         global $wpdb;
 
         // Page ID
-        $ID   = esc_html($_GET['ID']);
+        $ID = esc_html($_GET['ID']);
         $Type = esc_html($_GET['type']);
 
         // Page title
         $args['title'] = __('Page Statistics', 'wp-statistics');
 
         // Get Current Page Url
-        $args['pageName']   = Menus::get_page_slug('pages');
+        $args['pageName'] = Menus::get_page_slug('pages');
         $args['custom_get'] = array(
-            'ID'   => $ID,
+            'ID' => $ID,
             'type' => $Type
         );
 
@@ -113,7 +129,7 @@ class pages_page
 
         // Create Select List For WordPress Terms
         if ($_is_term and isset($query)) {
-            $this_term         = Pages::get_page_info($ID, $Type);
+            $this_term = Pages::get_page_info($ID, $Type);
             $args['list'][$ID] = $this_term['title'];
             foreach ($query as $item) {
                 $get_page_info = Pages::get_page_info($item['id'], $Type);

@@ -216,7 +216,7 @@ class Admin_Template
 
         // Get All Date From installed plugins day
         $first_day = Helper::get_date_install_plugin();
-        if ($first_day != false) {
+        if ($first_day != false and !isset($date_range[(int)TimeZone::getNumberDayBetween($first_day)])) {
             $date_range[(int)TimeZone::getNumberDayBetween($first_day)] = __('All', 'wp-statistics');
         }
 

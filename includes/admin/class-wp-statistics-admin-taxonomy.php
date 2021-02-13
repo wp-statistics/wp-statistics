@@ -33,7 +33,7 @@ class Admin_Taxonomy
         // Add Column
         foreach (Helper::get_list_taxonomy() as $tax => $name) {
             add_action('manage_edit-' . $tax . '_columns', array($this, 'add_column'), 10, 2);
-            add_action('manage_' . $tax . '_custom_column', array($this, 'render_column'), 10, 3);
+            add_filter('manage_' . $tax . '_custom_column', array($this, 'render_column'), 10, 3);
             add_filter('manage_edit-' . $tax . '_sortable_columns', array($this, 'modify_sortable_columns'));
         }
         add_filter('terms_clauses', array($this, 'modify_order_by_hits'), 10, 3);
@@ -67,16 +67,19 @@ class Admin_Taxonomy
     /**
      * Render the custom column on the post/pages lists.
      *
-     * @param $value
+     * @param string $value
      * @param string $column_name Column Name
-     * @param $term_id
+     * @param int $term_id
+     * @return string
      */
     public function render_column($value, $column_name, $term_id)
     {
-        $term = get_term($term_id);
         if ($column_name == 'wp-statistics-tax-hits') {
-            echo "<a href='" . Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)) . "'>" . wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy) . "</a>";
+            $term = get_term($term_id);
+            return "<a href='" . Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)) . "'>" . wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy) . "</a>";
         }
+
+        return $value;
     }
 
     /**

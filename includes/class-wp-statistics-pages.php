@@ -124,11 +124,11 @@ class Pages
     {
 
         // Get the site's path from the URL.
-        $site_uri     = parse_url(site_url(), PHP_URL_PATH);
+        $site_uri = parse_url(site_url(), PHP_URL_PATH);
         $site_uri_len = strlen($site_uri);
 
         // Get the site's path from the URL.
-        $home_uri     = parse_url(home_url(), PHP_URL_PATH);
+        $home_uri = parse_url(home_url(), PHP_URL_PATH);
         $home_uri_len = strlen($home_uri);
 
         // Get the current page URI.
@@ -234,11 +234,11 @@ class Pages
 
             // Prepare Pages Data
             $pages = array(
-                'uri'   => $page_uri,
-                'date'  => TimeZone::getCurrentDate('Y-m-d'),
+                'uri' => $page_uri,
+                'date' => TimeZone::getCurrentDate('Y-m-d'),
                 'count' => 1,
-                'id'    => $current_page['id'],
-                'type'  => $current_page['type']
+                'id' => $current_page['id'],
+                'type' => $current_page['type']
             );
             $pages = apply_filters('wp_statistics_pages_information', $pages);
 
@@ -296,13 +296,13 @@ class Pages
     {
 
         //Create Empty Object
-        $arg      = array();
+        $arg = array();
         $defaults = array(
-            'link'      => '',
+            'link' => '',
             'edit_link' => '',
             'object_id' => $page_id,
-            'title'     => '-',
-            'meta'      => array()
+            'title' => '-',
+            'meta' => array()
         );
 
         if (!empty($type)) {
@@ -312,10 +312,10 @@ class Pages
                 case "post":
                 case "page":
                     $arg = array(
-                        'title'     => esc_html(get_the_title($page_id)),
-                        'link'      => get_the_permalink($page_id),
+                        'title' => esc_html(get_the_title($page_id)),
+                        'link' => get_the_permalink($page_id),
                         'edit_link' => get_edit_post_link($page_id),
-                        'meta'      => array(
+                        'meta' => array(
                             'post_type' => get_post_type($page_id)
                         )
                     );
@@ -326,13 +326,13 @@ class Pages
                     $term = get_term($page_id);
                     if (!is_wp_error($term) and $term !== null) {
                         $arg = array(
-                            'title'     => esc_html($term->name),
-                            'link'      => (is_wp_error(get_term_link($page_id)) === true ? '' : get_term_link($page_id)),
+                            'title' => esc_html($term->name),
+                            'link' => (is_wp_error(get_term_link($page_id)) === true ? '' : get_term_link($page_id)),
                             'edit_link' => get_edit_term_link($page_id),
-                            'meta'      => array(
-                                'taxonomy'         => $term->taxonomy,
+                            'meta' => array(
+                                'taxonomy' => $term->taxonomy,
                                 'term_taxonomy_id' => $term->term_taxonomy_id,
-                                'count'            => $term->count
+                                'count' => $term->count
                             )
                         );
                     }
@@ -340,14 +340,14 @@ class Pages
                 case "home":
                     $arg = array(
                         'title' => __('Home Page', 'wp-statistics'),
-                        'link'  => get_site_url()
+                        'link' => get_site_url()
                     );
                     break;
                 case "author":
                     $user_info = get_userdata($page_id);
-                    $arg       = array(
-                        'title'     => ($user_info->display_name != "" ? esc_html($user_info->display_name) : esc_html($user_info->first_name . ' ' . $user_info->last_name)),
-                        'link'      => get_author_posts_url($page_id),
+                    $arg = array(
+                        'title' => ($user_info->display_name != "" ? esc_html($user_info->display_name) : esc_html($user_info->first_name . ' ' . $user_info->last_name)),
+                        'link' => get_author_posts_url($page_id),
                         'edit_link' => get_edit_user_link($page_id),
                     );
                     break;
@@ -376,7 +376,7 @@ class Pages
      * Get Top number of Hits Pages
      *
      * @param array $args
-     * @return array
+     * @return array|int|mixed
      */
     public static function getTop($args = array())
     {
@@ -385,13 +385,24 @@ class Pages
         // Define the array of defaults
         $defaults = array(
             'per_page' => 10,
-            'paged'    => 1
+            'paged' => 1,
+            'from' => '',
+            'to' => ''
         );
-        $args     = wp_parse_args($args, $defaults);
+        $args = wp_parse_args($args, $defaults);
+
+        // Date Time SQL
+        $DateTimeSql = "";
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $DateTimeSql = "WHERE (`pages`.`date` BETWEEN '{$args['from']}' AND '{$args['to']}')";
+        }
+
+        // Generate SQL
+        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' {$DateTimeSql} GROUP BY `uri` ORDER BY `count_sum` DESC";
 
         // Get List Of Pages
-        $list   = array();
-        $result = $wpdb->get_results("SELECT `pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' GROUP BY `uri` ORDER BY `count_sum` DESC LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']);
+        $list = array();
+        $result = $wpdb->get_results($sql . " LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']);
         foreach ($result as $item) {
 
             // Lookup the post title.
@@ -399,11 +410,11 @@ class Pages
 
             // Push to list
             $list[] = array(
-                'title'     => $page_info['title'],
-                'link'      => $page_info['link'],
-                'str_url'   => htmlentities(urldecode($item->uri), ENT_QUOTES),
+                'title' => $page_info['title'],
+                'link' => $page_info['link'],
+                'str_url' => htmlentities(urldecode($item->uri), ENT_QUOTES),
                 'hits_page' => Menus::admin_url('pages', array('ID' => $item->id, 'type' => $item->type)),
-                'number'    => number_format_i18n($item->count_sum)
+                'number' => number_format_i18n($item->count_sum)
             );
         }
 
@@ -414,12 +425,21 @@ class Pages
      * Count Number Page in DB Table
      *
      * @param string $group_by
+     * @param array $args
      * @return mixed
      */
-    public static function TotalCount($group_by = 'uri')
+    public static function TotalCount($group_by = 'uri', $args = array())
     {
         global $wpdb;
-        return $wpdb->get_var("SELECT COUNT(*) FROM `" . DB::table('pages') . "` `pages` GROUP BY `{$group_by}`");
+        $where = '';
+
+        // Date
+        if (isset($args['from']) and isset($args['to']) and !empty($args['from']) and !empty($args['to'])) {
+            $where .= "WHERE `date` BETWEEN '{$args['from']}' AND '{$args['to']}'";
+        }
+
+        // Return
+        return $wpdb->get_var("SELECT COUNT(*) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`");
     }
 
     /**
@@ -443,7 +463,7 @@ class Pages
     public static function uri_to_id($uri)
     {
         global $wpdb;
-        $sql    = $wpdb->prepare("SELECT id FROM `" . DB::table('pages') . "` WHERE `uri` = %s AND id > 0 ORDER BY date DESC", $uri);
+        $sql = $wpdb->prepare("SELECT id FROM `" . DB::table('pages') . "` WHERE `uri` = %s and id > 0 ORDER BY date DESC", $uri);
         $result = $wpdb->get_var($sql);
         if ($result == 0) {
             $result = 0;

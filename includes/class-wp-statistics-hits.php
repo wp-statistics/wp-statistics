@@ -233,7 +233,7 @@ class Hits
         if (Helper::is_rest_request() and isset($_REQUEST[Hits::$rest_hits_key])) {
             foreach ($_REQUEST as $key => $value) {
                 if (!in_array($key, array('_', '_wpnonce'))) {
-                    $data[$key] = trim($value);
+                    $data[$key] = $value;
                 }
             }
 

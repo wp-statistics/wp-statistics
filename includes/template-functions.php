@@ -557,14 +557,14 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
         // Add the current post to the array.
         if ($rangestartdate != null && $rangeenddate != null) {
             $uris[] = array(
-                $out[0],
+                urldecode_deep($out[0]),
                 wp_statistics_pages('range', $out[0], -1, $rangestartdate, $rangeenddate),
                 $page_id,
                 $title,
                 $page_url,
             );
         } else {
-            $uris[] = array($out[0], wp_statistics_pages('total', $out[0]), $page_id, $title, $page_url);
+            $uris[] = array(urldecode_deep($out[0]), wp_statistics_pages('total', $out[0]), $page_id, $title, $page_url);
         }
       }
     }

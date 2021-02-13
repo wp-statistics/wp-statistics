@@ -6,7 +6,8 @@
                     <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Top 5 Pages Trends', 'wp-statistics')); ?></span>
                     <span class="toggle-indicator" aria-hidden="true"></span>
                 </button>
-                <h2 class="hndle wps-d-inline-block"><span><?php _e('Top 5 Pages Trends', 'wp-statistics'); ?></span></h2>
+                <h2 class="hndle wps-d-inline-block"><span><?php _e('Top 5 Pages Trends', 'wp-statistics'); ?></span>
+                </h2>
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
@@ -25,7 +26,57 @@
                 </button>
                 <h2 class="hndle wps-d-inline-block"><span><?php echo $title; ?></span></h2>
                 <div class="inside">
-                    <!-- Do Js -->
+
+                    <?php
+                    if (empty($lists)) {
+                        _e('No data to display', 'wp-statistics');
+                    } else {
+                        ?>
+                        <table width="100%" class="widefat table-stats wps-report-table">
+                            <tbody>
+                            <tr>
+                                <td width='10%'><?php _e('ID', 'wp-statistics'); ?></td>
+                                <td width='40%'><?php _e('Title', 'wp-statistics'); ?></td>
+                                <td width='40%'><?php _e('Link', 'wp-statistics'); ?></td>
+                                <td width='10%'><?php _e('Visits', 'wp-statistics'); ?></td>
+                            </tr>
+
+                            <?php
+                            $i = 1;
+                            foreach ($lists as $li) {
+                                ?>
+
+                                <tr>
+                                    <td style='text-align: left;'><?php echo $i; ?></td>
+                                    <td style='text-align: left;'>
+                                        <span title='<?php echo $li['title']; ?>'
+                                              class='wps-cursor-default wps-text-wrap'>
+                                            <?php echo $li['title']; ?>
+                                        </span>
+                                    </td>
+                                    <td style='text-align: left;'>
+                                        <a href="<?php echo $li['link']; ?>" title="<?php echo $li['title']; ?>"
+                                           target="_blank"><?php echo $li['str_url']; ?>
+                                        </a>
+                                    </td>
+                                    <td style="text-align: left">
+                                        <a href="<?php echo $li['hits_page']; ?>" class="wps-text-danger">
+                                            <?php echo $li['number']; ?>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <?php
+                                $i++;
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                        <?php
+                    }
+                    ?>
+
+
                 </div>
             </div>
             <?php echo isset($pagination) ? $pagination : ''; ?>
