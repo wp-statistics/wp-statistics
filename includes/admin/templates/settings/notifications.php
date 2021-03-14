@@ -155,6 +155,8 @@
                 <?php _e('Total Visits', 'wp-statistics'); ?>:
                 <code>[wpstatistics stat=visits time=total]</code><br>
             </p>
+
+            <h4>Looking for chart reporting? check out <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/">Advanced Reporting</a>. </h4>
         </td>
     </tr>
 
