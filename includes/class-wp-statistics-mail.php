@@ -2,7 +2,6 @@
 
 class WP_Statistics_Mail
 {
-
     private $to = array();
     private $cc = array();
     private $bcc = array();
@@ -17,6 +16,7 @@ class WP_Statistics_Mail
     private $variables = array();
     private $afterTemplate = false;
     private $footerVariables = array();
+    private $body;
 
     /**
      * Init WordPress Mail
@@ -235,6 +235,12 @@ class WP_Statistics_Mail
         return $this;
     }
 
+    public function setBody($body)
+    {
+        $this->body = $body;
+        return $this;
+    }
+
     /**
      * Set the template file
      *
@@ -245,12 +251,14 @@ class WP_Statistics_Mail
      */
     public function setTemplate($template, $variables = null)
     {
-        if (!file_exists($template)) {
+        if ($template and !file_exists($template)) {
             throw new Exception('File not found');
         }
+
         if (is_array($variables)) {
             $this->variables = $variables;
         }
+
         $this->template = $template;
         return $this;
     }
@@ -313,9 +321,11 @@ class WP_Statistics_Mail
                 $variables    = $this->variables;
                 break;
         }
+
         if ($templateFile === false) {
             return '';
         }
+
         $extension = strtolower(pathinfo($templateFile, PATHINFO_EXTENSION));
         if ($extension === 'php') {
 
@@ -394,14 +404,19 @@ class WP_Statistics_Mail
         if (count($this->to) === 0) {
             throw new Exception('You must set at least 1 recipient');
         }
-        if (empty($this->template)) {
-            throw new Exception('You must set a template');
+
+        /**
+         * Modify the body the the template exists.
+         */
+        if ($this->template) {
+            $this->body = $this->render();
         }
+
         if ($this->sendAsHTML) {
             add_filter('wp_mail_content_type', array($this, 'HTMLFilter'));
         }
 
-        return wp_mail($this->to, $this->buildSubject(), $this->render(), $this->buildHeaders(), $this->attachments);
+        return wp_mail($this->to, $this->buildSubject(), $this->body, $this->buildHeaders(), $this->attachments);
     }
 
 }
