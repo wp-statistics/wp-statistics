@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, mehrshaddarzi, kashani, veronalabs, GregRoss, dedid
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
-Tested up to: 5.6
-Stable tag: 13.0.6
+Tested up to: 5.7
+Stable tag: 13.0.7
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -124,6 +124,12 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= 13.0.7 =
+- Compatibility with WordPress v5.7
+- Fixes linking hits page from post meta box
+- Support new hooks for email reporting and fix email logging
+- Compatibility with Advanced Reporting and fixes tweak issues
+
 = 13.0.6 =
 - Improvement the time-out functionality while downloading the GeoIP city database.
 - Fixed conflict with custom post-type column.

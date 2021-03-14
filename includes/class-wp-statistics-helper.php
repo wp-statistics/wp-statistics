@@ -680,11 +680,10 @@ class Helper
      * @param array $args
      * @return bool
      */
-    public static function send_mail($to, $subject, $content, $email_template = false, $args = array())
+    public static function send_mail($to, $subject, $content, $email_template = true, $args = array())
     {
-
         // Email Template
-        if (!$email_template) {
+        if ($email_template) {
             $email_template = wp_normalize_path(WP_STATISTICS_DIR . 'includes/admin/templates/email.php');
         }
 
@@ -705,17 +704,26 @@ class Helper
         );
         $arg          = wp_parse_args($args, $template_arg);
 
-        //Send Email
+        /**
+         * Send Email
+         */
         try {
+
             WP_Statistics_Mail::init()
                 ->setFrom($from)
                 ->setTo($to)
                 ->setSubject($subject)
+                ->setBody($content)
                 ->setTemplate($email_template, $arg)
                 ->send();
 
             return true;
+
         } catch (Exception $e) {
+            \WP_Statistics::log($e->getMessage());
+
+            error_log($e->getMessage());
+
             return false;
         }
     }

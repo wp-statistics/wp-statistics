@@ -288,6 +288,7 @@ class Admin_Assets
         // Meta Box List
         $meta_boxes_list    = Meta_Box::getList();
         $list['meta_boxes'] = array();
+
         foreach ($meta_boxes_list as $meta_box => $value) {
 
             // Convert Page Url
@@ -297,7 +298,18 @@ class Admin_Assets
 
             // Add Post ID Params To Post Widget Link
             if ($meta_box == "post" and isset($post) and isset($post->ID) and in_array($post->post_status, array("publish", "private"))) {
-                $value['page_url'] = add_query_arg(array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID)), $value['page_url']);
+
+                $value['page_url'] = add_query_arg(array(
+                    'ID'   => $post->ID,
+                    'type' => Pages::get_post_type($post->ID),
+                ), $value['page_url']);
+
+                /**
+                 * Convert ? to & because ? is appending in the prefix of page_url out side of functionality.
+                 * @note Annoying architecture...
+                 * @since 13.0.7
+                 */
+                $value['page_url'] = str_replace('?', '&', $value['page_url']);
             }
 
             // Remove unnecessary params

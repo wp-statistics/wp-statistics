@@ -195,18 +195,47 @@ class Schedule
      */
     public function send_report()
     {
-
         // apply Filter ShortCode for email content
         $final_text_report = Option::get('content_report');
         $final_text_report = do_shortcode($final_text_report);
-        $final_text_report = apply_filters('wp_statistics_final_text_report_email', $final_text_report);
 
         // Type Send Report
         $type = Option::get('send_report');
 
         // If Email
         if ($type == 'mail') {
-            Helper::send_mail(Option::getEmailNotification(), __('Statistical reporting', 'wp-statistics'), $final_text_report);
+
+            /**
+             * Filter for email template content
+             * @usage wp-statistics-advanced-reporting
+             */
+            $email_content = apply_filters('wp_statistics_final_text_report_email', $final_text_report);
+
+            /**
+             * Filter for enable/disable sending email by template.
+             */
+            $email_template = apply_filters('wp_statistics_report_email_template', true);
+
+            /**
+             * Email receivers
+             */
+            $email_receivers = Option::getEmailNotification();
+
+            /**
+             * Send Email
+             */
+            $result_email = Helper::send_mail(
+                $email_receivers,
+                __('Statistical reporting', 'wp-statistics'),
+                $email_content,
+                $email_template
+            );
+
+            /**
+             * Fire actions after sending email
+             */
+            do_action('wp_statistics_after_report_email', $result_email, $email_receivers, $email_content);
+
         }
 
         // If SMS
