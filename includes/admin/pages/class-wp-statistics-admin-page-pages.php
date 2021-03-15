@@ -16,7 +16,18 @@ class pages_page
 
             // Check Exist Statistics For Custom Page
             if (self::is_custom_page()) {
-                $page_count = $wpdb->get_var("SELECT COUNT(*) FROM " . DB::table('pages') . " WHERE `id` = " . esc_sql($_GET['ID']) . " AND `type` = '" . esc_sql($_GET['type']) . "'");
+                /**
+                 * Prepares the queries
+                 * @since 13.0.8
+                 */
+                $pageTablePage = DB::table('pages');
+                $preparedSql   = $wpdb->prepare(
+                    "SELECT COUNT(*) FROM {$pageTablePage} WHERE `id` = %s AND `type` = %s",
+                    esc_sql($_GET['ID']),
+                    esc_sql($_GET['type'])
+                );
+                $page_count    = $wpdb->get_var($preparedSql);
+
                 if ($page_count < 1) {
                     wp_die(__('Your request is not valid.', 'wp-statistics'));
                 }
