@@ -95,23 +95,23 @@ class GeoIP
      */
     public static function Loader($pack)
     {
-
         // Check file Exist
         $file = self::get_geo_ip_path($pack);
+
         if (file_exists($file)) {
             try {
 
                 //Load GeoIP Reader
-                $reader = new \GeoIp2\Database\Reader($file);
-            } catch (InvalidDatabaseException $e) {
+                return new \GeoIp2\Database\Reader($file);
+
+            } catch (\Exception $e) {
                 \WP_Statistics::log($e->getMessage());
                 return false;
             }
+
         } else {
             return false;
         }
-
-        return $reader;
     }
 
     /**
@@ -189,9 +189,8 @@ class GeoIP
                 } else {
                     $location = $record->country->{$return};
                 }
-            } catch (AddressNotFoundException $e) {
-                \WP_Statistics::log($e->getMessage());
-            } catch (InvalidDatabaseException $e) {
+
+            } catch (\Exception $e) {
                 \WP_Statistics::log($e->getMessage());
             }
         }
@@ -508,10 +507,11 @@ class GeoIP
                 } else {
                     $location = $record->city->{$return};
                 }
-            } catch (AddressNotFoundException $e) {
-                //Don't Stuff
-            } catch (InvalidDatabaseException $e) {
-                //Don't Stuff
+            } catch (\Exception $e) {
+                /**
+                 * For debugging, you can comment out the logger.
+                 */
+                //\WP_Statistics::log($e->getMessage());
             }
         }
 
