@@ -384,11 +384,12 @@ class Pages
 
         // Define the array of defaults
         $defaults = array(
-            'per_page' => 10,
+            'per_page' => 100,
             'paged' => 1,
             'from' => '',
             'to' => ''
         );
+
         $args = wp_parse_args($args, $defaults);
 
         // Date Time SQL

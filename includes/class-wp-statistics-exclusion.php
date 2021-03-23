@@ -373,7 +373,6 @@ class Exclusion
      */
     public static function exclusion_geoip()
     {
-
         // Get User Location
         $location = GeoIP::getCountry();
 

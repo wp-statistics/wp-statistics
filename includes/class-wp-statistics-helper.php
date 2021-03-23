@@ -721,9 +721,7 @@ class Helper
 
         } catch (Exception $e) {
             \WP_Statistics::log($e->getMessage());
-
-            error_log($e->getMessage());
-
+            
             return false;
         }
     }

@@ -2,9 +2,7 @@
 
 namespace WP_STATISTICS\Api\v2;
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
-use WP_STATISTICS\Option;
 
 class Hit extends \WP_STATISTICS\RestAPI
 {
@@ -98,12 +96,30 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function hit_callback(\WP_REST_Request $request)
     {
-
         // Start Record
         Hits::record();
 
-        // Return
-        return new \WP_REST_Response(array('status' => true, 'message' => __('Visitor Hit was recorded successfully.', 'wp-statistics')), 200);
+        $response = new \WP_REST_Response(array(
+            'status'  => true,
+            'message' => __('Visitor Hit was recorded successfully.', 'wp-statistics'),
+        ), 200);
+
+        /**
+         * Set headers for the response
+         *
+         * @since 13.0.8
+         */
+        $response->set_headers(array(
+            /**
+             * Cache-Control for Cloudflare caching compatibility
+             *
+             * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
+             */
+            'Cache-Control' => 'no-cache',
+        ));
+
+        // Return response
+        return $response;
     }
 
     /**
