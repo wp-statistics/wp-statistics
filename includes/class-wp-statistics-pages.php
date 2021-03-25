@@ -384,7 +384,7 @@ class Pages
 
         // Define the array of defaults
         $defaults = array(
-            'per_page' => 100,
+            'per_page' => 10,
             'paged' => 1,
             'from' => '',
             'to' => ''
