@@ -128,7 +128,6 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 - Improvement getting page id & type queries for the admin page
 - Added no-cache in the hit endpoint response to compatibility with Cloudflare HTML caching
 - Improvement exceptions to make sure working properly
-- Increased the number of top page to 100 items
 
 = 13.0.7 =
 - Compatibility with WordPress v5.7
