@@ -11,7 +11,7 @@
             <div class="postbox">
                 <div class="inside">
                     <?php if (!is_array($list) || (is_array($list) and count($list) < 1)) { ?>
-                        <div class='wps-center wps-m-top-20'><?php _e("No information is available for this day.", "wp-statistics"); ?></div>
+                        <div class='wps-center'><?php _e("No information is available for this day.", "wp-statistics"); ?></div>
                     <?php } else { ?>
                         <table width="100%" class="widefat table-stats">
                             <tr>
