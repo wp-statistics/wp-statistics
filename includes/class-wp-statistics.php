@@ -129,6 +129,9 @@ final class WP_Statistics
         // third-party Libraries
         require_once WP_STATISTICS_DIR . 'includes/vendor/autoload.php';
 
+        // Create the plugin upload directory in advance.
+        $this->create_upload_directory();
+
         // Utility classes.
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-timezone.php';
@@ -223,6 +226,27 @@ final class WP_Statistics
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
     }
 
+    private function create_upload_directory()
+    {
+        $upload_dir      = wp_upload_dir();
+        $upload_dir_name = $upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR;
+
+        wp_mkdir_p($upload_dir_name);
+
+        /**
+         * Create .htaccess to avoid public access.
+         */
+        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) {
+            $htaccess_file = path_join($upload_dir_name, '.htaccess');
+
+            if (!file_exists($htaccess_file)
+                and $handle = @fopen($htaccess_file, 'w')) {
+                fwrite($handle, "Deny from all\n");
+                fclose($handle);
+            }
+        }
+    }
+
     /**
      * Loads the load plugin text domain code.
      */
@@ -270,8 +294,26 @@ final class WP_Statistics
         if (is_array($message)) {
             $message = json_encode($message);
         }
-        $file = fopen(ABSPATH . "/wp-statistics.log", "a");
-        fwrite($file, "\n" . date('Y-m-d h:i:s') . " :: " . $message);
+
+        $upload_dir      = wp_upload_dir();
+        $upload_dir_name = $upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR;
+        $log_file        = path_join($upload_dir_name, 'debug.log');
+
+        /**
+         * Backward compatibility
+         * move the wp-statistics.log to wp-content/uploads/wp-statistics/debug.log
+         */
+        $legacy_old_log = ABSPATH . 'wp-statistics.log';
+        if (file_exists($legacy_old_log)) {
+            rename($legacy_old_log, $log_file);
+        }
+
+        /**
+         * Write the log file in the wp-content/uploads/wp-statistics
+         */
+        $file = fopen($log_file, "a");
+
+        fwrite($file, "\n" . date('Y-m-d h:i:s') . ": " . $message);
         fclose($file);
     }
 
