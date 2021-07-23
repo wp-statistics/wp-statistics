@@ -301,7 +301,7 @@ final class WP_Statistics
 
         /**
          * Backward compatibility
-         * move the wp-statistics.log to wp-content/uploads/wp-statistics/debug.log
+         * Move the wp-statistics.log to wp-content/uploads/wp-statistics/debug.log
          */
         $legacy_old_log = ABSPATH . 'wp-statistics.log';
         if (file_exists($legacy_old_log)) {
