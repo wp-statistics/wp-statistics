@@ -195,7 +195,7 @@ class Meta_Box
                 'disable_overview'  => true
             ),
             'top-pages-chart' => array(
-                'name'              => __('Top 5 Pages Trends', 'wp-statistics'),
+                'name'              => __('Top 5 Trending Pages', 'wp-statistics'),
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
             ),
