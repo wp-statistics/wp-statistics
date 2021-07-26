@@ -245,6 +245,15 @@ final class WP_Statistics
                 fclose($handle);
             }
         }
+
+        /**
+         * Backward compatibility
+         * Move the wp-statistics.log to wp-content/uploads/wp-statistics/debug.log
+         */
+        $legacy_old_log = ABSPATH . 'wp-statistics.log';
+        if (file_exists($legacy_old_log)) {
+            rename($legacy_old_log, path_join($upload_dir_name, 'debug.log'));
+        }
     }
 
     /**
@@ -298,15 +307,6 @@ final class WP_Statistics
         $upload_dir      = wp_upload_dir();
         $upload_dir_name = $upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR;
         $log_file        = path_join($upload_dir_name, 'debug.log');
-
-        /**
-         * Backward compatibility
-         * Move the wp-statistics.log to wp-content/uploads/wp-statistics/debug.log
-         */
-        $legacy_old_log = ABSPATH . 'wp-statistics.log';
-        if (file_exists($legacy_old_log)) {
-            rename($legacy_old_log, $log_file);
-        }
 
         /**
          * Write the log file in the wp-content/uploads/wp-statistics
