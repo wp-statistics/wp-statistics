@@ -2,6 +2,7 @@
 //Get List Roles Wordpress
 global $wp_roles;
 ?>
+<div class="postbox">
     <table class="form-table">
         <tbody>
         <tr valign="top">
@@ -73,4 +74,5 @@ global $wp_roles;
 
         </tbody>
     </table>
+</div>
 <?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit');
