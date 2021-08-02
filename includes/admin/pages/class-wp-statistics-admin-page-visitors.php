@@ -137,12 +137,14 @@ class visitors_page
         $browsers = UserAgent::BrowserList();
         if (isset($_GET['agent']) and !empty($_GET['agent'])) {
 
+            $agent = esc_html($_GET['agent']);
+
             // Add Params To SQL
-            $sql[] = array('key' => 'agent', 'compare' => 'LIKE', 'value' => trim($_GET['agent']));
+            $sql[] = array('key' => 'agent', 'compare' => 'LIKE', 'value' => trim($agent));
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $args['sub'][$_GET['agent']] = array('title' => $browsers[strtolower($_GET['agent'])], 'count' => Visitor::Count(array_merge($sql, array('key' => 'agent', 'compare' => 'LIKE', 'value' => $_GET['agent']))), 'active' => (isset($_GET['agent']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('agent' => $_GET['agent'])), Menus::admin_url('visitors')));
+                $args['sub'][$agent] = array('title' => $browsers[strtolower($agent)], 'count' => Visitor::Count(array_merge($sql, array('key' => 'agent', 'compare' => 'LIKE', 'value' => $agent))), 'active' => (isset($_GET['agent']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('agent' => $agent)), Menus::admin_url('visitors')));
             }
         }
 
