@@ -93,6 +93,11 @@ class settings_page
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
             }
 
+            // Sanitize Options
+            foreach ( $wp_statistics_options as $option_name => $option){
+                $wp_statistics_options[$option_name] = htmlspecialchars($option);
+            }
+
             // Save Option
             Option::save_options($wp_statistics_options);
 
@@ -415,10 +420,9 @@ class settings_page
             $disable_strip_uri_parameters = true;
         }
         foreach ($selist as $se) {
-            $se_post     = 'wps_disable_se_' . $se['tag'];
-            $optionValue = isset($_POST[$se_post]) ? sanitize_text_field($_POST[$se_post]) : '';
+            $se_post = 'wps_disable_se_' . $se['tag'];
 
-            $wp_statistics_options[self::input_name_to_option($se_post)] = $optionValue;
+            $wp_statistics_options[self::input_name_to_option($se_post)] = (isset($_POST[$se_post]) ? $_POST[$se_post] : '');
         }
 
         $wps_option_list = array(
@@ -450,8 +454,7 @@ class settings_page
         }
 
         foreach ($wps_option_list as $option) {
-            $optionValue                                                = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
-            $wp_statistics_options[self::input_name_to_option($option)] = $optionValue;
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
         }
 
         //Add Visitor RelationShip Table
