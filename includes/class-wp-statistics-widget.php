@@ -28,6 +28,10 @@ class WP_Statistics_Widget extends \WP_Widget
         extract($args);
         $widget_options = WP_STATISTICS\Option::get('widget');
 
+        if (!is_array($widget_options)) {
+            return;
+        }
+        
         echo $before_widget;
         echo $before_title . $widget_options['name_widget'] . $after_title;
         echo '<ul>';
