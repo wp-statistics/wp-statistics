@@ -350,7 +350,7 @@ class settings_page
         );
 
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field( $_POST[$option]) : '');
         }
 
         return $wp_statistics_options;
@@ -387,10 +387,10 @@ class settings_page
             // Check Custom Header
             if ($_POST['ip_method'] == "CUSTOM_HEADER") {
                 if (trim($_POST['user_custom_header_ip_method']) != "") {
-                    $value = $_POST['user_custom_header_ip_method'];
+                    $value = sanitize_text_field( $_POST['user_custom_header_ip_method'] );
                 }
             } else {
-                $value = $_POST['ip_method'];
+                $value = sanitize_text_field ($_POST['ip_method'] );
             }
         }
 
