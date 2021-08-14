@@ -113,6 +113,17 @@
     position: relative;
 }
 
+#screen-meta-links + br + .wps-wrap {
+    transform: translateY(-31px);
+    z-index: -1;
+    position: relative;
+}
+
+.wps-wrap input[type="text"].small-text {
+    padding: 12px 8px !important;
+    min-width: 80px;
+}
+
 .wps-wrap .notice {
     padding: 2px 14px;
     border-radius: 4px;
@@ -492,15 +503,15 @@
     margin-top: 8px;
 }
 
-.wps-wrap .wp-statistics-container .tabs {
+.wps-wrap ul.tabs {
     background-color: #fff;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-    padding: 0 15px;
+    padding: 0 20px;
     display: flex;
 }
 
-.wps-wrap .wp-statistics-container .tabs li {
+.wps-wrap ul.tabs li {
     border: 0;
     border-bottom: 4px solid transparent !important;
     padding: 20px 8px;
@@ -516,12 +527,12 @@
     white-space: nowrap;
 }
 
-.wps-wrap .wp-statistics-container .tabs li:hover {
+.wps-wrap ul.tabs li:hover {
     color: #000;
 }
 
 
-.wps-wrap .wp-statistics-container .tabs li.current {
+.wps-wrap ul.tabs li.current {
     border: 0;
     border-bottom-color: #404BF2 !important;
     padding: 20px 8px;
@@ -529,7 +540,7 @@
 }
 
 @media screen and (max-width: 1460px) {
-    .wps-wrap .wp-statistics-container .tabs {
+    .wps-wrap ul.tabs {
         overflow-x: scroll;
     }
 }
@@ -836,6 +847,23 @@
 }
 
 
+.wps-wrap .notice .notice-dismiss,
+.wps-widgets-settings-wrap .notice .notice-dismiss,
+.wps-mini-chart-settings-wrap .notice .notice-dismiss,
+.wps-rest-api-settings-wrap .notice .notice-dismiss,
+.wps-realtime-stats-settings-wrap .notice .notice-dismiss {
+    margin-top: 5.5px;
+}
+
+.wps-wrap .notice .notice-dismiss::before,
+.wps-widgets-settings-wrap .notice .notice-dismiss::before,
+.wps-mini-chart-settings-wrap .notice .notice-dismiss::before,
+.wps-rest-api-settings-wrap .notice .notice-dismiss::before,
+.wps-realtime-stats-settings-wrap .notice .notice-dismiss::before {
+    font-size: 20px;
+}
+
+
 .wps-widgets-settings-wrap .notice,
 .wps-mini-chart-settings-wrap .notice,
 .wps-rest-api-settings-wrap .notice,
@@ -854,6 +882,8 @@
     display: flex;
     align-items: flex-start;
 }
+
+
 
 .wps-widgets-settings-wrap .notice::before,
 .wps-mini-chart-settings-wrap .notice::before,
@@ -993,4 +1023,13 @@
 .wps-rest-api-settings-wrap input[type="text"].wp-color-picker,
 .wps-realtime-stats-settings-wrap input[type="text"].wp-color-picker {
     padding: 2px 3px !important;
+}
+
+.wps-wrap label {
+    color: #000;
+}
+
+.wps-wrap td .description {
+    margin-top: 12px !important;
+    color: #5B5B5B;
 }
