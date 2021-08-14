@@ -28,7 +28,7 @@
         </th>
 
         <td>
-            <input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo htmlentities(WP_STATISTICS\Option::get('check_online'), ENT_QUOTES); ?>"/>
+            <input type="number" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo htmlentities(WP_STATISTICS\Option::get('check_online'), ENT_QUOTES); ?>"/>
             <?php _e('Seconds', 'wp-statistics'); ?>
             <p class="description"><?php echo sprintf(__('Time for checking out accurate online users on the site. Now: %s Seconds', 'wp-statistics'), WP_STATISTICS\Option::get('check_online')); ?></p>
         </td>
@@ -104,7 +104,7 @@
             <label for="coefficient"><?php _e('Coefficient per Visitor:', 'wp-statistics'); ?></label>
         </th>
         <td>
-            <input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo htmlentities(WP_STATISTICS\Option::get('coefficient'), ENT_QUOTES); ?>"/>
+            <input type="number" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo htmlentities(WP_STATISTICS\Option::get('coefficient'), ENT_QUOTES); ?>"/>
             <p class="description"><?php echo sprintf(__('This feature multiplies the number of each visitor. Currently %s.', 'wp-statistics'), WP_STATISTICS\Option::get('coefficient')); ?></p>
         </td>
     </tr>
