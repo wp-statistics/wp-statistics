@@ -305,7 +305,7 @@ class Referred
                 'ip' => ($referrer_list[$domain]['ip'] != "" ? $referrer_list[$domain]['ip'] : '-'),
                 'country' => ($referrer_list[$domain]['country'] != "" ? $ISOCountryCode[$referrer_list[$domain]['country']] : ''),
                 'flag' => ($referrer_list[$domain]['country'] != "" ? Country::flag($referrer_list[$domain]['country']) : ''),
-                'page_link' => Menus::admin_url('referrers', array('referr' => $referrer_html)),
+                'page_link' => Menus::admin_url('referrers', array('referrer' => $referrer_html)),
                 'number' => number_format_i18n($number)
             );
         }

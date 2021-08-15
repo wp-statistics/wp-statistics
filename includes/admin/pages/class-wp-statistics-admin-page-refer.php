@@ -44,7 +44,7 @@ class refer_page
         $args['DateRang'] = Admin_Template::DateRange();
 
         // Get Total List
-        if (!isset($_GET['referr'])) {
+        if (!isset($_GET['referrer'])) {
 
             // Get Total
             $result = Referred::getList(array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']));
@@ -72,10 +72,10 @@ class refer_page
             }
 
         } else {
-
             // Get Special domain Refer List
-            $args['domain']     = trim($_GET['referr']);
-            $args['custom_get'] = array('referr' => $_GET['referr']);
+            $referrer           = esc_html($_GET['referrer']);
+            $args['domain']     = trim($referrer);
+            $args['custom_get'] = array('referrer' => $referrer);
             $args['title']      = sprintf(__('Referring site: %s', 'wp-statistics'), Referred::html_sanitize_referrer($args['domain']));
             $args['total']      = Referred::get_referer_from_domain($args['domain'], 'number', array($args['DateRang']['from'], $args['DateRang']['to']));
             $args['list']       = array();
@@ -96,7 +96,7 @@ class refer_page
             ));
         }
 
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', (isset($_GET['referr']) ? 'pages/refer.url' : 'pages/top.refer'), 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', (isset($referrer) ? 'pages/refer.url' : 'pages/top.refer'), 'layout/footer'), $args);
     }
 
 }

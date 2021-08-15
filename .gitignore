@@ -34,3 +34,6 @@ composer.lock
 # Npm Package
 node_modules
 package-lock.json
+
+# VSCode IDE
+.vscode/*
