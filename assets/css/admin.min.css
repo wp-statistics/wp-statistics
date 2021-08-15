@@ -107,16 +107,14 @@
     }
 }
 
-#screen-meta-links + .wps-wrap {
+#screen-meta-links + br + .wps-wrap .wps-header-banner {
     transform: translateY(-31px);
     z-index: -1;
     position: relative;
 }
 
-#screen-meta-links + br + .wps-wrap {
+#screen-meta-links + br + .wps-wrap .wps-wrap__main {
     transform: translateY(-31px);
-    z-index: -1;
-    position: relative;
 }
 
 .wps-wrap input[type="text"].small-text {
@@ -1032,4 +1030,8 @@
 .wps-wrap td .description {
     margin-top: 12px !important;
     color: #5B5B5B;
+}
+
+.wps-wrap select + input[type="submit"], .wps-wrap select + button {
+    margin-left: 4px;
 }
