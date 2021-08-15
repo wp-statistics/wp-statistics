@@ -33,7 +33,7 @@ class optimization_page
         $args['list_table'] = DB::table('all');
         $args['result'] = DB::getTableRows();
 
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'optimization', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/tabs-optimization', 'layout/title-after', 'optimization', 'layout/footer'), $args);
     }
 
     /**
