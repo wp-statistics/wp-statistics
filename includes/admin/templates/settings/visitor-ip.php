@@ -113,13 +113,13 @@ add_thickbox();
                         <tr>
                             <td style="width: 10px; padding: 0px;">
                                 <input type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php if (!in_array($ip_method, \WP_STATISTICS\IP::$ip_methods_server)) {
-                                    echo " checked=\"checked\"";
+                                      echo " checked=\"checked\"";
                                 } ?>>
                             </td>
                             <td style="width: 250px;"> <?php echo __('Use Custom Header', 'wp-statistics'); ?></td>
                             <td style="padding-left: 0px;">
                                 <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php if (!in_array($ip_method, \WP_STATISTICS\IP::$ip_methods_server)) {
-                                    echo $ip_method;
+                                    echo esc_attr($ip_method);
                                 } ?>">
 
                                 <p class="description">

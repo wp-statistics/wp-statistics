@@ -387,10 +387,10 @@ class settings_page
             // Check Custom Header
             if ($_POST['ip_method'] == "CUSTOM_HEADER") {
                 if (trim($_POST['user_custom_header_ip_method']) != "") {
-                    $value = sanitize_text_field( $_POST['user_custom_header_ip_method'] );
+                    $value = $_POST['user_custom_header_ip_method'];
                 }
             } else {
-                $value = sanitize_text_field ($_POST['ip_method'] );
+                $value = $_POST['ip_method'];
             }
         }
 
