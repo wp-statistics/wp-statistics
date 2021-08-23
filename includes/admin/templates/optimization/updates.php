@@ -10,7 +10,8 @@
     });
 </script>
 <div class="wrap wps-wrap">
-    <table class="form-table">
+    <div class="postbox">
+        <table class="form-table">
         <tbody>
         <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
             <tr valign="top">
@@ -46,4 +47,5 @@
 
         </tbody>
     </table>
+    </div>
 </div>

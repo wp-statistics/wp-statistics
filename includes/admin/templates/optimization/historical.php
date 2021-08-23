@@ -7,7 +7,8 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
 ?>
 <div class="wrap wps-wrap">
-    <form id="wps_historical_form" method="post">
+    <div class="postbox">
+        <form id="wps_historical_form" method="post">
         <?php wp_nonce_field('historical_form', 'wp-statistics-nonce'); ?>
         <table class="form-table">
             <tbody>
@@ -49,4 +50,5 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
             </tbody>
         </table>
     </form>
+    </div>
 </div>

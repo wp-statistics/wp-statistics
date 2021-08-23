@@ -1,3 +1,4 @@
+<?php require_once WP_STATISTICS_DIR . 'includes/admin/templates/header.php'; ?>
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
