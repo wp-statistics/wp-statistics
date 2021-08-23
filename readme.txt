@@ -127,7 +127,7 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 = 13.1 =
 - New admin design!
 - Improvement input data in setting and optimization page as well
-- Escaping all input data in admin pages
+- Escaping all input data in admin pages, (Special thanks to Vlad Visse)
 - Improvement GeoIP enhancements
 - Added subdivision names to cities for clarity
 - Added links to mapping tools on more pages
