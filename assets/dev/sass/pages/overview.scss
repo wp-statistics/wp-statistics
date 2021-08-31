@@ -7,7 +7,7 @@ body.toplevel_page_wps_overview_page {
 
 /* Overview ads */
 #wps_overview_ads_postbox .inside {
-  padding: 0;
+  padding: 0 !important;
   margin: 0;
   line-height: 0;
 }
@@ -37,4 +37,8 @@ body.toplevel_page_wps_overview_page {
 
 #wps_overview_ads_postbox .inside:hover .close-overview-ads {
   opacity: 1;
+}
+
+#wps_overview_ads_postbox {
+    padding: 0;
 }

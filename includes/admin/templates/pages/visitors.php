@@ -46,6 +46,7 @@
                                 }
                                 ?>
                                 <td><?php _e('Referrer', 'wp-statistics'); ?></td>
+                                <td></td>
                             </tr>
 
                             <?php foreach ($list as $item) { ?>
@@ -79,6 +80,7 @@
                                     }
                                     ?>
                                     <td style='text-align: left'><?php echo $item['referred']; ?></td>
+                                    <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . $item['ip']['link'] . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . $item['map'] . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
                                 </tr>
                             <?php } ?>
                         </table>

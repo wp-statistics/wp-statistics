@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 13.0.8
+Stable tag: 13.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -124,6 +124,22 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= 13.1 =
+- New admin design!
+- Improvement input data in setting and optimization page as well
+- Escaping all input data in admin pages, (Special thanks to Vlad Visse)
+- Improvement GeoIP enhancements
+- Added subdivision names to cities for clarity
+- Added links to mapping tools on more pages
+- Updated the mapping tool link to a site that doesn't have errors
+
+= 13.0.9 =
+- Compatibility with PHP v8 and WordPress v5.8
+- Fixed log file path and moved out to wp-content/uploads/wp-statistics/debug.log and protected for the public access as well
+- Fixed updating widget and compatibility with block-based
+- Improvement Image optimisation with ImageAlpha (png8+alpha) and ImageOptim. Thanks [vicocotea](https://github.com/vicocotea)
+- Updated Chart.js to v3.4.1
+
 = 13.0.8 =
 - Improvement getting page id & type queries for the admin page
 - Added no-cache in the hit endpoint response to compatibility with Cloudflare HTML caching

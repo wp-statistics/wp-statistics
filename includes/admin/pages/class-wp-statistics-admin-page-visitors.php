@@ -4,12 +4,9 @@ namespace WP_STATISTICS;
 
 class visitors_page
 {
-
     public function __construct()
     {
-
         if (Menus::in_page('visitors')) {
-
             // Disable Screen Option
             add_filter('screen_options_show_screen', '__return_false');
 
@@ -31,7 +28,6 @@ class visitors_page
      */
     public static function view()
     {
-
         // Page title
         $args['title'] = (count($_GET) > 1 ? __('Visitors', 'wp-statistics') : __('Recent Visitors', 'wp-statistics'));
 
@@ -65,14 +61,15 @@ class visitors_page
          */
         if (isset($_GET['user_id'])) {
             // Add Params To SQL
-            $sql[] = array('key' => 'user_id', 'compare' => '=', 'value' => trim($_GET['user_id']));
+            $user_id = esc_html($_GET['user_id']);
+            $sql[]   = array('key' => 'user_id', 'compare' => '=', 'value' => trim($user_id));
 
             // Get User Data
-            $user_info = User::get($_GET['user_id']);
+            $user_info = User::get($user_id);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $args['sub'][$_GET['user_id']] = array('title' => $user_info['user_login'] . ' #' . $_GET['user_id'], 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['user_id']) and $_GET['user_id'] == $_GET['user_id']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('user_id' => $_GET['user_id'])), Menus::admin_url('visitors')));
+                $args['sub'][$user_id] = array('title' => $user_info['user_login'] . ' #' . $user_id, 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['user_id']) and $_GET['user_id'] == $_GET['user_id']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('user_id' => $user_id)), Menus::admin_url('visitors')));
             }
         }
 
@@ -81,11 +78,12 @@ class visitors_page
          */
         if (isset($_GET['ip'])) {
             // Add Params To SQL
-            $sql[] = array('key' => 'ip', 'compare' => 'LIKE', 'value' => trim($_GET['ip']));
+            $ip    = esc_html($_GET['ip']);
+            $sql[] = array('key' => 'ip', 'compare' => 'LIKE', 'value' => trim($ip));
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $args['sub'][$_GET['ip']] = array('title' => $_GET['ip'], 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['ip']) and $_GET['ip'] == $_GET['ip']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('ip' => $_GET['ip'])), Menus::admin_url('visitors')));
+                $args['sub'][$ip] = array('title' => $ip, 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['ip']) and $_GET['ip'] == $_GET['ip']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('ip' => $ip)), Menus::admin_url('visitors')));
             }
         }
 
@@ -93,13 +91,13 @@ class visitors_page
          * Location Filter
          */
         if (isset($_GET['location']) and !empty($_GET['location'])) {
-
             // Add Params To SQL
-            $sql[] = array('key' => 'location', 'compare' => 'LIKE', 'value' => trim($_GET['location']));
+            $location = esc_html($_GET['location']);
+            $sql[]    = array('key' => 'location', 'compare' => 'LIKE', 'value' => trim($location));
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $args['sub'][$_GET['location']] = array('title' => Country::getName($_GET['location']), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['location']) and $_GET['location'] == $_GET['location']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('location' => $_GET['location'])), Menus::admin_url('visitors')));
+                $args['sub'][$location] = array('title' => Country::getName($location), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['location']) and $_GET['location'] == $_GET['location']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('location' => $location)), Menus::admin_url('visitors')));
             }
         }
 
@@ -107,13 +105,13 @@ class visitors_page
          * Platform Filter
          */
         if (isset($_GET['platform']) and !empty($_GET['platform'])) {
-
             // Add Params To SQL
-            $sql[] = array('key' => 'platform', 'compare' => 'LIKE', 'value' => trim(Helper::getUrlDecode($_GET['platform'])));
+            $platform = esc_html($_GET['platform']);
+            $sql[]    = array('key' => 'platform', 'compare' => 'LIKE', 'value' => trim(Helper::getUrlDecode($platform)));
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $args['sub'][$_GET['platform']] = array('title' => Helper::getUrlDecode($_GET['platform']), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['platform']) and $_GET['platform'] == $_GET['platform']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('platform' => $_GET['platform'])), Menus::admin_url('visitors')));
+                $args['sub'][$platform] = array('title' => Helper::getUrlDecode($platform), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['platform']) and $_GET['platform'] == $_GET['platform']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('platform' => $platform)), Menus::admin_url('visitors')));
             }
         }
 
@@ -121,13 +119,13 @@ class visitors_page
          * Referrer Filter
          */
         if (isset($_GET['referrer']) and !empty($_GET['referrer'])) {
-
             // Add Params To SQL
-            $sql[] = array('key' => 'referred', 'compare' => 'LIKE', 'value' => "%" . trim($_GET['referrer']) . "%");
+            $referrer = esc_html($_GET['referrer']);
+            $sql[]    = array('key' => 'referred', 'compare' => 'LIKE', 'value' => "%" . trim($referrer) . "%");
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $args['sub'][$_GET['referrer']] = array('title' => trim($_GET['referrer']), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['referrer']) and $_GET['referrer'] == $_GET['referrer']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('referrer' => $_GET['referrer'])), Menus::admin_url('visitors')));
+                $args['sub'][$referrer] = array('title' => trim($referrer), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['referrer']) and $_GET['referrer'] == $_GET['referrer']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('referrer' => $referrer)), Menus::admin_url('visitors')));
             }
         }
 
@@ -136,13 +134,13 @@ class visitors_page
          */
         $browsers = UserAgent::BrowserList();
         if (isset($_GET['agent']) and !empty($_GET['agent'])) {
-
             // Add Params To SQL
-            $sql[] = array('key' => 'agent', 'compare' => 'LIKE', 'value' => trim($_GET['agent']));
+            $agent = esc_html($_GET['agent']);
+            $sql[] = array('key' => 'agent', 'compare' => 'LIKE', 'value' => trim($agent));
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $args['sub'][$_GET['agent']] = array('title' => $browsers[strtolower($_GET['agent'])], 'count' => Visitor::Count(array_merge($sql, array('key' => 'agent', 'compare' => 'LIKE', 'value' => $_GET['agent']))), 'active' => (isset($_GET['agent']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('agent' => $_GET['agent'])), Menus::admin_url('visitors')));
+                $args['sub'][$agent] = array('title' => $browsers[strtolower($agent)], 'count' => Visitor::Count(array_merge($sql, array('key' => 'agent', 'compare' => 'LIKE', 'value' => $agent))), 'active' => (isset($_GET['agent']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('agent' => $agent)), Menus::admin_url('visitors')));
             }
         }
 
@@ -193,7 +191,6 @@ class visitors_page
      */
     public static function Filter()
     {
-
         // Remove unused $_GET
         $params = (isset($_GET) ? $_GET : array());
         foreach (array('page', 'from', 'to', 'order', 'orderby') as $i) {

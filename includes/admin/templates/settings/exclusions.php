@@ -83,7 +83,7 @@
                     <label for="wps_robot_threshold"><?php _e('Robot Visit Threshold:', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold" value="<?php echo WP_STATISTICS\Option::get('robot_threshold'); ?>">
+                    <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold" value="<?php echo esc_attr(WP_STATISTICS\Option::get('robot_threshold')); ?>">
                     <p class="description"><?php echo __('Treat visitors with more than this number of visits per day as robots. 0 = disabled.', 'wp-statistics'); ?></p>
                 </td>
             </tr>

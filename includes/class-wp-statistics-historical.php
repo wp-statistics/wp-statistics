@@ -33,7 +33,7 @@ class Historical
         # Create SQL
         switch ($type) {
             case 'uri':
-                $sql = $wpdb->prepare("SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = 'uri'", $id);
+                $sql = "SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = 'uri'";
                 break;
             case 'page':
                 $sql = $wpdb->prepare("SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = 'uri' AND `page_id` = %d", $id);
