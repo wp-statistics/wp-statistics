@@ -90,8 +90,11 @@ class plugins_page
 
         // Activate or deactivate the selected plugin
         if (isset($_GET['action'])) {
-
+            
             if ($_GET['action'] == 'activate') {
+                // a link can activate any plugin of the website if it is sent to the user with sufficient permission.
+                // your Addons should be listed in the whitelist and  allow activate them if they are already in the whitelist
+                // or you can use nonce like what the wordpress does in their plugin page
                 $result = activate_plugin($_GET['plugin'] . '/' . $_GET['plugin'] . '.php');
                 if (is_wp_error($result)) {
                     Helper::wp_admin_notice($result->get_error_message(), "error");
@@ -102,6 +105,7 @@ class plugins_page
             }
 
             if ($_GET['action'] == 'deactivate') {
+                // Similar to the upper section when deactivating plugins
                 $result = deactivate_plugins($_GET['plugin'] . '/' . $_GET['plugin'] . '.php');
                 if (is_wp_error($result)) {
                     Helper::wp_admin_notice($result->get_error_message(), "error");
