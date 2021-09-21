@@ -54,7 +54,7 @@
             <tr valign="top">
                 <th scope="row"><?php _e('Robot List:', 'wp-statistics'); ?></th>
                 <td>
-                    <textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
+                    <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
                         $robotlist = WP_STATISTICS\Option::get('robotlist');
                         if ($robotlist == '') {
                             $robotlist = WP_STATISTICS\Helper::get_robots_list();
@@ -64,7 +64,7 @@
                         ?>
                     </textarea>
                     <p class="description"><?php echo __('It is a list of words (one per line) to match against to detect robots. Entries must be at least four characters long, or they will be ignored.', 'wp-statistics'); ?></p>
-                    <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo \WP_STATISTICS\Helper::get_robots_list(); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
+                    <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_robots_list())); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
                 </td>
             </tr>
 
