@@ -4,7 +4,19 @@
 }
 
 .wps-wrap .postbox {
-  padding: 15px;
+  padding: 0;
+
+  .postbox-header {
+    padding: 7px 15px;
+
+    h2 {
+      padding: 0;
+    }
+  }
+
+  .inside {
+    padding: 15px;
+  }
 }
 
 .wps-wrap .postbox table tr:first-child th {
@@ -481,7 +493,19 @@
 }
 
 .wps-wrap .meta-box-sortables .inside {
-  padding: 12px !important;
+  padding: 15px !important;
+}
+
+.statistics_page_wps_categories_page , .statistics_page_wps_tags_page, .statistics_page_wps_authors_page, .statistics_page_wps_pages_page  {
+  .wps-wrap .postbox {
+    padding: 10px 3px !important;
+  }
+}
+
+.statistics_page_wps_optimization_page, .statistics_page_wps_settings_page {
+  .wps-wrap .postbox {
+    padding: 15px;
+  }
 }
 
 .wps-wrap .btn-danger {
@@ -1034,3 +1058,4 @@
 .wps-wrap select + input[type="submit"], .wps-wrap select + button {
   margin-left: 4px;
 }
+
