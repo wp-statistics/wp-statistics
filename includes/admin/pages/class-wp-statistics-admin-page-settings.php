@@ -350,7 +350,7 @@ class settings_page
         );
 
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '');
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_textarea_field($_POST[$option]) : '');
         }
 
         return $wp_statistics_options;
