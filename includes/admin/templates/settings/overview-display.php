@@ -51,4 +51,4 @@ if ( $wps_admin ) {
 	<?php
 }
 
-submit_button( __( 'Update', 'wp-statistics' ), 'primary', 'submit' );
+submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='overview-display-settings'")); ?>

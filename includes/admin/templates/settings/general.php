@@ -368,4 +368,5 @@
         </tbody>
     </table>
 </div>
-<?php submit_button( __( 'Update', 'wp-statistics' ), 'primary', 'submit' );
+
+<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='general-settings'")); ?>
