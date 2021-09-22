@@ -55,7 +55,9 @@ wps_js.line_chart = function (tag_id, title, label, data) {
 
     // Check is RTL Mode
     if (wps_js.is_active('rtl')) {
-        Chart.defaults.global.defaultFontFamily = "tahoma";
+        Chart.defaults.global = {
+            defaultFontFamily: "Tahoma"
+        }
     }
 
     // Create Chart
@@ -102,7 +104,9 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
 
     // Check is RTL Mode
     if (wps_js.is_active('rtl')) {
-        Chart.defaults.global.defaultFontFamily = "tahoma";
+        Chart.defaults.global = {
+            defaultFontFamily: "Tahoma"
+        }
     }
 
     // Set Default Label Callback
@@ -149,7 +153,7 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
                     ctx.save();
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.font = "14px normal 'tahoma'";
+                    ctx.font = "14px normal 'Tahoma'";
                     ctx.fillText(wps_js._('no_data'), width / 2, height / 2);
                     ctx.restore();
                 }
@@ -331,7 +335,7 @@ wps_js.getLinkParams = function (param, link = false) {
  * @param array
  * @returns {*}
  */
-wps_js.sum = function(array) {
+wps_js.sum = function (array) {
     return array.reduce(function (a, b) {
         return a + b;
     }, 0);
