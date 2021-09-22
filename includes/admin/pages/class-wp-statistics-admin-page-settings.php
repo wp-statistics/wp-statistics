@@ -96,8 +96,14 @@ class settings_page
             // Save Option
             Option::save_options($wp_statistics_options);
 
+            // Get tab name for redirect to the current tab
+            $tab = isset($_POST['tab']) && $_POST['tab'] ? sanitize_text_field($_POST['tab']) : 'general-settings';
+
             // Redirect User To Save Setting
-            wp_redirect(add_query_arg(array('save_setting' => 'yes'), Menus::admin_url('settings')));
+            wp_redirect(add_query_arg(array(
+                'save_setting' => 'yes',
+                'tab'          => $tab,
+            ), Menus::admin_url('settings')));
 
             // die
             exit;
@@ -350,7 +356,7 @@ class settings_page
         );
 
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '');
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_textarea_field($_POST[$option]) : '');
         }
 
         return $wp_statistics_options;

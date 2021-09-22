@@ -54,7 +54,7 @@
             <tr valign="top">
                 <th scope="row"><?php _e('Robot List:', 'wp-statistics'); ?></th>
                 <td>
-                    <textarea name="wps_robotlist" class="code" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
+                    <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
                         $robotlist = WP_STATISTICS\Option::get('robotlist');
                         if ($robotlist == '') {
                             $robotlist = WP_STATISTICS\Helper::get_robots_list();
@@ -64,7 +64,7 @@
                         ?>
                     </textarea>
                     <p class="description"><?php echo __('It is a list of words (one per line) to match against to detect robots. Entries must be at least four characters long, or they will be ignored.', 'wp-statistics'); ?></p>
-                    <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo \WP_STATISTICS\Helper::get_robots_list(); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
+                    <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_robots_list())); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
                 </td>
             </tr>
 
@@ -106,7 +106,7 @@
             </tr>
 
             <tr valign="top">
-                <th scope="row"><?php _e('Use Honey Pot:', 'wp-statistics'); ?></th>
+                <th scope="row"><label for="use_honeypot"><?php _e('Use Honey Pot:', 'wp-statistics'); ?></label></th>
                 <td>
                     <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo WP_STATISTICS\Option::get('use_honeypot') == true ? "checked='checked'" : ''; ?>><label for="wps_use_honeypot"><?php _e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php echo __('Enable this option for identifying robots by the Honey Pot page.', 'wp-statistics'); ?></p>
@@ -114,12 +114,11 @@
             </tr>
 
             <tr valign="top">
-                <th scope="row"><label for="honeypot_postid"><?php _e('Honey Pot Post ID', 'wp-statistics'); ?></label>
-                </th>
+                <th scope="row"><label for="honeypot_postid"><?php _e('Honey Pot Page', 'wp-statistics'); ?></label></th>
                 <td>
-                    <input id="honeypot_postid" type="text" value="<?php echo htmlentities(WP_STATISTICS\Option::get('honeypot_postid'), ENT_QUOTES); ?>" size="5" name="wps_honeypot_postid">
-                    <p class="description"><?php echo __('Write a post ID for the Honey Pot page.Create a new Honey Pot page', 'wp-statistics'); ?></p>
-                    <input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"><label for="wps_create_honeypot"><?php _e('Create a new Honey Pot page', 'wp-statistics'); ?></label>
+                    <?php wp_dropdown_pages(array('show_option_none' => __('Please select', 'wp-statistics'), 'id' => 'honeypot_postid', 'name' => 'wps_honeypot_postid', 'selected' => WP_STATISTICS\Option::get('honeypot_postid'))); ?>
+                    <p class="description"><?php echo __('Select the page for the Honey Pot page or create a new one.', 'wp-statistics'); ?></p>
+                    <p><input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"> <label for="wps_create_honeypot"><?php _e('Create a new Honey Pot page', 'wp-statistics'); ?></label></p>
                 </td>
             </tr>
 
@@ -128,7 +127,7 @@
                     <label for="corrupt_browser_info"><?php _e('Treat Corrupt Browser Info as a Bot:', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo WP_STATISTICS\Option::get('corrupt_browser_info') == true ? "checked='checked'" : ''; ?>><label for="wps_corrupt_browser_info"><?php _e('Enable', 'wp-statistics'); ?></label>
+                    <input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo WP_STATISTICS\Option::get('corrupt_browser_info') == true ? "checked='checked'" : ''; ?>><label for="corrupt_browser_info"><?php _e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php echo __('Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -218,5 +217,4 @@
 </table>
 </div>
 
-
-<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit');
+<?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='exclusions-settings'")); ?>

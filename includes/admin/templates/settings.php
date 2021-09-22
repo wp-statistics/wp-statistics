@@ -3,9 +3,8 @@
         <div class="wp-list-table widefat widefat">
             <form id="wp-statistics-settings-form" method="post">
                 <?php wp_nonce_field('update-options', 'wp-statistics-nonce'); ?>
+
                 <div class="wp-statistics-container">
-
-
                     <?php if ($wps_admin) { ?>
                         <div id="general-settings" class="tab-content current">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/general.php'; ?>
@@ -45,6 +44,8 @@
                         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/about.php'; ?>
                     </div>
                 </div><!-- container -->
+
+                <input type="hidden" name="tab" id="wps_current_tab" value=""/>
             </form>
         </div>
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/postbox.php'; ?>

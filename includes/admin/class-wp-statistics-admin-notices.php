@@ -47,13 +47,13 @@ class Admin_Notices
 
     public function enable_rest_api()
     {
-
         if (Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('check-wp-statistics-rest'))) {
 
             // Check Connect To WordPress Rest API
             $status = true;
             $message = '';
-            $request = wp_remote_get(get_rest_url(null, RestAPI::$namespace . '/check'), array('timeout' => 30));
+            $request = wp_remote_get(get_rest_url(null, RestAPI::$namespace . '/check'), array('timeout' => 30, 'sslverify' => false));
+
             if (is_wp_error($request)) {
                 $status = false;
                 $message = $request->get_error_message();
