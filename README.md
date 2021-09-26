@@ -12,10 +12,6 @@ On screen statistics presented as graphs are easily viewed through the WordPress
 
 This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
 
-**Do you like this project? Support it by donating**
-- ![Paypal](https://raw.githubusercontent.com/reek/anti-adblock-killer/gh-pages/images/paypal.png) Paypal: [Donate](https://wp-statistics.com/donate/)
-- ![btc](https://camo.githubusercontent.com/4bc31b03fc4026aa2f14e09c25c09b81e06d5e71/687474703a2f2f7777772e6d6f6e747265616c626974636f696e2e636f6d2f696d672f66617669636f6e2e69636f) Bitcoin: 188ipdr3WqaLQLcfpGLCCijqjTMBEtC6dN
-
 # Features
 
 * Online users, visits, visitors and page statistics
@@ -57,3 +53,8 @@ WP Statistics supports shortcodes in WordPress, these can be used in either a po
 * [WordPress plugin page](http://wordpress.org/plugins/wp-statistics/)
 * [Plugin Website](https://wp-statistics.com)
 * [Author Website](http://veronalabs.com)
+
+# Donate
+Would'd like to support this project?
+- ![Paypal](https://raw.githubusercontent.com/reek/anti-adblock-killer/gh-pages/images/paypal.png) Paypal: [Donate](https://wp-statistics.com/donate/)
+- ![btc](https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/bitcoin.png) Bitcoin: `bc1qjezs7vusvvmhxrhxan7nkl7kvnpy624wxhse2p`
