@@ -41,8 +41,13 @@
                                     <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . $item['page']['link'] . '" target="_blank" class="wps-text-danger">' : '') . $item['page']['title'] . ($item['page']['link'] != '' ? '</a>' : ''); ?></td>
                                     <td style='text-align: left'><?php echo $item['referred']; ?></td>
                                     <td style='text-align: left'>
-                                        <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?><?php _e('ID', 'wp-statistics'); ?>:<a href="<?php echo get_edit_user_link($item['user']['ID']); ?>" target="_blank" class="wps-text-success"><?php echo $item['user']['ID']; ?></a><br/>
-                                            <?php _e('Email', 'wp-statistics'); ?>: <?php echo $item['user']['user_email']; ?><?php } else { ?><?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?><?php } ?>
+                                        <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
+                                            <p><?php _e('ID', 'wp-statistics'); ?>: <a href="<?php echo get_edit_user_link($item['user']['ID']); ?>" target="_blank" class="wps-text-success">#<?php echo $item['user']['ID']; ?></a></p>
+                                            <p><?php _e('Email', 'wp-statistics'); ?>: <?php echo $item['user']['user_email']; ?></p>
+                                            <p><?php echo sprintf('Role: %s', implode(',', get_userdata($item['user']['ID'])->roles)) ?></p>
+                                        <?php } else { ?>
+                                            <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
+                                        <?php } ?>
                                     </td>
                                     <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . $item['ip']['link'] . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . $item['map'] . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
                                 </tr>
