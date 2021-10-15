@@ -199,4 +199,35 @@ class DB
         global $wpdb;
         $wpdb->query("REPAIR TABLE `{$table_name}`");
     }
+
+    /**
+     * @return array|object|void|null
+     */
+    public static function getColumnType($tableName, $column)
+    {
+        global $wpdb;
+
+        $queryResult = $wpdb->get_results("DESCRIBE " . self::table($tableName));
+
+        foreach ($queryResult as $item) {
+            if ($item->Field == $column) {
+                return $item;
+            }
+        }
+    }
+
+    /**
+     * @param $tableName
+     * @param $column
+     * @param $type
+     * @return bool
+     */
+    public static function isColumnType($tableName, $column, $type)
+    {
+        $column = self::getColumnType($tableName, $column);
+
+        if (isset($column->Type) and strtolower($column->Type) == $type) {
+            return true;
+        }
+    }
 }

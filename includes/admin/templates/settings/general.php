@@ -94,7 +94,7 @@
 
         <tr valign="top" data-view="visitors_log_tr" <?php echo( WP_STATISTICS\Option::get( 'visitors' ) == false ? 'style="display:none;"' : '' ) ?>>
             <th scope="row">
-                <label for="visitors_log"><?php _e( 'Visitors Logs:', 'wp-statistics' ); ?></label>
+                <label for="visitors_log"><?php _e( 'Log Visitors Pages:', 'wp-statistics' ); ?></label>
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get( 'visitors_log' ) == true ? "checked='checked'" : ''; ?>>
