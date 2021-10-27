@@ -197,22 +197,13 @@
                     <?php
                     if (WP_STATISTICS\Option::get('schedule_referrerspam')) {
                         echo '<p class="description">' . __('Next update will be', 'wp-statistics') . ': <code>';
-                        $last_update = WP_STATISTICS\Option::get('schedule_referrerspam');
-                        if ($last_update == 0) {
-                            $last_update = time();
-                        }
-                        $next_update = $last_update + (86400 * 7);
-
                         $next_schedule = wp_next_scheduled('wp_statistics_referrerspam_hook');
 
                         if ($next_schedule) {
-                            echo date(get_option('date_format'), $next_schedule) .
-                                ' @ ' .
-                                date(get_option('time_format'), $next_schedule);
+                            echo date(get_option('date_format'), $next_schedule) . ' @ ' . date(get_option('time_format'), $next_schedule);
                         } else {
-                            echo date(get_option('date_format'), $next_update) .
-                                ' @ ' .
-                                date(get_option('time_format'), time());
+                            $next_update = time() + (86400 * 7);
+                            echo date(get_option('date_format'), $next_update) . ' @ ' . date(get_option('time_format'), time());
                         }
 
                         echo '</code></p>';
