@@ -66,9 +66,9 @@ class Hit extends \WP_STATISTICS\RestAPI
         // Record WP-Statistics when Cache is enable
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
             array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => array($this, 'hit_callback'),
-                'args' => $params,
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => array($this, 'hit_callback'),
+                'args'                => $params,
                 'permission_callback' => function (\WP_REST_Request $request) {
                     return true;
                 }
@@ -78,8 +78,8 @@ class Hit extends \WP_STATISTICS\RestAPI
         // Check WP-Statistics Rest API Not disabled
         register_rest_route(self::$namespace, '/check', array(
             array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => array($this, 'check_enable_callback'),
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => array($this, 'check_enable_callback'),
                 'permission_callback' => function () {
                     return true;
                 }

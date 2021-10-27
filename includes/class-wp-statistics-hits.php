@@ -124,7 +124,7 @@ class Hits
 
         if (isset($this->rest_hits->exclusion_match) and isset($this->rest_hits->exclusion_reason)) {
             return array(
-                'exclusion_match' => $this->rest_hits->exclusion_match == 'yes',
+                'exclusion_match'  => $this->rest_hits->exclusion_match == 'yes',
                 'exclusion_reason' => $this->rest_hits->exclusion_reason,
             );
         }

@@ -16,7 +16,7 @@ class Purge
         if ($purge_days > 30) {
 
             // Purge the visit data.
-            $table_name = DB::table('visit');
+            $table_name  = DB::table('visit');
             $date_string = TimeZone::getCurrentDate('Y-m-d', '-' . $purge_days);
 
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
@@ -30,10 +30,10 @@ class Purge
                     $insert = $wpdb->insert(
                         DB::table('historical'),
                         array(
-                            'value' => $result,
+                            'value'    => $result,
                             'category' => 'visits',
-                            'page_id' => -2,
-                            'uri' => '-2',
+                            'page_id'  => -2,
+                            'uri'      => '-2',
                         )
                     );
                     if (!$insert) {
@@ -60,10 +60,10 @@ class Purge
                     $insert = $wpdb->insert(
                         DB::table('historical'),
                         array(
-                            'value' => $result,
+                            'value'    => $result,
                             'category' => 'visitors',
-                            'page_id' => -1,
-                            'uri' => '-1',
+                            'page_id'  => -1,
+                            'uri'      => '-1',
                         )
                     );
                     if (!$insert) {
@@ -91,7 +91,7 @@ class Purge
 
             // Purge the search data.
             $table_name = DB::table('search');
-            $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
+            $result     = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
 
             if ($result) {
                 $result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
@@ -138,10 +138,10 @@ class Purge
                         $insert = $wpdb->insert(
                             DB::table('historical'),
                             array(
-                                'value' => $historical,
+                                'value'    => $historical,
                                 'category' => 'uri',
-                                'uri' => $row->uri,
-                                'page_id' => Pages::uri_to_id($row->uri),
+                                'uri'      => $row->uri,
+                                'page_id'  => Pages::uri_to_id($row->uri),
                             )
                         );
                         if (!$insert) {
@@ -177,7 +177,7 @@ class Purge
     {
         global $wpdb;
         $visitor_table = DB::table('visitor');
-        $visit_table = DB::table('visit');
+        $visit_table   = DB::table('visit');
 
         // If it's less than 10 hits, don't do anything.
         if ($purge_hits > 9) {

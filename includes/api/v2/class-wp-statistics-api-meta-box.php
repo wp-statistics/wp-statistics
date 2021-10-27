@@ -2,8 +2,6 @@
 
 namespace WP_STATISTICS\Api\v2;
 
-use WP_STATISTICS\User;
-
 class Meta_Box extends \WP_STATISTICS\RestAPI
 {
     /**
@@ -31,9 +29,9 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
         // Get Admin Meta Box
         register_rest_route(self::$namespace, '/metabox', array(
             array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => array($this, 'meta_box_callback'),
-                'args' => array(
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => array($this, 'meta_box_callback'),
+                'args'                => array(
                     'name' => array(
                         'required' => true
                     )
@@ -58,7 +56,7 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
         $user = wp_get_current_user();
         if ($user->ID == 0) {
             return new \WP_REST_Response(array('code' => 'user_auth', 'message' => __('You do not have enough access privileges for checking out information. Please check the accessibility of the information display in the settings section of WP-Statistics.', 'wp-statistics')), 400);
-       }
+        }
 
         // Check Exist MetaBox Name
         if (in_array($request->get_param('name'), array_keys(\WP_STATISTICS\Meta_Box::getList())) and \WP_STATISTICS\Meta_Box::IsExistMetaBoxClass($request->get_param('name'))) {

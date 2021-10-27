@@ -4,7 +4,6 @@ namespace WP_STATISTICS\MetaBox;
 
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Exclusion;
-use WP_STATISTICS\Option;
 use WP_STATISTICS\TimeZone;
 
 class exclusions

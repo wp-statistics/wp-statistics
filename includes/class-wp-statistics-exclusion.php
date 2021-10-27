@@ -90,9 +90,9 @@ class Exclusion
             $insert = $wpdb->insert(
                 DB::table('exclusions'),
                 array(
-                    'date' => TimeZone::getCurrentDate('Y-m-d'),
+                    'date'   => TimeZone::getCurrentDate('Y-m-d'),
                     'reason' => $exclusion['exclusion_reason'],
-                    'count' => 1,
+                    'count'  => 1,
                 )
             );
             if (!$insert) {

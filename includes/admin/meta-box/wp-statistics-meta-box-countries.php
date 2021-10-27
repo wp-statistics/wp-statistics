@@ -3,9 +3,6 @@
 namespace WP_STATISTICS\MetaBox;
 
 use WP_STATISTICS\Country;
-use WP_STATISTICS\DB;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
 
 class countries
 {

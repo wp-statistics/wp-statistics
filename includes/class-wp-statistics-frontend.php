@@ -103,8 +103,8 @@ class Frontend
         $params['ip'] = esc_html(IP::getIP());
 
         //exclude
-        $exclude                  = Exclusion::check();
-        $params['exclusion_match'] = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
+        $exclude                    = Exclusion::check();
+        $params['exclusion_match']  = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
         $params['exclusion_reason'] = (string)$exclude['exclusion_reason'];
 
         //User Agent String

@@ -63,7 +63,7 @@ class pages_page
             $args['title'] = __('Top Pages', 'wp-statistics');
 
             // Get Current Page Url
-            $args['pageName'] = Menus::get_page_slug('pages');
+            $args['pageName']   = Menus::get_page_slug('pages');
             $args['pagination'] = Admin_Template::getCurrentPaged();
 
             // Get Date-Range
@@ -72,8 +72,8 @@ class pages_page
             // Get List
             $args['lists'] = \WP_STATISTICS\Pages::getTop(array(
                 'paged' => Admin_Template::getCurrentPaged(),
-                'from' => $args['DateRang']['from'],
-                'to' => $args['DateRang']['to']
+                'from'  => $args['DateRang']['from'],
+                'to'    => $args['DateRang']['to']
             ));
 
             // Total Number
@@ -84,7 +84,7 @@ class pages_page
             if ($args['total'] > 0) {
                 $args['pagination'] = Admin_Template::paginate_links(array(
                     'total' => $args['total'],
-                    'echo' => false
+                    'echo'  => false
                 ));
             }
 
@@ -101,16 +101,16 @@ class pages_page
         global $wpdb;
 
         // Page ID
-        $ID = esc_html($_GET['ID']);
+        $ID   = esc_html($_GET['ID']);
         $Type = esc_html($_GET['type']);
 
         // Page title
         $args['title'] = __('Page Statistics', 'wp-statistics');
 
         // Get Current Page Url
-        $args['pageName'] = Menus::get_page_slug('pages');
+        $args['pageName']   = Menus::get_page_slug('pages');
         $args['custom_get'] = array(
-            'ID' => $ID,
+            'ID'   => $ID,
             'type' => $Type
         );
 
@@ -140,7 +140,7 @@ class pages_page
 
         // Create Select List For WordPress Terms
         if ($_is_term and isset($query)) {
-            $this_term = Pages::get_page_info($ID, $Type);
+            $this_term         = Pages::get_page_info($ID, $Type);
             $args['list'][$ID] = $this_term['title'];
             foreach ($query as $item) {
                 $get_page_info = Pages::get_page_info($item['id'], $Type);

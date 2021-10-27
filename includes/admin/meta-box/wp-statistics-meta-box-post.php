@@ -2,8 +2,6 @@
 
 namespace WP_STATISTICS\MetaBox;
 
-use WP_STATISTICS\Option;
-use WP_STATISTICS\RestAPI;
 use WP_STATISTICS\TimeZone;
 
 class post
