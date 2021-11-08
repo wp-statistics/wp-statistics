@@ -87,9 +87,11 @@ class plugins_page
      */
     public static function view()
     {
-
         // Activate or deactivate the selected plugin
-        if (isset($_GET['action'])) {
+        if (isset($_GET['page']) && $_GET['page'] === 'wps_plugins_page' && isset($_GET['action']) && isset($_GET['plugin'])) {
+
+            // check the nonce
+            check_admin_referer($_GET['plugin']);
 
             if ($_GET['action'] == 'activate') {
                 $result = activate_plugin($_GET['plugin'] . '/' . $_GET['plugin'] . '.php');
@@ -98,7 +100,6 @@ class plugins_page
                 } else {
                     Helper::wp_admin_notice(__('Add-On activated.', 'wp-statistics'), "success");
                 }
-
             }
 
             if ($_GET['action'] == 'deactivate') {
@@ -109,6 +110,9 @@ class plugins_page
                     Helper::wp_admin_notice(__('Add-On deactivated.', 'wp-statistics'), "success");
                 }
             }
+
+            wp_safe_redirect(admin_url('admin.php?page=wps_plugins_page'));
+            exit();
         }
 
         Admin_Template::get_template(array('plugins'), self::get_list_addons());

@@ -45,11 +45,11 @@
                             </div>
                             <div class="column-compatibility">
                                 <?php if (is_plugin_active($plugin->slug . '/' . $plugin->slug . '.php')) { ?>
-                                    <a href="<?php echo WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'deactivate', 'plugin' => $plugin->slug)); ?>" class="button"><?php _e('Deactivate Add-On', 'wp-statistics'); ?></a>
+                                    <a href="<?php echo wp_nonce_url(WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'deactivate', 'plugin' => $plugin->slug)), $plugin->slug); ?>" class="button"><?php _e('Deactivate Add-On', 'wp-statistics'); ?></a>
                                 <?php } else { ?><?php if (file_exists(
                                     WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php'
                                 )) { ?>
-                                    <a href="<?php echo WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'activate', 'plugin' => $plugin->slug)); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
+                                    <a href="<?php echo wp_nonce_url(WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'activate', 'plugin' => $plugin->slug)), $plugin->slug); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
                                 <?php } else { ?>
                                     <div class="column-price">
                                         <strong>$<?php echo $plugin->price; ?></strong>
