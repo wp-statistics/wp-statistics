@@ -103,17 +103,17 @@ class Schedule
 
         // Adds once weekly to the existing schedules.
         $WP_Statistics_schedules = array(
-            'weekly' => array(
+            'weekly'   => array(
                 'interval' => 604800,
-                'display' => __('Once Weekly'),
+                'display'  => __('Once Weekly'),
             ),
             'biweekly' => array(
                 'interval' => 1209600,
-                'display' => __('Once Every 2 Weeks'),
+                'display'  => __('Once Every 2 Weeks'),
             ),
-            '4weeks' => array(
+            '4weeks'   => array(
                 'interval' => 2419200,
-                'display' => __('Once Every 4 Weeks'),
+                'display'  => __('Once Every 4 Weeks'),
             )
         );
         foreach ($WP_Statistics_schedules as $key => $val) {
@@ -135,9 +135,9 @@ class Schedule
         $insert = $wpdb->insert(
             DB::table('visit'),
             array(
-                'last_visit' => TimeZone::getCurrentDate('Y-m-d H:i:s', '+1'),
+                'last_visit'   => TimeZone::getCurrentDate('Y-m-d H:i:s', '+1'),
                 'last_counter' => TimeZone::getCurrentDate('Y-m-d', '+1'),
-                'visit' => 0,
+                'visit'        => 0,
             )
         );
         if (!$insert) {

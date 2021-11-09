@@ -49,14 +49,12 @@
                                 <tr>
                                     <td style='text-align: left;'><?php echo $i; ?></td>
                                     <td style='text-align: left;'>
-                                        <span title='<?php echo $li['title']; ?>'
-                                              class='wps-cursor-default wps-text-wrap'>
+                                        <span title='<?php echo $li['title']; ?>' class='wps-cursor-default wps-text-wrap'>
                                             <?php echo $li['title']; ?>
                                         </span>
                                     </td>
                                     <td style='text-align: left;'>
-                                        <a href="<?php echo $li['link']; ?>" title="<?php echo $li['title']; ?>"
-                                           target="_blank"><?php echo $li['str_url']; ?>
+                                        <a href="<?php echo $li['link']; ?>" title="<?php echo $li['title']; ?>" target="_blank"><?php echo $li['str_url']; ?>
                                         </a>
                                     </td>
                                     <td style="text-align: left">

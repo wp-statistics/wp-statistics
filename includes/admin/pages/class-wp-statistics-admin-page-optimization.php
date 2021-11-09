@@ -31,7 +31,7 @@ class optimization_page
 
         // Get List Table
         $args['list_table'] = DB::table('all');
-        $args['result'] = DB::getTableRows();
+        $args['result']     = DB::getTableRows();
 
         Admin_Template::get_template(array('layout/header', 'layout/tabs-optimization', 'layout/title-after', 'optimization', 'layout/footer'), $args);
     }
@@ -107,7 +107,7 @@ class optimization_page
 
             if (!empty($tables)) {
                 $notice = '';
-                $okay = true;
+                $okay   = true;
 
                 // Use wp-admin/maint/repair.php
                 foreach ($tables as $table) {
@@ -125,9 +125,9 @@ class optimization_page
                         if ('OK' === $repair->Msg_text) {
                             $notice .= sprintf(__('Successfully repaired the %s table.', "wp-statistics"), "<code>$table</code>");
                         } else {
-                            $notice .= sprintf(__('Failed to repair the %1$s table. Error: %2$s', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>") . '<br />';
+                            $notice           .= sprintf(__('Failed to repair the %1$s table. Error: %2$s', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>") . '<br />';
                             $problems[$table] = $check->Msg_text;
-                            $okay = false;
+                            $okay             = false;
                         }
                     }
 

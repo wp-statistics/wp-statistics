@@ -520,53 +520,53 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
 
     // Now get the total page visit count for each unique URI.
     foreach ($result as $out) {
-      //Prepare item
-      list($url, $page_id, $page_type) = $out;
+        //Prepare item
+        list($url, $page_id, $page_type) = $out;
 
-      // Check if item is of specific post type (string or part of an array) or if post type is set to null
-      if(is_null($post_type) || get_post_type($page_id) == $post_type || (is_array($post_type) && in_array(get_post_type($page_id), $post_type))) {
-        // Increment the total number of results.
-        $total++;
+        // Check if item is of specific post type (string or part of an array) or if post type is set to null
+        if (is_null($post_type) || get_post_type($page_id) == $post_type || (is_array($post_type) && in_array(get_post_type($page_id), $post_type))) {
+            // Increment the total number of results.
+            $total++;
 
-        //Get Page Title
-        $page_info = Pages::get_page_info($page_id, $page_type);
-        $title     = mb_substr($page_info['title'], 0, 200, "utf-8");
-        $page_url  = $page_info['link'];
+            //Get Page Title
+            $page_info = Pages::get_page_info($page_id, $page_type);
+            $title     = mb_substr($page_info['title'], 0, 200, "utf-8");
+            $page_url  = $page_info['link'];
 
-        // Check age Title if page id or type not exist
-        if ($page_info['link'] == "") {
-            $page_url = htmlentities(path_join(get_site_url(), $url), ENT_QUOTES);
-            $id       = WP_STATISTICS\Pages::uri_to_id($out[0]);
-            $post     = get_post($id);
-            if (is_object($post)) {
-                $title = esc_html($post->post_title);
-            } else {
-                if ($out[0] == '/') {
-                    $title = get_bloginfo();
+            // Check age Title if page id or type not exist
+            if ($page_info['link'] == "") {
+                $page_url = htmlentities(path_join(get_site_url(), $url), ENT_QUOTES);
+                $id       = WP_STATISTICS\Pages::uri_to_id($out[0]);
+                $post     = get_post($id);
+                if (is_object($post)) {
+                    $title = esc_html($post->post_title);
                 } else {
-                    $title = '';
+                    if ($out[0] == '/') {
+                        $title = get_bloginfo();
+                    } else {
+                        $title = '';
+                    }
                 }
             }
-        }
 
-        //Check Title is empty
-        if (empty($title)) {
-            $title = '-';
-        }
+            //Check Title is empty
+            if (empty($title)) {
+                $title = '-';
+            }
 
-        // Add the current post to the array.
-        if ($rangestartdate != null && $rangeenddate != null) {
-            $uris[] = array(
-                urldecode_deep($out[0]),
-                wp_statistics_pages('range', $out[0], -1, $rangestartdate, $rangeenddate),
-                $page_id,
-                $title,
-                $page_url,
-            );
-        } else {
-            $uris[] = array(urldecode_deep($out[0]), wp_statistics_pages('total', $out[0]), $page_id, $title, $page_url);
+            // Add the current post to the array.
+            if ($rangestartdate != null && $rangeenddate != null) {
+                $uris[] = array(
+                    urldecode_deep($out[0]),
+                    wp_statistics_pages('range', $out[0], -1, $rangestartdate, $rangeenddate),
+                    $page_id,
+                    $title,
+                    $page_url,
+                );
+            } else {
+                $uris[] = array(urldecode_deep($out[0]), wp_statistics_pages('total', $out[0]), $page_id, $title, $page_url);
+            }
         }
-      }
     }
 
     // If we have more than one result, let's sort them using usort.

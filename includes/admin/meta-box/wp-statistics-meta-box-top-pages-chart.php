@@ -2,7 +2,6 @@
 
 namespace WP_STATISTICS\MetaBox;
 
-use WP_STATISTICS\Option;
 use WP_STATISTICS\TimeZone;
 
 class top_pages_chart
