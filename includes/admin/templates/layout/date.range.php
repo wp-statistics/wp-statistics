@@ -43,11 +43,6 @@
         }
         ?>
 
-        <!-- set Page Pagination To Form -->
-        <?php if (isset($pagination) and $pagination > 1) { ?>
-            <input name="<?php echo \WP_STATISTICS\Admin_Template::$paginate_link_name; ?>" type="hidden" value="<?php echo $pagination; ?>">
-        <?php } ?>
-
         <!-- Set Jquery DatePicker -->
         <input type="text" size="18" name="date-from" data-wps-date-picker="from" value="<?php echo $DateRang['from']; ?>" placeholder="YYYY-MM-DD" autocomplete="off">
         <?php _e('to', 'wp-statistics'); ?>
