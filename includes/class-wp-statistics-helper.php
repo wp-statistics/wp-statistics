@@ -87,10 +87,13 @@ class Helper
      */
     public static function is_login_page()
     {
-
         // Check From global WordPress
         if (isset($GLOBALS['pagenow']) and in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'))) {
             return true;
+        }
+
+        if (defined(WP_CLI) && WP_CLI) {
+            return false;
         }
 
         // Check Native php
