@@ -246,8 +246,12 @@ class SearchEngine
             return false;
         }
 
-        // Parse the URL in to it's component parts.
+        // Parse the URL in to its component parts.
         $parts = @parse_url($url);
+
+        if (empty($parts['host'])) {
+            return false;
+        }
 
         // Get the list of search engines we currently support.
         $search_engines = self::getList();
