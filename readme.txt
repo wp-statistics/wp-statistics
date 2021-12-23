@@ -1,10 +1,10 @@
 === WP Statistics ===
-Contributors: mostafa.s1990, mehrshaddarzi, kashani, veronalabs, GregRoss, dedidata
+Contributors: mostafa.s1990, mehrshaddarzi, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 13.1.2
+Stable tag: 13.1.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -38,7 +38,7 @@ All these data are recorded in your server, and YES! WP Statistics is [GDPR comp
 Some advanced features are Premium, which means you need to buy extra add-ons to unlock those features. You can get [Premium add-ons](http://bit.ly/2x6tGly) here!
 
 = REPORT BUGS =
-If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
+If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -52,7 +52,7 @@ The greatest advantage of WP Statistics is that all the data is saved locally in
 This helps a lot while implementing the new GDPR restrictions; because it’s not necessary to create a data processing contract with an external company! [Read more about WP Statistics compliance with GDPR](http://bit.ly/2x0AFgT).
 
 = Does WP Statistics support Multisite? =
-WP Statistics doesn’t officially support the multisite feature; however, it does have limited functionally associated with it and should function without any issue. However, no support is provided at this time.
+WP Statistics doesn't officially support the multisite feature; however, it does have limited functionally associated with it and should function without any issue. However, no support is provided at this time.
 Version 8.8 is the first release that can be installed, upgraded and removed correctly on multi-site. It also has some basic support for the network admin menu. This should not be taken as an indication that WP Statistics fully supports the multisite, but only should be considered as a very first step.
 
 = Does WP Statistics work with caching plugins? =
@@ -124,6 +124,11 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.1.3 - 23.12.2021 =
+* Bugfix: The issue for showing the pagination in date range template has been fixed
+* Enhancement: Skip undefined `HTTP_HOST` notice error
+* Enhancement: Minor Improvements
+
 = v13.1.2 - 09.11.2021 =
 * Enhancement: Avoiding altering some tables after every upgrade
 * Enhancement: Pages widget table clutter issue fixed when URLs are long
