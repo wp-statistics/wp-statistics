@@ -359,7 +359,7 @@ class Admin_Assets
             'dayNamesMin'     => Helper::strip_array_indices($wp_locale->weekday_initial),
             'dateFormat'      => 'yy-mm-dd', // Format time for Jquery UI
             'firstDay'        => get_option('start_of_week'),
-            'isRTL'           => (int)$wp_locale->is_rtl(),
+            'isRTL'           => $wp_locale->is_rtl(),
         );
     }
 }
