@@ -56,7 +56,7 @@ class Referred
         $referred = self::getRefererURL();
 
         // Sanitize Referer Url
-        $referred = esc_sql(strip_tags($referred));
+        $referred = esc_url_raw(strip_tags($referred));
 
         // If Referer is Empty then use same WebSite Url
         if (empty($referred)) {
