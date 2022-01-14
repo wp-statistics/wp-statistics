@@ -56,7 +56,7 @@ class Referred
         $referred = self::getRefererURL();
 
         // Sanitize Referer Url
-        $referred = esc_sql(strip_tags($referred));
+        $referred = esc_url_raw(strip_tags($referred));
 
         // If Referer is Empty then use same WebSite Url
         if (empty($referred)) {
@@ -363,7 +363,7 @@ class Referred
         $domain_name = rtrim(preg_replace('/^https?:\/\//', '', get_site_url()), " / ");
         foreach (array("http", "https", "ftp") as $protocol) {
             foreach (array('', 'www.') as $w3) {
-                $where = " AND `referred` NOT LIKE '{$protocol}://{$w3}{$domain_name}%' ";
+                $where .= " AND `referred` NOT LIKE '{$protocol}://{$w3}{$domain_name}%' ";
             }
         }
 

@@ -97,7 +97,7 @@ class Frontend
         $params = wp_parse_args($params, UserAgent::getUserAgent());
 
         //Set Referred
-        $params['referred'] = Referred::get();
+        $params['referred'] = urlencode(Referred::get());
 
         //Set IP
         $params['ip'] = esc_html(IP::getIP());
