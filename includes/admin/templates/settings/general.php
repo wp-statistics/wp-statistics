@@ -193,7 +193,7 @@
             <td>
                 <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo WP_STATISTICS\Option::get('disable_column') == true ? "checked='checked'" : ''; ?>>
                 <label for="disable_column"><?php _e('Disable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to add Hits Column', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Show the Hits Column in posts/pages list', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
