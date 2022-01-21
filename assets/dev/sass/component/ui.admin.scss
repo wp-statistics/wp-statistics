@@ -133,7 +133,7 @@
   min-width: 80px;
 }
 
-.wps-wrap .notice {
+.wps-wrap .notice:not(.hidden) {
   padding: 2px 14px;
   border-radius: 4px;
   color: #242A31;
