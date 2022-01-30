@@ -122,7 +122,7 @@ class Hits
     public function set_exclusion($exclude)
     {
 
-        if (isset($this->rest_hits->exclusion_match) and isset($this->rest_hits->exclusion_reason)) {
+        if (isset($this->rest_hits->exclusion_match) and isset($this->rest_hits->exclusion_reason) and in_array($this->rest_hits->exclusion_reaso, Exclusion::exclusion_list())) {
             return array(
                 'exclusion_match'  => $this->rest_hits->exclusion_match == 'yes',
                 'exclusion_reason' => $this->rest_hits->exclusion_reason,
