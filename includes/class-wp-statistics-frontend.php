@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 class Frontend
 {
+
     public function __construct()
     {
 
@@ -86,7 +87,7 @@ class Frontend
     /*
      * Set Default Params Rest Api
      */
-    public static function set_default_params()
+    static public function set_default_params()
     {
 
         // Create Empty Params Object
@@ -107,7 +108,7 @@ class Frontend
         $params['exclusion_reason'] = (string)$exclude['exclusion_reason'];
 
         //User Agent String
-        $params['ua'] = urlencode(UserAgent::getHttpUserAgent());
+        $params['ua'] = esc_html(UserAgent::getHttpUserAgent());
 
         //track all page
         $params['track_all'] = (Pages::is_track_all_page() === true ? 1 : 0);
