@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, mehrshaddarzi, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
-Tested up to: 5.8
-Stable tag: 13.1.4
+Tested up to: 5.9
+Stable tag: 13.1.5
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -124,6 +124,12 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.1.5 - 02.02.2022 =
+* Enhancement: Tested up to v5.9
+* Enhancement: Disable showing the notices with hidden class in the admin settings page
+* Bugfix: A security issue to accepting the correct `exclusion_reason` through request
+* Bugfix: The 403 Forbidden Error issue
+
 = v13.1.4 - 14.01.2022 =
 * Enhancement: Datepicker direction issue has been fixed
 * Enhancement: UTF-8 referrers URLs has been supported
