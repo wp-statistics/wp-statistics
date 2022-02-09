@@ -128,7 +128,7 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 * Enhancement: Tested up to v5.9
 * Enhancement: Disable showing the notices with hidden class in the admin settings page
 * Bugfix: A security issue to accepting the correct `exclusion_reason` through request
-* Bugfix: The 403 Forbidden Error issue
+* Bugfix: The 403 Forbidden Error issue in REST request
 
 = v13.1.4 - 14.01.2022 =
 * Enhancement: Datepicker direction issue has been fixed

@@ -30,7 +30,7 @@
                                     <td><?php _e('City', 'wp-statistics'); ?></td>
                                 <?php } ?>
                                 <td>
-                                    <a href="<?php echo add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc')); ?>">
+                                    <a href="<?php echo esc_url( add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc'))); ?>">
                                         <?php _e('Date', 'wp-statistics'); ?>
                                         <span class="dashicons dashicons-arrow-<?php echo((isset($_GET['order']) and $_GET['order'] == "asc") ? 'up' : 'down'); ?>"></span>
                                     </a>

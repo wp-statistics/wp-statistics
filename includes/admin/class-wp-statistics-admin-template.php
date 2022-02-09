@@ -241,7 +241,7 @@ class Admin_Template
             }
 
             // Push To list
-            $list[$number_days] = array('title' => $title, 'link' => $link, 'active' => $active);
+            $list[$number_days] = array('title' => $title, 'link' => sanitize_url($link), 'active' => $active);
         }
 
         return array('list' => $list, 'from' => reset($RequestDateKeys), 'to' => end($RequestDateKeys));
