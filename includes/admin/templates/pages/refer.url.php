@@ -4,7 +4,7 @@
     </li>
     |
     <li>
-        <a class="current" href="<?php echo add_query_arg(array('referrer' => $args['domain'])); ?>">
+        <a class="current" href="<?php echo esc_url(add_query_arg(array('referrer' => $args['domain']))); ?>">
             <?php echo $args['domain']; ?>
             <span class="count">(<?php echo number_format_i18n($total); ?>)</span>
         </a>
