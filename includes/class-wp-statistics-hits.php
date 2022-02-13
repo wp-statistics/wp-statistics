@@ -94,7 +94,7 @@ class Hits
      */
     public function set_user_ip($ip)
     {
-        return isset($this->rest_hits->ip) ? $this->rest_hits->ip : $ip;
+        return isset($this->rest_hits->ip) ? esc_sql($this->rest_hits->ip) : esc_sql($ip);
     }
 
     /**
