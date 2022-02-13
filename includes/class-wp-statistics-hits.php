@@ -180,8 +180,8 @@ class Hits
 
         if (isset($this->rest_hits->current_page_type) and isset($this->rest_hits->current_page_id)) {
             return array(
-                'type'         => $this->rest_hits->current_page_type,
-                'id'           => $this->rest_hits->current_page_id,
+                'type'         => esc_sql($this->rest_hits->current_page_type),
+                'id'           => esc_sql($this->rest_hits->current_page_id),
                 'search_query' => isset($this->rest_hits->search_query) ? $this->rest_hits->search_query : ''
             );
         }
