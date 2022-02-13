@@ -125,7 +125,7 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 
 == Changelog ==
 = v13.1.5.1 - 13.02.2022 =
-* Bugfix: Hardened plugin security.
+* Bugfix: Hardened plugin security. (Special thanks to Xib3rR4dAr & WPScan for reporting the issues)
 
 = v13.1.5 - 02.02.2022 =
 * Enhancement: Tested up to v5.9
