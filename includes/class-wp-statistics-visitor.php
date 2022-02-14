@@ -277,9 +277,9 @@ class Visitor
                 'referred' => Referred::get_referrer_link($items->referred),
                 'refer'    => $items->referred,
                 'date'     => date_i18n(get_option('date_format'), strtotime($items->last_counter)),
-                'agent'    => $items->agent,
-                'platform' => $items->platform,
-                'version'  => $items->version
+                'agent'    => sanitize_text_field($items->agent),
+                'platform' => sanitize_text_field($items->platform),
+                'version'  => sanitize_text_field($items->version)
             );
 
             // Push User Data
