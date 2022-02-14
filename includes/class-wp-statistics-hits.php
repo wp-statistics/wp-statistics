@@ -66,9 +66,9 @@ class Hits
 
         if (isset($this->rest_hits->browser) and isset($this->rest_hits->platform) and isset($this->rest_hits->version)) {
             return array(
-                'browser'  => $this->rest_hits->browser,
-                'platform' => $this->rest_hits->platform,
-                'version'  => $this->rest_hits->version,
+                'browser'  => esc_sql($this->rest_hits->browser),
+                'platform' => esc_sql($this->rest_hits->platform),
+                'version'  => esc_sql($this->rest_hits->version),
             );
         }
 

@@ -33,7 +33,7 @@ class UserAgent
             'version'  => (isset($result->os->version->value)) ? $result->os->version->value : _x('Unknown', 'Version', 'wp-statistics'),
         );
 
-        return apply_filters('wp_statistics_user_agent', $agent);
+        return apply_filters('wp_statistics_user_agent', esc_sql($agent));
     }
 
     /**

@@ -79,7 +79,7 @@ class IP
             $ip = self::$default_ip;
         }
 
-        return apply_filters('wp_statistics_user_ip', $ip);
+        return apply_filters('wp_statistics_user_ip', sanitize_text_field($ip));
     }
 
     /**
@@ -129,7 +129,7 @@ class IP
             $user_ip = substr($user_ip, 0, strrpos($user_ip, '.')) . '.0';
         }
 
-        return $user_ip;
+        return sanitize_text_field($user_ip);
     }
 
     /**
