@@ -272,14 +272,18 @@ class Visitor
         // Push to List
         foreach ($result as $items) {
 
+            $ip       = esc_html($items->ip);
+            $agent    = esc_html($items->agent);
+            $platform = esc_html($items->platform);
+
             $item = array(
                 'hits'     => (int)$items->hits,
                 'referred' => Referred::get_referrer_link($items->referred),
                 'refer'    => $items->referred,
                 'date'     => date_i18n(get_option('date_format'), strtotime($items->last_counter)),
-                'agent'    => sanitize_text_field($items->agent),
-                'platform' => sanitize_text_field($items->platform),
-                'version'  => sanitize_text_field($items->version)
+                'agent'    => $agent,
+                'platform' => $platform,
+                'version'  => esc_html($items->version)
             );
 
             // Push User Data
@@ -293,17 +297,17 @@ class Visitor
 
             // Push Browser
             $item['browser'] = array(
-                'name' => $items->agent,
-                'logo' => UserAgent::getBrowserLogo($items->agent),
-                'link' => Menus::admin_url('overview', array('agent' => $items->agent))
+                'name' => $agent,
+                'logo' => UserAgent::getBrowserLogo($agent),
+                'link' => Menus::admin_url('overview', array('agent' => $agent))
             );
 
             // Push IP
-            if (IP::IsHashIP($items->ip)) {
+            if (IP::IsHashIP($ip)) {
                 $item['hash_ip'] = IP::$hash_ip_prefix;
             } else {
-                $item['ip']  = array('value' => $items->ip, 'link' => Menus::admin_url('visitors', array('ip' => $items->ip)));
-                $item['map'] = GeoIP::geoIPTools($items->ip);
+                $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('ip' => $ip)));
+                $item['map'] = GeoIP::geoIPTools($ip);
             }
 
             // Push Country
@@ -313,7 +317,7 @@ class Visitor
 
             // Push City
             if (GeoIP::active('city')) {
-                $item['city'] = GeoIP::getCity($items->ip);
+                $item['city'] = GeoIP::getCity($ip);
             }
 
             // Check If Search Word
