@@ -218,8 +218,7 @@
                     </select>
 
                     <p class="description"><?php _e('All data table will be lost.', 'wp-statistics'); ?></p>
-                    <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Clear now!',
-                        'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
+                    <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Clear now!', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
                     <span id="empty-status"></span>
                     <div id="empty-result"></div>
                 </td>
@@ -234,10 +233,8 @@
                     <input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
                     <label for="purge-data"><?php _e('Days', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Delete user statistics data older than the selected number of days.',
-                                'wp-statistics') . ' ' . __('Minimum value is 30 days.', 'wp-statistics'); ?></p>
-                    <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!',
-                        'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
+                    <p class="description"><?php echo __('Delete user statistics data older than the selected number of days.', 'wp-statistics') . ' ' . __('Minimum value is 30 days.', 'wp-statistics'); ?></p>
+                    <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
                     <span id="purge-data-status"></span>
                     <div id="purge-data-result"></div>
                 </td>
@@ -253,12 +250,8 @@
                     <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
                     <label for="purge-visitor-hits"><?php _e('Hits', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Delete user statistics data where the user has more than the defined number of hits in a day.',
-                                'wp-statistics') . ' ' . __('This can be useful to clear up old data when your site has been hit by a bot.',
-                                'wp-statistics') . ' ' . __('This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.',
-                                'wp-statistics') . ' ' . __('Minimum value is 10 hits.', 'wp-statistics'); ?></p>
-                    <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!',
-                        'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
+                    <p class="description"><?php echo __('Delete user statistics data where the user has more than the defined number of hits in a day.', 'wp-statistics') . ' ' . __('This can be useful to clear up old data when your site has been hit by a bot.', 'wp-statistics') . ' ' . __('This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.', 'wp-statistics') . ' ' . __('Minimum value is 10 hits.', 'wp-statistics'); ?></p>
+                    <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
                     <span id="purge-visitor-hits-status"></span>
                     <div id="purge-visitor-hits-result"></div>
                 </td>
@@ -290,10 +283,8 @@
                         ?>
                     </select>
 
-                    <p class="description"><?php _e('All visitor data will be lost for this agent type.',
-                            'wp-statistics'); ?></p>
-                    <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!',
-                        'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
+                    <p class="description"><?php _e('All visitor data will be lost for this agent type.', 'wp-statistics'); ?></p>
+                    <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
                     <span id="delete-agents-status"></span>
                     <div id="delete-agents-result"></div>
                 </td>
@@ -318,10 +309,8 @@
                         ?>
                     </select>
 
-                    <p class="description"><?php _e('All visitor data will be lost for this platform type.',
-                            'wp-statistics'); ?></p>
-                    <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!',
-                        'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
+                    <p class="description"><?php _e('All visitor data will be lost for this platform type.', 'wp-statistics'); ?></p>
+                    <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
                     <span id="delete-platforms-status"></span>
                     <div id="delete-platforms-result"></div>
                 </td>
@@ -335,10 +324,8 @@
                 <td>
                     <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
-                    <p class="description"><?php _e('All visitor data will be lost for this IP.',
-                            'wp-statistics'); ?></p>
-                    <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!',
-                        'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
+                    <p class="description"><?php _e('All visitor data will be lost for this IP.', 'wp-statistics'); ?></p>
+                    <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
                     <span id="delete-ip-status"></span>
                     <div id="delete-ip-result"></div>
                 </td>
