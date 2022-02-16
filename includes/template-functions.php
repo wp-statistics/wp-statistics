@@ -605,7 +605,7 @@ function wp_statistics_ua_list($rangestartdate = null, $rangeenddate = null)
 
         //Check Browser is defined in wp-statistics
         if (array_key_exists(strtolower($out[0]), $default_browser)) {
-            $Browsers[] = $out[0];
+            $Browsers[] = esc_html($out[0]);
         }
     }
 
@@ -656,7 +656,7 @@ function wp_statistics_platform_list($rangestartdate = null, $rangeenddate = nul
 
     $Platforms = array();
     foreach ($result as $out) {
-        $Platforms[] = $out[0];
+        $Platforms[] = esc_html($out[0]);
     }
 
     return $Platforms;

@@ -51,7 +51,7 @@ class Pages
             $current_page['type'] = "archive";
         }
 
-        //Single Post Fro All Post Type
+        //Single Post From All Post Type
         if (is_singular()) {
             $current_page['type'] = "post";
         }
@@ -222,7 +222,7 @@ class Pages
         $page_uri = self::sanitize_page_uri();
 
         // Check if we have already been to this page today.
-        $exist = $wpdb->get_row("SELECT `page_id` FROM `" . DB::table('pages') . "` WHERE `date` = '" . TimeZone::getCurrentDate('Y-m-d') . "' " . (array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "") . "AND `type` = '{$current_page['type']}' AND `id` = {$current_page['id']}", ARRAY_A);
+        $exist = $wpdb->get_row("SELECT `page_id` FROM `" . DB::table('pages') . "` WHERE `date` = '" . TimeZone::getCurrentDate('Y-m-d') . "' " . (array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "") . "AND `type` = '{$current_page['type']}' AND `id` = '{$current_page['id']}'", ARRAY_A);
 
         // Update Exist Page
         if (null !== $exist) {

@@ -35,14 +35,15 @@ class Hit extends \WP_STATISTICS\RestAPI
     public static function require_params_hit()
     {
         return array(
-            'browser',
-            'platform',
-            'version',
-            'ip',
-            'track_all',
-            'timestamp',
-            'page_uri',
-            'user_id',
+            'browser'   => array('required' => true, 'type' => 'string'),
+            'platform'  => array('required' => true, 'type' => 'string'),
+            'version'   => array('required' => true, 'type' => 'string'),
+            'ip'        => array('required' => true, 'type' => 'string', 'format' => 'ip'),
+            'track_all' => array('required' => true, 'type' => 'integer'),
+            'timestamp' => array('required' => true, 'type' => 'integer'),
+            'page_uri'  => array('required' => true, 'type' => 'string'),
+            'user_id'   => array('required' => true, 'type' => 'integer'),
+            '_wpnonce'  => array('required' => true, 'type' => 'string')
         );
     }
 
@@ -53,22 +54,12 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function register_routes()
     {
-
-        // Create Require Params
-        $params = array();
-        foreach (self::require_params_hit() as $p) {
-            $params[$p] = array('required' => true);
-        }
-
-        // Add X-WP-Nonce
-        $params['_wpnonce'] = array('required' => true);
-
         // Record WP-Statistics when Cache is enable
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
             array(
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => array($this, 'hit_callback'),
-                'args'                => $params,
+                'args'                => self::require_params_hit(),
                 'permission_callback' => function (\WP_REST_Request $request) {
                     return true;
                 }
