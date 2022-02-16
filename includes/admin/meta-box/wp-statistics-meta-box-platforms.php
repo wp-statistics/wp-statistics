@@ -84,7 +84,7 @@ class platforms
             if (trim($l['platform']) != "") {
 
                 // Sanitize Version name
-                $lists_name[] = esc_html($l['platform']);
+                $lists_name[] = sanitize_text_field($l['platform']);
 
                 // Get List Count
                 $lists_value[] = (int)$l['count'];
