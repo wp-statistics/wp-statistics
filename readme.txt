@@ -17,6 +17,8 @@ Do you need a simple tool to know your website statistics? Do you need to repres
 
 All these data are recorded in your server, and YES! WP Statistics is [GDPR compliant](http://bit.ly/2x0AFgT).
 
+[Checkout Demo!](https://wp-statistics.com/demo)
+
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
 * Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, Country and City
 * Stunning Graphs and Visual Statistics
