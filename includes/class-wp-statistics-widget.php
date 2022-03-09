@@ -249,6 +249,11 @@ class WP_Statistics_Widget extends \WP_Widget
     public function form($instance)
     {
         $widget_options = WP_STATISTICS\Option::get('widget');
+
+        if (!is_array($widget_options)) {
+            return;
+        }
+
         ?>
         <p>
             <label for="name_widget"><?php _e('Name', 'wp-statistics'); ?>:
