@@ -40,8 +40,8 @@ class Admin_Notices
     {
         $plugin = Helper::is_active_cache_plugin();
         if (!Option::get('use_cache_plugin') and $plugin['status'] === true) {
-            $text = ($plugin['plugin'] == "core" ? __('WP_CACHE is enable in your WordPress', 'wp-statistics') : sprintf(__('You are using %s plugin in WordPress', 'wp-statistics'), $plugin['plugin']));
-            Helper::wp_admin_notice($text . ", " . sprintf(__('Please enable %1$sCache Settings%2$s in the WP-Statistics plugin or delete the WP_CACHE value from the wp-config.php file if you do not have any WordPress cache plugins enabled.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>'), 'warning', true);
+            $text = ($plugin['plugin'] == "core" ? __('WP-Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics') : sprintf(__('WP-Statistics might not count the stats due to use <b>%s</b> plugin', 'wp-statistics'), $plugin['plugin']));
+            Helper::wp_admin_notice($text . ", " . sprintf(__('To fix it, please enable the %1$sCache Compatibility%2$s option on the Settings page, otherwise, if the stats count properly, check out <a href="%3$s" target="_blank">this article</a> to disable this notice permanently.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', 'https://wp-statistics.com/resources/how-to-disable-cache-notice-in-admin/'), 'warning', true);
         }
     }
 
