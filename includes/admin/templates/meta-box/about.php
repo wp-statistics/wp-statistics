@@ -18,7 +18,7 @@ if ($aboutWidgetContent) {
                     <a href="https://wp-statistics.com/add-ons/" target="_blank"><?php _e('Add-Ons', 'wp-statistics'); ?></a> |
                     <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><?php _e('Rate & Review', 'wp-statistics'); ?></a>
                     <div class="wps-postbox-veronalabs">
-                        <a href="https://veronalabs.com" target="_blank" title="<?php _e('Power by VeronaLabs', 'wp-statistics'); ?>"><img src="<?php echo WP_STATISTICS_URL; ?>assets/images/veronalabs.svg" alt="VeronaLabs Co" style="width: 80px;"/></a>
+                        <a href="https://veronalabs.com/?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress" target="_blank" title="<?php _e('Power by VeronaLabs', 'wp-statistics'); ?>"><img src="<?php echo WP_STATISTICS_URL; ?>assets/images/veronalabs.svg" alt="VeronaLabs Co" style="width: 80px;"/></a>
                     </div>
                 </div>
             </td>
@@ -27,6 +27,6 @@ if ($aboutWidgetContent) {
 
 <?php if (!is_plugin_active('wp-statistics-customization/wp-statistics-customization.php')) { ?>
     <div style="margin: 0 -15px;border-top: 1px solid #e7e7e7;padding: 15px 15px 0; font-size: 12px;">
-        You can Disable or Customize this widget by <a href="https://wp-statistics.com/product/wp-statistics-customization/" target="_blank">Customization Add-On</a>
+        <?php echo sprintf(__('Disable or customize this widget by <a href="%1$s" target="_blank">Customization Add-On!</a>', 'wp-statistics'), 'https://wp-statistics.com/product/wp-statistics-customization/'); ?>
     </div>
 <?php } ?>
