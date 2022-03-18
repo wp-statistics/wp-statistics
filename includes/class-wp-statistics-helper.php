@@ -166,7 +166,7 @@ class Helper
     {
         $use = array('status' => false, 'plugin' => '');
 
-        /* Wordpress core */
+        /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
             return array('status' => true, 'plugin' => 'core');
         }
@@ -201,7 +201,7 @@ class Helper
             return array('status' => true, 'plugin' => 'W3 Total Cache');
         }
 
-        return $use;
+        return apply_filters('wp_statistics_cache_status', $use);
     }
 
     /**
