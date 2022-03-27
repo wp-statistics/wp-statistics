@@ -107,7 +107,7 @@
   padding: 0 0 20px;
 }
 
-@media screen and  (max-width: 1300px) {
+@media screen and (max-width: 1300px) {
   .wps-header-banner {
     background: url('../images/page-header.svg') 5% center/cover no-repeat;
     min-height: 113px;
@@ -488,15 +488,23 @@
 .wps-wrap .wp-statistics-sub-fullwidth input {
   padding: 6px !important;
 }
+
 .wps-wrap .wp-statistics-sub-fullwidth .button-primary {
   padding: 7px 14px !important;
 }
 
-.wps-wrap .meta-box-sortables .inside {
-  padding: 15px !important;
+.wps-wrap .meta-box-sortables {
+  .inside {
+    padding: 15px !important;
+  }
+
+  .inside-no-padding {
+    margin-bottom: 20px;
+    display: flex;
+  }
 }
 
-.statistics_page_wps_categories_page , .statistics_page_wps_tags_page, .statistics_page_wps_authors_page, .statistics_page_wps_pages_page  {
+.statistics_page_wps_categories_page, .statistics_page_wps_tags_page, .statistics_page_wps_authors_page, .statistics_page_wps_pages_page {
   .wps-wrap .postbox {
     padding: 10px 3px !important;
   }
@@ -509,13 +517,13 @@
 }
 
 .wps-wrap .btn-danger {
-  background: rgba(186,0,0,0.74) !important;
-  border-color: rgba(170,0,0,0.77) rgba(153,0,0,0.74) rgba(153,0,0,0.74) !important;
-  box-shadow: 0 1px 0 rgba(153,0,0,0.74);
+  background: rgba(186, 0, 0, 0.74) !important;
+  border-color: rgba(170, 0, 0, 0.77) rgba(153, 0, 0, 0.74) rgba(153, 0, 0, 0.74) !important;
+  box-shadow: 0 1px 0 rgba(153, 0, 0, 0.74);
   color: #fff;
   text-decoration: none;
   padding: 12px 16px !important;
-  text-shadow: 0 -1px 1px rgba(153,0,0,0.74),1px 0 1px rgba(153,0,0,0.74),0 1px 1px rgba(153,0,0,0.74),-1px 0 1px rgba(153,0,0,0.74);
+  text-shadow: 0 -1px 1px rgba(153, 0, 0, 0.74), 1px 0 1px rgba(153, 0, 0, 0.74), 0 1px 1px rgba(153, 0, 0, 0.74), -1px 0 1px rgba(153, 0, 0, 0.74);
 }
 
 
@@ -697,7 +705,7 @@
   border-color: #404BF2 !important;
 }
 
-.wps-widgets-settings-wrap input[type="checkbox"]:checked ,
+.wps-widgets-settings-wrap input[type="checkbox"]:checked,
 .wps-mini-chart-settings-wrap input[type="checkbox"]:checked,
 .wps-rest-api-settings-wrap input[type="checkbox"]:checked,
 .wps-realtime-stats-settings-wrap input[type="checkbox"]:checked {
@@ -716,10 +724,10 @@
 }
 
 
-.wps-widgets-settings-wrap .thickbox.button, .wps-widgets-settings-wrap .button,  .wps-widgets-settings-wrap input[type="button"],
-.wps-mini-chart-settings-wrap .thickbox.button, .wps-mini-chart-settings-wrap .button,  .wps-mini-chart-settings-wrap input[type="button"],
-.wps-rest-api-settings-wrap .thickbox.button, .wps-rest-api-settings-wrap .button,  .wps-rest-api-settings-wrap input[type="button"],
-.wps-realtime-stats-settings-wrap .thickbox.button, .wps-realtime-stats-settings-wrap .button,  .wps-realtime-stats-settings-wrap input[type="button"] {
+.wps-widgets-settings-wrap .thickbox.button, .wps-widgets-settings-wrap .button, .wps-widgets-settings-wrap input[type="button"],
+.wps-mini-chart-settings-wrap .thickbox.button, .wps-mini-chart-settings-wrap .button, .wps-mini-chart-settings-wrap input[type="button"],
+.wps-rest-api-settings-wrap .thickbox.button, .wps-rest-api-settings-wrap .button, .wps-rest-api-settings-wrap input[type="button"],
+.wps-realtime-stats-settings-wrap .thickbox.button, .wps-realtime-stats-settings-wrap .button, .wps-realtime-stats-settings-wrap input[type="button"] {
   background: #fff;
   border: 1px solid #D6D6D6;
   box-sizing: border-box;
@@ -829,9 +837,9 @@
 }
 
 .wps-widgets-settings-wrap input[type="text"], .wps-widgets-settings-wrap input[type="date"], .wps-widgets-settings-wrap input[type="number"], .wps-widgets-settings-wrap .chosen-container-multi .chosen-choices, .wps-widgets-settings-wrap select,
-.wps-mini-chart-settings-wrap input[type="text"],.wps-mini-chart-settings-wrap input[type="number"], .wps-mini-chart-settings-wrap input[type="date"], .wps-widgets-settings-wrap input[type="number"], .wps-mini-chart-settings-wrap .chosen-container-multi .chosen-choices, .wps-mini-chart-settings-wrap select,
-.wps-rest-api-settings-wrap input[type="text"],.wps-rest-api-settings-wrap input[type="number"], .wps-rest-api-settings-wrap input[type="date"], .wps-widgets-settings-wrap input[type="number"], .wps-mini-chart-settings-wrap .chosen-container-multi .chosen-choices, .wps-rest-api-settings-wrap select,
-.wps-realtime-stats-settings-wrap input[type="text"],.wps-realtime-stats-settings-wrap input[type="number"], .wps-rest-api-settings-wrap input[type="date"], .wps-widgets-settings-wrap input[type="number"], .wps-realtime-stats-settings-wrap .chosen-container-multi .chosen-choices, .wps-realtime-stats-settings-wrap select {
+.wps-mini-chart-settings-wrap input[type="text"], .wps-mini-chart-settings-wrap input[type="number"], .wps-mini-chart-settings-wrap input[type="date"], .wps-widgets-settings-wrap input[type="number"], .wps-mini-chart-settings-wrap .chosen-container-multi .chosen-choices, .wps-mini-chart-settings-wrap select,
+.wps-rest-api-settings-wrap input[type="text"], .wps-rest-api-settings-wrap input[type="number"], .wps-rest-api-settings-wrap input[type="date"], .wps-widgets-settings-wrap input[type="number"], .wps-mini-chart-settings-wrap .chosen-container-multi .chosen-choices, .wps-rest-api-settings-wrap select,
+.wps-realtime-stats-settings-wrap input[type="text"], .wps-realtime-stats-settings-wrap input[type="number"], .wps-rest-api-settings-wrap input[type="date"], .wps-widgets-settings-wrap input[type="number"], .wps-realtime-stats-settings-wrap .chosen-container-multi .chosen-choices, .wps-realtime-stats-settings-wrap select {
   padding: 12px 16px !important;
   font-weight: normal;
   font-size: 14px;
@@ -903,7 +911,6 @@
   display: flex;
   align-items: flex-start;
 }
-
 
 
 .wps-widgets-settings-wrap .notice::before,

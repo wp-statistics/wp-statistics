@@ -28,10 +28,7 @@
         $result = json_decode($response['body']);
         foreach ($result->items as $item) : ?>
             <div class="meta-box-sortables">
-                <div id="wps-plugins-support" class="postbox">
-                    <h2 class="hndle"><span><?php echo $item->title; ?></span></h2>
-                    <div class="inside"><?php echo $item->content; ?></div>
-                </div>
+                <div class="inside-no-padding"><?php echo $item->content; ?></div>
             </div>
         <?php
         endforeach;
