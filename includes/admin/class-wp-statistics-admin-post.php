@@ -70,7 +70,7 @@ class Admin_Post
     public function render_hit_column($column_name, $post_id)
     {
         if ($column_name == 'wp-statistics-post-hits') {
-            echo "<a href='" . Menus::admin_url('pages', array('ID' => $post_id, 'type' => Pages::get_post_type($post_id))) . "'>" . wp_statistics_pages('total', "", $post_id) . "</a>";
+            echo "<a href='" . Menus::admin_url('pages', array('ID' => $post_id, 'type' => Pages::get_post_type($post_id))) . "'>" . wp_statistics_pages('total', "", $post_id,null,null,Pages::get_post_type($post_id)) . "</a>";
         }
     }
 
