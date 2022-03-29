@@ -38,7 +38,8 @@ wps_js.platforms_meta_box = {
         let data = [{
             label: wps_js._('platform'),
             data: args['platform_value'],
-            backgroundColor: backgroundColor
+            backgroundColor: backgroundColor,
+            tension: 0.4
         }];
 
         // Show Chart

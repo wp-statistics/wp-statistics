@@ -61,7 +61,8 @@ wps_js.hits_meta_box = {
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
-                fill: true
+                fill: true,
+                tension: 0.4
             });
         }
         if (wps_js.is_active('visits')) {
@@ -71,7 +72,8 @@ wps_js.hits_meta_box = {
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
-                fill: true
+                fill: true,
+                tension: 0.4
             });
         }
         wps_js.line_chart(tag_id, params['title'], params['date'], datasets);
