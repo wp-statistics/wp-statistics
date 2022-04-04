@@ -5,7 +5,7 @@ wps_js.post_meta_box = {
     },
 
     view: function (args = []) {
-        return (args.hasOwnProperty('content') ? '<div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' : '<canvas id="' + wps_js.chart_id('post') + '" height="85"></canvas>');
+        return (args.hasOwnProperty('content') ? '<div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' : '<canvas id="' + wps_js.chart_id('post') + '" height="85"></canvas>') + '<div class="wps-meta-box-footer">' + args['visitors'] + '</div>';
     },
 
     meta_box_init: function (args = []) {

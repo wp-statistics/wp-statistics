@@ -5,6 +5,7 @@
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
+                <div class="wps-meta-box-footer"><?php echo $visitors ?></div>
             </div>
         </div>
     </div>

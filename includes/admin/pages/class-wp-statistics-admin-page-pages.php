@@ -150,6 +150,8 @@ class pages_page
             }
         }
 
+        $args['visitors'] = apply_filters('wp_statistics_pages_chart_visitors', '<div style="margin-top: 15px; border-top: 1px solid #e7e7e7;padding: 15px; font-size: 12px;padding-bottom: 10px;margin: 0 -3px;">Unlock the latest visitors information by <a href="https://wp-statistics.com/product/wp-statistics-widgets/" target="_blank"><b>WP-Statistics Widgets Add-On!</b></a></div>');
+
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'layout/date.range', 'pages/page-chart', 'layout/footer'), $args);
     }

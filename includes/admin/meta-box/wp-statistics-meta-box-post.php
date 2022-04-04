@@ -68,6 +68,8 @@ class post
             $response['no_data'] = 1;
         }
 
+        $response['visitors'] = apply_filters('wp_statistics_meta_box_post_visitors', '<div style="margin: 0 -12px; margin-top: 12px; border-top: 1px solid #e7e7e7;padding: 12px 12px 0; font-size: 12px;">Unlock the latest visitors information by <a href="https://wp-statistics.com/product/wp-statistics-widgets/" target="_blank"><b>WP-Statistics Widgets Add-On!</b></a></div>');
+
         // Response
         return $response;
     }
