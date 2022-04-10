@@ -38,7 +38,7 @@
                                     <?php } ?>
                                     <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "'>" . $item['ip']['value'] . "</a>"); ?></td>
                                     <td style='text-align: left'><span><?php echo $item['online_for']; ?></span></td>
-                                    <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . $item['page']['link'] . '" target="_blank" class="wps-text-danger">' : '') . $item['page']['title'] . ($item['page']['link'] != '' ? '</a>' : ''); ?></td>
+                                    <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . $item['page']['link'] . '" target="_blank" class="wps-text-muted">' : '') . $item['page']['title'] . ($item['page']['link'] != '' ? '</a>' : ''); ?></td>
                                     <td style='text-align: left'><?php echo $item['referred']; ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>

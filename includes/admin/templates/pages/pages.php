@@ -58,7 +58,7 @@
                                         </a>
                                     </td>
                                     <td style="text-align: left">
-                                        <a href="<?php echo $li['hits_page']; ?>" class="wps-text-danger">
+                                        <a href="<?php echo $li['hits_page']; ?>" class="wps-text-muted">
                                             <?php echo $li['number']; ?>
                                         </a>
                                     </td>

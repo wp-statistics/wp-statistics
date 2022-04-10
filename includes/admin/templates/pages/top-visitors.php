@@ -45,7 +45,7 @@
                                         <td><?php echo $item['city']; ?></td>
                                     <?php } ?>
                                     <td style='text-align: left'><span><?php echo $item['date']; ?></span></td>
-                                    <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "' class='wps-text-danger'>" . $item['ip']['value'] . "</a>"); ?></td>
+                                    <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "' class='wps-text-muted'>" . $item['ip']['value'] . "</a>"); ?></td>
                                     <td style='text-align: left'><?php echo $item['platform']; ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>

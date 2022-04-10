@@ -56,9 +56,9 @@ wps_js.browsers_meta_box = {
             let tbl = `<div class="title-center">${args.title}</div>
                     <table width="100%" class="widefat table-stats">
                         <tr>
-                            <td class="wps-text-danger">${wps_js._('browser')}</td>
-                            <td class="wps-text-danger">${wps_js._('visitor_count')}</td>
-                            <td class="wps-text-danger">${wps_js._('percentage')}</td>
+                            <td class="wps-text-muted">${wps_js._('browser')}</td>
+                            <td class="wps-text-muted">${wps_js._('visitor_count')}</td>
+                            <td class="wps-text-muted">${wps_js._('percentage')}</td>
                         </tr>`;
 
             for (let i = 0; i < args.browsers_name.length; i++) {
@@ -168,9 +168,9 @@ wps_js.show_custom_agent = function (args) {
         let tbl = `<div class="title-center">${args.title}</div>
                     <table width="100%" class="widefat table-stats">
                         <tr>
-                            <td class="wps-text-danger">${wps_js._('version_list')}</td>
-                            <td class="wps-text-danger">${wps_js._('visitor_count')}</td>
-                            <td class="wps-text-danger">${wps_js._('percentage')}</td>
+                            <td class="wps-text-muted">${wps_js._('version_list')}</td>
+                            <td class="wps-text-muted">${wps_js._('visitor_count')}</td>
+                            <td class="wps-text-muted">${wps_js._('percentage')}</td>
                         </tr>`;
 
         for (let i = 0; i < args.browsers_name.length; i++) {
