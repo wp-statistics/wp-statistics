@@ -76,7 +76,11 @@ class Admin_Taxonomy
     {
         if ($column_name == 'wp-statistics-tax-hits') {
             $term = get_term($term_id);
-            return "<a href='" . Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)) . "'>" . wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy) . "</a>";
+
+            return sprintf('<a href="%s">%s</a>',
+                Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)),
+                wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy)
+            );
         }
 
         return $value;

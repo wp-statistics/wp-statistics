@@ -2,3 +2,19 @@
     content: '\f184';
     top: 2px;
 }
+
+#wpadminbar #wp-admin-bar-wp-statistics-menu-page a {
+    padding-bottom: 4px !important;
+}
+
+#wpadminbar #wp-admin-bar-wp-statistics-menu-page span {
+    background-color: #2f5a82;
+    padding: 1px 0px;
+    color: #ffffff;
+    line-height: 21px;
+    font-size: 12px;
+    border-radius: 2px;
+    display: table;
+    margin: 0 auto;
+    width: 100%;
+}

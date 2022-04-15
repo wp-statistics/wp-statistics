@@ -1,5 +1,4 @@
 
-
 #wps-postbox-container-1 {
   width: 30%;
   float: left;
@@ -46,4 +45,33 @@
 
 #wps-postbox-container-1 a, #wps-postbox-container-2 a, #wps-big-postbox a {
   text-decoration: none;
+}
+
+.column-wp-statistics-post-hits .wps-admin-column__unlock {
+
+}
+
+.column-wp-statistics-post-hits .wps-admin-column__unlock a {
+  color: #ffffff;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.column-wp-statistics-post-hits .wps-admin-column__unlock a span {
+  background: #347ab6;
+  padding: 2px 3px;
+  border-radius: 2px;
+  position: absolute;
+  visibility: hidden;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.column-wp-statistics-post-hits .wps-admin-column__unlock a img {
+  width: 100%;
+}
+
+.column-wp-statistics-post-hits .wps-admin-column__unlock a:hover span {
+  visibility: visible;
 }

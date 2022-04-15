@@ -74,25 +74,21 @@ class Admin_Post
             $post_type  = Pages::get_post_type($post_id);
             $hit_number = wp_statistics_pages('total', "", $post_id, null, null, $post_type);
 
-            /**
-             * Fires before the admin hit column has been output.
-             *
-             * @since 13.1.8
-             */
-            do_action("wp_statistics_before_hit_column_{$post_type}", $post_id, $post_type);
+            if ($hit_number) {
+                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
+                    'https://wp-statistics.com/product/wp-statistics-mini-chart/',
+                    __('Unlock!', 'wp-statistics'),
+                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png',
+                );
 
-            echo sprintf(
-                '<a href="%s" class="wps-admin-column__link">%s</a>',
-                Menus::admin_url('pages', array('ID' => $post_id, 'type' => $post_type)),
-                number_format($hit_number)
-            );
+                echo apply_filters("wp_statistics_before_hit_column_{$post_type}", $preview_chart_unlock_html, $post_id, $post_type);
 
-            /**
-             * Fires after the admin hit column has been output.
-             *
-             * @since 13.1.8
-             */
-            do_action("wp_statistics_after_hit_column_{$post_type}", $post_id, $post_type);
+                echo sprintf('<a href="%s" class="wps-admin-column__link">%s</a>',
+                    Menus::admin_url('pages', array('ID' => $post_id, 'type' => $post_type)),
+                    number_format($hit_number)
+                );
+            }
+
         }
     }
 
