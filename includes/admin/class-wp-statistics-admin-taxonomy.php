@@ -75,12 +75,24 @@ class Admin_Taxonomy
     public function render_column($value, $column_name, $term_id)
     {
         if ($column_name == 'wp-statistics-tax-hits') {
-            $term = get_term($term_id);
+            $term       = get_term($term_id);
+            $hit_number = wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy);
 
-            return sprintf('<a href="%s">%s</a>',
-                Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)),
-                wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy)
-            );
+            if ($hit_number) {
+                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
+                    'https://wp-statistics.com/product/wp-statistics-mini-chart/',
+                    __('Unlock!', 'wp-statistics'),
+                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png',
+                );
+
+                $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
+
+                $value .= sprintf('<a href="%s">%s</a>',
+                    Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)),
+                    number_format($hit_number)
+                );
+            }
+
         }
 
         return $value;

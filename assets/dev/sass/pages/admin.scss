@@ -50,40 +50,39 @@
 /* WP Admin List Table */
 .column-wp-statistics-tax-hits {
   width: 15%;
+  text-align: center;
 }
 
 .column-wp-statistics-post-hits {
   width: 10%;
   text-align: center;
+}
 
-  .wps-admin-column__unlock {
-
-  }
-
-  .wps-admin-column__unlock a {
+.wps-admin-column__unlock {
+  a {
     color: #ffffff;
     font-size: 12px;
     display: flex;
     justify-content: center;
+
+    span {
+      background: #347ab6;
+      padding: 2px 3px;
+      border-radius: 2px;
+      position: absolute;
+      visibility: hidden;
+      font-size: 10px;
+      line-height: 14px;
+      z-index: 99999;
+    }
+
+    img {
+      width: 100%;
+      opacity: 0.5;
+    }
   }
 
-  .wps-admin-column__unlock a span {
-    background: #347ab6;
-    padding: 2px 3px;
-    border-radius: 2px;
-    position: absolute;
-    visibility: hidden;
-    font-size: 10px;
-    line-height: 14px;
-    z-index: 99999;
-  }
-
-  .wps-admin-column__unlock a img {
-    width: 100%;
-    opacity: 0.5;
-  }
-
-  .wps-admin-column__unlock a:hover span {
+  a:hover span {
     visibility: visible;
   }
 }
