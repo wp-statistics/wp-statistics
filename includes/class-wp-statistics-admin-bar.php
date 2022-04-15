@@ -102,7 +102,7 @@ class AdminBar
                 ),
                 'wp-statistics-menu-page'             => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => sprintf('<img src="%s"/><span class="wps-admin-column__unlock-button">%s</span>',
+                    'title'  => sprintf('<img src="%s"/><span class="wps-admin-bar__chart__unlock-button">%s</span>',
                         WP_STATISTICS_URL . 'assets/images/mini-chart-admin-bar-preview.png',
                         __('Unlock Mini Chart!', 'wp-statistics'),
                     ),
