@@ -131,7 +131,9 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 * Enhancement: The number of page hits in the render hit column has been improvement
 * Enhancement: The ChartJs is more user-friendly
 * Enhancement: The render column has been updated
+* Bugfix: Showing the widget form bug has been fixed
 * Update: Styles and assets
+* Update: GeoIP City & Countries Databases
 
 = v13.1.7 - 18.03.2022 =
 * Update: Chart.js library updated to v3.7.1
