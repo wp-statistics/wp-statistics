@@ -64,8 +64,8 @@ form#wp-statistics-select-pages {
   padding: 7px 20px 15px;
   width: 52%;
   text-align: center;
-  -webkit-box-shadow: 0 3px 13px rgba(0, 0, 0, 0.08);
-  box-shadow: 0 3px 13px rgba(0, 0, 0, 0.08);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+  rgba(0, 0, 0, 0) 0px 0px 12px;
 
   h2 {
 
@@ -77,5 +77,18 @@ form#wp-statistics-select-pages {
 
   a {
     padding: 10px 14px !important;
+  }
+}
+
+.misc-pub-hits {
+
+  &:before {
+    content: "\f184";
+    font: normal 20px/1 dashicons;
+    display: inline-block;
+    margin-left: -1px;
+    padding-right: 3px;
+    vertical-align: top;
+    color: #8c8f94;
   }
 }

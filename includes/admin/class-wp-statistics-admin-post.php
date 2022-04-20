@@ -152,7 +152,7 @@ class Admin_Post
     {
         global $post;
         if ($post->post_status == 'publish') {
-            echo "<div class='misc-pub-section'>" . __('WP Statistics - Hits', 'wp-statistics') . ": <b><a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . wp_statistics_pages('total', "", $post->ID) . "</a></b></div>";
+            echo "<div class='misc-pub-section misc-pub-hits'>" . __('Hits', 'wp-statistics') . ": <a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . number_format(wp_statistics_pages('total', "", $post->ID)) . "</a></div>";
         }
     }
 

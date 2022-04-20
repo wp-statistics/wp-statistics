@@ -131,6 +131,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 * Enhancement: The number of page hits in the render hit column has been improvement
 * Enhancement: The ChartJs is more user-friendly
 * Enhancement: The render column has been updated
+* Enhancement: The Hits in publish metabox has been improvement
 * Update: The Hits column added in all visitor's table.
 * Update: Styles and assets
 * Update: GeoIP City & Countries Databases
