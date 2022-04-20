@@ -20,8 +20,8 @@
                 </button>
 
                 <h2 class="hndle wps-d-inline-block"><span>Visitors</span></h2>
-                <div class="inside">
-                    <?php echo $visitors ?>
+                <div class="inside wps-wrap">
+                    <?php echo $visitors; ?>
                 </div>
             </div>
         </div>
