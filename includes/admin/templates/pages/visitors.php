@@ -37,6 +37,7 @@
                                 </td>
                                 <td><?php _e('IP', 'wp-statistics'); ?></td>
                                 <td><?php _e('Platform', 'wp-statistics'); ?></td>
+                                <td><?php _e('Hits', 'wp-statistics'); ?></td>
                                 <td><?php _e('User', 'wp-statistics'); ?></td>
                                 <?php
                                 if (\WP_STATISTICS\Option::get('visitors_log')) {
@@ -46,7 +47,6 @@
                                 }
                                 ?>
                                 <td><?php _e('Referrer', 'wp-statistics'); ?></td>
-                                <td></td>
                             </tr>
 
                             <?php foreach ($list as $item) { ?>
@@ -63,12 +63,18 @@
                                         <td><?php echo $item['city']; ?></td>
                                     <?php } ?>
                                     <td style='text-align: left'><span><?php echo $item['date']; ?></span></td>
-                                    <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "' class='wps-text-muted'>" . $item['ip']['value'] . "</a>"); ?></td>
+                                    <td style='text-align: left'>
+                                        <?php echo(isset($item['map']) ? "<a class='show-map' href='" . $item['map'] . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?>
+                                        <?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "'>" . $item['ip']['value'] . "</a>"); ?>
+                                    </td>
                                     <td style='text-align: left'><?php echo $item['platform']; ?></td>
+                                    <td style='text-align: left'><?php echo $item['hits']; ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
                                             <a href="<?php echo \WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID'])); ?>" class="wps-text-success"><?php echo $item['user']['user_login']; ?></a>
-                                        <?php } else { ?><?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?><?php } ?>
+                                        <?php } else { ?>
+                                            <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
+                                        <?php } ?>
                                     </td>
                                     <?php
                                     if (\WP_STATISTICS\Option::get('visitors_log')) {
@@ -80,7 +86,6 @@
                                     }
                                     ?>
                                     <td style='text-align: left'><?php echo $item['referred']; ?></td>
-                                    <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . $item['ip']['link'] . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . $item['map'] . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
                                 </tr>
                             <?php } ?>
                         </table>

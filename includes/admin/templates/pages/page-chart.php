@@ -5,7 +5,24 @@
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
-                <div class="wps-meta-box-footer"><?php echo $visitors ?></div>
+            </div>
+        </div>
+    </div
+</div>
+
+<div class="postbox-container wps-postbox-full">
+    <div class="metabox-holder">
+        <div class="meta-box-sortables">
+            <div class="postbox" id="wp-statistics-pages-widget">
+                <button class="handlediv" type="button" aria-expanded="true">
+                    <span class="screen-reader-text">Toggle panel: Top Pages</span>
+                    <span class="toggle-indicator" aria-hidden="true"></span>
+                </button>
+
+                <h2 class="hndle wps-d-inline-block"><span>Visitors</span></h2>
+                <div class="inside">
+                    <?php echo $visitors ?>
+                </div>
             </div>
         </div>
     </div>

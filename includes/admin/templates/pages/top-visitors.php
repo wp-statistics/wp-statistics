@@ -50,7 +50,9 @@
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
                                             <a href="<?php echo \WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID'])); ?>" class="wps-text-success"><?php echo $item['user']['user_login']; ?></a>
-                                        <?php } else { ?><?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?><?php } ?>
+                                        <?php } else { ?>
+                                            <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
+                                        <?php } ?>
                                     </td>
                                     <td style='text-align: left'><?php echo $item['referred']; ?></td>
                                     <td style='text-align: left'><?php echo $item['hits']; ?></td>
