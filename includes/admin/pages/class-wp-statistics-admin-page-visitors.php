@@ -107,6 +107,7 @@ class visitors_page
         if (isset($_GET['platform']) and !empty($_GET['platform'])) {
             // Add Params To SQL
             $platform = sanitize_text_field($_GET['platform']);
+            $platform = esc_html($platform);
             $sql[]    = array('key' => 'platform', 'compare' => 'LIKE', 'value' => trim(Helper::getUrlDecode($platform)));
 
             // Set New Sub List
