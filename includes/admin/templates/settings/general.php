@@ -199,25 +199,25 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="hit_post_metabox"><?php _e('Hits Metabox Chart:', 'wp-statistics'); ?></label>
+                <label for="hit_post_metabox"><?php _e('Hits in Publish Metabox', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="hit_post_metabox" type="checkbox" value="1" name="wps_hit_post_metabox" <?php echo WP_STATISTICS\Option::get('hit_post_metabox') == true ? "checked='checked'" : ''; ?>>
                 <label for="hit_post_metabox"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to show hits metabox chart on the edit page of all post types', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to show hits on the edit page » Publish meta box of all post types', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="show_hits"><?php _e('Hits in Single Page:', 'wp-statistics'); ?></label>
+                <label for="show_hits"><?php _e('Hits in Single Pages', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="show_hits" type="checkbox" value="1" name="wps_show_hits" <?php echo WP_STATISTICS\Option::get('show_hits') == true ? "checked='checked'" : ''; ?> onClick='ToggleShowHitsOptions();'>
                 <label for="show_hits"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable it to show hits in content', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to show the hits in post content', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

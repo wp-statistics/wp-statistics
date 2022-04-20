@@ -1,6 +1,6 @@
 form#wp-statistics-select-pages {
   margin-bottom: -15px;
-  margin-top: 6px;
+  margin-top: 16px;
 
   .select-title {
     vertical-align: -2px;
@@ -51,6 +51,10 @@ form#wp-statistics-select-pages {
   }
 }
 
+#wps-big-postbox .wps-admin-pages-visitors__preview {
+  max-height: 290px;
+}
+
 .wps-admin-pages-visitors__promotion {
   background-color: #fff;
   position: absolute;
@@ -58,7 +62,7 @@ form#wp-statistics-select-pages {
   top: 50%;
   transform: translate(-50%, -50%);
   padding: 7px 20px 15px;
-  width: 40%;
+  width: 52%;
   text-align: center;
   -webkit-box-shadow: 0 3px 13px rgba(0, 0, 0, 0.08);
   box-shadow: 0 3px 13px rgba(0, 0, 0, 0.08);

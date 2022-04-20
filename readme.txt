@@ -123,7 +123,7 @@ Welcome to WP-Statistics v13.0, our biggest update!
 Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP-Statistics better for you.
 Before updating, make sure you disabled all your add-ons, then after that, try to update add-ons.
 
-If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
+If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
 = v13.1.8 - **.04.2022 =
@@ -131,9 +131,11 @@ If you encounter any bug, please create an issue on [Github](https://github.com/
 * Enhancement: The number of page hits in the render hit column has been improvement
 * Enhancement: The ChartJs is more user-friendly
 * Enhancement: The render column has been updated
-* Bugfix: Showing the widget form bug has been fixed
+* Update: The Hits column added in all visitor's table.
 * Update: Styles and assets
 * Update: GeoIP City & Countries Databases
+* Bugfix: Hardened plugin security
+* Bugfix: Showing the widget form bug has been fixed
 
 = v13.1.7 - 18.03.2022 =
 * Update: Chart.js library updated to v3.7.1
