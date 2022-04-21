@@ -45,7 +45,7 @@ class Frontend
     {
         if (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0) {
             $post_url = get_permalink(Option::get('honeypot_postid'));
-            echo '<a href="' . $post_url . '" style="display: none;">&nbsp;</a>';
+            echo '<a href="' . esc_html($post_url) . '" style="display: none;">&nbsp;</a>';
         }
     }
 

@@ -98,10 +98,11 @@ class Helper
 
         // Check Native php
         $protocol   = strpos(strtolower($_SERVER['SERVER_PROTOCOL']), 'https') === false ? 'http' : 'https';
-        $host       = $_SERVER['HTTP_HOST'];
-        $script     = $_SERVER['SCRIPT_NAME'];
+        $host       = sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']));
+        $script     = sanitize_text_field(wp_unslash($_SERVER['SCRIPT_NAME']));
         $currentURL = $protocol . '://' . $host . $script;
         $loginURL   = wp_login_url();
+
         if ($currentURL == $loginURL) {
             return true;
         }
@@ -110,7 +111,7 @@ class Helper
     }
 
     /**
-     * Show Admin Wordpress Ui Notice
+     * Show Admin WordPress UI Notice
      *
      * @param $text
      * @param string $model
@@ -127,8 +128,9 @@ class Helper
            <div style="' . $style_extra . '">' . $text . '</div>
         </div>
         ';
+
         if ($echo) {
-            echo $text;
+            echo esc_html($text);
         } else {
             return $text;
         }

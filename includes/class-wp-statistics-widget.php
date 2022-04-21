@@ -315,10 +315,10 @@ class WP_Statistics_Widget extends \WP_Widget
                     $search_engines = WP_STATISTICS\SearchEngine::getList();
 
                     foreach ($search_engines as $se) {
-                        echo '<input type="radio" id="select_' . $se['tag'] . '" name="select_se" value="' . $se['tag'] . '" ';
+                        echo '<input type="radio" id="select_' . esc_html($se['tag']) . '" name="select_se" value="' . esc_html($se['tag']) . '" ';
                         if (isset($widget_options['select_se'])) checked($se['tag'], $widget_options['select_se']);
                         echo "/>\n";
-                        echo '<label for="' . $se['name'] . '">' . $se['translated'] . "</label>\n";
+                        echo '<label for="' . esc_html($se['name']) . '">' . esc_html($se['translated']) . "</label>\n";
                         echo "\n";
                     }
                     ?>

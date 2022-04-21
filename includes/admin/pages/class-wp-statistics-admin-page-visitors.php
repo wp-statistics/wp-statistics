@@ -61,11 +61,14 @@ class visitors_page
          */
         if (isset($_GET['user_id'])) {
             // Add Params To SQL
-            $user_id = esc_html($_GET['user_id']);
+            $user_id = sanitize_text_field($_GET['user_id']);
             $sql[]   = array('key' => 'user_id', 'compare' => '=', 'value' => trim($user_id));
 
             // Get User Data
             $user_info = User::get($user_id);
+
+            // Escaping for output
+            $user_id = esc_html($user_id);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -78,8 +81,11 @@ class visitors_page
          */
         if (isset($_GET['ip'])) {
             // Add Params To SQL
-            $ip    = esc_html($_GET['ip']);
+            $ip    = sanitize_text_field($_GET['ip']);
             $sql[] = array('key' => 'ip', 'compare' => 'LIKE', 'value' => trim($ip));
+
+            // Escaping for output
+            $ip = esc_html($ip);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -92,8 +98,11 @@ class visitors_page
          */
         if (isset($_GET['location']) and !empty($_GET['location'])) {
             // Add Params To SQL
-            $location = esc_html($_GET['location']);
+            $location = sanitize_text_field($_GET['location']);
             $sql[]    = array('key' => 'location', 'compare' => 'LIKE', 'value' => trim($location));
+
+            // Escaping for output
+            $location = esc_html($location);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -107,8 +116,10 @@ class visitors_page
         if (isset($_GET['platform']) and !empty($_GET['platform'])) {
             // Add Params To SQL
             $platform = sanitize_text_field($_GET['platform']);
-            $platform = esc_html($platform);
             $sql[]    = array('key' => 'platform', 'compare' => 'LIKE', 'value' => trim(Helper::getUrlDecode($platform)));
+
+            // Escaping for output
+            $platform = esc_html($platform);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -121,8 +132,11 @@ class visitors_page
          */
         if (isset($_GET['referrer']) and !empty($_GET['referrer'])) {
             // Add Params To SQL
-            $referrer = esc_html($_GET['referrer']);
+            $referrer = sanitize_text_field($_GET['referrer']);
             $sql[]    = array('key' => 'referred', 'compare' => 'LIKE', 'value' => "%" . trim($referrer) . "%");
+
+            // Escaping for output
+            $referrer = esc_html($referrer);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -136,8 +150,11 @@ class visitors_page
         $browsers = UserAgent::BrowserList();
         if (isset($_GET['agent']) and !empty($_GET['agent'])) {
             // Add Params To SQL
-            $agent = esc_html($_GET['agent']);
+            $agent = sanitize_text_field($_GET['agent']);
             $sql[] = array('key' => 'agent', 'compare' => 'LIKE', 'value' => trim($agent));
+
+            // Escaping for output
+            $agent = esc_html($agent);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
