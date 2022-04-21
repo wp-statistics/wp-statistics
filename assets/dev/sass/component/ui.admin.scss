@@ -100,7 +100,7 @@
   width: 100%;
   max-width: 100%;
   background: url('../images/page-header.svg') center center/100% no-repeat;
-  min-height: 150px;
+  min-height: 138px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -122,6 +122,7 @@
   transform: translateY(-31px);
   z-index: -1;
   position: relative;
+  min-height: 150px;
 }
 
 #screen-meta-links + br + .wps-wrap .wps-wrap__main {

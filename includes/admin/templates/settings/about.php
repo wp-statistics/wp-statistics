@@ -11,15 +11,16 @@
 
         <tr valign="top">
             <td scope="row" align="center">
-                <h2><?php echo sprintf(__('WP Statistics V%s', 'wp-statistics'), WP_STATISTICS_VERSION); ?></h2>
+                <h2><?php echo sprintf(__('WP-Statistics v%s', 'wp-statistics'), WP_STATISTICS_VERSION); ?></h2>
             </td>
         </tr>
 
         <tr valign="top">
             <td scope="row" align="center">
                 <?php echo sprintf(
-                    __('This product includes GeoLite2 data created by %s.', 'wp-statistics'),
-                    '<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'
+                    __('This product is developed by %s and includes GeoLite2 data created by %s.', 'wp-statistics'),
+                    '<a href="https://veronalabs.com" target=_blank>VeronaLabs</a>',
+                    '<a href="https://www.maxmind.com" target=_blank>MaxMind</a>'
                 ); ?>
             </td>
         </tr>
@@ -119,7 +120,7 @@
                         ); ?></li>
                     <li><?php echo sprintf(
                             __('Have you search the %ssupport forum%s for a similar issue?', 'wp-statistics'),
-                            '<a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">',
+                            '<a href="https://wordpress.org/support/plugin/wp-statistics" target="_blank">',
                             '</a>'
                         ); ?></li>
                     <li><?php _e(
@@ -152,14 +153,7 @@
                     <li><?php _e('Have you checked your PHP and web server error logs?', 'wp-statistics'); ?></li>
                 </ul>
 
-                <p><?php _e('Still not having any luck?', 'wp-statistics'); ?><?php echo sprintf(
-                        __(
-                            'Then please open a new thread on the %sWordPress.org support forum%s and we\'ll respond as soon as possible.',
-                            'wp-statistics'
-                        ),
-                        '<a href="http://wordpress.org/support/plugin/wp-statistics" target="_blank">',
-                        '</a>'
-                    ); ?></p>
+                <p><?php _e('Still not having any luck?', 'wp-statistics'); ?> <?php echo sprintf(__('Then please open a new thread on the %sWordPress.org support forum%s and we\'ll respond as soon as possible.', 'wp-statistics'), '<a href="https://wordpress.org/support/plugin/wp-statistics" target="_blank">', '</a>'); ?></p>
             </td>
         </tr>
         </tbody>
