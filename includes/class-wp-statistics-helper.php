@@ -130,7 +130,7 @@ class Helper
         ';
 
         if ($echo) {
-            echo esc_html($text);
+            echo $text;
         } else {
             return $text;
         }
