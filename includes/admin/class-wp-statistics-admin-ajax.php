@@ -74,7 +74,7 @@ class Ajax
 
             // Update Option
             $get_opt         = get_option('wp_statistics_overview_page_ads');
-            $get_opt['view'] = $_REQUEST['ads_id'];
+            $get_opt['view'] = sanitize_text_field($_REQUEST['ads_id']);
             update_option('wp_statistics_overview_page_ads', $get_opt, 'no');
         }
         exit;
@@ -252,7 +252,7 @@ class Ajax
             // Check Number Day
             $purge_days = 0;
             if (isset($_POST['purge-days'])) {
-                $purge_days = intval($_POST['purge-days']);
+                $purge_days = intval(sanitize_text_field($_POST['purge-days']));
             }
 
             echo Purge::purge_data($purge_days);
@@ -277,7 +277,7 @@ class Ajax
             // Check Number Day
             $purge_hits = 10;
             if (isset($_POST['purge-hits'])) {
-                $purge_hits = intval($_POST['purge-hits']);
+                $purge_hits = intval(sanitize_text_field($_POST['purge-hits']));
             }
 
             if ($purge_hits < 10) {

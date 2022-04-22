@@ -69,19 +69,19 @@ class optimization_page
             if (isset($_POST['wps_historical_visitors'])) {
 
                 // Update DB
-                $result = $wpdb->update($historical_table, array('value' => $_POST['wps_historical_visitors']), array('category' => 'visitors'));
+                $result = $wpdb->update($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visitors'])), array('category' => 'visitors'));
                 if ($result == 0) {
-                    $result = $wpdb->insert($historical_table, array('value' => $_POST['wps_historical_visitors'], 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'));
+                    $result = $wpdb->insert($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visitors']), 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'));
                 }
             }
 
             // Historical Visits
             if (isset($_POST['wps_historical_visits'])) {
                 // Update DB
-                $result = $wpdb->update($historical_table, array('value' => $_POST['wps_historical_visits']), array('category' => 'visits'));
+                $result = $wpdb->update($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visits'])), array('category' => 'visits'));
 
                 if ($result == 0) {
-                    $result = $wpdb->insert($historical_table, array('value' => $_POST['wps_historical_visits'], 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'));
+                    $result = $wpdb->insert($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visits']), 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'));
                 }
             }
 
@@ -98,7 +98,7 @@ class optimization_page
         global $wpdb;
 
         if (Menus::in_page('optimization') and isset($_GET['optimize-table']) and !empty($_GET['optimize-table'])) {
-            $tbl = trim($_GET['optimize-table']);
+            $tbl = trim(sanitize_text_field($_GET['optimize-table']));
             if ($tbl == "all") {
                 $tables = array_filter(array_values(DB::table('all')));
             } else {

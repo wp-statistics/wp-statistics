@@ -36,7 +36,7 @@ class top_visitors_page
         $args['paged']    = Admin_Template::getCurrentPaged();
 
         // Get Day
-        $args['day'] = (isset($_GET['day']) ? esc_html($_GET['day']) : TimeZone::getCurrentDate('Y-m-d'));
+        $args['day'] = (isset($_GET['day']) ? sanitize_text_field($_GET['day']) : TimeZone::getCurrentDate('Y-m-d'));
 
         //Get Total List
         $args['total'] = Visitor::Count(array('key' => 'last_counter', 'compare' => '=', 'value' => trim($args['day'])));

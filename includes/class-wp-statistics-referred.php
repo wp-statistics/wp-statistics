@@ -41,7 +41,7 @@ class Referred
      */
     public static function getRefererURL()
     {
-        return (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');
+        return (isset($_SERVER['HTTP_REFERER']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_REFERER'])) : '');
     }
 
     /**

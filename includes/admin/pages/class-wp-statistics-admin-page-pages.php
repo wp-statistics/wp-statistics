@@ -23,8 +23,8 @@ class pages_page
                 $pageTablePage = DB::table('pages');
                 $preparedSql   = $wpdb->prepare(
                     "SELECT COUNT(*) FROM {$pageTablePage} WHERE `id` = %s AND `type` = %s",
-                    esc_sql($_GET['ID']),
-                    esc_sql($_GET['type'])
+                    sanitize_text_field($_GET['ID']),
+                    sanitize_text_field($_GET['type'])
                 );
                 $page_count    = $wpdb->get_var($preparedSql);
 
