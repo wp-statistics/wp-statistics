@@ -106,7 +106,7 @@ class AdminBar
                         WP_STATISTICS_URL . 'assets/images/mini-chart-admin-bar-preview.png',
                         __('Unlock Mini Chart!', 'wp-statistics'),
                     ),
-                    'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart/',
+                    'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
                     'meta'   => [
                         'target' => '_blank',
                     ],

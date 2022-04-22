@@ -150,7 +150,7 @@
 
                 <p class="description data">
                     <?php _e('Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message. Here are some examples:', 'wp-statistics'); ?>
-                    <br><br>&nbsp;
+                    <br><br>
                     <?php _e('Online User', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=usersonline]</code><br>
                     <?php _e('Today\'s Visitors', 'wp-statistics'); ?>:
@@ -167,7 +167,7 @@
                     <code>[wpstatistics stat=visits time=total]</code><br>
                 </p>
 
-                <h4>Looking for chart reporting? check out <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/">Advanced Reporting</a>. </h4>
+                <h4>Looking for chart reporting? check out <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress">Advanced Reporting!</a></h4>
             </td>
         </tr>
         </tbody>

@@ -17,6 +17,10 @@
 
   .widefat .plugin-card-bottom {
     float: initial;
+
+    span.from {
+      display: none;
+    }
   }
 
   .widefat .column-downloaded p {

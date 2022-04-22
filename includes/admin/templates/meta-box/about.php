@@ -27,6 +27,6 @@ if ($aboutWidgetContent) {
 
 <?php if (!is_plugin_active('wp-statistics-customization/wp-statistics-customization.php')) { ?>
     <div style="margin: 0 -15px;border-top: 1px solid #e7e7e7;padding: 15px 15px 0; font-size: 12px;">
-        <?php echo sprintf(__('Disable or customize this widget by <a href="%1$s" target="_blank">Customization Add-On!</a>', 'wp-statistics'), 'https://wp-statistics.com/product/wp-statistics-customization/'); ?>
+        <?php echo sprintf(__('Disable or customize this widget by <a href="%1$s" target="_blank">Customization Add-On!</a>', 'wp-statistics'), 'https://wp-statistics.com/product/wp-statistics-customization?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress'); ?>
     </div>
 <?php } ?>
