@@ -83,7 +83,7 @@
                                 ?>
                                 <tr>
                                     <th>
-                                        <a href="<?php echo $item['link']; ?>" title="<?php echo $item['name']; ?>"><?php echo $item['name']; ?></a>
+                                        <a href="<?php echo esc_url($item['link']); ?>" title="<?php echo esc_attr($item['name']); ?>"><?php echo esc_attr($item['name']); ?></a>
                                     </th>
                                     <th class="th-center">
                                         <span><?php echo number_format_i18n($item['count_visit']); ?></span></th>

@@ -67,9 +67,6 @@ class visitors_page
             // Get User Data
             $user_info = User::get($user_id);
 
-            // Escaping for output
-            $user_id = esc_html($user_id);
-
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
                 $args['sub'][$user_id] = array('title' => $user_info['user_login'] . ' #' . $user_id, 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['user_id']) and $_GET['user_id'] == $_GET['user_id']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('user_id' => $user_id)), Menus::admin_url('visitors')));
@@ -83,9 +80,6 @@ class visitors_page
             // Add Params To SQL
             $ip    = sanitize_text_field($_GET['ip']);
             $sql[] = array('key' => 'ip', 'compare' => 'LIKE', 'value' => trim($ip));
-
-            // Escaping for output
-            $ip = esc_html($ip);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -101,9 +95,6 @@ class visitors_page
             $location = sanitize_text_field($_GET['location']);
             $sql[]    = array('key' => 'location', 'compare' => 'LIKE', 'value' => trim($location));
 
-            // Escaping for output
-            $location = esc_html($location);
-
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
                 $args['sub'][$location] = array('title' => Country::getName($location), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['location']) and $_GET['location'] == $_GET['location']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('location' => $location)), Menus::admin_url('visitors')));
@@ -117,9 +108,6 @@ class visitors_page
             // Add Params To SQL
             $platform = sanitize_text_field($_GET['platform']);
             $sql[]    = array('key' => 'platform', 'compare' => 'LIKE', 'value' => trim(Helper::getUrlDecode($platform)));
-
-            // Escaping for output
-            $platform = esc_html($platform);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -135,9 +123,6 @@ class visitors_page
             $referrer = sanitize_text_field($_GET['referrer']);
             $sql[]    = array('key' => 'referred', 'compare' => 'LIKE', 'value' => "%" . trim($referrer) . "%");
 
-            // Escaping for output
-            $referrer = esc_html($referrer);
-
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
                 $args['sub'][$referrer] = array('title' => trim($referrer), 'count' => Visitor::Count($sql), 'active' => ((isset($_GET['referrer']) and $_GET['referrer'] == $_GET['referrer']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('referrer' => $referrer)), Menus::admin_url('visitors')));
@@ -152,9 +137,6 @@ class visitors_page
             // Add Params To SQL
             $agent = sanitize_text_field($_GET['agent']);
             $sql[] = array('key' => 'agent', 'compare' => 'LIKE', 'value' => trim($agent));
-
-            // Escaping for output
-            $agent = esc_html($agent);
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
@@ -210,7 +192,8 @@ class visitors_page
     public static function Filter()
     {
         // Remove unused $_GET
-        $params = (isset($_GET) ? $_GET : array());
+        $params = (isset($_GET) ? $_GET : array()); // don't need to be sanitized since we need the count of the array elements, not data directly.
+
         foreach (array('page', 'from', 'to', 'order', 'orderby') as $i) {
             if (isset($params[$i])) {
                 unset($params[$i]);

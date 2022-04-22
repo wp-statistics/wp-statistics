@@ -3,8 +3,8 @@
     foreach ($sub as $key => $item) {
         ?>
         <li class="all">
-            <a <?php if ($item['active'] === true) { ?> class="current" <?php } ?> href="<?php echo $item['link']; ?>">
-                <?php echo $item['title']; ?>
+            <a <?php if ($item['active'] === true) { ?> class="current" <?php } ?> href="<?php echo esc_url($item['link']); ?>">
+                <?php echo esc_attr($item['title']); ?>
                 <span class='count'>(<?php echo number_format_i18n($item['count']); ?>)</span>
             </a>
         </li>
@@ -52,7 +52,7 @@
                             <?php foreach ($list as $item) { ?>
                                 <tr>
                                     <td style="text-align: left">
-                                        <a href="<?php echo $item['browser']['link']; ?>" title="<?php echo $item['browser']['name']; ?>"><img src="<?php echo $item['browser']['logo']; ?>" alt="<?php echo $item['browser']['name']; ?>" class="log-tools" title="<?php echo $item['browser']['name']; ?>"/></a>
+                                        <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo $item['browser']['name']; ?>"><img src="<?php echo $item['browser']['logo']; ?>" alt="<?php echo $item['browser']['name']; ?>" class="log-tools" title="<?php echo $item['browser']['name']; ?>"/></a>
                                     </td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                         <td style="text-align: left">
@@ -67,7 +67,7 @@
                                         <?php echo(isset($item['map']) ? "<a class='show-map' href='" . $item['map'] . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?>
                                         <?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "'>" . $item['ip']['value'] . "</a>"); ?>
                                     </td>
-                                    <td style='text-align: left'><?php echo $item['platform']; ?></td>
+                                    <td style='text-align: left'><?php echo esc_attr($item['platform']); ?></td>
                                     <td style='text-align: left'><?php echo $item['hits']; ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>

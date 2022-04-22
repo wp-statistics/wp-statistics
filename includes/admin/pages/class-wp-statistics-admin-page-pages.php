@@ -101,8 +101,8 @@ class pages_page
         global $wpdb;
 
         // Page ID
-        $ID   = esc_html($_GET['ID']);
-        $Type = esc_html($_GET['type']);
+        $ID   = sanitize_text_field($_GET['ID']);
+        $Type = sanitize_text_field($_GET['type']);
 
         // Page title
         $args['title'] = __('Page Statistics', 'wp-statistics');

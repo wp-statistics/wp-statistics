@@ -87,7 +87,7 @@ add_thickbox();
                             <td style="width: 250px;"> <?php printf(__('Use %1$s', 'wp-statistics'), $method); ?></td>
                             <td><code><?php
                                     if (isset($_SERVER[$method]) and !empty($_SERVER[$method])) {
-                                        echo $_SERVER[$method];
+                                        echo sanitize_text_field(wp_unslash($_SERVER[$method]));
                                     } else {
                                         _e('No available data.', 'wp-statistics');
                                     } ?>
@@ -126,7 +126,7 @@ add_thickbox();
                                 <?php if (!in_array($ip_method, \WP_STATISTICS\IP::$ip_methods_server)) {
                                     echo '<code>';
                                     if (isset($_SERVER[$ip_method]) and !empty($_SERVER[$ip_method])) {
-                                        echo $_SERVER[$ip_method];
+                                        echo sanitize_text_field(wp_unslash($_SERVER[$ip_method]));
                                     } else {
                                         _e('No available data.', 'wp-statistics');
                                     }

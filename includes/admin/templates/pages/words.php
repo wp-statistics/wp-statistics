@@ -3,8 +3,8 @@
     foreach ($search_engine as $key => $item) {
         ?>
         <li class="all">
-            <a <?php if ($item['active'] === true) { ?> class="current" <?php } ?> href="<?php echo $item['link']; ?>">
-                <?php echo $item['title']; ?>
+            <a <?php if ($item['active'] === true) { ?> class="current" <?php } ?> href="<?php echo esc_url($item['link']); ?>">
+                <?php echo esc_attr($item['title']); ?>
                 <span class='count'>(<?php echo number_format_i18n($item['count']); ?>)</span>
             </a>
         </li>
@@ -39,7 +39,7 @@
                                 <tr>
                                     <td style="text-align: left"><?php echo $item['word']; ?></td>
                                     <td style="text-align: left">
-                                        <a href="<?php echo $item['browser']['link']; ?>" title="<?php echo $item['browser']['name']; ?>"><img src="<?php echo $item['browser']['logo']; ?>" alt="<?php echo $item['browser']['name']; ?>" class="log-tools" title="<?php echo $item['browser']['name']; ?>"/></a>
+                                        <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo $item['browser']['name']; ?>"><img src="<?php echo $item['browser']['logo']; ?>" alt="<?php echo $item['browser']['name']; ?>" class="log-tools" title="<?php echo $item['browser']['name']; ?>"/></a>
                                     </td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                         <td style="text-align: left">

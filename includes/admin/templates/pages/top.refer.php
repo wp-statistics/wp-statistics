@@ -39,7 +39,7 @@
                                         <td><?php echo(trim($item['country']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : "<img src='" . $item['flag'] . "' title='" . $item['country'] . "' alt='" . $item['country'] . "' class='log-tools'/>"); ?></td>
                                     <?php } ?>
                                     <td>
-                                        <a class='wps-text-success' href='<?php echo $item['page_link']; ?>'><?php echo $item['number']; ?></a>
+                                        <a class='wps-text-success' href='<?php echo esc_url($item['page_link']); ?>'><?php echo $item['number']; ?></a>
                                     </td>
                                 </tr>
 

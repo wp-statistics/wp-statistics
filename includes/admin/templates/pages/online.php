@@ -26,11 +26,11 @@
                             <?php foreach ($user_online_list as $item) { ?>
                                 <tr>
                                     <td style="text-align: left">
-                                        <a href="<?php echo $item['browser']['link']; ?>" title="<?php echo $item['browser']['name']; ?>"><img src="<?php echo $item['browser']['logo']; ?>" alt="<?php echo $item['browser']['name']; ?>" class="log-tools" title="<?php echo $item['browser']['name']; ?>"/></a>
+                                        <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                     </td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                         <td style="text-align: left">
-                                            <img src="<?php echo $item['country']['flag']; ?>" alt="<?php echo $item['country']['name']; ?>" title="<?php echo $item['country']['name']; ?>" class="log-tools"/>
+                                            <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools"/>
                                         </td>
                                     <?php } ?>
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
