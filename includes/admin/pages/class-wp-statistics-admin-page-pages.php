@@ -71,9 +71,10 @@ class pages_page
 
             // Get List
             $args['lists'] = \WP_STATISTICS\Pages::getTop(array(
-                'paged' => Admin_Template::getCurrentPaged(),
-                'from'  => $args['DateRang']['from'],
-                'to'    => $args['DateRang']['to']
+                'per_page' => Admin_Template::$item_per_page,
+                'paged'    => Admin_Template::getCurrentPaged(),
+                'from'     => $args['DateRang']['from'],
+                'to'       => $args['DateRang']['to']
             ));
 
             // Total Number
