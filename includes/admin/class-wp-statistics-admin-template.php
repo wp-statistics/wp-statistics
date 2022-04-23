@@ -16,7 +16,7 @@ class Admin_Template
      *
      * @var int
      */
-    public static $item_per_page = 10;
+    public static $item_per_page = 25;
 
     /**
      * Jquery UI Datepicker Format in PHP
