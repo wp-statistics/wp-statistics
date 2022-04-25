@@ -83,9 +83,9 @@ class Network
                     }
                     ?>
 
-                    <tr<?php echo $alternate; ?>>
+                    <tr<?php echo esc_attr($alternate); ?>>
                         <td style='text-align: left'>
-                            <?php echo $details->blogname; ?>
+                            <?php echo esc_attr($details->blogname); ?>
                         </td>
                         <td style='text-align: left'>
                             <?php
@@ -93,7 +93,7 @@ class Network
                             $j           = 0;
 
                             foreach ($options as $key => $value) {
-                                echo '<a href="' . $url . $value . '">' . $key . '</a>';
+                                echo '<a href="' . esc_url($url . $value) . '">' . esc_attr($key) . '</a>';
                                 $j++;
                                 if ($j < $options_len) {
                                     echo ' - ';
