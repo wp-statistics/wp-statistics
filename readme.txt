@@ -126,7 +126,7 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= v13.2.0 - **.04.2022 =
+= v13.2.0 - 25.04.2022 =
 * Enhancement: The admin bar statistical is smarter and shows the Hits based on the current page, category, tag, author, etc.
 * Enhancement: The number of page hits in the render hit column has been improvement
 * Enhancement: The ChartJs is more user-friendly
