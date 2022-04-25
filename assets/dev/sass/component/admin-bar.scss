@@ -2,3 +2,31 @@
   content: '\f184';
   top: 2px;
 }
+
+#wp-admin-bar-wp-statistics-menu-page {
+  text-align: center;
+
+  .ab-item {
+    height: auto !important;
+  }
+
+  a {
+    padding-bottom: 4px !important;
+
+    img {
+      max-width: 200px;
+    }
+  }
+
+  .wps-admin-bar__chart__unlock-button {
+    background-color: #2f5a82;
+    padding: 1px 0px;
+    color: #ffffff;
+    line-height: 21px;
+    font-size: 12px;
+    border-radius: 2px;
+    display: table;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
