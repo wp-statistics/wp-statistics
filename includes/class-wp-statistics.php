@@ -160,11 +160,13 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-exclusion.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-hits.php';
 
+        // Ajax area
+        require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
+
         // Admin classes
         if (is_admin()) {
 
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-ajax.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-dashboard.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-export.php';

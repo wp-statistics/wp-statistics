@@ -70,7 +70,25 @@ class Admin_Post
     public function render_hit_column($column_name, $post_id)
     {
         if ($column_name == 'wp-statistics-post-hits') {
-            echo "<a href='" . Menus::admin_url('pages', array('ID' => $post_id, 'type' => Pages::get_post_type($post_id))) . "'>" . wp_statistics_pages('total', "", $post_id) . "</a>";
+
+            $post_type  = Pages::get_post_type($post_id);
+            $hit_number = wp_statistics_pages('total', "", $post_id, null, null, $post_type);
+
+            if ($hit_number) {
+                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
+                    'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
+                    __('Unlock!', 'wp-statistics'),
+                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png',
+                );
+
+                echo apply_filters("wp_statistics_before_hit_column_{$post_type}", $preview_chart_unlock_html, $post_id, $post_type);
+
+                echo sprintf('<a href="%s" class="wps-admin-column__link">%s</a>',
+                    Menus::admin_url('pages', array('ID' => $post_id, 'type' => $post_type)),
+                    number_format($hit_number)
+                );
+            }
+
         }
     }
 
@@ -134,7 +152,7 @@ class Admin_Post
     {
         global $post;
         if ($post->post_status == 'publish') {
-            echo "<div class='misc-pub-section'>" . __('WP Statistics - Hits', 'wp-statistics') . ": <b><a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . wp_statistics_pages('total', "", $post->ID) . "</a></b></div>";
+            echo "<div class='misc-pub-section misc-pub-hits'>" . __('Hits', 'wp-statistics') . ": <a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . number_format(wp_statistics_pages('total', "", $post->ID)) . "</a></div>";
         }
     }
 

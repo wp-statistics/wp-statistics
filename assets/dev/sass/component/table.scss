@@ -36,6 +36,11 @@ table.wps-table-fixed {
   width: 100%;
 }
 
+table.wps-table-auto {
+  table-layout: auto;
+  width: 100%;
+}
+
 .wps-report-table tr {
   text-align: left;
 }
@@ -74,7 +79,7 @@ table.wps-table-fixed {
 }
 
 .show-map {
-  float: left;
+
 }
 
 .log-referred {

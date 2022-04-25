@@ -44,7 +44,8 @@ wps_js.search_meta_box = {
                 backgroundColor: 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.3)',
                 borderColor: 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '1)',
                 borderWidth: 1,
-                fill: true
+                fill: true,
+                tension: 0.4
             });
             i++;
         });
@@ -57,7 +58,8 @@ wps_js.search_meta_box = {
                 backgroundColor: 'rgba(' + args['total']['color'] + ', 0.2)',
                 borderColor: 'rgba(' + args['total']['color'] + ', 1)',
                 borderWidth: 1,
-                fill: true
+                fill: true,
+                tension: 0.4
             });
         }
         wps_js.line_chart(wps_js.chart_id('search'), args['title'], args['date'], datasets);

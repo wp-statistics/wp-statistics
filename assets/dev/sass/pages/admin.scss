@@ -1,5 +1,4 @@
 
-
 #wps-postbox-container-1 {
   width: 30%;
   float: left;
@@ -46,4 +45,45 @@
 
 #wps-postbox-container-1 a, #wps-postbox-container-2 a, #wps-big-postbox a {
   text-decoration: none;
+}
+
+/* WP Admin List Table */
+.column-wp-statistics-tax-hits {
+  width: 15%;
+  text-align: center;
+}
+
+.column-wp-statistics-post-hits {
+  width: 10%;
+  text-align: center;
+}
+
+.wps-admin-column__unlock {
+  a {
+    color: #ffffff;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+
+    span {
+      background: #347ab6;
+      padding: 1px 3px;
+      border-radius: 2px;
+      position: absolute;
+      visibility: hidden;
+      font-size: 9px;
+      line-height: 14px;
+      z-index: 1;
+      margin-top: 7px;
+    }
+
+    img {
+      width: 100%;
+      opacity: 0.5;
+    }
+  }
+
+  a:hover span {
+    visibility: visible;
+  }
 }

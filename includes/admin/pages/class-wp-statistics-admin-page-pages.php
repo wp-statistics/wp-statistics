@@ -23,8 +23,8 @@ class pages_page
                 $pageTablePage = DB::table('pages');
                 $preparedSql   = $wpdb->prepare(
                     "SELECT COUNT(*) FROM {$pageTablePage} WHERE `id` = %s AND `type` = %s",
-                    esc_sql($_GET['ID']),
-                    esc_sql($_GET['type'])
+                    sanitize_text_field($_GET['ID']),
+                    sanitize_text_field($_GET['type'])
                 );
                 $page_count    = $wpdb->get_var($preparedSql);
 
@@ -71,9 +71,10 @@ class pages_page
 
             // Get List
             $args['lists'] = \WP_STATISTICS\Pages::getTop(array(
-                'paged' => Admin_Template::getCurrentPaged(),
-                'from'  => $args['DateRang']['from'],
-                'to'    => $args['DateRang']['to']
+                'per_page' => Admin_Template::$item_per_page,
+                'paged'    => Admin_Template::getCurrentPaged(),
+                'from'     => $args['DateRang']['from'],
+                'to'       => $args['DateRang']['to']
             ));
 
             // Total Number
@@ -101,8 +102,8 @@ class pages_page
         global $wpdb;
 
         // Page ID
-        $ID   = esc_html($_GET['ID']);
-        $Type = esc_html($_GET['type']);
+        $ID   = sanitize_text_field($_GET['ID']);
+        $Type = sanitize_text_field($_GET['type']);
 
         // Page title
         $args['title'] = __('Page Statistics', 'wp-statistics');
@@ -149,6 +150,11 @@ class pages_page
                 }
             }
         }
+
+        $args['visitors'] = apply_filters('wp_statistics_pages_chart_visitors',
+            Admin_Template::get_template(array('meta-box/pages-visitor-preview'), null, true),
+            $args
+        );
 
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'layout/date.range', 'pages/page-chart', 'layout/footer'), $args);

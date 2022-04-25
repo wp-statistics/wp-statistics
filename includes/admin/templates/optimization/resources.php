@@ -269,7 +269,7 @@
 
                 <td>
                     <strong><?php $agent = \WP_STATISTICS\UserAgent::getUserAgent();
-                        echo $agent['browser'];
+                        echo esc_attr($agent['browser']);
                         ?></strong>
 
                     <p class="description"><?php _e('The detected client browser.', 'wp-statistics'); ?></p>
@@ -282,7 +282,7 @@
                 </th>
 
                 <td>
-                    <strong><?php echo $agent['version']; ?></strong>
+                    <strong><?php echo esc_attr($agent['version']); ?></strong>
                     <p class="description"><?php _e('The detected client browser version.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -293,7 +293,7 @@
                 </th>
 
                 <td>
-                    <strong><?php echo $agent['platform']; ?></strong>
+                    <strong><?php echo esc_attr($agent['platform']); ?></strong>
                     <p class="description"><?php _e('The detected client platform.', 'wp-statistics'); ?></p>
                 </td>
             </tr>

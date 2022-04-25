@@ -83,6 +83,9 @@ wps_js.line_chart = function (tag_id, title, label, data) {
                 mode: 'index',
                 intersect: false,
             },
+            interaction: {
+                intersect: false,
+            },
             scales: {
                 yAxes: [{
                     ticks: {

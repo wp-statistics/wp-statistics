@@ -164,7 +164,7 @@ class settings_page
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
 
-                wp_schedule_event(time(), $_POST['wps_time_report'], 'wp_statistics_report_hook');
+                wp_schedule_event(time(), sanitize_text_field($_POST['wps_time_report']), 'wp_statistics_report_hook');
             }
         }
 
@@ -181,7 +181,7 @@ class settings_page
         );
 
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? stripslashes($_POST[$option]) : '');
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? stripslashes(sanitize_textarea_field($_POST[$option])) : '');
         }
 
         return $wp_statistics_options;
@@ -197,7 +197,7 @@ class settings_page
     {
         $wps_option_list = array('wps_disable_map', 'wps_disable_dashboard', 'wps_disable_editor');
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '');
         }
 
         return $wp_statistics_options;
@@ -218,7 +218,7 @@ class settings_page
             'wps_schedule_dbmaint_visitor_hits',
         );
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '');
         }
 
         return $wp_statistics_options;
@@ -246,7 +246,7 @@ class settings_page
 
         // For country codes we always use upper case, otherwise default to 000 which is 'unknown'.
         if (array_key_exists('wps_private_country_code', $_POST)) {
-            $_POST['wps_private_country_code'] = trim(strtoupper($_POST['wps_private_country_code']));
+            $_POST['wps_private_country_code'] = trim(strtoupper(sanitize_text_field($_POST['wps_private_country_code'])));
         } else {
             $_POST['wps_private_country_code'] = GeoIP::$private_country;
         }

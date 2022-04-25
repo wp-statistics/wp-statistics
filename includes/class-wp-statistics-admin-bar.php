@@ -10,8 +10,8 @@ class AdminBar
     public function __construct()
     {
 
-        # Show Wordpress Admin Bar
-        add_action('admin_bar_menu', array($this, 'admin_bar'), 20);
+        # Show WordPress Admin Bar
+        add_action('admin_bar_menu', array($this, 'admin_bar'), 69);
     }
 
     /**
@@ -29,29 +29,60 @@ class AdminBar
 
     /**
      * Show WordPress Admin Bar
+     * @param \WP_Admin_Bar $wp_admin_bar
      */
-    public function admin_bar()
+    public function admin_bar($wp_admin_bar)
     {
-        global $wp_admin_bar;
-
         // Check Show WordPress Admin Bar
         if (self::show_admin_bar() and is_admin_bar_showing() and User::Access()) {
 
+            $menu_title = '<span class="ab-icon"></span>';
+            $object_id  = get_queried_object_ID();
+
+            $view_type  = false;
+            $view_title = false;
+
+            if ((is_single() or is_page()) and !is_front_page()) {
+
+                $view_type  = Pages::get_post_type($object_id);
+                $view_title = __('Page Views', 'wp-statistics');
+
+            } elseif (is_category()) {
+
+                $view_type  = 'category';
+                $view_title = __('Category Views', 'wp-statistics');
+
+            } elseif (is_tag()) {
+
+                $view_type  = 'post_tag';
+                $view_title = __('Tag Views', 'wp-statistics');
+
+            } elseif (is_author()) {
+
+                $view_type  = 'author';
+                $view_title = __('Author Views', 'wp-statistics');
+
+            }
+
+            if ($view_type && $view_title) {
+                $hit_number = wp_statistics_pages('total', '', $object_id, null, null, $view_type);
+
+                $menu_title .= sprintf('%s: %s', $view_title, number_format($hit_number));
+                $menu_title .= ' - ';
+            }
+
+            $menu_title .= sprintf('Online: %s', number_format(wp_statistics_useronline()));
+
             /**
-             * List Of Admin Bar Wordpress
+             * List Of Admin Bar WordPress
              *
              * --- Array Arg ---
              * Key : ID of Admin bar
              */
             $admin_bar_list = array(
                 'wp-statistic-menu'                   => array(
-                    'title' => '<span class="ab-icon"></span>',
+                    'title' => $menu_title,
                     'href'  => Menus::admin_url('overview')
-                ),
-                'wp-statistics-menu-useronline'       => array(
-                    'parent' => 'wp-statistic-menu',
-                    'title'  => __('Online User', 'wp-statistics') . ": " . wp_statistics_useronline(),
-                    'href'   => Menus::admin_url('online')
                 ),
                 'wp-statistics-menu-todayvisitor'     => array(
                     'parent' => 'wp-statistic-menu',
@@ -69,19 +100,23 @@ class AdminBar
                     'parent' => 'wp-statistic-menu',
                     'title'  => __('Yesterday\'s Visits', 'wp-statistics') . ": " . wp_statistics_visit('yesterday')
                 ),
-                'wp-statistics-menu-viewstats'        => array(
+                'wp-statistics-menu-page'             => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => __('View Stats', 'wp-statistics'),
-                    'href'   => Menus::admin_url('overview')
+                    'title'  => sprintf('<img src="%s"/><span class="wps-admin-bar__chart__unlock-button">%s</span>',
+                        WP_STATISTICS_URL . 'assets/images/mini-chart-admin-bar-preview.png',
+                        __('Unlock Mini Chart!', 'wp-statistics'),
+                    ),
+                    'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
+                    'meta'   => [
+                        'target' => '_blank',
+                    ],
                 )
             );
 
             /**
              * WP-Statistics Admin Bar List
-             *
-             * @example add_filter('wp_statistics_admin_bar', function( $admin_bar_list ){ unset( $admin_bar_list['wp-statistics-menu-useronline'] ); return $admin_bar_list; });
              */
-            $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list);
+            $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $object_id, $view_type);
 
             # Show Admin Bar
             foreach ($admin_bar_list as $id => $v_admin_bar) {

@@ -73,7 +73,7 @@ class refer_page
 
         } else {
             // Get Special domain Refer List
-            $referrer           = esc_html($_GET['referrer']);
+            $referrer           = sanitize_text_field($_GET['referrer']);
             $args['domain']     = trim($referrer);
             $args['custom_get'] = array('referrer' => $referrer);
             $args['title']      = sprintf(__('Referring site: %s', 'wp-statistics'), Referred::html_sanitize_referrer($args['domain']));

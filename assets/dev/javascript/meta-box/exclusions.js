@@ -57,7 +57,8 @@ wps_js.exclusions_meta_box = {
                     backgroundColor: 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.3)',
                     borderColor: 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '1)',
                     borderWidth: 1,
-                    fill: true
+                    fill: true,
+                    tension: 0.4
                 });
 
                 // Push to Table List

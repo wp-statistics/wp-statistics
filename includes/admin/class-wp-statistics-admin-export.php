@@ -38,8 +38,8 @@ class Export
 
             //Check Current User Capability
             if (User::Access('manage')) {
-                $table = $_POST['table-to-export'];
-                $type  = $_POST['export-file-type'];
+                $table = sanitize_text_field($_POST['table-to-export']);
+                $type  = sanitize_text_field($_POST['export-file-type']);
 
                 // Validate the table name the user passed to us.
                 $allow_tbl = array("useronline", "visit", "visitor", "exclusions", "pages", "search");

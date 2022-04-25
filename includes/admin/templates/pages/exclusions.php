@@ -28,7 +28,7 @@
                         </tr>
 
                         <tr>
-                            <th class="wps-text-danger"><?php _e('All Time Total:', 'wp-statistics'); ?></th>
+                            <th class="wps-text-muted"><?php _e('All Time Total:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span style="color: #DC3545 !important;"><?php echo number_format_i18n($total_exclusions); ?></span></th>
                         </tr>
                         </tbody>

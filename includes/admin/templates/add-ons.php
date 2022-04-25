@@ -52,7 +52,7 @@
                                     <a href="<?php echo wp_nonce_url(WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'activate', 'plugin' => $plugin->slug)), $plugin->slug); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
                                 <?php } else { ?>
                                     <div class="column-price">
-                                        <strong>$<?php echo $plugin->price; ?></strong>
+                                        <strong><?php echo $plugin->price; ?></strong>
                                     </div><a target="_blank" href="<?php echo $plugin->url; ?>" class="button-primary"><?php _e('Buy Add-On', 'wp-statistics'); ?></a>
                                 <?php } ?><?php } ?>
                             </div>

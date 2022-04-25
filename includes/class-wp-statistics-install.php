@@ -602,19 +602,22 @@ class Install
                             $i++;
                         }
 
-                        if ($_GET['number_all'] > $number_per_query) {
+                        # Sanitize the data
+                        $number_all = sanitize_text_field($_GET['number_all']);
+
+                        if ($number_all > $number_per_query) {
                             # calculate number process
-                            $return['number_process'] = $_GET['number_all'] - ($number_process - $i);
+                            $return['number_process'] = $number_all - ($number_process - $i);
 
                             # Calculate Per
-                            $return['percentage'] = round(($return['number_process'] / $_GET['number_all']) * 100);
+                            $return['percentage'] = round(($return['number_process'] / $number_all) * 100);
 
                             # Set Process
                             $return['process_status'] = 'incomplete';
 
                         } else {
 
-                            $return['number_process'] = $_GET['number_all'];
+                            $return['number_process'] = $number_all;
                             $return['percentage']     = 100;
                             update_option('wp_statistics_update_page_type', 'yes');
                         }

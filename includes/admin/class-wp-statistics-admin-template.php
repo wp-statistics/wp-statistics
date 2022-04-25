@@ -16,7 +16,7 @@ class Admin_Template
      *
      * @var int
      */
-    public static $item_per_page = 10;
+    public static $item_per_page = 25;
 
     /**
      * Jquery UI Datepicker Format in PHP
@@ -45,8 +45,10 @@ class Admin_Template
      *
      * @param $template
      * @param array $args
+     * @param bool $return
+     * @return string|void
      */
-    public static function get_template($template, $args = array())
+    public static function get_template($template, $args = array(), $return = false)
     {
 
         // Push Args
@@ -62,10 +64,18 @@ class Admin_Template
         // Load File
         foreach ($template as $file) {
 
-            $template_file = WP_STATISTICS_DIR . "includes/admin/templates/" . $file . ".php";
+            $template_file = WP_STATISTICS_DIR . "includes/admin/templates/{$file}.php";
+
             if (!file_exists($template_file)) {
                 Helper::doing_it_wrong(__FUNCTION__, __('Template not found.', 'wp-statistics'));
                 continue;
+            }
+
+            if ($return) {
+                ob_start();
+                require $template_file;
+
+                return ob_get_clean();
             }
 
             // include File

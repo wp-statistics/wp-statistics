@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.9
-Stable tag: 13.1.7
+Stable tag: 13.2.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -123,9 +123,22 @@ Welcome to WP-Statistics v13.0, our biggest update!
 Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP-Statistics better for you.
 Before updating, make sure you disabled all your add-ons, then after that, try to update add-ons.
 
-If you encounter any bug, please create an issue on [Github](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
+If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.0 - **.04.2022 =
+* Enhancement: The admin bar statistical is smarter and shows the Hits based on the current page, category, tag, author, etc.
+* Enhancement: The number of page hits in the render hit column has been improvement
+* Enhancement: The ChartJs is more user-friendly
+* Enhancement: The render column has been updated
+* Enhancement: The Hits in publish Metabox has been improvement
+* Update: The Hits column added in all visitor's table.
+* Update: Styles and assets
+* Update: Increase showing statistical items per page up to 25
+* Update: GeoIP City & Countries Databases has been updated to the latest version
+* Bugfix: Hardened plugin security and improvement
+* Bugfix: Showing the widget form bug has been fixed
+
 = v13.1.7 - 18.03.2022 =
 * Update: Chart.js library updated to v3.7.1
 * Update: New filter `wp_statistics_cache_status` has been added

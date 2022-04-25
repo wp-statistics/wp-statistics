@@ -26,11 +26,11 @@
                             <?php foreach ($user_online_list as $item) { ?>
                                 <tr>
                                     <td style="text-align: left">
-                                        <a href="<?php echo $item['browser']['link']; ?>" title="<?php echo $item['browser']['name']; ?>"><img src="<?php echo $item['browser']['logo']; ?>" alt="<?php echo $item['browser']['name']; ?>" class="log-tools" title="<?php echo $item['browser']['name']; ?>"/></a>
+                                        <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                     </td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                         <td style="text-align: left">
-                                            <img src="<?php echo $item['country']['flag']; ?>" alt="<?php echo $item['country']['name']; ?>" title="<?php echo $item['country']['name']; ?>" class="log-tools"/>
+                                            <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools"/>
                                         </td>
                                     <?php } ?>
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
@@ -38,7 +38,7 @@
                                     <?php } ?>
                                     <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "'>" . $item['ip']['value'] . "</a>"); ?></td>
                                     <td style='text-align: left'><span><?php echo $item['online_for']; ?></span></td>
-                                    <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . $item['page']['link'] . '" target="_blank" class="wps-text-danger">' : '') . $item['page']['title'] . ($item['page']['link'] != '' ? '</a>' : ''); ?></td>
+                                    <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . $item['page']['link'] . '" target="_blank" class="wps-text-muted">' : '') . $item['page']['title'] . ($item['page']['link'] != '' ? '</a>' : ''); ?></td>
                                     <td style='text-align: left'><?php echo $item['referred']; ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>

@@ -29,7 +29,8 @@ wps_js.pages_chart_meta_box = {
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1,
-            fill: true
+            fill: true,
+            tension: 0.4
         }]);
     }
 };

@@ -38,15 +38,15 @@
                             <?php foreach ($list as $item) { ?>
                                 <tr>
                                     <td style="text-align: left">
-                                        <a href="<?php echo $item['refer']; ?>" target="_blank" title="<?php echo $item['refer']; ?>"><?php echo preg_replace("(^https?://)", "", trim($item['refer'])); ?></a>
+                                        <a href="<?php echo esc_url($item['refer']); ?>" target="_blank" title="<?php echo esc_attr($item['refer']); ?>"><?php echo preg_replace("(^https?://)", "", trim($item['refer'])); ?></a>
                                     </td>
                                     <td style='text-align: left;'><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "' class='wps-text-success'>" . $item['ip']['value'] . "</a>"); ?></td>
                                     <td style="text-align: left">
-                                        <a href="<?php echo $item['browser']['link']; ?>" title="<?php echo $item['browser']['name']; ?>"><img src="<?php echo $item['browser']['logo']; ?>" alt="<?php echo $item['browser']['name']; ?>" class="log-tools" title="<?php echo $item['browser']['name']; ?>"/></a>
+                                        <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                     </td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                         <td style="text-align: left">
-                                            <img src="<?php echo $item['country']['flag']; ?>" alt="<?php echo $item['country']['name']; ?>" title="<?php echo $item['country']['name']; ?>" class="log-tools"/>
+                                            <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools"/>
                                         </td>
                                     <?php } ?>
                                     <td style="text-align: left"><?php echo $item['date']; ?></td>

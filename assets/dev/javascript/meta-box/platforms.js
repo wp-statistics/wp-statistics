@@ -38,7 +38,8 @@ wps_js.platforms_meta_box = {
         let data = [{
             label: wps_js._('platform'),
             data: args['platform_value'],
-            backgroundColor: backgroundColor
+            backgroundColor: backgroundColor,
+            tension: 0.4
         }];
 
         // Show Chart
@@ -56,9 +57,9 @@ wps_js.platforms_meta_box = {
             let tbl = `<div class="title-center">${args.title}</div>
                     <table width="100%" class="widefat table-stats">
                         <tr>
-                            <td class="wps-text-danger">${wps_js._('platform')}</td>
-                            <td class="wps-text-danger">${wps_js._('visitor_count')}</td>
-                            <td class="wps-text-danger">${wps_js._('percentage')}</td>
+                            <td class="wps-text-muted">${wps_js._('platform')}</td>
+                            <td class="wps-text-muted">${wps_js._('visitor_count')}</td>
+                            <td class="wps-text-muted">${wps_js._('percentage')}</td>
                         </tr>`;
 
             for (let i = 0; i < args.platform_name.length; i++) {

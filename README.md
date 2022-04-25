@@ -2,7 +2,7 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Percentage of issues still open")
 
 # WP Statistics
-A free and advanced stats plugin for WordPress
+A free and advanced statistics plugin for WordPress
 
 A comprehensive plugin for your WordPress visitor statistics, come visit us at our website for all the latest news and information.
 
@@ -28,7 +28,7 @@ This product includes GeoLite2 data created by MaxMind, available from https://w
 * Automatically prune the databases of old data
 * Export the data to XML, CSV or TSV files
 * Widget to provide information to your users
-* Shortcodes for many different types of data in both widgets and posts/pages
+* Shortcodes for many types of data in both widgets and posts/pages
 * Dashboard widgets for the admin area
 * Comprehensive Admin Manual
 
@@ -55,6 +55,6 @@ WP Statistics supports shortcodes in WordPress, these can be used in either a po
 * [Author Website](http://veronalabs.com)
 
 # Donate
-Would'd like to support this project?
+Would you like to support this project?
 - ![Paypal](https://raw.githubusercontent.com/reek/anti-adblock-killer/gh-pages/images/paypal.png) Paypal: [Donate](https://wp-statistics.com/donate/)
 - ![btc](https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/bitcoin.png) Bitcoin: `bc1qjezs7vusvvmhxrhxan7nkl7kvnpy624wxhse2p`

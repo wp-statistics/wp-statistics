@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\TimeZone;
 
 class post
@@ -67,6 +68,11 @@ class post
         if (count(array_filter($response['state'])) < 1) {
             $response['no_data'] = 1;
         }
+
+        $response['visitors'] = apply_filters('wp_statistics_meta_box_post_visitors',
+            Admin_Template::get_template(array('meta-box/pages-visitor-preview'), null, true),
+            $post
+        );
 
         // Response
         return $response;

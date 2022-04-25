@@ -97,7 +97,7 @@ class Menus
     {
         global $pagenow;
         if (is_admin() and $pagenow == "admin.php" and isset($_REQUEST['page'])) {
-            $page_name = self::getPageKeyFromSlug($_REQUEST['page']);
+            $page_name = self::getPageKeyFromSlug(sanitize_text_field($_REQUEST['page']));
             if (is_array($page_name) and count($page_name) > 0) {
                 return true;
             }

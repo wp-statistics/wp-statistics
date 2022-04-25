@@ -9,6 +9,7 @@ wps_js.recent_meta_box = {
             ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('country')}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${wps_js._('city')}</td>` : ``) + `
             <td>${wps_js._('date')}</td>
+            <td>${wps_js._('hits')}</td>
             <td>${wps_js._('ip')}</td>
             <td>${wps_js._('referrer')}</td>
         </tr>`;
@@ -19,6 +20,7 @@ wps_js.recent_meta_box = {
             ` + (wps_js.is_active('geo_ip') ? `<td style="text-align: left"><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='log-tools'/></td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${value['city']}</td>` : ``) + `
             <td style="text-align: left">${value['date']}</td>
+            <td style="text-align: left">${value['hits']}</td>
             <td style="text-align: left">` + (value['hash_ip'] ? value['hash_ip'] : `<a href='${value['ip']['link']}'>${value['ip']['value']}</a>`) + `</td>
             <td style="text-align: left">${value['referred']}</td>
 			</tr>`;
