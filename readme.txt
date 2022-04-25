@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.9
-Stable tag: 13.2.0
+Stable tag: 13.2.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,6 +126,9 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.1 - 25.04.2022 =
+* Bugfix: Compatibility with PHP version lower than v7.4
+
 = v13.2.0 - 25.04.2022 =
 * Enhancement: The admin bar statistical is smarter and shows the Hits based on the current page, category, tag, author, etc.
 * Enhancement: The number of page hits in the render hit column has been improvement
