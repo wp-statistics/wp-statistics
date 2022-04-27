@@ -397,12 +397,12 @@
                                         if (trim($logo) != "") {
                                             ?>
                                             <p align="center">
-                                                <img src="<?php echo $logo; ?>" style="display: block;margin: 20px auto">
+                                                <img src="<?php echo esc_attr($logo); ?>" style="display: block;margin: 20px auto">
                                             </p>                                            <br/>
                                             <?php
                                         }
                                         ?>
-                                        <?php echo $content; ?>
+                                        <?php echo esc_attr($content); ?>
                                     </td>
                                 </tr>
                             </table>
@@ -417,12 +417,12 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block" style="padding-bottom:0px;">
-                                <span class="apple-link"><?php echo $footer_text; ?></span>
+                                <span class="apple-link"><?php echo esc_attr($footer_text); ?></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="content-block powered-by">
-                                <a href="<?php echo $site_url; ?>" target="_blank"><?php echo $site_title; ?></a>
+                                <a href="<?php echo esc_url($site_url); ?>" target="_blank"><?php echo esc_attr($site_title); ?></a>
                             </td>
                         </tr>
                     </table>

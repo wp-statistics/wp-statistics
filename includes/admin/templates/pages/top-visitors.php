@@ -1,7 +1,7 @@
 <form method="get" style="margin-top: 15px;">
     <?php _e('Date', 'wp-statistics'); ?>:
-    <input type="hidden" name="page" value="<?php echo $pageName; ?>">
-    <input type="text" size="18" name="day" data-wps-date-picker="day" value="<?php echo $day; ?>" autocomplete="off" placeholder="YYYY-MM-DD">
+    <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
+    <input type="text" size="18" name="day" data-wps-date-picker="day" value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD">
     <input type="submit" value="<?php _e('Go', 'wp-statistics'); ?>" class="button-primary">
 </form>
 <div class="wp-clearfix"></div>
@@ -38,32 +38,32 @@
                                     </td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                         <td style="text-align: left">
-                                            <img src="<?php echo $item['country']['flag']; ?>" alt="<?php echo $item['country']['name']; ?>" title="<?php echo $item['country']['name']; ?>" class="log-tools"/>
+                                            <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools"/>
                                         </td>
                                     <?php } ?>
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
                                         <td><?php echo $item['city']; ?></td>
                                     <?php } ?>
-                                    <td style='text-align: left'><span><?php echo $item['date']; ?></span></td>
-                                    <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . $item['ip']['link'] . "' class='wps-text-muted'>" . $item['ip']['value'] . "</a>"); ?></td>
+                                    <td style='text-align: left'><span><?php echo esc_attr($item['date']); ?></span></td>
+                                    <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-muted'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
                                     <td style='text-align: left'><?php echo esc_attr($item['platform']); ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
-                                            <a href="<?php echo \WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID'])); ?>" class="wps-text-success"><?php echo $item['user']['user_login']; ?></a>
+                                            <a href="<?php echo \WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID'])); ?>" class="wps-text-success"><?php echo esc_attr($item['user']['user_login']); ?></a>
                                         <?php } else { ?>
                                             <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
                                         <?php } ?>
                                     </td>
-                                    <td style='text-align: left'><?php echo $item['referred']; ?></td>
-                                    <td style='text-align: left'><?php echo $item['hits']; ?></td>
-                                    <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . $item['ip']['link'] . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . $item['map'] . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
+                                    <td style='text-align: left'><?php echo esc_attr($item['referred']); ?></td>
+                                    <td style='text-align: left'><?php echo esc_attr($item['hits']); ?></td>
+                                    <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
                                 </tr>
                             <?php } ?>
                         </table>
                     <?php } ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? $pagination : ''; ?>
+            <?php echo isset($pagination) ? esc_attr($pagination) : ''; ?>
         </div>
     </div>
 </div>

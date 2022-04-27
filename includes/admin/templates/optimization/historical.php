@@ -27,7 +27,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                         <?php _e('Visitors', 'wp-statistics'); ?>:
                     </th>
                     <td>
-                        <input type="text" size="10" value="<?php echo $historical_visitors; ?>" id="wps_historical_visitors" name="wps_historical_visitors">
+                        <input type="text" size="10" value="<?php echo esc_attr($historical_visitors); ?>" id="wps_historical_visitors" name="wps_historical_visitors">
                         <p class="description"><?php echo sprintf(__('Number of historical number of visitors to the site (current value is %s).', 'wp-statistics'), number_format_i18n($historical_visitors)); ?></p>
                     </td>
                 </tr>
@@ -37,7 +37,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                         <?php _e('Visits', 'wp-statistics'); ?>:
                     </th>
                     <td>
-                        <input type="text" size="10" value="<?php echo $historical_visits; ?>" id="wps_historical_visits" name="wps_historical_visits">
+                        <input type="text" size="10" value="<?php echo esc_attr($historical_visits); ?>" id="wps_historical_visits" name="wps_historical_visits">
                         <p class="description"><?php echo sprintf(__('Number of historical number of visits to the site (current value is %s).', 'wp-statistics'), number_format_i18n($historical_visits)); ?></p>
                     </td>
                 </tr>

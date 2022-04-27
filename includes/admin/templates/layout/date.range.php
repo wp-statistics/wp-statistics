@@ -1,4 +1,4 @@
-<form action="<?php echo admin_url('admin.php'); ?>" method="get" class="wps-inline" id="jquery-datepicker">
+<form action="<?php echo esc_url(admin_url('admin.php')); ?>" method="get" class="wps-inline" id="jquery-datepicker">
     <?php
     if (isset($select_box)) {
         ?>
@@ -53,7 +53,7 @@
 </form>
 <?php
 if (isset($filter) and isset($filter['code'])) {
-    echo $filter['code'];
+    echo esc_attr($filter['code']);
     ?>
     <div class="wp-clearfix"></div>
     <?php

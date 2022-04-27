@@ -152,7 +152,7 @@
                 <input id="all_pages" type="checkbox" value="1" name="wps_track_all_pages" <?php echo WP_STATISTICS\Option::get('track_all_pages') == true ? "checked='checked'" : ''; ?>>
                 <label for="all_pages"><?php _e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Enable or disable this feature', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo sprintf(__('Track all WordPress pages, contains Category, Post Tags, Author, Custom Taxonomy, etc.', 'wp-statistics'), admin_url('options-permalink.php')); ?></p>
+                <p class="description"><?php echo sprintf(__('Track all WordPress pages, contains Category, Post Tags, Author, Custom Taxonomy, etc.', 'wp-statistics'), esc_url(admin_url('options-permalink.php'))); ?></p>
             </td>
         </tr>
 
@@ -226,7 +226,7 @@
         } else {
             $hidden = " style='display: none;'";
         } ?>
-        <tr valign="top"<?php echo $hidden; ?> id='wps_show_hits_option'>
+        <tr valign="top"<?php echo esc_attr($hidden); ?> id='wps_show_hits_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="display_hits_position"><?php _e('Display position:', 'wp-statistics'); ?></label>
             </td>
@@ -335,12 +335,11 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="<?php echo $option_name; ?>"><?php _e($se['name'], 'wp-statistics'); ?>:</label>
+                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?>:</label>
                 </th>
                 <td>
-                    <input id="<?php echo $option_name; ?>" type="checkbox" value="1" name="<?php echo $option_name; ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo $option_name; ?>"><?php _e('Disable',
-                            'wp-statistics'); ?></label>
-                    <p class="description"><?php echo sprintf(__('Disable %s from data collection and reporting.', 'wp-statistics'), $se['name']); ?></p>
+                    <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php _e('Disable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php echo sprintf(__('Disable %s from data collection and reporting.', 'wp-statistics'), esc_attr($se['name'])); ?></p>
                 </td>
             </tr>
         <?php } ?>

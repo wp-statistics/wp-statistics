@@ -27,8 +27,9 @@ add_thickbox();
             ?>
             <tr>
                 <td width="330" style="padding-top:10px;padding-bottom:10px;">
-                    <b><?php echo $key; ?></b></td>
-                <td style="padding-top:10px;padding-bottom:10px;"> <?php echo ($value == "" ? "-" : substr(str_replace(array("\n", "\r"), '', trim($value)), 0, 200)) . (strlen($value) > 200 ? '..' : ''); ?></td>
+                    <b><?php echo esc_attr($key); ?></b>
+                </td>
+                <td style="padding-top:10px;padding-bottom:10px;"><?php echo esc_attr(($value == "" ? "-" : substr(str_replace(array("\n", "\r"), '', trim($value)), 0, 200)) . (strlen($value) > 200 ? '..' : '')); ?></td>
             </tr>
             <?php
         }
@@ -80,14 +81,14 @@ add_thickbox();
                     <table>
                         <tr>
                             <td style="width: 10px; padding: 0px;">
-                                <input type="radio" name="ip_method" style="vertical-align: -3px;" value="<?php echo $method; ?>"<?php if ($ip_method == $method) {
+                                <input type="radio" name="ip_method" style="vertical-align: -3px;" value="<?php echo esc_attr($method); ?>"<?php if ($ip_method == $method) {
                                     echo " checked=\"checked\"";
                                 } ?>>
                             </td>
-                            <td style="width: 250px;"> <?php printf(__('Use %1$s', 'wp-statistics'), $method); ?></td>
+                            <td style="width: 250px;"> <?php printf(__('Use %1$s', 'wp-statistics'), esc_attr($method)); ?></td>
                             <td><code><?php
                                     if (isset($_SERVER[$method]) and !empty($_SERVER[$method])) {
-                                        echo sanitize_text_field(wp_unslash($_SERVER[$method]));
+                                        echo esc_attr(wp_unslash($_SERVER[$method]));
                                     } else {
                                         _e('No available data.', 'wp-statistics');
                                     } ?>

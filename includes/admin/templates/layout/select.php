@@ -20,7 +20,7 @@ if (isset($list) and is_array($list) and count($list) > 0) {
             <?php
             foreach ($list as $id => $name) {
                 ?>
-                <option value="<?php echo $id; ?>" <?php selected($_GET['ID'], $id); ?>><?php echo esc_attr($name); ?></option>
+                <option value="<?php echo esc_attr($id); ?>" <?php selected($_GET['ID'], $id); ?>><?php echo esc_attr($name); ?></option>
                 <?php
             }
             ?>

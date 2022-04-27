@@ -200,10 +200,10 @@
                     $next_schedule = wp_next_scheduled('wp_statistics_referrerspam_hook');
 
                     if ($next_schedule) {
-                        echo date(get_option('date_format'), $next_schedule) . ' @ ' . date(get_option('time_format'), $next_schedule);
+                        echo esc_attr(date(get_option('date_format'), $next_schedule) . ' @ ' . date(get_option('time_format'), $next_schedule));
                     } else {
                         $next_update = time() + (86400 * 7);
-                        echo date(get_option('date_format'), $next_update) . ' @ ' . date(get_option('time_format'), time());
+                        echo esc_attr(date(get_option('date_format'), $next_update) . ' @ ' . date(get_option('time_format'), time()));
                     }
 
                     echo '</code></p>';

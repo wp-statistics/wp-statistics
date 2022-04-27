@@ -33,11 +33,11 @@
             ?>
 
             <tr valign="top">
-                <th scope="row"><label for="<?php echo $option_name; ?>"><?php echo $translated_role_name; ?>:</label>
+                <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?>:</label>
                 </th>
                 <td>
-                    <input id="<?php echo $option_name; ?>" type="checkbox" value="1" name="<?php echo $option_name; ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo $option_name; ?>"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                    <p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp-statistics'), $translated_role_name); ?></p>
+                    <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo $option_name; ?>"><?php _e('Exclude', 'wp-statistics'); ?></label>
+                    <p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp-statistics'), esc_attr($translated_role_name)); ?></p>
                 </td>
             </tr>
         <?php } ?>
@@ -98,7 +98,7 @@
                 <?php
                 foreach (\WP_STATISTICS\IP::$private_SubNets as $ip) {
                     ?>
-                    <a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n<?php echo $ip; ?>' ); }" class="button"><?php _e('Add', 'wp-statistics'); ?><?php echo $ip; ?></a>
+                    <a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n<?php echo esc_attr($ip); ?>' ); }" class="button"><?php _e('Add', 'wp-statistics'); ?><?php echo esc_attr($ip); ?></a>
                     <?php
                 }
                 ?>

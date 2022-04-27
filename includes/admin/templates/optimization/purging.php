@@ -13,7 +13,7 @@
                 return false;
 
             jQuery("#purge-data-submit").attr("disabled", "disabled");
-            jQuery("#purge-data-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+            jQuery("#purge-data-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
             jQuery.ajax({
                 url: ajaxurl,
                 type: 'post',
@@ -45,7 +45,7 @@
                 return false;
 
             jQuery("#purge-visitor-hits-submit").attr("disabled", "disabled");
-            jQuery("#purge-visitor-hits-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+            jQuery("#purge-visitor-hits-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
             jQuery.ajax({
                 url: ajaxurl,
                 type: 'post',
@@ -76,7 +76,7 @@
                 return false;
 
             jQuery("#empty-table-submit").attr("disabled", "disabled");
-            jQuery("#empty-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+            jQuery("#empty-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
             jQuery.ajax({
                 url: ajaxurl,
                 type: 'post',
@@ -107,7 +107,7 @@
                 return false;
 
             jQuery("#delete-agents-submit").attr("disabled", "disabled");
-            jQuery("#delete-agents-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+            jQuery("#delete-agents-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
             jQuery.ajax({
                 url: ajaxurl,
                 type: 'post',
@@ -140,7 +140,7 @@
                 return false;
 
             jQuery("#delete-platforms-submit").attr("disabled", "disabled");
-            jQuery("#delete-platforms-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+            jQuery("#delete-platforms-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
             jQuery.ajax({
                 url: ajaxurl,
                 type: 'post',
@@ -173,7 +173,7 @@
                 return false;
 
             jQuery("#delete-ip-submit").attr("disabled", "disabled");
-            jQuery("#delete-ip-status").html("<img src='<?php echo plugins_url('wp-statistics'); ?>/assets/images/loading.gif'/>");
+            jQuery("#delete-ip-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
             jQuery.ajax({
                 url: ajaxurl,
                 type: 'post',
@@ -211,7 +211,7 @@
                         <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
                         <?php
                         foreach (WP_STATISTICS\DB::table('all', 'historical') as $tbl_key => $tbl_name) {
-                            echo '<option value="' . $tbl_key . '">' . $tbl_name . '</option>';
+                            echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';
                         }
                         ?>
                         <option value="all"><?php echo __('All', 'wp-statistics'); ?></option>
@@ -242,8 +242,7 @@
 
             <tr>
                 <th scope="row">
-                    <label for="purge-visitor-hits"><?php _e('Purge visitors with more than:',
-                            'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php _e('Purge visitors with more than:', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -278,7 +277,7 @@
                         $agents = wp_statistics_ua_list();
                         foreach ($agents as $agent) {
                             $aid = preg_replace("/[^a-zA-Z]/", "", $agent);
-                            echo "<option value='$agent' id='agent-" . $aid . "-id'>" . $agent . "</option>";
+                            echo "<option value='$agent' id='agent-" . esc_attr($aid) . "-id'>" . esc_attr($agent) . "</option>";
                         }
                         ?>
                     </select>
@@ -303,7 +302,7 @@
                         foreach ($platforms as $platform) {
                             if (!empty($platform)) {
                                 $pid = preg_replace("/[^a-zA-Z]/", "", $platform);
-                                echo "<option value='$platform' id='platform-" . $pid . "-id'>" . $platform . "</option>";
+                                echo "<option value='$platform' id='platform-" . esc_attr($pid) . "-id'>" . esc_attr($platform) . "</option>";
                             }
                         }
                         ?>

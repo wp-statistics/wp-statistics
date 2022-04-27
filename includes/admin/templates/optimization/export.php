@@ -18,17 +18,13 @@
                         <select dir="<?php echo(is_rtl() ? 'rtl' : 'ltr'); ?>" id="table-to-export" name="table-to-export" required>
                             <option value=""><?php _e('Please select', 'wp-statistics'); ?></option>
                             <?php
-                            foreach (
-                                WP_STATISTICS\DB::table('all',
-                                    array('historical', 'visitor_relationships')) as $tbl_key => $tbl_name
-                            ) {
-                                echo '<option value="' . $tbl_key . '">' . $tbl_name . '</option>';
+                            foreach (WP_STATISTICS\DB::table('all', array('historical', 'visitor_relationships')) as $tbl_key => $tbl_name) {
+                                echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';
                             }
                             ?>
                         </select>
 
-                        <p class="description"><?php _e('Select the table for the output file.',
-                                'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Select the table for the output file.', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
 
@@ -56,8 +52,7 @@
 
                     <td>
                         <input id="export-headers" type="checkbox" value="1" name="export-headers">
-                        <p class="description"><?php _e('Include a header row as the first line of the exported file.',
-                                'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Include a header row as the first line of the exported file.', 'wp-statistics'); ?></p>
                         <?php submit_button(__('Start Now!', 'wp-statistics'), 'primary', 'export-file-submit'); ?>
                     </td>
                 </tr>

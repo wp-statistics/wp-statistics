@@ -31,7 +31,8 @@ global $wp_roles;
             } else {
                 $selected = "";
             }
-            $option_list .= "<option value='{$key}'{$selected}>{$key}</option>";
+
+            $option_list .= sprintf("<option value='%s' %s>%s</option>", esc_attr($key), $selected, esc_attr($key));
         }
         ?>
         <tr valign="top">
