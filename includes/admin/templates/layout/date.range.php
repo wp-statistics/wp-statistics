@@ -53,7 +53,7 @@
 </form>
 <?php
 if (isset($filter) and isset($filter['code'])) {
-    echo esc_attr($filter['code']);
+    echo $filter['code']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     ?>
     <div class="wp-clearfix"></div>
     <?php

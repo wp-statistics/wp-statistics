@@ -127,7 +127,7 @@
                 <td>
                     <strong><?php if (function_exists('curl_version')) {
                             $curl_ver = curl_version();
-                            echo $curl_ver['version'];
+                            echo esc_attr($curl_ver['version']);
                         } else {
                             _e('cURL not installed', 'wp-statistics');
                         } ?></strong>

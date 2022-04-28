@@ -71,9 +71,9 @@
                                     <td style='text-align: left'><?php echo esc_attr($item['hits']); ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
-                                            <a href="<?php echo \WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID'])); ?>" class="wps-text-success"><?php echo esc_attr($item['user']['user_login']); ?></a>
+                                            <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID']))); ?>" class="wps-text-success"><?php echo esc_attr($item['user']['user_login']); ?></a>
                                         <?php } else { ?>
-                                            <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
+                                            <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                         <?php } ?>
                                     </td>
                                     <?php
@@ -85,14 +85,14 @@
                                         <?php
                                     }
                                     ?>
-                                    <td style='text-align: left'><?php echo esc_attr($item['referred']); ?></td>
+                                    <td style='text-align: left'><?php echo wp_kses_post($item['referred']); ?></td>
                                 </tr>
                             <?php } ?>
                         </table>
                     <?php } ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? esc_attr($pagination) : ''; ?>
+            <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </div>
 </div>

@@ -36,7 +36,7 @@
                 <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?>:</label>
                 </th>
                 <td>
-                    <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo $option_name; ?>"><?php _e('Exclude', 'wp-statistics'); ?></label>
+                    <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php _e('Exclude', 'wp-statistics'); ?></label>
                     <p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp-statistics'), esc_attr($translated_role_name)); ?></p>
                 </td>
             </tr>

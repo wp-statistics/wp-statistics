@@ -74,7 +74,7 @@
                     ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? esc_attr($pagination) : ''; ?>
+            <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </div>
 </div>

@@ -119,7 +119,7 @@ class Network
     {
         global $plugin_page;
         $blog_id = str_replace('wp_statistics_blogid_', '', $plugin_page);
-        $url     = get_admin_url($blog_id) . '/admin.php?page=' . Menus::get_page_slug('overview');
+        $url     = esc_url(get_admin_url($blog_id) . '/admin.php?page=' . Menus::get_page_slug('overview'));
         echo "<script>window.location.href = '$url';</script>";
     }
 }

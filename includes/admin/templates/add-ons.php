@@ -22,7 +22,7 @@
                             </div>
 
                             <div class="desc column-description">
-                                <p><?php echo wp_trim_words(esc_attr($plugin->description), 15); ?></p>
+                                <p><?php echo wp_trim_words(wp_kses_post($plugin->description), 15); ?></p>
                             </div>
                         </div>
                         <div class="plugin-card-bottom">
@@ -47,7 +47,7 @@
                                     <a href="<?php echo wp_nonce_url(WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'activate', 'plugin' => $plugin->slug)), $plugin->slug); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
                                 <?php } else { ?>
                                     <div class="column-price">
-                                        <strong><?php echo esc_attr($plugin->price); ?></strong>
+                                        <strong><?php echo wp_kses_post($plugin->price); ?></strong>
                                     </div><a target="_blank" href="<?php echo esc_url($plugin->url); ?>" class="button-primary"><?php _e('Buy Add-On', 'wp-statistics'); ?></a>
                                 <?php } ?><?php } ?>
                             </div>

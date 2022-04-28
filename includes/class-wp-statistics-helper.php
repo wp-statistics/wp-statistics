@@ -130,7 +130,7 @@ class Helper
         ';
 
         if ($echo) {
-            echo $text;
+            echo $text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         } else {
             return $text;
         }

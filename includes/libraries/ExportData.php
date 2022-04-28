@@ -65,7 +65,7 @@ abstract class ExportData {
 	protected function write( $data ) {
 		switch ( $this->exportTo ) {
 			case 'browser':
-				echo $data;
+				echo $data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'string':
 				$this->stringData .= $data;

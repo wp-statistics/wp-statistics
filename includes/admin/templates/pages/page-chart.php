@@ -21,7 +21,7 @@
 
                 <h2 class="hndle wps-d-inline-block"><span><?php _e('Visitors', 'wp-statistics'); ?></span></h2>
                 <div class="inside wps-wrap">
-                    <?php echo esc_attr($visitors); ?>
+                    <?php echo wp_kses_post($visitors); ?>
                 </div>
             </div>
         </div>

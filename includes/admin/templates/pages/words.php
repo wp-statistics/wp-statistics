@@ -53,14 +53,14 @@
                                     <?php } ?>
                                     <td style="text-align: left"><?php echo esc_attr($item['date']); ?></td>
                                     <td style='text-align: left;'><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-success'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
-                                    <td style="text-align: left"><?php echo esc_attr($item['referred']); ?></td>
+                                    <td style="text-align: left"><?php echo wp_kses_post($item['referred']); ?></td>
                                 </tr>
                             <?php } ?>
                         </table>
                     <?php } ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? esc_attr($pagination) : ''; ?>
+            <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </div>
 </div>

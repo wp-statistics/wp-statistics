@@ -42,7 +42,7 @@
                                         </td>
                                     <?php } ?>
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                        <td><?php echo $item['city']; ?></td>
+                                        <td><?php echo esc_attr($item['city']); ?></td>
                                     <?php } ?>
                                     <td style='text-align: left'><span><?php echo esc_attr($item['date']); ?></span></td>
                                     <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-muted'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
@@ -54,7 +54,7 @@
                                             <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
                                         <?php } ?>
                                     </td>
-                                    <td style='text-align: left'><?php echo esc_attr($item['referred']); ?></td>
+                                    <td style='text-align: left'><?php echo wp_kses_post($item['referred']); ?></td>
                                     <td style='text-align: left'><?php echo esc_attr($item['hits']); ?></td>
                                     <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
                                 </tr>
@@ -63,7 +63,7 @@
                     <?php } ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? esc_attr($pagination) : ''; ?>
+            <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </div>
 </div>

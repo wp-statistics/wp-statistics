@@ -39,7 +39,7 @@
                                     <td style='text-align: left'><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
                                     <td style='text-align: left'><span><?php echo esc_attr($item['online_for']); ?></span></td>
                                     <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . esc_attr($item['page']['title']) . ($item['page']['link'] != '' ? '</a>' : ''); ?></td>
-                                    <td style='text-align: left'><?php echo esc_attr($item['referred']); ?></td>
+                                    <td style='text-align: left'><?php echo wp_kses_post($item['referred']); ?></td>
                                     <td style='text-align: left'>
                                         <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
                                             <p><?php _e('ID', 'wp-statistics'); ?>: <a href="<?php echo get_edit_user_link($item['user']['ID']); ?>" target="_blank" class="wps-text-success">#<?php echo esc_attr($item['user']['ID']); ?></a></p><p><?php _e('Email', 'wp-statistics'); ?>: <?php echo esc_attr($item['user']['user_email']); ?></p><p><?php echo sprintf('Role: %s', implode(',', get_userdata($item['user']['ID'])->roles)) ?></p>
@@ -55,7 +55,7 @@
                     <?php } ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? esc_attr($pagination) : ''; ?>
+            <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </div>
 </div>
