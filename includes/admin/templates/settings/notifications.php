@@ -19,7 +19,7 @@
                 <input dir="ltr" type="text" id="email_list" name="wps_email_list" size="30" value="<?php if (WP_STATISTICS\Option::get('email_list') == '') {
                     $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
                 }
-                echo htmlentities(WP_STATISTICS\Option::get('email_list'), ENT_QUOTES); ?>"/>
+                echo esc_textarea(WP_STATISTICS\Option::get('email_list')); ?>"/>
                 <p class="description"><?php _e('Add email addresses you want to receive reports and separate them with a comma.', 'wp-statistics'); ?></p>
             </td>
         </tr>

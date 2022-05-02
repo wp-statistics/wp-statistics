@@ -107,7 +107,7 @@
                 </th>
 
                 <td>
-                    <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo htmlentities(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country), ENT_QUOTES); ?>">
+                    <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
                     <p class="description"><?php echo __('The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to use "Unknown" as the country code.', 'wp-statistics'); ?></p>
                 </td>
             </tr>

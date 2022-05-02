@@ -107,6 +107,8 @@ class Referred
             $html_referrer = '//' . $html_referrer;
         }
 
+        $html_referrer = esc_url($html_referrer);
+
         // Parse Url
         $base_url = @parse_url($html_referrer);
 
@@ -140,7 +142,7 @@ class Referred
             $referrer = substr($referrer, 0, $length);
         }
 
-        return htmlentities($referrer, ENT_QUOTES);
+        return $referrer;
     }
 
     /**

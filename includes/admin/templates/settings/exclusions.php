@@ -60,7 +60,7 @@
                             $robotlist = WP_STATISTICS\Helper::get_robots_list();
                             update_option('wps_robotlist', $robotlist);
                         }
-                        echo htmlentities($robotlist, ENT_QUOTES);
+                        echo esc_textarea($robotlist);
                         ?>
                     </textarea>
                 <p class="description"><?php echo __('It is a list of words (one per line) to match against to detect robots. Entries must be at least four characters long, or they will be ignored.', 'wp-statistics'); ?></p>
@@ -91,7 +91,7 @@
         <tr valign="top">
             <th scope="row"><?php _e('Excluded IP Address List:', 'wp-statistics'); ?></th>
             <td>
-                <textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo htmlentities(WP_STATISTICS\Option::get('exclude_ip'), ENT_QUOTES); ?></textarea>
+                <textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('exclude_ip')); ?></textarea>
                 <p class="description"><?php echo __('You can add a list of IP addresses and subnet masks (one per line) to exclude from the statistics collection.', 'wp-statistics'); ?></p>
                 <p class="description"><?php echo __('For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are acceptable. To specify an IP address, use a subnet value of 32 or 255.255.255.255.', 'wp-statistics'); ?></p>
                 <p class="description"><?php echo __('For IPv6 addresses, use the fc00::/7 format.', 'wp-statistics'); ?></p>
@@ -144,7 +144,7 @@
         <tr valign="top">
             <th scope="row"><?php _e('Excluded Countries:', 'wp-statistics'); ?></th>
             <td>
-                <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo htmlentities(WP_STATISTICS\Option::get('excluded_countries'), ENT_QUOTES); ?></textarea>
+                <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
                 <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to exclude them from statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://dev.maxmind.com/geoip/legacy/codes/iso3166/') . '" target="_blank">', '</a>'); ?></p>
             </td>
         </tr>
@@ -152,7 +152,7 @@
         <tr valign="top">
             <th scope="row"><?php _e('Included Countries:', 'wp-statistics'); ?></th>
             <td>
-                <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo htmlentities(WP_STATISTICS\Option::get('included_countries'), ENT_QUOTES); ?></textarea>
+                <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
                 <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to include them in statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://dev.maxmind.com/geoip/legacy/codes/iso3166/') . '" target="_blank">', '</a>'); ?></p>
             </td>
         </tr>
@@ -169,7 +169,7 @@
         <tr valign="top">
             <th scope="row"><?php _e('Excluded Hosts:', 'wp-statistics'); ?></th>
             <td>
-                <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo htmlentities(WP_STATISTICS\Option::get('excluded_hosts'), ENT_QUOTES); ?></textarea>
+                <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
                 <p class="description"><?php echo __('You can add a list of fully qualified host names (i.e. server.example.com, one per line) to exclude from statistics collection.', 'wp-statistics'); ?></p><br>
                 <p class="description"><?php echo __('Note: This option will NOT perform a reverse DNS lookup on each page load but instead cache the provided hostnames’ IP address for one hour. If you exclude dynamically assigned hosts, you may find some overlap when the host changes its IP address and when the cache is updated, resulting in some hits recorded.', 'wp-statistics'); ?></p>
             </td>
@@ -208,7 +208,7 @@
         <tr valign="top">
             <th scope="row"><?php _e('Excluded URLs:', 'wp-statistics'); ?></th>
             <td>
-                <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo htmlentities(WP_STATISTICS\Option::get('excluded_urls'), ENT_QUOTES); ?></textarea>
+                <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
                 <p class="description"><?php echo __('You can add a list of local URLs (i.e.  /wordpress/about, one per line) to exclude from statistics collection.', 'wp-statistics'); ?></p><br>
                 <p class="description"><?php echo __('Note: This option will NOT handle URL parameters (anything after the ?), only to the script name. Entries less than two characters will be ignored.', 'wp-statistics'); ?></p>
             </td>

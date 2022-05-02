@@ -242,7 +242,7 @@
                 </th>
 
                 <td>
-                    <strong><?php echo htmlentities(\WP_STATISTICS\UserAgent::getHttpUserAgent(), ENT_QUOTES); ?></strong>
+                    <strong><?php echo esc_textarea(\WP_STATISTICS\UserAgent::getHttpUserAgent()); ?></strong>
                     <p class="description"><?php _e('The client user agent string.', 'wp-statistics'); ?></p>
                 </td>
             </tr>

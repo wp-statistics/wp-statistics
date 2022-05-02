@@ -29,12 +29,9 @@
             </th>
 
             <td>
-                <input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo htmlentities(WP_STATISTICS\Option::get('check_online'),
-                    ENT_QUOTES); ?>"/>
+                <input type="text" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo esc_attr(WP_STATISTICS\Option::get('check_online')); ?>"/>
                 <?php _e('Seconds', 'wp-statistics'); ?>
-                <p class="description"><?php echo sprintf(__('Time for checking out accurate online users on the site. Now: %s Seconds',
-                        'wp-statistics'),
-                        WP_STATISTICS\Option::get('check_online')); ?></p>
+                <p class="description"><?php echo sprintf(__('Time for checking out accurate online users on the site. Now: %s Seconds', 'wp-statistics'), WP_STATISTICS\Option::get('check_online')); ?></p>
             </td>
         </tr>
 
@@ -46,8 +43,7 @@
             <td>
                 <input id="allonline" type="checkbox" value="1" name="wps_all_online" <?php echo WP_STATISTICS\Option::get('all_online') == true ? "checked='checked'" : ''; ?>>
                 <label for="allonline"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to ignore the exclusion settings and record all online users (including self referrals and robots). Should only be used for troubleshooting.',
-                        'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to ignore the exclusion settings and record all online users (including self referrals and robots). Should only be used for troubleshooting.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -119,7 +115,7 @@
                 <label for="coefficient"><?php _e('Coefficient per Visitor:', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo htmlentities(WP_STATISTICS\Option::get('coefficient'), ENT_QUOTES); ?>"/>
+                <input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo esc_attr(WP_STATISTICS\Option::get('coefficient')); ?>"/>
                 <p class="description"><?php echo sprintf(__('This feature multiplies the number of each visitor. Currently %s.', 'wp-statistics'), WP_STATISTICS\Option::get('coefficient')); ?></p>
             </td>
         </tr>

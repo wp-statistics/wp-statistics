@@ -535,7 +535,7 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
 
             // Check age Title if page id or type not exist
             if ($page_info['link'] == "") {
-                $page_url = htmlentities(path_join(get_site_url(), $url), ENT_QUOTES);
+                $page_url = path_join(get_site_url(), $url);
                 $id       = WP_STATISTICS\Pages::uri_to_id($out[0]);
                 $post     = get_post($id);
                 if (is_object($post)) {

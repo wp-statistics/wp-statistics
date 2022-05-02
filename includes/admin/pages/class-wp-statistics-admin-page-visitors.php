@@ -191,15 +191,13 @@ class visitors_page
      */
     public static function Filter()
     {
-        // Remove unused $_GET
-        $params = (isset($_GET) ? $_GET : array()); // don't need to be sanitized since we need the count of the array elements, not data directly.
-
-        foreach (array('page', 'from', 'to', 'order', 'orderby') as $i) {
-            if (isset($params[$i])) {
-                unset($params[$i]);
+        $params = 0;
+        foreach ($_GET as $params_key => $params_item) {
+            if (!in_array($params_key, array('page', 'from', 'to', 'order', 'orderby'))) {
+                $params++;
             }
         }
-        $filter['number'] = count($params);
+        $filter['number'] = $params;
 
         // Code Button
         $filter['code'] = '<div class="wps-pull-' . (is_rtl() ? 'left' : 'right') . '" id="visitors-filter"><span class="dashicons dashicons-filter"></span><span class="filter-text">' . __("Filters", "wp-statistics") . '</span> ' . ($filter['number'] > 0 ? '<span class="wps-badge">' . number_format_i18n($filter['number']) . '</span>' : '') . '</div>';

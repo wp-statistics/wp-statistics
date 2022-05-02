@@ -95,7 +95,7 @@ class category_page
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(
                 'post_type'    => 'post',
-                'category__in' => $_GET['ID']
+                'category__in' => sanitize_text_field($_GET['ID'])
             ));
             foreach ($post_lists as $post_id => $post_title) {
                 $args['top_list'][$post_id] = array('ID' => $post_id, 'name' => $post_title, 'link' => Menus::admin_url('pages', array('ID' => $post_id)), 'count_visit' => (int)wp_statistics_pages('total', null, $post_id, null, null, 'post'));
