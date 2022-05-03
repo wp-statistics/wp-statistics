@@ -92,7 +92,7 @@ Search Engine Referrals and Words are highly dependent on the search engines pro
 
 = PHP 7 Support? =
 WP Statistics is PHP 7 compliant; however, some versions of PHP 7 have bugs that can cause issues. One known issue is that PHP 7.0.4 cause memory exhaustion errors. Newer versions of PHP 7 do not have this issue.
-At this time (September, 2018) WP Statistics seems to run fine with PHP 7.2.6. But  you may experience issues that we haven’t found yet. If you do, feel free to report it after you make sure it is not a problem with PHP.
+At this time (September 2018) WP Statistics seems to run fine with PHP 7.2.6. But  you may experience issues that we haven’t found yet. If you do, feel free to report it after you make sure it is not a problem with PHP.
 
 = IPv6 Support? =
 WP Statistics supports IPv6 as of version 11.0; however, PHP must be compiled with IPv6 support enabled; otherwise you may see warnings when a visitor from an IPv6 address hits your site.
@@ -102,6 +102,11 @@ You can check if IPv6 support is enabled in PHP by visiting the Optimization > R
 If IPv6 is not enabled, you may see an warning like:
 
 	Warning: inet_pton() [function.inet-pton]: Unrecognized address 2003:0006:1507:5d71:6114:d8bd:80c2:1090
+
+= What 3rd party services does the plugin use? =
+IP location services are provided by data created by [MaxMind](https://www.maxmind.com/), to detect the Visitor's location (Country & City) the plugin downloads the GeoLite2 Database created by [MaxMind](https://www.maxmind.com/) on your server locally and use it.
+
+Referrer spam blacklist is provided by Matomo, available from https://github.com/matomo-org/referrer-spam-blacklist
 
 == Screenshots ==
 1. Overview

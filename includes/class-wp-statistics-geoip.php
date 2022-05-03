@@ -13,7 +13,7 @@ class GeoIP
      */
     public static $library = array(
         'country' => array(
-            'source' => 'https://raw.githubusercontent.com/wp-statistics/GeoLite2-Country/master/GeoLite2-Country.mmdb.gz',
+            'source' => 'https://cdn.jsdelivr.net/gh/wp-statistics/GeoLite2-Country@master/GeoLite2-Country.mmdb.gz',
             'file'   => 'GeoLite2-Country',
             'opt'    => 'geoip',
             'cache'  => 31536000 //1 Year

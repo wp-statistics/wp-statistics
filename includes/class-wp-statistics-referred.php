@@ -23,7 +23,7 @@ class Referred
      *
      * @var string
      */
-    public static $referrer_spam_link = 'https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt';
+    public static $referrer_spam_link = 'https://cdn.jsdelivr.net/gh/matomo-org/referrer-spam-list@4.0.0/spammers.txt';
 
     /**
      * Referred constructor.
