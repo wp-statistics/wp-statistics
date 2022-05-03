@@ -13,13 +13,13 @@ class GeoIP
      */
     public static $library = array(
         'country' => array(
-            'source' => 'https://cdn.jsdelivr.net/gh/wp-statistics/GeoLite2-Country@master/GeoLite2-Country.mmdb.gz',
+            'source' => 'https://cdn.jsdelivr.net/npm/geolite2-country@1.0.2/GeoLite2-Country.mmdb.gz',
             'file'   => 'GeoLite2-Country',
             'opt'    => 'geoip',
             'cache'  => 31536000 //1 Year
         ),
         'city'    => array(
-            'source' => 'https://raw.githubusercontent.com/wp-statistics/GeoLite2-City/master/GeoLite2-City.mmdb.gz',
+            'source' => 'https://cdn.jsdelivr.net/npm/geolite2-city@1.0.0/GeoLite2-City.mmdb.gz',
             'file'   => 'GeoLite2-City',
             'opt'    => 'geoip_city',
             'cache'  => 6998000 //3 Month
