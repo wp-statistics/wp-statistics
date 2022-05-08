@@ -183,7 +183,7 @@ class Meta_Box
                 'place'             => 'side'
             ),
             'about'           => array(
-                'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
+                'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP-Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
                 'show_on_dashboard' => false,
                 'js'                => false,
                 'place'             => 'side',

@@ -1,7 +1,7 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Percentage of issues still open")
 
-# WP Statistics
+# WP-Statistics
 A free and advanced statistics plugin for WordPress
 
 A comprehensive plugin for your WordPress visitor statistics, come visit us at our website for all the latest news and information.
@@ -33,9 +33,9 @@ This product includes GeoLite2 data created by MaxMind, available from https://w
 * Comprehensive Admin Manual
 
 # Internationalization
-WP Statistics has been translated in to many languages, for the current list and contributors, please visit the [translate page](https://translate.wordpress.org/projects/wp-plugins/wp-statistics).
+WP-Statistics has been translated in to many languages, for the current list and contributors, please visit the [translate page](https://translate.wordpress.org/projects/wp-plugins/wp-statistics).
 
-Translations are done by people just like you, help make WP Statistics available to more people around the world and [do a translation](https://wp-statistics.com/translations/) today!
+Translations are done by people just like you, help make WP-Statistics available to more people around the world and [do a translation](https://wp-statistics.com/translations/) today!
 
 # Installation
 1. Upload wp-statistics to the /wp-content/plugins/ directory.
@@ -44,10 +44,10 @@ Translations are done by people just like you, help make WP Statistics available
 4. Go to the plugin settings page and configure as required (note this will also download the GeoIP database for the fist time).
 
 # Function API
-WP Statistics supports several functions for other plug-in and theme authors to use to retrieve statistics about the site. All of the external functions available in [this link](https://wp-statistics.com/2017/05/26/function-api/).
+WP-Statistics supports several functions for other plug-in and theme authors to use to retrieve statistics about the site. All of the external functions available in [this link](https://wp-statistics.com/2017/05/26/function-api/).
 
 # Shortcodes
-WP Statistics supports shortcodes in WordPress, these can be used in either a post and page body as well as an HTML widget. Description of shortcode available in [this link](https://wp-statistics.com/2017/05/26/shortcodes/)
+WP-Statistics supports shortcodes in WordPress, these can be used in either a post and page body as well as an HTML widget. Description of shortcode available in [this link](https://wp-statistics.com/2017/05/26/shortcodes/)
 
 # Community Links
 * [WordPress plugin page](http://wordpress.org/plugins/wp-statistics/)

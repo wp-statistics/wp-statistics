@@ -4,9 +4,9 @@
 defined('ABSPATH') || exit;
 
 /**
- * Main bootstrap class for WP Statistics
+ * Main bootstrap class for WP-Statistics
  *
- * @package WP Statistics
+ * @package WP-Statistics
  */
 final class WP_Statistics
 {

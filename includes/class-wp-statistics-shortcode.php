@@ -149,7 +149,7 @@ class ShortCode
                 array(
 
                     // Display label. String. Required.
-                    'label'         => 'WP Statistics',
+                    'label'         => 'WP-Statistics',
 
                     // Icon/image for shortcode. Optional. src or dashicons-$icon. Defaults to carrot.
                     'listItemImage' => '<img src="' . WP_STATISTICS_URL . 'assets/images/logo-250.png" width="128" height="128">',
