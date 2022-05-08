@@ -94,13 +94,13 @@
 
 = 9.5.1 =
 * Release Date: August 4, 2015
-* Fixed: Issue with verifying the WP Statistics tables exist on databases with hyphens in their names.
+* Fixed: Issue with verifying the WP-Statistics tables exist on databases with hyphens in their names.
 * Updated: Arabic translation.
 
 = 9.5 =
 * Release Date: August 3, 2015
 * Added: Referrer Spam exclusions using the Piwik Referrer Spam Blacklist (see Statistics->Settings->Externals to enable).
-* Added: Code to remove 'AString' column if it exists in the visitors table during upgrades (bug in a older previous version of WP Statistics erroneously created it).
+* Added: Code to remove 'AString' column if it exists in the visitors table during upgrades (bug in a older previous version of WP-Statistics erroneously created it).
 * Fixed: Duplicate key name warning during upgrades for 'date_ip_agent' index.
 * Fixed: Warning on 'date_ip' index does not exist when trying to drop it during upgrades.
 * Updated: Storing of search engine/words data is now in it's own table for better performance.
@@ -120,7 +120,7 @@
 * Added: Option to exclude WordPress's "Not Found" page from the statistics.
 * Added: Option to treat corrupt http header information as bots (missing IP addresses or user agents).
 * Added: New robots to list; 007ac9, 5bot, advbot, alphabot, anyevent, blexbot, bubing, cliqzbot, dl2bot, duckduckgo, EveryoneSocialBot, findxbot, glbot, linkapediabot, ltx71, mediabot, medialbot, monobot, OrangeBot, owler, pageanalyzer, porkbun, pr-cy, pwbot, r4bot, revip, riddler, rogerbot, sistrix, SputnikBot, u2bot, uni5download, unrulymedia, wsowner, wsr-agent, x100bot and xzybot
-* Fixed: Make sure the admin bar only appears for users that have read/manage permissions in WP Statistics.
+* Fixed: Make sure the admin bar only appears for users that have read/manage permissions in WP-Statistics.
 * Updated: Split the access and exclusions tabs in settings.
 
 = 9.3.1 =
@@ -353,7 +353,7 @@
 * Release Date: October 16, 2014
 * Added: browscap.ini support for robot detection.
 * Added: Statistics->Optimization->Database tab now how an option to re-run the install routine in case you have had to delete tables from the database.
-* Added: PHP version check, WP Statistics now requires PHP 5.3 and will no longer execute without it.
+* Added: PHP version check, WP-Statistics now requires PHP 5.3 and will no longer execute without it.
 * Added: Dashboard widget.
 * Updated: Top pages now decode the URL for better readability.
 * Updated: GeoIP library from version 0.5 to 2.0.
@@ -441,7 +441,7 @@
 * Release Date: August 5, 2014
 * Added: New robots to the robots list: aiHitBot, AntivirusPro, BeetleBot, Blekkobot, cbot, clumboot, coccoc, crowsnest.tv, dbot, dotbot, downloadbot, EasouSpider, Exabot, facebook.com, FriendFeedBot, gimme60bot, GroupHigh, IstellaBot, Kraken, LinkpadBot, MojeekBot, NetcraftSurveyAgent, p4Bot, PaperLiBot, Pimonster, scrapy.org, SearchmetricsBot, SemanticBot, SemrushBot, SiteExplorer, Socialradarbot, SpiderLing, uMBot-LN, Vagabondo, vBSEO, WASALive-Bot, WebMasterAid, WeSEE, XoviBot, YoudaoBot,
 * Added: Overview page can now be customized for what is displayed on a per user basis.
-* Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP Statistics.
+* Added: Overview tab to the settings page to control what is displayed.  This page is available to any user that has read access to WP-Statistics.
 * Added: Dutch (nl_NL) translation, thanks Friso van Wieringen.
 * Added: New index on visitor table for existing installs to avoid duplicate entries being created.
 * Added: jqPlot javascript library.
@@ -477,7 +477,7 @@
 * Updated: Support international number formats in statistics display.
 * Updated: Description of WordPress.org plugin link in plugin list.
 * Updated: Widget and shortcode now use the countonly option in wp_statistics_vistor() for better performance.
-* Updated: Renamed plugin from "WordPress Statistics" to "WP Statistics".
+* Updated: Renamed plugin from "WordPress Statistics" to "WP-Statistics".
 * Fixed: bug in new IP validation code and support for stripping off port numbers if they are passed through the headers.  Thanks Stephanos Io.
 * Updated: Persian (fa_IR) language.
 
@@ -485,7 +485,7 @@
 * Release Date: June 11, 2014
 * Added: Page tracking support.  Includes new overview widget and detail page.  Also supports page hit count in the pages/post list and in the page/post editor.
 * Added: Admin manual, online viewing as well as downloadable version.
-* Added: Links for “Settings”, “WordPress Plugin Page” and “Rate” pages to the plugin list for WP Statistics.
+* Added: Links for “Settings”, “WordPress Plugin Page” and “Rate” pages to the plugin list for WP-Statistics.
 * Updated: General settings tab re-organization.
 * Updated: Several typo's and other minor issues.
 * Updated: Highcharts JS v3.0.9 to JS v4.0.1.

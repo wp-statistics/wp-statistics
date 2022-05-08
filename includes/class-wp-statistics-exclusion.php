@@ -181,7 +181,7 @@ class Exclusion
     {
 
         if (Option::get('excluded_urls')) {
-            $script    = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI']));
+            $script    = sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
             $delimiter = strpos($script, '?');
 
             if ($delimiter > 0) {

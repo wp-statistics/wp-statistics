@@ -89,7 +89,7 @@ class Admin_Notices
     public function donate_plugin()
     {
         if (Menus::in_page('overview') and !Option::get('disable_donation_nag', false)) {
-            Helper::wp_admin_notice(__('Have you thought about donating to WP Statistics?', 'wp-statistics') . ' <a href="http://wp-statistics.com/donate/" target="_blank">' . __('Donate Now!', 'wp-statistics') . '</a>', 'warning', true, 'wps-donate-notice');
+            Helper::wp_admin_notice(__('Have you thought about donating to WP-Statistics?', 'wp-statistics') . ' <a href="https://wp-statistics.com/donate/" target="_blank">' . __('Donate Now!', 'wp-statistics') . '</a>', 'warning', true, 'wps-donate-notice');
         }
     }
 
