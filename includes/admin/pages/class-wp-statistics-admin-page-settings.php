@@ -181,7 +181,18 @@ class settings_page
         );
 
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? stripslashes(sanitize_textarea_field($_POST[$option])) : '');
+
+            $value = '';
+
+            if (isset($_POST[$option])) {
+                if ($option == 'wps_content_report') {
+                    $value = wp_kses_post($_POST[$option]);
+                } else {
+                    $value = stripslashes(sanitize_textarea_field($_POST[$option]));
+                }
+            }
+
+            $wp_statistics_options[self::input_name_to_option($option)] = $value;
         }
 
         return $wp_statistics_options;
