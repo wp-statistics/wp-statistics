@@ -83,7 +83,7 @@
         } else {
             $hidden = " style='display: none;'";
         } ?>
-        <tr valign="top"<?php echo esc_attr($hidden); ?> id='wps_stats_report_option'>
+        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php _e('Schedule:', 'wp-statistics'); ?></label>
             </td>
@@ -118,7 +118,7 @@
             </td>
         </tr>
 
-        <tr valign="top"<?php echo esc_attr($hidden); ?> id='wps_stats_report_option'>
+        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="send-report"><?php _e('Send reports via:', 'wp-statistics'); ?></label>
             </td>
@@ -139,7 +139,7 @@
             </td>
         </tr>
 
-        <tr valign="top"<?php echo esc_attr($hidden); ?> id='wps_stats_report_option'>
+        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php _e('Message body:', 'wp-statistics'); ?></label>
             </td>
