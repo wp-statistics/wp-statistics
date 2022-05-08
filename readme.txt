@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.9
-Stable tag: 13.2.1
+Stable tag: 13.2.2
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 This plugin gives you the complete information on your website's visitors.
 
 == Description ==
-= WP statistics: THE #1 WORDPRESS STATISTICS PLUGIN =
+= WP-Statistics: THE #1 WORDPRESS STATISTICS PLUGIN =
 Do you need a simple tool to know your website statistics? Do you need to represent these statistics? Are you caring about your users’ privacy while analyzing who are interested in your business or website? With WP Statistics you can know your website statistics without any need to send your users’ data anywhere. You can know how many people visit your personal or business website, where they’re coming from, what browsers and search engines they use, and which of your contents, categories, tags and users get more visits.
 
 All these data are recorded in your server, and YES! WP Statistics is [GDPR compliant](http://bit.ly/2x0AFgT).
@@ -53,11 +53,11 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 The greatest advantage of WP Statistics is that all the data is saved locally in WordPress.
 This helps a lot while implementing the new GDPR restrictions; because it’s not necessary to create a data processing contract with an external company! [Read more about WP Statistics compliance with GDPR](http://bit.ly/2x0AFgT).
 
-= Does WP Statistics support Multisite? =
+= Does WP-Statistics support Multisite? =
 WP Statistics doesn't officially support the multisite feature; however, it does have limited functionally associated with it and should function without any issue. However, no support is provided at this time.
 Version 8.8 is the first release that can be installed, upgraded and removed correctly on multi-site. It also has some basic support for the network admin menu. This should not be taken as an indication that WP Statistics fully supports the multisite, but only should be considered as a very first step.
 
-= Does WP Statistics work with caching plugins? =
+= Does WP-Statistics work with caching plugins? =
 Yes, the cache support added in v12.5.1
 
 If you're using a plugin cache:
@@ -99,7 +99,7 @@ WP Statistics supports IPv6 as of version 11.0; however, PHP must be compiled wi
 
 You can check if IPv6 support is enabled in PHP by visiting the Optimization > Resources/Information->Version Info > PHP IPv6 Enabled section.
 
-If IPv6 is not enabled, you may see an warning like:
+If IPv6 is not enabled, you may see a warning like:
 
 	Warning: inet_pton() [function.inet-pton]: Unrecognized address 2003:0006:1507:5d71:6114:d8bd:80c2:1090
 
@@ -131,6 +131,11 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.2 - 08.05.2022 =
+* Improvement: Downloading 3rd party services, the GeoIP & Referrer Spammer databases now is on [jsDelivr](https://www.jsdelivr.com/)
+* Bugfix: Storing & sending HTML tags allowed for notification message body
+* Bugfix: Hardened plugin security and improvement
+
 = v13.2.1 - 25.04.2022 =
 * Bugfix: Compatibility with PHP version lower than v7.4
 
