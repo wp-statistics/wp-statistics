@@ -130,7 +130,7 @@ class Helper
         ';
 
         if ($echo) {
-            echo $text;
+            echo wp_kses_post($text);
         } else {
             return $text;
         }

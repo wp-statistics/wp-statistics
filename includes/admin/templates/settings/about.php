@@ -4,14 +4,14 @@
         <tr valign="top">
             <td scope="row" align="center">
                 <a href="https://wp-statistics.com" target="_blank">
-                    <img src="<?php echo WP_STATISTICS_URL . 'assets/images/logo-250.png'; ?>">
+                    <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/logo-250.png'); ?>">
                 </a>
             </td>
         </tr>
 
         <tr valign="top">
             <td scope="row" align="center">
-                <h2><?php echo sprintf(__('WP-Statistics v%s', 'wp-statistics'), WP_STATISTICS_VERSION); ?></h2>
+                <h2><?php echo sprintf(__('WP-Statistics v%s', 'wp-statistics'), esc_attr(WP_STATISTICS_VERSION)); ?></h2>
             </td>
         </tr>
 

@@ -67,10 +67,10 @@
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), $top_title); ?></span>
+                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle wps-d-inline-block"><span><?php echo $top_title; ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                     <div class="inside">
                         <table class="widefat table-stats wps-summary-stats" id="summary-stats">
                             <tbody>

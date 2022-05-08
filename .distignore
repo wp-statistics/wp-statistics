@@ -1,0 +1,14 @@
+/.wordpress-org
+/.git
+/.github
+/node_modules
+
+.distignore
+.gitignore
+
+changelog.txt
+composer.json
+.gulpfile.js
+package.json
+package-lock.json
+README.md

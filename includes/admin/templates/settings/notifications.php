@@ -19,7 +19,7 @@
                 <input dir="ltr" type="text" id="email_list" name="wps_email_list" size="30" value="<?php if (WP_STATISTICS\Option::get('email_list') == '') {
                     $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
                 }
-                echo htmlentities(WP_STATISTICS\Option::get('email_list'), ENT_QUOTES); ?>"/>
+                echo esc_textarea(WP_STATISTICS\Option::get('email_list')); ?>"/>
                 <p class="description"><?php _e('Add email addresses you want to receive reports and separate them with a comma.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -83,7 +83,7 @@
         } else {
             $hidden = " style='display: none;'";
         } ?>
-        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
+        <tr valign="top"<?php echo esc_attr($hidden); ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php _e('Schedule:', 'wp-statistics'); ?></label>
             </td>
@@ -107,7 +107,7 @@
 
                     foreach ($schedules as $key => $value) {
                         if (!in_array($value, $schedules_item)) {
-                            echo '<option value="' . $key . '" ' . selected(WP_STATISTICS\Option::get('time_report'), $key) . '>' . $value['display'] . '</option>';
+                            echo '<option value="' . esc_attr($key) . '" ' . selected(WP_STATISTICS\Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
                             $schedules_item[] = $value;
                         }
                     }
@@ -118,7 +118,7 @@
             </td>
         </tr>
 
-        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
+        <tr valign="top"<?php echo esc_attr($hidden); ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="send-report"><?php _e('Send reports via:', 'wp-statistics'); ?></label>
             </td>
@@ -139,13 +139,13 @@
             </td>
         </tr>
 
-        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
+        <tr valign="top"<?php echo esc_attr($hidden); ?> id='wps_stats_report_option'>
             <td scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php _e('Message body:', 'wp-statistics'); ?></label>
             </td>
 
             <td>
-                <?php wp_editor(WP_STATISTICS\Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5,)); ?>
+                <?php wp_editor(WP_STATISTICS\Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
                 <p class="description"><?php _e('Enter the contents of the report.', 'wp-statistics'); ?></p>
 
                 <p class="description data">

@@ -32,7 +32,7 @@
             </th>
 
             <td>
-                <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo htmlentities(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365"), ENT_QUOTES); ?>"/>
+                <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>"/>
                 <?php _e('Days', 'wp-statistics'); ?>
                 <p class="description"><?php echo __('The number of days to keep statistics for.', 'wp-statistics') . ' ' . __('The minimum value is 30 days.', 'wp-statistics') . ' ' . __('Invalid values will disable the daily maintenance.', 'wp-statistics'); ?></p>
             </td>
@@ -66,7 +66,7 @@
             </th>
 
             <td>
-                <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo htmlentities(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50'), ENT_QUOTES); ?>"/>
+                <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
                 <?php _e('Hits', 'wp-statistics'); ?>
                 <p class="description"><?php echo __('The number of hits required to delete the visitor.', 'wp-statistics') . ' ' . __('Minimum value is 10 hits.', 'wp-statistics') . ' ' . __('Invalid values will disable the daily maintenance.', 'wp-statistics'); ?></p>
             </td>

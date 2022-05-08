@@ -49,7 +49,7 @@
                         <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
                         <?php
                         foreach (WP_STATISTICS\DB::table('all') as $tbl_key => $tbl_name) {
-                            echo '<option value="' . $tbl_key . '">' . $tbl_name . '</option>';
+                            echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';
                         }
                         ?>
                         <option value="all"><?php echo __('All', 'wp-statistics'); ?></option>

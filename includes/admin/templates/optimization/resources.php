@@ -23,8 +23,7 @@
 
                 <td>
                     <strong><?php echo ini_get('memory_limit'); ?></strong>
-                    <p class="description"><?php _e('The memory limit a script is allowed to consume, set in php.ini.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('The memory limit a script is allowed to consume, set in php.ini.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -33,14 +32,10 @@
                 ?>
                 <tr valign="top">
                     <th scope="row">
-                        <?php echo sprintf(__('Number of rows in the %s table', 'wp-statistics'),
-                            '<code>' . $table_name . '</code>'); ?>:
+                        <?php echo sprintf(__('Number of rows in the %s table', 'wp-statistics'), '<code>' . esc_attr($table_name) . '</code>'); ?>:
                     </th>
                     <td>
-                        <strong><?php echo number_format_i18n($number_row); ?></strong> <?php echo _n('Row',
-                            'Rows',
-                            number_format_i18n($number_row),
-                            'wp-statistics'); ?>
+                        <strong><?php echo number_format_i18n($number_row); ?></strong> <?php echo _n('Row', 'Rows', number_format_i18n($number_row), 'wp-statistics'); ?>
                         <p class="description"><?php _e('Number of rows', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
@@ -64,8 +59,7 @@
 
                 <td>
                     <strong><?php echo WP_STATISTICS_VERSION; ?></strong>
-                    <p class="description"><?php _e('The WP Statistics version you are running.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('The WP Statistics version you are running.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -92,8 +86,7 @@
                             _e('No', 'wp-statistics');
                         } ?></strong>
 
-                    <p class="description"><?php _e('Is PHP Safe Mode active. The GeoIP code is not supported in Safe Mode.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Is PHP Safe Mode active. The GeoIP code is not supported in Safe Mode.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -108,8 +101,7 @@
                         } else {
                             _e('No', 'wp-statistics');
                         } ?></strong>
-                    <p class="description"><?php _e('Is PHP compiled with IPv6 support. You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Is PHP compiled with IPv6 support. You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -135,14 +127,12 @@
                 <td>
                     <strong><?php if (function_exists('curl_version')) {
                             $curl_ver = curl_version();
-                            echo $curl_ver['version'];
+                            echo esc_attr($curl_ver['version']);
                         } else {
                             _e('cURL not installed', 'wp-statistics');
                         } ?></strong>
 
-                    <p class="description"><?php _e(
-                            'The PHP cURL Extension version you are running. cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled.',
-                            'wp-statistics'
+                    <p class="description"><?php _e('The PHP cURL Extension version you are running. cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled.', 'wp-statistics'
                         ); ?></p>
                 </td>
             </tr>
@@ -159,8 +149,7 @@
                             _e('Not installed', 'wp-statistics');
                         } ?></strong>
 
-                    <p class="description"><?php _e('If the gzopen() function is installed. The gzopen() function is required for the GeoIP database to be downloaded successfully.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('If the gzopen() function is installed. The gzopen() function is required for the GeoIP database to be downloaded successfully.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -176,8 +165,7 @@
                             _e('Not installed', 'wp-statistics');
                         } ?></strong>
 
-                    <p class="description"><?php _e('If the GMP Math PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('If the GMP Math PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -193,8 +181,7 @@
                             _e('Not installed', 'wp-statistics');
                         } ?></strong>
 
-                    <p class="description"><?php _e('If the BCMath PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('If the BCMath PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
@@ -225,8 +212,7 @@
                                     $GeoIP_filedate);
                         } ?></strong>
 
-                    <p class="description"><?php _e('The file size and date of the GeoIP database.',
-                            'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('The file size and date of the GeoIP database.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
@@ -256,8 +242,7 @@
                 </th>
 
                 <td>
-                    <strong><?php echo htmlentities(\WP_STATISTICS\UserAgent::getHttpUserAgent(),
-                            ENT_QUOTES); ?></strong>
+                    <strong><?php echo esc_textarea(\WP_STATISTICS\UserAgent::getHttpUserAgent()); ?></strong>
                     <p class="description"><?php _e('The client user agent string.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -326,7 +311,7 @@
                     ' . $server . '
                     </th>
                     <td>
-                        <strong>' . $_SERVER[$server] . '</strong>
+                        <strong>' . esc_attr($_SERVER[$server]) . '</strong>
                     </td>
                 </tr>';
                 }

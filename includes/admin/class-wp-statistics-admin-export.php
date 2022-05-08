@@ -79,7 +79,7 @@ class Export
 
                     // If we didn't get any rows, don't output anything.
                     if (count($result) < 1) {
-                        echo "No data in table!";
+                        echo "No data in table!"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         exit;
                     }
 

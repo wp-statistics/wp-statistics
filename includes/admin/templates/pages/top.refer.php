@@ -32,14 +32,14 @@
                                     <td><?php echo number_format_i18n($item['rate']); ?></td>
                                     <td><?php echo WP_STATISTICS\Helper::show_site_icon($item['domain']) . " " . \WP_STATISTICS\Referred::get_referrer_link($item['domain'], $item['title']); ?>
                                     </td>
-                                    <td><?php echo(trim($item['title']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : $item['title']); ?>
+                                    <td><?php echo(trim($item['title']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : esc_attr($item['title'])); ?>
                                     </td>
-                                    <td><?php echo(trim($item['ip']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : $item['ip']); ?></td>
+                                    <td><?php echo(trim($item['ip']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : esc_attr($item['ip'])); ?></td>
                                     <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
-                                        <td><?php echo(trim($item['country']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : "<img src='" . $item['flag'] . "' title='" . $item['country'] . "' alt='" . $item['country'] . "' class='log-tools'/>"); ?></td>
+                                        <td><?php echo(trim($item['country']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : "<img src='" . esc_url($item['flag']) . "' title='" . esc_attr($item['country']) . "' alt='" . esc_attr($item['country']) . "' class='log-tools'/>"); ?></td>
                                     <?php } ?>
                                     <td>
-                                        <a class='wps-text-success' href='<?php echo esc_url($item['page_link']); ?>'><?php echo $item['number']; ?></a>
+                                        <a class='wps-text-success' href='<?php echo esc_url($item['page_link']); ?>'><?php echo esc_attr($item['number']); ?></a>
                                     </td>
                                 </tr>
 
@@ -48,7 +48,7 @@
                     <?php } ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? $pagination : ''; ?>
+            <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </div>
 </div>

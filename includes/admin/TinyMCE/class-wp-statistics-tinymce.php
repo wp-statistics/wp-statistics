@@ -139,7 +139,7 @@ class TinyMCE
         });
         ';
         $lang = TinyMCE::lang();
-        echo $lang['translate'];
+        echo $lang['translate']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo '
         tinyMCEPreInit.load_ext("' . rtrim(WP_STATISTICS_URL, "/") . '", "' . $lang['locale'] . '");
         </script>

@@ -19,7 +19,7 @@
         jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 
         // postboxes setup
-        postboxes.add_postbox_toggles('<?php echo $overview_page_slug; ?>');
+        postboxes.add_postbox_toggles('<?php echo esc_attr($overview_page_slug); ?>');
     });
 </script>
 

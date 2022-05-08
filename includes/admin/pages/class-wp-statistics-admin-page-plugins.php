@@ -78,7 +78,7 @@ class plugins_page
             $parse = new \Parsedown();
 
             // convert MarkDown To Html
-            echo $parse->text(nl2br($data->body));
+            echo $parse->text(nl2br($data->body)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 

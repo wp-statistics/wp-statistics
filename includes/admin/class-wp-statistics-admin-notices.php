@@ -137,7 +137,7 @@ class Admin_Notices
                             data: {
                                 'action': 'wp_statistics_close_notice',
                                 'notice': 'disable_all_addons',
-                                'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                                'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                             },
                             datatype: 'json'
                         });

@@ -5,5 +5,5 @@
         <a href="https://wp-statistics.com/product/wp-statistics-widgets?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress" class="button-primary" target="_blank"><?php _e('Unlock Visitors Information by Advanced Widgets!', 'wp-statistics'); ?></a>
     </div>
 
-    <img src="<?php echo WP_STATISTICS_URL . 'assets/images/pages-visitor-preview.png'; ?>">
+    <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/pages-visitor-preview.png'); ?>">
 </div>

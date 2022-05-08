@@ -28,7 +28,7 @@
         $result = json_decode($response['body']);
         foreach ($result->items as $item) : ?>
             <div class="meta-box-sortables">
-                <div class="inside-no-padding"><?php echo $item->content; ?></div>
+                <div class="inside-no-padding"><?php echo wp_kses_post($item->content); ?></div>
             </div>
         <?php
         endforeach;

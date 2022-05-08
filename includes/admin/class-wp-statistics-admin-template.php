@@ -184,7 +184,7 @@ class Admin_Template
 
             // Export Data
             if ($args['echo']) {
-                echo $export;
+                echo $export; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             } else {
                 return $export;
             }
