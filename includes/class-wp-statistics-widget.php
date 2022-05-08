@@ -109,7 +109,7 @@ class WP_Statistics_Widget extends \WP_Widget
         if ($widget_options['tpviews_widget']) {
             echo '<li>';
             echo '<label>' . __('Total Page Views', 'wp-statistics') . ': </label>';
-            echo number_format_i18n(wp_statistics_pages('total')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo number_format_i18n(wp_statistics_pages('total', null, get_queried_object_ID())); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
 

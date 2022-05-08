@@ -132,7 +132,7 @@ class Pages
         $home_uri_len = strlen($home_uri);
 
         // Get the current page URI.
-        $page_uri = sanitize_text_field(wp_unslash($_SERVER["REQUEST_URI"]));
+        $page_uri = sanitize_url(wp_unslash($_SERVER["REQUEST_URI"]));
 
         /*
          * We need to check which URI is longer in case one contains the other.

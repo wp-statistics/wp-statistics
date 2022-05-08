@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 3.0
 Tested up to: 5.9
-Stable tag: 13.2.2
+Stable tag: 13.2.2.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -131,6 +131,10 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.2.1 - 08.05.2022 =
+* Bugfix: Compatibility & fixed the UTF-8 permalinks issue
+* Bugfix: Showing the right hits of Total Page Views in the widget
+
 = v13.2.2 - 08.05.2022 =
 * Improvement: Downloading 3rd party services, the GeoIP & Referrer Spammer databases now is on [jsDelivr](https://www.jsdelivr.com/)
 * Bugfix: Storing & sending HTML tags allowed for notification message body
