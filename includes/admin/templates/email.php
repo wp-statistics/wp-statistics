@@ -397,12 +397,12 @@
                                         if (trim($logo) != "") {
                                             ?>
                                             <p align="center">
-                                                <img src="<?php echo esc_attr($logo); ?>" style="display: block;margin: 20px auto">
+                                                <img src="<?php echo esc_url($logo); ?>" style="display: block;margin: 20px auto">
                                             </p>                                            <br/>
                                             <?php
                                         }
                                         ?>
-                                        <?php echo esc_attr($content); ?>
+                                        <?php echo wp_kses_post($content); ?>
                                     </td>
                                 </tr>
                             </table>
@@ -417,7 +417,7 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block" style="padding-bottom:0px;">
-                                <span class="apple-link"><?php echo esc_attr($footer_text); ?></span>
+                                <span class="apple-link"><?php echo wp_kses_post($footer_text); ?></span>
                             </td>
                         </tr>
                         <tr>
