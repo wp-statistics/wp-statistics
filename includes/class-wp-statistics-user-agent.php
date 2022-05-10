@@ -28,9 +28,9 @@ class UserAgent
         // Get WhichBrowser Browser
         $result = new \WhichBrowser\Parser($user_agent);
         $agent  = array(
-            'browser'  => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
-            'platform' => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
-            'version'  => (isset($result->os->version->value)) ? $result->os->version->value : _x('Unknown', 'Version', 'wp-statistics'),
+            'browser'   => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
+            'platform'  => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
+            'version'   => (isset($result->browser->version->value)) ? $result->browser->version->value : _x('Unknown', 'Version', 'wp-statistics'),
         );
 
         return apply_filters('wp_statistics_user_agent', $agent);
