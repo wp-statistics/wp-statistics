@@ -25,13 +25,17 @@ class UserAgent
         // Get Http User Agent
         $user_agent = self::getHttpUserAgent();
 
-        // Get WhichBrowser Browser
-        $result = new \WhichBrowser\Parser($user_agent);
-        $agent  = array(
-            'browser'   => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
-            'platform'  => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
-            'version'   => (isset($result->browser->version->value)) ? $result->browser->version->value : _x('Unknown', 'Version', 'wp-statistics'),
-        );
+        if (version_compare(phpversion(), '7', ">=") && class_exists('\WhichBrowser\Parser')) {
+            // Get WhichBrowser Browser
+            $result = new \WhichBrowser\Parser($user_agent);
+            $agent  = array(
+                'browser'  => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
+                'platform' => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
+                'version'  => (isset($result->browser->version->value)) ? $result->browser->version->value : _x('Unknown', 'Version', 'wp-statistics'),
+            );
+        } else {
+            $agent = self::getBrowserInfo($user_agent);
+        }
 
         return apply_filters('wp_statistics_user_agent', $agent);
     }
@@ -89,5 +93,70 @@ class UserAgent
         return WP_STATISTICS_URL . 'assets/images/browser/' . $name . '.png';
     }
 
+    public static function getBrowserInfo($userAgent = null)
+    {
+        $browser = $platform = $version = '';
+
+        if (preg_match('/linux|ubuntu/i', $userAgent)) {
+            $platform = 'linux';
+        } elseif (preg_match('/macintosh|mac os x/i', $userAgent)) {
+            $platform = 'mac';
+        } elseif (preg_match('/windows|win32/i', $userAgent)) {
+            $platform = 'windows';
+        } elseif (preg_match('/iphone/i', $userAgent)) {
+            $platform = 'iPhone';
+        } elseif (preg_match('/android/i', $userAgent)) {
+            $platform = 'Android';
+        } elseif (preg_match('/webos/i', $userAgent)) {
+            $platform = 'Mobile';
+        } else {
+            $platform = _x('Unknown', 'Platform', 'wp-statistics');
+        }
+
+        if (preg_match('/MSIE\/([0-9.]*)/i', $userAgent, $match) && !preg_match('/Opera/i', $userAgent)) {
+            $browser = 'Internet Explorer';
+            $version = end($match);
+        } elseif (preg_match('/Edg\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Edge';
+            $version = end($match);
+        } elseif (preg_match('/Firefox\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Firefox';
+            $version = end($match);
+        } elseif (preg_match('/OPR\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Opera';
+            $version = end($match);
+        } elseif (preg_match('/Chromium\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Chromium';
+            $version = end($match);
+        } elseif (preg_match('/Chrome\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Chrome';
+            $version = end($match);
+        } elseif (preg_match('/Safari\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Safari';
+            $version = end($match);
+        } elseif (preg_match('/Netscape[0-9]?\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Netscape';
+            $version = end($match);
+        } elseif (preg_match('/Trident\/([0-9.]*)/i', $userAgent, $match)) {
+            $browser = 'Internet Explorer';
+        } else {
+            $browser = _x('Unknown', 'Browser', 'wp-statistics');
+        }
+
+        $pattern = '#(?<browser>)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+        if (!preg_match_all($pattern, $userAgent, $matches)) {
+            $version = _x('Unknown', 'Version', 'wp-statistics');
+        }
+
+        if (empty($version) && !empty($matches['version']) && count($matches['version'])) {
+            $version = end($matches['version']);
+        }
+
+        return array(
+            'browser'  => $browser,
+            'version'  => $version,
+            'platform' => $platform
+        );
+    }
 
 }

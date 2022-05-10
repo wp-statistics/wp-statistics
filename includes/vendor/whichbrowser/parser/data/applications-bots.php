@@ -15,8 +15,8 @@ Applications::$BOTS = [
     [ 'name' => 'Adsbot',                       'id'    => 'adsbot',      'regexp' => '/Adsbot\/([0-9.]*)/u' ],                     // Not to be mixed up with Google Adsbot
     [ 'name' => 'Ahrefs Feeds Bot',             'id'    => 'ahrefs',      'regexp' => '/AhrefsBot\.Feeds v([0-9.]*)/u' ],
     [ 'name' => 'Ahrefs Site Audit Bot',        'id'    => 'ahrefs',      'regexp' => '/AhrefsSiteAudit\/([0-9.]*)/u' ],
-    [ 'name' => 'Ahrefs News Bot',              'id'    => 'ahrefs',      'regexp' => '/AhrefsBot\/([0-9.]*)\; News/u' ],
-    [ 'name' => 'Ahrefs SA Bot',                'id'    => 'ahrefs',      'regexp' => '/AhrefsBot\/([0-9.]*)\; SA/u' ],
+    [ 'name' => 'Ahrefs News Bot',              'id'    => 'ahrefs',      'regexp' => '/AhrefsBot\/([0-9.]*); News/u' ],
+    [ 'name' => 'Ahrefs SA Bot',                'id'    => 'ahrefs',      'regexp' => '/AhrefsBot\/([0-9.]*); SA/u' ],
     [ 'name' => 'Ahrefs Bot',                   'id'    => 'ahrefs',      'regexp' => '/AhrefsBot\/([0-9.]*)/u' ],    
     [ 'name' => 'Alexa',                        'id'    => 'archiver',      'regexp' => '/ia_archiver/u' ],
     [ 'name' => 'AltaVista',                    'id'    => 'altavista',      'regexp' => '/AltaVista Intranet V([0-9.]*)/u' ],
@@ -147,6 +147,7 @@ Applications::$BOTS = [
     [ 'name' => 'Google App Engine',            'id'    => 'google',      'regexp' => '/AppEngine-Google/u' ],
     [ 'name' => 'Google Web Preview',           'id'    => 'google',      'regexp' => '/Google Web Preview/u' ],
     [ 'name' => 'Google Page Speed',            'id'    => 'google',      'regexp' => '/Google Page Speed Insights/u' ],
+    [ 'name' => 'Google Favicon',               'id'    => 'google',      'regexp' => '/Google Favicon/u' ],
     [ 'name' => 'Google FeedBurner',            'id'    => 'feed',      'regexp' => '/FeedBurner\/([0-9.]*)/u' ],
     [ 'name' => 'Google Feedfetcher',           'id'    => 'google',      'regexp' => '/Feedfetcher-Google/iu' ],
     [ 'name' => 'Google Font Analysis',         'id'    => 'google',      'regexp' => '/Google-FontAnalysis\/([0-9.]*)/u' ],
@@ -363,9 +364,10 @@ Applications::$BOTS = [
     [ 'name' => 'Inktomi Slurp',                'id'    => 'slurp',      'regexp' => '/Slurp\/([0-9.]*)/u' ],
     [ 'name' => 'Inktomi Slurp',                'id'    => 'slurp',      'regexp' => '/Slurp\.so\/([0-9.]*)/u' ],
     
-    [ 'name' => 'Yelp Spider',                  'id'    => 'yelp',      'regexp' => '/yelpspider\-([0-9.]*)/u' ],
+    [ 'name' => 'Yelp Spider',                  'id'    => 'yelp',      'regexp' => '/yelpspider-([0-9.]*)/u' ],
     [ 'name' => 'Yioop Bot',                    'id'    => 'yioop',     'regexp' => '/YioopBot/u' ],
     [ 'name' => 'Yisou Spider',                 'id'    => 'yisou',    'regexp' => '/YisouSpider\/?([0-9.]*)/u' ],
+    [ 'name' => 'Zgrab',                        'id'    => 'zgrab',      'regexp' => '/zgrab\//u' ],
     [ 'name' => 'ZmEu',                         'id'    => 'zmeu',      'regexp' => '/ZmEu/u' ],
 
     /* Generic bots */

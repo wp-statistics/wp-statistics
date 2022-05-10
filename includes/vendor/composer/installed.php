@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'c21e87c94dee9948da72705ba29b5183cc20b51b',
+    'reference' => '85b3271b377541bca11a7812fe8372944174812b',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'c21e87c94dee9948da72705ba29b5183cc20b51b',
+      'reference' => '85b3271b377541bca11a7812fe8372944174812b',
     ),
     'composer/ca-bundle' => 
     array (
@@ -85,12 +85,12 @@
     ),
     'whichbrowser/parser' => 
     array (
-      'pretty_version' => 'v2.1.0',
-      'version' => '2.1.0.0',
+      'pretty_version' => 'v2.1.7',
+      'version' => '2.1.7.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8f8acf4575aa2558a5307f4cf8bed6ae133cd13b',
+      'reference' => '1044880bc792dbce5948fbff22ae731c43c280d9',
     ),
   ),
 );
