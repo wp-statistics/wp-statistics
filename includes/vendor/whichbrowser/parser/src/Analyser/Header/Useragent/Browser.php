@@ -132,35 +132,24 @@ trait Browser
             $this->data->browser->type = Constants\BrowserType::BROWSER;
             $this->data->browser->stock = false;
 
-            $reduced = false;
             $version = '';
-
             if (preg_match('/(?:Chrome|CrMo|CriOS)\/([0-9.]*)/u', $ua, $match)) {
                 $version = $match[1];
             }
             if (preg_match('/Browser\/Chrome([0-9.]*)/u', $ua, $match)) {
                 $version = $match[1];
             }
-
-            if (preg_match('/Chrome\/([789][0-9]|[1-9][0-9][0-9])\.0\.0\.0 /u', $ua)) {
-                $reduced = true;
-            }
-
             $this->data->browser->version = new Version([ 'value' => $version ]);
 
             if (isset($this->data->os->name) && $this->data->os->name == 'Android') {
-                if ($reduced) {
-                    $this->data->browser->version->details = 1;
-                } else {
-                    $channel = Data\Chrome::getChannel('mobile', $this->data->browser->version->value);
+                $channel = Data\Chrome::getChannel('mobile', $this->data->browser->version->value);
 
-                    if ($channel == 'stable') {
-                        $this->data->browser->version->details = 1;
-                    } elseif ($channel == 'beta') {
-                        $this->data->browser->channel = 'Beta';
-                    } else {
-                        $this->data->browser->channel = 'Dev';
-                    }
+                if ($channel == 'stable') {
+                    $this->data->browser->version->details = 1;
+                } elseif ($channel == 'beta') {
+                    $this->data->browser->channel = 'Beta';
+                } else {
+                    $this->data->browser->channel = 'Dev';
                 }
 
 
@@ -285,22 +274,18 @@ trait Browser
                 $this->data->device->identified |= Constants\Id::PATTERN;
                 $this->data->device->type = Constants\DeviceType::DESKTOP;
             } else {
-                if ($reduced) {
-                    $this->data->browser->version->details = 1;
-                } else {
-                    $channel = Data\Chrome::getChannel('desktop', $version);
+                $channel = Data\Chrome::getChannel('desktop', $version);
 
-                    if ($channel == 'stable') {
-                        if (explode('.', $version)[1] == '0') {
-                            $this->data->browser->version->details = 1;
-                        } else {
-                            $this->data->browser->version->details = 2;
-                        }
-                    } elseif ($channel == 'beta') {
-                        $this->data->browser->channel = 'Beta';
+                if ($channel == 'stable') {
+                    if (explode('.', $version)[1] == '0') {
+                        $this->data->browser->version->details = 1;
                     } else {
-                        $this->data->browser->channel = 'Dev';
+                        $this->data->browser->version->details = 2;
                     }
+                } elseif ($channel == 'beta') {
+                    $this->data->browser->channel = 'Beta';
+                } else {
+                    $this->data->browser->channel = 'Dev';
                 }
             }
 
@@ -396,7 +381,7 @@ trait Browser
             if (preg_match('/IEMobile/u', $ua) || preg_match('/Windows CE/u', $ua) || preg_match('/Windows Phone/u', $ua) || preg_match('/WP7/u', $ua) || preg_match('/WPDesktop/u', $ua)) {
                 $this->data->browser->name = 'Mobile Internet Explorer';
 
-                if (isset($this->data->device->model) && ($this->data->device->model == 'Xbox 360' || $this->data->device->model == 'Xbox One' || $this->data->device->model == 'Xbox Series X')) {
+                if (isset($this->data->device->model) && ($this->data->device->model == 'Xbox 360' || $this->data->device->model == 'Xbox One')) {
                     $this->data->browser->name = 'Internet Explorer';
                 }
             }
@@ -1380,7 +1365,7 @@ trait Browser
                 if (in_array($match[1], [ 'ACCESS/NFPS', 'SUNSOFT/EnjoyMagic' ])) {
                     $this->data->device->setIdentification([
                         'manufacturer'  =>  'Sony',
-                        'model'         =>  'PlayStation 2',
+                        'model'         =>  'Playstation 2',
                         'type'          =>  Constants\DeviceType::GAMING,
                         'subtype'       =>  Constants\DeviceSubType::CONSOLE
                     ]);
@@ -1999,18 +1984,10 @@ trait Browser
 
     private function detectMobileBrowsers($ua)
     {
-        if (!preg_match('/(Huawei|Ninesky|Skyfire|Dolphin|QQ|360|QHBrowser|Mercury|iBrowser|Puffin|MiniB|MxNitro|Sogou|Xiino|Palmscape|WebPro|Vision|MiuiBrowser)/ui', $ua)) {
+        if (!preg_match('/(Ninesky|Skyfire|Dolphin|QQ|360|QHBrowser|Mercury|iBrowser|Puffin|MiniB|MxNitro|Sogou|Xiino|Palmscape|WebPro|Vision|MiuiBrowser)/ui', $ua)) {
             return;
         }
 
-        /* Huawei Browser */
-
-        if (preg_match('/HuaweiBrowser\/([0-9.]*)/u', $ua, $match)) {
-            $this->data->browser->name = 'Huawei Browser';
-            $this->data->browser->version = new Version([ 'value' => $match[1], 'details' => 2 ]);
-            $this->data->browser->type = Constants\BrowserType::BROWSER;
-        }
-        
         /* Xiaomi MIUI Browser */
 
         if (preg_match('/MiuiBrowser\/([0-9.]*)/u', $ua, $match)) {
@@ -2462,7 +2439,7 @@ trait Browser
             if (preg_match('/SPS/u', $ua, $match)) {
                 $this->data->device->setIdentification([
                     'manufacturer'  =>  'Sony',
-                    'model'         =>  'PlayStation 2',
+                    'model'         =>  'Playstation 2',
                     'type'          =>  Constants\DeviceType::GAMING,
                     'subtype'       =>  Constants\DeviceSubType::CONSOLE
                 ]);

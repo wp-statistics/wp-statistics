@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'de9fb6a8539282495176f1fc9ce894e78455d620',
+    'reference' => 'c21e87c94dee9948da72705ba29b5183cc20b51b',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'de9fb6a8539282495176f1fc9ce894e78455d620',
+      'reference' => 'c21e87c94dee9948da72705ba29b5183cc20b51b',
     ),
     'composer/ca-bundle' => 
     array (
@@ -109,12 +109,12 @@ private static $installed = array (
     ),
     'whichbrowser/parser' => 
     array (
-      'pretty_version' => 'v2.1.7',
-      'version' => '2.1.7.0',
+      'pretty_version' => 'v2.1.0',
+      'version' => '2.1.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1044880bc792dbce5948fbff22ae731c43c280d9',
+      'reference' => '8f8acf4575aa2558a5307f4cf8bed6ae133cd13b',
     ),
   ),
 );
