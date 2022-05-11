@@ -1,9 +1,14 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b04866d677ebe5dd531728eb6c55f335",
     "packages": [
         {
             "name": "composer/ca-bundle",
             "version": "1.3.1",
-            "version_normalized": "1.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
@@ -26,14 +31,12 @@
                 "symfony/phpunit-bridge": "^4.2 || ^5",
                 "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
-            "time": "2021-10-28T20:44:15+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-main": "1.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Composer\\CaBundle\\": "src"
@@ -77,12 +80,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "./ca-bundle"
+            "time": "2021-10-28T20:44:15+00:00"
         },
         {
             "name": "geoip2/geoip2",
             "version": "v2.10.0",
-            "version_normalized": "2.10.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/GeoIP2-php.git",
@@ -105,9 +107,7 @@
                 "phpunit/phpunit": "5.*",
                 "squizlabs/php_codesniffer": "3.*"
             },
-            "time": "2019-12-12T18:48:39+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "GeoIp2\\": "src"
@@ -137,12 +137,11 @@
                 "issues": "https://github.com/maxmind/GeoIP2-php/issues",
                 "source": "https://github.com/maxmind/GeoIP2-php/tree/master"
             },
-            "install-path": "../geoip2/geoip2"
+            "time": "2019-12-12T18:48:39+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
             "version": "v1.2.102",
-            "version_normalized": "1.2.102.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
@@ -160,9 +159,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.8|^5.5|^6.5"
             },
-            "time": "2020-11-04T19:23:01+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Jaybizzle\\CrawlerDetect\\": "src/"
@@ -192,12 +189,11 @@
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
                 "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.102"
             },
-            "install-path": "../jaybizzle/crawler-detect"
+            "time": "2020-11-04T19:23:01+00:00"
         },
         {
             "name": "maxmind-db/reader",
             "version": "v1.6.0",
-            "version_normalized": "1.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
@@ -227,9 +223,7 @@
                 "ext-gmp": "bcmath or gmp is required for decoding larger integers with the pure PHP decoder",
                 "ext-maxminddb": "A C-based database decoder that provides significantly faster lookups"
             },
-            "time": "2019-12-19T22:59:03+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "MaxMind\\Db\\": "src/MaxMind/Db"
@@ -255,12 +249,15 @@
                 "geolocation",
                 "maxmind"
             ],
-            "install-path": "../maxmind-db/reader"
+            "support": {
+                "issues": "https://github.com/maxmind/MaxMind-DB-Reader-php/issues",
+                "source": "https://github.com/maxmind/MaxMind-DB-Reader-php/tree/v1.6.0"
+            },
+            "time": "2019-12-19T22:59:03+00:00"
         },
         {
             "name": "maxmind/web-service-common",
             "version": "v0.7.0",
-            "version_normalized": "0.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/web-service-common-php.git",
@@ -283,9 +280,7 @@
                 "phpunit/phpunit": "^4.8.36 || ^5.7 || ^6.5 || ^7.0",
                 "squizlabs/php_codesniffer": "3.*"
             },
-            "time": "2020-05-06T14:07:26+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "MaxMind\\Exception\\": "src/Exception",
@@ -304,12 +299,15 @@
             ],
             "description": "Internal MaxMind Web Service API",
             "homepage": "https://github.com/maxmind/web-service-common-php",
-            "install-path": "../maxmind/web-service-common"
+            "support": {
+                "issues": "https://github.com/maxmind/web-service-common-php/issues",
+                "source": "https://github.com/maxmind/web-service-common-php/tree/master"
+            },
+            "time": "2020-05-06T14:07:26+00:00"
         },
         {
             "name": "psr/cache",
             "version": "1.0.1",
-            "version_normalized": "1.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/cache.git",
@@ -324,14 +322,12 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2016-08-06T20:24:11+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Psr\\Cache\\": "src/"
@@ -353,12 +349,14 @@
                 "psr",
                 "psr-6"
             ],
-            "install-path": "../psr/cache"
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/master"
+            },
+            "time": "2016-08-06T20:24:11+00:00"
         },
         {
             "name": "s1lentium/iptools",
             "version": "v1.1.1",
-            "version_normalized": "1.1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/S1lentium/IPTools.git",
@@ -378,9 +376,7 @@
                 "phpunit/phpunit": "~4.0",
                 "satooshi/php-coveralls": "~1.0"
             },
-            "time": "2018-09-19T06:15:53+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "IPTools\\": "src/"
@@ -407,12 +403,15 @@
                 "network",
                 "subnet"
             ],
-            "install-path": "../s1lentium/iptools"
+            "support": {
+                "issues": "https://github.com/S1lentium/IPTools/issues",
+                "source": "https://github.com/S1lentium/IPTools/tree/master"
+            },
+            "time": "2018-09-19T06:15:53+00:00"
         },
         {
             "name": "whichbrowser/parser",
             "version": "v2.1.7",
-            "version_normalized": "2.1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WhichBrowser/Parser-PHP.git",
@@ -440,9 +439,7 @@
             "suggest": {
                 "cache/array-adapter": "Allows testing of the caching functionality"
             },
-            "time": "2022-04-19T20:14:54+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "WhichBrowser\\": [
@@ -474,9 +471,21 @@
                 "issues": "https://github.com/WhichBrowser/Parser-PHP/issues",
                 "source": "https://github.com/WhichBrowser/Parser-PHP/tree/v2.1.7"
             },
-            "install-path": "../whichbrowser/parser"
+            "time": "2022-04-19T20:14:54+00:00"
         }
     ],
-    "dev": true,
-    "dev-package-names": []
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "5.6"
+    },
+    "plugin-api-version": "2.0.0"
 }
