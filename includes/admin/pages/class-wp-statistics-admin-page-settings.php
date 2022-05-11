@@ -186,7 +186,7 @@ class settings_page
 
             if (isset($_POST[$option])) {
                 if ($option == 'wps_content_report') {
-                    $value = wp_kses_post($_POST[$option]);
+                    $value = stripslashes(wp_kses_post($_POST[$option]));
                 } else {
                     $value = stripslashes(sanitize_textarea_field($_POST[$option]));
                 }
