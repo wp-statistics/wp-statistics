@@ -95,7 +95,7 @@ class UserAgent
 
     public static function getBrowserInfo($userAgent = null)
     {
-        $browser = $platform = $version = '';
+        $version = '';
 
         if (preg_match('/linux|ubuntu/i', $userAgent)) {
             $platform = 'linux';
