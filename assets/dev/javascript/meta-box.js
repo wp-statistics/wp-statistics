@@ -192,7 +192,10 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     let meta_box_name = wps_js.meta_box_name_by_id(parentID);
 
     // Run Meta Box
-    wps_js.run_meta_box(meta_box_name);
+    wps_js.run_meta_box(meta_box_name, false, false);
+    setTimeout(function () {
+        jQuery('#' + parentID).find('.wps-refresh').blur();
+    }, 1000);
 });
 
 /**
