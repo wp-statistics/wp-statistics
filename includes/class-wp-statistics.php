@@ -219,8 +219,8 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-frontend.php';
         }
 
-        // WP-CLI
-        if (defined('WP_CLI') && WP_CLI && WP_STATISTICS\Option::get('wp_cli') == true) {
+        // WP-CLI Class.
+        if (defined('WP_CLI') && WP_CLI) {
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-cli.php';
         }
 

@@ -83,7 +83,6 @@ class settings_page
                 'access_level',
                 'exclusion',
                 'external',
-                'wp_cli',
                 'maintenance',
                 'notification',
                 'dashboard',
@@ -291,30 +290,6 @@ class settings_page
             if (is_bool($status) and $status === false) {
                 $wp_statistics_options['referrerspam'] = '';
             }
-        }
-
-        return $wp_statistics_options;
-    }
-
-    /**
-     * Save WP CLI Option
-     *
-     * @param $wp_statistics_options
-     * @return mixed
-     */
-    public static function save_wp_cli_option($wp_statistics_options)
-    {
-
-        // Save Exclusion
-        $wps_option_list = array(
-            'wps_wp_cli',
-            'wps_wp_cli_summary',
-            'wps_wp_cli_user_online',
-            'wps_wp_cli_visitors'
-        );
-
-        foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
         }
 
         return $wp_statistics_options;
