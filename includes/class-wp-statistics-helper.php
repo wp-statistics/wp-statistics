@@ -121,7 +121,7 @@ class Helper
      * @param string $style_extra
      * @return string
      */
-    public static function wp_admin_notice($text, $model = "info", $close_button = true, $id = false, $echo = true, $style_extra = 'padding:10px 0')
+    public static function wp_admin_notice($text, $model = "info", $close_button = true, $id = false, $echo = true, $style_extra = 'padding:6px 0')
     {
         $text = '
         <div class="notice notice-' . $model . '' . ($close_button === true ? " is-dismissible" : "") . '"' . ($id != false ? ' id="' . $id . '"' : '') . '>
