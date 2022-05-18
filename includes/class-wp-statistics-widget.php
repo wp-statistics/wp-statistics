@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WP-Statistics Widget
+ * WP Statistics Widget
  */
 class WP_Statistics_Widget extends \WP_Widget
 {

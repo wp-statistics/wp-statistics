@@ -255,7 +255,7 @@
                 <input id="use_cache_plugin" type="checkbox" value="1" name="wps_use_cache_plugin" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') == true ? "checked='checked'" : ''; ?>>
                 <label for="use_cache_plugin"><?php _e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Enable this option if the Cache is enabled in your WordPress', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo sprintf(__('To register WP-Statistics REST API endpoint ( %s ) , go to the <a href="%s">Permalink page</a> and update the permalink by pressing Save Changes and then clear the cache.', 'wp-statistics'), WP_STATISTICS\RestAPI::$namespace, admin_url('options-permalink.php')); ?></p>
+                <p class="description"><?php echo sprintf(__('To register WP Statistics REST API endpoint ( %s ) , go to the <a href="%s">Permalink page</a> and update the permalink by pressing Save Changes and then clear the cache.', 'wp-statistics'), WP_STATISTICS\RestAPI::$namespace, admin_url('options-permalink.php')); ?></p>
             </td>
         </tr>
         </tbody>
@@ -290,7 +290,7 @@
             <td>
                 <input id="hide_notices" type="checkbox" value="1" name="wps_hide_notices" <?php echo WP_STATISTICS\Option::get('hide_notices') == true ? "checked='checked'" : ''; ?>>
                 <label for="hide_notices"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('WP-Statistics displays an alert if any of the core features are disabled. To hide these notices, enable this option.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('WP Statistics displays an alert if any of the core features are disabled. To hide these notices, enable this option.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

@@ -22,7 +22,7 @@ class SearchEngine
     }
 
     /**
-     * Get List Of Search engine in WP-Statistics
+     * Get List Of Search engine in WP Statistics
      *
      * @param bool $all
      * @return array

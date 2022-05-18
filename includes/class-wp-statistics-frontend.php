@@ -35,7 +35,7 @@ class Frontend
      */
     public function html_comment()
     {
-        echo '<!-- Analytics by WP-Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n";
+        echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n";
     }
 
     /**

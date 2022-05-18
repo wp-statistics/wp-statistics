@@ -5,21 +5,21 @@ namespace WP_STATISTICS;
 class Option
 {
     /**
-     * Get WP-Statistics Basic Option name
+     * Get WP Statistics Basic Option name
      *
      * @var string
      */
     public static $opt_name = 'wp_statistics';
 
     /**
-     * WP-Statistics Option name Prefix
+     * WP Statistics Option name Prefix
      *
      * @var string
      */
     public static $opt_prefix = 'wps_';
 
     /**
-     * Get Complete Option name with WP-Statistics Prefix
+     * Get Complete Option name with WP Statistics Prefix
      *
      * @param $name
      * @return mixed
@@ -30,7 +30,7 @@ class Option
     }
 
     /**
-     * WP-Statistics Default Option
+     * WP Statistics Default Option
      *
      * @return array
      */

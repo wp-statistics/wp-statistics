@@ -9,7 +9,7 @@ use WP_Statistics_Mail;
 class Helper
 {
     /**
-     * WP-Statistics WordPress Log
+     * WP Statistics WordPress Log
      *
      * @param $function
      * @param $message
@@ -211,7 +211,7 @@ class Helper
      *
      * @param string $path
      * @return mixed
-     * @default For WP-Statistics Plugin is 'wp-statistics' dir
+     * @default For WP Statistics Plugin is 'wp-statistics' dir
      */
     public static function get_uploads_dir($path = '')
     {
@@ -732,7 +732,7 @@ class Helper
     }
 
     /**
-     * Send SMS With WP-SMS Plugin
+     * Send SMS With WP SMS Plugin
      *
      * @param $to
      * @param $text

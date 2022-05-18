@@ -145,7 +145,7 @@ class User
     }
 
     /**
-     * Check User Access To WP-Statistics Admin
+     * Check User Access To WP Statistics Admin
      *
      * @param string $type [manage | read ]
      * @param string|boolean $export

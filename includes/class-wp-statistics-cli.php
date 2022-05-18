@@ -3,7 +3,7 @@
 namespace WP_STATISTICS;
 
 /**
- * WP-Statistics
+ * WP Statistics
  *
  * ## EXAMPLES
  *

@@ -5,14 +5,14 @@ namespace WP_STATISTICS;
 class RestAPI
 {
     /**
-     * WP-Statistics Rest API namespace
+     * WP Statistics Rest API namespace
      *
      * @var string
      */
     public static $namespace = 'wp-statistics/v2';
 
     /**
-     * Get WP-Statistics Options
+     * Get WP Statistics Options
      *
      * @var array
      */

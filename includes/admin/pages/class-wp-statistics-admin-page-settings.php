@@ -314,8 +314,8 @@ class settings_page
         if (isset($_POST['wps_create_honeypot'])) {
             $my_post                      = array(
                 'post_type'    => 'page',
-                'post_title'   => __('WP-Statistics Honey Pot Page', 'wp-statistics') . ' [' . TimeZone::getCurrentDate() . ']',
-                'post_content' => __('This is the Honey Pot for WP-Statistics to use, do not delete.', 'wp-statistics'),
+                'post_title'   => __('WP Statistics Honey Pot Page', 'wp-statistics') . ' [' . TimeZone::getCurrentDate() . ']',
+                'post_content' => __('This is the Honey Pot for WP Statistics to use, do not delete.', 'wp-statistics'),
                 'post_status'  => 'publish',
                 'post_author'  => 1,
             );
@@ -484,7 +484,7 @@ class settings_page
     }
 
     /**
-     * Reset WP-Statistics Option
+     * Reset WP Statistics Option
      */
     public static function reset_option()
     {

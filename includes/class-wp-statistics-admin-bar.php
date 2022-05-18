@@ -15,7 +15,7 @@ class AdminBar
     }
 
     /**
-     * Check Show WP-Statistics Admin Bar
+     * Check Show WP Statistics Admin Bar
      */
     public static function show_admin_bar()
     {
@@ -114,7 +114,7 @@ class AdminBar
             );
 
             /**
-             * WP-Statistics Admin Bar List
+             * WP Statistics Admin Bar List
              */
             $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $object_id, $view_type);
 

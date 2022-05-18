@@ -460,7 +460,7 @@ class Install
             add_action('admin_notices', function () {
                 echo '<div class="notice notice-info is-dismissible" id="wp-statistics-update-page-area" style="display: none;">';
                 echo '<p style="margin-top: 17px; float:' . (is_rtl() ? 'right' : 'left') . '">';
-                echo __('WP-Statistics database requires upgrade.', 'wp-statistics');
+                echo __('WP Statistics database requires upgrade.', 'wp-statistics');
                 echo '</p>';
                 echo '<div style="float:' . (is_rtl() ? 'left' : 'right') . '">';
                 echo '<button type="button" id="wps-upgrade-db" class="button button-primary" style="padding: 20px;line-height: 0px;box-shadow: none !important;border: 0px !important;margin: 10px 0;"/>' . __('Upgrade Database', 'wp-statistics') . '</button>';
