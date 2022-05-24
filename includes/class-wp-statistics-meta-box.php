@@ -31,6 +31,8 @@ class Meta_Box
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-summary.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-browsers.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-platforms.php';
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-devices.php';
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-models.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-countries.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-hits.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-pages.php';
@@ -97,6 +99,20 @@ class Meta_Box
             'platforms'       => array(
                 'page_url'          => 'platform',
                 'name'              => __('Top Platforms', 'wp-statistics'),
+                'require'           => array('visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'side'
+            ),
+            'devices'         => array(
+                'name'              => __('Top Devices', 'wp-statistics'),
+                'require'           => array('visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'side'
+            ),
+            'models'   => array(
+                'name'              => __('Top Device Models', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,

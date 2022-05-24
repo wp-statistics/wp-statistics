@@ -122,7 +122,7 @@ class Visitor
                     'platform'     => $user_agent['platform'],
                     'version'      => $user_agent['version'],
                     'device'       => $user_agent['device'],
-                    'manufacturer' => $user_agent['manufacturer'],
+                    'model'        => $user_agent['model'],
                     'ip'           => $user_ip,
                     'location'     => GeoIP::getCountry(IP::getIP()),
                     'user_id'      => User::get_user_id(),

@@ -29,11 +29,11 @@ class UserAgent
             // Get WhichBrowser Browser
             $result = new \WhichBrowser\Parser($user_agent);
             $agent  = array(
-                'browser'      => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
-                'platform'     => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
-                'version'      => (isset($result->browser->version->value)) ? $result->browser->version->value : _x('Unknown', 'Version', 'wp-statistics'),
-                'device'       => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
-                'manufacturer' => isset($result->device->manufacturer) ? $result->device->getManufacturer() : _x('Unknown', 'Manufacturer', 'wp-statistics'),
+                'browser'  => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
+                'platform' => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
+                'version'  => (isset($result->browser->version->value)) ? $result->browser->version->value : _x('Unknown', 'Version', 'wp-statistics'),
+                'device'   => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
+                'model'    => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
             );
         } else {
             $agent = self::getBrowserInfo($user_agent);
@@ -98,7 +98,7 @@ class UserAgent
     public static function getBrowserInfo($userAgent = null)
     {
         $version      = '';
-        $manufacturer = _x('Unknown', 'Manufacturer', 'wp-statistics');
+        $model = _x('Unknown', 'Device Model', 'wp-statistics');
 
         if (preg_match('/linux|ubuntu/i', $userAgent)) {
             $platform = 'linux';
@@ -163,11 +163,11 @@ class UserAgent
         }
 
         return array(
-            'browser'      => $browser,
-            'version'      => $version,
-            'platform'     => $platform,
-            'device'       => $device,
-            'manufacturer' => $manufacturer,
+            'browser'  => $browser,
+            'version'  => $version,
+            'platform' => $platform,
+            'device'   => $device,
+            'model'    => $model,
         );
     }
 

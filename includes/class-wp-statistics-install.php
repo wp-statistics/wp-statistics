@@ -345,13 +345,13 @@ class Install
         }
 
         /**
-         * Added visitor manufacturer
+         * Added visitor device model
          *
          * @version 13.2.4
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'manufacturer'");
+        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'model'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `manufacturer` VARCHAR(180) NULL AFTER `device`, ADD INDEX `manufacturer` (`manufacturer`);");
+            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `model` VARCHAR(180) NULL AFTER `device`, ADD INDEX `model` (`model`);");
         }
 
         /**
