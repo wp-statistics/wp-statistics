@@ -64,11 +64,13 @@ class Hits
     public function set_user_agent($agent)
     {
 
-        if (isset($this->rest_hits->browser) and isset($this->rest_hits->platform) and isset($this->rest_hits->version)) {
+        if (isset($this->rest_hits->browser, $this->rest_hits->platform, $this->rest_hits->version, $this->rest_hits->device, $this->rest_hits->manufacturer)) {
             return array(
-                'browser'  => esc_sql(sanitize_text_field($this->rest_hits->browser)),
-                'platform' => esc_sql(sanitize_text_field($this->rest_hits->platform)),
-                'version'  => esc_sql(sanitize_text_field($this->rest_hits->version)),
+                'browser'      => esc_sql(sanitize_text_field($this->rest_hits->browser)),
+                'platform'     => esc_sql(sanitize_text_field($this->rest_hits->platform)),
+                'version'      => esc_sql(sanitize_text_field($this->rest_hits->version)),
+                'device'       => esc_sql(sanitize_text_field($this->rest_hits->device)),
+                'manufacturer' => esc_sql(sanitize_text_field($this->rest_hits->manufacturer)),
             );
         }
 

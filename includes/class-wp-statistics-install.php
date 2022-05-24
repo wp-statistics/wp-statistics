@@ -335,6 +335,26 @@ class Install
         }
 
         /**
+         * Added visitor device type
+         *
+         * @version 13.2.4
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'device'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `device` VARCHAR(180) NULL AFTER `version`, ADD INDEX `device` (`device`);");
+        }
+
+        /**
+         * Added visitor manufacturer
+         *
+         * @version 13.2.4
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'manufacturer'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `manufacturer` VARCHAR(180) NULL AFTER `device`, ADD INDEX `manufacturer` (`manufacturer`);");
+        }
+
+        /**
          * Set to BigINT Fields (AUTO_INCREMENT)
          *
          * @version 13.0.0
