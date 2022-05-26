@@ -126,6 +126,14 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'side'
             ),
+            'referring'       => array(
+                'page_url'          => 'referrers',
+                'name'              => __('Top Referring', 'wp-statistics'),
+                'require'           => array('visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'side'
+            ),
             'hits'            => array(
                 'page_url'          => 'hits',
                 'name'              => __('Hit Statistics', 'wp-statistics'),
@@ -189,14 +197,6 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'normal',
                 'hidden_overview'   => true
-            ),
-            'referring'       => array(
-                'page_url'          => 'referrers',
-                'name'              => __('Top Referring', 'wp-statistics'),
-                'require'           => array('visitors' => true),
-                'hidden'            => true,
-                'show_on_dashboard' => true,
-                'place'             => 'normal'
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
