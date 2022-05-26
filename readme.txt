@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, kashani, veronalabs, mehrshaddarzi, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
-Tested up to: 5.9
-Stable tag: 13.2.3
+Tested up to: 6.0
+Stable tag: 13.2.4
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -131,6 +131,11 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.4 - **.05.2022 =
+* Added: Added device type & device model meta box in Overview!
+* Improvement: The WP-CLI commands is enabled by default and remove Its tab from Settings page
+* Improvement: Moved out "Top Referring" & "Online Users" from Overview side to right column
+
 = v13.2.3 - 12.05.2022 =
 * Bugfix: Rendering the email reporting with HTML tags has been fixed
 * Bugfix: The browser version issue has been fixed
