@@ -134,22 +134,6 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'normal'
             ),
-            'pages'           => array(
-                'page_url'          => 'pages',
-                'name'              => __('Top 10 Pages', 'wp-statistics'),
-                'require'           => array('pages' => true),
-                'hidden'            => true,
-                'show_on_dashboard' => true,
-                'place'             => 'normal'
-            ),
-            'referring'       => array(
-                'page_url'          => 'referrers',
-                'name'              => __('Top Referring', 'wp-statistics'),
-                'require'           => array('visitors' => true),
-                'hidden'            => true,
-                'show_on_dashboard' => true,
-                'place'             => 'normal'
-            ),
             'search'          => array(
                 'page_url'          => 'searches',
                 'name'              => __('Search Engine Referrals', 'wp-statistics'),
@@ -158,14 +142,13 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'normal'
             ),
-            'words'           => array(
-                'page_url'          => 'words',
-                'name'              => __('Latest Search Words', 'wp-statistics'),
-                'require'           => array('visitors' => true),
+            'pages'           => array(
+                'page_url'          => 'pages',
+                'name'              => __('Top 10 Pages', 'wp-statistics'),
+                'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal',
-                'hidden_overview'   => true
+                'place'             => 'normal'
             ),
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
@@ -194,6 +177,23 @@ class Meta_Box
                 'name'              => __('Online Users', 'wp-statistics'),
                 'page_url'          => 'online',
                 'require'           => array('useronline' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'normal'
+            ),
+            'words'           => array(
+                'page_url'          => 'words',
+                'name'              => __('Latest Search Words', 'wp-statistics'),
+                'require'           => array('visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'normal',
+                'hidden_overview'   => true
+            ),
+            'referring'       => array(
+                'page_url'          => 'referrers',
+                'name'              => __('Top Referring', 'wp-statistics'),
+                'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'normal'
