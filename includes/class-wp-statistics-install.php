@@ -335,7 +335,7 @@ class Install
         }
 
         /**
-         * Added visitor device type
+         * Add visitor device type
          *
          * @version 13.2.4
          */
@@ -345,7 +345,7 @@ class Install
         }
 
         /**
-         * Added visitor device model
+         * Add visitor device model
          *
          * @version 13.2.4
          */

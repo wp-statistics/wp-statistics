@@ -148,7 +148,7 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'normal'
             ),
             'search'          => array(
                 'page_url'          => 'searches',
@@ -196,7 +196,7 @@ class Meta_Box
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'normal'
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
