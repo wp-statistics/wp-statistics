@@ -8,6 +8,8 @@ use WP_Statistics_Mail;
 
 class Helper
 {
+    protected static $admin_notices = [];
+
     /**
      * WP Statistics WordPress Log
      *
@@ -1040,5 +1042,30 @@ class Helper
 
             return round($get_total_user / $days_spend, 2);
         }
+    }
+
+    public static function addAdminNotice($message, $class = 'info', $is_dismissible = true)
+    {
+        self::$admin_notices[] = array(
+            'message'        => $message,
+            'class'          => $class,
+            'is_dismissible' => (bool)$is_dismissible,
+        );
+    }
+
+    public static function displayAdminNotices()
+    {
+        foreach ((array)self::$admin_notices as $notice) :
+            $dismissible = $notice['is_dismissible'] ? 'is-dismissible' : '';
+            ?>
+
+            <div class="notice notice-<?php echo esc_attr($notice['class']); ?> <?php echo esc_attr($dismissible); ?>">
+                <p>
+                    <?php echo wp_kses_post($notice['message']); ?>
+                </p>
+            </div>
+
+        <?php
+        endforeach;
     }
 }

@@ -9,7 +9,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 <div class="wrap wps-wrap">
     <div class="postbox">
         <form id="wps_historical_form" method="post">
-            <?php wp_nonce_field('historical_form', 'wp-statistics-nonce'); ?>
+            <?php wp_nonce_field('wps_optimization_historical_nonce'); ?>
             <table class="form-table">
                 <tbody>
                 <tr valign="top">
@@ -44,7 +44,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
                 <tr valign="top">
                     <td colspan=2>
-                        <input id="historical-submit" class="button button-primary" type="submit" value="<?php _e('Update Now!', 'wp-statistics'); ?>" name="historical-submit"/>
+                        <button id="historical-submit" class="button button-primary" type="submit" value="1" name="historical-submit"><?php _e('Update Now!', 'wp-statistics'); ?></button>
                     </td>
                 </tr>
                 </tbody>

@@ -7,17 +7,11 @@ class optimization_page
 
     public function __construct()
     {
-
-        // Add Notice Save
-        add_action('admin_notices', array($this, 'save'));
-
-        // Check Access Level
-        if (Menus::in_page('optimization') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
-        }
-
         // Optimize and Repair Database MySQL
-        add_action('admin_notices', array($this, 'optimize_table'));
+        add_action('init', array($this, 'processForms'));
+
+        // Show Admin Notices
+        add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
     }
 
     /**
@@ -36,69 +30,42 @@ class optimization_page
         Admin_Template::get_template(array('layout/header', 'layout/tabs-optimization', 'layout/title-after', 'optimization', 'layout/footer'), $args);
     }
 
-    /**
-     * Save Setting
-     */
-    public function save()
+    public function processForms()
     {
         global $wpdb;
 
-        // Check Hash IP Update
-        if (isset($_GET['hash-ips']) and intval($_GET['hash-ips']) == 1) {
-            IP::Update_HashIP_Visitor();
-            Helper::wp_admin_notice(__('IP Addresses replaced with hash values.', "wp-statistics"), "success");
+        // Check Access Level
+        if (Menus::in_page('optimization') and !User::Access('manage')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
         }
 
         // Update All GEO IP Country
-        if (isset($_GET['populate']) and intval($_GET['populate']) == 1) {
+        if (isset($_POST['populate-submit']) && intval($_POST['populate-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_updates_nonce')) {
             $result = GeoIP::Update_GeoIP_Visitor();
-            Helper::wp_admin_notice($result['data'], ($result['status'] === false ? "error" : "success"));
+
+            // Show Notice
+            Helper::addAdminNotice($result['data'], ($result['status'] === false ? "error" : "success"));
+        }
+
+        // Check Hash IP Update
+        if (isset($_POST['hash-ips-submit']) and intval($_POST['hash-ips-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_updates_nonce')) {
+            IP::Update_HashIP_Visitor();
+
+            // Show Notice
+            Helper::addAdminNotice(__('IP Addresses replaced with hash values.', "wp-statistics"), "success");
         }
 
         // Re-install All DB Table
-        if (isset($_GET['install']) and intval($_GET['install']) == 1) {
+        if (isset($_POST['install-submit']) and intval($_POST['install-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_database_nonce')) {
             Install::create_table(false);
-            Helper::wp_admin_notice(__('Install routine complete.', "wp-statistics"), "success");
-        }
-
-        // Update Historical Value
-        if (isset($_POST['historical-submit'])) {
-            $historical_table = DB::table('historical');
-
-            // Historical Visitors
-            if (isset($_POST['wps_historical_visitors'])) {
-
-                // Update DB
-                $result = $wpdb->update($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visitors'])), array('category' => 'visitors'));
-                if ($result == 0) {
-                    $result = $wpdb->insert($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visitors']), 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'));
-                }
-            }
-
-            // Historical Visits
-            if (isset($_POST['wps_historical_visits'])) {
-                // Update DB
-                $result = $wpdb->update($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visits'])), array('category' => 'visits'));
-
-                if ($result == 0) {
-                    $result = $wpdb->insert($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visits']), 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'));
-                }
-            }
 
             // Show Notice
-            Helper::wp_admin_notice(__('Updated Historical Values.', "wp-statistics"), "success");
+            Helper::addAdminNotice(__('Install routine complete.', "wp-statistics"), "success");
         }
-    }
 
-    /**
-     * Optimize MySQL Table
-     */
-    public function optimize_table()
-    {
-        global $wpdb;
-
-        if (Menus::in_page('optimization') and isset($_GET['optimize-table']) and !empty($_GET['optimize-table'])) {
-            $tbl = trim(sanitize_text_field($_GET['optimize-table']));
+        // Optimize Tables
+        if (isset($_POST['optimize-database-submit']) and !empty($_POST['optimize-table']) && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_database_nonce')) {
+            $tbl = trim(sanitize_text_field($_POST['optimize-table']));
             if ($tbl == "all") {
                 $tables = array_filter(array_values(DB::table('all')));
             } else {
@@ -149,8 +116,37 @@ class optimization_page
                     }
                 }
 
-                Helper::wp_admin_notice($notice, "info", $close_button = true, $id = false, $echo = true, $style_extra = 'padding:12px; line-height: 25px;');
+                // Show Notice
+                Helper::addAdminNotice($notice, "info");
             }
+        }
+
+        // Update Historical Value
+        if (isset($_POST['historical-submit']) and intval($_POST['historical-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_historical_nonce')) {
+            $historical_table = DB::table('historical');
+
+            // Historical Visitors
+            if (isset($_POST['wps_historical_visitors'])) {
+
+                // Update DB
+                $result = $wpdb->update($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visitors'])), array('category' => 'visitors'));
+                if ($result == 0) {
+                    $result = $wpdb->insert($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visitors']), 'category' => 'visitors', 'page_id' => -1, 'uri' => '-1'));
+                }
+            }
+
+            // Historical Visits
+            if (isset($_POST['wps_historical_visits'])) {
+                // Update DB
+                $result = $wpdb->update($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visits'])), array('category' => 'visits'));
+
+                if ($result == 0) {
+                    $result = $wpdb->insert($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visits']), 'category' => 'visits', 'page_id' => -2, 'uri' => '-2'));
+                }
+            }
+
+            // Show Notice
+            Helper::addAdminNotice(__('Updated Historical Values.', "wp-statistics"), "success");
         }
     }
 }
