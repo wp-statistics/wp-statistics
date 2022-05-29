@@ -8,10 +8,7 @@ class optimization_page
     public function __construct()
     {
         // Optimize and Repair Database MySQL
-        add_action('init', array($this, 'processForms'));
-
-        // Show Admin Notices
-        add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
+        add_action('admin_init', array($this, 'processForms'));
     }
 
     /**
@@ -39,8 +36,13 @@ class optimization_page
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
 
+        // Check Wp Nonce and Require Field
+        if (isset($_POST['submit']) && (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_nonce'))) {
+            return;
+        }
+
         // Update All GEO IP Country
-        if (isset($_POST['populate-submit']) && intval($_POST['populate-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_updates_nonce')) {
+        if (isset($_POST['submit']) && intval($_POST['populate-submit']) == 1) {
             $result = GeoIP::Update_GeoIP_Visitor();
 
             // Show Notice
@@ -48,7 +50,7 @@ class optimization_page
         }
 
         // Check Hash IP Update
-        if (isset($_POST['hash-ips-submit']) and intval($_POST['hash-ips-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_updates_nonce')) {
+        if (isset($_POST['submit']) and intval($_POST['hash-ips-submit']) == 1) {
             IP::Update_HashIP_Visitor();
 
             // Show Notice
@@ -56,7 +58,7 @@ class optimization_page
         }
 
         // Re-install All DB Table
-        if (isset($_POST['install-submit']) and intval($_POST['install-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_database_nonce')) {
+        if (isset($_POST['submit']) and intval($_POST['install-submit']) == 1) {
             Install::create_table(false);
 
             // Show Notice
@@ -64,7 +66,7 @@ class optimization_page
         }
 
         // Optimize Tables
-        if (isset($_POST['optimize-database-submit']) and !empty($_POST['optimize-table']) && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_database_nonce')) {
+        if (isset($_POST['submit'], $_POST['optimize-database-submit']) and !empty($_POST['optimize-table'])) {
             $tbl = trim(sanitize_text_field($_POST['optimize-table']));
             if ($tbl == "all") {
                 $tables = array_filter(array_values(DB::table('all')));
@@ -122,7 +124,7 @@ class optimization_page
         }
 
         // Update Historical Value
-        if (isset($_POST['historical-submit']) and intval($_POST['historical-submit']) == 1 && wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_historical_nonce')) {
+        if (isset($_POST['submit']) and intval($_POST['historical-submit']) == 1) {
             $historical_table = DB::table('historical');
 
             // Historical Visitors

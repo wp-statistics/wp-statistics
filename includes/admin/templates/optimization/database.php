@@ -1,7 +1,7 @@
 <div class="wrap wps-wrap">
     <div class="postbox">
-        <form action="" method="post">
-            <?php wp_nonce_field('wps_optimization_database_nonce'); ?>
+        <form action="<?php echo admin_url('admin.php?page=wps_optimization_page&tab=database') ?>" method="post">
+            <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
                 <tr valign="top">
@@ -13,6 +13,7 @@
                         <label for="index-submit"><?php _e('Re-run Install:', 'wp-statistics'); ?></label>
                     </th>
                     <td>
+                        <input type="hidden" name="submit" value="1"/>
                         <button id="install-submit" class="button button-primary" type="submit" value="1" name="install-submit"><?php _e('Install Now!', 'wp-statistics'); ?></button>
                         <p class="description"><?php _e('If for some reason your installation of WP-Statistics is missing the database tables or other core items, this will re-execute the install process.',
                                 'wp-statistics'); ?></p>
@@ -23,8 +24,8 @@
         </form>
     </div>
     <div class="postbox">
-        <form action="" method="post" id="wps-run-optimize-database-form">
-            <?php wp_nonce_field('wps_optimization_database_nonce'); ?>
+        <form action="<?php echo admin_url('admin.php?page=wps_optimization_page&tab=database') ?>" method="post" id="wps-run-optimize-database-form">
+            <?php wp_nonce_field('wps_optimization_nonce'); ?>
             <table class="form-table">
                 <tbody>
                 <tr valign="top">
@@ -49,6 +50,7 @@
                         <p class="description"><?php _e('Please select the table you would like to optimize and repair',
                                 'wp-statistics'); ?></p>
 
+                        <input type="hidden" name="submit" value="1"/>
                         <button class="button button-primary" type="submit" value="1" name="optimize-database-submit" style="margin-top:5px;"><?php _e('Run Now!', 'wp-statistics'); ?></button>
                     </td>
                 </tr>

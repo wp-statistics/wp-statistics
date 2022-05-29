@@ -1044,6 +1044,14 @@ class Helper
         }
     }
 
+    /**
+     * Add notice to display in the admin area
+     *
+     * @param $message
+     * @param string $class
+     * @param bool $is_dismissible
+     * @since 13.2.5
+     */
     public static function addAdminNotice($message, $class = 'info', $is_dismissible = true)
     {
         self::$admin_notices[] = array(
@@ -1053,6 +1061,12 @@ class Helper
         );
     }
 
+    /**
+     * Display all notices in the admin area
+     *
+     * @return void
+     * @since 13.2.5
+     */
     public static function displayAdminNotices()
     {
         foreach ((array)self::$admin_notices as $notice) :
