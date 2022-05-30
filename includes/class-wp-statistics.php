@@ -104,15 +104,17 @@ final class WP_Statistics
          */
         add_action('init', array($this, 'load_textdomain'));
 
-        // Display Admin Notices
-        add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
-
         try {
 
             /**
              * Include Require File
              */
             $this->includes();
+
+            /**
+             * Display Admin Notices
+             */
+            add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
 
             /**
              * instantiate Plugin
