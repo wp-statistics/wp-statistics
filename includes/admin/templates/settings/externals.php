@@ -22,10 +22,8 @@
                     <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo(WP_STATISTICS\Option::get('geoip') === 'on' ? "checked='checked'" : ''); ?>>
                     <label for="geoip-enable">
                         <?php _e('Enable', 'wp-statistics'); ?>
-                        <form action="" method="post" style="display: inline;">
-                            <input type="hidden" name="geoip_name" value="country">
-                            <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
-                        </form>
+                        <input type="hidden" name="geoip_name" value="country">
+                        <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
                     </label>
 
                     <p class="description"><?php _e('Enable this option to get more information and location (country) from a visitor.', 'wp-statistics'); ?></p>
@@ -41,10 +39,8 @@
                     <input id="geoip-city" type="checkbox" name="wps_geoip_city" <?php echo(WP_STATISTICS\Option::get('geoip_city') == 'on' ? "checked='checked'" : ''); ?>>
                     <label for="geoip-city">
                         <?php _e('Enable', 'wp-statistics'); ?>
-                        <form action="" method="post" style="display: inline;">
-                            <input type="hidden" name="geoip_name" value="city">
-                            <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
-                        </form>
+                        <input type="hidden" name="geoip_name" value="city">
+                        <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
                     </label>
                     <p class="description"><?php _e('Enable this option to see visitors\'city name', 'wp-statistics'); ?></p>
                 </td>
@@ -179,7 +175,8 @@
             </th>
 
             <td>
-                <a href="<?php echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes')) ?>" class="button"><?php _e('Update', 'wp-staitsitcs'); ?></a>
+                <button type="submit" name="update-referrer-spam" value="1" class="button"><?php _e('Update', 'wp-staitsitcs'); ?></button>
+                <!--                <a href="--><?php //echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes')) ?><!--" class="button">--><?php //_e('Update', 'wp-staitsitcs'); ?><!--</a>-->
                 <p class="description"><?php _e('Click button to download the update.', 'wp-statistics'); ?></p>
             </td>
         </tr>
