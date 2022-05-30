@@ -42,7 +42,7 @@ class optimization_page
         }
 
         // Update All GEO IP Country
-        if (isset($_POST['submit']) && intval($_POST['populate-submit']) == 1) {
+        if (isset($_POST['submit'], $_POST['populate-submit']) && intval($_POST['populate-submit']) == 1) {
             $result = GeoIP::Update_GeoIP_Visitor();
 
             // Show Notice
@@ -50,7 +50,7 @@ class optimization_page
         }
 
         // Check Hash IP Update
-        if (isset($_POST['submit']) and intval($_POST['hash-ips-submit']) == 1) {
+        if (isset($_POST['submit'], $_POST['hash-ips-submit']) and intval($_POST['hash-ips-submit']) == 1) {
             IP::Update_HashIP_Visitor();
 
             // Show Notice
@@ -58,7 +58,7 @@ class optimization_page
         }
 
         // Re-install All DB Table
-        if (isset($_POST['submit']) and intval($_POST['install-submit']) == 1) {
+        if (isset($_POST['submit'], $_POST['install-submit']) and intval($_POST['install-submit']) == 1) {
             Install::create_table(false);
 
             // Show Notice
@@ -124,7 +124,7 @@ class optimization_page
         }
 
         // Update Historical Value
-        if (isset($_POST['submit']) and intval($_POST['historical-submit']) == 1) {
+        if (isset($_POST['submit'], $_POST['historical-submit']) and intval($_POST['historical-submit']) == 1) {
             $historical_table = DB::table('historical');
 
             // Historical Visitors
