@@ -1082,4 +1082,53 @@ class Helper
         <?php
         endforeach;
     }
+
+    /**
+     * Returns default parameters for hits request
+     *
+     * @return array
+     */
+    public static function getHitsDefaultParams()
+    {
+        // Create Empty Params Object
+        $params = array();
+
+        //Set UserAgent [browser|platform|version]
+        $params = wp_parse_args($params, UserAgent::getUserAgent());
+
+        //Set Referred
+        $params['referred'] = urlencode(Referred::get());
+
+        //Set IP
+        $params['ip'] = esc_html(IP::getIP());
+
+        //exclude
+        $exclude                    = Exclusion::check();
+        $params['exclusion_match']  = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
+        $params['exclusion_reason'] = (string)$exclude['exclusion_reason'];
+
+        //User Agent String
+        $params['ua'] = urlencode(esc_html(UserAgent::getHttpUserAgent()));
+
+        //track all page
+        $params['track_all'] = (Pages::is_track_all_page() === true ? 1 : 0);
+
+        //timestamp
+        $params['timestamp'] = TimeZone::getCurrentTimestamp();
+
+        //Set Page Type
+        $get_page_type               = Pages::get_page_type();
+        $params['current_page_type'] = $get_page_type['type'];
+        $params['current_page_id']   = $get_page_type['id'];
+        $params['search_query']      = (isset($get_page_type['search_query']) ? esc_html($get_page_type['search_query']) : '');
+
+        //page url
+        $params['page_uri'] = Pages::get_page_uri();
+
+        //Get User id
+        $params['user_id'] = User::get_user_id();
+
+        //return Json Data
+        return $params;
+    }
 }
