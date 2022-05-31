@@ -2,8 +2,6 @@
 
 namespace WP_STATISTICS;
 
-use WP_STATISTICS\Frontend;
-
 class Admin_Notices
 {
     /**
