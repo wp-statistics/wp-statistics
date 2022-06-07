@@ -14,7 +14,7 @@ wps_js.hitsmap_meta_box = {
         // Prepare Country Pin
         if (args.hasOwnProperty('country')) {
             Object.keys(args['country']).forEach(function (key) {
-                let t = `<div class='map-html-marker'><img src='${args['country'][key]['flag']}' alt="${args['country'][key]['name']}" title='${args['country'][key]['name']}' class='log-tools'/> ${args['country'][key]['name']} [${args['total_country'][key]}]<hr />`;
+                let t = `<div class='map-html-marker'><img src='${args['country'][key]['flag']}' alt="${args['country'][key]['name']}" title='${args['country'][key]['name']}' class='log-tools wps-flag'/> ${args['country'][key]['name']} [${args['total_country'][key]}]<hr />`;
 
                 // Get List visitors
                 Object.keys(args['visitor'][key]).forEach(function (visitor_id) {
