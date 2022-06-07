@@ -46,7 +46,9 @@ class Country
         if (!array_key_exists($location, $list_country)) {
             $location = self::$unknown_location;
         }
-        return WP_STATISTICS_URL . 'assets/images/flags/' . $location . '.png';
+        $ext = ($location == self::$unknown_location) ? '.png' : '.svg';
+
+        return WP_STATISTICS_URL . 'assets/images/flags/' . strtolower($location) . $ext;
     }
 
     /**

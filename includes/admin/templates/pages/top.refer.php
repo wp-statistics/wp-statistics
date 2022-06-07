@@ -36,7 +36,7 @@
                                     </td>
                                     <td><?php echo(trim($item['ip']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : esc_attr($item['ip'])); ?></td>
                                     <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
-                                        <td><?php echo(trim($item['country']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : "<img src='" . esc_url($item['flag']) . "' title='" . esc_attr($item['country']) . "' alt='" . esc_attr($item['country']) . "' class='log-tools'/>"); ?></td>
+                                        <td><?php echo(trim($item['country']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : "<img src='" . esc_url($item['flag']) . "' title='" . esc_attr($item['country']) . "' alt='" . esc_attr($item['country']) . "' class='log-tools wps-flag'/>"); ?></td>
                                     <?php } ?>
                                     <td>
                                         <a class='wps-text-success' href='<?php echo esc_url($item['page_link']); ?>'><?php echo esc_attr($item['number']); ?></a>
