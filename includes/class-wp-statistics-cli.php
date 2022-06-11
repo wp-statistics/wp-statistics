@@ -3,7 +3,7 @@
 namespace WP_STATISTICS;
 
 /**
- * WordPress Statistics
+ * WP Statistics
  *
  * ## EXAMPLES
  *
@@ -48,22 +48,19 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      */
     function summary($args, $assoc_args)
     {
-
-        // Check Enable Command
-        if (Option::get('wp_cli_summary') == false) {
-            \WP_CLI::error("The `summary` command is not active.");
-        }
-
         // Prepare Item
         \WP_CLI::line("Users Online: " . number_format(wp_statistics_useronline()));
         $items = array();
+
         foreach (array("Today", "Yesterday", "Week", "Month", "Year", "Total") as $time) {
             $item = array(
                 'Time' => $time
             );
+
             foreach (array("Visitors", "Visits") as $state) {
                 $item[$state] = number_format((strtolower($state) == "visitors" ? wp_statistics_visitor(strtolower($time), null, true) : wp_statistics_visit(strtolower($time))));
             }
+
             $items[] = $item;
         }
 
@@ -102,12 +99,6 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      */
     public function online($args, $assoc_args)
     {
-
-        // Check Enable Command
-        if (Option::get('wp_cli_user_online') == false) {
-            \WP_CLI::error("The `online` command is not active.");
-        }
-
         // Get Number Of result
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
 
@@ -134,9 +125,11 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
                 'Page'       => $row['page']['title'],
                 'User ID'    => ((isset($row['user']) and isset($row['user']['ID']) and $row['user']['ID'] > 0) ? $row['user']['ID'] : '-')
             );
+
             if (GeoIP::active() === true) {
                 $item['Country'] = $row['country']['name'];
             }
+
             $items[] = $item;
         }
 
@@ -176,12 +169,6 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      */
     public function visitors($args, $assoc_args)
     {
-
-        // Check Enable Command
-        if (Option::get('wp_cli_visitors') == false) {
-            \WP_CLI::error("The `visitors` command is not active.");
-        }
-
         // Get Number Of result
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
 
@@ -208,9 +195,11 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
                 'Platform' => $row['platform'],
                 'User ID'  => ((isset($row['user']) and isset($row['user']['ID']) and $row['user']['ID'] > 0) ? $row['user']['ID'] : '-')
             );
+
             if (GeoIP::active() === true) {
                 $item['Country'] = $row['country']['name'];
             }
+
             $items[] = $item;
         }
 

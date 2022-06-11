@@ -32,6 +32,8 @@ class UserAgent
                 'browser'  => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
                 'platform' => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
                 'version'  => (isset($result->browser->version->value)) ? $result->browser->version->value : _x('Unknown', 'Version', 'wp-statistics'),
+                'device'   => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
+                'model'    => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
             );
         } else {
             $agent = self::getBrowserInfo($user_agent);
@@ -50,7 +52,7 @@ class UserAgent
     public static function BrowserList($all = true)
     {
 
-        //List Of Detect Browser in WP-Statistics
+        //List Of Detect Browser in WP Statistics
         $list        = array(
             "chrome"  => __("Chrome", 'wp-statistics'),
             "firefox" => __("Firefox", 'wp-statistics'),
@@ -95,7 +97,8 @@ class UserAgent
 
     public static function getBrowserInfo($userAgent = null)
     {
-        $version = '';
+        $version      = '';
+        $model = _x('Unknown', 'Device Model', 'wp-statistics');
 
         if (preg_match('/linux|ubuntu/i', $userAgent)) {
             $platform = 'linux';
@@ -152,10 +155,19 @@ class UserAgent
             $version = end($matches['version']);
         }
 
+        if (preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo
+|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $userAgent)) {
+            $device = 'mobile';
+        } else {
+            $device = 'desktop';
+        }
+
         return array(
             'browser'  => $browser,
             'version'  => $version,
-            'platform' => $platform
+            'platform' => $platform,
+            'device'   => $device,
+            'model'    => $model,
         );
     }
 

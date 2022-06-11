@@ -7,7 +7,6 @@
         <li class="tab-link" data-tab="overview-display-settings"><?php _e('Dashboard', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="access-settings"><?php _e('Roles', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="exclusions-settings"><?php _e('Exclusions', 'wp-statistics'); ?></li>
-        <li class="tab-link" data-tab="wp-cli-settings"><?php _e('CLI', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="externals-settings"><?php _e('Externals', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="maintenance-settings"><?php _e('Maintenance', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="reset-settings"><?php _e('Reset', 'wp-statistics'); ?></li>

@@ -31,6 +31,8 @@ class Meta_Box
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-summary.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-browsers.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-platforms.php';
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-devices.php';
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-models.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-countries.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-hits.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-pages.php';
@@ -57,7 +59,7 @@ class Meta_Box
     public static function getList($meta_box = false)
     {
         /**
-         * List of WP-Statistics Admin Meta Box
+         * List of WP Statistics Admin Meta Box
          *
          * --- Array Arg -----
          * page_url          : link of Widget Page @see WP_Statistics::$page
@@ -102,10 +104,32 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'side'
             ),
+            'devices'         => array(
+                'name'              => __('Top Devices', 'wp-statistics'),
+                'require'           => array('visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'side'
+            ),
+            'models'   => array(
+                'name'              => __('Top Device Models', 'wp-statistics'),
+                'require'           => array('visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'side'
+            ),
             'countries'       => array(
                 'page_url'          => 'countries',
                 'name'              => __('Top 10 Countries', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'side'
+            ),
+            'referring'       => array(
+                'page_url'          => 'referrers',
+                'name'              => __('Top Referring', 'wp-statistics'),
+                'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'side'
@@ -118,22 +142,6 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'normal'
             ),
-            'pages'           => array(
-                'page_url'          => 'pages',
-                'name'              => __('Top 10 Pages', 'wp-statistics'),
-                'require'           => array('pages' => true),
-                'hidden'            => true,
-                'show_on_dashboard' => true,
-                'place'             => 'normal'
-            ),
-            'referring'       => array(
-                'page_url'          => 'referrers',
-                'name'              => __('Top Referring', 'wp-statistics'),
-                'require'           => array('visitors' => true),
-                'hidden'            => true,
-                'show_on_dashboard' => true,
-                'place'             => 'side'
-            ),
             'search'          => array(
                 'page_url'          => 'searches',
                 'name'              => __('Search Engine Referrals', 'wp-statistics'),
@@ -142,14 +150,13 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'normal'
             ),
-            'words'           => array(
-                'page_url'          => 'words',
-                'name'              => __('Latest Search Words', 'wp-statistics'),
-                'require'           => array('visitors' => true),
+            'pages'           => array(
+                'page_url'          => 'pages',
+                'name'              => __('Top 10 Pages', 'wp-statistics'),
+                'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal',
-                'hidden_overview'   => true
+                'place'             => 'normal'
             ),
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
@@ -180,10 +187,19 @@ class Meta_Box
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'normal'
+            ),
+            'words'           => array(
+                'page_url'          => 'words',
+                'name'              => __('Latest Search Words', 'wp-statistics'),
+                'require'           => array('visitors' => true),
+                'hidden'            => true,
+                'show_on_dashboard' => true,
+                'place'             => 'normal',
+                'hidden_overview'   => true
             ),
             'about'           => array(
-                'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP-Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
+                'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
                 'show_on_dashboard' => false,
                 'js'                => false,
                 'place'             => 'side',

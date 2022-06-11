@@ -335,6 +335,26 @@ class Install
         }
 
         /**
+         * Add visitor device type
+         *
+         * @version 13.2.4
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'device'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `device` VARCHAR(180) NULL AFTER `version`, ADD INDEX `device` (`device`);");
+        }
+
+        /**
+         * Add visitor device model
+         *
+         * @version 13.2.4
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'model'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `model` VARCHAR(180) NULL AFTER `device`, ADD INDEX `model` (`model`);");
+        }
+
+        /**
          * Set to BigINT Fields (AUTO_INCREMENT)
          *
          * @version 13.0.0
@@ -460,7 +480,7 @@ class Install
             add_action('admin_notices', function () {
                 echo '<div class="notice notice-info is-dismissible" id="wp-statistics-update-page-area" style="display: none;">';
                 echo '<p style="margin-top: 17px; float:' . (is_rtl() ? 'right' : 'left') . '">';
-                echo __('WP-Statistics database requires upgrade.', 'wp-statistics');
+                echo __('WP Statistics database requires upgrade.', 'wp-statistics');
                 echo '</p>';
                 echo '<div style="float:' . (is_rtl() ? 'left' : 'right') . '">';
                 echo '<button type="button" id="wps-upgrade-db" class="button button-primary" style="padding: 20px;line-height: 0px;box-shadow: none !important;border: 0px !important;margin: 10px 0;"/>' . __('Upgrade Database', 'wp-statistics') . '</button>';

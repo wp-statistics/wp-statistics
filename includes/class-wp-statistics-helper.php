@@ -8,8 +8,10 @@ use WP_Statistics_Mail;
 
 class Helper
 {
+    protected static $admin_notices = [];
+
     /**
-     * WP-Statistics WordPress Log
+     * WP Statistics WordPress Log
      *
      * @param $function
      * @param $message
@@ -121,7 +123,7 @@ class Helper
      * @param string $style_extra
      * @return string
      */
-    public static function wp_admin_notice($text, $model = "info", $close_button = true, $id = false, $echo = true, $style_extra = 'padding:10px 0')
+    public static function wp_admin_notice($text, $model = "info", $close_button = true, $id = false, $echo = true, $style_extra = 'padding:6px 0')
     {
         $text = '
         <div class="notice notice-' . $model . '' . ($close_button === true ? " is-dismissible" : "") . '"' . ($id != false ? ' id="' . $id . '"' : '') . '>
@@ -211,7 +213,7 @@ class Helper
      *
      * @param string $path
      * @return mixed
-     * @default For WP-Statistics Plugin is 'wp-statistics' dir
+     * @default For WP Statistics Plugin is 'wp-statistics' dir
      */
     public static function get_uploads_dir($path = '')
     {
@@ -732,7 +734,7 @@ class Helper
     }
 
     /**
-     * Send SMS With WP-SMS Plugin
+     * Send SMS With WP SMS Plugin
      *
      * @param $to
      * @param $text
@@ -1040,5 +1042,93 @@ class Helper
 
             return round($get_total_user / $days_spend, 2);
         }
+    }
+
+    /**
+     * Add notice to display in the admin area
+     *
+     * @param $message
+     * @param string $class
+     * @param bool $is_dismissible
+     * @since 13.2.5
+     */
+    public static function addAdminNotice($message, $class = 'info', $is_dismissible = true)
+    {
+        self::$admin_notices[] = array(
+            'message'        => $message,
+            'class'          => $class,
+            'is_dismissible' => (bool)$is_dismissible,
+        );
+    }
+
+    /**
+     * Display all notices in the admin area
+     *
+     * @return void
+     * @since 13.2.5
+     */
+    public static function displayAdminNotices()
+    {
+        foreach ((array)self::$admin_notices as $notice) :
+            $dismissible = $notice['is_dismissible'] ? 'is-dismissible' : '';
+            ?>
+
+            <div class="notice notice-<?php echo esc_attr($notice['class']); ?> <?php echo esc_attr($dismissible); ?>">
+                <p>
+                    <?php echo wp_kses_post($notice['message']); ?>
+                </p>
+            </div>
+
+        <?php
+        endforeach;
+    }
+
+    /**
+     * Returns default parameters for hits request
+     *
+     * @return array
+     */
+    public static function getHitsDefaultParams()
+    {
+        // Create Empty Params Object
+        $params = array();
+
+        //Set UserAgent [browser|platform|version]
+        $params = wp_parse_args($params, UserAgent::getUserAgent());
+
+        //Set Referred
+        $params['referred'] = urlencode(Referred::get());
+
+        //Set IP
+        $params['ip'] = esc_html(IP::getIP());
+
+        //exclude
+        $exclude                    = Exclusion::check();
+        $params['exclusion_match']  = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
+        $params['exclusion_reason'] = (string)$exclude['exclusion_reason'];
+
+        //User Agent String
+        $params['ua'] = urlencode(esc_html(UserAgent::getHttpUserAgent()));
+
+        //track all page
+        $params['track_all'] = (Pages::is_track_all_page() === true ? 1 : 0);
+
+        //timestamp
+        $params['timestamp'] = TimeZone::getCurrentTimestamp();
+
+        //Set Page Type
+        $get_page_type               = Pages::get_page_type();
+        $params['current_page_type'] = $get_page_type['type'];
+        $params['current_page_id']   = $get_page_type['id'];
+        $params['search_query']      = (isset($get_page_type['search_query']) ? esc_html($get_page_type['search_query']) : '');
+
+        //page url
+        $params['page_uri'] = Pages::get_page_uri();
+
+        //Get User id
+        $params['user_id'] = User::get_user_id();
+
+        //return Json Data
+        return $params;
     }
 }

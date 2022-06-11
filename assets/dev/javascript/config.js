@@ -1,7 +1,7 @@
 /* Start Wp-statistics Admin Js */
 var wps_js = {};
 
-/* Get WP-Statistics global Data From Frontend */
+/* Get WP Statistics global Data From Frontend */
 wps_js.global = (typeof wps_global != 'undefined') ? wps_global : [];
 
 /* WordPress Global Lang */

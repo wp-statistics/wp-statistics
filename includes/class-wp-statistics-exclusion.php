@@ -54,7 +54,7 @@ class Exclusion
         // Create Default Object
         $exclude = array('exclusion_match' => false, 'exclusion_reason' => '');
 
-        // Get List Of Exclusion WP-Statistics
+        // Get List Of Exclusion WP Statistics
         $exclusion_list = apply_filters('wp_statistics_exclusion_list', array_keys(Exclusion::exclusion_list()));
 
         // Check Exclusion
@@ -71,7 +71,7 @@ class Exclusion
     }
 
     /**
-     * Record Exclusion in WP-Statistics DB.
+     * Record Exclusion in WP Statistics DB.
      *
      * @param array $exclusion
      */

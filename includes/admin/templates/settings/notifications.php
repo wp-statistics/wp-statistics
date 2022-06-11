@@ -149,7 +149,7 @@
                 <p class="description"><?php _e('Enter the contents of the report.', 'wp-statistics'); ?></p>
 
                 <p class="description data">
-                    <?php _e('Any shortcode supported by your installation of WordPress, include all shortcodes for WP-Statistics (see the documentation for a list of codes available) are supported in the body of the message. Here are some examples:', 'wp-statistics'); ?>
+                    <?php _e('Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message. Here are some examples:', 'wp-statistics'); ?>
                     <br><br>
                     <?php _e('Online User', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=usersonline]</code><br>
@@ -188,7 +188,7 @@
             <td>
                 <input id="admin-notices" type="checkbox" value="1" name="wps_admin_notices" <?php echo WP_STATISTICS\Option::get('admin_notices') == true ? "checked='checked'" : ''; ?>>
                 <label for="admin-notices"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to show all notices and suggestions from WP-Statistics in the admin.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to show all notices and suggestions from WP Statistics in the admin.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

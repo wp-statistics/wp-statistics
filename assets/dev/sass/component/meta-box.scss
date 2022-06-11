@@ -10,17 +10,17 @@
   padding-top: 15px;
 }
 
-/* Refresh button Meta Box */
-.wps-more span, .wps-refresh span {
-  transition: transform .6s ease-in-out;
-  -webkit-transition: -webkit-transform .6s ease-in-out;
+.wps-refresh:focus {
+  box-shadow: none !important;
 }
 
 .wps-more:hover span, .wps-refresh:hover span {
   color: #00a0d2;
 }
 
-.wps-refresh:hover span {
+.wps-refresh:focus span {
+  transition: transform .6s ease-in-out;
+  -webkit-transition: -webkit-transform .6s ease-in-out;
   transform: rotate(360deg);
   -webkit-transform: rotate(360deg);
   color: #00a0d2;

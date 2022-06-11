@@ -106,7 +106,7 @@ class Pages
     }
 
     /**
-     * Check Track All Page WP-Statistics
+     * Check Track All Page WP Statistics
      *
      * @return bool
      */

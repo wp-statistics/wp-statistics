@@ -27,9 +27,6 @@
                         <div id="exclusions-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/exclusions.php'; ?>
                         </div>
-                        <div id="wp-cli-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/wp-cli.php'; ?>
-                        </div>
                         <div id="externals-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/externals.php'; ?>
                         </div>

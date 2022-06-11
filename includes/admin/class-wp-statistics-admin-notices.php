@@ -50,9 +50,17 @@ class Admin_Notices
         if (Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('check-wp-statistics-rest'))) {
 
             // Check Connect To WordPress Rest API
-            $status  = true;
+            $status  = false;
             $message = '';
-            $request = wp_remote_get(get_rest_url(null, RestAPI::$namespace . '/check'), array('timeout' => 30, 'sslverify' => false));
+
+            $params = array_merge(array(
+                '_'                  => time(),
+                '_wpnonce'           => null,
+                Hits::$rest_hits_key => 'yes',
+            ), Helper::getHitsDefaultParams());
+
+            $requestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
+            $request    = wp_remote_get($requestUrl, array('timeout' => 30, 'sslverify' => false));
 
             if (is_wp_error($request)) {
                 $status  = false;
@@ -60,8 +68,8 @@ class Admin_Notices
             } else {
                 $body = wp_remote_retrieve_body($request);
                 $data = json_decode($body, true);
-                if (isset($data['error'])) {
-                    $status = false;
+                if (isset($data['status']) && $data['status'] == true) {
+                    $status = true;
                 }
             }
 
