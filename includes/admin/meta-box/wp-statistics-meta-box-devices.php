@@ -70,7 +70,8 @@ class devices
         $lists_value = $lists_name = array();
 
         // Get List All Platforms
-        $list = $wpdb->get_results("SELECT device, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY device " . ($args['order'] != "" ? 'ORDER BY `count` ' . $args['order'] : ''), ARRAY_A);
+        $query = $wpdb->prepare("SELECT device, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY device " . ($args['order'] != "" ? 'ORDER BY `count` ' . esc_sql($args['order']) : ''));
+        $list  = $wpdb->get_results($query, ARRAY_A);
 
         // Sort By Count
         Helper::SortByKeyValue($list, 'count');
@@ -103,17 +104,17 @@ class devices
 
         // Prepare Response
         $response = array(
-            'days'           => $count_day,
-            'from'           => reset($days_time_list),
-            'to'             => end($days_time_list),
-            'type'           => (($args['from'] != "" and $args['to'] != "") ? 'between' : 'ago'),
-            'title'          => $title,
+            'days'         => $count_day,
+            'from'         => reset($days_time_list),
+            'to'           => end($days_time_list),
+            'type'         => (($args['from'] != "" and $args['to'] != "") ? 'between' : 'ago'),
+            'title'        => $title,
             'device_name'  => $lists_name,
             'device_value' => $lists_value,
-            'info'           => array(
+            'info'         => array(
                 'visitor_page' => Menus::admin_url('visitors')
             ),
-            'total'          => $total
+            'total'        => $total
         );
 
         // Check For No Data Meta Box

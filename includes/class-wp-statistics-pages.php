@@ -403,7 +403,7 @@ class Pages
 
         // Get List Of Pages
         $list   = array();
-        $result = $wpdb->get_results($sql . " LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']);
+        $result = $wpdb->get_results($wpdb->prepare($sql . " LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']));
         foreach ($result as $item) {
 
             // Lookup the post title.
