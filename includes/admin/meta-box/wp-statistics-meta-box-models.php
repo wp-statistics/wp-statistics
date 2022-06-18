@@ -70,7 +70,7 @@ class models
         $lists_value = $lists_name = array();
 
         // Get List All Platforms
-        $query = $wpdb->prepare("SELECT model, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY model " . ($args['order'] != "" ? 'ORDER BY `count` ' . esc_sql($args['order']) : ''));
+        $query = $wpdb->prepare("SELECT model, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY model " . (in_array(strtolower($args["order"]), ["asc", "desc"]) ? 'ORDER BY `count` ' . $args['order'] : ''));
         $list  = $wpdb->get_results($query, ARRAY_A);
 
         // Sort By Count
