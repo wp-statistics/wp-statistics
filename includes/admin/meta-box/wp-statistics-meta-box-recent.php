@@ -12,7 +12,7 @@ class recent
 
         // Prepare Response
         try {
-            $response = Visitor::get($args);
+            $response = Visitor::get();
         } catch (\Exception $e) {
             \WP_Statistics::log($e->getMessage());
             $response = array();

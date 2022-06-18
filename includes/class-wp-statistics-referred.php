@@ -243,10 +243,11 @@ class Referred
     {
         global $wpdb;
 
+        delete_transient(self::$top_referring_transient);
         //Get Top Referring
         if (false === ($get_urls = get_transient(self::$top_referring_transient))) {
-
-            $result = $wpdb->get_results(self::GenerateReferSQL("ORDER BY `number` DESC LIMIT $number", ''));
+            $query  = $wpdb->prepare(self::GenerateReferSQL("ORDER BY `number` DESC LIMIT " . esc_sql($number), ''));
+            $result = $wpdb->get_results($query);
             foreach ($result as $items) {
                 $get_urls[$items->domain] = self::get_referer_from_domain($items->domain);
             }
@@ -348,7 +349,8 @@ class Referred
         }
 
         // Return List
-        return $wpdb->get_results(self::GenerateReferSQL($having . " ORDER BY `number` DESC " . $limit, $where));
+        $query = $wpdb->prepare(self::GenerateReferSQL($having . " ORDER BY `number` DESC " . $limit, $where));
+        return $wpdb->get_results($query);
     }
 
     /**
