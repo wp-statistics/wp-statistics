@@ -395,7 +395,7 @@ class Pages
         // Date Time SQL
         $DateTimeSql = "";
         if (!empty($args['from']) and !empty($args['to'])) {
-            $DateTimeSql = $wpdb->prepare("WHERE (`pages`.`date` BETWEEN '%s' AND '%s')", $args['from'], $args['to']);
+            $DateTimeSql = $wpdb->prepare("WHERE (`pages`.`date` BETWEEN %s AND %s)", $args['from'], $args['to']);
         }
 
         // Generate SQL
