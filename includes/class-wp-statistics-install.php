@@ -117,6 +117,8 @@ class Install
 						agent varchar(180) NOT NULL,
 						platform varchar(180),
 						version varchar(180),
+						device varchar(180),
+						model varchar(180),
 						UAString varchar(190),
 						ip varchar(60) NOT NULL,
 						location varchar(10),
