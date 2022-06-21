@@ -130,6 +130,8 @@ class Install
 						KEY agent (agent),
 						KEY platform (platform),
 						KEY version (version),
+						KEY device (device),
+						KEY model (model),
 						KEY location (location)
 					) {$collate}");
         dbDelta($create_visitor_table);
