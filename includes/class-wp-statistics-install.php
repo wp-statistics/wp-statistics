@@ -117,6 +117,8 @@ class Install
 						agent varchar(180) NOT NULL,
 						platform varchar(180),
 						version varchar(180),
+						device varchar(180),
+						model varchar(180),
 						UAString varchar(190),
 						ip varchar(60) NOT NULL,
 						location varchar(10),
@@ -128,6 +130,8 @@ class Install
 						KEY agent (agent),
 						KEY platform (platform),
 						KEY version (version),
+						KEY device (device),
+						KEY model (model),
 						KEY location (location)
 					) {$collate}");
         dbDelta($create_visitor_table);
