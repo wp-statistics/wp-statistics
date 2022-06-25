@@ -10,7 +10,7 @@ class useronline
 
         // Prepare Response
         try {
-            $response = \WP_STATISTICS\UserOnline::get();
+            $response = \WP_STATISTICS\UserOnline::get($args);
         } catch (\Exception $e) {
             $response = array();
         }

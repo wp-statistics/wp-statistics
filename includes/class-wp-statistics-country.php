@@ -84,12 +84,11 @@ class Country
         // Check Custom Date
         $where = '';
         if (isset($args['from']) and isset($args['to'])) {
-            $where = "WHERE `last_counter` BETWEEN '" . esc_sql($args['from']) . "' AND '" . esc_sql($args['to']) . "'";
+            $where = "WHERE `last_counter` BETWEEN '" . $args['from'] . "' AND '" . $args['to'] . "'";
         }
 
         // Get Result
-        $query  = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` " . $where . " GROUP BY `location` ORDER BY `count` DESC " . ((isset($args['limit']) and intval($args['limit']) > 0) ? "LIMIT " . esc_sql($args['limit']) : ''));
-        $result = $wpdb->get_results($query);
+        $result = $wpdb->get_results("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` " . $where . " GROUP BY `location` ORDER BY `count` DESC " . ((isset($args['limit']) and $args['limit'] > 0) ? "LIMIT " . $args['limit'] : ''));
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
             $list[]         = array(

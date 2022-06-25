@@ -252,8 +252,7 @@ class Visitor
         $args['sql'] = $args['sql'] . " LIMIT " . (($args['paged'] - 1) * $args['per_page']) . ", {$args['per_page']}";
 
         // Send Request
-        $query  = $wpdb->prepare($args['sql']);
-        $result = $wpdb->get_results($query);
+        $result = $wpdb->get_results($args['sql']);
 
         // Get Visitor Data
         return self::PrepareData($result);

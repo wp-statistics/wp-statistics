@@ -257,8 +257,7 @@ class UserOnline
         $args['sql'] = $args['sql'] . " LIMIT {$args['offset']}, {$args['per_page']}";
 
         // Send Request
-        $query  = $wpdb->prepare($args['sql']);
-        $result = $wpdb->get_results($query);
+        $result = $wpdb->get_results($args['sql']);
 
         // Get List
         $list = array();

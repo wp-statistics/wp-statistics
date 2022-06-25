@@ -94,9 +94,9 @@ class browsers
 
             //Add Unknown Agent to total
             if (empty($args['from']) and empty($args['to']) and $args['ago'] == "all") {
-                $total += $other_agent_count = $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (\'' . implode("','", $Browsers) . '\')'));
+                $total += $other_agent_count = $wpdb->get_var('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (\'' . implode("','", $Browsers) . '\')');
             } else {
-                $total += $other_agent_count = $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `last_counter` BETWEEN \'' . reset($days_time_list) . '\' AND \'' . end($days_time_list) . '\' AND `agent` NOT IN (\'' . implode("','", $Browsers) . '\')'));
+                $total += $other_agent_count = $wpdb->get_var('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `last_counter` BETWEEN \'' . reset($days_time_list) . '\' AND \'' . end($days_time_list) . '\' AND `agent` NOT IN (\'' . implode("','", $Browsers) . '\')');
             }
 
             //Sort Browser List By Visitor ASC
@@ -131,7 +131,7 @@ class browsers
             $lists_logo[] = UserAgent::getBrowserLogo($args['browser']);
 
             // Get List Of Version From Custom Browser
-            $list = $wpdb->get_results($wpdb->prepare("SELECT version, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE `agent` = %s AND `last_counter` BETWEEN %s AND %s GROUP BY version", $args['browser'], reset($days_time_list), end($days_time_list)), ARRAY_A);
+            $list = $wpdb->get_results("SELECT version, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE agent = '" . $args['browser'] . "' AND `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY version", ARRAY_A);
 
             // Sort By Count
             Helper::SortByKeyValue($list, 'count');
