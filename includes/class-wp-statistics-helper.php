@@ -819,14 +819,38 @@ class Helper
                 $getCurrentDate = TimeZone::getCurrentDate('Y-m-d', -1);
                 $where          = "`$field` = '{$getCurrentDate}'";
                 break;
+            case 'last-week':
+                /**
+                 * @todo last week
+                 */
+                $where = "";
+                break;
             case 'week':
                 $where = $field_sql(-7);
                 break;
             case 'month':
                 $where = $field_sql(-30);
                 break;
+            case '60days':
+                $where = $field_sql(-60);
+                break;
+            case '90days':
+                $where = $field_sql(-90);
+                break;
             case 'year':
                 $where = $field_sql(-365);
+                break;
+            case 'this-year':
+                /**
+                 * @todo this year
+                 */
+                $where = "";
+                break;
+            case 'last-year':
+                /**
+                 * @todo last year
+                 */
+                $where = "";
                 break;
             case 'total':
                 $where = "";
