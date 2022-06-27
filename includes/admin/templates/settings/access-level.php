@@ -67,10 +67,10 @@ global $wp_roles;
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <p class="description"><?php echo sprintf(__('See the %sWordPress Roles and Capabilities%s page for details on capability levels.', 'wp-statistics'), '<a target=_blank href="http://codex.wordpress.org/Roles_and_Capabilities">', '</a>'); ?></p>
+                <p class="description"><?php echo sprintf(__('See the %sWordPress Roles and Capabilities%s page for details on capability levels.', 'wp-statistics'), '<a target=_blank href="https://wordpress.org/support/article/roles-and-capabilities/">', '</a>'); ?></p>
                 <p class="description"><?php echo __('Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp-statistics'); ?></p>
                 <p class="description"><?php echo __('Each of the above cascades the rights upwards in the default WordPress configuration. For example, selecting publish_posts grants the right to Authors, Editors, Admins, and Super Admins.', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo sprintf(__('If you need a more robust solution to delegate access, you might want to look at %s Capability Manager Enhanced %s in the WordPress plugin directory.', 'wp-statistics'), '<a href="http://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>', '</a>'); ?></p>
+                <p class="description"><?php echo sprintf(__('If you need a more robust solution to delegate access, you might want to look at %s Capability Manager Enhanced %s in the WordPress plugin directory.', 'wp-statistics'), '<a href="https://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>', '</a>'); ?></p>
             </th>
         </tr>
 
