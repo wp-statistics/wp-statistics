@@ -33,7 +33,6 @@ class Menus
         'optimization' => 'optimization',
         'settings'     => 'settings',
         'plugins'      => 'plugins',
-        'donate'       => 'donate',
     );
 
     /**
@@ -56,13 +55,6 @@ class Menus
      * @var string
      */
     public static $load_admin_submenu_slug = 'statistics_page_[slug]';
-
-    /**
-     * Wp-Statistics donate link
-     *
-     * @var string
-     */
-    public static $donate = 'http://wp-statistics.com/donate';
 
     /**
      * Get List Admin Pages
@@ -301,13 +293,6 @@ class Menus
                 'page_url' => 'plugins',
                 'method'   => 'plugins'
             ),
-            'donate'       => array(
-                'sub'      => 'overview',
-                'title'    => __('Donate', 'wp-statistics'),
-                'name'     => '<span class="wps-text-success">' . __('Donate', 'wp-statistics') . '</span>',
-                'page_url' => 'donate',
-                'method'   => 'donate'
-            )
         );
 
         /**
@@ -348,9 +333,6 @@ class Menus
 
         # Load WP-Statistics Admin Menu
         add_action('admin_menu', array($this, 'wp_admin_menu'));
-
-        # Filter Donate Link
-        add_action("admin_init", array($this, 'donate'));
     }
 
     /**
@@ -396,18 +378,6 @@ class Menus
             }
         }
 
-    }
-
-    /**
-     * WP-Statistics Donate Page
-     */
-    public function donate()
-    {
-        global $pagenow;
-        if ($pagenow == "admin.php" and isset($_GET['page']) and $_GET['page'] == self::get_page_slug('donate')) {
-            wp_redirect(self::$donate);
-            exit;
-        }
     }
 
 }
