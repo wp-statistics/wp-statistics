@@ -5,6 +5,7 @@ wps_js.recent_meta_box = {
         t += `<div class="wp-statistics-responsive-table">`;
         t += `<table width="100%" class="widefat table-stats wps-report-table"><tbody>
         <tr>
+            <td>#</td>
             <td>${wps_js._('browser')}</td>
             ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('country')}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${wps_js._('city')}</td>` : ``) + `
@@ -14,8 +15,9 @@ wps_js.recent_meta_box = {
             <td>${wps_js._('referrer')}</td>
         </tr>`;
 
-        args.forEach(function (value) {
+        args.forEach(function (value, index) {
             t += `<tr>
+            <td style="text-align: left">${++index}</td>
             <td style="text-align: left"><a href="${value['browser']['link']}" title="${value['browser']['name']}"><img src="${value['browser']['logo']}" alt="${value['browser']['name']}" class='log-tools' title='${value['browser']['name']}'/></a></td>
             ` + (wps_js.is_active('geo_ip') ? `<td style="text-align: left"><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='log-tools wps-flag'/></td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${value['city']}</td>` : ``) + `
