@@ -5,6 +5,7 @@ namespace WP_STATISTICS\MetaBox;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\GeoIP;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Timezone;
 use WP_STATISTICS\UserAgent;
@@ -22,8 +23,32 @@ class hitsmap
         // Get List Country Code
         $CountryCode = Country::getList();
 
+        // Prepare Count Day
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $count_day = $args['ago'];
+            } else {
+                $count_day = 1;
+            }
+        }
+
+        // Get time ago Days Or Between Two Days
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
+            } else {
+                $days_list = TimeZone::getListDays(array('from' => Timezone::getCurrentDate('Y-m-d')));
+            }
+        }
+
+        $days_time_list = array_keys($days_list);
+
         // Get List Country Of Visitors
-        $result = $wpdb->get_results("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = '" . Timezone::getCurrentDate('Y-m-d') . "'");
+        $result = $wpdb->get_results("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "'");
         if ($result) {
             foreach ($result as $new_country) {
                 $final_result[strtolower($new_country->location)][] = $new_country;

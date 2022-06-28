@@ -175,7 +175,7 @@ class Meta_Box
                 'place'             => 'normal'
             ),
             'hitsmap'         => array(
-                'name'              => __('Today\'s Visitors Map', 'wp-statistics'),
+                'name'              => __('Visitors Map', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true, 'disable_map' => false),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
