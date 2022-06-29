@@ -134,8 +134,15 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
         },
         options: {
             responsive: true,
-            legend: {
-                position: 'bottom',
+            plugins: {
+                legend: {
+                    position: function (chart) {
+                        if (chart.chart.width > 400) {
+                            return 'left';
+                        }
+                        return 'top';
+                    }
+                }
             },
             animation: {
                 duration: 1500,

@@ -90,7 +90,7 @@ class Meta_Box
             ),
             'browsers'        => array(
                 'page_url'          => 'browser',
-                'name'              => __('Top 10 Browsers', 'wp-statistics'),
+                'name'              => __('Top Browsers', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
