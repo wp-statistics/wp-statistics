@@ -42,8 +42,7 @@ class platforms
             if (is_numeric($args['ago']) and $args['ago'] > 0) {
                 $count_day = $args['ago'];
             } else {
-                $first_day = Helper::get_date_install_plugin();
-                $count_day = (int)TimeZone::getNumberDayBetween($first_day);
+                $count_day = 30;
             }
         }
 
