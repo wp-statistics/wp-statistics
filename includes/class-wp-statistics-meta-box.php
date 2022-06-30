@@ -120,7 +120,7 @@ class Meta_Box
             ),
             'countries'       => array(
                 'page_url'          => 'countries',
-                'name'              => __('Top 10 Countries', 'wp-statistics'),
+                'name'              => __('Top Countries', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,

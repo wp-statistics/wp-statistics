@@ -250,7 +250,7 @@ class Admin_Assets
             'rank'          => __('#', 'wp-statistics'),
             'flag'          => __('Flag', 'wp-statistics'),
             'country'       => __('Country', 'wp-statistics'),
-            'visitor_count' => __('Visitor Count', 'wp-statistics'),
+            'visitor_count' => __('Visitors', 'wp-statistics'),
             'id'            => __('ID', 'wp-statistics'),
             'title'         => __('Title', 'wp-statistics'),
             'link'          => __('Link', 'wp-statistics'),
