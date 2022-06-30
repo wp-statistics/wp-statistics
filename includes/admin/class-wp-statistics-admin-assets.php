@@ -247,7 +247,7 @@ class Admin_Assets
             'date'          => __('Date', 'wp-statistics'),
             'time'          => __('Time', 'wp-statistics'),
             'browsers'      => __('Browsers', 'wp-statistics'),
-            'rank'          => __('Rank', 'wp-statistics'),
+            'rank'          => __('#', 'wp-statistics'),
             'flag'          => __('Flag', 'wp-statistics'),
             'country'       => __('Country', 'wp-statistics'),
             'visitor_count' => __('Visitor Count', 'wp-statistics'),

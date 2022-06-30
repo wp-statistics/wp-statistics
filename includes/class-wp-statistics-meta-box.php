@@ -160,7 +160,7 @@ class Meta_Box
             ),
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
-                'name'              => __('Top 10 Visitors Today', 'wp-statistics'),
+                'name'              => __('Top Visitors', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,

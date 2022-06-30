@@ -7,7 +7,7 @@ wps_js.top_visitors_meta_box = {
         <tr>
             <td>${wps_js._('rank')}</td>
             <td>${wps_js._('hits')}</td>
-            ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('flag')}</td><td>${wps_js._('country')}</td>` : ``) + `
+            ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('country')}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${wps_js._('city')}</td>` : ``) + `
             <td>${wps_js._('ip')}</td>
             <td>${wps_js._('agent')}</td>
@@ -20,7 +20,7 @@ wps_js.top_visitors_meta_box = {
             t += `<tr>
             <td>${i}</td>
             <td>${value['hits']}</td>
-            ` + (wps_js.is_active('geo_ip') ? `<td><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='log-tools wps-flag'/></td><td>${value['country']['name']}</td>` : ``) + `
+            ` + (wps_js.is_active('geo_ip') ? `<td><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='log-tools wps-flag'/></td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${value['city']}</td>` : ``) + `
             <td>` + (value['hash_ip'] ? value['hash_ip'] : `<a href='${value['ip']['link']}'>${value['ip']['value']}</a>`) + `</td>
             <td>${value['agent']}</td>
