@@ -15,7 +15,7 @@ class referring
 
         // Get List Top Referring
         try {
-            $response = Referred::getTop($number);
+            $response = Referred::getList($args);
         } catch (\Exception $e) {
             $response = array();
         }

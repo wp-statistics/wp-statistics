@@ -221,7 +221,7 @@ wps_js.random_color = function (i = false) {
  * Show Domain Icon
  */
 wps_js.site_icon = function (domain) {
-    return `<img src="https://www.google.com/s2/favicons?domain=${domain}" width="16" height="16" alt="${domain}" style="vertical-align: -3px;" />`;
+    return `<img src="https://www.google.com/s2/favicons?domain=${domain}" width="18" height="18" alt="${domain}" style="vertical-align: middle;" />`;
 };
 
 /**

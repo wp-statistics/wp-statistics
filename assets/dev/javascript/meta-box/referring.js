@@ -10,9 +10,8 @@ wps_js.referring_meta_box = {
 
         args.forEach(function (value) {
             t += `<tr>
-			<td>` + wps_js.site_icon(value['domain']) + ` <a href='//${value['domain']}' title='${value['title']}' target="_blank">${value['domain']}</a>
-            <span class='wps-cursor-default wps-referring-widget-ip'` + (value['country'].length > 2 ? ` title="${value['country']}"` : ``) + `>${value['ip']}</span></td>
-			<td class="wps-middle-vertical"><a href="${value['page_link']}">${value['number']}</a></td>
+			<td>` + wps_js.site_icon(value['domain']) + ` <a href='//${value['domain']}' title='${value['title']}' target="_blank">${value['domain']} <span class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></span></a></td>
+			<td class="wps-middle-vertical"><a href="${value['page_link']}">${value['number']} »</a></td>
 			</tr>`;
         });
 
