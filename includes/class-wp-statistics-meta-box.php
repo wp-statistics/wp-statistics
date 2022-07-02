@@ -152,7 +152,7 @@ class Meta_Box
             ),
             'pages'           => array(
                 'page_url'          => 'pages',
-                'name'              => __('Top 10 Pages', 'wp-statistics'),
+                'name'              => __('Top Pages', 'wp-statistics'),
                 'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
