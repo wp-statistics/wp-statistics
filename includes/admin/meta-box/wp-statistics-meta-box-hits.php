@@ -12,7 +12,7 @@ class hits
      *
      * @var int
      */
-    public static $default_days_ago = 20;
+    public static $default_days_ago = 7;
 
     /**
      * Show Chart Hit
