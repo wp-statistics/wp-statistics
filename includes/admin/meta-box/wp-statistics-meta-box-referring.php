@@ -15,7 +15,12 @@ class referring
 
         // Get List Top Referring
         try {
-            $response = Referred::getList($args);
+            $result   = Referred::getList($args);
+            $get_urls = [];
+            foreach ($result as $items) {
+                $get_urls[$items->domain] = Referred::get_referer_from_domain($items->domain);
+            }
+            $response = Referred::PrepareReferData($get_urls);
         } catch (\Exception $e) {
             $response = array();
         }
