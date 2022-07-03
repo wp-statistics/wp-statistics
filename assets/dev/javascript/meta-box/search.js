@@ -15,14 +15,6 @@ wps_js.search_meta_box = {
         // Create Html
         let html = '';
 
-        // Check Show Button Group
-        if (wps_js.is_active('overview_page')) {
-            html += wps_js.btn_group_chart('search', args);
-            setTimeout(function () {
-                wps_js.date_picker();
-            }, 1000);
-        }
-
         // Add Chart
         html += '<canvas id="' + wps_js.chart_id('search') + '" height="' + height + '"></canvas>';
 

@@ -13,7 +13,7 @@ class search
      *
      * @var int
      */
-    public static $default_days_ago = 15;
+    public static $default_days_ago = 7;
 
     /**
      * Get Search Engine Chart
