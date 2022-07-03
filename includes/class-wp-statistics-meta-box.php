@@ -191,7 +191,7 @@ class Meta_Box
             ),
             'words'           => array(
                 'page_url'          => 'words',
-                'name'              => __('Latest Search Words', 'wp-statistics'),
+                'name'              => __('Latest searched queries', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
