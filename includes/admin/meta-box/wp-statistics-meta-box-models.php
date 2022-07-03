@@ -42,8 +42,7 @@ class models
             if (is_numeric($args['ago']) and $args['ago'] > 0) {
                 $count_day = $args['ago'];
             } else {
-                $first_day = Helper::get_date_install_plugin();
-                $count_day = (int)TimeZone::getNumberDayBetween($first_day);
+                $count_day = 30;
             }
         }
 
@@ -103,17 +102,17 @@ class models
 
         // Prepare Response
         $response = array(
-            'days'           => $count_day,
-            'from'           => reset($days_time_list),
-            'to'             => end($days_time_list),
-            'type'           => (($args['from'] != "" and $args['to'] != "") ? 'between' : 'ago'),
-            'title'          => $title,
+            'days'        => $count_day,
+            'from'        => reset($days_time_list),
+            'to'          => end($days_time_list),
+            'type'        => (($args['from'] != "" and $args['to'] != "") ? 'between' : 'ago'),
+            'title'       => $title,
             'model_name'  => $lists_name,
             'model_value' => $lists_value,
-            'info'           => array(
+            'info'        => array(
                 'visitor_page' => Menus::admin_url('visitors')
             ),
-            'total'          => $total
+            'total'       => $total
         );
 
         // Check For No Data Meta Box
