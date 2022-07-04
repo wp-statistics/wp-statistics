@@ -91,19 +91,10 @@ wps_js.meta_box_button = function (key) {
     }
 
     // Clean Button
-    jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh], #" + wps_js.getMetaBoxKey(key) + " button[class*=wps-more]").remove();
-
-    // Check Page Url Button
-    if (wps_js.is_active('more_btn') && wps_js.isset(meta_box_info, "page_url")) {
-        jQuery(`<button class="handlediv wps-more"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" onclick="location.href = '` + wps_js.global.admin_url + 'admin.php?page=' + meta_box_info.page_url + `';"><span class="screen-reader-text">` + wps_js._('more_detail') + `</span> <span class="dashicons dashicons-external"></span></button>`).insertBefore(selector);
-    }
+    jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]").remove();
 
     // Add Refresh Button
-    if (wps_js.is_active('more_btn') && wps_js.isset(meta_box_info, "page_url")) {
-        jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 6%;" ` : 'style="line-height: 28px;"') + ` type="button"><span class="screen-reader-text">` + wps_js._('reload') + `</span> <span class="dashicons dashicons-update"></span> </button>`).insertAfter("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-more]");
-    } else {
-        jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button"><span class="screen-reader-text">` + wps_js._('reload') + `</span> <span class="dashicons dashicons-update"></span> </button>`).insertBefore(selector);
-    }
+    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button"><span class="wps-refresh-icon"></span> <span class="screen-reader-text">` + wps_js._('reload') + `</span></button>`).insertBefore(selector);
 };
 
 /**
