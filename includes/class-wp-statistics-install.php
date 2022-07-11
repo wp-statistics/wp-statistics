@@ -16,9 +16,6 @@ class Install
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), array($this, 'settings_links'), 10, 2);
         add_filter('plugin_row_meta', array($this, 'add_meta_links'), 10, 2);
 
-        // Upgrades WordPress Plugin
-        add_action('init', array($this, 'plugin_upgrades'));
-
         // Page Type Updater @since 12.6
         Install::init_page_type_updater();
     }
@@ -37,8 +34,8 @@ class Install
         // Create Default Option in Database
         self::create_options();
 
-        // Set Version information
-        update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
+        // Upgrades WordPress Plugin
+        self::plugin_upgrades();
     }
 
     /**
@@ -339,6 +336,62 @@ class Install
         }
 
         /**
+         * Add new robots to robotlist option
+         *
+         * @version 13.2.5
+         */
+        $checkRobotsStatus = get_option('wp_statistics_upgrade_robotlist_13_2_5', false);
+        if (!$checkRobotsStatus) {
+            $robotlist     = Option::get('robotlist');
+            $newRobots     = [
+                'Slackbot-LinkExpanding',
+                'sogou spider',
+                'Sogou pic spider',
+                'Sogou inst spider',
+                'Sogou Mobile Spider',
+                'WordPress',
+                'Jetpack by WordPress',
+                'bingbot',
+                'msnbot',
+                'msnbot-UDiscovery',
+                'msnbot-media',
+                'msnbot-NewsBlogs',
+                'MSNBOT_Mobile',
+                'MSMOBOT',
+                'BingPreview',
+                'Python-urllib',
+                'python-requests',
+                'curl',
+                'Twitterbot',
+                'coccocbot-image',
+                'coccocbot-web',
+                'YandexBot',
+                'DuckDuckBot',
+                'DuckDuckGo-Favicons-Bot',
+                'Go-http-client',
+                'go-httpclient',
+                'Java',
+                'Apache-HttpClient',
+                'Xenu Link Sleuth',
+                'Xenu Link Sleuth',
+                'facebookplatform',
+                'facebookscraper',
+                'FacebookSecurity',
+                'Googlebot-Image',
+                'DomainStatsBot',
+                'BaiduImagespider',
+                'www.baidu.com',
+                'Barkrowler',
+                'Linespider',
+                'YisouSpider',
+                'CCBot',
+            ];
+            $newRobotsText = implode("\n", $newRobots);
+            Option::update('robotlist', ($robotlist . "\n" . $newRobotsText));
+            update_option('wp_statistics_upgrade_robotlist_13_2_5', true);
+        }
+
+        /**
          * Add visitor device type
          *
          * @version 13.2.4
@@ -456,6 +509,9 @@ class Install
          * @version 9.6.2
          */
         if (Option::get('force_robot_update')) {
+            if (!class_exists('\WP_STATISTICS\Referred')) {
+                require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-referred.php';
+            }
             Referred::download_referrer_spam();
         }
 

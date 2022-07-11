@@ -70,7 +70,7 @@ class platforms
         $lists_value = $lists_name = array();
 
         // Get List All Platforms
-        $list = $wpdb->get_results("SELECT platform, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY platform " . ($args['order'] != "" ? 'ORDER BY `count` ' . $args['order'] : ''), ARRAY_A);
+        $list = $wpdb->get_results("SELECT platform, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE platform != '" . _x('Unknown', 'Platform', 'wp-statistics') . "' AND `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY platform " . ($args['order'] != "" ? 'ORDER BY `count` ' . $args['order'] : ''), ARRAY_A);
 
         // Sort By Count
         Helper::SortByKeyValue($list, 'count');
