@@ -406,7 +406,7 @@ class WP_Statistics_Mail
         }
 
         /**
-         * Modify the body the the template exists.
+         * Modify the body the template exists.
          */
         if ($this->template) {
             $this->body = $this->render();

@@ -164,6 +164,8 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-search-engine.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-exclusion.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-hits.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-privacy-exporter.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-privacy-erasers.php';
 
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
@@ -181,6 +183,7 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-post.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-user.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-taxonomy.php';
+            require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-privacy.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/TinyMCE/class-wp-statistics-tinymce.php';
 
             // Admin Pages List
