@@ -47,7 +47,7 @@ class Admin_Notices
 
     public function enable_rest_api()
     {
-        if (Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('wps_check_rest_api'))) {
+        if (isset($_GET['page']) and $_GET['page'] === 'wps_overview_page' and Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('wps_check_rest_api'))) {
 
             // Check Connect To WordPress Rest API
             $status  = false;
