@@ -37,7 +37,7 @@ class browser_page
         $args['title'] = __('Browser Statistics', 'wp-statistics');
 
         // Get Current Page Url
-        $args['pageName']   = Menus::get_page_slug('browsers');
+        $args['pageName']   = Menus::get_page_slug('browser');
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
