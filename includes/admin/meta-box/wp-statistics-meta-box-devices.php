@@ -70,7 +70,7 @@ class devices
         $lists_value = $lists_name = array();
 
         // Get List All Platforms
-        $list = $wpdb->get_results("SELECT device, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY device " . ($args['order'] != "" ? 'ORDER BY `count` ' . $args['order'] : ''), ARRAY_A);
+        $list = $wpdb->get_results("SELECT device, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE device != '" . _x('Unknown', 'Device', 'wp-statistics') . "' AND `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY device " . ($args['order'] != "" ? 'ORDER BY `count` ' . $args['order'] : ''), ARRAY_A);
 
         // Sort By Count
         Helper::SortByKeyValue($list, 'count');
