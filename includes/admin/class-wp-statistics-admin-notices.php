@@ -47,7 +47,7 @@ class Admin_Notices
 
     public function enable_rest_api()
     {
-        if (Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('check-wp-statistics-rest'))) {
+        if (isset($_GET['page']) and $_GET['page'] === 'wps_overview_page' and Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('wps_check_rest_api'))) {
 
             // Check Connect To WordPress Rest API
             $status  = false;
@@ -74,13 +74,13 @@ class Admin_Notices
             }
 
             if ($status === true) {
-                set_transient('check-wp-statistics-rest', array("status" => "enable"), 3 * HOUR_IN_SECONDS);
+                set_transient('wps_check_rest_api', array("status" => "enable"), 3 * HOUR_IN_SECONDS);
             } else {
-                $error_msg = __('Here is an error associated with Connecting WordPress Rest API', 'wp-statistics') . '<br />';
+                $error_msg = __('Here is an error associated with Connecting WP REST API', 'wp-statistics') . '<br />';
                 if (!empty($message)) {
                     $error_msg .= $message . '<br />';
                 }
-                $error_msg .= sprintf(__('Please Flushing rewrite rules or activate WordPress REST API for performance WP-Statistics Plugin Cache / Go %1$sSettings->Permalinks%2$s', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
+                $error_msg .= sprintf(__('Please Flushing rewrite rules by updating permalink in %1$sSettings->Permalinks%2$s and make sure the WP REST API is enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
                 Helper::wp_admin_notice($error_msg, 'warning', true);
             }
         }
@@ -97,7 +97,7 @@ class Admin_Notices
     public function donate_plugin()
     {
         if (Menus::in_page('overview') and !Option::get('disable_donation_nag', false)) {
-            Helper::wp_admin_notice(__('Have you thought about donating to WP-Statistics?', 'wp-statistics') . ' <a href="https://wp-statistics.com/donate/" target="_blank">' . __('Donate Now!', 'wp-statistics') . '</a>', 'warning', true, 'wps-donate-notice');
+            Helper::wp_admin_notice(__('Have you thought about donating to WP Statistics?', 'wp-statistics') . ' <a href="https://wp-statistics.com/donate/" target="_blank">' . __('Donate Now!', 'wp-statistics') . '</a>', 'warning', true, 'wps-donate-notice');
         }
     }
 
@@ -133,7 +133,7 @@ class Admin_Notices
     {
         $option = get_option('wp_statistics_disable_addons_notice');
         if (!empty($option) and $option == "no") {
-            Helper::wp_admin_notice(__("Your WP-Statistic's Add-On(s) are not compatible with the new version of WP-Statistics and disabled automatically, please try to update them.", "wp-statistics"), "info", true, "wp-statistics-disable-all-addons-admin-notice");
+            Helper::wp_admin_notice(__("Your WP Statistic's Add-On(s) are not compatible with the new version of WP-Statistics and disabled automatically, please try to update them.", "wp-statistics"), "info", true, "wp-statistics-disable-all-addons-admin-notice");
             ?>
             <script>
                 jQuery(document).ready(function ($) {

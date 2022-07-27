@@ -58,9 +58,11 @@ class refer_page
                 $chunk        = array_chunk($result, Admin_Template::$item_per_page);
                 $list_in_page = $chunk[$args['paged'] - 1];
                 $get_urls     = array();
+
                 foreach ($list_in_page as $items) {
-                    $get_urls[$items->domain] = Referred::get_referer_from_domain($items->domain);
+                    $get_urls[$items->domain] = $items->number;
                 }
+
                 $list = Referred::PrepareReferData($get_urls);
 
                 // Push Domain Rate in List

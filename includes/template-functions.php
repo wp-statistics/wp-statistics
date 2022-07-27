@@ -508,6 +508,9 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
 {
     global $wpdb;
 
+    $spliceLimit = ($limit != null ? $limit : 5);
+    $limit       = null;
+
     // Get every unique URI from the pages database.
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
@@ -574,7 +577,10 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
         usort($uris, array('\WP_STATISTICS\Helper', 'compare_uri_hits'));
     }
 
-    return array($total, $uris);
+    array_splice($uris, $spliceLimit);
+
+    return array($spliceLimit, $uris);
+    // return array($total, $uris);
 }
 
 /**

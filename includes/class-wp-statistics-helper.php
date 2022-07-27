@@ -98,6 +98,11 @@ class Helper
             return false;
         }
 
+        // Backward compatibility
+        if (empty($_SERVER['SERVER_PROTOCOL']) or empty($_SERVER['HTTP_HOST'])) {
+            return false;
+        }
+
         // Check Native php
         $protocol   = strpos(strtolower($_SERVER['SERVER_PROTOCOL']), 'https') === false ? 'http' : 'https';
         $host       = sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']));

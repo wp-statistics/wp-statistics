@@ -37,7 +37,7 @@ class platform_page
         $args['title'] = __('Platform Statistics', 'wp-statistics');
 
         // Get Current Page Url
-        $args['pageName']   = Menus::get_page_slug('platforms');
+        $args['pageName']   = Menus::get_page_slug('platform');
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
