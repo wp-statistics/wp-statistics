@@ -18,7 +18,7 @@ class Visitor
     {
         $coefficient = Option::get('coefficient', self::$coefficient);
         $coefficient = (is_numeric($coefficient) and $coefficient > 0) ? $coefficient : self::$coefficient;
-        return apply_filters('wp_statistics_visitor_coefficient', $coefficient);
+        return apply_filters('wp_statistics_coefficient_per_visitor', $coefficient);
     }
 
     /**
