@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS\Api\v2;
 
+use WP_STATISTICS\Option;
+
 class Meta_Box extends \WP_STATISTICS\RestAPI
 {
     /**
@@ -37,7 +39,14 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
                     )
                 ),
                 'permission_callback' => function (\WP_REST_Request $request) {
-                    return true;
+
+                    // Check User Auth
+                    $user = wp_get_current_user();
+                    if ($user->ID == 0) {
+                        return false;
+                    }
+
+                    return current_user_can(Option::get('read_capability', 'manage_options'));
                 }
             )
         ));
@@ -52,12 +61,6 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
      */
     public function meta_box_callback(\WP_REST_Request $request)
     {
-        // Check User Auth
-        $user = wp_get_current_user();
-        if ($user->ID == 0) {
-            return new \WP_REST_Response(array('code' => 'user_auth', 'message' => __('You do not have enough access privileges for checking out information. Please check the accessibility of the information display in the settings section of WP-Statistics.', 'wp-statistics')), 400);
-        }
-
         // Check Exist MetaBox Name
         if (in_array($request->get_param('name'), array_keys(\WP_STATISTICS\Meta_Box::getList())) and \WP_STATISTICS\Meta_Box::IsExistMetaBoxClass($request->get_param('name'))) {
             $class = \WP_STATISTICS\Meta_Box::getMetaBoxClass($request->get_param('name'));

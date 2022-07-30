@@ -52,7 +52,7 @@ class UserOnline
     {
         global $wpdb;
 
-        //Check User Online is Active in this Wordpress
+        //Check User Online is Active in this WordPress
         if (self::active()) {
 
             //Get Not timestamp
@@ -231,7 +231,8 @@ class UserOnline
         $args     = wp_parse_args($arg, $defaults);
 
         // Prepare SQL
-        $SQL = "SELECT";
+        $args['sql'] = null;
+        $SQL         = "SELECT";
 
         // Check Fields
         if ($args['fields'] == "count") {
