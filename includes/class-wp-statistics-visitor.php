@@ -247,8 +247,10 @@ class Visitor
             $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
 
+        $limit = (($args['paged'] - 1) * $args['per_page']);
+
         // Set Pagination
-        $args['sql'] = $args['sql'] . " LIMIT " . (($args['paged'] - 1) * $args['per_page']) . ", {$args['per_page']}";
+        $args['sql'] = esc_sql($args['sql']) . " LIMIT {$limit}, {$args['per_page']}";
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);

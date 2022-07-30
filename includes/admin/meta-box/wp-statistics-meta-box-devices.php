@@ -70,7 +70,7 @@ class devices
         $lists_value = $lists_name = array();
 
         $order_by = '';
-        if ($args['order']) {
+        if ($args['order'] and in_array($args['order'], array('DESC', 'ASC', 'desc', 'asc'))) {
             $order_by = "ORDER BY `count` " . esc_sql($args['order']);
         }
 

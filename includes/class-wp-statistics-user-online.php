@@ -255,7 +255,7 @@ class UserOnline
         }
 
         // Set Pagination
-        $args['sql'] = $args['sql'] . " LIMIT {$args['offset']}, {$args['per_page']}";
+        $args['sql'] = esc_sql($args['sql']) . $wpdb->prepare(" LIMIT %d, %d", $args['offset'], $args['per_page']);
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);
