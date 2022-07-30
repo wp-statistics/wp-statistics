@@ -1,6 +1,9 @@
 // Define
 $image_path: "../images";
 
+// Settings
+@import "settings/settings";
+
 // Global
 @import "component/global";
 
@@ -14,6 +17,7 @@ $image_path: "../images";
 @import "component/placeholder/placeholder-loading";
 @import "component/badge";
 @import "component/table";
+@import "component/live";
 
 // WordPress Admin Page
 @import "pages/setting";
