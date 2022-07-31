@@ -10,6 +10,9 @@ $image_path: "../images";
 // Generic
 @import "generic/generic";
 
+// Objects
+@import "objects/objects";
+
 // WordPress Admin Component
 @import "component/print";
 @import "component/admin-bar";
@@ -21,6 +24,7 @@ $image_path: "../images";
 @import "component/badge";
 @import "component/table";
 @import "component/live";
+@import "component/footer";
 
 // WordPress Admin Page
 @import "pages/setting";

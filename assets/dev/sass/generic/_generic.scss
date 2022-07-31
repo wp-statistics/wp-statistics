@@ -3,13 +3,18 @@
     padding: 0;
     margin-bottom: 32px;
   }
+
+  .postbox-header .handle-actions {
+    margin-top: 8px;
+  }
 }
 
-.postbox-container {
+.wps-wrap .postbox-container {
   border-radius: 8px;
   overflow: hidden;
 
   .postbox {
     border-radius: 8px;
+    border: 1px solid $light-color;
   }
 }
