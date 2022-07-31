@@ -7,13 +7,13 @@
   background: $service-green-light-color;
   border: 1px solid $service-green-medium-color;
   color: $service-green-color;
-  margin: 24px 0;
+  margin: 14px 32px 24px 32px;
   padding: 13px 16px;
   border-radius: 4px;
 }
 
 .c-live__title {
-  margin-right: 16px;
+  margin-right: 14px;
 }
 
 .c-live__value {
@@ -27,7 +27,7 @@
   position: relative;
   width: 7px;
   height: 7px;
-  margin-right: 8px;
+  margin-right: 11px;
 
   &::before {
     margin-right: 11px;

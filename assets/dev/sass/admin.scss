@@ -7,6 +7,9 @@ $image_path: "../images";
 // Global
 @import "component/global";
 
+// Generic
+@import "generic/generic";
+
 // WordPress Admin Component
 @import "component/print";
 @import "component/admin-bar";
@@ -37,3 +40,6 @@ $image_path: "../images";
 
 // UI styles
 @import "component/ui.admin";
+
+// Elements
+@import "elements/elements";
