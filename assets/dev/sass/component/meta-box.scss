@@ -48,6 +48,13 @@
   top: unset !important;
   display: block !important;
   float: left;
+  margin-right: 5px;
+}
+
+#wps-postbox-container-1 {
+  .wps-refresh .wps-refresh-icon {
+    margin-right: 0 !important;
+  }
 }
 
 .wps-refresh-icon {

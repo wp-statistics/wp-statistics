@@ -4,3 +4,12 @@
     margin-bottom: 32px;
   }
 }
+
+.postbox-container {
+  border-radius: 8px;
+  overflow: hidden;
+
+  .postbox {
+    border-radius: 8px;
+  }
+}
