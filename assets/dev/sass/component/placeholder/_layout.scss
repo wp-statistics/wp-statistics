@@ -114,3 +114,18 @@
   height: 25px;
   margin: 0px auto;
 }
+
+
+// Chart Styles
+.wps-ph-item {
+  max-height: 444px;
+
+  * {
+    max-height: 444px;
+    max-width: 444px;
+  }
+
+  .wps-ph-col-8 {
+    margin-left:20%;
+  }
+}

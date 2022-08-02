@@ -1,0 +1,12 @@
+.c-chart {
+
+}
+
+.c-chart--limited-height {
+  max-height: 444px;
+
+  canvas {
+    max-height: 444px;
+  }
+}
+

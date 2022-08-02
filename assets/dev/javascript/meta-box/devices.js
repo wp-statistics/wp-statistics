@@ -10,7 +10,7 @@ wps_js.devices_meta_box = {
         let html = '';
 
         // Add Chart
-        html += '<canvas id="' + wps_js.chart_id('devices') + '" height="220"></canvas>';
+        html += '<div class="o-wrap"><div class="c-chart c-chart--limited-height"><canvas id="' + wps_js.chart_id('devices') + '" height="220"></canvas></div></div>';
 
         // show Data
         return html;
