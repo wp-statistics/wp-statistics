@@ -7,6 +7,9 @@ $image_path: "../images";
 // Global
 @import "component/global";
 
+// Elements
+@import "elements/elements";
+
 // Generic
 @import "generic/generic";
 
@@ -26,6 +29,7 @@ $image_path: "../images";
 @import "component/live";
 @import "component/footer";
 @import "component/chart";
+@import "component/about";
 
 // WordPress Admin Page
 @import "pages/setting";
@@ -45,6 +49,3 @@ $image_path: "../images";
 
 // UI styles
 @import "component/ui.admin";
-
-// Elements
-@import "elements/elements";

@@ -1,0 +1,10 @@
+.wps-wrap {
+
+  a {
+    color: $primary-color;
+
+    &:hover {
+      color: $dark-color;
+    }
+  }
+}
