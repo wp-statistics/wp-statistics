@@ -3,7 +3,7 @@ wps_js.top_visitors_meta_box = {
     view: function (args = []) {
         let t = '';
         t += `<div class="wp-statistics-responsive-table">`;
-        t += `<table width="100%" class="widefat table-stats wps-report-table"><tbody>
+        t += `<table width="100%" class="o-table"><tbody>
         <tr>
             <td>${wps_js._('rank')}</td>
             <td>${wps_js._('hits')}</td>

@@ -1,0 +1,174 @@
+.wps-wrap {
+  .o-table {border-collapse: collapse;
+
+    thead {
+
+      tr th {
+        padding: 8px 0;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        border-bottom: 1px solid $light-secondary-color;
+        color: $dark-tertiary-color;
+        text-align: left;
+
+        &:first-child {
+          padding-left: 32px;
+        }
+
+
+        &:last-child {
+          padding-right: 32px;
+        }
+      }
+    }
+
+    tbody {
+      tr th {
+        padding: 14px 0;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        color: $dark-tertiary-color;
+        text-align: left;
+
+        &:first-child {
+          padding-left: 32px;
+        }
+
+
+        &:last-child {
+          padding-right: 32px;
+        }
+      }
+
+      tr td {
+        padding: 14px 0;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 15px;
+        color: $dark-color;
+        border: none;
+
+        &:first-child {
+          padding-left: 32px;
+        }
+
+
+        &:last-child {
+          padding-right: 32px;
+        }
+
+        a, a span {
+          font-weight: 400;
+          font-size: 13px;
+          line-height: 15px;
+          color: $dark-color;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+
+      tr:nth-child(even) {
+        th, td {
+          background-color: $light-tertiary-color;
+        }
+      }
+    }
+  }
+
+  .o-table--link {
+    tbody tr td {
+      img {
+        margin-right: 8px;
+      }
+
+      a {
+        color: $primary-color;
+        transition: 0.22s;
+        display: inline-flex;
+        align-items: center;
+
+        span , svg{
+          color: $primary-color;
+          transition: 0.22s;
+        }
+
+        svg {
+          margin-left: 2px;
+        }
+
+        &:hover {
+          color: $dark-color;
+
+          span {
+            color: $dark-color;
+          }
+
+          svg {
+            transform: translateX(3px);
+            filter: grayscale(1) brightness(0.9);
+          }
+        }
+      }
+    }
+  }
+
+  .o-table--space-between {
+    tr td, tr, th {
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  .o-table--visitors {
+
+    thead {
+      tr th {
+        text-align: center;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+
+    tbody {
+      tr td {
+        text-align: left;
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+
+      .o-table__browser {
+        &::after {
+          content: attr(title);
+          display: inline-block;
+          margin-left: 2px;
+        }
+      }
+    }
+
+    .o-table__link a {
+      color: $primary-color;
+
+      &:hover {
+        color: $dark-color;
+      }
+    }
+  }
+}

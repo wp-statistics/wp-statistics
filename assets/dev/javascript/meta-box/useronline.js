@@ -2,7 +2,7 @@ wps_js.useronline_meta_box = {
 
     view: function (args = []) {
         let t = '';
-        t += `<table class="widefat table-stats wps-report-table wps-table-fixed">
+        t += `<table class="o-table wps-report-table wps-table-fixed">
         <tr>
             <td width="35%" style='text-align: left;'>${wps_js._('page')}</td>
             <td style='text-align: left;'>${wps_js._('referrer')}</td>`

@@ -7,6 +7,15 @@
   .postbox-header .handle-actions {
     margin-top: 8px;
   }
+
+  .wps-ph-col-12 {
+    width: 100%;
+    max-width: 100%;
+
+    .wps-ph-picture, .wps-ph-row {
+       max-width: 100%;
+    }
+  }
 }
 
 .wps-wrap .postbox-container {
