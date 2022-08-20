@@ -129,6 +129,27 @@
     }
   }
 
+  .o-table-wrapper {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: $light-color $light-tertiary-color;
+
+    /* width */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: $light-tertiary-color;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: $light-color;
+    }
+  }
+
+
   .o-table--visitors {
 
     thead {
@@ -141,6 +162,14 @@
 
         &:last-child {
           text-align: right;
+        }
+
+        &:nth-child(1) {
+          min-width: 40px;
+        }
+
+        &:nth-child(n+2) {
+          min-width: 120px;
         }
       }
     }

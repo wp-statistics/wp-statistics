@@ -2,7 +2,7 @@ wps_js.recent_meta_box = {
 
     view: function (args = []) {
         let t = '';
-        t += `<div class="wp-statistics-responsive-table">`;
+        t += `<div class="o-table-wrapper">`;
         t += `<table width="100%" class="o-table o-table--visitors"><thead>
         <tr>
             <th>${wps_js._('rank')}</th>

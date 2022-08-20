@@ -2,7 +2,7 @@ wps_js.words_meta_box = {
 
     view: function (args = []) {
         let t = '';
-        t += `<div class="wp-statistics-responsive-table">`;
+        t += `<div class="o-table-wrapper">`;
         t += `<table width="100%" class="widefat table-stats wps-report-table"><tbody>
         <tr>
             <td>${wps_js._('word')}</td>
