@@ -38,6 +38,8 @@ wps_js.ajaxQ = function (url, params, callback, error_callback, type = 'GET', in
                 if (data['no_data']) {
 
                     jQuery(wps_js.meta_box_inner(params.name)).empty().html(wps_js.no_meta_box_data());
+
+                    wps_js.meta_box_footer(params.name);
                 } else {
 
                     // Show Meta Box
@@ -49,6 +51,8 @@ wps_js.ajaxQ = function (url, params, callback, error_callback, type = 'GET', in
                             wps_js[callback]['meta_box_init'](data);
                         }, 150);
                     }
+
+                    wps_js.meta_box_footer(params.name);
                 }
             } else {
 

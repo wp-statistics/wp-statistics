@@ -94,7 +94,13 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => 'View top browsers',
+                ]
             ),
             'platforms'       => array(
                 'page_url'          => 'platform',
@@ -102,7 +108,13 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => 'View top platforms',
+                ]
             ),
             'devices'         => array(
                 'name'              => __('Top Devices', 'wp-statistics'),
@@ -111,7 +123,7 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'side'
             ),
-            'models'   => array(
+            'models'          => array(
                 'name'              => __('Top Device Models', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
@@ -124,7 +136,13 @@ class Meta_Box
                 'require'           => array('geoip' => true, 'visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => 'View top countries',
+                ]
             ),
             'referring'       => array(
                 'page_url'          => 'referrers',
@@ -132,7 +150,13 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => 'View top referring',
+                ]
             ),
             'hits'            => array(
                 'page_url'          => 'hits',
@@ -140,7 +164,13 @@ class Meta_Box
                 'require'           => array('visits' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '7days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => 'Hit statistics report',
+                ]
             ),
             'search'          => array(
                 'page_url'          => 'searches',
@@ -156,7 +186,13 @@ class Meta_Box
                 'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => 'View top Pages',
+                ]
             ),
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
@@ -164,7 +200,13 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => false,
+                    'default_date_filter' => false,
+                    'display_more_link'   => true,
+                    'more_link_title'     => 'View top visitors',
+                ]
             ),
             'recent'          => array(
                 'page_url'          => 'visitors',
@@ -179,7 +221,13 @@ class Meta_Box
                 'require'           => array('geoip' => true, 'visitors' => true, 'disable_map' => false),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => 'today',
+                    'display_more_link'   => false,
+                    'more_link_title'     => '',
+                ]
             ),
             'useronline'      => array(
                 'name'              => __('Online Users', 'wp-statistics'),
