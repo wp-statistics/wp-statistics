@@ -97,8 +97,8 @@ class UserAgent
 
     public static function getBrowserInfo($userAgent = null)
     {
-        $version      = '';
-        $model = _x('Unknown', 'Device Model', 'wp-statistics');
+        $version = '';
+        $model   = _x('Unknown', 'Device Model', 'wp-statistics');
 
         if (preg_match('/linux|ubuntu/i', $userAgent)) {
             $platform = 'linux';
