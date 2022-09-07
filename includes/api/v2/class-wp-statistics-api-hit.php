@@ -35,14 +35,8 @@ class Hit extends \WP_STATISTICS\RestAPI
     public static function require_params_hit()
     {
         return array(
-            'browser'   => array('required' => true, 'type' => 'string'),
-            'platform'  => array('required' => true, 'type' => 'string'),
-            'version'   => array('required' => true, 'type' => 'string'),
-            'ip'        => array('required' => true, 'type' => 'string', 'format' => 'ip'),
             'track_all' => array('required' => true, 'type' => 'integer'),
-            'timestamp' => array('required' => true, 'type' => 'integer'),
             'page_uri'  => array('required' => true, 'type' => 'string'),
-            'user_id'   => array('required' => true, 'type' => 'integer'),
             '_wpnonce'  => array('required' => false, 'type' => 'string')
         );
     }

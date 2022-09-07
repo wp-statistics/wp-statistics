@@ -18,7 +18,7 @@ if ($aboutWidgetContent) {
                     <a href="https://wp-statistics.com/add-ons/" target="_blank"><?php _e('Add-Ons', 'wp-statistics'); ?></a> |
                     <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><?php _e('Rate & Review', 'wp-statistics'); ?></a>
                     <div class="wps-postbox-veronalabs">
-                        <a href="https://veronalabs.com/?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress" target="_blank" title="<?php _e('Power by VeronaLabs', 'wp-statistics'); ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL); ?>assets/images/veronalabs.svg" alt="VeronaLabs" style="width: 80px;"/></a>
+                        <a href="https://veronalabs.com/?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress" target="_blank" title="<?php _e('Power by VeronaLabs', 'wp-statistics'); ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL); ?>assets/images/veronalabs.svg" alt="VeronaLabs" style="width: 100px;"/></a>
                     </div>
                 </div>
             </td>

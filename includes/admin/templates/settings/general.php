@@ -109,16 +109,6 @@
                 <p class="description"><?php _e('Enable this option to show the list of user visits, link in the WordPress admin user list page.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-
-        <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
-            <th scope="row">
-                <label for="coefficient"><?php _e('Coefficient per Visitor:', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input type="text" class="small-text code" id="coefficient" name="wps_coefficient" value="<?php echo esc_attr(WP_STATISTICS\Option::get('coefficient')); ?>"/>
-                <p class="description"><?php echo sprintf(__('This feature multiplies the number of each visitor. Currently %s.', 'wp-statistics'), WP_STATISTICS\Option::get('coefficient')); ?></p>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>

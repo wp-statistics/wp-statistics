@@ -246,7 +246,9 @@ class Referred
         //Get Top Referring
         if (false === ($get_urls = get_transient(self::$top_referring_transient))) {
 
-            $result = $wpdb->get_results(self::GenerateReferSQL("ORDER BY `number` DESC LIMIT $number", ''));
+            $sql = $wpdb->prepare("ORDER BY `number` DESC LIMIT %d", $number);
+
+            $result = $wpdb->get_results(self::GenerateReferSQL($sql, ''));
             foreach ($result as $items) {
                 $get_urls[$items->domain] = self::get_referer_from_domain($items->domain);
             }

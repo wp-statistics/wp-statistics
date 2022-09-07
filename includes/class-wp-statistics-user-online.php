@@ -52,7 +52,7 @@ class UserOnline
     {
         global $wpdb;
 
-        //Check User Online is Active in this Wordpress
+        //Check User Online is Active in this WordPress
         if (self::active()) {
 
             //Get Not timestamp
@@ -231,7 +231,8 @@ class UserOnline
         $args     = wp_parse_args($arg, $defaults);
 
         // Prepare SQL
-        $SQL = "SELECT";
+        $args['sql'] = null;
+        $SQL         = "SELECT";
 
         // Check Fields
         if ($args['fields'] == "count") {
@@ -254,7 +255,7 @@ class UserOnline
         }
 
         // Set Pagination
-        $args['sql'] = $args['sql'] . " LIMIT {$args['offset']}, {$args['per_page']}";
+        $args['sql'] = esc_sql($args['sql']) . $wpdb->prepare(" LIMIT %d, %d", $args['offset'], $args['per_page']);
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);

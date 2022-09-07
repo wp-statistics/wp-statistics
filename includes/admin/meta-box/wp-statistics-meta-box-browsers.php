@@ -130,8 +130,10 @@ class browsers
             $lists_keys[] = strtolower($args['browser']);
             $lists_logo[] = UserAgent::getBrowserLogo($args['browser']);
 
+            $sql = $wpdb->prepare("SELECT version, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE agent = %s AND `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY version", $args['browser']);
+
             // Get List Of Version From Custom Browser
-            $list = $wpdb->get_results("SELECT version, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE agent = '" . $args['browser'] . "' AND `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY version", ARRAY_A);
+            $list = $wpdb->get_results($sql, ARRAY_A);
 
             // Sort By Count
             Helper::SortByKeyValue($list, 'count');

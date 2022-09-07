@@ -69,8 +69,15 @@ class platforms
         $total       = $count = 0;
         $lists_value = $lists_name = array();
 
+        $order_by = '';
+        if ($args['order'] and in_array($args['order'], array('DESC', 'ASC', 'desc', 'asc'))) {
+            $order_by = "ORDER BY `count` " . esc_sql($args['order']);
+        }
+
+        $sql = $wpdb->prepare("SELECT platform, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE platform != '" . _x('Unknown', 'Platform', 'wp-statistics') . "' AND `last_counter` BETWEEN %s AND %s GROUP BY platform {$order_by}", reset($days_time_list), end($days_time_list));
+
         // Get List All Platforms
-        $list = $wpdb->get_results("SELECT platform, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE platform != '" . _x('Unknown', 'Platform', 'wp-statistics') . "' AND `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "' GROUP BY platform " . ($args['order'] != "" ? 'ORDER BY `count` ' . $args['order'] : ''), ARRAY_A);
+        $list = $wpdb->get_results($sql, ARRAY_A);
 
         // Sort By Count
         Helper::SortByKeyValue($list, 'count');

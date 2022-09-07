@@ -31,11 +31,13 @@ class Frontend
     }
 
     /*
-     * Create Comment support Wappalyzer
+     * Create HTML Comment support Wappalyzer
      */
     public function html_comment()
     {
-        echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n";
+        if (apply_filters('wp_statistics_html_comment', true)) {
+            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n";
+        }
     }
 
     /**
@@ -68,7 +70,7 @@ class Frontend
     {
         if (Option::get('use_cache_plugin')) {
 
-            // Wp-Statistics HTML comment
+            // WP Statistics HTML comment
             $this->html_comment();
 
             // Prepare Params
