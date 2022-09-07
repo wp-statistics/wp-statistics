@@ -159,7 +159,7 @@ function wp_statistics_useronline($options = array())
     $sql          = "SELECT {$type_request} FROM " . WP_STATISTICS\DB::table('useronline');
 
     //Check Where Condition
-    $where = false;
+    $where = [];
 
     //Check Type of Page
     if ($arg['type'] != "all") {
@@ -346,7 +346,7 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
     }
 
     //Check Where Condition
-    $where = false;
+    $where = [];
 
     //Check Type of Page
     if ($arg['type'] != "all" and WP_STATISTICS\Option::get('visitors_log') == true) {
@@ -434,7 +434,7 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
     $history     = 0;
 
     //Check Where Condition
-    $where = false;
+    $where = [];
 
     //Check Query By Page ID or Page Url
     if ($type != false) {
