@@ -99,7 +99,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => '30days',
                     'display_more_link'   => true,
-                    'more_link_title'     => 'View top browsers',
+                    'more_link_title'     => __('View Top Browsers'),
                 ]
             ),
             'platforms'       => array(
@@ -113,7 +113,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => '30days',
                     'display_more_link'   => true,
-                    'more_link_title'     => 'View top platforms',
+                    'more_link_title'     => __('View Top Platforms'),
                 ]
             ),
             'devices'         => array(
@@ -141,7 +141,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => '30days',
                     'display_more_link'   => true,
-                    'more_link_title'     => 'View top countries',
+                    'more_link_title'     => __('View Top Countries'),
                 ]
             ),
             'referring'       => array(
@@ -155,7 +155,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => '30days',
                     'display_more_link'   => true,
-                    'more_link_title'     => 'View top referring',
+                    'more_link_title'     => __('View Top Referring'),
                 ]
             ),
             'hits'            => array(
@@ -169,7 +169,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => '7days',
                     'display_more_link'   => true,
-                    'more_link_title'     => 'Hit statistics report',
+                    'more_link_title'     => __('Hit Statistics Report'),
                 ]
             ),
             'search'          => array(
@@ -191,7 +191,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => '30days',
                     'display_more_link'   => true,
-                    'more_link_title'     => 'View top Pages',
+                    'more_link_title'     => __('View Top Pages'),
                 ]
             ),
             'top-visitors'    => array(
@@ -205,7 +205,7 @@ class Meta_Box
                     'filter_by_date'      => false,
                     'default_date_filter' => false,
                     'display_more_link'   => true,
-                    'more_link_title'     => 'View top visitors',
+                    'more_link_title'     => __('View Top Visitors'),
                 ]
             ),
             'recent'          => array(
