@@ -11,7 +11,7 @@ class referring
     {
 
         // Check Number of Country
-        $number = (isset($args['number']) ? $args['number'] : 10);
+        $number = (!empty($args['number']) ? $args['number'] : 10);
 
         // Get List Top Referring
         try {
