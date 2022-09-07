@@ -199,4 +199,61 @@ class TimeZone
         return $list;
     }
 
+    public static function getDateFilters()
+    {
+        return [
+            'today'     => [
+                'from' => self::getTimeAgo(0),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            'yesterday' => [
+                'from' => self::getTimeAgo(1),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '7days'     => [
+                'from' => self::getTimeAgo(7),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '14days'    => [
+                'from' => self::getTimeAgo(14),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '30days'    => [
+                'from' => self::getTimeAgo(30),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '60days'    => [
+                'from' => self::getTimeAgo(60),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '90days'    => [
+                'from' => self::getTimeAgo(90),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '120days'   => [
+                'from' => self::getTimeAgo(120),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '6months'   => [
+                'from' => self::getTimeAgo(180),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            'year'      => [
+                'from' => self::getTimeAgo(365),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+        ];
+    }
+
+    public static function calculateDateFilter($dateFilter = false)
+    {
+        $dateFilters = self::getDateFilters();
+
+        if (!empty($dateFilters[$dateFilter])) {
+            return $dateFilters[$dateFilter];
+        }
+
+        return $dateFilters['30days'];
+    }
+
 }

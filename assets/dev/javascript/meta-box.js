@@ -155,7 +155,12 @@ wps_js.run_meta_boxes = function (list = false) {
         list = Object.keys(wps_js.global.meta_boxes);
     }
     list.forEach(function (value) {
-        wps_js.run_meta_box(value);
+        let ago = '';
+        let args = wps_js.global.meta_boxes[value];
+        if (args.hasOwnProperty('footer_options')) {
+            ago = args.footer_options.default_date_filter;
+        }
+        wps_js.run_meta_box(value, {'ago': ago});
     });
 };
 
@@ -173,7 +178,7 @@ wps_js.meta_box_footer = function (key) {
     };
 
     const args = wps_js.global.meta_boxes[key];
-    if (typeof args.footer_options != undefined) {
+    if (args.hasOwnProperty('footer_options')) {
         Object.assign(params.footer_options, args.footer_options);
     }
 
@@ -189,18 +194,18 @@ wps_js.meta_box_footer = function (key) {
                     <span class="c-footer__current-filter__date-range hs-filter-range">May 12,2020  -  May 20, 2020</span>
                 </div>
                 <div class="c-footer__filters__list">
-                    <button data-filter="today" class="c-footer__filters__list-item">` + wps_js._('str_today') + `</button>
-                    <button data-filter="yesterday" class="c-footer__filters__list-item">` + wps_js._('str_yesterday') + `</button>
-                    <button data-filter="7days" class="c-footer__filters__list-item">` + wps_js._('str_7days') + `</button>
-                    <button data-filter="30days" class="c-footer__filters__list-item">` + wps_js._('str_30days') + `</button>
-                    <button data-filter="90days" class="c-footer__filters__list-item">` + wps_js._('str_90days') + `</button>
+                    <button data-metabox-key="${key}" data-filter="today" class="c-footer__filters__list-item">` + wps_js._('str_today') + `</button>
+                    <button data-metabox-key="${key}" data-filter="yesterday" class="c-footer__filters__list-item">` + wps_js._('str_yesterday') + `</button>
+                    <button data-metabox-key="${key}" data-filter="7days" class="c-footer__filters__list-item">` + wps_js._('str_7days') + `</button>
+                    <button data-metabox-key="${key}" data-filter="30days" class="c-footer__filters__list-item">` + wps_js._('str_30days') + `</button>
+                    <button data-metabox-key="${key}" data-filter="90days" class="c-footer__filters__list-item">` + wps_js._('str_90days') + `</button>
                     <button class="c-footer__filters__list-item c-footer__filters__list-item--more" onclick="jQuery(this).closest('.c-footer__filters__list').find('.js-more-filters').addClass('is-open')">` + wps_js._('str_more') + ` <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25736 5.07544L4.32794 5.14601C4.241 5.23295 4.12308 5.28182 4.00009 5.28182C3.87715 5.28182 3.7592 5.233 3.67226 5.14604C3.67226 5.14603 3.67225 5.14603 3.67225 5.14602L0.0358041 1.50968L0.106514 1.43896L0.0358032 1.50968C-0.14526 1.32861 -0.14526 1.03507 0.0357727 0.854006M4.25736 5.07544L0.10649 0.92471M4.25736 5.07544L4.32794 5.14601L7.9642 1.50965C8.14527 1.32859 8.14527 1.03504 7.9642 0.853976C7.78317 0.67294 7.4896 0.672907 7.30853 0.853976L7.37924 0.924687M4.25736 5.07544L7.37924 0.924687M0.0357727 0.854006L0.10649 0.92471M0.0357727 0.854006C0.0357708 0.854008 0.0357689 0.85401 0.035767 0.854012L0.10649 0.92471M0.0357727 0.854006C0.126294 0.763456 0.245135 0.718189 0.363629 0.718189C0.482123 0.718189 0.600959 0.763457 0.691478 0.853975L4.00008 4.16249M0.10649 0.92471C0.177495 0.85368 0.270562 0.818189 0.363629 0.818189C0.456695 0.818189 0.549762 0.85368 0.620768 0.924686L3.92938 4.2332L4.00008 4.16249M4.00008 4.16249L7.30853 0.853977L7.37924 0.924687M4.00008 4.16249L4.0708 4.2332L7.37924 0.924687" fill="#5F6368" stroke="#5F6368" stroke-width="0.2"/></svg></button>
                     <div class="c-footer__filters__more-filters js-more-filters">
-                        <button data-filter="14days" class="c-footer__filters__list-item">` + wps_js._('str_14days') + `</button>
-                        <button data-filter="60days" class="c-footer__filters__list-item">` + wps_js._('str_60days') + `</button>
-                        <button data-filter="120days" class="c-footer__filters__list-item">` + wps_js._('str_120days') + `</button>
-                        <button data-filter="6months" class="c-footer__filters__list-item">` + wps_js._('str_6months') + `</button>
-                        <button data-filter="year" class="c-footer__filters__list-item">` + wps_js._('str_year') + `</button>
+                        <button data-metabox-key="${key}" data-filter="14days" class="c-footer__filters__list-item">` + wps_js._('str_14days') + `</button>
+                        <button data-metabox-key="${key}" data-filter="60days" class="c-footer__filters__list-item">` + wps_js._('str_60days') + `</button>
+                        <button data-metabox-key="${key}" data-filter="120days" class="c-footer__filters__list-item">` + wps_js._('str_120days') + `</button>
+                        <button data-metabox-key="${key}" data-filter="6months" class="c-footer__filters__list-item">` + wps_js._('str_6months') + `</button>
+                        <button data-metabox-key="${key}" data-filter="year" class="c-footer__filters__list-item">` + wps_js._('str_year') + `</button>
                         <button class="c-footer__filters__close-more-filters" onclick="jQuery(this).closest('.js-more-fi' + 'lters').removeClass('is-open')"><svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25736 5.07544L4.32794 5.14601C4.241 5.23295 4.12308 5.28182 4.00009 5.28182C3.87715 5.28182 3.7592 5.233 3.67226 5.14604C3.67226 5.14603 3.67225 5.14603 3.67225 5.14602L0.0358041 1.50968L0.106514 1.43896L0.0358032 1.50968C-0.14526 1.32861 -0.14526 1.03507 0.0357727 0.854006M4.25736 5.07544L0.10649 0.92471M4.25736 5.07544L4.32794 5.14601L7.9642 1.50965C8.14527 1.32859 8.14527 1.03504 7.9642 0.853976C7.78317 0.67294 7.4896 0.672907 7.30853 0.853976L7.37924 0.924687M4.25736 5.07544L7.37924 0.924687M0.0357727 0.854006L0.10649 0.92471M0.0357727 0.854006C0.0357708 0.854008 0.0357689 0.85401 0.035767 0.854012L0.10649 0.92471M0.0357727 0.854006C0.126294 0.763456 0.245135 0.718189 0.363629 0.718189C0.482123 0.718189 0.600959 0.763457 0.691478 0.853975L4.00008 4.16249M0.10649 0.92471C0.177495 0.85368 0.270562 0.818189 0.363629 0.818189C0.456695 0.818189 0.549762 0.85368 0.620768 0.924686L3.92938 4.2332L4.00008 4.16249M4.00008 4.16249L7.30853 0.853977L7.37924 0.924687M4.00008 4.16249L4.0708 4.2332L7.37924 0.924687" fill="#5F6368" stroke="#5F6368" stroke-width="0.2"/></svg> ` + wps_js._('str_back') + `</button>
                     </div>
                     <button class="c-footer__filters__list-item c-footer__filters__list-item--custom">` + wps_js._('str_custom') + `</button>
@@ -216,6 +221,13 @@ wps_js.meta_box_footer = function (key) {
 
     jQuery(wps_js.meta_box_inner(key)).append(html);
 };
+
+/**
+ * Meta Box Footer Handle Date Filter
+ */
+jQuery(document).on("click", 'button[data-filter]', function () {
+    wps_js.run_meta_box(jQuery(this).attr('data-metabox-key'), {'ago': jQuery(this).attr('data-filter')});
+});
 
 /**
  * Disable Close WordPress Post ox for Meta Box Button
@@ -239,9 +251,14 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     // Get Meta Box name By Parent ID
     let parentID = jQuery(this).closest(".postbox").attr("id");
     let meta_box_name = wps_js.meta_box_name_by_id(parentID);
+    let ago = '';
+    let args = wps_js.global.meta_boxes[meta_box_name];
+    if (args.hasOwnProperty('footer_options')) {
+        ago = args.footer_options.default_date_filter;
+    }
 
     // Run Meta Box
-    wps_js.run_meta_box(meta_box_name, false, false);
+    wps_js.run_meta_box(meta_box_name, {'ago': ago}, false);
     setTimeout(function () {
         jQuery('#' + parentID).find('.wps-refresh').blur();
     }, 1000);
