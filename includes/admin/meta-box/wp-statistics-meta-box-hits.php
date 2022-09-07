@@ -27,8 +27,11 @@ class hits
         // Check Number Days Or Between
         if (isset($args['from']) and isset($args['to'])) {
             $params = array('from' => $args['from'], 'to' => $args['to']);
+        } elseif (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
+            $dateFilter = TimeZone::calculateDateFilter($args['ago']);
+            $params     = array('from' => $dateFilter['from'], 'to' => $dateFilter['to']);
         } else {
-            $days   = (isset($args['ago']) ? $args['ago'] : self::$default_days_ago);
+            $days   = (!empty($args['ago']) ? $args['ago'] : self::$default_days_ago);
             $params = array('ago' => $days);
         }
 
