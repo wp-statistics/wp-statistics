@@ -81,6 +81,15 @@ class Country
         // Get List From DB
         $list = array();
 
+        // Check Default
+        if (empty($args['from']) and empty($args['to'])) {
+            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
+                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
+                $args['from'] = $dateFilter['from'];
+                $args['to']   = $dateFilter['to'];
+            }
+        }
+
         // Check Custom Date
         if (!empty($args['from']) and !empty($args['to'])) {
             $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
