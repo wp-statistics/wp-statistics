@@ -31,8 +31,14 @@ class platforms
         $args     = wp_parse_args($arg, $defaults);
 
         // Check Default
-        if (empty($args['from']) and empty($args['to']) and $args['ago'] < 1) {
-            $args['ago'] = 'all';
+        if (empty($args['from']) and empty($args['to'])) {
+            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
+                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
+                $args['from'] = $dateFilter['from'];
+                $args['to']   = $dateFilter['to'];
+            } elseif ($args['ago'] < 1) {
+                $args['ago'] = 'all';
+            }
         }
 
         // Prepare Count Day
