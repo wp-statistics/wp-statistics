@@ -399,8 +399,6 @@ class Pages
                 $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
                 $args['from'] = $dateFilter['from'];
                 $args['to']   = $dateFilter['to'];
-            } elseif ($args['ago'] < 1) {
-                $args['ago'] = 'all';
             }
         }
 

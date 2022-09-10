@@ -23,6 +23,14 @@ class hitsmap
         // Get List Country Code
         $CountryCode = Country::getList();
 
+        if (empty($args['from']) and empty($args['to'])) {
+            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
+                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
+                $args['from'] = $dateFilter['from'];
+                $args['to']   = $dateFilter['to'];
+            }
+        }
+
         // Prepare Count Day
         if (!empty($args['from']) and !empty($args['to'])) {
             $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
@@ -41,7 +49,7 @@ class hitsmap
             if (is_numeric($args['ago']) and $args['ago'] > 0) {
                 $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
             } else {
-                $days_list = TimeZone::getListDays(array('from' => Timezone::getCurrentDate('Y-m-d')));
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($count_day)));
             }
         }
 
