@@ -178,7 +178,13 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '7days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Search Engine Referrals'),
+                ]
             ),
             'pages'           => array(
                 'page_url'          => 'pages',

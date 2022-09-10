@@ -13,7 +13,7 @@ class search
      *
      * @var int
      */
-    public static $default_days_ago = 7;
+    private const DEFAULT_DAYS_AGO = 7;
 
     /**
      * Get Search Engine Chart
@@ -37,15 +37,36 @@ class search
         $date = $stats = $total_daily = $search_engine_list = array();
 
         // Check Default
-        if (empty($args['from']) and empty($args['to']) and $args['ago'] < 1) {
-            $args['ago'] = self::$default_days_ago;
+        if (empty($args['from']) and empty($args['to'])) {
+            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
+                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
+                $args['from'] = $dateFilter['from'];
+                $args['to']   = $dateFilter['to'];
+            } elseif ($args['ago'] < 1) {
+                $args['ago'] = 'all';
+            }
+        }
+
+        // Prepare Count Day
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $count_day = $args['ago'];
+            } else {
+                $count_day = self::DEFAULT_DAYS_AGO;
+            }
         }
 
         // Get time ago Days Or Between Two Days
-        if ($args['ago'] > 0) {
-            $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
-        } else {
+        if (!empty($args['from']) and !empty($args['to'])) {
             $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
+            } else {
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($count_day)));
+            }
         }
 
         // Get List Of Days
@@ -53,13 +74,6 @@ class search
         foreach ($days_list as $k => $v) {
             $date[]          = $v['format'];
             $total_daily[$k] = 0;
-        }
-
-        // Prepare title Hit Chart
-        if ($args['ago'] > 0) {
-            $count_day = $args['ago'];
-        } else {
-            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
         }
 
         // Set Title
@@ -94,7 +108,7 @@ class search
             'days'          => $count_day,
             'from'          => reset($days_time_list),
             'to'            => end($days_time_list),
-            'type'          => (($args['from'] != "" and $args['to'] != "" and $args['ago'] != self::$default_days_ago) ? 'between' : 'ago'),
+            'type'          => (($args['from'] != "" and $args['to'] != "" and $args['ago'] != self::DEFAULT_DAYS_AGO) ? 'between' : 'ago'),
             'title'         => $title,
             'date'          => $date,
             'stat'          => $stats,
