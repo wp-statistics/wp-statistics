@@ -5,7 +5,7 @@ wps_js.hitsmap_meta_box = {
     },
 
     view: function (args = []) {
-        return `<div id="wp-statistics-visitors-map"></div>`;
+        return `<div class="o-wrap"><div id="wp-statistics-visitors-map"></div></div>`;
     },
 
     meta_box_init: function (args = []) {

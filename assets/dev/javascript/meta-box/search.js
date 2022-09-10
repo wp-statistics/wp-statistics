@@ -16,7 +16,7 @@ wps_js.search_meta_box = {
         let html = '';
 
         // Add Chart
-        html += '<canvas id="' + wps_js.chart_id('search') + '" height="' + height + '"></canvas>';
+        html += '<div class="o-wrap"><canvas id="' + wps_js.chart_id('search') + '" height="' + height + '"></canvas></div>';
 
         // show Data
         return html;

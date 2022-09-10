@@ -27,7 +27,7 @@ wps_js.getMetaBoxKey = function (key) {
  * Show No Data Error if Meta Box is Empty
  */
 wps_js.no_meta_box_data = function () {
-    return wps_js._('no_data');
+    return '<div class="o-wrap">' + wps_js._('no_data') + '</div>';
 };
 
 /**
