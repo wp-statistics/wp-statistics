@@ -167,7 +167,7 @@ wps_js.run_meta_boxes = function (list = false) {
 /**
  * Render Meta Box Footer
  */
-wps_js.meta_box_footer = function (key) {
+wps_js.meta_box_footer = function (key, data) {
     let params = {
         'footer_options': {
             'filter_by_date': false,
@@ -180,6 +180,23 @@ wps_js.meta_box_footer = function (key) {
     const args = wps_js.global.meta_boxes[key];
     if (args.hasOwnProperty('footer_options')) {
         Object.assign(params.footer_options, args.footer_options);
+    }
+
+    let selectedDateFilter = '';
+    if (data.hasOwnProperty('filter')) {
+        selectedDateFilter = data.filter;
+    } else if (typeof params.footer_options.default_date_filter != 'undefined') {
+        selectedDateFilter = params.footer_options.default_date_filter;
+    }
+
+    let selectedStartDate = '';
+    if (data.hasOwnProperty('filter_start_date')) {
+        selectedStartDate = data.filter_start_date;
+    }
+
+    let selectedEndDate = '';
+    if (data.hasOwnProperty('filter_end_date')) {
+        selectedEndDate = data.filter_end_date;
     }
 
     if (!params.footer_options.filter_by_date && !params.footer_options.display_more_link) return;
@@ -220,7 +237,25 @@ wps_js.meta_box_footer = function (key) {
     html += `</div></div>`;
 
     jQuery(wps_js.meta_box_inner(key)).append(html);
+    wps_js.set_date_filter_as_selected(key, selectedDateFilter, selectedStartDate, selectedEndDate);
 };
+
+wps_js.set_date_filter_as_selected = function (key, selectedDateFilter, selectedStartDate, selectedEndDate) {
+    const metaBoxInner = jQuery(wps_js.meta_box_inner(key));
+    const filterBtn = jQuery(metaBoxInner).find('.c-footer__filter__btn');
+    const filterList = jQuery(metaBoxInner).find('.c-footer__filters__list');
+    const currentFilterTitle = jQuery(metaBoxInner).find('.c-footer__current-filter__title');
+    const currentFilterRange = jQuery(metaBoxInner).find('.c-footer__current-filter__date-range');
+    if (selectedDateFilter.length) {
+        filterList.find('button[data-filter]').removeClass('is-selected');
+        filterList.find('button[data-filter="' + selectedDateFilter + '"').addClass('is-selected');
+        filterBtn.text(wps_js._('str_' + selectedDateFilter));
+        currentFilterTitle.text(wps_js._('str_' + selectedDateFilter));
+    }
+    if (selectedStartDate.length && selectedEndDate.length) {
+        currentFilterRange.text(selectedStartDate + '-' + selectedEndDate);
+    }
+}
 
 /**
  * Meta Box Footer Handle Date Filter

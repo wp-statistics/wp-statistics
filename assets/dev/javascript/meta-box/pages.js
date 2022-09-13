@@ -12,7 +12,7 @@ wps_js.pages_meta_box = {
 
         const siteUrl = wps_js.global.admin_url.replace('/wp-admin/', '');
         let i = 1;
-        args.forEach(function (value) {
+        args.pages.forEach(function (value) {
             t += `<tr>
 			<td style='text-align: left;'>${i}</td>
 			<td style='text-align: left;'><span title='${value['title']}' class='wps-cursor-default wps-text-wrap'>${value['title']}</span></td>

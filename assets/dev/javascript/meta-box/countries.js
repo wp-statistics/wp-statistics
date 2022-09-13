@@ -10,7 +10,7 @@ wps_js.countries_meta_box = {
         </tr>`;
 
         let i = 1;
-        args.forEach(function (value) {
+        args.countries.forEach(function (value) {
             t += `<tr>
 			<td style='text-align: left;'>${i}</td>
 			<td style='text-align: left;'><img src="${value['flag']}" title="${value['name']}" alt="${value['name']}" class="wps-flag"/> ${value['name']}</td>

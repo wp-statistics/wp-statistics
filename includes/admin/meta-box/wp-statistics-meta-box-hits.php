@@ -5,7 +5,7 @@ namespace WP_STATISTICS\MetaBox;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\TimeZone;
 
-class hits
+class hits extends MetaBoxAbstract
 {
     /**
      * Default Number day in Hits Chart
@@ -23,13 +23,9 @@ class hits
      */
     public static function get($args = array())
     {
-
         // Check Number Days Or Between
         if (isset($args['from']) and isset($args['to'])) {
             $params = array('from' => $args['from'], 'to' => $args['to']);
-        } elseif (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
-            $dateFilter = TimeZone::calculateDateFilter($args['ago']);
-            $params     = array('from' => $dateFilter['from'], 'to' => $dateFilter['to']);
         } else {
             $days   = (!empty($args['ago']) ? $args['ago'] : self::$default_days_ago);
             $params = array('ago' => $days);
@@ -44,7 +40,7 @@ class hits
         }
 
         // Response
-        return $response;
+        return self::response($response);
     }
 
     /**
@@ -69,39 +65,24 @@ class hits
         $visitors     = $date = $visits = array();
         $total_visits = $total_visitors = 0;
 
-        // Get time ago Days Or Between Two Days
-        if ($args['ago'] > 0) {
-            $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
-        } else {
-            $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
-        }
+        // Filter By Date
+        self::filterByDate($args);
 
         // Get List Of Days
-        $days_time_list = array_keys($days_list);
-        foreach ($days_list as $k => $v) {
+        $days_time_list = array_keys(self::$daysList);
+        foreach (self::$daysList as $k => $v) {
             $date[] = $v['format'];
-        }
-
-        // Prepare title Hit Chart
-        if ($args['ago'] > 0) {
-            $count_day = $args['ago'];
-        } else {
-            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
         }
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Hits in the last %s days', 'wp-statistics'), $count_day);
+            $title = sprintf(__('Hits in the last %s days', 'wp-statistics'), self::$countDays);
         } else {
             $title = sprintf(__('Hits from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Push Basic Chart Data
         $data = array(
-            'days'  => $count_day,
-            'from'  => reset($days_time_list),
-            'to'    => end($days_time_list),
-            'type'  => (($args['from'] != "" and $args['to'] != "" and $args['ago'] != self::$default_days_ago) ? 'between' : 'ago'),
             'title' => $title,
             'date'  => $date
         );

@@ -10,7 +10,7 @@ use WP_STATISTICS\IP;
 use WP_STATISTICS\Timezone;
 use WP_STATISTICS\UserAgent;
 
-class hitsmap
+class hitsmap extends MetaBoxAbstract
 {
 
     public static function get($args = array())
@@ -23,37 +23,10 @@ class hitsmap
         // Get List Country Code
         $CountryCode = Country::getList();
 
-        if (empty($args['from']) and empty($args['to'])) {
-            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
-                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
-                $args['from'] = $dateFilter['from'];
-                $args['to']   = $dateFilter['to'];
-            }
-        }
+        // Filter By Date
+        self::filterByDate($args);
 
-        // Prepare Count Day
-        if (!empty($args['from']) and !empty($args['to'])) {
-            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
-        } else {
-            if (is_numeric($args['ago']) and $args['ago'] > 0) {
-                $count_day = $args['ago'];
-            } else {
-                $count_day = 1;
-            }
-        }
-
-        // Get time ago Days Or Between Two Days
-        if (!empty($args['from']) and !empty($args['to'])) {
-            $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
-        } else {
-            if (is_numeric($args['ago']) and $args['ago'] > 0) {
-                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
-            } else {
-                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($count_day)));
-            }
-        }
-
-        $days_time_list = array_keys($days_list);
+        $days_time_list = array_keys(self::$daysList);
 
         // Get List Country Of Visitors
         $result = $wpdb->get_results("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "'");
@@ -128,7 +101,7 @@ class hitsmap
         // Set Total
         $response['total'] = $final_total;
 
-        return $response;
+        return self::response($response);
     }
 
 }

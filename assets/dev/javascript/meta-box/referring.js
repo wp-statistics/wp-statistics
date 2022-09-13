@@ -8,7 +8,7 @@ wps_js.referring_meta_box = {
             <th>${wps_js.meta_box_lang('referring', 'references')}</th>
         </tr></thead><tbody>`;
 
-        args.forEach(function (value) {
+        args.referring.forEach(function (value) {
             t += `<tr>
 			<td>` + wps_js.site_icon(value['domain']) + ` <a href='//${value['domain']}' title='${value['title']}' target="_blank">${value['domain']} <span class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></span></a></td>
 			<td class="wps-middle-vertical"><a href="${value['page_link']}">${value['number']} 

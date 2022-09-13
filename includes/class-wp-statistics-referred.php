@@ -329,15 +329,6 @@ class Referred
     {
         global $wpdb;
 
-        // Check Default
-        if (empty($args['from']) and empty($args['to'])) {
-            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
-                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
-                $args['from'] = $dateFilter['from'];
-                $args['to']   = $dateFilter['to'];
-            }
-        }
-
         // Check Custom Date
         $where = '';
         if (isset($args['from']) and isset($args['to'])) {

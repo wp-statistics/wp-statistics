@@ -7,7 +7,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
 
-class platforms
+class platforms extends MetaBoxAbstract
 {
     /**
      * Get Platforms Chart
@@ -30,42 +30,12 @@ class platforms
         );
         $args     = wp_parse_args($arg, $defaults);
 
-        // Check Default
-        if (empty($args['from']) and empty($args['to'])) {
-            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
-                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
-                $args['from'] = $dateFilter['from'];
-                $args['to']   = $dateFilter['to'];
-            } elseif ($args['ago'] < 1) {
-                $args['ago'] = 'all';
-            }
-        }
-
-        // Prepare Count Day
-        if (!empty($args['from']) and !empty($args['to'])) {
-            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
-        } else {
-            if (is_numeric($args['ago']) and $args['ago'] > 0) {
-                $count_day = $args['ago'];
-            } else {
-                $count_day = 30;
-            }
-        }
-
-        // Get time ago Days Or Between Two Days
-        if (!empty($args['from']) and !empty($args['to'])) {
-            $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
-        } else {
-            if (is_numeric($args['ago']) and $args['ago'] > 0) {
-                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
-            } else {
-                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($count_day)));
-            }
-        }
+        // Filter By Date
+        self::filterByDate($args);
 
         // Get List Of Days
-        $days_time_list = array_keys($days_list);
-        foreach ($days_list as $k => $v) {
+        $days_time_list = array_keys(self::$daysList);
+        foreach (self::$daysList as $k => $v) {
             $date[]          = $v['format'];
             $total_daily[$k] = 0;
         }
@@ -101,17 +71,13 @@ class platforms
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('%s Statistics in the last %s days', 'wp-statistics'), __('Platforms', 'wp-statistics'), $count_day);
+            $title = sprintf(__('%s Statistics in the last %s days', 'wp-statistics'), __('Platforms', 'wp-statistics'), self::$countDays);
         } else {
             $title = sprintf(__('%s Statistics from %s to %s', 'wp-statistics'), __('Platforms', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Prepare Response
         $response = array(
-            'days'           => $count_day,
-            'from'           => reset($days_time_list),
-            'to'             => end($days_time_list),
-            'type'           => (($args['from'] != "" and $args['to'] != "") ? 'between' : 'ago'),
             'title'          => $title,
             'platform_name'  => $lists_name,
             'platform_value' => $lists_value,
@@ -127,7 +93,7 @@ class platforms
         }
 
         // Response
-        return $response;
+        return self::response($response);
     }
 
 }
