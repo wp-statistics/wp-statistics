@@ -5,6 +5,8 @@ namespace WP_STATISTICS;
 class pages_page
 {
 
+    private const ITEM_PER_PAGE = 5;
+
     public function __construct()
     {
         global $wpdb;
@@ -63,15 +65,14 @@ class pages_page
             $args['title'] = __('Top Pages', 'wp-statistics');
 
             // Get Current Page Url
-            $args['pageName']   = Menus::get_page_slug('pages');
-            $args['pagination'] = Admin_Template::getCurrentPaged();
+            $args['pageName'] = Menus::get_page_slug('pages');
 
             // Get Date-Range
             $args['DateRang'] = Admin_Template::DateRange();
 
             // Get List
             $args['lists'] = \WP_STATISTICS\Pages::getTop(array(
-                'per_page' => Admin_Template::$item_per_page,
+                'per_page' => self::ITEM_PER_PAGE,
                 'paged'    => Admin_Template::getCurrentPaged(),
                 'from'     => $args['DateRang']['from'],
                 'to'       => $args['DateRang']['to']
@@ -81,11 +82,14 @@ class pages_page
             $args['total'] = Pages::TotalCount('uri', array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']));
 
             // Create WordPress Pagination
+            $args['perPage'] = self::ITEM_PER_PAGE;
+            $args['currentPage'] = Admin_Template::getCurrentPaged();
             $args['pagination'] = '';
             if ($args['total'] > 0) {
                 $args['pagination'] = Admin_Template::paginate_links(array(
-                    'total' => $args['total'],
-                    'echo'  => false
+                    'item_per_page' => self::ITEM_PER_PAGE,
+                    'total'         => $args['total'],
+                    'echo'          => false
                 ));
             }
 

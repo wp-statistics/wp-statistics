@@ -471,8 +471,11 @@ class Pages
             $where .= "WHERE `date` BETWEEN '{$args['from']}' AND '{$args['to']}'";
         }
 
+        $query = "SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount";
+        $result = $wpdb->get_var($query);
+
         // Return
-        return $wpdb->get_var("SELECT COUNT(*) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`");
+        return $result;
     }
 
     /**

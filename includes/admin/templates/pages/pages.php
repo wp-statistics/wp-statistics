@@ -47,14 +47,14 @@
                                 ?>
 
                                 <tr>
-                                    <td style='text-align: left;'><?php echo esc_attr($i); ?></td>
+                                    <td style='text-align: left;'><?php echo esc_attr($i + ($perPage * ($currentPage - 1 ?? 0))); ?></td>
                                     <td style='text-align: left;'>
                                         <span title='<?php echo esc_attr($li['title']); ?>' class='wps-cursor-default wps-text-wrap'>
                                             <?php echo esc_attr($li['title']); ?>
                                         </span>
                                     </td>
                                     <td style='text-align: left;'>
-                                        <a href="<?php echo esc_url($li['link']); ?>" title="<?php echo esc_attr($li['title']); ?>" target="_blank"><?php echo esc_attr($li['str_url']); ?></a>
+                                        <a href="<?php echo esc_url($li['link'] . $li['str_url']); ?>" title="<?php echo esc_attr($li['title']); ?>" target="_blank"><?php echo esc_attr($li['title']); ?> <span class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></span></a>
                                     </td>
                                     <td style="text-align: left">
                                         <a href="<?php echo esc_url($li['hits_page']); ?>" class="wps-text-muted">
@@ -72,9 +72,11 @@
                         <?php
                     }
                     ?>
+
+
+                    <?php echo !empty($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                 </div>
             </div>
-            <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </div>
 </div>
