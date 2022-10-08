@@ -87,11 +87,11 @@ wps_js.line_chart = function (tag_id, title, label, data) {
                 intersect: false,
             },
             scales: {
-                yAxes: [{
+                yAxes: {
                     ticks: {
                         beginAtZero: true
                     }
-                }]
+                }
             }
         }
     });

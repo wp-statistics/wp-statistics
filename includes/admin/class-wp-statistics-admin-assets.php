@@ -297,6 +297,7 @@ class Admin_Assets
 
         // Rest-API Meta Box Url
         $list['admin_url']      = admin_url();
+        $list['assets_url']     = self::$plugin_url . self::$asset_dir;
         $list['rest_api_nonce'] = wp_create_nonce('wp_rest');
         $list['meta_box_api']   = get_rest_url(null, RestAPI::$namespace . '/metabox');
 

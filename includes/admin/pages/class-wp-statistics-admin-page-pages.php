@@ -82,9 +82,9 @@ class pages_page
             $args['total'] = Pages::TotalCount('uri', array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']));
 
             // Create WordPress Pagination
-            $args['perPage'] = self::ITEM_PER_PAGE;
+            $args['perPage']     = self::ITEM_PER_PAGE;
             $args['currentPage'] = Admin_Template::getCurrentPaged();
-            $args['pagination'] = '';
+            $args['pagination']  = '';
             if ($args['total'] > 0) {
                 $args['pagination'] = Admin_Template::paginate_links(array(
                     'item_per_page' => self::ITEM_PER_PAGE,
