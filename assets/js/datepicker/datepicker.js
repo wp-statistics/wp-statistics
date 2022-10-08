@@ -1,6 +1,10 @@
-const datePickers = document.querySelectorAll('.js-datepicker-input')
-console.log(document.querySelectorAll('.js-datepicker-input'))
-const picker = []
-datePickers.forEach(function (datePicker) {
+function triggerCustomDateEventListener() {
+    jQuery('.js-datepicker-input').unbind('change');
+    jQuery('.js-datepicker-input').on('change', function () {
+        console.log(jQuery(this).val())
+    })
+}
 
-})
+jQuery( document ).ready(function() {
+    triggerCustomDateEventListener()
+});
