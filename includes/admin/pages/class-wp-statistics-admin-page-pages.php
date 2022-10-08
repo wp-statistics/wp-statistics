@@ -7,6 +7,15 @@ class pages_page
 
     private const ITEM_PER_PAGE = 5;
 
+    private const SINGLE_PAGE_COMPONENTS = [
+        'browsers',
+        'platforms',
+        'useronline',
+        'countries',
+        'referring',
+        'visitors'
+    ];
+
     public function __construct()
     {
         global $wpdb;
@@ -155,10 +164,13 @@ class pages_page
             }
         }
 
-        $args['visitors'] = apply_filters('wp_statistics_pages_chart_visitors',
-            Admin_Template::get_template(array('meta-box/pages-visitor-preview'), null, true),
-            $args
-        );
+        // Load Single Page Components
+        foreach (self::SINGLE_PAGE_COMPONENTS as $component) {
+            $args[$component] = apply_filters('wp_statistics_pages_chart_' . $component,
+                Admin_Template::get_template(array('meta-box/pages-' . $component . '-preview'), null, true),
+                $args
+            );
+        }
 
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'layout/date.range', 'pages/page-chart', 'layout/footer'), $args);
