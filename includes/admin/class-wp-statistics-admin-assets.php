@@ -116,9 +116,9 @@ class Admin_Assets
         }
 
         // Load Jquery-ui theme
-        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-            wp_enqueue_style(self::$prefix . '-jquery-datepicker', self::url('datepicker.min.css'), array(), '1.11.4');
-        }
+//        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
+//            wp_enqueue_style(self::$prefix . '-jquery-datepicker', self::url('datepicker.min.css'), array(), '1.11.4');
+//        }
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
@@ -149,10 +149,10 @@ class Admin_Assets
         }
 
         // Load Jquery UI
-        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-            wp_enqueue_script('jquery-ui-datepicker');
-            wp_localize_script('jquery-ui-datepicker', 'wps_i18n_jquery_datepicker', self::localize_jquery_datepicker());
-        }
+//        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
+//            wp_enqueue_script('jquery-ui-datepicker');
+//            wp_localize_script('jquery-ui-datepicker', 'wps_i18n_jquery_datepicker', self::localize_jquery_datepicker());
+//        }
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {

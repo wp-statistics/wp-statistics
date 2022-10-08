@@ -159,6 +159,18 @@
   }
 }
 
+.wps-wrap input[type="text"].c-footer__filters__custom-date-input {
+  height: 0;
+  min-height: 0 !important;
+  width: 0;
+  visibility: hidden;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: absolute;
+  right: -10px;
+  top: 0;
+}
+
 .c-footer__filters__close-more-filters {
   font-size: 11px;
   line-height: 170%;

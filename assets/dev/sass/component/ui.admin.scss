@@ -304,6 +304,11 @@
   background: #FFFFFF;
   border: 0;
   border-radius: 8px;
+
+  &:focus-within, &.has-focus {
+    z-index: 99;
+    position: relative;
+  }
 }
 
 .wps-wrap .postbox-header {
