@@ -426,6 +426,12 @@ class Install
             if ($result == 0) {
                 $wpdb->query("ALTER TABLE `{$userOnlineTable}` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
             }
+
+            // Add index ip
+            $result = $wpdb->query("SHOW INDEX FROM {$userOnlineTable} WHERE Key_name = 'ip'");
+            if (!$result) {
+                $wpdb->query("ALTER TABLE {$userOnlineTable} ADD index (ip)");
+            }
         }
 
         /**
@@ -455,6 +461,12 @@ class Install
             $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'AString'");
             if ($result > 0) {
                 $wpdb->query("ALTER TABLE `{$visitorTable}` DROP `AString`");
+            }
+
+            // Add index ip
+            $result = $wpdb->query("SHOW INDEX FROM {$visitorTable} WHERE Key_name = 'ip'");
+            if (!$result) {
+                $wpdb->query("ALTER TABLE {$visitorTable} ADD index (ip)");
             }
         }
 
