@@ -7,6 +7,7 @@
 
 .c-footer__filter {
   position: relative;
+  z-index: 999;
 }
 
 .c-footer__more__link {
@@ -69,11 +70,15 @@
   left: 0;
   bottom: 170%;
   background-color: $white-color;
-  box-shadow: 0px 0px 12px 1px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07);
   border-radius: 8px;
   min-width: 200px;
 }
 
+.c-footer__filters--bottom {
+  top: 160%;
+  bottom: unset;
+}
 
 .c-footer__filter.is-active {
 
@@ -145,8 +150,9 @@
   flex-direction: column;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(5px);
+  transform: translatey(7px);
   transition: 0.22s;
+  border-radius: 8px;
 
   &.is-open {
     opacity: 1;
@@ -208,3 +214,52 @@
   border-top: 1px solid rgba(218, 220, 224, 0.45);
   margin-top: 5px;
 }
+
+.c-footer__filter__btn-group {
+  display: flex;
+  align-items: center;
+
+  .c-footer__filter__btn {
+    padding: 9px 13px;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    font-weight: 500;
+    font-size: 11px;
+    max-height: 28px;
+    height: 28px;
+    background-color: #fff;
+    color: #242A31;
+
+    &:hover {
+      background-color: $light-secondary-color;
+    }
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:after {
+      content: unset;
+    }
+  }
+
+  .c-footer__filter__btn--sm {
+    max-height: 28px;
+    height: 28px;
+
+    &:first-child {
+      border: 1px solid #aaa;
+      border-radius: 3px 0 0 3px;
+    }
+
+    &:last-child {
+      border: 1px solid #aaa;
+      border-radius: 0 3px 3px 0;
+    }
+
+    svg {
+      margin-right: 0;
+    }
+  }
+}
+
