@@ -126,7 +126,7 @@ class Admin_Assets
         }
 
 	    // Load EasePick (DatePicker)
-	    if (Menus::in_plugin_page()) {
+	    if (Menus::in_plugin_page() || Menus::in_page('pages')) {
 		    wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/easepick.css'), array(), '1.0.0');
 		    wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/customize.css'), array(), '1.0.0');
 	    }
@@ -190,7 +190,7 @@ class Admin_Assets
         }
 
 	    // Add EasePick (DatePicker)
-	    if (Menus::in_plugin_page()) {
+	    if (Menus::in_plugin_page() || Menus::in_page('pages')) {
 		    wp_enqueue_script(self::$prefix . '-easepick', self::url('datepicker/easepick.js'), array(), self::version());
 		    wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version());
 	    }
