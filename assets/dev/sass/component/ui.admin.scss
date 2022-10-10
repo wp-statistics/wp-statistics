@@ -33,6 +33,8 @@
 .statistics_page_wps_searches_page .wps-wrap,
 .statistics_page_wps_pages_page .wps-wrap,
 .statistics_page_wps_categories_page .wps-wrap,
+.statistics_page_wps_taxonomies_page .wps-wrap,
+.statistics_page_wps_countries_page .wps-wrap,
 .statistics_page_wps_tags_page .wps-wrap,
 .statistics_page_wps_authors_page .wps-wrap,
 .statistics_page_wps_browser_page .wps-wrap,
@@ -53,6 +55,8 @@
 .statistics_page_wps_searches_page #wpcontent,
 .statistics_page_wps_pages_page #wpcontent,
 .statistics_page_wps_categories_page #wpcontent,
+.statistics_page_wps_taxonomies_page #wpcontent,
+.statistics_page_wps_countries_page #wpcontent,
 .statistics_page_wps_tags_page #wpcontent,
 .statistics_page_wps_authors_page #wpcontent,
 .statistics_page_wps_browser_page #wpcontent,
@@ -73,6 +77,8 @@
 .statistics_page_wps_searches_page #wpbody-content > .notice,
 .statistics_page_wps_pages_page #wpbody-content > .notice,
 .statistics_page_wps_categories_page #wpbody-content > .notice,
+.statistics_page_wps_taxonomies_page #wpbody-content > .notice,
+.statistics_page_wps_countries_page #wpbody-content > .notice,
 .statistics_page_wps_tags_page #wpbody-content > .notice,
 .statistics_page_wps_authors_page #wpbody-content > .notice,
 .statistics_page_wps_browser_page #wpbody-content > .notice,
@@ -505,7 +511,7 @@
   }
 }
 
-.statistics_page_wps_categories_page, .statistics_page_wps_tags_page, .statistics_page_wps_authors_page, .statistics_page_wps_pages_page {
+.statistics_page_wps_categories_page, .statistics_page_wps_categories_page, .statistics_page_wps_countries_page, .statistics_page_wps_tags_page, .statistics_page_wps_authors_page, .statistics_page_wps_pages_page {
   .wps-wrap .postbox {
     padding: 10px 3px !important;
   }
