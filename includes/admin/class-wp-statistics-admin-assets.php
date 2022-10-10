@@ -192,6 +192,9 @@ class Admin_Assets
 	    // Add EasePick (DatePicker)
 	    if (Menus::in_plugin_page() || Menus::in_page('pages')) {
 		    wp_enqueue_script(self::$prefix . '-easepick', self::url('datepicker/easepick.js'), array(), self::version());
+	    }
+	    
+	    if (Menus::in_page('pages')) {
 		    wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version());
 	    }
     }
