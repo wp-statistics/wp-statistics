@@ -39,7 +39,8 @@ class Option
 
         $options = array(
             'robotlist'             => Helper::get_robots_list(),
-            'anonymize_ips'         => false,
+            'anonymize_ips'         => true,
+            'hash_ips'              => true,
             'geoip'                 => false,
             'useronline'            => true,
             'visits'                => true,

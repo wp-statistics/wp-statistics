@@ -16,7 +16,7 @@
             <td>
                 <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo WP_STATISTICS\Option::get('anonymize_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="anonymize_ips"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('This option anonymizes the user IP address for GDPR compliance. For example, 888.888.888.888 > 888.888.888.000.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('This option anonymize the user IP address for GDPR compliance. For example, <code>888.888.888.888</code> » <code>888.888.888.000</code>.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
