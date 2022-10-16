@@ -102,7 +102,7 @@ class Visitor
         if ($args['exclusion_match'] === false || $args['exclusion_reason'] == 'Honeypot') {
 
             // Get User IP
-            $user_ip = (IP::getHashIP() != false ? IP::getHashIP() : IP::StoreIP());
+            $user_ip = IP::getStoreIP();
 
             // Get User Agent
             $user_agent = UserAgent::getUserAgent();

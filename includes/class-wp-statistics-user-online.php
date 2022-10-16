@@ -95,7 +95,7 @@ class UserOnline
     {
 
         # Get User IP
-        $user_ip = (IP::getHashIP() != false ? IP::getHashIP() : IP::StoreIP());
+        $user_ip = IP::getStoreIP();
 
         # Check Current Use Exist online list
         $user_online = self::is_ip_online($user_ip);
@@ -144,7 +144,7 @@ class UserOnline
 
         //Prepare User online Data
         $user_online = array(
-            'ip'        => IP::getHashIP() ? IP::getHashIP() : IP::StoreIP(),
+            'ip'        => IP::getStoreIP(),
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'created'   => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
@@ -202,7 +202,9 @@ class UserOnline
         $user_online = apply_filters('wp_statistics_update_user_online_data', $user_online);
 
         # Update the database with the new information.
-        $wpdb->update(DB::table('useronline'), $user_online, array('ip' => IP::getHashIP() ? IP::getHashIP() : IP::StoreIP()));
+        $wpdb->update(DB::table('useronline'), $user_online, array(
+            'ip' => IP::getStoreIP()
+        ));
 
         # Action After Update User Online
         do_action('wp_statistics_update_user_online', $user_id, $user_online);
