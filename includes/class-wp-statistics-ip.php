@@ -125,7 +125,7 @@ class IP
         }
 
         /**
-         * If the anonymize IP is enabled for GDPR.
+         * If the anonymize IP is enabled because of the data privacy & GDPR.
          * @example 888.888.888.888 -> 888.888.888.000
          */
         if (Option::get('anonymize_ips') == true) {
@@ -133,7 +133,7 @@ class IP
         }
 
         /**
-         * If the hash IP is enabled for GDPR.
+         * If the hash IP is enabled because of the data privacy & GDPR.
          * @example 888.888.888.888 -> #hash#e7b398f96b14993b571215e36b41850c65f39b1a
          */
         if (self::getHashIP()) {
