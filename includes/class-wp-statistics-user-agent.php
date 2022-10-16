@@ -28,10 +28,17 @@ class UserAgent
         if (version_compare(phpversion(), '7', ">=") && class_exists('\WhichBrowser\Parser')) {
             // Get WhichBrowser Browser
             $result = new \WhichBrowser\Parser($user_agent);
-            $agent  = array(
+
+            if ((isset($result->browser->version->value))) {
+                $version = Helper::makeAnonymousVersion($result->browser->version->value);
+            } else {
+                $version = _x('Unknown', 'Version', 'wp-statistics');
+            }
+
+            $agent = array(
                 'browser'  => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
                 'platform' => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
-                'version'  => (isset($result->browser->version->value)) ? $result->browser->version->value : _x('Unknown', 'Version', 'wp-statistics'),
+                'version'  => $version,
                 'device'   => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
                 'model'    => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
             );
@@ -118,28 +125,28 @@ class UserAgent
 
         if (preg_match('/MSIE\/([0-9.]*)/i', $userAgent, $match) && !preg_match('/Opera/i', $userAgent)) {
             $browser = 'Internet Explorer';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/Edg\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Edge';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/Firefox\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Firefox';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/OPR\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Opera';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/Chromium\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Chromium';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/Chrome\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Chrome';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/Safari\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Safari';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/Netscape[0-9]?\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Netscape';
-            $version = end($match);
+            $version = Helper::makeAnonymousVersion(end($match));
         } elseif (preg_match('/Trident\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Internet Explorer';
         } else {
@@ -152,11 +159,10 @@ class UserAgent
         }
 
         if (empty($version) && !empty($matches['version']) && count($matches['version'])) {
-            $version = end($matches['version']);
+            $version = Helper::makeAnonymousVersion((end($matches['version'])));
         }
 
-        if (preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo
-|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $userAgent)) {
+        if (preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $userAgent)) {
             $device = 'mobile';
         } else {
             $device = 'desktop';
