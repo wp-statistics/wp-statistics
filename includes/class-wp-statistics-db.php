@@ -21,7 +21,7 @@ class DB
     );
 
     /**
-     * WP-Statistics Table name Structure in Database
+     * WP Statistics Table name Structure in Database
      *
      * @var string
      */
@@ -48,7 +48,7 @@ class DB
     }
 
     /**
-     * Get WP-Statistics Table name
+     * Get WP Statistics Table name
      *
      * @param $tbl
      * @return mixed
@@ -71,7 +71,7 @@ class DB
     }
 
     /**
-     * Table List WP-Statistics
+     * Table List WP Statistics
      *
      * @param string $export
      * @param array $except
@@ -94,7 +94,7 @@ class DB
         # Get List
         foreach ($mysql_list_table as $tbl) {
 
-            # WP-Statistics table name
+            # WP Statistics table name
             $table_name = self::getTableName($tbl);
 
             if ($export == "all") {

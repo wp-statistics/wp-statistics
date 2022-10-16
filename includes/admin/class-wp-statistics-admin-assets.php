@@ -185,7 +185,7 @@ class Admin_Assets
     }
 
     /**
-     * Prepare global WP-Statistics data for use Admin Js
+     * Prepare global WP Statistics data for use Admin Js
      *
      * @param $hook
      * @return mixed

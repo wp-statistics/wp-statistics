@@ -37,7 +37,7 @@ class summary
     }
 
     /**
-     * Get Summary Hits in WP-Statistics
+     * Get Summary Hits in WP Statistics
      *
      * @param array $component
      * @return array

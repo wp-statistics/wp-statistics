@@ -48,7 +48,7 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function register_routes()
     {
-        // Record WP-Statistics when Cache is enable
+        // Record WP Statistics when Cache is enable
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
             array(
                 'methods'             => \WP_REST_Server::READABLE,
@@ -62,7 +62,7 @@ class Hit extends \WP_STATISTICS\RestAPI
     }
 
     /**
-     * Record WP-Statistics when Cache is enable
+     * Record WP Statistics when Cache is enable
      *
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response

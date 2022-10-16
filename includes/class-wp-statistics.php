@@ -4,9 +4,9 @@
 defined('ABSPATH') || exit;
 
 /**
- * Main bootstrap class for WP-Statistics
+ * Main bootstrap class for WP Statistics
  *
- * @package WP-Statistics
+ * @package WP Statistics
  */
 final class WP_Statistics
 {
@@ -20,13 +20,13 @@ final class WP_Statistics
     /**
      * The single instance of the class.
      *
-     * @var WP-Statistics
+     * @var WP Statistics
      */
     protected static $_instance = null;
 
     /**
-     * Main WP-Statistics Instance.
-     * Ensures only one instance of WP-Statistics is loaded or can be loaded.
+     * Main WP Statistics Instance.
+     * Ensures only one instance of WP Statistics is loaded or can be loaded.
      *
      */
     public static function instance()
@@ -294,7 +294,7 @@ final class WP_Statistics
     function php_version_notice()
     {
         $error = __('Your installed PHP Version is: ', 'wp-statistics') . PHP_VERSION . '. ';
-        $error .= __('The <strong>WP-Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
+        $error .= __('The <strong>WP Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
         ?>
         <div class="error">
             <p><?php printf($error); ?></p>

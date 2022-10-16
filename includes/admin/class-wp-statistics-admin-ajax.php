@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 class Ajax
 {
     /**
-     * WP-Statistics Ajax
+     * WP Statistics Ajax
      */
     function __construct()
     {

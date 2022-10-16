@@ -53,7 +53,7 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
     }
 
     /**
-     * Admin Meta Box WP-Statistics
+     * Admin Meta Box WP Statistics
      *
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response

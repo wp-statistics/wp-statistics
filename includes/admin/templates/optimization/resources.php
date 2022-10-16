@@ -54,12 +54,12 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <?php _e('WP-Statistics Version', 'wp-statistics'); ?>:
+                    <?php _e('WP Statistics Version', 'wp-statistics'); ?>:
                 </th>
 
                 <td>
                     <strong><?php echo WP_STATISTICS_VERSION; ?></strong>
-                    <p class="description"><?php _e('The WP-Statistics version you are running.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('The WP Statistics version you are running.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 

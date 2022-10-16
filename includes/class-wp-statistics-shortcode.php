@@ -16,7 +16,7 @@ class ShortCode
     }
 
     /**
-     * WP-Statistics ShortCode is in the format of:
+     * WP Statistics ShortCode is in the format of:
      * [wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx id=xxx]
      *
      * Where:
@@ -149,7 +149,7 @@ class ShortCode
                 array(
 
                     // Display label. String. Required.
-                    'label'         => 'WP-Statistics',
+                    'label'         => 'WP Statistics',
 
                     // Icon/image for shortcode. Optional. src or dashicons-$icon. Defaults to carrot.
                     'listItemImage' => '<img src="' . WP_STATISTICS_URL . 'assets/images/logo-250.png" width="128" height="128">',
