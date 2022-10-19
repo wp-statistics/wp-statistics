@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 class taxonomies_page
 {
     private static $taxonomies = [];
+    private static $defaultTaxonomies = [];
     private static $taxonomy = 'category';
 
     public function __construct()
@@ -25,8 +26,11 @@ class taxonomies_page
             // Get all taxonomies
             add_action('init', [__CLASS__, 'get_list_taxonomies']);
 
+            // Set default taxonomies
+            self::$defaultTaxonomies = apply_filters('wp_statistics_default_taxonomies', ['category', 'post_tag']);
+
             // Check validate taxonomy
-            if (!empty($_GET['taxonomy']) && in_array($_GET['taxonomy'], ['category', 'post_tag'])) {
+            if (!empty($_GET['taxonomy']) && in_array($_GET['taxonomy'], self::$defaultTaxonomies)) {
                 self::$taxonomy = $_GET['taxonomy'];
             } else {
                 wp_redirect(add_query_arg([
@@ -74,6 +78,21 @@ class taxonomies_page
         $terms = get_terms(self::$taxonomy, array(
             'hide_empty' => true,
         ));
+
+        $args['tabs'] = [];
+        foreach (self::$taxonomies as $slug => $title) {
+            $class = ($slug == self::$taxonomy ? 'current' : '');
+            $link  = Menus::admin_url('wps_taxonomies_page', ['taxonomy' => $slug]);
+            if (!in_array($slug, self::$defaultTaxonomies)) {
+                $class .= ' wps-locked';
+                $link  = '#';
+            }
+            $args['tabs'][] = [
+                'link'  => $link,
+                'title' => $title,
+                'class' => $class,
+            ];
+        }
 
         // Check Number Post From Category
         if (isset($_GET['ID']) and $_GET['ID'] > 0) {
@@ -127,7 +146,7 @@ class taxonomies_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/taxonomies', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/tabbed-page-header', 'pages/taxonomies', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 
 }

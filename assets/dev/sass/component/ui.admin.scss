@@ -1078,3 +1078,53 @@
   border-radius: 2px;
   overflow: hidden;
 }
+
+.wps-page-header {
+  margin: -20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #fff;
+  padding-bottom: 0;
+}
+
+.wps-tabs {
+  margin: 0;
+  margin-top: 20px;
+}
+
+.wps-tab-link {
+  display: inline-block;
+  position: relative;
+}
+
+.wps-tab-link a {
+  padding: 10px;
+  color: #56585A;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 24px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.wps-tab-link.current a {
+  color: #404BF2;
+  border-bottom: 2px solid #404BF2;
+}
+
+.wps-tab-link.wps-locked a {
+  padding-right: 30px;
+  pointer-events: none;
+}
+
+.wps-tab-link.wps-locked a:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url("../images/preview-lock.png");
+  background-size: auto;
+  background-size: contain;
+  margin-left: 5px;
+  margin-top: 3px;
+}
