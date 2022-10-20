@@ -101,7 +101,10 @@
 .wps-header-banner {
   width: 100%;
   max-width: 100%;
-  background: url('../images/page-header.svg') center center/100% no-repeat;
+  background: url('../images/page-header.svg');
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: cover;
   min-height: 138px;
   display: flex;
   justify-content: flex-end;
@@ -111,7 +114,10 @@
 
 @media screen and (max-width: 1300px) {
   .wps-header-banner {
-    background: url('../images/page-header.svg') 5% center/cover no-repeat;
+    background: url('../images/page-header.svg');
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
     min-height: 113px;
     display: flex;
     justify-content: flex-end;
