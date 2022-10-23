@@ -139,7 +139,7 @@ class Admin_Assets
 
         // Load Chart Js Library [ Load in <head> Tag ]
         if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
-            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.min.js'), false, '3.7.1', false);
+            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.min.js'), false, '3.9.1', false);
         }
 
         // Load Jquery VMap Js Library
@@ -185,7 +185,7 @@ class Admin_Assets
     }
 
     /**
-     * Prepare global WP-Statistics data for use Admin Js
+     * Prepare global WP Statistics data for use Admin Js
      *
      * @param $hook
      * @return mixed

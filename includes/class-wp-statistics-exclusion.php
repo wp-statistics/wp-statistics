@@ -151,7 +151,7 @@ class Exclusion
      */
     public static function exclusion_robot_threshold()
     {
-        $visitor = Visitor::exist_ip_in_day((IP::getHashIP() != false ? IP::getHashIP() : IP::StoreIP()));
+        $visitor = Visitor::exist_ip_in_day(IP::getStoreIP());
         return ($visitor != false and Option::get('robot_threshold') > 0 && $visitor->hits + 1 > Option::get('robot_threshold'));
     }
 

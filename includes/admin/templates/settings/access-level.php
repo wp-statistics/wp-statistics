@@ -37,7 +37,7 @@ global $wp_roles;
         ?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_read_capability"><?php _e('Required User Level to View WP-Statistics:', 'wp-statistics') ?></label>
+                <label for="wps_read_capability"><?php _e('Required User Level to View WP Statistics:', 'wp-statistics') ?></label>
             </th>
             <td>
                 <select dir="ltr" id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
@@ -58,7 +58,7 @@ global $wp_roles;
         ?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_manage_capability"><?php _e('Required User Level to Manage WP-Statistics:', 'wp-statistics') ?></label>
+                <label for="wps_manage_capability"><?php _e('Required User Level to Manage WP Statistics:', 'wp-statistics') ?></label>
             </th>
             <td>
                 <select dir="ltr" id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>

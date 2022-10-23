@@ -39,7 +39,8 @@ class Option
 
         $options = array(
             'robotlist'             => Helper::get_robots_list(),
-            'anonymize_ips'         => false,
+            'anonymize_ips'         => true,
+            'hash_ips'              => true,
             'geoip'                 => false,
             'useronline'            => true,
             'visits'                => true,
@@ -71,7 +72,7 @@ class Option
     }
 
     /**
-     * Get WP-Statistics All Options
+     * Get WP Statistics All Options
      *
      * @return mixed
      */
@@ -118,7 +119,7 @@ class Option
         }
 
         /**
-         * Filters a For Return WP-Statistics Option
+         * Filters a For Return WP Statistics Option
          *
          * @param string $option Option name.
          * @param string $value Option Value.
@@ -147,7 +148,7 @@ class Option
     }
 
     /**
-     * Get WP-Statistics User Meta
+     * Get WP Statistics User Meta
      *
      * @param      $option
      * @param null $default

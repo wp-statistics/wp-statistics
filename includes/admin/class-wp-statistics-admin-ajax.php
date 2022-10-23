@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 class Ajax
 {
     /**
-     * WP-Statistics Ajax
+     * WP Statistics Ajax
      */
     function __construct()
     {
@@ -214,7 +214,8 @@ class Ajax
         //Check Valid Table name
         $table_name    = sanitize_text_field($_POST['table-name']);
         $list_db_table = DB::table('all', 'historical');
-        if (!array_key_exists($table_name, $list_db_table)) {
+
+        if (!array_key_exists($table_name, $list_db_table) and $table_name!= 'all') {
             _e('Access denied!', 'wp-statistics');
             exit;
         }

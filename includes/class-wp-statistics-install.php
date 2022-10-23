@@ -265,7 +265,7 @@ class Install
     }
 
     /**
-     * Creating Table for New Blog in wordpress
+     * Creating Table for New Blog in WordPress
      *
      * @param $blog_id
      */
@@ -338,14 +338,18 @@ class Install
             return;
         }
 
+        $userOnlineTable = DB::table('useronline');
+        $pagesTable      = DB::table('pages');
+        $visitorTable    = DB::table('visitor');
+
         /**
          * Add visitor device type
          *
          * @version 13.2.4
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'device'");
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'device'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `device` VARCHAR(180) NULL AFTER `version`, ADD INDEX `device` (`device`);");
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `device` VARCHAR(180) NULL AFTER `version`, ADD INDEX `device` (`device`);");
         }
 
         /**
@@ -353,9 +357,9 @@ class Install
          *
          * @version 13.2.4
          */
-        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'model'");
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'model'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE " . DB::table('visitor') . " ADD `model` VARCHAR(180) NULL AFTER `device`, ADD INDEX `model` (`model`);");
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `model` VARCHAR(180) NULL AFTER `device`, ADD INDEX `model` (`model`);");
         }
 
         /**
@@ -364,7 +368,7 @@ class Install
          * @version 13.0.0
          */
         if (!DB::isColumnType('visitor', 'ID', 'bigint(20)')) {
-            $wpdb->query("ALTER TABLE `" . DB::table('visitor') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+            $wpdb->query("ALTER TABLE `{$visitorTable}` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
         if (!DB::isColumnType('exclusions', 'ID', 'bigint(20)')) {
@@ -372,7 +376,7 @@ class Install
         }
 
         if (!DB::isColumnType('useronline', 'ID', 'bigint(20)')) {
-            $wpdb->query("ALTER TABLE `" . DB::table('useronline') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+            $wpdb->query("ALTER TABLE `{$userOnlineTable}` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
         if (!DB::isColumnType('visit', 'ID', 'bigint(20)')) {
@@ -397,16 +401,19 @@ class Install
         $list_table = DB::table('all');
         foreach ($list_table as $k => $name) {
             $tbl_info = DB::getTableInformation($name);
+
             if ($tbl_info['Collation'] != $wpdb->collate) {
                 $wpdb->query("ALTER TABLE `{$name}` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci ROW_FORMAT = COMPACT;");
             }
         }
+
         if (isset($installed_version) and version_compare($installed_version, '13.0', '<=')) {
             $wpdb->query("DELETE FROM `{$wpdb->usermeta}` WHERE `meta_key` = 'meta-box-order_toplevel_page_wps_overview_page'");
         }
-        $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'user_id'");
+
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'user_id'");
         if ($result == 0) {
-            $wpdb->query("ALTER TABLE `" . DB::table('visitor') . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`");
+            $wpdb->query("ALTER TABLE `{$visitorTable}` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`");
         }
 
         /**
@@ -414,10 +421,16 @@ class Install
          *
          * @version 12.6.1
          */
-        if (DB::ExistTable('useronline')) {
-            $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('useronline') . " LIKE 'user_id'");
+        if (DB::ExistTable($userOnlineTable)) {
+            $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'user_id'");
             if ($result == 0) {
-                $wpdb->query("ALTER TABLE `" . DB::table('useronline') . "` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
+                $wpdb->query("ALTER TABLE `{$userOnlineTable}` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
+            }
+
+            // Add index ip
+            $result = $wpdb->query("SHOW INDEX FROM {$userOnlineTable} WHERE Key_name = 'ip'");
+            if (!$result) {
+                $wpdb->query("ALTER TABLE {$userOnlineTable} ADD index (ip)");
             }
         }
 
@@ -426,10 +439,10 @@ class Install
          *
          * @version 12.5.3
          */
-        if (DB::ExistTable('pages')) {
-            $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('pages') . " LIKE 'page_id'");
+        if (DB::ExistTable($pagesTable)) {
+            $result = $wpdb->query("SHOW COLUMNS FROM {$pagesTable} LIKE 'page_id'");
             if ($result == 0) {
-                $wpdb->query("ALTER TABLE `" . DB::table('pages') . "` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);");
+                $wpdb->query("ALTER TABLE `{$pagesTable}` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);");
             }
         }
 
@@ -439,14 +452,21 @@ class Install
          *
          * @version 6.0
          */
-        if (DB::ExistTable('visitor')) {
-            $result = $wpdb->query("SHOW INDEX FROM " . DB::table('visitor') . " WHERE Key_name = 'date_ip'");
+        if (DB::ExistTable($visitorTable)) {
+            $result = $wpdb->query("SHOW INDEX FROM {$visitorTable} WHERE Key_name = 'date_ip'");
             if ($result > 1) {
-                $wpdb->query("DROP INDEX `date_ip` ON " . DB::table('visitor'));
+                $wpdb->query("DROP INDEX `date_ip` ON {$visitorTable}");
             }
-            $result = $wpdb->query("SHOW COLUMNS FROM " . DB::table('visitor') . " LIKE 'AString'");
+
+            $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'AString'");
             if ($result > 0) {
-                $wpdb->query("ALTER TABLE `" . DB::table('visitor') . "` DROP `AString`");
+                $wpdb->query("ALTER TABLE `{$visitorTable}` DROP `AString`");
+            }
+
+            // Add index ip
+            $result = $wpdb->query("SHOW INDEX FROM {$visitorTable} WHERE Key_name = 'ip'");
+            if (!$result) {
+                $wpdb->query("ALTER TABLE {$visitorTable} ADD index (ip)");
             }
         }
 
@@ -664,10 +684,13 @@ class Install
     public static function get_require_number_update()
     {
         global $wpdb;
-        if (!DB::ExistTable('pages')) {
+        $pagesTable = DB::table('pages');
+
+        if (!DB::ExistTable($pagesTable)) {
             return 0;
         }
-        return $wpdb->get_var("SELECT COUNT(*) FROM `" . DB::table('pages') . "` WHERE `type` = ''");
+
+        return $wpdb->get_var("SELECT COUNT(*) FROM `{$pagesTable}` WHERE `type` = ''");
     }
 
     public static function is_require_update_page()

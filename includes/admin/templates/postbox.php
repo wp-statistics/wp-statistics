@@ -5,7 +5,7 @@
 
             <div class="inside">
                 <form action="https://static.mailerlite.com/webforms/submit/q3q3l6" data-code="q3q3l6" method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
-                    <p><?php _e('Subscribe to our mailing list for get any news of the WP-Statistics', 'wp-statistics'); ?></p>
+                    <p><?php _e('Subscribe to our mailing list for get any news of the WP Statistics', 'wp-statistics'); ?></p>
                     <input name="fields[email]" type="email" class="ltr" value="<?php bloginfo('admin_email'); ?>">
                     <input type="hidden" name="ml-submit" value="1">
                     <input type="hidden" name="anticsrf" value="true">

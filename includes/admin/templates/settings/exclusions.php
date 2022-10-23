@@ -74,7 +74,7 @@
             </th>
             <td>
                 <input id="force_robot_update" type="checkbox" value="1" name="wps_force_robot_update" <?php echo WP_STATISTICS\Option::get('force_robot_update') == true ? "checked='checked'" : ''; ?>><label for="force_robot_update"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo sprintf(__('Force the robot list to reset itself to the default after WP-Statistics updated. Note that any custom robots added to the list will be lost if this option is enabled.', 'wp-statistics'), $role); ?></p>
+                <p class="description"><?php echo sprintf(__('Force the robot list to reset itself to the default after WP Statistics updated. Note that any custom robots added to the list will be lost if this option is enabled.', 'wp-statistics'), $role); ?></p>
             </td>
         </tr>
 

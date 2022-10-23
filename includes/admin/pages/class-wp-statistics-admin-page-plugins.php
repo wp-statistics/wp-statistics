@@ -6,7 +6,7 @@ class plugins_page
 {
 
     /**
-     * List Of WP-Statistics AddOns API
+     * List Of WP Statistics AddOns API
      *
      * @var string
      */
@@ -31,7 +31,7 @@ class plugins_page
     }
 
     /**
-     * Get List WP-Statistics addons
+     * Get List WP Statistics addons
      */
     public static function get_list_addons()
     {

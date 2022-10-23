@@ -113,7 +113,7 @@ class IP
     /**
      * Store User IP To Database
      */
-    public static function StoreIP()
+    public static function getStoreIP()
     {
 
         //Get User ip
@@ -124,9 +124,20 @@ class IP
             return self::$default_ip;
         }
 
-        // If the anonymize IP enabled for GDPR.
+        /**
+         * If the anonymize IP is enabled because of the data privacy & GDPR.
+         * @example 888.888.888.888 -> 888.888.888.000
+         */
         if (Option::get('anonymize_ips') == true) {
             $user_ip = substr($user_ip, 0, strrpos($user_ip, '.')) . '.0';
+        }
+
+        /**
+         * If the hash IP is enabled because of the data privacy & GDPR.
+         * @example 888.888.888.888 -> #hash#e7b398f96b14993b571215e36b41850c65f39b1a
+         */
+        if (self::getHashIP()) {
+            $user_ip = self::getHashIP($user_ip);
         }
 
         return sanitize_text_field($user_ip);

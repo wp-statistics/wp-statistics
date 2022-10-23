@@ -15,8 +15,7 @@
                     <td>
                         <input type="hidden" name="submit" value="1"/>
                         <button id="install-submit" class="button button-primary" type="submit" value="1" name="install-submit"><?php _e('Install Now!', 'wp-statistics'); ?></button>
-                        <p class="description"><?php _e('If for some reason your installation of WP-Statistics is missing the database tables or other core items, this will re-execute the install process.',
-                                'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process.', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
                 </tbody>

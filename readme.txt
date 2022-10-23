@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, kashani, veronalabs, mehrshaddarzi, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
-Tested up to: 6.0
-Stable tag: 13.2.6
+Tested up to: 6.1
+Stable tag: 13.2.7
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -131,6 +131,14 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.7 - 23.10.2022 =
+* Bugfix: The error message while purging all databases
+* Update: The ChartJs library updated to v3.9.1
+* Improvement: Compatibility with PHP v8.0
+* Improvement: Add index for user online & visitor tables
+* Improvement: Make anonymous the browser version
+* Improvement: Enable Hash & Anonymous IP by default and make anonymize it before hashing
+
 = v13.2.6 - 07.09.2022 =
 * Improvement: Compatibility with Apache `security_mode`
 * Improvement: Remove coefficient per visitor field from general/visitors settings

@@ -2,7 +2,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('WP-Statistics Reset Options', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('WP Statistics Reset Options', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">

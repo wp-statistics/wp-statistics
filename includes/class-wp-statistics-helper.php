@@ -1121,4 +1121,21 @@ class Helper
         //return Json Data
         return $params;
     }
+
+    /**
+     * The version number will be anonymous using this function
+     *
+     * @param $version
+     * @return string
+     * @example 106.2.124.0 -> 106.0.0.0
+     *
+     */
+    public static function makeAnonymousVersion($version)
+    {
+        $mainVersion         = substr($version, 0, strpos($version, '.'));
+        $subVersion          = substr($version, strpos($version, '.') + 1);
+        $anonymousSubVersion = preg_replace('/[0-9]+/', '0', $subVersion);
+
+        return "{$mainVersion}.{$anonymousSubVersion}";
+    }
 }
