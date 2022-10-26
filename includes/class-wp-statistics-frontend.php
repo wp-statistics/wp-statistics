@@ -81,7 +81,15 @@ class Frontend
             ), self::set_default_params());
 
             // Return Script
-            echo '<script>var WP_Statistics_http = new XMLHttpRequest();WP_Statistics_http.open(\'GET\', \'' . add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint)) . '\', true);WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");WP_Statistics_http.send(null);</script>' . "\n";
+            echo '<script>
+                let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);                
+                if (WP_Statistics_Dnd_Active !== 1) {
+                    var WP_Statistics_http = new XMLHttpRequest();
+                    WP_Statistics_http.open(\'GET\', \'' . add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint)) . '\', true);
+                    WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    WP_Statistics_http.send(null);
+                }
+            </script>';
         }
     }
 
