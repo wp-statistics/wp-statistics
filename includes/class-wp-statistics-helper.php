@@ -1138,4 +1138,14 @@ class Helper
 
         return "{$mainVersion}.{$anonymousSubVersion}";
     }
+
+    /**
+     * Do not track browser detection
+     *
+     * @return bool
+     */
+    public static function dntEnabled()
+    {
+        return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) or (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
+    }
 }
