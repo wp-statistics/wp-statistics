@@ -80,7 +80,7 @@ class Frontend
                 Hits::$rest_hits_key => 'yes',
             ), self::set_default_params());
 
-            // Return Script
+            // Print Script
             echo '<script>
                 let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);                
                 if (WP_Statistics_Dnd_Active !== 1) {
