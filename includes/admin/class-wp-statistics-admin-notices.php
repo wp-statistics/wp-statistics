@@ -133,7 +133,7 @@ class Admin_Notices
     {
         $option = get_option('wp_statistics_disable_addons_notice');
         if (!empty($option) and $option == "no") {
-            Helper::wp_admin_notice(__("Your WP Statistic's Add-On(s) are not compatible with the new version of WP Statistics and disabled automatically, please try to update them.", "wp-statistics"), "info", true, "wp-statistics-disable-all-addons-admin-notice");
+            Helper::wp_admin_notice(__('WP Statistics Add-On(s) require WP Statistics v12.6.13 or greater, please update WP Statistics.', 'wp-statistics'), 'info', true, 'wp-statistics-disable-all-addons-admin-notice');
             ?>
             <script>
                 jQuery(document).ready(function ($) {

@@ -381,7 +381,7 @@ final class WP_Statistics
         $option = get_option('wp_statistics_disable_addons', 'no');
 
         // Check
-        if ($option == "no" and version_compare(WP_STATISTICS_VERSION, '12.6.13', '>')) {
+        if ($option == "no" and version_compare(WP_STATISTICS_VERSION, '12.6.13', '<')) {
             $addOns = array(
                 'wp-statistics-actions/wp-statistics-actions.php',
                 'wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php',
