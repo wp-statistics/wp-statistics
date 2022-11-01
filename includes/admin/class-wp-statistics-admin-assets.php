@@ -125,11 +125,11 @@ class Admin_Assets
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
-	    // Load EasePick (DatePicker)
-	    if (Menus::in_plugin_page() || Menus::in_page('pages')) {
-		    wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/easepick.css'), array(), '1.0.0');
-		    wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/customize.css'), array(), '1.0.0');
-	    }
+        // Load RangeDatePicker
+        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
+            wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
+            wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/customize.css'), array(), '1.0.0');
+        }
     }
 
     /**
@@ -189,14 +189,15 @@ class Admin_Assets
             wp_enqueue_style('thickbox');
         }
 
-	    // Add EasePick (DatePicker)
-	    if (Menus::in_plugin_page() || Menus::in_page('pages')) {
-		    wp_enqueue_script(self::$prefix . '-easepick', self::url('datepicker/easepick.js'), array(), self::version());
-	    }
-	    
-	    if (Menus::in_page('pages')) {
-		    wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version());
-	    }
+        // Add RangeDatePicker
+        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
+            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), self::version());
+            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), self::version());
+        }
+
+        if (Menus::in_page('pages')) {
+            wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version());
+        }
     }
 
     /**

@@ -21,6 +21,7 @@ abstract class MetaBoxAbstract
     {
         if (!empty($args['from']) and !empty($args['to'])) {
             self::$filterType = 'between';
+            self::$dateFilter = 'custom';
             self::$countDays  = TimeZone::getNumberDayBetween($args['from'], $args['to']);
             self::$fromDate   = $args['from'];
             self::$toDate     = $args['to'];
