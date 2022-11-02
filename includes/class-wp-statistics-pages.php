@@ -392,6 +392,12 @@ class Pages
 
         $args = wp_parse_args($args, $defaults);
 
+        /**
+         * Filter the arguments used to query the top pages.
+         * @since 13.2.7
+         */
+        $args = apply_filters('wp_statistics_top_pages_arguments', $args);
+
         // Date Time SQL
         $DateTimeSql = "";
         if (!empty($args['from']) and !empty($args['to'])) {
