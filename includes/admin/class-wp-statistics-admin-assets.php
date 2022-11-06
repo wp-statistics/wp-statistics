@@ -126,9 +126,9 @@ class Admin_Assets
         }
 
         // Load RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
-            wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
-            wp_enqueue_style(self::$prefix . '-lightpick', self::url('datepicker/customize.css'), array(), '1.0.0');
+        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
+            wp_enqueue_style(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
+            wp_enqueue_style(self::$prefix . '-customize', self::url('datepicker/customize.css'), array(), '1.0.0');
         }
     }
 
@@ -190,7 +190,7 @@ class Admin_Assets
         }
 
         // Add RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
+        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
             wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), self::version());
             wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), self::version());
         }
