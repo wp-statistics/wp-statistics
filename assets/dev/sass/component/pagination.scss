@@ -17,14 +17,36 @@
     margin-top: 8px;
   }
 
+  ul.page-numbers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    li a.prev, li a.next {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    li .dots {
+      margin: 0 7px 5px 5px;
+
+      &:hover {
+        background-color: transparent;
+        color: $dim-black-color;
+      }
+    }
+  }
+
   .page-numbers li {
-    margin-bottom: 0;
     display: inline-block;
+    margin-bottom: 5px;
   }
 
   .page-numbers li a, .pagination-wrap .page-numbers li span {
     display: inline-block;
-    padding: 4.4px 8.07px;
+    padding: 4.9px 8.52px;
     margin-right: 4px;
     border: 1px solid $light-color;
     border-radius: 3px;
@@ -48,14 +70,18 @@
   }
 
   .page-numbers li .current {
+    display: inline-block;
     border: none;
     background: $primary-color !important;
     color: $white-color;
-    padding: 5.6px 9.1px;
-    vertical-align: -1.5px;
-    margin: -8px 5px -5px 5px;
+    padding: 5.2px 9.2px;
+    margin: -8px 5px -5px 2px;
     font-size: 11px;
     line-height: 1.2;
     border-radius: 3px;
+
+    &:hover {
+      color: #fff;
+    }
   }
 }
