@@ -7,7 +7,7 @@
                 </div>
             </div>
         </div>
-    </div
+    </div>
 </div>
 
 <div id="wps-postbox-container-1" style="float: right" class="postbox-container">
