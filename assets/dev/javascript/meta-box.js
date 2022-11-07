@@ -261,6 +261,9 @@ wps_js.meta_box_footer = function (key, data) {
     wps_js.set_date_filter_as_selected(key, selectedDateFilter, selectedStartDate, selectedEndDate, fromDate, toDate);
 };
 
+/**
+ * Set As Selected Date Filter
+ */
 wps_js.set_date_filter_as_selected = function (key, selectedDateFilter, selectedStartDate, selectedEndDate, fromDate, toDate) {
     const metaBoxInner = jQuery(wps_js.meta_box_inner(key));
     const filterBtn = jQuery(metaBoxInner).find('.c-footer__filter__btn');
@@ -274,10 +277,8 @@ wps_js.set_date_filter_as_selected = function (key, selectedDateFilter, selected
         currentFilterTitle.text(wps_js._('str_' + selectedDateFilter));
         if (selectedDateFilter == 'custom') {
             const datePickerElement = jQuery(wps_js.meta_box_inner(key)).find('.js-datepicker-input').first();
-            fromDate = moment(fromDate).format('MM/DD/YYYY');
-            toDate = moment(toDate).format('MM/DD/YYYY');
-            datePickerElement.data('daterangepicker').setStartDate(fromDate);
-            datePickerElement.data('daterangepicker').setEndDate(toDate);
+            datePickerElement.data('daterangepicker').setStartDate(moment(fromDate).format('MM/DD/YYYY'));
+            datePickerElement.data('daterangepicker').setEndDate(moment(toDate).format('MM/DD/YYYY'));
         }
     }
     if (selectedStartDate.length && selectedEndDate.length) {
