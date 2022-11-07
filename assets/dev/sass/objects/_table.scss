@@ -13,12 +13,20 @@
         text-align: left;
 
         &:first-child {
-          padding-left: 32px;
+          padding-left: 16px;
+
+          @media screen and (min-width: 768px) {
+            padding-left: 32px;
+          }
         }
 
 
         &:last-child {
-          padding-right: 32px;
+          padding-right: 16px;
+
+          @media screen and (min-width: 768px) {
+            padding-right: 32px;
+          }
         }
       }
     }

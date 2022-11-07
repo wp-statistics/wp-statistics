@@ -1,6 +1,10 @@
 
 .wps-wrap__main {
-  padding: 20px;
+  padding: 20px 8px;
+
+  @media screen and (min-width: 768px) {
+    padding: 20px;
+  }
 }
 
 .wps-wrap .postbox {
@@ -15,7 +19,17 @@
   }
 
   .inside {
-    //padding: 15px;
+    overflow-x: scroll;
+
+    @media screen and (min-width: 768px) {
+      overflow-x: auto;
+    }
+
+    table {
+      td {
+        white-space: nowrap;
+      }
+    }
   }
 }
 
