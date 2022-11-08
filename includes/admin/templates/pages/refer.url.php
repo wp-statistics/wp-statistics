@@ -22,7 +22,7 @@
                 <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($title); ?></span></h2>
                 <div class="inside">
                     <?php if (count($list) < 1) { ?>
-                        <div class='wps-center'><?php _e("No information is available.", "wp-statistics"); ?></div>
+                        <div class='wps-wrap--no-content wps-center'><?php _e("No information is available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
                         <table width="100%" class="widefat table-stats" id="top-referring">
                             <tr>
