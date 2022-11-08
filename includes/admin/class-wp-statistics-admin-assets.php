@@ -93,6 +93,16 @@ class Admin_Assets
         return $url . $file_name;
     }
 
+	/**
+	 * Enqueue dashboard page styles.
+	 */
+
+	public function dashboard_styles()
+	{
+		// Load Dashboard Css
+		wp_enqueue_style(self::$prefix . '-dashboard', self::url('dashboard.min.css'), array(), self::version());
+	}
+
     /**
      * Enqueue styles.
      */
