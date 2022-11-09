@@ -62,10 +62,10 @@
   }
 
   .inside {
-    overflow-x: scroll;
+    overflow-x: visible;
 
     @media screen and (min-width: 768px) {
-      overflow-x: auto;
+      overflow-x: visible;
     }
 
     table {
