@@ -36,9 +36,9 @@ wps_js.no_meta_box_data = function () {
 wps_js.error_meta_box_data = function (xhr) {
     let data = JSON.parse(xhr);
     if (wps_js.isset(data, 'message')) {
-        return data['message'];
+        return '<div class="o-wrap o-wrap--no-data">' + data['message'] + '</div>';
     }
-    return wps_js._('rest_connect');
+    return '<div class="o-wrap o-wrap--no-data">' + wps_js._('rest_connect') + '</div>';
 };
 
 /**
