@@ -70,7 +70,7 @@ class post
         }
 
         $response['visitors'] = apply_filters('wp_statistics_meta_box_post_visitors',
-            Admin_Template::get_template(array('meta-box/pages-visitor-preview'), null, true),
+            Admin_Template::get_template('meta-box/pages-visitors-preview', null, true),
             $post
         );
 
