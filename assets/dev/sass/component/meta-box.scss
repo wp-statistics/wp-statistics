@@ -195,7 +195,8 @@
 #wp-statistics-models-widget,
 #wp-statistics-platforms-widget,
 #wp-statistics-quickstats-widget,
-#wp-statistics-devices-widget {
+#wp-statistics-devices-widget,
+#wp-statistics-useronline-widget{
   overflow: visible;
 }
 
@@ -292,3 +293,9 @@
     display: none;
   }
 }
+
+#wp-statistics-quickstats-widget {
+  canvas {
+    margin: 0 12px !important;
+  }
+ }
