@@ -66,13 +66,11 @@ class taxonomies_page
         $args['taxonomies']    = self::$taxonomies;
         $args['taxonomy']      = self::$taxonomy;
         $args['taxonomyTitle'] = $taxonomyTitle;
+        $args['custom_get']    = ['taxonomy' => self::$taxonomy];
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('taxonomies');
         $args['pagination'] = Admin_Template::getCurrentPaged();
-
-        // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
 
         // Get List Category
         $terms = get_terms(self::$taxonomy, array(

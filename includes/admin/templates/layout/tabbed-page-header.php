@@ -4,7 +4,7 @@
         <?php do_action('wp_statistics_after_admin_page_title'); ?>
         <div class="wp-clearfix"></div>
         <div class="wps-datepicker">
-            <!-- datepicker -->
+            <?php include 'date.range.php'; ?>
         </div>
         <?php if (!empty($tabs) && is_array($tabs)) { ?>
             <ul class="wps-tabs">

@@ -3,7 +3,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     // Check Taxonomy
     if (wps_js.isset(wps_js.global, 'request_params', 'taxonomy') && (wps_js.global.request_params.taxonomy === "category" || wps_js.global.request_params.taxonomy === "post_tag")) {
         // Create Params
-        let params = {'ago': 30, 'type': wps_js.global.request_params.taxonomy, 'ID': 0};
+        let params = {
+            'ago': 0,
+            'type': wps_js.global.request_params.taxonomy,
+            'ID': 0
+        };
 
         // Check Extra Parameter [Days ago or Between ..]
         ['from', 'to', 'ID'].forEach((key) => {
