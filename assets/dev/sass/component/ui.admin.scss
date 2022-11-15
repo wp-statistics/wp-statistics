@@ -1143,11 +1143,18 @@
 }
 
 .wps-page-header {
+  position: relative;
   margin: -20px;
   margin-bottom: 20px;
   padding: 20px;
   background: #fff;
   padding-bottom: 0;
+}
+
+.wps-datepicker {
+  position: absolute;
+  top: 0px;
+  right: 20px;
 }
 
 .wps-tabs {
@@ -1190,4 +1197,16 @@
   background-size: contain;
   margin-left: 5px;
   margin-top: 3px;
+}
+
+.c-pages-date-range {
+  margin-top: 20px;
+  height: 28px;
+  overflow: hidden;
+}
+
+.c-pages-date-range .js-date-range-picker-input {
+  position: relative !important;
+  top: -15px !important;
+  left: 0 !important;
 }
