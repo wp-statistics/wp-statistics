@@ -31,7 +31,7 @@ class Frontend
     }
 
     /*
-     * Create HTML Comment support Wappalyzer
+     * Create HTML Comment to support Wappalyzer
      */
     public function html_comment()
     {
@@ -64,24 +64,35 @@ class Frontend
     }
 
     /*
-     * Inline Js
+     * Inline Js for client-side request
      */
     public function add_inline_rest_js()
     {
         if (Option::get('use_cache_plugin')) {
 
-            // WP Statistics HTML comment
+            /**
+             * Print out the WP Statistics HTML comment
+             */
             $this->html_comment();
 
-            // Prepare Params
-            $params = array_merge(array(
+            $params = array(
                 Hits::$rest_hits_key => 'yes',
-            ), self::set_default_params());
+            );
 
+            /**
+             * Merge parameters
+             */
+            $params = array_merge($params, Helper::getHitsDefaultParams());
+
+            /**
+             * Build request URL
+             */
             $apiUrl     = RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint;
             $requestUrl = add_query_arg($params, get_rest_url(null, $apiUrl));
 
-            // Print Script
+            /**
+             * Print Script
+             */
             echo '<script>
                 let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);                
                 if (WP_Statistics_Dnd_Active !== 1) {
@@ -92,14 +103,6 @@ class Frontend
                 }
             </script>';
         }
-    }
-
-    /*
-     * Set Default Params Rest Api
-     */
-    public static function set_default_params()
-    {
-        return Helper::getHitsDefaultParams();
     }
 
     /**
