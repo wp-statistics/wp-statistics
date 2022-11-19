@@ -75,19 +75,18 @@ class Frontend
 
             // Prepare Params
             $params = array_merge(array(
-                '_'                  => time(),
-                '_wpnonce'           => wp_create_nonce('wp_rest'),
                 Hits::$rest_hits_key => 'yes',
             ), self::set_default_params());
 
-            $requestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
+            $apiUrl     = RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint;
+            $requestUrl = add_query_arg($params, get_rest_url(null, $apiUrl));
 
             // Print Script
             echo '<script>
                 let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);                
                 if (WP_Statistics_Dnd_Active !== 1) {
                     var WP_Statistics_http = new XMLHttpRequest();
-                    WP_Statistics_http.open("GET", "' . $requestUrl . '" + "&referred=" + encodeURIComponent(document.referrer), true);
+                    WP_Statistics_http.open("GET", "' . $requestUrl . '" + "&referred=" + encodeURIComponent(document.referrer) + "&_=" + Date.now(), true);
                     WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                     WP_Statistics_http.send(null);
                 }
