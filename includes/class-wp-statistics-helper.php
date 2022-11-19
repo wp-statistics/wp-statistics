@@ -1098,9 +1098,6 @@ class Helper
         // Create Empty Params Object
         $params = array();
 
-        //Set Referred
-        $params['referred'] = urlencode(Referred::get());
-
         //exclude
         $exclude                    = Exclusion::check();
         $params['exclusion_match']  = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
