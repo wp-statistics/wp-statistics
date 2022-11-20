@@ -93,7 +93,7 @@ class Frontend
             /**
              * Print Script
              */
-            echo '<script>
+            print('<script>
                 let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);                
                 if (WP_Statistics_Dnd_Active !== 1) {
                     var WP_Statistics_http = new XMLHttpRequest();
@@ -101,7 +101,7 @@ class Frontend
                     WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                     WP_Statistics_http.send(null);
                 }
-            </script>';
+            </script>');
         }
     }
 

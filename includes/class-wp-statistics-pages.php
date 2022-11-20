@@ -82,7 +82,7 @@ class Pages
         }
 
         //is search page
-        $search_query = filter_var(get_search_query(false), FILTER_SANITIZE_STRING);
+        $search_query = sanitize_url(get_search_query(false));
         if (trim($search_query) != "") {
             return array("type" => "search", "id" => 0, "search_query" => $search_query);
         }
@@ -125,11 +125,11 @@ class Pages
 
         // Get the site's path from the URL.
         $site_uri     = parse_url(site_url(), PHP_URL_PATH);
-        $site_uri_len = strlen($site_uri);
+        $site_uri_len = strlen($site_uri ? $site_uri : '');
 
         // Get the site's path from the URL.
         $home_uri     = parse_url(home_url(), PHP_URL_PATH);
-        $home_uri_len = strlen($home_uri);
+        $home_uri_len = strlen($home_uri ? $home_uri : '');
 
         // Get the current page URI.
         $page_uri = sanitize_url(wp_unslash($_SERVER["REQUEST_URI"]));
@@ -158,8 +158,8 @@ class Pages
             }
         }
 
-        //Sanitize Xss injection
-        $page_uri = filter_var($page_uri, FILTER_SANITIZE_STRING);
+        // Sanitize the page URI.
+        $page_uri = sanitize_url($page_uri);
 
         // If we're at the root (aka the URI is blank), let's make sure to indicate it.
         if ($page_uri == '') {
