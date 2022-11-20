@@ -55,7 +55,6 @@ class Admin_Notices
 
             $params = array_merge(array(
                 '_'                  => time(),
-                '_wpnonce'           => null,
                 Hits::$rest_hits_key => 'yes',
             ), Helper::getHitsDefaultParams());
 
