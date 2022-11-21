@@ -367,6 +367,26 @@ class Visitor
     }
 
     /**
+     * Get Top Pages Visited by a visitor
+     *
+     * @param $visitor_ID
+     * @param $total
+     *
+     * @return mixed
+     */
+    public static function get_pages_by_visitor_id($visitor_ID, $total = 5)
+    {
+        global $wpdb;
+
+        $visitor_relationships_table = DB::table('visitor_relationships');
+        $pages_table                 = DB::table('pages');
+
+        // Get Result
+        $query = $wpdb->prepare("SELECT DISTINCT {$visitor_relationships_table}.page_id, {$pages_table}.uri FROM {$visitor_relationships_table} INNER JOIN {$pages_table} ON {$visitor_relationships_table}.page_id = {$pages_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total);
+        return $wpdb->get_results($query, ARRAY_N);
+    }
+
+    /**
      * Count User By Custom Filter
      *
      * @param array $args
