@@ -55,6 +55,10 @@ table.wps-table-auto {
   text-align: center !important;
 }
 
+.th-right {
+  text-align: right !important;
+}
+
 .td-align {
   text-align: left;
 }
@@ -158,6 +162,10 @@ table.wps-table-auto {
 
 .rtl .table-stats .th-center {
   text-align: center !important;
+}
+
+.rtl .table-stats .th-right {
+  text-align: left !important;
 }
 
 .table-stats {
