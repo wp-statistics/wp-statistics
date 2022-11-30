@@ -28,7 +28,8 @@
 #wp-statistics-devices-widget,
 #wp-statistics-useronline-widget,
 .wps-wrap {
-  .o-table {border-collapse: collapse;
+  .o-table {
+    border-collapse: collapse;
 
     thead {
 
@@ -69,10 +70,6 @@
         color: $dark-tertiary-color;
         text-align: left;
 
-        &:first-child {
-          padding-left: 32px;
-        }
-
 
         &:last-child {
           padding-right: 32px;
@@ -88,7 +85,11 @@
         border: none;
 
         &:first-child {
-          padding-left: 32px;
+          padding-left: 16px;
+
+          @media screen and (min-width: 768px) {
+            padding-left: 32px;
+          }
         }
 
 
@@ -128,7 +129,7 @@
         display: inline-flex;
         align-items: center;
 
-        span , svg{
+        span, svg {
           color: $primary-color;
           transition: 0.22s;
         }
@@ -176,10 +177,12 @@
     ::-webkit-scrollbar {
       width: 4px;
     }
+
     /* Track */
     ::-webkit-scrollbar-track {
       background: $light-tertiary-color;
     }
+
     /* Handle */
     ::-webkit-scrollbar-thumb {
       background: $light-color;
@@ -190,7 +193,9 @@
 
     thead {
       tr th {
-        text-align: center;
+        text-align: right;
+        max-width: max-content;
+        padding-left: 16px;
 
         &:first-child {
           text-align: left;
@@ -199,20 +204,41 @@
         &:last-child {
           text-align: right;
         }
-
-        &:nth-child(1) {
-          min-width: 40px;
-        }
-
-        &:nth-child(n+2) {
-          min-width: 120px;
-        }
       }
     }
 
     tbody {
       tr td {
-        text-align: left;
+        text-align: right;
+        max-width: max-content;
+        padding-left: 16px;
+
+        &:first-child {
+          text-align: left;
+          padding-right: 10px;
+        }
+
+        &:nth-child(2) {
+          width: 150px;
+        }
+
+        a {
+          display: inline-flex;
+          align-items: center;
+        }
+
+        a img {
+          float: unset;
+          margin: 0 4px 0 0;
+        }
+
+        .wps-flag {
+          float: right;
+        }
+
+        a {
+          padding-right: 8px;
+        }
 
         &:last-child {
           text-align: right;
@@ -230,9 +256,33 @@
 
     .o-table__link a {
       color: $primary-color;
+      padding-right: 0;
 
       &:hover {
         color: $dark-color;
+      }
+    }
+  }
+
+  .o-table.o-table--responsive {
+
+    tr:first-child td {
+      text-align: right;
+    }
+
+    tr td {
+      min-width: 60px;
+      text-align: right !important;
+      padding-right: 8px;
+
+      .wps-flag {
+        float: right;
+      }
+
+      &:first-child {
+        text-align: left !important;
+        min-width: unset;
+        padding-right: 8px;
       }
     }
   }

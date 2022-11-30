@@ -261,7 +261,6 @@ wps_js.meta_box_footer = function (key, data) {
     /**
      * Add click event to filters toggle
      */
-    console.log(jQuery('.js-filters-toggle'))
     jQuery('.js-filters-toggle:not(.is-ready)').on('click', function () {
         jQuery('.js-widget-filters').removeClass('is-active');
         jQuery('.postbox').removeClass('has-focus');
@@ -271,9 +270,11 @@ wps_js.meta_box_footer = function (key, data) {
         /**
          * Open filters to the downside if there's not enough space.
          */
-        const targetTopPosition = jQuery(this)[0].getBoundingClientRect().top;
-        if (targetTopPosition < 350) {
-            jQuery(this).closest('.js-widget-filters').addClass('is-down');
+        if (!jQuery(this).hasClass('is-active')) {
+            const targetTopPosition = jQuery(this)[0].getBoundingClientRect().top;
+            if (targetTopPosition < 350) {
+                jQuery(this).closest('.js-widget-filters').addClass('is-down');
+            }
         }
     });
     jQuery('.js-filters-toggle:not(.is-ready)').addClass('is-ready');
