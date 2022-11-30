@@ -214,7 +214,7 @@ wps_js.meta_box_footer = function (key, data) {
     let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
     if (params.footer_options.filter_by_date) {
         html += `
-            <button class="c-footer__filter__btn" onclick="jQuery('.js-widget-filters').removeClass('is-active'); jQuery('.postbox').removeClass('has-focus'); jQuery(this).closest('.js-widget-filters').toggleClass('is-active'); jQuery(this).closest('.postbox').toggleClass('has-focus')">` + wps_js._('str_' + params.footer_options.default_date_filter) + `</button>
+            <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._('str_' + params.footer_options.default_date_filter) + `</button>
             <div class="c-footer__filters">
                 <div class="c-footer__filters__current-filter">
                     <span class="c-footer__current-filter__title js-filter-title">Last 7 days</span>
@@ -257,6 +257,27 @@ wps_js.meta_box_footer = function (key, data) {
             'to': picker.endDate.format('YYYY-MM-DD')
         });
     });
+
+    /**
+     * Add click event to filters toggle
+     */
+    console.log(jQuery('.js-filters-toggle'))
+    jQuery('.js-filters-toggle:not(.is-ready)').on('click', function () {
+        jQuery('.js-widget-filters').removeClass('is-active');
+        jQuery('.postbox').removeClass('has-focus');
+        jQuery(this).closest('.js-widget-filters').toggleClass('is-active');
+        jQuery(this).closest('.postbox').toggleClass('has-focus')
+
+        /**
+         * Open filters to the downside if there's not enough space.
+         */
+        const targetTopPosition = jQuery(this)[0].getBoundingClientRect().top;
+        if (targetTopPosition < 350) {
+            jQuery(this).closest('.js-widget-filters').addClass('is-down');
+        }
+    });
+    jQuery('.js-filters-toggle:not(.is-ready)').addClass('is-ready');
+
 
     wps_js.set_date_filter_as_selected(key, selectedDateFilter, selectedStartDate, selectedEndDate, fromDate, toDate);
 };
@@ -434,12 +455,20 @@ jQuery(document).on("click", function (event) {
         jQuery('.js-widget-filters').removeClass('is-active');
         jQuery('.postbox.has-focus').removeClass('has-focus');
         jQuery('.c-footer__filter__btn.is-active').removeClass('is-active');
+        setTimeout(function () {
+            jQuery('.js-widget-filters').removeClass('is-down');
+        }, 500)
     } else {
         const targetClasses = event.target.classList;
         if (targetClasses.contains('c-footer__filter__btn') && targetClasses.contains('is-active')) {
             event.target.classList.remove('is-active');
             jQuery('.js-widget-filters').removeClass('is-active');
             jQuery('.postbox.has-focus').removeClass('has-focus');
+
+            setTimeout(function () {
+                jQuery('.js-widget-filters').removeClass('is-down');
+            }, 500)
+
         } else if (targetClasses.contains('c-footer__filter__btn') && !targetClasses.contains('is-active')) {
             event.target.classList.add('is-active');
         }

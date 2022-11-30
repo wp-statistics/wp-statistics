@@ -67,17 +67,12 @@
   visibility: hidden;
   transition: 0.22s;
   position: absolute;
-  left: 0;
   bottom: 170%;
+  left: 0;
   background-color: $white-color;
   box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07);
   border-radius: 8px;
   min-width: 200px;
-}
-
-.c-footer__filters--bottom {
-  top: 160%;
-  bottom: unset;
 }
 
 .c-footer__filter.is-active {
@@ -91,6 +86,13 @@
 
   .c-footer__filter__btn::after {
     transform: rotate(180deg);
+  }
+}
+
+.c-footer__filter.is-down {
+  .c-footer__filters {
+    bottom: unset;
+    top: 170%;
   }
 }
 
