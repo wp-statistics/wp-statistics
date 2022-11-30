@@ -214,7 +214,7 @@ wps_js.meta_box_footer = function (key, data) {
     let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
     if (params.footer_options.filter_by_date) {
         html += `
-            <button class="c-footer__filter__btn" onclick="jQuery(this).closest('.js-widget-filters').toggleClass('is-active'); jQuery(this).closest('.postbox').toggleClass('has-focus')">` + wps_js._('str_' + params.footer_options.default_date_filter) + `</button>
+            <button class="c-footer__filter__btn" onclick="jQuery('.js-widget-filters').removeClass('is-active'); jQuery('.postbox').removeClass('has-focus'); jQuery(this).closest('.js-widget-filters').toggleClass('is-active'); jQuery(this).closest('.postbox').toggleClass('has-focus')">` + wps_js._('str_' + params.footer_options.default_date_filter) + `</button>
             <div class="c-footer__filters">
                 <div class="c-footer__filters__current-filter">
                     <span class="c-footer__current-filter__title js-filter-title">Last 7 days</span>
@@ -425,3 +425,25 @@ jQuery(document).on("click", 'input[data-between-chart-show]', function () {
         'no-data': 'no'
     });
 });
+
+/**
+ * Close filters when clicking outside the filters
+ * */
+jQuery(document).on("click", function (event) {
+    if (!jQuery(event.target).closest(".js-widget-filters").length) {
+        jQuery('.js-widget-filters').removeClass('is-active');
+        jQuery('.postbox.has-focus').removeClass('has-focus');
+        jQuery('.c-footer__filter__btn.is-active').removeClass('is-active');
+    } else {
+        const targetClasses = event.target.classList;
+        if (targetClasses.contains('c-footer__filter__btn') && targetClasses.contains('is-active')) {
+            event.target.classList.remove('is-active');
+            jQuery('.js-widget-filters').removeClass('is-active');
+            jQuery('.postbox.has-focus').removeClass('has-focus');
+        } else if (targetClasses.contains('c-footer__filter__btn') && !targetClasses.contains('is-active')) {
+            event.target.classList.add('is-active');
+        }
+    }
+});
+
+

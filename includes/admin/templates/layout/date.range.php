@@ -38,7 +38,7 @@
 <div class="c-pages-date-range">
     <div class="c-footer__filter js-pages-date-range-picker">
         <div class="c-footer__filter__btn-group">
-            <button onclick="" class="c-footer__filter__btn c-footer__filter__btn--sm">
+            <button onclick="jQuery('.ranges li').map((key, value) => { if(value.classList.contains('active')) { const prevDateRange = jQuery('.ranges li')[key - 1]; prevDateRange.click();}})" class="c-footer__filter__btn c-footer__filter__btn--sm">
                 <svg width="6" height="10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="a" fill="#fff">
                         <path d="M4.951.133.406 4.68a.454.454 0 0 0 0 .643L4.95 9.867a.454.454 0 1 0 .643-.643L1.37 5 5.594.776a.453.453 0 0 0 0-.643.455.455 0 0 0-.643 0Z"/>
@@ -63,7 +63,7 @@
                 </svg>
                 <span><?php echo __('Last 30 Days', 'wp-statistics')?></span>
             </button>
-            <button onclick="" class="c-footer__filter__btn c-footer__filter__btn--sm">
+            <button onclick="jQuery('.ranges li').map((key, value) => { if(value.classList.contains('active')) { const prevDateRange = jQuery('.ranges li')[key + 1]; prevDateRange.click(); }})" class="c-footer__filter__btn c-footer__filter__btn--sm">
                 <svg width="6" height="10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="a" fill="#fff">
                         <path d="M1.049 9.867 5.594 5.32a.454.454 0 0 0 0-.643L1.05.133a.455.455 0 1 0-.643.643L4.63 5 .406 9.224a.453.453 0 0 0 0 .643.455.455 0 0 0 .643 0Z"/>

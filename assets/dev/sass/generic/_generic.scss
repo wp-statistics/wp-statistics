@@ -127,4 +127,15 @@
   border-radius: 8px;
   border: 1px solid $light-color;
   overflow: visible;
+
+  &.postbox.has-focus {
+    z-index: 999;
+  }
+
+  button {
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
 }
