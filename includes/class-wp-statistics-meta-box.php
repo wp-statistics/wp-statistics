@@ -254,7 +254,7 @@ class Meta_Box
                 'hidden_overview'   => true
             ),
             'about'           => array(
-                'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
+                'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),
                 'show_on_dashboard' => false,
                 'js'                => false,
                 'place'             => 'side',
