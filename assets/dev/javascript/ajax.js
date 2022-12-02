@@ -39,7 +39,9 @@ wps_js.ajaxQ = function (url, params, callback, error_callback, type = 'GET', in
 
                     jQuery(wps_js.meta_box_inner(params.name)).empty().html(wps_js.no_meta_box_data());
 
-                    wps_js.meta_box_footer(params.name, data);
+                    if (wps_js.is_active('overview_page') || wps_js.global.page.file === "index.php") {
+                        wps_js.meta_box_footer(params.name, data);
+                    }
                 } else {
 
                     // Show Meta Box
@@ -52,7 +54,9 @@ wps_js.ajaxQ = function (url, params, callback, error_callback, type = 'GET', in
                         }, 150);
                     }
 
-                    wps_js.meta_box_footer(params.name, data);
+                    if (wps_js.is_active('overview_page') || wps_js.global.page.file === "index.php") {
+                        wps_js.meta_box_footer(params.name, data);
+                    }
                 }
             } else {
 
