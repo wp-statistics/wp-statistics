@@ -1098,9 +1098,6 @@ class Helper
         // Create Empty Params Object
         $params = array();
 
-        //Set Referred
-        $params['referred'] = urlencode(Referred::get());
-
         //exclude
         $exclude                    = Exclusion::check();
         $params['exclusion_match']  = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
@@ -1137,5 +1134,15 @@ class Helper
         $anonymousSubVersion = preg_replace('/[0-9]+/', '0', $subVersion);
 
         return "{$mainVersion}.{$anonymousSubVersion}";
+    }
+
+    /**
+     * Do not track browser detection
+     *
+     * @return bool
+     */
+    public static function dntEnabled()
+    {
+        return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) or (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
     }
 }

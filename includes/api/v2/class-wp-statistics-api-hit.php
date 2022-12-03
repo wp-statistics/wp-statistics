@@ -36,8 +36,7 @@ class Hit extends \WP_STATISTICS\RestAPI
     {
         return array(
             'track_all' => array('required' => true, 'type' => 'integer'),
-            'page_uri'  => array('required' => true, 'type' => 'string'),
-            '_wpnonce'  => array('required' => false, 'type' => 'string')
+            'page_uri'  => array('required' => true, 'type' => 'string')
         );
     }
 
@@ -70,14 +69,12 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function hit_callback(\WP_REST_Request $request)
     {
-        if (!empty($_GET['_wpnonce'])) {
-            // Start Record
-            Hits::record();
-        }
+        // Start Record
+        Hits::record();
 
         $response = new \WP_REST_Response(array(
             'status'  => true,
-            'message' => __('Visitor Hit was recorded successfully.', 'wp-statistics'),
+            'message' => __('Visitor Hit recorded successfully.', 'wp-statistics'),
         ), 200);
 
         /**

@@ -1,10 +1,10 @@
 === WP Statistics ===
-Contributors: mostafa.s1990, kashani, veronalabs, mehrshaddarzi, GregRoss
+Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 13.2.7
+Stable tag: 13.2.8
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -131,6 +131,16 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.8 - 03.12.2022 =
+* Feature: Respect and compatibility with [Do Not Track](https://en.wikipedia.org/wiki/Do_Not_Track) browsers setting.
+* Feature: Add filter `wp_statistics_top_pages_arguments` to change the arguments of top pages.
+* Bugfix: Fix the Add-On notice constraint issue.
+* Bugfix: Sanitize the input of the URLs in the pages list
+* Improvement: Dynamic sending referred in the frontend by JavaScript while Cache is enabled.
+* Improvement: Remove `time` and `_nonce` parameters from the URL of the frontend while Cache is enabled.
+* Improvement: Compatibility with PHP v8.1
+* Improvement: Support method `Helper::get_pages_by_visitor_id()` to get pages by visitor id.
+
 = v13.2.7 - 23.10.2022 =
 * Bugfix: The error message while purging all databases
 * Update: The ChartJs library updated to v3.9.1
