@@ -758,13 +758,15 @@ function wp_statistics_searchword_query($search_engine = 'all')
     if (strtolower($search_engine) == 'all') {
         // For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
         foreach ($search_engine_list as $key => $se) {
+            $key          = esc_sql($key);
             $search_query .= "( `engine` = '{$key}' AND `words` <> '' ) OR ";
         }
 
         // Trim off the last ' OR ' for the loop above.
         $search_query = substr($search_query, 0, strlen($search_query) - 4);
     } else {
-        $search_query .= "`engine` = '{$search_engine}' AND `words` <> ''";
+        $search_engine = esc_sql($search_engine);
+        $search_query  .= "`engine` = '{$search_engine}' AND `words` <> ''";
     }
 
     return $search_query;
