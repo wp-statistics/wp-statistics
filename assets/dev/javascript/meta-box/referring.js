@@ -1,7 +1,7 @@
 wps_js.referring_meta_box = {
 
     view: function (args = []) {
-        let t = '';
+        let t = '<div class="o-table-wrapper">';
         t += `<table width="100%" class="o-table o-table--link o-table--space-between"><thead>
         <tr>
             <th>${wps_js._('address')}</th>
@@ -20,7 +20,7 @@ wps_js.referring_meta_box = {
 			</tr>`;
         });
 
-        t += `</tbody></table>`;
+        t += `</tbody></table></div>`;
         return t;
     }
 
