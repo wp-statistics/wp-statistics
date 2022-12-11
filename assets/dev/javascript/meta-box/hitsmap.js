@@ -46,20 +46,17 @@ wps_js.hitsmap_meta_box = {
         });
 
         const widgetWrapper = jQuery("#wp-statistics-hitsmap-widget");
-        const mapWrapper = widgetWrapper.find(".o-wrap");
         const sideSortable = jQuery("#side-sortables");
+        const normalSortable = jQuery("#normal-sortables");
+        const observerConfig = {attributes: false, childList: true, characterData: false, subtree: true};
 
-        const observer = new MutationObserver(function(mutations) {
-            if (sideSortable.find(widgetWrapper).length) {
-                //mapWrapper.remove()
-
-                // Add widgets content here.
-
-                observer.disconnect() // Will disable watching changes on page.
+        const observer = new MutationObserver(function (mutations) {
+            if (sideSortable.find(widgetWrapper).length || normalSortable.find(widgetWrapper).length) {
+                window.dispatchEvent(new Event('resize'));
             }
         });
 
-        observer.observe(document.getElementById('side-sortables'), {attributes: false, childList: true, characterData: false, subtree:true});
-
+        observer.observe(document.getElementById('side-sortables'), observerConfig);
+        observer.observe(document.getElementById('normal-sortables'), observerConfig);
     }
 };
