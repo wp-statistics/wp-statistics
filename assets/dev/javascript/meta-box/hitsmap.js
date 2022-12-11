@@ -14,7 +14,7 @@ wps_js.hitsmap_meta_box = {
         // Prepare Country Pin
         if (args.hasOwnProperty('country')) {
             Object.keys(args['country']).forEach(function (key) {
-                let t = `<div class='map-html-marker'><img src='${args['country'][key]['flag']}' alt="${args['country'][key]['name']}" title='${args['country'][key]['name']}' class='log-tools wps-flag'/> ${args['country'][key]['name']} [${args['total_country'][key]}]<hr />`;
+                let t = `<div class='map-html-marker'><div class="map-country-header"><img src='${args['country'][key]['flag']}' alt="${args['country'][key]['name']}" title='${args['country'][key]['name']}' class='log-tools wps-flag'/> ${args['country'][key]['name']} [${args['total_country'][key]}]</div>`;
 
                 // Get List visitors
                 Object.keys(args['visitor'][key]).forEach(function (visitor_id) {
@@ -33,7 +33,8 @@ wps_js.hitsmap_meta_box = {
             borderColor: '#7e7e7e',
             borderOpacity: 0.60,
             color: '#e6e5e2',
-            hoverColor: '#c3403c',
+            selectedColor: '#9DA3F7',
+            hoverColor: '#404BF2',
             colors: args['color'],
             onLabelShow: function (element, label, code) {
                 if (pin[code] !== undefined) {
