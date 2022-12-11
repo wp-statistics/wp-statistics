@@ -4,7 +4,7 @@
             <div class="postbox">
                 <div class="inside">
                     <?php if (!is_array($user_online_list)) { ?>
-                        <div class='wps-center'><?php echo esc_attr($user_online_list); ?></div>
+                        <div class='wps-wrap--no-content wps-center'><?php echo esc_attr($user_online_list); ?></div>
                     <?php } else { ?>
                         <table width="100%" class="widefat table-stats">
                             <tr>
