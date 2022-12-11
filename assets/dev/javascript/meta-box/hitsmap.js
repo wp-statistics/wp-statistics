@@ -51,7 +51,7 @@ wps_js.hitsmap_meta_box = {
 
         const observer = new MutationObserver(function(mutations) {
             if (sideSortable.find(widgetWrapper).length) {
-                mapWrapper.remove()
+                //mapWrapper.remove()
 
                 // Add widgets content here.
 

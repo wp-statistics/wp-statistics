@@ -287,3 +287,18 @@
     }
   }
 }
+
+#side-sortables #wp-statistics-countries-widget {
+  tr {
+
+    td:nth-child(2), th:nth-child(2) {
+      min-width: 100px;
+      padding-left: 32px;
+    }
+
+    td:nth-child(3), th:nth-child(3) {
+      text-align: right !important;
+      padding-right: 20px;
+    }
+  }
+}
