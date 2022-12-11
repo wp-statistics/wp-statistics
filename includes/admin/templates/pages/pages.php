@@ -57,8 +57,8 @@
                                         <a href="<?php echo esc_url($li['link'] . $li['str_url']); ?>" title="<?php echo esc_attr($li['title']); ?>" target="_blank"><?php echo esc_attr($li['title']); ?> <span class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></span></a>
                                     </td>
                                     <td style="text-align: left">
-                                        <a href="<?php echo esc_url($li['hits_page']); ?>" class="wps-text-muted">
-                                            <?php echo esc_attr($li['number']); ?>
+                                        <a href="<?php echo esc_url($li['hits_page']); ?>">
+                                            <?php echo esc_attr($li['number']); ?> »
                                         </a>
                                     </td>
                                 </tr>
