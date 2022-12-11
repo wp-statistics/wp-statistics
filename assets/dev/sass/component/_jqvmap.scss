@@ -11,6 +11,8 @@
     font-style: normal;
     font-weight: 400;
     font-size: 11px !important;
+    display: flex;
+    align-items: center;
 
     & > img {
       margin-right: 8px;
@@ -28,6 +30,8 @@
   }
 
   p {
+    display: flex;
+    align-items: flex-start;
     padding: 8px 12px !important;
     background-color: #fff !important;
     border-bottom: 1px solid #EEEFF1 !important;
@@ -38,11 +42,13 @@
     font-size: 10px !important;
     line-height: 165%;
 
-    &:hover {
+    &:last-child {
       border-bottom: 0 !important;
     }
 
     img {
+      //width: 14px;
+      //height: 14px;
       margin-right: 8px !important;
     }
   }
