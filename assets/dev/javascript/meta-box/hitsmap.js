@@ -44,5 +44,22 @@ wps_js.hitsmap_meta_box = {
                 }
             },
         });
+
+        const widgetWrapper = jQuery("#wp-statistics-hitsmap-widget");
+        const mapWrapper = widgetWrapper.find(".o-wrap");
+        const sideSortable = jQuery("#side-sortables");
+
+        const observer = new MutationObserver(function(mutations) {
+            if (sideSortable.find(widgetWrapper).length) {
+                mapWrapper.remove()
+
+                // Add widgets content here.
+
+                observer.disconnect() // Will disable watching changes on page.
+            }
+        });
+
+        observer.observe(document.getElementById('side-sortables'), {attributes: false, childList: true, characterData: false, subtree:true});
+
     }
 };
