@@ -121,7 +121,6 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 10. Theme widget
 
 == Upgrade Notice ==
-
 = 13.0 =
 **IMPORTANT NOTE**
 Welcome to WP Statistics v13.0, our biggest update!
@@ -132,7 +131,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = v13.2.9 - 06.12.2022 =
-* Improvement: Compatibility with WP CLI
+* Bugfix: The include issue in CLI mode
 * Improvement: Hardened plugin security and improvement
 
 = v13.2.8 - 03.12.2022 =
