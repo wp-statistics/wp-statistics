@@ -132,7 +132,9 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 = v13.2.9 - 17.12.2022 =
 * Bugfix: The include issue in CLI mode
+* Improvement: Error handler for referred that doesn't have any URL
 * Improvement: Hardened plugin security and improvement
+* Enhancement: Minor Improvements
 
 = v13.2.8 - 03.12.2022 =
 * Feature: Respect and compatibility with [Do Not Track](https://en.wikipedia.org/wiki/Do_Not_Track) browsers setting.
