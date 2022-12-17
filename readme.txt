@@ -130,7 +130,7 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= v13.2.9 - 06.12.2022 =
+= v13.2.9 - 17.12.2022 =
 * Bugfix: The include issue in CLI mode
 * Improvement: Hardened plugin security and improvement
 
