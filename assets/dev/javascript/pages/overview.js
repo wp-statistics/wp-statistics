@@ -8,7 +8,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 <div class="close-overview-ads">
                 <span class="dashicons dashicons-dismiss"></span>
                 </div>
-                    <a href="${wps_js.global.overview.ads['link']}?utm_source=${window.location.origin}" title="${wps_js.global.overview.ads['title']}" ${(wps_js.global.overview.ads['_target'] == "yes" ? ' target="_blank"' : '')}>
+                    <a href="${wps_js.global.overview.ads['link']}" title="${wps_js.global.overview.ads['title']}" ${(wps_js.global.overview.ads['_target'] == "yes" ? ' target="_blank"' : '')}>
                     <img src="${wps_js.global.overview.ads['image']}" id="wps_overview_ads_image" alt="${wps_js.global.overview.ads['title']}">
                     </a>
                 </div>

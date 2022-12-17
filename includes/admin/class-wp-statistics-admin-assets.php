@@ -331,6 +331,16 @@ class Admin_Assets
         if (Menus::in_page('overview')) {
             $overview_ads = get_option('wp_statistics_overview_page_ads', false);
             if ($overview_ads != false and is_array($overview_ads) and $overview_ads['ads']['ID'] != $overview_ads['view'] and $overview_ads['ads']['status'] == "yes") {
+
+                if ($overview_ads['ads']['link']) {
+                    $overview_ads['ads']['link'] = add_query_arg(array(
+                        'utm_source'   => 'wp-statistics',
+                        'utm_medium'   => 'plugin',
+                        'utm_campaign' => 'overview-page',
+                        'referrer'     => get_bloginfo('url'),
+                    ), $overview_ads['ads']['link']);
+                }
+
                 $list['overview']['ads'] = $overview_ads['ads'];
             }
         }

@@ -239,8 +239,8 @@ class Schedule
         }
 
         // If SMS
-        if ($type == 'sms') {
-            Helper::send_sms(array(get_option('wp_admin_mobile')), $final_text_report);
+        if ($type == 'sms' and function_exists('wp_sms_send')) {
+            wp_sms_send(array(get_option('wp_admin_mobile')), $final_text_report);
         }
     }
 

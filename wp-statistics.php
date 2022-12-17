@@ -3,7 +3,7 @@
  * Plugin Name: WP Statistics
  * Plugin URI: https://wp-statistics.com/
  * Description: This plugin gives you the complete information on your website's visitors.
- * Version: 13.2.8
+ * Version: 13.2.9
  * Author: VeronaLabs
  * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics
@@ -14,7 +14,7 @@
 if (!defined('ABSPATH')) exit;
 
 # Load Plugin Defines
-require_once 'includes/defines.php';
+require_once __DIR__ . '/includes/defines.php';
 
 # Include some empty class to make sure they are existed while upgrading plugin.
 require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-updates.php';
