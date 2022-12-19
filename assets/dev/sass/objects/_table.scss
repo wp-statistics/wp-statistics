@@ -29,6 +29,7 @@
 #wp-statistics-useronline-widget,
 .wps-wrap {
   .o-table {
+    width: 100%;
     border-collapse: collapse;
 
     thead {
@@ -39,7 +40,7 @@
         font-size: 14px;
         line-height: 16px;
         border-bottom: 1px solid $light-secondary-color;
-        color: $dark-tertiary-color;
+        color: $low-color;
         text-align: left;
 
         &:first-child {
@@ -59,6 +60,46 @@
           }
         }
       }
+
+      tr td.row-id {
+        color: $low-color !important;
+      }
+    }
+
+    tr:first-child td {
+      text-align: right;
+    }
+
+    tr td {
+      min-width: 60px;
+      text-align: right !important;
+      padding-right: 8px;
+
+      .wps-flag {
+        float: right;
+      }
+
+      .wps-flag--first {
+        float: unset !important;
+      }
+
+      &:first-child {
+        text-align: right !important;
+        min-width: unset;
+        padding-right: 8px;
+      }
+
+      a {
+        color: $primary-color !important;
+
+        &:hover {
+          color: $dark-color !important;
+        }
+      }
+
+      a.is-normal-text {
+        color: $dim-black-color !important;
+      }
     }
 
     tbody {
@@ -67,7 +108,7 @@
         font-weight: 500;
         font-size: 14px;
         line-height: 16px;
-        color: $dark-tertiary-color;
+        color: $low-color;
         text-align: left;
 
 
@@ -81,7 +122,7 @@
         font-weight: 400;
         font-size: 13px;
         line-height: 15px;
-        color: $dark-color;
+        color: $dim-black-color;
         border: none;
 
         &:first-child {
@@ -101,11 +142,36 @@
           font-weight: 400;
           font-size: 13px;
           line-height: 15px;
-          color: $dark-color;
+          color: $dim-black-color;
 
           &:hover {
             color: $primary-color;
           }
+        }
+
+        .table-cell-scroller {
+          //max-width: 100%;
+          //overflow-x: auto;
+          //white-space: nowrap;
+          //scroll-behavior: smooth;
+          //scrollbar-width: thin;
+          //scrollbar-color: #DADCE0 $light-tertiary-color;
+          //
+          ///* width */
+          //::-webkit-scrollbar {
+          //  width: 4px;
+          //  border-radius: 2px;
+          //}
+          //
+          ///* Track */
+          //::-webkit-scrollbar-track {
+          //  background: $light-tertiary-color;
+          //}
+          //
+          ///* Handle */
+          //::-webkit-scrollbar-thumb {
+          //  background: #DADCE0;
+          //}
         }
       }
 
@@ -113,6 +179,10 @@
         th, td {
           background-color: $light-tertiary-color;
         }
+      }
+
+      tr td.row-id {
+        color: $low-color !important;
       }
     }
   }
@@ -158,7 +228,7 @@
     tr td, tr, th {
 
       &:first-child {
-        text-align: left;
+        text-align: right;
       }
 
       &:last-child {
@@ -171,11 +241,12 @@
     overflow-x: auto;
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: $light-color $light-tertiary-color;
+    scrollbar-color: #DADCE0 $light-tertiary-color;
 
     /* width */
     ::-webkit-scrollbar {
       width: 4px;
+      border-radius: 2px;
     }
 
     /* Track */
@@ -185,7 +256,7 @@
 
     /* Handle */
     ::-webkit-scrollbar-thumb {
-      background: $light-color;
+      background: #DADCE0;
     }
   }
 
@@ -214,7 +285,6 @@
         padding-left: 16px;
 
         &:first-child {
-          text-align: left;
           padding-right: 10px;
         }
 
@@ -237,7 +307,6 @@
         }
 
         a {
-          padding-right: 8px;
         }
 
         &:last-child {
@@ -280,9 +349,81 @@
       }
 
       &:first-child {
-        text-align: left !important;
+        text-align: right !important;
         min-width: unset;
         padding-right: 8px;
+      }
+    }
+  }
+
+  .o-table--pages {
+    tbody tr td,
+    tbody tr th {
+      padding: 11.1px 0;
+      vertical-align: middle;
+    }
+
+    tr {
+      td {
+        color: $dim-black-color;
+        font-size: 13px;
+
+        &:not(:first-child) {
+          text-align: right;
+
+          span, a {
+
+            text-align: right;
+          }
+        }
+      }
+
+      th {
+        color: $low-color;
+        font-size: 14px;
+        background: transparent !important;
+        font-weight: 400 !important;
+
+        &:not(:first-child) {
+          text-align: right;
+        }
+      }
+    }
+
+    td a {
+      color: $primary-color !important;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      &:visited {
+        color: $primary-color !important;
+
+        &:hover {
+          color: $dark-color !important;
+        }
+      }
+
+      svg {
+        margin-left: 2px;
+        transition: 0.22s;
+      }
+
+      span {
+        color: $primary-color !important;
+      }
+
+      &:hover {
+        color: $dark-color !important;
+
+        svg {
+          transform: translateX(3px);
+          filter: grayscale(1) brightness(0.9);
+        }
+
+        span {
+          color: $dark-color !important;
+        }
       }
     }
   }
@@ -306,7 +447,7 @@
 #wp-statistics-recent-widget {
   .o-table tr {
     td:nth-child(2), th:nth-child(2) {
-      text-align: left !important;
+
     }
   }
 }

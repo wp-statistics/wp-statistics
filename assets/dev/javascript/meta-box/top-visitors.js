@@ -5,7 +5,7 @@ wps_js.top_visitors_meta_box = {
         t += `<div class="o-table-wrapper">`;
         t += `<table width="100%" class="o-table o-table--responsive"><tbody>
         <tr>
-            <td>${wps_js._('rank')}</td>
+            <td></td>
             <td>${wps_js._('hits')}</td>
             ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('country')}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${wps_js._('city')}</td>` : ``) + `
@@ -18,7 +18,7 @@ wps_js.top_visitors_meta_box = {
         let i = 1;
         args.forEach(function (value) {
             t += `<tr>
-            <td>${i}</td>
+            <td class="row-id">${i}</td>
             <td>${value['hits']}</td>
             ` + (wps_js.is_active('geo_ip') ? `<td><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='log-tools wps-flag'/></td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${value['city']}</td>` : ``) + `
