@@ -142,3 +142,7 @@ form#wp-statistics-select-pages {
     color: #8c8f94;
   }
 }
+
+#wp-statistics-pages-widget table tbody tr td a {
+  color: $primary-color !important;
+}
