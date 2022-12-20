@@ -18,7 +18,7 @@ wps_js.words_meta_box = {
         args.forEach(function (value) {
             t += `<tr>
             <td style="text-align: left !important;"><span title='${value['word']}' class='wps-cursor-default wps-text-wrap` + (wps_js.is_active('overview_page') ? ` wps-200-px` : ``) + `'>${value['word']}</span></td>
-            <td style="text-align: right !important;"><a href="${value['browser']['link']}" title="${value['browser']['name']}"><img src="${value['browser']['logo']}" alt="${value['browser']['name']}" title='${value['browser']['name']}'/></a></td>
+            <td style="text-align: right !important;"><a href="${value['browser']['link']}" title="${value['browser']['name']}"><img src="${value['browser']['logo']}" alt="${value['browser']['name']}" title='${value['browser']['name']}' class="wps-flag log-tools"/></a></td>
             ` + (wps_js.is_active('geo_ip') ? `<td style="text-align: left"><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='wps-flag'/></td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td style="text-align: left">${value['city']}</td>` : ``) + `
             <td>${value['date']}</td>

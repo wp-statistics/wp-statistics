@@ -83,7 +83,7 @@ wps_js.browsers_meta_box = {
             let html = '';
             for (let i = 0; i < args.browsers_name.length; i++) {
                 if (parseInt(args.browsers_value[i]) > 0 && args.info.agent[i]) {
-                    html += `<div class="wps-title-group"><img src="${args.info.logo[i]}" alt="${args.browsers_name[i]}" style="vertical-align: -3px;"> ${args.browsers_name[i]}</div><div class="wp-clearfix"></div>`;
+                    html += `<div class="wps-title-group"><img src="${args.info.logo[i]}" alt="${args.browsers_name[i]}" style="vertical-align: -3px;" class="wps-flag log-tools"> ${args.browsers_name[i]}</div><div class="wp-clearfix"></div>`;
                     html += wps_js.Create_Half_PostBox('postBox-chart-' + args.info.agent[i], 'browser-' + args.info.agent[i] + '-chart');
                     html += wps_js.Create_Half_PostBox('postBox-table-' + args.info.agent[i], 'browser-' + args.info.agent[i] + '-table');
                     html += `<div class="wp-clearfix"></div>`;

@@ -92,7 +92,7 @@ class UserAgent
             $name = $browser;
         }
 
-        return WP_STATISTICS_URL . 'assets/images/browser/' . $name . '.png';
+        return WP_STATISTICS_URL . 'assets/images/browser/' . $name . '.svg';
     }
 
     public static function getBrowserInfo($userAgent = null)
