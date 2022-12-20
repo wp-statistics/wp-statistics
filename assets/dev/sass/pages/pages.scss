@@ -57,6 +57,10 @@ form#wp-statistics-select-pages {
   &.wps-meta-box-footer {
     padding-top: 14px;
   }
+
+  .subsubsub a.current {
+    font-weight: 500 !important;
+  }
 }
 
 .wps-admin-pages-component__preview {
