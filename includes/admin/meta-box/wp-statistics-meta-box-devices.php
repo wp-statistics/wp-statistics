@@ -71,7 +71,7 @@ class devices extends MetaBoxAbstract
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('%s Statistics in the last %s days', 'wp-statistics'), __('Devices', 'wp-statistics'), $count_day);
+            $title = sprintf(__('%s Statistics in the last %s days', 'wp-statistics'), __('Devices', 'wp-statistics'), self::$countDays);
         } else {
             $title = sprintf(__('%s Statistics from %s to %s', 'wp-statistics'), __('Devices', 'wp-statistics'), $args['from'], $args['to']);
         }
