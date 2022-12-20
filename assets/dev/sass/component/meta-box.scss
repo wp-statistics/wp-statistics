@@ -61,6 +61,49 @@
     border-radius: 100%;
   }
 
+  #side-sortables .wps-refresh {
+    line-height: unset !important;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    position: relative;
+    top: -2px;
+    border-radius: 100%;
+
+    &::after {
+      content: attr(data-tooltip);
+      visibility: hidden;
+      width: 37px;
+      background-color: $white-color;
+      box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07);
+      border-radius: 4px;
+      color: $dim-black-color;
+      text-align: center;
+      padding: 6px 6px;
+      border-radius: 6px;
+      /* Position the tooltip text - see examples below! */
+      position: absolute;
+      z-index: 1;
+      top: 110%;
+      left: 50%;
+      margin-left: -40px;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+    }
+
+    &:hover {
+      &::after {
+        visibility: visible;
+      }
+    }
+  }
+
+  #normal-sortables .wps-refresh {
+    padding: 4px 6px !important;
+    border-radius: 4px !important;
+  }
+
   #normal-sortables .wps-refresh .screen-reader-text {
     width: auto;
     height: auto;
@@ -98,6 +141,10 @@
     box-shadow: none !important;
     background: #F0F5FF;
   }
+
+  .accordion-section-title::after, .handlediv, .item-edit, .postbox .handlediv.button-link, .toggle-indicator {
+    color: $dim-black-color;
+  }
 }
 
 #wps-postbox-container-1 {
@@ -107,7 +154,7 @@
 }
 
 .wps-refresh-icon {
-  background-image: url('data:image/svg+xml;utf-8,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%233C4043%22%20d%3D%22M9.70612%202.28223L8.64862%203.34423C9.35737%204.05335%209.75%204.99648%209.75%205.99998C9.75%208.06848%208.0685%209.74998%206%209.74998V8.99998L4.5%2010.5L6%2012V11.25C8.89462%2011.25%2011.25%208.8946%2011.25%205.99998C11.25%204.59523%2010.7021%203.27523%209.70612%202.28223Z%22%20%2F%3E%3Cpath%20fill%3D%22%233C4043%22%20d%3D%22M7.5%201.5L6%200V0.75C3.10538%200.75%200.75%203.10538%200.75%206C0.75%207.40475%201.29788%208.72475%202.29387%209.71775L3.35138%208.65575C2.64263%207.94663%202.25%207.0035%202.25%206C2.25%203.9315%203.9315%202.25%206%202.25V3L7.5%201.5Z%22%20%2F%3E%3C%2Fsvg%3E');
+  background-image: url('data:image/svg+xml;utf-8,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%230C0C0D%22%20d%3D%22M9.70612%202.28223L8.64862%203.34423C9.35737%204.05335%209.75%204.99648%209.75%205.99998C9.75%208.06848%208.0685%209.74998%206%209.74998V8.99998L4.5%2010.5L6%2012V11.25C8.89462%2011.25%2011.25%208.8946%2011.25%205.99998C11.25%204.59523%2010.7021%203.27523%209.70612%202.28223Z%22%20%2F%3E%3Cpath%20fill%3D%22%230C0C0D%22%20d%3D%22M7.5%201.5L6%200V0.75C3.10538%200.75%200.75%203.10538%200.75%206C0.75%207.40475%201.29788%208.72475%202.29387%209.71775L3.35138%208.65575C2.64263%207.94663%202.25%207.0035%202.25%206C2.25%203.9315%203.9315%202.25%206%202.25V3L7.5%201.5Z%22%20%2F%3E%3C%2Fsvg%3E');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
@@ -131,7 +178,7 @@
 }
 
 .wps-refresh span {
-  color: #3C4043;
+  color: $dim-black-color;
 }
 
 .wps-refresh:focus span,

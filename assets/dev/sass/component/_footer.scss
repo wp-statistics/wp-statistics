@@ -38,6 +38,7 @@
   align-items: center;
   cursor: pointer;
   transition: 0.2s;
+  font-size: 13px;
 
   &:hover {
     color: $primary-color;
@@ -48,15 +49,11 @@
   }
 
   &::after {
-    margin-left: 8px;
-    content: '';
+    margin-left: 3px;
+    content: "\f142";
     display: inline-block;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid $dark-color;
-    transform-origin: center;
+    font: normal 22px/1 dashicons;
+    transform-origin: center center;
     transition: 0.1s;
   }
 }

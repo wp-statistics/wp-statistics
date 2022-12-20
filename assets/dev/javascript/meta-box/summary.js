@@ -18,7 +18,7 @@ wps_js.summary_meta_box = {
             // Show Statistics in Days
             let summary_item = ["today", "yesterday", "last-week", "week", "month", "60days", "90days", "year", "this-year", "last-year"];
             for (let i = 0; i < summary_item.length; i++) {
-                t += `<tr><th>${wps_js._(summary_item[i])}</th>`;
+                t += `<tr><td style="text-align: left !important;">${wps_js._(summary_item[i])}</td>`;
                 ["visitors", "visits"].forEach(function (key) {
                     t += `<td class="th-right">` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span>${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
                 });

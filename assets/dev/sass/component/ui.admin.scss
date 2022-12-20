@@ -53,7 +53,7 @@
     padding: 0;
 
     .postbox-header {
-      padding: 10px 20px 10px 32px;
+      padding: 4px 20px 4px 32px;
 
       h2 {
         padding: 0;
@@ -1209,4 +1209,44 @@
   position: relative !important;
   top: -15px !important;
   left: 0 !important;
+}
+
+#dashboard-widgets {
+  .wps-refresh {
+    line-height: unset !important;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    position: relative;
+    top: -2px;
+    border-radius: 100%;
+
+    &::after {
+      content: attr(data-tooltip);
+      visibility: hidden;
+      width: 37px;
+      background-color: $white-color;
+      box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07);
+      border-radius: 4px;
+      color: $dim-black-color;
+      text-align: center;
+      padding: 6px 6px;
+      border-radius: 6px;
+      /* Position the tooltip text - see examples below! */
+      position: absolute;
+      z-index: 1;
+      top: 110%;
+      left: 50%;
+      margin-left: -40px;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+    }
+
+    &:hover {
+      &::after {
+        visibility: visible;
+      }
+    }
+  }
 }

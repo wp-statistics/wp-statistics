@@ -12,7 +12,7 @@ wps_js.countries_meta_box = {
         let i = 1;
         args.countries.forEach(function (value) {
             t += `<tr>
-			<td class="row-id">${i}</td>
+			<td style="text-align: left !important;" class="row-id">${i}</td>
 			<td><img src="${value['flag']}" title="${value['name']}" alt="${value['name']}" class="wps-flag wps-flag--first"/> ${value['name']}</td>
 			<td><a href="${value['link']}" title="${value['name']}" target="_blank">${wps_js.number_format(value['number'])}</a></td>
 			</tr>`;

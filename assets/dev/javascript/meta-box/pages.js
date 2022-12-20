@@ -4,7 +4,7 @@ wps_js.pages_meta_box = {
         let t = '';
         t += `<div class="o-table-wrapper"><table width="100%" class="o-table o-table--pages"><tbody>
         <tr>
-            <th class="row-id" width='10%'></th>
+            <th class="row-id" style="text-align: left !important;" width='10%'></th>
             <th>${wps_js._('title')}</th>
             <th>${wps_js._('link')}</th>
             <th width="30%">${wps_js._('visits')}</th>
@@ -14,7 +14,7 @@ wps_js.pages_meta_box = {
         let i = 1;
         args.pages.forEach(function (value) {
             t += `<tr>
-			<td class="row-id">${i}</td>
+			<td style="text-align: left !important;" class="row-id">${i}</td>
 			<td><span title='${value['title']}' class='wps-cursor-default wps-text-wrap'>${value['title']}</span></td>
 			<td><a href="${siteUrl}${value['str_url']}" title="${value['title']}" target="_blank">${value['title']} <span class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></span></a></td>
 		    <td><a href="${value['hits_page']}">${value['number']} 
