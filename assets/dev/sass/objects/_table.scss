@@ -35,7 +35,7 @@
     thead {
 
       tr th {
-        padding: 8px 0;
+        padding: 8px 0 8px 40px;
         font-weight: 400;
         font-size: 14px;
         line-height: 16px;
@@ -67,16 +67,14 @@
     }
 
     tr:first-child td {
-      text-align: right;
+      text-align: left;
     }
 
     tr td {
       min-width: 60px;
-      text-align: right !important;
-      padding-right: 8px;
 
       .wps-flag {
-        float: right;
+        margin-right: 4px;
       }
 
       .wps-flag--first {
@@ -84,9 +82,7 @@
       }
 
       &:first-child {
-        text-align: right !important;
         min-width: unset;
-        padding-right: 8px;
       }
 
       a {
@@ -104,7 +100,7 @@
 
     tbody {
       tr th {
-        padding: 14px 40px 14px 0;
+        padding: 14px 0 14px 40px;
         font-weight: 500;
         font-size: 14px;
         line-height: 16px;
@@ -118,7 +114,7 @@
       }
 
       tr td {
-        padding: 14px 40px 14px 0;
+        padding: 14px 0 14px 40px;
         font-weight: 400;
         font-size: 13px;
         line-height: 15px;
@@ -228,11 +224,11 @@
     tr td, tr, th {
 
       &:first-child {
-        text-align: right;
+        text-align: left;
       }
 
       &:last-child {
-        text-align: right;
+        text-align: left;
       }
     }
   }
@@ -268,25 +264,25 @@
 
     thead {
       tr th {
-        text-align: right;
+        text-align: left;
         max-width: max-content;
-        padding-left: 16px;
+        padding-left: 40px;
 
         &:first-child {
           text-align: left;
         }
 
         &:last-child {
-          text-align: right;
+          text-align: left;
         }
       }
     }
 
     tbody {
       tr td {
-        text-align: right;
+        text-align: left;
         max-width: max-content;
-        padding-left: 16px;
+        padding-left: 40px;
 
         &:first-child {
           padding-right: 10px;
@@ -307,14 +303,14 @@
         }
 
         .wps-flag {
-          float: right;
+          margin-right: 4px;
         }
 
         a {
         }
 
         &:last-child {
-          text-align: right;
+          text-align: left;
         }
       }
 
@@ -340,22 +336,18 @@
   .o-table.o-table--responsive {
 
     tr:first-child td {
-      text-align: right;
+      text-align: left;
     }
 
     tr td {
       min-width: 60px;
-      text-align: right !important;
-      padding-right: 8px;
 
       .wps-flag {
-        float: right;
+        margin-right: 4px;
       }
 
       &:first-child {
-        text-align: right !important;
         min-width: unset;
-        padding-right: 8px;
       }
     }
   }
@@ -373,11 +365,11 @@
         font-size: 13px;
 
         &:not(:first-child) {
-          text-align: right;
+          text-align: left;
 
           span, a {
 
-            text-align: right;
+            text-align: left;
           }
         }
       }
@@ -389,7 +381,7 @@
         font-weight: 400 !important;
 
         &:not(:first-child) {
-          text-align: right;
+          text-align: left;
         }
       }
     }
@@ -398,7 +390,6 @@
       color: $primary-color !important;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
 
       &:visited {
         color: $primary-color !important;
@@ -442,7 +433,6 @@
     }
 
     td:nth-child(3), th:nth-child(3) {
-      text-align: right !important;
       padding-right: 20px;
     }
   }
@@ -455,3 +445,25 @@
     }
   }
 }
+
+.wps-wrap, #dashboard-widgets-wrap {
+  .o-table--wps-summary-stats {
+    thead, tbody {
+      tr td, tr th {
+
+        &:not(:first-child) {
+          padding: 14px 0 14px 24px;
+        }
+
+        &:first-child {
+          color: #56585A !important;
+        }
+
+        &:last-child {
+          padding: 14px 24px 14px 24px;
+        }
+      }
+    }
+  }
+}
+

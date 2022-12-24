@@ -10,7 +10,7 @@ wps_js.summary_meta_box = {
         if (wps_js.is_active('visitors') || wps_js.is_active('visits')) {
             t += `<tr><th width="60%">` + wps_js._('time') + `</th>`;
             ["visitors", "visits"].forEach(function (key) {
-                t += `<th class="th-right">` + (wps_js.is_active(key) ? wps_js._(key) : ``) + `</th>`;
+                t += `<th>` + (wps_js.is_active(key) ? wps_js._(key) : ``) + `</th>`;
             });
             t += `</tr>`;
             t += '</thead>';
@@ -20,7 +20,7 @@ wps_js.summary_meta_box = {
             for (let i = 0; i < summary_item.length; i++) {
                 t += `<tr><td style="text-align: left !important;">${wps_js._(summary_item[i])}</td>`;
                 ["visitors", "visits"].forEach(function (key) {
-                    t += `<td class="th-right">` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span>${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
+                    t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span>${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
                 });
                 t += `</tr>`;
             }
