@@ -122,7 +122,7 @@ class Hits
      */
     public function set_page_uri($page_uri)
     {
-        return isset($this->rest_hits->page_uri) ? $this->rest_hits->page_uri : $page_uri;
+        return isset($this->rest_hits->page_uri) ? base64_decode($this->rest_hits->page_uri) : $page_uri;
     }
 
     /**
