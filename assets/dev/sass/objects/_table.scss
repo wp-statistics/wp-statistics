@@ -104,7 +104,7 @@
 
     tbody {
       tr th {
-        padding: 14px 8px 14px 0;
+        padding: 14px 40px 14px 0;
         font-weight: 500;
         font-size: 14px;
         line-height: 16px;
@@ -118,7 +118,7 @@
       }
 
       tr td {
-        padding: 14px 8px 14px 0;
+        padding: 14px 40px 14px 0;
         font-weight: 400;
         font-size: 13px;
         line-height: 15px;
@@ -244,19 +244,23 @@
     scrollbar-color: #DADCE0 $light-tertiary-color;
 
     /* width */
-    ::-webkit-scrollbar {
-      width: 4px;
-      border-radius: 2px;
+    &::-webkit-scrollbar {
+      width: 4px !important;
+      border-radius: 2px !important;
     }
 
     /* Track */
-    ::-webkit-scrollbar-track {
-      background: $light-tertiary-color;
+    &::-webkit-scrollbar-track {
+      width: 4px !important;
+      background: $light-tertiary-color !important;
     }
 
     /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #DADCE0;
+    &::-webkit-scrollbar-thumb {
+      border: 5px solid transparent;
+      border-radius: 100px;
+      background-color: #DADCE0;
+      background-clip: content-box;
     }
   }
 
@@ -359,7 +363,7 @@
   .o-table--pages {
     tbody tr td,
     tbody tr th {
-      padding: 11.1px 0;
+      padding: 11.1px 40px 11.1px 0;
       vertical-align: middle;
     }
 
