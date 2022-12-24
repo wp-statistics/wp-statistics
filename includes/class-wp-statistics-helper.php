@@ -1113,7 +1113,7 @@ class Helper
         $params['search_query']      = (isset($get_page_type['search_query']) ? esc_html($get_page_type['search_query']) : '');
 
         //page url
-        $params['page_uri'] = Pages::get_page_uri();
+        $params['page_uri'] = base64_encode(Pages::get_page_uri());
 
         //return Json Data
         return $params;

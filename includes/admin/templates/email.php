@@ -364,7 +364,11 @@
             }
         }
 
-        <?php if ($is_rtl ===true) { ?>
+        <?php
+
+         do_action('wp_statistics_css_after_email');
+
+         if ($is_rtl ===true) { ?>
         /* -------------------------------------
             Rtl Version
         ------------------------------------- */

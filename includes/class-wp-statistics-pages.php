@@ -21,7 +21,7 @@ class Pages
     {
 
         //Set Default Option
-        $current_page = array("type" => "unknown", "id" => 0);
+        $current_page = array("type" => "unknown", "id" => 0, "search_query" => '');
 
         //Check Query object
         $id = get_queried_object_id();
