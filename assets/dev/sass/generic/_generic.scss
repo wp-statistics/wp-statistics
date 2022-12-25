@@ -123,13 +123,18 @@
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
 #wp-statistics-useronline-widget {
-  font-family: 'Roboto', Arial;
-  border-radius: 8px;
-  border: 1px solid $light-color;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
   overflow: visible;
 
   &.postbox.has-focus {
     z-index: 9999;
+  }
+
+  .postbox-header {
+
+    h2 {
+      font-weight: 600;
+    }
   }
 
   button {
@@ -137,5 +142,15 @@
       outline: none;
       box-shadow: none;
     }
+  }
+
+  table {
+    tr td, tr th {
+      white-space: nowrap;
+    }
+  }
+
+  .handle-actions {
+    margin-top: 0 !important;
   }
 }
