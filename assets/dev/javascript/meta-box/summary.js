@@ -38,12 +38,12 @@ wps_js.summary_meta_box = {
                     <span class="c-live__status"></span><span class="c-live__title">${wps_js._('online_users')}:</span> <span><a class="c-live__value" href="${args['user_online']['link']}">${args['user_online']['value']}</a></span>
                 </div>`;
         }
-        t += `<table width="100%" class="o-table o-table--wps-summary-stats">`;
+        t += `<div class="o-table-wrapper"><table width="100%" class="o-table o-table--wps-summary-stats">`;
 
         // Summary Statistics
         t += this.summary_statistics(args);
 
-        t += `</table>`;
+        t += `</table></div>`;
         return t;
     }
 
