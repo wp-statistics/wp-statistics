@@ -382,7 +382,8 @@ class Visitor
         $pages_table                 = DB::table('pages');
 
         // Get Result
-        $query = $wpdb->prepare("SELECT DISTINCT {$visitor_relationships_table}.page_id, {$pages_table}.uri FROM {$visitor_relationships_table} INNER JOIN {$pages_table} ON {$visitor_relationships_table}.page_id = {$pages_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total);
+        $query = $wpdb->prepare("SELECT DISTINCT {$pages_table}.id, {$pages_table}.uri FROM {$pages_table} INNER JOIN {$visitor_relationships_table} ON {$pages_table}.page_id = {$visitor_relationships_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total);
+
         return $wpdb->get_results($query, ARRAY_N);
     }
 
