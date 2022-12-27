@@ -28,7 +28,7 @@
   margin-top: 7px;
   top: 100px;
   left: 20px;
-  z-index: 3001;
+  z-index: 99999;
   display: none;
   font-family: 'Roboto', arial;
   font-size: 15px;
