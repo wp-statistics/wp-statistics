@@ -10,7 +10,7 @@ wps_js.top_visitors_meta_box = {
             ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('country')}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${wps_js._('city')}</td>` : ``) + `
             <td>${wps_js._('ip')}</td>
-            <td>${wps_js._('agent')}</td>
+            <td>${wps_js._('browser')}</td>
             <td>${wps_js._('platform')}</td>
             <td>${wps_js._('version')}</td>
         </tr>`;
