@@ -1143,6 +1143,10 @@ class Helper
      */
     public static function dntEnabled()
     {
-        return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) or (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
+        if (Option::get('do_not_track')) {
+            return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) or (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
+        }
+
+        return false;
     }
 }
