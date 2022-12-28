@@ -233,7 +233,6 @@ class Visitor
 
         // Define the array of defaults
         $defaults = array(
-            'sql'      => '',
             'per_page' => 10,
             'paged'    => 1,
             'fields'   => 'all',
@@ -242,15 +241,10 @@ class Visitor
         );
         $args     = wp_parse_args($arg, $defaults);
 
-        // Prepare Query
-        if (empty($args['sql'])) {
-            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
-        }
-
         $limit = (($args['paged'] - 1) * $args['per_page']);
 
-        // Set Pagination
-        $args['sql'] = $args['sql'] . " LIMIT {$limit}, {$args['per_page']}";
+        // Prepare the Query & Set Pagination
+        $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC LIMIT {$limit}, {$args['per_page']}";
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);
