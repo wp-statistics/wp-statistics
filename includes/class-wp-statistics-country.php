@@ -87,8 +87,11 @@ class Country
             $where = $wpdb->prepare("WHERE `last_counter` BETWEEN %s AND %s", $args['from'], $args['to']);
         }
 
+        $limit = (isset($args['limit']) and $args['limit'] > 0) ? $wpdb->prepare("LIMIT %d", $args['limit']) : '';
+        $sql   = "SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` {$where} GROUP BY `location` ORDER BY `count` DESC {$limit}";
+        
         // Get Result
-        $result = $wpdb->get_results("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` " . $where . " GROUP BY `location` ORDER BY `count` DESC " . ((isset($args['limit']) and $args['limit'] > 0) ? "LIMIT " . $args['limit'] : ''));
+        $result = $wpdb->get_results($sql);
 
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
