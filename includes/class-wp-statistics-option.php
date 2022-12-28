@@ -55,7 +55,7 @@ class Option
             'content_report'        => '',
             'update_geoip'          => true,
             'store_ua'              => false,
-            'do_not_track'          => false,
+            'do_not_track'          => true,
             'exclude_administrator' => true,
             'disable_se_clearch'    => true,
             'disable_se_qwant'      => true,
