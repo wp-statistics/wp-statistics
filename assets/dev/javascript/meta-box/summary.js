@@ -8,7 +8,7 @@ wps_js.summary_meta_box = {
 
         // Show Visitors and Visits
         if (wps_js.is_active('visitors') || wps_js.is_active('visits')) {
-            t += `<tr><th width="60%">` + wps_js._('time') + `</th>`;
+            t += `<tr><th width="50%">` + wps_js._('time') + `</th>`;
             ["visitors", "visits"].forEach(function (key) {
                 t += `<th>` + (wps_js.is_active(key) ? wps_js._(key) : ``) + `</th>`;
             });
