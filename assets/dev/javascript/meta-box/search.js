@@ -7,7 +7,7 @@ wps_js.search_meta_box = {
     view: function (args = []) {
 
         // Check Hit Chart size in Different Page
-        let height = wps_js.is_active('overview_page') ? 110 : 210;
+        let height = wps_js.is_active('overview_page') ? 300 : 210;
         if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "searches") {
             height = 80;
         }
@@ -54,26 +54,11 @@ wps_js.search_meta_box = {
                 tension: 0.4
             });
         }
-        wps_js.line_chart(wps_js.chart_id('search'), args['title'], args['date'], datasets);
-
-        const chartWrapper = document.getElementById(wps_js.getMetaBoxKey('search'));
-        const sideSortable = jQuery("#side-sortables");
-        const normalSortable = jQuery("#normal-sortables");
-        const observerConfig = {attributes: false, childList: true, characterData: false, subtree: true};
-
-        const observer = new MutationObserver(function (mutations) {
-            if (sideSortable.find(chartWrapper).length || normalSortable.find(chartWrapper).length) {
-                let canvas = document.getElementById(wps_js.chart_id('search'));
-                let chart = Chart.getChart(canvas);
-                chart.options.maintainAspectRatio = false;
-                chart.update();
-                canvas.style.height = '300px';
-                chart.resize();
+        wps_js.line_chart(wps_js.chart_id('search'), args['title'], args['date'], datasets, {
+            options: {
+                maintainAspectRatio: false,
             }
         });
-
-        observer.observe(document.getElementById('side-sortables'), observerConfig);
-        observer.observe(document.getElementById('normal-sortables'), observerConfig);
     },
 
 };

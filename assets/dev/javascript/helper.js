@@ -48,7 +48,7 @@ wps_js.redirect = function (url) {
 /**
  * Create Line Chart JS
  */
-wps_js.line_chart = function (tag_id, title, label, data) {
+wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
 
     // Get Element By ID
     let ctx = document.getElementById(tag_id).getContext('2d');
@@ -60,8 +60,7 @@ wps_js.line_chart = function (tag_id, title, label, data) {
         }
     }
 
-    // Create Chart
-    new Chart(ctx, {
+    const defaultOptions = {
         type: 'line',
         data: {
             labels: label,
@@ -94,7 +93,12 @@ wps_js.line_chart = function (tag_id, title, label, data) {
                 }
             }
         }
-    });
+    };
+
+    const options = Object.assign({}, defaultOptions, newOptions);
+
+    // Create Chart
+    new Chart(ctx, options);
 };
 
 /**
