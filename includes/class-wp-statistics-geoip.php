@@ -506,7 +506,7 @@ class GeoIP
                 } elseif ($return == "name") {
                     $subdiv   = $record->mostSpecificSubdivision->name;
                     $city     = $record->city->name;
-                    $location = ($city ? $city : "(Unknown)") . ($subdiv ? (", ") : "") . $subdiv;
+                    $location = (!empty($city) ? $city : $default_city) . ($subdiv ? (", ") : "") . $subdiv;
                 } else {
                     $location = $record->city->{$return};
                 }
