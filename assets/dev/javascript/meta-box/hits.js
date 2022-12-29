@@ -7,7 +7,7 @@ wps_js.hits_meta_box = {
     view: function (args = []) {
 
         // Check Hit Chart size in Different Page
-        let height = wps_js.is_active('overview_page') ? 110 : 210;
+        let height = wps_js.is_active('overview_page') ? 300 : 210;
         if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "hits") {
             height = 80;
         }
@@ -76,6 +76,10 @@ wps_js.hits_meta_box = {
                 tension: 0.4
             });
         }
-        wps_js.line_chart(tag_id, params['title'], params['date'], datasets);
+        wps_js.line_chart(tag_id, params['title'], params['date'], datasets, {
+            options: {
+                maintainAspectRatio: false,
+            }
+        });
     }
 };
