@@ -5,14 +5,17 @@
             <th scope="row" colspan="2"><h3><?php _e('License Settings', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <?php foreach (\WP_STATISTICS\License::getAddOns() as $key => $addon) : ?>
+        <?php foreach (\WP_Statistics\Utils\LicenseHelper::getAddOns() as $addon) : ?>
             <tr>
                 <th scope="row" colspan="2">
-                    <label><?php echo esc_html($addon); ?></label>
+                    <label><?php echo esc_html($addon->getName()); ?></label>
                 </th>
                 <td colspan="2">
-                    <input type="text" name="wp_statistics_license[<?php echo esc_attr($key); ?>]" value="<?php echo $key; ?>" class="regular-text"/>
-                    <p class="describe"><?php echo sprintf(__('To get the license, please go to <a href="%s" target="_blank">your account</a>.', 'wp-sms'), esc_url(WP_STATISTICS_SITE_URL . '/my-account/orders/')); ?></p>
+                    <div>
+                        <input type="text" name="<?php echo esc_attr($addon->getHtmlOptionName()); ?>" value="<?php echo esc_attr($addon->getLicenseFromOption()); ?>" class="regular-text"/>
+                        <?php echo esc_html($addon->getStatus()); ?>
+                    </div>
+                    <p class="describe"><?php echo sprintf(__('To get the license, please go to <a href="%s" target="_blank">your account</a>.', 'wp-statistics'), $addon->getAccoutUrl()); ?></p>
                 </td>
             </tr>
         <?php endforeach; ?>

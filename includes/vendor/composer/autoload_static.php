@@ -10,6 +10,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'W' => 
         array (
             'WhichBrowser\\' => 13,
+            'WP_Statistics\\' => 14,
         ),
         'P' => 
         array (
@@ -44,6 +45,10 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         array (
             0 => __DIR__ . '/..' . '/whichbrowser/parser/src',
             1 => __DIR__ . '/..' . '/whichbrowser/parser/tests/src',
+        ),
+        'WP_Statistics\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/src',
         ),
         'Psr\\Cache\\' => 
         array (
