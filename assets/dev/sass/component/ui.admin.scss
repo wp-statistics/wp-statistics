@@ -49,7 +49,6 @@
 }
 
 .wps-wrap .postbox table tr:first-child th h3 {
-  margin-top: 0;
 }
 
 .toplevel_page_wps_overview_page .wps-wrap,
@@ -558,6 +557,7 @@
 .statistics_page_wps_optimization_page, .statistics_page_wps_settings_page, .-d8-a2-d9-85-d8-a7-d8-b1_page_wps_settings_page {
   .wps-wrap .postbox {
     //padding: 15px;
+    overflow: hidden;
   }
 }
 
