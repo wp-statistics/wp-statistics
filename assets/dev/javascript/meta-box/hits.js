@@ -76,10 +76,17 @@ wps_js.hits_meta_box = {
                 tension: 0.4
             });
         }
-        wps_js.line_chart(tag_id, params['title'], params['date'], datasets, {
-            options: {
-                maintainAspectRatio: false,
+
+        // Set Options for Chart only for overview page
+        let options = {};
+        if (wps_js.is_active('overview_page')) {
+            options = {
+                options: {
+                    maintainAspectRatio: false,
+                }
             }
-        });
+        }
+
+        wps_js.line_chart(tag_id, params['title'], params['date'], datasets, options);
     }
 };
