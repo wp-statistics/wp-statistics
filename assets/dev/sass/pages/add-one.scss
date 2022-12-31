@@ -17,14 +17,34 @@
 
   .widefat .plugin-card-bottom {
     float: initial;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     span.from {
       display: none;
     }
   }
 
-  .widefat .column-downloaded p {
-    margin: 2px 0 0 0;
+  .widefat .column-downloaded {
+    display: flex;
+    max-width: inherit;
+
+    p {
+      margin: 2px 0 0 0;
+    }
+
+    input[type="password"] {
+      margin: 1px 0;
+      width: 100%;
+    }
+
+    input[type="submit"] {
+      margin: 0 10px;
+    }
   }
 
   .column-price {

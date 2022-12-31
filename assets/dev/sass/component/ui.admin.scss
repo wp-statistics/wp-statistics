@@ -226,7 +226,6 @@
 }
 
 
-
 .wps-wrap .notice-success::before {
   background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 10C0 4.47715 4.47715 0 10 0C12.6522 0 15.1957 1.05357 17.0711 2.92893C18.9464 4.8043 20 7.34784 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10ZM8.73 13.35L14.35 7.73C14.5341 7.53685 14.5341 7.23315 14.35 7.04L13.82 6.51C13.6256 6.31943 13.3144 6.31943 13.12 6.51L8.38 11.25L6.88 9.76C6.78927 9.66332 6.66259 9.60848 6.53 9.60848C6.39741 9.60848 6.27073 9.66332 6.18 9.76L5.65 10.29C5.55534 10.3839 5.5021 10.5117 5.5021 10.645C5.5021 10.7783 5.55534 10.9061 5.65 11L8.03 13.35C8.12073 13.4467 8.24741 13.5015 8.38 13.5015C8.51259 13.5015 8.63927 13.4467 8.73 13.35Z' fill='%2322BB3F'/%3E%3C/svg%3E%0A");
 }
@@ -444,18 +443,23 @@
   outline: unset !important;
 }
 
-.wps-wrap input[type="text"], .wps-wrap input[type="number"], .chosen-container-multi .chosen-choices, .wps-wrap select {
-  padding: 12px 16px !important;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
-  border: 1px solid #5B5B5B !important;
-  box-sizing: border-box;
-  border-radius: 2px;
-}
+.wps-wrap, .chosen-container-multi .chosen-choices {
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  select {
+    padding: 12px 16px !important;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #5B5B5B !important;
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
 
-.wps-wrap select {
-  padding: 12px 24px 12px 8px !important;
+  select {
+    padding: 12px 24px 12px 8px !important;
+  }
 }
 
 .rtl .wps-wrap select {

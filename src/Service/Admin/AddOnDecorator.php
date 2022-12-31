@@ -2,35 +2,65 @@
 
 namespace WP_Statistics\Service\Admin;
 
-class LicenceDecorator
+class AddOnsDecorator
 {
-    /**
-     * @var int|string|null
-     */
-    public $addOnSlug;
-    /**
-     * @var mixed
-     */
-    private $addOnName;
+    private $addOn;
 
     private $optionMap = [
         'wpstatistics_realtime_stats_settings' => 'license_key_status'
     ];
 
-    public function __construct($addOnSlug, $addOnName)
+    /**
+     * @param $addOn
+     */
+    public function __construct($addOn)
     {
-        $this->addOnSlug = $addOnSlug;
-        $this->addOnName = $addOnName;
+        $this->addOn = $addOn;
     }
 
     public function getName()
     {
-        return $this->addOnName;
+        return $this->addOn->name;
     }
 
     public function getSlug()
     {
-        return $this->addOnSlug;
+        return $this->addOn->slug;
+    }
+
+    public function getUrl()
+    {
+        return $this->addOn->url;
+    }
+
+    public function getDescription()
+    {
+        return $this->addOn->description;
+    }
+
+    public function getIcon()
+    {
+        return $this->addOn->icon;
+    }
+
+    public function getImage()
+    {
+        return $this->addOn->image;
+    }
+
+    public function getPrice()
+    {
+        return $this->addOn->price;
+    }
+
+    public function isFeatured()
+    {
+        return $this->addOn->is_feature == true ? true : false;
+    }
+
+    public function getFeaturedLabel()
+    {
+        return $this->addOn->featured_label;
     }
 
     public function getHtmlOptionName()
@@ -43,7 +73,22 @@ class LicenceDecorator
         return 'wpstatistics_realtime_stats_settings';
     }
 
+    public function exist()
+    {
+
+    }
+
     public function getLicenseFromOption()
+    {
+
+    }
+
+    public function getActivateUrl()
+    {
+
+    }
+
+    public function getDeactivateUrl()
     {
 
     }
@@ -57,8 +102,8 @@ class LicenceDecorator
     public function getRemoteStatus()
     {
         $response = wp_remote_get(add_query_arg(array(
-            'plugin-name' => $this->addOnSlug,
-            'license_key' => $this->getLicenseKey(),
+            'plugin-name' => $this->getSlug(),
+            'license_key' => $this->getLicenseFromOption(),
             'website'     => get_bloginfo('url'),
         ), WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate'));
 
