@@ -93,15 +93,10 @@ class Frontend
             /**
              * Print Script
              */
-            print('<script>
-                let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);                
-                if (WP_Statistics_Dnd_Active !== 1) {
-                    var WP_Statistics_http = new XMLHttpRequest();
-                    WP_Statistics_http.open("GET", "' . $requestUrl . '" + "&referred=" + encodeURIComponent(document.referrer) + "&_=" + Date.now(), true);
-                    WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                    WP_Statistics_http.send(null);
-                }
-            </script>');
+            Admin_Template::get_template(array('tracker-js'), array(
+                'requestUrl' => $requestUrl,
+                'dntEnabled' => Option::get('do_not_track'),
+            ));
         }
     }
 
