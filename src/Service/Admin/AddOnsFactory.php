@@ -51,4 +51,9 @@ class AddOnsFactory
             return self::$optionMap[$key];
         }
     }
+
+    public static function getLicenseTransientKey($key)
+    {
+        return $key . '_license_response';
+    }
 }

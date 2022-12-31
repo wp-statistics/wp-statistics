@@ -5,7 +5,8 @@ namespace WP_Statistics\Service\Admin;
 class AddOnDecorator
 {
     private $addOn;
-    private $transientKey;
+    private $isActivated = false;
+    private $status;
 
     /**
      * @param $addOn
@@ -13,13 +14,6 @@ class AddOnDecorator
     public function __construct($addOn)
     {
         $this->addOn = $addOn;
-
-        $this->setDefines();
-    }
-
-    private function setDefines()
-    {
-        $this->transientKey = "{$this->getSlug()}_license_response";
     }
 
     public function getName()
@@ -82,6 +76,13 @@ class AddOnDecorator
         return is_plugin_active($this->getPluginName());
     }
 
+    public function isActivated()
+    {
+        $this->status = $this->getRemoteStatus();
+
+        return $this->isActivated;
+    }
+
     public function getOptionName()
     {
         return AddOnsFactory::getSettingNameByKey($this->getSlug());
@@ -120,13 +121,13 @@ class AddOnDecorator
     {
         if ($this->isEnabled()) {
 
-            $remote = $this->getRemoteStatus();
+            $this->status = $this->getRemoteStatus();
 
-            if (is_wp_error($remote)) {
-                return $remote->get_error_message();
+            if (is_wp_error($this->status)) {
+                return $this->status->get_error_message();
             }
 
-            if ($remote) {
+            if ($this->status) {
                 return __('Activated', 'wp-statistics');
             } else {
                 return __('Not activated', 'wp-statistics');
@@ -146,8 +147,15 @@ class AddOnDecorator
             return false;
         }
 
+        // Cache the status
+        if ($this->status) {
+            return $this->status;
+        }
+
+        $transientKey = AddOnsFactory::getLicenseTransientKey($this->getSlug());
+
         // Get any existing copy of our transient data
-        if (false === ($response = get_transient($this->transientKey))) {
+        if (false === ($response = get_transient($transientKey))) {
 
             $response = wp_remote_get(add_query_arg(array(
                 'plugin-name' => $this->getSlug(),
@@ -162,14 +170,16 @@ class AddOnDecorator
             $body     = wp_remote_retrieve_body($response);
             $response = json_decode($body, false);
 
-            set_transient($this->transientKey, $response, DAY_IN_SECONDS);
+            set_transient($transientKey, $response, DAY_IN_SECONDS);
         }
-
+        
         if (isset($response->code) && $response->code == 'error') {
             return new \WP_Error($response->data->status, $response->message);
         }
 
         if (isset($response->status) and $response->status == 200) {
+            $this->isActivated = true;
+
             return true;
         }
     }

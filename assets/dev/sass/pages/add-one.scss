@@ -15,7 +15,15 @@
     margin-right: 0;
 
     > p {
-      min-height: 39px;
+      min-height: 42px;
+    }
+
+    .version {
+      .status {
+        span {
+          font-weight: bold;
+        }
+      }
     }
   }
 

@@ -29,16 +29,16 @@
 
                                     <div class="version">
                                         <strong><?php _e('Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_html($addOn->getVersion()); ?>
-                                        <p><strong><?php _e('Status:', 'wp-statistics'); ?></strong>
-                                            <?php echo esc_html($addOn->getStatus()); ?>
-                                        </p>
+                                        <div class="status"><strong><?php _e('Status:', 'wp-statistics'); ?></strong>
+                                            <span class="<?php echo $addOn->isActivated() ? 'wps-text-success' : 'wps-text-danger'; ?>"><?php echo esc_html($addOn->getStatus()); ?></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="plugin-card-bottom">
                                 <div class="column-downloaded">
                                     <?php if ($addOn->isEnabled()) : ?>
-                                        <input type="password" class="" name="licences[<?php echo esc_attr($addOn->getSlug()); ?>]" value="<?php echo esc_attr($addOn->getLicense()); ?>"/>
+                                        <input type="password" name="licences[<?php echo esc_attr($addOn->getSlug()); ?>]" value="<?php echo esc_attr($addOn->getLicense()); ?>"/>
                                     <?php endif; ?>
                                 </div>
 

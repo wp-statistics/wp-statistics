@@ -34,12 +34,10 @@ class plugins_page
                 // update license in Its option group
                 update_option($optionName, $option);
 
-                // delete transient
-                // todo
+                // delete transient & clear the cache
+                $transientKey = AddOnsFactory::getLicenseTransientKey($key);
+                delete_transient($transientKey);
             }
-
-            wp_safe_redirect(admin_url('admin.php?page=wps_plugins_page'));
-            exit();
         }
 
         Admin_Template::get_template(array('plugins'), array('addOns' => AddOnsFactory::get()));
