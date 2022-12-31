@@ -49,6 +49,10 @@ WP Statistics supports several functions for other plug-in and theme authors to 
 # Shortcodes
 WP Statistics supports shortcodes in WordPress, these can be used in either a post and page body as well as an HTML widget. Description of shortcode available in [this link](https://wp-statistics.com/2017/05/26/shortcodes/)
 
+# Development
+### Namespaces
+There are two namespaces `WP_STATISTICS` and `WP_Statistics` that the new classes which is in the new structure is in the `/src` folder and support PSR-4, so the new classes should be implemented in the new namespace.
+
 # Community Links
 * [WordPress plugin page](http://wordpress.org/plugins/wp-statistics/)
 * [Plugin Website](https://wp-statistics.com)

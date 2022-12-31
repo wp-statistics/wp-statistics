@@ -2,13 +2,10 @@
 
 namespace WP_Statistics\Service\Admin;
 
-class AddOnsDecorator
+class AddOnDecorator
 {
     private $addOn;
-
-    private $optionMap = [
-        'wpstatistics_realtime_stats_settings' => 'license_key_status'
-    ];
+    private $transientKey;
 
     /**
      * @param $addOn
@@ -16,6 +13,13 @@ class AddOnsDecorator
     public function __construct($addOn)
     {
         $this->addOn = $addOn;
+
+        $this->setDefines();
+    }
+
+    private function setDefines()
+    {
+        $this->transientKey = "{$this->getSlug()}_license_response";
     }
 
     public function getName()
@@ -53,6 +57,11 @@ class AddOnsDecorator
         return $this->addOn->price;
     }
 
+    public function getVersion()
+    {
+        return $this->addOn->version;
+    }
+
     public function isFeatured()
     {
         return $this->addOn->is_feature == true ? true : false;
@@ -63,63 +72,106 @@ class AddOnsDecorator
         return $this->addOn->featured_label;
     }
 
-    public function getHtmlOptionName()
+    public function isExist()
     {
-        return sprintf('wp_statistics_license[%s]', $this->getSlug());
+        return file_exists(WP_PLUGIN_DIR . '/' . $this->getPluginName());
+    }
+
+    public function isEnabled()
+    {
+        return is_plugin_active($this->getPluginName());
     }
 
     public function getOptionName()
     {
-        return 'wpstatistics_realtime_stats_settings';
+        return AddOnsFactory::getSettingNameByKey($this->getSlug());
     }
 
-    public function exist()
+    public function getLicense()
     {
-
+        return get_option($this->getOptionName())['license_key'];
     }
 
-    public function getLicenseFromOption()
+    public function getPluginName()
     {
-
+        return sprintf('%s/%s.php', $this->getSlug(), $this->getSlug());
     }
 
     public function getActivateUrl()
     {
-
+        return add_query_arg([
+            'action'   => 'activate',
+            'plugin'   => $this->getPluginName(),
+            '_wpnonce' => wp_create_nonce("activate-plugin_{$this->getPluginName()}")
+        ], admin_url('plugins.php'));
     }
 
     public function getDeactivateUrl()
     {
-
+        return add_query_arg([
+            'action'   => 'deactivate',
+            'plugin'   => $this->getPluginName(),
+            '_wpnonce' => wp_create_nonce("deactivate-plugin_{$this->getPluginName()}")
+        ], admin_url('plugins.php'));
     }
 
     public function getStatus()
     {
-        return 'Active';
-        return get_option($this->getOptionName());
+        if ($this->isEnabled()) {
+
+            $remote = $this->getRemoteStatus();
+
+            if (is_wp_error($remote)) {
+                return $remote->get_error_message();
+            }
+
+            if ($remote) {
+                return __('Activated', 'wp-statistics');
+            } elseif (is_wp_error($remote)) {
+                return $remote->get_error_message();
+            }
+
+        } else if ($this->isExist()) {
+            return __('Inactive', 'wp-statistics');
+        }
+
+        return __('Not installed', 'wp-statistics');
     }
 
     public function getRemoteStatus()
     {
-        $response = wp_remote_get(add_query_arg(array(
-            'plugin-name' => $this->getSlug(),
-            'license_key' => $this->getLicenseFromOption(),
-            'website'     => get_bloginfo('url'),
-        ), WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate'));
-
-        if (is_wp_error($response)) {
-            return;
+        // Avoid remote request
+        if (!$this->isExist() or !$this->getLicense()) {
+            return false;
         }
 
-        $response = json_decode($response['body']);
+        // Get any existing copy of our transient data
+        if (false === ($response = get_transient($this->transientKey))) {
+
+            $response = wp_remote_get(add_query_arg(array(
+                'plugin-name' => $this->getSlug(),
+                'license_key' => $this->getLicense(),
+                'website'     => get_bloginfo('url'),
+            ), WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate'));
+
+            if (is_wp_error($response)) {
+                return $response;
+            }
+
+            if (wp_remote_retrieve_response_code($response) == '200') {
+                $body     = wp_remote_retrieve_body($response);
+                $response = json_decode($body);
+
+                set_transient($this->transientKey, $response, DAY_IN_SECONDS);
+            }
+        }
+        
+        if (isset($response->code) && $response->code == 'error') {
+            return new \WP_Error($response->message);
+        }
 
         if (isset($response->status) and $response->status == 200) {
             return true;
         }
-    }
-
-    public function getAccoutUrl()
-    {
-        return esc_url(WP_STATISTICS_SITE_URL . '/my-account/orders/');
     }
 }

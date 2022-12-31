@@ -1,60 +1,62 @@
 <div id="poststuff" class="wp-statistics-plugins">
     <div id="post-body" class="metabox-holder">
         <div class="wp-list-table widefat widefat plugin-install">
-            <div id="the-list">
-                <?php
-                foreach ($plugins->items as $plugin) : ?>
-                    <div class="plugin-card">
-                        <?php if ($plugin->is_feature and $plugin->featured_label) : ?>
-                            <div class="cover-ribbon">
-                                <div class="cover-ribbon-inside"><?php echo esc_attr($plugin->featured_label); ?></div>
-                            </div>
-                        <?php endif; ?>
+            <form action="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>" method="post">
+                <div id="the-list">
+                    <?php
+                    /* @var $addOns \WP_Statistics\Service\Admin\AddOnDecorator[] */
+                    foreach ($addOns as $addOn) : ?>
+                        <div class="plugin-card">
+                            <?php if ($addOn->isFeatured() and $addOn->getFeaturedLabel()) : ?>
+                                <div class="cover-ribbon">
+                                    <div class="cover-ribbon-inside"><?php echo esc_attr($addOn->getFeaturedLabel()); ?></div>
+                                </div>
+                            <?php endif; ?>
 
-                        <div class="plugin-card-top">
-                            <div class="name column-name">
-                                <h3>
-                                    <a target="_blank" href="<?php echo esc_url($plugin->url); ?>" class="thickbox open-plugin-details-modal">
-                                        <?php echo esc_attr($plugin->name); ?>
-                                        <img src="<?php echo esc_url($plugin->icon); ?>" class="plugin-icon" alt="<?php echo esc_attr($plugin->name); ?>">
-                                    </a>
-                                </h3>
-                            </div>
+                            <div class="plugin-card-top">
+                                <div class="name column-name">
+                                    <h3>
+                                        <a target="_blank" href="<?php echo esc_url($addOn->getUrl()); ?>" class="thickbox open-plugin-details-modal">
+                                            <?php echo esc_attr($addOn->getName()); ?>
+                                            <img src="<?php echo esc_url($addOn->getIcon()); ?>" class="plugin-icon" alt="<?php echo esc_attr($addOn->getName()); ?>">
+                                        </a>
+                                    </h3>
+                                </div>
 
-                            <div class="desc column-description">
-                                <p><?php echo wp_trim_words(wp_kses_post($plugin->description), 15); ?></p>
+                                <div class="desc column-description">
+                                    <p><?php echo wp_trim_words(wp_kses_post($addOn->getDescription()), 15); ?></p>
+
+                                    <div class="version">
+                                        <strong><?php _e('Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_html($addOn->getVersion()); ?>
+                                        <p><strong><?php _e('Status:', 'wp-statistics'); ?></strong>
+                                            <?php echo esc_html($addOn->getStatus()); ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="plugin-card-bottom">
+                                <div class="column-downloaded">
+                                    <?php if ($addOn->isEnabled()) : ?>
+                                        <input type="text" class="" name="licences[<?php echo esc_attr($addOn->getSlug()); ?>]" value="<?php echo esc_attr($addOn->getLicense()); ?>"/>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="column-right-side">
+                                    <?php if ($addOn->isEnabled()) { ?>
+                                        <input type="submit" class="button" name="update-licence" value="<?php _e('Update License'); ?>"/>
+                                    <?php } else { ?><?php if ($addOn->isExist()) { ?>
+                                        <a href="<?php echo esc_attr($addOn->getActivateUrl()); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
+                                    <?php } else { ?>
+                                        <div class="column-price">
+                                            <strong><?php echo wp_kses_post($addOn->getPrice()); ?></strong>
+                                        </div><a target="_blank" href="<?php echo esc_url($addOn->getUrl()); ?>" class="button-primary"><?php _e('Buy Add-On', 'wp-statistics'); ?></a>
+                                    <?php } ?><?php } ?>
+                                </div>
                             </div>
                         </div>
-                        <div class="plugin-card-bottom">
-                            <div class="column-downloaded">
-                                <strong><?php _e('Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_attr($plugin->version); ?>
-                                <p><strong><?php _e('Status:', 'wp-statistics'); ?></strong>
-                                    <?php
-                                    if (is_plugin_active($plugin->slug . '/' . $plugin->slug . '.php')) {
-                                        _e('Active', 'wp-statistics');
-                                    } else if (file_exists(WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php')) {
-                                        _e('Inactive', 'wp-statistics');
-                                    } else {
-                                        _e('Not installed', 'wp-statistics');
-                                    }
-                                    ?>
-                                </p>
-                            </div>
-                            <div class="column-compatibility">
-                                <?php if (is_plugin_active($plugin->slug . '/' . $plugin->slug . '.php')) { ?>
-                                    <a href="<?php echo wp_nonce_url(WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'deactivate', 'plugin' => $plugin->slug)), $plugin->slug); ?>" class="button"><?php _e('Deactivate Add-On', 'wp-statistics'); ?></a>
-                                <?php } else { ?><?php if (file_exists(WP_PLUGIN_DIR . '/' . $plugin->slug . '/' . $plugin->slug . '.php')) { ?>
-                                    <a href="<?php echo wp_nonce_url(WP_STATISTICS\Menus::admin_url('plugins', array('action' => 'activate', 'plugin' => $plugin->slug)), $plugin->slug); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
-                                <?php } else { ?>
-                                    <div class="column-price">
-                                        <strong><?php echo wp_kses_post($plugin->price); ?></strong>
-                                    </div><a target="_blank" href="<?php echo esc_url($plugin->url); ?>" class="button-primary"><?php _e('Buy Add-On', 'wp-statistics'); ?></a>
-                                <?php } ?><?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <?php endforeach; ?>
+                </div>
+            </form>
         </div>
     </div>
 </div>
