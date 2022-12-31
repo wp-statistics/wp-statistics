@@ -1,7 +1,7 @@
 <ul class="tabs">
     <?php if ($wps_admin) { ?>
         <li class="tab-link current" data-tab="general-settings"><?php _e('General', 'wp-statistics'); ?></li>
-        <li class="tab-link" data-tab="visitor-ip-settings"><?php _e('Visitor IP', 'wp-statistics'); ?></li>
+        <li class="tab-link" data-tab="ip-configuration-settings"><?php _e('IP Configuration', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="privacy-settings"><?php _e('Privacy', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="notifications-settings"><?php _e('Notifications', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="overview-display-settings"><?php _e('Dashboard', 'wp-statistics'); ?></li>

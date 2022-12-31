@@ -6,7 +6,7 @@
         </tr>
 
         <tr valign="top">
-            <td scope="row" colspan="2"><?php echo sprintf(__('To delete visitor data, check out <b><a href="%s">Tools » Erase Personal Data</a></b>, and for delete all data, check out here <b><a href="%s">Optimization » Purging</a></b>.', 'wp-statistics'), admin_url('erase-personal-data.php'), esc_url(WP_STATISTICS\Menus::admin_url('optimization', array('tab' => 'purging')))); ?></td>
+            <td scope="row" colspan="2"><?php echo sprintf(__('To delete visitor data, check out <b><a href="%s">Tools → Erase Personal Data</a></b>, and for delete all data, check out here <b><a href="%s">Optimization → Purging</a></b>.', 'wp-statistics'), admin_url('erase-personal-data.php'), esc_url(WP_STATISTICS\Menus::admin_url('optimization', array('tab' => 'purging')))); ?></td>
         </tr>
 
         <tr valign="top">
