@@ -89,7 +89,8 @@ class AddOnDecorator
 
     public function getLicense()
     {
-        return get_option($this->getOptionName())['license_key'];
+        $option = get_option($this->getOptionName());
+        return isset($option['license_key']) ? $option['license_key'] : '';
     }
 
     public function getPluginName()
@@ -165,7 +166,7 @@ class AddOnDecorator
                 set_transient($this->transientKey, $response, DAY_IN_SECONDS);
             }
         }
-        
+
         if (isset($response->code) && $response->code == 'error') {
             return new \WP_Error($response->message);
         }
