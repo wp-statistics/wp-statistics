@@ -128,8 +128,8 @@ class AddOnDecorator
 
             if ($remote) {
                 return __('Activated', 'wp-statistics');
-            } elseif (is_wp_error($remote)) {
-                return $remote->get_error_message();
+            } else {
+                return __('Not activated', 'wp-statistics');
             }
 
         } else if ($this->isExist()) {
@@ -159,16 +159,14 @@ class AddOnDecorator
                 return $response;
             }
 
-            if (wp_remote_retrieve_response_code($response) == '200') {
-                $body     = wp_remote_retrieve_body($response);
-                $response = json_decode($body);
+            $body     = wp_remote_retrieve_body($response);
+            $response = json_decode($body, false);
 
-                set_transient($this->transientKey, $response, DAY_IN_SECONDS);
-            }
+            set_transient($this->transientKey, $response, DAY_IN_SECONDS);
         }
 
         if (isset($response->code) && $response->code == 'error') {
-            return new \WP_Error($response->message);
+            return new \WP_Error($response->data->status, $response->message);
         }
 
         if (isset($response->status) and $response->status == 200) {

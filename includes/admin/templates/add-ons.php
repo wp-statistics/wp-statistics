@@ -2,6 +2,7 @@
     <div id="post-body" class="metabox-holder">
         <div class="wp-list-table widefat widefat plugin-install">
             <form action="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>" method="post">
+                <?php wp_nonce_field( 'wps_optimization_nonce' ); ?>
                 <div id="the-list">
                     <?php
                     /* @var $addOns \WP_Statistics\Service\Admin\AddOnDecorator[] */
@@ -37,20 +38,22 @@
                             <div class="plugin-card-bottom">
                                 <div class="column-downloaded">
                                     <?php if ($addOn->isEnabled()) : ?>
-                                        <input type="text" class="" name="licences[<?php echo esc_attr($addOn->getSlug()); ?>]" value="<?php echo esc_attr($addOn->getLicense()); ?>"/>
+                                        <input type="password" class="" name="licences[<?php echo esc_attr($addOn->getSlug()); ?>]" value="<?php echo esc_attr($addOn->getLicense()); ?>"/>
                                     <?php endif; ?>
                                 </div>
 
                                 <div class="column-right-side">
                                     <?php if ($addOn->isEnabled()) { ?>
                                         <input type="submit" class="button" name="update-licence" value="<?php _e('Update License'); ?>"/>
-                                    <?php } else { ?><?php if ($addOn->isExist()) { ?>
-                                        <a href="<?php echo esc_attr($addOn->getActivateUrl()); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
                                     <?php } else { ?>
+                                        <?php if ($addOn->isExist()) { ?>
+                                            <a href="<?php echo esc_attr($addOn->getActivateUrl()); ?>" class="button"><?php _e('Enable Add-On', 'wp-statistics'); ?></a>
+                                        <?php } else { ?>
                                         <div class="column-price">
                                             <strong><?php echo wp_kses_post($addOn->getPrice()); ?></strong>
                                         </div><a target="_blank" href="<?php echo esc_url($addOn->getUrl()); ?>" class="button-primary"><?php _e('Buy Add-On', 'wp-statistics'); ?></a>
-                                    <?php } ?><?php } ?>
+                                        <?php } ?>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

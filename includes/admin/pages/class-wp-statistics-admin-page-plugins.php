@@ -22,18 +22,21 @@ class plugins_page
     public static function view()
     {
         if (isset($_POST['update-licence']) and $_POST['update-licence']) {
+
             // check the nonce
-            //check_admin_referer($_GET['plugin']);
+            check_admin_referer('wps_optimization_nonce');
 
             foreach ($_POST['licences'] as $key => $licence) {
                 $optionName            = AddOnsFactory::getSettingNameByKey($key);
                 $option                = get_option($optionName);
                 $option['license_key'] = sanitize_text_field($licence);
 
+                // update license in Its option group
                 update_option($optionName, $option);
-            }
 
-            Helper::wp_admin_notice(__('License updated', 'wp-statistics'), "success");
+                // delete transient
+                // todo
+            }
 
             wp_safe_redirect(admin_url('admin.php?page=wps_plugins_page'));
             exit();

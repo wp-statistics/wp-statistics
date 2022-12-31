@@ -13,6 +13,10 @@
 
   .widefat .plugin-card .desc, .widefat .plugin-card .name {
     margin-right: 0;
+
+    > p {
+      min-height: 39px;
+    }
   }
 
   .widefat .plugin-card-bottom {
@@ -40,6 +44,7 @@
     input[type="password"] {
       margin: 1px 0;
       width: 100%;
+      border-color: #dcdcde !important;
     }
 
     input[type="submit"] {
