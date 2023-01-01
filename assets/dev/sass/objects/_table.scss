@@ -68,8 +68,13 @@
 
     tr {
       .o-table__td--sm-width {
-        max-width: min-content;
-        width: 30px;
+        max-width: 40px;
+        width: 25px;
+        min-width: 40px;
+
+        + .o-table__link {
+          padding-left: 20px !important;
+        }
       }
     }
 
