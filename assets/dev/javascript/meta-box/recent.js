@@ -11,7 +11,7 @@ wps_js.recent_meta_box = {
             ` + (wps_js.is_active('geo_city') ? `<th>${wps_js._('city')}</th>` : ``) + `
             <th>${wps_js._('date')}</th>
             <th class="o-table__td--sm-width">${wps_js._('hits')}</th>
-            <th>${wps_js._('ip')}</th>
+            <th class="o-table__link">${wps_js._('ip')}</th>
             <th>${wps_js._('referrer')}</th>
         </tr></thead><tbody>`;
 

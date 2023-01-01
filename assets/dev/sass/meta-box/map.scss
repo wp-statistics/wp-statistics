@@ -3,6 +3,31 @@
   direction: ltr;
   height: 300px;
   width: 100%;
+
+  .jqvmap-zoomin, .jqvmap-zoomout {
+    background: #FFFFFF !important;
+    border: 1px solid #EEEFF1 !important;
+    border-radius: 0 0 2px 2px;
+    color: #0C0C0D;
+    margin: 0 !important;
+    font-size: 16px;
+    width: 18.6px;
+    height: 18.6px;
+    transition: 0.15s;
+
+    &:hover {
+      background-color: #f2f2f2 !important;
+    }
+  }
+
+  .jqvmap-zoomin {
+    border-radius: 2px 2px 0 0;
+  }
+
+  .jqvmap-zoomout {
+    top: 35px;
+    border-top: 0;
+  }
 }
 
 .map-html-marker {

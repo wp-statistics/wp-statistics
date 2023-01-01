@@ -87,6 +87,7 @@
 
       .wps-flag {
         margin-right: 4px;
+        vertical-align: middle;
       }
 
       .wps-flag--first {
@@ -316,6 +317,7 @@
 
         .wps-flag {
           margin-right: 4px;
+          vertical-align: middle;
         }
 
         a {
@@ -506,6 +508,14 @@
           }
         }
       }
+    }
+  }
+}
+
+#normal-sortables {
+  .o-table.o-table--layout-fixed {
+    @media screen and (min-width: 1200px) {
+      table-layout: fixed !important;
     }
   }
 }

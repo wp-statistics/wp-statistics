@@ -6,7 +6,7 @@ wps_js.words_meta_box = {
         t += `<table width="100%" class="o-table"><tbody>
         <tr>
             <td style="text-align: left !important;">${wps_js._('word')}</td>
-            <td style="text-align: right !important;">${wps_js._('browser')}</td>
+            <td>${wps_js._('browser')}</td>
             ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('country')}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${wps_js._('city')}</td>` : ``) + `
             <td>${wps_js._('date')}</td>
@@ -18,7 +18,7 @@ wps_js.words_meta_box = {
         args.forEach(function (value) {
             t += `<tr>
             <td style="text-align: left !important;"><span title='${value['word']}' class='wps-cursor-default wps-text-wrap'>${value['word']}</span></td>
-            <td><a href="${value['browser']['link']}" title="${value['browser']['name']}" class="is-normal-text"><img src="${value['browser']['logo']}" alt="${value['browser']['name']}" title='${value['browser']['name']}' class="wps-flag log-tools"/> ${value['browser']['name']}</a></td>
+            <td><a href="${value['browser']['link']}" title="${value['browser']['name']}" class="is-normal-text"><img src="${value['browser']['logo']}" alt="${value['browser']['name']}" title='${value['browser']['name']}' class="wps-flag"/> ${value['browser']['name']}</a></td>
             ` + (wps_js.is_active('geo_ip') ? `<td style="text-align: left"><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='wps-flag'/> ${value['country']['name']}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td style="text-align: left">${value['city']}</td>` : ``) + `
             <td>${value['date']}</td>
