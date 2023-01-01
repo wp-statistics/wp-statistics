@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 13.2.10
+Stable tag: 13.2.11
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -134,6 +134,10 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.11 - 01.01.2023 =
+* Feature: A privacy setting has been added that allows customers to enable Do Not Track mode.
+* Improvement: Hardened plugin security and improvement
+
 = v13.2.10 - 24.12.2022 =
 * Bugfix: Logs the pages with query strings and UTM parameters
 

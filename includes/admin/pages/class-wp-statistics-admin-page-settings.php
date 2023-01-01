@@ -169,6 +169,7 @@ class settings_page
             'wps_hash_ips',
             'wps_store_ua',
             'wps_all_online',
+            'wps_do_not_track',
         );
 
         // If the IP hash's are enabled, disable storing the complete user agent.

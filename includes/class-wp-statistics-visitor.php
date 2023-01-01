@@ -233,7 +233,6 @@ class Visitor
 
         // Define the array of defaults
         $defaults = array(
-            'sql'      => '',
             'per_page' => 10,
             'paged'    => 1,
             'fields'   => 'all',
@@ -242,15 +241,10 @@ class Visitor
         );
         $args     = wp_parse_args($arg, $defaults);
 
-        // Prepare Query
-        if (empty($args['sql'])) {
-            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
-        }
-
         $limit = (($args['paged'] - 1) * $args['per_page']);
 
-        // Set Pagination
-        $args['sql'] = $args['sql'] . " LIMIT {$limit}, {$args['per_page']}";
+        // Prepare the Query & Set Pagination
+        $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC LIMIT {$limit}, {$args['per_page']}";
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);
@@ -382,7 +376,8 @@ class Visitor
         $pages_table                 = DB::table('pages');
 
         // Get Result
-        $query = $wpdb->prepare("SELECT DISTINCT {$visitor_relationships_table}.page_id, {$pages_table}.uri FROM {$visitor_relationships_table} INNER JOIN {$pages_table} ON {$visitor_relationships_table}.page_id = {$pages_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total);
+        $query = $wpdb->prepare("SELECT DISTINCT {$pages_table}.id, {$pages_table}.uri FROM {$pages_table} INNER JOIN {$visitor_relationships_table} ON {$pages_table}.page_id = {$visitor_relationships_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total);
+
         return $wpdb->get_results($query, ARRAY_N);
     }
 
