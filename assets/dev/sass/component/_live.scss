@@ -38,9 +38,13 @@
     background: $service-green-light-color;
     border: 1px solid $service-green-medium-color;
     color: $service-green-color;
-    margin: 14px 32px 24px 32px;
     padding: 13px 16px;
     border-radius: 4px;
+    margin: 14px 16px 24px 16px;
+
+    @media screen and (min-width: 1300px) {
+      margin: 14px 32px 24px 32px;
+    }
   }
 
   .c-live__title {

@@ -46,7 +46,7 @@
         &:first-child {
           padding-left: 16px;
 
-          @media screen and (min-width: 768px) {
+          @media screen and (min-width: 1300px) {
             padding-left: 32px;
           }
         }
@@ -63,6 +63,13 @@
 
       tr td.row-id {
         color: $low-color !important;
+      }
+    }
+
+    tr {
+      .o-table__td--sm-width {
+        max-width: min-content;
+        width: 30px;
       }
     }
 
@@ -124,7 +131,7 @@
         &:first-child {
           padding-left: 16px;
 
-          @media screen and (min-width: 768px) {
+          @media screen and (min-width: 1300px) {
             padding-left: 32px;
           }
         }
@@ -467,3 +474,33 @@
   }
 }
 
+#wp-statistics-summary-widget, #wp-statistics-top-visitors-widget {
+  table.o-table {
+
+    thead tr, tbody tr {
+      td, th {
+        padding: 11.1px 0 11.1px 22px !important;
+
+        @media screen and (min-width: 1450px) {
+          padding: 11.1px 0 11.1px 40px !important;
+        }
+
+        &:first-child {
+          padding-left: 16px !important;
+
+          @media screen and (min-width: 1450px) {
+            padding-left: 32px !important;
+          }
+        }
+
+        &:last-child {
+          padding-right: 8px !important;
+
+          @media screen and (min-width: 1450px) {
+            padding-right: 24px !important;
+          }
+        }
+      }
+    }
+  }
+}

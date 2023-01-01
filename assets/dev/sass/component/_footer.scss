@@ -2,7 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 32px 0;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 32px 21px 0;
+
+  @media screen and (min-width: 450px) {
+    flex-wrap: nowrap;
+    padding: 32px 32px 0;
+  }
 }
 
 .c-footer__filter {

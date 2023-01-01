@@ -21,17 +21,13 @@ body.toplevel_page_wps_overview_page {
 
       .c-footer {
         @media screen and (min-width: 758px) and (max-width: 900px) {
-          padding: 24px 4px 4px 16px !important;
+          padding: 24px 4px 0 16px !important;
         }
 
         @media screen and (min-width: 758px) and (max-width: 1300px) {
-          padding: 24px 4px 4px 16px !important;
+          padding: 24px 4px 0 16px !important;
           flex-direction: column;
           align-items: flex-start;
-
-          .c-footer__filter {
-            margin-bottom: 16px;
-          }
         }
 
         @media screen and (min-width: 900px) and (max-width: 1420px) {
