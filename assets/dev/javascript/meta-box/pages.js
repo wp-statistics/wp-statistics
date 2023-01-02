@@ -4,10 +4,10 @@ wps_js.pages_meta_box = {
         let t = '';
         t += `<div class="o-table-wrapper"><table width="100%" class="o-table o-table--pages o-table--layout-fixed"><tbody>
         <tr>
-            <th class="row-id" style="text-align: left !important;" width='10%'></th>
+            <th class="row-id" style="text-align: left !important;"></th>
             <th>${wps_js._('title')}</th>
             <th>${wps_js._('link')}</th>
-            <th style="text-align: right !important;" width="30%">${wps_js._('visits')}</th>
+            <th style="text-align: right !important;" width="10%">${wps_js._('visits')}</th>
         </tr>`;
 
         const siteUrl = wps_js.global.admin_url.replace('/wp-admin/', '');
