@@ -211,6 +211,7 @@
         align-items: center;
 
         span, svg {
+          max-height: 17px;
           color: $primary-color;
           transition: 0.22s;
         }
