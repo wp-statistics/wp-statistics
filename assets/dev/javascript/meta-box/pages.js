@@ -2,7 +2,7 @@ wps_js.pages_meta_box = {
 
     view: function (args = []) {
         let t = '';
-        t += `<div class="o-table-wrapper"><table width="100%" class="o-table o-table--pages"><tbody>
+        t += `<div class="o-table-wrapper"><table width="100%" class="o-table o-table--pages o-table--layout-fixed"><tbody>
         <tr>
             <th class="row-id" style="text-align: left !important;" width='10%'></th>
             <th>${wps_js._('title')}</th>
