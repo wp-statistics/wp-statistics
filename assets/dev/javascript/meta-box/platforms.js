@@ -55,7 +55,7 @@ wps_js.platforms_meta_box = {
 
             // Show Table information
             let tbl = `<div class="title-center">${args.title}</div>
-                    <table width="100%" class="widefat table-stats">
+                    <table width="100%" class="o-table">
                         <tr>
                             <td class="wps-text-muted">${wps_js._('platform')}</td>
                             <td class="wps-text-muted">${wps_js._('visitor_count')}</td>

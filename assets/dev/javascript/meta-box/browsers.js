@@ -54,7 +54,7 @@ wps_js.browsers_meta_box = {
 
             // Show Table information
             let tbl = `<div class="title-center">${args.title}</div>
-                    <table width="100%" class="widefat table-stats">
+                    <table width="100%" class="o-table">
                         <tr>
                             <td class="wps-text-muted">${wps_js._('browser')}</td>
                             <td class="wps-text-muted">${wps_js._('visitor_count')}</td>
@@ -166,7 +166,7 @@ wps_js.show_custom_agent = function (args) {
 
         // Show Table information
         let tbl = `<div class="title-center">${args.title}</div>
-                    <table width="100%" class="widefat table-stats">
+                    <table width="100%" class="o-table">
                         <tr>
                             <td class="wps-text-muted">${wps_js._('version_list')}</td>
                             <td class="wps-text-muted">${wps_js._('visitor_count')}</td>

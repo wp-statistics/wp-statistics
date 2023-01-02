@@ -20,43 +20,45 @@
                     <?php if (count($list) < 1) { ?>
                         <div class='wps-wrap--no-content wps-center'><?php _e("No information is available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
-                        <table width="100%" class="widefat table-stats wps-report-table">
-                            <tr>
-                                <td><?php _e('Word', 'wp-statistics'); ?></td>
-                                <td><?php _e('Browser', 'wp-statistics'); ?></td>
-                                <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
-                                    <td><?php _e('Country', 'wp-statistics'); ?></td>
-                                <?php } ?>
-                                <?php if (\WP_STATISTICS\GeoIP::active('city')) { ?>
-                                    <td><?php _e('City', 'wp-statistics'); ?></td>
-                                <?php } ?>
-                                <td><?php _e('Date', 'wp-statistics'); ?></td>
-                                <td><?php _e('IP', 'wp-statistics'); ?></td>
-                                <td><?php _e('Referrer', 'wp-statistics'); ?></td>
-                            </tr>
-
-                            <?php foreach ($list as $item) { ?>
+                        <div class="o-table-wrapper">
+                            <table width="100%" class="o-table">
                                 <tr>
-                                    <td style="text-align: left"><?php echo esc_attr($item['word']); ?></td>
-                                    <td style="text-align: left">
-                                        <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="log-tools wps-flag" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
-                                    </td>
-                                    <?php if (WP_STATISTICS\GeoIP::active()) { ?>
-                                        <td style="text-align: left">
-                                            <img src="<?php echo esc_attr($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
-                                        </td>
+                                    <td><?php _e('Word', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Browser', 'wp-statistics'); ?></td>
+                                    <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
+                                        <td><?php _e('Country', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                        <td style="text-align: left">
-                                            <?php echo esc_attr($item['city']); ?>
-                                        </td>
+                                    <?php if (\WP_STATISTICS\GeoIP::active('city')) { ?>
+                                        <td><?php _e('City', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <td style="text-align: left"><?php echo esc_attr($item['date']); ?></td>
-                                    <td style='text-align: left;'><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-success'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
-                                    <td style="text-align: left"><?php echo wp_kses_post($item['referred']); ?></td>
+                                    <td><?php _e('Date', 'wp-statistics'); ?></td>
+                                    <td><?php _e('IP', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Referrer', 'wp-statistics'); ?></td>
                                 </tr>
-                            <?php } ?>
-                        </table>
+
+                                <?php foreach ($list as $item) { ?>
+                                    <tr>
+                                        <td style="text-align: left"><?php echo esc_attr($item['word']); ?></td>
+                                        <td style="text-align: left">
+                                            <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="log-tools wps-flag" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
+                                        </td>
+                                        <?php if (WP_STATISTICS\GeoIP::active()) { ?>
+                                            <td style="text-align: left">
+                                                <img src="<?php echo esc_attr($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
+                                            </td>
+                                        <?php } ?>
+                                        <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
+                                            <td style="text-align: left">
+                                                <?php echo esc_attr($item['city']); ?>
+                                            </td>
+                                        <?php } ?>
+                                        <td style="text-align: left"><?php echo esc_attr($item['date']); ?></td>
+                                        <td style='text-align: left;'><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-success'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
+                                        <td style="text-align: left"><?php echo wp_kses_post($item['referred']); ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </table>
+                        </div>
                     <?php } ?>
                 </div>
             </div>

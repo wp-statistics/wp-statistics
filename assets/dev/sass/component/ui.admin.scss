@@ -459,6 +459,10 @@
 
   select {
     padding: 12px 24px 12px 8px !important;
+
+    option {
+      font-family: $font-base;
+    }
   }
 }
 

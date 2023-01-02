@@ -25,7 +25,7 @@
                 </button>
                 <h2 class="hndle wps-d-inline-block"><span><?php _e('Author Statistics Summary', 'wp-statistics'); ?></span></h2>
                 <div class="inside">
-                    <table class="widefat table-stats wps-summary-stats" id="summary-stats">
+                    <table class="o-table" id="summary-stats">
                         <tbody>
                         <tr>
                             <th></th>
