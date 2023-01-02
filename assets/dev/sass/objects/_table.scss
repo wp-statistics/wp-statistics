@@ -87,6 +87,7 @@
 
       .wps-flag {
         margin-right: 4px;
+        margin-bottom: 2px;
         vertical-align: middle;
       }
 
@@ -100,6 +101,7 @@
 
       a {
         color: $primary-color !important;
+        display: inline-block;
 
         &:hover {
           color: $dark-color !important;
