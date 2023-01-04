@@ -200,3 +200,18 @@ table.wps-table-auto {
 #page-stats {
   direction: ltr;
 }
+
+#wp-statistics-words-widget,
+#wp-statistics-pages-widget,
+#wp-statistics-countries-widget,
+#wp-statistics-referring-widget {
+  .inside {
+    table.o-table {
+      tr {
+        td:last-child, th:last-child {
+          text-align: right !important;
+        }
+      }
+    }
+  }
+}

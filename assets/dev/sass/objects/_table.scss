@@ -305,7 +305,7 @@
         }
 
         &:nth-child(2) {
-          width: 150px;
+
         }
 
         a {
@@ -515,10 +515,23 @@
   }
 }
 
-#normal-sortables {
-  .o-table.o-table--layout-fixed {
-    @media screen and (min-width: 1200px) {
-      table-layout: fixed !important;
+
+
+  #normal-sortables {
+    .o-table.o-table--layout-fixed {
+      @media screen and (min-width: 1200px) {
+        table-layout: fixed !important;
+      }
+    }
+  }
+
+
+#dashboard-widgets {
+  #normal-sortables {
+    .o-table.o-table--layout-fixed {
+      @media screen and (min-width: 1200px) {
+        table-layout: initial !important;
+      }
     }
   }
 }

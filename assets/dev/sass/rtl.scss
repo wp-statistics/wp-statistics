@@ -131,3 +131,11 @@
 .rtl .wp-statistics-plugins .plugin-card .cover-ribbon .cover-ribbon-inside:after {
     right: -1px;
 }
+
+
+.rtl {
+    @import "rtl/additional-rtl";
+    @import "rtl/metabox-rtl";
+    @import "rtl/table-rtl";
+    @import "rtl/components-rtl";
+}

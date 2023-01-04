@@ -17,7 +17,7 @@ wps_js.recent_meta_box = {
 
         args.forEach(function (value, index) {
             t += `<tr>
-            <td style="text-align: left !important;" class="row-id">${++index}</td>
+            <td class="row-id">${++index}</td>
             <td><a class="is-normal-text" href="${value['browser']['link']}" title="${value['browser']['name']}"><img src="${value['browser']['logo']}" alt="${value['browser']['name']}" class='wps-flag log-tools' title='${value['browser']['name']}'/> ${value['browser']['name']}</a></td>
             ` + (wps_js.is_active('geo_ip') ? `<td><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='wps-flag'/> ${value['country']['name']}</td>` : ``) + `
             ` + (wps_js.is_active('geo_city') ? `<td>${value['city']}</td>` : ``) + `
