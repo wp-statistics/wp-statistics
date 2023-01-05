@@ -197,9 +197,6 @@ class Visitor
      */
     public static function getTop($arg = array())
     {
-
-        global $wpdb;
-
         // Define the array of defaults
         $defaults = array(
             'day'      => 'today',
@@ -218,11 +215,8 @@ class Visitor
         // Prepare Query
         $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = '{$sql_time}' ORDER BY hits DESC";
 
-        // Send Request
-        $result = $wpdb->get_results($args['sql']);
-
-        // Get Visitor Data
-        return self::PrepareData($result);
+        // Get Visitors Data
+        return self::get($args);
     }
 
     /**
@@ -248,8 +242,10 @@ class Visitor
 
         $limit = (($args['paged'] - 1) * $args['per_page']);
 
-        // Prepare the Query & Set Pagination
-        $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC LIMIT {$limit}, {$args['per_page']}";
+        if (!isset($args['sql'])) {
+            // Prepare the Query & Set Pagination
+            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC LIMIT {$limit}, {$args['per_page']}";
+        }
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);
