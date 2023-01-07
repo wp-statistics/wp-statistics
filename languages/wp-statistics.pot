@@ -1,0 +1,3324 @@
+# Copyright (C) 2023 VeronaLabs
+# This file is distributed under the same license as the WP Statistics plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Statistics 13.2.11\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-01-07T12:37:32+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: wp-statistics\n"
+
+#. Plugin Name of the plugin
+#: includes/admin/class-wp-statistics-admin-privacy.php:25
+msgid "WP Statistics"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wp-statistics.com/"
+msgstr ""
+
+#. Description of the plugin
+msgid "This plugin gives you the complete information on your website's visitors."
+msgstr ""
+
+#. Author of the plugin
+msgid "VeronaLabs"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://veronalabs.com/"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:106
+msgid "%s agent data deleted successfully."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:108
+msgid "No agent data found to remove!"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:112
+#: includes/admin/class-wp-statistics-admin-ajax.php:149
+#: includes/admin/class-wp-statistics-admin-ajax.php:185
+#: includes/admin/class-wp-statistics-admin-ajax.php:207
+msgid "Please select the desired items."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:115
+#: includes/admin/class-wp-statistics-admin-ajax.php:152
+#: includes/admin/class-wp-statistics-admin-ajax.php:188
+#: includes/admin/class-wp-statistics-admin-ajax.php:219
+#: includes/admin/class-wp-statistics-admin-ajax.php:236
+#: includes/admin/class-wp-statistics-admin-ajax.php:261
+#: includes/admin/class-wp-statistics-admin-ajax.php:290
+msgid "Access denied!"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:144
+msgid "%s platform data deleted successfully."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:146
+msgid "No platform data found to remove!"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:180
+msgid "%s IP data deleted successfully."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:182
+msgid "No IP address data found to remove!"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:285
+#: includes/class-wp-statistics-purge.php:223
+msgid "Number of hits must be greater than or equal to 10!"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:230
+msgid "More Details"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:231
+msgid "Reload"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:232
+#: includes/admin/pages/class-wp-statistics-admin-page-online.php:25
+#: includes/admin/templates/settings/general.php:11
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:36
+#: includes/class-wp-statistics-meta-box.php:185
+#: includes/class-wp-statistics-shortcode.php:168
+#: includes/class-wp-statistics-widget.php:41
+#: includes/class-wp-statistics-widget.php:264
+msgid "Online Users"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:233
+#: includes/admin/class-wp-statistics-admin-network.php:66
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:32
+#: includes/admin/templates/optimization/historical.php:27
+#: includes/admin/templates/pages/hits.php:25
+#: includes/admin/templates/pages/page-chart.php:22
+#: includes/admin/templates/settings/general.php:77
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:38
+#: includes/class-wp-statistics-menus.php:186
+#: includes/class-wp-statistics-shortcode.php:170
+msgid "Visitors"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:234
+#: includes/admin/class-wp-statistics-admin-user.php:33
+#: includes/admin/templates/optimization/historical.php:37
+#: includes/admin/templates/pages/hits.php:23
+#: includes/admin/templates/pages/pages.php:41
+#: includes/admin/templates/settings/general.php:56
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
+#: includes/class-wp-statistics-shortcode.php:169
+msgid "Visits"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:235
+#: includes/admin/class-wp-statistics-admin-assets.php:363
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:54
+msgid "Today"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:236
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:55
+msgid "Yesterday"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:237
+msgid "Last 7 Days (Week)"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:238
+msgid "Last 30 Days (Month)"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:239
+msgid "Last 365 Days (Year)"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:240
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:59
+msgid "Total"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:241
+msgid "Daily Total"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:242
+#: includes/admin/templates/pages/refer.url.php:35
+#: includes/admin/templates/pages/top-visitors.php:2
+#: includes/admin/templates/pages/top-visitors.php:25
+#: includes/admin/templates/pages/visitors.php:34
+#: includes/admin/templates/pages/words.php:33
+msgid "Date"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:243
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:52
+msgid "Time"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:244
+#: includes/admin/class-wp-statistics-admin-network.php:68
+#: includes/class-wp-statistics-menus.php:249
+msgid "Browsers"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:245
+msgid "Rank"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:246
+msgid "Flag"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:247
+#: includes/admin/templates/pages/online.php:13
+#: includes/admin/templates/pages/refer.url.php:33
+#: includes/admin/templates/pages/top-visitors.php:20
+#: includes/admin/templates/pages/top.refer.php:24
+#: includes/admin/templates/pages/visitors.php:27
+#: includes/admin/templates/pages/words.php:28
+msgid "Country"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:248
+msgid "Visitor Count"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:249
+#: includes/admin/templates/pages/online.php:45
+#: includes/admin/templates/pages/pages.php:38
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:65
+msgid "ID"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:250
+#: includes/admin/templates/pages/pages.php:39
+msgid "Title"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:251
+#: includes/admin/templates/pages/pages.php:40
+#: includes/admin/templates/pages/refer.url.php:29
+msgid "Link"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:252
+msgid "Address"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:253
+#: includes/admin/templates/pages/words.php:25
+msgid "Word"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:254
+#: includes/admin/meta-box/wp-statistics-meta-box-browsers.php:164
+#: includes/admin/templates/optimization/resources.php:252
+#: includes/admin/templates/pages/online.php:11
+#: includes/admin/templates/pages/refer.url.php:31
+#: includes/admin/templates/pages/top-visitors.php:18
+#: includes/admin/templates/pages/visitors.php:25
+#: includes/admin/templates/pages/words.php:26
+msgid "Browser"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:255
+#: includes/admin/templates/pages/online.php:16
+#: includes/admin/templates/pages/top-visitors.php:23
+#: includes/admin/templates/pages/visitors.php:30
+#: includes/admin/templates/pages/words.php:31
+msgid "City"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:256
+#: includes/admin/templates/pages/online.php:18
+#: includes/admin/templates/pages/refer.url.php:30
+#: includes/admin/templates/pages/top-visitors.php:26
+#: includes/admin/templates/pages/visitors.php:38
+#: includes/admin/templates/pages/words.php:34
+msgid "IP"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:257
+#: includes/admin/templates/pages/online.php:21
+#: includes/admin/templates/pages/top-visitors.php:29
+#: includes/admin/templates/pages/visitors.php:49
+#: includes/admin/templates/pages/words.php:35
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:50
+#: includes/class-wp-statistics-shortcode.php:182
+msgid "Referrer"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:258
+#: includes/admin/class-wp-statistics-admin-network.php:60
+#: includes/admin/class-wp-statistics-admin-post.php:60
+#: includes/admin/class-wp-statistics-admin-post.php:155
+#: includes/admin/class-wp-statistics-admin-taxonomy.php:56
+#: includes/admin/class-wp-statistics-admin-taxonomy.php:63
+#: includes/admin/templates/optimization/purging.php:250
+#: includes/admin/templates/pages/top-visitors.php:30
+#: includes/admin/templates/pages/visitors.php:40
+#: includes/admin/templates/settings/maintenance.php:70
+#: includes/class-wp-statistics-menus.php:172
+msgid "Hits"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:259
+msgid "Agent"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:260
+#: includes/admin/templates/optimization/resources.php:277
+#: includes/admin/templates/pages/top-visitors.php:27
+#: includes/admin/templates/pages/visitors.php:39
+msgid "Platform"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:261
+#: includes/admin/templates/optimization/resources.php:266
+msgid "Version"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:262
+#: includes/admin/templates/pages/online.php:20
+#: includes/admin/templates/pages/visitors.php:45
+msgid "Page"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:263
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:56
+msgid "Week"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:264
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:57
+msgid "Month"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:265
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:58
+msgid "Year"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:266
+msgid "Custom"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:267
+#: includes/admin/templates/layout/date.range.php:48
+msgid "to"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:268
+msgid "from"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:269
+#: includes/admin/templates/layout/date.range.php:50
+#: includes/admin/templates/pages/top-visitors.php:5
+msgid "Go"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:270
+#: includes/admin/templates/pages/pages.php:32
+msgid "No data to display"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:271
+#: includes/admin/templates/pages/author.php:32
+#: includes/admin/templates/pages/author.php:79
+#: includes/admin/templates/pages/category.php:32
+#: includes/admin/templates/pages/category.php:79
+#: includes/admin/templates/pages/tag.php:32
+#: includes/admin/templates/pages/tag.php:79
+msgid "Count"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:272
+msgid "Percentage"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:273
+msgid "Version List"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:274
+msgid "Filter"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:275
+#: includes/admin/class-wp-statistics-admin-template.php:230
+#: includes/admin/pages/class-wp-statistics-admin-page-authors.php:58
+#: includes/admin/pages/class-wp-statistics-admin-page-category.php:60
+#: includes/admin/pages/class-wp-statistics-admin-page-tags.php:61
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:54
+#: includes/admin/pages/class-wp-statistics-admin-page-words.php:44
+#: includes/admin/templates/optimization/database.php:47
+#: includes/admin/templates/optimization/purging.php:217
+#: includes/admin/templates/pages/refer.url.php:3
+#: includes/admin/templates/pages/top.refer.php:4
+#: includes/class-wp-statistics-widget.php:326
+msgid "All"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:276
+msgid "Please select the time efficiency."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:277
+msgid "Please enter a valid ip."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:278
+msgid "Please Wait ..."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:279
+#: includes/admin/templates/pages/online.php:22
+#: includes/admin/templates/pages/top-visitors.php:28
+#: includes/admin/templates/pages/visitors.php:41
+msgid "User"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:280
+msgid "An error occurred while connecting to WordPress REST API. It seems blocked by one of your plugins or your theme."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:362
+msgid "Done"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:366
+msgid "Show a different month"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:26
+#: includes/class-wp-statistics-menus.php:159
+#: includes/class-wp-statistics-widget.php:15
+msgid "Statistics"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:29
+#: includes/admin/class-wp-statistics-admin-network.php:59
+#: includes/class-wp-statistics-menus.php:166
+msgid "Overview"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:50
+msgid "Site"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:51
+msgid "Options"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:61
+#: includes/class-wp-statistics-menus.php:179
+msgid "Online"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:62
+#: includes/class-wp-statistics-menus.php:193
+msgid "Referrers"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:63
+#: includes/class-wp-statistics-menus.php:200
+msgid "Search Words"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:64
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:40
+#: includes/class-wp-statistics-shortcode.php:172
+msgid "Searches"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:65
+#: includes/class-wp-statistics-menus.php:214
+msgid "Pages"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:67
+#: includes/class-wp-statistics-menus.php:221
+msgid "Countries"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:69
+#: includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php:32
+#: includes/class-wp-statistics-menus.php:263
+msgid "Top Visitors Today"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:70
+#: includes/admin/templates/layout/tabs-settings.php:9
+#: includes/admin/templates/pages/exclusions.php:22
+#: includes/admin/templates/settings/exclusions.php:5
+#: includes/class-wp-statistics-menus.php:270
+#: includes/class-wp-statistics-meta-box.php:225
+msgid "Exclusions"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:71
+#: includes/class-wp-statistics-menus.php:277
+msgid "Optimization"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-network.php:72
+#: includes/class-wp-statistics-install.php:303
+#: includes/class-wp-statistics-menus.php:284
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:43
+msgid "WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:43
+msgid "WP Statistics might not count the stats due to use <b>%s</b> plugin"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:44
+msgid "To fix it, please enable the %1$sCache Compatibility%2$s option on the Settings page, otherwise, if the stats count properly, check out <a href=\"%3$s\" target=\"_blank\">this article</a> to disable this notice permanently."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:78
+msgid "Here is an error associated with Connecting WP REST API"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:82
+msgid "Please Flushing rewrite rules by updating permalink in %1$sSettings->Permalinks%2$s and make sure the WP REST API is enabled."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:92
+msgid "GeoIP collection is not enabled. Please go to <a href=\"%s\">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:99
+msgid "Have you thought about donating to WP Statistics?"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:99
+msgid "Donate Now!"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:112
+msgid "online user tracking"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:117
+msgid "hit tracking"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:122
+msgid "visitor tracking"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:126
+msgid "The following features are disabled, please go to %ssettings page%s and enable them: %s"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:126
+msgid ","
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:135
+msgid "WP Statistics Add-On(s) require WP Statistics v12.6.13 or greater, please update WP Statistics."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-post.php:80
+#: includes/admin/class-wp-statistics-admin-taxonomy.php:84
+msgid "Unlock!"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:38
+msgid "This sample language includes the basics around what personal data your store may be collecting and storing. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your store will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:40
+msgid "We collect information about you during the visit our website."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:41
+msgid "What we collect and store"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:42
+msgid "While you visit our site, we’ll track:"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:44
+msgid "Pages you’ve viewed: we’ll use this to, for example, Website visit statistics and user behavior"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-privacy.php:73
+#: includes/admin/class-wp-statistics-admin-privacy.php:89
+msgid "WP Statistics Visitors Data"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:70
+msgid "Template not found."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:104
+#: includes/admin/pages/class-wp-statistics-admin-page-authors.php:25
+#: includes/admin/pages/class-wp-statistics-admin-page-category.php:25
+#: includes/admin/pages/class-wp-statistics-admin-page-tags.php:25
+msgid "Request is not valid."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:109
+#: includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php:18
+msgid "Time request is not valid."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:181
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:217
+msgid "10 Days"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:218
+msgid "20 Days"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:219
+msgid "30 Days"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:220
+msgid "2 Months"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:221
+msgid "3 Months"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:222
+msgid "6 Months"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:223
+msgid "9 Months"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:224
+msgid "1 Year"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-template.php:267
+#: includes/class-wp-statistics-geoip.php:483
+#: includes/class-wp-statistics-user-agent.php:84
+msgid "Unknown"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-browsers.php:123
+msgid "Other"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-browsers.php:166
+#: includes/admin/meta-box/wp-statistics-meta-box-devices.php:106
+#: includes/admin/meta-box/wp-statistics-meta-box-models.php:106
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:106
+msgid "%s Statistics in the last %s days"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-browsers.php:168
+#: includes/admin/meta-box/wp-statistics-meta-box-devices.php:108
+#: includes/admin/meta-box/wp-statistics-meta-box-models.php:108
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:108
+msgid "%s Statistics from %s to %s"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-devices.php:77
+#: includes/class-wp-statistics-user-agent.php:42
+msgctxt "Device"
+msgid "Unknown"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-devices.php:106
+#: includes/admin/meta-box/wp-statistics-meta-box-devices.php:108
+msgid "Devices"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-exclusions.php:61
+msgid "Exclusions in the last %s days"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-exclusions.php:63
+msgid "Exclusions from %s to %s"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-hits.php:91
+msgid "Hits in the last %s days"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-hits.php:93
+#: includes/admin/meta-box/wp-statistics-meta-box-pages-chart.php:72
+msgid "Hits from %s to %s"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-models.php:77
+#: includes/class-wp-statistics-user-agent.php:43
+msgctxt "Model"
+msgid "Unknown"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-models.php:106
+#: includes/admin/meta-box/wp-statistics-meta-box-models.php:108
+msgid "Manufacturers"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-pages-chart.php:70
+msgid "Hits in the in the last %s days"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:77
+#: includes/class-wp-statistics-user-agent.php:40
+#: includes/class-wp-statistics-user-agent.php:123
+msgctxt "Platform"
+msgid "Unknown"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:106
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:108
+#: includes/class-wp-statistics-menus.php:256
+msgid "Platforms"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-post.php:21
+msgid "This post is not yet published."
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-post.php:61
+msgid "Number of Hits"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-referring.php:35
+#: includes/admin/templates/pages/top.refer.php:22
+msgid "Server IP"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-referring.php:36
+#: includes/admin/templates/pages/top.refer.php:26
+msgid "References"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-search.php:67
+msgid "Search engine referrals in the last %s days"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-search.php:69
+msgid "Search engine referrals from %s to %s"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-summary.php:33
+#: includes/class-wp-statistics-meta-box.php:147
+#: includes/class-wp-statistics-widget.php:118
+#: includes/class-wp-statistics-widget.php:308
+msgid "Search Engine Referrals"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-summary.php:34
+msgid "Current Time and Date"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-summary.php:35
+msgid "(Adjustment)"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-top-pages-chart.php:65
+msgid "Top 5 Trending Pages in the last %s days"
+msgstr ""
+
+#: includes/admin/meta-box/wp-statistics-meta-box-top-pages-chart.php:67
+msgid "Top 5 Trending Pages from %s to %s"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-authors.php:39
+msgid "Author Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-authors.php:51
+msgid "Select Author"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-authors.php:79
+msgid "Top Author Sorted by Hits"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-authors.php:90
+msgid "Top posts Sorted by Hits from the author"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-browsers.php:37
+msgid "Browser Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-category.php:39
+msgid "Category Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-category.php:51
+msgid "Select Category"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-category.php:82
+msgid "Top Category Sorted by Hits"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-category.php:93
+msgid "Top posts Sorted by Hits in this category"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-country.php:36
+msgid "Top Countries"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-exclusions.php:35
+msgid "Exclusions Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-hits.php:34
+#: includes/class-wp-statistics-meta-box.php:139
+#: includes/class-wp-statistics-meta-box.php:209
+msgid "Hit Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-online.php:34
+msgid "Currently, there are no online users on the site."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:57
+msgid "IP Addresses replaced with hash values."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:65
+msgid "Install routine complete."
+msgstr ""
+
+#. translators: %s: Table name.
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:87
+msgid "The %s table is okay."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:90
+msgid "The %1$s table is not okay. It is reporting the following error: %2$s. WordPress will attempt to repair this table&hellip;"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:95
+msgid "Successfully repaired the %s table."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:97
+msgid "Failed to repair the %1$s table. Error: %2$s"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:106
+msgid "The %s table is already optimized."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:111
+msgid "Successfully optimized the %s table."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:151
+msgid "Updated Historical Values."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:32
+msgid "Your request is not valid."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:63
+msgid "Top Pages"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:109
+msgid "Page Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-platforms.php:37
+msgid "Platform Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-plugins.php:101
+msgid "Add-On activated."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-plugins.php:110
+msgid "Add-On deactivated."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-refer.php:37
+msgid "Top Referring Sites"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-refer.php:81
+msgid "Referring site: %s"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-searches.php:34
+msgid "Search Engine Referral Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:105
+msgid "Error Updating Referrer Spam Blacklist."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:107
+msgid "Updated Referrer Spam Blacklist."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:139
+msgid "Saved Settings."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:144
+msgid "All settings reset."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:354
+msgid "WP Statistics Honey Pot Page"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:355
+msgid "This is the Honey Pot for WP Statistics to use, do not delete."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-tags.php:40
+msgid "Tag Statistics"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-tags.php:52
+msgid "Select Tag"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-tags.php:83
+msgid "Top Tag Sorted by Hits"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-tags.php:94
+msgid "Top posts Sorted by Hits in this tag"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:32
+#: includes/class-wp-statistics-meta-box.php:171
+msgid "Recent Visitors"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:156
+msgid "Custom filter"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:203
+msgid "Filters"
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-words.php:36
+#: includes/class-wp-statistics-meta-box.php:194
+msgid "Latest Search Words"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:30
+msgid "Version:"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:31
+#: includes/admin/templates/settings/general.php:241
+msgid "Status:"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:34
+msgid "Active"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:36
+msgid "Inactive"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:38
+#: includes/admin/templates/optimization/resources.php:149
+#: includes/admin/templates/optimization/resources.php:165
+#: includes/admin/templates/optimization/resources.php:181
+msgid "Not installed"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:45
+msgid "Deactivate Add-On"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:47
+msgid "Activate Add-On"
+msgstr ""
+
+#: includes/admin/templates/add-ons.php:51
+msgid "Buy Add-On"
+msgstr ""
+
+#: includes/admin/templates/layout/date.range.php:15
+msgid "Select"
+msgstr ""
+
+#: includes/admin/templates/layout/date.range.php:30
+#: includes/class-wp-statistics-shortcode.php:186
+msgid "Time Frame"
+msgstr ""
+
+#: includes/admin/templates/layout/select.php:5
+msgid "Select Page"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-optimization.php:2
+msgid "Resources/Information"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-optimization.php:3
+#: includes/admin/templates/optimization/export.php:9
+msgid "Export"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-optimization.php:4
+msgid "Purging"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-optimization.php:5
+msgid "Database"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-optimization.php:6
+msgid "Updates"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-optimization.php:7
+msgid "Historical"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:3
+msgid "General"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:4
+msgid "IP Configuration"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:5
+msgid "Privacy"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:6
+msgid "Notifications"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:7
+#: includes/admin/templates/settings/overview-display.php:15
+msgid "Dashboard"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:8
+msgid "Roles"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:10
+msgid "Externals"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:11
+msgid "Maintenance"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:12
+#: includes/admin/templates/settings/reset.php:15
+msgid "Reset"
+msgstr ""
+
+#: includes/admin/templates/layout/tabs-settings.php:13
+msgid "About"
+msgstr ""
+
+#: includes/admin/templates/meta-box/about.php:17
+#: includes/admin/templates/settings/about.php:117
+msgid "Documentation"
+msgstr ""
+
+#: includes/admin/templates/meta-box/about.php:18
+#: includes/class-wp-statistics-menus.php:291
+#: includes/class-wp-statistics-menus.php:292
+msgid "Add-Ons"
+msgstr ""
+
+#: includes/admin/templates/meta-box/about.php:19
+msgid "Rate & Review"
+msgstr ""
+
+#: includes/admin/templates/meta-box/about.php:21
+msgid "Power by VeronaLabs"
+msgstr ""
+
+#: includes/admin/templates/meta-box/about.php:30
+msgid "Disable or customize this widget by <a href=\"%1$s\" target=\"_blank\">Customization Add-On!</a>"
+msgstr ""
+
+#: includes/admin/templates/meta-box/pages-visitor-preview.php:3
+msgid "View Page's Visitors information inside the Meta Box"
+msgstr ""
+
+#: includes/admin/templates/meta-box/pages-visitor-preview.php:4
+msgid "Discover the latest visitor statistics and learn more about the page"
+msgstr ""
+
+#: includes/admin/templates/meta-box/pages-visitor-preview.php:5
+msgid "Unlock Visitors Information by Advanced Widgets!"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:8
+msgid "Database Setup"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:13
+msgid "Re-run Install:"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:17
+msgid "Install Now!"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:18
+msgid "If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process."
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:32
+msgid "Repair and Optimization Database Tables"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:37
+msgid "Optimize Table:"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:41
+#: includes/admin/templates/optimization/export.php:19
+#: includes/admin/templates/optimization/export.php:38
+#: includes/admin/templates/optimization/purging.php:211
+#: includes/admin/templates/optimization/purging.php:275
+#: includes/admin/templates/optimization/purging.php:299
+#: includes/admin/templates/settings/exclusions.php:119
+#: includes/admin/templates/settings/general.php:222
+#: includes/admin/templates/settings/notifications.php:93
+#: includes/admin/templates/settings/notifications.php:128
+msgid "Please select"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:49
+msgid "Please select the table you would like to optimize and repair"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:53
+msgid "Run Now!"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:67
+msgid "Please select database table"
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:14
+msgid "Export from:"
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:27
+msgid "Select the table for the output file."
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:33
+msgid "Export To:"
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:44
+msgid "Select the output file type."
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:50
+msgid "Include Header Row:"
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:55
+msgid "Include a header row as the first line of the exported file."
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:56
+msgid "Start Now!"
+msgstr ""
+
+#: includes/admin/templates/optimization/historical.php:16
+msgid "Historical Values"
+msgstr ""
+
+#: includes/admin/templates/optimization/historical.php:21
+msgid "Note: As you have just purged the database you must reload this page for these numbers to be correct."
+msgstr ""
+
+#: includes/admin/templates/optimization/historical.php:31
+msgid "Number of historical number of visitors to the site (current value is %s)."
+msgstr ""
+
+#: includes/admin/templates/optimization/historical.php:41
+msgid "Number of historical number of visits to the site (current value is %s)."
+msgstr ""
+
+#: includes/admin/templates/optimization/historical.php:48
+#: includes/admin/templates/optimization/updates.php:19
+#: includes/admin/templates/optimization/updates.php:36
+msgid "Update Now!"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:10
+#: includes/admin/templates/optimization/purging.php:42
+#: includes/admin/templates/optimization/purging.php:73
+#: includes/admin/templates/optimization/purging.php:104
+#: includes/admin/templates/optimization/purging.php:137
+#: includes/admin/templates/optimization/purging.php:170
+msgid "Are you sure?"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:201
+msgid "Data"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:206
+msgid "Empty Table:"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:220
+msgid "All data table will be lost."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:221
+msgid "Clear now!"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:229
+msgid "Purge records older than:"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:234
+#: includes/admin/templates/settings/maintenance.php:36
+msgid "Days"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:236
+msgid "Delete user statistics data older than the selected number of days."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:236
+msgid "Minimum value is 30 days."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:237
+#: includes/admin/templates/optimization/purging.php:253
+msgid "Purge now!"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:245
+msgid "Purge visitors with more than:"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:252
+msgid "Delete user statistics data where the user has more than the defined number of hits in a day."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:252
+msgid "This can be useful to clear up old data when your site has been hit by a bot."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:252
+msgid "This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:252
+#: includes/admin/templates/settings/maintenance.php:71
+msgid "Minimum value is 10 hits."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:265
+msgid "Delete User Agent Types"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:270
+msgid "Delete Agents:"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:285
+msgid "All visitor data will be lost for this agent type."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:286
+#: includes/admin/templates/optimization/purging.php:312
+#: includes/admin/templates/optimization/purging.php:327
+msgid "Delete now!"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:294
+msgid "Delete Platforms:"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:311
+msgid "All visitor data will be lost for this platform type."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:320
+msgid "Delete IP:"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:326
+msgid "All visitor data will be lost for this IP."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:6
+msgid "Resources"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:11
+#: includes/admin/templates/optimization/resources.php:15
+msgid "Memory usage in PHP"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:21
+msgid "PHP Memory Limit"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:26
+msgid "The memory limit a script is allowed to consume, set in php.ini."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:35
+msgid "Number of rows in the %s table"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:38
+msgid "Row"
+msgid_plural "Rows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/templates/optimization/resources.php:39
+msgid "Number of rows"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:52
+msgid "Version Info"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:57
+msgid "WP Statistics Version"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:62
+msgid "The WP Statistics version you are running."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:68
+msgid "PHP Version"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:73
+msgid "The PHP version you are running."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:79
+msgid "PHP Safe Mode"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:84
+#: includes/admin/templates/optimization/resources.php:100
+#: includes/admin/templates/settings/general.php:276
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:86
+#: includes/admin/templates/optimization/resources.php:102
+#: includes/admin/templates/settings/general.php:277
+msgid "No"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:89
+msgid "Is PHP Safe Mode active. The GeoIP code is not supported in Safe Mode."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:95
+msgid "PHP IPv6 Enabled"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:104
+msgid "Is PHP compiled with IPv6 support. You may see warning messages in your PHP log if it is not and you receive HTTP headers with IPv6 addresses in them."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:110
+msgid "jQuery Version"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:118
+msgid "The jQuery version you are running."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:124
+msgid "cURL Version"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:132
+msgid "cURL not installed"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:135
+msgid "The PHP cURL Extension version you are running. cURL is required for the GeoIP code, if it is not installed GeoIP will be disabled."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:142
+msgid "Zlib gzopen()"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:147
+#: includes/admin/templates/optimization/resources.php:163
+#: includes/admin/templates/optimization/resources.php:179
+msgid "Installed"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:152
+msgid "If the gzopen() function is installed. The gzopen() function is required for the GeoIP database to be downloaded successfully."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:158
+msgid "GMP PHP extension"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:168
+msgid "If the GMP Math PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:174
+msgid "BCMath PHP extension"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:184
+msgid "If the BCMath PHP extension is loaded, either GMP or BCMath is required for the GeoIP database to be read successfully."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:194
+msgid "File Info"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:199
+msgid "GeoIP Database"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:208
+msgid "Database file does not exist."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:210
+msgid ", created on "
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:215
+msgid "The file size and date of the GeoIP database."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:225
+msgid "Client Info"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:230
+msgid "Client IP"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:235
+msgid "The client IP address."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:241
+msgid "User Agent"
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:246
+msgid "The client user agent string."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:260
+msgid "The detected client browser."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:271
+msgid "The detected client browser version."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:282
+msgid "The detected client platform."
+msgstr ""
+
+#: includes/admin/templates/optimization/resources.php:292
+msgid "Server Info"
+msgstr ""
+
+#: includes/admin/templates/optimization/updates.php:9
+msgid "GeoIP Options"
+msgstr ""
+
+#: includes/admin/templates/optimization/updates.php:14
+msgid "Countries:"
+msgstr ""
+
+#: includes/admin/templates/optimization/updates.php:20
+msgid "Updates any unknown location data in the database, this may take a while"
+msgstr ""
+
+#: includes/admin/templates/optimization/updates.php:26
+msgid "IP Addresses"
+msgstr ""
+
+#: includes/admin/templates/optimization/updates.php:31
+#: includes/admin/templates/settings/privacy.php:25
+msgid "Hash IP Addresses:"
+msgstr ""
+
+#: includes/admin/templates/optimization/updates.php:36
+msgid "This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?"
+msgstr ""
+
+#: includes/admin/templates/optimization/updates.php:37
+msgid "Replace IP addresses in the database with hash values, you will not be able to recover the IP addresses in the future to populate location information afterwards and this may take a while"
+msgstr ""
+
+#: includes/admin/templates/pages/author.php:6
+#: includes/admin/templates/pages/author.php:23
+#: includes/admin/templates/pages/author.php:70
+#: includes/admin/templates/pages/category.php:6
+#: includes/admin/templates/pages/category.php:23
+#: includes/admin/templates/pages/category.php:70
+#: includes/admin/templates/pages/pages.php:6
+#: includes/admin/templates/pages/pages.php:24
+#: includes/admin/templates/pages/refer.url.php:19
+#: includes/admin/templates/pages/tag.php:6
+#: includes/admin/templates/pages/tag.php:23
+#: includes/admin/templates/pages/tag.php:70
+msgid "Toggle panel: %s"
+msgstr ""
+
+#: includes/admin/templates/pages/author.php:6
+#: includes/admin/templates/pages/author.php:9
+msgid "Author Statistics Chart"
+msgstr ""
+
+#: includes/admin/templates/pages/author.php:23
+#: includes/admin/templates/pages/author.php:26
+msgid "Author Statistics Summary"
+msgstr ""
+
+#: includes/admin/templates/pages/author.php:39
+msgid "Number of posts by author:"
+msgstr ""
+
+#: includes/admin/templates/pages/author.php:48
+#: includes/admin/templates/pages/tag.php:48
+msgid "Visits Total:"
+msgstr ""
+
+#: includes/admin/templates/pages/author.php:53
+#: includes/admin/templates/pages/category.php:53
+#: includes/admin/templates/pages/tag.php:53
+msgid "All Time Visits:"
+msgstr ""
+
+#: includes/admin/templates/pages/category.php:6
+#: includes/admin/templates/pages/category.php:9
+msgid "Category Statistics Chart"
+msgstr ""
+
+#: includes/admin/templates/pages/category.php:23
+#: includes/admin/templates/pages/category.php:26
+msgid "Category Statistics Summary"
+msgstr ""
+
+#: includes/admin/templates/pages/category.php:39
+msgid "The Number of Posts in Category:"
+msgstr ""
+
+#: includes/admin/templates/pages/category.php:48
+msgid "Chart Visits:"
+msgstr ""
+
+#: includes/admin/templates/pages/exclusions.php:26
+#: includes/admin/templates/pages/hits.php:29
+msgid "Chart Total:"
+msgstr ""
+
+#: includes/admin/templates/pages/exclusions.php:31
+#: includes/admin/templates/pages/hits.php:37
+msgid "All Time Total:"
+msgstr ""
+
+#: includes/admin/templates/pages/online.php:19
+msgid "Online For"
+msgstr ""
+
+#: includes/admin/templates/pages/online.php:45
+#: includes/admin/templates/settings/notifications.php:129
+msgid "Email"
+msgstr ""
+
+#: includes/admin/templates/pages/online.php:50
+#: includes/admin/templates/pages/refer.url.php:53
+#: includes/admin/templates/pages/top-visitors.php:59
+#: includes/admin/templates/pages/visitors.php:67
+#: includes/admin/templates/settings/overview-display.php:32
+msgid "Map"
+msgstr ""
+
+#: includes/admin/templates/pages/page-chart.php:18
+msgid "Toggle panel: Top Pages"
+msgstr ""
+
+#: includes/admin/templates/pages/pages.php:6
+#: includes/admin/templates/pages/pages.php:9
+#: includes/class-wp-statistics-meta-box.php:215
+msgid "Top 5 Trending Pages"
+msgstr ""
+
+#: includes/admin/templates/pages/refer.url.php:25
+#: includes/admin/templates/pages/top.refer.php:15
+#: includes/admin/templates/pages/visitors.php:21
+#: includes/admin/templates/pages/words.php:21
+msgid "No information is available."
+msgstr ""
+
+#: includes/admin/templates/pages/tag.php:6
+#: includes/admin/templates/pages/tag.php:9
+msgid "Tag Statistics Chart"
+msgstr ""
+
+#: includes/admin/templates/pages/tag.php:23
+#: includes/admin/templates/pages/tag.php:26
+msgid "Tag Statistics Summary"
+msgstr ""
+
+#: includes/admin/templates/pages/tag.php:39
+msgid "Number of posts in tag:"
+msgstr ""
+
+#: includes/admin/templates/pages/top-visitors.php:14
+msgid "No information is available for this day."
+msgstr ""
+
+#: includes/admin/templates/pages/top.refer.php:19
+msgid "Rating"
+msgstr ""
+
+#: includes/admin/templates/pages/top.refer.php:20
+msgid "Site Url"
+msgstr ""
+
+#: includes/admin/templates/pages/top.refer.php:21
+msgid "Site Title"
+msgstr ""
+
+#: includes/admin/templates/plugins.php:4
+msgid "Extensions for WP Statistics"
+msgstr ""
+
+#: includes/admin/templates/plugins.php:6
+msgid "These extensions add functionality to your WP Statistics."
+msgstr ""
+
+#: includes/admin/templates/postbox.php:4
+msgid "Subscribe to Newsletter"
+msgstr ""
+
+#: includes/admin/templates/postbox.php:8
+msgid "Subscribe to our mailing list for get any news of the WP Statistics"
+msgstr ""
+
+#: includes/admin/templates/postbox.php:12
+msgid "Subscribe"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:14
+msgid "WP Statistics v%s"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:21
+msgid "This product is developed by %s and includes GeoLite2 data created by %s."
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:35
+msgid "Donate"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:40
+msgid "Feel like showing us how much you enjoy WP Statistics? Drop by our %sdonation%s page and show us some love!"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:50
+msgid "Visit Us Online"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:55
+msgid "Come visit our great new %swebsite%s and keep up to date on the latest news about WP Statistics."
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:65
+msgid "Rate and Review at WordPress.org"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:70
+msgid "Thanks for installing WP Statistics, we encourage you to submit a %srating and review%s over at WordPress.org. Your feedback is greatly appreciated!"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:81
+msgid "Translations"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:86
+msgid "WP Statistics supports internationalization. Please visit %sWP Statistics translations page%s to help translation."
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:96
+msgid "Support"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:101
+msgid "We're sorry you're having problem with WP Statistics and we're happy to help out. Here are a few things to do before contacting us:"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:108
+msgid "Have you read the %sFAQs%s?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:110
+msgid "FAQs"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:115
+msgid "Have you read the %sdocumentation%s?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:122
+msgid "Have you search the %ssupport forum%s for a similar issue?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:126
+msgid "Have you search the Internet for any error messages you are receiving?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:130
+msgid "Make sure you have access to your PHP error logs."
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:133
+msgid "And a few things to double-check:"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:136
+msgid "How's your memory_limit in php.ini?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:137
+msgid "Have you tried disabling any other plugins you may have installed?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:141
+msgid "Have you tried using the default WordPress theme?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:142
+msgid "Have you double checked the plugin settings?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:143
+msgid "Do you have all the required PHP extensions installed?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:144
+msgid "Are you getting a blank or incomplete page displayed in your browser?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:149
+msgid "Did you view the source for the page and check for any fatal errors?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:153
+msgid "Have you checked your PHP and web server error logs?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:156
+msgid "Still not having any luck?"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:156
+msgid "Then please open a new thread on the %sWordPress.org support forum%s and we'll respond as soon as possible."
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:9
+msgid "User Roles"
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:40
+msgid "Required User Level to View WP Statistics:"
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:61
+msgid "Required User Level to Manage WP Statistics:"
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:70
+msgid "See the %sWordPress Roles and Capabilities%s page for details on capability levels."
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:71
+msgid "Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone."
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:72
+msgid "Each of the above cascades the rights upwards in the default WordPress configuration. For example, selecting publish_posts grants the right to Authors, Editors, Admins, and Super Admins."
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:73
+msgid "If you need a more robust solution to delegate access, you might want to look at %s Capability Manager Enhanced %s in the WordPress plugin directory."
+msgstr ""
+
+#: includes/admin/templates/settings/access-level.php:81
+#: includes/admin/templates/settings/exclusions.php:220
+#: includes/admin/templates/settings/externals.php:216
+#: includes/admin/templates/settings/general.php:365
+#: includes/admin/templates/settings/maintenance.php:78
+#: includes/admin/templates/settings/notifications.php:198
+#: includes/admin/templates/settings/overview-display.php:54
+#: includes/admin/templates/settings/privacy.php:62
+#: includes/admin/templates/settings/reset.php:23
+#: includes/admin/templates/settings/visitor-ip.php:155
+msgid "Update"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:9
+msgid "Record Exclusions:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:12
+#: includes/admin/templates/settings/exclusions.php:76
+#: includes/admin/templates/settings/exclusions.php:111
+#: includes/admin/templates/settings/exclusions.php:130
+#: includes/admin/templates/settings/externals.php:24
+#: includes/admin/templates/settings/externals.php:41
+#: includes/admin/templates/settings/externals.php:56
+#: includes/admin/templates/settings/externals.php:95
+#: includes/admin/templates/settings/externals.php:165
+#: includes/admin/templates/settings/externals.php:193
+#: includes/admin/templates/settings/general.php:21
+#: includes/admin/templates/settings/general.php:45
+#: includes/admin/templates/settings/general.php:66
+#: includes/admin/templates/settings/general.php:86
+#: includes/admin/templates/settings/general.php:97
+#: includes/admin/templates/settings/general.php:108
+#: includes/admin/templates/settings/general.php:128
+#: includes/admin/templates/settings/general.php:139
+#: includes/admin/templates/settings/general.php:155
+#: includes/admin/templates/settings/general.php:193
+#: includes/admin/templates/settings/general.php:205
+#: includes/admin/templates/settings/general.php:246
+#: includes/admin/templates/settings/general.php:290
+#: includes/admin/templates/settings/general.php:311
+#: includes/admin/templates/settings/general.php:356
+#: includes/admin/templates/settings/maintenance.php:24
+#: includes/admin/templates/settings/maintenance.php:58
+#: includes/admin/templates/settings/notifications.php:43
+#: includes/admin/templates/settings/notifications.php:55
+#: includes/admin/templates/settings/notifications.php:76
+#: includes/admin/templates/settings/notifications.php:190
+#: includes/admin/templates/settings/privacy.php:18
+#: includes/admin/templates/settings/privacy.php:29
+#: includes/admin/templates/settings/privacy.php:41
+#: includes/admin/templates/settings/privacy.php:53
+msgid "Enable"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:13
+msgid "This option will record all the excluded hits in a separate table with the reasons for excluding (but no other information)."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:13
+msgid "It generates a lot of data, not only actual user visits but also shows the total number of your site’s hits."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:23
+msgid "Exclude User Roles"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:39
+#: includes/admin/templates/settings/exclusions.php:190
+#: includes/admin/templates/settings/exclusions.php:197
+#: includes/admin/templates/settings/exclusions.php:204
+msgid "Exclude"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:40
+msgid "Exclude %s role from data collection."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:51
+msgid "IP/Robot Exclusions"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:55
+msgid "Robot List:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:66
+msgid "It is a list of words (one per line) to match against to detect robots. Entries must be at least four characters long, or they will be ignored."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:67
+msgid "Reset to Default"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:73
+msgid "Force Robot List Update After Upgrades:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:77
+msgid "Force the robot list to reset itself to the default after WP Statistics updated. Note that any custom robots added to the list will be lost if this option is enabled."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:83
+msgid "Robot Visit Threshold:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:87
+msgid "Treat visitors with more than this number of visits per day as robots. 0 = disabled."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:92
+msgid "Excluded IP Address List:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:95
+msgid "You can add a list of IP addresses and subnet masks (one per line) to exclude from the statistics collection."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:96
+msgid "For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are acceptable. To specify an IP address, use a subnet value of 32 or 255.255.255.255."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:97
+msgid "For IPv6 addresses, use the fc00::/7 format."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:101
+msgid "Add"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:109
+msgid "Use Honey Pot:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:112
+msgid "Enable this option for identifying robots by the Honey Pot page."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:117
+msgid "Honey Pot Page"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:120
+msgid "Select the page for the Honey Pot page or create a new one."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:121
+msgid "Create a new Honey Pot page"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:127
+msgid "Treat Corrupt Browser Info as a Bot:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:131
+msgid "Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:141
+msgid "GeoIP Exclusions"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:145
+msgid "Excluded Countries:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:148
+msgid "Add the country codes (one per line, two letters each) to exclude them from statistics collection."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:148
+#: includes/admin/templates/settings/exclusions.php:156
+msgid "Use \"000\" (three zeros) to exclude unknown countries."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:148
+#: includes/admin/templates/settings/exclusions.php:156
+msgid "(%1$sISO 3166 Country Codes%2$s)"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:153
+msgid "Included Countries:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:156
+msgid "Add the country codes (one per line, two letters each) to include them in statistics collection."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:166
+msgid "Host Exclusions"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:170
+msgid "Excluded Hosts:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:173
+msgid "You can add a list of fully qualified host names (i.e. server.example.com, one per line) to exclude from statistics collection."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:174
+msgid "Note: This option will NOT perform a reverse DNS lookup on each page load but instead cache the provided hostnames’ IP address for one hour. If you exclude dynamically assigned hosts, you may find some overlap when the host changes its IP address and when the cache is updated, resulting in some hits recorded."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:184
+msgid "Site URL Exclusions"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:188
+msgid "Excluded Login Page:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:191
+msgid "Exclude the login page for registering as a hit."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:195
+msgid "Excluded RSS Feeds:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:198
+msgid "Exclude the RSS feeds for registering as a hit."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:202
+msgid "Excluded 404 Pages:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:205
+msgid "Exclude any URL that returns a \"404 - Not Found\" message."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:209
+msgid "Excluded URLs:"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:212
+msgid "You can add a list of local URLs (i.e.  /wordpress/about, one per line) to exclude from statistics collection."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:213
+msgid "Note: This option will NOT handle URL parameters (anything after the ?), only to the script name. Entries less than two characters will be ignored."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:5
+msgid "GeoIP Settings"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:10
+msgid "IP location services are provided by data created by %s."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:18
+msgid "GeoIP Collection:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:26
+#: includes/admin/templates/settings/externals.php:43
+msgid "Update Database"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:29
+msgid "Enable this option to get more information and location (country) from a visitor."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:35
+msgid "GeoIP City:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:45
+msgid "Enable this option to see visitors'city name"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:51
+msgid "Schedule Monthly Update of GeoIP DB:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:59
+#: includes/admin/templates/settings/externals.php:196
+msgid "Next update will be"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:61
+#: includes/class-wp-statistics-schedule.php:157
+msgid "First Tuesday of this month"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:64
+msgid "First Tuesday of next month"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:83
+msgid "Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:84
+msgid "This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place)."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:90
+msgid "Populate Missing GeoIP After Updating GeoIP DB:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:96
+msgid "Enable this option to update any missing GeoIP data after downloading a new database."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:102
+msgid "Country Code for Private IP Addresses:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:107
+msgid "The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.)."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:107
+msgid "Use \"000\" (three zeros) to use \"Unknown\" as the country code."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:116
+msgid "GeoIP collection is disabled due to the following reasons:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:120
+msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:126
+msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:132
+msgid "PHP safe mode detected! GeoIP collection is not supported with PHP's safe mode enabled!"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:148
+msgid "Matomo Referrer Spam Blacklist Settings"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:154
+msgid "Referrer spam blacklist is provided by Matomo, available from %s."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:160
+msgid "Matomo Referrer Spam Blacklist Usage:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:166
+msgid "Enable this option to download The Matomo Referrer Spam Blacklist database and detect referrer spam."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:174
+msgid "Update Matomo Referrer Spam Blacklist Info:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:180
+msgid "Click button to download the update."
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:188
+msgid "Schedule weekly update of Matomo Referrer Spam Blacklist DB:"
+msgstr ""
+
+#: includes/admin/templates/settings/externals.php:209
+msgid "Download of the Matomo Referrer Spam Blacklist database will be scheduled for once a week."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:16
+msgid "Online User:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:22
+msgid "Enable this feature to show online users"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:28
+msgid "Check for Online Users Every:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:33
+msgid "Seconds"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:34
+msgid "Time for checking out accurate online users on the site. Now: %s Seconds"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:40
+msgid "Record All Users:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:46
+msgid "Enable this option to ignore the exclusion settings and record all online users (including self referrals and robots). Should only be used for troubleshooting."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:61
+msgid "Visits:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:67
+msgid "Enable this option to show the number of Page Views"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:82
+msgid "Visitors:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:87
+msgid "Enable this option to show the number of Page Hits (It is the number of unique users which have visited your site)"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:93
+msgid "Log Visitors Pages:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:98
+msgid "Enable this option to receive a report of each user’s visits to the pages"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:104
+msgid "User Visits Column"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:109
+msgid "Enable this option to show the list of user visits, link in the WordPress admin user list page."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:119
+msgid "Pages and Posts"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:124
+msgid "Pages:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:129
+msgid "Enable this option to count the Pages visits"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:135
+msgid "Track All Pages:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:140
+msgid "Enable or disable this feature"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:141
+msgid "Track all WordPress pages, contains Category, Post Tags, Author, Custom Taxonomy, etc."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:150
+msgid "Strip URL Parameters:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:156
+msgid "Enable this option to remove everything after the “?” in a URL"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:165
+msgid "Hits Chart Metabox"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:170
+#: includes/admin/templates/settings/general.php:181
+#: includes/admin/templates/settings/general.php:335
+#: includes/admin/templates/settings/overview-display.php:25
+#: includes/admin/templates/settings/overview-display.php:42
+msgid "Disable"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:171
+msgid "Disable showing the hits chart metabox in the edit pages."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:177
+msgid "Hits Column"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:182
+msgid "Disable showing the hits column in list pages."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:188
+msgid "Hits in Publish Metabox"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:194
+msgid "Enable this option to show hits on the edit page » Publish meta box of all post types"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:200
+msgid "Hits in Single Pages"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:206
+msgid "Enable this option to show the hits in post content"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:217
+msgid "Display position:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:223
+msgid "Before Content"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:224
+msgid "After Content"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:226
+msgid "Choose the position to show Hits."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:236
+msgid "Cache Compatibility"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:247
+msgid "Enable this option if the Cache is enabled in your WordPress"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:250
+msgid "To register WP Statistics REST API endpoint ( %s ) , go to the <a href=\"%s\">Permalink page</a> and update the permalink by pressing Save Changes and then clear the cache."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:252
+msgid "To prevent Google index the REST API endpoints, add the below code in <strong>robots.txt</strong>"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:266
+msgid "Miscellaneous"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:271
+msgid "Show Stats in Menu Bar:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:279
+msgid "Select Yes to show stats in the admin menu bar"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:285
+msgid "Hide Admin Notices About Non-active Features:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:291
+msgid "WP Statistics displays an alert if any of the core features are disabled. To hide these notices, enable this option."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:301
+#: includes/class-wp-statistics-menus.php:207
+msgid "Search Engines"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:306
+msgid "Add Page Title to Empty Search Words:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:312
+msgid "If a search engine is identified as the referrer but it does not include the search query this option will substitute the page title in quotes preceded by \"~:\" as the search query to help identify what the user may have been searching for."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:318
+msgid "Disabling all search engines is not allowed. Doing so will result in all search engines being active."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:336
+msgid "Disable %s from data collection and reporting."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:347
+msgid "Charts"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:352
+msgid "Include Totals:"
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:357
+msgid "Add a total line to charts with multiple values, like the search engine referrals"
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:5
+msgid "This will permanently delete data from the database each day, are you sure you want to enable this option?"
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:14
+msgid "Purge Old Data Daily"
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:19
+#: includes/admin/templates/settings/maintenance.php:53
+msgid "Enabled:"
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:25
+msgid "A WP Cron job will be run daily to purge any data older than a set number of days."
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:31
+msgid "Purge Data Older Than:"
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:37
+msgid "The number of days to keep statistics for."
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:37
+msgid "The minimum value is 30 days."
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:37
+#: includes/admin/templates/settings/maintenance.php:71
+msgid "Invalid values will disable the daily maintenance."
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:47
+msgid "Purge High Hit Count Visitors Daily"
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:59
+msgid "A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot)."
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:65
+msgid "Purge Visitors More Than:"
+msgstr ""
+
+#: includes/admin/templates/settings/maintenance.php:71
+msgid "The number of hits required to delete the visitor."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:10
+msgid "Common Report Options"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:15
+msgid "Email Addresses:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:23
+msgid "Add email addresses you want to receive reports and separate them with a comma."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:33
+msgid "Update Reports"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:38
+msgid "GeoIP:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:44
+msgid "Enable it to send a report whenever the GeoIP database is updated."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:50
+msgid "Pruning:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:56
+msgid "Enable it to send a report whenever the pruning of the database is run."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:66
+#: includes/class-wp-statistics-schedule.php:229
+msgid "Statistical reporting"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:71
+msgid "Statistical Reports:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:77
+msgid "Enable this option to receive stats report via email"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:88
+msgid "Schedule:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:116
+msgid "Select how often to receive statistical report."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:117
+msgid "To set your own schedule, check out <a href=\"%s\" target=\"_blank\">this doc</a>."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:123
+msgid "Send reports via:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:131
+msgid "SMS"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:135
+msgid "Select delivery method for statistical report."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:137
+msgid "Note: To send SMS text messages please install the %s plugin."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:137
+msgid "WP SMS"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:144
+msgid "Message body:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:149
+msgid "Enter the contents of the report."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:152
+msgid "Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message. Here are some examples:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:154
+msgid "Online User"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:156
+#: includes/class-wp-statistics-admin-bar.php:89
+#: includes/class-wp-statistics-widget.php:55
+#: includes/class-wp-statistics-widget.php:272
+msgid "Today's Visitors"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:158
+#: includes/class-wp-statistics-admin-bar.php:93
+#: includes/class-wp-statistics-widget.php:48
+#: includes/class-wp-statistics-widget.php:268
+msgid "Today's Visits"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:160
+#: includes/class-wp-statistics-admin-bar.php:97
+#: includes/class-wp-statistics-widget.php:69
+#: includes/class-wp-statistics-widget.php:280
+msgid "Yesterday's Visitors"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:162
+#: includes/class-wp-statistics-admin-bar.php:101
+#: includes/class-wp-statistics-widget.php:62
+#: includes/class-wp-statistics-widget.php:276
+msgid "Yesterday's Visits"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:164
+#: includes/class-wp-statistics-widget.php:104
+#: includes/class-wp-statistics-widget.php:300
+msgid "Total Visitors"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:166
+#: includes/class-wp-statistics-widget.php:97
+#: includes/class-wp-statistics-widget.php:296
+msgid "Total Visits"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:180
+msgid "Admin Notices"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:185
+msgid "All Notices:"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:191
+msgid "Enable this option to show all notices and suggestions from WP Statistics in the admin."
+msgstr ""
+
+#: includes/admin/templates/settings/overview-display.php:10
+msgid "The following items are global to all users."
+msgstr ""
+
+#: includes/admin/templates/settings/overview-display.php:20
+msgid "Dashboard Widgets:"
+msgstr ""
+
+#: includes/admin/templates/settings/overview-display.php:26
+msgid "This option will disable dashboard widgets."
+msgstr ""
+
+#: includes/admin/templates/settings/overview-display.php:37
+msgid "Map Display:"
+msgstr ""
+
+#: includes/admin/templates/settings/overview-display.php:43
+msgid "This option will disable the map display."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:5
+msgid "Privacy and Data Protection"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:9
+msgid "To delete visitor data, check out <b><a href=\"%s\">Tools → Erase Personal Data</a></b>, and for delete all data, check out here <b><a href=\"%s\">Optimization → Purging</a></b>."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:14
+msgid "Anonymize IP Addresses:"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:19
+msgid "This option anonymize the user IP address because of the data privacy & GDPR. For example, <code>888.888.888.888</code> -> <code>888.888.888.000</code>."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:30
+msgid "By enabling this option, you cannot recover the IP addresses in the future to find out location information, and IP addresses will not be stored in the database but instead used a unique hash."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:30
+msgid "Also, it disables the \"Store entire user agent string\" setting."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:36
+msgid "Store Entire User Agent String:"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:42
+msgid "Only enable it for debugging. If the IP hashes are enabled, this option will be disabled automatically."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:48
+msgid "Do Not Track:"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:54
+msgid "Enabling the do not track mode will respect the user's browser settings for tracking protection. This means that the plugin will not collect or store any data about the user's visits to your website. Please note that this may impact the accuracy of your website's analytics."
+msgstr ""
+
+#: includes/admin/templates/settings/reset.php:5
+msgid "WP Statistics Reset Options"
+msgstr ""
+
+#: includes/admin/templates/settings/reset.php:10
+msgid "Reset Options:"
+msgstr ""
+
+#: includes/admin/templates/settings/reset.php:16
+msgid "Reset all the options to default. Resetting the options will remove all user and global settings but will keep all other data. This action cannot be undone. Note: For multisite installs, this will reset all sites to the default settings."
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:18
+msgid "$_SERVER"
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:19
+msgid "Value"
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:44
+msgid "Your real IP detected by ipify.org service:"
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:58
+msgid "Please check your internet connection and try again."
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:72
+msgid "The items below return the IP address that is different on each server. Is the best way that you choose."
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:88
+msgid "Use %1$s"
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:93
+#: includes/admin/templates/settings/visitor-ip.php:132
+msgid "No available data."
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:98
+#: includes/admin/templates/settings/visitor-ip.php:137
+msgid "Your value required to sanitize user IP"
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:120
+msgid "Use Custom Header"
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:140
+msgid "Fill out this field if your server uses the custom key in <code>$_SERVER</code> for getting the IP."
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:141
+msgid "e.g. <code>HTTP_CF_CONNECTING_IP</code> in CloudFlare."
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:143
+msgid "Show all <code>$_SERVER</code> in your server."
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:34
+msgid "WP Statistics Shortcodes"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:35
+msgid "Stat"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:39
+#: includes/class-wp-statistics-shortcode.php:171
+msgid "Page Visits"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:41
+#: includes/class-wp-statistics-shortcode.php:173
+msgid "Post Count"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:42
+#: includes/class-wp-statistics-shortcode.php:174
+msgid "Page Count"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:43
+#: includes/class-wp-statistics-shortcode.php:175
+msgid "Comment Count"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:44
+#: includes/class-wp-statistics-shortcode.php:176
+msgid "Spam Count"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:45
+#: includes/class-wp-statistics-shortcode.php:177
+msgid "User Count"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:46
+#: includes/class-wp-statistics-shortcode.php:178
+#: includes/class-wp-statistics-widget.php:160
+#: includes/class-wp-statistics-widget.php:351
+msgid "Post Average"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:47
+#: includes/class-wp-statistics-shortcode.php:179
+#: includes/class-wp-statistics-widget.php:167
+#: includes/class-wp-statistics-widget.php:355
+msgid "Comment Average"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:48
+#: includes/class-wp-statistics-shortcode.php:180
+#: includes/class-wp-statistics-widget.php:174
+#: includes/class-wp-statistics-widget.php:359
+msgid "User Average"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:49
+#: includes/class-wp-statistics-shortcode.php:181
+#: includes/class-wp-statistics-widget.php:181
+#: includes/class-wp-statistics-widget.php:363
+msgid "Last Post Date"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:51
+msgid "The statistics you want, see the next table for available options."
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:53
+msgid "Select item ..."
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:60
+msgid "Is the time frame (time periods) for the statistic"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:61
+msgid "Provider"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:62
+#: includes/class-wp-statistics-shortcode.php:199
+msgid "The search provider to get statistics on."
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:63
+msgid "Format"
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:64
+#: includes/class-wp-statistics-shortcode.php:206
+msgid "The format to display numbers in: i18n, english, none."
+msgstr ""
+
+#: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:66
+#: includes/class-wp-statistics-shortcode.php:221
+msgid "The post/page ID to get page statistics on."
+msgstr ""
+
+#: includes/api/v2/class-wp-statistics-api-hit.php:77
+msgid "Visitor Hit recorded successfully."
+msgstr ""
+
+#: includes/api/v2/class-wp-statistics-api-meta-box.php:71
+msgid "The name of MetaBox is invalid on request."
+msgstr ""
+
+#: includes/class-wp-statistics-admin-bar.php:48
+msgid "Page Views"
+msgstr ""
+
+#: includes/class-wp-statistics-admin-bar.php:53
+msgid "Category Views"
+msgstr ""
+
+#: includes/class-wp-statistics-admin-bar.php:58
+msgid "Tag Views"
+msgstr ""
+
+#: includes/class-wp-statistics-admin-bar.php:63
+msgid "Author Views"
+msgstr ""
+
+#: includes/class-wp-statistics-admin-bar.php:107
+msgid "Unlock Mini Chart!"
+msgstr ""
+
+#: includes/class-wp-statistics-db.php:134
+msgid "%s table data deleted successfully."
+msgstr ""
+
+#: includes/class-wp-statistics-db.php:138
+msgid "Error, %s not emptied!"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:17
+msgid "Ajax"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:18
+msgid "Cron job"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:19
+msgid "Crawler Detect"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:20
+msgid "Robot"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:21
+msgid "Broken Link"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:22
+msgid "IP Match"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:23
+msgid "Self Referral"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:24
+#: includes/class-wp-statistics-pages.php:358
+msgid "Login Page"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:25
+msgid "Admin Page"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:26
+msgid "Referrer Spam"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:27
+#: includes/class-wp-statistics-pages.php:355
+msgid "Feed"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:28
+msgid "404"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:29
+msgid "Excluded URL"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:30
+msgid "User Role"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:31
+msgid "Host name"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:32
+msgid "GeoIP"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:33
+msgid "Honeypot"
+msgstr ""
+
+#: includes/class-wp-statistics-exclusion.php:34
+msgid "Robot threshold"
+msgstr ""
+
+#: includes/class-wp-statistics-frontend.php:122
+msgid "Hits: %s"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:263
+msgid "Error the gzopen() function do not exist!"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:280
+msgid "Error to get %s from %s"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:293
+msgid "Error creating GeoIP database directory, make sure your web server has permissions to create directories in: %s"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:302
+msgid "Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:314
+msgid "Error downloading GeoIP database from: %s - %s"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:329
+msgid "Error could not open downloaded GeoIP database for reading: %s"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:338
+msgid "Error could not open destination GeoIP database for writing %s"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:353
+msgid "GeoIP Database updated successfully!"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:373
+msgid "GeoIP update on"
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:398
+msgid "Unable to load the GeoIP database, make sure you have downloaded it in the settings page."
+msgstr ""
+
+#: includes/class-wp-statistics-geoip.php:429
+msgid "Updated %s GeoIP records in the visitors database."
+msgstr ""
+
+#: includes/class-wp-statistics-helper.php:766
+msgid "Category"
+msgstr ""
+
+#: includes/class-wp-statistics-helper.php:766
+#: includes/class-wp-statistics-menus.php:235
+msgid "Tags"
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:320
+msgid "Click here to visit the plugin on WordPress.org"
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:320
+msgid "Visit WordPress.org page"
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:322
+msgid "Click here to rate and review this plugin on WordPress.org"
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:322
+msgid "Rate this plugin"
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:507
+msgid "WP Statistics database requires upgrade."
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:510
+msgid "Upgrade Database"
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:534
+msgid "Database upgrade operation completed!"
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:572
+msgid "Error occurred during operation. Please refresh the page."
+msgstr ""
+
+#: includes/class-wp-statistics-install.php:585
+msgid "Item processed"
+msgstr ""
+
+#: includes/class-wp-statistics-menus.php:228
+msgid "Categories"
+msgstr ""
+
+#: includes/class-wp-statistics-menus.php:242
+msgid "Authors"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:79
+msgid "Quick Stats"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:86
+msgid "Summary"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:93
+msgid "Top 10 Browsers"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:101
+msgid "Top Platforms"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:108
+msgid "Top Devices"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:115
+msgid "Top Device Models"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:123
+msgid "Top 10 Countries"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:131
+msgid "Top Referring"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:155
+msgid "Top 10 Pages"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:163
+msgid "Top 10 Visitors Today"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:178
+msgid "Today's Visitors Map"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:202
+msgid "WP Statistics - v%s"
+msgstr ""
+
+#: includes/class-wp-statistics-meta-box.php:220
+msgid "Pages Hits"
+msgstr ""
+
+#: includes/class-wp-statistics-pages.php:342
+msgid "Home Page"
+msgstr ""
+
+#: includes/class-wp-statistics-pages.php:361
+msgid "Search Page"
+msgstr ""
+
+#: includes/class-wp-statistics-pages.php:364
+msgid "404 not found"
+msgstr ""
+
+#: includes/class-wp-statistics-pages.php:367
+msgid "Post Archive"
+msgstr ""
+
+#: includes/class-wp-statistics-privacy-erasers.php:38
+msgid "Visitor data deleted for %s."
+msgstr ""
+
+#: includes/class-wp-statistics-privacy-exporter.php:47
+msgid "Statistics Data"
+msgstr ""
+
+#: includes/class-wp-statistics-privacy-exporter.php:48
+msgid "Visitor's data for user ID #%s"
+msgstr ""
+
+#: includes/class-wp-statistics-purge.php:46
+#: includes/class-wp-statistics-purge.php:76
+#: includes/class-wp-statistics-purge.php:87
+#: includes/class-wp-statistics-purge.php:97
+#: includes/class-wp-statistics-purge.php:160
+msgid "%s data older than %s days purged successfully."
+msgstr ""
+
+#: includes/class-wp-statistics-purge.php:48
+#: includes/class-wp-statistics-purge.php:78
+#: includes/class-wp-statistics-purge.php:89
+#: includes/class-wp-statistics-purge.php:99
+#: includes/class-wp-statistics-purge.php:162
+msgid "No records found to purge from %s!"
+msgstr ""
+
+#: includes/class-wp-statistics-purge.php:167
+#: includes/class-wp-statistics-purge.php:227
+msgid "Database pruned on"
+msgstr ""
+
+#: includes/class-wp-statistics-purge.php:172
+msgid "Please select a value over 30 days."
+msgstr ""
+
+#: includes/class-wp-statistics-purge.php:216
+msgid "%s records purged successfully."
+msgstr ""
+
+#: includes/class-wp-statistics-purge.php:220
+msgid "No visitors found to purge."
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:37
+msgid "Ask.com"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:47
+msgid "Baidu"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:57
+msgid "Bing"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:67
+msgid "clearch.org"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:77
+msgid "DuckDuckGo"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:87
+msgid "Google"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:97
+msgid "Yahoo!"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:107
+msgid "Yandex"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:117
+msgid "Qwant"
+msgstr ""
+
+#: includes/class-wp-statistics-search-engine.php:151
+msgctxt "Search Engine"
+msgid "Unknown"
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:162
+msgid "Statistic"
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:165
+msgid "Select the statistic you wish to display."
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:189
+msgid "The time frame to get the statistic for, strtotime() (http://php.net/manual/en/datetime.formats.php) will be used to calculate it. Use \"total\" to get all recorded dates."
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:196
+msgid "Search Provider"
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:203
+msgid "Number Format"
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:212
+msgid "None"
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:213
+msgid "English"
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:214
+msgid "International"
+msgstr ""
+
+#: includes/class-wp-statistics-shortcode.php:218
+msgid "Post/Page ID"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:35
+#: includes/class-wp-statistics-user-agent.php:158
+msgctxt "Version"
+msgid "Unknown"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:39
+#: includes/class-wp-statistics-user-agent.php:153
+msgctxt "Browser"
+msgid "Unknown"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:64
+msgid "Chrome"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:65
+msgid "Firefox"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:66
+msgid "Internet Explorer"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:67
+msgid "Edge"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:68
+msgid "Opera"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:69
+msgid "Safari"
+msgstr ""
+
+#: includes/class-wp-statistics-user-agent.php:108
+msgctxt "Device Model"
+msgid "Unknown"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:16
+msgid "Show site stats in sidebar."
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:76
+#: includes/class-wp-statistics-widget.php:284
+msgid "Last 7 Days Visits"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:83
+#: includes/class-wp-statistics-widget.php:288
+msgid "Last 30 Days Visits"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:90
+#: includes/class-wp-statistics-widget.php:292
+msgid "Last 365 Days Visits"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:111
+#: includes/class-wp-statistics-widget.php:304
+msgid "Total Page Views"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:125
+#: includes/class-wp-statistics-widget.php:331
+msgid "Total Posts"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:132
+#: includes/class-wp-statistics-widget.php:335
+msgid "Total Pages"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:139
+#: includes/class-wp-statistics-widget.php:339
+msgid "Total Comments"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:146
+#: includes/class-wp-statistics-widget.php:343
+msgid "Total Spams"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:153
+#: includes/class-wp-statistics-widget.php:347
+msgid "Total Users"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:255
+msgid "Name"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:260
+msgid "Items"
+msgstr ""
+
+#: includes/class-wp-statistics-widget.php:313
+msgid "Select type of search engine"
+msgstr ""
+
+#: includes/class-wp-statistics.php:81
+msgid "Cloning is forbidden."
+msgstr ""
+
+#: includes/class-wp-statistics.php:296
+msgid "Your installed PHP Version is: "
+msgstr ""
+
+#: includes/class-wp-statistics.php:297
+msgid "The <strong>WP Statistics</strong> plugin requires PHP version <strong>"
+msgstr ""
+
+#: includes/class-wp-statistics.php:297
+msgid "</strong> or greater."
+msgstr ""
+
+#: includes/defines/country-codes.php:6
+msgctxt "Country"
+msgid "Unknown"
+msgstr ""
