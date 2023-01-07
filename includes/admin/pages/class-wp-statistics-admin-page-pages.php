@@ -13,7 +13,8 @@ class pages_page
         'useronline',
         'countries',
         'referring',
-        'visitors'
+        'visitors',
+        'top_visitors'
     ];
 
     public function __construct()
