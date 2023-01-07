@@ -10,7 +10,11 @@ class taxonomies_page
 
     public function __construct()
     {
+        add_action('init', [$this, 'init']);
+    }
 
+    public function init()
+    {
         // Check if in taxonomies Page
         if (Menus::in_page('taxonomies')) {
 
@@ -24,7 +28,7 @@ class taxonomies_page
             }
 
             // Get all taxonomies
-            add_action('init', [__CLASS__, 'get_list_taxonomies']);
+            self::$taxonomies = Helper::get_list_taxonomy();
 
             // Set default taxonomies
             self::$defaultTaxonomies = apply_filters('wp_statistics_default_taxonomies', ['category', 'post_tag']);
@@ -44,11 +48,6 @@ class taxonomies_page
                 wp_die(__("Request is not valid.", "wp-statistics"));
             }
         }
-    }
-
-    public static function get_list_taxonomies()
-    {
-        self::$taxonomies = Helper::get_list_taxonomy();
     }
 
     /**
