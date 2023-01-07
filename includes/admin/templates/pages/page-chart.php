@@ -84,7 +84,7 @@
 
             <h2 class="hndle wps-d-inline-block"><span><?php _e('Top Visitors', 'wp-statistics'); ?></span></h2>
             <div class="inside wps-wrap">
-                <?php echo wp_kses_post($visitors); ?>
+                <?php echo wp_kses_post($top_visitors); ?>
             </div>
         </div>
 
