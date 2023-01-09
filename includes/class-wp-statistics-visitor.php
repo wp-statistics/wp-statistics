@@ -242,10 +242,12 @@ class Visitor
 
         $limit = (($args['paged'] - 1) * $args['per_page']);
 
-        if (!isset($args['sql'])) {
-            // Prepare the Query & Set Pagination
-            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC LIMIT {$limit}, {$args['per_page']}";
+        // Prepare the Query & Set Pagination
+        if (empty($args['sql'])) {
+            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
+
+        $args['sql'] = $args['sql'] . " LIMIT {$limit}, {$args['per_page']}";
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);
