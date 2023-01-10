@@ -271,10 +271,13 @@ final class WP_Statistics
      */
     public function load_textdomain()
     {
-        $locale = apply_filters('plugin_locale', determine_locale(), 'wp-statistics');
+        // Compatibility with WordPress < 5.0
+        if (function_exists('determine_locale')) {
+            $locale = apply_filters('plugin_locale', determine_locale(), 'wp-statistics');
 
-        unload_textdomain( 'wp-statistics' );
-        load_textdomain('wp-statistics', WP_LANG_DIR . '/wp-statistics-' . $locale . '.mo');
+            unload_textdomain('wp-statistics');
+            load_textdomain('wp-statistics', WP_LANG_DIR . '/wp-statistics-' . $locale . '.mo');
+        }
 
         load_plugin_textdomain('wp-statistics', false, basename(WP_STATISTICS_DIR) . '/languages');
     }
