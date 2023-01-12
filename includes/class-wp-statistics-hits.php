@@ -69,7 +69,7 @@ class Hits
     public function set_exclusion($exclude)
     {
 
-        if (isset($this->rest_hits->exclusion_match) and isset($this->rest_hits->exclusion_reason) and in_array($this->rest_hits->exclusion_reason, Exclusion::exclusion_list()) == true) {
+        if (isset($this->rest_hits->exclusion_match) and isset($this->rest_hits->exclusion_reason) and array_key_exists($this->rest_hits->exclusion_reason, Exclusion::exclusion_list()) == true) {
             return array(
                 'exclusion_match'  => $this->rest_hits->exclusion_match == 'yes',
                 'exclusion_reason' => $this->rest_hits->exclusion_reason,
