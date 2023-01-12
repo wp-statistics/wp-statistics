@@ -283,6 +283,12 @@ class Meta_Box
             ),
         );
 
+        /**
+         * Filter the list of metaboxes list
+         * @since 14.0
+         */
+        $list = apply_filters('wp_statistics_overview_meta_box_list', $list);
+
         //Print List of Meta Box
         if ($meta_box === false) {
             return $list;
@@ -303,7 +309,7 @@ class Meta_Box
      */
     public static function getMetaBoxClass($meta_box)
     {
-        return self::$namespace . str_replace("-", "_", $meta_box);
+        return apply_filters('wp_statistics_meta_box_class', self::$namespace . str_replace("-", "_", $meta_box), $meta_box);
     }
 
     /**
@@ -312,7 +318,7 @@ class Meta_Box
      * @param $meta_box
      * @return bool
      */
-    public static function IsExistMetaBoxClass($meta_box)
+    public static function metaBoxClassExist($meta_box)
     {
         return class_exists(self::getMetaBoxClass($meta_box));
     }
@@ -329,9 +335,8 @@ class Meta_Box
         // Get MetaBox by Key
         $metaBox = self::getList($key);
         if (count($metaBox) > 0) {
-
             // Check Load Rest-API or Manually
-            if (isset($metaBox['js']) and $metaBox['js'] === false) {
+            if (isset($metaBox['js']) and $metaBox['js'] === false && self::metaBoxClassExist($key)) {
                 $class = self::getMetaBoxClass($key);
                 return array($class, 'get');
             }

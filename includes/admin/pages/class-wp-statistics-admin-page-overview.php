@@ -33,7 +33,7 @@ class log_page
     public function meta_box_init()
     {
 
-        foreach (apply_filters('wp_statistics_overview_meta_box_list', Meta_Box::getList()) as $meta_key => $meta_box) {
+        foreach (Meta_Box::getList() as $meta_key => $meta_box) {
             if (Option::check_option_require($meta_box) === true and ((isset($meta_box['disable_overview']) and $meta_box['disable_overview'] === false) || !isset($meta_box['disable_overview']))) {
                 add_meta_box(Meta_Box::getMetaBoxKey($meta_key), $meta_box['name'], Meta_Box::LoadMetaBox($meta_key), Menus::get_action_menu_slug('overview'), $meta_box['place'], $control_callback = null, array('widget' => $meta_key));
             }
@@ -103,7 +103,7 @@ class log_page
     public function default_hidden_meta_boxes($hidden, $screen)
     {
         if ($screen->id == Menus::get_action_menu_slug('overview')) {
-            foreach (apply_filters('wp_statistics_overview_meta_box_list', Meta_Box::getList()) as $meta_key => $meta_box) {
+            foreach (Meta_Box::getList() as $meta_key => $meta_box) {
                 if (isset($meta_box['hidden_overview']) and $meta_box['hidden_overview'] === true) {
                     $hidden[] = Meta_Box::getMetaBoxKey($meta_key);
                 }
