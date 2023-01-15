@@ -14,7 +14,8 @@ class pages_page
         'countries',
         'referring',
         'visitors',
-        'top_visitors'
+        'top_visitors',
+        'visitors_map',
     ];
 
     public function __construct()

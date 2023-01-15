@@ -54,6 +54,18 @@
     <div id="normal-sortables" class="meta-box-sortables ui-sortable">
         <div class="postbox" id="wp-statistics-pages-widget">
             <button class="handlediv" type="button" aria-expanded="true">
+                <span class="screen-reader-text"><?php _e('Toggle panel: Visitors Map', 'wp-statistics'); ?></span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+
+            <h2 class="hndle wps-d-inline-block"><span><?php _e('Visitors Map', 'wp-statistics'); ?></span></h2>
+            <div class="inside wps-wrap">
+                <?php echo wp_kses_post($visitors_map); ?>
+            </div>
+        </div>
+        
+        <div class="postbox" id="wp-statistics-pages-widget">
+            <button class="handlediv" type="button" aria-expanded="true">
                 <span class="screen-reader-text"><?php _e('Toggle panel: Online Users', 'wp-statistics'); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>
             </button>
@@ -66,7 +78,7 @@
 
         <div class="postbox" id="wp-statistics-pages-widget">
             <button class="handlediv" type="button" aria-expanded="true">
-                <span class="screen-reader-text"><?php _e('Toggle panel: Top Visitors', 'wp-statistics'); ?></span>
+                <span class="screen-reader-text"><?php _e('Toggle panel: Latest Visitors', 'wp-statistics'); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>
             </button>
 
