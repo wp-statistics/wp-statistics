@@ -63,7 +63,7 @@
                 <?php echo wp_kses_post($visitors_map); ?>
             </div>
         </div>
-        
+
         <div class="postbox" id="wp-statistics-pages-widget">
             <button class="handlediv" type="button" aria-expanded="true">
                 <span class="screen-reader-text"><?php _e('Toggle panel: Online Users', 'wp-statistics'); ?></span>
