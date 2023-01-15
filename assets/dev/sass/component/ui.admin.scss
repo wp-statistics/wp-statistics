@@ -1170,18 +1170,6 @@
   pointer-events: none;
 }
 
-.wps-tab-link.wps-locked a:after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: url("../images/preview-lock.png");
-  background-size: auto;
-  background-size: contain;
-  margin-left: 5px;
-  margin-top: 3px;
-}
-
 .c-pages-date-range {
   margin-top: 20px;
   height: 28px;
@@ -1192,6 +1180,10 @@
   position: relative !important;
   top: -15px !important;
   left: 0 !important;
+}
+
+.c-pages-select-page {
+    float: right;
 }
 
 #dashboard-widgets {
