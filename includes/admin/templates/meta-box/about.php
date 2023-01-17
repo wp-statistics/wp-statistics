@@ -28,7 +28,7 @@ if ($aboutWidgetContent) {
                         <path d="M9.48192 2.53455L5.13816 6.87831L4.19405 5.93421L8.61018 1.51808L8.7809 1.34737H8.53947H5.74474V0.1H10.9V5.25526H9.65263V2.60526V2.36384L9.48192 2.53455ZM7.33684 9.55263V6.26511L8.58421 5.01774V10.9H0.1V2.41579H6.27174L5.02437 3.66316H1.44737H1.34737V3.76316V9.55263V9.65263H1.44737H7.23684H7.33684V9.55263Z" fill="#404BF2" stroke="white" stroke-width="0.2"/>
                     </svg>
                 </a> <span class="o-separator">|</span>
-                <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><?php _e('Rate & Review', 'wp-statistics'); ?>
+                <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank"><?php _e('Rate', 'wp-statistics'); ?>
                     <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9.48192 2.53455L5.13816 6.87831L4.19405 5.93421L8.61018 1.51808L8.7809 1.34737H8.53947H5.74474V0.1H10.9V5.25526H9.65263V2.60526V2.36384L9.48192 2.53455ZM7.33684 9.55263V6.26511L8.58421 5.01774V10.9H0.1V2.41579H6.27174L5.02437 3.66316H1.44737H1.34737V3.76316V9.55263V9.65263H1.44737H7.23684H7.33684V9.55263Z" fill="#404BF2" stroke="white" stroke-width="0.2"/>
                     </svg>
