@@ -9,7 +9,7 @@
         <?php if (!empty($tabs) && is_array($tabs)) { ?>
             <ul class="wps-tabs">
                 <?php foreach ($tabs as $tab) { ?>
-                    <li class="wps-tab-link <?php echo $tab['class'] ?>"><a href="<?php echo $tab['link'] ?>"><?php echo $tab['title'] ?></a></li>
+                    <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>"><a href="<?php echo esc_attr($tab['link']); ?>"><?php echo esc_html($tab['title']); ?></a></li>
                 <?php } ?>
             </ul>
         <?php } ?>

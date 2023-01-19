@@ -1167,7 +1167,18 @@
 
 .wps-tab-link.wps-locked a {
   padding-right: 30px;
-  pointer-events: none;
+}
+
+.wps-tab-link.wps-locked a:after {
+  content: '';
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  background: url("../images/preview-lock.png");
+  background-size: auto;
+  background-size: contain;
+  margin-left: 4px;
+  margin-top: 3px;
 }
 
 .c-pages-date-range {
