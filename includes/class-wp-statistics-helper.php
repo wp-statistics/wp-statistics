@@ -1099,11 +1099,6 @@ class Helper
         // Create Empty Params Object
         $params = array();
 
-        //exclude
-        $exclude                    = Exclusion::check();
-        $params['exclusion_match']  = ($exclude['exclusion_match'] === true ? 'yes' : 'no');
-        $params['exclusion_reason'] = (string)$exclude['exclusion_reason'];
-
         //track all page
         $params['track_all'] = (Pages::is_track_all_page() === true ? 1 : 0);
 
@@ -1149,5 +1144,14 @@ class Helper
         }
 
         return false;
+    }
+
+    public static function getRequestUri()
+    {
+        if (self::is_rest_request() and isset($_REQUEST['page_uri'])) {
+            return base64_decode($_REQUEST['page_uri']);
+        }
+
+        return sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
     }
 }
