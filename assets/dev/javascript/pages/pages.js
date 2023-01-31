@@ -95,7 +95,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // Show Chart
                 wps_js.pie_chart(wps_js.chart_id('platforms'), platformsNames, data);
             } else {
-                jQuery('#wp-statistics-browsers-widget').empty().html(wps_js.no_meta_box_data());
+                jQuery('#wp-statistics-platforms-widget').empty().html(wps_js.no_meta_box_data());
             }
         }
 
