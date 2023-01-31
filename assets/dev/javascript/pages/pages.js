@@ -66,6 +66,39 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         }
 
+        // Display Top Platforms Chart
+        if (wps_js.exist_tag("div[data-top-platforms-chart='true']")) {
+            let platformsEl = jQuery("div[data-top-platforms-chart='true']");
+            // Get Names
+            let platformsNames = jQuery(platformsEl).data('platforms-names');
+            // Get Values
+            let platformsValues = jQuery(platformsEl).data('platforms-values');
+            // Get Background Color
+            let backgroundColor = [];
+            let color;
+            for (let i = 0; i <= 10; i++) {
+                color = wps_js.random_color(i);
+                backgroundColor.push('rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.4)');
+            }
+            // Prepare Data
+            let data = [{
+                label: wps_js._('platforms'),
+                data: platformsValues,
+                backgroundColor: backgroundColor
+            }];
+            // Add html after browsersEl
+            jQuery(platformsEl).after('<div class="o-wrap"><div class="c-chart c-chart--limited-height"><canvas id="' + wps_js.chart_id('platforms') + '" height="220"></canvas></div></div>');
+            // Remove browsersEl
+            jQuery(platformsEl).remove();
+            // Check Data
+            if(platformsNames.length && platformsValues.length) {
+                // Show Chart
+                wps_js.pie_chart(wps_js.chart_id('platforms'), platformsNames, data);
+            } else {
+                jQuery('#wp-statistics-browsers-widget').empty().html(wps_js.no_meta_box_data());
+            }
+        }
+
     } else {
 
         // Create Params
