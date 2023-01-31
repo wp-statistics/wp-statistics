@@ -33,6 +33,39 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             jQuery(this).closest('form').trigger('submit');
         });
 
+        // Display Top Browsers Chart
+        if (wps_js.exist_tag("div[data-top-browsers-chart='true']")) {
+            let browsersEl = jQuery("div[data-top-browsers-chart='true']");
+            // Get Names
+            let browserNames = jQuery(browsersEl).data('browsers-names');
+            // Get Values
+            let browserValues = jQuery(browsersEl).data('browsers-values');
+            // Get Background Color
+            let backgroundColor = [];
+            let color;
+            for (let i = 0; i <= 10; i++) {
+                color = wps_js.random_color(i);
+                backgroundColor.push('rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.4)');
+            }
+            // Prepare Data
+            let data = [{
+                label: wps_js._('browsers'),
+                data: browserValues,
+                backgroundColor: backgroundColor
+            }];
+            // Add html after browsersEl
+            jQuery(browsersEl).after('<div class="o-wrap"><div class="c-chart c-chart--limited-height"><canvas id="' + wps_js.chart_id('browsers') + '" height="220"></canvas></div></div>');
+            // Remove browsersEl
+            jQuery(browsersEl).remove();
+            // Check Data
+            if(browserNames.length && browserValues.length) {
+                // Show Chart
+                wps_js.pie_chart(wps_js.chart_id('browsers'), browserNames, data);
+            } else {
+                jQuery('#wp-statistics-browsers-widget').empty().html(wps_js.no_meta_box_data());
+            }
+        }
+
     } else {
 
         // Create Params
