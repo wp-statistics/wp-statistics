@@ -368,9 +368,9 @@ class Pages
                     $post_object = get_post_type_object($post_type);
 
                     if ($post_object instanceof \WP_Post_Type) {
-                        $arg['title'] = sprintf('Post Archive: %s', $post_object->labels->name);
+                        $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
                     } else {
-                        $arg['title'] = sprintf('Post Archive: %s', $slug);
+                        $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
                     }
 
                     break;
