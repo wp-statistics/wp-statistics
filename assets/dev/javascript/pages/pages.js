@@ -58,7 +58,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             // Remove browsersEl
             jQuery(browsersEl).remove();
             // Check Data
-            if(browserNames.length && browserValues.length) {
+            if (browserNames.length && browserValues.length) {
                 // Show Chart
                 wps_js.pie_chart(wps_js.chart_id('browsers'), browserNames, data);
             } else {
@@ -91,11 +91,57 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             // Remove browsersEl
             jQuery(platformsEl).remove();
             // Check Data
-            if(platformsNames.length && platformsValues.length) {
+            if (platformsNames.length && platformsValues.length) {
                 // Show Chart
                 wps_js.pie_chart(wps_js.chart_id('platforms'), platformsNames, data);
             } else {
                 jQuery('#wp-statistics-platforms-widget').empty().html(wps_js.no_meta_box_data());
+            }
+        }
+
+        // Display Visitors Map
+        if (wps_js.exist_tag("div[data-visitors-map='true']")) {
+            let mapEl = jQuery("div[data-visitors-map='true']");
+            // Get Response
+            let args = jQuery(mapEl).data('response');
+            // Add html after mapEl
+            jQuery(mapEl).after('<div class="o-wrap"><div id="wp-statistics-visitors-map"></div></div>');
+            // Remove mapEl
+            jQuery(mapEl).remove();
+            // Prepare Data
+            let pin = Array();
+            if (args.hasOwnProperty('country')) {
+                Object.keys(args['country']).forEach(function (key) {
+                    let t = `<div class='map-html-marker'><div class="map-country-header"><img src='${args['country'][key]['flag']}' alt="${args['country'][key]['name']}" title='${args['country'][key]['name']}' class='log-tools wps-flag'/> ${args['country'][key]['name']} (${args['total_country'][key]})</div>`;
+
+                    // Get List visitors
+                    Object.keys(args['visitor'][key]).forEach(function (visitor_id) {
+                        t += `<p><img src='${args['visitor'][key][visitor_id]['browser']['logo']}' alt="${args['visitor'][key][visitor_id]['browser']['name']}" class='wps-flag log-tools' title='${args['visitor'][key][visitor_id]['browser']['name']}'/> ${args['visitor'][key][visitor_id]['ip']} ` + (["Unknown", "(Unknown)"].includes(args['visitor'][key][visitor_id]['city']) ? '' : '- ' + args['visitor'][key][visitor_id]['city']) + `</p>`;
+                    });
+                    t += `</div>`;
+
+                    pin[key] = t;
+                });
+
+                jQuery('#wp-statistics-visitors-map').vectorMap({
+                    map: 'world_en',
+                    backgroundColor: '#fff',
+                    borderColor: '#7e7e7e',
+                    borderOpacity: 0.60,
+                    color: '#e6e5e2',
+                    selectedColor: '#9DA3F7',
+                    hoverColor: '#404BF2',
+                    colors: args['color'],
+                    onLabelShow: function (element, label, code) {
+                        if (pin[code] !== undefined) {
+                            label.html(pin[code]);
+                        } else {
+                            label.html(label.html() + ' [0]<hr />');
+                        }
+                    },
+                });
+            } else {
+                jQuery('#wp-statistics-visitors-map-widget').empty().html(wps_js.no_meta_box_data());
             }
         }
 
