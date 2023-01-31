@@ -364,13 +364,17 @@ class Pages
                     $arg['title'] = __('404 not found', 'wp-statistics');
                     break;
                 case "archive":
-                    $post_type   = trim($slug, '/');
-                    $post_object = get_post_type_object($post_type);
+                    if ($slug) {
+                        $post_type   = trim($slug, '/');
+                        $post_object = get_post_type_object($post_type);
 
-                    if ($post_object instanceof \WP_Post_Type) {
-                        $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
+                        if ($post_object instanceof \WP_Post_Type) {
+                            $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
+                        } else {
+                            $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
+                        }
                     } else {
-                        $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
+                        $arg['title'] = __('Post Archive', 'wp-statistics');
                     }
 
                     break;
