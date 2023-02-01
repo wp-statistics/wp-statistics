@@ -301,3 +301,27 @@
   }
 }
 
+.rtl {
+
+  .c-footer__filters {
+    left: unset;
+    right: 0;
+  }
+
+  .c-footer__filter__btn--sm {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  .c-footer__filter__btn-group {
+    svg {
+      margin-right: 0;
+      margin-left: 4px;
+    }
+  }
+
+  .wps-wrap input[type="text"].c-footer__filters__custom-date-input {
+    right: 160px;
+  }
+}

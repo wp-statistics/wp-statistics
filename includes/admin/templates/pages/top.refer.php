@@ -25,12 +25,11 @@
                                         <td><?php _e('Country', 'wp-statistics'); ?></td>
 			                        <?php } ?>
                                     <td><?php _e('References', 'wp-statistics'); ?></td>
-                                    <td></td>
                                 </tr>
 		                        <?php foreach ($list as $item) { ?>
 
                                     <tr>
-                                        <td style="text-align: left !important;"><?php echo number_format_i18n($item['rate']); ?></td>
+                                        <td><?php echo number_format_i18n($item['rate']); ?></td>
                                         <td><?php echo WP_STATISTICS\Helper::show_site_icon($item['domain']) . " " . \WP_STATISTICS\Referred::get_referrer_link($item['domain'], $item['title']); ?>
                                         </td>
                                         <td><?php echo(trim($item['title']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : esc_attr($item['title'])); ?>

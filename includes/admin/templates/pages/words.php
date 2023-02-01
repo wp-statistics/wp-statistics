@@ -38,23 +38,23 @@
 
                                 <?php foreach ($list as $item) { ?>
                                     <tr>
-                                        <td style="text-align: left"><?php echo esc_attr($item['word']); ?></td>
-                                        <td style="text-align: left">
+                                        <td><?php echo esc_attr($item['word']); ?></td>
+                                        <td>
                                             <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="log-tools wps-flag" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                         </td>
                                         <?php if (WP_STATISTICS\GeoIP::active()) { ?>
-                                            <td style="text-align: left">
+                                            <td>
                                                 <img src="<?php echo esc_attr($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
                                             </td>
                                         <?php } ?>
                                         <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                            <td style="text-align: left">
+                                            <td>
                                                 <?php echo esc_attr($item['city']); ?>
                                             </td>
                                         <?php } ?>
-                                        <td style="text-align: left"><?php echo esc_attr($item['date']); ?></td>
-                                        <td style='text-align: left;'><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-success'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
-                                        <td style="text-align: left"><?php echo wp_kses_post($item['referred']); ?></td>
+                                        <td><?php echo esc_attr($item['date']); ?></td>
+                                        <td><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-success'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
+                                        <td><?php echo wp_kses_post($item['referred']); ?></td>
                                     </tr>
                                 <?php } ?>
                             </table>
