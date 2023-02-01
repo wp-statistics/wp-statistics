@@ -61,3 +61,37 @@
     }
   }
 }
+
+.wps-wrap {
+  .handlediv {
+    color: $dim-black-color;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .postbox-header {
+    .handlediv {
+      margin-right: 8px;
+
+      .toggle-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.rtl {
+  .wps-wrap {
+    .postbox-header {
+      .handlediv {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+    }
+  }
+}

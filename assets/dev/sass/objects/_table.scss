@@ -144,6 +144,13 @@
           }
         }
 
+        a.table-icon-btn, a.table-icon-btn .dashicons  {
+          font-size: 16px !important;
+        }
+
+        a.table-icon-btn {
+         margin: 0 4px;
+        }
 
         &:last-child {
           padding-right: 32px;
