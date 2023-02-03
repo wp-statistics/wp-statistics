@@ -33,8 +33,6 @@ class Hits
             $this->rest_hits = (object)self::rest_params();
 
             # Filter Data
-            add_filter('wp_statistics_user_referer', array($this, 'set_user_referer'));
-            add_filter('wp_statistics_exclusion', array($this, 'set_exclusion'));
             add_filter('wp_statistics_current_page', array($this, 'set_current_page'));
             add_filter('wp_statistics_page_uri', array($this, 'set_page_uri'));
             add_filter('wp_statistics_track_all_pages', array($this, 'set_track_all'));
@@ -47,36 +45,6 @@ class Hits
 
         # Record WordPress Front Page Hits
         add_action('wp', array($this, 'record_wp_hits'));
-    }
-
-    /**
-     * Set User Referer
-     *
-     * @param $referred
-     * @return array
-     */
-    public function set_user_referer($referred)
-    {
-        return isset($this->rest_hits->referred) ? $this->rest_hits->referred : $referred;
-    }
-
-    /**
-     * Set Exclusion
-     *
-     * @param $exclude
-     * @return array
-     */
-    public function set_exclusion($exclude)
-    {
-
-        if (isset($this->rest_hits->exclusion_match) and isset($this->rest_hits->exclusion_reason) and array_key_exists($this->rest_hits->exclusion_reason, Exclusion::exclusion_list()) == true) {
-            return array(
-                'exclusion_match'  => $this->rest_hits->exclusion_match == 'yes',
-                'exclusion_reason' => $this->rest_hits->exclusion_reason,
-            );
-        }
-
-        return $exclude;
     }
 
     /**

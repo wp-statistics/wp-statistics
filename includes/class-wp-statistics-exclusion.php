@@ -134,7 +134,14 @@ class Exclusion
      */
     public static function exclusion_404()
     {
-        return (Option::get('exclude_404s') and is_404());
+        if (Option::get('exclude_404s')) {
+
+            if (Helper::is_rest_request() && isset($_REQUEST['current_page_type']) && $_REQUEST['current_page_type'] == '404') {
+                return true;
+            }
+
+            return is_404();
+        }
     }
 
     /**
@@ -160,11 +167,21 @@ class Exclusion
      */
     public static function exclusion_user_role()
     {
+        $current_user = false;
 
-        if (is_user_logged_in()) {
+        if (Helper::is_rest_request()) {
+            $user_id = $GLOBALS['wp_statistics_user_id'];
+            if ($user_id) {
+                $current_user = get_user_by('id', $user_id);
+            }
+        } elseif (is_user_logged_in()) {
             $current_user = wp_get_current_user();
+        }
+
+        if ($current_user) {
             foreach ($current_user->roles as $role) {
                 $option_name = 'exclude_' . str_replace(' ', '_', strtolower($role));
+
                 if (Option::get($option_name) == true) {
                     return true;
                 }
@@ -181,7 +198,7 @@ class Exclusion
     {
 
         if (Option::get('excluded_urls')) {
-            $script    = sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
+            $script    = Helper::getRequestUri();
             $delimiter = strpos($script, '?');
 
             if ($delimiter > 0) {
@@ -267,10 +284,12 @@ class Exclusion
     public static function exclusion_admin_page()
     {
 
-        if (isset($_SERVER['SERVER_NAME']) and isset($_SERVER['REQUEST_URI'])) {
+        $requestUri = Helper::getRequestUri();
+
+        if (isset($_SERVER['SERVER_NAME']) and isset($requestUri)) {
 
             // Remove Query From Url
-            $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
+            $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
             if (stristr($url, "wp-admin") != false) {
                 return true;
             }
@@ -318,11 +337,13 @@ class Exclusion
         // Check is 404
         if (is_404()) {
 
+            $requestUri = Helper::getRequestUri();
+
             //Check Current Page
-            if (isset($_SERVER["HTTP_HOST"]) and isset($_SERVER["REQUEST_URI"])) {
+            if (isset($_SERVER["HTTP_HOST"]) and isset($requestUri)) {
 
                 //Get Full Url Page
-                $page_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]}";
+                $page_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER["HTTP_HOST"]}{$requestUri}";
 
                 //Check Link file
                 $page_url = parse_url($page_url, PHP_URL_PATH);

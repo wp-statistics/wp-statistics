@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\Api\v2;
 
+use WP_STATISTICS\Exclusion;
 use WP_STATISTICS\Hits;
 
 class Hit extends \WP_STATISTICS\RestAPI
@@ -47,6 +48,8 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function register_routes()
     {
+        $GLOBALS['wp_statistics_user_id'] = get_current_user_id();
+
         // Record WP Statistics when Cache is enable
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
             array(

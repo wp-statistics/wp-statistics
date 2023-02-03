@@ -292,7 +292,7 @@ class Pages
      * @param string $type
      * @return array
      */
-    public static function get_page_info($page_id, $type = 'post')
+    public static function get_page_info($page_id, $type = 'post', $slug = false)
     {
 
         //Create Empty Object
@@ -352,19 +352,31 @@ class Pages
                     );
                     break;
                 case "feed":
-                    $result['title'] = __('Feed', 'wp-statistics');
+                    $arg['title'] = __('Feed', 'wp-statistics');
                     break;
                 case "loginpage":
-                    $result['title'] = __('Login Page', 'wp-statistics');
+                    $arg['title'] = __('Login Page', 'wp-statistics');
                     break;
                 case "search":
-                    $result['title'] = __('Search Page', 'wp-statistics');
+                    $arg['title'] = __('Search Page', 'wp-statistics');
                     break;
                 case "404":
-                    $result['title'] = __('404 not found', 'wp-statistics');
+                    $arg['title'] = __('404 not found', 'wp-statistics');
                     break;
                 case "archive":
-                    $result['title'] = __('Post Archive', 'wp-statistics');
+                    if ($slug) {
+                        $post_type   = trim($slug, '/');
+                        $post_object = get_post_type_object($post_type);
+
+                        if ($post_object instanceof \WP_Post_Type) {
+                            $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
+                        } else {
+                            $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
+                        }
+                    } else {
+                        $arg['title'] = __('Post Archive', 'wp-statistics');
+                    }
+
                     break;
             }
         }
@@ -413,7 +425,7 @@ class Pages
         foreach ($result as $item) {
 
             // Lookup the post title.
-            $page_info = Pages::get_page_info($item->id, $item->type);
+            $page_info = Pages::get_page_info($item->id, $item->type, $item->uri);
 
             // Push to list
             $list[] = array(
