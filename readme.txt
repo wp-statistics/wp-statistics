@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 13.2.15
+Stable tag: 13.2.16
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -134,6 +134,10 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v13.2.16 - 03.02.2023 =
+* Bugfix: The exclusion cache issue
+* Improvement: Populate post type title for archive pages
+
 = v13.2.15 - 13.01.2023 =
 * Bugfix: The exclusion issue when user is logged-in
 * Bugfix: The issue the API request to hit endpoint when permalink is default
