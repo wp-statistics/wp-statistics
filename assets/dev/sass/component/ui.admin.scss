@@ -118,6 +118,13 @@
   margin: 20px !important;
 }
 
+.statistics_page_wps_pages_page {
+  .o-wrap.o-wrap--no-data {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+}
+
 .statistics_page_wps_plugins_page .wps-wrap .notice {
   margin: 20px !important;
 }
@@ -1194,7 +1201,7 @@
 }
 
 .c-pages-select-page {
-    float: right;
+  float: right;
 }
 
 #dashboard-widgets {
