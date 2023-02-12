@@ -60,6 +60,7 @@ abstract class AbstractModel implements \JsonSerializable
         return $attr !== 'instance' && isset($this->$attr);
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->raw;
