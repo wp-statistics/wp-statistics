@@ -144,12 +144,12 @@
           }
         }
 
-        a.table-icon-btn, a.table-icon-btn .dashicons  {
+        a.table-icon-btn, a.table-icon-btn .dashicons {
           font-size: 16px !important;
         }
 
         a.table-icon-btn {
-         margin: 0 4px;
+          margin: 0 4px;
         }
 
         &:last-child {
@@ -240,6 +240,12 @@
           }
         }
       }
+    }
+  }
+
+  table {
+    svg {
+      transition: 0.22s;
     }
   }
 
