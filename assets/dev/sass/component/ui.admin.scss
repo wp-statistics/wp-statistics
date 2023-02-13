@@ -70,7 +70,8 @@
 .statistics_page_wps_top-visitors_page .wps-wrap,
 .statistics_page_wps_optimization_page .wps-wrap,
 .statistics_page_wps_settings_page .wps-wrap,
-.statistics_page_wps_plugins_page .wps-wrap {
+.statistics_page_wps_plugins_page .wps-wrap,
+.wps_page .wps-wrap {
   margin: 0 !important;
 }
 
@@ -92,7 +93,8 @@
 .statistics_page_wps_top-visitors_page #wpcontent,
 .statistics_page_wps_optimization_page #wpcontent,
 .statistics_page_wps_settings_page #wpcontent,
-.statistics_page_wps_plugins_page #wpcontent {
+.statistics_page_wps_plugins_page #wpcontent,
+.wps_page #wpcontent {
   padding: 0 !important;
 }
 
@@ -114,7 +116,8 @@
 .statistics_page_wps_top-visitors_page #wpbody-content > .notice,
 .statistics_page_wps_optimization_page #wpbody-content > .notice,
 .statistics_page_wps_settings_page #wpbody-content > .notice,
-.statistics_page_wps_plugins_page #wpbody-content > .notice {
+.statistics_page_wps_plugins_page #wpbody-content > .notice,
+.wps_page #wpbody-content > .notice {
   margin: 20px !important;
 }
 
