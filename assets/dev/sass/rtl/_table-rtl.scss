@@ -92,3 +92,19 @@
     }
   }
 }
+
+#wp-statistics-countries-widget, #wp-statistics-pages-widget {
+
+  .inside table.o-table tr {
+    td:last-child, th:last-child {
+
+      a:hover {
+
+        svg {
+
+          transform: rotate(180deg) translateX(5px) !important;
+        }
+      }
+    }
+  }
+}

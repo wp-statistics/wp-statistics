@@ -3,11 +3,11 @@
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart'); ?>">
                 <div class="postbox-header">
+                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Chart', 'wp-statistics')); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
                 </div>
                 <div class="inside">
                     <!-- Do Js -->
@@ -22,11 +22,11 @@
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="postbox-header">
+                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Summary', 'wp-statistics')); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
                 </div>
                 <div class="inside">
                     <table class="widefat table-stats wps-summary-stats" id="summary-stats">
@@ -71,11 +71,11 @@
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <div class="postbox-header">
+                        <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                         <button class="handlediv" type="button" aria-expanded="true">
                             <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); ?></span>
                             <span class="toggle-indicator" aria-hidden="true"></span>
                         </button>
-                        <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                     </div>
                     <div class="inside">
                         <table class="widefat table-stats wps-summary-stats" id="summary-stats">

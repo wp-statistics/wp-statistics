@@ -37,6 +37,14 @@
     margin-top: 8px;
   }
 
+  .postbox-header.postbox-toggle {
+    cursor: pointer;
+
+    .hndle {
+      cursor: pointer !important;
+    }
+  }
+
   .wps-ph-col-12 {
     width: 100%;
     max-width: 100%;

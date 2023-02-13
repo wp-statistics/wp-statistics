@@ -2,12 +2,12 @@
     <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('top-pages-chart'); ?>">
-                <div class="postbox-header">
+                <div class="postbox-header postbox-toggle">
+                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Top 5 Trending Pages', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Top 5 Trending Pages', 'wp-statistics')); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Top 5 Trending Pages', 'wp-statistics'); ?></span></h2>
                 </div>
                 <div class="inside">
                     <!-- Do Js -->
@@ -21,12 +21,12 @@
     <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('pages'); ?>">
-                <div class="postbox-header">
+                <div class="postbox-header postbox-toggle">
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($title); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($title)); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($title); ?></span></h2>
                 </div>
                 <div class="inside">
 
