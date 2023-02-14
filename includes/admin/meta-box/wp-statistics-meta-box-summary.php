@@ -80,12 +80,9 @@ class summary
                     'value' => number_format_i18n(wp_statistics_visitor('yesterday', null, true))
                 );
 
-                /**
-                 * @todo [from] and [to] values for last week visitors
-                 */
                 // Last Week
                 $data['visitors']['last-week'] = array(
-                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo(7), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo(14), 'to' => TimeZone::getTimeAgo(7))),
                     'value' => number_format_i18n(wp_statistics_visitor('last-week', null, true))
                 );
 
@@ -119,21 +116,15 @@ class summary
                     'value' => number_format_i18n(wp_statistics_visitor('year', null, true))
                 );
 
-                /**
-                 * @todo [from] and [to] values for this year visitors
-                 */
                 // This Year
                 $data['visitors']['this-year'] = array(
-                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo(365), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01'))), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
                     'value' => number_format_i18n(wp_statistics_visitor('this-year', null, true))
                 );
 
-                /**
-                 * @todo [from] and [to] values for last year visitors
-                 */
                 // Last Year
                 $data['visitors']['last-year'] = array(
-                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo(365), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo((365 * 2)), 'to' => TimeZone::getTimeAgo(365))),
                     'value' => number_format_i18n(wp_statistics_visitor('last-year', null, true))
                 );
 
@@ -157,12 +148,9 @@ class summary
                     'value' => number_format_i18n(wp_statistics_visit('yesterday'))
                 );
 
-                /**
-                 * @todo [from] and [to] values for last week visits
-                 */
                 // Last Week
                 $data['visits']['last-week'] = array(
-                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo(7), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo(14), 'to' => TimeZone::getTimeAgo(7))),
                     'value' => number_format_i18n(wp_statistics_visit('last-week'))
                 );
 
@@ -196,21 +184,15 @@ class summary
                     'value' => number_format_i18n(wp_statistics_visit('year'))
                 );
 
-                /**
-                 * @todo [from] and [to] values for this year visits
-                 */
                 // This Year
                 $data['visits']['this-year'] = array(
-                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo(365), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01'))), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
                     'value' => number_format_i18n(wp_statistics_visit('this-year'))
                 );
 
-                /**
-                 * @todo [from] and [to] values for last year visits
-                 */
                 // Last Year
                 $data['visits']['last-year'] = array(
-                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo(365), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo((365 * 2)), 'to' => TimeZone::getTimeAgo(365))),
                     'value' => number_format_i18n(wp_statistics_visit('last-year'))
                 );
             }
