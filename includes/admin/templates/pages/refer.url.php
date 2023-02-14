@@ -15,11 +15,13 @@
     <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox">
-                <button class="handlediv" type="button" aria-expanded="true">
-                    <span class="screen-reader-text"><?php echo sprintf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($title)); ?></span>
-                    <span class="toggle-indicator" aria-hidden="true"></span>
-                </button>
-                <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($title); ?></span></h2>
+                <div class="postbox-header postbox-toggle">
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($title); ?></span></h2>
+                    <button class="handlediv" type="button" aria-expanded="true">
+                        <span class="screen-reader-text"><?php echo sprintf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($title)); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                </div>
                 <div class="inside">
                     <?php if (count($list) < 1) { ?>
                         <div class='wps-wrap--no-content wps-center'><?php _e("No data to display", "wp-statistics"); ?></div>

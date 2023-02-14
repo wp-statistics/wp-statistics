@@ -2,7 +2,7 @@
     <div class="metabox-holder"> 
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart'); ?>">
-                <div class="postbox-header">
+                <div class="postbox-header postbox-toggle">
                     <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Chart', 'wp-statistics')); ?></span>
@@ -21,7 +21,7 @@
     <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox">
-                <div class="postbox-header">
+                <div class="postbox-header postbox-toggle">
                     <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Summary', 'wp-statistics')); ?></span>
@@ -70,7 +70,7 @@
         <div class="metabox-holder">
             <div class="meta-box-sortables">
                 <div class="postbox">
-                    <div class="postbox-header">
+                    <div class="postbox-header postbox-toggle">
                         <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                         <button class="handlediv" type="button" aria-expanded="true">
                             <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); ?></span>
