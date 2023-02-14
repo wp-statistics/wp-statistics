@@ -44,6 +44,10 @@
     .hndle {
       cursor: pointer !important;
     }
+
+    h2 {
+      margin: 0;
+    }
   }
 
   .wps-ph-col-12 {
@@ -134,7 +138,7 @@
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
 #wp-statistics-useronline-widget {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  font-family: $font-base,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
   overflow: visible;
 
   &.postbox.has-focus {
@@ -164,4 +168,17 @@
   .handle-actions {
     margin-top: 0 !important;
   }
+}
+
+.inside .wp-statistics-widget {
+  box-shadow: none;
+  margin: 2em 0;
+}
+
+.wps_page .inside {
+  font-family: $font-base !important;
+}
+
+#wp-statistics-comparison-widget {
+  overflow: hidden !important;
 }

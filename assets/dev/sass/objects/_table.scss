@@ -604,3 +604,13 @@
     }
   }
 }
+
+#wp-statistics-pages-widget {
+  table td:last-child {
+    &:hover {
+      svg {
+        transform: translateX(3px);
+      }
+    }
+  }
+}
