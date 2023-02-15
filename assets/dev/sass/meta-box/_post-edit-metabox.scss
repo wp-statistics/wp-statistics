@@ -9,22 +9,30 @@
     border-radius: 8px;
 
     .postbox-header {
-      padding: 5.6px 4px !important;
+      padding: 5.6px 12px 5.6px 4px !important;
       border: none !important;
       border-bottom: 1px solid $light-secondary-color !important;
+
+      .toggle-indicator {
+        color: #0c0c0d;
+
+        &:hover {
+          color: $primary-color;
+        }
+      }
 
       h2 {
         color: $dim-black-color;
         font-family: 'Roboto';
         font-style: normal;
-        font-weight: 400;
+        font-weight: 600;
         font-size: 14px;
-        line-height: 16px;
+        line-height: 1.4;
       }
 
       .wps-refresh {
         top: 6px !important;
-        right: 3.8% !important;
+        right: 4.6% !important;
 
         &:focus {
           outline: none;
@@ -39,6 +47,10 @@
       &:focus {
         outline: none;
         box-shadow: none;
+      }
+
+      &:not([aria-disabled="true"]):hover {
+        color: $primary-color;
       }
     }
 
