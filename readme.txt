@@ -134,6 +134,9 @@ Before updating, make sure you disabled all your add-ons, then after that, try t
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v14.0 - **.02.2023
+*
+
 = v13.2.16 - 03.02.2023 =
 * Bugfix: The exclusion cache issue
 * Improvement: Populate post type title for archive pages

@@ -31,11 +31,11 @@ class AddOnsFactory
         $response        = wp_remote_get($addOnsRemoteUrl, ['timeout' => 15]);
 
         if (is_wp_error($response)) {
-            return;
+            return [];
         }
 
         if (200 != wp_remote_retrieve_response_code($response)) {
-            return;
+            return [];
         }
 
         $response = json_decode($response['body']);

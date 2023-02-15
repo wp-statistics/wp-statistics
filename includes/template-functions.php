@@ -438,7 +438,12 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
 
     //Check Query By Page ID or Page Url
     if ($type != false) {
-        $query   = "`type`='" . $type . "'" . ($id != -1 ? ' AND `id` = ' . $id : '');
+        $query = $wpdb->prepare("`type` = %s", $type);
+
+        if ($id != -1) {
+            $query .= $wpdb->prepare(" AND `id` = %d", $id);
+        }
+
         $where[] = apply_filters('wp_statistics_pages_where_type_query', $query, $id, $type);
     } else {
 
