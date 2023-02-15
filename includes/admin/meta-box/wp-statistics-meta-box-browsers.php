@@ -71,7 +71,7 @@ class browsers extends MetaBoxAbstract
             if (empty($args['from']) and empty($args['to']) and $args['ago'] == "all") {
                 $total += $other_agent_count = $wpdb->get_var('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (\'' . implode("','", $Browsers) . '\')');
             } else {
-                $total += $other_agent_count = $wpdb->get_var('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `last_counter` BETWEEN \'' . reset($days_time_list) . '\' AND \'' . end($days_time_list) . '\' AND `agent` NOT IN (\'' . implode("','", $Browsers) . '\')');
+                $total += $other_agent_count = $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (\'' . implode("','", $Browsers) . '\') AND `last_counter` BETWEEN %s AND %s', reset($days_time_list), end($days_time_list)));
             }
 
             //Sort Browser List By Visitor ASC

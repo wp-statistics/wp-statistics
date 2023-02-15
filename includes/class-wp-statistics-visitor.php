@@ -247,7 +247,7 @@ class Visitor
             $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
 
-        $args['sql'] = $args['sql'] . " LIMIT {$limit}, {$args['per_page']}";
+        $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);

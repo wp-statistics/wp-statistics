@@ -35,7 +35,7 @@ class taxonomies_page
 
             // Check validate taxonomy
             if (!empty($_GET['taxonomy']) && in_array($_GET['taxonomy'], self::$defaultTaxonomies)) {
-                self::$taxonomy = $_GET['taxonomy'];
+                self::$taxonomy = sanitize_text_field($_GET['taxonomy']);
             } else {
                 wp_redirect(add_query_arg([
                     'taxonomy' => self::$taxonomy

@@ -30,9 +30,12 @@
         }
     }
     ?>
-
-    <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_from_date; ?>" id="date-from" value="<?php echo esc_attr($DateRang['from']); ?>">
-    <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_to_date; ?>" id="date-to" value="<?php echo esc_attr($DateRang['to']); ?>">
+    <?php if (!empty($DateRang['from'])) { ?>
+        <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_from_date; ?>" id="date-from" value="<?php echo esc_attr($DateRang['from']); ?>">
+    <?php } ?>
+    <?php if (!empty($DateRang['to'])) { ?>
+        <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_to_date; ?>" id="date-to" value="<?php echo esc_attr($DateRang['to']); ?>">
+    <?php } ?>
 </form>
 
 <div class="c-pages-date-range">
@@ -61,7 +64,7 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <span><?php echo __('Last 30 Days', 'wp-statistics')?></span>
+                <span><?php echo __('Last 30 Days', 'wp-statistics') ?></span>
             </button>
             <button onclick="jQuery('.ranges li').map((key, value) => { if(value.classList.contains('active')) { const prevDateRange = jQuery('.ranges li')[key + 1]; prevDateRange.click(); }})" class="c-footer__filter__btn c-footer__filter__btn--sm">
                 <svg width="6" height="10" fill="none" xmlns="http://www.w3.org/2000/svg">
