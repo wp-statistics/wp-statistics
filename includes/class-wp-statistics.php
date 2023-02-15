@@ -199,9 +199,8 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-pages.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-visitors.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-country.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-category.php';
+            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-authors.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-tags.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-browsers.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-platforms.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php';
@@ -254,15 +253,6 @@ final class WP_Statistics
                 fwrite($handle, "Deny from all\n");
                 fclose($handle);
             }
-        }
-
-        /**
-         * Backward compatibility
-         * Move the wp-statistics.log to wp-content/uploads/wp-statistics/debug.log
-         */
-        $legacy_old_log = ABSPATH . 'wp-statistics.log';
-        if (file_exists($legacy_old_log)) {
-            rename($legacy_old_log, path_join($upload_dir_name, 'debug.log'));
         }
     }
 
@@ -322,17 +312,7 @@ final class WP_Statistics
             $message = json_encode($message);
         }
 
-        $upload_dir      = wp_upload_dir();
-        $upload_dir_name = $upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR;
-        $log_file        = path_join($upload_dir_name, 'debug.log');
-
-        /**
-         * Write the log file in the wp-content/uploads/wp-statistics
-         */
-        $file = fopen($log_file, "a");
-
-        fwrite($file, "\n" . date('Y-m-d h:i:s') . ": " . $message);
-        fclose($file);
+        error_log(sprintf('WP Statistics Error: %s', $message));
     }
 
     /**

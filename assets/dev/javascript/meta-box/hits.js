@@ -7,7 +7,7 @@ wps_js.hits_meta_box = {
     view: function (args = []) {
 
         // Check Hit Chart size in Different Page
-        let height = wps_js.is_active('overview_page') ? 110 : 210;
+        let height = wps_js.is_active('overview_page') ? 300 : 210;
         if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "hits") {
             height = 80;
         }
@@ -15,14 +15,14 @@ wps_js.hits_meta_box = {
         // Create Html
         let html = '';
 
-        // Check Show Button Group
-        if (wps_js.is_active('overview_page')) {
-            html += wps_js.btn_group_chart('hits', args);
-            setTimeout(function(){ wps_js.date_picker(); }, 1000);
-        }
+        // // Check Show Button Group
+        // if (wps_js.is_active('overview_page')) {
+        //     html += wps_js.btn_group_chart('hits', args);
+        //     setTimeout(function(){ wps_js.date_picker(); }, 1000);
+        // }
 
         // Add Chart
-        html += '<canvas id="' + wps_js.chart_id('hits') + '" height="' + height + '"></canvas>';
+        html += '<div class="o-wrap"><canvas id="' + wps_js.chart_id('hits') + '" height="' + height + '"></canvas></div>';
 
         // show Data
         return html;
@@ -76,6 +76,17 @@ wps_js.hits_meta_box = {
                 tension: 0.4
             });
         }
-        wps_js.line_chart(tag_id, params['title'], params['date'], datasets);
+
+        // Set Options for Chart only for overview page
+        let options = {};
+        if (wps_js.is_active('overview_page')) {
+            options = {
+                options: {
+                    maintainAspectRatio: false,
+                }
+            }
+        }
+
+        wps_js.line_chart(tag_id, params['title'], params['date'], datasets, options);
     }
 };

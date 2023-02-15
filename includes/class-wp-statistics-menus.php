@@ -222,19 +222,12 @@ class Menus
                 'page_url' => 'countries',
                 'method'   => 'country'
             ),
-            'categories'   => array(
+            'taxonomies'   => array(
                 'require'  => array('pages' => true),
                 'sub'      => 'overview',
-                'title'    => __('Categories', 'wp-statistics'),
-                'page_url' => 'categories',
-                'method'   => 'category',
-            ),
-            'tags'         => array(
-                'require'  => array('pages' => true),
-                'sub'      => 'overview',
-                'title'    => __('Tags', 'wp-statistics'),
-                'page_url' => 'tags',
-                'method'   => 'tags',
+                'title'    => __('Taxonomies', 'wp-statistics'),
+                'page_url' => 'taxonomies',
+                'method'   => 'taxonomies',
             ),
             'authors'      => array(
                 'require'  => array('pages' => true),

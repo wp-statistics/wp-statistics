@@ -6,8 +6,7 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps-exclusions"><?php _e('Record Exclusions:', 'wp-statistics'); ?></label>
-            </th>
+            <th scope="row"><label for="wps-exclusions"><?php _e('Record Exclusions:', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo WP_STATISTICS\Option::get('record_exclusions') == true ? "checked='checked'" : ''; ?>><label for="wps-exclusions"><?php _e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php echo __('This option will record all the excluded hits in a separate table with the reasons for excluding (but no other information).', 'wp-statistics') . ' ' . __('It generates a lot of data, not only actual user visits but also shows the total number of your site’s hits.', 'wp-statistics'); ?></p>

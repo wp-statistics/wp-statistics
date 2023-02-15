@@ -13,18 +13,95 @@
 
   .widefat .plugin-card .desc, .widefat .plugin-card .name {
     margin-right: 0;
+
+    > p {
+      min-height: 42px;
+    }
+
+    .version {
+      .status {
+        span {
+          font-weight: bold;
+        }
+      }
+    }
   }
 
   .widefat .plugin-card-bottom {
     float: initial;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     span.from {
       display: none;
     }
   }
 
-  .widefat .column-downloaded p {
-    margin: 2px 0 0 0;
+  .widefat .column-downloaded {
+    display: flex;
+    max-width: inherit;
+    flex-grow: 1;
+    padding-right: 10px;
+
+    p {
+      margin: 2px 0 0 0;
+    }
+
+    input[type="password"] {
+      margin: 1px 0;
+      width: 100%;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 170%;
+      padding: 7px 16px !important;
+      border: 1px solid #DADCE0 !important;
+      border-radius: 4px;
+      background-color: #F6F7F7 !important;
+      transition: 0.2s;
+
+      &:hover {
+        box-shadow: 0 0 0 1px $primary-color;
+      }
+
+      &:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 0 1px $primary-color;
+      }
+    }
+
+    input[type="submit"] {
+      margin: 0 10px;
+      font-weight: 500 !important;
+      font-size: 13px;
+      line-height: 170%;
+    }
+  }
+
+  .column-description {
+    .version {
+      font-weight: 500;
+
+      strong, span.wps-text-danger {
+        font-weight: 500 !important;
+      }
+    }
+  }
+
+  .column-right-side .button{
+    font-weight: 500 !important;
+    font-size: 13px;
+    line-height: 170%;
+    padding: 7px 16px;
+    border: 1px solid #DADCE0;
+    border-radius: 4px;
+
+    @media screen and (max-width: 500px) {
+      padding: 7px 12px;
+    }
   }
 
   .column-price {

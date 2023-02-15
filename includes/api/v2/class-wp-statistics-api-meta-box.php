@@ -62,7 +62,7 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
     public function meta_box_callback(\WP_REST_Request $request)
     {
         // Check Exist MetaBox Name
-        if (in_array($request->get_param('name'), array_keys(\WP_STATISTICS\Meta_Box::getList())) and \WP_STATISTICS\Meta_Box::IsExistMetaBoxClass($request->get_param('name'))) {
+        if (in_array($request->get_param('name'), array_keys(\WP_STATISTICS\Meta_Box::getList())) and \WP_STATISTICS\Meta_Box::metaBoxClassExist($request->get_param('name'))) {
             $class = \WP_STATISTICS\Meta_Box::getMetaBoxClass($request->get_param('name'));
             return $class::get($request->get_params());
         }

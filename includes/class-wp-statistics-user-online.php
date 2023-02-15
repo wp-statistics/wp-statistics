@@ -295,7 +295,7 @@ class UserOnline
             $item['browser'] = array(
                 'name' => $agent,
                 'logo' => UserAgent::getBrowserLogo($agent),
-                'link' => Menus::admin_url('overview', array('agent' => $agent))
+                'link' => Menus::admin_url('visitors', array('agent' => $agent))
             );
 
             // Push IP

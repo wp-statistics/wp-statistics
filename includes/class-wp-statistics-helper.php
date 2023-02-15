@@ -822,8 +822,13 @@ class Helper
                 $where = "`$field` = '{$current_date}'";
                 break;
             case 'yesterday':
-                $getCurrentDate = TimeZone::getCurrentDate('Y-m-d', -1);
+                $getCurrentDate = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where          = "`$field` = '{$getCurrentDate}'";
+                break;
+            case 'last-week':
+                $fromDate = TimeZone::getTimeAgo(14, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(7, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'week':
                 $where = $field_sql(-7);
@@ -831,8 +836,24 @@ class Helper
             case 'month':
                 $where = $field_sql(-30);
                 break;
+            case '60days':
+                $where = $field_sql(-60);
+                break;
+            case '90days':
+                $where = $field_sql(-90);
+                break;
             case 'year':
                 $where = $field_sql(-365);
+                break;
+            case 'this-year':
+                $fromDate = TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01')));
+                $toDate   = TimeZone::getCurrentDate('Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
+            case 'last-year':
+                $fromDate = TimeZone::getTimeAgo((365 * 2), 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(365, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'total':
                 $where = "";

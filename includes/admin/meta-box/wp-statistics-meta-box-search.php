@@ -6,15 +6,8 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\SearchEngine;
 use WP_STATISTICS\TimeZone;
 
-class search
+class search extends MetaBoxAbstract
 {
-    /**
-     * Default Number day in Search Chart
-     *
-     * @var int
-     */
-    public static $default_days_ago = 15;
-
     /**
      * Get Search Engine Chart
      *
@@ -36,35 +29,19 @@ class search
         // Set Default Params
         $date = $stats = $total_daily = $search_engine_list = array();
 
-        // Check Default
-        if (empty($args['from']) and empty($args['to']) and $args['ago'] < 1) {
-            $args['ago'] = self::$default_days_ago;
-        }
-
-        // Get time ago Days Or Between Two Days
-        if ($args['ago'] > 0) {
-            $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
-        } else {
-            $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
-        }
+        // Filter By Date
+        self::filterByDate($args);
 
         // Get List Of Days
-        $days_time_list = array_keys($days_list);
-        foreach ($days_list as $k => $v) {
+        $days_time_list = array_keys(self::$daysList);
+        foreach (self::$daysList as $k => $v) {
             $date[]          = $v['format'];
             $total_daily[$k] = 0;
         }
 
-        // Prepare title Hit Chart
-        if ($args['ago'] > 0) {
-            $count_day = $args['ago'];
-        } else {
-            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
-        }
-
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Search engine referrals in the last %s days', 'wp-statistics'), $count_day);
+            $title = sprintf(__('Search engine referrals in the last %s days', 'wp-statistics'), self::$countDays);
         } else {
             $title = sprintf(__('Search engine referrals from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
         }
@@ -91,10 +68,6 @@ class search
 
         // Prepare Response
         $response = array(
-            'days'          => $count_day,
-            'from'          => reset($days_time_list),
-            'to'            => end($days_time_list),
-            'type'          => (($args['from'] != "" and $args['to'] != "" and $args['ago'] != self::$default_days_ago) ? 'between' : 'ago'),
             'title'         => $title,
             'date'          => $date,
             'stat'          => $stats,
@@ -112,7 +85,7 @@ class search
         }
 
         // Response
-        return $response;
+        return self::response($response);
     }
 
 }

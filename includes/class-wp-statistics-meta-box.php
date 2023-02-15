@@ -27,6 +27,7 @@ class Meta_Box
      */
     public static function includes()
     {
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-abstract.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-quickstats.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-summary.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-browsers.php';
@@ -90,11 +91,17 @@ class Meta_Box
             ),
             'browsers'        => array(
                 'page_url'          => 'browser',
-                'name'              => __('Top 10 Browsers', 'wp-statistics'),
+                'name'              => __('Top Browsers', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Browsers'),
+                ]
             ),
             'platforms'       => array(
                 'page_url'          => 'platform',
@@ -102,7 +109,13 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Platforms'),
+                ]
             ),
             'devices'         => array(
                 'name'              => __('Top Devices', 'wp-statistics'),
@@ -111,7 +124,7 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'side'
             ),
-            'models'   => array(
+            'models'          => array(
                 'name'              => __('Top Device Models', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
@@ -120,11 +133,17 @@ class Meta_Box
             ),
             'countries'       => array(
                 'page_url'          => 'countries',
-                'name'              => __('Top 10 Countries', 'wp-statistics'),
+                'name'              => __('Top Countries', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Countries'),
+                ]
             ),
             'referring'       => array(
                 'page_url'          => 'referrers',
@@ -132,7 +151,13 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Referring'),
+                ]
             ),
             'hits'            => array(
                 'page_url'          => 'hits',
@@ -140,7 +165,13 @@ class Meta_Box
                 'require'           => array('visits' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '7days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('Hit Statistics Report'),
+                ]
             ),
             'search'          => array(
                 'page_url'          => 'searches',
@@ -148,23 +179,41 @@ class Meta_Box
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '7days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Search Engine Referrals'),
+                ]
             ),
             'pages'           => array(
                 'page_url'          => 'pages',
-                'name'              => __('Top 10 Pages', 'wp-statistics'),
+                'name'              => __('Top Pages', 'wp-statistics'),
                 'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => '30days',
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Pages'),
+                ]
             ),
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
-                'name'              => __('Top 10 Visitors Today', 'wp-statistics'),
+                'name'              => __('Top Visitors', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => false,
+                    'default_date_filter' => false,
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Visitors'),
+                ]
             ),
             'recent'          => array(
                 'page_url'          => 'visitors',
@@ -175,11 +224,17 @@ class Meta_Box
                 'place'             => 'normal'
             ),
             'hitsmap'         => array(
-                'name'              => __('Today\'s Visitors Map', 'wp-statistics'),
+                'name'              => __('Visitors Map', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true, 'disable_map' => false),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => 'today',
+                    'display_more_link'   => false,
+                    'more_link_title'     => '',
+                ]
             ),
             'useronline'      => array(
                 'name'              => __('Online Users', 'wp-statistics'),
@@ -191,7 +246,7 @@ class Meta_Box
             ),
             'words'           => array(
                 'page_url'          => 'words',
-                'name'              => __('Latest Search Words', 'wp-statistics'),
+                'name'              => __('Latest searched queries', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -199,7 +254,7 @@ class Meta_Box
                 'hidden_overview'   => true
             ),
             'about'           => array(
-                'name'              => apply_filters('wp_statistics_about_widget_title', sprintf(__('WP Statistics - v%s', 'wp-statistics'), WP_STATISTICS_VERSION)),
+                'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),
                 'show_on_dashboard' => false,
                 'js'                => false,
                 'place'             => 'side',
@@ -228,6 +283,12 @@ class Meta_Box
             ),
         );
 
+        /**
+         * Filter the list of metaboxes list
+         * @since 14.0
+         */
+        $list = apply_filters('wp_statistics_overview_meta_box_list', $list);
+
         //Print List of Meta Box
         if ($meta_box === false) {
             return $list;
@@ -248,7 +309,7 @@ class Meta_Box
      */
     public static function getMetaBoxClass($meta_box)
     {
-        return self::$namespace . str_replace("-", "_", $meta_box);
+        return apply_filters('wp_statistics_meta_box_class', self::$namespace . str_replace("-", "_", $meta_box), $meta_box);
     }
 
     /**
@@ -257,7 +318,7 @@ class Meta_Box
      * @param $meta_box
      * @return bool
      */
-    public static function IsExistMetaBoxClass($meta_box)
+    public static function metaBoxClassExist($meta_box)
     {
         return class_exists(self::getMetaBoxClass($meta_box));
     }
@@ -274,9 +335,8 @@ class Meta_Box
         // Get MetaBox by Key
         $metaBox = self::getList($key);
         if (count($metaBox) > 0) {
-
             // Check Load Rest-API or Manually
-            if (isset($metaBox['js']) and $metaBox['js'] === false) {
+            if (isset($metaBox['js']) and $metaBox['js'] === false && self::metaBoxClassExist($key)) {
                 $class = self::getMetaBoxClass($key);
                 return array($class, 'get');
             }

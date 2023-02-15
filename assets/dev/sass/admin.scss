@@ -1,8 +1,20 @@
 // Define
 $image_path: "../images";
 
+// Settings
+@import "settings/settings";
+
 // Global
 @import "component/global";
+
+// Elements
+@import "elements/elements";
+
+// Generic
+@import "generic/generic";
+
+// Objects
+@import "objects/objects";
 
 // WordPress Admin Component
 @import "component/print";
@@ -14,6 +26,12 @@ $image_path: "../images";
 @import "component/placeholder/placeholder-loading";
 @import "component/badge";
 @import "component/table";
+@import "component/live";
+@import "component/footer";
+@import "component/chart";
+@import "component/about";
+@import "component/jqvmap";
+@import "component/search";
 
 // WordPress Admin Page
 @import "pages/setting";
@@ -30,6 +48,8 @@ $image_path: "../images";
 @import "meta-box/summary";
 @import "meta-box/map";
 @import "meta-box/referring";
+@import "meta-box/country";
+@import "meta-box/post-edit-metabox";
 
 // UI styles
 @import "component/ui.admin";

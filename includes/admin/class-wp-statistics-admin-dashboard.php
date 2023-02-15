@@ -19,6 +19,9 @@ class Admin_Dashboard
 
         //Register Dashboard Widget
         add_action('wp_dashboard_setup', array($this, 'load_dashboard_widget'));
+
+        // Add plugin's global class name
+        add_action('admin_body_class', array($this, 'add_plugin_body_class'));
     }
 
     /**
@@ -86,6 +89,16 @@ class Admin_Dashboard
 
         update_user_meta(User::get_user_id(), $hidden_opt, $hidden_widgets);
     }
+
+	public function add_plugin_body_class($classes)
+	{
+		// Add class for the admin body only for plugin's pages
+		if (isset($_GET['page']) && strpos($_GET['page'], 'wps_') === 0) {
+			$classes .= ' wps_page';
+		}
+
+		return $classes;
+	}
 }
 
 new Admin_Dashboard;

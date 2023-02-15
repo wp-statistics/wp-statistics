@@ -115,7 +115,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     function wp_statistics_show_visitors_filter(tickBox_DIV, data) {
 
         // Create Table
-        let html = '<table class="widefat">';
+        let html = '<table class="o-table">';
 
         // Show List Select
         let select = {

@@ -4,29 +4,41 @@ namespace WP_STATISTICS\MetaBox;
 
 use WP_STATISTICS\Referred;
 
-class referring
+class referring extends MetaBoxAbstract
 {
 
     public static function get($args = array())
     {
 
         // Check Number of Country
-        $number = (isset($args['number']) ? $args['number'] : 10);
+        $number = (!empty($args['number']) ? $args['number'] : 10);
+
+        // Filter By Date
+        self::filterByDate($args);
+        $args['from'] = self::$fromDate;
+        $args['to']   = self::$toDate;
 
         // Get List Top Referring
         try {
-            $response = Referred::getTop($number);
+            $result   = Referred::getList($args);
+            $get_urls = [];
+            foreach ($result as $items) {
+                $get_urls[$items->domain] = Referred::get_referer_from_domain($items->domain);
+            }
+            $response['referring'] = Referred::PrepareReferData($get_urls);
         } catch (\Exception $e) {
-            $response = array();
+            $response = [
+                'referring' => []
+            ];
         }
 
         // Check For No Data Meta Box
-        if (count($response) < 1) {
+        if (count($response['referring']) < 1) {
             $response['no_data'] = 1;
         }
 
         // Response
-        return $response;
+        return self::response($response);
     }
 
     public static function lang()

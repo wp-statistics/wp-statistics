@@ -280,7 +280,7 @@ class Visitor
                 'hits'     => (int)$items->hits,
                 'referred' => Referred::get_referrer_link($items->referred),
                 'refer'    => $items->referred,
-                'date'     => date_i18n(get_option('date_format'), strtotime($items->last_counter)),
+                'date'     => date_i18n(apply_filters('wp_statistics_visitor_date_format', 'F j'), strtotime($items->last_counter)),
                 'agent'    => $agent,
                 'platform' => $platform,
                 'version'  => esc_html($items->version)
@@ -299,7 +299,7 @@ class Visitor
             $item['browser'] = array(
                 'name' => $agent,
                 'logo' => UserAgent::getBrowserLogo($agent),
-                'link' => Menus::admin_url('overview', array('agent' => $agent))
+                'link' => Menus::admin_url('visitors', array('agent' => $agent))
             );
 
             // Push IP

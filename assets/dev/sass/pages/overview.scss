@@ -3,6 +3,84 @@ body.toplevel_page_wps_overview_page {
   fieldset.columns-prefs, label[for=wp-statistics-about-widget-hide] {
     display: none !important;
   }
+
+
+  #side-sortables {
+    .postbox {
+
+      .postbox-header {
+
+        @media screen and (min-width: 758px) and (max-width: 900px) {
+          padding: 4px 2px 4px 10px !important;
+        }
+
+        @media screen and (min-width: 900px) and (max-width: 1350px) {
+          padding: 4px 12px 4px 16px !important;
+        }
+      }
+
+      .c-footer {
+        @media screen and (min-width: 758px) and (max-width: 900px) {
+          padding: 24px 4px 0 16px !important;
+        }
+
+        @media screen and (min-width: 758px) and (max-width: 1300px) {
+          padding: 24px 4px 0 16px !important;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        @media screen and (min-width: 900px) and (max-width: 1420px) {
+          padding: 32px 12px 4px 16px !important;
+        }
+      }
+    }
+  }
+
+  #normal-sortables #wp-statistics-summary-widget {
+    table {
+      table-layout: fixed;
+
+      tr {
+        td:first-child, th:first-child {
+          width: auto;
+        }
+      }
+    }
+  }
+
+  #side-sortables #wp-statistics-summary-widget {
+    table {
+
+      tr {
+        td:not(:first-child), th:not(:first-child) {
+          @media screen and (min-width: 1250px) and (max-width: 1500px) {
+            padding: 14px 0 14px 26px;
+          }
+        }
+      }
+    }
+  }
+
+  #normal-sortables #wp-statistics-top-visitors-widget {
+    table {
+
+      tr {
+        td:not(:first-child), th:not(:first-child) {
+          @media screen and (min-width: 1120px) and (max-width: 1500px) {
+            padding: 14px 0 14px 26px;
+          }
+        }
+
+        td:nth-child(2), th:nth-child(2) {
+          @media screen and (min-width: 1120px) and (max-width: 1500px) {
+            padding: 14px 0 14px 26px;
+            width: 60px;
+          }
+        }
+      }
+    }
+  }
 }
 
 /* Overview ads */
@@ -40,9 +118,10 @@ body.toplevel_page_wps_overview_page {
 }
 
 #wps_overview_ads_postbox {
-    padding: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .toplevel_page_wps_overview_page #screen-meta-links {
-    margin-bottom: -30px;
+  margin-bottom: -30px;
 }

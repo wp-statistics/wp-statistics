@@ -16,7 +16,7 @@ wps_js.top_pages_chart_meta_box = {
         }, 1000);
 
         // Add Chart
-        html += '<canvas id="' + wps_js.chart_id('top-pages-chart') + '" height="80"></canvas>';
+        html += '<div class="o-wrap"><canvas id="' + wps_js.chart_id('top-pages-chart') + '" height="80"></canvas></div>';
 
         // show Data
         return html;

@@ -93,6 +93,16 @@ class Admin_Assets
         return $url . $file_name;
     }
 
+	/**
+	 * Enqueue dashboard page styles.
+	 */
+
+	public function dashboard_styles()
+	{
+		// Load Dashboard Css
+		wp_enqueue_style(self::$prefix . '-dashboard', self::url('dashboard.min.css'), array(), self::version());
+	}
+
     /**
      * Enqueue styles.
      */
@@ -111,18 +121,24 @@ class Admin_Assets
         }
 
         //Load Jquery VMap Css
-        if (!Option::get('disable_map') and (Menus::in_page('overview') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')))) {
+        if (!Option::get('disable_map') and (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')))) {
             wp_enqueue_style(self::$prefix . '-jqvmap', self::url('jqvmap/jqvmap.min.css'), array(), '1.5.1');
         }
 
         // Load Jquery-ui theme
-        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-            wp_enqueue_style(self::$prefix . '-jquery-datepicker', self::url('datepicker.min.css'), array(), '1.11.4');
-        }
+//        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
+//            wp_enqueue_style(self::$prefix . '-jquery-datepicker', self::url('datepicker.min.css'), array(), '1.11.4');
+//        }
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
+        }
+
+        // Load RangeDatePicker
+        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
+            wp_enqueue_style(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
+            wp_enqueue_style(self::$prefix . '-customize', self::url('datepicker/customize.css'), array(), '1.0.0');
         }
     }
 
@@ -143,16 +159,16 @@ class Admin_Assets
         }
 
         // Load Jquery VMap Js Library
-        if (!Option::get('disable_map') and (Menus::in_page('overview') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')))) {
+        if (!Option::get('disable_map') and (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')))) {
             wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), true, '1.5.1');
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), true, '1.5.1');
         }
 
         // Load Jquery UI
-        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-            wp_enqueue_script('jquery-ui-datepicker');
-            wp_localize_script('jquery-ui-datepicker', 'wps_i18n_jquery_datepicker', self::localize_jquery_datepicker());
-        }
+//        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
+//            wp_enqueue_script('jquery-ui-datepicker');
+//            wp_localize_script('jquery-ui-datepicker', 'wps_i18n_jquery_datepicker', self::localize_jquery_datepicker());
+//        }
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
@@ -181,6 +197,16 @@ class Admin_Assets
         if (Menus::in_page('visitors')) {
             wp_enqueue_script('thickbox');
             wp_enqueue_style('thickbox');
+        }
+
+        // Add RangeDatePicker
+        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
+            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), self::version());
+            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), self::version());
+        }
+
+        if (Menus::in_page('pages')) {
+            wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version());
         }
     }
 
@@ -234,18 +260,23 @@ class Admin_Assets
             'visits'        => __('Visits', 'wp-statistics'),
             'today'         => __('Today', 'wp-statistics'),
             'yesterday'     => __('Yesterday', 'wp-statistics'),
-            'week'          => __('Last 7 Days (Week)', 'wp-statistics'),
-            'month'         => __('Last 30 Days (Month)', 'wp-statistics'),
-            'year'          => __('Last 365 Days (Year)', 'wp-statistics'),
+            'last-week'     => __('Last week', 'wp-statistics'),
+            'week'          => __('Last 7 days', 'wp-statistics'),
+            'month'         => __('Last 30 days', 'wp-statistics'),
+            '60days'        => __('Last 60 days', 'wp-statistics'),
+            '90days'        => __('Last 90 days', 'wp-statistics'),
+            'year'          => __('Last 12 months', 'wp-statistics'),
+            'this-year'     => __('This year (Jan-Today)', 'wp-statistics'),
+            'last-year'     => __('Last year', 'wp-statistics'),
             'total'         => __('Total', 'wp-statistics'),
             'daily_total'   => __('Daily Total', 'wp-statistics'),
             'date'          => __('Date', 'wp-statistics'),
             'time'          => __('Time', 'wp-statistics'),
             'browsers'      => __('Browsers', 'wp-statistics'),
-            'rank'          => __('Rank', 'wp-statistics'),
+            'rank'          => __('#', 'wp-statistics'),
             'flag'          => __('Flag', 'wp-statistics'),
             'country'       => __('Country', 'wp-statistics'),
-            'visitor_count' => __('Visitor Count', 'wp-statistics'),
+            'visitor_count' => __('Visitors', 'wp-statistics'),
             'id'            => __('ID', 'wp-statistics'),
             'title'         => __('Title', 'wp-statistics'),
             'link'          => __('Link', 'wp-statistics'),
@@ -255,14 +286,24 @@ class Admin_Assets
             'city'          => __('City', 'wp-statistics'),
             'ip'            => __('IP', 'wp-statistics'),
             'referrer'      => __('Referrer', 'wp-statistics'),
-            'hits'          => __('Hits', 'wp-statistics'),
+            'hits'          => __('Visits', 'wp-statistics'),
             'agent'         => __('Agent', 'wp-statistics'),
             'platform'      => __('Platform', 'wp-statistics'),
             'version'       => __('Version', 'wp-statistics'),
             'page'          => __('Page', 'wp-statistics'),
-            'str_week'      => __('Week', 'wp-statistics'),
-            'str_month'     => __('Month', 'wp-statistics'),
-            'str_year'      => __('Year', 'wp-statistics'),
+            'str_today'     => __('Today', 'wp-statistics'),
+            'str_yesterday' => __('Yesterday', 'wp-statistics'),
+            'str_7days'     => __('Last 7 days', 'wp-statistics'),
+            'str_14days'    => __('Last 14 days', 'wp-statistics'),
+            'str_30days'    => __('Last 30 days', 'wp-statistics'),
+            'str_60days'    => __('Last 60 days', 'wp-statistics'),
+            'str_90days'    => __('Last 90 days', 'wp-statistics'),
+            'str_120days'   => __('Last 120 days', 'wp-statistics'),
+            'str_6months'   => __('Last 6 months', 'wp-statistics'),
+            'str_year'      => __('This year', 'wp-statistics'),
+            'str_back'      => __('Back', 'wp-statistics'),
+            'str_custom'    => __('Custom...', 'wp-statistics'),
+            'str_more'      => __('More present ranges', 'wp-statistics'),
             'custom'        => __('Custom', 'wp-statistics'),
             'to'            => __('to', 'wp-statistics'),
             'from'          => __('from', 'wp-statistics'),
@@ -282,6 +323,7 @@ class Admin_Assets
 
         // Rest-API Meta Box Url
         $list['admin_url']      = admin_url();
+        $list['assets_url']     = self::$plugin_url . self::$asset_dir;
         $list['rest_api_nonce'] = wp_create_nonce('wp_rest');
         $list['meta_box_api']   = get_rest_url(null, RestAPI::$namespace . '/metabox');
 

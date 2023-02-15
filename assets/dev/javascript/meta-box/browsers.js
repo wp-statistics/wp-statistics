@@ -9,16 +9,16 @@ wps_js.browsers_meta_box = {
         // Create Html
         let html = '';
 
-        // Check Show Button Group
-        if (wps_js.is_active('overview_page')) {
-            html += wps_js.btn_group_chart('browsers', args);
-            setTimeout(function () {
-                wps_js.date_picker();
-            }, 1000);
-        }
+        // // Check Show Button Group
+        // if (wps_js.is_active('overview_page')) {
+        //     html += wps_js.btn_group_chart('browsers', args);
+        //     setTimeout(function () {
+        //         wps_js.date_picker();
+        //     }, 1000);
+        // }
 
         // Add Chart
-        html += '<canvas id="' + wps_js.chart_id('browsers') + '" height="220"></canvas>';
+        html += '<div class="o-wrap"><div class="c-chart c-chart--limited-height"><canvas id="' + wps_js.chart_id('browsers') + '" height="220"></canvas></div></div>';
 
         // show Data
         return html;
@@ -54,7 +54,7 @@ wps_js.browsers_meta_box = {
 
             // Show Table information
             let tbl = `<div class="title-center">${args.title}</div>
-                    <table width="100%" class="widefat table-stats">
+                    <table width="100%" class="o-table">
                         <tr>
                             <td class="wps-text-muted">${wps_js._('browser')}</td>
                             <td class="wps-text-muted">${wps_js._('visitor_count')}</td>
@@ -83,7 +83,7 @@ wps_js.browsers_meta_box = {
             let html = '';
             for (let i = 0; i < args.browsers_name.length; i++) {
                 if (parseInt(args.browsers_value[i]) > 0 && args.info.agent[i]) {
-                    html += `<div class="wps-title-group"><img src="${args.info.logo[i]}" alt="${args.browsers_name[i]}" style="vertical-align: -3px;"> ${args.browsers_name[i]}</div><div class="wp-clearfix"></div>`;
+                    html += `<div class="wps-title-group"><img src="${args.info.logo[i]}" alt="${args.browsers_name[i]}" style="vertical-align: -3px;" class="wps-flag log-tools"> ${args.browsers_name[i]}</div><div class="wp-clearfix"></div>`;
                     html += wps_js.Create_Half_PostBox('postBox-chart-' + args.info.agent[i], 'browser-' + args.info.agent[i] + '-chart');
                     html += wps_js.Create_Half_PostBox('postBox-table-' + args.info.agent[i], 'browser-' + args.info.agent[i] + '-table');
                     html += `<div class="wp-clearfix"></div>`;
@@ -166,7 +166,7 @@ wps_js.show_custom_agent = function (args) {
 
         // Show Table information
         let tbl = `<div class="title-center">${args.title}</div>
-                    <table width="100%" class="widefat table-stats">
+                    <table width="100%" class="o-table">
                         <tr>
                             <td class="wps-text-muted">${wps_js._('version_list')}</td>
                             <td class="wps-text-muted">${wps_js._('visitor_count')}</td>
