@@ -21,7 +21,7 @@ class Pages
     {
 
         //Set Default Option
-        $current_page = array("type" => "unknown", "id" => 0);
+        $current_page = array("type" => "unknown", "id" => 0, "search_query" => '');
 
         //Check Query object
         $id = get_queried_object_id();
@@ -82,7 +82,7 @@ class Pages
         }
 
         //is search page
-        $search_query = filter_var(get_search_query(false), FILTER_SANITIZE_STRING);
+        $search_query = sanitize_url(get_search_query(false));
         if (trim($search_query) != "") {
             return array("type" => "search", "id" => 0, "search_query" => $search_query);
         }
@@ -125,11 +125,11 @@ class Pages
 
         // Get the site's path from the URL.
         $site_uri     = parse_url(site_url(), PHP_URL_PATH);
-        $site_uri_len = strlen($site_uri);
+        $site_uri_len = strlen($site_uri ? $site_uri : '');
 
         // Get the site's path from the URL.
         $home_uri     = parse_url(home_url(), PHP_URL_PATH);
-        $home_uri_len = strlen($home_uri);
+        $home_uri_len = strlen($home_uri ? $home_uri : '');
 
         // Get the current page URI.
         $page_uri = sanitize_url(wp_unslash($_SERVER["REQUEST_URI"]));
@@ -158,8 +158,8 @@ class Pages
             }
         }
 
-        //Sanitize Xss injection
-        $page_uri = filter_var($page_uri, FILTER_SANITIZE_STRING);
+        // Sanitize the page URI.
+        $page_uri = sanitize_url($page_uri);
 
         // If we're at the root (aka the URI is blank), let's make sure to indicate it.
         if ($page_uri == '') {
@@ -292,7 +292,7 @@ class Pages
      * @param string $type
      * @return array
      */
-    public static function get_page_info($page_id, $type = 'post')
+    public static function get_page_info($page_id, $type = 'post', $slug = false)
     {
 
         //Create Empty Object
@@ -352,19 +352,31 @@ class Pages
                     );
                     break;
                 case "feed":
-                    $result['title'] = __('Feed', 'wp-statistics');
+                    $arg['title'] = __('Feed', 'wp-statistics');
                     break;
                 case "loginpage":
-                    $result['title'] = __('Login Page', 'wp-statistics');
+                    $arg['title'] = __('Login Page', 'wp-statistics');
                     break;
                 case "search":
-                    $result['title'] = __('Search Page', 'wp-statistics');
+                    $arg['title'] = __('Search Page', 'wp-statistics');
                     break;
                 case "404":
-                    $result['title'] = __('404 not found', 'wp-statistics');
+                    $arg['title'] = __('404 not found', 'wp-statistics');
                     break;
                 case "archive":
-                    $result['title'] = __('Post Archive', 'wp-statistics');
+                    if ($slug) {
+                        $post_type   = trim($slug, '/');
+                        $post_object = get_post_type_object($post_type);
+
+                        if ($post_object instanceof \WP_Post_Type) {
+                            $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
+                        } else {
+                            $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
+                        }
+                    } else {
+                        $arg['title'] = __('Post Archive', 'wp-statistics');
+                    }
+
                     break;
             }
         }
@@ -439,13 +451,13 @@ class Pages
         foreach ($result as $item) {
 
             // Lookup the post title.
-            $page_info = Pages::get_page_info($item->id, $item->type);
+            $page_info = Pages::get_page_info($item->id, $item->type, $item->uri);
 
             // Push to list
             $list[] = array(
                 'title'     => $page_info['title'],
                 'link'      => $page_info['link'],
-                'str_url'   => urldecode($item->uri),
+                'str_url'   => urldecode(sanitize_text_field($item->uri)),
                 'hits_page' => Menus::admin_url('pages', array('ID' => $item->id, 'type' => $item->type)),
                 'number'    => number_format_i18n($item->count_sum)
             );
@@ -472,10 +484,9 @@ class Pages
         }
 
         $query = "SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount";
-        $result = $wpdb->get_var($query);
 
         // Return
-        return $result;
+        return $wpdb->get_var($query);
     }
 
     /**
