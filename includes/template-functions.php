@@ -521,7 +521,12 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
     } else {
-        $result = $wpdb->get_results("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), ARRAY_N);
+        $limitQuery = '';
+        if ($limit) {
+            $limitQuery = $wpdb->prepare(" LIMIT %d", $limit);
+        }
+
+        $result = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " GROUP BY `uri` {$limitQuery}", ARRAY_N);
     }
 
     $total = 0;

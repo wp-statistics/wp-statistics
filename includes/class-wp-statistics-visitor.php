@@ -75,7 +75,11 @@ class Visitor
     public static function exist_ip_in_day($ip, $date = false)
     {
         global $wpdb;
-        $visitor = $wpdb->get_row("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` = '" . ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date) . "' AND `ip` = '{$ip}'");
+
+        $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
+        $sql          = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip);
+        $visitor      = $wpdb->get_row($sql);
+
         return (!$visitor ? false : $visitor);
     }
 
@@ -197,6 +201,8 @@ class Visitor
      */
     public static function getTop($arg = array())
     {
+        global $wpdb;
+
         // Define the array of defaults
         $defaults = array(
             'day'      => 'today',
@@ -213,7 +219,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = '{$sql_time}' ORDER BY hits DESC";
+        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
 
         // Get Visitors Data
         return self::get($args);
