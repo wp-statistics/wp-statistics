@@ -27,6 +27,7 @@ class top_visitors_page
      */
     public static function view()
     {
+        global $wpdb;
 
         // Page title
         $args['title'] = __('Top Visitors Today', 'wp-statistics');
@@ -42,8 +43,9 @@ class top_visitors_page
         $args['total'] = Visitor::Count(array('key' => 'last_counter', 'compare' => '=', 'value' => trim($args['day'])));
         $args['list']  = array();
         if ($args['total'] > 0) {
+            $sql          = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $args['day']);
             $args['list'] = Visitor::get(array(
-                'sql'      => "SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = '" . esc_sql($args['day']) . "' ORDER BY hits DESC",
+                'sql'      => $sql,
                 'per_page' => Admin_Template::$item_per_page,
                 'paged'    => $args['paged'],
             ));

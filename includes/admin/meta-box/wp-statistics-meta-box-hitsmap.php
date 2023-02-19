@@ -29,7 +29,9 @@ class hitsmap extends MetaBoxAbstract
         $days_time_list = array_keys(self::$daysList);
 
         // Get List Country Of Visitors
-        $result = $wpdb->get_results("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "'");
+        $sql    = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s", reset($days_time_list), end($days_time_list));
+        $result = $wpdb->get_results($sql);
+
         if ($result) {
             foreach ($result as $new_country) {
                 $final_result[strtolower($new_country->location)][] = $new_country;
