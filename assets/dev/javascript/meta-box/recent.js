@@ -24,7 +24,7 @@ wps_js.recent_meta_box = {
             <td>${value['date']}</td>
             <td class="o-table__td--sm-width">${value['hits']}</td>
             <td class="o-table__link">` + (value['hash_ip'] ? value['hash_ip'] : `<a href='${value['ip']['link']}'>${value['ip']['value']}</a>`) + `</td>
-            <td>${value['referred']}</td>
+            <td class="o-table__referred">${value['referred']}</td>
 			</tr>`;
         });
 

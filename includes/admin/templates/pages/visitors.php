@@ -86,7 +86,7 @@
                                             <?php
                                         }
                                         ?>
-                                        <td><?php echo wp_kses_post($item['referred']); ?></td>
+                                        <td class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>
                                     </tr>
                                 <?php } ?>
                             </table>

@@ -23,7 +23,7 @@ wps_js.words_meta_box = {
             ` + (wps_js.is_active('geo_city') ? `<td style="text-align: left">${value['city']}</td>` : ``) + `
             <td>${value['date']}</td>
             <td>` + (value['hash_ip'] ? value['hash_ip'] : `<a href='${value['ip']['link']}'>${value['ip']['value']}</a>`) + `</td>
-            <td>${value['referred']}</td>
+            <td class="wps-admin-column__referred">${value['referred']}</td>
 			</tr>`;
             i++;
         });

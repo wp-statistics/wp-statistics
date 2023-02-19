@@ -55,7 +55,7 @@
                                                 <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
                                             <?php } ?>
                                         </td>
-                                        <td><?php echo wp_kses_post($item['referred']); ?></td>
+                                        <td class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>
                                         <td><?php echo esc_attr($item['hits']); ?></td>
                                         <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='table-icon-btn wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='table-icon-btn show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
                                     </tr>

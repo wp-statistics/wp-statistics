@@ -54,7 +54,7 @@
                                         <?php } ?>
                                         <td><?php echo esc_attr($item['date']); ?></td>
                                         <td><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-success'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
-                                        <td><?php echo wp_kses_post($item['referred']); ?></td>
+                                        <td class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>
                                     </tr>
                                 <?php } ?>
                             </table>
