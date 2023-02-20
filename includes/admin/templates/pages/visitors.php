@@ -64,7 +64,7 @@
                                             <td><?php echo esc_attr($item['city']); ?></td>
                                         <?php } ?>
                                         <td><span><?php echo esc_attr($item['date']); ?></span></td>
-                                        <td>
+                                        <td class="wps-admin-column__ip">
                                             <?php echo(isset($item['map']) ? "<a class='show-map' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?>
                                             <?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "'>" . esc_attr($item['ip']['value']) . "</a>"); ?>
                                         </td>
