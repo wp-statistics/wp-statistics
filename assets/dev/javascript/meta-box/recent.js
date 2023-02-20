@@ -23,7 +23,7 @@ wps_js.recent_meta_box = {
             ` + (wps_js.is_active('geo_city') ? `<td>${value['city']}</td>` : ``) + `
             <td>${value['date']}</td>
             <td class="o-table__td--sm-width">${value['hits']}</td>
-            <td class="o-table__link">` + (value['hash_ip'] ? value['hash_ip'] : `<a href='${value['ip']['link']}'>${value['ip']['value']}</a>`) + `</td>
+            <td class="o-table__link o-table__ip">` + (value['hash_ip'] ? value['hash_ip'] : `<a href='${value['ip']['link']}'>${value['ip']['value']}</a>`) + `</td>
             <td class="o-table__referred">${value['referred']}</td>
 			</tr>`;
         });
