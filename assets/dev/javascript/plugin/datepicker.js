@@ -29,6 +29,9 @@ jQuery(document).ready(function () {
         datePickerElement.data('daterangepicker').updateCalendars();
         const activeRangeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
         datePickerBtn.find('span').html(activeRangeText);
+    } else {
+        let defaultRange = datePickerBtn.find('span').text();
+        datePickerElement.data('daterangepicker').container.find('.ranges li[data-range-key="' + defaultRange + '"]').addClass('active');
     }
 
     datePickerElement.on('apply.daterangepicker', function (ev, picker) {
