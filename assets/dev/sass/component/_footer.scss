@@ -313,6 +313,16 @@
     svg {
       transform: rotate(180deg);
     }
+
+    &:first-child {
+      border: 1px solid #aaa;
+      border-radius: 0 3px 3px 0;
+    }
+
+    &:last-child {
+      border: 1px solid #aaa;
+      border-radius: 3px 0 0 3px;
+    }
   }
 
   .c-footer__filter__btn-group {
