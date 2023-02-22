@@ -62,3 +62,13 @@ There are two namespaces `WP_STATISTICS` and `WP_Statistics` that the new classe
 Would you like to support this project?
 - ![Paypal](https://raw.githubusercontent.com/reek/anti-adblock-killer/gh-pages/images/paypal.png) Paypal: [Donate](https://wp-statistics.com/donate/)
 - ![btc](https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/bitcoin.png) Bitcoin: `bc1qjezs7vusvvmhxrhxan7nkl7kvnpy624wxhse2p`
+
+### Build the assets
+Requirement: Before any build it`s necessary to fix these below versions then use npm and gulp commands
+- npm v6.*
+- node v14.*
+
+```sh
+npm install
+gulp
+```
