@@ -62,6 +62,7 @@
     font: normal 22px/1 dashicons;
     transform-origin: center center;
     transition: 0.1s;
+    transform: rotate(180deg);
   }
 }
 
@@ -89,7 +90,7 @@
   }
 
   .c-footer__filter__btn::after {
-    transform: rotate(180deg);
+    transform: rotate(0);
   }
 }
 

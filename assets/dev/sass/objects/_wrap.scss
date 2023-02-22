@@ -13,3 +13,14 @@
 .wps-wrap--no-content {
   padding: 24px 32px 0 !important;
 }
+
+.rtl {
+  .o-wrap--no-data {
+    padding: 32px !important;
+    text-align: center;
+
+    p {
+      margin: 0 !important;
+    }
+  }
+}

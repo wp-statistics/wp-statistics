@@ -1204,7 +1204,22 @@
 }
 
 .c-pages-select-page {
-  float: right;
+  margin-top: 4px;
+
+  @media screen and (min-width: 768px) {
+    float: right;
+  }
+
+
+  form {
+    margin-top: 0;
+  }
+}
+
+.rtl .c-pages-select-page {
+  @media screen and (min-width: 768px) {
+    float: left;
+  }
 }
 
 #dashboard-widgets {
