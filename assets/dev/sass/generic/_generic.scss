@@ -149,6 +149,9 @@
 
     h2 {
       font-weight: 600;
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.4;
     }
   }
 
@@ -184,10 +187,11 @@
 }
 
 .wps_page {
-  
-  .wrap:not(wps-wrap) {
+
+  .wrap:not(.wps-wrap) {
     margin-right: 0 !important;
     margin-left: 0 !important;
     padding: 0 20px;
   }
 }
+

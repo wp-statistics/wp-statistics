@@ -79,7 +79,8 @@
     table.o-table {
       tr {
         td:last-child, th:last-child {
-          text-align: left !important;
+          //text-align: left !important;
+
 
           svg {
             transform: rotate(180deg) !important;
