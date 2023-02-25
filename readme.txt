@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 13.2.16
+Stable tag: 14.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,11 +125,10 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 10. Theme widget
 
 == Upgrade Notice ==
-= 13.0 =
+= 14.0 =
 **IMPORTANT NOTE**
-Welcome to WP Statistics v13.0, our biggest update!
-Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you.
-Before updating, make sure you disabled all your add-ons, then after that, try to update add-ons.
+Welcome to WP Statistics v14.0, our biggest update!
+Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you. after updating, please update all Add-Ons to tha latest version as well.
 
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
