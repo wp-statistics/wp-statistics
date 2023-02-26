@@ -28,7 +28,7 @@ class AddOnsFactory
     private static function getFromRemote()
     {
         $addOnsRemoteUrl = WP_STATISTICS_SITE . '/wp-json/plugin/addons';
-        $response        = wp_remote_get($addOnsRemoteUrl, ['timeout' => 15]);
+        $response        = wp_remote_get($addOnsRemoteUrl, ['timeout' => 35]);
 
         if (is_wp_error($response)) {
             return [];
