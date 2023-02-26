@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 13.2.16
+Stable tag: 14.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,15 +125,36 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 10. Theme widget
 
 == Upgrade Notice ==
-= 13.0 =
+= 14.0 =
 **IMPORTANT NOTE**
-Welcome to WP Statistics v13.0, our biggest update!
-Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you.
-Before updating, make sure you disabled all your add-ons, then after that, try to update add-ons.
+Welcome to WP Statistics v14.0, our biggest update!
+Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you. after updating, please update all Add-Ons to tha latest version as well.
 
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v14.0 - 26.02.2023
+
+**New Feature**
+
+* **Time-Frame Filter:** All widgets now support custom date ranges, giving you greater flexibility in your data analysis.
+* **Statistics Hit Link:** A new feature that adds a link to the detailed statistics page in all widgets, making it easier to see the complete data behind your website's traffic.
+
+**Improvements**
+
+* **Widget Admin UI & UX:** We've completely redesigned the widget interface to improve the overall user experience, making it more intuitive and easy to use.
+* **Category and Tags Statistical Merge:** We've merged the Category and Tags Statistical into Taxonomy to make it more user-friendly and easier to understand.
+* **Assets and Icons Update:** All assets and icons have been updated to enhance the overall look and feel of the plugin.
+* **Update License Functionality:** We've made it easier to manage your license under the Add-Ons, so you can keep your plugin up-to-date and running smoothly.
+* **Admin Styles & Settings Page:** We've made some updates to the admin styles and settings page to improve the overall usability and functionality of the plugin.
+* **Many other improvements:** We've made numerous other improvements to enhance the overall performance and functionality of WP Statistics.
+
+**Add-Ons**
+
+* **Data Plus Add-On:** We recently launched a new Add-On called [Data Plus](https://wp-statistics.com/product/data-plus/) that unlocks advanced analytics features for WP Statistics. [click here](https://wp-statistics.com/2023/01/01/unlock-advanced-analytics-with-data-plus-for-wp-statistics) to get the limited-time offer!
+
+For more information about this update, please [visit our blog post](https://wp-statistics.com/2023/02/26/wp-statistics-gets-a-major-update-version-14-0-breakdown/).
+
 = v13.2.16 - 03.02.2023 =
 * Bugfix: The exclusion cache issue
 * Improvement: Populate post type title for archive pages

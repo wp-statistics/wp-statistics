@@ -212,8 +212,11 @@ class GeoIP
     public static function getUserCountryFromDB($ip)
     {
         global $wpdb;
+
         $date = date('Y-m-d', current_time('timestamp') - self::$library['country']['cache']);
-        $user = $wpdb->get_row("SELECT `location` FROM " . DB::table('visitor') . " WHERE `ip` = '{$ip}' and `last_counter` >= '{$date}' ORDER BY `ID` DESC LIMIT 1");
+        $sql  = $wpdb->prepare("SELECT `location` FROM " . DB::table('visitor') . " WHERE `ip` = %s and `last_counter` >= %s ORDER BY `ID` DESC LIMIT 1", $ip, $date);
+        $user = $wpdb->get_row($sql);
+
         if (null !== $user) {
             return $user->location;
         }
@@ -506,7 +509,7 @@ class GeoIP
                 } elseif ($return == "name") {
                     $subdiv   = $record->mostSpecificSubdivision->name;
                     $city     = $record->city->name;
-                    $location = ($city ? $city : "(Unknown)") . ($subdiv ? (", ") : "") . $subdiv;
+                    $location = (!empty($city) ? $city : $default_city) . ($subdiv ? (", ") : "") . $subdiv;
                 } else {
                     $location = $record->city->{$return};
                 }

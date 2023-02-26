@@ -84,8 +84,6 @@
 
 .wps-wrap h2,.wps-wrap h3 {
     direction: rtl;
-    font-family: tahoma, serif;
-    font-weight: 400;
 }
 
 .wps_page_title {
@@ -130,4 +128,12 @@
 
 .rtl .wp-statistics-plugins .plugin-card .cover-ribbon .cover-ribbon-inside:after {
     right: -1px;
+}
+
+
+.rtl {
+    @import "rtl/additional-rtl";
+    @import "rtl/metabox-rtl";
+    @import "rtl/table-rtl";
+    @import "rtl/components-rtl";
 }

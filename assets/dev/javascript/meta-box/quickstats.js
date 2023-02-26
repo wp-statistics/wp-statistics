@@ -2,12 +2,12 @@ wps_js.quickstats_meta_box = {
 
     view: function (args = []) {
         let t = '';
-        t += `<table width="100%" class="widefat table-stats wps-summary-stats"><tbody>`;
+        t += `<div class="o-table-wrapper"><table width="100%" class="o-table"><tbody>`;
 
         //Summary Statistics
         t += wps_js.summary_meta_box.summary_statistics(args);
 
-        t += `</tbody></table>`;
+        t += `</tbody></table></div>`;
         t += `<br><hr width="80%"/><br>`;
 
         // Show Chart JS

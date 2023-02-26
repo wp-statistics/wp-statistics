@@ -1,0 +1,46 @@
+#wp_statistics_editor_meta_box,
+#wp-statistics-browsers-widget,
+#wp-statistics-countries-widget,
+#wp-statistics-hitsmap-widget,
+#wp-statistics-hits-widget,
+#wp-statistics-pages-widget,
+#wp-statistics-recent-widget,
+#wp-statistics-referring-widget,
+#wp-statistics-search-widget,
+#wp-statistics-summary-widget,
+#wp-statistics-words-widget,
+#wp-statistics-top-visitors-widget,
+#wps_hits_postbox,
+#wps_top_visitors_postbox,
+#wps_search_postbox,
+#wps_words_postbox,
+#wps_recent_postbox,
+#wps_map_postbox,
+#wps_pages_postbox,
+#wps_summary_postbox,
+#wps_browsers_postbox,
+#wps_referring_postbox,
+#wp-statistics-comparison-widget,
+#wps_countries_postbox,
+#wps_pages_postbox,
+#wp-statistics-models-widget,
+#wp-statistics-platforms-widget,
+#wp-statistics-quickstats-widget,
+#wp-statistics-devices-widget,
+#wp-statistics-useronline-widget,
+.wps-wrap {
+
+  a {
+    color: $primary-color;
+    text-decoration: none;
+
+    &:hover {
+      color: $dark-color;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}

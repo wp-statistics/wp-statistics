@@ -1,0 +1,55 @@
+.jqvmap-label {
+  background: #fff !important;
+  box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07) !important;
+  border-radius: 4px !important;
+  color: #0C0C0D !important;
+  padding: 12px !important;
+
+  .map-country-header {
+    background: linear-gradient(360deg, #F8F8F8 0%, rgba(245, 245, 245, 0) 23.33%);
+    padding: 12px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px !important;
+    display: flex;
+    align-items: center;
+
+    & > img {
+      margin-right: 8px;
+    }
+  }
+
+  .map-html-marker {
+    margin: -12px;
+  }
+
+  hr {
+    background-color: #F8F8F8;
+    border-color: #F8F8F8;
+    margin: 0;
+  }
+
+  p {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 12px !important;
+    background-color: #fff !important;
+    border-bottom: 1px solid #EEEFF1 !important;
+    color: #0C0C0D !important;
+    margin: 0 !important;
+    word-break: break-all !important;
+    font-weight: 400;
+    font-size: 10px !important;
+    line-height: 165%;
+
+    &:last-child {
+      border-bottom: 0 !important;
+    }
+
+    img {
+      //width: 14px;
+      //height: 14px;
+      margin-right: 8px !important;
+    }
+  }
+}

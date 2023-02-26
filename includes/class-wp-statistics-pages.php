@@ -399,22 +399,48 @@ class Pages
             'per_page' => 10,
             'paged'    => 1,
             'from'     => '',
-            'to'       => ''
+            'to'       => '',
+            'ago'      => '',
         );
 
         $args = wp_parse_args($args, $defaults);
 
-        /**
-         * Filter the arguments used to query the top pages.
-         * @since 13.2.7
-         */
-        $args = apply_filters('wp_statistics_top_pages_arguments', $args);
+        // Check Default
+        if (empty($args['from']) and empty($args['to'])) {
+            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
+                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
+                $args['from'] = $dateFilter['from'];
+                $args['to']   = $dateFilter['to'];
+            }
+        }
+
+        // Prepare Count Day
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $count_day = $args['ago'];
+            } else {
+                $count_day = 30;
+            }
+        }
+
+        // Get time ago Days Or Between Two Days
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
+            } else {
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($count_day)));
+            }
+        }
+
+        // Get List Of Days
+        $days_time_list = array_keys($days_list);
 
         // Date Time SQL
-        $DateTimeSql = "";
-        if (!empty($args['from']) and !empty($args['to'])) {
-            $DateTimeSql = $wpdb->prepare("WHERE (`pages`.`date` BETWEEN %s AND %s)", $args['from'], $args['to']);
-        }
+        $DateTimeSql = "WHERE (`pages`.`date` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "')";
 
         // Generate SQL
         $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' {$DateTimeSql} GROUP BY `uri` ORDER BY `count_sum` DESC";
@@ -457,8 +483,10 @@ class Pages
             $where .= "WHERE `date` BETWEEN '{$args['from']}' AND '{$args['to']}'";
         }
 
+        $query = "SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount";
+
         // Return
-        return $wpdb->get_var("SELECT COUNT(*) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`");
+        return $wpdb->get_var($query);
     }
 
     /**

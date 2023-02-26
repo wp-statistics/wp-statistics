@@ -46,7 +46,7 @@ class Country
         if (!array_key_exists($location, $list_country)) {
             $location = self::$unknown_location;
         }
-        return WP_STATISTICS_URL . 'assets/images/flags/' . $location . '.png';
+        return WP_STATISTICS_URL . 'assets/images/flags/' . strtolower($location) . '.svg';
     }
 
     /**
@@ -81,18 +81,44 @@ class Country
         // Get List From DB
         $list = array();
 
-        // Check Custom Date
-        $where = '';
-        if (isset($args['from']) and isset($args['to'])) {
-            $where = $wpdb->prepare("WHERE `last_counter` BETWEEN %s AND %s", $args['from'], $args['to']);
+        // Check Default
+        if (empty($args['from']) and empty($args['to'])) {
+            if (array_key_exists($args['ago'], TimeZone::getDateFilters())) {
+                $dateFilter   = TimeZone::calculateDateFilter($args['ago']);
+                $args['from'] = $dateFilter['from'];
+                $args['to']   = $dateFilter['to'];
+            }
         }
 
-        $limit = (isset($args['limit']) and $args['limit'] > 0) ? $wpdb->prepare("LIMIT %d", $args['limit']) : '';
-        $sql   = "SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` {$where} GROUP BY `location` ORDER BY `count` DESC {$limit}";
-        
-        // Get Result
-        $result = $wpdb->get_results($sql);
+        // Check Custom Date
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $count_day = TimeZone::getNumberDayBetween($args['from'], $args['to']);
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $count_day = $args['ago'];
+            } else {
+                $first_day = Helper::get_date_install_plugin();
+                $count_day = TimeZone::getNumberDayBetween($first_day);
+            }
+        }
 
+        // Get time ago Days Or Between Two Days
+        if (!empty($args['from']) and !empty($args['to'])) {
+            $days_list = TimeZone::getListDays(array('from' => $args['from'], 'to' => $args['to']));
+        } else {
+            if (is_numeric($args['ago']) and $args['ago'] > 0) {
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($args['ago'])));
+            } else {
+                $days_list = TimeZone::getListDays(array('from' => TimeZone::getTimeAgo($count_day)));
+            }
+        }
+
+        $days_time_list = array_keys($days_list);
+
+        // Get Result
+        $limitQuery = (isset($args['limit']) and $args['limit'] > 0) ? $wpdb->prepare("LIMIT %d", $args['limit']) : '';
+        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY location ORDER BY `count` DESC", reset($days_time_list), end($days_time_list));
+        $result     = $wpdb->get_results($sqlQuery . " " . $limitQuery);
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
             $list[]         = array(

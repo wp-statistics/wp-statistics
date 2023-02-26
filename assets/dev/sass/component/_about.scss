@@ -1,0 +1,94 @@
+.c-about {
+
+}
+
+.c-about__row {
+
+}
+
+.c-about__row--logo {
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+
+  a {
+    margin-right: 10px;
+    display: inline-block;
+  }
+}
+
+.c-about__veronalabs {
+  margin-top: 16px;
+}
+
+.c-about__links {
+
+  a {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 24px;
+    transition: 0.22s;
+    white-space: nowrap;
+
+    svg {
+      margin-left: 4px;
+
+      path {
+        transition: 0.22s;
+      }
+    }
+
+    &:hover {
+      svg path {
+        fill: $dim-black-color;
+      }
+    }
+  }
+}
+
+
+.c-about__footer {
+  margin-top: 50px;
+  display: flex;
+  justify-content: flex-end;
+
+  a {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+
+    svg {
+      margin-left: 4px;
+
+      path {
+        transition: 0.22s;
+      }
+    }
+
+    &:hover {
+      svg path {
+        fill: $dark-color;
+      }
+    }
+  }
+
+}
+
+#wp-statistics-about-widget {
+  .inside {
+    padding-bottom: 11px;
+    padding-top: 11px;
+    margin: 0;
+    background: url("../images/wp-stats-bg.svg") right center/auto 100% no-repeat;
+  }
+
+
+  .postbox-header {
+    height: 36px;
+
+    .handle-actions {
+      display: none;
+    }
+  }
+}

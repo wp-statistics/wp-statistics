@@ -1,0 +1,60 @@
+.wps-wrap .postbox .postbox-header {
+  padding: 10px 32px 10px 20px;
+
+  .wps-refresh {
+    .wps-refresh-icon {
+      float: right !important;
+      margin: 0 0 0 5px !important;
+    }
+
+    .screen-reader-text {
+      margin: 0 5px 0 0 !important;
+    }
+  }
+}
+
+.c-footer {
+  .c-footer__more__link {
+
+    svg {
+      transform: rotate(180deg) !important;
+      margin: 0 8px 0 0 !important;
+    }
+  }
+
+  .c-footer__filters__list-item {
+    text-align: right !important;
+  }
+
+  .c-footer__filters__close-more-filters {
+
+    svg {
+      margin: 0 0 0 8px !important;
+      transform: rotate(270deg) !important;
+    }
+  }
+}
+
+#wp-statistics-about-widget {
+
+  .c-about__row--logo a {
+    margin:  0 0 0 10px !important;
+  }
+
+  .c-about__row.c-about__links {
+
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    a {
+
+    }
+  }
+
+  .c-about__veronalabs {
+    width: 100%;
+  }
+}

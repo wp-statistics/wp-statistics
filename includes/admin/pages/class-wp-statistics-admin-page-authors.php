@@ -45,25 +45,8 @@ class authors_page
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
 
-        // Create Select Box
-        $args['select_box'] = array(
-            'name'  => 'ID',
-            'title' => __('Select Author', 'wp-statistics')
-        );
-
         // Get List Authors
         $users = get_users((User::Access('manage') ? array('role__in' => array('author', 'administrator')) : array('role__in' => 'author')));
-
-        // Set All Item
-        $args['select_box']['list'][0] = __('All', 'wp-statistics');
-
-        // Push to List User
-        foreach ($users as $user) {
-            $args['select_box']['list'][$user->ID] = User::get_name($user->ID);
-        }
-
-        // Check Active User
-        $args['select_box']['active'] = ((isset($_GET['ID']) and User::exists($_GET['ID']) === true) ? $_GET['ID'] : 0);
 
         // Check Number Post From a author
         if (isset($_GET['ID']) and $_GET['ID'] > 0) {

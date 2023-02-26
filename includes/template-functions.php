@@ -438,7 +438,13 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
 
     //Check Query By Page ID or Page Url
     if ($type != false) {
-        $where[] = "`type`='" . $type . "'" . ($id != -1 ? ' AND `id` = ' . $id : '');
+        $query = $wpdb->prepare("`type` = %s", $type);
+
+        if ($id != -1) {
+            $query .= $wpdb->prepare(" AND `id` = %d", $id);
+        }
+
+        $where[] = apply_filters('wp_statistics_pages_where_type_query', $query, $id, $type);
     } else {
 
         // If no page URI has been passed in, get the current page URI.
@@ -515,7 +521,12 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
     } else {
-        $result = $wpdb->get_results("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), ARRAY_N);
+        $limitQuery = '';
+        if ($limit) {
+            $limitQuery = $wpdb->prepare(" LIMIT %d", $limit);
+        }
+
+        $result = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " GROUP BY `uri` {$limitQuery}", ARRAY_N);
     }
 
     $total = 0;

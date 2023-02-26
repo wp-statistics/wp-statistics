@@ -128,8 +128,7 @@ class Purge
                         $wpdb->prepare(
                             "UPDATE {$historical_table} SET `value` = value + %d WHERE `uri` = %s AND `category` = 'uri'",
                             $historical,
-                            $row->uri,
-                            $date_string
+                            $row->uri
                         )
                     );
 

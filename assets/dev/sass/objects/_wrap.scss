@@ -1,0 +1,26 @@
+.o-wrap {
+  padding: 12px 32px;
+}
+
+.o-wrap--no-data {
+  padding: 16px 16px 0 !important;
+
+  @media screen and (min-width: 1300px) {
+    padding: 16px 32px 0 !important;
+  }
+}
+
+.wps-wrap--no-content {
+  padding: 24px 32px 0 !important;
+}
+
+.rtl {
+  .o-wrap--no-data {
+    padding: 32px !important;
+    text-align: center;
+
+    p {
+      margin: 0 !important;
+    }
+  }
+}

@@ -48,7 +48,7 @@ wps_js.redirect = function (url) {
 /**
  * Create Line Chart JS
  */
-wps_js.line_chart = function (tag_id, title, label, data) {
+wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
 
     // Get Element By ID
     let ctx = document.getElementById(tag_id).getContext('2d');
@@ -60,8 +60,7 @@ wps_js.line_chart = function (tag_id, title, label, data) {
         }
     }
 
-    // Create Chart
-    new Chart(ctx, {
+    const defaultOptions = {
         type: 'line',
         data: {
             labels: label,
@@ -94,7 +93,12 @@ wps_js.line_chart = function (tag_id, title, label, data) {
                 }
             }
         }
-    });
+    };
+
+    const options = Object.assign({}, defaultOptions, newOptions);
+
+    // Create Chart
+    new Chart(ctx, options);
 };
 
 /**
@@ -134,8 +138,15 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
         },
         options: {
             responsive: true,
-            legend: {
-                position: 'bottom',
+            plugins: {
+                legend: {
+                    position: function (chart) {
+                        if (chart.chart.width > 400) {
+                            return 'left';
+                        }
+                        return 'top';
+                    }
+                }
             },
             animation: {
                 duration: 1500,
@@ -214,7 +225,7 @@ wps_js.random_color = function (i = false) {
  * Show Domain Icon
  */
 wps_js.site_icon = function (domain) {
-    return `<img src="https://www.google.com/s2/favicons?domain=${domain}" width="16" height="16" alt="${domain}" style="vertical-align: -3px;" />`;
+    return `<img src="https://www.google.com/s2/favicons?domain=${domain}" width="18" height="18" alt="${domain}" style="vertical-align: middle;" />`;
 };
 
 /**

@@ -27,7 +27,7 @@ wps_js.getMetaBoxKey = function (key) {
  * Show No Data Error if Meta Box is Empty
  */
 wps_js.no_meta_box_data = function () {
-    return wps_js._('no_data');
+    return '<div class="o-wrap o-wrap--no-data">' + wps_js._('no_data') + '</div>';
 };
 
 /**
@@ -36,9 +36,9 @@ wps_js.no_meta_box_data = function () {
 wps_js.error_meta_box_data = function (xhr) {
     let data = JSON.parse(xhr);
     if (wps_js.isset(data, 'message')) {
-        return data['message'];
+        return '<div class="o-wrap o-wrap--no-data">' + data['message'] + '</div>';
     }
-    return wps_js._('rest_connect');
+    return '<div class="o-wrap o-wrap--no-data">' + wps_js._('rest_connect') + '</div>';
 };
 
 /**
@@ -91,19 +91,10 @@ wps_js.meta_box_button = function (key) {
     }
 
     // Clean Button
-    jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh], #" + wps_js.getMetaBoxKey(key) + " button[class*=wps-more]").remove();
-
-    // Check Page Url Button
-    if (wps_js.is_active('more_btn') && wps_js.isset(meta_box_info, "page_url")) {
-        jQuery(`<button class="handlediv wps-more"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" onclick="location.href = '` + wps_js.global.admin_url + 'admin.php?page=' + meta_box_info.page_url + `';"><span class="screen-reader-text">` + wps_js._('more_detail') + `</span> <span class="dashicons dashicons-external"></span></button>`).insertBefore(selector);
-    }
+    jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]").remove();
 
     // Add Refresh Button
-    if (wps_js.is_active('more_btn') && wps_js.isset(meta_box_info, "page_url")) {
-        jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 6%;" ` : 'style="line-height: 28px;"') + ` type="button"><span class="screen-reader-text">` + wps_js._('reload') + `</span> <span class="dashicons dashicons-update"></span> </button>`).insertAfter("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-more]");
-    } else {
-        jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button"><span class="screen-reader-text">` + wps_js._('reload') + `</span> <span class="dashicons dashicons-update"></span> </button>`).insertBefore(selector);
-    }
+    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"><span class="wps-refresh-icon"></span> <span class="screen-reader-text">` + wps_js._('reload') + `</span></button>`).insertBefore(selector);
 };
 
 /**
@@ -164,9 +155,171 @@ wps_js.run_meta_boxes = function (list = false) {
         list = Object.keys(wps_js.global.meta_boxes);
     }
     list.forEach(function (value) {
-        wps_js.run_meta_box(value);
+        let ago = '';
+        let args = wps_js.global.meta_boxes[value];
+        if (args.hasOwnProperty('footer_options')) {
+            ago = args.footer_options.default_date_filter;
+        }
+        wps_js.run_meta_box(value, {'ago': ago});
     });
 };
+
+/**
+ * Render Meta Box Footer
+ */
+wps_js.meta_box_footer = function (key, data) {
+    let params = {
+        'footer_options': {
+            'filter_by_date': false,
+            'default_date_filter': '',
+            'display_more_link': false,
+            'more_link_title': ''
+        }
+    };
+
+    const args = wps_js.global.meta_boxes[key];
+    if (args.hasOwnProperty('footer_options')) {
+        Object.assign(params.footer_options, args.footer_options);
+    }
+
+    let selectedDateFilter = '';
+    if (data.hasOwnProperty('filter')) {
+        selectedDateFilter = data.filter;
+    } else if (typeof params.footer_options.default_date_filter != 'undefined') {
+        selectedDateFilter = params.footer_options.default_date_filter;
+    }
+
+    let selectedStartDate = '';
+    if (data.hasOwnProperty('filter_start_date')) {
+        selectedStartDate = data.filter_start_date;
+    }
+
+    let selectedEndDate = '';
+    if (data.hasOwnProperty('filter_end_date')) {
+        selectedEndDate = data.filter_end_date;
+    }
+
+    let fromDate = '';
+    if (data.hasOwnProperty('from')) {
+        fromDate = data.from;
+    }
+
+    let toDate = '';
+    if (data.hasOwnProperty('to')) {
+        toDate = data.to;
+    }
+
+    if (!params.footer_options.filter_by_date && !params.footer_options.display_more_link) return;
+
+    let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
+    if (params.footer_options.filter_by_date) {
+        html += `
+            <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._('str_' + params.footer_options.default_date_filter) + `</button>
+            <div class="c-footer__filters">
+                <div class="c-footer__filters__current-filter">
+                    <span class="c-footer__current-filter__title js-filter-title">Last 7 days</span>
+                    <span class="c-footer__current-filter__date-range hs-filter-range">May 12,2020  -  May 20, 2020</span>
+                </div>
+                <div class="c-footer__filters__list">
+                    <button data-metabox-key="${key}" data-filter="today" class="c-footer__filters__list-item">` + wps_js._('str_today') + `</button>
+                    <button data-metabox-key="${key}" data-filter="yesterday" class="c-footer__filters__list-item">` + wps_js._('str_yesterday') + `</button>
+                    <button data-metabox-key="${key}" data-filter="7days" class="c-footer__filters__list-item">` + wps_js._('str_7days') + `</button>
+                    <button data-metabox-key="${key}" data-filter="30days" class="c-footer__filters__list-item">` + wps_js._('str_30days') + `</button>
+                    <button data-metabox-key="${key}" data-filter="90days" class="c-footer__filters__list-item">` + wps_js._('str_90days') + `</button>
+                    <button class="c-footer__filters__list-item c-footer__filters__list-item--more" onclick="jQuery(this).closest('.c-footer__filters__list').find('.js-more-filters').addClass('is-open')">` + wps_js._('str_more') + ` <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25736 5.07544L4.32794 5.14601C4.241 5.23295 4.12308 5.28182 4.00009 5.28182C3.87715 5.28182 3.7592 5.233 3.67226 5.14604C3.67226 5.14603 3.67225 5.14603 3.67225 5.14602L0.0358041 1.50968L0.106514 1.43896L0.0358032 1.50968C-0.14526 1.32861 -0.14526 1.03507 0.0357727 0.854006M4.25736 5.07544L0.10649 0.92471M4.25736 5.07544L4.32794 5.14601L7.9642 1.50965C8.14527 1.32859 8.14527 1.03504 7.9642 0.853976C7.78317 0.67294 7.4896 0.672907 7.30853 0.853976L7.37924 0.924687M4.25736 5.07544L7.37924 0.924687M0.0357727 0.854006L0.10649 0.92471M0.0357727 0.854006C0.0357708 0.854008 0.0357689 0.85401 0.035767 0.854012L0.10649 0.92471M0.0357727 0.854006C0.126294 0.763456 0.245135 0.718189 0.363629 0.718189C0.482123 0.718189 0.600959 0.763457 0.691478 0.853975L4.00008 4.16249M0.10649 0.92471C0.177495 0.85368 0.270562 0.818189 0.363629 0.818189C0.456695 0.818189 0.549762 0.85368 0.620768 0.924686L3.92938 4.2332L4.00008 4.16249M4.00008 4.16249L7.30853 0.853977L7.37924 0.924687M4.00008 4.16249L4.0708 4.2332L7.37924 0.924687" fill="#5F6368" stroke="#5F6368" stroke-width="0.2"/></svg></button>
+                    <div class="c-footer__filters__more-filters js-more-filters">
+                        <button data-metabox-key="${key}" data-filter="14days" class="c-footer__filters__list-item">` + wps_js._('str_14days') + `</button>
+                        <button data-metabox-key="${key}" data-filter="60days" class="c-footer__filters__list-item">` + wps_js._('str_60days') + `</button>
+                        <button data-metabox-key="${key}" data-filter="120days" class="c-footer__filters__list-item">` + wps_js._('str_120days') + `</button>
+                        <button data-metabox-key="${key}" data-filter="6months" class="c-footer__filters__list-item">` + wps_js._('str_6months') + `</button>
+                        <button data-metabox-key="${key}" data-filter="year" class="c-footer__filters__list-item">` + wps_js._('str_year') + `</button>
+                        <button class="c-footer__filters__close-more-filters" onclick="jQuery(this).closest('.js-more-fi' + 'lters').removeClass('is-open')"><svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25736 5.07544L4.32794 5.14601C4.241 5.23295 4.12308 5.28182 4.00009 5.28182C3.87715 5.28182 3.7592 5.233 3.67226 5.14604C3.67226 5.14603 3.67225 5.14603 3.67225 5.14602L0.0358041 1.50968L0.106514 1.43896L0.0358032 1.50968C-0.14526 1.32861 -0.14526 1.03507 0.0357727 0.854006M4.25736 5.07544L0.10649 0.92471M4.25736 5.07544L4.32794 5.14601L7.9642 1.50965C8.14527 1.32859 8.14527 1.03504 7.9642 0.853976C7.78317 0.67294 7.4896 0.672907 7.30853 0.853976L7.37924 0.924687M4.25736 5.07544L7.37924 0.924687M0.0357727 0.854006L0.10649 0.92471M0.0357727 0.854006C0.0357708 0.854008 0.0357689 0.85401 0.035767 0.854012L0.10649 0.92471M0.0357727 0.854006C0.126294 0.763456 0.245135 0.718189 0.363629 0.718189C0.482123 0.718189 0.600959 0.763457 0.691478 0.853975L4.00008 4.16249M0.10649 0.92471C0.177495 0.85368 0.270562 0.818189 0.363629 0.818189C0.456695 0.818189 0.549762 0.85368 0.620768 0.924686L3.92938 4.2332L4.00008 4.16249M4.00008 4.16249L7.30853 0.853977L7.37924 0.924687M4.00008 4.16249L4.0708 4.2332L7.37924 0.924687" fill="#5F6368" stroke="#5F6368" stroke-width="0.2"/></svg> ` + wps_js._('str_back') + `</button>
+                    </div>
+                    <input type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
+                    <button data-metabox-key="${key}" data-filter="custom" class="c-footer__filters__list-item c-footer__filters__list-item--custom js-custom-datepicker">` + wps_js._('str_custom') + `</button>
+                </div>
+            </div>
+        `;
+    }
+    html += `</div><div class="c-footer__more">`;
+    if (params.footer_options.display_more_link) {
+        html += `<a class="c-footer__more__link" href="` + wps_js.global.admin_url + 'admin.php?page=' + args.page_url + `">${params.footer_options.more_link_title}<svg width="14" height="10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m9.61181.611328-.71269.712722 3.17148 3.17149L0 4.49951v1.00398h12.0706L8.89912 8.67495l.71269.71272L14 4.99948 9.61181.611328Z" fill="#404BF2"/></svg></a>`;
+    }
+    html += `</div></div>`;
+
+    jQuery(wps_js.meta_box_inner(key)).append(html);
+
+    const datePickerElement = jQuery(wps_js.meta_box_inner(key)).find('.js-datepicker-input').first();
+    datePickerElement.daterangepicker({"autoApply": true});
+    datePickerElement.on('apply.daterangepicker', function (ev, picker) {
+        wps_js.run_meta_box(key, {
+            'from': picker.startDate.format('YYYY-MM-DD'),
+            'to': picker.endDate.format('YYYY-MM-DD')
+        });
+    });
+
+    /**
+     * Add click event to filters toggle
+     */
+    jQuery('.js-filters-toggle:not(.is-ready)').on('click', function () {
+        jQuery('.js-widget-filters').removeClass('is-active');
+        jQuery('.postbox').removeClass('has-focus');
+        jQuery(this).closest('.js-widget-filters').toggleClass('is-active');
+        jQuery(this).closest('.postbox').toggleClass('has-focus')
+
+        /**
+         * Open filters to the downside if there's not enough space.
+         */
+        if (!jQuery(this).hasClass('is-active')) {
+            const targetTopPosition = jQuery(this)[0].getBoundingClientRect().top;
+            if (targetTopPosition < 350) {
+                jQuery(this).closest('.js-widget-filters').addClass('is-down');
+            }
+        }
+    });
+    jQuery('.js-filters-toggle:not(.is-ready)').addClass('is-ready');
+
+
+    wps_js.set_date_filter_as_selected(key, selectedDateFilter, selectedStartDate, selectedEndDate, fromDate, toDate);
+};
+
+/**
+ * Set As Selected Date Filter
+ */
+wps_js.set_date_filter_as_selected = function (key, selectedDateFilter, selectedStartDate, selectedEndDate, fromDate, toDate) {
+    const metaBoxInner = jQuery(wps_js.meta_box_inner(key));
+    const filterBtn = jQuery(metaBoxInner).find('.c-footer__filter__btn');
+    const filterList = jQuery(metaBoxInner).find('.c-footer__filters__list');
+    const currentFilterTitle = jQuery(metaBoxInner).find('.c-footer__current-filter__title');
+    const currentFilterRange = jQuery(metaBoxInner).find('.c-footer__current-filter__date-range');
+    if (selectedDateFilter.length) {
+        filterList.find('button[data-filter]').removeClass('is-selected');
+        filterList.find('button[data-filter="' + selectedDateFilter + '"').addClass('is-selected');
+        filterBtn.text(wps_js._('str_' + selectedDateFilter));
+        currentFilterTitle.text(wps_js._('str_' + selectedDateFilter));
+        if (selectedDateFilter == 'custom') {
+            const datePickerElement = jQuery(wps_js.meta_box_inner(key)).find('.js-datepicker-input').first();
+            datePickerElement.data('daterangepicker').setStartDate(moment(fromDate).format('MM/DD/YYYY'));
+            datePickerElement.data('daterangepicker').setEndDate(moment(toDate).format('MM/DD/YYYY'));
+        }
+    }
+    if (selectedStartDate.length && selectedEndDate.length) {
+        currentFilterRange.text(selectedStartDate + '-' + selectedEndDate);
+    }
+}
+
+/**
+ * Meta Box Footer Handle Date Filter
+ */
+jQuery(document).on("click", 'button[data-filter]:not(.c-footer__filters__list-item--custom)', function () {
+    wps_js.run_meta_box(jQuery(this).attr('data-metabox-key'), {'ago': jQuery(this).attr('data-filter')});
+});
+
+jQuery(document).on("click", 'button[data-filter="custom"]', function () {
+    const metaBoxKey = jQuery(this).attr('data-metabox-key');
+    const datePickerElement = jQuery(wps_js.meta_box_inner(metaBoxKey)).find('.js-datepicker-input').first();
+    datePickerElement.data('daterangepicker').show();
+});
 
 /**
  * Disable Close WordPress Post ox for Meta Box Button
@@ -190,9 +343,14 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     // Get Meta Box name By Parent ID
     let parentID = jQuery(this).closest(".postbox").attr("id");
     let meta_box_name = wps_js.meta_box_name_by_id(parentID);
+    let ago = '';
+    let args = wps_js.global.meta_boxes[meta_box_name];
+    if (args.hasOwnProperty('footer_options')) {
+        ago = args.footer_options.default_date_filter;
+    }
 
     // Run Meta Box
-    wps_js.run_meta_box(meta_box_name, false, false);
+    wps_js.run_meta_box(meta_box_name, {'ago': ago}, false);
     setTimeout(function () {
         jQuery('#' + parentID).find('.wps-refresh').blur();
     }, 1000);
@@ -295,3 +453,33 @@ jQuery(document).on("click", 'input[data-between-chart-show]', function () {
         'no-data': 'no'
     });
 });
+
+/**
+ * Close filters when clicking outside the filters
+ * */
+jQuery(document).on("click", function (event) {
+    if (!jQuery(event.target).closest(".js-widget-filters").length) {
+        jQuery('.js-widget-filters').removeClass('is-active');
+        jQuery('.postbox.has-focus').removeClass('has-focus');
+        jQuery('.c-footer__filter__btn.is-active').removeClass('is-active');
+        setTimeout(function () {
+            jQuery('.js-widget-filters').removeClass('is-down');
+        }, 500)
+    } else {
+        const targetClasses = event.target.classList;
+        if (targetClasses.contains('c-footer__filter__btn') && targetClasses.contains('is-active')) {
+            event.target.classList.remove('is-active');
+            jQuery('.js-widget-filters').removeClass('is-active');
+            jQuery('.postbox.has-focus').removeClass('has-focus');
+
+            setTimeout(function () {
+                jQuery('.js-widget-filters').removeClass('is-down');
+            }, 500)
+
+        } else if (targetClasses.contains('c-footer__filter__btn') && !targetClasses.contains('is-active')) {
+            event.target.classList.add('is-active');
+        }
+    }
+});
+
+

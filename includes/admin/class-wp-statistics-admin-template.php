@@ -111,7 +111,14 @@ class Admin_Template
 
         // Export Days Between
         $type = (self::$request_to_date == TimeZone::getCurrentDate("Y-m-d") ? 'ago' : 'between');
-        return array('status' => true, 'days' => TimeZone::getListDays(array('from' => $_GET[self::$request_from_date], 'to' => $_GET[self::$request_to_date])), 'type' => $type);
+
+        return array(
+            'status' => true,
+            'days'   => TimeZone::getListDays(array(
+                'from' => sanitize_text_field($_GET[self::$request_from_date]),
+                'to'   => sanitize_text_field($_GET[self::$request_to_date])
+            )),
+            'type'   => $type);
     }
 
     /**

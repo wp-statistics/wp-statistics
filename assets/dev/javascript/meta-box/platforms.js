@@ -10,15 +10,15 @@ wps_js.platforms_meta_box = {
         let html = '';
 
         // Check Show Button Group
-        if (wps_js.is_active('overview_page')) {
-            html += wps_js.btn_group_chart('platforms', args);
-            setTimeout(function () {
-                wps_js.date_picker();
-            }, 1000);
-        }
+        // if (wps_js.is_active('overview_page')) {
+        //     html += wps_js.btn_group_chart('platforms', args);
+        //     setTimeout(function () {
+        //         wps_js.date_picker();
+        //     }, 1000);
+        // }
 
         // Add Chart
-        html += '<canvas id="' + wps_js.chart_id('platforms') + '" height="220"></canvas>';
+        html += '<div class="o-wrap"><div class="c-chart c-chart--limited-height"><canvas id="' + wps_js.chart_id('platforms') + '" height="220"></canvas></div></div>';
 
         // show Data
         return html;
@@ -55,7 +55,7 @@ wps_js.platforms_meta_box = {
 
             // Show Table information
             let tbl = `<div class="title-center">${args.title}</div>
-                    <table width="100%" class="widefat table-stats">
+                    <table width="100%" class="o-table">
                         <tr>
                             <td class="wps-text-muted">${wps_js._('platform')}</td>
                             <td class="wps-text-muted">${wps_js._('visitor_count')}</td>

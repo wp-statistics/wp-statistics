@@ -1,0 +1,110 @@
+#wp_statistics_editor_meta_box,
+#wp-statistics-browsers-widget,
+#wp-statistics-comparison-widget,
+#wp-statistics-countries-widget,
+#wp-statistics-hitsmap-widget,
+#wp-statistics-hits-widget,
+#wp-statistics-pages-widget,
+#wp-statistics-recent-widget,
+#wp-statistics-referring-widget,
+#wp-statistics-search-widget,
+#wp-statistics-summary-widget,
+#wp-statistics-words-widget,
+#wp-statistics-top-visitors-widget,
+#wps_hits_postbox,
+#wps_top_visitors_postbox,
+#wps_search_postbox,
+#wps_words_postbox,
+#wps_recent_postbox,
+#wps_map_postbox,
+#wps_pages_postbox,
+#wps_summary_postbox,
+#wps_browsers_postbox,
+#wps_referring_postbox,
+#wps_countries_postbox,
+#wps_pages_postbox,
+#wp-statistics-models-widget,
+#wp-statistics-platforms-widget,
+#wp-statistics-quickstats-widget,
+#wp-statistics-devices-widget,
+#wp-statistics-useronline-widget {
+
+  table.o-table {
+
+    tbody, thead {
+      tr {
+        td, th {
+          padding: 14px 40px 14px 0 !important;
+          text-align: right !important;
+
+          a, span {
+            text-align: right !important;
+          }
+
+          .wps-flag {
+            margin-right: 0 !important;
+            margin-left: 4px !important;
+          }
+
+          .log-tools {
+            float: unset !important;
+          }
+        }
+
+        td:first-child, th:first-child {
+          text-align: right !important;
+          padding-right: 20px !important;
+          padding-left: 10px !important;
+
+          @media screen and (min-width: 1200px) {
+            padding-right: 32px !important;
+            padding-left: 10px !important;
+          }
+        }
+
+        td:last-child, th:last-child {
+          text-align: right !important;
+          padding-right: 20px !important;
+          padding-left: 24px !important;
+        }
+      }
+    }
+  }
+}
+
+#wp-statistics-pages-widget,
+#wp-statistics-countries-widget,
+#wp-statistics-referring-widget {
+  .inside {
+    table.o-table {
+      tr {
+        td:last-child, th:last-child {
+          //text-align: left !important;
+
+
+          svg {
+            transform: rotate(180deg) !important;
+            margin-left: 0 !important;
+            margin-right: 2px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+#wp-statistics-countries-widget, #wp-statistics-pages-widget {
+
+  .inside table.o-table tr {
+    td:last-child, th:last-child {
+
+      a:hover {
+
+        svg {
+
+          transform: rotate(180deg) translateX(3px) !important;
+        }
+      }
+    }
+  }
+}

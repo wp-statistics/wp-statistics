@@ -5,7 +5,7 @@ wps_js.pages_chart_meta_box = {
     },
 
     view: function (args = []) {
-        return '<canvas id="' + wps_js.chart_id('pages-chart') + '" height="80"></canvas>';
+        return '<div class="o-wrap"><canvas id="' + wps_js.chart_id('pages-chart') + '" height="80"></canvas></div>';
     },
 
     meta_box_init: function (args = []) {

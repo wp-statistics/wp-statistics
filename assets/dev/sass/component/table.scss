@@ -55,6 +55,10 @@ table.wps-table-auto {
   text-align: center !important;
 }
 
+.th-right {
+  text-align: right !important;
+}
+
 .td-align {
   text-align: left;
 }
@@ -114,6 +118,10 @@ table.wps-table-auto {
   margin: 0 2px;
 }
 
+.rtl .log-tools {
+  float: right;
+}
+
 .log-agent {
   float: left;
 }
@@ -125,7 +133,6 @@ table.wps-table-auto {
 */
 
 .table-stats tr, .table-stats td {
-  border-bottom: 1px solid #efeeee;
   background-color: white;
   transition: 1s all;
 }
@@ -160,6 +167,10 @@ table.wps-table-auto {
   text-align: center !important;
 }
 
+.rtl .table-stats .th-right {
+  text-align: left !important;
+}
+
 .table-stats {
   border: 0 none !important;
 }
@@ -192,4 +203,19 @@ table.wps-table-auto {
 
 #page-stats {
   direction: ltr;
+}
+
+
+#wp-statistics-pages-widget,
+#wp-statistics-countries-widget,
+#wp-statistics-referring-widget {
+  .inside {
+    table.o-table {
+      tr {
+        td:last-child, th:last-child {
+          text-align: right !important;
+        }
+      }
+    }
+  }
 }

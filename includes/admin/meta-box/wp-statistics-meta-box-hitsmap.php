@@ -5,11 +5,12 @@ namespace WP_STATISTICS\MetaBox;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\GeoIP;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Timezone;
 use WP_STATISTICS\UserAgent;
 
-class hitsmap
+class hitsmap extends MetaBoxAbstract
 {
 
     public static function get($args = array())
@@ -22,8 +23,15 @@ class hitsmap
         // Get List Country Code
         $CountryCode = Country::getList();
 
+        // Filter By Date
+        self::filterByDate($args);
+
+        $days_time_list = array_keys(self::$daysList);
+
         // Get List Country Of Visitors
-        $result = $wpdb->get_results("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = '" . Timezone::getCurrentDate('Y-m-d') . "'");
+        $sql    = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s", reset($days_time_list), end($days_time_list));
+        $result = $wpdb->get_results($sql);
+
         if ($result) {
             foreach ($result as $new_country) {
                 $final_result[strtolower($new_country->location)][] = $new_country;
@@ -95,7 +103,7 @@ class hitsmap
         // Set Total
         $response['total'] = $final_total;
 
-        return $response;
+        return self::response($response);
     }
 
 }

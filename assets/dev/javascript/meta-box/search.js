@@ -7,7 +7,7 @@ wps_js.search_meta_box = {
     view: function (args = []) {
 
         // Check Hit Chart size in Different Page
-        let height = wps_js.is_active('overview_page') ? 110 : 210;
+        let height = wps_js.is_active('overview_page') ? 300 : 210;
         if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "searches") {
             height = 80;
         }
@@ -15,16 +15,8 @@ wps_js.search_meta_box = {
         // Create Html
         let html = '';
 
-        // Check Show Button Group
-        if (wps_js.is_active('overview_page')) {
-            html += wps_js.btn_group_chart('search', args);
-            setTimeout(function () {
-                wps_js.date_picker();
-            }, 1000);
-        }
-
         // Add Chart
-        html += '<canvas id="' + wps_js.chart_id('search') + '" height="' + height + '"></canvas>';
+        html += '<div class="o-wrap"><canvas id="' + wps_js.chart_id('search') + '" height="' + height + '"></canvas></div>';
 
         // show Data
         return html;
@@ -62,7 +54,11 @@ wps_js.search_meta_box = {
                 tension: 0.4
             });
         }
-        wps_js.line_chart(wps_js.chart_id('search'), args['title'], args['date'], datasets);
+        wps_js.line_chart(wps_js.chart_id('search'), args['title'], args['date'], datasets, {
+            options: {
+                maintainAspectRatio: false,
+            }
+        });
     },
 
 };

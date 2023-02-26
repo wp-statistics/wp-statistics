@@ -41,7 +41,7 @@ class Historical
             case 'visitors':
             case 'visits':
             default:
-                $sql = "SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = '{$type}'";
+                $sql = $wpdb->prepare("SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = %s", $type);
                 break;
         }
 

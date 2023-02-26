@@ -75,7 +75,11 @@ class Visitor
     public static function exist_ip_in_day($ip, $date = false)
     {
         global $wpdb;
-        $visitor = $wpdb->get_row("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` = '" . ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date) . "' AND `ip` = '{$ip}'");
+
+        $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
+        $sql          = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip);
+        $visitor      = $wpdb->get_row($sql);
+
         return (!$visitor ? false : $visitor);
     }
 
@@ -197,6 +201,8 @@ class Visitor
      */
     public static function getTop($arg = array())
     {
+        global $wpdb;
+
         // Define the array of defaults
         $defaults = array(
             'day'      => 'today',
@@ -213,7 +219,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = '{$sql_time}' ORDER BY hits DESC";
+        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -247,7 +253,7 @@ class Visitor
             $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
 
-        $args['sql'] = $args['sql'] . " LIMIT {$limit}, {$args['per_page']}";
+        $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
 
         // Send Request
         $result = $wpdb->get_results($args['sql']);
@@ -280,7 +286,7 @@ class Visitor
                 'hits'     => (int)$items->hits,
                 'referred' => Referred::get_referrer_link($items->referred),
                 'refer'    => $items->referred,
-                'date'     => date_i18n(get_option('date_format'), strtotime($items->last_counter)),
+                'date'     => date_i18n(apply_filters('wp_statistics_visitor_date_format', 'F j'), strtotime($items->last_counter)),
                 'agent'    => $agent,
                 'platform' => $platform,
                 'version'  => esc_html($items->version)
@@ -299,7 +305,7 @@ class Visitor
             $item['browser'] = array(
                 'name' => $agent,
                 'logo' => UserAgent::getBrowserLogo($agent),
-                'link' => Menus::admin_url('overview', array('agent' => $agent))
+                'link' => Menus::admin_url('visitors', array('agent' => $agent))
             );
 
             // Push IP
