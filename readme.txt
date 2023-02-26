@@ -151,9 +151,9 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 **Add-Ons**
 
-* **Data Plus Add-On:** We recently launched a new Add-On called Data Plus that unlocks advanced analytics features for WP Statistics. [click here](https://wp-statistics.com/2023/01/01/unlock-advanced-analytics-with-data-plus-for-wp-statistics) to get the limited-time offer!
+* **Data Plus Add-On:** We recently launched a new Add-On called [Data Plus](https://wp-statistics.com/product/data-plus/) that unlocks advanced analytics features for WP Statistics. [click here](https://wp-statistics.com/2023/01/01/unlock-advanced-analytics-with-data-plus-for-wp-statistics) to get the limited-time offer!
 
-For more information about this update, please [visit our blog post](https://wp-statistics.com/?p=11560).
+For more information about this update, please [visit our blog post](https://wp-statistics.com/2023/02/26/wp-statistics-gets-a-major-update-version-14-0-breakdown/).
 
 = v13.2.16 - 03.02.2023 =
 * Bugfix: The exclusion cache issue
