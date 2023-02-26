@@ -15,8 +15,9 @@ class referring extends MetaBoxAbstract
 
         // Filter By Date
         self::filterByDate($args);
-        $args['from'] = self::$fromDate;
-        $args['to']   = self::$toDate;
+        $args['from']  = self::$fromDate;
+        $args['to']    = self::$toDate;
+        $args['limit'] = $number;
 
         // Get List Top Referring
         try {
