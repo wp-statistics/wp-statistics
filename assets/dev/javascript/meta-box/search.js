@@ -9,7 +9,7 @@ wps_js.search_meta_box = {
         // Check Hit Chart size in Different Page
         let height = wps_js.is_active('overview_page') ? 300 : 210;
         if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "searches") {
-            height = 80;
+            height = 300;
         }
 
         // Create Html
