@@ -212,7 +212,7 @@ class Meta_Box
                     'filter_by_date'      => false,
                     'default_date_filter' => false,
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Top Visitors'),
+                    'more_link_title'     => __('View Top Visitors', 'wp-statistics'),
                 ]
             ),
             'recent'          => array(
