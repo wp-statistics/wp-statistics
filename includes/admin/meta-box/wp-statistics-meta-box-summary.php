@@ -128,6 +128,12 @@ class summary
                     'value' => number_format_i18n(wp_statistics_visitor('last-year', null, true))
                 );
 
+                // Total
+                $data['visitors']['total'] = array(
+                    'link'  => Menus::admin_url('visitors'),
+                    'value' => number_format_i18n(wp_statistics_visitor('total', null, true))
+                );
+
             }
         }
 
@@ -194,6 +200,12 @@ class summary
                 $data['visits']['last-year'] = array(
                     'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo((365 * 2)), 'to' => TimeZone::getTimeAgo(365))),
                     'value' => number_format_i18n(wp_statistics_visit('last-year'))
+                );
+
+                // Total
+                $data['visits']['total'] = array(
+                    'link'  => Menus::admin_url('hits'),
+                    'value' => number_format_i18n(wp_statistics_visit('total'))
                 );
             }
         }
