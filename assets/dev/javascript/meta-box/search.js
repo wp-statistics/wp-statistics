@@ -57,6 +57,10 @@ wps_js.search_meta_box = {
         wps_js.line_chart(wps_js.chart_id('search'), args['title'], args['date'], datasets, {
             options: {
                 maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                }
             }
         });
     },
