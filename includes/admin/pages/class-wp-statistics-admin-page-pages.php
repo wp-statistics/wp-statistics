@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 class pages_page
 {
 
-    const ITEM_PER_PAGE = 5;
+    const ITEM_PER_PAGE = 20;
 
     const SINGLE_PAGE_COMPONENTS = [
         'browsers',
