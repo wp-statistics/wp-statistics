@@ -16,7 +16,7 @@ wps_js.summary_meta_box = {
             t += '</thead>';
             t += '<tbody>';
 
-            if (args.length) {
+            if (Object.keys(args).length) {
                 // Show Statistics in Days
                 let summary_item = ["today", "yesterday", "last-week", "week", "month", "60days", "90days", "year", "this-year", "last-year", "total"];
                 for (let i = 0; i < summary_item.length; i++) {
