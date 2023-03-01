@@ -2657,7 +2657,7 @@ msgid "Value"
 msgstr ""
 
 #: includes/admin/templates/settings/visitor-ip.php:44
-msgid "Your real IP detected by ipify.org service:"
+msgid "Your real IP detected by SeeIP.org service:"
 msgstr ""
 
 #: includes/admin/templates/settings/visitor-ip.php:58
