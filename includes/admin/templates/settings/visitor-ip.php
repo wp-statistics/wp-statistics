@@ -41,7 +41,7 @@ add_thickbox();
         <tbody>
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                <?php _e('Your real IP detected by SeeIP.org service:', 'wp-statistics'); ?>
+                <?php _e('Your IP address detects by SeeIP.org service:', 'wp-statistics'); ?>
             </th>
         </tr>
 
