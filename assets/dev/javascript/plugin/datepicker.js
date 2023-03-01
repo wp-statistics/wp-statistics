@@ -21,6 +21,10 @@ jQuery(document).ready(function () {
         },
     });
 
+    if (!datePickerBtn.length) {
+        return false;
+    }
+
     if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
         const requestFromDate = wps_js.global.request_params.from;
         const requestToDate = wps_js.global.request_params.to;
