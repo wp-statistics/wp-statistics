@@ -137,7 +137,8 @@ class Menus
     {
 
         // Get the read/write capabilities.
-        $manage_cap = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
+        $manage_cap     = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
+        $disabled_menus = apply_filters('wp_statistics_menus_display', false);
 
         /**
          * List of WP Statistics Admin Menu
