@@ -22,7 +22,11 @@ wps_js.summary_meta_box = {
                 for (let i = 0; i < summary_item.length; i++) {
                     t += `<tr><td>${wps_js._(summary_item[i])}</td>`;
                     ["visitors", "visits"].forEach(function (key) {
-                        t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span>${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
+                        if (typeof args[key][summary_item[i]] === 'undefined') {
+                            t += `<td>-</td>`;
+                        } else {
+                            t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span>${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
+                        }
                     });
                     t += `</tr>`;
                 }
