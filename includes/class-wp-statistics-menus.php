@@ -138,7 +138,6 @@ class Menus
 
         // Get the read/write capabilities.
         $manage_cap     = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
-        $disabled_menus = apply_filters('wp_statistics_menus_display', false);
 
         /**
          * List of WP Statistics Admin Menu
@@ -251,7 +250,7 @@ class Menus
                 'page_url' => 'platform',
                 'method'   => 'platform'
             ),
-            'top.visotors' => array(
+            'top.visitors' => array(
                 'require'  => array('visitors' => true),
                 'sub'      => 'overview',
                 'title'    => __('Top Visitors Today', 'wp-statistics'),
