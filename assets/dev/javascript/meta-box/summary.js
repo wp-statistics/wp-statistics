@@ -37,13 +37,19 @@ wps_js.summary_meta_box = {
         return t;
     },
 
-    view: function (args = []) {
+    user_online: function (args = []) {
         let t = '';
         if (args['user_online']) {
             t = `<div class="c-live">
                     <span class="c-live__status"></span><span class="c-live__title">${wps_js._('online_users')}:</span> <span><a class="c-live__value" href="${args['user_online']['link']}">${args['user_online']['value']}</a></span>
                 </div>`;
         }
+        return t;
+    },
+
+    view: function (args = []) {
+        let t = '';
+        t += this.user_online(args);
         t += `<div class="o-table-wrapper"><table width="100%" class="o-table o-table--wps-summary-stats">`;
 
         // Summary Statistics

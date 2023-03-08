@@ -3,12 +3,8 @@ wps_js.quickstats_meta_box = {
     view: function (args = []) {
         let t = '';
 
-        if (args['user_online']) {
-            t = `<div class="c-live">
-                    <span class="c-live__status"></span><span class="c-live__title">${wps_js._('online_users')}:</span> <span><a class="c-live__value" href="${args['user_online']['link']}">${args['user_online']['value']}</a></span>
-                </div>`;
-        }
-        
+        t += wps_js.summary_meta_box.user_online(args);
+
         t += `<div class="o-table-wrapper"><table width="100%" class="o-table"><tbody>`;
 
         //Summary Statistics
