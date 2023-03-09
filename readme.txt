@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 14.0.1
+Stable tag: 14.0.2
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -133,7 +133,17 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= v14.0.1 - 26.02.2023
+= v14.0.2 - 09.03.2023 =
+* Bugfix: Compatibility with PHP v7.0
+* Bugfix: Fix some Javascript errors that caused to not showing-up the charts.
+* Bugfix: Fix search chart height issue
+* Update: Updating all screenshots
+* Update: Add total visitors and total visits on Summary
+* Improvement: Set top pages to 25 per page
+* Improvement: Add all data points on the x-axis of charts
+* Improvement: Support IPv6 in Settings -> IP configuration by SeeIP.org
+
+= v14.0 - 26.02.2023
 
 **New Feature**
 

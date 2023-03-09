@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     babel = require('gulp-babel'),
     uglify = require('gulp-uglify'),
     replace = require('gulp-replace'),
-    sass = require('gulp-sass'),
+    sass = require('gulp-sass')(require('sass')),
     pipeline = require('readable-stream').pipeline;
 
 // Gulp Sass Compiler

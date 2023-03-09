@@ -83,6 +83,10 @@ wps_js.hits_meta_box = {
             options = {
                 options: {
                     maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    }
                 }
             }
         }
