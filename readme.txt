@@ -133,7 +133,7 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= v14.0.2 - 01.03.2023 =
+= v14.0.2 - 09.03.2023 =
 * Bugfix: Compatibility with PHP v7.0
 * Bugfix: Fix some Javascript errors that caused to not showing-up the charts.
 * Bugfix: Fix search chart height issue
