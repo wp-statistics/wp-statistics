@@ -178,37 +178,37 @@ class Helper
 
         /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
-            return array('status' => true, 'plugin' => 'core');
+            $use = array('status' => true, 'plugin' => 'core');
         }
 
         /* WP Rocket */
         if (function_exists('get_rocket_cdn_url')) {
-            return array('status' => true, 'plugin' => 'WP Rocket');
+            $use = array('status' => true, 'plugin' => 'WP Rocket');
         }
 
         /* WP Super Cache */
         if (function_exists('wpsc_init')) {
-            return array('status' => true, 'plugin' => 'WP Super Cache');
+            $use = array('status' => true, 'plugin' => 'WP Super Cache');
         }
 
         /* Comet Cache */
         if (function_exists('___wp_php_rv_initialize')) {
-            return array('status' => true, 'plugin' => 'Comet Cache');
+            $use = array('status' => true, 'plugin' => 'Comet Cache');
         }
 
         /* WP Fastest Cache */
         if (class_exists('WpFastestCache')) {
-            return array('status' => true, 'plugin' => 'WP Fastest Cache');
+            $use = array('status' => true, 'plugin' => 'WP Fastest Cache');
         }
 
         /* Cache Enabler */
         if (defined('CE_MIN_WP')) {
-            return array('status' => true, 'plugin' => 'Cache Enabler');
+            $use = array('status' => true, 'plugin' => 'Cache Enabler');
         }
 
         /* W3 Total Cache */
         if (defined('W3TC')) {
-            return array('status' => true, 'plugin' => 'W3 Total Cache');
+            $use = array('status' => true, 'plugin' => 'W3 Total Cache');
         }
 
         return apply_filters('wp_statistics_cache_status', $use);
