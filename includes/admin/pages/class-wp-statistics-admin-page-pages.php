@@ -18,7 +18,16 @@ class pages_page
         'visitors_map',
     ];
 
+    private static $postTypes = [];
+    private static $defaultPostTypes = [];
+    private static $postType = 'post';
+
     public function __construct()
+    {
+        add_action('init', [$this, 'init']);
+    }
+
+    public function init()
     {
         global $wpdb;
 
@@ -44,6 +53,19 @@ class pages_page
                 if ($page_count < 1) {
                     wp_die(__('Your request is not valid.', 'wp-statistics'));
                 }
+            }
+
+            self::$postTypes        = Helper::get_list_post_type();
+            self::$defaultPostTypes = apply_filters('wp_statistics_default_post_types', ['post', 'page']);
+
+            // Check validate taxonomy
+            if (!empty($_GET['post_type']) && in_array($_GET['post_type'], self::$defaultPostTypes)) {
+                self::$postType = sanitize_text_field($_GET['post_type']);
+            } else {
+//                wp_redirect(add_query_arg([
+//                    'post_type' => self::$postType
+//                ], admin_url('admin.php?page=' . Menus::get_page_slug('pages'))));
+//                exit;
             }
 
             // Is Validate Date Request
@@ -88,6 +110,24 @@ class pages_page
                 'from'     => $args['DateRang']['from'],
                 'to'       => $args['DateRang']['to']
             ));
+
+            // Tabs
+            $args['tabs'] = [];
+            foreach (self::$postTypes as $slug) {
+                $class = ($slug == self::$postType ? 'current' : '');
+                $link  = Menus::admin_url('wps_pages_page', ['post_type' => $slug]);
+                if (!in_array($slug, self::$defaultPostTypes)) {
+                    $class .= ' wps-locked';
+                    $link  = 'https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress';
+                }
+                $object = get_post_type_object($slug);
+                $title = $object->labels->singular_name ?? '-';
+                $args['tabs'][] = [
+                    'link'  => $link,
+                    'title' => $title,
+                    'class' => $class,
+                ];
+            }
 
             // Total Number
             $args['total'] = Pages::TotalCount('uri', array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']));
