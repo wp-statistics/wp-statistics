@@ -53,7 +53,11 @@ class Pages
 
         //Single Post From All Post Type
         if (is_singular()) {
-            $current_page['type'] = "post";
+            $post_type = get_post_type();
+            if ($post_type != 'post') {
+                $post_type = 'post_type_' . $post_type;
+            }
+            $current_page['type'] = $post_type;
         }
 
         //Single Page
@@ -401,6 +405,7 @@ class Pages
             'from'     => '',
             'to'       => '',
             'ago'      => '',
+            'type'     => '',
         );
 
         $args = wp_parse_args($args, $defaults);
@@ -442,8 +447,14 @@ class Pages
         // Date Time SQL
         $DateTimeSql = "WHERE (`pages`.`date` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "')";
 
+        // Post Type SQL
+        $postTypeSql = '';
+        if (!empty($args['type'])) {
+            $postTypeSql = " AND `pages`.`type`='" . $args['type'] . "'";
+        }
+
         // Generate SQL
-        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' {$DateTimeSql} GROUP BY `uri` ORDER BY `count_sum` DESC";
+        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' {$DateTimeSql} {$postTypeSql} GROUP BY `uri` ORDER BY `count_sum` DESC";
 
         // Get List Of Pages
         $list   = array();
@@ -476,12 +487,18 @@ class Pages
     public static function TotalCount($group_by = 'uri', $args = array())
     {
         global $wpdb;
-        $where = '';
+        $where = [];
 
         // Date
         if (isset($args['from']) and isset($args['to']) and !empty($args['from']) and !empty($args['to'])) {
-            $where .= "WHERE `date` BETWEEN '{$args['from']}' AND '{$args['to']}'";
+            $where[] = "`date` BETWEEN '{$args['from']}' AND '{$args['to']}'";
         }
+
+        if (!empty($args['type'])) {
+            $where[] = "`type` = '{$args['type']}'";
+        }
+
+        $where = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
 
         $query = "SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount";
 

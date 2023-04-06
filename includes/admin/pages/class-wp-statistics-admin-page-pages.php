@@ -18,7 +18,16 @@ class pages_page
         'visitors_map',
     ];
 
+    private static $postTypes = [];
+    private static $defaultPostTypes = [];
+    private static $postType = 'post';
+
     public function __construct()
+    {
+        add_action('init', [$this, 'init']);
+    }
+
+    public function init()
     {
         global $wpdb;
 
@@ -44,6 +53,19 @@ class pages_page
                 if ($page_count < 1) {
                     wp_die(__('Your request is not valid.', 'wp-statistics'));
                 }
+            }
+
+            self::$postTypes        = Helper::get_list_post_type();
+            self::$defaultPostTypes = apply_filters('wp_statistics_default_post_types', ['post', 'page']);
+
+            // Check validate post type
+            if (!empty($_GET['type']) && in_array($_GET['type'], self::$defaultPostTypes)) {
+                self::$postType = sanitize_text_field($_GET['type']);
+            } else {
+                wp_redirect(add_query_arg([
+                    'type' => self::$postType
+                ], admin_url('admin.php?page=' . Menus::get_page_slug('pages'))));
+                exit;
             }
 
             // Is Validate Date Request
@@ -72,8 +94,13 @@ class pages_page
             self::custom_page_statistics();
         } else {
 
+            $object      = get_post_type_object(self::$postType);
+            $objectTitle = $object->labels->name ?? 'Pages';
             // Page title
-            $args['title'] = __('Top Pages', 'wp-statistics');
+            $args['title'] = __('Top ' . $objectTitle, 'wp-statistics');
+
+            // Top Trending Title
+            $args['top_trending_title'] = __('Top 5 Trending ' . $objectTitle, 'wp-statistics');
 
             // Get Current Page Url
             $args['pageName'] = Menus::get_page_slug('pages');
@@ -81,16 +108,44 @@ class pages_page
             // Get Date-Range
             $args['DateRang'] = Admin_Template::DateRange();
 
+            // Custom Get List
+            $args['custom_get'] = [
+                'type' => self::$postType,
+            ];
+
             // Get List
             $args['lists'] = \WP_STATISTICS\Pages::getTop(array(
                 'per_page' => self::ITEM_PER_PAGE,
                 'paged'    => Admin_Template::getCurrentPaged(),
                 'from'     => $args['DateRang']['from'],
-                'to'       => $args['DateRang']['to']
+                'to'       => $args['DateRang']['to'],
+                'type'     => self::$postType,
             ));
 
+            // Tabs
+            $args['tabs'] = [];
+            foreach (self::$postTypes as $slug) {
+                $class = ($slug == self::$postType ? 'current' : '');
+                $link  = Menus::admin_url('wps_pages_page', ['type' => $slug]);
+                if (!in_array($slug, self::$defaultPostTypes)) {
+                    $class .= ' wps-locked';
+                    $link  = 'https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress';
+                }
+                $object         = get_post_type_object($slug);
+                $title          = $object->labels->singular_name ?? '-';
+                $args['tabs'][] = [
+                    'link'  => $link,
+                    'title' => $title,
+                    'class' => $class,
+                ];
+            }
+
             // Total Number
-            $args['total'] = Pages::TotalCount('uri', array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']));
+            $args['total'] = Pages::TotalCount('uri', array(
+                'from' => $args['DateRang']['from'],
+                'to'   => $args['DateRang']['to'],
+                'type' => self::$postType
+            ));
 
             // Create WordPress Pagination
             $args['perPage']     = self::ITEM_PER_PAGE;
@@ -105,7 +160,7 @@ class pages_page
             }
 
             // Show Template Page
-            Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/pages', 'layout/postbox.hide', 'layout/footer'), $args);
+            Admin_Template::get_template(array('layout/header', 'layout/tabbed-page-header', 'pages/pages', 'layout/postbox.hide', 'layout/footer'), $args);
         }
     }
 
