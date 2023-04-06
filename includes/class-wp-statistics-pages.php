@@ -450,7 +450,7 @@ class Pages
         // Post Type SQL
         $postTypeSql = '';
         if (!empty($args['type'])) {
-            $postTypeSql = " AND `pages`.`type`='" . $args['type'] . "'";
+            $postTypeSql = $wpdb->prepare(" AND `pages`.`type`=%s", $args['type']);
         }
 
         // Generate SQL
@@ -491,11 +491,11 @@ class Pages
 
         // Date
         if (isset($args['from']) and isset($args['to']) and !empty($args['from']) and !empty($args['to'])) {
-            $where[] = "`date` BETWEEN '{$args['from']}' AND '{$args['to']}'";
+            $where[] = $wpdb->prepare("`date` BETWEEN %s AND %s", $args['from'], $args['to']);
         }
 
         if (!empty($args['type'])) {
-            $where[] = "`type` = '{$args['type']}'";
+            $where[] = $wpdb->prepare("`type` = %s", $args['type']);
         }
 
         $where = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";

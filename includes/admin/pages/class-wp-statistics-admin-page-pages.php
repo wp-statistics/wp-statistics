@@ -129,7 +129,7 @@ class pages_page
                 $link  = Menus::admin_url('wps_pages_page', ['type' => $slug]);
                 if (!in_array($slug, self::$defaultPostTypes)) {
                     $class .= ' wps-locked';
-                    $link  = 'https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress';
+                    $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
                 }
                 $object         = get_post_type_object($slug);
                 $title          = $object->labels->singular_name ?? '-';
