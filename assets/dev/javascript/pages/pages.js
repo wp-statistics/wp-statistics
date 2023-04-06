@@ -163,6 +163,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             params['ago'] = 30;
         }
 
+        // Check Post Type
+        if (wps_js.isset(wps_js.global, 'request_params', 'type')) {
+            params['type'] = wps_js.global.request_params['type'];
+        }
+
         // Run Pages list MetaBox
         //wps_js.run_meta_box('pages', params, false);
 
