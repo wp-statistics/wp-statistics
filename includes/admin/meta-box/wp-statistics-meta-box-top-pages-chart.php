@@ -78,7 +78,7 @@ class top_pages_chart
 
             // Get Number Search every Days
             foreach ($days_time_list as $d) {
-                $getStatic         = wp_statistics_pages($d, $item[0]);
+                $getStatic         = wp_statistics_pages($d, $item[0], -1, null, null, $post_type);
                 $stats[$item[0]][] = $getStatic;
                 $total_daily[$d]   = $total_daily[$d] + $getStatic;
             }

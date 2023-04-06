@@ -125,9 +125,10 @@ class pages_page
             // Tabs
             $args['tabs'] = [];
             foreach (self::$postTypes as $slug) {
-                $class = ($slug == self::$postType ? 'current' : '');
-                $link  = Menus::admin_url('wps_pages_page', ['type' => $slug]);
-                if (!in_array($slug, self::$defaultPostTypes)) {
+                $postTypeSlug = in_array($slug, ['post', 'page', 'product']) ? $slug : 'post_type_' . $slug;
+                $class        = ($postTypeSlug == self::$postType ? 'current' : '');
+                $link         = Menus::admin_url('wps_pages_page', ['type' => $postTypeSlug]);
+                if (!in_array($postTypeSlug, self::$defaultPostTypes)) {
                     $class .= ' wps-locked';
                     $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
                 }

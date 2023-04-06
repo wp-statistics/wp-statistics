@@ -385,7 +385,8 @@ class Pages
             }
         }
 
-        return wp_parse_args($arg, $defaults);
+        $page_info = wp_parse_args($arg, $defaults);
+        return apply_filters('wp_statistics_get_page_info', $page_info, $page_id, $type, $slug);
     }
 
     /**

@@ -444,6 +444,11 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
             $query .= $wpdb->prepare(" AND `id` = %d", $id);
         }
 
+        if ($page_uri != '') {
+            $page_uri_sql = esc_sql($page_uri);
+            $query        .= $wpdb->prepare(" AND `URI` = %s", $page_uri_sql);
+        }
+
         $where[] = apply_filters('wp_statistics_pages_where_type_query', $query, $id, $type);
     } else {
 
@@ -519,14 +524,15 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
 
     // Get every unique URI from the pages database.
     if ($rangestartdate != null && $rangeenddate != null) {
-        $result = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
+        $whereType = ($post_type != null ? $wpdb->prepare(" AND `type`=%s", $post_type) : '');
+        $result    = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s {$whereType} GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
     } else {
         $limitQuery = '';
         if ($limit) {
             $limitQuery = $wpdb->prepare(" LIMIT %d", $limit);
         }
-
-        $result = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " GROUP BY `uri` {$limitQuery}", ARRAY_N);
+        $whereType = ($post_type != null ? $wpdb->prepare(" WHERE `type`=%s", $post_type) : '');
+        $result    = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " {$whereType} GROUP BY `uri` {$limitQuery}", ARRAY_N);
     }
 
     $total = 0;
@@ -572,13 +578,19 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
             if ($rangestartdate != null && $rangeenddate != null) {
                 $uris[] = array(
                     urldecode_deep($out[0]),
-                    wp_statistics_pages('range', $out[0], -1, $rangestartdate, $rangeenddate),
+                    wp_statistics_pages('range', $out[0], -1, $rangestartdate, $rangeenddate, $post_type),
                     $page_id,
                     $title,
                     $page_url,
                 );
             } else {
-                $uris[] = array(urldecode_deep($out[0]), wp_statistics_pages('total', $out[0]), $page_id, $title, $page_url);
+                $uris[] = array(
+                    urldecode_deep($out[0]),
+                    wp_statistics_pages('total', $out[0], -1, $rangestartdate, $rangeenddate, $post_type),
+                    $page_id,
+                    $title,
+                    $page_url
+                );
             }
         }
     }
