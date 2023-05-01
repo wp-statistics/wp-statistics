@@ -58,14 +58,17 @@ class pages_page
             self::$postTypes        = Helper::get_list_post_type();
             self::$defaultPostTypes = apply_filters('wp_statistics_default_post_types', ['post', 'page']);
 
+            $postTypes = [];
+            foreach (self::$postTypes as $key => $postType) {
+                if (!in_array($postType, ['post', 'page', 'product'])) {
+                    $postType = 'post_type_' . $postType;
+                }
+                $postTypes[] = $postType;
+            }
+
             // Check validate post type
-            if (!empty($_GET['type']) && in_array($_GET['type'], self::$defaultPostTypes)) {
+            if (!empty($_GET['type']) && in_array($_GET['type'], $postTypes)) {
                 self::$postType = sanitize_text_field($_GET['type']);
-            } else {
-                wp_redirect(add_query_arg([
-                    'type' => self::$postType
-                ], admin_url('admin.php?page=' . Menus::get_page_slug('pages'))));
-                exit;
             }
 
             // Is Validate Date Request
@@ -93,8 +96,11 @@ class pages_page
         if (self::is_custom_page()) {
             self::custom_page_statistics();
         } else {
-
-            $object      = get_post_type_object(self::$postType);
+            $postTypeSlug = self::$postType;
+            if (strpos($postTypeSlug, 'post_type_') !== false) {
+                $postTypeSlug = str_replace('post_type_', '', $postTypeSlug);
+            }
+            $object      = get_post_type_object($postTypeSlug);
             $objectTitle = $object->labels->name ?? 'Pages';
             // Page title
             $args['title'] = __('Top ' . $objectTitle, 'wp-statistics');
@@ -130,7 +136,7 @@ class pages_page
                 $link         = Menus::admin_url('wps_pages_page', ['type' => $postTypeSlug]);
                 if (!in_array($postTypeSlug, self::$defaultPostTypes)) {
                     $class .= ' wps-locked';
-                    $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
+                    //$link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
                 }
                 $object         = get_post_type_object($slug);
                 $title          = $object->labels->singular_name ?? '-';
@@ -173,8 +179,9 @@ class pages_page
         global $wpdb;
 
         // Page ID
-        $ID   = sanitize_text_field($_GET['ID']);
-        $Type = sanitize_text_field($_GET['type']);
+        $ID     = sanitize_text_field($_GET['ID']);
+        $Type   = sanitize_text_field($_GET['type']);
+        $PageID = !empty($_GET['page_id']) ? sanitize_text_field($_GET['page_id']) : false;
 
         // Page title
         $args['title'] = __('Page Statistics', 'wp-statistics');
@@ -182,8 +189,9 @@ class pages_page
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('pages');
         $args['custom_get'] = array(
-            'ID'   => $ID,
-            'type' => $Type
+            'ID'      => $ID,
+            'type'    => $Type,
+            'page_id' => $PageID,
         );
 
         // Get Date-Range
@@ -193,8 +201,11 @@ class pages_page
         $args['list'] = array();
 
         // Check Is Post Or Term
-        $_is_post = in_array($Type, array("page", "post", "product", "attachment"));
-        $_is_term = in_array($Type, array("category", "post_tag", "tax"));
+        $_is_post   = in_array($Type, array("page", "post", "product", "attachment"));
+        $_post_type = (strpos($Type, 'post_type_') !== false) ? str_replace(
+            'post_type_', '', $Type) : $Type;
+        $_is_post   = ($_is_post == false) ? in_array($_post_type, self::$postTypes) : $_is_post;
+        $_is_term   = in_array($Type, array("category", "post_tag", "tax"));
         if ($_is_post === true || $_is_term === true) {
             $query = $wpdb->get_results($wpdb->prepare("SELECT `id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type), ARRAY_A);
         }
@@ -209,6 +220,14 @@ class pages_page
                 }
             }
         }
+
+        $sub_list = apply_filters('wp_statistics_pages_page_sub_list', [], $ID, $Type, $PageID);
+        if (empty($sub_list)) {
+            $subListQuery = $wpdb->get_row($wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 1", $ID, $Type), ARRAY_A);
+
+            $sub_list[$subListQuery['page_id']] = $subListQuery['uri'];
+        }
+        $args['sub_list'] = $sub_list;
 
         // Create Select List For WordPress Terms
         if ($_is_term and isset($query)) {

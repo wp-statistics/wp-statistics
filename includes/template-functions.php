@@ -525,14 +525,14 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
     // Get every unique URI from the pages database.
     if ($rangestartdate != null && $rangeenddate != null) {
         $whereType = ($post_type != null ? $wpdb->prepare(" AND `type`=%s", $post_type) : '');
-        $result    = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s {$whereType} GROUP BY `uri`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
+        $result    = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s {$whereType} GROUP BY `id`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
     } else {
         $limitQuery = '';
         if ($limit) {
             $limitQuery = $wpdb->prepare(" LIMIT %d", $limit);
         }
         $whereType = ($post_type != null ? $wpdb->prepare(" WHERE `type`=%s", $post_type) : '');
-        $result    = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " {$whereType} GROUP BY `uri` {$limitQuery}", ARRAY_N);
+        $result    = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " {$whereType} GROUP BY `id` {$limitQuery}", ARRAY_N);
     }
 
     $total = 0;

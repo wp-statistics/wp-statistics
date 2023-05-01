@@ -382,11 +382,20 @@ class Pages
                     }
 
                     break;
+                default:
+                    $arg = array(
+                        'title'     => esc_html(get_the_title($page_id)),
+                        'link'      => get_the_permalink($page_id),
+                        'edit_link' => get_edit_post_link($page_id),
+                        'meta'      => array(
+                            'post_type' => get_post_type($page_id)
+                        )
+                    );
+                    break;
             }
         }
 
-        $page_info = wp_parse_args($arg, $defaults);
-        return apply_filters('wp_statistics_get_page_info', $page_info, $page_id, $type, $slug);
+        return wp_parse_args($arg, $defaults);
     }
 
     /**
@@ -455,7 +464,7 @@ class Pages
         }
 
         // Generate SQL
-        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' {$DateTimeSql} {$postTypeSql} GROUP BY `uri` ORDER BY `count_sum` DESC";
+        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' {$DateTimeSql} {$postTypeSql} GROUP BY `pages`.`id` ORDER BY `count_sum` DESC";
 
         // Get List Of Pages
         $list   = array();
