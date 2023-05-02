@@ -123,6 +123,7 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 8. Last Search Words
 9. Dashboard widgets
 10. Theme widget
+11. Page Statistics Overview
 
 == Upgrade Notice ==
 = 14.0 =
