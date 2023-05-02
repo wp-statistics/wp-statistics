@@ -27,22 +27,26 @@ if (isset($list) and is_array($list) and count($list) > 0) {
                 ?>
             </select>
             <?php if(!empty($sub_list)){ ?>
-                <select name="page_id" data-type-show="select2" <?php echo apply_filters('wp_statistics_pages_page_sub_list_select_attributes', 'disabled') ?>>
+                <?php $selectStatus = apply_filters('wp_statistics_pages_page_sub_list_select', false) ?>
+                <select name="page_id" data-type-show="select2">
+                    <option value=""><?php _e('All', 'wp-statistics'); ?></option>
                     <?php
                     foreach ($sub_list as $id => $name) {
                         ?>
-                        <option value="<?php echo esc_attr($id); ?>" <?php selected((!empty($_GET['page_id']) ? $_GET['page_id'] : ''), $id); ?>><?php echo esc_attr($name); ?></option>
+                        <option value="<?php echo esc_attr($id); ?>" <?php selected((!empty($_GET['page_id']) ? $_GET['page_id'] : ''), $id); ?> <?php echo !$selectStatus ? 'disabled' : '' ?>><?php echo esc_attr($name); ?></option>
                         <?php
                     }
                     ?>
                 </select>
-                <script>
-                    jQuery(document).ready(function () {
-                        jQuery('select[name="page_id"]').on('change', function () {
-                            jQuery('#wp-statistics-select-pages').submit();
+                <?php if ($selectStatus){ ?>
+                    <script>
+                        jQuery(document).ready(function () {
+                            jQuery('select[name="page_id"]').on('change', function () {
+                                jQuery('#wp-statistics-select-pages').submit();
+                            });
                         });
-                    });
-                </script>
+                    </script>
+                <?php } ?>
             <?php } ?>
         </form>
     </div>

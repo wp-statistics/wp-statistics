@@ -136,7 +136,7 @@ class pages_page
                 $link         = Menus::admin_url('wps_pages_page', ['type' => $postTypeSlug]);
                 if (!in_array($postTypeSlug, self::$defaultPostTypes)) {
                     $class .= ' wps-locked';
-                    //$link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
+                    $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
                 }
                 $object         = get_post_type_object($slug);
                 $title          = $object->labels->singular_name ?? '-';
@@ -221,13 +221,12 @@ class pages_page
             }
         }
 
-        $sub_list = apply_filters('wp_statistics_pages_page_sub_list', [], $ID, $Type, $PageID);
-        if (empty($sub_list)) {
-            $subListQuery = $wpdb->get_row($wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 1", $ID, $Type), ARRAY_A);
-
-            $sub_list[$subListQuery['page_id']] = $subListQuery['uri'];
+        $subList      = [];
+        $subListQuery = $wpdb->get_results($wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type), ARRAY_A);
+        foreach ($subListQuery as $item) {
+            $subList[$item['page_id']] = $item['uri'];
         }
-        $args['sub_list'] = $sub_list;
+        $args['sub_list'] = $subList;
 
         // Create Select List For WordPress Terms
         if ($_is_term and isset($query)) {
