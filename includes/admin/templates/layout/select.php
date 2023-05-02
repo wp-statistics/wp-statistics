@@ -33,7 +33,7 @@ if (isset($list) and is_array($list) and count($list) > 0) {
                     <?php
                     foreach ($sub_list as $id => $name) {
                         ?>
-                        <option value="<?php echo esc_attr($id); ?>" <?php selected((!empty($_GET['page_id']) ? $_GET['page_id'] : ''), $id); ?> <?php echo !$selectStatus ? 'disabled' : '' ?>><?php echo esc_attr($name); ?></option>
+                        <option value="<?php echo esc_attr($id); ?>" <?php selected((!empty($_GET['page_id']) ? $_GET['page_id'] : ''), $id); ?> <?php echo !$selectStatus ? 'disabled' : '' ?>><?php echo esc_attr($name); ?> <?php echo !$selectStatus ? '(Unlock with Data Plus)' : '' ?></option>
                         <?php
                     }
                     ?>
