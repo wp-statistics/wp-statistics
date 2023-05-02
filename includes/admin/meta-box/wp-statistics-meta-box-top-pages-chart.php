@@ -27,7 +27,8 @@ class top_pages_chart
         $defaults = array(
             'ago'  => 0,
             'from' => '',
-            'to'   => ''
+            'to'   => '',
+            'type' => 'post',
         );
         $args     = wp_parse_args($arg, $defaults);
 
@@ -67,15 +68,17 @@ class top_pages_chart
             $title = sprintf(__('Top 5 Trending Pages from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
+        $post_type = !empty($args['type']) ? $args['type'] : 'post';
+
         // Get List Of Top Pages
-        $top_pages = wp_statistics_get_top_pages(reset($days_time_list), end($days_time_list), 5);
+        $top_pages = wp_statistics_get_top_pages(reset($days_time_list), end($days_time_list), 5, $post_type);
 
         // Push List to data
         foreach ($top_pages[1] as $item) {
 
             // Get Number Search every Days
             foreach ($days_time_list as $d) {
-                $getStatic         = wp_statistics_pages($d, $item[0]);
+                $getStatic         = wp_statistics_pages($d, $item[0], -1, null, null, $post_type);
                 $stats[$item[0]][] = $getStatic;
                 $total_daily[$d]   = $total_daily[$d] + $getStatic;
             }

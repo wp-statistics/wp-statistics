@@ -208,19 +208,19 @@ class Menus
                 'page_url' => 'searches',
                 'method'   => 'searches',
             ),
-            'pages'        => array(
-                'require'  => array('pages' => true),
-                'sub'      => 'overview',
-                'title'    => __('Pages', 'wp-statistics'),
-                'page_url' => 'pages',
-                'method'   => 'pages',
-            ),
             'countries'    => array(
                 'require'  => array('geoip' => true, 'visitors' => true),
                 'sub'      => 'overview',
                 'title'    => __('Countries', 'wp-statistics'),
                 'page_url' => 'countries',
                 'method'   => 'country'
+            ),
+            'pages'        => array(
+                'require'  => array('pages' => true),
+                'sub'      => 'overview',
+                'title'    => __('Post Types', 'wp-statistics'),
+                'page_url' => 'pages',
+                'method'   => 'pages',
             ),
             'taxonomies'   => array(
                 'require'  => array('pages' => true),

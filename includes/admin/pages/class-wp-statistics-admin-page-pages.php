@@ -18,7 +18,16 @@ class pages_page
         'visitors_map',
     ];
 
+    private static $postTypes = [];
+    private static $defaultPostTypes = [];
+    private static $postType = 'post';
+
     public function __construct()
+    {
+        add_action('init', [$this, 'init']);
+    }
+
+    public function init()
     {
         global $wpdb;
 
@@ -46,6 +55,22 @@ class pages_page
                 }
             }
 
+            self::$postTypes        = Helper::get_list_post_type();
+            self::$defaultPostTypes = apply_filters('wp_statistics_default_post_types', ['post', 'page']);
+
+            $postTypes = [];
+            foreach (self::$postTypes as $key => $postType) {
+                if (!in_array($postType, ['post', 'page', 'product'])) {
+                    $postType = 'post_type_' . $postType;
+                }
+                $postTypes[] = $postType;
+            }
+
+            // Check validate post type
+            if (!empty($_GET['type']) && in_array($_GET['type'], $postTypes)) {
+                self::$postType = sanitize_text_field($_GET['type']);
+            }
+
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
@@ -71,9 +96,17 @@ class pages_page
         if (self::is_custom_page()) {
             self::custom_page_statistics();
         } else {
-
+            $postTypeSlug = self::$postType;
+            if (strpos($postTypeSlug, 'post_type_') !== false) {
+                $postTypeSlug = str_replace('post_type_', '', $postTypeSlug);
+            }
+            $object      = get_post_type_object($postTypeSlug);
+            $objectTitle = $object->labels->name ?? 'Pages';
             // Page title
-            $args['title'] = __('Top Pages', 'wp-statistics');
+            $args['title'] = __('Top ' . $objectTitle, 'wp-statistics');
+
+            // Top Trending Title
+            $args['top_trending_title'] = __('Top 5 Trending ' . $objectTitle, 'wp-statistics');
 
             // Get Current Page Url
             $args['pageName'] = Menus::get_page_slug('pages');
@@ -81,16 +114,45 @@ class pages_page
             // Get Date-Range
             $args['DateRang'] = Admin_Template::DateRange();
 
+            // Custom Get List
+            $args['custom_get'] = [
+                'type' => self::$postType,
+            ];
+
             // Get List
             $args['lists'] = \WP_STATISTICS\Pages::getTop(array(
                 'per_page' => self::ITEM_PER_PAGE,
                 'paged'    => Admin_Template::getCurrentPaged(),
                 'from'     => $args['DateRang']['from'],
-                'to'       => $args['DateRang']['to']
+                'to'       => $args['DateRang']['to'],
+                'type'     => self::$postType,
             ));
 
+            // Tabs
+            $args['tabs'] = [];
+            foreach (self::$postTypes as $slug) {
+                $postTypeSlug = in_array($slug, ['post', 'page', 'product']) ? $slug : 'post_type_' . $slug;
+                $class        = ($postTypeSlug == self::$postType ? 'current' : '');
+                $link         = Menus::admin_url('wps_pages_page', ['type' => $postTypeSlug]);
+                if (!in_array($postTypeSlug, self::$defaultPostTypes)) {
+                    $class .= ' wps-locked';
+                    $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
+                }
+                $object         = get_post_type_object($slug);
+                $title          = $object->labels->singular_name ?? '-';
+                $args['tabs'][] = [
+                    'link'  => $link,
+                    'title' => $title,
+                    'class' => $class,
+                ];
+            }
+
             // Total Number
-            $args['total'] = Pages::TotalCount('uri', array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']));
+            $args['total'] = Pages::TotalCount('uri', array(
+                'from' => $args['DateRang']['from'],
+                'to'   => $args['DateRang']['to'],
+                'type' => self::$postType
+            ));
 
             // Create WordPress Pagination
             $args['perPage']     = self::ITEM_PER_PAGE;
@@ -105,7 +167,7 @@ class pages_page
             }
 
             // Show Template Page
-            Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/pages', 'layout/postbox.hide', 'layout/footer'), $args);
+            Admin_Template::get_template(array('layout/header', 'layout/tabbed-page-header', 'pages/pages', 'layout/postbox.hide', 'layout/footer'), $args);
         }
     }
 
@@ -117,8 +179,9 @@ class pages_page
         global $wpdb;
 
         // Page ID
-        $ID   = sanitize_text_field($_GET['ID']);
-        $Type = sanitize_text_field($_GET['type']);
+        $ID     = sanitize_text_field($_GET['ID']);
+        $Type   = sanitize_text_field($_GET['type']);
+        $PageID = !empty($_GET['page_id']) ? sanitize_text_field($_GET['page_id']) : false;
 
         // Page title
         $args['title'] = __('Page Statistics', 'wp-statistics');
@@ -126,8 +189,9 @@ class pages_page
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('pages');
         $args['custom_get'] = array(
-            'ID'   => $ID,
-            'type' => $Type
+            'ID'      => $ID,
+            'type'    => $Type,
+            'page_id' => $PageID,
         );
 
         // Get Date-Range
@@ -137,8 +201,11 @@ class pages_page
         $args['list'] = array();
 
         // Check Is Post Or Term
-        $_is_post = in_array($Type, array("page", "post", "product", "attachment"));
-        $_is_term = in_array($Type, array("category", "post_tag", "tax"));
+        $_is_post   = in_array($Type, array("page", "post", "product", "attachment"));
+        $_post_type = (strpos($Type, 'post_type_') !== false) ? str_replace(
+            'post_type_', '', $Type) : $Type;
+        $_is_post   = ($_is_post == false) ? in_array($_post_type, self::$postTypes) : $_is_post;
+        $_is_term   = in_array($Type, array("category", "post_tag", "tax"));
         if ($_is_post === true || $_is_term === true) {
             $query = $wpdb->get_results($wpdb->prepare("SELECT `id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type), ARRAY_A);
         }
@@ -153,6 +220,13 @@ class pages_page
                 }
             }
         }
+
+        $subList      = [];
+        $subListQuery = $wpdb->get_results($wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type), ARRAY_A);
+        foreach ($subListQuery as $item) {
+            $subList[$item['page_id']] = $item['uri'];
+        }
+        $args['sub_list'] = $subList;
 
         // Create Select List For WordPress Terms
         if ($_is_term and isset($query)) {
