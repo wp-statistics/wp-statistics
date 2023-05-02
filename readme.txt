@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 4.4
 Tested up to: 6.2
-Stable tag: 14.0.2
+Stable tag: 14.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -133,6 +133,14 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v14.1 - 02.05.2023 =
+* Improvement: Compatibility with WordPress v6.2
+* Improvement: Update ChartJs to the latest version, v4.2.1
+* Improvement: Avoid to return cache status before filter statement
+* Improvement: Implement post types section
+* Improvement: Categorize page hits by query strings in single view statistics for improved tracking
+* Bugfix: Fix a bug related to displaying rest API error messages in the meta box AJAX.
+
 = v14.0.2 - 09.03.2023 =
 * Bugfix: Compatibility with PHP v7.0
 * Bugfix: Fix some Javascript errors that caused to not showing-up the charts.
