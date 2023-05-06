@@ -101,7 +101,7 @@ class pages_page
                 $postTypeSlug = str_replace('post_type_', '', $postTypeSlug);
             }
             $object      = get_post_type_object($postTypeSlug);
-            $objectTitle = $object->labels->name ?? 'Pages';
+            $objectTitle = $object->labels->name ? 'Pages' : '';
             // Page title
             $args['title'] = __('Top ' . $objectTitle, 'wp-statistics');
 
@@ -139,7 +139,7 @@ class pages_page
                     $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
                 }
                 $object         = get_post_type_object($slug);
-                $title          = $object->labels->singular_name ?? '-';
+                $title          = $object->labels->singular_name ? '-' : '';
                 $args['tabs'][] = [
                     'link'  => $link,
                     'title' => $title,
