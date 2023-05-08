@@ -35,6 +35,7 @@ gulp.task('script', function () {
         './assets/dev/javascript/meta-box/*.js',
         './assets/dev/javascript/pages/*.js',
         './assets/dev/javascript/run.js',
+        './assets/dev/javascript/tracker.js',
     ])
         .pipe(concat('admin.min.js'))
         .pipe(insert.prepend('jQuery(document).ready(function ($) {'))

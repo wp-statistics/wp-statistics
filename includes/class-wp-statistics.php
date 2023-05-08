@@ -217,6 +217,7 @@ final class WP_Statistics
         // Rest-Api
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-hit.php';
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-meta-box.php';
+        require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-check-user-online.php';
 
         // WordPress Cron
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-schedule.php';
