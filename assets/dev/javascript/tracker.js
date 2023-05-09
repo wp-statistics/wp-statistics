@@ -5,19 +5,29 @@ let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTr
 
 let wpStatisticsUserOnline = {
     init: function () {
-        this.hitRequest();
+        this.checkHitRequestConditions();
         this.keepUserOnline();
     },
 
-    hitRequest: function () {
-        if (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Tracker_Object.option.cacheCompatibility) {
-            if (WP_Statistics_Dnd_Active !== 1) {
-                var WP_Statistics_http = new XMLHttpRequest();
-                WP_Statistics_http.open("GET", WP_Statistics_Tracker_Object.hitRequestUrl + "&referred=" + encodeURIComponent(document.referrer) + "&_=" + Date.now(), true);
-                WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                WP_Statistics_http.send(null);
+    // Check Conditions for Sending Hit Request
+    checkHitRequestConditions: function () {
+        if (WP_Statistics_Tracker_Object.option.cacheCompatibility) {
+            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
+                if (WP_Statistics_Dnd_Active !== 1) {
+                    this.sendHitRequest();
+                }
+            } else {
+                this.sendHitRequest();
             }
         }
+    },
+
+    //Sending Hit Request
+    sendHitRequest: function () {
+        var WP_Statistics_http = new XMLHttpRequest();
+        WP_Statistics_http.open("GET", WP_Statistics_Tracker_Object.hitRequestUrl + "&referred=" + encodeURIComponent(document.referrer) + "&_=" + Date.now(), true);
+        WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        WP_Statistics_http.send(null);
     },
 
     // Send Request to REST API to Show User Is Online
