@@ -17,7 +17,7 @@ class Frontend
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 
         # Register and enqueue check online users scripts
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_check_online_users_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
 
         # Print out the WP Statistics HTML comment
         add_action('wp_head', array($this, 'print_out_plugin_html'));
@@ -41,9 +41,9 @@ class Frontend
 
 
     /**
-     * Enqueue Check Online Users Scripts
+     * Enqueue Scripts
      */
-    public function enqueue_check_online_users_scripts()
+    public function enqueue_scripts()
     {
         wp_enqueue_script('wp-statistics-tracker', WP_STATISTICS_URL . 'assets/js/tracker.js');
 
@@ -59,26 +59,25 @@ class Frontend
         /**
          * Build request URL
          */
-        $hitApiUrl     = RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint;
-        $hitRequestUrl = add_query_arg($params, get_rest_url(null, $hitApiUrl));
-
-        $keepOnlineApiUrl     = RestAPI::$namespace . '/' . 'online';
-        $keepOnlineRequestUrl = get_rest_url(null, $keepOnlineApiUrl);
+        $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
+        $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
 
         $jsArgs = array(
-            'hitRequestUrl' => $hitRequestUrl,
+            'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
-            'IP' => IP::getStoreIP(),
-            'dntEnabled' => Option::get('do_not_track'),
-            'cacheCompatibility' => Option::get('use_cache_plugin')
+            'option'               => [
+                'dntEnabled'         => Option::get('do_not_track'),
+                'cacheCompatibility' => Option::get('use_cache_plugin')
+            ],
         );
-        wp_localize_script('wp-statistics-tracker', 'jsArgs', $jsArgs);
+
+        wp_localize_script('wp-statistics-tracker', 'WP_Statistics_Tracker_Object', $jsArgs);
     }
 
     /**
      * Enqueue Scripts
      */
-    public function enqueue_scripts()
+    public function enqueue_styles()
     {
 
         // Load Admin Bar Css

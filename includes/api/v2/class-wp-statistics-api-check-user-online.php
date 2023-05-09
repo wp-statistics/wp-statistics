@@ -9,7 +9,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
      *
      * @var string
      */
-    const REST_ENDPOINT = 'online';
+    public static $endpoint = 'hit';
 
     /**
      * CheckUserOnline constructor.
@@ -24,7 +24,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
     // Create REST API to Check Online Users
     public function register_online_user_rest_api()
     {
-        register_rest_route(self::$namespace, '/' . self::REST_ENDPOINT, array(
+        register_rest_route(self::$namespace, '/' . self::$endpoint, array(
             'methods' => 'GET',
             'callback' => [$this, 'onlineUserUpdateCallback'],
             'permission_callback' => function (\WP_REST_Request $request) {
