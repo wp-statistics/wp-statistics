@@ -9,7 +9,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
      *
      * @var string
      */
-    public static $endpoint = 'hit';
+    public static $endpoint = 'online';
 
     /**
      * CheckUserOnline constructor.
