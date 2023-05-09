@@ -55,6 +55,12 @@ gulp.task('mce', function () {
         .pipe(gulp.dest('./assets/js/')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/'));
 });
 
+// Gulp Frontend Script
+gulp.task('frontScript', function () {
+    return gulp.src(['./assets/dev/javascript/tracker.js'])
+        .pipe(gulp.dest('./assets/js/')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/'));
+});
+
 // Gulp Script Minify
 gulp.task('js', function () {
     return gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
@@ -86,4 +92,4 @@ gulp.task('watch', function () {
 });
 
 // global Task
-gulp.task('default', gulp.parallel('sass', 'script', 'mce'));
+gulp.task('default', gulp.parallel('sass', 'script', 'mce', 'frontScript'));

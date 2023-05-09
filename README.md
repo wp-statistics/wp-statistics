@@ -68,6 +68,15 @@ Requirement: Before any build it`s necessary to fix these below versions then us
 - npm v6.*
 - node v14.*
 
+You need to install the gulp in advance.
+
+```sh
+npm install --global gulp
+npm install --global gulp-cli
+```
+
+Then install dependencies and tasks
+
 ```sh
 npm install
 gulp
