@@ -35,12 +35,13 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
     public function onlineUserUpdateCallback()
     {
+        \WP_STATISTICS\UserOnline::record();
+
         $response = [
             'status' => true,
             'message' => 'User is online, Information recorded successfully.',
         ];
         return rest_ensure_response($response);
-        \WP_STATISTICS\UserOnline::record();
     }
 }
 

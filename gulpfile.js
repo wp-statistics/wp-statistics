@@ -35,7 +35,6 @@ gulp.task('script', function () {
         './assets/dev/javascript/meta-box/*.js',
         './assets/dev/javascript/pages/*.js',
         './assets/dev/javascript/run.js',
-        './assets/dev/javascript/tracker.js',
     ])
         .pipe(concat('admin.min.js'))
         .pipe(insert.prepend('jQuery(document).ready(function ($) {'))
@@ -53,6 +52,12 @@ gulp.task('script', function () {
 gulp.task('mce', function () {
     return gulp.src(['./assets/dev/javascript/Tinymce/*.js'])
         .pipe(concat('tinymce.min.js'))
+        .pipe(gulp.dest('./assets/js/')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/'));
+});
+
+// Gulp Frontend Script
+gulp.task('frontScript', function () {
+    return gulp.src(['./assets/dev/javascript/tracker.js'])
         .pipe(gulp.dest('./assets/js/')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/'));
 });
 
@@ -87,4 +92,4 @@ gulp.task('watch', function () {
 });
 
 // global Task
-gulp.task('default', gulp.parallel('sass', 'script', 'mce'));
+gulp.task('default', gulp.parallel('sass', 'script', 'mce', 'frontScript'));

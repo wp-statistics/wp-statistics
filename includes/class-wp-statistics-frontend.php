@@ -45,7 +45,7 @@ class Frontend
      */
     public function enqueue_check_online_users_scripts()
     {
-        wp_enqueue_script('wp-statistics-tracker', WP_STATISTICS_URL . 'assets/dev/javascript/tracker.js');
+        wp_enqueue_script('wp-statistics-tracker', WP_STATISTICS_URL . 'assets/js/tracker.js');
 
         $params = array(
             Hits::$rest_hits_key => 'yes',
@@ -59,15 +59,16 @@ class Frontend
         /**
          * Build request URL
          */
-        $apiUrl     = RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint;
-        $requestUrl = add_query_arg($params, get_rest_url(null, $apiUrl));
+        $hitApiUrl     = RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint;
+        $hitRequestUrl = add_query_arg($params, get_rest_url(null, $hitApiUrl));
+
+        $keepOnlineApiUrl     = RestAPI::$namespace . '/' . 'online';
+        $keepOnlineRequestUrl = get_rest_url(null, $keepOnlineApiUrl);
 
         $jsArgs = array(
-            'requestUrl' => $requestUrl,
+            'hitRequestUrl' => $hitRequestUrl,
+            'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
             'IP' => IP::getStoreIP(),
-            'homeUrl' => home_url(),
-            'restApiUrl' => RestAPI::$namespace,
-            'restApiEndpoint' => 'online',
             'dntEnabled' => Option::get('do_not_track'),
             'cacheCompatibility' => Option::get('use_cache_plugin')
         );
