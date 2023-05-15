@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Service\Admin\AddOnsFactory;
 use WP_Statistics_Mail;
 
 class Helper
@@ -716,7 +717,7 @@ class Helper
             'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . parse_url(get_site_url())['host']),
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
-            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', include(WP_STATISTICS_DIR . 'includes/admin/templates/emails/copyright.php')),
+            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template(array('emails/copyright'))),
             'email_header' => apply_filters('wp_statistics_email_header', ""),
             'email_footer' => apply_filters('wp_statistics_email_footer', ""),
             'is_rtl'       => (is_rtl() ? true : false)
