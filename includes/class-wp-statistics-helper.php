@@ -707,13 +707,19 @@ class Helper
 
         //Template Arg
         $template_arg = array(
-            'title'       => $subject,
-            'logo'        => '',
-            'content'     => $content,
-            'site_url'    => home_url(),
-            'site_title'  => get_bloginfo('name'),
-            'footer_text' => '',
-            'is_rtl'      => (is_rtl() ? true : false)
+            'title'        => $subject,
+            'logo'         => '',
+            'content'      => $content,
+            'site_url'     => home_url(),
+            'site_title'   => get_bloginfo('name'),
+            'footer_text'  => '',
+            'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . parse_url(get_site_url())['host']),
+            'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
+            'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
+            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', include(WP_STATISTICS_DIR . 'includes/admin/templates/emails/copyright.php')),
+            'email_header' => apply_filters('wp_statistics_email_header', ""),
+            'email_footer' => apply_filters('wp_statistics_email_footer', ""),
+            'is_rtl'       => (is_rtl() ? true : false)
         );
         $arg          = wp_parse_args($args, $template_arg);
 

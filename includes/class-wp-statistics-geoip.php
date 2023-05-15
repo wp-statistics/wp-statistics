@@ -374,13 +374,8 @@ class GeoIP
         // Send Email
         if (Option::get('geoip_report') == true) {
 
-            // Change Email Title
-            add_filter('wp_statistics_email_title', function ($default_email_title) {
-                return __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>';
-            });
-
-            // Send Email Itself
-            Helper::send_mail(Option::getEmailNotification(), __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'), $result['notice']);
+            Helper::send_mail(Option::getEmailNotification(), __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'), $result['notice'], true,
+                array("email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>'));
         }
 
         return $result;
