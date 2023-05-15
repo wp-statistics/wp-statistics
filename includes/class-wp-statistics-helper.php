@@ -697,7 +697,7 @@ class Helper
     {
         // Email Template
         if ($email_template) {
-            $email_template = wp_normalize_path(WP_STATISTICS_DIR . 'includes/admin/templates/email.php');
+            $email_template = wp_normalize_path(WP_STATISTICS_DIR . 'includes/admin/templates/emails/layout.php');
         }
 
         // Email from
