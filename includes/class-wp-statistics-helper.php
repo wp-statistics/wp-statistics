@@ -4,7 +4,6 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_STATISTICS;
-use WP_Statistics\Service\Admin\AddOnsFactory;
 use WP_Statistics_Mail;
 
 class Helper
