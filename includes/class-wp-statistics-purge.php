@@ -163,7 +163,9 @@ class Purge
 
             // Send Email
             if (Option::get('prune_report') == true) {
-                Helper::send_mail(Option::getEmailNotification(), __('Database pruned on', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string);
+
+                Helper::send_mail(Option::getEmailNotification(), __('Database pruned on', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string, true,
+                    array("email_title" => __('Database pruned on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>'));
             }
 
             return $result_string;
@@ -222,8 +224,11 @@ class Purge
             $result_string = __('Number of hits must be greater than or equal to 10!', 'wp-statistics');
         }
 
+        // Send Email
         if (Option::get('prune_report') == true) {
-            Helper::send_mail(Option::getEmailNotification(), __('Database pruned on', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string);
+
+            Helper::send_mail(Option::getEmailNotification(), __('Database pruned on', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string, true,
+                array("email_title" => __('Database pruned on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>'));
         }
 
         return $result_string;
