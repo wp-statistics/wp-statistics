@@ -52,7 +52,7 @@ class Option
             'stats_report'          => true,
             'time_report'           => 'weekly',
             'send_report'           => 'mail',
-            'content_report'        => include(WP_STATISTICS_DIR . 'includes/admin/templates/emails/default.php'),
+            'content_report'        => Helper::get_file_path('includes/admin/templates/emails/default.php'),
             'update_geoip'          => true,
             'store_ua'              => false,
             'do_not_track'          => true,
