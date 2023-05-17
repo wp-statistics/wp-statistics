@@ -1,5 +1,4 @@
-<?php
-return '<div style = "text-align: left;" > Hello, Here is the statistical report for your website: </div>
+<div style = "text-align: left;" > Hello, Here is the statistical report for your website: </div>
 <ul>
  	<li>Online Users: <strong > [wpstatistics stat = usersonline]</strong></li>
  	<li>Today\'s Visitors: <strong> [wpstatistics stat=visitors time=today]</strong></li>
@@ -11,5 +10,4 @@ return '<div style = "text-align: left;" > Hello, Here is the statistical report
 </ul>
 <div></div>
 <div> Thank you for using WP Statistics!</div>
-<div> Best regards,</div>';
-?>
+<div> Best regards,</div>
