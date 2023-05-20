@@ -88,8 +88,12 @@
             }
         }
         ?>
-        <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_from_date; ?>" class="js-date-range-picker-input-from" value="<?php echo esc_attr($DateRang['from']); ?>">
-        <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_to_date; ?>" class="js-date-range-picker-input-to" value="<?php echo esc_attr($DateRang['to']); ?>">
+        <?php if (!empty($DateRang['from'])) { ?>
+            <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_from_date; ?>" class="js-date-range-picker-input-from" value="<?php echo esc_attr($DateRang['from']); ?>">
+        <?php } ?>
+        <?php if (!empty($DateRang['to'])) { ?>
+            <input type="hidden" name="<?php echo \WP_STATISTICS\Admin_Template::$request_to_date; ?>" class="js-date-range-picker-input-to" value="<?php echo esc_attr($DateRang['to']); ?>">
+        <?php } ?>
     </form>
 </div>
 

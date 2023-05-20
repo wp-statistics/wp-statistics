@@ -25,7 +25,7 @@ wps_js.summary_meta_box = {
                         if (typeof args[key][summary_item[i]] === 'undefined') {
                             t += `<td>-</td>`;
                         } else {
-                            t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span>${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
+                            t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span class="quickstats-values">${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
                         }
                     });
                     t += `</tr>`;

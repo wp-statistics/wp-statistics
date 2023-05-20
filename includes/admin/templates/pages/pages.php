@@ -53,7 +53,7 @@
                                     ?>
 
                                     <tr>
-                                        <td style='text-align: left;'><?php echo esc_attr($i + ($perPage * ($currentPage - 1 ?? 0))); ?></td>
+                                        <td style='text-align: left;'><?php echo esc_attr($i + ($perPage * ($currentPage - 1 ? $currentPage - 1 : 0))); ?></td>
                                         <td style='text-align: left;'>
                                             <span title='<?php echo esc_attr($li['title']); ?>' class='wps-cursor-default wps-text-wrap'>
                                                 <?php echo esc_attr($li['title']); ?>

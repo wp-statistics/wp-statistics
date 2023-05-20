@@ -5,6 +5,14 @@ namespace WP_STATISTICS;
 class Schedule
 {
 
+    /**
+     * Class instance.
+     *
+     * @see get_instance()
+     * @type object
+     */
+    static $instance = null;
+
     public function __construct()
     {
 
@@ -89,7 +97,18 @@ class Schedule
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
             add_action('wp_statistics_report_hook', array($this, 'send_report'));
         }
+    }
 
+    /**
+     * Access the instance of this class
+     *
+     * @return  object of this class
+     */
+    public static function get_instance()
+    {
+        null === self::$instance and self::$instance = new self;
+
+        return self::$instance;
     }
 
     /**

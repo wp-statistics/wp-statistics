@@ -252,6 +252,7 @@ class Install
     {
 
         //Require File For Create Default Option
+        require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-helper.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-user-online.php';
