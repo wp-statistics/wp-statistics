@@ -139,7 +139,7 @@ class pages_page
                     $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
                 }
                 $object         = get_post_type_object($slug);
-                $title          = $object->labels->singular_name ? '-' : '';
+                $title          = $object->labels->singular_name ? $object->labels->singular_name : '-';
                 $args['tabs'][] = [
                     'link'  => $link,
                     'title' => $title,
