@@ -52,7 +52,7 @@ class Option
             'stats_report'          => true,
             'time_report'           => 'weekly',
             'send_report'           => 'mail',
-            'content_report'        => Admin_Template::get_template(array('emails/default')),
+            'content_report'        => Admin_Template::get_template('emails/default', array(), true),
             'update_geoip'          => true,
             'store_ua'              => false,
             'do_not_track'          => true,
