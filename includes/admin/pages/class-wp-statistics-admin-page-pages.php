@@ -141,12 +141,20 @@ class pages_page
                 $postTypeSlug = in_array($slug, ['post', 'page', 'product']) ? $slug : 'post_type_' . $slug;
                 $class        = ($postTypeSlug == self::$postType ? 'current' : '');
                 $link         = Menus::admin_url('wps_pages_page', ['type' => $postTypeSlug]);
+
                 if (!in_array($postTypeSlug, self::$defaultPostTypes)) {
                     $class .= ' wps-locked';
                     $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
                 }
-                $object         = get_post_type_object($slug);
-                $title          = $object->labels->singular_name ? $object->labels->singular_name : '-';
+
+                $object = get_post_type_object($slug);
+
+                if (isset($object->labels->singular_name) && $object->labels->singular_name) {
+                    $title = $object->labels->singular_name;
+                } else {
+                    $title = ucfirst($slug);
+                }
+                
                 $args['tabs'][] = [
                     'link'  => $link,
                     'title' => $title,
