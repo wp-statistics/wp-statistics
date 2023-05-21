@@ -24,7 +24,7 @@ class referring extends MetaBoxAbstract
             $result   = Referred::getList($args);
             $get_urls = [];
             foreach ($result as $items) {
-                $get_urls[$items->domain] = Referred::get_referer_from_domain($items->domain);
+                $get_urls[$items->domain] = $items->number;
             }
             $response['referring'] = Referred::PrepareReferData($get_urls);
         } catch (\Exception $e) {
