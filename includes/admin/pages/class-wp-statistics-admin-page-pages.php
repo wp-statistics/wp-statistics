@@ -100,8 +100,15 @@ class pages_page
             if (strpos($postTypeSlug, 'post_type_') !== false) {
                 $postTypeSlug = str_replace('post_type_', '', $postTypeSlug);
             }
-            $object      = get_post_type_object($postTypeSlug);
-            $objectTitle = $object->labels->name ? 'Pages' : '';
+
+            $object = get_post_type_object($postTypeSlug);
+
+            if (isset($object->labels->name) && $object->labels->name) {
+                $objectTitle = $object->labels->name;
+            } else {
+                $objectTitle = ucfirst($postTypeSlug);
+            }
+
             // Page title
             $args['title'] = __('Top ' . $objectTitle, 'wp-statistics');
 
