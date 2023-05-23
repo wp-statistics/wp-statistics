@@ -267,7 +267,7 @@ class GeoIP
         }
 
         // This is the location of the file to download.
-        $download_url = GeoIP::$library[$pack]['source'];
+        $download_url = apply_filters('wp_statistics_geo_ip_download_url', GeoIP::$library[$pack]['source'], $pack);
         $response     = wp_remote_get($download_url, array(
             'timeout'   => 60,
             'sslverify' => false
