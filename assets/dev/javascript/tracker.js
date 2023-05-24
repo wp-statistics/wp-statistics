@@ -5,8 +5,14 @@ let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTr
 
 let wpStatisticsUserOnline = {
     init: function () {
-        this.checkHitRequestConditions();
-        this.keepUserOnline();
+        if (typeof WP_Statistics_Tracker_Object == "undefined") {
+
+            console.log('Variable WP_Statistics_Tracker_Object not found on the page source. Please ensure that you have excluded the /wp-content/plugins/wp-statistics/assets/js/tracker.js file from your cache and then clear your cache.');
+
+        } else {
+            this.checkHitRequestConditions();
+            this.keepUserOnline();
+        }
     },
 
     // Check Conditions for Sending Hit Request
