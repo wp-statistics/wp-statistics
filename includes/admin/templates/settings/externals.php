@@ -8,11 +8,11 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps_geoip_license_type"><?php _e('GeoIP Lisence Server:', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_geoip_license_type"><?php _e('GeoIP Server Type:', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
-                    <option value="wp-statistics-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'wp-statistics-license'); ?>><?php _e('WP Statistics Server', 'wp-statistics'); ?></option>
-                    <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php _e('Your License Server', 'wp-statistics'); ?></option>
+                    <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php _e('Use the JsDelivr', 'wp-statistics'); ?></option>
+                    <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php _e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
                 <p class="description"><?php echo sprintf(__('IP location services are provided by data created by %s.', 'wp-statistics'), '<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'); ?></p>
@@ -175,9 +175,9 @@
                 // Ajax function for updating database
                 jQuery("input[name = 'update_geoip']").click(function (event) {
                     event.preventDefault();
-                    var clickedButton = this;
+                    var geoip_clicked_button = this;
 
-                    var action = jQuery(this).prev().val();
+                    var geoip_action = jQuery(this).prev().val();
                     jQuery(".geoip-update-loading").remove();
                     jQuery(".update_geoip_result").remove();
 
@@ -188,14 +188,14 @@
                         type: 'post',
                         data: {
                             'action': 'wp_statistics_update_geoip_database',
-                            'update_action': action,
+                            'update_action': geoip_action,
                             'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
                         },
                         datatype: 'json',
                     })
                         .always(function (result) {
                             jQuery(".geoip-update-loading").remove();
-                            jQuery(clickedButton).after("<span class='update_geoip_result'>" + result + "</span>")
+                            jQuery(geoip_clicked_button).after("<span class='update_geoip_result'>" + result + "</span>")
                         });
                 });
             });

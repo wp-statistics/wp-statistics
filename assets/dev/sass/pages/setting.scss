@@ -69,10 +69,11 @@
   }
 
   .update_geoip_result {
+    display: block;
     border-radius: 2px;
     background-color: #f2bb08;
     padding: 8px;
-    margin-left: 10px;
+    margin-top: 10px;
     transition: 0.3s all ease-out;
     font-size: 12px;
     color: #222;
