@@ -160,15 +160,17 @@
         <script type="text/javascript">
             jQuery(document).ready(function () {
 
-
                 // Show and hide user license input base on license type option
-                jQuery("#geoip_license_type").on('change', function () {
-                    if (jQuery(this).val() == "user-license") {
+                function handle_geoip_license_key_field() {
+                    console.log(jQuery("#geoip_license_type").val())
+                    if (jQuery("#geoip_license_type").val() == "user-license") {
                         jQuery("#geoip_license_key_option").show();
                     } else {
                         jQuery("#geoip_license_key_option").hide();
                     }
-                });
+                }
+                handle_geoip_license_key_field();
+                jQuery("#geoip_license_type").on('change', handle_geoip_license_key_field);
 
                 // Ajax function for updating database
                 jQuery("input[name = 'update_geoip']").click(function (event) {
@@ -178,7 +180,6 @@
                     var action = jQuery(this).prev().val();
                     jQuery(".geoip-update-loading").remove();
                     jQuery(".update_geoip_result").remove();
-                    jQuery(this).html("Updating ...");
 
                     jQuery(this).after("<img class='geoip-update-loading' src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
 
@@ -194,7 +195,6 @@
                     })
                         .always(function (result) {
                             jQuery(".geoip-update-loading").remove();
-                            jQuery(clickedButton).html("Update Database");
                             jQuery(clickedButton).after("<span class='update_geoip_result'>" + result + "</span>")
                         });
                 });
