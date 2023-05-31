@@ -52,6 +52,8 @@ class Option
             'stats_report'          => true,
             'time_report'           => 'weekly',
             'send_report'           => 'mail',
+            'geoip_license_type'    => 'wp-statistics-license',
+            'geoip_license_key'     => '',
             'content_report'        => Admin_Template::get_template('emails/default', array(), true),
             'update_geoip'          => true,
             'store_ua'              => false,
@@ -248,5 +250,4 @@ class Option
 
         return Option::get('email_list');
     }
-
 }
