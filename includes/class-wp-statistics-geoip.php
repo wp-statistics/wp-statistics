@@ -14,14 +14,14 @@ class GeoIP
     public static $library = array(
         'country' => array(
             'source'     => 'https://cdn.jsdelivr.net/npm/geolite2-country@1.0.2/GeoLite2-Country.mmdb.gz',
-            'userSource' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=YOUR_LICENSE_KEY&suffix=tar.gz',
+            'userSource' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=&suffix=tar.gz',
             'file'       => 'GeoLite2-Country',
             'opt'        => 'geoip',
             'cache'      => 31536000 //1 Year
         ),
         'city'    => array(
             'source'     => 'https://cdn.jsdelivr.net/npm/geolite2-city@1.0.0/GeoLite2-City.mmdb.gz',
-            'userSource' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=YOUR_LICENSE_KEY&suffix=tar.gz',
+            'userSource' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=&suffix=tar.gz',
             'file'       => 'GeoLite2-City',
             'opt'        => 'geoip_city',
             'cache'      => 6998000 //3 Month
