@@ -267,11 +267,15 @@ class GeoIP
 
         // This is the location of the file to download.
         if (Option::get('geoip_license_type') == "user-license" && Option::get('geoip_license_key')) {
-            $raw_download_url = apply_filters('wp_statistics_geo_ip_download_url', GeoIP::$library[$pack]['userSource'], $pack);
-            $download_url     = add_query_arg(array('license_key' => Option::get('geoip_license_key') ),$raw_download_url);
+            $download_url = add_query_arg(array(
+                'license_key' => Option::get('geoip_license_key')
+            ), GeoIP::$library[$pack]['userSource']);
         } else {
-            $download_url = apply_filters('wp_statistics_geo_ip_download_url', GeoIP::$library[$pack]['source'], $pack);
+            $download_url = GeoIP::$library[$pack]['source'];
         }
+        
+        // Apply filter to allow third-party plugins to modify the download url
+        $download_url = apply_filters('wp_statistics_geo_ip_download_url', $download_url, GeoIP::$library[$pack]['source'], $pack);
 
         $response = wp_remote_get($download_url, array(
             'timeout'   => 60,
