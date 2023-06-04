@@ -2,14 +2,33 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('GeoIP Settings', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2">
+                <h3><?php _e('GeoIP Settings', 'wp-statistics'); ?></h3>
+            </th>
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2">
-                <?php echo sprintf(__('IP location services are provided by data created by %s.', 'wp-statistics'), '<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'); ?>
-            </th>
+            <th scope="row"><label for="wps_geoip_license_type"><?php _e('GeoIP Server Type:', 'wp-statistics'); ?></label></th>
+            <td>
+                <select name="wps_geoip_license_type" id="geoip_license_type">
+                    <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php _e('Use the JsDelivr', 'wp-statistics'); ?></option>
+                    <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php _e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
+                </select>
+
+                <p class="description"><?php echo sprintf(__('IP location services are provided by data created by %s.', 'wp-statistics'), '<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'); ?></p>
+            </td>
         </tr>
+
+        <tr valign="top" id="geoip_license_key_option">
+            <th scope="row">
+                <label for="geoip_license_key"><?php _e('GeoIP License Key:', 'wp-statistics'); ?></label>
+            </th>
+            <td>
+                <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
+                <p class="description"><?php echo __('Put your license key here and save settings to apply it.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
         <?php
         if (WP_STATISTICS\GeoIP::IsSupport()) {
             ?>
@@ -137,6 +156,51 @@
             </tr>
             <?php
         } ?>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+
+                // Show and hide user license input base on license type option
+                function handle_geoip_license_key_field() {
+                    console.log(jQuery("#geoip_license_type").val())
+                    if (jQuery("#geoip_license_type").val() == "user-license") {
+                        jQuery("#geoip_license_key_option").show();
+                    } else {
+                        jQuery("#geoip_license_key_option").hide();
+                    }
+                }
+                handle_geoip_license_key_field();
+                jQuery("#geoip_license_type").on('change', handle_geoip_license_key_field);
+
+                // Ajax function for updating database
+                jQuery("input[name = 'update_geoip']").click(function (event) {
+                    event.preventDefault();
+                    var geoip_clicked_button = this;
+
+                    var geoip_action = jQuery(this).prev().val();
+                    jQuery(".geoip-update-loading").remove();
+                    jQuery(".update_geoip_result").remove();
+
+                    jQuery(this).after("<img class='geoip-update-loading' src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
+
+                    jQuery.ajax({
+                        url: ajaxurl,
+                        type: 'post',
+                        data: {
+                            'action': 'wp_statistics_update_geoip_database',
+                            'update_action': geoip_action,
+                            'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                        },
+                        datatype: 'json',
+                    })
+                        .always(function (result) {
+                            jQuery(".geoip-update-loading").remove();
+                            jQuery(geoip_clicked_button).after("<span class='update_geoip_result'>" + result + "</span>")
+                        });
+                });
+            });
+        </script>
+
         </tbody>
     </table>
 </div>
@@ -167,7 +231,7 @@
             </td>
         </tr>
 
-        <tr valign="top" class="referrerspam_field"<?php if (!WP_STATISTICS\Option::get('referrerspam')) {
+        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
             echo ' style="display:none;"';
         } ?>>
             <th scope="row">
@@ -176,12 +240,14 @@
 
             <td>
                 <button type="submit" name="update-referrer-spam" value="1" class="button"><?php _e('Update', 'wp-staitsitcs'); ?></button>
-                <!--                <a href="--><?php //echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes')) ?><!--" class="button">--><?php //_e('Update', 'wp-staitsitcs'); ?><!--</a>-->
+                <!--                <a href="--><?php //echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes'))
+                ?><!--" class="button">--><?php //_e('Update', 'wp-staitsitcs');
+                ?><!--</a>-->
                 <p class="description"><?php _e('Click button to download the update.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
-        <tr valign="top" class="referrerspam_field"<?php if (!WP_STATISTICS\Option::get('referrerspam')) {
+        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
             echo ' style="display:none;"';
         } ?>>
             <th scope="row">
