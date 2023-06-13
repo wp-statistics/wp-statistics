@@ -43,7 +43,6 @@
                                 <tr>
                                     <td width='10%'><?php _e('ID', 'wp-statistics'); ?></td>
                                     <td width='40%'><?php _e('Title', 'wp-statistics'); ?></td>
-                                    <td width='40%'><?php _e('Link', 'wp-statistics'); ?></td>
                                     <td width='10%'><?php _e('Visits', 'wp-statistics'); ?></td>
                                 </tr>
 
@@ -54,11 +53,6 @@
 
                                     <tr>
                                         <td style='text-align: left;'><?php echo esc_attr($i + ($perPage * ($currentPage - 1 ? $currentPage - 1 : 0))); ?></td>
-                                        <td style='text-align: left;'>
-                                            <span title='<?php echo esc_attr($li['title']); ?>' class='wps-cursor-default wps-text-wrap'>
-                                                <?php echo esc_attr($li['title']); ?>
-                                            </span>
-                                        </td>
                                         <td style='text-align: left;'>
                                             <a href="<?php echo esc_url(site_url($li['str_url'])); ?>" title="<?php echo esc_attr($li['title']); ?>" target="_blank"><?php echo esc_attr($li['title']); ?> <i class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></i></a>
                                         </td>
