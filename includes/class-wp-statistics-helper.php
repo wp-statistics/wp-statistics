@@ -301,9 +301,14 @@ class Helper
      */
     public static function get_list_post_type()
     {
-        $post_types     = array('post', 'page');
-        $get_post_types = get_post_types(array('public' => true, '_builtin' => false), 'names', 'and');
-        foreach ($get_post_types as $name) {
+        // Get default post types which are public (exclude media post type)
+        $post_types     = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
+        $post_types     = array_diff($post_types, ['attachment']);
+
+        // Get custom post types which are public
+        $custom_post_types = get_post_types(array('public' => true, '_builtin' => false), 'names', 'and');
+
+        foreach ($custom_post_types as $name) {
             $post_types[] = $name;
         }
 
