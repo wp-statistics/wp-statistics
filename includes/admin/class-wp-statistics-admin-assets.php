@@ -47,6 +47,8 @@ class Admin_Assets
     {
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'));
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
+
+        $this->initFeedback();
     }
 
     /**
@@ -413,6 +415,44 @@ class Admin_Assets
             'firstDay'        => get_option('start_of_week'),
             'isRTL'           => $wp_locale->is_rtl(),
         );
+    }
+
+    /**
+     * Init FeedbackBird widget a third-party service to get feedbacks from users
+     *
+     * @url https://feedbackbird.io
+     *
+     * @return void
+     */
+    private function initFeedback()
+    {
+        add_action('admin_enqueue_scripts', function () {
+            $screen = get_current_screen();
+
+            if (stristr($screen->id, 'wps_')) {
+                wp_enqueue_script('feedbackbird-app-script', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z');
+                wp_add_inline_script('feedbackbird-app-script', sprintf('var feedbackBirdObject = %s;', json_encode([
+                    'userid' => get_current_user(),
+                    'meta'   => [
+                        'php_version'    => PHP_VERSION,
+                        'active_plugins' => array_map(function ($plugin, $pluginPath) {
+                            return [
+                                'name'    => $plugin['Name'],
+                                'version' => $plugin['Version'],
+                                'status'  => is_plugin_active($pluginPath) ? 'active' : 'deactivate',
+                            ];
+                        }, get_plugins(), array_keys(get_plugins())),
+                    ]
+                ])));
+
+                add_filter('script_loader_tag', function ($tag, $handle, $src) {
+                    if ('feedbackbird-app-script' === $handle) {
+                        return preg_replace('/^<script /i', '<script type="module" crossorigin="crossorigin" ', $tag);
+                    }
+                    return $tag;
+                }, 10, 3);
+            }
+        });
     }
 }
 
