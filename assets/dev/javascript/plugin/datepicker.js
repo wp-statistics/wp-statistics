@@ -2,10 +2,12 @@ jQuery(document).ready(function () {
     const datePickerBtn = jQuery('.js-date-range-picker-btn');
     const datePickerElement = jQuery('.js-date-range-picker-input');
     const datePickerForm = jQuery('.js-date-range-picker-form');
-    if (datePickerBtn.length) {
+
+    if (datePickerBtn.length && datePickerElement.length && datePickerForm.length) {
         datePickerBtn.on('click', function () {
             datePickerElement.trigger('click');
         });
+
         datePickerElement.daterangepicker({
             "autoApply": true,
             "ranges": {
@@ -32,7 +34,12 @@ jQuery(document).ready(function () {
             datePickerBtn.find('span').html(activeRangeText);
         } else {
             let defaultRange = datePickerBtn.find('span').text();
+            datePickerElement.data('daterangepicker').container.find('.ranges li.active').removeClass('active');
             datePickerElement.data('daterangepicker').container.find('.ranges li[data-range-key="' + defaultRange + '"]').addClass('active');
+            datePickerElement.on('show.daterangepicker', function (ev, picker) {
+                datePickerElement.data('daterangepicker').container.find('.ranges li.active').removeClass('active');
+                datePickerElement.data('daterangepicker').container.find('.ranges li[data-range-key="' + defaultRange + '"]').addClass('active');
+            });
         }
 
         datePickerElement.on('apply.daterangepicker', function (ev, picker) {

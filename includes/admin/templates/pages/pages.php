@@ -3,7 +3,7 @@
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('top-pages-chart'); ?>">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Top 5 Trending Pages', 'wp-statistics'); ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo esc_html($top_trending_title); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Top 5 Trending Pages', 'wp-statistics')); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
@@ -32,7 +32,9 @@
 
                     <?php
                     if (empty($lists)) {
+                        echo '<div class="o-wrap o-wrap--no-data">';
                         _e('No data to display', 'wp-statistics');
+                        echo '</div>';
                     } else {
                         ?>
                         <div class="o-table-wrapper">
@@ -41,7 +43,6 @@
                                 <tr>
                                     <td width='10%'><?php _e('ID', 'wp-statistics'); ?></td>
                                     <td width='40%'><?php _e('Title', 'wp-statistics'); ?></td>
-                                    <td width='40%'><?php _e('Link', 'wp-statistics'); ?></td>
                                     <td width='10%'><?php _e('Visits', 'wp-statistics'); ?></td>
                                 </tr>
 
@@ -51,14 +52,9 @@
                                     ?>
 
                                     <tr>
-                                        <td style='text-align: left;'><?php echo esc_attr($i + ($perPage * ($currentPage - 1 ?? 0))); ?></td>
+                                        <td style='text-align: left;'><?php echo esc_attr($i + ($perPage * ($currentPage - 1 ? $currentPage - 1 : 0))); ?></td>
                                         <td style='text-align: left;'>
-                                            <span title='<?php echo esc_attr($li['title']); ?>' class='wps-cursor-default wps-text-wrap'>
-                                                <?php echo esc_attr($li['title']); ?>
-                                            </span>
-                                        </td>
-                                        <td style='text-align: left;'>
-                                            <a href="<?php echo esc_url($li['link'] . $li['str_url']); ?>" title="<?php echo esc_attr($li['title']); ?>" target="_blank"><?php echo esc_attr($li['title']); ?> <i class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></i></a>
+                                            <a href="<?php echo esc_url(site_url($li['str_url'])); ?>" title="<?php echo esc_attr($li['title']); ?>" target="_blank"><?php echo esc_attr($li['title']); ?> <i class="dashicons dashicons-external" style="font-size: 15px; vertical-align: middle"></i></a>
                                         </td>
                                         <td style="text-align: left">
                                             <a href="<?php echo esc_url($li['hits_page']); ?>">

@@ -178,37 +178,37 @@ class Helper
 
         /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
-            return array('status' => true, 'plugin' => 'core');
+            $use = array('status' => true, 'plugin' => 'core');
         }
 
         /* WP Rocket */
         if (function_exists('get_rocket_cdn_url')) {
-            return array('status' => true, 'plugin' => 'WP Rocket');
+            $use = array('status' => true, 'plugin' => 'WP Rocket');
         }
 
         /* WP Super Cache */
         if (function_exists('wpsc_init')) {
-            return array('status' => true, 'plugin' => 'WP Super Cache');
+            $use = array('status' => true, 'plugin' => 'WP Super Cache');
         }
 
         /* Comet Cache */
         if (function_exists('___wp_php_rv_initialize')) {
-            return array('status' => true, 'plugin' => 'Comet Cache');
+            $use = array('status' => true, 'plugin' => 'Comet Cache');
         }
 
         /* WP Fastest Cache */
         if (class_exists('WpFastestCache')) {
-            return array('status' => true, 'plugin' => 'WP Fastest Cache');
+            $use = array('status' => true, 'plugin' => 'WP Fastest Cache');
         }
 
         /* Cache Enabler */
         if (defined('CE_MIN_WP')) {
-            return array('status' => true, 'plugin' => 'Cache Enabler');
+            $use = array('status' => true, 'plugin' => 'Cache Enabler');
         }
 
         /* W3 Total Cache */
         if (defined('W3TC')) {
-            return array('status' => true, 'plugin' => 'W3 Total Cache');
+            $use = array('status' => true, 'plugin' => 'W3 Total Cache');
         }
 
         return apply_filters('wp_statistics_cache_status', $use);
@@ -301,9 +301,14 @@ class Helper
      */
     public static function get_list_post_type()
     {
-        $post_types     = array('post', 'page');
-        $get_post_types = get_post_types(array('public' => true, '_builtin' => false), 'names', 'and');
-        foreach ($get_post_types as $name) {
+        // Get default post types which are public (exclude media post type)
+        $post_types     = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
+        $post_types     = array_diff($post_types, ['attachment']);
+
+        // Get custom post types which are public
+        $custom_post_types = get_post_types(array('public' => true, '_builtin' => false), 'names', 'and');
+
+        foreach ($custom_post_types as $name) {
             $post_types[] = $name;
         }
 
@@ -697,7 +702,7 @@ class Helper
     {
         // Email Template
         if ($email_template) {
-            $email_template = wp_normalize_path(WP_STATISTICS_DIR . 'includes/admin/templates/email.php');
+            $email_template = wp_normalize_path(WP_STATISTICS_DIR . 'includes/admin/templates/emails/layout.php');
         }
 
         // Email from
@@ -707,13 +712,19 @@ class Helper
 
         //Template Arg
         $template_arg = array(
-            'title'       => $subject,
-            'logo'        => '',
-            'content'     => $content,
-            'site_url'    => home_url(),
-            'site_title'  => get_bloginfo('name'),
-            'footer_text' => '',
-            'is_rtl'      => (is_rtl() ? true : false)
+            'title'        => $subject,
+            'logo'         => '',
+            'content'      => $content,
+            'site_url'     => home_url(),
+            'site_title'   => get_bloginfo('name'),
+            'footer_text'  => '',
+            'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . parse_url(get_site_url())['host']),
+            'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
+            'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
+            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
+            'email_header' => apply_filters('wp_statistics_email_header', ""),
+            'email_footer' => apply_filters('wp_statistics_email_footer', ""),
+            'is_rtl'       => (is_rtl() ? true : false)
         );
         $arg          = wp_parse_args($args, $template_arg);
 

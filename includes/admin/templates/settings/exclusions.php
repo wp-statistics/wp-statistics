@@ -144,7 +144,7 @@
             <th scope="row"><?php _e('Excluded Countries:', 'wp-statistics'); ?></th>
             <td>
                 <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
-                <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to exclude them from statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://dev.maxmind.com/geoip/legacy/codes/iso3166/') . '" target="_blank">', '</a>'); ?></p>
+                <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to exclude them from statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes') . '" target="_blank">', '</a>'); ?></p>
             </td>
         </tr>
 
@@ -152,7 +152,7 @@
             <th scope="row"><?php _e('Included Countries:', 'wp-statistics'); ?></th>
             <td>
                 <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
-                <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to include them in statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://dev.maxmind.com/geoip/legacy/codes/iso3166/') . '" target="_blank">', '</a>'); ?></p>
+                <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to include them in statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes') . '" target="_blank">', '</a>'); ?></p>
             </td>
         </tr>
         </tbody>

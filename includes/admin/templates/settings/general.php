@@ -58,7 +58,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="visits"><?php _e('Visits:', 'wp-statistics'); ?></label>
+                <label for="visits"><?php _e('Status:', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -79,12 +79,12 @@
 
         <tr valign="top" id="visitors_tr">
             <th scope="row">
-                <label for="visitors"><?php _e('Visitors:', 'wp-statistics'); ?></label>
+                <label for="visitors"><?php _e('Status:', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="visitors" type="checkbox" value="1" name="wps_visitors" <?php echo WP_STATISTICS\Option::get('visitors') == true ? "checked='checked'" : ''; ?>>
                 <label for="visitors"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to show the number of Page Hits (It is the number of unique users which have visited your site)', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable this option to show the number of Unique Users who have visited your website', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

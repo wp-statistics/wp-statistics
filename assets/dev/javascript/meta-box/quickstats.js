@@ -2,6 +2,9 @@ wps_js.quickstats_meta_box = {
 
     view: function (args = []) {
         let t = '';
+
+        t += wps_js.summary_meta_box.user_online(args);
+
         t += `<div class="o-table-wrapper"><table width="100%" class="o-table"><tbody>`;
 
         //Summary Statistics

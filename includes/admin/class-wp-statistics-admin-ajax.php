@@ -22,7 +22,8 @@ class Ajax
             'empty_table',
             'purge_data',
             'purge_visitor_hits',
-            'visitors_page_filters'
+            'visitors_page_filters',
+            'update_geoip_database'
         );
         foreach ($list as $method) {
             add_action('wp_ajax_wp_statistics_' . $method, array($this, $method . '_action_callback'));
@@ -107,7 +108,6 @@ class Ajax
                 } else {
                     _e('No agent data found to remove!', 'wp-statistics');
                 }
-
             } else {
                 _e('Please select the desired items.', 'wp-statistics');
             }
@@ -215,7 +215,7 @@ class Ajax
         $table_name    = sanitize_text_field($_POST['table-name']);
         $list_db_table = DB::table('all', 'historical');
 
-        if (!array_key_exists($table_name, $list_db_table) and $table_name!= 'all') {
+        if (!array_key_exists($table_name, $list_db_table) and $table_name != 'all') {
             _e('Access denied!', 'wp-statistics');
             exit;
         }
@@ -231,7 +231,6 @@ class Ajax
             } else {
                 echo DB::EmptyTable(DB::table($table_name)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
-
         } else {
             _e('Access denied!', 'wp-statistics');
         }
@@ -359,6 +358,36 @@ class Ajax
         exit;
     }
 
+    /**
+     * Setup an AJAX action to update geoIP database.
+     */
+    public function update_geoip_database_action_callback()
+    {
+
+        if (Helper::is_request('ajax') and User::Access('manage')) {
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            // Sanitize GeoIP Name
+            $geoip_name = sanitize_text_field($_POST['update_action']);
+
+            // When GeoIP is enabled, then user can update the GeoIP database
+            if ($geoip_name == "country" && Option::get("geoip") !== 'on') {
+                _e('Please first enable GeoIP Collection and save settings!', 'wp-statistics');
+            } elseif ($geoip_name == "city" && Option::get("geoip_city") !== 'on') {
+                _e('Please first enable GeoIP City and save settings!', 'wp-statistics');
+            }
+
+            $result = GeoIP::download($geoip_name, "update");
+            if ($result) {
+                _e($result["notice"]);
+            }
+        } else {
+            _e('Access denied!', 'wp-statistics');
+        }
+
+        exit;
+    }
 }
 
 new Ajax;

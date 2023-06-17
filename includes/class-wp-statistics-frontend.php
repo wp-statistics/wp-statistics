@@ -16,27 +16,15 @@ class Frontend
         # Enqueue scripts & styles
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 
-        # Add inline Rest Request
-        add_action('wp_head', array($this, 'add_inline_rest_js'));
+        # Register and enqueue check online users scripts
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
 
-        # Add Html Comment in head
-        if (!Option::get('use_cache_plugin')) {
-            add_action('wp_head', array($this, 'html_comment'));
-        }
+        # Print out the WP Statistics HTML comment
+        add_action('wp_head', array($this, 'print_out_plugin_html'));
 
         # Check to show hits in posts/pages
         if (Option::get('show_hits')) {
             add_filter('the_content', array($this, 'show_hits'));
-        }
-    }
-
-    /*
-     * Create HTML Comment to support Wappalyzer
-     */
-    public function html_comment()
-    {
-        if (apply_filters('wp_statistics_html_comment', true)) {
-            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n";
         }
     }
 
@@ -51,10 +39,45 @@ class Frontend
         }
     }
 
+
     /**
      * Enqueue Scripts
      */
     public function enqueue_scripts()
+    {
+        wp_enqueue_script('wp-statistics-tracker', WP_STATISTICS_URL . 'assets/js/tracker.js');
+
+        $params = array(
+            Hits::$rest_hits_key => 'yes',
+        );
+
+        /**
+         * Merge parameters
+         */
+        $params = array_merge($params, Helper::getHitsDefaultParams());
+
+        /**
+         * Build request URL
+         */
+        $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
+        $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
+
+        $jsArgs = array(
+            'hitRequestUrl'        => $hitRequestUrl,
+            'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
+            'option'               => [
+                'dntEnabled'         => Option::get('do_not_track'),
+                'cacheCompatibility' => Option::get('use_cache_plugin')
+            ],
+        );
+
+        wp_localize_script('wp-statistics-tracker', 'WP_Statistics_Tracker_Object', $jsArgs);
+    }
+
+    /**
+     * Enqueue Styles
+     */
+    public function enqueue_styles()
     {
 
         // Load Admin Bar Css
@@ -64,39 +87,12 @@ class Frontend
     }
 
     /*
-     * Inline Js for client-side request
+     * Print out the WP Statistics HTML comment
      */
-    public function add_inline_rest_js()
+    public function print_out_plugin_html()
     {
-        if (Option::get('use_cache_plugin')) {
-
-            /**
-             * Print out the WP Statistics HTML comment
-             */
-            $this->html_comment();
-
-            $params = array(
-                Hits::$rest_hits_key => 'yes',
-            );
-
-            /**
-             * Merge parameters
-             */
-            $params = array_merge($params, Helper::getHitsDefaultParams());
-
-            /**
-             * Build request URL
-             */
-            $apiUrl     = RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint;
-            $requestUrl = add_query_arg($params, get_rest_url(null, $apiUrl));
-
-            /**
-             * Print Script
-             */
-            Admin_Template::get_template(array('tracker-js'), array(
-                'requestUrl' => $requestUrl,
-                'dntEnabled' => Option::get('do_not_track'),
-            ));
+        if (apply_filters('wp_statistics_html_comment', true)) {
+            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n";
         }
     }
 

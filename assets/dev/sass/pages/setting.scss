@@ -2,13 +2,12 @@
  * WP Statistics Setting Admin page
  */
 .wp-statistics-settings {
-
   .widefat {
     float: left;
   }
 
   .note {
-    color: #FF0000;
+    color: #ff0000;
     font-size: 11px !important;
     font-weight: bold;
   }
@@ -57,13 +56,28 @@
   }
 
   #update_geoip {
-    margin-left: 5px;
-    margin-top: -5px;
-    line-height: 19px;
     font-size: 12px;
-    height: 25px;
+    margin: 0 5px;
+    padding: 5px 15px;
+    transform: translateY(-3px);
   }
 
+  .geoip-update-loading {
+    transform: translateY(3px);
+    margin-left: 10px;
+    display: inline;
+  }
+
+  .update_geoip_result {
+    display: block;
+    border-radius: 2px;
+    background-color: #f2bb08;
+    padding: 8px;
+    margin-top: 10px;
+    transition: 0.3s all ease-out;
+    font-size: 12px;
+    color: #222;
+  }
 }
 
 /** WP Statistics Media Query Setting Admin page **/

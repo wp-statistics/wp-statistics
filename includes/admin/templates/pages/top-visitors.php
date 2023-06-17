@@ -1,7 +1,7 @@
 <form class="wps-search-date" method="get" style="margin-top: 15px;">
     <label for="search-date-input"><?php _e('Date', 'wp-statistics'); ?>:</label>
     <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
-    <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD">
+    <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
     <button type="submit" class="button-primary"><span class="dashicons dashicons-search"></span></button>
 </form>
 <div class="wp-clearfix"></div>

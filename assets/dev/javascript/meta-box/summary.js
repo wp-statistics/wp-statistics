@@ -15,29 +15,41 @@ wps_js.summary_meta_box = {
             t += `</tr>`;
             t += '</thead>';
             t += '<tbody>';
-            // Show Statistics in Days
-            let summary_item = ["today", "yesterday", "last-week", "week", "month", "60days", "90days", "year", "this-year", "last-year", "total"];
-            for (let i = 0; i < summary_item.length; i++) {
-                t += `<tr><td>${wps_js._(summary_item[i])}</td>`;
-                ["visitors", "visits"].forEach(function (key) {
-                    t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span>${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
-                });
-                t += `</tr>`;
-            }
-            t += '</tbody>';
 
+            if (Object.keys(args).length) {
+                // Show Statistics in Days
+                let summary_item = ["today", "yesterday", "last-week", "week", "month", "60days", "90days", "year", "this-year", "last-year", "total"];
+                for (let i = 0; i < summary_item.length; i++) {
+                    t += `<tr><td>${wps_js._(summary_item[i])}</td>`;
+                    ["visitors", "visits"].forEach(function (key) {
+                        if (typeof args[key][summary_item[i]] === 'undefined') {
+                            t += `<td>-</td>`;
+                        } else {
+                            t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span class="quickstats-values">${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
+                        }
+                    });
+                    t += `</tr>`;
+                }
+                t += '</tbody>';
+            }
         }
 
         return t;
     },
 
-    view: function (args = []) {
+    user_online: function (args = []) {
         let t = '';
         if (args['user_online']) {
             t = `<div class="c-live">
                     <span class="c-live__status"></span><span class="c-live__title">${wps_js._('online_users')}:</span> <span><a class="c-live__value" href="${args['user_online']['link']}">${args['user_online']['value']}</a></span>
                 </div>`;
         }
+        return t;
+    },
+
+    view: function (args = []) {
+        let t = '';
+        t += this.user_online(args);
         t += `<div class="o-table-wrapper"><table width="100%" class="o-table o-table--wps-summary-stats">`;
 
         // Summary Statistics

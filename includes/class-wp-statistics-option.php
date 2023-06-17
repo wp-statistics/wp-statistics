@@ -49,10 +49,12 @@ class Option
             'check_online'          => UserOnline::$reset_user_time,
             'menu_bar'              => false,
             'coefficient'           => Visitor::getCoefficient(),
-            'stats_report'          => false,
-            'time_report'           => 'daily',
+            'stats_report'          => true,
+            'time_report'           => 'weekly',
             'send_report'           => 'mail',
-            'content_report'        => '',
+            'geoip_license_type'    => 'js-deliver',
+            'geoip_license_key'     => '',
+            'content_report'        => Admin_Template::get_template('emails/default', array(), true),
             'update_geoip'          => true,
             'store_ua'              => false,
             'do_not_track'          => true,
@@ -248,5 +250,4 @@ class Option
 
         return Option::get('email_list');
     }
-
 }
