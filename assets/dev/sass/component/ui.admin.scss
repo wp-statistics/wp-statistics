@@ -137,6 +137,9 @@
 }
 
 .wps-header-banner {
+  transform: translateY(-5px);
+  position: relative;
+  z-index: -1;
   width: 100%;
   max-width: 100%;
   background: url('../images/page-header.svg');
