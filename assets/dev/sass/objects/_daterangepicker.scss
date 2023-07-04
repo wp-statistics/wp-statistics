@@ -1,0 +1,39 @@
+.daterangepicker.single {
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  border-radius: 8px;
+  font-size: 11px;
+
+  .calendar-table td , .calendar-table th {
+    font-size: 11px;
+  }
+
+  select {
+    border: 1px solid #DADCE0;
+    border-radius: 6px;
+    padding: 4px 8px !important;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 20px;
+  }
+
+  .btn {
+    background: transparent;
+     border: none;
+    font-style: normal;
+    font-weight: 500 !important;
+    font-size: 11px;
+    line-height: 170%;
+    cursor: pointer;
+    transition: 0.1s;
+    border-radius: 8px;
+
+    &:hover {
+      background: $light-secondary-color;
+    }
+
+    &.applyBtn {
+      color: $primary-color;
+    }
+  }
+}

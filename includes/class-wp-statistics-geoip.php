@@ -13,16 +13,18 @@ class GeoIP
      */
     public static $library = array(
         'country' => array(
-            'source' => 'https://cdn.jsdelivr.net/npm/geolite2-country@1.0.2/GeoLite2-Country.mmdb.gz',
-            'file'   => 'GeoLite2-Country',
-            'opt'    => 'geoip',
-            'cache'  => 31536000 //1 Year
+            'source'     => 'https://cdn.jsdelivr.net/npm/geolite2-country@1.0.2/GeoLite2-Country.mmdb.gz',
+            'userSource' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=&suffix=tar.gz',
+            'file'       => 'GeoLite2-Country',
+            'opt'        => 'geoip',
+            'cache'      => 31536000 //1 Year
         ),
         'city'    => array(
-            'source' => 'https://cdn.jsdelivr.net/npm/geolite2-city@1.0.0/GeoLite2-City.mmdb.gz',
-            'file'   => 'GeoLite2-City',
-            'opt'    => 'geoip_city',
-            'cache'  => 6998000 //3 Month
+            'source'     => 'https://cdn.jsdelivr.net/npm/geolite2-city@1.0.0/GeoLite2-City.mmdb.gz',
+            'userSource' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=&suffix=tar.gz',
+            'file'       => 'GeoLite2-City',
+            'opt'        => 'geoip_city',
+            'cache'      => 6998000 //3 Month
         )
     );
 
@@ -102,12 +104,10 @@ class GeoIP
 
                 //Load GeoIP Reader
                 return new \GeoIp2\Database\Reader($file);
-
             } catch (\Exception $e) {
                 \WP_Statistics::log($e->getMessage());
                 return false;
             }
-
         } else {
             return false;
         }
@@ -188,7 +188,6 @@ class GeoIP
                 } else {
                     $location = $record->country->{$return};
                 }
-
             } catch (\Exception $e) {
                 \WP_Statistics::log($e->getMessage());
             }
@@ -267,8 +266,18 @@ class GeoIP
         }
 
         // This is the location of the file to download.
-        $download_url = apply_filters('wp_statistics_geo_ip_download_url', GeoIP::$library[$pack]['source'], $pack);
-        $response     = wp_remote_get($download_url, array(
+        if (Option::get('geoip_license_type') == "user-license" && Option::get('geoip_license_key')) {
+            $download_url = add_query_arg(array(
+                'license_key' => Option::get('geoip_license_key')
+            ), GeoIP::$library[$pack]['userSource']);
+        } else {
+            $download_url = GeoIP::$library[$pack]['source'];
+        }
+        
+        // Apply filter to allow third-party plugins to modify the download url
+        $download_url = apply_filters('wp_statistics_geo_ip_download_url', $download_url, GeoIP::$library[$pack]['source'], $pack);
+
+        $response = wp_remote_get($download_url, array(
             'timeout'   => 60,
             'sslverify' => false
         ));
@@ -374,8 +383,13 @@ class GeoIP
         // Send Email
         if (Option::get('geoip_report') == true) {
 
-            Helper::send_mail(Option::getEmailNotification(), __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'), $result['notice'], true,
-                array("email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>'));
+            Helper::send_mail(
+                Option::getEmailNotification(),
+                __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'),
+                $result['notice'],
+                true,
+                array("email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>')
+            );
         }
 
         return $result;
@@ -601,5 +615,4 @@ class GeoIP
         //return "http://www.geoiptool.com/en/?IP={$ip}";
         return "https://redirect.li/map/?ip={$ip}";
     }
-
 }

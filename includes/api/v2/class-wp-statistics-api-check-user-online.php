@@ -39,7 +39,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
         $response = [
             'status' => true,
-            'message' => 'User is online, Information recorded successfully.',
+            'message' => 'User is online, the data is updated successfully.',
         ];
         return rest_ensure_response($response);
     }

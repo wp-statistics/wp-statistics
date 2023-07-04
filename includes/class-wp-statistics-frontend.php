@@ -75,7 +75,7 @@ class Frontend
     }
 
     /**
-     * Enqueue Scripts
+     * Enqueue Styles
      */
     public function enqueue_styles()
     {

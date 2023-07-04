@@ -282,9 +282,11 @@ class settings_page
 
         $wps_option_list = array(
             'wps_geoip',
+            'wps_geoip_city',
+            'wps_geoip_license_type',
+            'wps_geoip_license_key',
             'wps_update_geoip',
             'wps_schedule_geoip',
-            'wps_geoip_city',
             'wps_auto_pop',
             'wps_private_country_code',
             'wps_referrerspam',

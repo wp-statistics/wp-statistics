@@ -51,4 +51,18 @@ jQuery(document).ready(function () {
             datePickerForm.submit();
         });
     }
+
+    // Single Calendar
+    const datePickerField = jQuery('.wps-js-calendar-field');
+    if (datePickerField.length) {
+        datePickerField.daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1998,
+            maxYear: parseInt(new Date().getFullYear() + 1),
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+    }
 });

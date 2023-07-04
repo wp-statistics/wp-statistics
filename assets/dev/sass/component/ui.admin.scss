@@ -137,6 +137,9 @@
 }
 
 .wps-header-banner {
+  transform: translateY(-5px);
+  position: relative;
+  z-index: -1;
   width: 100%;
   max-width: 100%;
   background: url('../images/page-header.svg');
@@ -637,9 +640,9 @@
   }
 }
 
-.wp-statistics-settings #update_geoip {
-  padding: 5px 15px;
-}
+// .wp-statistics-settings #update_geoip {
+//   padding: 5px 15px;
+// }
 
 .wps-wrap #poststuff .postbox-container {
   margin-top: 0 !important;
