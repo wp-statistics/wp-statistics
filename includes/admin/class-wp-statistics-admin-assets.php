@@ -95,15 +95,15 @@ class Admin_Assets
         return $url . $file_name;
     }
 
-	/**
-	 * Enqueue dashboard page styles.
-	 */
+    /**
+     * Enqueue dashboard page styles.
+     */
 
-	public function dashboard_styles()
-	{
-		// Load Dashboard Css
-		wp_enqueue_style(self::$prefix . '-dashboard', self::url('dashboard.min.css'), array(), self::version());
-	}
+    public function dashboard_styles()
+    {
+        // Load Dashboard Css
+        wp_enqueue_style(self::$prefix . '-dashboard', self::url('dashboard.min.css'), array(), self::version());
+    }
 
     /**
      * Enqueue styles.
@@ -432,7 +432,7 @@ class Admin_Assets
             if (stristr($screen->id, 'wps_')) {
                 wp_enqueue_script('feedbackbird-app-script', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z');
                 wp_add_inline_script('feedbackbird-app-script', sprintf('var feedbackBirdObject = %s;', json_encode([
-                    'userid' => get_current_user(),
+                    'userid' => function_exists('get_current_user') ? get_current_user() : '',
                     'meta'   => [
                         'php_version'    => PHP_VERSION,
                         'active_plugins' => array_map(function ($plugin, $pluginPath) {
