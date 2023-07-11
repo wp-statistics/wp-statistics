@@ -4,6 +4,9 @@ namespace WhichBrowser\Analyser\Header;
 
 class Useragent
 {
+    protected $data;
+    protected $options;
+
     use Useragent\Os, Useragent\Device, Useragent\Browser, Useragent\Application, Useragent\Using, Useragent\Engine, Useragent\Bot;
 
     public function __construct($header, &$data, &$options)
