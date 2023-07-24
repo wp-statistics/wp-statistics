@@ -135,21 +135,20 @@
 }
 
 .wps-header-banner {
+  width: 100%;
+  box-sizing: border-box; 
   transform: translateY(-5px);
   position: relative;
   z-index: -1;
-  width: 100%;
-  max-width: 100%;
   background: url("../images/page-header.svg") no-repeat top left / cover;
-  height: 36px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 20px 20px;
+  padding: 16px 20px;
 
   .wps-header-icon {
     width: 160px;
-    height: 100px;
+    height: 40px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
