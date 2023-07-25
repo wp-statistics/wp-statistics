@@ -71,7 +71,8 @@ class Admin_Post
     {
         if ($column_name == 'wp-statistics-post-hits') {
 
-            $post_type  = Pages::get_post_type($post_id);
+            $post_type = Pages::get_post_type($post_id);
+            if (Pages::checkIfPageIsHome($post_id)) $post_type = 'home';
             $hit_number = wp_statistics_pages('total', "", $post_id, null, null, $post_type);
 
             if ($hit_number) {

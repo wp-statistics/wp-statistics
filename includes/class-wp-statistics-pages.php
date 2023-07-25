@@ -551,4 +551,14 @@ class Pages
 
         return $result;
     }
+
+    public static function checkIfPageIsHome($postID = false)
+    {
+        if (get_option('show_on_front') == 'page') {
+            if (get_option('page_on_front') == $postID or get_option('page_for_posts') == $postID) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
