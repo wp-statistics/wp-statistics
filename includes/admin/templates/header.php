@@ -1,1 +1,1 @@
-<div class="wps-header-banner"></div>
+<div class="wps-header-banner"><div class="wps-header-icon"></div></div>

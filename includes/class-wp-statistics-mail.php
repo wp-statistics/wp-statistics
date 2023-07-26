@@ -416,6 +416,8 @@ class WP_Statistics_Mail
             add_filter('wp_mail_content_type', array($this, 'HTMLFilter'));
         }
 
+        $this->attachments = apply_filters('wp_statistics_mail_attachments', $this->attachments, $this);
+
         return wp_mail($this->to, $this->buildSubject(), $this->body, $this->buildHeaders(), $this->attachments);
     }
 
