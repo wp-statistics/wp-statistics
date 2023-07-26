@@ -137,7 +137,6 @@
 .wps-header-banner {
   width: 100%;
   box-sizing: border-box;
-  transform: translateY(-5px);
   position: relative;
   z-index: -1;
   background: url("../images/page-header.svg") no-repeat top left / cover;
@@ -156,15 +155,16 @@
   }
 }
 
-@media screen and (max-width: 782px) {
-  .wps-header-banner {
+.toplevel_page_wps_overview_page .wps-header-banner {
+  transform: translateY(-5px);
+  @media screen and (max-width: 782px) {
     transform: translateY(-10px);
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .wps-header-banner {
-    padding-top: 55px;
+    padding-top: 40px;
   }
 }
 
