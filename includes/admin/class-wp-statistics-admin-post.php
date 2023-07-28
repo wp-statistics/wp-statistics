@@ -72,7 +72,11 @@ class Admin_Post
         if ($column_name == 'wp-statistics-post-hits') {
 
             $post_type = Pages::get_post_type($post_id);
-            if (Pages::checkIfPageIsHome($post_id)) $post_type = 'home';
+
+            if (Pages::checkIfPageIsHome($post_id)) {
+                $post_type = 'home';
+            }
+
             $hit_number = wp_statistics_pages('total', "", $post_id, null, null, $post_type);
 
             if ($hit_number) {
@@ -82,7 +86,10 @@ class Admin_Post
                     WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
                 );
 
-                echo apply_filters("wp_statistics_before_hit_column_{$post_type}", $preview_chart_unlock_html, $post_id, $post_type);
+                // Remove post_type_ from prefix of custom post type because of incompatibility with WP Statistics MiniChart
+                $actual_post_type = ltrim($post_type, 'post_type_');
+
+                echo apply_filters("wp_statistics_before_hit_column_{$actual_post_type}", $preview_chart_unlock_html, $post_id, $post_type);
 
                 echo sprintf('<a href="%s" class="wps-admin-column__link">%s</a>',
                     Menus::admin_url('pages', array('ID' => $post_id, 'type' => $post_type)),
