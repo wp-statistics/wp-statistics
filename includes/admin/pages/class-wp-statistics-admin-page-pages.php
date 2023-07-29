@@ -154,7 +154,7 @@ class pages_page
                 } else {
                     $title = ucfirst($slug);
                 }
-                
+
                 $args['tabs'][] = [
                     'link'  => $link,
                     'title' => $title,
@@ -217,10 +217,10 @@ class pages_page
 
         // Check Is Post Or Term
         $_is_post   = in_array($Type, array("page", "post", "product", "attachment"));
-        $_post_type = (strpos($Type, 'post_type_') !== false) ? str_replace(
-            'post_type_', '', $Type) : $Type;
+        $_post_type = (strpos($Type, 'post_type_') !== false) ? str_replace('post_type_', '', $Type) : $Type;
         $_is_post   = ($_is_post == false) ? in_array($_post_type, self::$postTypes) : $_is_post;
         $_is_term   = in_array($Type, array("category", "post_tag", "tax"));
+
         if ($_is_post === true || $_is_term === true) {
             $query = $wpdb->get_results($wpdb->prepare("SELECT `id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type), ARRAY_A);
         }
@@ -228,8 +228,10 @@ class pages_page
         // Create Select List For WordPress Posts
         if ($_is_post and isset($query)) {
             $args['list'][$ID] = get_the_title($ID);
+
             foreach ($query as $item) {
                 $get_page_info = Pages::get_page_info($item['id'], $Type);
+
                 if (isset($get_page_info['title']) and !empty($get_page_info['title']) and $item['id'] != $ID) {
                     $args['list'][$item['id']] = $get_page_info['title'];
                 }
@@ -238,17 +240,21 @@ class pages_page
 
         $subList      = [];
         $subListQuery = $wpdb->get_results($wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type), ARRAY_A);
+
         foreach ($subListQuery as $item) {
             $subList[$item['page_id']] = $item['uri'];
         }
+
         $args['sub_list'] = $subList;
 
         // Create Select List For WordPress Terms
         if ($_is_term and isset($query)) {
             $this_term         = Pages::get_page_info($ID, $Type);
             $args['list'][$ID] = $this_term['title'];
+
             foreach ($query as $item) {
                 $get_page_info = Pages::get_page_info($item['id'], $Type);
+                
                 if (isset($get_page_info['title']) and strlen($get_page_info['title']) > 2 and $item['id'] != $ID) {
                     $args['list'][$item['id']] = $get_page_info['title'];
                 }
