@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 
 // Setting up the logo.
-$final_logo = '<a target="_blank" style="text-decoration: none;" href="' . $logo_url . '"><img border="0" vspace="0" hspace="0" src="' . $logo_image . '" style="-ms-interpolation-mode: bicubic; border: none; max-width: 100%; width: 100%;"/></a>';
+$final_logo = '<a target="_blank" style="text-decoration: none;" href="' . $logo_url . '"><img class="logo-image" border="0" vspace="0" hspace="0" src="' . $logo_image . '" style="-ms-interpolation-mode: bicubic; border: none; max-width: 100%; width: 100%;" data-style="LogoWidthTo100px"/></a>';
 
 // Advertisement For WP Statistics Advanced Report Plugin
 $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
@@ -25,7 +25,7 @@ $email_body = '<table role="presentation" class="body" style="background-color: 
     <tr>
         <td class="container" style="Margin: 0 auto !important; display: block; font-size: 14px; max-width: 580px; padding: 10px; vertical-align: top; width: 580px;">
             <div class="content" style="Margin: 0 auto; box-sizing: border-box; display: block; max-width: 580px; padding: 10px;">
-                <table class="logo" style="border-collapse: separate; margin: 20px auto; mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: center; width: 40%;">
+                <table class="logo" style="border-collapse: separate; margin: 20px auto; mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: center; width: 40%;" data-style="HeaderTo100%">
                     <tbody>
                     <tr>
                         <td style="font-size: 14px; vertical-align: top;">
