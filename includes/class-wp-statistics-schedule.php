@@ -238,7 +238,7 @@ class Schedule
             /**
              * Email receivers
              */
-            $email_receivers = Option::getEmailNotification();
+            $email_receivers = apply_filters('wp_statistics_report_email_receivers', Option::getEmailNotification());             
 
             /**
              * Send Email
