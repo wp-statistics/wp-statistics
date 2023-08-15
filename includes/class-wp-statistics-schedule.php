@@ -215,8 +215,8 @@ class Schedule
     public function send_report()
     {
         // apply Filter ShortCode for email content
-        $final_text_report = Option::get('content_report');
-        $final_text_report = do_shortcode($final_text_report);
+        $email_content = Option::get('content_report');
+        $email_content = do_shortcode($email_content);
 
         // Type Send Report
         $type = Option::get('send_report');
@@ -228,7 +228,7 @@ class Schedule
              * Filter for email template content
              * @usage wp-statistics-advanced-reporting
              */
-            $email_content = apply_filters('wp_statistics_final_text_report_email', $final_text_report);
+            $final_report_text = apply_filters('wp_statistics_final_text_report_email', $email_content);
 
             /**
              * Filter for enable/disable sending email by template.
@@ -238,7 +238,7 @@ class Schedule
             /**
              * Email receivers
              */
-            $email_receivers = Option::getEmailNotification();
+            $email_receivers = apply_filters('wp_statistics_report_email_receivers', Option::getEmailNotification());             
 
             /**
              * Send Email
@@ -246,7 +246,7 @@ class Schedule
             $result_email = Helper::send_mail(
                 $email_receivers,
                 __('Statistical reporting', 'wp-statistics'),
-                $email_content,
+                $final_report_text,
                 $email_template
             );
 

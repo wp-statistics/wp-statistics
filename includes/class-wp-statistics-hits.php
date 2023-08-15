@@ -169,6 +169,7 @@ class Hits
             UserOnline::record();
         }
 
+        return $exclusion;
     }
 
     /**

@@ -73,10 +73,13 @@ class Hit extends \WP_STATISTICS\RestAPI
     public function hit_callback(\WP_REST_Request $request)
     {
         // Start Record
-        Hits::record();
+        $exclusion = Hits::record();
 
         $response = new \WP_REST_Response(array(
             'status'  => true,
+            'data'    => array(
+                'exclusion' => $exclusion,
+            ),
             'message' => __('Visitor Hit recorded successfully.', 'wp-statistics'),
         ), 200);
 
