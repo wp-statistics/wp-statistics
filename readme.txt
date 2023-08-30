@@ -136,6 +136,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 = v14.1.6 - 30.08.2023 =
 * Bugfix: The missing record logged users in visitor.
+* Update: ChartJs to v4.4.0
 
 = v14.1.5 - 15.08.2023 =
 * Update: Compatibility with WordPress v6.3
