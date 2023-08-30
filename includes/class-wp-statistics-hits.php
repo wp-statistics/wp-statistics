@@ -36,6 +36,7 @@ class Hits
             add_filter('wp_statistics_current_page', array($this, 'set_current_page'));
             add_filter('wp_statistics_page_uri', array($this, 'set_page_uri'));
             add_filter('wp_statistics_track_all_pages', array($this, 'set_track_all'));
+            add_filter('wp_statistics_user_id', array($this, 'set_current_user'));
         }
 
         # Record Login Page Hits
@@ -91,6 +92,23 @@ class Hits
     public function set_page_uri($page_uri)
     {
         return isset($this->rest_hits->page_uri) ? base64_decode($this->rest_hits->page_uri) : $page_uri;
+    }
+
+    /**
+     * Set User ID
+     *
+     * @param $userId
+     * @return mixed
+     */
+    public function set_current_user($userId)
+    {
+        $userIdFromGlobalVar = isset($GLOBALS['wp_statistics_user_id']) ? $GLOBALS['wp_statistics_user_id'] : 0;
+
+        if (!$userId && $userIdFromGlobalVar) {
+            $userId = $userIdFromGlobalVar;
+        }
+
+        return $userId;
     }
 
     /**
