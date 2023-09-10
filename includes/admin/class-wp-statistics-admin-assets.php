@@ -320,7 +320,7 @@ class Admin_Assets
             'er_valid_ip'   => __('Please enter a valid ip.', 'wp-statistics'),
             'please_wait'   => __('Please Wait ...', 'wp-statistics'),
             'user'          => __('User', 'wp-statistics'),
-            'rest_connect'  => __('An error occurred while connecting to WordPress REST API. It seems blocked by one of your plugins or your theme.', 'wp-statistics'),
+            'rest_connect'  => __('Error connecting to WordPress REST API. Unblock /wp-json/wp-statistics/v2/metabox in your ad-blocker if used.', 'wp-statistics'),
         );
 
         // Rest-API Meta Box Url
