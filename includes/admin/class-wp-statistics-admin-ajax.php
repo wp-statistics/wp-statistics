@@ -11,7 +11,7 @@ class Ajax
     {
 
         /**
-         * List Of Setup Ajax request in Wordpress
+         * List Of Setup Ajax request in WordPress
          */
         $list = array(
             'close_notice',
@@ -23,7 +23,8 @@ class Ajax
             'purge_data',
             'purge_visitor_hits',
             'visitors_page_filters',
-            'update_geoip_database'
+            'update_geoip_database',
+            'admin_meta_box'
         );
         foreach ($list as $method) {
             add_action('wp_ajax_wp_statistics_' . $method, array($this, $method . '_action_callback'));
@@ -384,6 +385,40 @@ class Ajax
             }
         } else {
             _e('Access denied!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
+     * Setup Admin Meta box render ajax
+     */
+    public function admin_meta_box_action_callback()
+    {
+        if (Helper::is_request('ajax') and User::Access('read')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $metaboxName = sanitize_text_field($_GET['name']);
+
+            // Check Exist MetaBox Name
+            if (in_array($metaboxName, array_keys(Meta_Box::getList())) and Meta_Box::metaBoxClassExist($metaboxName)) {
+
+                $parameters = [];
+                foreach ($_GET as $key => $value) {
+                    if ($value && !in_array($key, ['action', 'wps_nonce', '_'])) {
+                        $parameters[$key] = sanitize_text_field($value);
+                    }
+                }
+
+                $class = Meta_Box::getMetaBoxClass($metaboxName);
+
+                wp_send_json($class::get($parameters));
+
+            } else {
+                wp_send_json(array('code' => 'not_found_meta_box', 'message' => __('The name of MetaBox is invalid on request.', 'wp-statistics')), 400);
+            }
         }
 
         exit;
