@@ -137,7 +137,7 @@ class SearchEngine
             }
         }
 
-        return $engines;
+        return apply_filters('wp_statistics_search_engine_list', $engines);
     }
 
     /**
