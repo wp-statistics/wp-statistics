@@ -202,43 +202,47 @@ class TimeZone
     public static function getDateFilters()
     {
         return [
-            'today'     => [
+            'today'      => [
                 'from' => self::getTimeAgo(0),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            'yesterday' => [
+            'yesterday'  => [
                 'from' => self::getTimeAgo(1),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            '7days'     => [
+            '7days'      => [
                 'from' => self::getTimeAgo(7),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            '14days'    => [
+            '14days'     => [
                 'from' => self::getTimeAgo(14),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            '30days'    => [
+            '30days'     => [
                 'from' => self::getTimeAgo(30),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            '60days'    => [
+            'last_month' => [
+                'from' => date('Y-m-d', strtotime('first day of previous month')),
+                'to'   => date('Y-m-d', strtotime('last day of previous month')),
+            ],
+            '60days'     => [
                 'from' => self::getTimeAgo(60),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            '90days'    => [
+            '90days'     => [
                 'from' => self::getTimeAgo(90),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            '120days'   => [
+            '120days'    => [
                 'from' => self::getTimeAgo(120),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            '6months'   => [
+            '6months'    => [
                 'from' => self::getTimeAgo(180),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
-            'year'      => [
+            'year'       => [
                 'from' => self::getTimeAgo(365),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
