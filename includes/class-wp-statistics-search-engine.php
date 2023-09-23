@@ -359,12 +359,20 @@ class SearchEngine
                     $search_regex = self::regex($key);
                     preg_match('/' . $search_regex . '/', $parts['host'], $matches);
                     if (isset($matches[1])) {
+                        // Get Search Words
+                        $words = (SearchEngine::getByQueryString($referred) == self::$error_found ? '' : SearchEngine::getByQueryString($referred));
+                        
+                        // If the length of Search Words is more than 190 characters
+                        // Crop it, so it can be stored in the database
+                        if (strlen($words) > 190) {
+                            $words = substr($words, 0, 190);
+                        }
 
                         // Prepare Search Word Data
                         $search_word = array(
                             'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
                             'engine'       => $key,
-                            'words'        => (SearchEngine::getByQueryString($referred) == self::$error_found ? '' : SearchEngine::getByQueryString($referred)),
+                            'words'        => $words,
                             'host'         => $parts['host'],
                             'visitor'      => $args['visitor_id'],
                         );
