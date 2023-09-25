@@ -31,7 +31,10 @@ class Exclusion
             'hostname'        => __('Host name', 'wp-statistics'),
             'geoip'           => __('GeoIP', 'wp-statistics'),
             'honeypot'        => __('Honeypot', 'wp-statistics'),
-            'robot_threshold' => __('Robot threshold', 'wp-statistics')
+            'robot_threshold' => __('Robot threshold', 'wp-statistics'),
+            'xmlrpc'          => __('XML-RPC', 'wp-statistics'),
+            'cross site'      => __('Cross site Request', 'wp-statistics'),
+            'pre flight'      => __('Pre-flight Request', 'wp-statistics'),
         );
     }
 
@@ -460,5 +463,29 @@ class Exclusion
         }
 
         return false;
+    }
+
+    /**
+     *  Detect if XMLRPC
+     */
+    public static function exclusion_xmlrpc()
+    {
+        return (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST === true);
+    }
+
+    /**
+     * Detect if Cross Site
+     */
+    public static function exclusion_cross_site()
+    {
+        return isset($_SERVER['HTTP_SEC_FETCH_SITE']) && 'cross-site' === $_SERVER['HTTP_SEC_FETCH_SITE'];
+    }
+
+    /**
+     * Detect if Pre Flight
+     */
+    public static function exclusion_pre_flight()
+    {
+        return isset($_SERVER['REQUEST_METHOD'], $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'], $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'], $_SERVER['HTTP_ORIGIN']) && 'OPTIONS' === $_SERVER['REQUEST_METHOD'];
     }
 }
