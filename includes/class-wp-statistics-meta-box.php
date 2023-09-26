@@ -98,7 +98,7 @@ class Meta_Box
                 'place'             => 'side',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => '30days',
+                    'default_date_filter' => User::getDefaultDateFilter('browsers', '30days'),
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Top Browsers'),
                 ]
@@ -112,7 +112,7 @@ class Meta_Box
                 'place'             => 'side',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => '30days',
+                    'default_date_filter' => User::getDefaultDateFilter('platforms', '30days'),
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Top Platforms'),
                 ]
@@ -140,7 +140,7 @@ class Meta_Box
                 'place'             => 'side',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => '30days',
+                    'default_date_filter' => User::getDefaultDateFilter('countries', '30days'),
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Top Countries'),
                 ]
@@ -154,7 +154,7 @@ class Meta_Box
                 'place'             => 'side',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => '30days',
+                    'default_date_filter' => User::getDefaultDateFilter('referring', '30days'),
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Top Referring'),
                 ]
@@ -168,7 +168,7 @@ class Meta_Box
                 'place'             => 'normal',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => '7days',
+                    'default_date_filter' => User::getDefaultDateFilter('hits', '7days'),
                     'display_more_link'   => true,
                     'more_link_title'     => __('Hit Statistics Report'),
                 ]
@@ -182,7 +182,7 @@ class Meta_Box
                 'place'             => 'normal',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => '7days',
+                    'default_date_filter' => User::getDefaultDateFilter('search', '7days'),
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Search Engine Referrals'),
                 ]
@@ -196,7 +196,7 @@ class Meta_Box
                 'place'             => 'normal',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => '30days',
+                    'default_date_filter' => User::getDefaultDateFilter('pages', '30days'),
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Top Pages'),
                 ]
@@ -231,7 +231,7 @@ class Meta_Box
                 'place'             => 'normal',
                 'footer_options'    => [
                     'filter_by_date'      => true,
-                    'default_date_filter' => 'today',
+                    'default_date_filter' => User::getDefaultDateFilter('hitsmap', 'today'),
                     'display_more_link'   => false,
                     'more_link_title'     => '',
                 ]
@@ -321,6 +321,18 @@ class Meta_Box
     public static function metaBoxClassExist($meta_box)
     {
         return class_exists(self::getMetaBoxClass($meta_box));
+    }
+
+    /**
+     * Get Meta Box Key By ClassName
+     *
+     * @param $className
+     * @return string
+     */
+    public static function getMetaBoxKeyByClassName($className)
+    {
+        $className = str_replace("WP_STATISTICS\\MetaBox\\", '', $className);
+        return str_replace('_', '-', $className);
     }
 
     /**

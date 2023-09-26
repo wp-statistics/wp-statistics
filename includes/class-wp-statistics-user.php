@@ -11,6 +11,8 @@ class User
      */
     public static $default_manage_cap = 'manage_options';
 
+    public static $dateFilterMetaKey = 'wp_statistics_date_filter';
+
     /**
      * Check User is Logged in WordPress
      *
@@ -187,6 +189,62 @@ class User
         }
 
         return false;
+    }
+
+    /**
+     * Get Date Filter
+     *
+     * @param $metaKey
+     * @param $defaultValue
+     * @return mixed
+     */
+    public static function getDefaultDateFilter($metaKey, $defaultValue)
+    {
+        // get user id
+        $userID = self::get_user_id();
+
+        // check user id
+        if (empty($userID)) {
+            return $defaultValue;
+        }
+
+        // get meta
+        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
+
+        // return
+        return !empty($meta[$metaKey]) ? $meta[$metaKey] : $defaultValue;
+    }
+
+    /**
+     * Save Date Filter
+     *
+     * @param $metaKey
+     * @param $value
+     * @return void
+     */
+    public static function saveDefaultDateFilter($metaKey, $value)
+    {
+        // get user id
+        $userID = self::get_user_id();
+
+        // check user id
+        if (empty($userID)) {
+            return;
+        }
+
+        // get meta
+        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
+
+        // check meta
+        if (empty($meta)) {
+            $meta = array();
+        }
+
+        // update meta value
+        $meta[$metaKey] = $value;
+
+        // save meta
+        update_user_meta($userID, self::$dateFilterMetaKey, $meta);
     }
 
 }
