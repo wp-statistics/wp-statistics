@@ -222,7 +222,7 @@ class User
      * @param $value
      * @return void
      */
-    public static function saveDefaultDateFilter($metaKey, $value)
+    public static function saveDefaultDateFilter($metaKey, $defaults)
     {
         // get user id
         $userID = self::get_user_id();
@@ -232,12 +232,33 @@ class User
             return;
         }
 
+        // check defaults
+        if (empty($defaults)) {
+            return;
+        }
+
+        // check if type and filter exists
+        if (!isset($defaults['type']) or !isset($defaults['filter'])) {
+            return;
+        }
+
+        // check type
+        if ($defaults['type'] == 'ago') {
+            return;;
+        }
+
         // get meta
         $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
 
         // check meta
         if (empty($meta)) {
             $meta = array();
+        }
+
+        // prepare value
+        $value = $defaults['type'] . '|' . $defaults['filter'];
+        if ($defaults['filter'] == 'custom') {
+            $value .= ':' . $defaults['from'] . ':' . $defaults['to'];
         }
 
         // update meta value

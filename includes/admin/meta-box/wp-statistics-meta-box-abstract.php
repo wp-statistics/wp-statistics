@@ -81,10 +81,8 @@ abstract class MetaBoxAbstract
         ];
 
         // save date filter
-        if (self::$filterType == 'filter') {
-            $metaboxKey = Meta_Box::getMetaBoxKeyByClassName(get_called_class());
-            User::saveDefaultDateFilter($metaboxKey, self::$dateFilter);
-        }
+        $metaboxKey = Meta_Box::getMetaBoxKeyByClassName(get_called_class());
+        User::saveDefaultDateFilter($metaboxKey, $defaults);
 
         $response = wp_parse_args($response, $defaults);
         return $response;
