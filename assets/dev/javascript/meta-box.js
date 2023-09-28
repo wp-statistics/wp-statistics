@@ -149,6 +149,25 @@ wps_js.run_meta_box = function (key, params = false, button = true) {
     }
 };
 
+wps_js.prepare_date_filter_data = function (args) {
+    let data = {'ago': ''};
+    if (args.hasOwnProperty('footer_options')) {
+        const selectedDateFilter = args.footer_options.default_date_filter;
+        if (selectedDateFilter.length) {
+            let dateFilterSplted = selectedDateFilter.split('|');
+            if (dateFilterSplted[0] == 'filter') {
+                data.ago = dateFilterSplted[1];
+            } else {
+                let customDateRange = dateFilterSplted[1].split(':');
+                data.ago = '';
+                data.from = customDateRange[1];
+                data.to = customDateRange[2];
+            }
+        }
+    }
+    return data;
+}
+
 /**
  * Load all Meta Boxes
  */
@@ -157,12 +176,13 @@ wps_js.run_meta_boxes = function (list = false) {
         list = Object.keys(wps_js.global.meta_boxes);
     }
     list.forEach(function (value) {
-        let ago = '';
         let args = wps_js.global.meta_boxes[value];
-        if (args.hasOwnProperty('footer_options')) {
-            ago = args.footer_options.default_date_filter;
-        }
-        wps_js.run_meta_box(value, {'ago': ago});
+
+        // Check Date Filter
+        let data = wps_js.prepare_date_filter_data(args);
+
+        // Run Meta Box
+        wps_js.run_meta_box(value, data);
     });
 };
 
@@ -216,7 +236,7 @@ wps_js.meta_box_footer = function (key, data) {
     let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
     if (params.footer_options.filter_by_date) {
         html += `
-            <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._('str_' + params.footer_options.default_date_filter) + `</button>
+            <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._('str_' + selectedDateFilter) + `</button>
             <div class="c-footer__filters">
                 <div class="c-footer__filters__current-filter">
                     <span class="c-footer__current-filter__title js-filter-title">Last 7 days</span>
@@ -301,13 +321,14 @@ wps_js.set_date_filter_as_selected = function (key, selectedDateFilter, selected
         filterBtn.text(wps_js._('str_' + selectedDateFilter));
         currentFilterTitle.text(wps_js._('str_' + selectedDateFilter));
         if (selectedDateFilter == 'custom') {
+            filterBtn.text(selectedStartDate + ' - ' + selectedEndDate);
             const datePickerElement = jQuery(wps_js.meta_box_inner(key)).find('.js-datepicker-input').first();
             datePickerElement.data('daterangepicker').setStartDate(moment(fromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(toDate).format('MM/DD/YYYY'));
         }
     }
     if (selectedStartDate.length && selectedEndDate.length) {
-        currentFilterRange.text(selectedStartDate + '-' + selectedEndDate);
+        currentFilterRange.text(selectedStartDate + ' - ' + selectedEndDate);
     }
 }
 
@@ -346,14 +367,13 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     // Get Meta Box name By Parent ID
     let parentID = jQuery(this).closest(".postbox").attr("id");
     let meta_box_name = wps_js.meta_box_name_by_id(parentID);
-    let ago = '';
     let args = wps_js.global.meta_boxes[meta_box_name];
-    if (args.hasOwnProperty('footer_options')) {
-        ago = args.footer_options.default_date_filter;
-    }
+
+    // Check Date Filter
+    let data = wps_js.prepare_date_filter_data(args);
 
     // Run Meta Box
-    wps_js.run_meta_box(meta_box_name, {'ago': ago}, false);
+    wps_js.run_meta_box(meta_box_name, data, false);
     setTimeout(function () {
         jQuery('#' + parentID).find('.wps-refresh').blur();
     }, 1000);
