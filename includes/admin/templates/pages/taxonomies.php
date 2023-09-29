@@ -2,13 +2,13 @@
     <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart'); ?>">
-               <div class="postbox-header postbox-toggle">
-                   <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' Chart', 'wp-statistics'); ?></span></h2>
-                   <button class="handlediv" type="button" aria-expanded="true">
-                       <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __($title . ' Chart', 'wp-statistics')); ?></span>
-                       <span class="toggle-indicator" aria-hidden="true"></span>
-                   </button>
-               </div>
+                <div class="postbox-header postbox-toggle">
+                    <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' Chart', 'wp-statistics'); ?></span></h2>
+                    <button class="handlediv" type="button" aria-expanded="true">
+                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __($title . ' Chart', 'wp-statistics')); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                </div>
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
@@ -32,7 +32,7 @@
                     <table class="widefat table-stats wps-summary-stats" id="summary-stats">
                         <tbody>
                         <tr>
-                            <th></th>
+                            <th style="width: 80%"></th>
                             <th class="th-center"><?php _e('Count', 'wp-statistics'); ?></th>
                         </tr>
 
@@ -43,6 +43,18 @@
                                 <th><?php _e('The Number of Posts in ' . $taxonomyTitle . ':', 'wp-statistics'); ?></th>
                                 <th class="th-center">
                                     <span><?php echo number_format_i18n($number_post_in_taxonomy); ?></span></th>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+
+                        <?php
+                        if (isset($total_posts_visits_in_taxonomy)) {
+                            ?>
+                            <tr>
+                                <th><?php _e('Total Posts Hits in ' . $taxonomyTitle . ':', 'wp-statistics'); ?></th>
+                                <th class="th-center">
+                                    <span><?php echo number_format_i18n($total_posts_visits_in_taxonomy); ?></span></th>
                             </tr>
                             <?php
                         }
@@ -81,8 +93,8 @@
                         <table class="widefat table-stats wps-summary-stats" id="summary-stats">
                             <tbody>
                             <tr>
-                                <th></th>
-                                <th class="th-center"><?php _e('Count', 'wp-statistics'); ?></th>
+                                <th style="width: 80%"></th>
+                                <th class="th-center"><?php _e('Hits', 'wp-statistics'); ?></th>
                             </tr>
                             <?php
                             foreach ($top_list as $item) {
