@@ -262,7 +262,7 @@ class User
         }
 
         // update meta value
-        $meta[$metaKey] = $value;
+        $meta[$metaKey] = sanitize_text_field($value);
 
         // save meta
         update_user_meta($userID, self::$dateFilterMetaKey, $meta);
