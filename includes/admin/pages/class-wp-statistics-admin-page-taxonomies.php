@@ -59,7 +59,7 @@ class taxonomies_page
     {
         // Page title
         $taxonomyTitle = array_key_exists(self::$taxonomy, self::$taxonomies) ? self::$taxonomies[self::$taxonomy] : '';
-        $args['title'] = __($taxonomyTitle . ' Statistics', 'wp-statistics');
+        $args['title'] = __($taxonomyTitle . ' statistics', 'wp-statistics');
 
         // Taxonomy
         $args['taxonomies']    = self::$taxonomies;
@@ -70,6 +70,9 @@ class taxonomies_page
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('taxonomies');
         $args['pagination'] = Admin_Template::getCurrentPaged();
+
+        // Get Taxonomy
+        $taxonomy = get_taxonomy(self::$taxonomy);
 
         // Get List Category
         $terms = get_terms(self::$taxonomy, array(
@@ -105,13 +108,20 @@ class taxonomies_page
             }
 
         } else {
+            $termID = (int)sanitize_text_field($_GET['ID']);
+            $term   = get_term($termID);
+
             // Set Type List
-            $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top posts sorted by hits in this taxonomy', 'wp-statistics');
+            $args['top_list_type'] = $taxonomy->object_type;
+            $args['top_title']     = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' top posts sorted by hits', 'wp-statistics');
+
+            // Set Title
+            $args['title']      = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' statistics', 'wp-statistics');
+            $args['term_title'] = $term->name;
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(
-                'post_type' => 'post',
+                'post_type' => $args['top_list_type'],
                 'tax_query' => [
                     [
                         'taxonomy' => self::$taxonomy,
@@ -124,7 +134,8 @@ class taxonomies_page
             $total_posts_visits_in_taxonomy = 0;
             foreach ($post_lists as $post_id => $post_title) {
                 // Get post visit
-                $count_visit = (int)wp_statistics_pages('total', null, $post_id, null, null, 'post');
+                $post_type   = Pages::get_post_type($post_id);
+                $count_visit = (int)wp_statistics_pages('total', null, $post_id, null, null, $post_type);
 
                 // Add to total visits
                 $total_posts_visits_in_taxonomy += $count_visit;

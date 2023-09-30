@@ -3,7 +3,7 @@
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart'); ?>">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' Chart', 'wp-statistics'); ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' chart', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __($title . ' Chart', 'wp-statistics')); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
@@ -22,7 +22,7 @@
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' Summary', 'wp-statistics'); ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' summary', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __($title . ' Summary', 'wp-statistics')); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
@@ -40,7 +40,7 @@
                         if (isset($number_post_in_taxonomy)) {
                             ?>
                             <tr>
-                                <th><?php _e('The Number of Posts in ' . $taxonomyTitle . ':', 'wp-statistics'); ?></th>
+                                <th><?php _e('The number of posts in ' . strtolower($taxonomyTitle) . ' (' . strtolower($term_title) . '):', 'wp-statistics'); ?></th>
                                 <th>
                                     <span><?php echo number_format_i18n($number_post_in_taxonomy); ?></span></th>
                             </tr>
@@ -52,7 +52,7 @@
                         if (isset($total_posts_visits_in_taxonomy)) {
                             ?>
                             <tr>
-                                <th><?php _e('Total Posts Hits in ' . $taxonomyTitle . ':', 'wp-statistics'); ?></th>
+                                <th><?php _e('Total posts hits in ' . strtolower($taxonomyTitle) . ' (' . strtolower($term_title) . '):', 'wp-statistics'); ?></th>
                                 <th>
                                     <span><?php echo number_format_i18n($total_posts_visits_in_taxonomy); ?></span></th>
                             </tr>
@@ -61,12 +61,12 @@
                         ?>
 
                         <tr>
-                            <th><?php _e('Chart Visits:', 'wp-statistics'); ?></th>
+                            <th><?php _e('Chart visits:', 'wp-statistics'); ?></th>
                             <th><span id="number-total-chart-visits" style="float: left;"></span></th>
                         </tr>
 
                         <tr>
-                            <th><?php _e('All Time Visits:', 'wp-statistics'); ?></th>
+                            <th><?php _e('All time visits:', 'wp-statistics'); ?></th>
                             <th><span id="number-total-visits" style="float: left"></span></th>
                         </tr>
                         </tbody>
