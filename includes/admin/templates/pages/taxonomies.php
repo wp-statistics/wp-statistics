@@ -40,7 +40,7 @@
                         if (isset($number_post_in_taxonomy)) {
                             ?>
                             <tr>
-                                <th><?php _e('The number of posts in ' . strtolower($taxonomyTitle) . ' (' . strtolower($term_title) . '):', 'wp-statistics'); ?></th>
+                                <th><?php _e('The number of posts:', 'wp-statistics'); ?></th>
                                 <th>
                                     <span><?php echo number_format_i18n($number_post_in_taxonomy); ?></span></th>
                             </tr>
@@ -52,7 +52,7 @@
                         if (isset($total_posts_visits_in_taxonomy)) {
                             ?>
                             <tr>
-                                <th><?php _e('Total posts hits in ' . strtolower($taxonomyTitle) . ' (' . strtolower($term_title) . '):', 'wp-statistics'); ?></th>
+                                <th><?php _e('Total posts hits:', 'wp-statistics'); ?></th>
                                 <th>
                                     <span><?php echo number_format_i18n($total_posts_visits_in_taxonomy); ?></span></th>
                             </tr>
