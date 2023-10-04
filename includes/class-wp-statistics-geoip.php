@@ -172,22 +172,23 @@ class GeoIP
             return $default_country;
         }
 
-        // Load GEO-IP
-        $reader = self::Loader('country');
-
-        //Get Country name
-        if ($reader != false) {
-
+        if (Option::get('geoip')) {
             try {
-                //Search in Geo-IP
-                $record = $reader->country($ip);
+                // Load GEO-IP
+                $reader = self::Loader('country');
 
-                //Get Country
-                if ($return == "all") {
-                    $location = $record->country;
-                } else {
-                    $location = $record->country->{$return};
+                if ($reader != false) {
+                    //Search in Geo-IP
+                    $record = $reader->country($ip);
+
+                    //Get Country
+                    if ($return == "all") {
+                        $location = $record->country;
+                    } else {
+                        $location = $record->country->{$return};
+                    }
                 }
+
             } catch (\Exception $e) {
                 \WP_Statistics::log($e->getMessage());
             }
@@ -273,7 +274,7 @@ class GeoIP
         } else {
             $download_url = GeoIP::$library[$pack]['source'];
         }
-        
+
         // Apply filter to allow third-party plugins to modify the download url
         $download_url = apply_filters('wp_statistics_geo_ip_download_url', $download_url, GeoIP::$library[$pack]['source'], $pack);
 
