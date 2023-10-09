@@ -11,6 +11,8 @@ class User
      */
     public static $default_manage_cap = 'manage_options';
 
+    public static $dateFilterMetaKey = 'wp_statistics_date_filter';
+
     /**
      * Check User is Logged in WordPress
      *
@@ -187,6 +189,83 @@ class User
         }
 
         return false;
+    }
+
+    /**
+     * Get Date Filter
+     *
+     * @param $metaKey
+     * @param $defaultValue
+     * @return mixed
+     */
+    public static function getDefaultDateFilter($metaKey, $defaultValue)
+    {
+        // get user id
+        $userID = self::get_user_id();
+
+        // check user id
+        if (empty($userID)) {
+            return $defaultValue;
+        }
+
+        // get meta
+        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
+
+        // return
+        return !empty($meta[$metaKey]) ? $meta[$metaKey] : $defaultValue;
+    }
+
+    /**
+     * Save Date Filter
+     *
+     * @param $metaKey
+     * @param $value
+     * @return void
+     */
+    public static function saveDefaultDateFilter($metaKey, $defaults)
+    {
+        // get user id
+        $userID = self::get_user_id();
+
+        // check user id
+        if (empty($userID)) {
+            return;
+        }
+
+        // check defaults
+        if (empty($defaults)) {
+            return;
+        }
+
+        // check if type and filter exists
+        if (!isset($defaults['type']) or !isset($defaults['filter'])) {
+            return;
+        }
+
+        // check type
+        if ($defaults['type'] == 'ago') {
+            return;;
+        }
+
+        // get meta
+        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
+
+        // check meta
+        if (empty($meta)) {
+            $meta = array();
+        }
+
+        // prepare value
+        $value = $defaults['type'] . '|' . $defaults['filter'];
+        if ($defaults['filter'] == 'custom') {
+            $value .= ':' . $defaults['from'] . ':' . $defaults['to'];
+        }
+
+        // update meta value
+        $meta[$metaKey] = sanitize_text_field($value);
+
+        // save meta
+        update_user_meta($userID, self::$dateFilterMetaKey, $meta);
     }
 
 }

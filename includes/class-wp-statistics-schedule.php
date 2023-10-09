@@ -151,6 +151,15 @@ class Schedule
     {
         global $wpdb;
 
+        $date = TimeZone::getCurrentDate('Y-m-d', '+1');
+
+        // check if the record already exists
+        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM " . DB::table('visit') . " WHERE `last_counter` = %s", $date));
+        if ($exists > 0) {
+            return;
+        }
+
+        //Insert
         $insert = $wpdb->insert(
             DB::table('visit'),
             array(
@@ -238,7 +247,7 @@ class Schedule
             /**
              * Email receivers
              */
-            $email_receivers = apply_filters('wp_statistics_report_email_receivers', Option::getEmailNotification());             
+            $email_receivers = apply_filters('wp_statistics_report_email_receivers', Option::getEmailNotification());
 
             /**
              * Send Email

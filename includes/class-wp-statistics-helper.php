@@ -315,6 +315,13 @@ class Helper
         return $post_types;
     }
 
+    public static function get_updated_list_post_type()
+    {
+        return array_map(function ($postType) {
+            return in_array($postType, ['post', 'page', 'product', 'attachment']) ? $postType : 'post_type_' . $postType;
+        }, self::get_list_post_type());
+    }
+
     /**
      * Check Url Scheme
      *

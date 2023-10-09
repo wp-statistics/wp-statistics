@@ -316,6 +316,7 @@
         <tr valign="top">
             <th scope="row" colspan="2">
                 <p class="description"><?php _e('Disabling all search engines is not allowed. Doing so will result in all search engines being active.', 'wp-statistics'); ?></p>
+                <p>Looking for modify the search engine list? check out <a target="_blank" href="https://wp-statistics.com/resources/how-to-add-a-custom-search-engine-in-wp-statistics-with-filter/">Documentation</a></p>
             </th>
         </tr>
         <?php

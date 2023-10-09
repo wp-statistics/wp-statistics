@@ -16,6 +16,7 @@ jQuery(document).ready(function () {
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],
                 'Last 14 Days': [moment().subtract(13, 'days'), moment()],
                 'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
                 'Last 60 Days': [moment().subtract(59, 'days'), moment()],
                 'Last 90 Days': [moment().subtract(89, 'days'), moment()],
                 'Last 120 Days': [moment().subtract(119, 'days'), moment()],
