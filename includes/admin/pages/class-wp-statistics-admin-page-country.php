@@ -31,6 +31,7 @@ class country_page
      */
     public static function view()
     {
+        global $wpdb;
 
         // Page title
         $args['title'] = __('Top Countries', 'wp-statistics');
@@ -41,6 +42,60 @@ class country_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+
+
+        // From Date and To Date
+        $days_list    = array_keys(TimeZone::getListDays(array('from' => TimeZone::getTimeAgo(30))));
+        $args['from'] = !empty($_REQUEST[Admin_Template::$request_from_date]) ? sanitize_text_field($_REQUEST[Admin_Template::$request_from_date]) : reset($days_list);
+        $args['to']   = !empty($_REQUEST[Admin_Template::$request_to_date]) ? sanitize_text_field($_REQUEST[Admin_Template::$request_to_date]) : end($days_list);
+
+        // Get limit
+        $args['limit'] = 10;
+
+        // Set Limit
+        Admin_Template::$item_per_page = $args['limit'];
+
+        // Get offset
+        $args['offset'] = Admin_Template::getCurrentOffset();
+
+        // Load List Country Code
+        $ISOCountryCode = Country::getList();
+
+        // Get List From DB
+        $list = array();
+
+        // Get Result
+        $limitQuery = $wpdb->prepare("LIMIT %d, %d", $args['offset'], $args['limit']);
+        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", $args['from'], $args['to']);
+
+        // Set Total
+        $totalQuery    = $wpdb->get_results($sqlQuery);
+        $args['total'] = count($totalQuery);
+
+        // Set Result
+        $result = $wpdb->get_results($sqlQuery . " " . $limitQuery);
+
+        foreach ($result as $item) {
+            $item->location = strtoupper($item->location);
+            $list[]         = array(
+                'location' => $item->location,
+                'name'     => $ISOCountryCode[$item->location],
+                'flag'     => Country::flag($item->location),
+                'link'     => Menus::admin_url('visitors', array('location' => $item->location)),
+                'number'   => $item->count
+            );
+        }
+
+        $args['list'] = $list;
+
+        // Create WordPress Pagination
+        $args['pagination'] = '';
+        if ($args['total'] > 0) {
+            $args['pagination'] = Admin_Template::paginate_links(array(
+                'total' => $args['total'],
+                'echo'  => false
+            ));
+        }
 
         // Show Template
         Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/country', 'layout/postbox.toggle', 'layout/footer'), $args);
