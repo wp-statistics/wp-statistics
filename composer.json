@@ -17,5 +17,35 @@
     "psr-4": {
       "WP_Statistics\\": "src/"
     }
+  },
+  "scripts": {
+    "build": [
+      "composer self-update --2",
+      "composer install --no-dev --optimize-autoloader --ignore-platform-reqs",
+      "~/.composer/vendor/bin/php-scoper add-prefix --output-dir ../wp-statistics-namespaced --force",
+      "composer --working-dir=../wp-statistics-namespaced dump-autoload",
+      "chmod -R 777 ../wp-statistics-namespaced/storage"
+    ],
+    "build-zip": [
+      "composer self-update --2",
+      "composer install --no-dev --optimize-autoloader --ignore-platform-reqs",
+      "~/.composer/vendor/bin/php-scoper add-prefix --output-dir ../../build/wp-statistics --force",
+      "composer --working-dir=../../build/wp-statistics dump-autoload",
+      "cd ../../build/ && zip -rm wp-statistics.zip wp-statistics/"
+    ],
+    "linux-build": [
+      "composer self-update --2",
+      "composer install --no-dev --optimize-autoloader --ignore-platform-reqs",
+      "~/.config/composer/vendor/bin/php-scoper add-prefix --output-dir ../wp-statistics-namespaced --force",
+      "composer --working-dir=../wp-statistics-namespaced dump-autoload",
+      "chmod -R 777 ../wp-statistics-namespaced/storage"
+    ],
+    "linux-build-zip": [
+      "composer self-update --2",
+      "composer install --no-dev --optimize-autoloader --ignore-platform-reqs",
+      "~/.config/composer/vendor/bin/php-scoper add-prefix --output-dir ../../build/wp-statistics --force",
+      "composer --working-dir=../../build/wp-statistics dump-autoload",
+      "cd ../../build/ && zip -rm wp-statistics.zip wp-statistics/"
+    ]
   }
 }
