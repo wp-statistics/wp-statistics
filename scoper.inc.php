@@ -58,7 +58,7 @@ return [
     //
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#patchers
     'exclude-files'           => [
-        'storage/.htaccess',
+        'includes/admin/templates/add-ons.php',
     ],
 
     // When scoping PHP files, there will be scenarios where some of the code being scoped indirectly references the
@@ -99,6 +99,8 @@ return [
     'exclude-namespaces'      => [
         '~^$~',                        // The root namespace only
         'WP_STATISTICS',
+        'WP_Statistics',
+        'WP_CLI',
         // 'Acme\Foo'                     // The Acme\Foo namespace (and sub-namespaces)
         // '~^PHPUnit\\\\Framework$~',    // The whole namespace PHPUnit\Framework (but not sub-namespaces)
         // '',                            // Any namespace
