@@ -207,13 +207,7 @@ class DB
     {
         global $wpdb;
 
-        $queryResult = $wpdb->get_results("DESCRIBE " . self::table($tableName));
-
-        foreach ($queryResult as $item) {
-            if ($item->Field == $column) {
-                return $item;
-            }
-        }
+        return $wpdb->get_row('SHOW COLUMNS FROM ' . self::table($tableName) . ' LIKE "' . $column . '"');
     }
 
     /**
@@ -229,5 +223,7 @@ class DB
         if (isset($column->Type) and strtolower($column->Type) == $type) {
             return true;
         }
+
+        return false;
     }
 }
