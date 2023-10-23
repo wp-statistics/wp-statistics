@@ -175,6 +175,10 @@ return [
         'WP_CLI',
         'WP_CLI_Command',
         'WP_STATISTICS_CLI',
+        'WP_Statistics_Mail',
+        'WP_Statistics_Updates',
+        'WP_Statistics_Welcome',
+        'WP_Statistics_Widget',
         // 'Acme\Foo'                     // The Acme\Foo namespace (and sub-namespaces)
         // '~^PHPUnit\\\\Framework$~',    // The whole namespace PHPUnit\Framework (but not sub-namespaces)
         // '',                            // Any namespace
