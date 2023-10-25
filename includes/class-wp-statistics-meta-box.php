@@ -84,14 +84,14 @@ class Meta_Box
                 'disable_overview'  => true
             ),
             'summary'         => array(
-                'name'              => __('Summary', 'wp-statistics'),
+                'name'              => __('Traffic Summary', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'side'
             ),
             'browsers'        => array(
                 'page_url'          => 'browser',
-                'name'              => __('Top Browsers', 'wp-statistics'),
+                'name'              => __('Browser Usage', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -100,12 +100,12 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('browsers', 'filter|30days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Top Browsers'),
+                    'more_link_title'     => __('View Browser Usage'),
                 ]
             ),
             'platforms'       => array(
                 'page_url'          => 'platform',
-                'name'              => __('Top Platforms', 'wp-statistics'),
+                'name'              => __('Most Used Platforms', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -114,11 +114,11 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('platforms', 'filter|30days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Top Platforms'),
+                    'more_link_title'     => __('View Most Used Platforms'),
                 ]
             ),
             'devices'         => array(
-                'name'              => __('Top Devices', 'wp-statistics'),
+                'name'              => __('Device Usage Breakdown', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -161,7 +161,7 @@ class Meta_Box
             ),
             'hits'            => array(
                 'page_url'          => 'hits',
-                'name'              => __('Hit Statistics', 'wp-statistics'),
+                'name'              => __('Daily Traffic Trend', 'wp-statistics'),
                 'require'           => array('visits' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -170,12 +170,12 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('hits', 'filter|7days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('Hit Statistics Report'),
+                    'more_link_title'     => __('Daily Traffic Trend Report'),
                 ]
             ),
             'search'          => array(
                 'page_url'          => 'searches',
-                'name'              => __('Search Engine Referrals', 'wp-statistics'),
+                'name'              => __('Referrals from Search Engines', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -184,12 +184,12 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('search', 'filter|7days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Search Engine Referrals'),
+                    'more_link_title'     => __('View Referrals from Search Engines'),
                 ]
             ),
             'pages'           => array(
                 'page_url'          => 'pages',
-                'name'              => __('Top Pages', 'wp-statistics'),
+                'name'              => __('Most Visited Pages', 'wp-statistics'),
                 'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -198,12 +198,12 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('pages', 'filter|30days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Top Pages'),
+                    'more_link_title'     => __('View Most Visited Pages'),
                 ]
             ),
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
-                'name'              => __('Top Visitors', 'wp-statistics'),
+                'name'              => __('Most Active Visitors', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -212,19 +212,19 @@ class Meta_Box
                     'filter_by_date'      => false,
                     'default_date_filter' => false,
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Top Visitors', 'wp-statistics'),
+                    'more_link_title'     => __('View Most Active Visitors', 'wp-statistics'),
                 ]
             ),
             'recent'          => array(
                 'page_url'          => 'visitors',
-                'name'              => __('Recent Visitors', 'wp-statistics'),
+                'name'              => __('Latest Visitor Breakdown', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'normal'
             ),
             'hitsmap'         => array(
-                'name'              => __('Visitors Map', 'wp-statistics'),
+                'name'              => __('Global Visitor Distribution', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true, 'disable_map' => false),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -237,7 +237,7 @@ class Meta_Box
                 ]
             ),
             'useronline'      => array(
-                'name'              => __('Online Users', 'wp-statistics'),
+                'name'              => __('Currently Online', 'wp-statistics'),
                 'page_url'          => 'online',
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
@@ -246,7 +246,7 @@ class Meta_Box
             ),
             'words'           => array(
                 'page_url'          => 'words',
-                'name'              => __('Latest searched queries', 'wp-statistics'),
+                'name'              => __('Recent Search Queries', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -261,7 +261,7 @@ class Meta_Box
                 'disable_overview'  => apply_filters('wp_statistics_disable_about_widget_overview', false),
             ),
             'post'            => array(
-                'name'              => __('Hit Statistics', 'wp-statistics'),
+                'name'              => __('Daily Traffic Trend', 'wp-statistics'),
                 'page_url'          => 'pages',
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
