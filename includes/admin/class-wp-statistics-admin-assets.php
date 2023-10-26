@@ -311,7 +311,7 @@ class Admin_Assets
             'to'             => __('to', 'wp-statistics'),
             'from'           => __('from', 'wp-statistics'),
             'go'             => __('Go', 'wp-statistics'),
-            'no_data'        => __('No data to display', 'wp-statistics'),
+            'no_data'        => __('No recent data available.', 'wp-statistics'),
             'count'          => __('Count', 'wp-statistics'),
             'percentage'     => __('Percentage', 'wp-statistics'),
             'version_list'   => __('Version List', 'wp-statistics'),
