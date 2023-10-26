@@ -10,7 +10,7 @@
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="index-submit"><?php _e('Reinitialize Plugin:', 'wp-statistics'); ?></label>
+                        <label for="index-submit"><?php _e('Reinitialize Plugin', 'wp-statistics'); ?></label>
                     </th>
                     <td>
                         <input type="hidden" name="submit" value="1"/>
@@ -34,7 +34,7 @@
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="index-submit"><?php _e('Choose a Table to Optimize:', 'wp-statistics'); ?></label>
+                        <label for="index-submit"><?php _e('Choose a Table to Optimize', 'wp-statistics'); ?></label>
                     </th>
                     <td>
                         <select dir="<?php echo(is_rtl() ? 'rtl' : 'ltr'); ?>" id="optimize-table" name="optimize-table">
