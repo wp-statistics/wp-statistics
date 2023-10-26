@@ -15,7 +15,7 @@
                     <td>
                         <input type="hidden" name="submit" value="1"/>
                         <button id="install-submit" class="button button-primary" type="submit" value="1" name="install-submit"><?php _e('Reinitialize Now!', 'wp-statistics'); ?></button>
-                        <p class="description"><?php _e('Use this option to set up the plugin from the beginning. This might be needed if you face issues related to missing database tables or other core components. Warning: This action might reset certain data.', 'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Use this option to set up the plugin from the beginning. This might be needed if you face issues related to missing database tables or other core components. <b>Warning: This action might reset certain data.</b>', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
                 </tbody>
