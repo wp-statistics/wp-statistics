@@ -32,7 +32,7 @@
                 ?>
                 <tr valign="top">
                     <th scope="row">
-                        <?php echo sprintf(__('Number of rows in the %s table', 'wp-statistics'), '<code>' . esc_attr($table_name) . '</code>'); ?>:
+                        <?php echo sprintf(__('Number of rows in the %s table', 'wp-statistics'), '<code>' . esc_attr($table_name) . '</code>'); ?>
                     </th>
                     <td>
                         <strong><?php echo number_format_i18n($data['rows']); ?></strong> <?php echo _n('Row', 'Rows', number_format_i18n($data['rows']), 'wp-statistics'); ?>
@@ -149,7 +149,7 @@
                             _e('Not installed', 'wp-statistics');
                         } ?></strong>
 
-                    <p class="description"><?php _e('zlib is a software library used for data compression. The \'gopen()\' function is a requirement for GeoIP database operations.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('zlib is a software library used for data compression. The <code>gopen()</code> function is a requirement for GeoIP database operations.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -297,12 +297,12 @@
                 'SERVER_SOFTWARE'      => __('The web server software running on your hosting server.', 'wp-statistics'),
                 'HTTP_HOST'            => __('The domain name of your website as recognized by the server.', 'wp-statistics'),
                 'REMOTE_ADDR'          => __('The IP address of the server where your website is hosted.', 'wp-statistics'),
-                'HTTP_CLIENT_IP'       => __('', 'wp-statistics'),
+                'HTTP_CLIENT_IP'       => __('Used by some proxies or load balancers to relay the original IP. Enable this if your setup uses the `HTTP_CLIENT_IP` header to identify visitor IPs.', 'wp-statistics'),
                 'HTTP_X_FORWARDED_FOR' => __('If your server is behind a proxy, this is the original IP address forwarded by the proxy.', 'wp-statistics'),
-                'HTTP_X_FORWARDED'     => __('', 'wp-statistics'),
-                'HTTP_FORWARDED_FOR'   => __('', 'wp-statistics'),
-                'HTTP_FORWARDED'       => __('', 'wp-statistics'),
-                'HTTP_X_REAL_IP'       => __('', 'wp-statistics'),
+                'HTTP_X_FORWARDED'     => __('Another header set by certain proxies or load balancers. If your server uses the `HTTP_X_FORWARDED` header for IP forwarding, activate this.', 'wp-statistics'),
+                'HTTP_FORWARDED_FOR'   => __('A common header containing the original IP, often used by multiple proxies in a chain. WP Statistics will extract the real IP from this header when enabled.', 'wp-statistics'),
+                'HTTP_FORWARDED'       => __('A standardized header for proxies. Activate if your environment uses the `HTTP_FORWARDED` header to determine visitor IPs.', 'wp-statistics'),
+                'HTTP_X_REAL_IP'       => __('Set by services like the Nginx proxy to indicate the true client IP. Turn this on if your server environment uses the `HTTP_X_REAL_IP` header.', 'wp-statistics'),
             );
             foreach ($list as $server => $desc) {
                 if (isset($_SERVER[$server])) {
