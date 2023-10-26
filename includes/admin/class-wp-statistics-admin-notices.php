@@ -75,9 +75,9 @@ class Admin_Notices
             if ($status === true) {
                 set_transient('wps_check_rest_api', array("status" => "enable"), 3 * HOUR_IN_SECONDS);
             } else {
-                $error_msg = __('<b>Warning:</b> Issues detected with WP REST API. ', 'wp-statistics') . '<br />';
+                $error_msg = __('<b>Warning:</b> Issues detected with WP REST API.', 'wp-statistics') . ' ';
                 if (!empty($message)) {
-                    $error_msg .= $message . '<br />';
+                    $error_msg .= '<br />' . $message . '<br />';
                 }
                 $error_msg .= sprintf(__('Update permalink in %1$sSettings->Permalinks%2$s to ensure WP REST API is active.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
                 Helper::wp_admin_notice($error_msg, 'warning', true);
