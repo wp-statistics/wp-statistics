@@ -9,6 +9,14 @@ class referring extends MetaBoxAbstract
 
     public static function get($args = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $args = apply_filters('wp_statistics_meta_box_referring_args', $args);
 
         // Check Number of Country
         $number = (!empty($args['number']) ? $args['number'] : 10);

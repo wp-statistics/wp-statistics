@@ -22,6 +22,14 @@ class top_pages_chart
      */
     public static function get($arg = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $arg = apply_filters('wp_statistics_meta_box_top_pages_chart_args', $arg);
 
         // Set Default Params
         $defaults = array(

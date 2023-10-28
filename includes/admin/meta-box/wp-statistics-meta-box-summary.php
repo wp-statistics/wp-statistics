@@ -19,6 +19,15 @@ class summary
      */
     public static function get($args = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $args = apply_filters('wp_statistics_meta_box_summary_args', $args);
+
         return self::getSummaryHits(array('user-online', 'visitors', 'visits'));
     }
 
