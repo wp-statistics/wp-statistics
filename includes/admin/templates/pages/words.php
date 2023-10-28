@@ -18,7 +18,7 @@
             <div class="postbox">
                 <div class="inside">
                     <?php if (count($list) < 1) { ?>
-                        <div class='wps-wrap--no-content wps-center'><?php _e("No data to display", "wp-statistics"); ?></div>
+                        <div class='wps-wrap--no-content wps-center'><?php _e("No recent data available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table">

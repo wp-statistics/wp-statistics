@@ -11,7 +11,7 @@
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="table-to-export"><?php _e('Export from:', 'wp-statistics'); ?></label>
+                        <label for="table-to-export"><?php _e('Select Data Source', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -24,13 +24,13 @@
                             ?>
                         </select>
 
-                        <p class="description"><?php _e('Select the table for the output file.', 'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Choose the specific table or data source you wish to export from.', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="export-file-type"><?php _e('Export To:', 'wp-statistics'); ?></label>
+                        <label for="export-file-type"><?php _e('Choose Export Format', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
@@ -41,19 +41,19 @@
                             <option value="tsv">TSV</option>
                         </select>
 
-                        <p class="description"><?php _e('Select the output file type.', 'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Select the desired file format for your exported data.', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="export-headers"><?php _e('Include Header Row:', 'wp-statistics'); ?></label>
+                        <label for="export-headers"><?php _e('Add Header Row', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>
                         <input id="export-headers" type="checkbox" value="1" name="export-headers">
-                        <p class="description"><?php _e('Include a header row as the first line of the exported file.', 'wp-statistics'); ?></p>
-                        <?php submit_button(__('Start Now!', 'wp-statistics'), 'primary', 'export-file-submit'); ?>
+                        <p class="description"><?php _e('Toggle this option to include a header row in your exported file, which provides column names for clarity.', 'wp-statistics'); ?></p>
+                        <?php submit_button(__('Begin Export', 'wp-statistics'), 'primary', 'export-file-submit'); ?>
                     </td>
                 </tr>
 

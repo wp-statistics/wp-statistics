@@ -58,6 +58,24 @@ class DB
         return str_ireplace(array("[prefix]", "[name]"), array(self::prefix(), $tbl), self::$tbl_name);
     }
 
+    public static function getTableDesc($tbl)
+    {
+        $descriptions = [
+            'useronline' => __('This table keeps a record of users currently online on your website. Each row corresponds to a unique user session.', 'wp-statistics'),
+            'visit' => __('This table logs each unique visit to your website. A new row is added every time a visitor accesses your site.', 'wp-statistics'),
+            'visitor' => __('This table keeps a record of individual visitors to your website. Each row represents a unique visitor\'s information and their activities.', 'wp-statistics'),
+            'exclusions' => __('This table logs visits that have been excluded based on certain criteria, like bots or specific IP addresses. It helps keep your statistics clean from non-human or unwanted traffic.', 'wp-statistics'),
+            'pages' => __('This table logs the number of views each page on your website receives. Each row represents the data for a specific page.', 'wp-statistics'),
+            'search' => __('This table records the search queries made on your website. It helps you understand what visitors are looking for.', 'wp-statistics'),
+            'historical' => __('This table stores historical data about visits and visitors over time. It\'s useful for tracking trends and patterns in your website\'s traffic.', 'wp-statistics'),
+            'visitor_relationships' => __('This table captures the relationships between visitors and the content they interact with, helping you understand user behavior and preferences.', 'wp-statistics'),
+        ];
+
+        $tbl_name = str_replace(self::prefix() . 'statistics_', '', $tbl);
+
+        return (!empty($descriptions[$tbl_name]) ? $descriptions[$tbl_name] : '');
+    }
+
     /**
      * Check Exist Table in Database
      *
@@ -160,7 +178,10 @@ class DB
         global $wpdb;
         $result = array();
         foreach (self::table('all') as $tbl_key => $tbl_name) {
-            $result[$tbl_name] = $wpdb->get_var("SELECT COUNT(*) FROM `$tbl_name`");
+            $result[$tbl_name] = [
+                'rows' => $wpdb->get_var("SELECT COUNT(*) FROM `$tbl_name`"),
+                'desc' => self::getTableDesc($tbl_name),
+            ];
         }
 
         return $result;
