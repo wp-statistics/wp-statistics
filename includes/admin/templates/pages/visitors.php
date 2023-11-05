@@ -73,6 +73,8 @@
                                         <td>
                                             <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
                                                 <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID']))); ?>"><?php echo esc_attr($item['user']['user_login']); ?></a>
+
+                                                <?php do_action('wp_statistics_after_user_column', $item); ?>
                                             <?php } else { ?>
                                                 <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                             <?php } ?>
