@@ -40,14 +40,18 @@ add_thickbox();
     <table class="form-table">
         <tbody>
         <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('Your IP Information', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
             <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                <?php _e('Your IP address detects by SeeIP.org service:', 'wp-statistics'); ?>
+                <?php _e('Your IP address as detected by the SeeIP.org service.', 'wp-statistics'); ?>
             </th>
         </tr>
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <code id="user_real_ip" style="padding: 15px;font-size: 30px;font-weight: 200; letter-spacing: 2px;font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
+                <code id="user_real_ip" style="display: inline-block; padding: 15px; font-size: 30px; font-weight: 200; letter-spacing: 2px; font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
                     <script type="application/javascript">
                         jQuery(document).ready(function () {
                             jQuery.ajax({
@@ -58,7 +62,7 @@ add_thickbox();
                                 },
                                 error: function (jqXHR) {
                                     if (jqXHR.status == 0) {
-                                        jQuery("code#user_real_ip").html("<?php _e('Please check your internet connection and try again.', 'wp-statistics'); ?>");
+                                        jQuery("code#user_real_ip").html("<?php _e('Unable to retrieve some IP data. Ensure your internet connection is active and retry.', 'wp-statistics'); ?>");
                                     }
                                 },
                                 success: function (json) {
@@ -70,9 +74,20 @@ add_thickbox();
                 </code></th>
         </tr>
 
+        </tbody>
+    </table>
+</div>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('Main IP Detection Method', 'wp-statistics'); ?></h3></th>
+        </tr>
+
         <tr>
             <td colspan="3">
-                <p><?php _e('The items below return the IP address that is different on each server. Is the best way that you choose.', 'wp-statistics'); ?></p>
+                <p><?php _e('The options below retrieve IP addresses based on different server configurations. Select the one that best matches your server setup.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -88,7 +103,7 @@ add_thickbox();
                                     echo " checked=\"checked\"";
                                 } ?>>
                             </td>
-                            <td style="width: 250px;"> <?php printf(__('Use %1$s', 'wp-statistics'), esc_attr($method)); ?></td>
+                            <td style="width: 250px;"> <?php printf(__('Use <code>%1$s</code>', 'wp-statistics'), esc_attr($method)); ?></td>
                             <td><code><?php
                                     if (isset($_SERVER[$method]) and !empty($_SERVER[$method])) {
                                         echo esc_attr(wp_unslash($_SERVER[$method]));
@@ -120,7 +135,7 @@ add_thickbox();
                                 echo " checked=\"checked\"";
                             } ?>>
                         </td>
-                        <td style="width: 250px;"> <?php echo __('Use Custom Header', 'wp-statistics'); ?></td>
+                        <td style="width: 250px;"> <?php echo __('Specify a Custom Header for IP Detection', 'wp-statistics'); ?></td>
                         <td style="padding-left: 0px;">
                             <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php if (!in_array($ip_method, \WP_STATISTICS\IP::$ip_methods_server)) {
                                 echo esc_attr($ip_method);
@@ -140,8 +155,7 @@ add_thickbox();
                                     echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . __('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';
                                 }
                                 ?></p>
-                            <p class="description"><?php _e('Fill out this field if your server uses the custom key in <code>$_SERVER</code> for getting the IP.', 'wp-statistics'); ?></p>
-                            <p class="description"><?php _e('e.g. <code>HTTP_CF_CONNECTING_IP</code> in CloudFlare.', 'wp-statistics'); ?></p>
+                            <p class="description"><?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics'); ?></p>
                             <p class="description">
                                 <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('Show all <code>$_SERVER</code> in your server.', 'wp-statistics'); ?></a>
                             </p>
