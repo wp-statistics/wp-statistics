@@ -302,7 +302,7 @@
                 'HTTP_X_FORWARDED'     => __('Another header set by certain proxies or load balancers. If your server uses the `HTTP_X_FORWARDED` header for IP forwarding, activate this.', 'wp-statistics'),
                 'HTTP_FORWARDED_FOR'   => __('A common header containing the original IP, often used by multiple proxies in a chain. WP Statistics will extract the real IP from this header when enabled.', 'wp-statistics'),
                 'HTTP_FORWARDED'       => __('A standardized header for proxies. Activate if your environment uses the `HTTP_FORWARDED` header to determine visitor IPs.', 'wp-statistics'),
-                'HTTP_X_REAL_IP'       => __('Set by services like the Nginx proxy to indicate the true client IP. Turn this on if your server environment uses the `HTTP_X_REAL_IP` header.', 'wp-statistics'),
+                'HTTP_X_REAL_IP'       => __('Set by services like the Nginx proxy to indicate the true client IP. Turn this on if your server environment uses the <code>HTTP_X_REAL_IP</code> header.', 'wp-statistics'),
             );
             foreach ($list as $server => $desc) {
                 if (isset($_SERVER[$server])) {
