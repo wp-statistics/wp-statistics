@@ -154,6 +154,22 @@
   }
 }
 
+.wps-tooltip {
+  flex-grow: inherit;
+  margin-left: 5px;
+}
+
+.wps-tooltip-icon {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.5 13C12.5 11 14 11.5 14 10C14 9.34375 13.5 8.5 12.5 8.5C11.5 8.5 11 9 10.5 9.5M12.5 16V14.5M20.5 12.5C20.5 16.9183 16.9183 20.5 12.5 20.5C8.08172 20.5 4.5 16.9183 4.5 12.5C4.5 8.08172 8.08172 4.5 12.5 4.5C16.9183 4.5 20.5 8.08172 20.5 12.5Z' stroke='%23121923' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+}
+
 .wps-refresh-icon {
   background-image: url('data:image/svg+xml;utf-8,%3Csvg%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%230C0C0D%22%20d%3D%22M9.70612%202.28223L8.64862%203.34423C9.35737%204.05335%209.75%204.99648%209.75%205.99998C9.75%208.06848%208.0685%209.74998%206%209.74998V8.99998L4.5%2010.5L6%2012V11.25C8.89462%2011.25%2011.25%208.8946%2011.25%205.99998C11.25%204.59523%2010.7021%203.27523%209.70612%202.28223Z%22%20%2F%3E%3Cpath%20fill%3D%22%230C0C0D%22%20d%3D%22M7.5%201.5L6%200V0.75C3.10538%200.75%200.75%203.10538%200.75%206C0.75%207.40475%201.29788%208.72475%202.29387%209.71775L3.35138%208.65575C2.64263%207.94663%202.25%207.0035%202.25%206C2.25%203.9315%203.9315%202.25%206%202.25V3L7.5%201.5Z%22%20%2F%3E%3C%2Fsvg%3E');
   background-size: contain;
@@ -245,7 +261,7 @@
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
 #wp-statistics-comparison-widget,
-#wp-statistics-useronline-widget{
+#wp-statistics-useronline-widget {
   overflow: visible;
 }
 
@@ -348,4 +364,4 @@
   canvas {
     margin: 0 12px !important;
   }
- }
+}

@@ -99,6 +99,18 @@ wps_js.meta_box_button = function (key) {
     jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"><span class="wps-refresh-icon"></span> <span class="screen-reader-text">` + wps_js._('reload') + `</span></button>`).insertBefore(selector);
 };
 
+wps_js.meta_box_tooltip = function (key) {
+    let selector = "#" + wps_js.getMetaBoxKey(key) + " h2.hndle";
+    let meta_box_info = wps_js.get_meta_box_info(key);
+
+    if (meta_box_info.hasOwnProperty('description')) {
+        const title = jQuery(selector).text();
+        const tooltip = meta_box_info.description;
+        const newTitle = '<span>' + title + '</span><a href="#" class="wps-tooltip" title="' + tooltip + '"><i class="wps-tooltip-icon"></i></a>';
+        jQuery(selector).html(newTitle);
+    }
+}
+
 /**
  * Run Meta Box
  *
@@ -116,6 +128,9 @@ wps_js.run_meta_box = function (key, params = false, button = true) {
 
         // Get Meta Box Method
         let method = wps_js.get_meta_box_method(key);
+
+        // Add tooltip
+        wps_js.meta_box_tooltip(key);
 
         // Check Exist Method name
         if (method in wps_js) {

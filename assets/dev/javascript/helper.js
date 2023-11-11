@@ -37,6 +37,23 @@ wps_js.select2 = function () {
 };
 
 /**
+ * Set Tooltip
+ */
+wps_js.tooltip = function () {
+    jQuery('.wps-tooltip').tooltipster();
+    jQuery('body').on('mouseenter', '.wps-tooltip:not(.tooltipstered)', function () {
+        $(this).tooltipster({
+            theme: 'tooltipster-borderless'
+        }).tooltipster('open');
+    });
+};
+
+/**
+ * Execute Tooltip
+ */
+wps_js.tooltip();
+
+/**
  * Redirect To Custom Url
  *
  * @param url

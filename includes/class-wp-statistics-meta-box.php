@@ -85,6 +85,7 @@ class Meta_Box
             ),
             'summary'         => array(
                 'name'              => __('Traffic Summary', 'wp-statistics'),
+                'description'       => __('A quick overview of your website\'s visitor statistics.', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'side'
@@ -92,6 +93,7 @@ class Meta_Box
             'browsers'        => array(
                 'page_url'          => 'browser',
                 'name'              => __('Browser Usage', 'wp-statistics'),
+                'description'       => __('Distribution of visitors based on the browsers they use.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -106,6 +108,7 @@ class Meta_Box
             'platforms'       => array(
                 'page_url'          => 'platform',
                 'name'              => __('Most Used Platforms', 'wp-statistics'),
+                'description'       => __('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -119,6 +122,7 @@ class Meta_Box
             ),
             'devices'         => array(
                 'name'              => __('Device Usage Breakdown', 'wp-statistics'),
+                'description'       => __('Distribution of visitors based on the devices they use to access your site.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -162,6 +166,7 @@ class Meta_Box
             'hits'            => array(
                 'page_url'          => 'hits',
                 'name'              => __('Daily Traffic Trend', 'wp-statistics'),
+                'description'       => __('Day-by-day breakdown of visits and page views over the selected period.', 'wp-statistics'),
                 'require'           => array('visits' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -176,6 +181,7 @@ class Meta_Box
             'search'          => array(
                 'page_url'          => 'searches',
                 'name'              => __('Referrals from Search Engines', 'wp-statistics'),
+                'description'       => __('A breakdown of visits from different search engines over time.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -190,6 +196,7 @@ class Meta_Box
             'pages'           => array(
                 'page_url'          => 'pages',
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
+                'description'       => __('Pages on your website with the highest number of visits in the selected time frame.', 'wp-statistics'),
                 'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -204,6 +211,7 @@ class Meta_Box
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
                 'name'              => __('Most Active Visitors', 'wp-statistics'),
+                'description'       => __('Visitors with the highest number of visits, including their country, city, IP address, and browser.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -218,6 +226,7 @@ class Meta_Box
             'recent'          => array(
                 'page_url'          => 'visitors',
                 'name'              => __('Latest Visitor Breakdown', 'wp-statistics'),
+                'description'       => __('Details of the most recent visitors to your site.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -225,6 +234,7 @@ class Meta_Box
             ),
             'hitsmap'         => array(
                 'name'              => __('Global Visitor Distribution', 'wp-statistics'),
+                'description'       => __('Geographical representation of where your site\'s visitors come from.', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true, 'disable_map' => false),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -247,6 +257,7 @@ class Meta_Box
             'words'           => array(
                 'page_url'          => 'words',
                 'name'              => __('Recent Search Queries', 'wp-statistics'),
+                'description'       => __('Check out the latest search terms that brought users to your website.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -255,6 +266,7 @@ class Meta_Box
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),
+                'description'       => __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
                 'show_on_dashboard' => false,
                 'js'                => false,
                 'place'             => 'side',
