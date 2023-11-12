@@ -7,75 +7,96 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Common Report Options', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Email Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
-            <td scope="row" style="vertical-align: top;">
-                <label for="email-report"><?php _e('Email Addresses:', 'wp-statistics'); ?></label>
-            </td>
+            <th scope="row">
+                <label for="email-report"><?php _e('Recipient Email Addresses', 'wp-statistics'); ?></label>
+            </th>
 
             <td>
                 <input dir="ltr" type="text" id="email_list" name="wps_email_list" size="30" value="<?php if (WP_STATISTICS\Option::get('email_list') == '') {
                     $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
                 }
                 echo esc_textarea(WP_STATISTICS\Option::get('email_list')); ?>"/>
-                <p class="description"><?php _e('Add email addresses you want to receive reports and separate them with a comma.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Specify the email addresses that should receive the reports. Separate multiple addresses with a comma.', 'wp-statistics'); ?></p>
             </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Update Reports', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row">
-                <label for="geoip-report"><?php _e('GeoIP:', 'wp-statistics'); ?></label>
-            </td>
-
-            <td>
-                <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo WP_STATISTICS\Option::get('geoip_report') == true ? "checked='checked'" : ''; ?>>
-                <label for="geoip-report"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable it to send a report whenever the GeoIP database is updated.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row">
-                <label for="prune-report"><?php _e('Pruning:', 'wp-statistics'); ?></label>
-            </td>
-
-            <td>
-                <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo WP_STATISTICS\Option::get('prune_report') == true ? "checked='checked'" : ''; ?>>
-                <label for="prune-report"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable it to send a report whenever the pruning of the database is run.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Statistical reporting', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="stats-report"><?php _e('Statistical Reports:', 'wp-statistics'); ?></label>
+                <label for="stats-report"><?php _e('Email Statistical Reports', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php echo WP_STATISTICS\Option::get('stats_report') == true ? "checked='checked'" : ''; ?> onClick='ToggleStatOptions();'>
                 <label for="stats-report"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to receive stats report via email', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Receive regular statistical reports in your inbox.', 'wp-statistics'); ?></p>
             </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('Database Notifications', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="geoip-report"><?php _e('GeoIP Update', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo WP_STATISTICS\Option::get('geoip_report') == true ? "checked='checked'" : ''; ?>>
+                <label for="geoip-report"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Receive notifications when the GeoIP database updates.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="prune-report"><?php _e('Database Pruning Alert', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo WP_STATISTICS\Option::get('prune_report') == true ? "checked='checked'" : ''; ?>>
+                <label for="prune-report"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Get notified when the database pruning occurs.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('Admin Dashboard Settings', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="admin-notices"><?php _e('Display All WP Statistics Notices', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="admin-notices" type="checkbox" value="1" name="wps_admin_notices" <?php echo WP_STATISTICS\Option::get('admin_notices') == true ? "checked='checked'" : ''; ?>>
+                <label for="admin-notices"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Enable this to see all notifications, alerts, and suggestions from WP Statistics in your admin dashboard. If disabled, only critical warnings or errors will be shown, keeping your dashboard less cluttered.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('Advanced Reporting Options', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <?php if (WP_STATISTICS\Option::get('stats_report')) {
@@ -84,9 +105,9 @@
             $hidden = " style='display: none;'";
         } ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
-            <td scope="row" style="vertical-align: top;">
+            <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php _e('Schedule:', 'wp-statistics'); ?></label>
-            </td>
+            </th>
 
             <td>
                 <select name="wps_time_report" id="time-report">
@@ -119,9 +140,9 @@
         </tr>
 
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
-            <td scope="row" style="vertical-align: top;">
+            <th scope="row" style="vertical-align: top;">
                 <label for="send-report"><?php _e('Send reports via:', 'wp-statistics'); ?></label>
-            </td>
+            </th>
 
             <td>
                 <select name="wps_send_report" id="send-report">
@@ -140,9 +161,9 @@
         </tr>
 
         <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
-            <td scope="row" style="vertical-align: top;">
+            <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php _e('Message body:', 'wp-statistics'); ?></label>
-            </td>
+            </th>
 
             <td>
                 <?php wp_editor(WP_STATISTICS\Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
@@ -168,27 +189,6 @@
                 </p>
 
                 <h4>Looking for chart reporting? check out <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress">Advanced Reporting!</a></h4>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Admin Notices', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row">
-                <label for="admin-notices"><?php _e('All Notices:', 'wp-statistics'); ?></label>
-            </td>
-
-            <td>
-                <input id="admin-notices" type="checkbox" value="1" name="wps_admin_notices" <?php echo WP_STATISTICS\Option::get('admin_notices') == true ? "checked='checked'" : ''; ?>>
-                <label for="admin-notices"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to show all notices and suggestions from WP Statistics in the admin.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
