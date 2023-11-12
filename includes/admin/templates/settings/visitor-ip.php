@@ -45,7 +45,7 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                <?php _e('Your IP address as detected by the SeeIP.org service.', 'wp-statistics'); ?>
+                <?php _e('Your IP address as detected by the SeeIP.org service:', 'wp-statistics'); ?>
             </th>
         </tr>
 
@@ -157,7 +157,7 @@ add_thickbox();
                                 ?></p>
                             <p class="description"><?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics'); ?></p>
                             <p class="description">
-                                <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('Show all <code>$_SERVER</code> in your server.', 'wp-statistics'); ?></a>
+                                <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics'); ?></a>
                             </p>
                         </td>
                     </tr>
