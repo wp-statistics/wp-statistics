@@ -92,19 +92,18 @@
         </tbody>
     </table>
 </div>
-<div class="postbox">
+<?php if (WP_STATISTICS\Option::get('stats_report')) {
+    $hidden = "";
+} else {
+    $hidden = " style='display: none;'";
+} ?>
+<div class="postbox"<?php echo $hidden; ?> id='wps_stats_report_option'>
     <table class="form-table">
         <tbody>
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e('Advanced Reporting Options', 'wp-statistics'); ?></h3></th>
         </tr>
-
-        <?php if (WP_STATISTICS\Option::get('stats_report')) {
-            $hidden = "";
-        } else {
-            $hidden = " style='display: none;'";
-        } ?>
-        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
+        <tr valign="top">
             <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php _e('Schedule:', 'wp-statistics'); ?></label>
             </th>
