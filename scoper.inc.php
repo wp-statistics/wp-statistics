@@ -131,6 +131,8 @@ return [
         'includes/admin/templates/plugins.php',
         'includes/admin/templates/postbox.php',
         'includes/admin/templates/settings.php',
+
+        'wp-statistics.php',
     ],
 
     // When scoping PHP files, there will be scenarios where some of the code being scoped indirectly references the
