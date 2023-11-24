@@ -105,7 +105,7 @@
         </tr>
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="time-report"><?php _e('Schedule:', 'wp-statistics'); ?></label>
+                <label for="time-report"><?php _e('Reporting Schedule', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -133,14 +133,14 @@
                     }
                     ?>
                 </select>
-                <p class="description"><?php _e('Select how often to receive statistical report.', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo sprintf(__('To set your own schedule, check out <a href="%s" target="_blank">this doc</a>.', 'wp-statistics'), 'https://wp-statistics.com/resources/schedule-statistical-reports/'); ?></p>
+                <p class="description"><?php _e('Report Timing: Choose how frequently you want your statistical reports to be compiled and sent. Options range from hourly to monthly.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo sprintf(__('For setting up a custom schedule, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'), 'https://wp-statistics.com/resources/schedule-statistical-reports/'); ?></p>
             </td>
         </tr>
 
-        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
+        <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="send-report"><?php _e('Send reports via:', 'wp-statistics'); ?></label>
+                <label for="send-report"><?php _e('Delivery Method', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -152,28 +152,28 @@
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php _e('Select delivery method for statistical report.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Delivery Channel: Select how you would like to receive the generated reports. Currently, reports can be sent to you via email or downloaded directly from the plugin.', 'wp-statistics'); ?></p>
                 <?php if (!is_plugin_active('wp-sms/wp-sms.php')) { ?>
                     <p class="description note"><?php echo sprintf(__('Note: To send SMS text messages please install the %s plugin.', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
                 <?php } ?>
             </td>
         </tr>
 
-        <tr valign="top"<?php echo $hidden; ?> id='wps_stats_report_option'>
+        <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php _e('Message body:', 'wp-statistics'); ?></label>
+                <label for="content-report"><?php _e('Report Composition', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <?php wp_editor(WP_STATISTICS\Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
-                <p class="description"><?php _e('Enter the contents of the report.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Report Content: Customize the content of your reports by using WP Statistics shortcodes to display various statistics.', 'wp-statistics'); ?></p>
 
                 <p class="description data">
-                    <?php _e('Any shortcode supported by your installation of WordPress, include all shortcodes for WP Statistics (see the documentation for a list of codes available) are supported in the body of the message. Here are some examples:', 'wp-statistics'); ?>
+                    <?php _e('Insert any of the following shortcode examples to show corresponding data:', 'wp-statistics'); ?>
                     <br><br>
-                    <?php _e('Online User', 'wp-statistics'); ?>:
+                    <?php _e('Current Online Users', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=usersonline]</code><br>
-                    <?php _e('Today\'s Visitors', 'wp-statistics'); ?>:
+                    <?php _e('Today\'s Visits', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visitors time=today]</code><br>
                     <?php _e('Today\'s Visits', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=today]</code><br>
@@ -186,8 +186,15 @@
                     <?php _e('Total Visits', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=total]</code><br>
                 </p>
-
-                <h4>Looking for chart reporting? check out <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress">Advanced Reporting!</a></h4>
+                <p class="description"><?php echo sprintf(__('Refer to our complete  <a href="%s" target="_blank">shortcode guide</a> for more options.', 'wp-statistics'), 'https://wp-statistics.com/resources/shortcodes/'); ?></p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row" style="vertical-align: top;">
+                <label for="content-report"><?php _e('Visual Reporting', 'wp-statistics'); ?></label>
+            </th>
+            <td>
+                <div>Graphical Reports: Interested in visual representations of your data? Explore our <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress">Advanced Reporting Add-on</a> for chart and graph options.</div>
             </td>
         </tr>
         </tbody>
