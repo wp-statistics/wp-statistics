@@ -11,7 +11,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="anonymize_ips"><?php _e('Anonymize IP Addresses:', 'wp-statistics'); ?></label>
+                <label for="anonymize_ips"><?php _e('Anonymize IP Addresses', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo WP_STATISTICS\Option::get('anonymize_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -22,7 +22,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="hash_ips"><?php _e('Hash IP Addresses:', 'wp-statistics'); ?></label>
+                <label for="hash_ips"><?php _e('Hash IP Addresses', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -46,7 +46,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="store_ua"><?php _e('Store Entire User Agent String:', 'wp-statistics'); ?></label>
+                <label for="store_ua"><?php _e('Store Entire User Agent String', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -72,7 +72,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="do_not_track"><?php _e('Do Not Track:', 'wp-statistics'); ?></label>
+                <label for="do_not_track"><?php _e('Do Not Track', 'wp-statistics'); ?></label>
             </th>
 
             <td>
