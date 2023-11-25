@@ -2,11 +2,11 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Privacy and Data Protection', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Data Protection', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
-            <td scope="row" colspan="2"><?php echo sprintf(__('To delete visitor data, check out <b><a href="%s">Tools → Erase Personal Data</a></b>, and for delete all data, check out here <b><a href="%s">Optimization → Purging</a></b>.', 'wp-statistics'), admin_url('erase-personal-data.php'), esc_url(WP_STATISTICS\Menus::admin_url('optimization', array('tab' => 'purging')))); ?></td>
+            <td scope="row" colspan="2"><?php _e('Ensure your website adheres to data protection standards.', 'wp-statistics') ?></td>
         </tr>
 
         <tr valign="top">
@@ -16,7 +16,7 @@
             <td>
                 <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo WP_STATISTICS\Option::get('anonymize_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="anonymize_ips"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('This option anonymize the user IP address because of the data privacy & GDPR. For example, <code>888.888.888.888</code> -> <code>888.888.888.000</code>.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('By enabling this option, the user IP address will be anonymized (e.g., <code>888.888.888.***</code>). This is especially useful for GDPR compliance.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -27,8 +27,21 @@
             <td>
                 <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="hash_ips"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('By enabling this option, you cannot recover the IP addresses in the future to find out location information, and IP addresses will not be stored in the database but instead used a unique hash.', 'wp-statistics') . ' ' . __('Also, it disables the "Store entire user agent string" setting.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('By enabling this feature, IP addresses will be hashed before being stored, preventing future access to the original address. This will also disable the "Store Entire User Agent String" setting.', 'wp-statistics') . ' ' . __('Also, it disables the "Store entire user agent string" setting.', 'wp-statistics'); ?></p>
             </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('Debugging & Advanced Options', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <td scope="row" colspan="2"><?php _e('Advanced settings for website administrators.', 'wp-statistics') ?></td>
         </tr>
 
         <tr valign="top">
@@ -39,8 +52,22 @@
             <td>
                 <input id="store_ua" type="checkbox" value="1" name="wps_store_ua" <?php echo WP_STATISTICS\Option::get('store_ua') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="store_ua"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Only enable it for debugging. If the IP hashes are enabled, this option will be disabled automatically.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('This option is recommended for debugging purposes only. If "Hash IP Addresses" is active, this setting will be automatically disabled.', 'wp-statistics'); ?></p>
             </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('User Preferences', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <td scope="row" colspan="2"><?php _e('Respect and prioritize your website visitors\' browsing preferences.', 'wp-statistics') ?></td>
         </tr>
 
         <tr valign="top">
@@ -51,12 +78,11 @@
             <td>
                 <input id="do_not_track" type="checkbox" value="1" name="wps_do_not_track" <?php echo WP_STATISTICS\Option::get('do_not_track') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="do_not_track"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e("Enabling the do not track mode will respect the user's browser settings for tracking protection. This means that the plugin will not collect or store any data about the user's visits to your website. Please note that this may impact the accuracy of your website's analytics.", 'wp-statistics'); ?></p>
+                <p class="description"><?php _e("Enabling this will ensure that the plugin doesn't collect or store any data from users who have enabled the \"Do Not Track\" setting in their browsers. Note: This may affect the accuracy of your website's analytics.", 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         </tbody>
     </table>
 </div>
-
 <?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='privacy-settings'")); ?>
