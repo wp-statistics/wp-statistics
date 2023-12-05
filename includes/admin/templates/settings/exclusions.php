@@ -43,7 +43,7 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded IP Address List', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_exclude_ip"><?php _e('Excluded IP Address List', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('exclude_ip')); ?></textarea>
                 <p class="description"><?php echo __('Specify the IP addresses you want to exclude. Enter one IP address or range per line.', 'wp-statistics'); ?></p>
@@ -73,7 +73,7 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Robot List:', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_robotlist"><?php _e('Robot List:', 'wp-statistics'); ?></label></th>
             <td>
                     <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
                         $robotlist = WP_STATISTICS\Option::get('robotlist');
@@ -150,7 +150,7 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded Countries', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_excluded_countries"><?php _e('Excluded Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
                 <p class="description"><?php echo __('Enter country codes to exclude from stats. Use \'000\' for unknown countries.', 'wp-statistics') ?></p>
@@ -158,7 +158,7 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Included Countries', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_included_countries"><?php _e('Included Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
                 <p class="description"><?php echo __('Specify country codes to include in stats. \'000\' means unknown countries.', 'wp-statistics'); ?></p>
@@ -179,28 +179,28 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded Login Page', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps-exclude-loginpage"><?php _e('Excluded Login Page', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php _e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Prevent the login page from being counted as a hit.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded RSS Feeds', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps-exclude-feeds"><?php _e('Excluded RSS Feeds', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-feeds" type="checkbox" value="1" name="wps_exclude_feeds" <?php echo WP_STATISTICS\Option::get('exclude_feeds') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-feeds"><?php _e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Stop RSS feeds from being recorded as hits.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded 404 Pages', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps-exclude-404s"><?php _e('Excluded 404 Pages', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-404s" type="checkbox" value="1" name="wps_exclude_404s" <?php echo WP_STATISTICS\Option::get('exclude_404s') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-404s"><?php _e('Exclude', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Exclude URLs that return a \'404 - Not Found\' message.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded URLs', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_excluded_urls"><?php _e('Excluded URLs', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
                 <p class="description"><?php echo __('Enter specific URLs to exclude. URL parameters aren\'t considered', 'wp-statistics'); ?></p>
@@ -221,7 +221,7 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded Hosts', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_excluded_hosts"><?php _e('Excluded Hosts', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
                 <p class="description"><?php echo __('Provide host names to exclude. Relies on cached IP, not live DNS lookup.', 'wp-statistics'); ?></p><br>
