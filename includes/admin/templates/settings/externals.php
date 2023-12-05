@@ -62,6 +62,67 @@
                     <p class="description"><?php _e('Activate this feature if you wish to see the city details of your visitors.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="geoip-schedule"><?php _e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="geoip-schedule" type="checkbox" name="wps_schedule_geoip" <?php echo WP_STATISTICS\Option::get('schedule_geoip') == true ? "checked='checked'" : ''; ?>>
+                    <label for="geoip-schedule"><?php _e('Enable', 'wp-statistics'); ?></label>
+                    <?php
+                    if (WP_STATISTICS\Option::get('schedule_geoip')) {
+                        echo '<p class="description">' . __('Next update will be', 'wp-statistics') . ': <code>';
+                        $last_update = WP_STATISTICS\Option::get('last_geoip_dl');
+                        $this_month  = strtotime(__('First Tuesday of this month', 'wp-statistics'));
+
+                        if ($last_update > $this_month) {
+                            $next_update = strtotime(__('First Tuesday of next month', 'wp-statistics')) + (86400 * 2);
+                        } else {
+                            $next_update = $this_month + (86400 * 2);
+                        }
+
+                        $next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
+                        if ($next_schedule) {
+                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) .
+                                ' @ ' .
+                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), $next_schedule);
+                        } else {
+                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) .
+                                ' @ ' .
+                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), time());
+                        }
+
+                        echo '</code></p>';
+                    }
+                    ?>
+                    <p class="description"><?php _e('Set up a monthly update for the GeoIP database to ensure accurate and up-to-date geographical data. The scheduled download will occur 2 days after the first Tuesday of the month. This setting is crucial for maintaining current geographical data.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="geoip-schedule"><?php _e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo WP_STATISTICS\Option::get('auto_pop') == true ? "checked='checked'" : ''; ?>>
+                    <label for="geoip-auto-pop"><?php _e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php _e('If, for any reason, there are gaps in the GeoIP data, use this feature to fill in the missing pieces after a fresh database download.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="geoip-schedule"><?php _e('Country Code for Private IP Addresses', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
+                    <p class="description"><?php echo __('Specify a default country code for private (non-routable) IP addresses. For example, using "US" for United States or "CA" for Canada. If uncertain, use "000" to label them as "Unknown".', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
         <?php } else { ?>
             <tr valign="top">
                 <th scope="row" colspan="2">
@@ -137,99 +198,6 @@
         </tbody>
     </table>
 </div>
-<?php if (WP_STATISTICS\GeoIP::IsSupport()) { ?>
-    <div class="postbox">
-        <table class="form-table">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2">
-                    <h3><?php _e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></h3>
-                </th>
-            </tr>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="geoip-schedule"><?php _e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="geoip-schedule" type="checkbox" name="wps_schedule_geoip" <?php echo WP_STATISTICS\Option::get('schedule_geoip') == true ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-schedule"><?php _e('Enable', 'wp-statistics'); ?></label>
-                    <?php
-                    if (WP_STATISTICS\Option::get('schedule_geoip')) {
-                        echo '<p class="description">' . __('Next update will be', 'wp-statistics') . ': <code>';
-                        $last_update = WP_STATISTICS\Option::get('last_geoip_dl');
-                        $this_month  = strtotime(__('First Tuesday of this month', 'wp-statistics'));
-
-                        if ($last_update > $this_month) {
-                            $next_update = strtotime(__('First Tuesday of next month', 'wp-statistics')) + (86400 * 2);
-                        } else {
-                            $next_update = $this_month + (86400 * 2);
-                        }
-
-                        $next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
-                        if ($next_schedule) {
-                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) .
-                                ' @ ' .
-                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), $next_schedule);
-                        } else {
-                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) .
-                                ' @ ' .
-                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), time());
-                        }
-
-                        echo '</code></p>';
-                    }
-                    ?>
-                    <p class="description"><?php _e('Set up a monthly update for the GeoIP database to ensure accurate and up-to-date geographical data. The scheduled download will occur 2 days after the first Tuesday of the month. This setting is crucial for maintaining current geographical data.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="postbox">
-        <table class="form-table">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2">
-                    <h3><?php _e('Update Missing GeoIP Data', 'wp-statistics'); ?></h3>
-                </th>
-            </tr>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="geoip-schedule"><?php _e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo WP_STATISTICS\Option::get('auto_pop') == true ? "checked='checked'" : ''; ?>>
-                    <label for="geoip-auto-pop"><?php _e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('If, for any reason, there are gaps in the GeoIP data, use this feature to fill in the missing pieces after a fresh database download.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="postbox">
-        <table class="form-table">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2">
-                    <h3><?php _e('Country Code for Private IP Addresses', 'wp-statistics'); ?></h3>
-                </th>
-            </tr>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="geoip-schedule"><?php _e('Country Code for Private IP Addresses', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
-                    <p class="description"><?php echo __('Specify a default country code for private (non-routable) IP addresses. For example, using "US" for United States or "CA" for Canada. If uncertain, use "000" to label them as "Unknown".', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-<?php } ?>
 
 <div class="postbox">
     <table class="form-table">
