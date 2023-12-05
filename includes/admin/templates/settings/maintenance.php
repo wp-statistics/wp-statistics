@@ -16,25 +16,25 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint"><?php _e('Enabled:', 'wp-statistics'); ?></label>
+                <label for="wps_schedule_dbmaint"><?php _e('Automatic Cleanup', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
                 <label for="wps_schedule_dbmaint"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('A WP Cron job will be run daily to purge any data older than a set number of days.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Turn on this feature to automatically remove data entries older than a specified number of days. This helps keep your database optimized.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_days"><?php _e('Purge Data Older Than:', 'wp-statistics'); ?></label>
+                <label for="wps_schedule_dbmaint_days"><?php _e('Purge Data Older Than', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>"/>
                 <?php _e('Days', 'wp-statistics'); ?>
-                <p class="description"><?php echo __('The number of days to keep statistics for.', 'wp-statistics') . ' ' . __('The minimum value is 30 days.', 'wp-statistics') . ' ' . __('Invalid values will disable the daily maintenance.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Define the age of data entries to be removed. Only data older than the specified number of days will be purged. Setting a lower value might result in the loss of valuable historical data. The minimum value allowed is 30 days. Inputting invalid values will halt the cleanup process.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -50,25 +50,25 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor"><?php _e('Enabled:', 'wp-statistics'); ?></label>
+                <label for="wps_schedule_dbmaint_visitor"><?php _e('Automatic Cleanup', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="wps_schedule_dbmaint_visitor" type="checkbox" name="wps_schedule_dbmaint_visitor" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint_visitor') == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
                 <label for="wps_schedule_dbmaint_visitor"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('A WP Cron job will be run daily to purge any users statistics data where the user has more than the defined number of hits in a day (aka they are probably a bot).', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Activate this to automatically purge user statistics data if the user has an unusually high number of hits in a day, which might indicate bot activity.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor_hits"><?php _e('Purge Visitors More Than:', 'wp-statistics'); ?></label>
+                <label for="wps_schedule_dbmaint_visitor_hits"><?php _e('Purge Visitors More Than', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
                 <?php _e('Hits', 'wp-statistics'); ?>
-                <p class="description"><?php echo __('The number of hits required to delete the visitor.', 'wp-statistics') . ' ' . __('Minimum value is 10 hits.', 'wp-statistics') . ' ' . __('Invalid values will disable the daily maintenance.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Set the threshold for the number of hits by a user in a single day to qualify them for purging. Users exceeding this threshold are likely bots. The minimum threshold is 10 hits. Invalid entries will suspend the cleanup process.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

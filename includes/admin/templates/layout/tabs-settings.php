@@ -8,7 +8,7 @@
         <li class="tab-link" data-tab="access-settings"><?php _e('Access Control', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="exclusions-settings"><?php _e('Filtering & Exceptions', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="externals-settings"><?php _e('Data Sources', 'wp-statistics'); ?></li>
-        <li class="tab-link" data-tab="maintenance-settings"><?php _e('Maintenance', 'wp-statistics'); ?></li>
+        <li class="tab-link" data-tab="maintenance-settings"><?php _e('Data Management', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="reset-settings"><?php _e('Restore Default Settings', 'wp-statistics'); ?></li>
         <li class="tab-link" data-tab="about"><?php _e('WP Statistics - Overview', 'wp-statistics'); ?></li>
     <?php } ?>
