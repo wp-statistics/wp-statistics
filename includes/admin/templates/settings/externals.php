@@ -224,7 +224,7 @@
             echo ' style="display:none;"';
         } ?>>
             <th scope="row">
-                <label for="geoip-update"><?php _e('Update Matomo Referrer Spam Blacklist Info', 'wp-statistics'); ?></label>
+                <label for="geoip-update"><?php _e('Refresh Blacklist Data', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -232,7 +232,7 @@
                 <!--                <a href="--><?php //echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes'))
                 ?><!--" class="button">--><?php //_e('Update', 'wp-staitsitcs');
                 ?><!--</a>-->
-                <p class="description"><?php _e('Click button to download the update.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Click here to manually download the latest set of referrer spam filters from Matomo.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -240,12 +240,12 @@
             echo ' style="display:none;"';
         } ?>>
             <th scope="row">
-                <label for="referrerspam-schedule"><?php _e('Schedule weekly update of Matomo Referrer Spam Blacklist DB', 'wp-statistics'); ?></label>
+                <label for="referrerspam-schedule"><?php _e('Automate Blacklist Updates', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="referrerspam-schedule" type="checkbox" name="wps_schedule_referrerspam" <?php echo WP_STATISTICS\Option::get('schedule_referrerspam') == true ? "checked='checked'" : ''; ?>>
-                <label for="referrerspam-schedule"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <label for="referrerspam-schedule"><?php _e('Weekly Auto-Update', 'wp-statistics'); ?></label>
                 <?php
                 if (WP_STATISTICS\Option::get('schedule_referrerspam')) {
                     echo '<p class="description">' . __('Next update will be', 'wp-statistics') . ': <code>';
@@ -261,7 +261,7 @@
                     echo '</code></p>';
                 }
                 ?>
-                <p class="description"><?php _e('Download of the Matomo Referrer Spam Blacklist database will be scheduled for once a week.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Check this to automatically download updates to the Matomo Referrer Spam Blacklist every week, ensuring continuous protection.'); ?></p>
             </td>
         </tr>
         </tbody>
