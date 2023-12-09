@@ -81,23 +81,23 @@
 
         <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
             <th scope="row">
-                <label for="visitors_log"><?php _e('Log Visitors Pages', 'wp-statistics'); ?></label>
+                <label for="visitors_log"><?php _e('Track Page Visits', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>
-                <label for="visitors_log"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to receive a report of each user’s visits to the pages', 'wp-statistics'); ?></p>
+                <label for="visitors_log"><?php _e('Enable Tracking', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Switch on to track and generate reports on individual user page visits, providing insights into user engagement on your site.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
             <th scope="row">
-                <label for="enable_user_column"><?php _e('User Visits Column', 'wp-statistics'); ?></label>
+                <label for="enable_user_column"><?php _e('Display User Visit Logs', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="enable_user_column" type="checkbox" value="1" name="wps_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
-                <label for="enable_user_column"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to show the list of user visits, link in the WordPress admin user list page.', 'wp-statistics'); ?></p>
+                <label for="enable_user_column"><?php _e('Show Visit Logs', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Enable to add a column in the WordPress admin\'s user list, displaying a log of user visits for easy access and review.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
