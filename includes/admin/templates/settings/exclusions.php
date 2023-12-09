@@ -110,29 +110,29 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="use_honeypot"><?php _e('Use Honey Pot', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="use_honeypot"><?php _e('Activate Honey Pot Protection', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo WP_STATISTICS\Option::get('use_honeypot') == true ? "checked='checked'" : ''; ?>><label for="wps_use_honeypot"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('Enable this option for identifying robots by the Honey Pot page.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Turn on Honey Pot to detect and filter out bots. This adds a hidden trap for malicious automated scripts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="honeypot_postid"><?php _e('Honey Pot Page', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="honeypot_postid"><?php _e('Honey Pot Trap Page', 'wp-statistics'); ?></label></th>
             <td>
                 <?php wp_dropdown_pages(array('show_option_none' => __('Please select', 'wp-statistics'), 'id' => 'honeypot_postid', 'name' => 'wps_honeypot_postid', 'selected' => WP_STATISTICS\Option::get('honeypot_postid'))); ?>
-                <p class="description"><?php echo __('Select the page for the Honey Pot page or create a new one.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Choose an existing Honey Pot trap page from the list or set up a new one to catch bots.', 'wp-statistics'); ?></p>
                 <p><input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"> <label for="wps_create_honeypot"><?php _e('Create a new Honey Pot page', 'wp-statistics'); ?></label></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="corrupt_browser_info"><?php _e('Treat Corrupt Browser Info as a Bot', 'wp-statistics'); ?></label>
+                <label for="corrupt_browser_info"><?php _e('Identify Incomplete Browser Data as Bot Activity', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo WP_STATISTICS\Option::get('corrupt_browser_info') == true ? "checked='checked'" : ''; ?>><label for="corrupt_browser_info"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Enable this to classify visitors with incomplete browser details, such as a missing IP or user agent, as bots. This helps in preventing skewed analytics from corrupt data.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
