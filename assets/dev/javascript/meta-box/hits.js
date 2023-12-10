@@ -86,6 +86,13 @@ wps_js.hits_meta_box = {
                     interaction: {
                         intersect: false,
                         mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                stepSize: 1,
+                            }
+                        },
                     }
                 }
             }

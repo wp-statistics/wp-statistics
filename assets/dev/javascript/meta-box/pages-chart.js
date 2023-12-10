@@ -14,10 +14,10 @@ wps_js.pages_chart_meta_box = {
         this.show_chart(wps_js.chart_id('pages-chart'), args);
 
         // Set Total For Hits Page
-        if(wps_js.exist_tag("span[id=number-total-visits]")) {
+        if (wps_js.exist_tag("span[id=number-total-visits]")) {
             jQuery("span[id=number-total-visits]").html(args.total);
         }
-        if(wps_js.exist_tag("span[id=number-total-chart-visits]")) {
+        if (wps_js.exist_tag("span[id=number-total-chart-visits]")) {
             jQuery("span[id=number-total-chart-visits]").html(args.total_dates);
         }
     },

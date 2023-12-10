@@ -102,6 +102,13 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
             interaction: {
                 intersect: false,
                 mode: 'index',
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        stepSize: 1,
+                    }
+                },
             }
         }
     };
