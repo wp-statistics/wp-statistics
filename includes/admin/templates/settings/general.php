@@ -169,7 +169,7 @@ if (!$disable_strip_uri_parameters) {
         </tr>
         <tr valign="top">
             <th scope="row">
-                <label for="disable-editor"><?php _e('Hits Chart Metabox', 'wp-statistics'); ?></label>
+                <label for="disable-editor"><?php _e('Visits Chart Metabox', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -181,7 +181,7 @@ if (!$disable_strip_uri_parameters) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="disable_column"><?php _e('Hits Column', 'wp-statistics'); ?></label>
+                <label for="disable_column"><?php _e('Visits Column', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo WP_STATISTICS\Option::get('disable_column') == true ? "checked='checked'" : ''; ?>>
@@ -192,7 +192,7 @@ if (!$disable_strip_uri_parameters) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="hit_post_metabox"><?php _e('Hits in Publish Metabox', 'wp-statistics'); ?></label>
+                <label for="hit_post_metabox"><?php _e('Visits in Publish Metabox', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -204,7 +204,7 @@ if (!$disable_strip_uri_parameters) {
 
         <tr valign="top">
             <th scope="row">
-                <label for="show_hits"><?php _e('Hits in Single Pages', 'wp-statistics'); ?></label>
+                <label for="show_hits"><?php _e('Visits in Single Pages', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -230,7 +230,7 @@ if (!$disable_strip_uri_parameters) {
                     <option value="before_content" <?php selected(WP_STATISTICS\Option::get('display_hits_position'), 'before_content'); ?>><?php _e('Before Content', 'wp-statistics'); ?></option>
                     <option value="after_content" <?php selected(WP_STATISTICS\Option::get('display_hits_position'), 'after_content'); ?>><?php _e('After Content', 'wp-statistics'); ?></option>
                 </select>
-                <p class="description"><?php _e('Choose the position to show Hits.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Choose the position to show Visits.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

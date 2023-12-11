@@ -115,7 +115,7 @@ class Frontend
 
         // Get post hits
         $hits      = wp_statistics_pages('total', "", $post_id);
-        $hits_html = '<p>' . sprintf(__('Hits: %s', 'wp-statistics'), $hits) . '</p>';
+        $hits_html = '<p>' . sprintf(__('Visits: %s', 'wp-statistics'), $hits) . '</p>';
 
         // Check hits position
         if (Option::get('display_hits_position') == 'before_content') {

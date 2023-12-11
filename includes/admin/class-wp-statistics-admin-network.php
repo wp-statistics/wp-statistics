@@ -57,7 +57,7 @@ class Network
 
                 $options = array(
                     __('Overview', 'wp-statistics')           => Menus::get_page_slug('overview'),
-                    __('Hits', 'wp-statistics')               => Menus::get_page_slug('hits'),
+                    __('Visits', 'wp-statistics')               => Menus::get_page_slug('hits'),
                     __('Online', 'wp-statistics')             => Menus::get_page_slug('online'),
                     __('Referrers', 'wp-statistics')          => Menus::get_page_slug('referrers'),
                     __('Search Words', 'wp-statistics')       => Menus::get_page_slug('words'),

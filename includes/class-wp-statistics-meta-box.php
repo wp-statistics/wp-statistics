@@ -284,7 +284,7 @@ class Meta_Box
                 'disable_overview'  => true
             ),
             'pages-chart'     => array(
-                'name'              => __('Pages Hits', 'wp-statistics'),
+                'name'              => __('Pages Visits', 'wp-statistics'),
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
             ),

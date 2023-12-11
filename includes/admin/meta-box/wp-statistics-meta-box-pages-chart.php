@@ -75,9 +75,9 @@ class pages_chart
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Hits in the in the last %s days', 'wp-statistics'), $count_day);
+            $title = sprintf(__('Visits in the in the last %s days', 'wp-statistics'), $count_day);
         } else {
-            $title = sprintf(__('Hits from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Visits from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Check Type For Custom Type and ID

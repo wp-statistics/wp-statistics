@@ -80,7 +80,7 @@ class Hit extends \WP_STATISTICS\RestAPI
             'data'    => array(
                 'exclusion' => $exclusion,
             ),
-            'message' => __('Visitor Hit recorded successfully.', 'wp-statistics'),
+            'message' => __('Visitor Visit recorded successfully.', 'wp-statistics'),
         ), 200);
 
         /**

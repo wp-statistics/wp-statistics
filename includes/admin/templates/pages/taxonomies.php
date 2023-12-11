@@ -95,7 +95,7 @@
                                 <tbody>
                                 <tr>
                                     <th></th>
-                                    <th width="15%"><?php _e('Hits', 'wp-statistics'); ?></th>
+                                    <th width="15%"><?php _e('Visits', 'wp-statistics'); ?></th>
                                 </tr>
                                 <?php
                                 foreach ($top_list as $item) {

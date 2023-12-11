@@ -80,7 +80,7 @@ class tags_page
 
             // Set Type List
             $args['top_list_type'] = 'tag';
-            $args['top_title']     = __('Top Tag Sorted by Hits', 'wp-statistics');
+            $args['top_title']     = __('Top Tag Sorted by Visits', 'wp-statistics');
 
             // Push List Category
             foreach ($terms as $tag) {
@@ -91,7 +91,7 @@ class tags_page
 
             // Set Type List
             $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top posts Sorted by Hits in this tag', 'wp-statistics');
+            $args['top_title']     = __('Top posts Sorted by Visits in this tag', 'wp-statistics');
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(

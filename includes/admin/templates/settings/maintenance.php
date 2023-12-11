@@ -67,7 +67,7 @@
 
             <td>
                 <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
-                <?php _e('Hits', 'wp-statistics'); ?>
+                <?php _e('Visits', 'wp-statistics'); ?>
                 <p class="description"><?php echo __('Set the threshold for the number of hits by a user in a single day to qualify them for purging. Users exceeding this threshold are likely bots. The minimum threshold is 10 hits. Invalid entries will suspend the cleanup process.', 'wp-statistics'); ?></p>
             </td>
         </tr>

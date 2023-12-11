@@ -169,7 +169,7 @@ class Menus
             'hits'         => array(
                 'require'  => array('visits' => true),
                 'sub'      => 'overview',
-                'title'    => __('Hits', 'wp-statistics'),
+                'title'    => __('Visits', 'wp-statistics'),
                 'page_url' => 'hits',
                 'method'   => 'hits',
             ),

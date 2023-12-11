@@ -247,7 +247,7 @@
 
                 <td>
                     <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
-                    <label for="purge-visitor-hits"><?php _e('Hits', 'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php _e('Visits', 'wp-statistics'); ?></label>
 
                     <p class="description"><?php echo __('Delete user statistics data where the user has more than the defined number of hits in a day.', 'wp-statistics') . ' ' . __('This can be useful to clear up old data when your site has been hit by a bot.', 'wp-statistics') . ' ' . __('This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.', 'wp-statistics') . ' ' . __('Minimum value is 10 hits.', 'wp-statistics'); ?></p>
                     <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>

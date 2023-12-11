@@ -59,7 +59,7 @@ class authors_page
 
             // Set Type List
             $args['top_list_type'] = 'user';
-            $args['top_title']     = __('Top Author Sorted by Hits', 'wp-statistics');
+            $args['top_title']     = __('Top Author Sorted by Visits', 'wp-statistics');
 
             // Push List Category
             foreach ($users as $user) {
@@ -70,7 +70,7 @@ class authors_page
 
             // Set Type List
             $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top posts Sorted by Hits from the author', 'wp-statistics');
+            $args['top_title']     = __('Top posts Sorted by Visits from the author', 'wp-statistics');
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(

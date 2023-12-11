@@ -53,14 +53,14 @@ class Admin_Taxonomy
             $col = array();
             foreach ($columns as $k => $v) {
                 if ($k == "handle") {
-                    $col['wp-statistics-tax-hits'] = __('Hits', 'wp-statistics');
+                    $col['wp-statistics-tax-hits'] = __('Visits', 'wp-statistics');
                 }
                 $col[$k] = $v;
             }
             return $col;
         }
 
-        $columns['wp-statistics-tax-hits'] = __('Hits', 'wp-statistics');
+        $columns['wp-statistics-tax-hits'] = __('Visits', 'wp-statistics');
         return $columns;
     }
 
