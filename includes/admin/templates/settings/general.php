@@ -220,9 +220,9 @@ if (!$disable_strip_uri_parameters) {
             $hidden = " style='display: none;'";
         } ?>
         <tr valign="top"<?php echo $hidden; ?> id='wps_show_hits_option'>
-            <td scope="row" style="vertical-align: top;">
+            <th scope="row" style="vertical-align: top;">
                 <label for="display_hits_position"><?php _e('Display position', 'wp-statistics'); ?></label>
-            </td>
+            </th>
 
             <td>
                 <select name="wps_display_hits_position" id="display_hits_position">
