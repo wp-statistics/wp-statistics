@@ -105,15 +105,15 @@ class Ajax
 
                 // Show Result
                 if ($result) {
-                    echo sprintf(__('%s agent data deleted successfully.', 'wp-statistics'), '<code>' . esc_attr($agent) . '</code>');
+                    echo sprintf(__('Successfully deleted %s agent data.', 'wp-statistics'), '<code>' . esc_attr($agent) . '</code>');
                 } else {
-                    _e('No agent data found to remove!', 'wp-statistics');
+                    _e('Couldn’t find agent data to delete.', 'wp-statistics');
                 }
             } else {
-                _e('Please select the desired items.', 'wp-statistics');
+                _e('Kindly select the items you want to work with.', 'wp-statistics');
             }
         } else {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -142,15 +142,15 @@ class Ajax
 
                 // Return Result
                 if ($result) {
-                    echo sprintf(__('%s platform data deleted successfully.', 'wp-statistics'), '<code>' . esc_attr($platform) . '</code>');
+                    echo sprintf(__('Successfully deleted %s platform data.', 'wp-statistics'), '<code>' . esc_attr($platform) . '</code>');
                 } else {
-                    _e('No platform data found to remove!', 'wp-statistics');
+                    _e('Couldn’t find platform data to delete.', 'wp-statistics');
                 }
             } else {
-                _e('Please select the desired items.', 'wp-statistics');
+                _e('Kindly select the items you want to work with.', 'wp-statistics');
             }
         } else {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -178,15 +178,15 @@ class Ajax
                 $result = $wpdb->query($wpdb->prepare("DELETE FROM " . DB::table('visitor') . " WHERE `ip` = %s", $ip_address));
 
                 if ($result) {
-                    echo sprintf(__('%s IP data deleted successfully.', 'wp-statistics'), '<code>' . esc_attr($ip_address) . '</code>');
+                    echo sprintf(__('Successfully deleted %s IP data.', 'wp-statistics'), '<code>' . esc_attr($ip_address) . '</code>');
                 } else {
-                    _e('No IP address data found to remove!', 'wp-statistics');
+                    _e('Couldn’t find any IP address data to delete.', 'wp-statistics');
                 }
             } else {
-                _e('Please select the desired items.', 'wp-statistics');
+                _e('Kindly select the items you want to work with.', 'wp-statistics');
             }
         } else {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -205,7 +205,7 @@ class Ajax
 
         //Check isset Table-post
         if (!isset($_POST['table-name'])) {
-            _e('Please select the desired items.', 'wp-statistics');
+            _e('Kindly select the items you want to work with.', 'wp-statistics');
             exit;
         }
 
@@ -217,7 +217,7 @@ class Ajax
         $list_db_table = DB::table('all', 'historical');
 
         if (!array_key_exists($table_name, $list_db_table) and $table_name != 'all') {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
             exit;
         }
 
@@ -233,7 +233,7 @@ class Ajax
                 echo DB::EmptyTable(DB::table($table_name)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
         } else {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -258,7 +258,7 @@ class Ajax
 
             echo Purge::purge_data($purge_days); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         } else {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -282,12 +282,12 @@ class Ajax
             }
 
             if ($purge_hits < 10) {
-                _e('Number of hits must be greater than or equal to 10!', 'wp-statistics');
+                _e('Visit count must be 10 or more!', 'wp-statistics');
             } else {
                 echo Purge::purge_visitor_hits($purge_hits); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
         } else {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -384,7 +384,7 @@ class Ajax
                 _e($result["notice"]);
             }
         } else {
-            _e('Access denied!', 'wp-statistics');
+            _e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;

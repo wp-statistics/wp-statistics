@@ -52,7 +52,7 @@
                         if (isset($total_posts_visits_in_taxonomy)) {
                             ?>
                             <tr>
-                                <th><?php _e('Total posts hits:', 'wp-statistics'); ?></th>
+                                <th><?php _e('Total posts visits:', 'wp-statistics'); ?></th>
                                 <th>
                                     <span><?php echo number_format_i18n($total_posts_visits_in_taxonomy); ?></span></th>
                             </tr>

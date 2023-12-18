@@ -45,7 +45,7 @@ class taxonomies_page
 
             // Check Validate int Params
             if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and term_exists((int)trim($_GET['ID']), self::$taxonomy) == null))) {
-                wp_die(__("Request is not valid.", "wp-statistics"));
+                wp_die(__("The request is invalid.", "wp-statistics"));
             }
         }
     }
@@ -100,7 +100,7 @@ class taxonomies_page
 
             // Set Type List
             $args['top_list_type'] = self::$taxonomy;
-            $args['top_title']     = __('Top ' . strtolower($taxonomyTitle) . ' sorted by hits', 'wp-statistics');
+            $args['top_title']     = __('Top ' . strtolower($taxonomyTitle) . ' Sorted by Visits', 'wp-statistics');
 
             // Push List Category
             foreach ($terms as $term) {
@@ -113,10 +113,10 @@ class taxonomies_page
 
             // Set Type List
             $args['top_list_type'] = $taxonomy->object_type;
-            $args['top_title']     = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' top posts sorted by hits', 'wp-statistics');
+            $args['top_title']     = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' Most Popular Posts by Visits', 'wp-statistics');
 
             // Set Title
-            $args['title']      = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' statistics', 'wp-statistics');
+            $args['title']      = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' Statistics', 'wp-statistics');
             $args['term_title'] = $term->name;
 
             // Get Top Posts From Category

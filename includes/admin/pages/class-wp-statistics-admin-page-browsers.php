@@ -34,7 +34,7 @@ class browser_page
     {
 
         // Page title
-        $args['title'] = __('Browser Statistics', 'wp-statistics');
+        $args['title'] = __('Web Browser Usage Statistics', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('browser');

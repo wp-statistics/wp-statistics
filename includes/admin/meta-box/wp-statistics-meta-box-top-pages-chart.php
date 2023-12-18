@@ -71,9 +71,9 @@ class top_pages_chart
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Top 5 Trending Pages in the last %s days', 'wp-statistics'), $count_day);
+            $title = sprintf(__('Top 5 Popular Pages in the Last %s Days', 'wp-statistics'), $count_day);
         } else {
-            $title = sprintf(__('Top 5 Trending Pages from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Top 5 Popular Pages Between %s and %s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         $post_type = !empty($args['type']) ? $args['type'] : 'post';

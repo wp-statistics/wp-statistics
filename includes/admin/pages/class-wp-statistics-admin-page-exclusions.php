@@ -32,7 +32,7 @@ class exclusions_page
         global $wpdb;
 
         // Page title
-        $args['title'] = __('Exclusions Statistics', 'wp-statistics');
+        $args['title'] = __('Statistics on Excluded Data', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('exclusions');

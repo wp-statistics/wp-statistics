@@ -39,7 +39,7 @@ class summary
     public static function lang()
     {
         return array(
-            'search_engine'     => __('Search Engine Referrals', 'wp-statistics'),
+            'search_engine'     => __('Overview of Search Engine Referrals', 'wp-statistics'),
             'current_time_date' => __('Current Time and Date', 'wp-statistics'),
             'adjustment'        => __('(Adjustment)', 'wp-statistics')
         );

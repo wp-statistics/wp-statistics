@@ -35,24 +35,24 @@ class Privacy
     {
         $content = '<div class="wp-suggested-text">' .
             '<p class="privacy-policy-tutorial">' .
-            __('This sample language includes the basics around what personal data your store may be collecting and storing. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your store will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy.', 'wp-statistics') .
+            __('The template provided outlines the essential personal data that may be collected and stored by your store. This may change based on your settings and the plugins you use. It is advisable to seek legal counsel to determine the precise information to include in your privacy policy.', 'wp-statistics') .
             '</p>' .
-            '<p>' . __('We collect information about you during the visit our website.', 'wp-statistics') . '</p>' .
-            '<h2>' . __('What we collect and store', 'wp-statistics') . '</h2>' .
-            '<p>' . __('While you visit our site, we’ll track:', 'wp-statistics') . '</p>' .
+            '<p>' . __('We gather information about you during your website visit.', 'wp-statistics') . '</p>' .
+            '<h2>' . __('Information We Collect and Store', 'wp-statistics') . '</h2>' .
+            '<p>' . __('During your visit, we monitor:', 'wp-statistics') . '</p>' .
             '<ul>' .
-            '<li>' . __('Pages you’ve viewed: we’ll use this to, for example, Website visit statistics and user behavior', 'wp-statistics') . '</li>' .
-            '<li>' . __('Browser user agent: we’ll use this for purposes like creating charts of views, most used browsers, etc.') . '</li>';
+            '<li>' . __('Pages Viewed: This helps us analyze site usage statistics and understand user behavior.', 'wp-statistics') . '</li>' .
+            '<li>' . __('Browser user agent: we’ll use this for purposes like creating charts of views, most used browsers, etc.', 'wp-statistics') . '</li>';
 
             if (!Option::get('anonymize_ips') and !Option::get('hash_ips')) {
-                $content .= '<li>' . __('IP address') . '</li>';
+                $content .= '<li>' . __('IP address', 'wp-statistics') . '</li>';
             } else {
                 if (Option::get('anonymize_ips')) {
-                    $content .= '<li>' . __('An anonymize string created from your ip address, For example, 888.888.888.888 > 888.888.888.000).') . '</li>';
+                    $content .= '<li>' . __('An anonymize string created from your ip address, For example, 888.888.888.888 > 888.888.888.000).', 'wp-statistics') . '</li>';
                 }
 
                 if (Option::get('hash_ips')) {
-                    $content .= '<li>' . __('An hashed string created from your ip address.') . '</li>';
+                    $content .= '<li>' . __('An hashed string created from your ip address.', 'wp-statistics') . '</li>';
                 }
             }
 
@@ -70,7 +70,7 @@ class Privacy
     public function register_exporters($exporters = array())
     {
         $exporters['wp-statistics-visitor-data'] = array(
-            'exporter_friendly_name' => __('WP Statistics Visitors Data', 'wp-statistics'),
+            'exporter_friendly_name' => __('Visitor Data - WP Statistics', 'wp-statistics'),
             'callback'               => array(PrivacyExporter::class, 'visitorsDataExporter'),
         );
 
@@ -86,7 +86,7 @@ class Privacy
     public function register_erasers($erasers = array())
     {
         $erasers['wp-statistics-visitor-data'] = array(
-            'eraser_friendly_name' => __('WP Statistics Visitors Data', 'wp-statistics'),
+            'eraser_friendly_name' => __('Visitor Data - WP Statistics', 'wp-statistics'),
             'callback'             => array(PrivacyErasers::class, 'visitorsDataEraser'),
         );
 

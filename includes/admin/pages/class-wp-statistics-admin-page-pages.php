@@ -51,7 +51,7 @@ class pages_page
                 $page_count    = $wpdb->get_var($preparedSql);
 
                 if ($page_count < 1) {
-                    wp_die(__('Your request is not valid.', 'wp-statistics'));
+                    wp_die(__('Request Invalid or Unsupported.', 'wp-statistics'));
                 }
             }
 
@@ -199,7 +199,7 @@ class pages_page
         $PageID = !empty($_GET['page_id']) ? sanitize_text_field($_GET['page_id']) : false;
 
         // Page title
-        $args['title'] = __('Page Statistics', 'wp-statistics');
+        $args['title'] = __('Statistics for Individual Pages', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('pages');

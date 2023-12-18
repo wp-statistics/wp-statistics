@@ -15,7 +15,7 @@ class top_visitors_page
 
             // Check Validate Day arg
             if (isset($_GET['day']) and TimeZone::isValidDate($_GET['day']) === false) {
-                wp_die(__("Time request is not valid.", "wp-statistics"));
+                wp_die(__("The time request is invalid.", "wp-statistics"));
             }
         }
     }

@@ -22,7 +22,7 @@ class authors_page
 
             // Check Validate int Params
             if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and User::exists((int)trim($_GET['ID'])) === false))) {
-                wp_die(__("Request is not valid.", "wp-statistics"));
+                wp_die(__("The request is invalid.", "wp-statistics"));
             }
         }
     }
@@ -36,7 +36,7 @@ class authors_page
     {
 
         // Page title
-        $args['title'] = __('Author Statistics', 'wp-statistics');
+        $args['title'] = __('Statistics by Author', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('authors');
@@ -59,7 +59,7 @@ class authors_page
 
             // Set Type List
             $args['top_list_type'] = 'user';
-            $args['top_title']     = __('Top Author Sorted by Visits', 'wp-statistics');
+            $args['top_title']     = __('Leading Author by Page Visits', 'wp-statistics');
 
             // Push List Category
             foreach ($users as $user) {
@@ -70,7 +70,7 @@ class authors_page
 
             // Set Type List
             $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top posts Sorted by Visits from the author', 'wp-statistics');
+            $args['top_title']     = __('Author’s Top Posts by Visits', 'wp-statistics');
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(

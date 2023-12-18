@@ -115,7 +115,7 @@ class WP_Statistics_Widget extends \WP_Widget
 
         if ($widget_options['ser_widget']) {
             echo '<li>';
-            echo '<label>' . __('Search Engine Referrals', 'wp-statistics') . ':&nbsp;</label>';
+            echo '<label>' . __('Overview of Search Engine Referrals', 'wp-statistics') . ':&nbsp;</label>';
             echo number_format_i18n(wp_statistics_searchengine($widget_options['select_se'])); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
@@ -305,7 +305,7 @@ class WP_Statistics_Widget extends \WP_Widget
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('ser_widget')); ?>" class="ser_widget" name="<?php echo $this->get_field_name('ser_widget'); ?>" <?php if (isset($widget_options['ser_widget'])) checked('on', $widget_options['ser_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('ser_widget')); ?>"><?php _e('Search Engine Referrals', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('ser_widget')); ?>"><?php _e('Overview of Search Engine Referrals', 'wp-statistics'); ?></label>
 
                 <p id="ser_option" style="<?php if (isset($widget_options['ser_widget']) and !$widget_options['ser_widget']) {
                     echo "display: none;";

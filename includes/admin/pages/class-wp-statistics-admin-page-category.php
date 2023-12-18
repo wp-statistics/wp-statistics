@@ -22,7 +22,7 @@ class category_page
 
             // Check Validate int Params
             if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and term_exists((int)trim($_GET['ID']), 'category') == null))) {
-                wp_die(__("Request is not valid.", "wp-statistics"));
+                wp_die(__("The request is invalid.", "wp-statistics"));
             }
         }
     }
@@ -36,7 +36,7 @@ class category_page
     {
 
         // Page title
-        $args['title'] = __('Category Statistics', 'wp-statistics');
+        $args['title'] = __('Statistics by Content Category', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('categories');
@@ -48,7 +48,7 @@ class category_page
         // Create Select Box
         $args['select_box'] = array(
             'name'  => 'ID',
-            'title' => __('Select Category', 'wp-statistics')
+            'title' => __('Choose a Category', 'wp-statistics')
         );
 
         // Get List Category
@@ -79,7 +79,7 @@ class category_page
 
             // Set Type List
             $args['top_list_type'] = 'category';
-            $args['top_title']     = __('Top Category Sorted by Visits', 'wp-statistics');
+            $args['top_title']     = __('Most Popular Category by Visits', 'wp-statistics');
 
             // Push List Category
             foreach ($terms as $category) {
@@ -90,7 +90,7 @@ class category_page
 
             // Set Type List
             $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top posts Sorted by Visits in this category', 'wp-statistics');
+            $args['top_title']     = __('Top Posts in This Category by Visits', 'wp-statistics');
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(

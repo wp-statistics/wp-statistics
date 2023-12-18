@@ -34,7 +34,7 @@ class country_page
         global $wpdb;
 
         // Page title
-        $args['title'] = __('Top Countries', 'wp-statistics');
+        $args['title'] = __('Leading Countries by Visitor Count', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('countries');

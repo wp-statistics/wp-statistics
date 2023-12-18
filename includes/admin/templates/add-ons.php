@@ -28,8 +28,8 @@
                                     <p><?php echo wp_trim_words(wp_kses_post($addOn->getDescription()), 15); ?></p>
 
                                     <div class="version">
-                                        <strong><?php _e('Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_html($addOn->getVersion()); ?>
-                                        <div class="status"><strong><?php _e('Status:', 'wp-statistics'); ?></strong>
+                                        <strong><?php _e('Current Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_html($addOn->getVersion()); ?>
+                                        <div class="status"><strong><?php _e('Current Status:', 'wp-statistics'); ?></strong>
                                             <span class="<?php echo $addOn->isActivated() ? 'wps-text-success' : 'wps-text-danger'; ?>"><?php echo esc_html($addOn->getStatus()); ?></span>
                                         </div>
                                     </div>
@@ -47,11 +47,11 @@
                                         <input type="submit" class="button" name="update-licence" value="<?php _e('Update License'); ?>"/>
                                     <?php } else { ?>
                                         <?php if ($addOn->isExist()) { ?>
-                                            <a href="<?php echo esc_attr($addOn->getActivateUrl()); ?>" class="button"><?php _e('Enable Add-On', 'wp-statistics'); ?></a>
+                                            <a href="<?php echo esc_attr($addOn->getActivateUrl()); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
                                         <?php } else { ?>
                                         <div class="column-price">
                                             <strong><?php echo wp_kses_post($addOn->getPrice()); ?></strong>
-                                        </div><a target="_blank" href="<?php echo esc_url($addOn->getUrl()); ?>" class="button-primary"><?php _e('Buy Add-On', 'wp-statistics'); ?></a>
+                                        </div><a target="_blank" href="<?php echo esc_url($addOn->getUrl()); ?>" class="button-primary"><?php _e('Purchase Add-On', 'wp-statistics'); ?></a>
                                         <?php } ?>
                                     <?php } ?>
                                 </div>

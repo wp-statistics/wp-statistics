@@ -29,7 +29,7 @@ class visitors_page
     public static function view()
     {
         // Page title
-        $args['title'] = (count($_GET) > 1 ? __('Visitors', 'wp-statistics') : __('Recent Visitors', 'wp-statistics'));
+        $args['title'] = (count($_GET) > 1 ? __('Visitors', 'wp-statistics') : __('Latest Visitor Activity', 'wp-statistics'));
 
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('visitors');

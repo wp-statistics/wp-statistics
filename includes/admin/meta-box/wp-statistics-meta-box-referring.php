@@ -54,7 +54,7 @@ class referring extends MetaBoxAbstract
     {
         return array(
             'server_ip'  => __('Server IP', 'wp-statistics'),
-            'references' => __('References', 'wp-statistics')
+            'references' => __('Referral Sources', 'wp-statistics')
         );
     }
 

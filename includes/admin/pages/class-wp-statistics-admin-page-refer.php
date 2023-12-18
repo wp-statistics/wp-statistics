@@ -34,7 +34,7 @@ class refer_page
         global $wpdb;
 
         // Page title
-        $args['title'] = __('Top Referring Sites', 'wp-statistics');
+        $args['title'] = __('Leading Referral Websites', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('referrers');
@@ -78,7 +78,7 @@ class refer_page
             $referrer           = sanitize_text_field($_GET['referrer']);
             $args['domain']     = trim($referrer);
             $args['custom_get'] = array('referrer' => $referrer);
-            $args['title']      = sprintf(__('Referring site: %s', 'wp-statistics'), Referred::html_sanitize_referrer($args['domain']));
+            $args['title']      = sprintf(__('Referred by Site: %s', 'wp-statistics'), Referred::html_sanitize_referrer($args['domain']));
             $args['total']      = Referred::get_referer_from_domain($args['domain'], 'number', array($args['DateRang']['from'], $args['DateRang']['to']));
             $args['list']       = array();
 

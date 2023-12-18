@@ -24,7 +24,7 @@
 			                        <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
                                         <td><?php _e('Country', 'wp-statistics'); ?></td>
 			                        <?php } ?>
-                                    <td><?php _e('References', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Referral Sources', 'wp-statistics'); ?></td>
                                 </tr>
 		                        <?php foreach ($list as $item) { ?>
 
