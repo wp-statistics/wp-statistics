@@ -25,7 +25,7 @@
             </svg>
 
             <div class="wps-adminHeader__submenu">
-                <a href="" class="wps-adminHeader__submenuItem"><?php _e('Setting', 'wp-statistics'); ?></a>
+                <a href="" class="wps-adminHeader__submenuItem"><?php _e('Settings', 'wp-statistics'); ?></a>
                 <a href="" class="wps-adminHeader__submenuItem"><?php _e('Optimization', 'wp-statistics'); ?></a>
                 <a href="" class="wps-adminHeader__submenuItem"><?php _e('Add-Ons', 'wp-statistics'); ?></a>
                 <a href="" class="wps-adminHeader__submenuItem with-badge">
