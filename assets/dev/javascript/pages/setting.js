@@ -17,7 +17,7 @@ function wp_statistics_getParameterValue(name) {
  * @param tab_id
  */
 function wp_statistics_enableTab(tab_id) {
-    jQuery('.wp-statistics-settings ul.tabs li').removeClass('current');
+    jQuery('.wp-statistics-settings .wps-settingsMenu .wps-settingsMenuItem').removeClass('current');
     jQuery('.wp-statistics-settings .tab-content').removeClass('current');
 
     jQuery("[data-tab=" + tab_id + "]").addClass('current');
@@ -33,14 +33,20 @@ function wp_statistics_enableTab(tab_id) {
  * Check has setting page
  */
 if (jQuery('.wp-statistics-settings').length) {
+    // Burger menu functionality
+    jQuery('.wps-adminHeader__burgerIcon').click(function () {
+        jQuery('.wps-settingsMenu').slideToggle();
+    });
+
     var current_tab = wp_statistics_getParameterValue('tab');
     if (current_tab) {
         wp_statistics_enableTab(current_tab);
     }
 
-    jQuery('.wp-statistics-settings ul.tabs li').click(function () {
+    jQuery('.wp-statistics-settings .wps-settingsMenu .wps-settingsMenuItem').click(function () {
         var tab_id = jQuery(this).attr('data-tab');
         wp_statistics_enableTab(tab_id);
+        jQuery('.wps-settingsMenu').slideToggle();
     });
 }
 

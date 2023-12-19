@@ -55,7 +55,7 @@ class settings_page
         $args['wp_statistics_options'] = Option::getOptions();
 
         // Load Template
-        Admin_Template::get_template(array('layout/header', 'layout/tabs-settings', 'layout/title-after', 'settings', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title-after', 'settings', 'layout/footer'), $args);
     }
 
     /**

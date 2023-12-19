@@ -51,7 +51,7 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <code id="user_real_ip" style="display: inline-block; padding: 15px; font-size: 30px; font-weight: 200; letter-spacing: 2px; font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
+                <code id="user_real_ip" style="display: inline-block; padding: 15px; font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
                     <script type="application/javascript">
                         jQuery(document).ready(function () {
                             jQuery.ajax({

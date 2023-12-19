@@ -1,7 +1,8 @@
 /**
  * WP Statistics Setting Admin page
  */
-.wp-statistics-settings {
+
+.wps-wrap.wp-statistics-settings {
   .widefat {
     float: left;
   }
@@ -77,6 +78,174 @@
     transition: 0.3s all ease-out;
     font-size: 12px;
     color: #222;
+  }
+
+  .wps-settingsPageFlex {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+
+    .wps-settingsMenu {
+      display: block;
+      padding: 15px 0;
+      flex: 0 0 20%;
+      background-color: white;
+      border-radius: 8px;
+
+      a.wps-settingsMenuItem {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 15px;
+        padding-left: 12px;
+        border-left: 3px solid white;
+        transition: .3s all ease-out;
+        cursor: pointer;
+
+        svg {
+          fill: #56585A;
+          width: 18px;
+          height: auto;
+          margin-right: 7px;
+          transition: .3s all ease-out;
+        }
+
+        span {
+          font-size: 15px;
+          color: #56585A;
+          font-weight: 500;
+          transition: .3s all ease-out;
+        }
+
+        &.current,
+        &:hover {
+          background-color: #F0F5FF;
+          border-left: 3px solid #404BF2;
+
+          span {
+            color: #404BF2;
+          }
+
+          svg {
+            fill: #404BF2;
+          }
+        }
+      }
+
+      .wps-settingsMenuItem__title {
+        margin: 25px 15px 8px;
+        color: #404BF2;
+        padding-bottom: 7px;
+        border-bottom: 2px solid #404BF2;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .wps-settingsMenuItem__extention {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 15px;
+        cursor: pointer;
+
+        .wps-settingsMenuItem__extentionTitle {
+          font-size: 15px;
+          color: #A3A5B1;
+          font-weight: 400;
+          transition: .3s all ease-out;
+        }
+
+        .wps-settingsMenuItem__extentionStatus {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding: 4px 6px;
+          border-radius: 4px;
+          background-color: #F0F5FF;
+          color: #56585A;
+          font-size: 12px;
+          white-space: nowrap;
+
+          &:before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            background: url("../images/preview-lock.png") right center/auto 100% no-repeat;
+          }
+        }
+
+        &:hover {
+          .wps-settingsMenuItem__extentionTitle {
+            color: #404BF2;
+          }
+        }
+      }
+    }
+
+    .wps-settingsBox {
+      flex: 0 0 78%;
+
+      #wp-statistics-settings-form {
+        .wp-statistics-container {
+
+          .form-table {
+            h3 {
+              margin: 5px 0;
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 782px) {
+      .wps-settingsBox {
+        .form-table {
+          tr {
+            td {
+              padding: 15px;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 1100px) and (min-width: 850px) {
+      .wps-settingsBox {
+        flex: 0 0 74%;
+      }
+    }
+
+    @media (max-width: 850px) and (min-width: 600px) {
+      .wps-settingsBox {
+        flex: 0 0 64%;
+      }
+
+      .wps-settingsMenu {
+        flex: 0 0 30%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wps-settingsBox {
+        flex: 0 0 100%;
+      }
+
+      .wps-settingsMenu {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        border-radius: 0;
+        max-height: 72vh;
+        overflow-y: scroll;
+        box-shadow: 0 -2px 25px rgba(black, .1);
+      }
+    }
   }
 }
 
