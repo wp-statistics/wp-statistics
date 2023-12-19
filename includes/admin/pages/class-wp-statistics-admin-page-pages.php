@@ -8,6 +8,7 @@ class pages_page
     const ITEM_PER_PAGE = 20;
 
     const SINGLE_PAGE_COMPONENTS = [
+        'summary',
         'browsers',
         'platforms',
         'useronline',
