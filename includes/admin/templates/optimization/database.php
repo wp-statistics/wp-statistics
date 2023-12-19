@@ -38,7 +38,7 @@
                     </th>
                     <td>
                         <select dir="<?php echo(is_rtl() ? 'rtl' : 'ltr'); ?>" id="optimize-table" name="optimize-table">
-                            <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
+                            <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
                             <?php
                             foreach (WP_STATISTICS\DB::table('all') as $tbl_key => $tbl_name) {
                                 echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';

@@ -18,7 +18,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
                 <tr valign="top" id="wps_historical_purge" style="display: none">
                     <th scope="row" colspan=2>
-                        <?php _e('Note: As you have just purged the database you must reload this page for these numbers to be correct.', 'wp-statistics'); ?>
+                        <?php _e('Reminder: After database purging, please reload this page to update these figures correctly.', 'wp-statistics'); ?>
                     </th>
                 </tr>
 

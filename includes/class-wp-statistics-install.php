@@ -531,7 +531,7 @@ class Install
                             //Complete Progress
                             let wps_end_progress = `<div id="wps_end_process" style="display:none;">`;
                             wps_end_progress += `<p>`;
-                            wps_end_progress += `<?php _e('Database upgrade operation completed!', 'wp-statistics'); ?>`;
+                            wps_end_progress += `<?php _e('Database Upgrade Completed Successfully!', 'wp-statistics'); ?>`;
                             wps_end_progress += `</p>`;
                             wps_end_progress += `</div>`;
                             wps_end_progress += `<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>`;
@@ -569,7 +569,7 @@ class Install
                                     }
                                 },
                                 error: function () {
-                                    jQuery("#wp-statistics-update-page-area").html('<p><?php _e('Error occurred during operation. Please refresh the page.', 'wp-statistics'); ?></p>');
+                                    jQuery("#wp-statistics-update-page-area").html('<p><?php _e('Error During Operation. Please Refresh the Page.', 'wp-statistics'); ?></p>');
                                 }
                             });
                         }
