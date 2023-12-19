@@ -68,7 +68,7 @@ class Meta_Box extends \WP_STATISTICS\RestAPI
         }
 
         // Not Define MetaBox
-        return new \WP_REST_Response(array('code' => 'not_found_meta_box', 'message' => __('The name of MetaBox is invalid on request.', 'wp-statistics')), 400);
+        return new \WP_REST_Response(array('code' => 'not_found_meta_box', 'message' => __('Invalid MetaBox Name in Request.', 'wp-statistics')), 400);
     }
 
 }

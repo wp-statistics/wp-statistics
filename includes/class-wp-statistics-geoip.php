@@ -263,7 +263,7 @@ class GeoIP
                 Option::update(GeoIP::$library[$pack]['opt'], '');
             }
 
-            return array_merge($result, array("notice" => __('Error the gzopen() function do not exist!', 'wp-statistics')));
+            return array_merge($result, array("notice" => __('Error: <code>gzopen()</code> Function Not Found!', 'wp-statistics')));
         }
 
         // This is the location of the file to download.
@@ -290,7 +290,7 @@ class GeoIP
 
         // Change download url if the maxmind.com doesn't response.
         if (wp_remote_retrieve_response_code($response) != '200') {
-            return array_merge($result, array("notice" => sprintf(__('Error to get %s from %s', 'wp-statistics'), $pack, $download_url)));
+            return array_merge($result, array("notice" => sprintf(__('Error Retrieving %s from %s', 'wp-statistics'), $pack, $download_url)));
         }
 
         // Create a variable with the name of the database file to download.
@@ -303,7 +303,7 @@ class GeoIP
                     Option::update(GeoIP::$library[$pack]['opt'], '');
                 }
 
-                return array_merge($result, array("notice" => sprintf(__('Error creating GeoIP database directory, make sure your web server has permissions to create directories in: %s', 'wp-statistics'), $upload_dir['basedir'])));
+                return array_merge($result, array("notice" => sprintf(__('Error Creating GeoIP Database Directory. Ensure Web Server Has Directory Creation Permissions in: %s', 'wp-statistics'), $upload_dir['basedir'])));
             }
         }
 
@@ -312,7 +312,7 @@ class GeoIP
                 Option::update(GeoIP::$library[$pack]['opt'], '');
             }
 
-            return array_merge($result, array("notice" => sprintf(__('Error setting permissions of the GeoIP database directory, make sure your web server has permissions to write to directories in : %s', 'wp-statistics'), $upload_dir['basedir'])));
+            return array_merge($result, array("notice" => sprintf(__('Error Setting Permissions for GeoIP Database Directory. Check Write Permissions for Directories in: %s', 'wp-statistics'), $upload_dir['basedir'])));
         }
 
         // Download the file from MaxMind, this places it in a temporary location.
@@ -324,7 +324,7 @@ class GeoIP
                 Option::update(GeoIP::$library[$pack]['opt'], '');
             }
 
-            return array_merge($result, array("notice" => sprintf(__('Error downloading GeoIP database from: %s - %s', 'wp-statistics'), $download_url, $TempFile->get_error_message())));
+            return array_merge($result, array("notice" => sprintf(__('Error Downloading GeoIP Database from: %s - %s', 'wp-statistics'), $download_url, $TempFile->get_error_message())));
         } else {
             // Open the downloaded file to unzip it.
             $ZipHandle = gzopen($TempFile, 'rb');
@@ -339,7 +339,7 @@ class GeoIP
                 }
 
                 unlink($TempFile);
-                return array_merge($result, array("notice" => sprintf(__('Error could not open downloaded GeoIP database for reading: %s', 'wp-statistics'), $TempFile)));
+                return array_merge($result, array("notice" => sprintf(__('Error Opening Downloaded GeoIP Database for Reading: %s', 'wp-statistics'), $TempFile)));
             } else {
                 // If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
                 if (!$DBfh) {
@@ -348,7 +348,7 @@ class GeoIP
                     }
 
                     unlink($TempFile);
-                    return array_merge($result, array("notice" => sprintf(__('Error could not open destination GeoIP database for writing %s', 'wp-statistics'), $DBFile)));
+                    return array_merge($result, array("notice" => sprintf(__('Error Opening Destination GeoIP Database for Writing: %s', 'wp-statistics'), $DBFile)));
                 } else {
                     while (($data = gzread($ZipHandle, 4096)) != false) {
                         fwrite($DBfh, $data);
@@ -363,7 +363,7 @@ class GeoIP
 
                     // Display the success message.
                     $result["status"] = true;
-                    $result["notice"] = __('GeoIP Database updated successfully!', 'wp-statistics');
+                    $result["notice"] = __('GeoIP Database Successfully Updated!', 'wp-statistics');
 
                     // Update the options to reflect the new download.
                     if ($type == "update") {
@@ -415,7 +415,7 @@ class GeoIP
         }
 
         if ($reader === false) {
-            return array('status' => false, 'data' => __('Unable to load the GeoIP database, make sure you have downloaded it in the settings page.', 'wp-statistics'));
+            return array('status' => false, 'data' => __('Cannot Load GeoIP Database. Ensure It\'s Downloaded via Settings Page.', 'wp-statistics'));
         }
 
         $count = 0;
@@ -446,7 +446,7 @@ class GeoIP
             }
         }
 
-        return array('status' => true, 'data' => sprintf(__('Updated %s GeoIP records in the visitors database.', 'wp-statistics'), $count));
+        return array('status' => true, 'data' => sprintf(__('Updated %s GeoIP Records in Visitor Database.', 'wp-statistics'), $count));
     }
 
     /**

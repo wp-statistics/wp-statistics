@@ -149,11 +149,11 @@ class DB
                 do_action('wp_statistics_truncate_table', str_ireplace(self::prefix() . 'statistics_', "", $table_name));
 
                 // Return
-                return sprintf(__('%s table data deleted successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>');
+                return sprintf(__('Data from the %s Table Successfully Deleted.', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
         }
 
-        return sprintf(__('Error, %s not emptied!', 'wp-statistics'), $table_name);
+        return sprintf(__('Error: %s Table Not Cleared!', 'wp-statistics'), $table_name);
     }
 
     /**

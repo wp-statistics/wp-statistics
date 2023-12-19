@@ -417,7 +417,7 @@ class Ajax
                 wp_send_json($class::get($parameters));
 
             } else {
-                wp_send_json(array('code' => 'not_found_meta_box', 'message' => __('The name of MetaBox is invalid on request.', 'wp-statistics')), 400);
+                wp_send_json(array('code' => 'not_found_meta_box', 'message' => __('Invalid MetaBox Name in Request.', 'wp-statistics')), 400);
             }
         }
 

@@ -13,7 +13,7 @@ class WP_Statistics_Widget extends \WP_Widget
         parent::__construct(
             'WP_Statistics_Widget', // Base ID
             __('Statistics', 'wp-statistics'), // Name
-            array('description' => __('Show site stats in sidebar.', 'wp-statistics')) // Args
+            array('description' => __('Display Site Statistics in Sidebar.', 'wp-statistics')) // Args
         );
     }
 
@@ -310,7 +310,7 @@ class WP_Statistics_Widget extends \WP_Widget
                 <p id="ser_option" style="<?php if (isset($widget_options['ser_widget']) and !$widget_options['ser_widget']) {
                     echo "display: none;";
                 } ?>">
-                    <?php _e('Select type of search engine', 'wp-statistics'); ?>:<br/>
+                    <?php _e('Choose a Specific Search Engine Type', 'wp-statistics'); ?>:<br/>
                     <?php
                     $search_engines = WP_STATISTICS\SearchEngine::getList();
 
