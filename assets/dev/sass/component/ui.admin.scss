@@ -210,6 +210,15 @@
           z-index: 50;
           display: none;
 
+          &:before {
+            content: '';
+            width: 100%;
+            height: 20px;
+            position: absolute;
+            top: -10px;
+            left: 0;
+          }
+
           .wps-adminHeader__submenuItem {
             display: flex;
             align-items: center;
@@ -260,6 +269,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    transform: translateY(18px);
 
     span {
       background: url("../images/activation-badge.svg") right center/auto 100% no-repeat;
