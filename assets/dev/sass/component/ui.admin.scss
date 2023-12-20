@@ -141,9 +141,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 20px;
-  position: relative;
-  z-index: 1;
+  padding: 25px;
 
   .wps-adminHeader__burgerIcon {
     display: none;
@@ -170,6 +168,7 @@
       color: white;
       margin: 0 2px;
       font-size: 15px;
+      text-decoration: none;
 
       svg {
         width: 25px;
@@ -220,6 +219,7 @@
             color: #56585A;
             font-size: 15px;
             font-weight: 500;
+            text-decoration: none;
 
             &.with-badge {
               display: flex;
@@ -234,12 +234,19 @@
                 color: #404BF2;
                 font-weight: 300;
                 font-size: 13px;
+                transition: .3s all ease-out;
               }
             }
 
             &:hover {
               background-color: #F0F5FF;
               color: #404BF2;
+
+              &.with-badge {
+                span.badge {
+                  background-color: white;
+                }
+              }
             }
           }
         }
@@ -263,7 +270,15 @@
     }
   }
 
+  @media (max-width: 1100px) {
+    .wps-adminHeader__activation {
+      display: none;
+    }
+  }
+
   @media (max-width: 600px) {
+    position: relative;
+    z-index: 1;
     padding: 15px;
     flex-wrap: wrap;
 

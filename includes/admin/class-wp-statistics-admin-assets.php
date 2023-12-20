@@ -434,6 +434,9 @@ class Admin_Assets
                 wp_enqueue_script('feedbackbird-app-script', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z');
                 wp_add_inline_script('feedbackbird-app-script', sprintf('var feedbackBirdObject = %s;', json_encode([
                     'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
+                    "config"     => [
+                        "color" => "#222",
+                    ],
                     'meta'       => [
                         'php_version'    => PHP_VERSION,
                         'active_plugins' => array_map(function ($plugin, $pluginPath) {
