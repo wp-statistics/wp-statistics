@@ -175,6 +175,10 @@
 .wps-tooltip {
   flex-grow: inherit;
   margin-left: 5px;
+
+  &:hover {
+    cursor: auto;
+  }
 }
 
 .wps-tooltip-icon {
