@@ -37,20 +37,9 @@
         </div>
     </div>
 
-    <?php
-    $addOns = \WP_Statistics\Service\Admin\AddOnsFactory::get();
-
-    $activatedAddOns = 0;
-    $enabledAddOns   = 0;
-    foreach ($addOns as $addOn) {
-        $activatedAddOns += $addOn->isActivated() ? 1 : 0;
-        $enabledAddOns   += $addOn->isEnabled() ? 1 : 0;
-    }
-    ?>
-
     <div class="wps-adminHeader__activation">
         <span></span>
-        <?php printf(__('License Status: %d of %d activated', 'wp-statistics'), $activatedAddOns, $enabledAddOns); ?>
+        <?php printf(__('License Status: %d of %d activated', 'wp-statistics'), count(get_option('wp_statistics_activate_addons', [])), get_option('wp_statistics_enabled_addons', 0)); ?>
     </div>
 
     <img class="wps-adminHeader__burgerIcon" src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/burger-menu.png'); ?>"/>
