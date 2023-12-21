@@ -143,6 +143,11 @@
   align-items: center;
   padding: 25px;
 
+  body.toplevel_page_wps_overview_page & {
+    position: relative;
+    z-index: 1;
+  }
+
   .wps-adminHeader__burgerIcon {
     display: none;
   }
