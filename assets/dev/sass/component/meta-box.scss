@@ -154,6 +154,24 @@
   }
 }
 
+.tooltipster-flat {
+  .tooltipster-box {
+    border-color: #222;
+    background: #222;
+    border-radius: 6px;
+  }
+
+  .tooltipster-arrow {
+    .tooltipster-arrow-border {
+      border-top-color: #222;
+    }
+
+    .tooltipster-arrow-background {
+      border-top-color: #222;
+    }
+  }
+}
+
 .wps-tooltip {
   flex-grow: inherit;
   margin-left: 5px;

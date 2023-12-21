@@ -4,7 +4,6 @@ body.toplevel_page_wps_overview_page {
     display: none !important;
   }
 
-
   #side-sortables {
     .postbox {
 
@@ -124,4 +123,21 @@ body.toplevel_page_wps_overview_page {
 
 .toplevel_page_wps_overview_page #screen-meta-links {
   margin-bottom: -30px;
+}
+
+body.toplevel_page_wps_overview_page,
+#dashboard-widgets-wrap {
+
+  .postbox-header:has(.wps-tooltip) {
+    h2.hndle {
+      display: block;
+      position: relative;
+
+      a.wps-tooltip {
+        display: inline-block;
+        transform: translateY(-2px);
+        position: absolute;
+      }
+    }
+  }
 }

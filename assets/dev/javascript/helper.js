@@ -43,7 +43,7 @@ wps_js.tooltip = function () {
     jQuery('.wps-tooltip').tooltipster();
     jQuery('body').on('mouseenter', '.wps-tooltip:not(.tooltipstered)', function () {
         $(this).tooltipster({
-            theme: 'tooltipster-borderless'
+            theme: 'tooltipster-flat'
         }).tooltipster('open');
     });
 };
