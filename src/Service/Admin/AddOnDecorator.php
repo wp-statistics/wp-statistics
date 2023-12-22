@@ -4,8 +4,6 @@ namespace WP_Statistics\Service\Admin;
 
 class AddOnDecorator
 {
-    const ACTIVATE_ADDONS_OPTION = 'wp_statistics_activate_addons';
-
     private $addOn;
     private $isActivated = false;
     private $status;
@@ -143,7 +141,6 @@ class AddOnDecorator
             return __('Inactive', 'wp-statistics');
         }
 
-        $this->updateStatuses(false);
         return __('Not installed', 'wp-statistics');
     }
 
