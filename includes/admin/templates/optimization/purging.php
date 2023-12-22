@@ -203,12 +203,12 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="empty-table"><?php _e('Empty Table:', 'wp-statistics'); ?></label>
+                    <label for="empty-table"><?php _e('Clear Table Contents:', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <select dir="<?php echo(is_rtl() ? 'rtl' : 'ltr'); ?>" id="empty-table" name="empty-table">
-                        <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
+                        <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
                         <?php
                         foreach (WP_STATISTICS\DB::table('all', 'historical') as $tbl_key => $tbl_name) {
                             echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';
@@ -217,8 +217,8 @@
                         <option value="all"><?php echo __('All', 'wp-statistics'); ?></option>
                     </select>
 
-                    <p class="description"><?php _e('All data table will be lost.', 'wp-statistics'); ?></p>
-                    <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Clear now!', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
+                    <p class="description"><?php _e('Warning: All data in the table will be permanently deleted.', 'wp-statistics'); ?></p>
+                    <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Erase Data Now', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
                     <span id="empty-status"></span>
                     <div id="empty-result"></div>
                 </td>
@@ -226,15 +226,15 @@
 
             <tr>
                 <th scope="row">
-                    <label for="purge-data"><?php _e('Purge records older than:', 'wp-statistics'); ?></label>
+                    <label for="purge-data"><?php _e('Delete Records Older Than:', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
                     <label for="purge-data"><?php _e('Days', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Delete user statistics data older than the selected number of days.', 'wp-statistics') . ' ' . __('Minimum value is 30 days.', 'wp-statistics'); ?></p>
-                    <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
+                    <p class="description"><?php echo __('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . __('Minimum Age for Deletion: 30 Days..', 'wp-statistics'); ?></p>
+                    <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
                     <span id="purge-data-status"></span>
                     <div id="purge-data-result"></div>
                 </td>
@@ -242,15 +242,15 @@
 
             <tr>
                 <th scope="row">
-                    <label for="purge-visitor-hits"><?php _e('Purge visitors with more than:', 'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php _e('Remove Visitors Exceeding:', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
-                    <label for="purge-visitor-hits"><?php _e('Hits', 'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php _e('Visits', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Delete user statistics data where the user has more than the defined number of hits in a day.', 'wp-statistics') . ' ' . __('This can be useful to clear up old data when your site has been hit by a bot.', 'wp-statistics') . ' ' . __('This will remove the visitor and their hits to the site, however it will not remove individual page hits as that data is not recorded on a per use basis.', 'wp-statistics') . ' ' . __('Minimum value is 10 hits.', 'wp-statistics'); ?></p>
-                    <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Purge now!', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
+                    <p class="description"><?php echo __('Erase User Stats for Visitors Exceeding Daily Visit Limit.', 'wp-statistics') . ' ' . __('Useful for cleaning bot-related data.', 'wp-statistics') . ' ' . __('Removes visitor and their site visits, but not individual page visits, as they are not recorded per user.', 'wp-statistics') . ' ' . __('Minimum Hit Threshold: 10 Visits.', 'wp-statistics'); ?></p>
+                    <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
                     <span id="purge-visitor-hits-status"></span>
                     <div id="purge-visitor-hits-result"></div>
                 </td>
@@ -262,17 +262,17 @@
         <table class="form-table">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php _e('Delete User Agent Types', 'wp-statistics'); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php _e('Remove Certain User Agent Types', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-agent"><?php _e('Delete Agents:', 'wp-statistics'); ?></label>
+                    <label for="delete-agent"><?php _e('Choose Agents to Delete:', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <select dir="ltr" id="delete-agent" name="delete-agent">
-                        <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
+                        <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
                         <?php
                         $agents = wp_statistics_ua_list();
                         foreach ($agents as $agent) {
@@ -282,8 +282,8 @@
                         ?>
                     </select>
 
-                    <p class="description"><?php _e('All visitor data will be lost for this agent type.', 'wp-statistics'); ?></p>
-                    <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
+                    <p class="description"><?php _e('Warning: All data for this agent type will be lost.', 'wp-statistics'); ?></p>
+                    <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
                     <span id="delete-agents-status"></span>
                     <div id="delete-agents-result"></div>
                 </td>
@@ -291,12 +291,12 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-platform"><?php _e('Delete Platforms:', 'wp-statistics'); ?></label>
+                    <label for="delete-platform"><?php _e('Choose Platforms to Delete:', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <select dir="ltr" id="delete-platform" name="delete-platform">
-                        <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
+                        <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
                         <?php
                         $platforms = wp_statistics_platform_list();
                         foreach ($platforms as $platform) {
@@ -308,8 +308,8 @@
                         ?>
                     </select>
 
-                    <p class="description"><?php _e('All visitor data will be lost for this platform type.', 'wp-statistics'); ?></p>
-                    <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
+                    <p class="description"><?php _e('Warning: All data for this platform type will be lost.', 'wp-statistics'); ?></p>
+                    <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
                     <span id="delete-platforms-status"></span>
                     <div id="delete-platforms-result"></div>
                 </td>
@@ -317,14 +317,14 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-ip"><?php _e('Delete IP:', 'wp-statistics'); ?></label>
+                    <label for="delete-ip"><?php _e('Erase Data for Specific IP:', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
-                    <p class="description"><?php _e('All visitor data will be lost for this IP.', 'wp-statistics'); ?></p>
-                    <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php _e('Delete now!', 'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
+                    <p class="description"><?php _e('Warning: All data associated with this IP will be lost.', 'wp-statistics'); ?></p>
+                    <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
                     <span id="delete-ip-status"></span>
                     <div id="delete-ip-result"></div>
                 </td>

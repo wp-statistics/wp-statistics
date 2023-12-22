@@ -18,6 +18,15 @@ class models extends MetaBoxAbstract
      */
     public static function get($arg = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $arg = apply_filters('wp_statistics_meta_box_models_args', $arg);
+
         global $wpdb;
 
         // Set Default Params
@@ -78,9 +87,9 @@ class models extends MetaBoxAbstract
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('%s Statistics in the last %s days', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), self::$countDays);
+            $title = sprintf(__('Statistics for %s in the Past %s Days', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), self::$countDays);
         } else {
-            $title = sprintf(__('%s Statistics from %s to %s', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Statistics for %s Between %s and %s', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Prepare Response

@@ -5,17 +5,17 @@
             <table class="form-table">
                 <tbody>
                 <tr valign="top">
-                    <th scope="row" colspan="2"><h3><?php _e('Database Setup', 'wp-statistics'); ?></h3></th>
+                    <th scope="row" colspan="2"><h3><?php _e('Database Configuration', 'wp-statistics'); ?></h3></th>
                 </tr>
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="index-submit"><?php _e('Re-run Install:', 'wp-statistics'); ?></label>
+                        <label for="index-submit"><?php _e('Reinitialize Plugin', 'wp-statistics'); ?></label>
                     </th>
                     <td>
                         <input type="hidden" name="submit" value="1"/>
-                        <button id="install-submit" class="button button-primary" type="submit" value="1" name="install-submit"><?php _e('Install Now!', 'wp-statistics'); ?></button>
-                        <p class="description"><?php _e('If for some reason your installation of WP Statistics is missing the database tables or other core items, this will re-execute the install process.', 'wp-statistics'); ?></p>
+                        <button id="install-submit" class="button button-primary" type="submit" value="1" name="install-submit"><?php _e('Reinitialize Now!', 'wp-statistics'); ?></button>
+                        <p class="description"><?php _e('Use this option to set up the plugin from the beginning. This might be needed if you face issues related to missing database tables or other core components. <b>Warning: This action might reset certain data.</b>', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
                 </tbody>
@@ -29,16 +29,16 @@
                 <tbody>
                 <tr valign="top">
                     <th scope="row" colspan="2">
-                        <h3><?php _e('Repair and Optimization Database Tables', 'wp-statistics'); ?></h3></th>
+                        <h3><?php _e('Optimize & Repair', 'wp-statistics'); ?></h3></th>
                 </tr>
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="index-submit"><?php _e('Optimize Table:', 'wp-statistics'); ?></label>
+                        <label for="index-submit"><?php _e('Choose a Table to Optimize', 'wp-statistics'); ?></label>
                     </th>
                     <td>
                         <select dir="<?php echo(is_rtl() ? 'rtl' : 'ltr'); ?>" id="optimize-table" name="optimize-table">
-                            <option value="0"><?php _e('Please select', 'wp-statistics'); ?></option>
+                            <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
                             <?php
                             foreach (WP_STATISTICS\DB::table('all') as $tbl_key => $tbl_name) {
                                 echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';
@@ -46,11 +46,11 @@
                             ?>
                             <option value="all"><?php echo __('All', 'wp-statistics'); ?></option>
                         </select>
-                        <p class="description"><?php _e('Please select the table you would like to optimize and repair',
+                        <p class="description"><?php _e('Select a specific database table to optimize and repair. This can help improve the efficiency and performance of the selected table.',
                                 'wp-statistics'); ?></p>
 
                         <input type="hidden" name="submit" value="1"/>
-                        <button class="button button-primary" type="submit" value="1" name="optimize-database-submit" style="margin-top:5px;"><?php _e('Run Now!', 'wp-statistics'); ?></button>
+                        <button class="button button-primary" type="submit" value="1" name="optimize-database-submit" style="margin-top:5px;"><?php _e('Execute Optimization!', 'wp-statistics'); ?></button>
                     </td>
                 </tr>
 

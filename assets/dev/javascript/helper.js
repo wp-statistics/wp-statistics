@@ -37,6 +37,23 @@ wps_js.select2 = function () {
 };
 
 /**
+ * Set Tooltip
+ */
+wps_js.tooltip = function () {
+    jQuery('.wps-tooltip').tooltipster();
+    jQuery('body').on('mouseenter', '.wps-tooltip:not(.tooltipstered)', function () {
+        $(this).tooltipster({
+            theme: 'tooltipster-flat'
+        }).tooltipster('open');
+    });
+};
+
+/**
+ * Execute Tooltip
+ */
+wps_js.tooltip();
+
+/**
  * Redirect To Custom Url
  *
  * @param url
@@ -85,6 +102,13 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
             interaction: {
                 intersect: false,
                 mode: 'index',
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        stepSize: 1,
+                    }
+                },
             }
         }
     };

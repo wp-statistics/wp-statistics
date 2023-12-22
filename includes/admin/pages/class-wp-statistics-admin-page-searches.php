@@ -31,7 +31,7 @@ class searches_page
     {
 
         // Page title
-        $args['title'] = __('Search Engine Referral Statistics', 'wp-statistics');
+        $args['title'] = __('Detailed Statistics on Search Engine Referrals', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('searches');

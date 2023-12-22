@@ -14,6 +14,19 @@
     <div id="side-sortables" class="meta-box-sortables ui-sortable">
         <div class="postbox" id="wp-statistics-pages-widget">
             <div class="postbox-header postbox-toggle">
+                <h2 class="hndle wps-d-inline-block"><span><?php _e('Traffic Summary', 'wp-statistics'); ?></span></h2>
+                <button class="handlediv" type="button" aria-expanded="true">
+                    <span class="screen-reader-text"><?php _e('Toggle panel: Traffic Summary', 'wp-statistics'); ?></span>
+                    <span class="toggle-indicator" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="inside wps-wrap">
+                <?php echo wp_kses_post($summary); ?>
+            </div>
+        </div>
+
+        <div class="postbox" id="wp-statistics-pages-widget">
+            <div class="postbox-header postbox-toggle">
                 <h2 class="hndle wps-d-inline-block"><span><?php _e('Top Browsers', 'wp-statistics'); ?></span></h2>
                 <button class="handlediv" type="button" aria-expanded="true">
                     <span class="screen-reader-text"><?php _e('Toggle panel: Top Browsers', 'wp-statistics'); ?></span>

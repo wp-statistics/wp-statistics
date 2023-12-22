@@ -57,7 +57,7 @@ class Admin_Post
      */
     public function add_hit_column($columns)
     {
-        $columns['wp-statistics-post-hits'] = __('Hits', 'wp-statistics');
+        $columns['wp-statistics-post-hits'] = __('Visits', 'wp-statistics');
         return $columns;
     }
 
@@ -83,7 +83,7 @@ class Admin_Post
             if ($hit_number) {
                 $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
-                    __('Unlock!', 'wp-statistics'),
+                    __('Unlock This Feature!', 'wp-statistics'),
                     WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
                 );
 
@@ -164,7 +164,7 @@ class Admin_Post
     {
         global $post;
         if ($post->post_status == 'publish') {
-            echo "<div class='misc-pub-section misc-pub-hits'>" . __('Hits', 'wp-statistics') . ": <a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . number_format(wp_statistics_pages('total', "", $post->ID)) . "</a></div>";
+            echo "<div class='misc-pub-section misc-pub-hits'>" . __('Visits', 'wp-statistics') . ": <a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . number_format(wp_statistics_pages('total', "", $post->ID)) . "</a></div>";
         }
     }
 

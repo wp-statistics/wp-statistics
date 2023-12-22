@@ -16,6 +16,14 @@ class post
      */
     public static function get($args = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $args = apply_filters('wp_statistics_meta_box_post_args', $args);
 
         // Set Not Publish Content
         $not_publish = array('content' => __('This post is not yet published.', 'wp-statistics'));
@@ -58,7 +66,7 @@ class post
         // Push Basic Chart Data
         $response = array(
             'days'       => $days,
-            'title'      => __('Number of Hits', 'wp-statistics'),
+            'title'      => __('Number of Visits', 'wp-statistics'),
             'post_title' => get_the_title($post->ID),
             'date'       => $date,
             'state'      => $stats

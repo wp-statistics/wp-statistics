@@ -40,8 +40,8 @@ class Admin_Notices
     {
         $plugin = Helper::is_active_cache_plugin();
         if (!Option::get('use_cache_plugin') and $plugin['status'] === true) {
-            $text = ($plugin['plugin'] == "core" ? __('WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics') : sprintf(__('WP Statistics might not count the stats due to use <b>%s</b> plugin', 'wp-statistics'), $plugin['plugin']));
-            Helper::wp_admin_notice($text . ", " . sprintf(__('To fix it, please enable the %1$sCache Compatibility%2$s option on the Settings page, otherwise, if the stats count properly, check out <a href="%3$s" target="_blank">this article</a> to disable this notice permanently.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', 'https://wp-statistics.com/resources/how-to-disable-cache-notice-in-admin/'), 'warning', true);
+            $text = ($plugin['plugin'] == "core" ? __('WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics') : sprintf(__('Potential Inaccuracy Due to <b>%s</b> Plugin', 'wp-statistics'), $plugin['plugin']));
+            Helper::wp_admin_notice($text . ", " . sprintf(__('Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\“%3$s\” target=\“_blank\“>this article</a> to disable this notice permanently.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', 'https://wp-statistics.com/resources/how-to-disable-cache-notice-in-admin/'), 'warning', true);
         }
     }
 
@@ -75,11 +75,11 @@ class Admin_Notices
             if ($status === true) {
                 set_transient('wps_check_rest_api', array("status" => "enable"), 3 * HOUR_IN_SECONDS);
             } else {
-                $error_msg = __('Here is an error associated with Connecting WP REST API', 'wp-statistics') . '<br />';
+                $error_msg = __('<b>Warning:</b> WP REST API Connection Error Detected.', 'wp-statistics') . ' ';
                 if (!empty($message)) {
-                    $error_msg .= $message . '<br />';
+                    $error_msg .= '<br />' . $message . '<br />';
                 }
-                $error_msg .= sprintf(__('Please Flushing rewrite rules by updating permalink in %1$sSettings->Permalinks%2$s and make sure the WP REST API is enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
+                $error_msg .= sprintf(__('Flush Rewrite Rules by Updating Permalink in %1$sSettings->Permalinks%2$s and Verify WP REST API is Enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
                 Helper::wp_admin_notice($error_msg, 'warning', true);
             }
         }
@@ -109,21 +109,21 @@ class Admin_Notices
 
             // Check Active User Online
             if (!Option::get('useronline')) {
-                $active_collation[] = __('online user tracking', 'wp-statistics');
+                $active_collation[] = __('Display Online Users', 'wp-statistics');
             }
 
             // Check Active visits
             if (!Option::get('visits')) {
-                $active_collation[] = __('hit tracking', 'wp-statistics');
+                $active_collation[] = __('Track Page Views', 'wp-statistics');
             }
 
             // Check Active Visitors
             if (!Option::get('visitors')) {
-                $active_collation[] = __('visitor tracking', 'wp-statistics');
+                $active_collation[] = __('Monitor Unique Visitors', 'wp-statistics');
             }
 
             if (count($active_collation) > 0) {
-                Helper::wp_admin_notice(sprintf(__('The following features are disabled, please go to %ssettings page%s and enable them: %s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'info', true);
+                Helper::wp_admin_notice(sprintf(__('Certain features are currently turned off. Please visit the %ssettings page%s to activate them: %s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'info', true);
             }
         }
     }
@@ -132,7 +132,7 @@ class Admin_Notices
     {
         $option = get_option('wp_statistics_disable_addons_notice');
         if (!empty($option) and $option == "no") {
-            Helper::wp_admin_notice(__('WP Statistics Add-On(s) require WP Statistics v12.6.13 or greater, please update WP Statistics.', 'wp-statistics'), 'info', true, 'wp-statistics-disable-all-addons-admin-notice');
+            Helper::wp_admin_notice(__('Your WP Statistics Add-On(s) need WP Statistics version 12.6.13 or higher. Please update your WP Statistics plugin.', 'wp-statistics'), 'info', true, 'wp-statistics-disable-all-addons-admin-notice');
             ?>
             <script>
                 jQuery(document).ready(function ($) {

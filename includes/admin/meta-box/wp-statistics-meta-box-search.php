@@ -17,6 +17,14 @@ class search extends MetaBoxAbstract
      */
     public static function get($arg = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $arg = apply_filters('wp_statistics_meta_box_search_args', $arg);
 
         // Set Default Params
         $defaults = array(
@@ -41,9 +49,9 @@ class search extends MetaBoxAbstract
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Search engine referrals in the last %s days', 'wp-statistics'), self::$countDays);
+            $title = sprintf(__('Referrals from Search Engines in the Past %s Days', 'wp-statistics'), self::$countDays);
         } else {
-            $title = sprintf(__('Search engine referrals from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Search Engine Referrals Between %s and %s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         //Check Chart total is activate

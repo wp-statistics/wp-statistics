@@ -24,7 +24,7 @@ class optimization_page
         $args['list_table'] = DB::table('all');
         $args['result']     = DB::getTableRows();
 
-        Admin_Template::get_template(array('layout/header', 'layout/tabs-optimization', 'layout/title-after', 'optimization', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title-after', 'optimization', 'layout/footer'), $args);
     }
 
     public function processForms()
@@ -54,7 +54,7 @@ class optimization_page
             IP::Update_HashIP_Visitor();
 
             // Show Notice
-            Helper::addAdminNotice(__('IP Addresses replaced with hash values.', "wp-statistics"), "success");
+            Helper::addAdminNotice(__('IP Addresses Anonymized with Hash Values.', "wp-statistics"), "success");
         }
 
         // Re-install All DB Table
@@ -62,7 +62,7 @@ class optimization_page
             Install::create_table(false);
 
             // Show Notice
-            Helper::addAdminNotice(__('Install routine complete.', "wp-statistics"), "success");
+            Helper::addAdminNotice(__('Installation Process Completed.', "wp-statistics"), "success");
         }
 
         // Optimize Tables
@@ -84,17 +84,17 @@ class optimization_page
 
                     if ('OK' === $check->Msg_text) {
                         /* translators: %s: Table name. */
-                        $notice .= sprintf(__('The %s table is okay.', "wp-statistics"), "<code>$table</code>");
+                        $notice .= sprintf(__('The %s Table is Functioning Properly.', "wp-statistics"), "<code>$table</code>");
                         $notice .= '<br />';
                     } else {
-                        $notice .= sprintf(__('The %1$s table is not okay. It is reporting the following error: %2$s. WordPress will attempt to repair this table&hellip;', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>");
+                        $notice .= sprintf(__('Issue with %1$s Table: Error %2$s Detected. Attempting Repair&hellip;', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>");
                         $repair = $wpdb->get_row("REPAIR TABLE $table");
 
                         $notice .= '<br />';
                         if ('OK' === $repair->Msg_text) {
-                            $notice .= sprintf(__('Successfully repaired the %s table.', "wp-statistics"), "<code>$table</code>");
+                            $notice .= sprintf(__('Successfully Repaired the %s Table.', "wp-statistics"), "<code>$table</code>");
                         } else {
-                            $notice           .= sprintf(__('Failed to repair the %1$s table. Error: %2$s', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>") . '<br />';
+                            $notice           .= sprintf(__('Repair Unsuccessful for %1$s Table. Error: %2$s', "wp-statistics"), "<code>$table</code>", "<code>$check->Msg_text</code>") . '<br />';
                             $problems[$table] = $check->Msg_text;
                             $okay             = false;
                         }
@@ -103,15 +103,15 @@ class optimization_page
                     if ($okay) {
                         $check = $wpdb->get_row("ANALYZE TABLE $table");
                         if ('Table is already up to date' === $check->Msg_text) {
-                            $notice .= sprintf(__('The %s table is already optimized.', "wp-statistics"), "<code>$table</code>");
+                            $notice .= sprintf(__('%s Table is Already Optimized.', "wp-statistics"), "<code>$table</code>");
                             $notice .= '<br />';
                         } else {
                             $check = $wpdb->get_row("OPTIMIZE TABLE $table");
                             if ('OK' === $check->Msg_text || 'Table is already up to date' === $check->Msg_text) {
-                                $notice .= sprintf(__('Successfully optimized the %s table.', 'wp-statistics'), "<code>$table</code>");
+                                $notice .= sprintf(__('Optimization of %s Table Successful.', 'wp-statistics'), "<code>$table</code>");
                                 $notice .= '<br />';
                             } else {
-                                $notice .= sprintf(__('The %1$s table does not support optimize, doing recreate + analyze instead.'), "<code>$table</code>");
+                                $notice .= sprintf(__('The %1$s table does not support optimize, doing recreate + analyze instead.', 'wp-statistics'), "<code>$table</code>");
                                 $notice .= '<br />';
                             }
                         }
@@ -148,7 +148,7 @@ class optimization_page
             }
 
             // Show Notice
-            Helper::addAdminNotice(__('Updated Historical Values.', "wp-statistics"), "success");
+            Helper::addAdminNotice(__('Historical Data Successfully Updated.', "wp-statistics"), "success");
         }
     }
 }

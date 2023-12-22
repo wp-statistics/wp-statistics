@@ -12,7 +12,7 @@
             <div class="postbox">
                 <div class="inside">
                     <?php if (count($list) < 1) { ?>
-                        <div class='wps-wrap--no-content wps-center'><?php _e("No data to display", "wp-statistics"); ?></div>
+                        <div class='wps-wrap--no-content wps-center'><?php _e("No recent data available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
                         <div class="o-table-wrapper">
                             <table class="o-table" id="top-referring">
@@ -24,7 +24,7 @@
 			                        <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
                                         <td><?php _e('Country', 'wp-statistics'); ?></td>
 			                        <?php } ?>
-                                    <td><?php _e('References', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Referral Sources', 'wp-statistics'); ?></td>
                                 </tr>
 		                        <?php foreach ($list as $item) { ?>
 

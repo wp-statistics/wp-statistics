@@ -134,41 +134,272 @@
   margin: 20px 0 !important;
 }
 
-.wps-header-banner {
+.wps-adminFooter {
+  margin: 50px auto;
+  text-align: center;
+  clear: both;
+
+  .wps-adminFooter__logo {
+    fill: #8A8A8A;
+    max-width: 130px;
+    margin-bottom: 7px;
+  }
+
+  .wps-adminFooterDescription {
+    color: #8A8A8A;
+    font-size: 12px;
+    line-height: 1.6;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .wps-adminFooter_socialMediaFlex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      background-color: white;
+      border-radius: 8px;
+      margin: 15px 5px;
+      transition: .3s all ease-out;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 35px;
+        fill: #8A8A8A;
+        transition: .3s all ease-out;
+      }
+    }
+  }
+
+
+}
+
+.wps-adminHeader {
   width: 100%;
   box-sizing: border-box;
-  position: relative;
-  z-index: -1;
-  background: url("../images/page-header.svg") no-repeat top left / cover;
+  background-color: #404BF2;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 25px;
 
-  .wps-header-icon {
-    width: 160px;
-    height: 40px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background: url("../images/white-header-icon.png") no-repeat center center / contain;
+  body.toplevel_page_wps_overview_page & {
+    position: relative;
+    z-index: 1;
+  }
+
+  .wps-adminHeader__burgerIcon {
+    display: none;
+  }
+
+  .wps-adminHeader__logo {
+    width: 180px;
+    margin-right: 50px;
+  }
+
+  .wps-adminHeader__menuFlex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .wps-adminHeader__menuItem {
+      border-radius: 4px;
+      background-color: rgba(white, 0);
+      transition: .3s all ease-out;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin: 0 2px;
+      font-size: 15px;
+      text-decoration: none;
+
+      svg {
+        width: 25px;
+        margin-right: 3px;
+        display: block;
+      }
+
+      &:hover {
+        background-color: rgba(white, .2);
+      }
+
+      &.mega {
+        position: relative;
+
+        &:hover {
+          background-color: rgba(white, 0);
+
+          .wps-adminHeader__submenu {
+            display: block;
+          }
+        }
+
+        svg.chevron {
+          width: 30px;
+          margin-left: 5px;
+          margin-right: 0;
+          display: block;
+        }
+
+        .wps-adminHeader__submenu {
+          padding: 10px 0;
+          border-radius: 8px;
+          background-color: white;
+          box-shadow: 0px 2px 25px rgba(black, .1);
+          top: 40px;
+          left: 15px;
+          width: 250px;
+          position: absolute;
+          z-index: 50;
+          display: none;
+
+          &:before {
+            content: '';
+            width: 100%;
+            height: 20px;
+            position: absolute;
+            top: -10px;
+            left: 0;
+          }
+
+          .wps-adminHeader__submenuItem {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 15px;
+            transition: .3s all ease-out;
+            color: #56585A;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+
+            &.with-badge {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              span.badge {
+                background-color: #F0F5FF;
+                border-radius: 4px;
+                padding: 4px 6px;
+                text-align: center;
+                color: #404BF2;
+                font-weight: 300;
+                font-size: 13px;
+                transition: .3s all ease-out;
+              }
+            }
+
+            &:hover {
+              background-color: #F0F5FF;
+              color: #404BF2;
+
+              &.with-badge {
+                span.badge {
+                  background-color: white;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .wps-adminHeader__activation {
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transform: translateY(18px);
+
+    span {
+      background: url("../images/activation-badge.svg") right center/auto 100% no-repeat;
+      width: 15px;
+      height: 15px;
+      margin-right: 7px;
+      display: block;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .wps-adminHeader__activation {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    position: relative;
+    z-index: 1;
+    padding: 15px;
+    flex-wrap: wrap;
+
+    .wps-adminHeader__menuFlex {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-top: 25px;
+
+      .wps-adminHeader__menuItem {
+        font-size: 16px;
+        margin: 0 15px 15px 0;
+        padding: 0;
+
+        svg {
+          width: 20px;
+        }
+
+        &.mega {
+          .wps-adminHeader__submenu {
+            top: 30px;
+            left: 0px;
+            padding: 0;
+            width: 220px;
+
+            .wps-adminHeader__submenuItem {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+
+    .wps-adminHeader__activation {
+      display: none;
+    }
+
+    .wps-adminHeader__logo {
+      //width: 120px;
+    }
+
+    .wps-adminHeader__burgerIcon {
+      .wp-statistics-settings & {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        width: 35px;
+      }
+    }
   }
 }
 
-.toplevel_page_wps_overview_page .wps-header-banner {
+.toplevel_page_wps_overview_page .wps-adminHeader {
   transform: translateY(-5px);
   @media screen and (max-width: 782px) {
     transform: translateY(-10px);
   }
 }
 
-@media screen and (max-width: 400px) {
-  .wps-header-banner {
-    padding-top: 40px;
-  }
-}
-
-#screen-meta-links + br + .wps-wrap .wps-header-banner {
+#screen-meta-links + br + .wps-wrap .wps-adminHeader {
   transform: translateY(-31px);
   z-index: -1;
   position: relative;

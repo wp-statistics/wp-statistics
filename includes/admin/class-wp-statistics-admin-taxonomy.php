@@ -53,14 +53,14 @@ class Admin_Taxonomy
             $col = array();
             foreach ($columns as $k => $v) {
                 if ($k == "handle") {
-                    $col['wp-statistics-tax-hits'] = __('Hits', 'wp-statistics');
+                    $col['wp-statistics-tax-hits'] = __('Visits', 'wp-statistics');
                 }
                 $col[$k] = $v;
             }
             return $col;
         }
 
-        $columns['wp-statistics-tax-hits'] = __('Hits', 'wp-statistics');
+        $columns['wp-statistics-tax-hits'] = __('Visits', 'wp-statistics');
         return $columns;
     }
 
@@ -81,7 +81,7 @@ class Admin_Taxonomy
             if ($hit_number) {
                 $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
-                    __('Unlock!', 'wp-statistics'),
+                    __('Unlock This Feature!', 'wp-statistics'),
                     WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
                 );
 

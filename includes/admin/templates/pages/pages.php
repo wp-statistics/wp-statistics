@@ -33,7 +33,7 @@
                     <?php
                     if (empty($lists)) {
                         echo '<div class="o-wrap o-wrap--no-data">';
-                        _e('No data to display', 'wp-statistics');
+                        _e('No recent data available.', 'wp-statistics');
                         echo '</div>';
                     } else {
                         ?>

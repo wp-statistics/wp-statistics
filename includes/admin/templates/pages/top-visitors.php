@@ -28,7 +28,7 @@
                                     <td><?php _e('Platform', 'wp-statistics'); ?></td>
                                     <td><?php _e('User', 'wp-statistics'); ?></td>
                                     <td><?php _e('Referrer', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Hits', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Visits', 'wp-statistics'); ?></td>
                                     <td></td>
                                 </tr>
 

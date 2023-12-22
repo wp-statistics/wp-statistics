@@ -55,7 +55,7 @@ class settings_page
         $args['wp_statistics_options'] = Option::getOptions();
 
         // Load Template
-        Admin_Template::get_template(array('layout/header', 'layout/tabs-settings', 'layout/title-after', 'settings', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title-after', 'settings', 'layout/footer'), $args);
     }
 
     /**
@@ -102,9 +102,9 @@ class settings_page
                 $status = Referred::download_referrer_spam();
                 if (is_bool($status)) {
                     if ($status === false) {
-                        Helper::addAdminNotice(__("Error Updating Referrer Spam Blacklist.", "wp-statistics"), "error");
+                        Helper::addAdminNotice(__("Error Encountered While Updating Spam Referrer Blacklist.", "wp-statistics"), "error");
                     } else {
-                        Helper::addAdminNotice(__("Updated Referrer Spam Blacklist.", "wp-statistics"), "success");
+                        Helper::addAdminNotice(__("Spam Referrer Blacklist Successfully Updated.", "wp-statistics"), "success");
                     }
                     $redirectAfterSave = false;
                 }
@@ -136,12 +136,12 @@ class settings_page
 
         // Save Setting
         if (isset($_GET['save_setting'])) {
-            Helper::addAdminNotice(__("Saved Settings.", "wp-statistics"), "success");
+            Helper::addAdminNotice(__("Settings Successfully Saved.", "wp-statistics"), "success");
         }
 
         // Reset Setting
         if (isset($_GET['reset_settings'])) {
-            Helper::addAdminNotice(__("All settings reset.", "wp-statistics"), "success");
+            Helper::addAdminNotice(__("All Settings Have Been Reset to Default.", "wp-statistics"), "success");
         }
     }
 
@@ -353,8 +353,8 @@ class settings_page
         if (isset($_POST['wps_create_honeypot'])) {
             $my_post                      = array(
                 'post_type'    => 'page',
-                'post_title'   => __('WP Statistics Honey Pot Page', 'wp-statistics') . ' [' . TimeZone::getCurrentDate() . ']',
-                'post_content' => __('This is the Honey Pot for WP Statistics to use, do not delete.', 'wp-statistics'),
+                'post_title'   => __('WP Statistics - Honey Pot Page for Tracking', 'wp-statistics') . ' [' . TimeZone::getCurrentDate() . ']',
+                'post_content' => __('Do Not Delete: Honey Pot Page for WP Statistics Tracking.', 'wp-statistics'),
                 'post_status'  => 'publish',
                 'post_author'  => 1,
             );

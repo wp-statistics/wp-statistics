@@ -2,25 +2,13 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Exclusions', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('User Role Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps-exclusions"><?php _e('Record Exclusions:', 'wp-statistics'); ?></label></th>
-            <td>
-                <input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo WP_STATISTICS\Option::get('record_exclusions') == true ? "checked='checked'" : ''; ?>><label for="wps-exclusions"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('This option will record all the excluded hits in a separate table with the reasons for excluding (but no other information).', 'wp-statistics') . ' ' . __('It generates a lot of data, not only actual user visits but also shows the total number of your site’s hits.', 'wp-statistics'); ?></p>
-            </td>
+            <td scope="row" colspan="2"><?php _e('Exclude specific user roles from data collection.', 'wp-statistics') ?></td>
         </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Exclude User Roles', 'wp-statistics'); ?></h3></th>
-        </tr>
+
         <?php
         $role_option_list = '';
         foreach (\WP_STATISTICS\User::get_role_list() as $role) {
@@ -36,7 +24,7 @@
                 </th>
                 <td>
                     <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                    <p class="description"><?php echo sprintf(__('Exclude %s role from data collection.', 'wp-statistics'), esc_attr($translated_role_name)); ?></p>
+                    <p class="description"><?php echo sprintf(__('Exclude data collection for users with the %s role.', 'wp-statistics'), esc_attr($translated_role_name)); ?></p>
                 </td>
             </tr>
         <?php } ?>
@@ -47,51 +35,18 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('IP/Robot Exclusions', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('IP Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Robot List:', 'wp-statistics'); ?></th>
-            <td>
-                    <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
-                        $robotlist = WP_STATISTICS\Option::get('robotlist');
-                        if ($robotlist == '') {
-                            $robotlist = WP_STATISTICS\Helper::get_robots_list();
-                            update_option('wps_robotlist', $robotlist);
-                        }
-                        echo esc_textarea($robotlist);
-                        ?>
-                    </textarea>
-                <p class="description"><?php echo __('It is a list of words (one per line) to match against to detect robots. Entries must be at least four characters long, or they will be ignored.', 'wp-statistics'); ?></p>
-                <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_robots_list())); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
-            </td>
+            <td scope="row" colspan="2"><?php _e('Specify which IP addresses or ranges should be excluded from statistics.', 'wp-statistics') ?></td>
         </tr>
 
         <tr valign="top">
-            <th scope="row">
-                <label for="force_robot_update"><?php _e('Force Robot List Update After Upgrades:', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="force_robot_update" type="checkbox" value="1" name="wps_force_robot_update" <?php echo WP_STATISTICS\Option::get('force_robot_update') == true ? "checked='checked'" : ''; ?>><label for="force_robot_update"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo sprintf(__('Force the robot list to reset itself to the default after WP Statistics updated. Note that any custom robots added to the list will be lost if this option is enabled.', 'wp-statistics'), $role); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="wps_robot_threshold"><?php _e('Robot Visit Threshold:', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold" value="<?php echo esc_attr(WP_STATISTICS\Option::get('robot_threshold')); ?>">
-                <p class="description"><?php echo __('Treat visitors with more than this number of visits per day as robots. 0 = disabled.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row"><?php _e('Excluded IP Address List:', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_exclude_ip"><?php _e('Excluded IP Address List', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('exclude_ip')); ?></textarea>
-                <p class="description"><?php echo __('You can add a list of IP addresses and subnet masks (one per line) to exclude from the statistics collection.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Specify the IP addresses you want to exclude. Enter one IP address or range per line.', 'wp-statistics'); ?></p>
                 <p class="description"><?php echo __('For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are acceptable. To specify an IP address, use a subnet value of 32 or 255.255.255.255.', 'wp-statistics'); ?></p>
                 <p class="description"><?php echo __('For IPv6 addresses, use the fc00::/7 format.', 'wp-statistics'); ?></p>
                 <?php
@@ -103,31 +58,81 @@
                 ?>
             </td>
         </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('Robot Exclusions', 'wp-statistics'); ?></h3></th>
+        </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="use_honeypot"><?php _e('Use Honey Pot:', 'wp-statistics'); ?></label></th>
+            <td scope="row" colspan="2"><?php _e('Define bots and spiders to exclude from your website\'s statistics.', 'wp-statistics') ?></td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="wps_robotlist"><?php _e('Robot List:', 'wp-statistics'); ?></label></th>
             <td>
-                <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo WP_STATISTICS\Option::get('use_honeypot') == true ? "checked='checked'" : ''; ?>><label for="wps_use_honeypot"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('Enable this option for identifying robots by the Honey Pot page.', 'wp-statistics'); ?></p>
+                    <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
+                        $robotlist = WP_STATISTICS\Option::get('robotlist');
+                        if ($robotlist == '') {
+                            $robotlist = WP_STATISTICS\Helper::get_robots_list();
+                            update_option('wps_robotlist', $robotlist);
+                        }
+                        echo esc_textarea($robotlist);
+                        ?>
+                    </textarea>
+                <p class="description"><?php echo __('Enter robot agents to exclude. One agent name per line, minimum four characters.', 'wp-statistics'); ?></p>
+                <a onclick="var wps_robotlist = getElementById('wps_robotlist'); wps_robotlist.value = '<?php echo str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_robots_list())); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="honeypot_postid"><?php _e('Honey Pot Page', 'wp-statistics'); ?></label></th>
+            <th scope="row">
+                <label for="wps_robot_threshold"><?php _e('Robot Visit Threshold', 'wp-statistics'); ?></label>
+            </th>
+            <td>
+                <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold" value="<?php echo esc_attr(WP_STATISTICS\Option::get('robot_threshold')); ?>">
+                <p class="description"><?php echo __('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="force_robot_update"><?php _e('Force Robot List Update After Upgrades', 'wp-statistics'); ?></label>
+            </th>
+            <td>
+                <input id="force_robot_update" type="checkbox" value="1" name="wps_force_robot_update" <?php echo WP_STATISTICS\Option::get('force_robot_update') == true ? "checked='checked'" : ''; ?>><label for="force_robot_update"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php echo sprintf(__('Reset the robot list to default after WP Statistics updates. Custom entries will be lost if enabled.', 'wp-statistics'), $role); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="use_honeypot"><?php _e('Activate Honey Pot Protection', 'wp-statistics'); ?></label></th>
+            <td>
+                <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo WP_STATISTICS\Option::get('use_honeypot') == true ? "checked='checked'" : ''; ?>><label for="wps_use_honeypot"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php echo __('Turn on Honey Pot to detect and filter out bots. This adds a hidden trap for malicious automated scripts.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="honeypot_postid"><?php _e('Honey Pot Trap Page', 'wp-statistics'); ?></label></th>
             <td>
                 <?php wp_dropdown_pages(array('show_option_none' => __('Please select', 'wp-statistics'), 'id' => 'honeypot_postid', 'name' => 'wps_honeypot_postid', 'selected' => WP_STATISTICS\Option::get('honeypot_postid'))); ?>
-                <p class="description"><?php echo __('Select the page for the Honey Pot page or create a new one.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Choose an existing Honey Pot trap page from the list or set up a new one to catch bots.', 'wp-statistics'); ?></p>
                 <p><input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"> <label for="wps_create_honeypot"><?php _e('Create a new Honey Pot page', 'wp-statistics'); ?></label></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="corrupt_browser_info"><?php _e('Treat Corrupt Browser Info as a Bot:', 'wp-statistics'); ?></label>
+                <label for="corrupt_browser_info"><?php _e('Identify Incomplete Browser Data as Bot Activity', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo WP_STATISTICS\Option::get('corrupt_browser_info') == true ? "checked='checked'" : ''; ?>><label for="corrupt_browser_info"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('Treat any visitor with corrupt browser info (missing IP address or empty user agent string) as a robot.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Enable this to classify visitors with incomplete browser details, such as a missing IP or user agent, as bots. This helps in preventing skewed analytics from corrupt data.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -141,18 +146,64 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded Countries:', 'wp-statistics'); ?></th>
+            <td scope="row" colspan="2"><?php _e('Filter out or specifically include visits from certain countries.', 'wp-statistics') ?></td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="wps_excluded_countries"><?php _e('Excluded Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
-                <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to exclude them from statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes') . '" target="_blank">', '</a>'); ?></p>
+                <p class="description"><?php echo __('Enter country codes to exclude from stats. Use \'000\' for unknown countries.', 'wp-statistics') ?></p>
             </td>
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Included Countries:', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps_included_countries"><?php _e('Included Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
-                <p class="description"><?php echo __('Add the country codes (one per line, two letters each) to include them in statistics collection.', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to exclude unknown countries.', 'wp-statistics') . ' ' . sprintf(__('(%1$sISO 3166 Country Codes%2$s)', 'wp-statistics'), '<a href="' . esc_url('https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes') . '" target="_blank">', '</a>'); ?></p>
+                <p class="description"><?php echo __('Specify country codes to include in stats. \'000\' means unknown countries.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php _e('URL Exclusions', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <td scope="row" colspan="2"><?php _e('Choose specific site URLs to keep out of the statistics.', 'wp-statistics') ?></td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="wps-exclude-loginpage"><?php _e('Excluded Login Page', 'wp-statistics'); ?></label></th>
+            <td>
+                <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php _e('Exclude', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Prevent the login page from being counted as a hit.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row"><label for="wps-exclude-feeds"><?php _e('Excluded RSS Feeds', 'wp-statistics'); ?></label></th>
+            <td>
+                <input id="wps-exclude-feeds" type="checkbox" value="1" name="wps_exclude_feeds" <?php echo WP_STATISTICS\Option::get('exclude_feeds') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-feeds"><?php _e('Exclude', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Stop RSS feeds from being recorded as hits.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row"><label for="wps-exclude-404s"><?php _e('Excluded 404 Pages', 'wp-statistics'); ?></label></th>
+            <td>
+                <input id="wps-exclude-404s" type="checkbox" value="1" name="wps_exclude_404s" <?php echo WP_STATISTICS\Option::get('exclude_404s') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-404s"><?php _e('Exclude', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Exclude URLs that return a \'404 - Not Found\' message.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row"><label for="wps_excluded_urls"><?php _e('Excluded URLs', 'wp-statistics'); ?></label></th>
+            <td>
+                <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
+                <p class="description"><?php echo __('Enter specific URLs to exclude. URL parameters aren\'t considered', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -166,11 +217,14 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded Hosts:', 'wp-statistics'); ?></th>
+            <td scope="row" colspan="2"><?php _e('Filter out visits from specific hosts.', 'wp-statistics') ?></td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="wps_excluded_hosts"><?php _e('Excluded Hosts', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
-                <p class="description"><?php echo __('You can add a list of fully qualified host names (i.e. server.example.com, one per line) to exclude from statistics collection.', 'wp-statistics'); ?></p><br>
-                <p class="description"><?php echo __('Note: This option will NOT perform a reverse DNS lookup on each page load but instead cache the provided hostnames’ IP address for one hour. If you exclude dynamically assigned hosts, you may find some overlap when the host changes its IP address and when the cache is updated, resulting in some hits recorded.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Provide host names to exclude. Relies on cached IP, not live DNS lookup.', 'wp-statistics'); ?></p><br>
             </td>
         </tr>
         </tbody>
@@ -180,36 +234,14 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Site URL Exclusions', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('General Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
-            <th scope="row"><?php _e('Excluded Login Page:', 'wp-statistics'); ?></th>
+            <th scope="row"><label for="wps-exclusions"><?php _e('Enable Record Exclusions', 'wp-statistics'); ?></label></th>
             <td>
-                <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Exclude the login page for registering as a hit.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        <tr valign="top">
-            <th scope="row"><?php _e('Excluded RSS Feeds:', 'wp-statistics'); ?></th>
-            <td>
-                <input id="wps-exclude-feeds" type="checkbox" value="1" name="wps_exclude_feeds" <?php echo WP_STATISTICS\Option::get('exclude_feeds') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-feeds"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Exclude the RSS feeds for registering as a hit.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        <tr valign="top">
-            <th scope="row"><?php _e('Excluded 404 Pages:', 'wp-statistics'); ?></th>
-            <td>
-                <input id="wps-exclude-404s" type="checkbox" value="1" name="wps_exclude_404s" <?php echo WP_STATISTICS\Option::get('exclude_404s') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-404s"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Exclude any URL that returns a "404 - Not Found" message.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        <tr valign="top">
-            <th scope="row"><?php _e('Excluded URLs:', 'wp-statistics'); ?></th>
-            <td>
-                <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
-                <p class="description"><?php echo __('You can add a list of local URLs (i.e.  /wordpress/about, one per line) to exclude from statistics collection.', 'wp-statistics'); ?></p><br>
-                <p class="description"><?php echo __('Note: This option will NOT handle URL parameters (anything after the ?), only to the script name. Entries less than two characters will be ignored.', 'wp-statistics'); ?></p>
+                <input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo WP_STATISTICS\Option::get('record_exclusions') == true ? "checked='checked'" : ''; ?>><label for="wps-exclusions"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php echo __('Maintain a log of all excluded hits for insight into exclusions.', 'wp-statistics') ?></p>
             </td>
         </tr>
         </tbody>

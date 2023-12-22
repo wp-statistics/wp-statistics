@@ -62,6 +62,11 @@ class AdminBar
                 $view_type  = 'author';
                 $view_title = __('Author Views', 'wp-statistics');
 
+            } else {
+
+                $view_title = __('Total Website Views', 'wp-statistics');
+                $hit_number = number_format_i18n(wp_statistics_visit('total'));
+
             }
 
             if ($view_type && $view_title) {
@@ -113,10 +118,23 @@ class AdminBar
                 )
             );
 
+            $data = [
+                'object_id'          => $object_id,
+                'view_type'          => $view_type,
+                'view_title'         => $view_title,
+                'hit_number'         => $hit_number,
+                'menu_href'          => Menus::admin_url('overview'),
+                'today_visits'       => number_format(wp_statistics_visit('today')),
+                'today_visitors'     => number_format(wp_statistics_visitor('today')),
+                'yesterday_visits'   => number_format(wp_statistics_visit('yesterday')),
+                'yesterday_visitors' => number_format(wp_statistics_visitor('yesterday')),
+                'online_users'       => number_format(wp_statistics_useronline()),
+            ];
+
             /**
              * WP Statistics Admin Bar List
              */
-            $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $object_id, $view_type);
+            $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $data);
 
             # Show Admin Bar
             foreach ($admin_bar_list as $id => $v_admin_bar) {

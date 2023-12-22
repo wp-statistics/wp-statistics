@@ -47,7 +47,7 @@ class Network
             <table class="widefat wp-list-table" style="width: auto;">
                 <thead>
                 <tr>
-                    <th style='text-align: left'><?php _e('Site', 'wp-statistics'); ?></th>
+                    <th style='text-align: left'><?php _e('Website Details', 'wp-statistics'); ?></th>
                     <th style='text-align: left'><?php _e('Options', 'wp-statistics'); ?></th>
                 </tr>
                 </thead>
@@ -57,15 +57,17 @@ class Network
 
                 $options = array(
                     __('Overview', 'wp-statistics')           => Menus::get_page_slug('overview'),
-                    __('Hits', 'wp-statistics')               => Menus::get_page_slug('hits'),
+                    __('Visits', 'wp-statistics')             => Menus::get_page_slug('hits'),
                     __('Online', 'wp-statistics')             => Menus::get_page_slug('online'),
+                    __('Visitors', 'wp-statistics')           => Menus::get_page_slug('visitors'),
                     __('Referrers', 'wp-statistics')          => Menus::get_page_slug('referrers'),
                     __('Search Words', 'wp-statistics')       => Menus::get_page_slug('words'),
-                    __('Searches', 'wp-statistics')           => Menus::get_page_slug('searches'),
-                    __('Pages', 'wp-statistics')              => Menus::get_page_slug('pages'),
-                    __('Visitors', 'wp-statistics')           => Menus::get_page_slug('visitors'),
-                    __('Countries', 'wp-statistics')          => Menus::get_page_slug('countries'),
+                    __('Search Engines', 'wp-statistics')     => Menus::get_page_slug('searches'),
+                    __('Post Types', 'wp-statistics')         => Menus::get_page_slug('pages'),
+                    __('Taxonomies', 'wp-statistics')         => Menus::get_page_slug('taxonomies'),
+                    __('Authors', 'wp-statistics')            => Menus::get_page_slug('authors'),
                     __('Browsers', 'wp-statistics')           => Menus::get_page_slug('browser'),
+                    __('Platforms', 'wp-statistics')          => Menus::get_page_slug('platform'),
                     __('Top Visitors Today', 'wp-statistics') => Menus::get_page_slug('top-visitors'),
                     __('Exclusions', 'wp-statistics')         => Menus::get_page_slug('exclusions'),
                     __('Optimization', 'wp-statistics')       => Menus::get_page_slug('optimization'),

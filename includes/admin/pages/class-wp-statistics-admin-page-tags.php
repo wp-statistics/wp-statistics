@@ -22,7 +22,7 @@ class tags_page
 
             // Check Validate int Params
             if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and term_exists((int)trim($_GET['ID']), 'post_tag') == null))) {
-                wp_die(__("Request is not valid.", "wp-statistics"));
+                wp_die(__("The request is invalid.", "wp-statistics"));
             }
 
         }
@@ -37,7 +37,7 @@ class tags_page
     {
 
         // Page title
-        $args['title'] = __('Tag Statistics', 'wp-statistics');
+        $args['title'] = __('Statistics by Tags', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('tags');
@@ -49,7 +49,7 @@ class tags_page
         // Create Select Box
         $args['select_box'] = array(
             'name'  => 'ID',
-            'title' => __('Select Tag', 'wp-statistics')
+            'title' => __('Choose a Tag', 'wp-statistics')
         );
 
         // Get List Tag
@@ -80,7 +80,7 @@ class tags_page
 
             // Set Type List
             $args['top_list_type'] = 'tag';
-            $args['top_title']     = __('Top Tag Sorted by Hits', 'wp-statistics');
+            $args['top_title']     = __('Most Popular Tag by Visits', 'wp-statistics');
 
             // Push List Category
             foreach ($terms as $tag) {
@@ -91,7 +91,7 @@ class tags_page
 
             // Set Type List
             $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top posts Sorted by Hits in this tag', 'wp-statistics');
+            $args['top_title']     = __('Top Posts Under This Tag by Visits', 'wp-statistics');
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(

@@ -1,6 +1,8 @@
 <div id="poststuff">
-    <div id="post-body" class="metabox-holder columns-2">
-        <div class="wp-list-table widefat widefat">
+    <div id="post-body" class="metabox-holder wps-settingsPageFlex">
+        <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-settings.php'; ?>
+
+        <div class="wp-list-table widefat wps-settingsBox">
             <form id="wp-statistics-settings-form" method="post">
                 <?php wp_nonce_field('update-options', 'wp-statistics-nonce'); ?>
 
@@ -45,6 +47,5 @@
                 <input type="hidden" name="tab" id="wps_current_tab" value=""/>
             </form>
         </div>
-        <?php include WP_STATISTICS_DIR . 'includes/admin/templates/postbox.php'; ?>
     </div>
 </div>

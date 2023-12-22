@@ -6,7 +6,7 @@ global $wp_roles;
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('User Roles', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Access Control', 'wp-statistics'); ?></h3></th>
         </tr>
         <?php
 
@@ -37,10 +37,11 @@ global $wp_roles;
         ?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_read_capability"><?php _e('Required User Level to View WP Statistics:', 'wp-statistics') ?></label>
+                <label for="wps_read_capability"><?php _e('Minimum Role to View Statistics', 'wp-statistics') ?></label>
             </th>
             <td>
                 <select dir="ltr" id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
+                <p class="description"><?php _e('Select the least privileged user role allowed to view WP Statistics. Note that higher roles will also have this permission.', 'wp-statistics') ?></p>
             </td>
         </tr>
 
@@ -58,19 +59,20 @@ global $wp_roles;
         ?>
         <tr valign="top">
             <th scope="row">
-                <label for="wps_manage_capability"><?php _e('Required User Level to Manage WP Statistics:', 'wp-statistics') ?></label>
+                <label for="wps_manage_capability"><?php _e('Minimum Role to Manage Settings', 'wp-statistics') ?></label>
             </th>
             <td>
                 <select dir="ltr" id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></select>
+                <p class="description"><?php _e('Select the least privileged user role allowed to change WP Statistics settings. This should typically be reserved for trusted roles.', 'wp-statistics') ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row" colspan="2">
-                <p class="description"><?php echo sprintf(__('See the %sWordPress Roles and Capabilities%s page for details on capability levels.', 'wp-statistics'), '<a target=_blank href="https://wordpress.org/support/article/roles-and-capabilities/">', '</a>'); ?></p>
-                <p class="description"><?php echo __('Hint: manage_network = Super Admin Network, manage_options = Administrator, edit_others_posts = Editor, publish_posts = Author, edit_posts = Contributor, read = Everyone.', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo __('Each of the above cascades the rights upwards in the default WordPress configuration. For example, selecting publish_posts grants the right to Authors, Editors, Admins, and Super Admins.', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo sprintf(__('If you need a more robust solution to delegate access, you might want to look at %s Capability Manager Enhanced %s in the WordPress plugin directory.', 'wp-statistics'), '<a href="https://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>', '</a>'); ?></p>
+                <p class="description"><?php echo sprintf(__('For a deeper understanding of user roles and capabilities in WordPress, you can refer to the %sWordPress Roles and Capabilities%s page.', 'wp-statistics'), '<a target=_blank href="https://wordpress.org/support/article/roles-and-capabilities/">', '</a>'); ?></p>
+                <p class="description"><?php echo __('<b>Hints on Capabilities:</b>', 'wp-statistics'); ?></p>
+                <div style="font-weight: normal; line-height: 25px"><?php echo __('<ul><li><code>manage_network</code> corresponds to the Super Admin role in a network setup.</li><li><code>manage_options</code> is typically an Administrator capability.</li><li><code>edit_others_posts</code> is usually associated with the Editor role.</li><li><code>publish_posts</code> is a capability given to Authors.</li><li>... and so on. Remember, capabilities define what a user role can do, and roles are a collection of these capabilities.</li></ul>', 'wp-statistics') ?></div>
+                <p class="description"><?php echo sprintf(__('If your needs go beyond the default capabilities and roles, or you wish for a more granular control, consider using the %s Capability Manager Enhanced %s plugin for a robust solution.', 'wp-statistics'), '<a href="https://wordpress.org/plugins/capability-manager-enhanced/" target=_blank>', '</a>'); ?></p>
             </th>
         </tr>
 

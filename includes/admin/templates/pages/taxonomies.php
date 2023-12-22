@@ -52,7 +52,7 @@
                         if (isset($total_posts_visits_in_taxonomy)) {
                             ?>
                             <tr>
-                                <th><?php _e('Total posts hits:', 'wp-statistics'); ?></th>
+                                <th><?php _e('Total posts visits:', 'wp-statistics'); ?></th>
                                 <th>
                                     <span><?php echo number_format_i18n($total_posts_visits_in_taxonomy); ?></span></th>
                             </tr>
@@ -95,7 +95,7 @@
                                 <tbody>
                                 <tr>
                                     <th></th>
-                                    <th width="15%"><?php _e('Hits', 'wp-statistics'); ?></th>
+                                    <th width="15%"><?php _e('Visits', 'wp-statistics'); ?></th>
                                 </tr>
                                 <?php
                                 foreach ($top_list as $item) {

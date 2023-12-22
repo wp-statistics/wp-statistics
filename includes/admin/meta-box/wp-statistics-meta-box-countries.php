@@ -11,6 +11,15 @@ class countries extends MetaBoxAbstract
 
     public static function get($args = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $args = apply_filters('wp_statistics_meta_box_countries_args', $args);
+
         global $wpdb;
 
         // Set Default Params

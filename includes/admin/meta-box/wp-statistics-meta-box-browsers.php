@@ -19,6 +19,15 @@ class browsers extends MetaBoxAbstract
      */
     public static function get($args = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $args = apply_filters('wp_statistics_meta_box_browsers_args', $args);
+
         global $wpdb;
 
         // Set Default Params
@@ -138,9 +147,9 @@ class browsers extends MetaBoxAbstract
         // Set Title
         $subtitle = ($args['browser'] == "all" ? __('Browser', 'wp-statistics') : UserAgent::BrowserList(strtolower($args['browser'])));
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('%s Statistics in the last %s days', 'wp-statistics'), $subtitle, self::$countDays);
+            $title = sprintf(__('Statistics for %s in the Past %s Days', 'wp-statistics'), $subtitle, self::$countDays);
         } else {
-            $title = sprintf(__('%s Statistics from %s to %s', 'wp-statistics'), $subtitle, $args['from'], $args['to']);
+            $title = sprintf(__('Statistics for %s Between %s and %s', 'wp-statistics'), $subtitle, $args['from'], $args['to']);
         }
 
         // Prepare Response

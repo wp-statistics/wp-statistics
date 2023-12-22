@@ -13,39 +13,39 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
             <table class="form-table">
                 <tbody>
                 <tr valign="top">
-                    <th scope="row" colspan="2"><h3><?php _e('Historical Values', 'wp-statistics'); ?></h3></th>
+                    <th scope="row" colspan="2"><h3><?php _e('Historical Data Entry', 'wp-statistics'); ?></h3></th>
                 </tr>
 
                 <tr valign="top" id="wps_historical_purge" style="display: none">
                     <th scope="row" colspan=2>
-                        <?php _e('Note: As you have just purged the database you must reload this page for these numbers to be correct.', 'wp-statistics'); ?>
+                        <?php _e('Reminder: After database purging, please reload this page to update these figures correctly.', 'wp-statistics'); ?>
                     </th>
                 </tr>
 
                 <tr valign="top">
                     <th scope="row">
-                        <?php _e('Visitors', 'wp-statistics'); ?>:
+                        <?php _e('Historical Total Visitors', 'wp-statistics'); ?>
                     </th>
                     <td>
                         <input type="text" size="10" value="<?php echo esc_attr($historical_visitors); ?>" id="wps_historical_visitors" name="wps_historical_visitors">
-                        <p class="description"><?php echo sprintf(__('Number of historical number of visitors to the site (current value is %s).', 'wp-statistics'), number_format_i18n($historical_visitors)); ?></p>
+                        <p class="description"><?php echo sprintf(__('Enter the accumulated count of unique visitors to your site from its inception up to now. For example, if you\'ve transitioned from another tracking tool and it reported 5,000 unique visitors up to the point of switching, input that figure here. This ensures your statistics reflect the entire history of your website\'s traffic. Currently set to %s.', 'wp-statistics'), number_format_i18n($historical_visitors)); ?></p>
                     </td>
                 </tr>
 
                 <tr valign="top">
                     <th scope="row">
-                        <?php _e('Visits', 'wp-statistics'); ?>:
+                        <?php _e('Historical Total Site Visits', 'wp-statistics'); ?>
                     </th>
                     <td>
                         <input type="text" size="10" value="<?php echo esc_attr($historical_visits); ?>" id="wps_historical_visits" name="wps_historical_visits">
-                        <p class="description"><?php echo sprintf(__('Number of historical number of visits to the site (current value is %s).', 'wp-statistics'), number_format_i18n($historical_visits)); ?></p>
+                        <p class="description"><?php echo sprintf(__('Enter the total number of site visits (including repeat visits) from its start until now. If your previous tool indicated 20,000 total site visits before moving to WP Statistics, input that number. This allows for a seamless integration of past site visit data. Currently set to %s.', 'wp-statistics'), number_format_i18n($historical_visits)); ?></p>
                     </td>
                 </tr>
 
                 <tr valign="top">
                     <td colspan=2>
                         <input type="hidden" name="submit" value="1" />
-                        <button id="historical-submit" class="button button-primary" type="submit" value="1" name="historical-submit"><?php _e('Update Now!', 'wp-statistics'); ?></button>
+                        <button id="historical-submit" class="button button-primary" type="submit" value="1" name="historical-submit"><?php _e('Save Changes', 'wp-statistics'); ?></button>
                     </td>
                 </tr>
                 </tbody>

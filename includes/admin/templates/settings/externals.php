@@ -8,20 +8,20 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps_geoip_license_type"><?php _e('GeoIP Server Type:', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_geoip_license_type"><?php _e('GeoIP Server Type', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
                     <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php _e('Use the JsDelivr', 'wp-statistics'); ?></option>
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php _e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
-                <p class="description"><?php echo sprintf(__('IP location services are provided by data created by %s.', 'wp-statistics'), '<a href="http://www.maxmind.com" target=_blank>MaxMind</a>'); ?></p>
+                <p class="description"><?php _e('Choose the preferred server type for GeoIP services. The options help determine a visitor\'s geographical location based on their IP address.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top" id="geoip_license_key_option">
             <th scope="row">
-                <label for="geoip_license_key"><?php _e('GeoIP License Key:', 'wp-statistics'); ?></label>
+                <label for="geoip_license_key"><?php _e('GeoIP License Key', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
@@ -29,12 +29,10 @@
             </td>
         </tr>
 
-        <?php
-        if (WP_STATISTICS\GeoIP::IsSupport()) {
-            ?>
+        <?php if (WP_STATISTICS\GeoIP::IsSupport()) { ?>
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-enable"><?php _e('GeoIP Collection:', 'wp-statistics'); ?></label>
+                    <label for="geoip-enable"><?php _e('GeoIP Collection', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -45,13 +43,13 @@
                         <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
                     </label>
 
-                    <p class="description"><?php _e('Enable this option to get more information and location (country) from a visitor.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Enable this to gather and display geographic information (country) related to your visitors.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-city"><?php _e('GeoIP City:', 'wp-statistics'); ?></label>
+                    <label for="geoip-city"><?php _e('GeoIP City', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -61,13 +59,13 @@
                         <input type="hidden" name="geoip_name" value="city">
                         <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
                     </label>
-                    <p class="description"><?php _e('Enable this option to see visitors\'city name', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Activate this feature if you wish to see the city details of your visitors.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e('Schedule Monthly Update of GeoIP DB:', 'wp-statistics'); ?></label>
+                    <label for="geoip-schedule"><?php _e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -99,36 +97,33 @@
                         echo '</code></p>';
                     }
                     ?>
-                    <p class="description"><?php _e('Download of the GeoIP database will be scheduled for 2 days after the first Tuesday of the month.', 'wp-statistics'); ?></p>
-                    <p class="description"><?php _e('This option will also download the database if the local filesize is less than 1k (which usually means the stub that comes with the plugin is still in place).', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Set up a monthly update for the GeoIP database to ensure accurate and up-to-date geographical data. The scheduled download will occur 2 days after the first Tuesday of the month. This setting is crucial for maintaining current geographical data.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e('Populate Missing GeoIP After Updating GeoIP DB:', 'wp-statistics'); ?></label>
+                    <label for="geoip-schedule"><?php _e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo WP_STATISTICS\Option::get('auto_pop') == true ? "checked='checked'" : ''; ?>>
                     <label for="geoip-auto-pop"><?php _e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('Enable this option to update any missing GeoIP data after downloading a new database.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('If, for any reason, there are gaps in the GeoIP data, use this feature to fill in the missing pieces after a fresh database download.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="geoip-schedule"><?php _e('Country Code for Private IP Addresses:', 'wp-statistics'); ?></label>
+                    <label for="geoip-schedule"><?php _e('Country Code for Private IP Addresses', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
-                    <p class="description"><?php echo __('The international standard two letter country code (ie. US = United States, CA = Canada, etc.) for private (non-routable) IP addresses (ie. 10.0.0.1, 192.158.1.1, 127.0.0.1, etc.).', 'wp-statistics') . ' ' . __('Use "000" (three zeros) to use "Unknown" as the country code.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo __('Specify a default country code for private (non-routable) IP addresses. For example, using "US" for United States or "CA" for Canada. If uncertain, use "000" to label them as "Unknown".', 'wp-statistics'); ?></p>
                 </td>
             </tr>
-            <?php
-        } else {
-            ?>
+        <?php } else { ?>
             <tr valign="top">
                 <th scope="row" colspan="2">
                     <?php
@@ -154,8 +149,7 @@
                     ?>
                 </th>
             </tr>
-            <?php
-        } ?>
+        <?php } ?>
 
         <script type="text/javascript">
             jQuery(document).ready(function () {
@@ -169,6 +163,7 @@
                         jQuery("#geoip_license_key_option").hide();
                     }
                 }
+
                 handle_geoip_license_key_field();
                 jQuery("#geoip_license_type").on('change', handle_geoip_license_key_field);
 
@@ -200,10 +195,10 @@
                 });
             });
         </script>
-
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -214,20 +209,14 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2">
-                <?php echo sprintf(__('Referrer spam blacklist is provided by Matomo, available from %s.', 'wp-statistics'), '<a href="https://github.com/matomo-org/referrer-spam-blacklist" target=_blank>https://github.com/matomo-org/referrer-spam-blacklist</a>'); ?>
-            </th>
-        </tr>
-
-        <tr valign="top">
             <th scope="row">
-                <label for="referrerspam-enable"><?php _e('Matomo Referrer Spam Blacklist Usage:', 'wp-statistics'); ?></label>
+                <label for="referrerspam-enable"><?php _e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
                 <label for="referrerspam-enable"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this option to download The Matomo Referrer Spam Blacklist database and detect referrer spam.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enable the integration with Matomo\'s Referrer Spam Blacklist to prevent spammers from skewing your site statistics. This helps ensure the integrity of your data by filtering out known spam referrers. For more details on the blacklist source, visit <a href="https://github.com/matomo-org/referrer-spam-blacklist" target="_blank">Matomo\'s Referrer Spam Blacklist</a>.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -235,7 +224,7 @@
             echo ' style="display:none;"';
         } ?>>
             <th scope="row">
-                <label for="geoip-update"><?php _e('Update Matomo Referrer Spam Blacklist Info:', 'wp-statistics'); ?></label>
+                <label for="geoip-update"><?php _e('Refresh Blacklist Data', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -243,7 +232,7 @@
                 <!--                <a href="--><?php //echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes'))
                 ?><!--" class="button">--><?php //_e('Update', 'wp-staitsitcs');
                 ?><!--</a>-->
-                <p class="description"><?php _e('Click button to download the update.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Click here to manually download the latest set of referrer spam filters from Matomo.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -251,12 +240,12 @@
             echo ' style="display:none;"';
         } ?>>
             <th scope="row">
-                <label for="referrerspam-schedule"><?php _e('Schedule weekly update of Matomo Referrer Spam Blacklist DB:', 'wp-statistics'); ?></label>
+                <label for="referrerspam-schedule"><?php _e('Automate Blacklist Updates', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="referrerspam-schedule" type="checkbox" name="wps_schedule_referrerspam" <?php echo WP_STATISTICS\Option::get('schedule_referrerspam') == true ? "checked='checked'" : ''; ?>>
-                <label for="referrerspam-schedule"><?php _e('Enable', 'wp-statistics'); ?></label>
+                <label for="referrerspam-schedule"><?php _e('Weekly Auto-Update', 'wp-statistics'); ?></label>
                 <?php
                 if (WP_STATISTICS\Option::get('schedule_referrerspam')) {
                     echo '<p class="description">' . __('Next update will be', 'wp-statistics') . ': <code>';
@@ -272,7 +261,7 @@
                     echo '</code></p>';
                 }
                 ?>
-                <p class="description"><?php _e('Download of the Matomo Referrer Spam Blacklist database will be scheduled for once a week.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Check this to automatically download updates to the Matomo Referrer Spam Blacklist every week, ensuring continuous protection.'); ?></p>
             </td>
         </tr>
         </tbody>

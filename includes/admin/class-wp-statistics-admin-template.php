@@ -67,7 +67,7 @@ class Admin_Template
             $template_file = WP_STATISTICS_DIR . "includes/admin/templates/{$file}.php";
 
             if (!file_exists($template_file)) {
-                Helper::doing_it_wrong(__FUNCTION__, __('Template not found.', 'wp-statistics'));
+                Helper::doing_it_wrong(__FUNCTION__, __('Unable to locate the template.', 'wp-statistics'));
                 continue;
             }
 
@@ -101,12 +101,12 @@ class Admin_Template
 
         // Check if Not Exist
         if ((isset($_GET[self::$request_from_date]) and !isset($_GET[self::$request_to_date])) || (!isset($_GET[self::$request_from_date]) and isset($_GET[self::$request_to_date]))) {
-            return array('status' => false, 'message' => __("Request is not valid.", "wp-statistics"));
+            return array('status' => false, 'message' => __("The request is invalid.", "wp-statistics"));
         }
 
         // Check Validate DateTime
         if (TimeZone::isValidDate($_GET[self::$request_from_date]) === false || TimeZone::isValidDate($_GET[self::$request_to_date]) === false) {
-            return array('status' => false, 'message' => __("Time request is not valid.", "wp-statistics"));
+            return array('status' => false, 'message' => __("The time request is invalid.", "wp-statistics"));
         }
 
         // Export Days Between

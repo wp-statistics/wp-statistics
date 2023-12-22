@@ -43,9 +43,9 @@ class Purge
                     }
                 }
 
-                $result_string = sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+                $result_string = sprintf(__('Data from %s Older Than %s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
-                $result_string = sprintf(__('No records found to purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
+                $result_string = sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
             // Purge the visitors data.
@@ -73,9 +73,9 @@ class Purge
                     }
                 }
 
-                $result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+                $result_string .= '<br>' . sprintf(__('Data from %s Older Than %s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
-                $result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
+                $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
             // Purge the exclusions data.
@@ -84,9 +84,9 @@ class Purge
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `date` < %s", $date_string));
 
             if ($result) {
-                $result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+                $result_string .= '<br>' . sprintf(__('Data from %s Older Than %s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
-                $result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
+                $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
             // Purge the search data.
@@ -94,9 +94,9 @@ class Purge
             $result     = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
 
             if ($result) {
-                $result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+                $result_string .= '<br>' . sprintf(__('Data from %s Older Than %s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
-                $result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
+                $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
             // Purge the pages data, this is more complex as we want to save the historical data per page.
@@ -156,9 +156,9 @@ class Purge
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `date` < %s", $date_string));
 
             if ($result) {
-                $result_string .= '<br>' . sprintf(__('%s data older than %s days purged successfully.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+                $result_string .= '<br>' . sprintf(__('Data from %s Older Than %s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
-                $result_string .= '<br>' . sprintf(__('No records found to purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
+                $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
             // Send Email
@@ -214,14 +214,14 @@ class Purge
                 }
 
                 $result_string = sprintf(
-                    __('%s records purged successfully.', 'wp-statistics'),
+                    __('%s Records Successfully Purged.', 'wp-statistics'),
                     '<code>' . count($to_delete) . '</code>'
                 );
             } else {
-                $result_string = __('No visitors found to purge.', 'wp-statistics');
+                $result_string = __('No Visitor Records Found for Purging.', 'wp-statistics');
             }
         } else {
-            $result_string = __('Number of hits must be greater than or equal to 10!', 'wp-statistics');
+            $result_string = __('Number of visits must be greater than or equal to 10!', 'wp-statistics');
         }
 
         // Send Email

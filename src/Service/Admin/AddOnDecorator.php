@@ -124,16 +124,20 @@ class AddOnDecorator
             $this->status = $this->getRemoteStatus();
 
             if (is_wp_error($this->status)) {
+                $this->updateStatuses(false);
                 return $this->status->get_error_message();
             }
 
             if ($this->status) {
+                $this->updateStatuses(true);
                 return __('Activated', 'wp-statistics');
             } else {
+                $this->updateStatuses(false);
                 return __('Not activated', 'wp-statistics');
             }
 
         } else if ($this->isExist()) {
+            $this->updateStatuses(false);
             return __('Inactive', 'wp-statistics');
         }
 
@@ -172,15 +176,29 @@ class AddOnDecorator
 
             set_transient($transientKey, $response, DAY_IN_SECONDS);
         }
-        
+
         if (isset($response->code) && $response->code == 'error') {
             return new \WP_Error($response->data->status, $response->message);
         }
 
         if (isset($response->status) and $response->status == 200) {
             $this->isActivated = true;
-
             return true;
         }
+    }
+
+    private function updateStatuses($status)
+    {
+        $statues                     = get_option('wp_statistics_activate_addons', []);
+        $statues[$this->addOn->slug] = $status;
+
+        unset($statues['add-ons-bundle']);
+
+        update_option('wp_statistics_activate_addons', $statues);
+    }
+
+    public static function countActivatedAddOns()
+    {
+        return array_sum(get_option('wp_statistics_activate_addons', []));
     }
 }

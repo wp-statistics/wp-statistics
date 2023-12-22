@@ -31,7 +31,7 @@ class hits_page
     {
 
         // Page title
-        $args['title'] = __('Hit Statistics', 'wp-statistics');
+        $args['title'] = __('Visit Statistics', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('hits');

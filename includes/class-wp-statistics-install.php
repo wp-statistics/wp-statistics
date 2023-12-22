@@ -402,9 +402,8 @@ class Install
         $list_table = DB::table('all');
         foreach ($list_table as $k => $name) {
             $tbl_info = DB::getTableInformation($name);
-
-            if ($tbl_info['Collation'] != $wpdb->collate) {
-                $wpdb->query("ALTER TABLE `{$name}` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci ROW_FORMAT = COMPACT;");
+            if (!empty($tbl_info['Collation']) && $tbl_info['Collation'] != $wpdb->collate) {
+                $wpdb->query("ALTER TABLE `{$name}` DEFAULT CHARSET='{$wpdb->charset}' COLLATE '{$wpdb->collate}' ROW_FORMAT = COMPACT;");
             }
         }
 
@@ -532,7 +531,7 @@ class Install
                             //Complete Progress
                             let wps_end_progress = `<div id="wps_end_process" style="display:none;">`;
                             wps_end_progress += `<p>`;
-                            wps_end_progress += `<?php _e('Database upgrade operation completed!', 'wp-statistics'); ?>`;
+                            wps_end_progress += `<?php _e('Database Upgrade Completed Successfully!', 'wp-statistics'); ?>`;
                             wps_end_progress += `</p>`;
                             wps_end_progress += `</div>`;
                             wps_end_progress += `<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>`;
@@ -570,7 +569,7 @@ class Install
                                     }
                                 },
                                 error: function () {
-                                    jQuery("#wp-statistics-update-page-area").html('<p><?php _e('Error occurred during operation. Please refresh the page.', 'wp-statistics'); ?></p>');
+                                    jQuery("#wp-statistics-update-page-area").html('<p><?php _e('Error During Operation. Please Refresh the Page.', 'wp-statistics'); ?></p>');
                                 }
                             });
                         }

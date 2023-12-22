@@ -24,6 +24,15 @@ class exclusions
      */
     public static function get($args = array())
     {
+        /**
+         * Filters the args used from metabox for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $args = apply_filters('wp_statistics_meta_box_exclusions_args', $args);
+
         global $wpdb;
 
         // Set Default Params
@@ -58,9 +67,9 @@ class exclusions
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Exclusions in the last %s days', 'wp-statistics'), $count_day);
+            $title = sprintf(__('Excluded Data in the Last %s Days', 'wp-statistics'), $count_day);
         } else {
-            $title = sprintf(__('Exclusions from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Data Exclusions from %s to %s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Push Basic Chart Data

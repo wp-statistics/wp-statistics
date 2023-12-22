@@ -18,7 +18,7 @@
             <div class="postbox">
                 <div class="inside">
                     <?php if (!is_array($list) || (is_array($list) and count($list) < 1)) { ?>
-                        <div class='wps-wrap--no-content wps-center'><?php _e("No data to display", "wp-statistics"); ?></div>
+                        <div class='wps-wrap--no-content wps-center'><?php _e("No recent data available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
                     <div class="o-table-wrapper">
                             <table width="100%" class="o-table">
@@ -38,7 +38,7 @@
                                     </td>
                                     <td><?php _e('IP', 'wp-statistics'); ?></td>
                                     <td><?php _e('Platform', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Hits', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Visits', 'wp-statistics'); ?></td>
                                     <td><?php _e('User', 'wp-statistics'); ?></td>
                                     <?php
                                     if (\WP_STATISTICS\Option::get('visitors_log')) {
@@ -73,6 +73,8 @@
                                         <td>
                                             <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
                                                 <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('visitors', array('user_id' => $item['user']['ID']))); ?>"><?php echo esc_attr($item['user']['user_login']); ?></a>
+
+                                                <?php do_action('wp_statistics_after_user_column', $item); ?>
                                             <?php } else { ?>
                                                 <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                             <?php } ?>
