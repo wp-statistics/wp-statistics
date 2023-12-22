@@ -134,7 +134,7 @@ class AdminBar
             /**
              * WP Statistics Admin Bar List
              */
-            $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $data);
+            $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $data, '');
 
             # Show Admin Bar
             foreach ($admin_bar_list as $id => $v_admin_bar) {
