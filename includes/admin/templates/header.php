@@ -38,8 +38,12 @@
     </div>
 
     <div class="wps-adminHeader__activation">
-        <span></span>
-        <?php printf(__('License Status: %d of %d activated', 'wp-statistics'), count(get_option('wp_statistics_activate_addons', [])), get_option('wp_statistics_enabled_addons', 0)); ?>
+        <?php
+        $activatedAddOns = \WP_Statistics\Service\Admin\AddOnDecorator::countActivatedAddOns();
+        if ($activatedAddOns) {
+            echo '<span></span>';
+            printf(__('License Status: %d of %d activated', 'wp-statistics'), $activatedAddOns, count(get_option('wp_statistics_activate_addons', [])));
+        } ?>
     </div>
 
     <img class="wps-adminHeader__burgerIcon" src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/burger-menu.png'); ?>"/>

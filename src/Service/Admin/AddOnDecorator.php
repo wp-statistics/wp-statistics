@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Admin;
 class AddOnDecorator
 {
     const ACTIVATE_ADDONS_OPTION = 'wp_statistics_activate_addons';
-    const ENABLED_ADDONS_OPTION  = 'wp_statistics_enabled_addons';
 
     private $addOn;
     private $isActivated = false;
@@ -127,19 +126,24 @@ class AddOnDecorator
             $this->status = $this->getRemoteStatus();
 
             if (is_wp_error($this->status)) {
+                $this->updateStatuses(false);
                 return $this->status->get_error_message();
             }
 
             if ($this->status) {
+                $this->updateStatuses(true);
                 return __('Activated', 'wp-statistics');
             } else {
+                $this->updateStatuses(false);
                 return __('Not activated', 'wp-statistics');
             }
 
         } else if ($this->isExist()) {
+            $this->updateStatuses(false);
             return __('Inactive', 'wp-statistics');
         }
 
+        $this->updateStatuses(false);
         return __('Not installed', 'wp-statistics');
     }
 
@@ -174,39 +178,30 @@ class AddOnDecorator
             $response = json_decode($body, false);
 
             set_transient($transientKey, $response, DAY_IN_SECONDS);
-            $this->storeEnabledAddOns();
         }
 
         if (isset($response->code) && $response->code == 'error') {
-            $this->storeActivatedAddOns('remove', $this->getSlug());
             return new \WP_Error($response->data->status, $response->message);
         }
 
         if (isset($response->status) and $response->status == 200) {
-            $this->storeActivatedAddOns('add', $this->getSlug());
             $this->isActivated = true;
             return true;
         }
     }
 
-    private function storeActivatedAddOns($status, $addOnName)
+    private function updateStatuses($status)
     {
-        $activatedAddOns = get_option(self::ACTIVATE_ADDONS_OPTION, []);
+        $statues                     = get_option('wp_statistics_activate_addons', []);
+        $statues[$this->addOn->slug] = $status;
 
-        if ($status === 'add' && !in_array($addOnName, $activatedAddOns)) {
-            $activatedAddOns[] = $addOnName;
-        } elseif (($key = array_search($addOnName, $activatedAddOns)) !== false) {
-            unset($activatedAddOns[$key]);
-        }
-        update_option(self::ACTIVATE_ADDONS_OPTION, $activatedAddOns);
+        unset($statues['add-ons-bundle']);
+
+        update_option('wp_statistics_activate_addons', $statues);
     }
 
-    private function storeEnabledAddOns()
+    public static function countActivatedAddOns()
     {
-        $enabledAddOns = 0;
-        foreach (AddOnsFactory::get() as $addOn) {
-            $enabledAddOns += $addOn->isEnabled() ? 1 : 0;
-        }
-        update_option(self::ENABLED_ADDONS_OPTION, $enabledAddOns);
+        return array_sum(get_option('wp_statistics_activate_addons', []));
     }
 }
