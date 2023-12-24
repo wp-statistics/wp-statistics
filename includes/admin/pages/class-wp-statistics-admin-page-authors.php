@@ -59,7 +59,7 @@ class authors_page
 
             // Set Type List
             $args['top_list_type'] = 'user';
-            $args['top_title']     = __('Leading Author by Page Visits', 'wp-statistics');
+            $args['top_title']     = __('Top Authors by Page Visits', 'wp-statistics');
 
             // Push List Category
             foreach ($users as $user) {
@@ -86,9 +86,11 @@ class authors_page
         // Sort By Visit Count
         Helper::SortByKeyValue($args['top_list'], 'count_visit');
 
+        $author_items = apply_filters('wp_statistics_author_items', 10);
+
         // Get Only 5 Item
-        if (count($args['top_list']) > 5) {
-            $args['top_list'] = array_chunk($args['top_list'], 5);
+        if (count($args['top_list']) > $author_items) {
+            $args['top_list'] = array_chunk($args['top_list'], $author_items);
             $args['top_list'] = $args['top_list'][0];
         }
 
