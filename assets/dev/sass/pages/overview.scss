@@ -122,7 +122,9 @@ body.toplevel_page_wps_overview_page {
 }
 
 .toplevel_page_wps_overview_page #screen-meta-links {
-  margin-bottom: -30px;
+  position: absolute;
+  z-index: 2;
+  right: 0;
 }
 
 body.toplevel_page_wps_overview_page,

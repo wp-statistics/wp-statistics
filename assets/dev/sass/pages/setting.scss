@@ -203,7 +203,7 @@
       }
     }
 
-    @media (max-width: 782px) {
+    @media (max-width: 785px) {
       .wps-settingsBox,
       .wps-optimizationBox {
         .form-table {
@@ -223,7 +223,7 @@
       }
     }
 
-    @media (max-width: 850px) and (min-width: 600px) {
+    @media (max-width: 850px) and (min-width: 785px) {
       .wps-settingsBox,
       .wps-optimizationBox {
         flex: 0 0 64%;
@@ -234,7 +234,7 @@
       }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 785px) {
       .wps-settingsBox,
       .wps-optimizationBox {
         flex: 0 0 100%;
