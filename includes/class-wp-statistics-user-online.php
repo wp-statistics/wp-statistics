@@ -67,7 +67,7 @@ class UserOnline
             }
 
             // We want to delete users that are over the number of seconds set by the admin.
-            $time_diff = $now - $reset_time;
+            $time_diff = (int)$now - (int)$reset_time;
 
             //Last check Time
             $wps_run = get_option(self::$check_user_online_opt);
