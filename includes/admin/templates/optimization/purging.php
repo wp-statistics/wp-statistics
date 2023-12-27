@@ -203,7 +203,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="empty-table"><?php _e('Clear Table Contents:', 'wp-statistics'); ?></label>
+                    <label for="empty-table"><?php _e('Clear Table Contents', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -229,7 +229,7 @@
 
             <tr>
                 <th scope="row">
-                    <label for="purge-data"><?php _e('Delete Records Older Than:', 'wp-statistics'); ?></label>
+                    <label for="purge-data"><?php _e('Delete Records Older Than', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -245,7 +245,7 @@
 
             <tr>
                 <th scope="row">
-                    <label for="purge-visitor-hits"><?php _e('Remove Visitors Exceeding:', 'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php _e('Remove Visitors Exceeding', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -270,7 +270,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-agent"><?php _e('Choose Agents to Delete:', 'wp-statistics'); ?></label>
+                    <label for="delete-agent"><?php _e('Choose Agents to Delete', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -297,7 +297,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-platform"><?php _e('Choose Platforms to Delete:', 'wp-statistics'); ?></label>
+                    <label for="delete-platform"><?php _e('Choose Platforms to Delete', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
@@ -326,7 +326,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-ip"><?php _e('Erase Data for Specific IP:', 'wp-statistics'); ?></label>
+                    <label for="delete-ip"><?php _e('Erase Data for Specific IP', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>

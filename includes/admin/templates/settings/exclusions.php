@@ -20,7 +20,7 @@
             ?>
 
             <tr valign="top">
-                <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?>:</label>
+                <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?></label>
                 </th>
                 <td>
                     <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php _e('Exclude', 'wp-statistics'); ?></label>
@@ -73,7 +73,7 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps_robotlist"><?php _e('Robot List:', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_robotlist"><?php _e('Robot List', 'wp-statistics'); ?></label></th>
             <td>
                     <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
                         $robotlist = WP_STATISTICS\Option::get('robotlist');

@@ -341,7 +341,7 @@ if (!$disable_strip_uri_parameters) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?>:</label>
+                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?></label>
                 </th>
                 <td>
                     <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php _e('Disable', 'wp-statistics'); ?></label>
