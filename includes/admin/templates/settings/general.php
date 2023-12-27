@@ -322,14 +322,9 @@ if (!$disable_strip_uri_parameters) {
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Search Engine Filters', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Search Engine Filters', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Exclusions allow you to stop tracking data from specific search engines. Here are the search engines you can exclude:', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
-        <tr valign="top">
-            <th scope="row" colspan="2">
-                <p class="description"><?php _e('Exclusions allow you to stop tracking data from specific search engines. Here are the search engines you can exclude:', 'wp-statistics'); ?></p>
-            </th>
-        </tr>
         <?php
         $se_option_list = '';
 

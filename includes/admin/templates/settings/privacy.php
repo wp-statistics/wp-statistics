@@ -2,11 +2,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Data Protection', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Ensure your website adheres to data protection standards.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('Data Protection', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Ensure your website adheres to data protection standards.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
@@ -37,11 +33,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Debugging & Advanced Options', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Advanced settings for website administrators.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('Debugging & Advanced Options', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Advanced settings for website administrators.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
@@ -63,11 +55,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('User Preferences', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Respect and prioritize your website visitors\' browsing preferences.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('User Preferences', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Respect and prioritize your website visitors\' browsing preferences.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
