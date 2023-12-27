@@ -28,11 +28,41 @@
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
 #wp-statistics-useronline-widget,
-.wps-wrap {
+.wps-wrap,
+.wps-wrap table tbody tr td {
+
+  table tbody {
+    tr {
+      th {
+        line-height: 1.5;
+      }
+
+      td, th {
+        code {
+          font-size: 12px;
+          font-weight: 500;
+          border-radius: 2px;
+        }
+
+        li {
+          font-size: 12px;
+          font-weight: 500;
+        }
+
+        p {
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+
 
   a {
     color: $primary-color;
     text-decoration: none;
+    font-weight: 500;
 
     &:hover {
       color: $dark-color;
