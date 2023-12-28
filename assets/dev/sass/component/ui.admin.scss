@@ -135,15 +135,18 @@
 }
 
 .wps-adminFooter {
-  margin: 50px auto;
+  margin: auto;
+  padding: 80px 0 50px;
   text-align: center;
   clear: both;
 
-  .wps-adminFooter__logo {
-    fill: #c4c4c4;
-    max-width: 130px;
-    margin-bottom: 7px;
+  a {
+    .wps-adminFooter__logo {
+      fill: #c4c4c4;
+      max-width: 130px;
+    }
   }
+
 
   .wps-adminFooterDescription {
     color: #8A8A8A;
