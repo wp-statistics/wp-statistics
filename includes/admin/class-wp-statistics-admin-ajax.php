@@ -335,6 +335,7 @@ class Ajax
             // Platforms
             $filter['platform'] = array();
             $platforms_list     = RestAPI::request(array('route' => 'metabox', 'params' => array('name' => 'platforms', 'number' => 15, 'order' => 'DESC')));
+
             for ($x = 0; $x < count($platforms_list['platform_name']); $x++) {
                 $filter['platform'][$platforms_list['platform_name'][$x]] = $platforms_list['platform_name'][$x];
             }
