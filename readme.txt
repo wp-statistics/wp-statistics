@@ -135,9 +135,10 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = v14.3.3 - 28.12.2023 =
-* Fixes: Display issue with `#screen-meta_link`s on overview page now corrected.
+* Fixes: Display issue with screen option on overview page now corrected.
 * Fixes: Warning issues in author features resolved.
 * Fixes: Type Error in User Online Subtraction Operation addressed.
+* Fixes: Loading the filter modal in admin area.
 * Development: Added `wp_statistics_author_items` filter for extended functionality.
 * Improvement: Admin styles enhanced for better user interface.
 * Improvement: Tooltips added to settings page sections for improved clarity.
