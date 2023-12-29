@@ -2,11 +2,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('User Role Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Exclude specific user roles from data collection.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('User Role Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Exclude specific user roles from data collection.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <?php
@@ -20,7 +16,7 @@
             ?>
 
             <tr valign="top">
-                <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?>:</label>
+                <th scope="row"><label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($translated_role_name); ?></label>
                 </th>
                 <td>
                     <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php _e('Exclude', 'wp-statistics'); ?></label>
@@ -35,11 +31,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('IP Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Specify which IP addresses or ranges should be excluded from statistics.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('IP Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Specify which IP addresses or ranges should be excluded from statistics.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
@@ -65,15 +57,11 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Robot Exclusions', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Robot Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Define bots and spiders to exclude from your website\'s statistics.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Define bots and spiders to exclude from your website\'s statistics.', 'wp-statistics') ?></td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row"><label for="wps_robotlist"><?php _e('Robot List:', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_robotlist"><?php _e('Robot List', 'wp-statistics'); ?></label></th>
             <td>
                     <textarea name="wps_robotlist" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_robotlist"><?php
                         $robotlist = WP_STATISTICS\Option::get('robotlist');
@@ -142,11 +130,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('GeoIP Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Filter out or specifically include visits from certain countries.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('GeoIP Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Filter out or specifically include visits from certain countries.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
@@ -171,11 +155,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('URL Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Choose specific site URLs to keep out of the statistics.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('URL Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Choose specific site URLs to keep out of the statistics.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
@@ -213,11 +193,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Host Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <td scope="row" colspan="2"><?php _e('Filter out visits from specific hosts.', 'wp-statistics') ?></td>
+            <th scope="row" colspan="2"><h3><?php _e('Host Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Filter out visits from specific hosts.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">

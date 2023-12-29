@@ -82,8 +82,10 @@ class RestAPI
         // Send Request
         $request = new \WP_REST_Request($args['type'], '/' . ltrim($args['namespace'], "/") . '/' . $args['route']);
         $request->set_query_params($args['params']);
+
         $response = rest_do_request($request);
         $server   = rest_get_server();
+
         return $server->response_to_data($response, false);
     }
 }

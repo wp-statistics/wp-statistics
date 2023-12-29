@@ -86,8 +86,8 @@ class User
         }
 
         # Check First and Last name
-        if ($user_info['first_name'] != "") {
-            return $user_info['first_name'] . " " . $user_info['last_name'];
+        if ($user_info['meta']['first_name'] != "") {
+            return $user_info['meta']['first_name'] . " " . $user_info['meta']['last_name'];
         }
 
         # return Username

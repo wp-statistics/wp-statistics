@@ -27,10 +27,10 @@
             <div class="wps-adminHeader__submenu">
                 <a href="<?php echo esc_url(admin_url('admin.php?page=wps_settings_page')); ?>" class="wps-adminHeader__submenuItem"><?php _e('Settings', 'wp-statistics'); ?></a>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page')); ?>" class="wps-adminHeader__submenuItem"><?php _e('Optimization', 'wp-statistics'); ?></a>
-                <a href="https://wp-statistics.com/add-ons/" target="_blank" class="wps-adminHeader__submenuItem"><?php _e('Add-Ons', 'wp-statistics'); ?></a>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>" class="wps-adminHeader__submenuItem"><?php _e('Add-Ons', 'wp-statistics'); ?></a>
                 <a href="https://wp-statistics.com/product/add-ons-bundle/" target="_blank" class="wps-adminHeader__submenuItem with-badge">
                     <?php _e('Upgrade to Bundle', 'wp-statistics'); ?>
-                    <span class="badge"><?php _e('Save 5%', 'wp-statistics'); ?></span>
+                    <span class="badge"><?php _e('Save 50%', 'wp-statistics'); ?></span>
                 </a>
             </div>
 

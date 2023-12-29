@@ -256,8 +256,9 @@ if (!$disable_strip_uri_parameters) {
                 <ul>
                     <li><?php echo sprintf(__('To register WP Statistics REST API endpoint ( %s ) , go to the <a href="%s">Permalink page</a> and update the permalink by pressing Save Changes and then clear the cache.', 'wp-statistics'), WP_STATISTICS\RestAPI::$namespace, admin_url('options-permalink.php')); ?></li>
                     <li>
-                        <?php echo __('To prevent Google index the REST API endpoints, add the below code in <strong>robots.txt</strong>', 'wp-statistics'); ?>
-                        <pre>User-Agent: * <?php echo PHP_EOL; ?> Disallow: /wp-json</pre>
+                        <?php echo __('To prevent Google index the REST API endpoints, add the below code in <strong>robots.txt</strong>', 'wp-statistics'); ?><br/>
+                        <br/><code>User-Agent: * <?php echo PHP_EOL; ?></code>
+                        <br/><code>Disallow: /wp-json</code>
                     </li>
                 </ul>
                 </p>
@@ -321,14 +322,9 @@ if (!$disable_strip_uri_parameters) {
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Search Engine Filters', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Search Engine Filters', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Exclusions allow you to stop tracking data from specific search engines. Here are the search engines you can exclude:', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
-        <tr valign="top">
-            <th scope="row" colspan="2">
-                <p class="description"><?php _e('Exclusions allow you to stop tracking data from specific search engines. Here are the search engines you can exclude:', 'wp-statistics'); ?></p>
-            </th>
-        </tr>
         <?php
         $se_option_list = '';
 
@@ -340,7 +336,7 @@ if (!$disable_strip_uri_parameters) {
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?>:</label>
+                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?></label>
                 </th>
                 <td>
                     <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php _e('Disable', 'wp-statistics'); ?></label>

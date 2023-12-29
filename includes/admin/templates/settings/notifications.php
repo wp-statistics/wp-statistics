@@ -154,7 +154,10 @@
 
                 <p class="description"><?php _e('Delivery Channel: Select how you would like to receive the generated reports. Currently, reports can be sent to you via email or downloaded directly from the plugin.', 'wp-statistics'); ?></p>
                 <?php if (!is_plugin_active('wp-sms/wp-sms.php')) { ?>
-                    <p class="description note"><?php echo sprintf(__('Note: To send SMS text messages please install the %s plugin.', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
+                    <p class="description">
+                        <span class="wps-note"><?php _e('Note:', 'wp-statistics'); ?></span>
+                        <?php echo sprintf(__('To send SMS text messages please install the %s plugin.', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?>
+                    </p>
                 <?php } ?>
             </td>
         </tr>

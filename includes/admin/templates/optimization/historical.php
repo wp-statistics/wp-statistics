@@ -24,7 +24,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
                 <tr valign="top">
                     <th scope="row">
-                        <?php _e('Historical Total Visitors', 'wp-statistics'); ?>
+                        <label for="wps_historical_visitors"><?php _e('Historical Total Visitors', 'wp-statistics'); ?></label>
                     </th>
                     <td>
                         <input type="text" size="10" value="<?php echo esc_attr($historical_visitors); ?>" id="wps_historical_visitors" name="wps_historical_visitors">
@@ -34,7 +34,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
                 <tr valign="top">
                     <th scope="row">
-                        <?php _e('Historical Total Site Visits', 'wp-statistics'); ?>
+                        <label for="wps_historical_visits"><?php _e('Historical Total Site Visits', 'wp-statistics'); ?></label>
                     </th>
                     <td>
                         <input type="text" size="10" value="<?php echo esc_attr($historical_visits); ?>" id="wps_historical_visits" name="wps_historical_visits">
