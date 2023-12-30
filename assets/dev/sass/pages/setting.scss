@@ -87,9 +87,8 @@
 
     .wps-optionsMenu {
       display: block;
-      padding: 8px 0;
+      padding: 0 0 8px 0;
       flex: 0 0 20%;
-      background-color: white;
       border-radius: 8px;
 
       a.wps-optionsMenuItem {
@@ -98,9 +97,9 @@
         justify-content: flex-start;
         padding: 15px;
         padding-left: 12px;
-        border-left: 3px solid white;
         transition: .3s all ease-out;
         cursor: pointer;
+        margin-bottom: 4px;
 
         svg {
           fill: #56585A;
@@ -117,10 +116,14 @@
           transition: .3s all ease-out;
         }
 
+        &.current {
+          box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+          background-color: #ffffff;
+          border-radius: 8px;
+        }
+
         &.current,
         &:hover {
-          background-color: #F0F5FF;
-          border-left: 3px solid #404BF2;
 
           span {
             color: #404BF2;
