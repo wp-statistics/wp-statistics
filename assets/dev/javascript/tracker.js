@@ -39,9 +39,7 @@ let wpStatisticsUserOnline = {
                     'Content-Type': 'application/json;charset=UTF-8',
                 },
             });
-            if (response.ok) {
-                console.log('Hit request recorded successfully!');
-            } else {
+            if (!response.ok) {
                 console.error('Hit request failed!');
             }
         } catch (error) {
