@@ -99,7 +99,7 @@
         padding-left: 12px;
         transition: .3s all ease-out;
         cursor: pointer;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
 
         svg {
           fill: #56585A;
@@ -120,10 +120,6 @@
           box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
           background-color: #ffffff;
           border-radius: 8px;
-        }
-
-        &.current,
-        &:hover {
 
           span {
             color: #404BF2;
