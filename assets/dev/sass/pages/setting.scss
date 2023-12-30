@@ -242,22 +242,37 @@
     }
 
     @media (max-width: 785px) {
+      display: block;
+
       .wps-settingsBox,
       .wps-optimizationBox {
         flex: 0 0 100%;
       }
 
       .wps-optionsMenu {
-        display: none;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        z-index: 100;
-        border-radius: 0;
-        max-height: 72vh;
-        overflow-y: scroll;
-        box-shadow: 0 -2px 25px rgba(black, .1);
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        a.wps-optionsMenuItem,
+        .wps-optionsMenuItem__extention {
+          flex: 0 0 48.5%;
+          box-sizing: border-box;
+        }
+
+        .wps-optionsMenuItem__title {
+          flex: 0 0 100%;
+        }
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wps-optionsMenu {
+        a.wps-optionsMenuItem,
+        .wps-optionsMenuItem__extention {
+          flex: 0 0 100%;
+        }
       }
     }
   }

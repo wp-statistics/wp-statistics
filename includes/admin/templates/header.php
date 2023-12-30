@@ -45,6 +45,4 @@
             printf(__('License Status: %d of %d activated', 'wp-statistics'), $activatedAddOns, count(get_option('wp_statistics_activate_addons', [])));
         } ?>
     </div>
-
-    <img class="wps-adminHeader__burgerIcon" src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/burger-menu.png'); ?>"/>
 </div>
