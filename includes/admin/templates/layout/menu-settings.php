@@ -91,6 +91,7 @@
         <span><?php _e('WP Statistics - Overview', 'wp-statistics'); ?></span>
     </a>
 
+    <?php /*
     <div class="wps-optionsMenuItem__title"><?php _e('Add-Ons', 'wp-statistics'); ?></div>
 
     <a href="https://wp-statistics.com/product/wp-statistics-data-plus/" target="_blank" class="wps-optionsMenuItem__extention">
@@ -106,5 +107,5 @@
     <a href="https://wp-statistics.com/product/wp-statistics-widgets/" target="_blank" class="wps-optionsMenuItem__extention">
         <span class="wps-optionsMenuItem__extentionTitle"><?php _e('Advanced widgets', 'wp-statistics'); ?></span>
         <span class="wps-optionsMenuItem__extentionStatus"><?php _e('Add-on', 'wp-statistics'); ?></span>
-    </a>
+    </a>*/ ?>
 </div>
