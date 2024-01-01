@@ -3,7 +3,7 @@
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M1.8894 5.86705C1.5 6.57846 1.5 7.43662 1.5 9.15292V10.2937C1.5 13.2193 1.5 14.6822 2.37868 15.5911C3.25736 16.5 4.67157 16.5 7.5 16.5H10.5C13.3284 16.5 14.7427 16.5 15.6213 15.5911C16.5 14.6822 16.5 13.2193 16.5 10.2937V9.15292C16.5 7.43662 16.5 6.57846 16.1106 5.86705C15.7212 5.15566 15.0098 4.71413 13.587 3.83109L12.087 2.90015C10.5829 1.96672 9.83092 1.5 9 1.5C8.16907 1.5 7.41704 1.96672 5.91302 2.90015L4.41302 3.8311C2.99021 4.71413 2.2788 5.15566 1.8894 5.86705ZM6.75 12.9375C6.43934 12.9375 6.1875 13.1893 6.1875 13.5C6.1875 13.8106 6.43934 14.0625 6.75 14.0625H11.25C11.5606 14.0625 11.8125 13.8106 11.8125 13.5C11.8125 13.1893 11.5606 12.9375 11.25 12.9375H6.75Z"/>
         </svg>
-        <span><?php _e('Basic Tracking Settings', 'wp-statistics'); ?></span>
+        <span><?php _e('Basic Tracking', 'wp-statistics'); ?></span>
     </a>
 
     <a data-tab="ip-configuration-settings" class="wps-optionsMenuItem">
@@ -19,7 +19,7 @@
                 </clipPath>
             </defs>
         </svg>
-        <span><?php _e('IP Detection Settings', 'wp-statistics'); ?></span>
+        <span><?php _e('IP Detection', 'wp-statistics'); ?></span>
     </a>
 
     <a data-tab="privacy-settings" class="wps-optionsMenuItem">
@@ -91,6 +91,7 @@
         <span><?php _e('WP Statistics - Overview', 'wp-statistics'); ?></span>
     </a>
 
+    <?php /*
     <div class="wps-optionsMenuItem__title"><?php _e('Add-Ons', 'wp-statistics'); ?></div>
 
     <a href="https://wp-statistics.com/product/wp-statistics-data-plus/" target="_blank" class="wps-optionsMenuItem__extention">
@@ -106,5 +107,5 @@
     <a href="https://wp-statistics.com/product/wp-statistics-widgets/" target="_blank" class="wps-optionsMenuItem__extention">
         <span class="wps-optionsMenuItem__extentionTitle"><?php _e('Advanced widgets', 'wp-statistics'); ?></span>
         <span class="wps-optionsMenuItem__extentionStatus"><?php _e('Add-on', 'wp-statistics'); ?></span>
-    </a>
+    </a>*/ ?>
 </div>

@@ -27,11 +27,24 @@ let wpStatisticsUserOnline = {
     },
 
     //Sending Hit Request
-    sendHitRequest: function () {
-        var WP_Statistics_http = new XMLHttpRequest();
-        WP_Statistics_http.open("GET", WP_Statistics_Tracker_Object.hitRequestUrl + "&referred=" + encodeURIComponent(document.referrer) + "&_=" + Date.now(), true);
-        WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        WP_Statistics_http.send(null);
+    sendHitRequest: async function () {
+        try {
+            const referred = encodeURIComponent(document.referrer);
+            const timestamp = Date.now();
+            const requestUrl = `${WP_Statistics_Tracker_Object.hitRequestUrl}&referred=${referred}&_=${timestamp}`;
+
+            const response = await fetch(requestUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                },
+            });
+            if (!response.ok) {
+                console.error('Hit request failed!');
+            }
+        } catch (error) {
+            console.error('An error occurred on sending hit request:', error);
+        }
     },
 
     // Send Request to REST API to Show User Is Online
