@@ -76,8 +76,8 @@ abstract class MetaBoxAbstract
             'to'                => self::$endDate,
             'type'              => self::$filterType,
             'filter'            => self::$dateFilter,
-            'filter_start_date' => wp_date('M j, Y', strtotime(self::$startDate)),
-            'filter_end_date'   => wp_date('M j, Y', strtotime(self::$endDate)),
+            'filter_start_date' => wp_date('j M Y', strtotime(self::$startDate)),
+            'filter_end_date'   => wp_date('j M Y', strtotime(self::$endDate)),
         ];
 
         // save date filter
