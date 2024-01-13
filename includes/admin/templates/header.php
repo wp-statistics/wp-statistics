@@ -25,9 +25,24 @@
             </svg>
 
             <div class="wps-adminHeader__submenu">
-                <a href="<?php echo esc_url(admin_url('admin.php?page=wps_settings_page')); ?>" class="wps-adminHeader__submenuItem"><?php _e('Settings', 'wp-statistics'); ?></a>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page')); ?>" class="wps-adminHeader__submenuItem"><?php _e('Optimization', 'wp-statistics'); ?></a>
-                <a href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>" class="wps-adminHeader__submenuItem"><?php _e('Add-Ons', 'wp-statistics'); ?></a>
+
+                <?php
+                // Generate links for WP Statistics admin pages
+                $subMenuItems = array(
+                    'wps_settings_page'     => __('Settings', 'wp-statistics'),
+                    'wps_optimization_page' => __('Optimization', 'wp-statistics'),
+                    'wps_plugins_page'      => __('Add-Ons', 'wp-statistics'),
+                );
+
+                $currentItem = isset($_GET['page']) ? $_GET['page'] : '';
+                foreach ($subMenuItems as $menuKey => $menuTitle) {
+                    $activeClass = ($currentItem === $menuKey) ? 'active-item' : '';
+
+                    $url = esc_url(admin_url('admin.php?page=' . $menuKey));
+                    echo '<a href="' . $url . '" class="wps-adminHeader__submenuItem ' . $activeClass . '">' . $menuTitle . '</a>';
+                }
+                ?>
+
                 <a href="https://wp-statistics.com/product/add-ons-bundle/" target="_blank" class="wps-adminHeader__submenuItem with-badge">
                     <?php _e('Upgrade to Bundle', 'wp-statistics'); ?>
                     <span class="badge"><?php _e('Save 50%', 'wp-statistics'); ?></span>
