@@ -34,11 +34,10 @@
                     'wps_plugins_page'      => __('Add-Ons', 'wp-statistics'),
                 );
 
-                $currentItem = isset($_GET['page']) ? $_GET['page'] : '';
+                $currentItem = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
                 foreach ($subMenuItems as $menuKey => $menuTitle) {
                     $activeClass = ($currentItem === $menuKey) ? 'active-item' : '';
-
-                    $url = esc_url(admin_url('admin.php?page=' . $menuKey));
+                    $url         = esc_url(admin_url('admin.php?page=' . $menuKey));
                     echo '<a href="' . $url . '" class="wps-adminHeader__submenuItem ' . $activeClass . '">' . $menuTitle . '</a>';
                 }
                 ?>
