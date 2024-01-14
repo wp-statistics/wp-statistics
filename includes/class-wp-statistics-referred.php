@@ -89,12 +89,6 @@ class Referred
             }
         }
 
-        file_put_contents('/Users/mostafa/Sites/wordpress/log', print_r([
-            '$_SERVER' => $_SERVER['HTTP_REFERER'],
-            '$_REQUEST' => $_REQUEST,
-            '$referred' => $referred,
-        ], 1), FILE_APPEND);
-
         return apply_filters('wp_statistics_user_referer', $referred);
     }
 
