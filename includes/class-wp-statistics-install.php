@@ -69,7 +69,6 @@ class Install
      */
     public static function table_sql()
     {
-
         // Load dbDelta WordPress
         self::load_dbDelta();
 
@@ -200,6 +199,9 @@ class Install
 						KEY host (host)
 					) {$collate}");
         dbDelta($create_search_table);
+
+        // Create events table
+        self::create_events_table();
     }
 
     /**
@@ -207,10 +209,6 @@ class Install
      */
     public static function create_visitor_relationship_table()
     {
-
-        // Load WordPress DBDelta
-        self::load_dbDelta();
-
         // Get Table name
         $table_name = DB::table('visitor_relationships');
 
@@ -233,6 +231,28 @@ class Install
 
             dbDelta($create_visitor_relationships_table);
         }
+    }
+
+    public static function create_events_table()
+    {
+        $table_name = DB::table('events');
+        $collate    = DB::charset_collate();
+
+        $create_events_table =
+            "CREATE TABLE IF NOT EXISTS $table_name (
+				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
+				`date` datetime NOT NULL,
+				`page_id` bigint(20) NOT NULL,
+				`link_domain` text CHARACTER SET utf8 NOT NULL,
+				`link_classes` varchar(64) NOT NULL,
+				`link_count` int(11) NOT NULL,
+				`visitor_id` bigint(20) NOT NULL,
+				PRIMARY KEY  (ID),
+				KEY visitor_id (visitor_id),
+				KEY page_id (page_id)
+			) {$collate}";
+
+        dbDelta($create_events_table);
     }
 
     /**
@@ -333,6 +353,9 @@ class Install
     {
         global $wpdb;
 
+        // Load WordPress DBDelta
+        self::load_dbDelta();
+
         // Check installed plugin version
         $installed_version = get_option('wp_statistics_plugin_version');
         if ($installed_version == WP_STATISTICS_VERSION) {
@@ -390,6 +413,13 @@ class Install
          * @version 13.0.0
          */
         self::create_visitor_relationship_table();
+
+        /**
+         * Create events table
+         *
+         * @version 14.4
+         */
+        self::create_events_table();
 
         /**
          * Change Charset All Table To New WordPress Collate
