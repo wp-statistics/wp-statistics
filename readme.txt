@@ -2,7 +2,7 @@
 Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
-Requires at least: 4.4
+Requires at least: 5.0
 Tested up to: 6.4
 Stable tag: 14.3.4
 Requires PHP: 5.6
