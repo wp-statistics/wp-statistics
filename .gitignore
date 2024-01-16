@@ -34,3 +34,6 @@ package-lock.json
 
 # VSCode IDE
 .vscode/*
+
+# Composer
+/vendor/
