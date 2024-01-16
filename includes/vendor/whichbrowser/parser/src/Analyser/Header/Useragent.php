@@ -2,6 +2,7 @@
 
 namespace WhichBrowser\Analyser\Header;
 
+#[AllowDynamicProperties]
 class Useragent
 {
     protected $data;
