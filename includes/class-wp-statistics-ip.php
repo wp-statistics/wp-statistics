@@ -126,15 +126,17 @@ class IP
 
         /**
          * If the anonymize IP is enabled because of the data privacy & GDPR.
-         * @example 888.888.888.888 -> 888.888.888.000
+         *
+         * @example 192.168.1.1 -> 192.168.1.0
+         * @example 0897:D836:7A7C:803F:344B:5348:71EE:1130 -> 897:d836:7a7c:803f::
          */
         if (Option::get('anonymize_ips') == true) {
-            $user_ip = substr($user_ip, 0, strrpos($user_ip, '.')) . '.0';
+            $user_ip = wp_privacy_anonymize_ip($user_ip);
         }
 
         /**
          * If the hash IP is enabled because of the data privacy & GDPR.
-         * @example 888.888.888.888 -> #hash#e7b398f96b14993b571215e36b41850c65f39b1a
+         * @example 192.168.1.1 -> #hash#e7b398f96b14993b571215e36b41850c65f39b1a
          */
         if (self::getHashIP()) {
             $user_ip = self::getHashIP($user_ip);

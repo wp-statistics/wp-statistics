@@ -69,9 +69,15 @@ class Export
 
                     $exporter->initialize();
 
-                    // We need to limit the number of results we retrieve to ensure we don't run out of memory
-                    $query_base = "SELECT * FROM " . DB::table($table);
-                    $query      = $query_base . ' LIMIT 0,1000';
+                    /**
+                     * We need to limit the number of results we retrieve to ensure we don't run out of memory, also allow to modify the base query
+                     */
+                    $query_base = apply_filters('wp_statistics_data_export_base_query', "SELECT * FROM " . DB::table($table), $table);
+
+                    /**
+                     * Allow to modify the query
+                     */
+                    $query = apply_filters('wp_statistics_data_export_query', $query_base . ' LIMIT 0,1000', $table);
 
                     $i            = 1;
                     $more_results = true;

@@ -50,13 +50,22 @@ class country_page
         $args['to']   = !empty($_REQUEST[Admin_Template::$request_to_date]) ? sanitize_text_field($_REQUEST[Admin_Template::$request_to_date]) : end($days_list);
 
         // Get limit
-        $args['limit'] = 10;
+        $args['limit'] = 25;
 
         // Set Limit
         Admin_Template::$item_per_page = $args['limit'];
 
         // Get offset
         $args['offset'] = Admin_Template::getCurrentOffset();
+
+        /**
+         * Filters the args used from pages for query stats
+         *
+         * @param array $args The args passed to query stats
+         * @since 14.2.1
+         *
+         */
+        $args = apply_filters('wp_statistics_pages_countries_args', $args);
 
         // Load List Country Code
         $ISOCountryCode = Country::getList();

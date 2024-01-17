@@ -45,7 +45,7 @@ class ShortCode
             $atts['provider'] = 'all';
         }
         if (!array_key_exists('format', $atts)) {
-            $atts['format'] = null;
+            $atts['format'] = '';
         }
         if (!array_key_exists('id', $atts)) {
             $atts['id'] = -1;

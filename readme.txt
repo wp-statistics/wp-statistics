@@ -2,9 +2,9 @@
 Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
-Requires at least: 4.4
+Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 14.3.4
+Stable tag: 14.3.5
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -134,6 +134,14 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= v14.3.5 - 17.01.2024 =
+* Improvement: Set Requires at least to v5.0
+* Improvement: Remove storing the filter data in browser local storage
+* Improvement: Change date format to international date system
+* Improvement: Refactor IP Anonymization Logic to Use `wp_privacy_anonymize_ip()` Function to make more compatible with GDPR
+* Development: Added filters `wp_statistics_pages_countries_args`, `wp_statistics_data_export_base_query` and `wp_statistics_data_export_query`
+* Fixes: Compatibility WhichBrowser with PHP v8.3
+
 = v14.3.4 - 30.12.2023 =
 * Fixes: Improved layout of the settings page tabs in tablet-view.
 * Improvement: Implemented asynchronous requests for performance enhancement.

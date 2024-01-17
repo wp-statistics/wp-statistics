@@ -179,7 +179,7 @@ class TimeZone
         $defaults = array(
             'from'   => '',
             'to'     => false,
-            'format' => "M j"
+            'format' => "j M"
         );
         $args     = wp_parse_args($args, $defaults);
         $list     = array();
