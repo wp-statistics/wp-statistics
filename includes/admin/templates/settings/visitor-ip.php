@@ -153,6 +153,7 @@ add_thickbox();
                             <p class="description">
                                 <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics'); ?></a>
                             </p>
+                            <p class="description"><?php echo sprintf(__('Refer to our <a href="%s" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics'), 'https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/'); ?></p>
                         </td>
                     </tr>
                 </table>
