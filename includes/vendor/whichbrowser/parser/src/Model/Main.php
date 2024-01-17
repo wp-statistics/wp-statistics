@@ -7,6 +7,7 @@ use WhichBrowser\Model\Engine;
 use WhichBrowser\Model\Os;
 use WhichBrowser\Model\Device;
 
+#[AllowDynamicProperties]
 class Main
 {
     /**
