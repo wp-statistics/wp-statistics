@@ -7,13 +7,13 @@ class Ajax
     /**
      * WP Statistics Ajax
      */
-    function __construct()
+    public function __construct()
     {
 
         /**
          * List Of Setup Ajax request in WordPress
          */
-        $list = array(
+        $list = apply_filters('wp_statistics_ajax_list', array(
             'close_notice',
             'close_overview_ads',
             'delete_agents',
@@ -25,7 +25,8 @@ class Ajax
             'visitors_page_filters',
             'update_geoip_database',
             'admin_meta_box'
-        );
+        ));
+
         foreach ($list as $method) {
             add_action('wp_ajax_wp_statistics_' . $method, array($this, $method . '_action_callback'));
         }
