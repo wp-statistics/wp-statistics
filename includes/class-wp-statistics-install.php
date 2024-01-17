@@ -243,6 +243,7 @@ class Install
 				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
 				`date` datetime NOT NULL,
 				`page_id` bigint(20) NULL,
+				`visitor_id` bigint(20) NULL,
 				`event_name` varchar(64) NOT NULL,
 				`event_data` text NOT NULL,
 				PRIMARY KEY  (ID),
