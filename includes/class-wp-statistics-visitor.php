@@ -298,11 +298,15 @@ class Visitor
                 'hits'     => (int)$items->hits,
                 'referred' => Referred::get_referrer_link($items->referred),
                 'refer'    => $items->referred,
-                'date'     => date_i18n(apply_filters('wp_statistics_visitor_date_format', 'j M'), strtotime($items->last_counter)),
+                'date'     => date_i18n(get_option('date_format'), strtotime($items->last_counter)),
                 'agent'    => $agent,
                 'platform' => $platform,
                 'version'  => esc_html($items->version)
             );
+
+            if (isset($items->date)) {
+                $item['date'] = date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($items->date));
+            }
 
             // Push User Data
             if ($items->user_id > 0 and User::exists($items->user_id)) {
