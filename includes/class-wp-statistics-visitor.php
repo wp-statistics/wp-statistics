@@ -293,6 +293,7 @@ class Visitor
 
             $ip       = esc_html($items->ip);
             $agent    = esc_html($items->agent);
+            $version  = esc_html($items->version);
             $platform = esc_html($items->platform);
 
             $item = array(
@@ -320,9 +321,10 @@ class Visitor
 
             // Push Browser
             $item['browser'] = array(
-                'name' => $agent,
-                'logo' => UserAgent::getBrowserLogo($agent),
-                'link' => Menus::admin_url('visitors', array('agent' => $agent))
+                'name'    => $agent,
+                'version' => $version,
+                'logo'    => UserAgent::getBrowserLogo($agent),
+                'link'    => Menus::admin_url('visitors', array('agent' => $agent))
             );
 
             // Push IP

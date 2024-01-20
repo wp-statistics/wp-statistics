@@ -53,7 +53,7 @@
                                 <?php foreach ($list as $item) { ?>
                                     <tr>
                                         <td>
-                                            <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
+                                            <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?> (<?php echo esc_attr($item['browser']['version']); ?>)"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?> (<?php echo esc_attr($item['browser']['version']); ?>)"/></a>
                                         </td>
                                         <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                             <td>
