@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_STATISTICS\DB;
 use WP_STATISTICS\Visitor;
 
 class recent
@@ -20,7 +21,14 @@ class recent
 
         // Prepare Response
         try {
+
+            $visitorTable      = DB::table('visitor');
+            $relationshipTable = DB::table('visitor_relationships');
+
+            $args['sql'] = "SELECT * FROM `{$visitorTable}`, `{$relationshipTable}` WHERE `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
+
             $response = Visitor::get($args);
+
         } catch (\Exception $e) {
             \WP_Statistics::log($e->getMessage());
             $response = array();
