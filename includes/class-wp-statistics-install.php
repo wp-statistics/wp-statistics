@@ -265,15 +265,7 @@ class Install
         $wpdb->query('START TRANSACTION');
 
         // Prepare the delete query with a self-join to identify and delete duplicates
-        $delete_query = "
-            DELETE v1 FROM $table_name AS v1
-            INNER JOIN $table_name AS v2 
-            WHERE 
-                v1.id > v2.id AND 
-                v1.visitor_id = v2.visitor_id AND 
-                v1.page_id = v2.page_id AND 
-                DATE(v1.date) = DATE(v2.date)
-        ";
+        $delete_query = "DELETE v1 FROM {$table_name} AS v1 INNER JOIN {$table_name} AS v2 WHERE v1.ID > v2.ID AND v1.visitor_id = v2.visitor_id AND v1.page_id = v2.page_id AND DATE(v1.date) = DATE(v2.date)";
 
         // Execute the delete query
         $wpdb->query($delete_query);
