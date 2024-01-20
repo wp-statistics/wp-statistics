@@ -170,7 +170,7 @@ class visitors_page
             $visitorTable      = DB::table('visitor');
             $relationshipTable = DB::table('visitor_relationships');
 
-            $sql = "SELECT * FROM `{$visitorTable}`, `{$relationshipTable}` {$condition} AND `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
+            $sql = "SELECT DISTINCT * FROM `{$visitorTable}`, `{$relationshipTable}` {$condition} AND `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
 
             $args['list'] = Visitor::get(array(
                 'sql'      => $sql,

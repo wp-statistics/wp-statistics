@@ -25,7 +25,7 @@ class recent
             $visitorTable      = DB::table('visitor');
             $relationshipTable = DB::table('visitor_relationships');
 
-            $args['sql'] = "SELECT * FROM `{$visitorTable}`, `{$relationshipTable}` WHERE `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
+            $args['sql'] = "SELECT DISTINCT * FROM `{$visitorTable}`, `{$relationshipTable}` WHERE `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
 
             $response = Visitor::get($args);
 
