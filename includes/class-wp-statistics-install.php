@@ -254,6 +254,34 @@ class Install
         dbDelta($create_events_table);
     }
 
+    public static function delete_duplicate_data()
+    {
+        global $wpdb;
+
+        // Define the table name
+        $table_name = DB::table('visitor_relationships');
+
+        // Start a transaction
+        $wpdb->query('START TRANSACTION');
+
+        // Prepare the delete query with a self-join to identify and delete duplicates
+        $delete_query = "
+            DELETE v1 FROM $table_name AS v1
+            INNER JOIN $table_name AS v2 
+            WHERE 
+                v1.id > v2.id AND 
+                v1.visitor_id = v2.visitor_id AND 
+                v1.page_id = v2.page_id AND 
+                DATE(v1.date) = DATE(v2.date)
+        ";
+
+        // Execute the delete query
+        $wpdb->query($delete_query);
+
+        // If no errors, commit the transaction
+        $wpdb->query('COMMIT');
+    }
+
     /**
      * Load WordPress dbDelta Function
      */
@@ -507,6 +535,13 @@ class Install
         if (Option::get('force_robot_update')) {
             Referred::download_referrer_spam();
         }
+
+        /**
+         * Removes duplicate entries from the visitor_relationships table.
+         *
+         * @version 14.4
+         */
+        self::delete_duplicate_data();
 
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
