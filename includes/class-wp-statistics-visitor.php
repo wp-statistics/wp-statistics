@@ -169,21 +169,33 @@ class Visitor
     {
         global $wpdb;
 
-        // Save To DB
-        $insert = $wpdb->insert(
-            DB::table('visitor_relationships'),
-            array(
-                'visitor_id' => $visitor_id,
-                'page_id'    => $page_id,
-                'date'       => current_time('mysql')
-            ),
-            array('%d', '%d', '%s')
-        );
-        if (!$insert) {
+        $tableName = DB::table('visitor_relationships');
+
+        // Get the current date in 'Y-m-d' format
+        $currentDate = TimeZone::getCurrentDate('Y-m-d');
+
+        // Update the date if record exists with the same visitor_id, page_id and current day
+        $sql    = $wpdb->prepare("UPDATE $tableName SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id);
+        $result = $wpdb->query($sql);
+
+        // If nothing found to update, it will try and create the record.
+        if ($result === FALSE || $result < 1) {
+            $result = $wpdb->insert($tableName,
+                array(
+                    'visitor_id' => $visitor_id,
+                    'page_id'    => $page_id,
+                    'date'       => TimeZone::getCurrentDate()
+                ),
+                array('%d', '%d', '%s')
+            );
+        }
+
+        if (!$result) {
             if (!empty($wpdb->last_error)) {
                 \WP_Statistics::log($wpdb->last_error);
             }
         }
+
         $insert_id = $wpdb->insert_id;
 
         // Save visitor Relationship Action
