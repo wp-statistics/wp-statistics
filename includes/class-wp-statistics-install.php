@@ -179,7 +179,6 @@ class Install
 						value bigint(20) NOT NULL,
 						PRIMARY KEY  (ID),
 						KEY category (category),
-						UNIQUE KEY page_id (page_id),
 						UNIQUE KEY uri (uri)
 					) {$collate}");
         dbDelta($create_historical_table);
@@ -384,6 +383,7 @@ class Install
         $userOnlineTable = DB::table('useronline');
         $pagesTable      = DB::table('pages');
         $visitorTable    = DB::table('visitor');
+        $historicalTable = DB::table('historical');
 
         /**
          * Add visitor device type
@@ -480,6 +480,21 @@ class Install
             $result = $wpdb->query("SHOW INDEX FROM {$userOnlineTable} WHERE Key_name = 'ip'");
             if (!$result) {
                 $wpdb->query("ALTER TABLE {$userOnlineTable} ADD index (ip)");
+            }
+        }
+
+        /**
+         * Historical
+         *
+         * @version 14.4
+         *
+         */
+        if (DB::ExistTable($historicalTable)) {
+            $result = $wpdb->query("SHOW INDEX FROM {$historicalTable} WHERE Key_name = 'page_id'");
+
+            // Remove index
+            if ($result) {
+                $wpdb->query("DROP INDEX `page_id` ON {$historicalTable}");
             }
         }
 
