@@ -160,7 +160,7 @@ class Visitor
     }
 
     /**
-     * Save visitor relationShip
+     * Saves or updates a visitor relationship entry in the database.
      *
      * @param $page_id
      * @param $visitor_id
@@ -170,17 +170,31 @@ class Visitor
     {
         global $wpdb;
 
-        $tableName = DB::table('visitor_relationships');
-
-        // Get the current date in 'Y-m-d' format
+        $tableName   = DB::table('visitor_relationships');
         $currentDate = TimeZone::getCurrentDate('Y-m-d');
 
-        // Update the date if record exists with the same visitor_id, page_id and current day
-        $sql    = $wpdb->prepare("UPDATE $tableName SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id);
-        $result = $wpdb->query($sql);
+        /**
+         * Check if a record already exists for the same visitor_id, page_id, and current date.
+         * The query counts the number of matching records.
+         *
+         * Note: Ideally, this operation should be handled with a REPLACE INTO or INSERT OR REPLACE query.
+         * However, since the table was not considered a unique key at first for these fields, As they say, "Fools tie knots, and wise men loose them :)" we manually check for the record's existence,
+         *
+         */
+        $sql   = $wpdb->prepare("SELECT COUNT(*) FROM {$tableName} WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate);
+        $exist = $wpdb->get_var($sql);
 
-        // If nothing found to update, it will try and create the record.
-        if ($result === FALSE || $result < 1) {
+        /**
+         * If a record exists, update its date to the current date.
+         * Otherwise, insert a new record with the visitor ID, page ID, and current date.
+         */
+        if ($exist) {
+
+            $sql    = $wpdb->prepare("UPDATE {$tableName} SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id);
+            $result = $wpdb->query($sql);
+
+        } else {
+
             $result = $wpdb->insert($tableName,
                 array(
                     'visitor_id' => $visitor_id,
@@ -199,7 +213,10 @@ class Visitor
 
         $insert_id = $wpdb->insert_id;
 
-        // Save visitor Relationship Action
+        /**
+         * Trigger a WordPress action hook after saving the visitor relationship.
+         * This allows for custom actions to be executed.
+         */
         do_action('wp_statistics_save_visitor_relationship', $page_id, $visitor_id, $insert_id);
 
         return $insert_id;
@@ -381,6 +398,7 @@ class Visitor
 
         // Get Row
         $item = $wpdb->get_row(" SELECT " . DB::table('pages') . ".* FROM `" . DB::table('pages') . "` INNER JOIN `" . DB::table('visitor_relationships') . "` ON `" . DB::table('pages') . "`.`page_id` = `" . DB::table('visitor_relationships') . "`.`page_id` INNER JOIN `" . DB::table('visitor') . "` ON `" . DB::table('visitor_relationships') . "`.`visitor_id` = `" . DB::table('visitor') . "`.`ID` WHERE `" . DB::table('visitor') . "`.`ID` = {$visitor_ID};", ARRAY_A);
+
         if ($item !== null) {
             $params = Pages::get_page_info($item['id'], $item['type']);
         }
