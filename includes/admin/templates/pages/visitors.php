@@ -38,7 +38,7 @@
                                     </td>
                                     <td><?php _e('IP', 'wp-statistics'); ?></td>
                                     <td><?php _e('Platform', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Visits', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Total Visits', 'wp-statistics'); ?></td>
                                     <td><?php _e('User', 'wp-statistics'); ?></td>
                                     <?php
                                     if (\WP_STATISTICS\Option::get('visitors_log')) {
