@@ -289,7 +289,7 @@ class Visitor
         $result = $wpdb->get_results($args['sql']);
 
         // Get Visitor Data
-        return self::PrepareData($result);
+        return self::prepareData($result);
     }
 
     /**
@@ -299,7 +299,7 @@ class Visitor
      * @return array
      * @throws \Exception
      */
-    public static function PrepareData($result = array())
+    public static function prepareData($result = array())
     {
 
         // Prepare List
