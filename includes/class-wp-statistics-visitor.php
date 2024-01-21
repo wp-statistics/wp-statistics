@@ -369,7 +369,7 @@ class Visitor
 
             // Get What is Page
             if (Option::get('visitors_log')) {
-                $item['page'] = self::get_page_by_visitor_id($items->ID);
+                $item['page'] = self::get_page_by_id($items->page_id);
             }
 
             $list[] = $item;
@@ -379,12 +379,12 @@ class Visitor
     }
 
     /**
-     * Get Page Information By visitor ID
+     * Get Page Information By page ID
      *
-     * @param $visitor_ID
+     * @param $page_id
      * @return mixed
      */
-    public static function get_page_by_visitor_id($visitor_ID)
+    public static function get_page_by_id($page_id)
     {
         global $wpdb;
 
@@ -396,8 +396,11 @@ class Visitor
             return $params;
         }
 
+        $pageTable = DB::table('pages');
+
         // Get Row
-        $item = $wpdb->get_row(" SELECT " . DB::table('pages') . ".* FROM `" . DB::table('pages') . "` INNER JOIN `" . DB::table('visitor_relationships') . "` ON `" . DB::table('pages') . "`.`page_id` = `" . DB::table('visitor_relationships') . "`.`page_id` INNER JOIN `" . DB::table('visitor') . "` ON `" . DB::table('visitor_relationships') . "`.`visitor_id` = `" . DB::table('visitor') . "`.`ID` WHERE `" . DB::table('visitor') . "`.`ID` = {$visitor_ID};", ARRAY_A);
+        $sql  = $wpdb->prepare("SELECT * FROM {$pageTable} WHERE page_id = %s", $page_id);
+        $item = $wpdb->get_row($sql, ARRAY_A);
 
         if ($item !== null) {
             $params = Pages::get_page_info($item['id'], $item['type']);

@@ -43,7 +43,7 @@
                                     <?php
                                     if (\WP_STATISTICS\Option::get('visitors_log')) {
                                         ?>
-                                        <td class="tbl-page-column"><?php _e('Page', 'wp-statistics'); ?></td>
+                                        <td class="tbl-page-column"><?php _e('Latest Page', 'wp-statistics'); ?></td>
                                         <?php
                                     }
                                     ?>
