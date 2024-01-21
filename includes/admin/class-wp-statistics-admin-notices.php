@@ -179,7 +179,7 @@ class Admin_Notices
                 esc_url($documentationUrl)
             );
 
-            Helper::wp_admin_notice($message, 'warning', true);
+            Helper::wp_admin_notice($message, 'warning', false);
         }
     }
 }
