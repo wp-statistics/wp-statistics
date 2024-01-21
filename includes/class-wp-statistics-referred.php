@@ -123,6 +123,8 @@ class Referred
             // Get Html Link
             return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$base_url['host']}</a>";
         }
+
+        return '-';
     }
 
     /**

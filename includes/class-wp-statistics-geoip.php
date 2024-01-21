@@ -105,7 +105,6 @@ class GeoIP
                 //Load GeoIP Reader
                 return new \GeoIp2\Database\Reader($file);
             } catch (\Exception $e) {
-                \WP_Statistics::log($e->getMessage());
                 return false;
             }
         } else {
