@@ -116,6 +116,13 @@
           transition: .3s all ease-out;
         }
 
+        &:hover {
+          svg, span {
+            color: #404BF2 !important;
+            fill: #404BF2 !important;
+          }
+        }
+
         &.current {
           box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
           background-color: #ffffff;
