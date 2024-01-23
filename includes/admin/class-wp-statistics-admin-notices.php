@@ -170,10 +170,7 @@ class Admin_Notices
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
 
             $message = sprintf(
-                'Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. ' .
-                'To address this, consider visiting <a href="%s" target="_blank">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. ' .
-                'You can also perform an immediate database clean-up on the <a href="%s" target="_blank">Optimization page</a>. ' .
-                'For more information, <a href="%s" target="_blank">click here</a>.',
+                __('Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. To address this, consider visiting <a href="%s">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href="%s">Optimization page</a>. For more information, <a href="%s" target="_blank">click here</a>.', 'wp-statistics'),
                 esc_url($settingsUrl),
                 esc_url($optimizationUrl),
                 esc_url($documentationUrl)
