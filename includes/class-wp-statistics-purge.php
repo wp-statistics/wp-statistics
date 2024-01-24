@@ -13,7 +13,7 @@ class Purge
         $historical_table = DB::table('historical');
 
         // If it's less than 30 days, don't do anything.
-        if ($purge_days >= 30) {
+        if ($purge_days >= apply_filters('wp_statistics_schedule_db_maint_days', 30)) {
 
             /**
              * Purge the visit data.
