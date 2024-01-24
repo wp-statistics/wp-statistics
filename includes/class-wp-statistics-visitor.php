@@ -149,8 +149,16 @@ class Visitor
                     // Action Before Visitor Update
                     do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
 
+                    $visitorTable = DB::table('visitor');
+
                     // Update Visitor Count in DB
-                    $sql = $wpdb->prepare('UPDATE `' . DB::table('visitor') . '` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d', 1, User::get_user_id(), $visitor_id);
+                    $sql = $wpdb->prepare(
+                        "UPDATE `{$visitorTable}` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
+                        1,
+                        User::get_user_id(),
+                        $visitor_id
+                    );
+
                     $wpdb->query($sql);
                 }
             }
