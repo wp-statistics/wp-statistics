@@ -289,7 +289,7 @@ class GeoIP
 
         // Change download url if the maxmind.com doesn't response.
         if (wp_remote_retrieve_response_code($response) != '200') {
-            return array_merge($result, array("notice" => sprintf(__('Error Retrieving %s from %s', 'wp-statistics'), $pack, $download_url)));
+            return array_merge($result, array("notice" => sprintf(__('Error: %s, Request URL: %s', 'wp-statistics'), wp_remote_retrieve_body($response), $download_url)));
         }
 
         // Create a variable with the name of the database file to download.
