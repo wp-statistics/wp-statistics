@@ -134,8 +134,23 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= v14.4 - **.01.2024 =
-*
+= v14.4 - 31.01.2024 =
+* Improvement: Set 'Purge Old Data Daily' to 180 days for fresh installation.
+* Improvement: Extended 'Keep User Online' duration to 5 minutes for enhanced performance.
+* Improvement: Upgraded `visitor_relationships` table to support efficient handling of record updates or insertions
+* Improvement: Optimized to eliminate duplicate entries in the `visitor_relationships` table.
+* Improvement: Refined sorting algorithm to prioritize visitors by their most recent visits.
+* Improvement: Included browser version information in 'Latest Visitor' data.
+* Improvement: Enhanced the relationship deletion process in purge schedule.
+* Improvement: Modified purge conditions to encompass a 30-day threshold.
+* Improvement: Removed redundant `page_id` index from historical data.
+* Improvement: Implemented logic to avoid using the same current URL for visitors with no referrer.
+* Improvement: Ensured compatibility with PHP v8.2.
+* Improvement: Enhanced error responses for GeoIP failures.
+* Improvement: Introduced a new notification for database cleanup and performance optimization.
+* Fixes: Corrected issue where `user_id` was not updating for existing records.
+* Fixes: Resolved issue with closing donation ajax requests.
+* Development: Added new filters `wp_statistics_notice_db_row_threshold`, `wp_statistics_schedule_db_maint_days`, and `wp_statistics_ajax_list` for advanced customization.
 
 = v14.3.5 - 17.01.2024 =
 * Improvement: Set Requires at least to v5.0

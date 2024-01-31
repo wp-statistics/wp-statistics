@@ -16,7 +16,7 @@ class Install
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), array($this, 'settings_links'), 10, 2);
         add_filter('plugin_row_meta', array($this, 'add_meta_links'), 10, 2);
 
-        // Upgrades WordPress Plugin
+        // Upgrade WordPress Plugin
         add_action('init', array($this, 'plugin_upgrades'));
 
         // Page Type Updater @since 12.6
