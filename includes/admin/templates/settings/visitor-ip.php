@@ -45,7 +45,7 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                <?php _e('Your IP address as detected by the SeeIP.org service:', 'wp-statistics'); ?>
+                <?php _e('Your IP address as detected by the Ipify.org service:', 'wp-statistics'); ?>
             </th>
         </tr>
 
@@ -55,7 +55,7 @@ add_thickbox();
                     <script type="application/javascript">
                         jQuery(document).ready(function () {
                             jQuery.ajax({
-                                url: "https://ip.seeip.org/json",
+                                url: "https://api.ipify.org?format=json",
                                 dataType: 'json',
                                 beforeSend: function () {
                                     jQuery("code#user_real_ip").html('Loading...');
