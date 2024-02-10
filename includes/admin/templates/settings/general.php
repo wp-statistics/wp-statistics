@@ -81,12 +81,12 @@
 
         <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
             <th scope="row">
-                <label for="visitors_log"><?php _e('Track Page Visits', 'wp-statistics'); ?></label>
+                <label for="visitors_log"><?php _e('Record User Page Visits', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>
-                <label for="visitors_log"><?php _e('Enable Tracking', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Switch on to track and generate reports on individual user page visits, providing insights into user engagement on your site.', 'wp-statistics'); ?></p>
+                <label for="visitors_log"><?php _e('Track User Activity', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Enable this to save each logged-in user’s visits along with their user ID. This lets you see who visited which pages, giving you a clear picture of individual activity on your site.<br />note: If you’re subject to GDPR or other privacy laws, ensure you have obtained clear consent from your users to collect and process their data. Inform users through your privacy policy about what data is collected, why it’s collected, and how it will be used, ensuring transparency and compliance with data protection regulations.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
