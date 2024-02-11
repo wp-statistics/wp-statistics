@@ -382,9 +382,11 @@ class Ajax
             }
 
             $result = GeoIP::download($geoip_name, "update");
+
             if ($result) {
                 _e($result["notice"]);
             }
+
         } else {
             _e('Unauthorized access!', 'wp-statistics');
         }

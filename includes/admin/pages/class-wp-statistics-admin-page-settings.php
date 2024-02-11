@@ -5,6 +5,8 @@ namespace WP_STATISTICS;
 class settings_page
 {
 
+    private static $redirectAfterSave = true;
+
     public function __construct()
     {
 
@@ -95,8 +97,6 @@ class settings_page
             // Get tab name for redirect to the current tab
             $tab = isset($_POST['tab']) && $_POST['tab'] ? sanitize_text_field($_POST['tab']) : 'general-settings';
 
-            $redirectAfterSave = true;
-
             // Update Referrer Spam
             if (isset($_POST['update-referrer-spam'])) {
                 $status = Referred::download_referrer_spam();
@@ -106,23 +106,11 @@ class settings_page
                     } else {
                         Helper::addAdminNotice(__("Spam Referrer Blacklist Successfully Updated.", "wp-statistics"), "success");
                     }
-                    $redirectAfterSave = false;
+                    self::$redirectAfterSave = false;
                 }
             }
 
-            // Update GEO IP
-            if (Option::get('geoip') and isset($_POST['update_geoip']) and isset($_POST['geoip_name'])) {
-                //Check Geo ip Exist in Database
-                if (isset(GeoIP::$library[sanitize_text_field($_POST['geoip_name'])])) {
-                    $result = GeoIP::download(sanitize_text_field($_POST['geoip_name']), "update");
-                    if (is_array($result) and isset($result['status'])) {
-                        Helper::addAdminNotice($result['notice'], ($result['status'] === false ? "error" : "success"));
-                        $redirectAfterSave = false;
-                    }
-                }
-            }
-
-            if ($redirectAfterSave) {
+            if (self::$redirectAfterSave) {
                 // Redirect User To Save Setting
                 wp_redirect(add_query_arg(array(
                     'save_setting' => 'yes',
@@ -314,10 +302,22 @@ class settings_page
 
                 //Check File Not Exist
                 $file = GeoIP::get_geo_ip_path($geo_name);
+
                 if (!file_exists($file)) {
                     $result = GeoIP::download($geo_name);
+
                     if (isset($result['status']) and $result['status'] === false) {
                         $wp_statistics_options[$geo_opt] = '';
+
+                        // Improved error message for clarity and actionability
+                        $errorMessage        = isset($result['notice']) ? $result['notice'] : 'an unknown error occurred';
+                        $userFriendlyMessage = sprintf(
+                            __('Geo IP functionality could not be activated due to an error: %s.', 'wp-statistics'),
+                            $errorMessage
+                        );
+
+                        Helper::addAdminNotice($userFriendlyMessage, 'error');
+                        self::$redirectAfterSave = false;
                     }
                 }
             }
