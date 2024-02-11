@@ -38,6 +38,7 @@ class Uninstall
         delete_option('wp_statistics_users_city');
         delete_option('wp_statistics_disable_addons');
         delete_option('wp_statistics_disable_addons_notice');
+        delete_option('wp_statistics_daily_salt');
 
         // Delete the transients.
         delete_transient('wps_top_referring');

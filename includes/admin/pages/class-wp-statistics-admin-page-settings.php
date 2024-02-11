@@ -312,7 +312,7 @@ class settings_page
                         // Improved error message for clarity and actionability
                         $errorMessage        = isset($result['notice']) ? $result['notice'] : 'an unknown error occurred';
                         $userFriendlyMessage = sprintf(
-                            __('Geo IP functionality could not be activated due to an error: %s.', 'wp-statistics'),
+                            __('GeoIP functionality could not be activated due to an error: %s.', 'wp-statistics'),
                             $errorMessage
                         );
 
