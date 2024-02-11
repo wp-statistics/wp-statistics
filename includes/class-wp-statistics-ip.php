@@ -90,12 +90,35 @@ class IP
      */
     public static function getHashIP($ip = false)
     {
-
-        // Check Enabled Options
+        // Check if the option to hash IP addresses is enabled in the settings.
         if (Option::get('hash_ips') == true) {
-            return apply_filters('wp_statistics_hash_ip', self::$hash_ip_prefix . sha1(($ip === false ? self::getIP() : $ip) . (UserAgent::getHttpUserAgent() == '' ? 'Unknown' : UserAgent::getHttpUserAgent())));
+            $date           = date('Y-m-d'); // Get the current date to ensure the salt is unique for each day.
+            $saltOptionName = 'wp_statistics_daily_salt'; // The option name where the daily salt is stored.
+
+            // Retrieve the currently stored daily salt from the WordPress options.
+            $dailySalt = get_option($saltOptionName);
+            // Generate a new daily salt using a combination of a WordPress salt and the current date.
+            $newDailySalt = sha1(wp_salt() . $date);
+
+            // Check if the stored salt is different from the newly generated salt.
+            if ($dailySalt != $newDailySalt) {
+                $dailySalt = $newDailySalt; // Update the variable to use the new salt.
+
+                // Save the new daily salt in the WordPress options for future use.
+                update_option($saltOptionName, $newDailySalt);
+            }
+
+            // Determine the IP address to be hashed; use the provided IP or fetch the current user's IP if not provided.
+            $ip = ($ip === false ? self::getIP() : $ip);
+            // Retrieve the current user agent, defaulting to 'Unknown' if it's not available or empty.
+            $userAgent = (UserAgent::getHttpUserAgent() == '' ? 'Unknown' : UserAgent::getHttpUserAgent());
+
+            // Create a hash of the daily salt combined with the IP and user agent, providing a unique identifier.
+            // This hash is then prefixed and passed through a filter for potential modification before being returned.
+            return apply_filters('wp_statistics_hash_ip', self::$hash_ip_prefix . sha1($dailySalt . $ip . $userAgent));
         }
 
+        // Return false if hashing IP addresses is not enabled, indicating no action is taken.
         return false;
     }
 
