@@ -83,7 +83,7 @@ class Admin_Notices
                 if (!empty($message)) {
                     $error_msg .= '<br />' . $message . '<br />';
                 }
-                $error_msg .= sprintf(__('Flush Rewrite Rules by Updating Permalink in %1$sSettings->Permalinks%2$s and Verify WP REST API is Enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
+                $error_msg .= sprintf(__('Flush Rewrite Rules by Updating Permalink in %1$sSettings → Permalinks%2$s and Verify WP REST API is Enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
                 Helper::wp_admin_notice($error_msg, 'warning', true);
             }
         }
