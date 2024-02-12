@@ -42,7 +42,9 @@
                                     <td style="text-align: left" class="wps-admin-column__referred">
                                         <a href="<?php echo esc_url($item['refer']); ?>" target="_blank" title="<?php echo esc_attr($item['refer']); ?>"><?php echo preg_replace("(^https?://)", "", trim($item['refer'])); ?></a>
                                     </td>
-                                    <td style='text-align: left;' class="wps-admin-column__ip"><?php echo(isset($item['hash_ip']) ? $item['hash_ip'] : "<a href='" . esc_url($item['ip']['link']) . "' class='wps-text-success'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
+                                    <td style='text-align: left;' class="wps-admin-column__ip">
+                                        <?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?>
+                                    </td>
                                     <td style="text-align: left">
                                         <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="log-tools wps-flag" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                     </td>

@@ -300,7 +300,7 @@ class UserOnline
 
             // Push IP
             if (IP::IsHashIP($ip)) {
-                $item['hash_ip'] = IP::$hash_ip_prefix;
+                $item['ip'] = array('value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', array('ip' => urlencode($ip))));
             } else {
                 $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('ip' => $ip)));
                 $item['map'] = GeoIP::geoIPTools($ip);
