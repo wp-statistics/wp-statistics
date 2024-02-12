@@ -286,7 +286,7 @@ class Admin_Assets
             'word'           => __('Search Term', 'wp-statistics'),
             'browser'        => __('Visitor\'s Browser', 'wp-statistics'),
             'city'           => __('Visitor\'s City', 'wp-statistics'),
-            'ip'             => __('IP Address', 'wp-statistics'),
+            'ip'             => Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
             'referrer'       => __('Referring Site', 'wp-statistics'),
             'hits'           => __('Visits', 'wp-statistics'),
             'agent'          => __('User Agent', 'wp-statistics'),

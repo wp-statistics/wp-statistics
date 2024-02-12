@@ -29,7 +29,7 @@
                         <table width="100%" class="widefat table-stats" id="top-referring">
                             <tr>
                                 <td><?php _e('Link', 'wp-statistics'); ?></td>
-                                <td><?php _e('IP', 'wp-statistics'); ?></td>
+                                <td><?php echo \WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'); ?></td>
                                 <td><?php _e('Browser', 'wp-statistics'); ?></td>
                                 <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
                                     <td><?php _e('Country', 'wp-statistics'); ?></td>

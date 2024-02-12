@@ -20,7 +20,7 @@
                     <?php if (!is_array($list) || (is_array($list) and count($list) < 1)) { ?>
                         <div class='wps-wrap--no-content wps-center'><?php _e("No recent data available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
-                    <div class="o-table-wrapper">
+                        <div class="o-table-wrapper">
                             <table width="100%" class="o-table">
                                 <tr>
                                     <td><?php _e('Browser', 'wp-statistics'); ?></td>
@@ -31,12 +31,12 @@
                                         <td><?php _e('City', 'wp-statistics'); ?></td>
                                     <?php } ?>
                                     <td>
-                                        <a href="<?php echo esc_url( add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc'))); ?>">
+                                        <a href="<?php echo esc_url(add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc'))); ?>">
                                             <?php _e('Last Visit', 'wp-statistics'); ?>
                                             <span class="dashicons dashicons-arrow-<?php echo((isset($_GET['order']) and $_GET['order'] == "asc") ? 'up' : 'down'); ?>"></span>
                                         </a>
                                     </td>
-                                    <td><?php _e('IP', 'wp-statistics'); ?></td>
+                                    <td><?php echo \WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'); ?></td>
                                     <td><?php _e('Platform', 'wp-statistics'); ?></td>
                                     <td><?php _e('Total Visits', 'wp-statistics'); ?></td>
                                     <td><?php _e('User', 'wp-statistics'); ?></td>

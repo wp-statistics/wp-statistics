@@ -16,7 +16,7 @@
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
                                         <td><?php _e('City', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <td><?php _e('IP', 'wp-statistics'); ?></td>
+                                    <td><?php echo \WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'); ?></td>
                                     <td><?php _e('Online For', 'wp-statistics'); ?></td>
                                     <td><?php _e('Page', 'wp-statistics'); ?></td>
                                     <td><?php _e('Referrer', 'wp-statistics'); ?></td>
