@@ -102,7 +102,7 @@ class IP
             if (isset($dailySalt['date']) && $dailySalt['date'] != $date) {
                 $dailySalt = [
                     'date' => $date, // Update the salt's date to today.
-                    'salt' => sha1(wp_generate_password() . $date) // Generate a new salt based on a new password and today's date.
+                    'salt' => sha1(wp_generate_password()) // Generate a new salt based on a new password and today's date.
                 ];
 
                 // Save the new daily salt in the WordPress options for future use.
@@ -113,7 +113,7 @@ class IP
             if (!$dailySalt) {
                 $dailySalt = [
                     'date' => $date, // Set the salt's date to today.
-                    'salt' => sha1(wp_generate_password() . $date) // Generate a new salt.
+                    'salt' => sha1(wp_generate_password()) // Generate a new salt.
                 ];
 
                 // Save the new daily salt in the WordPress options.
