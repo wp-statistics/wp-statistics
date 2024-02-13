@@ -207,7 +207,7 @@ class Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Delete user ids
-            $result = $wpdb->query($wpdb->prepare("UPDATE " . DB::table('visitor') . " SET `user_id` = NULL"));
+            $result = $wpdb->query($wpdb->prepare("UPDATE " . DB::table('visitor') . " SET `user_id` = 0"));
 
             if ($result) {
                 _e('Successfully deleted User ID data.', 'wp-statistics');
