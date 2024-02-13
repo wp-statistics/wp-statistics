@@ -247,7 +247,8 @@ class Install
 				`event_data` text NOT NULL,
 				PRIMARY KEY  (ID),
 				KEY visitor_id (visitor_id),
-				KEY page_id (page_id)
+				KEY page_id (page_id),
+				KEY event_name (event_name)
 			) {$collate}";
 
         dbDelta($create_events_table);
